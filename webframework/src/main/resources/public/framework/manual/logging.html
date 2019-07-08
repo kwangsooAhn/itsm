@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>BRAINZSQUARE Web Framework</title>
+<link rel="stylesheet" href="../vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="../vendor/simple-sidebar/css/simple-sidebar.css">
+
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Web Framework Guide </div>
+      <div class="list-group list-group-flush">
+        <a href="./index.html" class="list-group-item list-group-item-action bg-light">기본사항</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">DB</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">인증</a>
+        <a href="./logging.html" class="list-group-item list-group-item-action bg-light">로그</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">파일처리</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">보안</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">국제화</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">메일</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">단문자</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">스케줄링</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle"><<</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <p class="h1">Logging</p>
+        <p class="h3">기본 사항</p>
+        <p>slf4j 1.7.26, log4j 2.11.2 조합으로 사용합니다.</p>
+        <p>https://logging.apache.org/log4j/2.x/</p>
+        <p>https://www.slf4j.org/</p>
+        <p class="h4">slf4j 소개</p>
+        <p>SLF4J(Simple Logging Facade for Java)는 로깅 프레임워크가 아닌 로깅에 대한 Facade 패턴이다. </p>
+        <p>다양한 로깅 프레임워크에 대해서 같은 API를 제공함으로서 일관된 로깅 코드를 작성하여 최소한의 수정으로 
+        실제 로깅 프레임워크를 교체할 수 있도록 한다.</p> 
+        
+        
+        <p class="h4">log4j2 소개</p>
+        <p>소개된 순서로 보면 log4j, logback에 이어 가장 최근에 나온 로깅 프레임워크로 성능이 가장 빠르다.</p> 
+        <p>Logback과 SLF4J사이의 연동 문제를 해결하였으며 비동기 로깅( asynchronous logging )을 제공하여, 
+        특히 멀티 쓰레드 환경에서 높은 성능을 제공한다.</p>
+        <img src ="images/async-throughput-comparison.png" />
+        <p class="h3">설정파일 설명</p>
+        <div class="jumbotron"><pre>
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" strict="true" name="ITSM.WebFramework">
+  <Appenders>
+    <Appender type="Console" name="STDOUT">
+      <Layout type="PatternLayout" pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+    </Appender>
+    <Appender type="File" name="File" fileName="${filename}">
+      <Layout type="PatternLayout">
+        <Pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</Pattern>
+      </Layout>
+    </Appender>
+  </Appenders>
+  <Loggers>
+    <Logger name="webframework" level="debug" additivity="false">
+      <AppenderRef ref="STDOUT"/>
+    </Logger>
+    <Root level="debug">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+</Configuration></pre>
+       </div>
+        <p>log 관련 설정은 /src/main/resources/log4j2.xml 파일을 편집.</p>
+        <p>기본 설정은 최소한 Appender와 Logger만으로 구성되어 있으니 필요에 따라 관련 설정은 /src/main/resources/log4j2.xml 파일을 편집합니다.</p>
+        <p>설정 내용에 대한 설명은 공식 사이트(https://logging.apache.org/log4j/2.x/manual/configuration.html)를 참고 바랍니다.</p>
+        
+        <h2>샘플 확인하기</h2>
+        <a href="../../../framework/sameple/logging" target="_blank">테스트</a>
+        <p> 샘플코드는 com.brainz.framework.sample.logging.WebframeworkLogging.java 파일을 참고하시면 됩니다.</p>
+        <p> 아래 링크를 클릭하시면 해당 샘플파일의 LoggingSample 메소드가 호출되면서 샘플 로그를 작성합니다.</p>
+        <p>아래와 같이 2개의 패키지를 import합니다.</p>
+        <pre>
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+        </pre>
+        <p>아래와 같이 해당 클래스명을 이용하여 logger를 정의합니다. </p>
+        <pre>
+private static Logger logger = LoggerFactory.getLogger(WebframeworkLogging.class);
+        </pre>
+        <p>필요한 경우에 따라 적절한 형태의 로그를 아래와 같은 형태로 기록합니다.</p>
+        <pre>
+String tempString = "logging Sample.";
+
+logger.error("ERROR {}", tempString);
+logger.warn("WARN {}", tempString);
+logger.info("INFO {}", tempString);
+logger.debug("DEBUG {}", tempString);
+logger.trace("TRACE {}", tempString);
+        </pre>
+        <p>샘플 코드 실행시 아래와 같은 로그가 출력.</p>
+        <pre>
+15:33:12.636 ERROR com.brainz.framework.sample.logging.WebframeworkLogging - ERROR logging Sample.
+15:33:12.636 WARN  com.brainz.framework.sample.logging.WebframeworkLogging - WARN logging Sample.
+15:33:12.637 INFO  com.brainz.framework.sample.logging.WebframeworkLogging - INFO logging Sample.
+15:33:12.637 DEBUG com.brainz.framework.sample.logging.WebframeworkLogging - DEBUG logging Sample.
+        </pre>
+        <h2>참고 사이트</h2>
+        <p>http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte3:fdl:%EC%84%A4%EC%A0%95_%ED%8C%8C%EC%9D%BC%EC%9D%84_%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94_%EB%B0%A9%EB%B2%95</p>
+        <p>https://gmlwjd9405.github.io/2019/01/04/logging-with-slf4j.html</p>
+        <p>https://bcho.tistory.com/1312</p>
+        <h2>로그 작성 가이드</h2>
+        <p>log를 작성하는 기준은 프로젝트에 따라 달라질 수 있겠으나 여기서는 가장 기본적인 형태로 정리를 합니다. </p>
+        <p>추후 진행되는 프로젝트에 따라 적절히 수정하여 공통 가이드로 사용 바랍니다.</p>
+<p>ERROR : 사용자의 요청을 처리하는 중에 의도되지 않은 결과가 발생하여 요청을 처리할 수 없는 문제가 발생하는 경우.</p>
+<p>WARN : 사용자의 요청을 처리할 수는 있지만 에러의 원인이 될 가능성이 있는 경우.</p>
+<p>INFO : 사용자의 요청을 처리하면서 흐름, 상태, 데이터등의 변경이 정보가 되는 경우 기록.</p>
+<p>DEBUG : 개발시 디버그 용도</p>
+<p>TRACE : 디버그보다 더 낮은 레벨의 상세 정보. 너무 많은 로그가 찍혀서 샘플코드와 설정에는 포함하지 않았음. </p>
+        <h2>TO DO</h2>
+        <p>추후 필요에 따라 아래와 같은 내용에 대한 추가 작업이 필요할 수 있습니다.</p>
+        <p>Json로그 : json 형태로 로그를 작성하여 데이터 처리 및 분석에 효율적으로 활용할 수 있습니다.</p>
+        <p>로그 외부전송 : 작성된 로그를 별도의 외부 시스템에 전송하거나 외부 서버에 로그를 남기는 방법을 추가 합니다.</p>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+
+<script src="../vendor/jquery-3.4.0/jquery-3.4.0.min.js" ></script>
+<script src="../vendor/popper/popper.min.js"></script>
+<script src="../vendor/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
+<script>
+  $("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+  });
+</script>
+
+</body>
+</html>
