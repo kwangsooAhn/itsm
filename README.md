@@ -16,10 +16,11 @@
 * Document Control (Excel, PDF, Print)
 * Auth
 
-###### 2) 개발 환경 및 사용 기술
+###### 2) 개발 환경 및 사용 기술 (검토 필요)
 
 * RestFul
 * SpringBoot 2.1.3
 * PostgreSQL 11.2
 * Open JDK 11
-* JPA - ORM 사용에 대한 재검토 필요. 
+* JPA - ORM 사용에 대한 재검토 필요.
+* Vue, sitemesh, tiles, thymeleaf
