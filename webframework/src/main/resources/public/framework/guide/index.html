@@ -30,9 +30,14 @@
 body {
     font-family: 'Roboto', sans-serif;
     height: 100%;
+    font-size: 14px;
+    line-height:1.8em
 }
 li {
     padding: 10px 0px 0px 0px;
+}
+#manualList li {
+    font-size: 16px;
 }
 pre code {
     font: normal 10pt Consolas, Monaco, monospace;
@@ -63,7 +68,7 @@ $(document).ready(function() {
           xhtml: false
     });
     
-    let path = '/framework/manual/';
+    let path = '/framework/guide/md/';
     getPage = function(page) {
         $('#content').load(path+page+'.md', function(data) {
             $('#content').empty();

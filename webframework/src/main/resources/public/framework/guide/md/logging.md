@@ -13,10 +13,9 @@ slf4j(Simple Logging Facade for Java)는 로깅 프레임워크가 아닌 로깅
 
 #### log4j2 소개
 소개된 순서로 보면 log4j, logback에 이어 가장 최근에 나온 로깅 프레임워크로 성능이 가장 빠르다.  
-logback과 slf4j사이의 연동 문제를 해결하였으며 비동기 로깅(asynchronous logging)을 제공하여,  
-특히 멀티 쓰레드 환경에서 높은 성능을 제공한다.
+logback과 slf4j사이의 연동 문제를 해결하였으며 비동기 로깅(asynchronous logging)을 제공하여, 특히 멀티 쓰레드 환경에서 높은 성능을 제공한다.
 
-<img src ="images/async-throughput-comparison.png" />
+<img src ="./media/async-throughput-comparison.png" />
 
 ## 2. 설정파일
 
