@@ -1,24 +1,29 @@
-package com.brainz.framework.job.service.impl;
+package com.brainz.framework.scheduling.service.impl;
 
 import java.util.Date;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
-import com.brainz.framework.job.component.JobScheduleCreator;
-import com.brainz.framework.job.sample.SampleJob;
-import com.brainz.framework.job.service.SchedulerService;
+import com.brainz.framework.sample.logging.WebframeworkLogging;
+import com.brainz.framework.scheduling.component.JobScheduleCreator;
+import com.brainz.framework.scheduling.sample.SampleJob;
+import com.brainz.framework.scheduling.service.SchedulerService;
 
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
+    private static Logger logger = LoggerFactory.getLogger(WebframeworkLogging.class);
     
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
@@ -30,9 +35,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     private JobScheduleCreator scheduleCreator;
 
     @Override
-    public void startSampleScheduler() {
-        String jobName = "QuartzJob";
-        String jobGroup = "brainz";
+    public void startSampleScheduler(String jobName, String jobGroup) {
         Long repeatTime = 1000L;
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -43,10 +46,20 @@ public class SchedulerServiceImpl implements SchedulerService {
                         repeatTime, SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 
                 scheduler.scheduleJob(jobDetail, trigger);
+            } else {
+                schedulerFactoryBean.getScheduler().triggerJob(new JobKey(jobName, jobGroup));
             }
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
     }
 
+    @Override
+    public void pauseSampleScheduler(String jobName, String jobGroup) {
+        try {
+            schedulerFactoryBean.getScheduler().pauseJob(new JobKey(jobName, jobGroup));
+        } catch (SchedulerException e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
 }

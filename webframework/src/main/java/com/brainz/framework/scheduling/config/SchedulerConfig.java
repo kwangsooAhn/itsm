@@ -1,4 +1,4 @@
-package com.brainz.framework.job.config;
+package com.brainz.framework.scheduling.config;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import com.brainz.framework.job.component.SchedulerJobFactory;
+import com.brainz.framework.scheduling.component.SchedulerJobFactory;
 
 @Configuration
 public class SchedulerConfig {

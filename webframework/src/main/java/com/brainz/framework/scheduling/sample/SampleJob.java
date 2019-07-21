@@ -1,4 +1,4 @@
-package com.brainz.framework.job.sample;
+package com.brainz.framework.scheduling.sample;
 
 import java.util.stream.IntStream;
 

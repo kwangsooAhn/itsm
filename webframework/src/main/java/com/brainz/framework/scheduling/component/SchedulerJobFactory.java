@@ -1,4 +1,4 @@
-package com.brainz.framework.job.component;
+package com.brainz.framework.scheduling.component;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.slf4j.Logger;

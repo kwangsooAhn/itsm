@@ -1,4 +1,4 @@
-package com.brainz.framework.job.component;
+package com.brainz.framework.scheduling.component;
 
 import java.text.ParseException;
 import java.util.Date;
