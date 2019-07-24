@@ -24,7 +24,7 @@ BWF는 SpringBoot기반의 웹 어플리케이션이며 기본 골격은 그대�
 
 #### 2) 패키지 구조
 
-스프링부트 동작의 시작점, **@SpringBootApplication** 이 선언된 클랙스는 최상위에 위치한다.  
+스프링부트 동작의 시작점, **@SpringBootApplication** 이 선언된 클랙스는 Framework의 최상위에 위치한다.  
 기본적으로 BWF에는 WebframeworkApplication이라는 이름으로 작성되어 있으나 프로젝트 시작 시 변경이 필요하다.   
   
 BWF에서 제공하는 클래스들은 모두 _com.brainz.framework_ 패키지 하위에 존재한다.
@@ -43,6 +43,8 @@ BWF에서 제공하는 클래스들은 모두 _com.brainz.framework_ 패키지 �
 _com.brainz.framework.sample_ 패키지는 실제 운영 프로젝트에서는 필요없기 때문에 삭제한다.  
 _src/main/resources/public/framework/guide_ 디렉토리는 본 가이드 문서와 관련된 내용이므로 역시나 프로젝트에서는 삭제하는게 좋다.  
 
+**application.properties 파일은 꼭 확인과 수정이 필요하다. 샘플용 DB를 생성하는 등 실제 어플리케이션에서 제외해야 하는 내용과 접속정보등도 확인하자.**
+
 **만약의 경우 프로젝트 진행 간에 설계등 md파일로 관리될 여지가 있다면 위의 내용을 살려두고 이용하는 방법도 있다.**
 
 #### 2) 디렉토리 구조 결정
@@ -57,4 +59,4 @@ gradle을 통해 관리되는 lib는 상관없겠지만 그 외 각 resource와 
 ## 4. TO DO
 
 - 현재 BWF가 진행중이라 각 부분별로 진행간에 계속 업데이트 예정이다.
-- Spring boot에 대해서도 기술적아ㅡ로 아직 보족함이 많이
+- Spring boot에 대해서도 기술적으로 아직 보족함이 많아 계속 업데이트될 예정이다.

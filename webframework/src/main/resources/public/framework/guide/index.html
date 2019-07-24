@@ -11,6 +11,9 @@
 <script>hljs.initHighlightingOnLoad();</script>
 <style>
 /* 화면 구조 */
+#container {
+    margin-left: 100px;
+}
 #manualList {
     position: fixed;
     top: 0px;
@@ -20,6 +23,7 @@
     height: 100%;
     padding: 69px 10px 0px 0px;
     border-right: 1px solid #000;
+    border-left: 1px solid #000;
 }    
 #content {
     position: relative;
@@ -80,19 +84,21 @@ $(document).ready(function() {
 })
 </script>
 <body>
-  <div id="manualList">
-    <ul>
-      <li><a href="javascript:getPage('intro');">Web Framework Guide</a></li>
-      <li><a href="javascript:getPage('auth');">인증/권한/역할/사용자</a></li>
-      <li><a href="javascript:getPage('logging');">로깅</a></li>
-      <li><a href="javascript:getPage('file');">파일처리</a></li>
-      <li><a href="javascript:getPage('security');">보안</a></li>
-      <li><a href="javascript:getPage('i18n');">국제화</a></li>
-      <li><a href="javascript:getPage('mail');">메일/단문자</a></li>
-      <li><a href="javascript:getPage('scheduling');">스케줄링</a></li>
-      <li><a href="javascript:getPage('db');">DB</a></li>
-    </ul>
+  <div id="container">
+	  <div id="manualList">
+	    <ul>
+	      <li><a href="javascript:getPage('intro');">Web Framework Guide</a></li>
+	      <li><a href="javascript:getPage('auth');">인증/권한/역할/사용자</a></li>
+	      <li><a href="javascript:getPage('logging');">로깅</a></li>
+	      <li><a href="javascript:getPage('file');">파일처리</a></li>
+	      <li><a href="javascript:getPage('security');">보안</a></li>
+	      <li><a href="javascript:getPage('i18n');">국제화</a></li>
+	      <li><a href="javascript:getPage('mail');">메일/단문자</a></li>
+	      <li><a href="javascript:getPage('scheduling');">스케줄링</a></li>
+	      <li><a href="javascript:getPage('database');">Database</a></li>
+	    </ul>
+	  </div>
+	  <div id="content"></div>
   </div>
-  <div id="content"></div>
 </body>
 </html>

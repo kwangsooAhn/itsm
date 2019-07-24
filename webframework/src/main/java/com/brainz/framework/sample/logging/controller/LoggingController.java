@@ -1,4 +1,4 @@
-package com.brainz.framework.sample.logging;
+package com.brainz.framework.sample.logging.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-public class WebframeworkLogging {
-	private static Logger logger = LoggerFactory.getLogger(WebframeworkLogging.class);
+public class LoggingController {
+	private static Logger logger = LoggerFactory.getLogger(LoggingController.class);
 
-	@RequestMapping("/framework/sameple/logging")
+	@RequestMapping("/sample/logging")
 	String LoggingSample() {
 		
 		String tempString = "logging Sample.";

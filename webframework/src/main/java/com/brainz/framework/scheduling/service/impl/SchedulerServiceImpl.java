@@ -16,14 +16,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
-import com.brainz.framework.sample.logging.WebframeworkLogging;
+import com.brainz.framework.sample.logging.controller.LoggingController;
 import com.brainz.framework.scheduling.component.JobScheduleCreator;
 import com.brainz.framework.scheduling.sample.SampleJob;
 import com.brainz.framework.scheduling.service.SchedulerService;
 
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
-    private static Logger logger = LoggerFactory.getLogger(WebframeworkLogging.class);
+    private static Logger logger = LoggerFactory.getLogger(LoggingController.class);
     
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;

@@ -43,7 +43,7 @@ logback과 slf4j사이의 연동 문제를 해결하였으며 비동기 로깅(a
 </Configuration>
 ```
 위와 같은 log 관련 설정은 /src/main/resources/log4j2.xml 파일을 편집하여 사용하면 된다.  
-기본 설정은 최소한 Appender와 Logger만으로 구성되어 있으니 프로젝트에 따라 정외된 형태로 설정을 수정하여 사용한다.  
+기본 설정은 최소한 Appender와 Logger만으로 구성되어 있으니 프로젝트에 따라 정의된 형태로 설정을 수정하여 사용한다.  
 설정 내용에 대한 설명은 공식 사이트(https://logging.apache.org/log4j/2.x/manual/configuration.html) 를 참고한다.
         
 ## 3. 샘플 예제
@@ -80,7 +80,7 @@ public class WebframeworkLogging {
 }
 ```
 
-테스트를 위해 <a href="../../../framework/sameple/logging" target="_blank">테스트</a> 버튼을 클릭하면 해당 파일의 LoggingSample 메소드가 호출되면서 로그파일 남긴다. 실행하고 콘솔 로그를 확인 해본다.
+테스트를 위해 <a href="../../../sample/logging" target="_blank">테스트</a> 버튼을 클릭하면 해당 파일의 LoggingSample 메소드가 호출되면서 로그파일 남긴다. 실행하고 콘솔 로그를 확인 해본다.
 
 
 로그 출력을 위해서는 

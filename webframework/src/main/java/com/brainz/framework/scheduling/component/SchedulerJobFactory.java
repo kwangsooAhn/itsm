@@ -8,10 +8,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-import com.brainz.framework.sample.logging.WebframeworkLogging;
+import com.brainz.framework.sample.logging.controller.LoggingController;
 
 public class SchedulerJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
-    private static Logger logger = LoggerFactory.getLogger(WebframeworkLogging.class);
+    private static Logger logger = LoggerFactory.getLogger(LoggingController.class);
 
     private AutowireCapableBeanFactory beanFactory;
     

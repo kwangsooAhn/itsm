@@ -16,11 +16,11 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Component;
 
-import com.brainz.framework.sample.logging.WebframeworkLogging;
+import com.brainz.framework.sample.logging.controller.LoggingController;
 
 @Component
 public class JobScheduleCreator {
-    private static Logger logger = LoggerFactory.getLogger(WebframeworkLogging.class);
+    private static Logger logger = LoggerFactory.getLogger(LoggingController.class);
     
     /**
      * create job.
