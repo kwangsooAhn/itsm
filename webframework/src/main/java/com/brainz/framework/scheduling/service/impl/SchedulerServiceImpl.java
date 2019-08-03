@@ -41,13 +41,15 @@ public class SchedulerServiceImpl implements SchedulerService {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
             JobDetail jobDetail = JobBuilder.newJob(SampleJob.class).withIdentity(jobName, jobGroup).build();
             if (!scheduler.checkExists(jobDetail.getKey())) {
+            	logger.info("create job!!!!!!!!!!!!!!!!");
                 jobDetail = scheduleCreator.createJob(SampleJob.class, false, context, jobName, jobGroup);
                 Trigger trigger = scheduleCreator.createSimpleTrigger(jobName, new Date(),
                         repeatTime, SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 
                 scheduler.scheduleJob(jobDetail, trigger);
             } else {
-                schedulerFactoryBean.getScheduler().triggerJob(new JobKey(jobName, jobGroup));
+            	logger.info("start job!!!!!!!!!!!!!!!!");
+                schedulerFactoryBean.getScheduler().resumeJob(new JobKey(jobName, jobGroup));
             }
         } catch (SchedulerException e) {
             logger.error(e.getMessage(), e);
