@@ -106,7 +106,7 @@ public class ScheduleTaskService {
                 addTaskToScheduler(list.getId(), new Runnable() {
                     @Override
                     public void run() {
-                        callStoreProcedure(list.getExecuteQuery());
+                        executeQuery(list.getExecuteQuery());
                     }
                 }, list);
             } else if ("class".equals(list.getTaskType())) {
@@ -122,12 +122,11 @@ public class ScheduleTaskService {
     }
 
     /**
-     * 프로시저를 실행한다.
+     * 쿼리를 실행한다.
      * 
-     * @param procedureName 프로시저명
-     * @param parameters    프로시저 parameter
+     * @param executeQuery 실행쿼리
      */
-    public void callStoreProcedure(String executeQuery) {
+    public void executeQuery(String executeQuery) {
         jdbcTemplate.execute(executeQuery);
         logger.info("QUERY [{}] IS EXECUTED", executeQuery);
     }
