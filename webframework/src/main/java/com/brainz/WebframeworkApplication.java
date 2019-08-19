@@ -1,4 +1,4 @@
-package com.brainz.framework;
+package com.brainz;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,5 +9,5 @@ public class WebframeworkApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WebframeworkApplication.class, args);
-    }  
+    }
 }    
