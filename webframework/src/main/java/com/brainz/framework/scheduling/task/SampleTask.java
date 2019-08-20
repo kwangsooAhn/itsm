@@ -4,11 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.brainz.framework.sample.logging.controller.LoggingController;
-
 @Component
 public class SampleTask implements Runnable {
-    private static Logger logger = LoggerFactory.getLogger(LoggingController.class);
+    private static Logger logger = LoggerFactory.getLogger(SampleTask.class);
 
     @Override
     public void run() {

@@ -21,7 +21,7 @@ Spring 프레임워크 3.1부터 기본 내장되어 있어서 라리브러리 �
 BWF(Brainz Web Framework) 실행에 필요한 필수 스케줄링은 코드에 직접 기술하여 스케줄링 하도록 한다.
 
  - 직접 실행 할 메소드에 @Scheduled 어노테이션으로 기술하여 Spring으로 하여금 스케줄 대상 메서드 임을 알려준다.
- - application.properties 에 cron 을 기술하여 참고하는 방법도 있다.
+   application.properties 에 cron 을 기술하여 참고하는 방법도 있다.
 ```java
 @Component 
 public class Scheduler {
@@ -66,7 +66,7 @@ public class Scheduler {
 } 
 ```
 
-### 2. DB에 스케줄링 할 프로시저, 클래스 등을 추가하는 방법
+### 2. DB에 스케줄링 할 쿼리, 클래스 등을 추가하는 방법
 
 <img src ="./media/schedule_task_info.png" />
 
@@ -80,6 +80,26 @@ public class Scheduler {
 |cron_expression|cron표현식|실행 주기 타입이 cron일 경우 사용되는 cron표현식|
 |milliseconds|주기|실행 주기 타입이 fixedDelay, fixedRate 일 경우 사용되는 주기로 millisecond 단위로 등록한다.|
 
+ - 클래스일 경우, 다음과 같은 패키지(com.brainz.framework.scheduling.task)에 넣고 Runnable 을 implements 하여 구현한다.
+ 
+```java
+package com.brainz.framework.scheduling.task;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SampleTask implements Runnable {
+    private static Logger logger = LoggerFactory.getLogger(SampleTask.class);
+
+    @Override
+    public void run() {
+        logger.info("Sample Task Execute!!");
+    }
+
+}
+```
 
 ## 3. CRON 표현식
 

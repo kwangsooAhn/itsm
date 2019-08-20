@@ -18,13 +18,12 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
-import com.brainz.framework.sample.logging.controller.LoggingController;
 import com.brainz.framework.scheduling.model.ScheduleTask;
 import com.brainz.framework.scheduling.repository.ScheduleTaskRepository;
 
 @Service
 public class ScheduleTaskService {
-    private static Logger logger = LoggerFactory.getLogger(LoggingController.class);
+    private static Logger logger = LoggerFactory.getLogger(ScheduleTaskService.class);
 
     @Autowired
     TaskScheduler scheduler;
