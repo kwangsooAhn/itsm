@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+<link rel="stylesheet" href="css/itsm.css"></head>
 <body>
 <div th:replace="common/header"></div>
-123
-<div th:replace="bpm/customerRequest"></div>
-<div th:replace="common/footer :: copy"></div>
+<div th:replace="common/subMenu"></div>
+<div class="contents">
+    <div th:replace="itsm/processList"></div>
+</div>
 </body>
 </html>
