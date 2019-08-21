@@ -1,11 +1,3 @@
-# 준비중인 페이지입니다.
-##### 페이지이름 : 스케줄링 (Scheduling)
-##### 담당자 : 정지은
-
-
----
-
-
 # 스케줄링 (Scheduling)
 ---
 
@@ -16,12 +8,14 @@ Spring 프레임워크 3.1부터 기본 내장되어 있어서 라리브러리 �
 
 ## 2. 설정 방법
 
-### 1. 코드에 직접 추가하는 방법
+### 1) 코드에 직접 추가하는 방법
 
 BWF(Brainz Web Framework) 실행에 필요한 필수 스케줄링은 코드에 직접 기술하여 스케줄링 하도록 한다.
 
- - 직접 실행 할 메소드에 @Scheduled 어노테이션으로 기술하여 Spring으로 하여금 스케줄 대상 메서드 임을 알려준다.
-   application.properties 에 cron 을 기술하여 참고하는 방법도 있다.
+#### 직접 실행 할 메소드에 @Scheduled 어노테이션으로 기술하는 방법
+
+ 직접 실행 할 메소드에 @Scheduled 어노테이션으로 기술하여 Spring으로 하여금 스케줄 대상 메서드 임을 알려준다. (application.properties 에 cron 을 기술하여 참고하는 방법도 있다.)
+
 ```java
 @Component 
 public class Scheduler {
@@ -47,7 +41,10 @@ public class Scheduler {
     }
 } 
 ```
- - XML설정 파일에 추가하는 방법
+#### XML설정 파일에 추가하는 방법
+
+XML 파일에 클래스를 등록하고 해당 클래스에 task scedule을 등록하는 방법으로, 서버의 재기동이 필요하지만 compile을 다시 하지 않아도 되는 장점이 있다.
+
 ```xml
     <!-- job bean -->
     <bean id="scheduler" class="com.brainz.scheduling.Scheduler" />
@@ -66,13 +63,13 @@ public class Scheduler {
 } 
 ```
 
-### 2. DB에 스케줄링 할 쿼리, 클래스 등을 추가하는 방법
+### 2) DB에 스케줄링 할 쿼리, 클래스 등을 추가하는 방법
 
 <img src ="./media/schedule_task_info.png" />
 
 |컬럼명|컬럼명|의미|
 |--|--|--|
-|id|TASK ID|task ID|
+|task_id|TASK ID|스케줄링 시 사용할 Uniq ID.|
 |task_type|TASK타입|스케줄링할 task의 타입. query, class|
 |task_class|실행 클래스|task타입이 class일 경우 실행되는 class명으로 package를 포함해서 등록한다.|
 |excute_query|실행 쿼리|task타입이 query일 경우 실행되는 쿼리|
@@ -80,8 +77,8 @@ public class Scheduler {
 |cron_expression|cron표현식|실행 주기 타입이 cron일 경우 사용되는 cron표현식|
 |milliseconds|주기|실행 주기 타입이 fixedDelay, fixedRate 일 경우 사용되는 주기로 millisecond 단위로 등록한다.|
 
- - 클래스일 경우, 다음과 같은 패키지(com.brainz.framework.scheduling.task)에 넣고 Runnable 을 implements 하여 구현한다.
- 
+클래스일 경우, 다음과 같은 패키지(com.brainz.framework.scheduling.task)에 넣고 Runnable 을 implements 하여 구현한다.
+DB등록 시 package를 포함한 클래스명을 등록하기 때문에 해당 package에 등록해도 상관없지만, 스케줄링 task클래스를 모아두면 관리하기 용이한 면이 있기때문 추천한다.
 ```java
 package com.brainz.framework.scheduling.task;
 
@@ -101,7 +98,58 @@ public class SampleTask implements Runnable {
 }
 ```
 
-## 3. CRON 표현식
+## 3. 샘플설명
+
+UI 제어가 필요할 시 추가, 변경, 삭제 시 다음과 같이 처리를 한다.
+
+```java
+package com.brainz.framework.sample.scheduling.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brainz.framework.scheduling.model.ScheduleTask;
+import com.brainz.framework.scheduling.repository.ScheduleTaskRepository;
+import com.brainz.framework.scheduling.service.ScheduleTaskService;
+
+@RestController
+public class SchedulingController {
+    
+    @Autowired
+    ScheduleTaskService scheduleTaskService;
+    
+    @Autowired
+    ScheduleTaskRepository scheduleTaskRepository;
+    
+    @PostMapping("/sample/scheduling/add")
+    public String addTask(@RequestBody ScheduleTask task) {
+        ScheduleTask savedTask = this.scheduleTaskRepository.save(task);
+        this.scheduleTaskService.addTaskToScheduler(savedTask);
+        return "스케줄링 TASK 추가";
+    }
+    
+    @PostMapping("/sample/scheduling/update")
+    public String updateTask(@RequestBody ScheduleTask task) {
+        ScheduleTask savedTask = this.scheduleTaskRepository.save(task);
+        this.scheduleTaskService.removeTaskFromScheduler(savedTask.getTaskId());
+        this.scheduleTaskService.addTaskToScheduler(savedTask);
+        return "스케줄링  갱신";
+    }
+    
+    @GetMapping("/sample/scheduling/delete/{id}")
+    public String removeTask(@PathVariable long id) {
+        this.scheduleTaskRepository.deleteById(id);
+        this.scheduleTaskService.removeTaskFromScheduler(id);
+        return "스케줄링  삭제";
+    }
+}
+```
+
+## 4. CRON 표현식
 
 TASK 가 실행되는 주기/시간을 설정하는데 사용되는 CRON 표현식은 다음과 같이 표기한다.
 ```java
@@ -132,7 +180,7 @@ cron = "0 0 1 1 * ?"
 |W|가장 가까운 평일을 찾는다(월~금) 일 에서만 사용 가능 | 
 
 
-## 4. 참고 사이트
+## 5. 참고 사이트
 
 [https://spring.io/guides/gs/scheduling-tasks/](https://spring.io/guides/gs/scheduling-tasks/)
 
@@ -140,7 +188,7 @@ cron = "0 0 1 1 * ?"
 
 [https://www.baeldung.com/spring-scheduled-tasks](https://www.baeldung.com/spring-scheduled-tasks)
 
-## 5. TO DO
+## 6. TO DO
 
 추후 스케줄링 UI 설계 및 구현이 필요할 거 같다. 
 

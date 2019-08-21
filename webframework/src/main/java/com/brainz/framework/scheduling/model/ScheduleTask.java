@@ -17,7 +17,7 @@ public class ScheduleTask implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long taskId;
     
     @Column(name = "taskType")
     private String taskType;
@@ -39,17 +39,17 @@ public class ScheduleTask implements Serializable {
 
     @Override
     public String toString() {
-        return "ScheduleTask [id=" + id + ", taskType=" + taskType + ", taskClass=" + taskClass + ", executeQuery="
+        return "ScheduleTask [taskId=" + taskId + ", taskType=" + taskType + ", taskClass=" + taskClass + ", executeQuery="
                 + executeQuery + ", runCycleType=" + runCycleType + ", milliseconds=" + milliseconds
                 + ", cronExpression=" + cronExpression + "]";
     }
 
-    public long getId() {
-        return id;
+    public long getTaskId() {
+        return taskId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setTaskId(long taskId) {
+        this.taskId = taskId;
     }
 
     public String getTaskType() {

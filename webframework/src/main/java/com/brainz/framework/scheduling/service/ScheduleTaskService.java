@@ -40,7 +40,7 @@ public class ScheduleTaskService {
     public void init() {
         jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
-
+    
     /**
      * task 추가.
      * 
@@ -66,6 +66,31 @@ public class ScheduleTaskService {
         }
         taskMap.put(id, scheduledTask);
     }
+    
+    /**
+     * task 추가.
+     * 스케줄링 Task 정보로 Runnable 클래스를 생성하여 Task 추가 메소드를 호출한다.
+     * 
+     * @param taskInfo TASK 정보
+     */
+    public void addTaskToScheduler(ScheduleTask taskInfo) {
+        if ("query".equals(taskInfo.getTaskType())) {
+            addTaskToScheduler(taskInfo.getTaskId(), new Runnable() {
+                @Override
+                public void run() {
+                    executeQuery(taskInfo.getExecuteQuery());
+                }
+            }, taskInfo);
+        } else if ("class".equals(taskInfo.getTaskType())) {
+            try {
+                Class<? extends Runnable> taskClass = Class.forName(taskInfo.getTaskClass()).asSubclass(Runnable.class);
+                addTaskToScheduler(taskInfo.getTaskId(), taskClass.getDeclaredConstructor().newInstance(), taskInfo);
+            } catch (Exception e) {
+                logger.error("FAILED TO LOAD CLASS [{}]", taskInfo.getTaskClass());
+                e.printStackTrace();
+            }
+        }
+	}
 
     /**
      * task 삭제.
@@ -85,41 +110,24 @@ public class ScheduleTaskService {
         // 테스용
         /*************************************/
         /*
-         ScheduleTask task = new ScheduleTask();
-         task.setTaskType("query");
-         task.setExecuteQuery("call JJE_TEST()");
-         task.setRunCycleType("cron");
-         task.setCronExpression("0 * * * * *");
-         scheduleTaskRepository.save(task);
-         task = new ScheduleTask();
-         task.setTaskType("class");
-         task.setTaskClass("com.brainz.framework.scheduling.task.SampleTask");
-         task.setRunCycleType("cron");
-         task.setCronExpression("2 * * * * *");
-         scheduleTaskRepository.save(task);
-         */
+        ScheduleTask task = new ScheduleTask();
+        task.setTaskType("query");
+        task.setExecuteQuery("call JJE_TEST()");
+        task.setRunCycleType("cron");
+        task.setCronExpression("0 * * * * *");
+        scheduleTaskRepository.save(task);
+        task = new ScheduleTask();
+        task.setTaskType("class");
+        task.setTaskClass("com.brainz.framework.scheduling.task.SampleTask");
+        task.setRunCycleType("cron");
+        task.setCronExpression("2 * * * * *");
+        scheduleTaskRepository.save(task);
+        */
         /*************************************/
         List<ScheduleTask> scheduleTask = scheduleTaskRepository.findAll();
-        scheduleTask.forEach(list -> {
-            if ("query".equals(list.getTaskType())) {
-                addTaskToScheduler(list.getId(), new Runnable() {
-                    @Override
-                    public void run() {
-                        executeQuery(list.getExecuteQuery());
-                    }
-                }, list);
-            } else if ("class".equals(list.getTaskType())) {
-                try {
-                    Class<? extends Runnable> taskClass = Class.forName(list.getTaskClass()).asSubclass(Runnable.class);
-                    addTaskToScheduler(list.getId(), taskClass.getDeclaredConstructor().newInstance(), list);
-                } catch (Exception e) {
-                    logger.error("FAILED TO LOAD CLASS [{}]", list.getTaskClass());
-                    e.printStackTrace();
-                }
-            }
-        });
+        scheduleTask.forEach(list -> addTaskToScheduler(list));
     }
-
+    
     /**
      * 쿼리를 실행한다.
      * 
