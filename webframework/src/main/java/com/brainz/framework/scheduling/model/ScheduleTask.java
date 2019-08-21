@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "scheduleTaskInfo")
+@Table(name = "bwfSchedTaskMst")
 public class ScheduleTask implements Serializable {
 
     private static final long serialVersionUID = -6693358225759255228L;
