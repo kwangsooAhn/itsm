@@ -1,5 +1,5 @@
 package com.brainz.workflow.process;
 
-public class Process {
+public class ProcessEntity {
 
 }

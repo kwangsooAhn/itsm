@@ -26,7 +26,7 @@ spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 ```
 
-특히 jpa설정과 관련하여 **generate-ddl, hibernate.ddl-auto 설정등은 샘플 확인을 위해서 User라는 테이블을 임의로 생성하고 삭제하기 때문에 실제 어플리케이션 개발에서는 꼭 삭제** 해야 하며 전반적으로 검토 후에 사용하도록 한다.
+특히 JPA설정과 관련하여 **generate-ddl, hibernate.ddl-auto 설정등은 샘플 확인을 위해서 User라는 테이블을 임의로 생성하고 삭제하기 때문에 실제 어플리케이션 개발에서는 꼭 삭제** 해야 하며 전반적으로 검토 후에 사용하도록 한다.
 
 ## 3. JPA
 

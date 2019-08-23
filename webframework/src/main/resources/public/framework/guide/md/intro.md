@@ -31,7 +31,7 @@ BWF에서 제공하는 클래스들은 모두 _com.brainz.framework_ 패키지 �
 
 #### 3) 기타 사항
 
-아무래도 JSP보다는 Thymeleaf와 같은 템플릿엔진을 사용하는 경우가 많이질텐데 이런 경우 _src/main/resources/template_ 디렉토리를 만들어서 사용하길 권장한다.
+아무래도 JSP보다는 Thymeleaf와 같은 템플릿엔진을 사용하는 경우가 많아질텐데 이런 경우 _src/main/resources/template_ 디렉토리를 만들어서 사용하길 권장한다.
   
 정적자원은 _src/main/resources/static/_ 경로를 이용한다. BWF에서도 index.html이 위치하고 있다.
 

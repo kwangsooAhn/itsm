@@ -11,7 +11,7 @@
 	</page_setting>
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
-	<x>-258</x>
+	<x>382</x>
 	<y>-11</y>
 	<default_color>
 		<r>128</r>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2019-07-08 18:13:53</creation_date>
-			<updated_date>2019-08-21 15:31:51</updated_date>
+			<updated_date>2019-08-23 17:25:16</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
@@ -2129,7 +2129,7 @@
 			</connections>
 			<physical_name>WF_INST_READABLE_MST</physical_name>
 			<logical_name>인스턴스별읽기권한</logical_name>
-			<description></description>
+			<description>기본적으로 인스턴스를 거쳐간 사용자외에 추가적으로 참조인과 같이 권한이 부여되는 경우 저장된다.</description>
 			<constraint></constraint>
 			<primary_key_name></primary_key_name>
 			<option></option>
@@ -2255,7 +2255,7 @@
 			</connections>
 			<physical_name>WF_PROC_GROUP_MAP</physical_name>
 			<logical_name>프로세스버전별사용그룹매핑</logical_name>
-			<description></description>
+			<description>프로세스 디자이너에서 그릴때 해당 신청서를 사용할 수 있는 그룹 아이디를 지정한다.&#x0D;&#x0A;전체로 지정할 수 있고, 특정 그룹들만 지정도 가능하다.</description>
 			<constraint></constraint>
 			<primary_key_name></primary_key_name>
 			<option></option>
@@ -2507,7 +2507,7 @@
 			<connections>
 				<relation>
 					<id>9</id>
-					<source>1</source>
+					<source>2</source>
 					<target>10</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2515,8 +2515,8 @@
 						<target_yp>-1</target_yp>
 						<bendpoint>
 							<relative>false</relative>
-							<x>-83</x>
-							<y>53</y>
+							<x>-84</x>
+							<y>732</y>
 						</bendpoint>
 						<color>
 							<r>0</r>
@@ -2534,7 +2534,7 @@
 				</relation>
 				<relation>
 					<id>10</id>
-					<source>2</source>
+					<source>1</source>
 					<target>10</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2542,8 +2542,8 @@
 						<target_yp>-1</target_yp>
 						<bendpoint>
 							<relative>false</relative>
-							<x>-84</x>
-							<y>732</y>
+							<x>-83</x>
+							<y>53</y>
 						</bendpoint>
 						<color>
 							<r>0</r>
@@ -2570,7 +2570,7 @@
 				<normal_column>
 					<id>41</id>
 					<referenced_column>12</referenced_column>
-					<relation>10</relation>
+					<relation>9</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -2604,7 +2604,7 @@
 				<normal_column>
 					<id>42</id>
 					<referenced_column>8</referenced_column>
-					<relation>9</relation>
+					<relation>10</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -2825,7 +2825,7 @@
 			<connections>
 				<relation>
 					<id>11</id>
-					<source>0</source>
+					<source>11</source>
 					<target>12</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2847,7 +2847,7 @@
 				</relation>
 				<relation>
 					<id>12</id>
-					<source>11</source>
+					<source>0</source>
 					<target>12</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2878,7 +2878,7 @@
 				<normal_column>
 					<id>47</id>
 					<referenced_column>4</referenced_column>
-					<relation>11</relation>
+					<relation>12</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -2912,7 +2912,7 @@
 				<normal_column>
 					<id>48</id>
 					<referenced_column>45</referenced_column>
-					<relation>12</relation>
+					<relation>11</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
