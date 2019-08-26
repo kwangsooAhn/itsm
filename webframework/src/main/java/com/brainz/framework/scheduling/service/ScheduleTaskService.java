@@ -113,13 +113,13 @@ public class ScheduleTaskService {
         ScheduleTask task = new ScheduleTask();
         task.setTaskType("query");
         task.setExecuteQuery("call JJE_TEST()");
-        task.setRunCycleType("cron");
+        task.setExecuteCycleType("cron");
         task.setCronExpression("0 * * * * *");
         scheduleTaskRepository.save(task);
         task = new ScheduleTask();
         task.setTaskType("class");
-        task.setTaskClass("com.brainz.framework.scheduling.task.SampleTask");
-        task.setRunCycleType("cron");
+        task.setexecuteClass("com.brainz.framework.scheduling.task.SampleTask");
+        task.setExecuteCycleType("cron");
         task.setCronExpression("2 * * * * *");
         scheduleTaskRepository.save(task);
         */
