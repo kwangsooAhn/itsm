@@ -50,12 +50,12 @@ public class ScheduleTaskService {
      */
     public void addTaskToScheduler(long id, Runnable task, ScheduleTask taskInfo) {
         ScheduledFuture<?> scheduledTask = null;
-        switch (taskInfo.getRunCycleType()) {
+        switch (taskInfo.getExecuteCycleType()) {
         case "fixedDelay":
-            scheduledTask = scheduler.scheduleWithFixedDelay(task, taskInfo.getMilliseconds());
+            scheduledTask = scheduler.scheduleWithFixedDelay(task, taskInfo.getExecuteCyclePeriod());
             break;
         case "fixedRate":
-            scheduledTask = scheduler.scheduleAtFixedRate(task, taskInfo.getMilliseconds());
+            scheduledTask = scheduler.scheduleAtFixedRate(task, taskInfo.getExecuteCyclePeriod());
             break;
         case "cron":
             scheduledTask = scheduler.schedule(task,
@@ -83,10 +83,10 @@ public class ScheduleTaskService {
             }, taskInfo);
         } else if ("class".equals(taskInfo.getTaskType())) {
             try {
-                Class<? extends Runnable> taskClass = Class.forName(taskInfo.getTaskClass()).asSubclass(Runnable.class);
+                Class<? extends Runnable> taskClass = Class.forName(taskInfo.getExecuteClass()).asSubclass(Runnable.class);
                 addTaskToScheduler(taskInfo.getTaskId(), taskClass.getDeclaredConstructor().newInstance(), taskInfo);
             } catch (Exception e) {
-                logger.error("FAILED TO LOAD CLASS [{}]", taskInfo.getTaskClass());
+                logger.error("FAILED TO LOAD CLASS [{}]", taskInfo.getExecuteClass());
                 e.printStackTrace();
             }
         }

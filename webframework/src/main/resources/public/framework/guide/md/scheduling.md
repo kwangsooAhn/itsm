@@ -3,18 +3,21 @@
 
 ## 1. Spring Scheduler
 
-Spring 프레임워크 3.1부터 기본 내장되어 있어서 라이브러리 추가가 따로 필요하지 않다.
-@Scheduled 어노테이션 또는 XML 설정으로 실행가능하다.
+스프링 스케줄러는 스프링 프레임워크 3.1부터 기본 내장되어 있어서 스프링부트 2.1.7 (스프링 5.1.9)를 사용하는 BWF에서는 라이브러리 추가가 따로 필요하지 않다.  
+@Scheduled 어노테이션 또는 XML 설정을 통한 2가지 방법이 적용 가능하다.
 
 ## 2. 설정 방법
 
-### 1) 코드에 직접 추가하는 방법
+### 1) BWF에서 사용하는 스케줄 작업을 직접 추가하는 방법
 
-BWF(Brainz Web Framework) 실행에 필요한 필수 스케줄링은 코드에 직접 기술하여 스케줄링 하도록 한다.
+BWF(Brainz Web Framework)를 개발하면서 실행에 필요한 필수 스케줄링은 코드에 아래 2가지 방법으로 직접 기술하여 스케줄링 할 수 있다.  
+기본적으로는 @Scheduled 어노테이션을 이용하여 /src/main/java/com/brainz/framework/scheduling/task/BWFScheduledTask 파일에 작성하는 것을 원칙으로 한다.  
+고객사에 따라 주기 등이 변경될 여지가 있는 항목들은 XML을 통해서 관리하도록 한다.
 
 #### 직접 실행 할 메소드에 @Scheduled 어노테이션으로 기술하는 방법
 
- 직접 실행 할 메소드에 @Scheduled 어노테이션으로 기술하여 Spring으로 하여금 스케줄 대상 메서드 임을 알려준다. (application.properties 에 cron 을 기술하여 참고하는 방법도 있다.)
+실행 할 메소드에 직접 @Scheduled 어노테이션으로 기술하여 스프링으로 하여금 스케줄 대상 메서드 임을 알게 해준다.  
+(application.properties 에 cron 을 기술하여 참고하는 방법도 있다.)
 
 ```java
 @Component 
@@ -43,7 +46,7 @@ public class Scheduler {
 ```
 #### XML설정 파일에 추가하는 방법
 
-XML 파일에 클래스를 등록하고 해당 클래스에 task scedule을 등록하는 방법으로, 서버의 재기동이 필요하지만 compile을 다시 하지 않아도 되는 장점이 있다.
+XML 파일에 클래스를 등록하고 해당 클래스에 task scedule을 등록하는 방법으로, 단순히 설정을 변경할때 소스의 컴파일없이 재기동만으로 사용할 수 있다.  
 
 ```xml
     <!-- job bean -->
@@ -63,22 +66,27 @@ public class Scheduler {
 } 
 ```
 
-### 2) DB에 스케줄링 할 쿼리, 클래스 등을 추가하는 방법
+### 2) 어플리케이션에서 사용하는 스케줄링 작업을 DB에 쿼리, 클래스 등을 추가하는 방법
+
+BWF를 이용한 어플리케이션에서 필요한 스케줄러 작업은 아래와 같이 BWF에 준비된 BWF_SCHEDULED_TASK_MST 테이블에 저장되어 사용할 수 있다.
 
 <img src ="./media/schedule_task_info.png" />
 
-|컬럼명|컬럼명|의미|
-|--|--|--|
-|task_id|TASK ID|스케줄링 시 사용할 Uniq ID.|
-|task_type|TASK타입|스케줄링할 task의 타입. query, class|
-|task_class|실행 클래스|task타입이 class일 경우 실행되는 class명으로 package를 포함해서 등록한다.|
-|excute_query|실행 쿼리|task타입이 query일 경우 실행되는 쿼리|
-|run_cycle_type|실행 주기 타입|cron, fixedDelay, fixedRate|
-|cron_expression|cron표현식|실행 주기 타입이 cron일 경우 사용되는 cron표현식|
-|milliseconds|주기|실행 주기 타입이 fixedDelay, fixedRate 일 경우 사용되는 주기로 millisecond 단위로 등록한다.|
+BWF_SCHEDULED_TASK_MST 테이블 컬럼에 대한 세부내용은 아래와 같다.
 
-클래스일 경우, 다음과 같은 패키지(com.brainz.framework.scheduling.task)에 넣고 Runnable 을 implements 하여 구현한다.
-DB등록 시 package를 포함한 클래스명을 등록하기 때문에 해당 package에 등록해도 상관없지만, 스케줄링 task클래스를 모아두면 관리하기 용이한 면이 있기때문 추천한다.
+|컬럼명|논리명|의미|
+|--|--|--|
+|task_id|작업 아이디|스케줄링 시 사용할 Uniq ID.|
+|task_type|작업 유형|스케줄링할 task의 타입. query, class|
+|execute_class|실행 클래스|task타입이 class일 경우 실행되는 class명으로 package를 포함해서 등록한다.|
+|execute_query|실행 쿼리|task타입이 query일 경우 실행되는 쿼리|
+|execute_cycle_type|실행 주기 유형|cron, fixedDelay, fixedRate|
+|execute_cycle_period|실행 주기 간격|실행 주기 타입이 fixedDelay, fixedRate 일 경우 사용되는 주기로 millisecond 단위로 등록한다.|
+|cron_expression|cron표현식|실행 주기 타입이 cron일 경우 사용되는 cron표현식|
+
+DB 쿼리를 바로 입력하거나 클래스를 등록하여 사용할 수 있으며 클래스일 경우, 아래 예제와 같이 패키지(com.brainz.framework.scheduling.task)에 넣고 Runnable 을 implements 하여 구현한다.  
+실제로는 package를 포함한 클래스명을 DB에 등록하기 때문에 위치는 상관없으나 특별한 사유가 없는 한 위의 패키지로 관리하는 것을 원칙으로 한다.  
+
 ```java
 package com.brainz.framework.scheduling.task;
 
@@ -100,7 +108,8 @@ public class SampleTask implements Runnable {
 
 ## 3. 샘플설명
 
-UI 제어가 필요할 시 추가, 변경, 삭제 시 다음과 같이 처리를 한다.
+아래 예제는 스케줄 작업을 화면을 통해서 추가, 변경, 삭제하는 경우를 간단하게 나타내고 있다.  
+스케줄 작업에 대한 UI 제공은 BWF를 이용해서 개발되는 어플리케이션의 몫이며 필요한 경우 화면을 제공해야 할 것이다.
 
 ```java
 package com.brainz.framework.sample.scheduling.controller;
@@ -151,7 +160,7 @@ public class SchedulingController {
 
 ## 4. CRON 표현식
 
-TASK 가 실행되는 주기/시간을 설정하는데 사용되는 CRON 표현식은 다음과 같이 표기한다.
+어노테이션이나 XML에서 TASK의 실행 주기/시간을 설정할 때 사용되는 CRON 표현식은 다음과 같이 사용한다.
 ```java
 cron = "0 0 1 1 * ?"
 ```
@@ -187,8 +196,3 @@ cron = "0 0 1 1 * ?"
 [http://blog.naver.com/PostView.nhn?blogId=lovemema&logNo=140200056062](http://blog.naver.com/PostView.nhn?blogId=lovemema&logNo=140200056062)
 
 [https://www.baeldung.com/spring-scheduled-tasks](https://www.baeldung.com/spring-scheduled-tasks)
-
-## 6. TO DO
-
-추후 스케줄링 UI 설계 및 구현이 필요할 거 같다. 
-

@@ -22,25 +22,25 @@ public class ScheduleTask implements Serializable {
     @Column(name = "taskType")
     private String taskType;
     
-    @Column(name = "taskClass")
-    private String taskClass;
+    @Column(name = "executeClass")
+    private String executeClass;
     
     @Column(name = "executeQuery")
     private String executeQuery;
     
-    @Column(name = "runCycleType")
-    private String runCycleType;
+    @Column(name = "executeCycleType")
+    private String executeCycleType;
     
-    @Column(name = "milliseconds")
-    private Long milliseconds;
+    @Column(name = "executeCyclePeriod")
+    private Long executeCyclePeriod;
     
     @Column(name = "cronExpression")
     private String cronExpression;
 
     @Override
     public String toString() {
-        return "ScheduleTask [taskId=" + taskId + ", taskType=" + taskType + ", taskClass=" + taskClass + ", executeQuery="
-                + executeQuery + ", runCycleType=" + runCycleType + ", milliseconds=" + milliseconds
+        return "ScheduleTask [taskId=" + taskId + ", taskType=" + taskType + ", executeClass=" + executeClass + ", executeQuery="
+                + executeQuery + ", executeCycleType=" + executeCycleType + ", executeCyclePeriod=" + executeCyclePeriod
                 + ", cronExpression=" + cronExpression + "]";
     }
 
@@ -60,12 +60,12 @@ public class ScheduleTask implements Serializable {
         this.taskType = taskType;
     }
 
-    public String getTaskClass() {
-        return taskClass;
+    public String getExecuteClass() {
+        return executeClass;
     }
 
-    public void setTaskClass(String taskClass) {
-        this.taskClass = taskClass;
+    public void setexecuteClass(String executeClass) {
+        this.executeClass = executeClass;
     }
 
     public String getExecuteQuery() {
@@ -76,20 +76,20 @@ public class ScheduleTask implements Serializable {
         this.executeQuery = executeQuery;
     }
 
-    public String getRunCycleType() {
-        return runCycleType;
+    public String getExecuteCycleType() {
+        return executeCycleType;
     }
 
-    public void setRunCycleType(String runCycleType) {
-        this.runCycleType = runCycleType;
+    public void setExecuteCycleType(String executeCycleType) {
+        this.executeCycleType = executeCycleType;
     }
 
-    public Long getMilliseconds() {
-        return milliseconds;
+    public Long getExecuteCyclePeriod() {
+        return executeCyclePeriod;
     }
 
-    public void setMilliseconds(Long milliseconds) {
-        this.milliseconds = milliseconds;
+    public void setExecuteCyclePeriod(Long executeCyclePeriod) {
+        this.executeCyclePeriod = executeCyclePeriod;
     }
 
     public String getCronExpression() {

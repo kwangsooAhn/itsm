@@ -9,7 +9,7 @@ PostgreSQL, JPA와 관련된 내용은 다루지 않는다.
 
 ## 2. 관련 설정
 
-기본적인 DB접속 정보와 jpa와 관련된 설정은 /src/main/resource/application.properties 파일에서 확인할 수 있고, 실제 프로젝트에서 적절히 수정해서 사용한다.
+기본적인 DB접속 정보와 JPA와 관련된 설정은 /src/main/resource/application.properties 파일에서 확인할 수 있고, 실제 프로젝트에서 적절히 수정해서 사용한다.
 
 
 ```
