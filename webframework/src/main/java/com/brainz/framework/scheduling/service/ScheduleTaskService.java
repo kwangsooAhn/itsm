@@ -83,14 +83,15 @@ public class ScheduleTaskService {
             }, taskInfo);
         } else if ("class".equals(taskInfo.getTaskType())) {
             try {
-                Class<? extends Runnable> taskClass = Class.forName(taskInfo.getExecuteClass()).asSubclass(Runnable.class);
+                Class<? extends Runnable> taskClass = Class.forName(taskInfo.getExecuteClass())
+                        .asSubclass(Runnable.class);
                 addTaskToScheduler(taskInfo.getTaskId(), taskClass.getDeclaredConstructor().newInstance(), taskInfo);
             } catch (Exception e) {
                 logger.error("FAILED TO LOAD CLASS [{}]", taskInfo.getExecuteClass());
                 e.printStackTrace();
             }
         }
-	}
+    }
 
     /**
      * task 삭제.
