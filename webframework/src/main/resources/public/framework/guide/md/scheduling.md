@@ -69,9 +69,6 @@ public class Scheduler {
 ### 2) 어플리케이션에서 사용하는 스케줄링 작업을 DB에 쿼리, 클래스 등을 추가하는 방법
 
 BWF를 이용한 어플리케이션에서 필요한 스케줄러 작업은 아래와 같이 BWF에 준비된 BWF_SCHEDULED_TASK_MST 테이블에 저장되어 사용할 수 있다.
-
-<img src ="./media/schedule_task_info.png" />
-
 BWF_SCHEDULED_TASK_MST 테이블 컬럼에 대한 세부내용은 아래와 같다.
 
 |컬럼명|논리명|의미|
