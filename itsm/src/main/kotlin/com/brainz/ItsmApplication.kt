@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @RestController
 @EnableScheduling
 @SpringBootApplication
-class ItsmApplication
+open class ItsmApplication
 
 fun main(args: Array<String>) {
 	runApplication<ItsmApplication>(*args)
