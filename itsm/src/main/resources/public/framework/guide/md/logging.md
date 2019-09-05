@@ -21,30 +21,63 @@ logback과 slf4j사이의 연동 문제를 해결하였으며 비동기 로깅(a
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" strict="true" name="ITSM.WebFramework">
-  <Appenders>
-    <Appender type="Console" name="STDOUT">
-      <Layout type="PatternLayout" pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
-    </Appender>
-    <Appender type="File" name="File" fileName="${filename}">
-      <Layout type="PatternLayout">
-        <Pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</Pattern>
-      </Layout>
-    </Appender>
-  </Appenders>
-  <Loggers>
-    <Logger name="webframework" level="debug" additivity="false">
-      <AppenderRef ref="STDOUT"/>
-    </Logger>
-    <Root level="debug">
-      <AppenderRef ref="STDOUT"/>
-    </Root>
-  </Loggers>
+<Configuration status="info" strict="true" name="webframework">
+	<Properties>
+    	<Property name="LOG_FILE_PATH">logs</Property>
+    	<Property name="LOG_FILE_BACKUP_PATH">logs</Property>
+  	</Properties>
+  
+  	<Appenders>
+        <!-- Console Appender -->
+    	<Console name="STDOUT">
+      		<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+    	</Console>
+  		<!-- Rolling File Appender -->
+    	<RollingFile name="File">
+    		<FileName>${LOG_FILE_PATH}/webframework.log</FileName>
+    		<FilePattern>${LOG_FILE_BACKUP_PATH}/webframework.%d{yyyyMMdd}.log.gz</FilePattern>
+        	<Policies>
+        		<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+        	</Policies>
+        	<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+    	</RollingFile>
+  	</Appenders>
+  
+  	<Loggers>
+    	<Logger name="com.brainz" level="debug" additivity="false">
+      		<AppenderRef ref="STDOUT"/>
+      		<AppenderRef ref="File"/>      
+    	</Logger>
+    	
+    	<Logger name="jdbc.sqlonly" level="debug" additivity="false">
+    	    <AppenderRef ref="STDOUT"/>
+      		<AppenderRef ref="File"/>   
+      	</Logger>
+  		
+  		<Logger name="jdbc.sqltiming" level="debug" additivity="false">
+  		    <AppenderRef ref="STDOUT"/>
+      		<AppenderRef ref="File"/>
+  		</Logger>
+  		
+  		<Logger name="jdbc.audit" level="OFF" />
+  		<Logger name="jdbc.resultset" level="OFF" />
+  		<Logger name="jdbc.resultsettable" level="OFF" />
+  		
+    	<Root level="info">
+      		<AppenderRef ref="STDOUT"/>
+      		<AppenderRef ref="File"/>
+    	</Root>
+  	</Loggers>
 </Configuration>
 ```
 위와 같은 log 관련 설정은 /src/main/resources/log4j2.xml 파일을 편집하여 사용한다.  
+위의 기본 설정은 콘솔과 파일로그를 남기도록 되어 있고 매일 날짜 패턴으로 로그를 남기도록 설정되어 있다.  
+더불어, DB 쿼리 관련해서 기본 쿼리와 실행시간 출력 정도만 설정되어 있다.   
 기본 설정은 최소한 Appender와 Logger만으로 구성되어 있으니 프로젝트에 따라 정의된 형태로 설정을 수정하여 사용한다.  
-설정 내용에 대한 설명은 공식 사이트(https://logging.apache.org/log4j/2.x/manual/configuration.html) 를 참고한다.
+설정 내용에 대한 설명은 공식 사이트(https://logging.apache.org/log4j/2.x/manual/configuration.html) 를 참고한다.  
+
+Spring Boot에서는 application.properties에 간단한 설정만으로 꽤 많은 로그 설정을 커버할 수 있으나
+원칙적으로는 log4j2를 이용해서 설정하는 것으로 한다.
         
 ## 3. 샘플 예제
 
