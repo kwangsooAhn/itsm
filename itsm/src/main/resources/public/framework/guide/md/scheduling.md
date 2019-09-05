@@ -50,7 +50,7 @@ XML 파일에 클래스를 등록하고 해당 클래스에 task scedule을 등�
 
 ```xml
     <!-- job bean -->
-    <bean id="scheduler" class="com.brainz.scheduling.Scheduler" />
+    <bean id="scheduler" class="co.brainz.scheduling.Scheduler" />
     
     <task:scheduled-tasks> <!-- scheduled job list -->
         <task:scheduled ref="scheduler" method="executeJob" cron="0/30 * * * * ?"/>
@@ -81,11 +81,11 @@ BWF_SCHED_TASK_MST 테이블 컬럼에 대한 세부내용은 아래와 같다.
 |execute_cycle_period|실행 주기 간격|실행 주기 타입이 fixedDelay, fixedRate 일 경우 사용되는 주기로 millisecond 단위로 등록한다.|
 |cron_expression|cron표현식|실행 주기 타입이 cron일 경우 사용되는 cron표현식|
 
-DB 쿼리를 바로 입력하거나 클래스를 등록하여 사용할 수 있으며 클래스일 경우, 아래 예제와 같이 패키지(com.brainz.framework.scheduling.task)에 넣고 Runnable 을 implements 하여 구현한다.  
+DB 쿼리를 바로 입력하거나 클래스를 등록하여 사용할 수 있으며 클래스일 경우, 아래 예제와 같이 패키지(co.brainz.framework.scheduling.task)에 넣고 Runnable 을 implements 하여 구현한다.  
 실제로는 package를 포함한 클래스명을 DB에 등록하기 때문에 위치는 상관없으나 특별한 사유가 없는 한 위의 패키지로 관리하는 것을 원칙으로 한다.  
 
 ```java
-package com.brainz.framework.scheduling.task;
+package co.brainz.framework.scheduling.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,7 +109,7 @@ public class SampleTask implements Runnable {
 스케줄 작업에 대한 UI 제공은 BWF를 이용해서 개발되는 어플리케이션의 몫이며 필요한 경우 화면을 제공해야 할 것이다.
 
 ```java
-package com.brainz.framework.sample.scheduling.controller;
+package co.brainz.framework.sample.scheduling.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -118,9 +118,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brainz.framework.scheduling.model.ScheduleTask;
-import com.brainz.framework.scheduling.repository.ScheduleTaskRepository;
-import com.brainz.framework.scheduling.service.ScheduleTaskService;
+import co.brainz.framework.scheduling.model.ScheduleTask;
+import co.brainz.framework.scheduling.repository.ScheduleTaskRepository;
+import co.brainz.framework.scheduling.service.ScheduleTaskService;
 
 @RestController
 public class SchedulingController {

@@ -1,4 +1,4 @@
-package com.brainz.itsm
+package co.brainz.itsm
 
 import org.junit.Test
 import org.junit.runner.RunWith

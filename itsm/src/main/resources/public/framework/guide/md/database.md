@@ -64,11 +64,11 @@ DB와 JPA와 관련된 샘플은 /com/brainz/framework/sample/db 패키지를 �
 User에 대한 Repository를 spring의 CurdRepository 인터페이스를 받아서 만든다.
 
 ```java
-package com.brainz.framework.sample.db.repository;
+package co.brainz.framework.sample.db.repository;
 
 import java.util.List;
 
-import com.brainz.framework.sample.db.model.User;
+import co.brainz.framework.sample.db.model.User;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -87,7 +87,7 @@ DB의 객체(테이블)에 맞는 Model을 구성한다.
 표기법 변환을 피하려면 다 소문자로 적으면 되긴 한다.
 
 ```java
-package com.brainz.framework.sample.db.model;
+package co.brainz.framework.sample.db.model;
 
 import java.io.Serializable;
 
@@ -145,13 +145,13 @@ public class User implements Serializable {
 위에서 준비된 내용을 URL에 따라 처리하는 샘플이다.
 
 ```java
-package com.brainz.framework.sample.db.controller;
+package co.brainz.framework.sample.db.controller;
 
 import java.util.Arrays;
 import java.util.List;
 
-import com.brainz.framework.sample.db.model.User;
-import com.brainz.framework.sample.db.repository.UserRepository;
+import co.brainz.framework.sample.db.model.User;
+import co.brainz.framework.sample.db.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

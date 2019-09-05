@@ -44,7 +44,7 @@ logback과 slf4j사이의 연동 문제를 해결하였으며 비동기 로깅(a
   	</Appenders>
   
   	<Loggers>
-    	<Logger name="com.brainz" level="debug" additivity="false">
+    	<Logger name="co.brainz" level="debug" additivity="false">
       		<AppenderRef ref="STDOUT"/>
       		<AppenderRef ref="File"/>      
     	</Logger>
@@ -81,10 +81,10 @@ Spring Boot에서는 application.properties에 간단한 설정만으로 꽤 많
         
 ## 3. 샘플 예제
 
-간단한 샘플을 위해 com.brainz.framework.sample.logging.WebframeworkLogging.java가 아래와 같이 작성되어 있다.
+간단한 샘플을 위해 co.brainz.framework.sample.logging.WebframeworkLogging.java가 아래와 같이 작성되어 있다.
 
 ```java
-package com.brainz.framework.sample.logging;
+package co.brainz.framework.sample.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,10 +145,10 @@ logger.trace("TRACE {}", tempString);
 - 실행 시 아래와 같은 로그를 확인한다.
 
 ```console
-15:33:12.636 ERROR com.brainz.framework.sample.logging.WebframeworkLogging - ERROR logging Sample.
-15:33:12.636 WARN  com.brainz.framework.sample.logging.WebframeworkLogging - WARN logging Sample.
-15:33:12.637 INFO  com.brainz.framework.sample.logging.WebframeworkLogging - INFO logging Sample.
-15:33:12.637 DEBUG com.brainz.framework.sample.logging.WebframeworkLogging - DEBUG logging Sample.
+15:33:12.636 ERROR co.brainz.framework.sample.logging.WebframeworkLogging - ERROR logging Sample.
+15:33:12.636 WARN  co.brainz.framework.sample.logging.WebframeworkLogging - WARN logging Sample.
+15:33:12.637 INFO  co.brainz.framework.sample.logging.WebframeworkLogging - INFO logging Sample.
+15:33:12.637 DEBUG co.brainz.framework.sample.logging.WebframeworkLogging - DEBUG logging Sample.
 ```
 
 ## 4. 로그 레벨 가이드
