@@ -1,4 +1,3 @@
-
 package co.brainz.framework.sample.logging.controller
 
 import org.slf4j.Logger;
