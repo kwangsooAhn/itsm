@@ -2,6 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 buildscript {
+	
+	ext {
+        kotlinVersion = '1.2.71'
+        springBootVersion = '2.1.7.RELEASE'
+    }
 
     repositories {
         mavenCentral()
