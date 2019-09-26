@@ -1,5 +1,30 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'kotlin-jpa'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: "kotlin-allopen"
+
+allOpen {
+    annotation "javax.persistence.Entity"
+}
+
 plugins {
 	id("org.springframework.boot") version "2.1.7.RELEASE"
 	id("io.spring.dependency-management") version "1.0.8.RELEASE"

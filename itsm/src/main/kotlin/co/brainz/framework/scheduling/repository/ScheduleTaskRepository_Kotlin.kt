@@ -1,4 +1,3 @@
-/*
 package co.brainz.framework.scheduling.repository
 
 import org.springframework.data.repository.CrudRepository
@@ -11,4 +10,3 @@ public interface ScheduleTaskRepository_Kotlin : CrudRepository<ScheduleTask_Kot
 	override fun findAll() : MutableList<ScheduleTask_Kotlin>
 	
 }
-*/

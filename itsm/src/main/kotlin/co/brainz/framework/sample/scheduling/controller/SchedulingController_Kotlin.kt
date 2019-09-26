@@ -1,4 +1,3 @@
-/*
 package co.brainz.framework.sample.scheduling.controller
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +45,3 @@ public class ScehdulingController_Kotlin {
 		return "스케줄링 삭제";
 	}
 }
-*/

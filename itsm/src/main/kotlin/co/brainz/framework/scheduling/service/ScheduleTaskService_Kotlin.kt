@@ -1,4 +1,3 @@
-/*
 package co.brainz.framework.scheduling.service
 
 import org.springframework.stereotype.Service
@@ -103,19 +102,9 @@ public class ScheduleTaskService_Kotlin {
 
 	@EventListener(ContextRefreshedEvent::class)
 	public fun contextRefreshedEvent(): Unit {
-		//var task = ScheduleTask_Kotlin(
-		//taskId =
-		//,taskType = "query"
-		//,executeClass = "co.brainz.scheduling.Scheduler"
-		//,executeQuery = "call JJE_TEST()"
-		//,executeCycleType = "cron"
-		//,executeCyclePeriod = 5000
-		//,cronExpression =  "0 * * * * *"
-		//) 
 
-		//scheduleTaskRepository.save(task);
-
-		val scheduleTask = scheduleTaskRepository.findAll()
+		val scheduleTask : MutableList<ScheduleTask_Kotlin>
+		scheduleTask = scheduleTaskRepository.findAll()
 		scheduleTask.forEach({ list -> addTaskToScheduler(list) })
 	}
 
@@ -129,5 +118,3 @@ public class ScheduleTaskService_Kotlin {
 		logger.info("QUERY [{}] IS EXECUTED", executeQuery);
 	}
 }
-
-*/

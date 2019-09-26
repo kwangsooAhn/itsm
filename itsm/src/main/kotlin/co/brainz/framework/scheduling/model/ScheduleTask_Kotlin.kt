@@ -1,4 +1,3 @@
-/*
 package co.brainz.framework.scheduling.model
 
 import java.io.Serializable;
@@ -31,4 +30,3 @@ public data class ScheduleTask_Kotlin(
 		
 	}
 }
-*/

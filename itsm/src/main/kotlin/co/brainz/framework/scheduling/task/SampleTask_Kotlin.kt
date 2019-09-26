@@ -1,4 +1,4 @@
-/*package co.brainz.framework.scheduling.task
+package co.brainz.framework.scheduling.task
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,5 +15,3 @@ public class SampleTask_Kotlin : Runnable {
 		logger.info("Sample Task Execute!! (based on Kotlin)")
 	}
 }
-
-*/
