@@ -4,23 +4,21 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyException;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
 import org.apache.commons.codec.EncoderException;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import co.brainz.framework.util.EncryptionUtil_Kotlin
+import co.brainz.framework.util.EncryptionUtil
 
 @PropertySource("classpath:/co/brainz/framework/sample/encryption/controller/Jasyptsample.properties")
 @RestController
 
-public class EncryptionConfigController_Kotlin {
+public class EncryptionConfigController {
 	
 	@Value("\${test.siteid}")
     private lateinit var siteid : String
@@ -39,7 +37,7 @@ public class EncryptionConfigController_Kotlin {
 		var des : String = pbeEnc.decrypt(enc);
 		println("des = ${des}")
 		
-		var value : String = "암호화 문 : ENC(GBXlZ0zUUQZnTu5F5Vd9o8vr9jpLS/diUl8dUNZCb1U=)    복호화 문: ${siteid} based on Kotlin;"
+		var value : String = "암호화 문 : ENC(GBXlZ0zUUQZnTu5F5Vd9o8vr9jpLS/diUl8dUNZCb1U=)    복호화 문: ${siteid}"
 		return value
 	}
 	
@@ -52,13 +50,13 @@ public class EncryptionConfigController_Kotlin {
 		var enCodeValue : String? = null
 		var deCodeValue : String? = null
 		try{
-			val aes256 = EncryptionUtil_Kotlin();
+			val aes256 = EncryptionUtil();
 			enCodeValue = aes256.aesEncode("김!@#$%^&*()_+Abc1");
 			deCodeValue = aes256.aesDecode(enCodeValue);
 		} catch(e : UnsupportedEncodingException){
 			e.printStackTrace();
 		}
-		return "암호화 문 : $enCodeValue  복호화 문 : $deCodeValue based on Kotlin"
+		return "암호화 문 : $enCodeValue  복호화 문 : $deCodeValue"
 	}
 	
 	@Throws(KeyException::class,NoSuchAlgorithmException::class,NoSuchPaddingException::class,InvalidAlgorithmParameterException::class,
@@ -68,12 +66,12 @@ public class EncryptionConfigController_Kotlin {
 		var enCodeValue : String? = null
 		
 		try {
-			val sha512 = EncryptionUtil_Kotlin()
+			val sha512 = EncryptionUtil()
 			enCodeValue = sha512.shaEncode("김!@#$%^&*()_+Abc1")
 		}catch(e: UnsupportedEncodingException){
 			e.printStackTrace()
 		}
-			return "평문 : 김!@#$%^&*()_+Abc1  암호화 문 : $enCodeValue based on Kotlin";
+			return "평문 : 김!@#$%^&*()_+Abc1  암호화 문 : $enCodeValue";
 	}
 }
 

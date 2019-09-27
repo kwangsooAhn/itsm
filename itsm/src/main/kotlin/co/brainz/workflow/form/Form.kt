@@ -1,4 +1,4 @@
 package co.brainz.workflow.form
 
-public class Form_Kotlin {
+public class Form {
 }

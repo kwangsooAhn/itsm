@@ -7,7 +7,6 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -19,7 +18,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public open class EncryptionUtil_Kotlin {
+public open class EncryptionUtil {
 
 	private var iv : String;
 	private var keySpec : Key;

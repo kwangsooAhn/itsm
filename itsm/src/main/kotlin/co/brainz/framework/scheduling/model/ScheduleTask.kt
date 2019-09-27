@@ -1,7 +1,6 @@
 package co.brainz.framework.scheduling.model
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "bwfSchedTaskMst")
-public data class ScheduleTask_Kotlin(
+public data class ScheduleTask(
 	@Id @GeneratedValue(strategy = GenerationType.AUTO) var taskId : Long,
     @Column(name = "taskType") var taskType : String,
 	@Column(name = "executeClass") var executeClass : String,

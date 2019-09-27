@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "userInfo")
-public data class User_Kotlin(
+public data class User(
 	@Column(name = "userId")
     var userId : String? = null,	
     @Column(name = "userName")

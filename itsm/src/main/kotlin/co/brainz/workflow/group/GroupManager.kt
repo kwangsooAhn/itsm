@@ -1,4 +1,4 @@
 package co.brainz.workflow.group
 
-public class GroupManager_Kotlin {
+public class GroupManager {
 }

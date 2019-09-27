@@ -2,13 +2,12 @@ package co.brainz.framework.util
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 
 @Configuration
-public open class JasyptConfig_Kotlin {
+public open class JasyptConfig {
 	@Bean("jasyptStringEncryptor")
     public open fun StringEncryptor() : StringEncryptor{
 		

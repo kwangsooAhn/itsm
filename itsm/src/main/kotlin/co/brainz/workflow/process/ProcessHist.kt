@@ -1,8 +1,6 @@
-
 package co.brainz.workflow.process
 
 import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "wfProcHist")
-public data class ProcessHist_Kotlin(
+public data class ProcessHist(
 	@Id var procId : String,
     @Column(name = "procVersion") var procVersion : String? = null,
     @Column(name = "procStatus") var procStatus : String ? = null
@@ -24,15 +22,17 @@ public data class ProcessHist_Kotlin(
 		private final val serialVersionUID : Long = -2343243243242432341L;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = [(CascadeType.ALL)], targetEntity=ProcessMst_Kotlin::class)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = [(CascadeType.ALL)], targetEntity=ProcessMst::class)
     @JoinColumn(name = "procKey")
-	lateinit var processMst : ProcessMst_Kotlin
+	lateinit var processMst : ProcessMst
 	
-	fun getProcessMst():ProcessMst_Kotlin {
+	@JvmName("processMstGet")
+	fun getProcessMst():ProcessMst {
      return this.processMst
     }
 	
-    fun setProcessMst(processMst:ProcessMst_Kotlin) {
+    @JvmName("processMstSet")
+    fun setProcessMst(processMst:ProcessMst) {
       this.processMst = processMst
     }
 }

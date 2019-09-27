@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.scheduling.annotation.Scheduled
 
 @Component
-public class BWFScehduledTask_Kotlin {
+public class BWFScehduledTask {
 
 	/*
 	 * // FixedDelayScheduler() 실행완료 5초 후에 다음 FixedDelayScheduler()를 실행한다.

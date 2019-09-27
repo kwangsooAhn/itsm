@@ -7,18 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.jdbc.core.JdbcTemplate
 import javax.annotation.PostConstruct
-import co.brainz.framework.scheduling.model.ScheduleTask_Kotlin
+import co.brainz.framework.scheduling.model.ScheduleTask
 import java.util.concurrent.ScheduledFuture
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
-import co.brainz.framework.scheduling.repository.ScheduleTaskRepository_Kotlin
+import co.brainz.framework.scheduling.repository.ScheduleTaskRepository
 import java.util.TimeZone
 import org.springframework.scheduling.support.CronTrigger
 
 @Service
-public class ScheduleTaskService_Kotlin {
+public class ScheduleTaskService {
 	companion object {
-		private val logger = LoggerFactory.getLogger(ScheduleTaskService_Kotlin::class.java)
+		private val logger = LoggerFactory.getLogger(ScheduleTaskService::class.java)
 	}
 
 	@Autowired
@@ -28,7 +28,7 @@ public class ScheduleTaskService_Kotlin {
 	val taskMap: HashMap<Long?, ScheduledFuture<*>?> = hashMapOf<Long?, ScheduledFuture<*>?>()
 
 	@Autowired
-	lateinit var scheduleTaskRepository: ScheduleTaskRepository_Kotlin
+	lateinit var scheduleTaskRepository: ScheduleTaskRepository
 
 
 	@Autowired
@@ -47,7 +47,7 @@ public class ScheduleTaskService_Kotlin {
 	 * @param task TASK
 	 * @param taskInfo TASK 정보
 	 */
-	public fun addTaskToScheduler(id: Long, task: Runnable, taskInfo: ScheduleTask_Kotlin): Unit {
+	public fun addTaskToScheduler(id: Long, task: Runnable, taskInfo: ScheduleTask): Unit {
 		var scheduledTask: ScheduledFuture<*>? = null
 		when (taskInfo.executeCycleType) {
 			"fixedDelay" -> scheduledTask = scheduler.scheduleWithFixedDelay(task, taskInfo.executeCyclePeriod)
@@ -68,7 +68,7 @@ public class ScheduleTaskService_Kotlin {
 	 *
 	 * @param taskInfo TASK 정보
 	 */
-	fun addTaskToScheduler(taskInfo: ScheduleTask_Kotlin) {
+	public fun addTaskToScheduler(taskInfo: ScheduleTask) {
 		if ("query" == taskInfo.taskType) {
 			addTaskToScheduler(taskInfo.taskId, object : Runnable {
 				public override fun run() {
@@ -103,7 +103,7 @@ public class ScheduleTaskService_Kotlin {
 	@EventListener(ContextRefreshedEvent::class)
 	public fun contextRefreshedEvent(): Unit {
 
-		val scheduleTask : MutableList<ScheduleTask_Kotlin>
+		val scheduleTask : MutableList<ScheduleTask>
 		scheduleTask = scheduleTaskRepository.findAll()
 		scheduleTask.forEach({ list -> addTaskToScheduler(list) })
 	}
