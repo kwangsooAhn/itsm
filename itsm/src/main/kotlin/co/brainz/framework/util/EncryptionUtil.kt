@@ -20,8 +20,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public open class EncryptionUtil {
 
-	private var iv : String;
-	private var keySpec : Key;
+	private lateinit var iv : String
+	private lateinit var keySpec : Key
 	val password: String = "mh+fmWW2XCLwJvoL"
 
 	init {
