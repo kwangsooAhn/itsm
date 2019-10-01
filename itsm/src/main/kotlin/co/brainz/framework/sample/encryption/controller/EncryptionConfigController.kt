@@ -17,62 +17,65 @@ import co.brainz.framework.util.EncryptionUtil
 
 @PropertySource("classpath:/co/brainz/framework/sample/encryption/controller/Jasyptsample.properties")
 @RestController
-
 public class EncryptionConfigController {
-	
+
 	@Value("\${test.siteid}")
-    private lateinit var siteid : String
+	private lateinit var siteid: String
 	
 	@GetMapping("sample/encryption/jasypt")
-    public fun jasypt() : String{
-		
-	    var pbeEnc = StandardPBEStringEncryptor();
-		pbeEnc.setAlgorithm("PBEWithMD5AndDES"); // 사용할 알고리즘
-		pbeEnc.setPassword("mh+fmWW2XCLwJvoL"); // AliceE15001 암호화해서 16자리까지 출력해서 가져옴.
-		pbeEnc.setProviderName("SunJCE");
-		pbeEnc.setStringOutputType("base64");
-		
-		var enc : String = pbeEnc.encrypt("itsm");
-		println("enc = ${enc}")
-		var des : String = pbeEnc.decrypt(enc);
-		println("des = ${des}")
-		
-		var value : String = "암호화 문 : ENC(GBXlZ0zUUQZnTu5F5Vd9o8vr9jpLS/diUl8dUNZCb1U=)    복호화 문: ${siteid}"
-		return value
+	public fun jasypt(): String {
+		return siteid
 	}
-	
+
 	// 코틀린은 예외체크 처리를 하지 않는다.
 	// 예외 처리를 하고 싶다면 @Throws
-	@Throws(KeyException::class,NoSuchAlgorithmException::class,NoSuchPaddingException::class,InvalidAlgorithmParameterException::class,
-	       IllegalBlockSizeException::class, BadPaddingException::class,EncoderException::class)
+	@Throws(
+		KeyException::class,
+		NoSuchAlgorithmException::class,
+		NoSuchPaddingException::class,
+		InvalidAlgorithmParameterException::class,
+		IllegalBlockSizeException::class,
+		BadPaddingException::class,
+		EncoderException::class
+	)
 	@GetMapping("/sample/encryption/aes256")
-    public fun aes256( ) : String {
-		var enCodeValue : String? = null
-		var deCodeValue : String? = null
-		try{
-			val aes256 = EncryptionUtil();
-			enCodeValue = aes256.aesEncode("김!@#$%^&*()_+Abc1");
-			deCodeValue = aes256.aesDecode(enCodeValue);
-		} catch(e : UnsupportedEncodingException){
-			e.printStackTrace();
-		}
-		return "암호화 문 : $enCodeValue  복호화 문 : $deCodeValue"
-	}
-	
-	@Throws(KeyException::class,NoSuchAlgorithmException::class,NoSuchPaddingException::class,InvalidAlgorithmParameterException::class,
-	       IllegalBlockSizeException::class, BadPaddingException::class,EncoderException::class)
-    @GetMapping("/sample/encryption/sha512")
-    public fun sha256() : String {
-		var enCodeValue : String? = null
+	public fun aes256(): String {
+		var enCodeValue: String? = null
+		var deCodeValue: String? = null
+		var plainText = "김!@#$%^&*()_+Abc1"
 		
 		try {
+			val aes256 = EncryptionUtil();
+			enCodeValue = aes256.aesEncode(plainText);
+			deCodeValue = aes256.aesDecode(enCodeValue);
+		} catch (e: UnsupportedEncodingException) {
+			e.printStackTrace();
+		}
+
+		return "암호화 문 : $enCodeValue  복호화 문 : $deCodeValue"
+	}
+
+	@Throws(
+		KeyException::class,
+		NoSuchAlgorithmException::class,
+		NoSuchPaddingException::class,
+		InvalidAlgorithmParameterException::class,
+		IllegalBlockSizeException::class,
+		BadPaddingException::class,
+		EncoderException::class
+	)
+	@GetMapping("/sample/encryption/sha512")
+	public fun sha256(): String {
+		var enCodeValue: String? = null
+		var plainText = "김!@#$%^&*()_+Abc1"
+
+		try {
 			val sha512 = EncryptionUtil()
-			enCodeValue = sha512.shaEncode("김!@#$%^&*()_+Abc1")
-		}catch(e: UnsupportedEncodingException){
+			enCodeValue = sha512.shaEncode(plainText)
+		} catch (e: UnsupportedEncodingException) {
 			e.printStackTrace()
 		}
-			return "평문 : 김!@#$%^&*()_+Abc1  암호화 문 : $enCodeValue";
+
+		return "평문 : $plainText  암호화 문 : $enCodeValue";
 	}
 }
-
-

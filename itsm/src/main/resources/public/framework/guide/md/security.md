@@ -3,185 +3,277 @@
 
 ## 1. 개요
 
-BWF(Brainz Web Framework)에서는 데이터는 단방향(SHA-512), 양방향(AES-256) 암호화를 통해서 암호화 하고
-설정 파일 암호화는 Jasypt를 통해서 암호화 한다.
+- BWF(Brainz Web Framework)에서는 데이터는 단방향(SHA-512), 양방향(AES-256) 알고리즘을 통해서 암호화 한다.<br/>
+다만, 설정 파일 암호화는 Jasypt 라이브러리를 통해서 암호화 하고 PBEWithMD5AndDES 알고리즘을 사용한다.<br/>
 
 ## 2. jasypt 사용법
 
-- 설정 파일 : 
- - /itsm/src/main/kotlin/co/brainz/framework/util/JasyptConfig.java
-```
-package co.brainz.framework.util;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.jasypt.encryption.StringEncryptor;
-import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
-import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
-@Configuration
-public class JasyptConfig { 
-    @Bean("jasyptStringEncryptor")
-    public StringEncryptor stringEncryptor() {
-        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword("mh+fmWW2XCLwJvoL");  //AliceE15001 암호화해서 16자리까지 출력해서 가져옴.
-        // config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256"); //사용할 알고리즘. openjdk11버전으로
-        // 하면 사용 할 수 있다.
-        config.setAlgorithm("PBEWithMD5AndDES"); // 사용할 알고리즘
-        config.setKeyObtentionIterations("1000");
-        config.setPoolSize("1");
-        config.setProviderName("SunJCE");
-        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-        config.setStringOutputType("base64");
-        encryptor.setConfig(config);
-        return encryptor;
-    }
-}
-```
+- 설정 파일 : /itsm/src/main/kotlin/co/brainz/framework/security/Jasyptconfig.kt
+ ```java
+ package co.brainz.framework.security
 
-- 사용 방법 : 설정파일에서 ENC(.....)으로 데이터를 암호화 하고 해당 데이터를 가져올때 ${.....}으로 가져온다.
- - 샘플 페이지 <a href="../../../sample/encryption/jasypt" target="_blank">jasypt 샘플 페이지</a>
-  - /itsm/src/main/kotlin/co/brainz/framework/sample/encryption/controller/Jasyptsample.properties
+ import org.springframework.context.annotation.Bean;
+ import org.springframework.context.annotation.Configuration;
+ import org.jasypt.encryption.StringEncryptor;
+ import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+ import co.brainz.framework.security.SecurityConstant;
+
+ @Configuration
+ public open class JasyptConfig {
+
+    @Bean("jasyptStringEncryptor")
+    public open fun StringEncryptor(): StringEncryptor {
+
+        var key = SecurityConstant.keyValue
+        var encryptor: PooledPBEStringEncryptor = PooledPBEStringEncryptor()
+        var config: SimpleStringPBEConfig = SimpleStringPBEConfig()
+        config.setPassword(key)
+        // config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256")                    //사용할 알고리즘. openjdk11버전으로 하면 사용 할 수 있다.
+        config.setAlgorithm("PBEWithMD5AndDES")
+        config.setKeyObtentionIterations("1000")
+        config.setPoolSize("1")
+        config.setProviderName("SunJCE")                                        //암호화 알고리즘 제공자
+        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator") //slat 함수
+        config.setStringOutputType("base64")                                    //encoding 방법
+        encryptor.setConfig(config)
+
+        return encryptor
+    }
+ }
+ ```
+ 
+- 사용 방법 : properties 파일에서 암호화 하고 싶은 문장 암호화 한 후  ENC(암호화)으로 감싸고 해당 암호화문을 풀고 싶을때는 ${....}으로 사용한다.
 ```
 test.siteid=ENC(GBXlZ0zUUQZnTu5F5Vd9o8vr9jpLS/diUl8dUNZCb1U=)
-``` 
-  - /itsm/src/main/kotlin/co/brainz/framework/sample/encryption/controller/EncryptionConfigController.java
-```
-@PropertySource({ "classpath:/co/brainz/framework/sample/encryption/controller/Jasyptsample.properties" })
-@RestController
-public class EncryptionConfigController {
-    @Value("${test.siteid}")
-    private String siteid;
-    @GetMapping("/sample/encryption/jasypt")
-    public String jasypt() {
-        StandardPBEStringEncryptor pbeEnc = new StandardPBEStringEncryptor();
-        pbeEnc.setAlgorithm("PBEWithMD5AndDES"); // 사용할 알고리즘
-        pbeEnc.setPassword("mh+fmWW2XCLwJvoL"); // AliceE15001 암호화해서 16자리까지 출력해서 가져옴.
-        pbeEnc.setProviderName("SunJCE");
-        pbeEnc.setStringOutputType("base64");
-        // 사용 샘플
-        String enc = pbeEnc.encrypt("itsm"); // 암호화 할 내용
-        System.out.println("enc = " + enc); // 암호화 한 내용을 출력
-        String des = pbeEnc.decrypt(enc);
-        System.out.println("des = " + des);
-        String value = "암호화 문 : ENC(GBXlZ0zUUQZnTu5F5Vd9o8vr9jpLS/diUl8dUNZCb1U=)    복호화 문: " + siteid;
-        return value;
-    }
-}
-```
-- 참고 페이지
-  - [Jasypt 설정 페이지] (http://www.jasypt.org)
-  - [Spring Jasypt 설정 ] (https://www.jeejava.com/spring-enableencryptableproperties-with-jasypt/)
-   
-## 3. Data 암호화 방법
-  - 양방향 암호화 : 양방향 암호화는 사용자의 이메일처럼 다시 복호화가 필요할 경우 사용한다. - [AES-256]
-  - 단방향 암호화 : 단방향 암호화는 사용자 패스워드처럼 다시 복호화가 필요 없을 경우 사용한다.- [SHA-512]
-  - 설정 파일 : 
-    - /itsm/src/main/kotlin/co/brainz/framework/util/EncryptionUtil.java
-```
-package co.brainz.framework.util;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.context.annotation.Configuration;
-@Configuration
-public class EncryptionUtil {
-    private String iv;
-    private Key keySpec;
-    private String password = "mh+fmWW2XCLwJvoL";
-    public EncryptionUtil() throws UnsupportedEncodingException {
-        this.iv = password.substring(0, 16);
-        byte[] keyBytes = new byte[16];
-        byte[] b = password.getBytes("UTF-8");
-        int len = b.length;
-        if (len > keyBytes.length)
-            len = keyBytes.length;
-        System.arraycopy(b, 0, keyBytes, 0, len);
-        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
-        this.keySpec = keySpec;
-    }
-    // AES 256 암호화
-    public String aesEncode(String str)
-            throws java.io.UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException,
-            InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-        Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        c.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
-        byte[] encrypted = c.doFinal(str.getBytes("UTF-8"));
-        String enStr = new String(Base64.encodeBase64(encrypted));
-        return enStr;
-    }
-    //AES 256 복호화
-    public String aesDecode(String str)
-            throws java.io.UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException,
-            InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-        Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        c.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes("UTF-8")));
-        byte[] byteStr = Base64.decodeBase64(str.getBytes());
-        return new String(c.doFinal(byteStr), "UTF-8");
-    }
-    //SHA 512 암화
-    public String shaEncode(String str) {
-        String toReturn = null;
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-512");
-            digest.reset();
-            digest.update(str.getBytes("utf8"));
-            toReturn = String.format("%0128x", new BigInteger(1, digest.digest()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return toReturn;
-    }
-}
-```
- - 사용 방법
-      - 양방향 암호화 : aes256.aesEncode(...), 양방향 복호화 : aes256.aesDecode(...)
-       - AES256 암호화 샘플 페이지 <a href="../../../sample/encryption/aes256" target="_blank">AES256 암호화 샘플 페이지</a>
-```
-@GetMapping("/sample/encryption/aes256")
-public String aes256() throws KeyException, NoSuchAlgorithmException, NoSuchPaddingException,
-        InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, EncoderException {
-        String enCodeValue = "";
-        String deCodeValue = "";
-        try {
-            EncryptionUtil aes256 = new EncryptionUtil();
-    
-            enCodeValue = aes256.aesEncode("김!@#$%^&*()_+Abc1"); //암호화
-            deCodeValue = aes256.aesDecode(enCodeValue);         //복호화
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return "암호화 문 : " + enCodeValue + " 복호화 문 :" + deCodeValue;
-}
-```
-     - 단뱡항 암호화 : sha512.shaEncode(...)
-     - SHA512 암호화 샘플 페이지 <a href="../../../sample/encryption/sha512" target="_blank">SHA512 암호화 샘플 페이지</a>
-```
-@GetMapping("/sample/encryption/sha512")
-public String sha256() throws KeyException, NoSuchAlgorithmException, NoSuchPaddingException,
-        InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, EncoderException {
-        String enCodeValue = "";
-        try {
-            EncryptionUtil sha512 = new EncryptionUtil();
-            enCodeValue = sha512.shaEncode("김!@#$%^&*()_+Abc1");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return "평문 : 김!@#$%^&*()_+Abc1  암호화 문 :" + enCodeValue;
-}
+${test.siteid}
 ```
 
-## 3. 이슈사항
+- 샘플 소스 : /itsm/src/main/kotlin/co/brainz/framework/sample/encryption/controller/EncryptionConfigController.kt
+```java
+@PropertySource("classpath:/co/brainz/framework/sample/encryption/controller/Jasyptsample.properties")
+@RestController
+public class EncryptionConfigController {
+
+    @Value("\${test.siteid}")
+    private lateinit var siteid: String
+
+    @GetMapping("sample/encryption/jasypt")
+    public fun jasypt(): String {
+        return siteid
+    }
+}
+```
+- 암호화 방법 <br/>
+아래의 주소를 참고하여 인터넷 또는 파일서버로 해당 파일을 다운 받는다. 이후 압축을 풀고 jasypt-1.9.3/bin/ 폴더로 이동한다.
+```
+https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dist.zip
+\\fs\부서폴더\연구개발본부\개발2그룹\ITSM팀\Zenius ITSM\02.진행프로젝트\20150122_ITSM_V3.0.0\95.암호화
+```
+ - 암호화 사용방법 : encrypt.bat [ARGUMENTS] 또는 encrypt.sh [ARGUMENTS]
+   - 샘플 : <br/>
+```
+     encrypt.sh input="itsm" password=mh+fmWW2XCLwJvoL algorithm=PBEWithMD5AndDES keyObtentionIterations=1000 providerName=SunJCE  saltGeneratorClassName=org.jasypt.salt.RandomSaltGenerator stringOutputType=base64
+```
+   - 필수 파라미터: <br/>
+      input <br/>
+      password<br/>
+   - 옵션 파라미터: <br/>
+      verbose <br/>
+      algorithm <br/>
+      keyObtentionIterations <br/>
+      saltGeneratorClassName <br/>
+      providerName <br/>
+      providerClassName <br/>
+      stringOutputType <br/>
+      ivGeneratorClassName <br/>
+
+ - 복호화 사용방법 : decrypt.bat [ARGUMENTS] 또는 decrypt.sh [ARGUMENTS]
+   - 샘플 : <br/>
+```
+     decrypt.sh input="tENKegJdIi8+77YpahKKLg==" password=mh+fmWW2XCLwJvoL algorithm=PBEWithMD5AndDES keyObtentionIterations=1000 providerName=SunJCE  saltGeneratorClassName=org.jasypt.salt.RandomSaltGenerator stringOutputType=base64
+```
+   - 필수 파라미터: <br/>
+      input <br/>
+      password<br/>
+   - 옵션 파라미터: <br/>
+      verbose <br/>
+      algorithm <br/>
+      keyObtentionIterations <br/>
+      saltGeneratorClassName <br/>
+      providerName <br/>
+      providerClassName <br/>
+      stringOutputType <br/>
+      ivGeneratorClassName <br/>
+
+ - 사용가능한 알고리즘을 확인하려고 한다면  listAlgorithms.bat, listAlgorithms.sh 명령어를 통해서 확인 한다.
+
+- 참고 페이지 <br/>
+[Jasypt 설정 페이지] (http://www.jasypt.org) <br/>
+[Spring Jasypt 설정 ] (https://www.jeejava.com/spring-enableencryptableproperties-with-jasypt/)
+   
+
+## 3. Data 암호화 방법
+
+- 양방향 암호화 : 양방향 암호화는 사용자의 이메일처럼 다시 복호화가 필요할 경우 사용한다. - 현재는 [AES-256] 알고리즘을 사용한다. <br/>
+   단방향 암호화 : 단방향 암호화는 사용자 패스워드처럼 다시 복호화가 필요 없을 경우 사용한다.- 현재는 [SHA-512] 알고리즘을 사용한다. <br/>
+   설정 파일 : /itsm/src/main/kotlin/co/brainz/framework/util/EncryptionUtil.kt
+
+ ```java
+ package co.brainz.framework.util
+
+ import java.io.UnsupportedEncodingException;
+ import java.math.BigInteger;
+ import java.security.InvalidAlgorithmParameterException;
+ import java.security.InvalidKeyException;
+ import java.security.Key;
+ import java.security.MessageDigest;
+ import java.security.NoSuchAlgorithmException;
+ import javax.crypto.BadPaddingException;
+ import javax.crypto.Cipher;
+ import javax.crypto.IllegalBlockSizeException;
+ import javax.crypto.NoSuchPaddingException;
+ import javax.crypto.spec.IvParameterSpec;
+ import javax.crypto.spec.SecretKeySpec;
+
+ import org.apache.commons.codec.binary.Base64;
+ import org.springframework.context.annotation.Configuration;
+ import co.brainz.framework.security.SecurityConstant;
+
+ @Configuration
+ public open class EncryptionUtil {
+
+    private lateinit var iv: String
+    private lateinit var keySpec: Key
+
+    init {
+        var key = SecurityConstant.keyValue
+        this.iv = key.substring(0, 16)
+        var keyBytes = ByteArray(16)
+        var b = key.toByteArray(charset("UTF-8"))
+        var len: Int = b.size
+        if (len > keyBytes.size)
+            len = keyBytes.size
+        System.arraycopy(b, 0, keyBytes, 0, len)
+        val keySpec: SecretKeySpec = SecretKeySpec(keyBytes, "AES")
+        this.keySpec = keySpec
+    }
+
+    // AES 256 암호화
+    @Throws(
+        java.io.UnsupportedEncodingException::class,
+        NoSuchAlgorithmException::class,
+        NoSuchPaddingException::class,
+        InvalidKeyException::class,
+        InvalidAlgorithmParameterException::class,
+        IllegalBlockSizeException::class,
+        BadPaddingException::class
+    )
+    public fun aesEncode(str: String): String {
+
+        val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
+        c.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
+        val encrypted = c.doFinal(str.toByteArray(charset("UTF-8")))
+        val enStr = String(Base64.encodeBase64(encrypted))
+
+        return enStr
+    }
+
+    //AES 256 복호화
+    @Throws(
+        java.io.UnsupportedEncodingException::class,
+        NoSuchAlgorithmException::class,
+        NoSuchPaddingException::class,
+        InvalidKeyException::class,
+        InvalidAlgorithmParameterException::class,
+        IllegalBlockSizeException::class,
+        BadPaddingException::class
+    )
+    public fun aesDecode(str: String): String {
+
+        val c: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+        c.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray(charset("UTF-8"))))
+        val byteStr = Base64.decodeBase64(str.toByteArray())
+
+        return String(c.doFinal(byteStr), charset("UTF-8"))
+    }
+
+    //SHA 512 암호화
+    public fun shaEncode(str: String): String {
+
+        lateinit var toReturn: String
+        try {
+            var digest: MessageDigest = MessageDigest.getInstance("SHA-512")
+            digest.reset()
+            digest.update(str.toByteArray(charset("utf8")))
+            toReturn = String.format("%0128x", BigInteger(1, digest.digest()))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return toReturn
+    }
+ }
+ ```
+- 양방향 암호화 사용 방법 : 암호화 : aes256.aesEncode(...), 복호화 : aes256.aesDecode(...) <br/>
+     샘플 파일 : /itsm/src/main/kotlin/co/brainz/framework/sample/encryption/controller/EncryptionConfigController.kt <br/>
+```java
+    @Throws(
+        KeyException::class,
+        NoSuchAlgorithmException::class,
+        NoSuchPaddingException::class,
+        InvalidAlgorithmParameterException::class,
+        IllegalBlockSizeException::class,
+        BadPaddingException::class,
+        EncoderException::class
+    )
+    @GetMapping("/sample/encryption/aes256")
+    public fun aes256(): String {
+
+        var enCodeValue: String? = null
+        var deCodeValue: String? = null
+        var plainText = "김!@#$%^&*()_+Abc1"
+        
+        try {
+            val aes256 = EncryptionUtil();
+            enCodeValue = aes256.aesEncode(plainText);
+            deCodeValue = aes256.aesDecode(enCodeValue);
+        } catch (e: UnsupportedEncodingException) {
+            e.printStackTrace();
+        }
+
+        return "암호화 문 : $enCodeValue  복호화 문 : $deCodeValue"
+    }
+```
+- 단뱡항 암호화 사용 방법 : sha512.shaEncode(...) <br/>
+     샘플파일 : /itsm/src/main/kotlin/co/brainz/framework/sample/encryption/controller/EncryptionConfigController.kt
+```java
+    @Throws(
+        KeyException::class,
+        NoSuchAlgorithmException::class,
+        NoSuchPaddingException::class,
+        InvalidAlgorithmParameterException::class,
+        IllegalBlockSizeException::class,
+        BadPaddingException::class,
+        EncoderException::class
+    )
+    @GetMapping("/sample/encryption/sha512")
+    public fun sha256(): String {
+        var enCodeValue: String? = null
+        var plainText = "김!@#$%^&*()_+Abc1"
+        
+        try {
+            val sha512 = EncryptionUtil()
+            enCodeValue = sha512.shaEncode(plainText)
+        } catch (e: UnsupportedEncodingException) {
+            e.printStackTrace()
+        }
+
+        return "평문 : 김!@#$%^&*()_+Abc1  암호화 문 : $enCodeValue";
+    }
+```
+
+## 4. 이슈사항
 
 - 암호화 시 암호화 Key 값을 어떻게 설정 할 것인가?
  - 소스상에 암호화 Key 암호화 키를 넣는다. (현재 적용 함.)
