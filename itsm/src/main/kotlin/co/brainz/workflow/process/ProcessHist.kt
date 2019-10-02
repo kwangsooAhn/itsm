@@ -13,26 +13,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "wfProcHist")
 public data class ProcessHist(
-	@Id var procId : String,
+	@Id var procId : String? = null,
     @Column(name = "procVersion") var procVersion : String? = null,
-    @Column(name = "procStatus") var procStatus : String ? = null
-     ) : Serializable {
+    @Column(name = "procStatus") var procStatus : String? = null,
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [(CascadeType.ALL)], targetEntity=ProcessMst::class) @JoinColumn(name = "procKey") var processMst : ProcessMst? = null
+    ) : Serializable {
 	
 	companion object {
 		private final val serialVersionUID : Long = -2343243243242432341L;
 	}
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = [(CascadeType.ALL)], targetEntity=ProcessMst::class)
-    @JoinColumn(name = "procKey")
-	lateinit var processMst : ProcessMst
-	
-	@JvmName("processMstGet")
-	fun getProcessMst():ProcessMst {
-     return this.processMst
-    }
-	
-    @JvmName("processMstSet")
-    fun setProcessMst(processMst:ProcessMst) {
-      this.processMst = processMst
-    }
 }

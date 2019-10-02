@@ -1,24 +1,16 @@
 package co.brainz.itsm.serviceRequest
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import co.brainz.workflow.assignee.Assignee;
 import co.brainz.workflow.process.ProcessHist;
 import co.brainz.workflow.process.ProcessHistRepository;
 import co.brainz.workflow.process.ProcessMstRepository;
-import org.slf4j.LoggerFactory
 import co.brainz.workflow.process.ProcessMst;
+import org.springframework.stereotype.Service
 
-@Repository(value = "serviceRequestService")
+@Service
 public open class ServiceRequestService {
 	
-	companion object {
-	private val logger = LoggerFactory.getLogger(ServiceRequestService::class.java)
-	}
-	
-	fun Logging() : Unit{
-		logger.info("INFO{ }","ServiceRequestService")
-	}
 	 @Autowired
      lateinit var processHistRepository : ProcessHistRepository
 	
