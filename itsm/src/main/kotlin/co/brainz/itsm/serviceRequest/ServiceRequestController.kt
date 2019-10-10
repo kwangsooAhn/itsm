@@ -24,7 +24,7 @@ class ServiceRequestController {
 	@Resource(name = "serviceRequestService")
     private lateinit var serviceRequestService : ServiceRequestService
 	
-	@GetMapping("/processList")
+	//@GetMapping("/processList")
     public fun serviceRequest(model : Model) : String {
 		
 	    serviceRequestService.setData();
