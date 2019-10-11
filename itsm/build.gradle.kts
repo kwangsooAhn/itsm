@@ -42,6 +42,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	compile("org.apache.logging.log4j:log4j-web:2.7")
 	compile("com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.1")
+	compile("net.rakugakibox.util:yaml-resource-bundle:1.1")
 	compile("commons-codec:commons-codec:1.13")
 }
 

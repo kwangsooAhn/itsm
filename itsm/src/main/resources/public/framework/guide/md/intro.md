@@ -24,7 +24,7 @@ BWF는 SpringBoot기반의 웹 어플리케이션이며 기본 골격은 그대�
 
 #### 2) 패키지 구조
 
-스프링부트 동작의 시작점, **@SpringBootApplication** 이 선언된 클랙스는 Framework의 최상위에 위치한다.  
+스프링부트 동작의 시작점, **@SpringBootApplication** 이 선언된 클래스는 Framework의 최상위에 위치한다.  
 기본적으로 BWF에는 WebframeworkApplication이라는 이름으로 작성되어 있으나 프로젝트 시작 시 변경이 필요하다.   
   
 BWF에서 제공하는 클래스들은 모두 _com.brainz.framework_ 패키지 하위에 존재한다.
