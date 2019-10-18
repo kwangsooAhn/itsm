@@ -18,15 +18,15 @@ $(document).ready(function() {
 <body>
 <h1 th:text="#{welcome}"></h1>
 <br />
-<span th:text="#{lang.change}"></span>:
+<strong><h2 th:text="#{lang.change}"></h2>:</strong>
 <select id="locales">
     <option value="" th:text="#{lang.select}"></option>
     <option value="ko" th:text="#{lang.ko}"></option>
     <option value="en" th:text="#{lang.en}"></option>
 </select>
-
+<br />
+<br />
 <h3 th:text="#{test.title}"></h3>
-
 <!-- 메시지에 추가할 파라미터는 괄호 안에 작성한다. -->
 <h4 th:text="#{test.msg1(#{test.first})}"></h4>
 <h4 th:text="#{test.msg2(#{test.one}, #{test.first})}"></h4>
