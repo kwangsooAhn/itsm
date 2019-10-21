@@ -39,6 +39,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.boot:spring-boot-devtools")
 	implementation("net.rakugakibox.util:yaml-resource-bundle:1.1")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	compile("org.apache.logging.log4j:log4j-web:2.7")
