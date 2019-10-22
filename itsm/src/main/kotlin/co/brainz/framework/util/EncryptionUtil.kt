@@ -47,7 +47,7 @@ public open class EncryptionUtil {
 		IllegalBlockSizeException::class,
 		BadPaddingException::class
 	)
-	public fun aesEncode(str: String): String {
+	public fun enCodeAES256(str: String): String {
 		
 		val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
 		c.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
@@ -67,7 +67,7 @@ public open class EncryptionUtil {
 		IllegalBlockSizeException::class,
 		BadPaddingException::class
 	)
-	public fun aesDecode(str: String): String {
+	public fun deCodeAES256(str: String): String {
 		
 		val c: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
 		c.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray(charset("UTF-8"))))
@@ -77,7 +77,7 @@ public open class EncryptionUtil {
 	}
 
 	//SHA 512 암호화
-	public fun shaEncode(str: String): String {
+	public fun enCodeSHA512(str: String): String {
 		
 		lateinit var toReturn: String
 		try {

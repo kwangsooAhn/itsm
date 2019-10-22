@@ -46,8 +46,8 @@ public class EncryptionConfigController {
 		
 		try {
 			val aes256 = EncryptionUtil();
-			enCodeValue = aes256.aesEncode(plainText);
-			deCodeValue = aes256.aesDecode(enCodeValue);
+			enCodeValue = aes256.enCodeAES256(plainText);
+			deCodeValue = aes256.deCodeAES256(enCodeValue);
 		} catch (e: UnsupportedEncodingException) {
 			e.printStackTrace();
 		}
@@ -71,7 +71,7 @@ public class EncryptionConfigController {
 
 		try {
 			val sha512 = EncryptionUtil()
-			enCodeValue = sha512.shaEncode(plainText)
+			enCodeValue = sha512.enCodeSHA512(plainText)
 		} catch (e: UnsupportedEncodingException) {
 			e.printStackTrace()
 		}

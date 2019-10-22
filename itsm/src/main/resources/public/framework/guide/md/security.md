@@ -43,12 +43,9 @@
  }
  ```
  
-- 사용 방법 : properties 파일에서 암호화 하고 싶은 문장 암호화 한 후  ENC(암호화)으로 감싸고 해당 암호화문을 풀고 싶을때는 ${....}으로 사용한다.
-```
-test.siteid=ENC(GBXlZ0zUUQZnTu5F5Vd9o8vr9jpLS/diUl8dUNZCb1U=)
-${test.siteid}
-```
-
+- 사용 방법 : properties 파일에서 암호화 하고 싶은 문장 암호화 한 후  ENC(암호화)으로 감싸고 해당 암호화문을 풀고 싶을때는 ${....}으로 사용한다. <br/>
+  test.siteid=ENC(GBXlZ0zUUQZnTu5F5Vd9o8vr9jpLS/diUl8dUNZCb1U=)<br/>
+  ${test.siteid}
 - 샘플 소스 : /itsm/src/main/kotlin/co/brainz/framework/sample/encryption/controller/EncryptionConfigController.kt
 ```java
 @PropertySource("classpath:/co/brainz/framework/sample/encryption/controller/Jasyptsample.properties")
@@ -65,11 +62,10 @@ public class EncryptionConfigController {
 }
 ```
 - 암호화 방법 <br/>
-아래의 주소를 참고하여 인터넷 또는 파일서버로 해당 파일을 다운 받는다. 이후 압축을 풀고 jasypt-1.9.3/bin/ 폴더로 이동한다.
-```
-https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dist.zip
+아래의 주소를 참고하여 인터넷 또는 파일서버로 해당 파일을 다운 받는다. 이후 압축을 풀고 jasypt-1.9.3/bin/ 폴더로 이동한다. <br/>
+https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dist.zip <br/>
 \\fs\부서폴더\연구개발본부\개발2그룹\ITSM팀\Zenius ITSM\02.진행프로젝트\20150122_ITSM_V3.0.0\95.암호화
-```
+
  - 암호화 사용방법 : encrypt.bat [ARGUMENTS] 또는 encrypt.sh [ARGUMENTS]
    - 샘플 : <br/>
 ```
@@ -78,15 +74,7 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
    - 필수 파라미터: <br/>
       input <br/>
       password<br/>
-   - 옵션 파라미터: <br/>
-      verbose <br/>
-      algorithm <br/>
-      keyObtentionIterations <br/>
-      saltGeneratorClassName <br/>
-      providerName <br/>
-      providerClassName <br/>
-      stringOutputType <br/>
-      ivGeneratorClassName <br/>
+   - 옵션 파라미터 관련해서는 Jasypt 홈페이지(http://www.jasypt.org) 를 참조한다.
 
  - 복호화 사용방법 : decrypt.bat [ARGUMENTS] 또는 decrypt.sh [ARGUMENTS]
    - 샘플 : <br/>
@@ -96,20 +84,11 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
    - 필수 파라미터: <br/>
       input <br/>
       password<br/>
-   - 옵션 파라미터: <br/>
-      verbose <br/>
-      algorithm <br/>
-      keyObtentionIterations <br/>
-      saltGeneratorClassName <br/>
-      providerName <br/>
-      providerClassName <br/>
-      stringOutputType <br/>
-      ivGeneratorClassName <br/>
+   - 옵션 파라미터 관련해서는 Jasypt 홈페이지(http://www.jasypt.org) 를 참조한다.
 
  - 사용가능한 알고리즘을 확인하려고 한다면  listAlgorithms.bat, listAlgorithms.sh 명령어를 통해서 확인 한다.
 
 - 참고 페이지 <br/>
-[Jasypt 설정 페이지] (http://www.jasypt.org) <br/>
 [Spring Jasypt 설정 ] (https://www.jeejava.com/spring-enableencryptableproperties-with-jasypt/)
    
 
@@ -169,7 +148,7 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         IllegalBlockSizeException::class,
         BadPaddingException::class
     )
-    public fun aesEncode(str: String): String {
+    public fun enCodeAES256(str: String): String {
 
         val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
         c.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
@@ -189,7 +168,7 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         IllegalBlockSizeException::class,
         BadPaddingException::class
     )
-    public fun aesDecode(str: String): String {
+    public fun deCodeAES256(str: String): String {
 
         val c: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
         c.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray(charset("UTF-8"))))
@@ -199,7 +178,7 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
     }
 
     //SHA 512 암호화
-    public fun shaEncode(str: String): String {
+    public fun enCodeSHA512(str: String): String {
 
         lateinit var toReturn: String
         try {
@@ -236,8 +215,8 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         
         try {
             val aes256 = EncryptionUtil();
-            enCodeValue = aes256.aesEncode(plainText);
-            deCodeValue = aes256.aesDecode(enCodeValue);
+            enCodeValue = aes256.enCodeAES256(plainText);
+            deCodeValue = aes256.deCodeAES256(enCodeValue);
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace();
         }
@@ -264,7 +243,7 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         
         try {
             val sha512 = EncryptionUtil()
-            enCodeValue = sha512.shaEncode(plainText)
+            enCodeValue = sha512.enCodeSHA512(plainText)
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
         }
