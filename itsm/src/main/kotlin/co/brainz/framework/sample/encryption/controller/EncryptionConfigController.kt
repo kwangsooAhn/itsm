@@ -38,16 +38,16 @@ public class EncryptionConfigController {
 		BadPaddingException::class,
 		EncoderException::class
 	)
-	@GetMapping("/sample/encryption/aes256")
-	public fun aes256(): String {
+	@GetMapping("/sample/encryption/twoWay")
+	public fun encryptionTwoWay(): String {
 		var enCodeValue: String? = null
 		var deCodeValue: String? = null
 		var plainText = "김!@#$%^&*()_+Abc1"
-		
+
 		try {
-			val aes256 = EncryptionUtil();
-			enCodeValue = aes256.enCodeAES256(plainText);
-			deCodeValue = aes256.deCodeAES256(enCodeValue);
+			val encryption = EncryptionUtil()
+			enCodeValue = encryption.twoWayEnCode(plainText)
+			deCodeValue = encryption.twoWayDeCode(enCodeValue)
 		} catch (e: UnsupportedEncodingException) {
 			e.printStackTrace();
 		}
@@ -64,18 +64,18 @@ public class EncryptionConfigController {
 		BadPaddingException::class,
 		EncoderException::class
 	)
-	@GetMapping("/sample/encryption/sha512")
-	public fun sha256(): String {
+	@GetMapping("/sample/encryption/oneWay")
+	public fun encryptionOneWay(): String {
 		var enCodeValue: String? = null
 		var plainText = "김!@#$%^&*()_+Abc1"
 
 		try {
-			val sha512 = EncryptionUtil()
-			enCodeValue = sha512.enCodeSHA512(plainText)
+			val encryption = EncryptionUtil()
+			enCodeValue = encryption.oneWayEnCode(plainText)
 		} catch (e: UnsupportedEncodingException) {
 			e.printStackTrace()
 		}
 
-		return "평문 : $plainText  암호화 문 : $enCodeValue";
+		return "평문 : $plainText  암호화 문 : $enCodeValue"
 	}
 }

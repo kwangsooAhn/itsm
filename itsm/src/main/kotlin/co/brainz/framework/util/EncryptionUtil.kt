@@ -23,7 +23,9 @@ public open class EncryptionUtil {
 
 	private lateinit var iv: String
 	private lateinit var keySpec: Key
-
+	private val twoWayAlgorithm: String = "aes256"
+	private val oneWayAlgorithm: String = "sha512"
+	
 	init {
 		var key = SecurityConstant.keyValue
 		this.iv = key.substring(0, 16)
@@ -37,6 +39,39 @@ public open class EncryptionUtil {
 		this.keySpec = keySpec
 	}
 
+	//양방향  암호화 
+	public fun twoWayEnCode(str: String): String {
+		var enStr: String = ""
+		if (str != "") {
+			if (twoWayAlgorithm == "aes256") {
+				enStr = enCodeAES256(str)
+			}
+		}
+		return enStr
+	}
+	
+	//양방향  복호화
+	public fun twoWayDeCode(str: String): String {
+		var deStr: String = ""
+		if (str != "") {
+			if (twoWayAlgorithm == "aes256") {
+				deStr = deCodeAES256(str)
+			}
+		}
+		return deStr
+	}
+	
+	//단항향 암호화
+	public fun oneWayEnCode(str: String): String {
+		var enStr: String = ""
+		if (str != "") {
+			if (oneWayAlgorithm == "sha512") {
+				enStr = enCodeSHA512(str)
+			}
+		}
+		return enStr
+	}
+	
 	// AES 256 암호화
 	@Throws(
 		java.io.UnsupportedEncodingException::class,
@@ -47,7 +82,7 @@ public open class EncryptionUtil {
 		IllegalBlockSizeException::class,
 		BadPaddingException::class
 	)
-	public fun enCodeAES256(str: String): String {
+	private fun enCodeAES256(str: String): String {
 		
 		val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
 		c.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
@@ -67,7 +102,7 @@ public open class EncryptionUtil {
 		IllegalBlockSizeException::class,
 		BadPaddingException::class
 	)
-	public fun deCodeAES256(str: String): String {
+	private fun deCodeAES256(str: String): String {
 		
 		val c: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
 		c.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray(charset("UTF-8"))))
@@ -77,7 +112,7 @@ public open class EncryptionUtil {
 	}
 
 	//SHA 512 암호화
-	public fun enCodeSHA512(str: String): String {
+	private fun enCodeSHA512(str: String): String {
 		
 		lateinit var toReturn: String
 		try {

@@ -124,7 +124,9 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
 
     private lateinit var iv: String
     private lateinit var keySpec: Key
-
+    private val twoWayAlgorithm: String = "aes256"
+    private val oneWayAlgorithm: String = "sha512"
+    
     init {
         var key = SecurityConstant.keyValue
         this.iv = key.substring(0, 16)
@@ -138,6 +140,39 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         this.keySpec = keySpec
     }
 
+    //양방향  암호화 
+    public fun twoWayEnCode(str: String): String {
+        var enStr: String = ""
+        if (str != "") {
+            if (twoWayAlgorithm == "aes256") {
+                enStr = enCodeAES256(str)
+            }
+        }
+        return enStr
+    }
+    
+    //양방향  복호화
+    public fun twoWayDeCode(str: String): String {
+        var deStr: String = ""
+        if (str != "") {
+            if (twoWayAlgorithm == "aes256") {
+                deStr = deCodeAES256(str)
+            }
+        }
+        return deStr
+    }
+    
+    //단항향 암호화
+    public fun oneWayEnCode(str: String): String {
+        var enStr: String = ""
+        if (str != "") {
+            if (oneWayAlgorithm == "sha512") {
+                enStr = enCodeSHA512(str)
+            }
+        }
+        return enStr
+    }
+    
     // AES 256 암호화
     @Throws(
         java.io.UnsupportedEncodingException::class,
@@ -148,13 +183,13 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         IllegalBlockSizeException::class,
         BadPaddingException::class
     )
-    public fun enCodeAES256(str: String): String {
-
+    private fun enCodeAES256(str: String): String {
+        
         val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
         c.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
         val encrypted = c.doFinal(str.toByteArray(charset("UTF-8")))
         val enStr = String(Base64.encodeBase64(encrypted))
-
+        
         return enStr
     }
 
@@ -168,18 +203,18 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         IllegalBlockSizeException::class,
         BadPaddingException::class
     )
-    public fun deCodeAES256(str: String): String {
-
+    private fun deCodeAES256(str: String): String {
+        
         val c: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
         c.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray(charset("UTF-8"))))
         val byteStr = Base64.decodeBase64(str.toByteArray())
-
+        
         return String(c.doFinal(byteStr), charset("UTF-8"))
     }
 
     //SHA 512 암호화
-    public fun enCodeSHA512(str: String): String {
-
+    private fun enCodeSHA512(str: String): String {
+        
         lateinit var toReturn: String
         try {
             var digest: MessageDigest = MessageDigest.getInstance("SHA-512")
@@ -189,12 +224,13 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
+        
         return toReturn
     }
  }
+
  ```
-- 양방향 암호화 사용 방법 : 암호화 : aes256.aesEncode(...), 복호화 : aes256.aesDecode(...) <br/>
+- 양방향 암호화 사용 방법 : 암호화 : twoWayEnCode(...), 복호화 : twoWayDeCode(...) <br/>
      샘플 파일 : /itsm/src/main/kotlin/co/brainz/framework/sample/encryption/controller/EncryptionConfigController.kt <br/>
 ```java
     @Throws(
@@ -206,17 +242,16 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         BadPaddingException::class,
         EncoderException::class
     )
-    @GetMapping("/sample/encryption/aes256")
-    public fun aes256(): String {
-
+    @GetMapping("/sample/encryption/twoWay")
+    public fun encryptionTwoWay(): String {
         var enCodeValue: String? = null
         var deCodeValue: String? = null
         var plainText = "김!@#$%^&*()_+Abc1"
-        
+
         try {
-            val aes256 = EncryptionUtil();
-            enCodeValue = aes256.enCodeAES256(plainText);
-            deCodeValue = aes256.deCodeAES256(enCodeValue);
+            val encryption = EncryptionUtil()
+            enCodeValue = encryption.twoWayEnCode(plainText)
+            deCodeValue = encryption.twoWayDeCode(enCodeValue)
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace();
         }
@@ -224,7 +259,7 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         return "암호화 문 : $enCodeValue  복호화 문 : $deCodeValue"
     }
 ```
-- 단뱡항 암호화 사용 방법 : sha512.shaEncode(...) <br/>
+- 단뱡항 암호화 사용 방법 : oneWayEnCode(...) <br/>
      샘플파일 : /itsm/src/main/kotlin/co/brainz/framework/sample/encryption/controller/EncryptionConfigController.kt
 ```java
     @Throws(
@@ -236,19 +271,19 @@ https://github.com/jasypt/jasypt/releases/download/jasypt-1.9.3/jasypt-1.9.3-dis
         BadPaddingException::class,
         EncoderException::class
     )
-    @GetMapping("/sample/encryption/sha512")
-    public fun sha256(): String {
+    @GetMapping("/sample/encryption/oneWay")
+    public fun encryptionOneWay(): String {
         var enCodeValue: String? = null
         var plainText = "김!@#$%^&*()_+Abc1"
-        
+
         try {
-            val sha512 = EncryptionUtil()
-            enCodeValue = sha512.enCodeSHA512(plainText)
+            val encryption = EncryptionUtil()
+            enCodeValue = encryption.oneWayEnCode(plainText)
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
         }
 
-        return "평문 : 김!@#$%^&*()_+Abc1  암호화 문 : $enCodeValue";
+        return "평문 : $plainText  암호화 문 : $enCodeValue"
     }
 ```
 
