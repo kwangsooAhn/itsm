@@ -30,9 +30,9 @@ class I18nController {
     lateinit var LocaleChangeInterceptor : LocaleChangeInterceptor
     
     // 테스트 페이지 링크
-    @RequestMapping("/template/i18nTest")
-    public fun I18nSample() : String {
-        return "i18nTest"
+    @RequestMapping("/sample/sampleI18n")
+    public fun sampleI18n() : String {
+        return "../sample/sampleI18n"
     }
     
 }
