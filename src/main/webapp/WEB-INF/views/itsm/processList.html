@@ -1,0 +1,25 @@
+<div>
+<table class="list">
+    <colgroup>
+        <col width="20%">
+        <col width="15%">
+        <col width="50%">
+        <col width="15%">
+    </colgroup>
+    <tbody>
+	    <tr>
+	        <th> Process Name </th>
+		    <th> Process Key </th>
+		    <th> Process ID  </th>
+		    <th> Process Version </th>
+	    </tr>
+	    <tr th:each = "process : ${processList}">
+	        <!-- <td th:text="${process.processMst.procName}"><a th:href="@{/workflow/writeCustomerRequest}">process name</a></td> -->
+	        <td><a th:href="@{/writeCustomerRequest}"><span th:text="${process.processMst.procName}">process name<span></a></td>
+	        <td th:text="${process.processMst.procKey}">process key</td>
+	        <td th:text="${process.procId}">process id </td>
+	        <td th:text="${process.procVersion}">process version</td>
+	    </tr>
+    </tbody>
+</table>
+</div>

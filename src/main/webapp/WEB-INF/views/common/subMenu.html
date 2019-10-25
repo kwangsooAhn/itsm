@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="css/itsm.css">
+</head>
+<body>
+	<div class="subMenu">
+		<table>
+			<tbody>
+				<tr th:each="subMenu : ${subMenuList}">
+					<td style="padding-bottom: 30px" th:text="${subMenu.msgCode}">message code</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

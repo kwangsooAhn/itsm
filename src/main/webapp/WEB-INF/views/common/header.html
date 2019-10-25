@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="css/itsm.css">
+</head>
+<body>
+	<div class="topMenu">
+		<table>
+			<tbody>
+				<tr>
+					<td><a style="padding-right: 30px" th:href="@{'/processList?menuId=' + ${menu.msgCode}}" th:each="menu : ${menuList}" th:text="${menu.msgCode}">message code</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
