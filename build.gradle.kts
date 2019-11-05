@@ -3,14 +3,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.1.7.RELEASE"
 	id("io.spring.dependency-management") version "1.0.8.RELEASE"
-	kotlin("jvm") version "1.2.71"
-	kotlin("plugin.spring") version "1.2.71"
-	kotlin("plugin.jpa") version "1.2.71"
+	kotlin("jvm") version "1.3.50"
+	kotlin("plugin.spring") version "1.3.50"
+	kotlin("plugin.jpa") version "1.3.50"
 }
 
 group = "co.brainz"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 val developmentOnly by configurations.creating
 configurations {
@@ -42,14 +42,17 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	compile("org.apache.logging.log4j:log4j-web:2.7")
-	compile("com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.1")
-	compile("commons-codec:commons-codec:1.13")
+	implementation("org.apache.logging.log4j:log4j-web:2.7")
+	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2")
+	implementation("commons-codec:commons-codec:1.13")
+	implementation("org.apache.tika:tika-core:1.22")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
 }
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "1.8"
+		jvmTarget = "11"
 	}
 }
