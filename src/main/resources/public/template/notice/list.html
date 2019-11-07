@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	th:href="@{/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+</head>
+<body>
+	<br />
+	<br />
+
+	<div class="container">
+		<div class="pull-right" style= "width: 1100px; margin: 10px 0;">
+			<input type="checkbox" name="checkbox" value="checkbox" />제목 
+			<input type="checkbox" name="checkbox1" value="checkbox1" />작성자 
+			<input	type="text" name="search">
+			<button type="submit" onclick="">검색</button>
+			<input type="text" name="calendar" value = "">~
+			<input type="text" name="calendar1" value = "">
+			<button type="button" style="text-align:left; float:right;" onclick="location.href='notice/form'">등록</button>
+		</div>
+		<div>
+			<table class="table table-hover" style="text-align: center">
+				<colgroup>
+					<col width="10%">
+					<col width="40%">
+					<col width="10%">
+					<col width="20%">
+					<col width="20%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th></th>
+						<th>제목</th>
+						<th>팝업</th>
+						<th>작성자</th>
+						<th>등록일시</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="notice : ${noticeList}">
+						<td th:text="${notice.topNoticeYn}"></td>
+						<td th:text="${notice.noticeTitle}"></td>
+						<td th:text="${notice.popYn}"></td>
+						<td th:text="${notice.createUserid}"></td>
+						<td
+							th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
