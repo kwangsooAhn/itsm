@@ -10,14 +10,17 @@
 	<br />
 
 	<div class="container">
-		<div class="pull-right" style= "width: 1100px; margin: 10px 0;">
-			<input type="checkbox" name="checkbox" value="checkbox" />제목 
-			<input type="checkbox" name="checkbox1" value="checkbox1" />작성자 
-			<input	type="text" name="search">
+		<div class="pull-right" style="width: 1100px; margin: 10px 0;">
+			<input type="checkbox" name="checkbox" value="checkbox" />제목 <input
+				type="checkbox" name="checkbox1" value="checkbox1" />작성자 <input
+				type="text" name="search"> <input type="text"
+				name="calendar" value=""> <img
+				src="images/icons/icon_calendar.png" /> ~ <input type="text"
+				name="calendar1" value=""> <img
+				src="images/icons/icon_calendar.png" />
 			<button type="submit" onclick="">검색</button>
-			<input type="text" name="calendar" value = "">~
-			<input type="text" name="calendar1" value = "">
-			<button type="button" style="text-align:left; float:right;" onclick="location.href='notice/form'">등록</button>
+			<button type="button" style="text-align: left; float: right;"
+				onclick="location.href='notice/form'">등록</button>
 		</div>
 		<div>
 			<table class="table table-hover" style="text-align: center">
@@ -38,11 +41,25 @@
 					</tr>
 				</thead>
 				<tbody>
+					<tr th:each="topNotice : ${topNoticeList}">
+						<td th:if="${topNotice.topNoticeYn} == true"><img
+							src="images/icons/icon_notice.gif"></td>
+						<td th:unless="${topNotice.topNoticeYn} == true"></td>
+						<td th:text="${topNotice.noticeTitle}"></td>
+						<td th:if="${topNotice.popYn} == true "><img
+							src="images/icons/icon_pop.gif"></td>
+						<td th:unless="${topNotice.popYn} == true "></td>
+						<td th:text="${topNotice.createUserid}"></td>
+						<td
+							th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
+					</tr>
 					<tr th:each="notice : ${noticeList}">
-						<td th:text="${notice.topNoticeYn}"></td>
-						<td th:text="${notice.noticeTitle}"></td>
-						<td th:text="${notice.popYn}"></td>
-						<td th:text="${notice.createUserid}"></td>
+						<td id="topNoticeYn"></td>
+						<td id="noticeTitle" th:text="${notice.noticeTitle}"></td>
+						<td th:if="${notice.popYn} == true "><img
+							src="images/icons/icon_pop.gif"></td>
+						<td th:unless="${notice.popYn} == true "></td>
+						<td id="createUserid" th:text="${notice.createUserid}"></td>
 						<td
 							th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
 					</tr>
@@ -50,5 +67,16 @@
 			</table>
 		</div>
 	</div>
+
+	<script src="../../vendor/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+	<script th:inline="javascript">
+		$(document).ready(function() {
+	
+			/*<![CDATA[*/
+			var test = /*[[${noticeList}]]*/
+
+			/*]]>*/
+		})
+	</script>
 </body>
 </html>

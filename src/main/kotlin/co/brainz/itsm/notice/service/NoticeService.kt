@@ -20,7 +20,13 @@ public open class NoticeService {
 	@Autowired
     lateinit var noticeRepository : NoticeRepository
 	
+	// 공지사항 전체 게시물
 	public fun findNoticeList() : MutableList<Notice> {
 		return noticeRepository.findAll()
 	}
+	// 상단 설정 공지사항 게시물
+	public fun findTopNoticeList() : MutableList<Notice>{
+		return noticeRepository.findTopNoticeList()
+	}
+	
 }
