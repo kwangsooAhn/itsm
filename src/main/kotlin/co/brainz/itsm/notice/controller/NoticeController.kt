@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestParam
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/notice")
@@ -30,7 +31,10 @@ public class NoticeController {
 
 	
 	@GetMapping("","/")
-	public fun list(model: Model): String {
+	public fun list(request : HttpServletRequest, model: Model): String {
+		System.out.println("request" + request)
+		System.out.println("test2 "+request.getParameter("keyword"))
+	
 		// 전체 공지사항 게시물
 		model.addAttribute("noticeList", noticeService.findNoticeList())
 		// 상단 설정 공지사항 게시물
