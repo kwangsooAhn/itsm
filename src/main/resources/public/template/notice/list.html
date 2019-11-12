@@ -55,7 +55,7 @@
 						<td th:if="${topNotice.topNoticeYn} == true"><img
 							src="images/icons/icon_notice.gif"></td>
 						<td th:unless="${topNotice.topNoticeYn} == true"></td>
-						<td th:text="${topNotice.noticeTitle}"></td>
+						<td th:text="${topNotice.noticeTitle}" style="text-align:left"></td>
 						<td th:if="${topNotice.popYn} == true "><img
 							src="images/icons/icon_pop.gif"></td>
 						<td th:unless="${topNotice.popYn} == true "></td>
@@ -65,7 +65,7 @@
 					</tr>
 					<tr th:each="notice : ${noticeList}">
 						<td id="topNoticeYn"></td>
-						<td id="noticeTitle" th:text="${notice.noticeTitle}"></td>
+						<td id="noticeTitle" th:text="${notice.noticeTitle}" style="text-align:left"></td>
 						<td th:if="${notice.popYn} == true "><img
 							src="images/icons/icon_pop.gif"></td>
 						<td th:unless="${notice.popYn} == true "></td>
