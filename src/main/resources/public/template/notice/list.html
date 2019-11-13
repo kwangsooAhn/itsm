@@ -4,34 +4,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet"
 	th:href="@{/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/vendor/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
+<script src="../../js/common.js"></script>
+<script src="../../vendor/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<script src="../../vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 </head>
 <body>
 	<br />
 	<br />
-
 	<div class="container">
-	
-	
-	
-	<form id = "form_search" method="get" action="/notice">
-		<div class="pull-right" style="width: 1100px; margin: 10px 0;">
-			<input type="checkbox" id="notice_title" name = "notice_title" value="check" />제목 
-			
-			<input type="checkbox" id="create_userId" name="create_userId" value="check" />작성자 
-			
-			<input type="text" name="keyword" id="keyword"> 
-			
-			<!-- <input type="text" name="calendar" value=""><img src="images/icons/icon_calendar.png" /> ~ <input type="text" name="calendar1" value=""> <img src="images/icons/icon_calendar.png" /> -->
-			
-			<button type="button" id="btnSearch" name="btnSearch" onclick="search();">검색</button>
-		</div>
-	</form>
-	
-	
-	
-	
-	
-			<button type="button" style="text-align: left; float: right;" onclick="location.href='notice/form'">등록</button>
+		<form id="form_search" method="get" action="/notice">
+			<div class="pull-right" style="width: 1100px; margin: 10px 0;">
+				<input type="checkbox" id="notice_title" name="notice_title" value="check" />제목 
+				<input type="checkbox" id="create_userId" name="create_userId" value="check" />작성자 
+				<input type="text" name="keyword" id="keyword">
+
+				<!-- calendar -->
+				<input type="text" id="fromDate" name="fromDate" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:cfShowCalendar(fromDate)"><img src="images/icons/icon_calendar.png" /> ~ 
+				<input type="text" id="toDate" name="toDate" value="2019-11-20" onclick="javascript:cfShowCalendar(toDate)" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" ><img src="images/icons/icon_calendar.png" />
+				<button type="button" id="btnSearch" name="btnSearch" onclick="search();">검색</button>
+			</div>
+		</form>
+		<button type="button" style="text-align: left; float: right;"
+			onclick="location.href='notice/form'">등록</button>
 		<div>
 			<table class="table table-hover" style="text-align: center">
 				<colgroup>
@@ -55,7 +51,7 @@
 						<td th:if="${topNotice.topNoticeYn} == true"><img
 							src="images/icons/icon_notice.gif"></td>
 						<td th:unless="${topNotice.topNoticeYn} == true"></td>
-						<td th:text="${topNotice.noticeTitle}" style="text-align:left"></td>
+						<td th:text="${topNotice.noticeTitle}" style="text-align: left"></td>
 						<td th:if="${topNotice.popYn} == true "><img
 							src="images/icons/icon_pop.gif"></td>
 						<td th:unless="${topNotice.popYn} == true "></td>
@@ -65,7 +61,8 @@
 					</tr>
 					<tr th:each="notice : ${noticeList}">
 						<td id="topNoticeYn"></td>
-						<td id="noticeTitle" th:text="${notice.noticeTitle}" style="text-align:left"></td>
+						<td id="noticeTitle" th:text="${notice.noticeTitle}"
+							style="text-align: left"></td>
 						<td th:if="${notice.popYn} == true "><img
 							src="images/icons/icon_pop.gif"></td>
 						<td th:unless="${notice.popYn} == true "></td>
@@ -78,7 +75,6 @@
 		</div>
 	</div>
 
-	<script src="../../vendor/jquery-3.4.0/jquery-3.4.0.min.js"></script>
 	<script th:inline="javascript">
 		$(document).ready(function() {
 	
@@ -91,9 +87,12 @@
 		
 		function search(){
 			var search_value = jQuery('#form_search #keyword').val();
-			console.log(search_value)
-			if(search_value == '') {alert("검색어를 입력하시오.")}
-			else {
+			var check_value = jQuery("input:checkbox[id='notice_title']").is(":checked") == false && jQuery("input:checkbox[id='create_userId']").is(":checked") == false
+			if(check_value == true){
+				alert("검색 조건을 선택해 주세요.")
+			} else if(search_value == '') {
+				alert("검색어를 입력하시오.")
+			} else {
 				jQuery('#form_search').submit();
 			}
 		}
