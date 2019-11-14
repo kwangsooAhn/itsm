@@ -22,7 +22,7 @@
 
 				<!-- calendar -->
 				<input type="text" id="fromDate" name="fromDate" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:cfShowCalendar(fromDate)"><img src="images/icons/icon_calendar.png" /> ~ 
-				<input type="text" id="toDate" name="toDate" value="2019-11-20" onclick="javascript:cfShowCalendar(toDate)" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" ><img src="images/icons/icon_calendar.png" />
+				<input type="text" id="toDate" name="toDate" value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:cfShowCalendar(toDate)" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" ><img src="images/icons/icon_calendar.png" />
 				<button type="button" id="btnSearch" name="btnSearch" onclick="search();">검색</button>
 			</div>
 		</form>
