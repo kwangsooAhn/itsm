@@ -17,6 +17,8 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatterBuilder
 import java.time.temporal.ChronoField
+import co.brainz.itsm.utility.ConvertParam
+
 
 @Controller
 @RequestMapping("/notice")
@@ -34,38 +36,32 @@ public class NoticeController {
 
 	@Autowired
 	lateinit var noticeService: NoticeService
+	
+	@Autowired
+	lateinit var convertParam : ConvertParam
 
 
 	@GetMapping("", "/")
 	public fun list(request: HttpServletRequest, model: Model): String {
-				
-		var dateFormatter : DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-		var dateFormatterPrefix : DateTimeFormatter  = DateTimeFormatterBuilder().append(dateFormatter).parseDefaulting(ChronoField.HOUR_OF_DAY, 0).parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0).parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0).toFormatter()
-	    var dateFormatterSuffix : DateTimeFormatter  = DateTimeFormatterBuilder().append(dateFormatter).parseDefaulting(ChronoField.HOUR_OF_DAY, 23).parseDefaulting(ChronoField.MINUTE_OF_HOUR, 59).parseDefaulting(ChronoField.SECOND_OF_MINUTE, 59).toFormatter()
-				
-				
+
 		if (!(request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check")) {
-			
 			if (request.getParameter("notice_title") == "check") {
-			    var fromDate : LocalDateTime = LocalDateTime.parse(request.getParameter("fromDate"), dateFormatterPrefix)
-	            var toDate : LocalDateTime = LocalDateTime.parse(request.getParameter("toDate"), dateFormatterSuffix)
+			    var fromDate : LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"),"fromDate")
+	            var toDate : LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"),"toDate")
 				model.addAttribute("noticeList", noticeService.findAllByTitle(request.getParameter("keyword"),fromDate,toDate))
 			} else if (request.getParameter("create_userId") == "check") {
-			    var fromDate : LocalDateTime = LocalDateTime.parse(request.getParameter("fromDate"), dateFormatterPrefix)
-	            var toDate : LocalDateTime = LocalDateTime.parse(request.getParameter("toDate"), dateFormatterSuffix)
+			    var fromDate : LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"),"fromDate")
+	            var toDate : LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"),"toDate")
 				model.addAttribute("noticeList", noticeService.findAllByWriter(request.getParameter("keyword"),fromDate,toDate))
 			} else {
-				
 				model.addAttribute("noticeList", noticeService.findNoticeList())
 			}
 		} else if (request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check") {
-			    var fromDate : LocalDateTime = LocalDateTime.parse(request.getParameter("fromDate"), dateFormatterPrefix)
-	            var toDate : LocalDateTime = LocalDateTime.parse(request.getParameter("toDate"), dateFormatterSuffix)
+			var fromDate : LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"),"fromDate")
+	        var toDate : LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"),"toDate")
 			model.addAttribute("noticeList", noticeService.findAllCheck(request.getParameter("keyword"),fromDate,toDate))
 		}
 		model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
 		return "notice/list"
 	}
-
-
 }

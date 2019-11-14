@@ -19,10 +19,12 @@
 				<input type="checkbox" id="notice_title" name="notice_title" value="check" />제목 
 				<input type="checkbox" id="create_userId" name="create_userId" value="check" />작성자 
 				<input type="text" name="keyword" id="keyword">
-
+				
 				<!-- calendar -->
-				<input type="text" id="fromDate" name="fromDate" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:cfShowCalendar(fromDate)"><img src="images/icons/icon_calendar.png" /> ~ 
-				<input type="text" id="toDate" name="toDate" value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:cfShowCalendar(toDate)" th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" ><img src="images/icons/icon_calendar.png" />
+				<input type="text" id="fromDate" name="fromDate" th:value="${#httpServletRequest.getParameter('fromDate')!=null?#httpServletRequest.getParameter('fromDate'):#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:cfShowCalendar(fromDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="images/icons/icon_calendar.png" /> ~ 
+				<input type="text" id="toDate" name="toDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"  onclick="javascript:cfShowCalendar(toDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="images/icons/icon_calendar.png" />
+			
+				<!-- submit -->
 				<button type="button" id="btnSearch" name="btnSearch" onclick="search();">검색</button>
 			</div>
 		</form>
@@ -52,23 +54,18 @@
 							src="images/icons/icon_notice.gif"></td>
 						<td th:unless="${topNotice.topNoticeYn} == true"></td>
 						<td th:text="${topNotice.noticeTitle}" style="text-align: left"></td>
-						<td th:if="${topNotice.popYn} == true "><img
-							src="images/icons/icon_pop.gif"></td>
+						<td th:if="${topNotice.popYn} == true "><img src="images/icons/icon_pop.gif"></td>
 						<td th:unless="${topNotice.popYn} == true "></td>
 						<td th:text="${topNotice.createUserid}"></td>
-						<td
-							th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
+						<td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
 					</tr>
 					<tr th:each="notice : ${noticeList}">
 						<td id="topNoticeYn"></td>
-						<td id="noticeTitle" th:text="${notice.noticeTitle}"
-							style="text-align: left"></td>
-						<td th:if="${notice.popYn} == true "><img
-							src="images/icons/icon_pop.gif"></td>
+						<td id="noticeTitle" th:text="${notice.noticeTitle}" style="text-align: left"></td>
+						<td th:if="${notice.popYn} == true "><img src="images/icons/icon_pop.gif"></td>
 						<td th:unless="${notice.popYn} == true "></td>
 						<td id="createUserid" th:text="${notice.createUserid}"></td>
-						<td
-							th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
+						<td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -76,15 +73,14 @@
 	</div>
 
 	<script th:inline="javascript">
-		$(document).ready(function() {
-	
+		$(document).ready(function() {	
 			/*<![CDATA[*/
-			var test = /*[[${noticeList}]]*/
+
 
 			/*]]>*/
-			
 		})
 		
+		//validation check and submit
 		function search(){
 			var search_value = jQuery('#form_search #keyword').val();
 			var check_value = jQuery("input:checkbox[id='notice_title']").is(":checked") == false && jQuery("input:checkbox[id='create_userId']").is(":checked") == false
