@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet"
-	th:href="@{/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+	th:href="@{/assets/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
 <link rel="stylesheet"
-	th:href="@{/vendor/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
-<script src="../../js/common.js"></script>
-<script src="../../vendor/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<script src="../../vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	th:href="@{/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/vendor/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 </head>
 <body>
 	<br />
@@ -21,8 +21,8 @@
 				<input type="text" name="keyword" id="keyword">
 				
 				<!-- calendar -->
-				<input type="text" id="fromDate" name="fromDate" th:value="${#httpServletRequest.getParameter('fromDate')!=null?#httpServletRequest.getParameter('fromDate'):#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:cfShowCalendar(fromDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="images/icons/icon_calendar.png" /> ~ 
-				<input type="text" id="toDate" name="toDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"  onclick="javascript:cfShowCalendar(toDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="images/icons/icon_calendar.png" />
+				<input type="text" id="fromDate" name="fromDate" th:value="${#httpServletRequest.getParameter('fromDate')!=null?#httpServletRequest.getParameter('fromDate'):#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:cfShowCalendar(fromDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="assets/media/icons/icon_calendar.png" /> ~ 
+				<input type="text" id="toDate" name="toDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"  onclick="javascript:cfShowCalendar(toDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="assets/media/icons/icon_calendar.png" />
 			
 				<!-- submit -->
 				<button type="button" id="btnSearch" name="btnSearch" onclick="search();">검색</button>
@@ -51,10 +51,10 @@
 				<tbody>
 					<tr th:each="topNotice : ${topNoticeList}">
 						<td th:if="${topNotice.topNoticeYn} == true"><img
-							src="images/icons/icon_notice.gif"></td>
+							src="assets/media/icons/icon_notice.gif"></td>
 						<td th:unless="${topNotice.topNoticeYn} == true"></td>
 						<td th:text="${topNotice.noticeTitle}" style="text-align: left"></td>
-						<td th:if="${topNotice.popYn} == true "><img src="images/icons/icon_pop.gif"></td>
+						<td th:if="${topNotice.popYn} == true "><img src="assets/media/icons/icon_pop.gif"></td>
 						<td th:unless="${topNotice.popYn} == true "></td>
 						<td th:text="${topNotice.createUserid}"></td>
 						<td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
@@ -62,7 +62,7 @@
 					<tr th:each="notice : ${noticeList}">
 						<td id="topNoticeYn"></td>
 						<td id="noticeTitle" th:text="${notice.noticeTitle}" style="text-align: left"></td>
-						<td th:if="${notice.popYn} == true "><img src="images/icons/icon_pop.gif"></td>
+						<td th:if="${notice.popYn} == true "><img src="assets/media/icons/icon_pop.gif"></td>
 						<td th:unless="${notice.popYn} == true "></td>
 						<td id="createUserid" th:text="${notice.createUserid}"></td>
 						<td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
