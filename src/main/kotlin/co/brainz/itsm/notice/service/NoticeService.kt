@@ -45,6 +45,13 @@ public open class NoticeService {
 		
 		return noticeRepository.findAllCheck(keyword, copyKeyword, fromDate, toDate)
 	}
-
 	
+	public fun findNoticeByNoticeNo(noticeNo : String) : Notice{
+		return noticeRepository.findById(noticeNo).orElse(Notice())
+	}
+	
+	
+	
+	
+
 }

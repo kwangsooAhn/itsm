@@ -18,6 +18,12 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatterBuilder
 import java.time.temporal.ChronoField
 import co.brainz.itsm.utility.ConvertParam
+import org.springframework.web.bind.annotation.PathVariable
+import co.brainz.itsm.notice.repository.NoticeRepository
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestBody
+import co.brainz.itsm.notice.domain.Notice
+import org.springframework.web.bind.annotation.PostMapping
 
 
 @Controller
@@ -33,14 +39,19 @@ public class NoticeController {
 		logger.info("INFO{ }", "NoticeController")
 
 	}
+	
 
+
+    @Autowired
+    lateinit var noticeRepository : NoticeRepository
+	
 	@Autowired
 	lateinit var noticeService: NoticeService
 	
 	@Autowired
 	lateinit var convertParam : ConvertParam
-
-
+	
+	//list º¸±â
 	@GetMapping("", "/")
 	public fun list(request: HttpServletRequest, model: Model): String {
 
@@ -64,4 +75,34 @@ public class NoticeController {
 		model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
 		return "notice/list"
 	}
+	
+	@GetMapping("/detail")
+	public fun detail(@RequestParam(value = "noticeNo") noticeNo : String, model:Model):String {
+		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeNo))
+		return "notice/detail"
+	}
+	
+    @GetMapping("/form")
+    public fun form(@RequestParam(value = "noticeNo", defaultValue = "0") noticeNo : String, model:Model):String {
+		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeNo))
+		return "notice/form"
+	}
+	
+	// delete
+	@RequestMapping("/delete/{noticeNo}")
+	public fun delete(@PathVariable noticeNo : String) : String{
+		noticeRepository.deleteById(noticeNo);
+		return "redirect:/notice";	
+	}
+	
+	//insert
+	@RequestMapping(value = ["/insert"] ,method = [RequestMethod.POST])
+    public fun insert(notice : Notice) : String {
+		noticeRepository.save(notice)
+		return "redirect:/notice";	
+	}
+	
+	//update
+	
+
 }

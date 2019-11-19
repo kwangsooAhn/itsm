@@ -2,13 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet"
-	th:href="@{/assets/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
-<link rel="stylesheet"
-	th:href="@{/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
 <script src="../../assets/js/common.js"></script>
-<script src="../../assets/vendor/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<script src="../../assets/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 </head>
 <body>
 	<br />
@@ -53,7 +51,7 @@
 						<td th:if="${topNotice.topNoticeYn} == true"><img
 							src="assets/media/icons/icon_notice.gif"></td>
 						<td th:unless="${topNotice.topNoticeYn} == true"></td>
-						<td th:text="${topNotice.noticeTitle}" style="text-align: left"></td>
+						<td style = "text-align:left"><a th:href="'/notice/detail?noticeNo='+${topNotice.noticeNo}" th:text="${topNotice.noticeTitle}"></a></td>
 						<td th:if="${topNotice.popYn} == true "><img src="assets/media/icons/icon_pop.gif"></td>
 						<td th:unless="${topNotice.popYn} == true "></td>
 						<td th:text="${topNotice.createUserid}"></td>
@@ -61,7 +59,7 @@
 					</tr>
 					<tr th:each="notice : ${noticeList}">
 						<td id="topNoticeYn"></td>
-						<td id="noticeTitle" th:text="${notice.noticeTitle}" style="text-align: left"></td>
+						<td style = "text-align:left"><a th:href="'/notice/detail?noticeNo='+${notice.noticeNo}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
 						<td th:if="${notice.popYn} == true "><img src="assets/media/icons/icon_pop.gif"></td>
 						<td th:unless="${notice.popYn} == true "></td>
 						<td id="createUserid" th:text="${notice.createUserid}"></td>
