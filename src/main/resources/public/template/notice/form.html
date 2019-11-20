@@ -11,12 +11,13 @@
 <script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
 
+
 <title>Insert title here</title>
 </head>
 <body>
 	<div class="container">
 		<br />
-		<form method = "post">
+		<form id = "form_sendData" method = "post">
 		<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 		
 		<input id = notice_createDt name = "createDtBefore" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" />
@@ -37,15 +38,15 @@
 				<td>팝업 알림 설정</td>
 				<td>
 					<div>
-						<label><input type="radio" id = "pop_radio_bt_up" name="pop_radio_bt" th:value=true checked = "checked" onchange = "setDisplay('pop_tab',true)"/>설정</label>
-						<label><input type="radio" id = "pop_radio_bt_down" name="pop_radio_bt" th:value=false onchange = "setDisplay('pop_tab',false)">미설정</label>
+						<label><input type="radio" id = "pop_radio_bt_up" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : true" checked = "checked" onchange = "setDisplay('pop_tab',true,this)"/>설정</label>
+						<label><input type="radio" id = "pop_radio_bt_down" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : false" onchange = "setDisplay('pop_tab',false, this)">미설정</label>
 					</div>
 				</td>
 				<td>상단 공지 설정</td>
 				<td>
 					<div>
-						<label><input type="radio" id = "top_radio_bt_up" name="top_radio_bt" th:value=true checked = "checked" onchange = "setDisplay('top_notice_tab',true)">설정</label>
-						<label><input type="radio" id = "top_radio_bt_down" name = "top_radio_bt" th:value=false onchange = "setDisplay('top_notice_tab',false)">미설정</label>
+						<label><input type="radio" id = "top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked = "checked" onchange = "setDisplay('top_notice_tab',true,this)">설정</label>
+						<label><input type="radio" id = "top_radio_bt_down" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange = "setDisplay('top_notice_tab',false, this)">미설정</label>
 					</div>
 				</td>
 			</tr>
@@ -63,11 +64,33 @@
 				</tr>
 				<tr>
 					<td>시작일</td>
-					<td colspan="2"><input type="text" id="pop_strt_dt" name = "popStrtDtBefore" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" /></td>
+					<td colspan="2">
+					<div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
+                                <input type="text" th:value = "${#dates.format(#dates.createNow(),'yyyy-MM-dd hh:mm:ss')}" name = "popStrtDtBefore" class="form-control datetimepicker-input" data-target="#popStrtDtCal">
+                                <div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
+                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                    </td>
 				</tr>
 				<tr>
 					<td>종료일</td>
-					<td colspan="2"><input type="text" id = "pop_end_dt" name="popEndDtBefore" th:value="${notice.popEndDt} ? ${#temporals.format(notice.popEndDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" /></td>
+					<td colspan="2">
+					<div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group date" id="popEndDtCal" data-target-input="nearest">
+                                <input type="text" th:value = "${addCurrentDate}" name = "popEndDtBefore" class="form-control datetimepicker-input" data-target="#popEndDtCal"/>
+                                <div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
+                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -77,21 +100,42 @@
 				<tr>
 					<th rowspan="4">상단 공지 설정 정보</th>
 					<th>시작일</th>
-					<th colspan="2"><input type="text" id = "top_notice_start_dt" name="topNoticeStrtDtBefore" th:value="${notice.topNoticeStrtDt} ? ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}"></th>
+					<td colspan="2">
+	                <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
+                                <input type="text" th:value = "${#dates.format(#dates.createNow(),'yyyy-MM-dd hh:mm:ss')}" name = "topNoticeStrtDtBefore" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal"/>
+                                <div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
+                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                    </td>	
 				</tr>
 				<tr>
 					<th>종료일</th>
-					<th colspan="2"><input type="text" id = "top_notice_end_dt" name="topNoticeEndDtBefore" th:value="${notice.topNoticeEndDt} ? ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}"></th>
+					<td colspan="2">
+				    <div class="col-sm-6">
+                        <div class="form-group">
+                           <div class="input-group date" id="topNoticeEndDtCal" data-target-input="nearest">
+                               <input type="text" th:value = "${addCurrentDate}" name="topNoticeEndDtBefore" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal"/>
+                               <div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                               </div>
+                           </div>
+                        </div>
+                    </div>
+                    </td>	  				
 				</tr>
 			</table>
 		</div>
 		<div style = "float:right;">
 			<button type="button" onclick="location.href='/notice'">목록</button>
-			<button th:if="!${notice?.noticeNo}" type="submit" th:formaction = "@{/notice/insert}">등록</button>
-			<button th:if="${notice?.noticeNo}" type="submit" th:formaction = "@{/notice/update/{noticeNo}(noticeNo = ${notice.noticeNo})}">수정 완료</button>
+			<button th:if="!${notice?.noticeNo}" type="submit" th:formaction = "@{/notice/insert}" onclick = "return validation()">등록</button>
+			<button th:if="${notice?.noticeNo}" type="submit" th:formaction = "@{/notice/update/{noticeNo}(noticeNo = ${notice.noticeNo})}" onclick = "return validation()">수정 완료</button>
 		</div>
 		</form> 
-		
 	</div>
 	
 
@@ -102,37 +146,73 @@
 
 
 		/*]]>*/
-	    if(/*[[${notice.noticeNo}]]*/ != null) {
-		if($("input[name=pop_radio_bt]").val() == "true"){
+        if(/*[[${notice.noticeNo}]]*/ != null) {
+		if($("input[name=popYn]").val() == 'true'){
 			$('#pop_radio_bt_up').prop('checked',true) 
 		       $('#pop_tab').show();
 		}else{
 			$('#pop_radio_bt_down').prop('checked',true) 
 		       $('#pop_tab').hide();
 		}
-		if($("input[name=top_radio_bt]").val() == "true"){
+		if($("input[name=topNoticeYn]").val() == 'true'){
 			$('#top_radio_bt_up').prop('checked',true) 
 		       $('#top_notice_tab').show();
 		}else{
 			$('#top_radio_bt_down').prop('checked',true) 
 		       $('#top_notice_tab').hide();
 		}
-	    }
+	    } 
+			
 	})
 	
 	// 팝업 및 상단 설정 관련 함수
-	function setDisplay(param, param2) {
-		
+	function setDisplay(param, param2, param3) {
+
+		param3.value = param2
 		if(param2 == true){
 	       $('#'+param).show();
 		}else{
-	       $('#'+param).hide();
+			if(param == "pop_tab"){
+				$('#pop_width').val("")
+				$('#pop_height').val("")
+				$('#pop_strt_dt').val("")
+				$('#pop_end_dt').val("")
+				
+			}else if(param == "top_notice_tab"){
+				$('#top_notice_strt_dt').val("")
+				$('#top_notice_end_dt').val("")	
+			}
+				
+	       $('#'+param).hide();	  
+		
 		}
 	}
 	
+	function validation() {
+		 if($('#notice_title').val() == ""){alert("제목을 입력하세요."); return false;} 
+		 if($('#notice_contents').val() == ""){alert("내용을 입력하세요."); return false;}
+		 if($('#create_userid').val() == ""){alert("작성자를 입력하세요."); return false;}	
+	}	
+	
+    $(function () {
+        $('#topNoticeEndDtCal').datetimepicker({
+        	format : 'YYYY-MM-DD HH:mm:ss'
+        });
+        
+        $('#topNoticeStrtDtCal').datetimepicker({
+        	format : 'YYYY-MM-DD HH:mm:ss'
+        });
+        
+        $('#popEndDtCal').datetimepicker({
+        	format : 'YYYY-MM-DD HH:mm:ss'
+        });
+        
+        $('#popStrtDtCal').datetimepicker({
+        	format : 'YYYY-MM-DD HH:mm:ss'
+        });
+    });
 	</script>
 	
-
 
 </body>
 </html>

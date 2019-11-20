@@ -32,8 +32,7 @@ import org.springframework.ui.ModelMap
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
-
-
+	
 	companion object {
 		private val logger = LoggerFactory.getLogger(NoticeController::class.java)
 	}
@@ -53,7 +52,7 @@ public class NoticeController {
 	@Autowired
 	lateinit var convertParam: ConvertParam
 
-	//list ����
+	//list
 	@GetMapping("", "/")
 	public fun list(request: HttpServletRequest, model: Model): String {
 
@@ -88,6 +87,8 @@ public class NoticeController {
 				noticeService.findAllCheck(request.getParameter("keyword"), fromDate, toDate)
 			)
 		}
+		var addCurrentDate = LocalDateTime.now().plusDays(6)
+		model.addAttribute("addCurrentDate",addCurrentDate)
 		model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
 		return "notice/list"
 	}
@@ -100,6 +101,10 @@ public class NoticeController {
 
 	@GetMapping("/form")
 	public fun form(@RequestParam(value = "noticeNo", defaultValue = "0") noticeNo: String, model: Model): String {
+		
+		var addCurrentDate = LocalDateTime.now().plusDays(6)
+		model.addAttribute("addCurrentDate",addCurrentDate)
+		
 		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeNo))
 		return "notice/form"
 	}
@@ -118,26 +123,37 @@ public class NoticeController {
 		@RequestParam (required = false) popEndDtBefore:String,
 		@RequestParam (required = false) topNoticeStrtDtBefore:String,
 		@RequestParam (required = false) topNoticeEndDtBefore:String,
+		@RequestParam (required = false) popYn : String,
+		@RequestParam (required = false) topNoticeYn : String,
 	    @RequestParam createDtBefore:String,
 		notice: Notice): String {
 		
 		var formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-		var createDtAfter : LocalDateTime = LocalDateTime.parse(createDtBefore,formatter)
+	    var createDtAfter : LocalDateTime = LocalDateTime.parse(createDtBefore,formatter)
+		
+		if(popYn == "false"){
+		notice.popStrtDt = null
+		notice.popEndDt = null
+		notice.popWidth = null
+		notice.popHeight = null
+		}else{
 		var popStrtDtAfter : LocalDateTime? = LocalDateTime.parse(popStrtDtBefore,formatter)
 		var popEndDtAfter : LocalDateTime? = LocalDateTime.parse(popEndDtBefore,formatter)
-		var topNoticeStrtDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeStrtDtBefore,formatter)
-		var topNoticeEndDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeEndDtBefore,formatter)
-		notice.createDt = createDtAfter
 		notice.popStrtDt = popStrtDtAfter
 		notice.popEndDt = popEndDtAfter
-		notice.topNoticeStrtDt = topNoticeStrtDtAfter
-		notice.topNoticeEndDt = topNoticeEndDtAfter
-		println{"test" + notice.popYn}
-		println{"test1" + notice.topNoticeYn}
+		}
 		
-		notice.popYn = true
-		notice.topNoticeYn = false
-	
+		if(topNoticeYn == "false"){
+		notice.topNoticeStrtDt = null
+		notice.topNoticeEndDt = null
+		}else{
+		var topNoticeStrtDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeStrtDtBefore,formatter)
+		var topNoticeEndDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeEndDtBefore,formatter)
+		notice.topNoticeStrtDt = topNoticeStrtDtAfter
+		notice.topNoticeEndDt = topNoticeEndDtAfter		
+		}	
+			
+		notice.createDt = createDtAfter
 		
 		noticeRepository.save(notice)
 		
@@ -152,24 +168,38 @@ public class NoticeController {
 		@RequestParam (required = false) popEndDtBefore:String,
 		@RequestParam (required = false) topNoticeStrtDtBefore:String,
 		@RequestParam (required = false) topNoticeEndDtBefore:String,
+		@RequestParam (required = false) popYn : String,
+		@RequestParam (required = false) topNoticeYn : String,
 	    @RequestParam createDtBefore:String,
 		notice : Notice) : String{
 		
 		var formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-		var createDtAfter : LocalDateTime = LocalDateTime.parse(createDtBefore,formatter)
+	    var createDtAfter : LocalDateTime = LocalDateTime.parse(createDtBefore,formatter)
+		
+		if(popYn == "false"){
+		notice.popStrtDt = null
+		notice.popEndDt = null
+		notice.popWidth = null
+		notice.popHeight = null
+		}else{
 		var popStrtDtAfter : LocalDateTime? = LocalDateTime.parse(popStrtDtBefore,formatter)
 		var popEndDtAfter : LocalDateTime? = LocalDateTime.parse(popEndDtBefore,formatter)
-		var topNoticeStrtDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeStrtDtBefore,formatter)
-		var topNoticeEndDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeEndDtBefore,formatter)
-		notice.createDt = createDtAfter
 		notice.popStrtDt = popStrtDtAfter
 		notice.popEndDt = popEndDtAfter
-		notice.topNoticeStrtDt = topNoticeStrtDtAfter
-		notice.topNoticeEndDt = topNoticeEndDtAfter
+		}
 		
-		notice.popYn = true
-		notice.topNoticeYn = false
-
+		if(topNoticeYn == "false"){
+		notice.topNoticeStrtDt = null
+		notice.topNoticeEndDt = null
+		}else{
+		var topNoticeStrtDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeStrtDtBefore,formatter)
+		var topNoticeEndDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeEndDtBefore,formatter)
+		notice.topNoticeStrtDt = topNoticeStrtDtAfter
+		notice.topNoticeEndDt = topNoticeEndDtAfter		
+		}	
+			
+		notice.createDt = createDtAfter
+		
 		noticeRepository.save(notice)
 		return "redirect:/notice";
 	}

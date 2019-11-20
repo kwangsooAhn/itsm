@@ -20,7 +20,7 @@
 				
 				<!-- calendar -->
 				<input type="text" id="fromDate" name="fromDate" th:value="${#httpServletRequest.getParameter('fromDate')!=null?#httpServletRequest.getParameter('fromDate'):#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" onclick="javascript:datepicker(fromDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="assets/media/icons/icon_calendar.png" /> ~ 
-				<input type="text" id="toDate" name="toDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"  onclick="javascript:datepicker(toDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="assets/media/icons/icon_calendar.png" />
+				<input type="text" id="toDate" name="toDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#temporals.format(addCurrentDate, 'yyyy-MM-dd')}"  onclick="javascript:datepicker(toDate)" style = "cursor:pointer" readonly="readonly" autocomplete="off"><img src="assets/media/icons/icon_calendar.png" />
 			
 				<!-- submit -->
 				<button type="button" id="btnSearch" name="btnSearch" onclick="search();">검색</button>
