@@ -6,7 +6,7 @@
  * bootstrap datepicker calendar 옵션 설정 및 실행 함수.
  * hg.jung
  */
-function cfShowCalendar(oItem){
+function datepicker(oItem){
 	var inputObjId = oItem.id;
 
 	$(function() {	
@@ -27,3 +27,15 @@ function cfShowCalendar(oItem){
 		});
 	});
 }
+
+function datetimepicker(){
+	$(function) {
+		$('#datetimepicker').datetimepicker();
+	});
+}
+
+/*
+* bootstrap datetimepicker calendar 옵션 설정 및 실행 함수.
+* hg.jung
+*
+*/

@@ -16,38 +16,36 @@
 <body>
 	<div class="container">
 		<br />
-		<form action= "/notice/insert" method = "post">
+		<form method = "post">
 		<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 		
-		<input type="hidden" th:value="${notice?.noticeNo}" /> 
-		<input type="hidden" th:value="${notice?.createDt}" />
-
+		<input id = notice_createDt name = "createDtBefore" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" />
 		<table class="table" border="1">
 			<tr>
 				<th>제목</th>
-				<td colspan="3"><input id="notice_title" type="text" th:value="${notice?.noticeTitle}" /></td>
+				<td colspan="3"><input id= "notice_title" name = "noticeTitle" type="text" th:value="${notice?.noticeTitle}" /></td>
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td colspan="3" style="text-align:center;"><textarea id="notice_contents" maxlength="140" rows="7" style="width: 750px; resize:none;" th:text="${notice?.noticeContents}"></textarea></td>
+				<td colspan="3" style="text-align:center;"><textarea id="notice_contents" name = "noticeContents" maxlength="140" rows="7" style="width: 750px; resize:none;" th:text="${notice?.noticeContents}"></textarea></td>
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td colspan="3"><input id=create_userid type="text" th:value="${notice?.createUserid}" /></td>
+				<td colspan="3"><input id=create_userid name = "createUserid" type="text" th:value="${notice?.createUserid}" /></td>
 			</tr>
 			<tr>
 				<td>팝업 알림 설정</td>
 				<td>
 					<div>
-						<label><input type="radio" id = "pop_radio_bt_up" name="pop_radio_bt" th:value="${notice?.popYn}" checked = "checked" onchange = "setDisplay('pop_tab',true)"/>설정</label>
-						<label><input type="radio" id = "pop_radio_bt_down" name="pop_radio_bt" th:value="${notice?.popYn}" onchange = "setDisplay('pop_tab',false)">미설정</label>
+						<label><input type="radio" id = "pop_radio_bt_up" name="pop_radio_bt" th:value=true checked = "checked" onchange = "setDisplay('pop_tab',true)"/>설정</label>
+						<label><input type="radio" id = "pop_radio_bt_down" name="pop_radio_bt" th:value=false onchange = "setDisplay('pop_tab',false)">미설정</label>
 					</div>
 				</td>
 				<td>상단 공지 설정</td>
 				<td>
 					<div>
-						<label><input type="radio" id = "top_radio_bt_up" name="top_radio_bt" th:value="${notice?.topNoticeYn}" checked = "checked" onchange = "setDisplay('top_notice_tab',true)">설정</label>
-						<label><input type="radio" id = "top_radio_bt_down" name = "top_radio_bt" th:value="${notice?.topNoticeYn}" onchange = "setDisplay('top_notice_tab',false)">미설정</label>
+						<label><input type="radio" id = "top_radio_bt_up" name="top_radio_bt" th:value=true checked = "checked" onchange = "setDisplay('top_notice_tab',true)">설정</label>
+						<label><input type="radio" id = "top_radio_bt_down" name = "top_radio_bt" th:value=false onchange = "setDisplay('top_notice_tab',false)">미설정</label>
 					</div>
 				</td>
 			</tr>
@@ -57,19 +55,19 @@
 				<tr>
 					<th rowspan="4">팝업 알림 설정 정보</th>
 					<th>높이</th>
-					<th colspan="2"><input type="text" name="pop_height" th:value="${notice.popHeight} ? ${notice.popHeight} : 500">px</th>
+					<th colspan="2"><input type="text" id ="pop_height" name = "popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500">px</th>
 				</tr>
 				<tr>
 					<td>넓이</td>
-					<td colspan="2"><input type="text" name="pop_width" th:value="${notice?.popWidth} ? ${notice.popHeight} : 500"/>px</td>
+					<td colspan="2"><input type="text" id ="pop_width" name = "popWidth" th:value="${notice?.popWidth} ? ${notice.popHeight} : 500"/>px</td>
 				</tr>
 				<tr>
 					<td>시작일</td>
-					<td colspan="2"><input type="text" name="pop_strt_dt" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" /></td>
+					<td colspan="2"><input type="text" id="pop_strt_dt" name = "popStrtDtBefore" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" /></td>
 				</tr>
 				<tr>
 					<td>종료일</td>
-					<td colspan="2"><input type="text" name="pop_end_dt" th:value="${notice.popEndDt} ? ${#temporals.format(notice.popEndDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" /></td>
+					<td colspan="2"><input type="text" id = "pop_end_dt" name="popEndDtBefore" th:value="${notice.popEndDt} ? ${#temporals.format(notice.popEndDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" /></td>
 				</tr>
 			</table>
 		</div>
@@ -79,18 +77,18 @@
 				<tr>
 					<th rowspan="4">상단 공지 설정 정보</th>
 					<th>시작일</th>
-					<th colspan="2"><input type="text" name="top_notice_strt_dt" th:value="${notice.topNoticeStrtDt} ? ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}"></th>
+					<th colspan="2"><input type="text" id = "top_notice_start_dt" name="topNoticeStrtDtBefore" th:value="${notice.topNoticeStrtDt} ? ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}"></th>
 				</tr>
 				<tr>
 					<th>종료일</th>
-					<th colspan="2"><input type="text" name="top_notice_end_dt" th:value="${notice.topNoticeEndDt} ? ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}"></th>
+					<th colspan="2"><input type="text" id = "top_notice_end_dt" name="topNoticeEndDtBefore" th:value="${notice.topNoticeEndDt} ? ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}"></th>
 				</tr>
 			</table>
 		</div>
 		<div style = "float:right;">
 			<button type="button" onclick="location.href='/notice'">목록</button>
-			<button th:if="!${notice?.noticeNo}" type="submit" id = "insert" value="insert">등록</button>
-			<button th:if="${notice?.noticeNo}" type="button" id="update" value="update">수정 완료</button>
+			<button th:if="!${notice?.noticeNo}" type="submit" th:formaction = "@{/notice/insert}">등록</button>
+			<button th:if="${notice?.noticeNo}" type="submit" th:formaction = "@{/notice/update/{noticeNo}(noticeNo = ${notice.noticeNo})}">수정 완료</button>
 		</div>
 		</form> 
 		
