@@ -2,91 +2,57 @@
 <html>
 <head>
 <link rel="stylesheet" href="assets/css/itsm.css">
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="assets/css/bootstrap-alice.css">
 <meta charset="UTF-8">
 </head>
 
-<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-<script>
-$(document).ready(function () {
-    // header menu dropdown (mobile)
-    $(".submenu").on("click", function() {
-      var width = $(window).width();
-      if (width < 992) {
-        $(".submenu ul").toggleClass("active");
-      }
-    });
-    
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
-});
-</script>
-
 <body>
-  <div class="header-area header-sticky">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <nav class="main-nav">
-            <a href="#" class="logo-area">
-<!--               <i class="fab fa-adn" style="font-weight: normal;"></i> -->
-<!--               <span>ALICE ITSM</span> -->
-              <img src="images/icons/logo_sample.png" style="top: 10px;position: fixed;"/>
-              <span style="margin-left: 60px;">ALICE ITSM</span>
-            </a>
-            <ul class="nav">
-              <li class="scroll-to-section"><a href="#">Service Request</a></li>
-              <li class="scroll-to-section"><a href="#">Reports</a></li>
-              <li class="scroll-to-section"><a href="#">Workflow</a></li>
-              <li class="scroll-to-section"><a href="#">Form</a></li>
-              <li class="scroll-to-section"><a href="#">Configuration</a></li>
-              <!-- dropdown sample -->
-              <!-- <li class="scroll-to-section submenu"> -->
-              <!--   <a href="javascript:;">Drop Down <i class="fas fa-angle-down"></i></a> -->
-              <!--   <ul> -->
-              <!--     <li><a href="">A</a></li> -->
-              <!--     <li><a href="">B</a></li> -->
-              <!--   </ul> -->
-              <!-- </li> -->
-            </ul>
-              <!-- login button -->
-              <!-- <div class=""> -->
-              <!--   <a href="#" class="login-button" style="float: right;margin: 10px;">로그인</a> -->
-              <!-- </div> -->
-          </nav>
-        </div>
-      </div>
+  <!-- 헤더 영역 -->
+  <div class="header-area">
+    <div class="row">
+      <nav class="nav-primary">
+        <a href="#" class="logo-area">
+          <img src="assets/media/icons/logo_sample.png" style="top: 10px;position: fixed;"/>
+          <span style="margin-left: 60px;">ALICE ITSM</span>
+        </a>
+        <ul class="top-menu">
+          <li><a href="#">Service Request</a></li>
+          <li><a href="#">Reports</a></li>
+          <li><a href="#">Workflow</a></li>
+          <li><a href="#">Form</a></li>
+          <li><a href="#">Configuration</a></li>
+        </ul>
+          <!-- 로그인 버튼 -->
+          <!--   <a href="#" class="btn-login" style="float: right;margin: 10px;">로그인</a> -->
+      </nav>
     </div>
   </div>
-  <div class="wrapper">
-      <!-- side-bar -->
-      <nav id="sidebar">
+  <div class="body">
+      <!-- 사이드바 영역 -->
+      <nav class="left">
         <ul>
           <li>
             <a href="#">
-                <i class="fas fa-clipboard-list"></i>
-<!--                 <img alt="" src="images/icons/icon_report.png"> -->
-                <span>Board</span>
+              <img alt="" src="assets/media/icons/icon_report.png">
+              <span>Board</span>
             </a>
           </li>
           <li>
-            <a href="#"><i class="fas fa-question-circle"></i>FAQ</a>
+            <a href="#">
+              <img alt="" src="assets/media/icons/icon_question.png">
+              <span>FAQ</span>
+            </a>
           </li>
-          <li>
-            <a href="#"><i class="fas fa-exclamation-triangle"></i>Notice</a>
+          <li class="active">
+            <a href="#">
+              <img alt="" src="assets/media/icons/icon_warning.png">
+              <span>Notice</span>
+            </a>
           </li>
         </ul>
       </nav>
-      <!-- 사이드바 접기 기능 -->
+      <!-- 컨텐츠 영역  -->
       <div class="contents">
-      <!-- sidebar toggle button -->
-      <!-- <button type="button" id="sidebarCollapse" class="btn main-button" style="margin-top: 30px;"> -->
-      <!--   <i class="fas fa-align-left"></i> -->
-      <!--   <span>Toggle Sidebar</span> -->
-      <!-- </button> -->
       </div>
   </div>
 </body>
