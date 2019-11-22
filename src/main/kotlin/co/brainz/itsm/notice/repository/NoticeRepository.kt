@@ -20,6 +20,6 @@ public interface NoticeRepository : JpaRepository<Notice, String> {
 	@Query("select a from Notice a where a.createUserid like %?1% and a.createDt between ?2 and ?3" )
 	fun findAllByWriter(keyword: String, fromDate: LocalDateTime, toDate: LocalDateTime): MutableList<Notice>
 
-	@Query("select a from Notice a where a.noticeTitle like %?1% or a.createUserid like %?2% and a.createDt between ?2 and ?3")
+	@Query("select a from Notice a where ( a.noticeTitle like %?1% or a.createUserid like %?2% ) and a.createDt between ?3 and ?4")
 	fun findAllCheck(keyword: String, copyKeyword: String, fromDate: LocalDateTime, toDate: LocalDateTime): MutableList<Notice>
 }

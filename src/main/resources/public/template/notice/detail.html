@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<br /> 	
+		<table class="table" border="1">
+			<tr>
+				<th>제목</th>
+				<td colspan="3"><span th:text="${notice?.noticeTitle}"></span></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td colspan="3" style="text-align:center;"><textarea maxlength="140" rows="10" style="width:750px; resize:none;" th:text="${notice?.noticeContents}" readonly = "readonly"></textarea></td>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td colspan="3"><span th:text="${notice?.createUserid}"/></span></td>
+			</tr>
+			<tr>
+				<td>팝업 알림 설정</td>
+				<td>
+					<div>
+						<label><input type="radio" id = "pop_radio_bt_up" name="popYn" th:value="${notice.popYn}" onclick ="return(false);">설정</label>
+						<label><input type="radio" id = "pop_radio_bt_down" name="popYn" th:value="${notice.popYn}" onclick ="return(false);">미설정</label>
+					</div>
+				</td>
+				<td>상단 공지 설정</td>
+				<td>
+					<div>
+						<label><input type="radio" id = "top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);">설정</label>
+						<label><input type="radio" id = "top_radio_bt_down" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);">미설정</label>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div id="pop_tab">
+			<table class="table" border="1">
+				<tr>
+					<th rowspan="4">팝업 알림 설정 정보</th>
+					<th>*높이</th>
+					<td colspan="2"><span th:text="${notice?.popHeight}"></span></td>
+				</tr>
+				<tr>
+					<td>*넓이</td>
+					<td colspan="2"><span th:text="${notice?.popWidth}"/></span></td>
+				</tr>
+				<tr>
+					<td>*시작일</td>
+					<td colspan="2"><span th:text="${#temporals.format(notice.popStrtDt,'yyyy-MM-dd hh:mm:ss')}" ></span></td>
+				</tr>
+				<tr>
+					<td>*종료일</td>
+					<td colspan="2"><span th:text="${#temporals.format(notice.popEndDt,'yyyy-MM-dd hh:mm:ss')}"/></span></td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="top_notice_tab">
+			<table class="table" border="1">
+				<tr>
+					<th rowspan="4">상단 공지 설정 정보</th>
+					<th>*시작일</th>
+					<td colspan="2"><span th:text="${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd hh:mm:ss')}"></span></td>
+				</tr>
+				<tr>
+					<th>*종료일</th>
+					<td colspan="2"><span th:text="${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd hh:mm:ss')}"></span></td>
+				</tr>
+			</table>
+		</div>
+		<div style = "float:right;">
+			<button type="button" onclick="location.href='/notice'">목록</button>
+			<button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notice/form?noticeNo={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''">수정</button>
+			<button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notice/delete/{noticeNo}(noticeNo = ${notice.NoticeNo})}+ '\''">삭제</button>
+		</div>
+	</div>
+
+
+	<script th:inline="javascript">
+	
+	$(document).ready(function() {	
+	
+		if($("input[name=popYn]").val() == "true"){
+			$('#pop_radio_bt_up').prop('checked',true) 
+		       $('#pop_tab').show();
+		}else{
+			$('#pop_radio_bt_down').prop('checked',true) 
+		       $('#pop_tab').hide();
+		}
+		if($("input[name=topNoticeYn]").val() == "true"){
+			$('#top_radio_bt_up').prop('checked',true) 
+		       $('#top_notice_tab').show();
+		}else{
+			$('#top_radio_bt_down').prop('checked',true) 
+		       $('#top_notice_tab').hide();
+		}
+			
+	})	
+	</script>
+
+</body>
+</html>
