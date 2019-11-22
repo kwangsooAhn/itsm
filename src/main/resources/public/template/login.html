@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login</title>
+</head>
+<body>
+
+테스트계정: kbh/itsm123
+<form id="loginForm" name="loginForm" th:action="@{/login}" method="post">
+    <input type="hidden" id="userId" name="userId"/>
+    <input type="hidden" id="password" name="password"/>
+</form>
+
+<div>
+    아이디: <input type="text" id="uid" name="uid" th:value="${uid}"/></label>
+    비밀번호:<input type="password" id="upasswd" name="upasswd">
+    <button id="sendLogin" type="button">로그인</button>
+</div>
+
+<!--/*@thymesVar id="errorMsg" type=""*/-->
+<div th:text="${errorMsg}"></div>
+
+<script th:src="@{/assets/vendors/jquery-3.4.0/jquery-3.4.0.js}"></script>
+<script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
+<script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
+<script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
+<script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function () {
+        /*<![CDATA[*/
+        const keyModule = [[ ${#request.getAttribute('_publicKeyModulus')}]];
+        const keyExponent = [[ ${#request.getAttribute('_publicKeyExponent')}]];
+        $('#sendLogin').on('click', function () {
+            const rsa = new RSAKey();
+            rsa.setPublic(keyModule, keyExponent);
+            $('#userId').val(rsa.encrypt($.trim($('#uid').val())));
+            $('#password').val(rsa.encrypt($.trim($('#upasswd').val())));
+            $('#loginForm').submit();
+        });
+        /*]]>*/
+    });
+</script>
+
+
+</body>
+</html>
