@@ -12,11 +12,8 @@ import javax.persistence.Column
 @Table(name = "awfRole")
 public data class RoleEntity(
 	@Id
-	@Column(name = "roleNo")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var roleNo: Int,
-	@Column(name = "roleName")
-	var roleName: String,
+	@Column(name = "roleId") var roleId: String,
+	@Column(name = "roleName") var roleName: String,
 	@Column(name = "roleDesc") var roleDesc: String? = null,
 	@Column(name = "createId") var createId: String? = null,
 	@Column(name = "createDate") var createDate: String? = null,
