@@ -43,19 +43,19 @@
 			<table class="table" border="1">
 				<tr>
 					<th rowspan="4">팝업 알림 설정 정보</th>
-					<th>높이</th>
+					<th>*높이</th>
 					<td colspan="2"><span th:text="${notice?.popHeight}"></span></td>
 				</tr>
 				<tr>
-					<td>넓이</td>
+					<td>*넓이</td>
 					<td colspan="2"><span th:text="${notice?.popWidth}"/></span></td>
 				</tr>
 				<tr>
-					<td>시작일</td>
+					<td>*시작일</td>
 					<td colspan="2"><span th:text="${#temporals.format(notice.popStrtDt,'yyyy-MM-dd hh:mm:ss')}" ></span></td>
 				</tr>
 				<tr>
-					<td>종료일</td>
+					<td>*종료일</td>
 					<td colspan="2"><span th:text="${#temporals.format(notice.popEndDt,'yyyy-MM-dd hh:mm:ss')}"/></span></td>
 				</tr>
 			</table>
@@ -65,11 +65,11 @@
 			<table class="table" border="1">
 				<tr>
 					<th rowspan="4">상단 공지 설정 정보</th>
-					<th>시작일</th>
+					<th>*시작일</th>
 					<td colspan="2"><span th:text="${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd hh:mm:ss')}"></span></td>
 				</tr>
 				<tr>
-					<th>종료일</th>
+					<th>*종료일</th>
 					<td colspan="2"><span th:text="${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd hh:mm:ss')}"></span></td>
 				</tr>
 			</table>

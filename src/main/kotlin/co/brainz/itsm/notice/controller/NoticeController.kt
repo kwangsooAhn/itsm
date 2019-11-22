@@ -55,36 +55,26 @@ public class NoticeController {
 	//list
 	@GetMapping("", "/")
 	public fun list(request: HttpServletRequest, model: Model): String {
+		println("list controller")
 
 		if (!(request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check")) {
 			if (request.getParameter("notice_title") == "check") {
-				var fromDate: LocalDateTime =
-					convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
-				var toDate: LocalDateTime =
-					convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
-				model.addAttribute(
-					"noticeList",
-					noticeService.findAllByTitle(request.getParameter("keyword"), fromDate, toDate)
+				var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
+				var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
+				model.addAttribute("noticeList", noticeService.findAllByTitle(request.getParameter("keyword"), fromDate, toDate)
 				)
 			} else if (request.getParameter("create_userId") == "check") {
-				var fromDate: LocalDateTime =
-					convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
-				var toDate: LocalDateTime =
-					convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
-				model.addAttribute(
-					"noticeList",
-					noticeService.findAllByWriter(request.getParameter("keyword"), fromDate, toDate)
+				var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
+				var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
+				model.addAttribute( "noticeList", noticeService.findAllByWriter(request.getParameter("keyword"), fromDate, toDate)
 				)
 			} else {
 				model.addAttribute("noticeList", noticeService.findNoticeList())
 			}
 		} else if (request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check") {
-			var fromDate: LocalDateTime =
-				convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
+			var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
 			var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
-			model.addAttribute(
-				"noticeList",
-				noticeService.findAllCheck(request.getParameter("keyword"), fromDate, toDate)
+			model.addAttribute( "noticeList", noticeService.findAllCheck(request.getParameter("keyword"), fromDate, toDate)
 			)
 		}
 		var addCurrentDate = LocalDateTime.now().plusDays(6)
@@ -117,8 +107,8 @@ public class NoticeController {
 	}
 
 	//insert
-	@RequestMapping(value = ["/insert"], method = [RequestMethod.POST])
-	public fun insert(
+	@RequestMapping(value = ["/edit/{noticeNo}","/edit"], method = [RequestMethod.POST])
+	public fun edit(
 		@RequestParam (required = false) popStrtDtBefore :String,
 		@RequestParam (required = false) popEndDtBefore:String,
 		@RequestParam (required = false) topNoticeStrtDtBefore:String,
@@ -159,50 +149,5 @@ public class NoticeController {
 		
 		return "redirect:/notice";
 	}
-
-	//update
-	@RequestMapping(value = ["/update/{noticeNo}"], method = [RequestMethod.POST])
-    public fun update(
-		@PathVariable noticeNo : String,
-		@RequestParam (required = false) popStrtDtBefore :String,
-		@RequestParam (required = false) popEndDtBefore:String,
-		@RequestParam (required = false) topNoticeStrtDtBefore:String,
-		@RequestParam (required = false) topNoticeEndDtBefore:String,
-		@RequestParam (required = false) popYn : String,
-		@RequestParam (required = false) topNoticeYn : String,
-	    @RequestParam createDtBefore:String,
-		notice : Notice) : String{
-		
-		var formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-	    var createDtAfter : LocalDateTime = LocalDateTime.parse(createDtBefore,formatter)
-		
-		if(popYn == "false"){
-		notice.popStrtDt = null
-		notice.popEndDt = null
-		notice.popWidth = null
-		notice.popHeight = null
-		}else{
-		var popStrtDtAfter : LocalDateTime? = LocalDateTime.parse(popStrtDtBefore,formatter)
-		var popEndDtAfter : LocalDateTime? = LocalDateTime.parse(popEndDtBefore,formatter)
-		notice.popStrtDt = popStrtDtAfter
-		notice.popEndDt = popEndDtAfter
-		}
-		
-		if(topNoticeYn == "false"){
-		notice.topNoticeStrtDt = null
-		notice.topNoticeEndDt = null
-		}else{
-		var topNoticeStrtDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeStrtDtBefore,formatter)
-		var topNoticeEndDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeEndDtBefore,formatter)
-		notice.topNoticeStrtDt = topNoticeStrtDtAfter
-		notice.topNoticeEndDt = topNoticeEndDtAfter		
-		}	
-			
-		notice.createDt = createDtAfter
-		
-		noticeRepository.save(notice)
-		return "redirect:/notice";
-	}
-
 
 }
