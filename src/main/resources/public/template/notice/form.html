@@ -17,7 +17,6 @@
 	<div class="container">
 		<br />
 		<form id="form_sendData" method="post">
-			<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 			<input id=notice_createDt name="createDtBefore" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" />
 			<table class="table" border="1">
 				<tr>
