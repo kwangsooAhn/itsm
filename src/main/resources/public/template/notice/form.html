@@ -17,7 +17,7 @@
 	<div class="container">
 		<br />
 		<form id="form_sendData" method="post">
-			<input id=notice_createDt name="createDtBefore" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd hh:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd hh:mm:ss')}" />
+			<input id=notice_createDt name="createDtBefore" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
 			<table class="table" border="1">
 				<tr>
 					<th>*제목</th>
@@ -67,7 +67,7 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
-												<input type="text" id="pop_strt_dt" th:value="${#dates.format(#dates.createNow(),'yyyy-MM-dd hh:mm:ss')}" name="popStrtDtBefore" class="form-control datetimepicker-input" data-target="#popStrtDtCal">
+												<input type="text" id="pop_strt_dt" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popStrtDtBefore" class="form-control datetimepicker-input" data-target="#popStrtDtCal">
 												<div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -88,7 +88,7 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="popEndDtCal" data-target-input="nearest">
-												<input type="text" id="pop_end_dt" th:value="${addCurrentDate}" name="popEndDtBefore" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
+												<input type="text" id="pop_end_dt" th:value="${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popEndDtBefore" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
 												<div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -115,7 +115,7 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
-												<input type="text" id="top_notice_strt_dt" th:value="${#dates.format(#dates.createNow(),'yyyy-MM-dd hh:mm:ss')}" name="topNoticeStrtDtBefore" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
+												<input type="text" id="top_notice_strt_dt" th:value="${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeStrtDtBefore" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
 												<div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -137,7 +137,7 @@
 										<div class="form-group">
 											<div class="input-group date" id="topNoticeEndDtCal"
 												data-target-input="nearest">
-												<input type="text" id="top_notice_end_dt" th:value="${addCurrentDate}" name="topNoticeEndDtBefore" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
+												<input type="text" id="top_notice_end_dt" th:value="${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeEndDtBefore" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
 												<div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
