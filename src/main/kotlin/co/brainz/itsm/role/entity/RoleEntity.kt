@@ -7,6 +7,7 @@ import javax.persistence.GenerationType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Column
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "awfRole")
@@ -16,9 +17,9 @@ public data class RoleEntity(
 	@Column(name = "roleName") var roleName: String,
 	@Column(name = "roleDesc") var roleDesc: String? = null,
 	@Column(name = "createId") var createId: String? = null,
-	@Column(name = "createDate") var createDate: String? = null,
+	@Column(name = "createDate") var createDate: LocalDateTime? = null,
 	@Column(name = "updateId") var updateId: String? = null,
-	@Column(name = "updateDate") var updateDate: String? = null
+	@Column(name = "updateDate") var updateDate: LocalDateTime? = null
 ) : Serializable {
 
 }

@@ -7,4 +7,5 @@ import co.brainz.itsm.role.entity.RoleEntity
 @Repository
 public interface RoleRepository : JpaRepository<RoleEntity, String> {
 	public override fun findAll(): MutableList<RoleEntity>
+	public fun findAllByOrderByRoleNameAsc(): MutableList<RoleEntity>
 }
