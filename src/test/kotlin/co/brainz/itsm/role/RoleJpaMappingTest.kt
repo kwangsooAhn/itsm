@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 import java.time.LocalDateTime
 
 import co.brainz.itsm.role.entity.RoleEntity
-import co.brainz.itsm.role.respository.RoleRepository
+import co.brainz.itsm.role.respository.ITSMRoleRepository
 import org.junit.After
 
 @RunWith (SpringJUnit4ClassRunner::class)
@@ -23,7 +23,7 @@ import org.junit.After
 class RoleJpaMappingTest {
 
 	@Autowired
-	private lateinit var roleRepository: RoleRepository
+	private lateinit var roleRepository: ITSMRoleRepository
 
 	@Before
 	fun save() {
