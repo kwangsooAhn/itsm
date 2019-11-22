@@ -1,16 +1,21 @@
-title: "국제화"
-welcome: "국제화(다국어 처리) 테스트 페이지입니다."
-lang:
-  change: "언어 변경"
-  en: "영어"
-  ko: "한국어"
-  select: "-선택-"
-  
-test:
-  title: "테스트 사이트"
-  msg1: "{0} 테스트 메시지 입니다."
-  msg2: "{0} {1} 테스트 메시지 입니다."
-  first:  "첫번째"
-  second: "두번째"
-  one: "1."
-  two: "2."
+# 메뉴 테이블 아이디
+service: "서비스"
+service.request: "서비스 요청"
+service.list: "요청 이력"
+help: "헬프데스크"
+help.notice: "공지사항"
+help.faq: "FAQ"
+
+# 권한 테이블 아이디
+service.read:
+  all: "서비스 요청 전체 조회"
+  my: "서비스 요청 자신 업무만 조회"
+service.create: "서비스 요청 작성"
+notice.read: "공지사항 조회"
+notice.create: "공지사항 등록"
+notice.update: "공지사항 변경"
+notice.delete: "공지사항 삭제"
+faq.read: "공지사항 조회"
+faq.create: "공지사항 등록"
+faq.update: "공지사항 변경"
+faq.delete: "공지사항 삭제"
