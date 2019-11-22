@@ -58,8 +58,8 @@ public class NoticeController {
 		println("list controller")
 
 		if (!(request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check")) {
-			if (request.getParameter("notice_title") == "check") {
-				var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
+		    if (request.getParameter("notice_title") == "check") {
+			    var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
 				var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
 				model.addAttribute("noticeList", noticeService.findAllByTitle(request.getParameter("keyword"), fromDate, toDate)
 				)
@@ -93,17 +93,20 @@ public class NoticeController {
 	public fun form(@RequestParam(value = "noticeNo", defaultValue = "0") noticeNo: String, model: Model): String {
 		
 		var addCurrentDate = LocalDateTime.now().plusDays(6)
-		model.addAttribute("addCurrentDate",addCurrentDate)
 		
+		model.addAttribute("addCurrentDate",addCurrentDate)
 		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeNo))
+		
 		return "notice/form"
 	}
 
 	// delete
 	@RequestMapping("/delete/{noticeNo}")
 	public fun delete(@PathVariable noticeNo: String): String {
-		noticeRepository.deleteById(noticeNo);
-		return "redirect:/notice";
+		
+		noticeRepository.deleteById(noticeNo)
+		
+		return "redirect:/notice"
 	}
 
 	//insert
@@ -122,32 +125,32 @@ public class NoticeController {
 	    var createDtAfter : LocalDateTime = LocalDateTime.parse(createDtBefore,formatter)
 		
 		if(popYn == "false"){
-		notice.popStrtDt = null
-		notice.popEndDt = null
-		notice.popWidth = null
-		notice.popHeight = null
-		}else{
-		var popStrtDtAfter : LocalDateTime? = LocalDateTime.parse(popStrtDtBefore,formatter)
-		var popEndDtAfter : LocalDateTime? = LocalDateTime.parse(popEndDtBefore,formatter)
-		notice.popStrtDt = popStrtDtAfter
-		notice.popEndDt = popEndDtAfter
+		    notice.popStrtDt = null
+		    notice.popEndDt = null
+		    notice.popWidth = null
+		    notice.popHeight = null
+		} else {
+		    var popStrtDtAfter : LocalDateTime? = LocalDateTime.parse(popStrtDtBefore,formatter)
+		    var popEndDtAfter : LocalDateTime? = LocalDateTime.parse(popEndDtBefore,formatter)
+	    	notice.popStrtDt = popStrtDtAfter
+	    	notice.popEndDt = popEndDtAfter
 		}
 		
 		if(topNoticeYn == "false"){
-		notice.topNoticeStrtDt = null
-		notice.topNoticeEndDt = null
-		}else{
-		var topNoticeStrtDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeStrtDtBefore,formatter)
-		var topNoticeEndDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeEndDtBefore,formatter)
-		notice.topNoticeStrtDt = topNoticeStrtDtAfter
-		notice.topNoticeEndDt = topNoticeEndDtAfter		
+		    notice.topNoticeStrtDt = null
+		    notice.topNoticeEndDt = null
+		} else {
+		    var topNoticeStrtDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeStrtDtBefore,formatter)
+		    var topNoticeEndDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeEndDtBefore,formatter)
+		    notice.topNoticeStrtDt = topNoticeStrtDtAfter
+		    notice.topNoticeEndDt = topNoticeEndDtAfter		
 		}	
 			
-		notice.createDt = createDtAfter
+		    notice.createDt = createDtAfter
 		
-		noticeRepository.save(notice)
+		    noticeRepository.save(notice)
 		
-		return "redirect:/notice";
+		    return "redirect:/notice";
 	}
 
 }
