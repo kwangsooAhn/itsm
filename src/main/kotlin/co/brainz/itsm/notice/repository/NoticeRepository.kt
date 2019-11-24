@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 @Repository
 public interface NoticeRepository : JpaRepository<Notice, String> {
 
-	@Query("select a from Notice a where a.topNoticeYn = true")
+	@Query("select a from Notice a where (a.topNoticeStrtDt < now() and a.topNoticeEndDt > now()) and a.topNoticeYn = true")
 	fun findTopNoticeList(): MutableList<Notice>
 
 	@Query("select a from Notice a where a.noticeTitle like %?1% and a.createDt between ?2 and ?3")
