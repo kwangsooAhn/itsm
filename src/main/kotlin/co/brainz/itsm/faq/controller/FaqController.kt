@@ -4,13 +4,22 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import javax.servlet.http.HttpServletRequest
 import org.springframework.web.servlet.ModelAndView
+import org.springframework.ui.Model
+import co.brainz.itsm.faq.service.FaqService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Controller
 
+@Controller
 @RequestMapping("/faq")
 class FaqController {
     
+    @Autowired
+    lateinit var faqService: FaqService
+    
     @RequestMapping(path = ["/list"], method = [RequestMethod.GET])
-    fun getFaqList(request: HttpServletRequest): ModelAndView {
-        return ModelAndView("faqList")
+    fun getFaqList(request: HttpServletRequest, model: Model): ModelAndView {
+        model.addAttribute("faqList",faqService.findAll())                 
+        return ModelAndView("faq/list")
     }
     
     @RequestMapping(path = ["/"], method = [RequestMethod.POST])

@@ -10,12 +10,12 @@ import javax.persistence.Column
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "awfFaq")
+@Table(name = "portalFaq")
 public data class FaqEntity(
     @Id @GeneratedValue @Column var faqId: String,
     @Column var faqGroup: String,
     @Column var faqTitle: String,
-    @Column var fqaContents: String,
+    @Column var faqContent: String,
     @Column var createDt: LocalDateTime,
     @Column var createUserid: String,
     @Column var updateDt: LocalDateTime,
@@ -23,4 +23,3 @@ public data class FaqEntity(
 
 ) : Serializable {
 }
-    
