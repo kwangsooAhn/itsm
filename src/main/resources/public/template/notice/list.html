@@ -111,7 +111,6 @@
             });
         });
 		
-		
 		//validation check and submit
 		function validation(){
 			var search_value = $('#form_search #keyword').val();
@@ -120,8 +119,7 @@
 			if(check_value == true){alert("검색 조건을 선택해 주세요."); return false;}
 			if(search_value == ''){alert("검색어를 입력해주세요."); return false;}
 			if($('#from_date').val() == ''){alert("검색 시작 날짜를 입력해주세요."); return false;}
-			if($('#to_date').val() == ''){alert("검색 종료 날짜를 입력해주세요."); return false;}
-			
+			if($('#to_date').val() == ''){alert("검색 종료 날짜를 입력해주세요."); return false;}	
 		}
 		
 	</script>

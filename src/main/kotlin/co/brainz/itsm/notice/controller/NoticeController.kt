@@ -85,6 +85,7 @@ public class NoticeController {
 	//공지사항 세부 조회
 	@GetMapping("/{id}")
 	public fun getNotice(@PathVariable id : String, model: Model): String {
+	
 		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(id))
 		return "notice/detail"
 	}
