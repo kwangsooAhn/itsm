@@ -52,10 +52,9 @@ public class NoticeController {
 	@Autowired
 	lateinit var convertParam: ConvertParam
 
-	//list
-	@GetMapping("", "/")
-	public fun list(request: HttpServletRequest, model: Model): String {
-		println("list controller")
+	//공지사항 리스트 조회
+	@GetMapping("/list")
+	public fun getNoticeList(request: HttpServletRequest, model: Model): String {
 
 		if (!(request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check")) {
 		    if (request.getParameter("notice_title") == "check") {
@@ -82,15 +81,17 @@ public class NoticeController {
 		model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
 		return "notice/list"
 	}
-
-	@GetMapping("/detail")
-	public fun detail(@RequestParam(value = "noticeNo") noticeNo: String, model: Model): String {
-		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeNo))
+	
+	//공지사항 세부 조회
+	@GetMapping("/{id}")
+	public fun getNotice(@PathVariable id : String, model: Model): String {
+		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(id))
 		return "notice/detail"
 	}
 
-	@GetMapping("/form")
-	public fun form(@RequestParam(value = "noticeNo", defaultValue = "0") noticeNo: String, model: Model): String {
+	//공지사항 등록 화면
+	@GetMapping("","/")
+	public fun getNoticeForm(@RequestParam(value = "noticeNo", defaultValue = "0") noticeNo: String, model: Model): String {
 		
 		var addCurrentDate = LocalDateTime.now().plusDays(6)
 		
@@ -100,18 +101,19 @@ public class NoticeController {
 		return "notice/form"
 	}
 
-	// delete
-	@RequestMapping("/delete/{noticeNo}")
-	public fun delete(@PathVariable noticeNo: String): String {
+
+    //공지사항 삭제
+	@RequestMapping(value = ["/{id}"],method = [RequestMethod.DELETE])
+	public fun deleteNotice(@PathVariable id: String): String {
 		
-		noticeRepository.deleteById(noticeNo)
+		noticeRepository.deleteById(id)
 		
-		return "redirect:/notice"
+		return "redirect:/notice/list"
 	}
 
-	//insert
-	@RequestMapping(value = ["/edit/{noticeNo}","/edit"], method = [RequestMethod.POST])
-	public fun edit(
+	//공지사항 등록 수정.
+	@RequestMapping(value = ["/{noticeNo}","/",""],method = [RequestMethod.POST])
+	public fun insertNotice(
 		@RequestParam (required = false) popStrtDtBefore :String,
 		@RequestParam (required = false) popEndDtBefore:String,
 		@RequestParam (required = false) topNoticeStrtDtBefore:String,
@@ -150,7 +152,6 @@ public class NoticeController {
 		
 		    noticeRepository.save(notice)
 		
-		    return "redirect:/notice"
+		    return "redirect:/notice/list"
 	}
-
 }

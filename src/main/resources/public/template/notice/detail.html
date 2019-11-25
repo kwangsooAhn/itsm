@@ -9,6 +9,7 @@
 <body>
 	<div class="container">
 		<br /> 	
+		<form id = "frm" th:attr="action=@{|/notice/${notice.noticeNo}|}" method = "post">
 		<table class="table" border="1">
 			<tr>
 				<th>제목</th>
@@ -75,10 +76,12 @@
 			</table>
 		</div>
 		<div style = "float:right;">
-			<button type="button" onclick="location.href='/notice'">목록</button>
-			<button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notice/form?noticeNo={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''">수정</button>
-			<button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notice/delete/{noticeNo}(noticeNo = ${notice.NoticeNo})}+ '\''">삭제</button>
+			<button type="button" onclick="location.href='/notice/list'">목록</button>
+            <button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notice?noticeNo={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''">수정</button>
+			<button th:if="${notice?.noticeNo}" type="button" th:onclick ="proc('delete')">삭제</button>
 		</div>
+		<input type = "hidden" name = "_method" id = "_method" value = "PUT"/>
+		</form>
 	</div>
 
 
@@ -102,6 +105,12 @@
 		}
 			
 	})	
+	
+	
+	function proc(type) {
+	        document.getElementById("_method").value = type;	
+			document.getElementById("frm").submit()
+	}
 	</script>
 
 </body>

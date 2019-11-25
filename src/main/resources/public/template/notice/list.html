@@ -17,7 +17,7 @@
 	<br />
 	<br />
 	<div class="container">
-		<form id="form_search" method="get" action="/notice">
+		<form id="form_search" method="get" action="/notice/list">
 			<div class="pull-right" style="width: 1100px; margin: 10px 0;">
 				<input type="checkbox" id="notice_title" name="notice_title" value="check" />제목 
 				<input type="checkbox" id="create_userId" name="create_userId" value="check" />작성자 
@@ -56,7 +56,7 @@
 				<button type="submit" id="btnSearch" name="btnSearch" onclick="return validation()">검색</button>
 			</div>
 		</form>
-		<button type="button" style="text-align: left; float: right;" onclick="location.href='notice/form'">등록</button>
+		<button type="button" style="text-align: left; float: right;" onclick="location.href='/notice'">등록</button>
 		<div>
 			<table class="table table-hover" style="text-align: center">
 				<colgroup>
@@ -77,18 +77,18 @@
 				</thead>
 				<tbody>
 					<tr th:each="topNotice : ${topNoticeList}">
-						<td th:if="${topNotice.topNoticeYn} == true"><img src="assets/media/icons/icon_notice.gif"></td>
+						<td th:if="${topNotice.topNoticeYn} == true"><img src="../assets/media/icons/icon_notice.gif"></td>
 						<td th:unless="${topNotice.topNoticeYn} == true"></td>
-						<td style = "text-align:left"><a th:href="'/notice/detail?noticeNo='+${topNotice.noticeNo}" th:text="${topNotice.noticeTitle}"></a></td>
-						<td th:if="${topNotice.popYn} == true "><img src="assets/media/icons/icon_pop.gif"></td>
+						<td style = "text-align:left"><a th:href="'/notice/'+${topNotice.noticeNo}" th:text="${topNotice.noticeTitle}"></a></td>
+						<td th:if="${topNotice.popYn} == true "><img src="../assets/media/icons/icon_pop.gif"></td>
 						<td th:unless="${topNotice.popYn} == true "></td>
 						<td th:text="${topNotice.createUserid}"></td>
 						<td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
 					</tr>
 					<tr th:each="notice : ${noticeList}">
 						<td id="topNoticeYn"></td>
-						<td style = "text-align:left"><a th:href="'/notice/detail?noticeNo='+${notice.noticeNo}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
-						<td th:if="${notice.popYn} == true "><img src="assets/media/icons/icon_pop.gif"></td>
+						<td style = "text-align:left"><a th:href="'/notice/'+${notice.noticeNo}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
+						<td th:if="${notice.popYn} == true "><img src="../assets/media/icons/icon_pop.gif"></td>
 						<td th:unless="${notice.popYn} == true "></td>
 						<td id="createUserid" th:text="${notice.createUserid}"></td>
 						<td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
