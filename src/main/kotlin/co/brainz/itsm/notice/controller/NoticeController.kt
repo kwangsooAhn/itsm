@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import co.brainz.itsm.notice.repository.NoticeRepository
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestBody
-import co.brainz.itsm.notice.domain.Notice
+import co.brainz.itsm.notice.entity.NoticeEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.format.annotation.DateTimeFormat
@@ -119,7 +119,7 @@ public class NoticeController {
 		@RequestParam (required = false) popYn : String,
 		@RequestParam (required = false) topNoticeYn : String,
 	    @RequestParam createDtBefore:String,
-		notice: Notice): String {
+		notice: NoticeEntity): String {
 		
 		var formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 	    var createDtAfter : LocalDateTime = LocalDateTime.parse(createDtBefore,formatter)
@@ -150,7 +150,7 @@ public class NoticeController {
 		
 		    noticeRepository.save(notice)
 		
-		    return "redirect:/notice";
+		    return "redirect:/notice"
 	}
 
 }

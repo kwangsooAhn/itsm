@@ -1,4 +1,4 @@
-package co.brainz.itsm.notice.domain
+package co.brainz.itsm.notice.entity
 
 import java.io.Serializable
 import javax.persistence.Table
@@ -11,8 +11,8 @@ import java.time.LocalDateTime
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@Table(name = "portalNoticeTab")
-public data class Notice(
+@Table(name = "portalNotice")
+public data class NoticeEntity(
     @Id @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid") @Column var noticeNo: String? = null,
 	@Column var noticeTitle: String? = null,

@@ -52,11 +52,11 @@
 					<tr>
 						<th rowspan="4">팝업 알림 설정 정보</th>
 						<th>*높이</th>
-						<th colspan="2"><input type="number" id="pop_height" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500">px</th>
+						<th colspan="2"><input type="number" id="pop_height" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500" max = "1000" min = "500" maxlength="4" oninput="maxLengthCheck(this)" >px</th>
 					</tr>
 					<tr>
 						<td>*넓이</td>
-						<td colspan="2"><input type="number" id="pop_width" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popHeight} : 500" />px</td>
+						<td colspan="2"><input type="number" id="pop_width" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max = "1000" min = "500" maxlength="4" oninput="maxLengthCheck(this)" />px</td>
 					</tr>
 					<tr>
 						<td>*시작일</td>
@@ -249,6 +249,12 @@
 		 }
 	}	
 	
+	// pop width, heigth maxLengthCheck
+	function maxLengthCheck(object){
+		if(object.value.length > object.maxLength) {
+			object.value = object.value.slice(0, object.maxLength)
+		}
+	}
 	</script>
 
 
