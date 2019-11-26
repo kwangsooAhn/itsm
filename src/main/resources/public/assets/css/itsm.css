@@ -5,7 +5,7 @@
 
 .subMenu {background-color:#f3f1f1;position:fixed;top:40px;font-size:15px;color:#3a3a3a;height:100%; width:240px;}
 
-.contents {margin:20px 0px 0px 260px;}
+.contents {margin: 30px 120px 0 120px;}
 
 table.list {
   width: 80%;
@@ -36,3 +36,4 @@ table.list > tr > td {
   word-break:break-all;
   text-align:center;
 }
+
