@@ -27,7 +27,7 @@ public class RoleController {
 	@Autowired
 	lateinit var roleService: RoleService
 
-	@GetMapping("role/List")
+	@GetMapping("roles/form")
 	public fun list(request: HttpServletRequest, model: Model): String {
 
 		var roleList = roleService.getRoleList()
@@ -49,7 +49,7 @@ public class RoleController {
 		model.addAttribute("authList", authList)
 		model.addAttribute("userList", userList)
 
-		return "role/List"
+		return "roles/form"
 	}
 
 }

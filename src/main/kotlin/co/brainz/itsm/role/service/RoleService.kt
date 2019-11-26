@@ -9,10 +9,10 @@ import co.brainz.itsm.role.respository.ITSMUserRepository
 import co.brainz.itsm.role.respository.ITSMRoleAuthMapRepository
 import co.brainz.itsm.role.respository.ITSMUserRoleRepository
 import co.brainz.itsm.role.entity.RoleEntity
-import co.brainz.framework.auth.entity.UserEntity
-import co.brainz.framework.auth.entity.AuthEntity
 import co.brainz.itsm.role.entity.RoleAuthMapEntity
 import co.brainz.itsm.role.entity.UserRoleMapEntity
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.entity.AliceAuthEntity
 
 @Service
 public open class RoleService {
@@ -46,12 +46,12 @@ public open class RoleService {
 	}
 
 	//전체 권한정보를 가져온다.
-	public fun getAuthList(): MutableList<AuthEntity> {
+	public fun getAuthList(): MutableList<AliceAuthEntity> {
 		return authRepository.findByOrderByAuthIdAsc()
 	}
 
 	//전체 사용자정보를 가져온다.
-	public fun getUserList(): MutableList<UserEntity> {
+	public fun getUserList(): MutableList<AliceUserEntity> {
 		return userRepository.findByOrderByUserIdAsc()
 	}
 
