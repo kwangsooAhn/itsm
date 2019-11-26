@@ -12,7 +12,6 @@ import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.role.entity.RoleEntity
-
 @Controller
 public class RoleController {
 
@@ -27,15 +26,16 @@ public class RoleController {
 	@Autowired
 	lateinit var roleService: RoleService
 
-	@GetMapping("role/RoleList")
+	@GetMapping("role/List")
 	public fun list(request: HttpServletRequest, model: Model): String {
 		model.addAttribute("roleList", roleService.getRoleList())
-		return "role/RoleList"
+		model.addAttribute("authList", roleService.getAuthList())
+		return "role/List"
 	}
 
-	@PostMapping("role/RoleList")
+/*	@PostMapping("role/List")
 	public fun list1(model: Model): String {
-		return "role/RoleList"
-	}
+		return "role/List"
+	}*/
 
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<title>Insert title here</title>
+</head>
+<script>
+function search(){}
+function delete(){}
+function save(){} 
+</script>
+<body>
+<table>
+	<tr>
+		<td>
+			<button type="button" id="btnSearch" name="btnSearch" onclick="search();">추가</button>
+		</td>
+	</tr>
+</table>
+<table border="1" >
+	<tr style="width:250px">
+		<td th:each="role : ${roleList}" id="noticeTitle" th:text="|[ ${role.roleName} ]|" style="text-align: left"></td>
+	</tr>
+</table>
+<table border="1">
+	<tr style="width:600px">
+		<th>* 역할명</th>
+		<td><input id="txtRoleName" name="txtRoleName"></input></td>
+	</tr>
+	<tr>
+		<th>역할설명</th>
+		<td><input id="txtRoleName" name="txtRoleName"></input></td>
+	</tr>
+	<tr>
+		<th>권한</th>
+		<td><input type="checkbox" name="role_auth" value="HTML">HTML</td>
+	</tr>
+	<tr>
+		<th>사용자</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>등록자</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>등록일시</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>수정자</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th>수정일시</th>
+		<td></td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<td>
+			<button type="button" id="btnDelete" name="btnDelete" onclick="delete();">삭제</button>
+		</td>
+		<td>
+			<button type="button" id="btnSave" name="btnSave" onclick="save();">삭제</button>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

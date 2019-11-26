@@ -8,10 +8,12 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Column
 import java.time.LocalDateTime
+import javax.persistence.Inheritance
+import javax.persistence.InheritanceType
 
 @Entity
 @Table(name = "awfRole")
-public data class RoleEntity(
+data public class RoleEntity(
 	@Id
 	@Column(name = "roleId") var roleId: String,
 	@Column(name = "roleName") var roleName: String,

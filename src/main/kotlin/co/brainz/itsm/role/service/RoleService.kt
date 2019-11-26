@@ -25,4 +25,15 @@ public open class RoleService {
 		return roleRepository.findAll()
 	}
 
+	//전체 역할정보를 가져온다.
+	public fun getAuthList(): MutableList<RoleEntity> {
+		return roleRepository.findAll()
+	}
+	
+	//전체 역할정보를 가져온다.
+	public fun getUserFindIdList(): MutableList<RoleEntity> {
+		return roleRepository.findAll()
+	}
+	
+	
 }

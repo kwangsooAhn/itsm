@@ -16,6 +16,7 @@ import java.time.LocalDateTime
 import co.brainz.itsm.role.entity.RoleEntity
 import co.brainz.itsm.role.respository.ITSMRoleRepository
 import org.junit.After
+import co.brainz.itsm.role.respository.ITSMRoleAuthMapRepository
 
 @RunWith (SpringJUnit4ClassRunner::class)
 @SpringBootTest
@@ -25,6 +26,10 @@ class RoleJpaMappingTest {
 	@Autowired
 	private lateinit var roleRepository: ITSMRoleRepository
 
+	@Autowired
+	private lateinit var roleAuthRepository: ITSMRoleAuthMapRepository
+
+	
 	@Before
 	fun save() {
 		var inputDate = LocalDateTime.now()
@@ -42,15 +47,15 @@ class RoleJpaMappingTest {
 		roleRepository.deleteById("2")
 	}
 	
-	@Test
-	fun Save() {
-		var role = roleRepository.findById("2")
-		Assert.assertEquals(role.get().roleDesc, "역할설명")
-	}
+	/*
+	 * @Test fun Save() { var role = roleRepository.findById("2")
+	 * Assert.assertEquals(role.get().roleDesc, "역할설명") }
+	 * 
+	 * @Test fun AllSelect() { var list =
+	 * roleRepository.findAllByOrderByRoleNameAsc() Assert.assertNotNull(list) }
+	 */
 	
-	@Test
-	fun AllSelect() {
-		var list = roleRepository.findAllByOrderByRoleNameAsc()
-		Assert.assertNotNull(list)
+	@Test fun Save() {
+		println(roleAuthRepository.findAll())
 	}
 }
