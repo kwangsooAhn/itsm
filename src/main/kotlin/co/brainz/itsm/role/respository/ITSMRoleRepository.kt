@@ -6,6 +6,9 @@ import co.brainz.itsm.role.entity.RoleEntity
 
 @Repository
 public interface ITSMRoleRepository : JpaRepository<RoleEntity, String> {
-	public override fun findAll(): MutableList<RoleEntity>
-	public fun findAllByOrderByRoleNameAsc(): MutableList<RoleEntity>
+	//각 역할별 상세 내용 조회
+	public fun findByRoleId(roleId: String) : MutableList<RoleEntity>
+
+	//상단 역할명 조회
+	public fun findByOrderByRoleNameAsc(): MutableList<RoleEntity>
 }

@@ -12,7 +12,7 @@
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
 	<x>0</x>
-	<y>0</y>
+	<y>26</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2019-11-06 17:32:29</creation_date>
-			<updated_date>2019-11-07 10:48:45</updated_date>
+			<updated_date>2019-11-25 15:31:07</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
@@ -428,7 +428,7 @@
 			</color>
 			<connections>
 			</connections>
-			<physical_name>PORTAL_NOTICE_TAB</physical_name>
+			<physical_name>PORTAL_NOTICE</physical_name>
 			<logical_name>공지사항</logical_name>
 			<description></description>
 			<constraint></constraint>

@@ -12,6 +12,7 @@ import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.role.entity.RoleEntity
+
 @Controller
 public class RoleController {
 
@@ -28,14 +29,27 @@ public class RoleController {
 
 	@GetMapping("role/List")
 	public fun list(request: HttpServletRequest, model: Model): String {
-		model.addAttribute("roleList", roleService.getRoleList())
-		model.addAttribute("authList", roleService.getAuthList())
+
+		var roleList = roleService.getRoleList()
+		var authList = roleService.getAuthList()
+		var userList = roleService.getUserList()
+
+		if (roleList.size > 0) {
+			var roleId = roleList[0].roleId
+			var roleDetail = roleService.getRoleDetail(roleId)
+			var roleAuthMapList = roleService.getRoleAuthMapList(roleId)
+			var userRoleMapList = roleService.getUserRoleMapList(roleId)
+
+			model.addAttribute("roleAuthMapList", roleAuthMapList)
+			model.addAttribute("userRoleMapList", userRoleMapList)
+			model.addAttribute("roleDetail", roleDetail)
+		}
+
+		model.addAttribute("roleList", roleList)
+		model.addAttribute("authList", authList)
+		model.addAttribute("userList", userList)
+
 		return "role/List"
 	}
-
-/*	@PostMapping("role/List")
-	public fun list1(model: Model): String {
-		return "role/List"
-	}*/
 
 }

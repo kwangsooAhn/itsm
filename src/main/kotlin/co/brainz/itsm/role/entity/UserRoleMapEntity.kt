@@ -13,6 +13,6 @@ import java.time.LocalDateTime
 @Table(name = "awfUserRoleMap")
 public data class UserRoleMapEntity(
 	@Id
-	@Column(name = "userId") var userId: String,
-	@Column(name = "roleId") var roleId: String
+	@Column(name = "roleId") var roleId: String,
+	@Column(name = "userId") var userId: String
 ) : Serializable

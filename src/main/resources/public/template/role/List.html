@@ -6,67 +6,90 @@
 <title>Insert title here</title>
 </head>
 <script>
-function search(){}
-function delete(){}
-function save(){} 
+function onSearch(){}
+function onDelete(){}
+function onSave(){} 
 </script>
 <body>
-<table>
-	<tr>
-		<td>
-			<button type="button" id="btnSearch" name="btnSearch" onclick="search();">추가</button>
-		</td>
-	</tr>
-</table>
-<table border="1" >
-	<tr style="width:250px">
-		<td th:each="role : ${roleList}" id="noticeTitle" th:text="|[ ${role.roleName} ]|" style="text-align: left"></td>
-	</tr>
-</table>
-<table border="1">
-	<tr style="width:600px">
-		<th>* 역할명</th>
-		<td><input id="txtRoleName" name="txtRoleName"></input></td>
-	</tr>
-	<tr>
-		<th>역할설명</th>
-		<td><input id="txtRoleName" name="txtRoleName"></input></td>
-	</tr>
-	<tr>
-		<th>권한</th>
-		<td><input type="checkbox" name="role_auth" value="HTML">HTML</td>
-	</tr>
-	<tr>
-		<th>사용자</th>
-		<td></td>
-	</tr>
-	<tr>
-		<th>등록자</th>
-		<td></td>
-	</tr>
-	<tr>
-		<th>등록일시</th>
-		<td></td>
-	</tr>
-	<tr>
-		<th>수정자</th>
-		<td></td>
-	</tr>
-	<tr>
-		<th>수정일시</th>
-		<td></td>
-	</tr>
-</table>
-<table>
-	<tr>
-		<td>
-			<button type="button" id="btnDelete" name="btnDelete" onclick="delete();">삭제</button>
-		</td>
-		<td>
-			<button type="button" id="btnSave" name="btnSave" onclick="save();">삭제</button>
-		</td>
-	</tr>
-</table>
-
+	<table>
+		<tr>
+			<td>
+				<button type="button" id="btnSearch" name="btnSearch" onclick="onSearch();">추가</button>
+			</td>
+		</tr>
+	</table>
+	<table border="1">
+		<tr>
+			<colgroup>
+				<col width="610px">
+			</colgroup>
+			<td>
+				<a th:each="role : ${roleList}" th:href="@{/role/details(id=${role.roleId})}" th:text="|[ ${role.roleName} ]|" >
+			</td>
+		</tr>
+	</table>
+	<form id="fromRole" name="fromRole" method="post">
+		<table border="1">
+			<colgroup>
+				<col width="100px">
+				<col width="500px">
+			</colgroup>
+			<tr>
+				<th>* 역할명</th>
+				<td>
+					<input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail[0]?.roleId}" maxlength="100" />
+				</td>
+			</tr>
+			<tr>
+				<th>역할설명</th>
+				<td>
+					<input id="txtRoleDesc" name="txtRoleDesc" th:value="${roleDetail[0]?.roleDesc}" maxlength="140" rows="7"
+					style="width: 500px; resize: none;"></input>
+				</td>
+			</tr>
+			<tr>
+				<th>권한</th>
+				<td>
+					<ui th:each="auth : ${authList}">
+						<input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:field="*{authList}">
+						<span th:text="${auth?.authName}"></span>
+					</ui>
+				</td>
+			</tr>
+			<tr>
+				<th>사용자</th>
+				<td>
+					<input id="userSearch" name="userSearch"><button type="button" id="btnUserSearch" name="btnUserSearch">추가</button><br/>
+					<a th:each="user : ${userList}" th:href="@{/role/details(id=${user?.userId})}" th:text="| ${user?.userName}(${user?.userId})[삭제]|" >
+				</td>
+			</tr>
+			<tr>
+				<th>등록자</th>
+				<td><span th:text="${roleDetail[0]?.createId}"></span></td>
+			</tr>
+			<tr>
+				<th>등록일시</th>
+				<td><span th:text="${roleDetail[0]?.createDate}"></span></td>
+			</tr>
+			<tr>
+				<th>수정자</th>
+				<td><span th:text="${roleDetail[0]?.updateId}"></span></td>
+			</tr>
+			<tr>
+				<th>수정일시</th>
+				<td><span th:text="${roleDetail[0]?.updateDate}"></span></td>
+			</tr>
+		</table>
+	</form>
+	<table>
+		<tr>
+			<td>
+				<button type="button" id="btnDelete" name="btnDelete" onclick="onDelete();">삭제</button>
+			</td>
+			<td>
+				<button type="button" id="btnSave" name="btnSave" onclick="onSave();">저장</button>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>
