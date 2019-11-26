@@ -37,6 +37,7 @@
     --top-inactive: #fff;
     --left-active: #0c4dcd;
     --left-inactive: #5a5a5a;
+    --list-border: #c0c0c0;
     /* key color */
     --breakpoint-xs: 0;
     --breakpoint-sm: 576px;
@@ -1657,7 +1658,7 @@ table
 .table {
     width: 100%;
     margin-bottom: 1rem;
-    color: #212529
+    word-break:break-all;
 }
 
 .table td,
@@ -1679,6 +1680,38 @@ table
 .table-sm td,
 .table-sm th {
     padding: .3rem
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tr > th {
+  border-bottom: 1px solid #dbdbdb;
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 5px 10px 5px 10px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table > tr:nth-child(even) {
+  background-color : #e9e9e9;
+}
+
+.table > tbody > tr > td,
+.table > tr > td {
+  border-bottom: 1px solid #dbdbdb;
+  vertical-align: middle;
+  padding:5px 10px;
+  word-break:break-all;
+  font-size: 14px
+}
+
+.table > td.align-right {
+  text-align: right;
+}
+
+.table > td.align-left {
+  text-align: left;
 }
 
 .table-bordered {
@@ -5035,6 +5068,13 @@ body (added / left + contents)
     top: 60px;
     display: flex;
     align-items: stretch;
+}
+
+.per-tab {
+    border: solid 2px var(--list-border);
+    box-shadow: 3px 3px 3px 3px var(--light);
+    margin-top: 30px;
+    padding: 20px 32px;
 }
 /*
 ---------------------------------------------
