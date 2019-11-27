@@ -40,7 +40,8 @@
     --list-border: #c0c0c0;
     --table-odd: #fff;
     --table-even: #f5f5f5;
-    --table-sec-color: ##E6F0FF;
+    --table-even: #F4F5F8;
+    --table-sec-color: #E6F0FF;
     --table-border: #dee2e6;
     /* key color */
     --breakpoint-xs: 0;
