@@ -19,3 +19,12 @@ faq.read: "공지사항 조회"
 faq.create: "공지사항 등록"
 faq.update: "공지사항 변경"
 faq.delete: "공지사항 삭제"
+
+# 사용자
+user:
+  id: "아이디"
+  name: "이름"
+  position: "직책"
+  department: "부서"
+  extension: "내선번호"
+  reg: "사용자 등록"
