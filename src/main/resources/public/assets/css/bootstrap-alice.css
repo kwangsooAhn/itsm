@@ -38,8 +38,10 @@
     --left-active: #0c4dcd;
     --left-inactive: #5a5a5a;
     --list-border: #c0c0c0;
-    --table-odd: #f5f5f5;
-    --table-even: #fff;
+    --table-odd: #fff;
+    --table-even: #f5f5f5;
+    --table-sec-color: ##E6F0FF;
+    --table-border: #dee2e6;
     /* key color */
     --breakpoint-xs: 0;
     --breakpoint-sm: 576px;
@@ -1661,16 +1663,20 @@ table (edited)
     word-break: break-all;
 }
 
+.table tr {
+    height: 2.5rem;
+}
+
 .table td,
 .table th {
     padding: .75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6
+/*     border-top: 1px solid var(--table-border) */
 }
 
 .table thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid #dee2e6
+/*     border-bottom: 2px solid var(--table-border) */
 }
 
 .table tbody+tbody {
@@ -1685,7 +1691,7 @@ table (edited)
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tr > th {
-  border-bottom: 1px solid #dbdbdb;
+/*   border-bottom: 1px solid var(--table-border); */
   font-weight: bold;
   white-space: nowrap;
   padding: 5px 10px 5px 10px;
@@ -1695,12 +1701,21 @@ table (edited)
 
 .table > thead > tr,
 .table > tbody > tr:nth-child(even) {
+  background-color : var(--table-even);
+}
+
+.table > tbody > tr:nth-child(odd) {
   background-color : var(--table-odd);
+}
+
+.table > tbody > tr:last-child {
+  border-bottom: 1px solid var(--table-border);
+
 }
 
 .table > tbody > tr > td,
 .table > tr > td {
-  border-bottom: 1px solid #dbdbdb;
+/*   border-bottom: 1px solid var(--table-border); */
   vertical-align: middle;
   text-align: center;
   padding:5px 10px;
@@ -5078,8 +5093,8 @@ body (added / left + contents)
     margin-top: 60px;
     min-width: 75vw;
     }
-    
-.per-tab {
+
+.panel {
     border: solid 2px var(--list-border);
     box-shadow: 3px 3px 3px 3px var(--light);
     margin-top: 30px;
