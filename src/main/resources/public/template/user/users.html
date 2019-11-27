@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="users" th:unless="${#lists.isEmpty(users)}">
+    <table>
+        <thead>
+        <tr>
+            <td th:text="#{user.id}"></td>
+            <td th:text="#{user.name}">이름</td>
+            <td th:text="#{user.department}">부서</td>
+            <td th:text="#{user.position}">직책</td>
+            <td th:text="#{user.extension}">내선번호</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.userId}" class="useridclick">사용자 아이디</td>
+            <td th:text="${user.userName}">사용자 이름</td>
+            <td>데이터없음</td>
+            <td>데이터없음</td>
+            <td>데이터없음</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function () {
+            /*<![CDATA[*/
+            $('.useridclick').on('click', function () {
+                alert('사용자 등록 화면 열기.')
+            })
+            /*]]>*/
+        });
+    </script>
+</div>
+</body>
+</html>
