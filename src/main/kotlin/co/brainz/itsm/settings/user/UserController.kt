@@ -26,6 +26,8 @@ class UserController {
      */
     @GetMapping("/list")
     fun selectUserView(): String {
+
+        //TODO 검색에 필요한 코드성 데이터 조회하여 전달
         return "user/list"
     }
 
@@ -42,7 +44,7 @@ class UserController {
         logger.debug(">>> users {} <<<", users)
         logger.debug(">>> mapperd {} <<<", mapperedUsers)
 
-        return "user/users :: users"
+        return "user/users"
     }
 
 
