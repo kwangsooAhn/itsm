@@ -4,14 +4,14 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>사용자데이터</title>
 </head>
 <body>
-<div th:fragment="users" th:unless="${#lists.isEmpty(users)}">
+<div th:unless="${#lists.isEmpty(users)}">
     <table>
         <thead>
         <tr>
-            <td th:text="#{user.id}"></td>
+            <td th:text="#{user.id}">아이디</td>
             <td th:text="#{user.name}">이름</td>
             <td th:text="#{user.department}">부서</td>
             <td th:text="#{user.position}">직책</td>
@@ -19,25 +19,25 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.userId}" class="useridclick">사용자 아이디</td>
+        <tr th:each="user : ${users}" class="openUserEdit">
+            <td th:text="${user.userId}">사용자 아이디</td>
             <td th:text="${user.userName}">사용자 이름</td>
-            <td>데이터없음</td>
-            <td>데이터없음</td>
-            <td>데이터없음</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
         </tr>
         </tbody>
     </table>
-
-    <script type="text/javascript" th:inline="javascript">
-        $(document).ready(function () {
-            /*<![CDATA[*/
-            $('.useridclick').on('click', function () {
-                alert('사용자 등록 화면 열기.')
-            })
-            /*]]>*/
-        });
-    </script>
 </div>
+
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function () {
+        /*<![CDATA[*/
+        $('.openUserEdit').on('click', function () {
+            alert('사용자 편집 화면 열기.')
+        })
+        /*]]>*/
+    });
+</script>
 </body>
 </html>
