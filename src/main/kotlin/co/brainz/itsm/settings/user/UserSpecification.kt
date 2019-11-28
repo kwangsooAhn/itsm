@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root
  */
 class UserSpecification(private val userSearchDto: UserSearchDto) : Specification<UserEntity> {
 
-    enum class userKey(val code: String, val column: String) {
+    enum class UserKey(val code: String, val column: String) {
         ID("user.id", "userId"),
         NAME("user.name", "userName")
         ;
@@ -29,8 +29,8 @@ class UserSpecification(private val userSearchDto: UserSearchDto) : Specificatio
     }
 
     override fun toPredicate(root: Root<UserEntity>, query: CriteriaQuery<*>, criteriaBuilder: CriteriaBuilder): Predicate? {
-        val tableColumn = userKey.getUserKeyColum(userSearchDto.searchKey)
-        if (tableColumn == "") return null
+        if (userSearchDto.searchKey == "" || userSearchDto.searchValue == "") return null
+        val tableColumn = UserKey.getUserKeyColum(userSearchDto.searchKey)
         val predicate = mutableListOf<Predicate>()
         predicate.add(criteriaBuilder.like(root.get<String>(tableColumn), "%" + userSearchDto.searchValue + "%"))
         return criteriaBuilder.and(*predicate.toTypedArray())
