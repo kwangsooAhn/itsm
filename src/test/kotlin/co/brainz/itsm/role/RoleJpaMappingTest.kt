@@ -12,13 +12,11 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import co.brainz.itsm.role.respository.ITSMRoleRepository
-import co.brainz.itsm.role.respository.ITSMAuthRepository
-import co.brainz.itsm.role.respository.ITSMUserRepository
-import co.brainz.itsm.role.respository.ITSMRoleAuthMapRepository
-import co.brainz.itsm.role.respository.ITSMUserRoleRepository
+import co.brainz.itsm.role.respository.RoleRepository
+import co.brainz.itsm.role.respository.AuthRepository
+import co.brainz.itsm.role.respository.UserRepository
+import co.brainz.itsm.role.respository.UserRoleRepository
 import co.brainz.itsm.role.entity.RoleEntity
-import co.brainz.itsm.role.entity.RoleAuthMapEntity
 import co.brainz.itsm.role.entity.UserRoleMapEntity
 
 import java.time.LocalDateTime
@@ -29,19 +27,16 @@ import java.time.LocalDateTime
 class RoleJpaMappingTest {
 
 	@Autowired
-	lateinit var roleRepository: ITSMRoleRepository
+	lateinit var roleRepository: RoleRepository
 
 	@Autowired
-	lateinit var authRepository: ITSMAuthRepository
+	lateinit var authRepository: AuthRepository
 
 	@Autowired
-	lateinit var userRepository: ITSMUserRepository
+	lateinit var userRepository: UserRepository
 
 	@Autowired
-	lateinit var roleAuthRepository: ITSMRoleAuthMapRepository
-
-	@Autowired
-	lateinit var userRoleRepository: ITSMUserRoleRepository
+	lateinit var userRoleRepository: UserRoleRepository
 
 
 	@Before
@@ -86,12 +81,6 @@ class RoleJpaMappingTest {
 		Assert.assertNotNull(list)
 	}
 
-	@Test
-	fun getRoleAuthMapList() {
-		var list = roleAuthRepository.findByRoleIdOrderByAuthIdAsc("2")
-		Assert.assertNotNull(list)
-	}
-	
 	@Test
 	fun getUserRoleMapList() {
 		var list  = userRoleRepository.findByRoleIdOrderByRoleIdAsc("2")

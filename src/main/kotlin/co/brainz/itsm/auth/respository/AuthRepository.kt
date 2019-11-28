@@ -4,11 +4,13 @@ import org.springframework.stereotype.Repository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.CrudRepository
 import javax.persistence.EntityManager
-import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.itsm.role.entity.AuthEntity
+
 
 @Repository
-public interface ITSMUserRepository : JpaRepository<AliceUserEntity, String> {
+public interface AuthRepository : JpaRepository<AuthEntity, String> {
 
-	//사용자리스트
-	public fun findByOrderByUserIdAsc(): MutableList<AliceUserEntity>
+	//권한 리스트 조회
+	public fun findByOrderByAuthIdAsc(): MutableList<AuthEntity>
+	
 }

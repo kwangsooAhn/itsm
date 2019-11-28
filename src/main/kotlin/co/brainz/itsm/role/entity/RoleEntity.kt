@@ -3,13 +3,11 @@ package co.brainz.itsm.role.entity
 import java.io.Serializable
 import javax.persistence.Table
 import javax.persistence.Entity
-import javax.persistence.GenerationType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Column
 import java.time.LocalDateTime
 import javax.persistence.Inheritance
-import javax.persistence.InheritanceType
 
 @Entity
 @Table(name = "awfRole")
@@ -22,6 +20,4 @@ data public class RoleEntity(
 	@Column(name = "createDate") var createDate: LocalDateTime? = null,
 	@Column(name = "updateId") var updateId: String? = null,
 	@Column(name = "updateDate") var updateDate: LocalDateTime? = null
-) : Serializable {
-
-}
+) : Serializable {}

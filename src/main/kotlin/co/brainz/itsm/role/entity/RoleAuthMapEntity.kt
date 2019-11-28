@@ -7,11 +7,13 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Column
 import java.time.LocalDateTime
+import javax.persistence.Inheritance
+import javax.persistence.*
 
 @Entity
 @Table(name = "awfRoleAuthMap")
-public data class RoleAuthMapEntity(
+data public class RoleAuthMapEntity(
 	@Id
-	@Column(name = "roleId") var roleId: String,
-	@Column(name = "authId") var authId: String
-) : Serializable
+	@Column(name = "authId") var authId: String,
+	@Column(name = "roleId") var roleId: String
+) : Serializable {}

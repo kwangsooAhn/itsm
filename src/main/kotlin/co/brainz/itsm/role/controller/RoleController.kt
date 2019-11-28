@@ -12,7 +12,12 @@ import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.role.entity.RoleEntity
+import co.brainz.itsm.role.entity.AuthEntity
+import co.brainz.framework.auth.entity.AliceUserEntity
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.PathVariable
 
+@RequestMapping("/roles")
 @Controller
 public class RoleController {
 
@@ -27,29 +32,113 @@ public class RoleController {
 	@Autowired
 	lateinit var roleService: RoleService
 
-	@GetMapping("roles/form")
-	public fun list(request: HttpServletRequest, model: Model): String {
+	@GetMapping("/form")
+	public fun getRolelist(request: HttpServletRequest, model: Model): String {
 
 		var roleList = roleService.getRoleList()
-		var authList = roleService.getAuthList()
-		var userList = roleService.getUserList()
+		var authAllList = roleService.getAuthList()
 
 		if (roleList.size > 0) {
 			var roleId = roleList[0].roleId
 			var roleDetail = roleService.getRoleDetail(roleId)
-			var roleAuthMapList = roleService.getRoleAuthMapList(roleId)
-			var userRoleMapList = roleService.getUserRoleMapList(roleId)
 
-			model.addAttribute("roleAuthMapList", roleAuthMapList)
-			model.addAttribute("userRoleMapList", userRoleMapList)
+			var userRoleMapList = roleService.getUserRoleMapList(roleId)
+			var userAllList = roleService.getUserList()
+			val userList = mutableListOf<AliceUserEntity>()
+			//서로다른 Entity에서 조회 하도록 해봄
+			for (user in userAllList) {
+				for (userRoleMap in userRoleMapList) {
+					if (user.userId == userRoleMap.userId) {
+						userList.add(user)
+					}
+				}
+			}
+
+			var roleAuthMapList = roleService.getAuthRoleMapList(roleId)
+			var authList = mutableListOf<AuthEntity>()
+			var i = 0;
+			for (auth in authAllList) {
+				for (roleAuthMap in roleAuthMapList) {
+					if (auth.authId == roleAuthMap.authId) {
+						i = 1
+						break
+					} else {
+						i = 0
+					}
+				}
+
+				if (i == 1) {
+					auth.authDesc = "checked"
+					authList.add(auth)
+					i = 0
+				} else {
+					authList.add(auth)
+				}
+			}
+
+			model.addAttribute("userList", userList)
+			model.addAttribute("authList", authList)
 			model.addAttribute("roleDetail", roleDetail)
 		}
 
 		model.addAttribute("roleList", roleList)
-		model.addAttribute("authList", authList)
-		model.addAttribute("userList", userList)
 
-		return "roles/form"
+		return "role/form"
 	}
+
+	//역할 세부 조회
+	@GetMapping("/{id}")
+	public fun getRoleDetails(@PathVariable id: String, model: Model): String {
+
+		var roleList = roleService.getRoleList()
+		var authAllList = roleService.getAuthList()
+		var roleId = id
+		if (roleId != "") {
+			var roleDetail = roleService.getRoleDetail(roleId)
+
+			var userRoleMapList = roleService.getUserRoleMapList(roleId)
+			var userAllList = roleService.getUserList()
+			val userList = mutableListOf<AliceUserEntity>()
+			//서로다른 Entity에서 조회 하도록 해봄
+			for (user in userAllList) {
+				for (userRoleMap in userRoleMapList) {
+					if (user.userId == userRoleMap.userId) {
+						userList.add(user)
+					}
+				}
+			}
+
+			var roleAuthMapList = roleService.getAuthRoleMapList(roleId)
+			var authList = mutableListOf<AuthEntity>()
+			var i = 0;
+			for (auth in authAllList) {
+				for (roleAuthMap in roleAuthMapList) {
+					if (auth.authId == roleAuthMap.authId) {
+						i = 1
+						break
+					} else {
+						i = 0
+					}
+				}
+
+				if (i == 1) {
+					auth.authDesc = "checked"
+					authList.add(auth)
+					i = 0
+				} else {
+					authList.add(auth)
+				}
+			}
+
+			model.addAttribute("userList", userList)
+			model.addAttribute("authList", authList)
+			model.addAttribute("roleDetail", roleDetail)
+		}
+
+		model.addAttribute("roleList", roleList)
+
+		return "role/form"
+	}
+
 
 }

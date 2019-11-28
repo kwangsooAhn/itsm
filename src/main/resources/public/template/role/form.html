@@ -8,7 +8,7 @@
 <script>
 function onSearch(){}
 function onDelete(){}
-function onSave(){} 
+function onSave(){}
 </script>
 <body>
 	<table>
@@ -24,7 +24,7 @@ function onSave(){}
 				<col width="610px">
 			</colgroup>
 			<td>
-				<a th:each="role : ${roleList}" th:href="@{/role/details(id=${role.roleId})}" th:text="|[ ${role.roleName} ]|" >
+				<a th:each="role : ${roleList}" th:href="'/roles/'+${role.roleId}" th:text="|[ ${role.roleName} ]|" >
 			</td>
 		</tr>
 	</table>
@@ -37,7 +37,7 @@ function onSave(){}
 			<tr>
 				<th>* 역할명</th>
 				<td>
-					<input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail[0]?.roleId}" maxlength="100" />
+					<input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail[0]?.roleName}" maxlength="100" />
 				</td>
 			</tr>
 			<tr>
@@ -51,7 +51,7 @@ function onSave(){}
 				<th>권한</th>
 				<td>
 					<ui th:each="auth : ${authList}">
-						<input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:field="*{authList}">
+						<input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
 						<span th:text="${auth?.authName}"></span>
 					</ui>
 				</td>
@@ -69,7 +69,7 @@ function onSave(){}
 			</tr>
 			<tr>
 				<th>등록일시</th>
-				<td><span th:text="${roleDetail[0]?.createDate}"></span></td>
+				<td><span th:text="${#temporals.format(roleDetail[0]?.createDate,'yyyy-MM-dd HH:mm')}"></span></td>
 			</tr>
 			<tr>
 				<th>수정자</th>
@@ -77,7 +77,7 @@ function onSave(){}
 			</tr>
 			<tr>
 				<th>수정일시</th>
-				<td><span th:text="${roleDetail[0]?.updateDate}"></span></td>
+				<td><span th:text="${#temporals.format(roleDetail[0]?.updateDate,'yyyy-MM-dd HH:mm')}"></span></td>
 			</tr>
 		</table>
 	</form>
