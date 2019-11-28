@@ -1,10 +1,11 @@
 package co.brainz.itsm.settings.user
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Repository
 
 @Repository
-interface UserRepository: JpaRepository<UserEntity, String> {
+interface UserRepository: JpaRepository<UserEntity, String>, JpaSpecificationExecutor<UserEntity> {
     /**
      * 사용자 전체 목록을 조회한다.
      */

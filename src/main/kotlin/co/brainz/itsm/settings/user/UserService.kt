@@ -15,8 +15,8 @@ class UserService {
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(): MutableList<UserEntity> {
-        return userRepository.findAll()
+    fun selectUserList(userSearchDto: UserSearchDto): MutableList<UserEntity> {
+        return userRepository.findAll(UserSpecification(userSearchDto))
     }
 
 
