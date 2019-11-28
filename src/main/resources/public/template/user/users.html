@@ -15,7 +15,7 @@
             <td th:text="#{user.name}">이름</td>
             <td th:text="#{user.department}">부서</td>
             <td th:text="#{user.position}">직책</td>
-            <td th:text="#{user.extension}">내선번호</td>
+            <td th:text="#{user.extensionNumber}">내선번호</td>
         </tr>
         </thead>
         <tbody>
@@ -30,14 +30,5 @@
     </table>
 </div>
 
-<script type="text/javascript" th:inline="javascript">
-    $(document).ready(function () {
-        /*<![CDATA[*/
-        $('.openUserEdit').on('click', function () {
-            alert('사용자 편집 화면 열기.')
-        })
-        /*]]>*/
-    });
-</script>
 </body>
 </html>

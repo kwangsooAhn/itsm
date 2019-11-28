@@ -17,9 +17,8 @@ class UserRestController {
      * 사용자 전체 목록을 조회한다.
      */
     @GetMapping("/", "")
-    fun selectUserList(): MutableList<UserEntity> {
-        //ResponseEntity 를 쓸까요 말까요..
-        return userService.selectUserList()
+    fun selectUserList(userSearchDto: UserSearchDto): MutableList<UserEntity> {
+        return userService.selectUserList(userSearchDto)
     }
 
     /**
