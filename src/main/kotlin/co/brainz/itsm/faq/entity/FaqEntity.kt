@@ -8,11 +8,13 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Column
 import java.time.LocalDateTime
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "portalFaq")
 public data class FaqEntity(
-    @Id @GeneratedValue @Column var faqId: String,
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid") @Column var faqId: String,
     @Column var faqGroup: String,
     @Column var faqTitle: String,
     @Column var faqContent: String,

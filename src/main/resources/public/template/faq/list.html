@@ -3,12 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet"
-	th:href="@{/assets/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+	th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
 <link rel="stylesheet"
-	th:href="@{/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
+	th:href="@{/assets/vendors/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
 <script src="../../assets/js/common.js"></script>
-<script src="../../assets/vendor/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<script src="../../assets/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="../../assets/js/withoutJquery.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -22,19 +23,51 @@
 					<tr>
 						<th>그룹</th>
 						<th>제목</th>
+						<th>편집</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr th:each="faq : ${faqList}">
-                        <td id="faqTitle" th:text="${faq.faqTitle}" style="text-align: left"></td>
-						<td id="faqContent" th:text="${faq.faqContent}" style="text-align: left"></td>
-					</tr>
+				<tbody id="myDiv">
 				</tbody>
 			</table>
 		</div>
+		<div><a href="/faqs/form">추가</a></div>
 	</div>
 
-	<script th:inline="javascript">
+	<script type="text/javascript">
+    $(document).ready(function() {  
+    	loadXMLDoc();
+    })
+    
+    function loadXMLDoc() {
+    var xmlhttp = createXmlHttpRequestObject();
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+           if (xmlhttp.status == 200) {
+        	   var faqList = JSON.parse(xmlhttp.responseText);
+        	   var contentHTML = ""
+        	   for(var i=0; i<faqList.length; i++) {
+        		    contentHTML = "<tr><td>" 
+        		    	  + faqList[i].faqGroup
+        		    	  + "</td><td>" 
+        		    	  + "<a href=\"/faqs/detailView?faqId=" + faqList[i].faqId + "\">" + faqList[i].faqTitle + "</a>"
+        		    	  + "</td><td>"
+        		    	  + "<a href=\"/faqs/edit?faqId=" + faqList[i].faqId + "\">편집</a>"
+        		    	  + "</td></tr>";
+        	   }
+               document.getElementById("myDiv").innerHTML = contentHTML;
+           }
+           else if (xmlhttp.status == 400) {
+              alert('There was an error 400');
+           }
+           else {
+               alert('something else other than 200 was returned');
+           }
+        }
+    };
+    xmlhttp.open("GET", "/faqs", true);
+    xmlhttp.send();
+}
     </script>
 </body>
 </html>

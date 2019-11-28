@@ -14,4 +14,18 @@ public open class FaqService {
     public fun findAll() : List<FaqEntity> {
         return faqRepository.findAll()
     }
+    
+    public fun findOne(faqId:String) : FaqEntity {
+        return faqRepository.findById(faqId)
+                            .orElse(null)
+    }
+
+    public fun save(faq:FaqEntity) {
+        faqRepository.save(faq)
+    }
+
+    public fun delete(faqId:String) {
+        faqRepository.deleteById(faqId)
+    }
+
 }
