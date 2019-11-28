@@ -19,16 +19,16 @@
 <div sec:authorize="hasAuthority('user.read')">
     <div style="border: 1px solid red">
         <div>- 검색영역 -</div>
-        <div id="search">
-            <select id="searchkey" name="searchkey">
+        <form id="search" onsubmit="return false">
+            <select id="searchKey" name="searchKey">
                 <option value="">--</option>
                 <option th:each="userSearch : ${userSearchCode}"
                         th:value="${userSearch.code}"
                         th:text="#{${userSearch.code}}">
                 </option>
             </select>
-            <input id="searchvalue" name="searchvalue" th:placeholder="#{searchWord}"/>
-        </div>
+            <input type="text" id="searchValue" name="searchValue" th:placeholder="#{searchWord}"/>
+        </form>
     </div>
     <div style="border: 1px solid red">
         <div>- 버튼 영역, user.create 권한이 있어야 보임 -</div>
@@ -50,8 +50,8 @@
     $(document).ready(function () {
         /*<![CDATA[*/
 
-        /** 사용자 목록을 검색한다. */
-        $('#searchvalue').on('keypress', function (e) {
+        /** 검색란 엔터키 이벤트 */
+        $('#searchValue').on('keypress', function (e) {
             if (e.keyCode === 13) {
                 searchUser()
             }
@@ -67,7 +67,7 @@
             $.ajax({
                 type: "get",
                 url: '/users',
-                data: {searchKey: $('#searchkey').val(), searchValue: $('#searchvalue').val()},
+                data: $('#search').serializeObject(),
                 success: function (users) {
                     $.ajax({
                         type: 'get', url: '/users/list-search', data: {users: JSON.stringify(users)}
