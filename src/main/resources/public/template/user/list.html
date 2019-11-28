@@ -16,19 +16,27 @@
     </style>
 </head>
 <body>
-<div style="border: 1px solid red">
-    <div>- 검색영역 -</div>
-
-</div>
-<div style="border: 1px solid red">
-    <div>- 버튼 영역, user.create 권한이 있어야 보임 -</div>
-    <div sec:authorize="hasAuthority('user.create')">
-        <button type="button" id="userReg" th:text="#{user.reg}">사용자 등록</button>
+<div sec:authorize="hasAuthority('user.read')">
+    <div style="border: 1px solid red">
+        <div>- 검색영역 -</div>
+        <div>
+            <select></select>
+        </div>
     </div>
-</div>
-<div style="border: 1px solid red">
-    <div>- 사용자 목록 영역- </div>
-    <div id="userList"></div>
+    <div style="border: 1px solid red">
+        <div>- 버튼 영역, user.create 권한이 있어야 보임 -</div>
+        <div sec:authorize="hasAuthority('user.create')">
+            <button type="button" id="userReg" th:text="#{user.reg}">사용자 등록</button>
+        </div>
+    </div>
+    <div style="border: 1px solid red">
+        <div>- 사용자 목록 영역-</div>
+        <div id="userList"></div>
+    </div>
+    <div style="border: 1px solid red">
+        <div>- 사용자 상세화면 모달 영역 -</div>
+        <div id="userDetailModal"></div>
+    </div>
 </div>
 
 
@@ -38,6 +46,7 @@
         $.ajax({
             type: "get",
             url: '/users',
+            // data:
             success: function (users) {
                 $.ajax({
                     type: 'get', url: '/users/list-search', data: {users: JSON.stringify(users)}
