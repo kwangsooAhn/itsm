@@ -13,61 +13,34 @@
 </head>
 <body>
 	<div class="container">
-	    <form id="faqForm" method="put">
+	    <form id="faqForm" method="post">
 	        <table>
                 <tr>
                     <th>*그룹</th>
-                    <td><input id="faqGroup" type="text" th:value="${faqDetail?.faqGroup}" maxlength = "20" /></td>
+                    <td><input id="faqGroup" name="faqGroup" type="text" th:value="${faqDetail?.faqGroup}" maxlength = "20" /></td>
                 </tr>
                    <tr>
                        <th>*제목</th>
-                       <td><input id="faqTitle" type="text" th:value="${faqDetail?.faqTitle}" maxlength = "20" /></td>
+                       <td><input id="faqTitle" name="faqTitle" type="text" th:value="${faqDetail?.faqTitle}" maxlength = "20" /></td>
                    </tr>
                 <tr>
                     <th>*내용</th>
-                    <td><textarea id="faqContent" th:text="${faqDetail?.faqContent}"></textarea></td>
+                    <td><textarea id="faqContent" name="faqContent" th:text="${faqDetail?.faqContent}"></textarea></td>
                 </tr>
             </table>
             <div class="button">
+                <input type="hidden" id="_method" name="_method" value="" />
                 <button type="button" onclick="location.href='/faqs/listView'">목록</button>
                 <button th:if="!${faqDetail?.faqId}" type="submit" th:formaction="@{/faqs}">등록</button>
-                <input type="hidden" name="_method" value="put" />
-                <button th:if="${faqDetail?.faqId}" type="submit" th:formaction="@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}">수정 완료</button>
-                <!--
-
-            <button th:if="${faqDetail?.faqId}" type="submit" th:formaction="@{/faqs/faq/}(faqId = ${faq.faqId})}">삭제</button>            
- -->
+                <button th:if="${faqDetail?.faqId}" type="submit" th:formaction="@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}" onclick="return methodChange('put')">수정 완료</button>
+                <button th:if="${faqDetail?.faqId}" type="submit" th:formaction="@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}" onclick="return methodChange('delete')">삭제</button>            
             </div>
 	    </form>
-	    
-	    
 	</div>
-	
-
-	<script type="text/javascript">
-    $(document).ready(function() {  
-//        loadXMLDoc();
-    })
-    
-    function loadXMLDoc() {
-    var xmlhttp = createXmlHttpRequestObject();
-
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-           if (xmlhttp.status == 200) {
-               document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
-           }
-           else if (xmlhttp.status == 400) {
-              alert('There was an error 400');
-           }
-           else {
-               alert('something else other than 200 was returned');
-           }
-        }
-    };
-    xmlhttp.open("GET", "/faqs", true);
-    xmlhttp.send();
-}
-    </script>
 </body>
+<script type="text/javascript">
+function methodChange(targetMethod) {
+    document.getElementById("_method").value = targetMethod;
+}
+</script>
 </html>

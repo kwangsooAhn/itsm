@@ -9,6 +9,7 @@ import org.springframework.ui.Model
 import co.brainz.itsm.faq.service.FaqService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/faqs")
@@ -22,9 +23,12 @@ class FaqController {
         return "faq/list"
     }
 
+    // @ModelAttribute를 쓰고 request를 안쓰고 해보자.
     @RequestMapping(path = ["/edit"], method = [RequestMethod.GET])
-    fun getFaqForm(request: HttpServletRequest, model: Model): String {                 
-        model.addAttribute("faqDetail",faqService.findOne(request.getParameter("faqId")))
+    fun getFaqForm(@RequestParam faqId: String, model: Model): String {        
+        if (faqId != "") {
+            model.addAttribute("faqDetail",faqService.findOne(faqId))
+        }
         return "faq/edit"
     }
 

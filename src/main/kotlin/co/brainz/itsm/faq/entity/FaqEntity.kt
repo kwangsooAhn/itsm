@@ -14,14 +14,14 @@ import org.hibernate.annotations.GenericGenerator
 @Table(name = "portalFaq")
 public data class FaqEntity(
     @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid") @Column var faqId: String,
-    @Column var faqGroup: String,
-    @Column var faqTitle: String,
-    @Column var faqContent: String,
-    @Column var createDt: LocalDateTime,
-    @Column var createUserid: String,
-    @Column var updateDt: LocalDateTime,
-    @Column var updateUserid: String
+    @GenericGenerator(name="system-uuid", strategy = "uuid") @Column var faqId: String = "",
+    @Column var faqGroup: String?,
+    @Column var faqTitle: String?,
+    @Column var faqContent: String?,
+    @Column var createDt: LocalDateTime = LocalDateTime.now(),
+    @Column var createUserid: String?,
+    @Column var updateDt: LocalDateTime?,
+    @Column var updateUserid: String?
 
 ) : Serializable {
 }

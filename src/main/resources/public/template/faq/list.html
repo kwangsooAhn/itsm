@@ -26,11 +26,11 @@
 						<th>편집</th>
 					</tr>
 				</thead>
-				<tbody id="myDiv">
+				<tbody id="faqs">
 				</tbody>
 			</table>
 		</div>
-		<div><a href="/faqs/form">추가</a></div>
+		<div><a href="/faqs/edit">추가</a></div>
 	</div>
 
 	<script type="text/javascript">
@@ -46,16 +46,24 @@
            if (xmlhttp.status == 200) {
         	   var faqList = JSON.parse(xmlhttp.responseText);
         	   var contentHTML = ""
-        	   for(var i=0; i<faqList.length; i++) {
-        		    contentHTML = "<tr><td>" 
-        		    	  + faqList[i].faqGroup
-        		    	  + "</td><td>" 
-        		    	  + "<a href=\"/faqs/detailView?faqId=" + faqList[i].faqId + "\">" + faqList[i].faqTitle + "</a>"
-        		    	  + "</td><td>"
-        		    	  + "<a href=\"/faqs/edit?faqId=" + faqList[i].faqId + "\">편집</a>"
-        		    	  + "</td></tr>";
+        	   for(var i=0; i<faqList.length; i++) {        		    	  
+        		    	  faqTrNode = document.createElement("tr");
+
+                          faqTdNode = document.createElement("td");
+                          faqTdNode.innerHTML = faqList[i].faqGroup;
+                          faqTrNode.appendChild(faqTdNode);
+
+        		    	  faqTdNode = document.createElement("td");
+        		    	  faqTdNode.innerHTML = "<a href=\"/faqs/detailView?faqId=" + faqList[i].faqId + "\">" + faqList[i].faqTitle + "</a>";
+        		    	  faqTrNode.appendChild(faqTdNode);
+        		    	  
+        		    	  faqTdNode = document.createElement("td");
+                          faqTdNode.innerHTML = "<a href=\"/faqs/edit?faqId=" + faqList[i].faqId + "\">편집</a>";
+                          faqTrNode.appendChild(faqTdNode);
+                          
+                          document.getElementById("faqs").appendChild(faqTrNode);
         	   }
-               document.getElementById("myDiv").innerHTML = contentHTML;
+               
            }
            else if (xmlhttp.status == 400) {
               alert('There was an error 400');
