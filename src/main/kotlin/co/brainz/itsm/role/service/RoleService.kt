@@ -3,16 +3,17 @@ package co.brainz.itsm.role.service
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Autowired
 import org.slf4j.LoggerFactory
+import co.brainz.itsm.role.entity.RoleEntity
+import co.brainz.itsm.role.entity.AuthEntity
+import co.brainz.itsm.role.entity.RoleAuthMapEntity
+import co.brainz.itsm.role.entity.UserRoleMapEntity
 import co.brainz.itsm.role.respository.RoleRepository
 import co.brainz.itsm.role.respository.AuthRepository
 import co.brainz.itsm.role.respository.UserRepository
 import co.brainz.itsm.role.respository.RoleAuthMapRepository
 import co.brainz.itsm.role.respository.UserRoleRepository
-import co.brainz.itsm.role.entity.RoleEntity
-import co.brainz.itsm.role.entity.AuthEntity
-import co.brainz.itsm.role.entity.RoleAuthMapEntity
-import co.brainz.itsm.role.entity.UserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
+
 
 @Service
 public open class RoleService {
@@ -39,7 +40,6 @@ public open class RoleService {
 
 	@Autowired
 	lateinit var roleAuthMapRepository: RoleAuthMapRepository
-
 
 	//상단 역할정보를 가져온다.
 	public fun getRoleList(): MutableList<RoleEntity> {
@@ -69,5 +69,10 @@ public open class RoleService {
 	//역할별 사용자 아이디를 가져온다.
 	public fun getUserRoleMapList(roleId: String): MutableList<UserRoleMapEntity> {
 		return userRoleRepository.findByRoleIdOrderByRoleIdAsc(roleId)
+	}
+
+	//사용자 아이디를 조회한다.
+	public fun getUserId(userid: String): MutableList<AliceUserEntity> {
+		return userRepository.findByUserId(userid)
 	}
 }

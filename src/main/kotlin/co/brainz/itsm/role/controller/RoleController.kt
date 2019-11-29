@@ -16,6 +16,8 @@ import co.brainz.itsm.role.entity.AuthEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.RequestMethod
 
 @RequestMapping("/roles")
 @Controller
@@ -88,7 +90,7 @@ public class RoleController {
 
 	//역할 세부 조회
 	@GetMapping("/{id}")
-	public fun getRoleDetails(@PathVariable id: String, model: Model): String {
+	public fun getRoleFrom(@PathVariable id: String, model: Model): String {
 
 		var roleList = roleService.getRoleList()
 		var authAllList = roleService.getAuthList()
@@ -139,6 +141,14 @@ public class RoleController {
 
 		return "role/form"
 	}
-
-
+	
+	/*
+	@RequestMapping(value = ["/roles/userIdSearch/{id}"], method = [RequestMethod.GET])
+	@ResponseBody
+	public fun userIdSearch(userId: String): String {
+		//필요한 로직 처리
+		var userId = "1111"
+		return userId;
+	}
+	*/
 }

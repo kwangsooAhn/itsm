@@ -1,24 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- bootstrap -->
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+<!-- jQuery -->
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<!-- dateTimePicker -->
+<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/moment.js"></script>
+<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
 <title>Insert title here</title>
 </head>
 <script>
-function onSearch(){}
+function onAdd() {
+	jQuery('#txtRoleId').val('');
+	jQuery('#txtRoleName').val('');
+	jQuery('#txtRoleDesc').val('');
+	jQuery(".roleAuth input").prop('checked', false);
+	jQuery('input:checkbox[name="roleAuth"]').each(function() {
+		this.checked = false;
+	});
+	jQuery('#roleTable').remove();
+	jQuery('#userSearch').val('');
+	jQuery('[name=roleUserId]').remove();
+	jQuery('#spanCreateId').text('');
+	jQuery('#spanCreateDate').text('');
+	jQuery('#spanUpdateId').text('');
+	jQuery('#spanUpdateDate').text('');
+}
 function onDelete(){}
 function onSave(){}
+function onSearchUser(){
+	var userId = jQuery('#userSearch').val();
+	if (userId == null ||  userId == "") {
+		alert("사용자 아이디를 입력하세요.");
+		return;
+	} else {
+		jQuery.ajax({
+			url: "/roles/userIdSearch/",
+			type: "GET",
+			data: userId,
+			success: function(data){
+			   console.log(data);
+			},
+			error: function(){
+				alert("simpleWithObject err");
+			}
+		});
+	}
+}
 </script>
 <body>
 	<table>
 		<tr>
 			<td>
-				<button type="button" id="btnSearch" name="btnSearch" onclick="onSearch();">추가</button>
+				<button type="button" id="btnSearch" name="btnSearch" onclick="onAdd();">추가</button>
 			</td>
 		</tr>
 	</table>
-	<table border="1">
+	<table border="1" id="roleTable" >
 		<tr>
 			<colgroup>
 				<col width="610px">
@@ -28,7 +70,7 @@ function onSave(){}
 			</td>
 		</tr>
 	</table>
-	<form id="fromRole" name="fromRole" method="post">
+	<form id="formRole" name="formRole" method="post">
 		<table border="1">
 			<colgroup>
 				<col width="100px">
@@ -37,14 +79,15 @@ function onSave(){}
 			<tr>
 				<th>* 역할명</th>
 				<td>
+					<input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail[0]?.roleId}" maxlength="100" />
 					<input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail[0]?.roleName}" maxlength="100" />
 				</td>
 			</tr>
 			<tr>
 				<th>역할설명</th>
 				<td>
-					<input id="txtRoleDesc" name="txtRoleDesc" th:value="${roleDetail[0]?.roleDesc}" maxlength="140" rows="7"
-					style="width: 500px; resize: none;"></input>
+					<input id="txtRoleDesc" name="txtRoleDesc" th:value="${roleDetail[0]?.roleDesc}" maxlength="200" rows="7"
+					style="width: 500px; height: 150px;"></input>
 				</td>
 			</tr>
 			<tr>
@@ -59,25 +102,25 @@ function onSave(){}
 			<tr>
 				<th>사용자</th>
 				<td>
-					<input id="userSearch" name="userSearch"><button type="button" id="btnUserSearch" name="btnUserSearch">추가</button><br/>
-					<a th:each="user : ${userList}" th:href="@{/role/details(id=${user?.userId})}" th:text="| ${user?.userName}(${user?.userId})[삭제]|" >
+					<input id="userSearch" name="userSearch" type="text" /><button type="button" id="btnUserSearch" name="btnUserSearch" onclick="onSearchUser();">추가</button><br/>
+					<a name="roleUserId" th:each="user : ${userList}" th:href="@{/role/details(id=${user?.userId})}" th:text="| ${user?.userName}(${user?.userId})[삭제]|" >
 				</td>
 			</tr>
 			<tr>
 				<th>등록자</th>
-				<td><span th:text="${roleDetail[0]?.createId}"></span></td>
+				<td><span id="spanCreateId" name="spanCreateId" th:text="${roleDetail[0]?.createId}"></span></td>
 			</tr>
 			<tr>
 				<th>등록일시</th>
-				<td><span th:text="${#temporals.format(roleDetail[0]?.createDate,'yyyy-MM-dd HH:mm')}"></span></td>
+				<td><span id="spanCreateDate" name="spanCreateDate" th:text="${#temporals.format(roleDetail[0]?.createDate,'yyyy-MM-dd HH:mm')}"></span></td>
 			</tr>
 			<tr>
 				<th>수정자</th>
-				<td><span th:text="${roleDetail[0]?.updateId}"></span></td>
+				<td><span id="spanUpdateId" name="spanUpdateId" th:text="${roleDetail[0]?.updateId}"></span></td>
 			</tr>
 			<tr>
 				<th>수정일시</th>
-				<td><span th:text="${#temporals.format(roleDetail[0]?.updateDate,'yyyy-MM-dd HH:mm')}"></span></td>
+				<td><span id="spanUpdateDate" name="spanUpdateDate" th:text="${#temporals.format(roleDetail[0]?.updateDate,'yyyy-MM-dd HH:mm')}"></span></td>
 			</tr>
 		</table>
 	</form>

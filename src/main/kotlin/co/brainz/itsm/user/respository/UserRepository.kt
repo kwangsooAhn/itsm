@@ -11,4 +11,7 @@ public interface UserRepository : JpaRepository<AliceUserEntity, String> {
 
 	//사용자리스트
 	public fun findByOrderByUserIdAsc(): MutableList<AliceUserEntity>
+	
+	public fun findByUserId(userId: String) :  MutableList<AliceUserEntity>
+	
 }
