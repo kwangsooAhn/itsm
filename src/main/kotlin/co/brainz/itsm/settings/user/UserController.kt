@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import kotlin.reflect.full.declaredMemberProperties
 
 /**
  * 사용자 관리 뷰 클래스
@@ -47,15 +48,36 @@ class UserController {
 
         return "user/userList"
     }
+
     /**
-     * 사용자 조회 리스트 뷰 호출한다.
+     * 사용자 조회 상세 뷰 호출한다.
      */
     @GetMapping("/detail")
     fun getUserDetail(user: String, model: Model): String {
         val mapper = jacksonObjectMapper()
         mapper.findAndRegisterModules() // localDateTime 변환을 위해 선언
         val mapperedUser: UserEntity = mapper.readValue(user)
-        model.addAttribute("user", mapperedUser)
+
+
+        val userArray = arrayListOf<MutableMap<String, Any>>()
+
+        mapperedUser::class.declaredMemberProperties.forEach {
+
+            logger.debug(">>> UserEntity property {} <<<", it.name)
+            logger.debug(">>> UserEntity property value {} <<<", it.getter.call(mapperedUser))
+
+            if (UserConstants.UserCodeAndColumnMap.getUserColumnToCode(it.name) != "") {
+                val userMap = mutableMapOf<String, Any>()
+                userMap["code"] = UserConstants.UserCodeAndColumnMap.getUserColumnToCode(it.name)
+                userMap["property"] = it.name
+                userMap["value"] = it.getter.call(mapperedUser) as Any
+                userArray.add(userMap)
+            }
+        }
+
+        model.addAttribute("users", userArray)
+        model.addAttribute("roles", mapperedUser.roleEntities)
+
 
         logger.debug(">>> users {} <<<", user)
         logger.debug(">>> mapperd {} <<<", mapperedUser)

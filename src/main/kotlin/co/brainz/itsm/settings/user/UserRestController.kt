@@ -1,5 +1,7 @@
 package co.brainz.itsm.settings.user
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/users")
 class UserRestController {
+
+    val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @Autowired
     lateinit var userService: UserService
@@ -33,7 +37,9 @@ class UserRestController {
      * 사용자를 저장한다.
      */
     @PostMapping("/{userId}")
-    fun setUser(@PathVariable userId: String): String {
+    fun setUser(@PathVariable userId: String, user: UserEntity): String {
+        //userService.selectUser(userId)
+
         return ""
     }
 
@@ -41,8 +47,8 @@ class UserRestController {
      * 사용자를 업데이트한다.
      */
     @PutMapping("/{userId}")
-    fun updateUser(@PathVariable userId: String): String {
-        return ""
+    fun updateUser(@PathVariable userId: String, user: UserUpdateDto): UserEntity {
+        return userService.updateUser(user)
     }
 
     /**

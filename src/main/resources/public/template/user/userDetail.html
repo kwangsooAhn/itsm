@@ -7,33 +7,28 @@
     <title>Title</title>
 </head>
 <body>
-<div sec:authorize="hasAuthority('user.read')">
-    <table class="table table-hover">
-        <tbody>
-        <tr>
-            <td th:text="#{user.id}">사용자아이디</td>
-            <td th:text="${user.userId}"></td>
-        </tr>
-        <tr>
-            <td th:text="#{user.name}">사용자이름</td>
-            <td th:text="${user.userName}"></td>
-        </tr>
-        <tr>
-            <td th:text="#{user.position}">직책</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td th:text="#{user.department}">부서</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td th:text="#{user.extensionNumber}">내선번호</td>
-            <td>-</td>
-        </tr>
+<form sec:authorize="hasAuthority('user.read')" id="userDetailEditModal" onsubmit="return false">
+    <div class="input-group" th:each="user: ${users}">
+        <span class="input-group-addon" th:text="#{*{user.get('code')}}">Text</span>
+        <input th:if="${user.get('code')} == 'user.id'" type="text" class="form-control"
+               th:name="*{user.get('property')}" th:value="*{user.get('value')}" readonly="readonly"/>
+        <input th:unless="${user.get('code')} == 'user.id'" type="text" class="form-control"
+               th:name="*{user.get('property')}" th:value="*{user.get('value')}"/>
+    </div>
 
-        </tbody>
-    </table>
-</div>
 
+    <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
+        <div>역할</div>
+        <table class="table table-hover">
+            <tbody>
+            <tr th:each="role : ${roles}">
+                <td th:text="*{role.roleName}">역할</td>
+                <td th:text="*{role.roleDesc}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</form>
 </body>
 </html>
