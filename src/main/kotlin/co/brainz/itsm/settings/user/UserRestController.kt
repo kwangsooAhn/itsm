@@ -17,7 +17,7 @@ class UserRestController {
      * 사용자 전체 목록을 조회한다.
      */
     @GetMapping("/", "")
-    fun selectUserList(userSearchDto: UserSearchDto): MutableList<UserEntity> {
+    fun getUsers(userSearchDto: UserSearchDto): MutableList<UserEntity> {
         return userService.selectUserList(userSearchDto)
     }
 
@@ -25,15 +25,15 @@ class UserRestController {
      * 사용자 ID로 해당 정보를 1건 조회한다.
      */
     @GetMapping("/{userId}")
-    fun selectUser(@PathVariable userId: String): String {
-        return ""
+    fun getUser(@PathVariable userId: String): UserEntity {
+        return userService.selectUser(userId)
     }
 
     /**
      * 사용자를 저장한다.
      */
     @PostMapping("/{userId}")
-    fun insertUser(@PathVariable userId: String): String {
+    fun setUser(@PathVariable userId: String): String {
         return ""
     }
 

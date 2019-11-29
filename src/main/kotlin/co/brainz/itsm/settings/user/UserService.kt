@@ -19,5 +19,12 @@ class UserService {
         return userRepository.findAll(UserSpecification(userSearchDto))
     }
 
+    /**
+     * 사용자 ID로 해당 정보를 1건 조회한다.
+     */
+    fun selectUser(userId: String ): UserEntity {
+        return userRepository.findByUserId(userId)
+    }
+
 
 }
