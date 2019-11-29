@@ -16,12 +16,4 @@ interface UserRepository: JpaRepository<UserEntity, String>, JpaSpecificationExe
      */
     fun findByUserId(userId: String): UserEntity
 
-    /**
-     * 사용자 ID로 해당 사용자 1건을 삭제한다.
-     */
-    fun deleteByUserId(userId: String): Boolean
-
-    fun save(entity: UserEntity): UserEntity
-
-    override fun getOne(id: String): UserEntity
 }

@@ -30,6 +30,8 @@
     </table>
 </div>
 
+<div id="saveResult"></div>
+
 <!-- Modal -->
 <div class="modal fade" id="userDetailModal" role="dialog">
     <div class="modal-dialog">
@@ -37,8 +39,8 @@
         <div class="modal-content">
             <div class="modal-body" id="userDetail"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{btn.save}">저장</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{btn.close}">닫기</button>
+                <button type="button" class="btn btn-default btn-save" th:text="#{btn.save}">저장</button>
             </div>
         </div>
 
@@ -48,20 +50,27 @@
 
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
+
+        /**
+         * 모달 닫기
+         */
         $('#userDetailModal').on('hidden.bs.modal', function (e) {
-            $('#userDetail').empty()
+            $('#userDetail').empty();
         });
 
+        /**
+         * 모달 열기
+         */
         $('#userDetailModal').on('show.bs.modal', function (e) {
-            const url = '/users/' + $(e.relatedTarget).data('id')
             $.ajax({
                 type: "get",
-                url: url,
+                url: '/users/' + $(e.relatedTarget).data('id'),
                 success: function (user) {
                     $.ajax({
                         type: 'get', url: '/users/detail', data: {user: JSON.stringify(user)}
                     }).done(function (data) {
                         $('#userDetail').html(data)
+
                     });
                 },
                 error: function (request, status, error) {
@@ -70,6 +79,24 @@
             });
         });
 
+        /**
+         * 저장하기
+         */
+        $('#userDetailModal').on('click', '.btn-save', function(){
+            $.ajax({
+                type: "put",
+                url: '/users/' + $('#userDetailEditModal #userId').val(),
+                data: $('#userDetailEditModal').serializeObject(),
+                success: function (response) {
+                    $('#userDetailModal').modal('hide');
+                    $('#saveResult').html(response)
+
+                },
+                error: function (request, status, error) {
+                    alert("Call failed. code : " + request.status + ", message : " + request.errorMsg);
+                }
+            });
+        });
 
 
     })

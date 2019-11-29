@@ -3,23 +3,27 @@ package co.brainz.itsm.settings.user
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "awfUser")
 data class UserEntity(
         @Id @Column(name = "userId") val userId: String,
-        @Column(name = "password") val password: String,
-        @Column(name = "userName") val userName: String,
-        @Column(name = "email") val email: String,
-        @Column(name = "useYn") val useYn: Boolean,
-        @Column(name = "tryLoginCount") val tryLoginCount: Int,
+        @Column(name = "password") var password: String,
+        @Column(name = "userName") var userName: String,
+        @Column(name = "email") var email: String,
+        @Column(name = "useYn") var useYn: Boolean,
+        @Column(name = "tryLoginCount") var tryLoginCount: Int,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "expiredDt") val expiredDt: LocalDateTime,
         @Column(name = "createId") val createId: String,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "createDate") val createDate: LocalDateTime,
-        @Column(name = "updateId") val updateId: String,
-        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "updateDate") val updateDate: LocalDateTime
+        @Column(name = "updateId") var updateId: String,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "updateDate") var updateDate: LocalDateTime,
+
+        @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @JoinTable(name = "awfUserRoleMap",
+                joinColumns = [JoinColumn(name = "userId")],
+                inverseJoinColumns = [JoinColumn(name = "roleId")])
+        val roleEntities: Set<RoleEntity>?
+
 ) : Serializable
