@@ -50,4 +50,7 @@ public open class NoticeService {
 		return noticeRepository.findById(noticeNo).orElse(NoticeEntity())
 	}
 	
+	public fun findNoticePopUp() : MutableList<NoticeEntity>{
+		return noticeRepository.findNoticePopUp()
+	}
 }
