@@ -35,3 +35,7 @@ user:
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
+
+btn:
+  save: "저장"
+  close: "닫기"

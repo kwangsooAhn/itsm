@@ -26,16 +26,16 @@ class UserController {
      * 사용자 조회 뷰를 호출한다.
      */
     @GetMapping("/list")
-    fun selectUserView(model: Model): String {
+    fun getUserList(model: Model): String {
         model.addAttribute("userSearchCode", codeService.selectCodeByParent(UserConstants.PCODE.value))
-        return "user/userList"
+        return "user/user"
     }
 
     /**
      * 사용자 조회 리스트 뷰 호출한다.
      */
-    @GetMapping("/list-search")
-    fun selectUsers(users: String, model: Model): String {
+    @GetMapping("/search")
+    fun getUserSearch(users: String, model: Model): String {
         val mapper = jacksonObjectMapper()
         mapper.findAndRegisterModules() // localDateTime 변환을 위해 선언
         val mapperedUsers: MutableList<UserEntity> = mapper.readValue(users)
@@ -45,7 +45,23 @@ class UserController {
         logger.debug(">>> mapperd {} <<<", mapperedUsers)
 
 
-        return "user/users"
+        return "user/userList"
+    }
+    /**
+     * 사용자 조회 리스트 뷰 호출한다.
+     */
+    @GetMapping("/detail")
+    fun getUserDetail(user: String, model: Model): String {
+        val mapper = jacksonObjectMapper()
+        mapper.findAndRegisterModules() // localDateTime 변환을 위해 선언
+        val mapperedUser: UserEntity = mapper.readValue(user)
+        model.addAttribute("user", mapperedUser)
+
+        logger.debug(">>> users {} <<<", user)
+        logger.debug(">>> mapperd {} <<<", mapperedUser)
+
+
+        return "user/userDetail"
     }
 
 
