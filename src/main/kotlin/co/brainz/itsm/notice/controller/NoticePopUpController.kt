@@ -33,7 +33,7 @@ class NoticePopUpController {
 	}
 
 	@GetMapping("/noticePopUp/{id}")
-	public fun getNoticePopUP(@PathVariable id: String, model: Model): String {
+	public fun getNoticePopUp(@PathVariable id: String, model: Model): String {
 
 		model.addAttribute("noticePopUp", noticeService.findNoticeByNoticeNo(id))
 

@@ -120,8 +120,8 @@
 			if(search_value == ''){alert("검색어를 입력해주세요."); return false;}
 			if($('#from_date').val() == ''){alert("검색 시작 날짜를 입력해주세요."); return false;}
 			if($('#to_date').val() == ''){alert("검색 종료 날짜를 입력해주세요."); return false;}	
+			if($('#from_date').val() > $('#to_date').val()){alert("검색 시작 날짜가 종료 날짜보다 큽니다."); return false;}
 		}
-		
 	</script>
 </body>
 </html>

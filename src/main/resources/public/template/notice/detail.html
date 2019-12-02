@@ -87,7 +87,14 @@
 
 	<script th:inline="javascript">
 	
-	$(document).ready(function() {	
+	/*<![CDATA[ */	
+	$(document).ready(function() {
+
+		// 게시물 삭제 처리 시, validation 체크.
+		var noticeNo = /*[[${notice.noticeNo}]]*/;
+		if(noticeNo == null){
+			if(noticeNo == null){alert("이미 삭제된 게시물 입니다."); return history.go(-1)};
+		}
 	
 		if($("input[name=popYn]").val() == "true"){
 			$('#pop_radio_bt_up').prop('checked',true) 
@@ -103,14 +110,14 @@
 			$('#top_radio_bt_down').prop('checked',true) 
 		       $('#top_notice_tab').hide();
 		}
-			
-	})	
+	});	
 	
 	
 	function proc(type) {
 	        document.getElementById("_method").value = type;	
 			document.getElementById("frm").submit()
 	}
+	/* ]]> */
 	</script>
 
 </body>
