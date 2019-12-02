@@ -18,11 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam
 @RestController
 @RequestMapping("faqs")
 class FaqRestController {
-    
-    companion object {
-        private val logger = LoggerFactory.getLogger(FaqRestController::class.java)
-    }
 
+    private val logger = LoggerFactory.getLogger(FaqRestController::class.java)
     
     @Autowired
     lateinit var faqService: FaqService
@@ -34,7 +31,6 @@ class FaqRestController {
         
     @RequestMapping(path = ["/",""], method = [RequestMethod.POST])
     fun insertFaq(request: HttpServletRequest, @RequestParam("faqGroup") faqGroupParam: String, faq: FaqEntity) {
-        logger.debug("POST TEST ======================================================" + faq.faqGroup)
         faqService.save(faq)
     }
         
@@ -45,10 +41,9 @@ class FaqRestController {
         
     @RequestMapping(path = ["/{faqId}"], method = [RequestMethod.PUT])
     fun updateFaq(request: HttpServletRequest, @ModelAttribute faq: FaqEntity) {
-        
         faqService.save(faq)
     }
-        
+	
     @RequestMapping(path = ["/{faqId}"], method = [RequestMethod.DELETE])
     fun deleteFaq(request: HttpServletRequest, @PathVariable faqId: String) {
         faqService.delete(faqId)
