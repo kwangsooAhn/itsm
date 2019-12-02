@@ -13,6 +13,7 @@ import co.brainz.itsm.role.respository.UserRepository
 import co.brainz.itsm.role.respository.RoleAuthMapRepository
 import co.brainz.itsm.role.respository.UserRoleRepository
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.itsm.user.entity.UserEntity
 
 
 @Service
@@ -72,7 +73,11 @@ public open class RoleService {
 	}
 
 	//사용자 아이디를 조회한다.
-	public fun getUserId(userid: String): MutableList<AliceUserEntity> {
+	public fun getUserId(userid: String): MutableList<UserEntity> {
 		return userRepository.findByUserId(userid)
+	}
+
+	public fun insertRole(roleEntity: RoleEntity) {
+		roleRepository.save(roleEntity)
 	}
 }

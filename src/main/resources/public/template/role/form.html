@@ -13,126 +13,200 @@
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
 <title>Insert title here</title>
 </head>
-<script>
-function onAdd() {
-	jQuery('#txtRoleId').val('');
-	jQuery('#txtRoleName').val('');
-	jQuery('#txtRoleDesc').val('');
-	jQuery(".roleAuth input").prop('checked', false);
-	jQuery('input:checkbox[name="roleAuth"]').each(function() {
-		this.checked = false;
-	});
-	jQuery('#roleTable').remove();
-	jQuery('#userSearch').val('');
-	jQuery('[name=roleUserId]').remove();
-	jQuery('#spanCreateId').text('');
-	jQuery('#spanCreateDate').text('');
-	jQuery('#spanUpdateId').text('');
-	jQuery('#spanUpdateDate').text('');
-}
-function onDelete(){}
-function onSave(){}
-function onSearchUser(){
-	var userId = jQuery('#userSearch').val();
-	if (userId == null ||  userId == "") {
-		alert("사용자 아이디를 입력하세요.");
-		return;
-	} else {
-		jQuery.ajax({
-			url: "/roles/userIdSearch/",
-			type: "GET",
-			data: userId,
-			success: function(data){
-			   console.log(data);
-			},
-			error: function(){
-				alert("simpleWithObject err");
-			}
-		});
-	}
-}
-</script>
 <body>
-	<table>
-		<tr>
-			<td>
-				<button type="button" id="btnSearch" name="btnSearch" onclick="onAdd();">추가</button>
-			</td>
-		</tr>
-	</table>
-	<table border="1" id="roleTable" >
-		<tr>
-			<colgroup>
-				<col width="610px">
-			</colgroup>
-			<td>
-				<a th:each="role : ${roleList}" th:href="'/roles/'+${role.roleId}" th:text="|[ ${role.roleName} ]|" >
-			</td>
-		</tr>
-	</table>
-	<form id="formRole" name="formRole" method="post">
-		<table border="1">
-			<colgroup>
-				<col width="100px">
-				<col width="500px">
-			</colgroup>
-			<tr>
-				<th>* 역할명</th>
-				<td>
-					<input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail[0]?.roleId}" maxlength="100" />
-					<input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail[0]?.roleName}" maxlength="100" />
-				</td>
-			</tr>
-			<tr>
-				<th>역할설명</th>
-				<td>
-					<input id="txtRoleDesc" name="txtRoleDesc" th:value="${roleDetail[0]?.roleDesc}" maxlength="200" rows="7"
-					style="width: 500px; height: 150px;"></input>
-				</td>
-			</tr>
-			<tr>
-				<th>권한</th>
-				<td>
-					<ui th:each="auth : ${authList}">
-						<input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
-						<span th:text="${auth?.authName}"></span>
-					</ui>
-				</td>
-			</tr>
-			<tr>
-				<th>사용자</th>
-				<td>
-					<input id="userSearch" name="userSearch" type="text" /><button type="button" id="btnUserSearch" name="btnUserSearch" onclick="onSearchUser();">추가</button><br/>
-					<a name="roleUserId" th:each="user : ${userList}" th:href="@{/role/details(id=${user?.userId})}" th:text="| ${user?.userName}(${user?.userId})[삭제]|" >
-				</td>
-			</tr>
-			<tr>
-				<th>등록자</th>
-				<td><span id="spanCreateId" name="spanCreateId" th:text="${roleDetail[0]?.createId}"></span></td>
-			</tr>
-			<tr>
-				<th>등록일시</th>
-				<td><span id="spanCreateDate" name="spanCreateDate" th:text="${#temporals.format(roleDetail[0]?.createDate,'yyyy-MM-dd HH:mm')}"></span></td>
-			</tr>
-			<tr>
-				<th>수정자</th>
-				<td><span id="spanUpdateId" name="spanUpdateId" th:text="${roleDetail[0]?.updateId}"></span></td>
-			</tr>
-			<tr>
-				<th>수정일시</th>
-				<td><span id="spanUpdateDate" name="spanUpdateDate" th:text="${#temporals.format(roleDetail[0]?.updateDate,'yyyy-MM-dd HH:mm')}"></span></td>
-			</tr>
-		</table>
-	</form>
-	<table>
-		<tr>
-			<td>
-				<button type="button" id="btnDelete" name="btnDelete" onclick="onDelete();">삭제</button>
-			</td>
-			<td>
-				<button type="button" id="btnSave" name="btnSave" onclick="onSave();">저장</button>
-			</td>
-		</tr>
-	</table>
+    <table>
+        <tr>
+            <td>
+                <button type="button" id="btnSearch" name="btnSearch">추가</button>
+            </td>
+        </tr>
+    </table>
+    <table border="1" id="roleTable" >
+        <tr>
+            <colgroup>
+                <col width="610px">
+            </colgroup>
+            <td>
+                <a th:each="role : ${roleList}" th:href="'/roles/'+${role.roleId}" th:text="|[ ${role.roleName} ]|" >
+            </td>
+        </tr>
+    </table>
+        <table border="1">
+            <colgroup>
+                <col width="100px">
+                <col width="500px">
+            </colgroup>
+<!-- <form id="formRole" name="formRole"> -->
+            <tr>
+                <th>* 역할명</th>
+                <td>
+                    <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail[0]?.roleId}" maxlength="100" />
+                    <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail[0]?.roleName}" maxlength="100" />
+                </td>
+            </tr>
+            <tr>
+                <th>역할설명</th>
+                <td>
+                    <input id="txtRoleDesc" name="txtRoleDesc" th:value="${roleDetail[0]?.roleDesc}" maxlength="200" rows="7"
+                    style="width: 500px; height: 150px;"></input>
+                </td>
+            </tr>
+            <tr>
+                <th>권한</th>
+                <td>
+                    <ui th:each="auth : ${authList}">
+                        <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
+                        <span th:text="${auth?.authName}"></span>
+                    </ui>
+                </td>
+            </tr>
+<!-- </form> -->
+            <tr>
+                <th>사용자</th>
+                <td>
+                    <form id="userSearchForm" name="userSearchForm">
+                        <input id="userSearch" name="userSearch" type="text" /><button type="button" id="btnUserSearch" name="btnUserSearch">추가</button><br/>
+                        <!-- <a name="roleUserId" th:each="user : ${userList}" th:href="@{/role/details(id=${user?.userId})}" th:text="| ${user?.userName}(${user?.userId})[삭제]|" > -->
+                        <span name="roleUserId" th:each="user : ${userList}" th:id="${user?.userId}"  th:text="| ${user?.userName}(${user?.userId})[삭제],|" />
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <th>등록자</th>
+                <td><span id="spanCreateId" name="spanCreateId" th:text="${roleDetail[0]?.createId}"></span></td>
+            </tr>
+            <tr>
+                <th>등록일시</th>
+                <td><span id="spanCreateDate" name="spanCreateDate" th:text="${#temporals.format(roleDetail[0]?.createDate,'yyyy-MM-dd HH:mm')}"></span></td>
+            </tr>
+            <tr>
+                <th>수정자</th>
+                <td><span id="spanUpdateId" name="spanUpdateId" th:text="${roleDetail[0]?.updateId}"></span></td>
+            </tr>
+            <tr>
+                <th>수정일시</th>
+                <td><span id="spanUpdateDate" name="spanUpdateDate" th:text="${#temporals.format(roleDetail[0]?.updateDate,'yyyy-MM-dd HH:mm')}"></span></td>
+            </tr>
+        </table>
+    <table>
+        <tr>
+            <td>
+                <button type="button" id="btnDelete" name="btnDelete" >삭제</button>
+            </td>
+            <td>
+                <button type="button" id="btnSave" name="btnSave" >저장</button>
+            </td>
+        </tr>
+    </table>
+<script type="text/javascript" th:inline="javascript">
+jQuery(document).ready(function () {
+/*<![CDATA[*/
+    /** 추가 버튼  */
+    jQuery('#btnSearch').on('click', function () {
+        jQuery('#txtRoleId').val('');
+        jQuery('#txtRoleName').val('');
+        jQuery('#txtRoleDesc').val('');
+        jQuery(".roleAuth input").prop('checked', false);
+        jQuery('input:checkbox[name="roleAuth"]').each(function() {
+            this.checked = false;
+        });
+        //jQuery('#roleTable').remove();
+        jQuery('#userSearch').val('');
+        jQuery('[name=roleUserId]').remove();
+        jQuery('#spanCreateId').text('');
+        jQuery('#spanCreateDate').text('');
+        jQuery('#spanUpdateId').text('');
+        jQuery('#spanUpdateDate').text('');
+    });
+    
+    /** 삭제 버튼  */
+    jQuery('#btnDelete').on('click', function () {
+      console.log("onDelete");
+    });
+    
+    /** 저장 버튼  */
+    jQuery('#btnSave').on('click', function () {
+        var obj = new Object();
+        obj.roleId = jQuery('#txtRoleId').val();
+        obj.roleName = jQuery('#txtRoleName').val();
+        obj.roleDesc= jQuery('#txtRoleDesc').val();
+        var arrAuthId = new Array();
+        jQuery("input[name=roleAuth]:checked").each(function(index, item) {
+        	arrAuthId[index] = this.id;
+        });
+        obj.arrAuthId = arrAuthId;
+        var tableUserList = jQuery('[name=roleUserId]').text();
+        var arrUserId = new Array();
+        jQuery("span[name=roleUserId]").each(function(index, item) {
+            arrUserId[index] = this.id;
+        });
+        obj.arrUserId =  arrUserId;
+        var roleJson = JSON.stringify(obj);
+        
+        jQuery.ajax({
+            url: "/roles/insertRole",
+            type:"POST",
+            data:roleJson,
+            contentType:"application/json;charset=UTF-8",
+            dataType:"json",
+            success: function (users) {
+            },
+            error: function (request, status, error) {
+                console.log(request);
+                console.log(status);
+                console.log(error);
+            }
+        }) ;
+    });
+    
+    /** 역할별 사용자 삭제 버튼  */
+    jQuery('[name=roleUserId]').on('click', function () {
+        jQuery("#"+this.id).remove();
+    });
+    
+    /** 사용자 조회 버튼  */
+    jQuery('#btnUserSearch').on('click', function () {
+        var obj = new Object();
+        obj.userid = jQuery('#userSearch').val();
+        var userIdJson = JSON.stringify(obj);
+        jQuery.ajax({
+            url: "/roles/getUserId",
+            type:"POST",
+            data:userIdJson,
+            contentType:"application/json;charset=UTF-8",
+            dataType:"json",
+            success: function (users) {
+               if (users.userId != "") {
+                   var duplicate = false;
+                   var tableUserList = jQuery('[name=roleUserId]').text();
+                   var arrayUserList = tableUserList.split(",");
+                   var addUserInfo = users.userName+'('+users.userId+')[삭제]';
+                   $.each(arrayUserList, function(index, item){
+                       //console.log(arrayUserList[index].trim()+"=="+addUserInfo.trim());
+                       if (arrayUserList[index].trim() == addUserInfo.trim()) {
+                          duplicate = true;
+                       }
+                   });
+                   if (duplicate) {
+                       alert("중복된  사용자 아아디입니다.");
+                   } else {
+                       //jQuery('#userSearchForm').val()
+                       //jQuery('[name=userSearchForm]').last().append("<span name='roleUserId' id="+users.userId+">"+users.userName+"("+users.userId+")[삭제],</span>");  
+                       jQuery('#userSearchForm').last().append("<span name='roleUserId' id="+users.userId+">"+users.userName+"("+users.userId+")[삭제],</span>");  
+                   }
+               } else {
+                   alert("없는 사용자 아이디 입니다. 다시 확인 하세요.");
+               }
+            },
+            error: function (request, status, error) {
+                console.log(request);
+                console.log(status);
+                console.log(error);
+            }
+        }) ;
+    });
+/*]]>*/
+});
+</script>
 </body>
 </html>

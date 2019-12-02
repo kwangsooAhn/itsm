@@ -14,10 +14,21 @@ import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.role.entity.RoleEntity
 import co.brainz.itsm.role.entity.AuthEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.itsm.user.entity.UserEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RequestMethod
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import org.springframework.web.bind.annotation.RequestBody
+import java.time.LocalDateTime
+
+data class UserParamClass(var userid: String? = null, var username: String? = null)
+data class RoleParamClass(
+	var roleId: String? = null, var roleName: String? = null, var roleDesc: String? = null
+	, var arrAuthId: Array<String>? = null, var arrUserId: Array<String>? = null
+)
 
 @RequestMapping("/roles")
 @Controller
@@ -141,14 +152,42 @@ public class RoleController {
 
 		return "role/form"
 	}
-	
-	/*
-	@RequestMapping(value = ["/roles/userIdSearch/{id}"], method = [RequestMethod.GET])
+
+	@PostMapping("/getUserId")
 	@ResponseBody
-	public fun userIdSearch(userId: String): String {
-		//필요한 로직 처리
-		var userId = "1111"
-		return userId;
+	fun getUserId(@RequestBody userId: UserParamClass, model: Model): UserEntity {
+		logger.debug(">>> mapperd {} <<<", userId)
+		var userid = userId.userid.toString()
+
+		if (roleService.getUserId(userid).isNotEmpty()) {
+			return roleService.getUserId(userid).get(0)
+		} else {
+			return UserEntity(
+				userId = "", userName = "", password = "",
+				email = "", useYn = false, tryLoginCount = 0, createId = "", updateId = ""
+			)
+		}
 	}
-	*/
+
+	//저장 진행중
+	@PostMapping("/insertRole")
+	@ResponseBody
+	fun insertRole(@RequestBody roleInfo: RoleParamClass, model: Model): String {
+		logger.debug(">>> mapperd {} <<<", roleInfo)
+
+		var inputDate = LocalDateTime.now()
+		roleService.insertRole(
+			RoleEntity(
+				roleId = roleInfo.roleId.toString(),
+				roleName = roleInfo.roleName.toString(),
+				roleDesc = roleInfo.roleDesc.toString(),
+				createId = "",
+				createDate = inputDate,
+				updateId = "",
+				updateDate = inputDate
+			)
+		)
+
+		return "";
+	}
 }
