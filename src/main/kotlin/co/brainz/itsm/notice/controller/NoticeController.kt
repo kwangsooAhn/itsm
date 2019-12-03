@@ -1,4 +1,4 @@
-package co.brainz.itsm.notice.controller
+package co.brainz.itsm.notice.controller 
 
 import org.springframework.web.bind.annotation.RestController
 import org.slf4j.LoggerFactory
