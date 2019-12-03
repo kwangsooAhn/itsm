@@ -2,26 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet"
-	th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
-<link rel="stylesheet"
-	th:href="@{/assets/vendors/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
-<script src="../../assets/js/common.js"></script>
-<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<script src="../../assets/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script src="../../assets/js/withoutJquery.js"></script>
 </head>
 <body>
-	<div class="container">
-	    <form id="faqForm" method="post">
-	        <table>
+    <div class="container">
+        <form id="faqForm" method="post" onsubmit="return false">
+            <table>
                 <tr>
                     <th>*그룹</th>
-                    <td><input id="faqGroup" name="faqGroup" type="text" th:value="${faqDetail?.faqGroup}" maxlength = "20" /></td>
+                    <td><input id="faqGroup" name="faqGroup" type="text" th:value="${faqDetail?.faqGroup}" maxlength = "100" required="required" /></td>
                 </tr>
                    <tr>
                        <th>*제목</th>
-                       <td><input id="faqTitle" name="faqTitle" type="text" th:value="${faqDetail?.faqTitle}" maxlength = "20" /></td>
+                       <td><input id="faqTitle" name="faqTitle" type="text" th:value="${faqDetail?.faqTitle}" maxlength = "200" required="required" /></td>
                    </tr>
                 <tr>
                     <th>*내용</th>
@@ -30,17 +23,43 @@
             </table>
             <div class="button">
                 <input type="hidden" id="_method" name="_method" value="" />
-                <button type="button" onclick="location.href='/faqs/listView'">목록</button>
-                <button th:if="!${faqDetail?.faqId}" type="submit" th:formaction="@{/faqs}">등록</button>
-                <button th:if="${faqDetail?.faqId}" type="submit" th:formaction="@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}" onclick="return methodChange('put')">수정 완료</button>
-                <button th:if="${faqDetail?.faqId}" type="submit" th:formaction="@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}" onclick="return methodChange('delete')">삭제</button>            
+                <button type="button" id="btnList" onclick="location.href='/faqs/listView'">목록</button>
+                <button th:if="!${faqDetail?.faqId}" id="btnRegist" th:formaction="@{/faqs}">등록</button>
+                <button th:if="${faqDetail?.faqId}" id="btnUpdate" th:formaction="@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}" >수정 완료</button>
+                <button th:if="${faqDetail?.faqId}" id="btnDelete" th:formaction="@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}" >삭제</button>            
             </div>
-	    </form>
-	</div>
+        </form>
+    </div>
 </body>
 <script type="text/javascript">
-function methodChange(targetMethod) {
-    document.getElementById("_method").value = targetMethod;
+/*<![CDATA[*/
+window.onload = function() {
+    if ("[[${faqDetail?.faqId}]]" == "") {
+        document.getElementById("btnRegist").addEventListener("click", function() { restSubmit("post","[[@{/faqs}]]"); });
+    } else {
+        document.getElementById("btnUpdate").addEventListener("click", function() { restSubmit("put","[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]"); });
+        document.getElementById("btnDelete").addEventListener("click", function() { restSubmit("delete","[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]"); });
+    }
 }
+
+function restSubmit(method, url) {
+    var xmlhttp = createXmlHttpRequestObject();
+    
+    xmlhttp.open(method,url)
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+            if (xmlhttp.status == 200) {
+                alert("Success");
+                window.location = "/faqs/listView";
+            } else if (xmlhttp.status == 400) {
+                alert('There was an error 400');
+            } else {
+                alert('something else other than 200 was returned');
+            }
+        }
+    };
+    xmlhttp.send(new FormData(document.getElementById("faqForm")));
+}
+/*]]>*/
 </script>
 </html>

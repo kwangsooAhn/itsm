@@ -15,9 +15,9 @@ import org.hibernate.annotations.GenericGenerator
 public data class FaqEntity(
     @Id @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid") @Column var faqId: String = "",
-    @Column var faqGroup: String?,
-    @Column var faqTitle: String?,
-    @Column var faqContent: String?,
+    @Column var faqGroup: String = "",
+    @Column var faqTitle: String = "",
+    @Column var faqContent: String = "",
     @Column var createDt: LocalDateTime = LocalDateTime.now(),
     @Column var createUserid: String?,
     @Column var updateDt: LocalDateTime?,

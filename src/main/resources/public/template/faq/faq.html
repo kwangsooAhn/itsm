@@ -2,61 +2,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet"
-    th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
-<link rel="stylesheet"
-    th:href="@{/assets/vendors/bootstrap-datepicker/css/bootstrap-datepicker.css}" />
-<script src="../../assets/js/common.js"></script>
-<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<script src="../../assets/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="../../assets/js/withoutJquery.js"></script>
 </head>
 <body>
     <div class="container">
         <form id="faqForm" method="post">
             <table>
                 <tr>
-                   <th>*제목</th>
-                   <td th:text="${faqDetail?.faqTitle}"></td>
+                    <th>*제목</th>
+                    <td th:text="${faqDetail?.faqTitle}"></td>
                 </tr>
                 <tr>
                     <th>*내용</th>
                     <td th:text="${faqDetail?.faqContent}"></td>
                 </tr>
-               </table>
+            </table>
         </form>
-        
         <div class="button">
             <button type="button" onclick="location.href='/faqs/listView'">목록</button>
         </div>
-        
     </div>
-    
-
-    <script type="text/javascript">
-    $(document).ready(function() {  
-//        loadXMLDoc();
-    })
-    
-    function loadXMLDoc() {
-    var xmlhttp = createXmlHttpRequestObject();
-
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-           if (xmlhttp.status == 200) {
-               document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
-           }
-           else if (xmlhttp.status == 400) {
-              alert('There was an error 400');
-           }
-           else {
-               alert('something else other than 200 was returned');
-           }
-        }
-    };
-    xmlhttp.open("GET", "/faqs", true);
-    xmlhttp.send();
-}
-    </script>
 </body>
+<script type="text/javascript">
+</script>
 </html>

@@ -9,7 +9,5 @@ import co.brainz.itsm.faq.entity.FaqEntity
 
 @Repository
 public interface FaqRepository : JpaRepository<FaqEntity, String> {
- 
-    //override fun findAll(): List<FaqEntity>
-    //fun findOne(faqId: String): FaqEntity
+
 }
