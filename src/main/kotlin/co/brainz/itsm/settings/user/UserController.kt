@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import kotlin.reflect.full.declaredMemberProperties
 
 /**
  * 사용자 관리 뷰 클래스
@@ -59,23 +58,24 @@ class UserController {
         val mapperedUser: UserEntity = mapper.readValue(user)
 
 
-        val userArray = arrayListOf<MutableMap<String, Any>>()
+//        val userArray = arrayListOf<MutableMap<String, Any?>>()
+//
+//        mapperedUser::class.declaredMemberProperties.forEach {
+//
+//            logger.debug(">>> UserEntity property {} <<<", it.name)
+//            logger.debug(">>> UserEntity property value {} <<<", it.getter.call(mapperedUser))
+//
+//            if (UserConstants.UserCodeAndColumnMap.getUserColumnToCode(it.name) != "") {
+//                val userMap = mutableMapOf<String, Any?>()
+//                userMap["code"] = UserConstants.UserCodeAndColumnMap.getUserColumnToCode(it.name)
+//                userMap["property"] = it.name
+//                userMap["value"] = it.getter.call(mapperedUser)
+//                userArray.add(userMap)
+//            }
+//        }
 
-        mapperedUser::class.declaredMemberProperties.forEach {
-
-            logger.debug(">>> UserEntity property {} <<<", it.name)
-            logger.debug(">>> UserEntity property value {} <<<", it.getter.call(mapperedUser))
-
-            if (UserConstants.UserCodeAndColumnMap.getUserColumnToCode(it.name) != "") {
-                val userMap = mutableMapOf<String, Any>()
-                userMap["code"] = UserConstants.UserCodeAndColumnMap.getUserColumnToCode(it.name)
-                userMap["property"] = it.name
-                userMap["value"] = it.getter.call(mapperedUser) as Any
-                userArray.add(userMap)
-            }
-        }
-
-        model.addAttribute("users", userArray)
+//        model.addAttribute("users", userArray)
+        model.addAttribute("users", mapperedUser)
         model.addAttribute("roles", mapperedUser.roleEntities)
 
 

@@ -14,7 +14,14 @@ enum class UserConstants(val value: String) {
      */
     enum class UserCodeAndColumnMap(val code: String, val column: String) {
         ID("user.id", "userId"),
-        NAME("user.name", "userName")
+        NAME("user.name", "userName"),
+        EMAIL("user.email", "email"),
+        TRYLOGIN("user.tryLoginCount", "tryLoginCount"),
+        EXPIREDATE("user.expiredDate", "expiredDt"),
+        POSITION("user.position", "position"),
+        DEPARTMENT("user.department", "department"),
+        EXTENSION("user.extensionNumber", "extensionNumber"),
+        PHONE("user.phoneNumber", "phoneNumber")
         ;
 
 

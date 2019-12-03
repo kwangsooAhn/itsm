@@ -15,12 +15,15 @@ class UserService {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     @Autowired
     lateinit var userRepository: UserRepository
+    @Autowired
+    lateinit var roleRepository: RoleRepository
 
     /**
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(userSearchDto: UserSearchDto): MutableList<UserEntity> {
-        return userRepository.findAll(UserSpecification(userSearchDto))
+        //return userRepository.findAll(UserSpecification(userSearchDto))
+        return userRepository.findAll()
     }
 
     /**
@@ -36,12 +39,18 @@ class UserService {
     fun updateUser(user: UserUpdateDto): UserEntity {
         val updateEntity = userRepository.findByUserId(user.userId)
         user.userName?.let { updateEntity.userName = user.userName!! }
-        user.department?.let { logger.debug("update departmenet.") }
+        user.email?.let { updateEntity.email = user.email!! }
+        user.position?.let { updateEntity.position = user.position!! }
+        user.department?.let { updateEntity.department = user.department }
+        user.extensionNumber?.let { updateEntity.extensionNumber = user.extensionNumber }
+
+
+        user.roles?.let {
+            updateEntity.roleEntities = roleRepository.findAllById(user.roles!!).toSet()
+        }
 
         updateEntity.updateDate = LocalDateTime.now()
         updateEntity.updateId = SecurityContextHolder.getContext().authentication.principal as String
         return userRepository.save(updateEntity)
     }
-
-
 }
