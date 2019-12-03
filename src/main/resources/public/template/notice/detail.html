@@ -24,14 +24,14 @@
 				<td colspan="3"><span th:text="${notice?.createUserid}"/></span></td>
 			</tr>
 			<tr>
-				<td>팝업 알림 설정</td>
+				<th>팝업 알림 설정</th>
 				<td>
 					<div>
 						<label><input type="radio" id = "pop_radio_bt_up" name="popYn" th:value="${notice.popYn}" onclick ="return(false);">설정</label>
 						<label><input type="radio" id = "pop_radio_bt_down" name="popYn" th:value="${notice.popYn}" onclick ="return(false);">미설정</label>
 					</div>
 				</td>
-				<td>상단 공지 설정</td>
+				<th>상단 공지 설정</th>
 				<td>
 					<div>
 						<label><input type="radio" id = "top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);">설정</label>
@@ -48,15 +48,15 @@
 					<td colspan="2"><span th:text="${notice?.popHeight}"></span></td>
 				</tr>
 				<tr>
-					<td>*넓이</td>
+					<th>*넓이</th>
 					<td colspan="2"><span th:text="${notice?.popWidth}"/></span></td>
 				</tr>
 				<tr>
-					<td>*시작일</td>
+					<th>*시작일</th>
 					<td colspan="2"><span th:text="${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}" ></span></td>
 				</tr>
 				<tr>
-					<td>*종료일</td>
+					<th>*종료일</th>
 					<td colspan="2"><span th:text="${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}"/></span></td>
 				</tr>
 			</table>

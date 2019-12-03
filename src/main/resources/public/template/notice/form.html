@@ -32,14 +32,14 @@
 					<td colspan="3"><input id=create_userid name="createUserid" type="text" th:value="${notice?.createUserid}" maxlength = "20"/></td>
 				</tr>
 				<tr>
-					<td>*팝업 알림 설정</td>
+					<th>*팝업 알림 설정</th>
 					<td>
 						<div>
 							<label><input type="radio" id="pop_radio_bt_up" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('pop_tab',true,this)" />설정</label>
 							<label><input type="radio" id="pop_radio_bt_down" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('pop_tab',false, this)">미설정</label>
 						</div>
 					</td>
-					<td>*상단 공지 설정</td>
+					<th>*상단 공지 설정</th>
 					<td>
 						<div>
 							<label><input type="radio" id="top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('top_notice_tab',true,this)">설정</label> <label><input type="radio" id="top_radio_bt_down" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('top_notice_tab',false, this)">미설정</label>
@@ -55,11 +55,11 @@
 						<th colspan="2"><input type="number" id="pop_height" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" >px</th>
 					</tr>
 					<tr>
-						<td>*넓이</td>
+						<th>*넓이</th>
 						<td colspan="2"><input type="number" id="pop_width" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" >px</td>
 					</tr>
 					<tr>
-						<td>*시작일</td>
+						<th>*시작일</th>
 						<td colspan="2">
 							<div class="container">
 								<div class="row">
@@ -80,7 +80,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td>*종료일</td>
+						<th>*종료일</th>
 						<td colspan="2">
 							<div class="container">
 								<div class="row">
