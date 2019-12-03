@@ -76,7 +76,7 @@ public class NoticeController {
 			model.addAttribute( "noticeList", noticeService.findAllCheck(request.getParameter("keyword"), fromDate, toDate)
 			)
 		}
-		var addCurrentDate = LocalDateTime.now().plusDays(6)
+		var addCurrentDate = LocalDateTime.now().plusDays(1)
 		model.addAttribute("addCurrentDate",addCurrentDate)
 		model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
 		return "notice/list"
@@ -94,7 +94,7 @@ public class NoticeController {
 	@GetMapping("","/")
 	public fun getNoticeForm(@RequestParam(value = "noticeNo", defaultValue = "0") noticeNo: String, model: Model): String {
 		
-		var addCurrentDate = LocalDateTime.now().plusDays(6)
+		var addCurrentDate = LocalDateTime.now().plusDays(1)
 		
 		model.addAttribute("addCurrentDate",addCurrentDate)
 		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeNo))
