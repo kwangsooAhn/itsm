@@ -2,10 +2,8 @@ package co.brainz.itsm.role.entity
 
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.Inheritance
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
 import javax.persistence.*
+import org.springframework.format.annotation.DateTimeFormat
 import co.brainz.itsm.user.entity.UserEntity
 
 @Entity
@@ -16,11 +14,9 @@ data public class RoleEntity(
 	@Column(name = "roleName") var roleName: String,
 	@Column(name = "roleDesc") var roleDesc: String? = null,
 	@Column(name = "createId") var createId: String? = null,
-	@CreatedDate
-	@Column(name = "createDate") var createDate: LocalDateTime,
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "createDate") var createDate: LocalDateTime,
 	@Column(name = "updateId") var updateId: String? = null,
-	@LastModifiedDate
-	@Column(name = "updateDate") var updateDate: LocalDateTime,
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "updateDate") var updateDate: LocalDateTime,
 	@ManyToMany
 	@JoinTable(
 		name = "awfUserRoleMap",

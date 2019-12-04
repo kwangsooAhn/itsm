@@ -49,17 +49,18 @@ public class RoleController {
 	@GetMapping("/form")
 	public fun getRolelist(request: HttpServletRequest, model: Model): String {
 
-		var roleList = roleService.getRoleList()
+		var roleAllList = roleService.getRoleList()
 		var authAllList = roleService.getAuthList()
 
-		if (roleList.size > 0) {
-			var roleId = roleList[0].roleId
+		if (roleAllList.size > 0) {
+			var roleId = roleAllList[0].roleId
 			var roleDetail = roleService.getRoleDetail(roleId)
 
-			var userRoleMapList = roleList[0].userEntityList
-			var roleAuthMapList = roleList[0].authEntityList
+			var userRoleMapList = roleAllList[0].userEntityList
+			var roleAuthMapList = roleAllList[0].authEntityList
 			var authList = mutableListOf<AuthEntity>()
-			var i = 0;
+			//아래의 부분은 Entity에서 구현해야 하지 않을까? 라는 고민이 있음.
+			var i = 0
 			for (auth in authAllList) {
 				for (roleAuthMap in roleAuthMapList) {
 					if (auth.authId == roleAuthMap.authId) {
@@ -84,7 +85,7 @@ public class RoleController {
 			model.addAttribute("roleDetail", roleDetail)
 		}
 
-		model.addAttribute("roleList", roleList)
+		model.addAttribute("roleList", roleAllList)
 
 		return "role/form"
 	}
@@ -92,7 +93,7 @@ public class RoleController {
 	//역할 세부 조회
 	@GetMapping("/{id}")
 	public fun getRoleFrom(@PathVariable id: String, model: Model): String {
-		var roleList = roleService.getRoleList()
+		var roleAllList = roleService.getRoleList()
 		var authAllList = roleService.getAuthList()
 		var roleId = id
 		if (roleId != "") {
@@ -100,7 +101,7 @@ public class RoleController {
 			var userRoleMapList = roleDetail[0].userEntityList
 			var roleAuthMapList = roleDetail[0].authEntityList
 			var authList = mutableListOf<AuthEntity>()
-			var i = 0;
+			var i = 0
 			for (auth in authAllList) {
 				for (roleAuthMap in roleAuthMapList) {
 					if (auth.authId == roleAuthMap.authId) {
@@ -125,7 +126,7 @@ public class RoleController {
 			model.addAttribute("roleDetail", roleDetail)
 		}
 
-		model.addAttribute("roleList", roleList)
+		model.addAttribute("roleList", roleAllList)
 		return "role/form"
 	}
 
@@ -149,7 +150,7 @@ public class RoleController {
 	//역할 저장
 	@PostMapping("/insertRole")
 	@ResponseBody
-	fun insertRole(@RequestBody roleInfo: RoleParamClass, model: Model): String {
+	fun insertRole(@RequestBody roleInfo: RoleParamClass, model: Model): RoleEntity {
 		logger.debug(">>> mapperd {} <<<", roleInfo)
 
 		var userEntityList: List<UserEntity> = mutableListOf<UserEntity>()
@@ -182,7 +183,7 @@ public class RoleController {
 		}
 
 		var inputDate = LocalDateTime.now()
-		roleService.insertRole(
+		return roleService.insertRole(
 			RoleEntity(
 				roleId = roleInfo.roleId.toString(),
 				roleName = roleInfo.roleName.toString(),
@@ -195,20 +196,17 @@ public class RoleController {
 				authEntityList = authEntityList
 			)
 		)
-
-		return "role/form"
 	}
 
 	//역할 삭제
 	@PostMapping("/deleteRole")
 	@ResponseBody
-	fun deleteRole(@RequestBody roleInfo: RoleParamClass, model: Model): String {
+	fun deleteRole(@RequestBody roleInfo: RoleParamClass, model: Model):  String {
 		logger.debug(">>> mapperd {} <<<", roleInfo)
 
 		if (roleInfo.roleId != null) {
 			roleService.deleteRole(roleInfo.roleId.toString())
 		}
-
-		return "role/form"
+		return "";
 	}
 }

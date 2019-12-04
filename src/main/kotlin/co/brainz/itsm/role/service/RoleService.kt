@@ -57,8 +57,8 @@ public open class RoleService {
 	}
 
 	//역할 저장
-	public fun insertRole(roleEntity: RoleEntity) {
-		roleRepository.save(roleEntity)
+	public fun insertRole(roleEntity: RoleEntity) : RoleEntity {
+		return roleRepository.save(roleEntity)
 	}
 
 	//역할 삭제
