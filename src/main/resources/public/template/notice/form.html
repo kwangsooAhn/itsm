@@ -17,7 +17,7 @@
 	<div class="container">
 		<br />
 		<form id="frm" method="post">
-			<input id=notice_createDt name="createDtBefore" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
+			<input id=create_dt name="createDt" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
 			<table class="table" border="1">
 				<tr>
 					<th>*제목</th>
@@ -42,7 +42,8 @@
 					<th>*상단 공지 설정</th>
 					<td>
 						<div>
-							<label><input type="radio" id="top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('top_notice_tab',true,this)">설정</label> <label><input type="radio" id="top_radio_bt_down" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('top_notice_tab',false, this)">미설정</label>
+							<label><input type="radio" id="top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('top_notice_tab',true,this)">설정</label> 
+							<label><input type="radio" id="top_radio_bt_down" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('top_notice_tab',false, this)">미설정</label>
 						</div>
 					</td>
 				</tr>
@@ -66,7 +67,7 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
-												<input type="text" id="pop_strt_dt" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="popStrtDtBefore" class="form-control datetimepicker-input" data-target="#popStrtDtCal">
+												<input type="text" id="pop_strt_dt" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal">
 												<div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -87,7 +88,7 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="popEndDtCal" data-target-input="nearest">
-												<input type="text" id="pop_end_dt" th:value="${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popEndDtBefore" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
+												<input type="text" id="pop_end_dt" th:value="${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
 												<div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -114,7 +115,7 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
-												<input type="text" id="top_notice_strt_dt" th:value="${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="topNoticeStrtDtBefore" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
+												<input type="text" id="top_notice_strt_dt" th:value="${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
 												<div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -136,7 +137,7 @@
 										<div class="form-group">
 											<div class="input-group date" id="topNoticeEndDtCal"
 												data-target-input="nearest">
-												<input type="text" id="top_notice_end_dt" th:value="${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeEndDtBefore" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
+												<input type="text" id="top_notice_end_dt" th:value="${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
 												<div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -152,9 +153,9 @@
 				</table>
 			</div>
 			<div style="float: right;">
-				<button type="button" onclick="location.href='/notice/list'">목록</button>
-				<button th:if="!${notice?.noticeNo}" type="submit" th:formaction="@{/notice}" onclick = "return validation()">등록</button>
-				<button th:if="${notice?.noticeNo}" type="submit" th:formaction="@{/notice/{noticeNo}(noticeNo = ${notice.noticeNo})}" onclick = "return validation()">수정 완료</button>
+				<button type="button" onclick="location.href='/notices/list'">목록</button>
+				<button th:if="!${notice?.noticeNo}" type="button" id="insert" >등록</button>
+				<button th:if="${notice?.noticeNo}" type="button" id="update">수정 완료</button>
 			</div>
 		</form>
 	</div>
@@ -171,7 +172,11 @@
 			$('#pop_radio_bt_up').prop('checked',true) 
 		    $('#pop_tab').show();
 		}else{
-			$('#pop_radio_bt_down').prop('checked',true) 
+			$('#pop_radio_bt_down').prop('checked',true)
+			$('#pop_width').val("")
+			$('#pop_height').val("")
+			$('#pop_strt_dt').val("")
+			$('#pop_end_dt').val("")
 		    $('#pop_tab').hide();
 		}
 		if($("input[name=topNoticeYn]").val() == 'true'){
@@ -179,6 +184,8 @@
 		    $('#top_notice_tab').show();
 		}else{
 			$('#top_radio_bt_down').prop('checked',true) 
+			$('#top_notice_strt_dt').val("")
+			$('#top_notice_end_dt').val("")
 		    $('#top_notice_tab').hide();
 		}
 	    } 	
@@ -208,13 +215,12 @@
 				$('#pop_height').val("")
 				$('#pop_strt_dt').val("")
 				$('#pop_end_dt').val("")
-
+				$('input[name=popYn]').val(false);	
 			}else if(param == "top_notice_tab"){
 				$('#top_notice_strt_dt').val("")
-				$('#top_notice_end_dt').val("")	
-				
+				$('#top_notice_end_dt').val("")
+				$('input[name=topNoticeYn]').val(false);
 			}
-			
 	       $('#'+param).hide();	  
 		}
 	}
@@ -267,7 +273,85 @@
 		 if(($('#top_notice_strt_dt').val() > $('#top_notice_end_dt').val()) || ($('#top_notice_strt_dt').val() == $('#top_notice_end_dt').val())){alert("상단 공지 시작일이 종료일보다 크거나 같습니다."); return false;}
 		 }
 	}
+	/* ]]> */
+	</script>
 	
+	<script th:inline="javascript" th:if="!${notice?.noticeNo}">
+	$('#insert').click(function () {
+		
+		if(validation() == false){
+			return false;
+		}
+		
+		var jsonData = JSON.stringify({
+			noticeTitle : $('#notice_title').val(),
+			noticeContents : $('#notice_contents').val(),
+			popYn : $('input[name=popYn]').val(),
+			popStrtDt : $('#pop_strt_dt').val(),
+			popEndDt : $('#pop_end_dt').val(),
+			popWidth :  $('#pop_width').val(),
+			popHeight :  $('#pop_height').val(),
+			topNoticeYn : $('input[name=topNoticeYn]').val(),
+			topNoticeStrtDt: $('#top_notice_strt_dt').val(),
+			topNoticeEndDt : $('#top_notice_end_dt').val(),
+			createDt: $('#create_dt').val(),
+			createUserid :$('#create_userid').val()
+		});
+		$.ajax({
+			url : "http://localhost/notices",
+			type : "POST",
+			data : jsonData,
+			contentType : "application/json",
+			success: function () {
+				alert("저장을 성공하였습니다.");
+				location.href = '/notices/list';
+			},
+			error: function() {
+				alert("저장을 실패하였습니다.");
+			}
+		});
+	});
+	</script>
+	
+	<script th:inline="javascript" th:if="${notice?.noticeNo}">
+	/*<![CDATA[ */	
+	var noticeNo = /*[[${notice.noticeNo}]]*/;
+	
+	$('#update').click(function () {
+		
+		if(validation() == false){
+			return false;
+		}
+		
+		var jsonData = JSON.stringify({
+			noticeNo : noticeNo,
+			noticeTitle : $('#notice_title').val(),
+			noticeContents : $('#notice_contents').val(),
+			popYn : $('input[name=popYn]').val(),
+			popStrtDt : $('#pop_strt_dt').val(),
+			popEndDt : $('#pop_end_dt').val(),
+			popWidth :  $('#pop_width').val(),
+			popHeight :  $('#pop_height').val(),
+			topNoticeYn : $('input[name=topNoticeYn]').val(),
+			topNoticeStrtDt: $('#top_notice_strt_dt').val(),
+			topNoticeEndDt : $('#top_notice_end_dt').val(),
+			createDt: $('#create_dt').val(),
+			createUserid :$('#create_userid').val()
+		});
+		$.ajax({
+			url : "http://localhost/notices/"+noticeNo,
+			type : "PUT",
+			data : jsonData,
+			contentType : "application/json",
+			success: function () {
+				alert("수정을 성공하였습니다.");
+				location.href = '/notices/list';
+			},
+			error: function() {
+				alert("수정을 실패하였습니다.");
+			}
+		});
+	});
 	/* ]]> */
 	</script>
 

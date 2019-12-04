@@ -9,7 +9,7 @@
 <body>
 	<div class="container">
 		<br /> 	
-		<form id = "frm" th:attr="action=@{|/notice/${notice.noticeNo}|}" method = "post">
+		<form id = "frm" method = "post">
 		<table class="table" border="1">
 			<tr>
 				<th>제목</th>
@@ -76,11 +76,10 @@
 			</table>
 		</div>
 		<div style = "float:right;">
-			<button type="button" onclick="location.href='/notice/list'">목록</button>
-            <button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notice?noticeNo={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''">수정</button>
-			<button th:if="${notice?.noticeNo}" type="button" th:onclick ="proc('delete')">삭제</button>
+			<button type="button" onclick="location.href='/notices/list'">목록</button>
+            <button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notices/form?id={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''">수정</button>
+			<button th:if="${notice?.noticeNo}" type="button" id="delete">삭제</button>
 		</div>
-		<input type = "hidden" name = "_method" id = "_method" value = "PUT"/>
 		</form>
 	</div>
 
@@ -112,11 +111,24 @@
 		}
 	});	
 	
+	//RESTFUL API
+	var noticeNo = /*[[${notice.noticeNo}]]*/;
 	
-	function proc(type) {
-	        document.getElementById("_method").value = type;	
-			document.getElementById("frm").submit()
-	}
+	//Delete
+	$('#delete').click(function () {
+		$.ajax({
+			url : "http://localhost/notices/"+noticeNo,
+			type : "DELETE",
+			success: function() {
+				alert("삭제 처리되었습니다.");
+				location.href = '/notices/list';
+			},
+			error: function () {
+				alert('삭제 완료되었습니다.');
+			}
+		});
+	});
+
 	/* ]]> */
 	</script>
 
