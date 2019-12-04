@@ -15,11 +15,11 @@ import org.junit.runner.RunWith
 import co.brainz.itsm.role.respository.RoleRepository
 import co.brainz.itsm.role.respository.AuthRepository
 import co.brainz.itsm.role.respository.UserRepository
-import co.brainz.itsm.role.respository.UserRoleRepository
 import co.brainz.itsm.role.entity.RoleEntity
-import co.brainz.itsm.role.entity.UserRoleMapEntity
 
 import java.time.LocalDateTime
+import co.brainz.itsm.user.entity.UserEntity
+import co.brainz.itsm.role.entity.AuthEntity
 
 @RunWith(SpringJUnit4ClassRunner::class)
 @SpringBootTest
@@ -35,18 +35,20 @@ class RoleJpaMappingTest {
 	@Autowired
 	lateinit var userRepository: UserRepository
 
-	@Autowired
-	lateinit var userRoleRepository: UserRoleRepository
-
-
 	@Before
 	fun save() {
 		var inputDate = LocalDateTime.now()
+		
+		val user1 = UserEntity("faqmanager")
+		val user2 = UserEntity("faquser")
+		val auth1 = AuthEntity("notice.read")
+		val auth2 = AuthEntity("notice.create")
 
 		roleRepository.save(
 			RoleEntity(
 				roleId = "2", roleName = "서비스데스크담당자", roleDesc = "역할설명",
-				createId = "ksmcreate", createDate = inputDate, updateId = "ksmupdate", updateDate = inputDate
+				createId = "ksmcreate", createDate = inputDate, updateId = "ksmupdate", updateDate = inputDate,
+				userEntityList = listOf(user1, user2), authEntityList = listOf(auth1, auth2)
 			)
 		)
 	}
@@ -55,7 +57,6 @@ class RoleJpaMappingTest {
 	fun delete() {
 		roleRepository.deleteById("2")
 	}
-
 
 	@Test
 	fun Save() {
@@ -80,11 +81,4 @@ class RoleJpaMappingTest {
 		var list = userRepository.findByOrderByUserIdAsc()
 		Assert.assertNotNull(list)
 	}
-
-	@Test
-	fun getUserRoleMapList() {
-		var list  = userRoleRepository.findByRoleIdOrderByRoleIdAsc("2")
-		Assert.assertNotNull(list)
-	}
-	
 }

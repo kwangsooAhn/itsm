@@ -26,8 +26,9 @@ import java.time.LocalDateTime
 
 data class UserParamClass(var userid: String? = null, var username: String? = null)
 data class RoleParamClass(
-	var roleId: String? = null, var roleName: String? = null, var roleDesc: String? = null
-	, var arrAuthId: Array<String>? = null, var arrUserId: Array<String>? = null
+	var roleId: String? = null, var roleName: String? = null, var roleDesc: String? = null,
+	var createUserId: String? = null, var arrAuthId: Array<String>? = null,
+	var arrUserId: Array<String>? = null
 )
 
 @RequestMapping("/roles")
@@ -55,19 +56,8 @@ public class RoleController {
 			var roleId = roleList[0].roleId
 			var roleDetail = roleService.getRoleDetail(roleId)
 
-			var userRoleMapList = roleService.getUserRoleMapList(roleId)
-			var userAllList = roleService.getUserList()
-			val userList = mutableListOf<AliceUserEntity>()
-			//서로다른 Entity에서 조회 하도록 해봄
-			for (user in userAllList) {
-				for (userRoleMap in userRoleMapList) {
-					if (user.userId == userRoleMap.userId) {
-						userList.add(user)
-					}
-				}
-			}
-
-			var roleAuthMapList = roleService.getAuthRoleMapList(roleId)
+			var userRoleMapList = roleList[0].userEntityList
+			var roleAuthMapList = roleList[0].authEntityList
 			var authList = mutableListOf<AuthEntity>()
 			var i = 0;
 			for (auth in authAllList) {
@@ -89,7 +79,7 @@ public class RoleController {
 				}
 			}
 
-			model.addAttribute("userList", userList)
+			model.addAttribute("userList", userRoleMapList)
 			model.addAttribute("authList", authList)
 			model.addAttribute("roleDetail", roleDetail)
 		}
@@ -102,26 +92,13 @@ public class RoleController {
 	//역할 세부 조회
 	@GetMapping("/{id}")
 	public fun getRoleFrom(@PathVariable id: String, model: Model): String {
-
 		var roleList = roleService.getRoleList()
 		var authAllList = roleService.getAuthList()
 		var roleId = id
 		if (roleId != "") {
 			var roleDetail = roleService.getRoleDetail(roleId)
-
-			var userRoleMapList = roleService.getUserRoleMapList(roleId)
-			var userAllList = roleService.getUserList()
-			val userList = mutableListOf<AliceUserEntity>()
-			//서로다른 Entity에서 조회 하도록 해봄
-			for (user in userAllList) {
-				for (userRoleMap in userRoleMapList) {
-					if (user.userId == userRoleMap.userId) {
-						userList.add(user)
-					}
-				}
-			}
-
-			var roleAuthMapList = roleService.getAuthRoleMapList(roleId)
+			var userRoleMapList = roleDetail[0].userEntityList
+			var roleAuthMapList = roleDetail[0].authEntityList
 			var authList = mutableListOf<AuthEntity>()
 			var i = 0;
 			for (auth in authAllList) {
@@ -143,16 +120,16 @@ public class RoleController {
 				}
 			}
 
-			model.addAttribute("userList", userList)
+			model.addAttribute("userList", userRoleMapList)
 			model.addAttribute("authList", authList)
 			model.addAttribute("roleDetail", roleDetail)
 		}
 
 		model.addAttribute("roleList", roleList)
-
 		return "role/form"
 	}
 
+	//사용자 조회
 	@PostMapping("/getUserId")
 	@ResponseBody
 	fun getUserId(@RequestBody userId: UserParamClass, model: Model): UserEntity {
@@ -169,11 +146,40 @@ public class RoleController {
 		}
 	}
 
-	//저장 진행중
+	//역할 저장
 	@PostMapping("/insertRole")
 	@ResponseBody
 	fun insertRole(@RequestBody roleInfo: RoleParamClass, model: Model): String {
 		logger.debug(">>> mapperd {} <<<", roleInfo)
+
+		var userEntityList: List<UserEntity> = mutableListOf<UserEntity>()
+		var authEntityList: List<AuthEntity> = mutableListOf<AuthEntity>()
+
+		var roleAuthMapList = mutableListOf<AuthEntity>()
+		if (roleInfo.arrAuthId != null) {
+			var authList = roleInfo.arrAuthId
+			for (auth in authList!!.indices) {
+				roleAuthMapList.add(
+					AuthEntity(
+						authId = authList[auth]
+					)
+				)
+			}
+			authEntityList = roleAuthMapList
+		}
+
+		var userRoleMapList = mutableListOf<UserEntity>()
+		if (roleInfo.arrUserId != null) {
+			var userList = roleInfo.arrUserId
+			for (user in userList!!.indices) {
+				userRoleMapList.add(
+					UserEntity(
+						userId = userList[user]
+					)
+				)
+			}
+			userEntityList = userRoleMapList
+		}
 
 		var inputDate = LocalDateTime.now()
 		roleService.insertRole(
@@ -181,13 +187,28 @@ public class RoleController {
 				roleId = roleInfo.roleId.toString(),
 				roleName = roleInfo.roleName.toString(),
 				roleDesc = roleInfo.roleDesc.toString(),
-				createId = "",
+				createId = roleInfo.createUserId.toString(),
 				createDate = inputDate,
-				updateId = "",
-				updateDate = inputDate
+				updateId = roleInfo.createUserId.toString(),
+				updateDate = inputDate,
+				userEntityList = userEntityList,
+				authEntityList = authEntityList
 			)
 		)
 
-		return "";
+		return "role/form"
+	}
+
+	//역할 삭제
+	@PostMapping("/deleteRole")
+	@ResponseBody
+	fun deleteRole(@RequestBody roleInfo: RoleParamClass, model: Model): String {
+		logger.debug(">>> mapperd {} <<<", roleInfo)
+
+		if (roleInfo.roleId != null) {
+			roleService.deleteRole(roleInfo.roleId.toString())
+		}
+
+		return "role/form"
 	}
 }

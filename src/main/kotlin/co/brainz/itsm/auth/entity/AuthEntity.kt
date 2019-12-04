@@ -7,15 +7,16 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Column
 import java.time.LocalDateTime
+import javax.persistence.ManyToMany
 
 @Entity
 @Table(name = "awfAuth")
 data public class AuthEntity(
 	@Id var authId: String,
-	@Column(name = "authName") var authName: String,
-	@Column(name = "authDesc") var authDesc: String,
-	@Column(name = "createId") var createId: String,
-	@Column(name = "createDate") var createDate: LocalDateTime,
-	@Column(name = "updateId") var updateId: String,
-	@Column(name = "updateDate") var updateDate: LocalDateTime
+	@Column(name = "authName") var authName: String? = null,
+	@Column(name = "authDesc") var authDesc: String? = null,
+	@Column(name = "createId") var createId: String? = null,
+	@Column(name = "createDate") var createDate: LocalDateTime? = null,
+	@Column(name = "updateId") var updateId: String? = null,
+	@Column(name = "updateDate") var updateDate: LocalDateTime? = null
 ) : Serializable 

@@ -3,6 +3,7 @@ package co.brainz.itsm.user.entity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.*
+import co.brainz.itsm.role.entity.RoleEntity
 
 @Entity
 @Table(name = "awfUser")
@@ -15,5 +16,4 @@ data class UserEntity(
 	@Column(name = "tryLoginCount") val tryLoginCount: Int? = null,
 	@Column(name = "createId") val createId: String? = null,
 	@Column(name = "updateId") val updateId: String? = null
-
 ) : Serializable {}

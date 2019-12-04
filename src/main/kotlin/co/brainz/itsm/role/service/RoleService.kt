@@ -5,16 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.slf4j.LoggerFactory
 import co.brainz.itsm.role.entity.RoleEntity
 import co.brainz.itsm.role.entity.AuthEntity
-import co.brainz.itsm.role.entity.RoleAuthMapEntity
-import co.brainz.itsm.role.entity.UserRoleMapEntity
 import co.brainz.itsm.role.respository.RoleRepository
 import co.brainz.itsm.role.respository.AuthRepository
 import co.brainz.itsm.role.respository.UserRepository
-import co.brainz.itsm.role.respository.RoleAuthMapRepository
-import co.brainz.itsm.role.respository.UserRoleRepository
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.entity.UserEntity
-
 
 @Service
 public open class RoleService {
@@ -36,12 +31,6 @@ public open class RoleService {
 	@Autowired
 	lateinit var userRepository: UserRepository
 
-	@Autowired
-	lateinit var userRoleRepository: UserRoleRepository
-
-	@Autowired
-	lateinit var roleAuthMapRepository: RoleAuthMapRepository
-
 	//상단 역할정보를 가져온다.
 	public fun getRoleList(): MutableList<RoleEntity> {
 		return roleRepository.findByOrderByRoleNameAsc()
@@ -52,13 +41,8 @@ public open class RoleService {
 		return authRepository.findByOrderByAuthIdAsc()
 	}
 
-	//역할별 권한를 가져온다.
-	public fun getAuthRoleMapList(roleId: String): MutableList<RoleAuthMapEntity> {
-		return roleAuthMapRepository.findByRoleIdOrderByRoleIdAsc(roleId)
-	}
-
 	//전체 사용자정보를 가져온다.
-	public fun getUserList(): MutableList<AliceUserEntity> {
+	public fun getUserList(): MutableList<UserEntity> {
 		return userRepository.findByOrderByUserIdAsc()
 	}
 
@@ -67,17 +51,18 @@ public open class RoleService {
 		return roleRepository.findByRoleId(roleId)
 	}
 
-	//역할별 사용자 아이디를 가져온다.
-	public fun getUserRoleMapList(roleId: String): MutableList<UserRoleMapEntity> {
-		return userRoleRepository.findByRoleIdOrderByRoleIdAsc(roleId)
-	}
-
 	//사용자 아이디를 조회한다.
 	public fun getUserId(userid: String): MutableList<UserEntity> {
 		return userRepository.findByUserId(userid)
 	}
 
+	//역할 저장
 	public fun insertRole(roleEntity: RoleEntity) {
 		roleRepository.save(roleEntity)
+	}
+
+	//역할 삭제
+	public fun deleteRole(roleId: String) {
+		roleRepository.deleteById(roleId)
 	}
 }

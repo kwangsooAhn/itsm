@@ -8,10 +8,10 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.entity.UserEntity
 
 @Repository
-public interface UserRepository : JpaRepository<AliceUserEntity, String> {
+public interface UserRepository : JpaRepository<UserEntity, String> {
 
 	//사용자리스트
-	public fun findByOrderByUserIdAsc(): MutableList<AliceUserEntity>
+	public fun findByOrderByUserIdAsc(): MutableList<UserEntity>
 
 	public fun findByUserId(userId: String): MutableList<UserEntity>
 
