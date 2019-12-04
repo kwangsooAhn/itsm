@@ -19,3 +19,25 @@ faq.read: "공지사항 조회"
 faq.create: "공지사항 등록"
 faq.update: "공지사항 변경"
 faq.delete: "공지사항 삭제"
+
+#
+searchWord: "검색어를 입력하세요"
+
+# 사용자
+user:
+  id: "아이디"
+  name: "이름"
+  email: "이메일"
+  position: "직책"
+  department: "부서"
+  extensionNumber: "내선번호"
+  phoneNumber: "전화번호"
+  reg: "사용자 등록"
+  read: "사용자 조회"
+  create: "사용자 생성"
+  update: "사용자 변경"
+  delete: "사용자 삭제"
+
+btn:
+  save: "저장"
+  close: "닫기"

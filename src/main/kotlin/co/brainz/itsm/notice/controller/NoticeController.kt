@@ -1,4 +1,4 @@
-package co.brainz.itsm.notice.controller
+package co.brainz.itsm.notice.controller 
 
 import org.springframework.web.bind.annotation.RestController
 import org.slf4j.LoggerFactory
@@ -30,7 +30,7 @@ import org.springframework.ui.ModelMap
 
 
 @Controller
-@RequestMapping("/notice")
+@RequestMapping("/notices")
 public class NoticeController {
 	
 	companion object {
@@ -39,10 +39,8 @@ public class NoticeController {
 
 	fun Logging(): Unit {
 		logger.info("INFO{ }", "NoticeController")
-
 	}
-
-
+	
 	@Autowired
 	lateinit var noticeRepository: NoticeRepository
 
@@ -52,8 +50,8 @@ public class NoticeController {
 	@Autowired
 	lateinit var convertParam: ConvertParam
 
-	//공지사항 리스트 조회
-	@GetMapping("/list")
+	//공지사항 리스트 화면
+	@RequestMapping(value = ["/list"], method = [RequestMethod.GET])
 	public fun getNoticeList(request: HttpServletRequest, model: Model): String {
 
 		if (!(request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check")) {
@@ -76,83 +74,25 @@ public class NoticeController {
 			model.addAttribute( "noticeList", noticeService.findAllCheck(request.getParameter("keyword"), fromDate, toDate)
 			)
 		}
-		var addCurrentDate = LocalDateTime.now().plusDays(6)
+		var addCurrentDate = LocalDateTime.now().plusDays(1)
 		model.addAttribute("addCurrentDate",addCurrentDate)
 		model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
 		return "notice/list"
 	}
 	
-	//공지사항 세부 조회
-	@GetMapping("/{id}")
-	public fun getNotice(@PathVariable id : String, model: Model): String {
-	
-		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(id))
+	//공지사항 조회 화면
+	@RequestMapping(value = ["/notice"], method = [RequestMethod.GET])
+	public fun getNotice(request: HttpServletRequest, model: Model): String {
+		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(request.getParameter("id")))
 		return "notice/detail"
 	}
 
-	//공지사항 등록 화면
-	@GetMapping("","/")
-	public fun getNoticeForm(@RequestParam(value = "noticeNo", defaultValue = "0") noticeNo: String, model: Model): String {
-		
-		var addCurrentDate = LocalDateTime.now().plusDays(6)
-		
+	//공지사항 편집 화면
+	@RequestMapping(value = ["/form"], method = [RequestMethod.GET])
+	public fun getNoticeForm(@RequestParam(value = "id", defaultValue = "0") id: String, model: Model): String {
+		var addCurrentDate = LocalDateTime.now().plusDays(1)
 		model.addAttribute("addCurrentDate",addCurrentDate)
-		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeNo))
-		
+		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(id))
 		return "notice/form"
-	}
-
-
-    //공지사항 삭제
-	@RequestMapping(value = ["/{id}"],method = [RequestMethod.DELETE])
-	public fun deleteNotice(@PathVariable id: String): String {
-		
-		noticeRepository.deleteById(id)
-		
-		return "redirect:/notice/list"
-	}
-
-	//공지사항 등록 수정.
-	@RequestMapping(value = ["/{noticeNo}","/",""],method = [RequestMethod.POST])
-	public fun insertNotice(
-		@RequestParam (required = false) popStrtDtBefore :String,
-		@RequestParam (required = false) popEndDtBefore:String,
-		@RequestParam (required = false) topNoticeStrtDtBefore:String,
-		@RequestParam (required = false) topNoticeEndDtBefore:String,
-		@RequestParam (required = false) popYn : String,
-		@RequestParam (required = false) topNoticeYn : String,
-	    @RequestParam createDtBefore:String,
-		notice: NoticeEntity): String {
-		
-		var formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-	    var createDtAfter : LocalDateTime = LocalDateTime.parse(createDtBefore,formatter)
-		
-		if(popYn == "false"){
-		    notice.popStrtDt = null
-		    notice.popEndDt = null
-		    notice.popWidth = null
-		    notice.popHeight = null
-		} else {
-		    var popStrtDtAfter : LocalDateTime? = LocalDateTime.parse(popStrtDtBefore,formatter)
-		    var popEndDtAfter : LocalDateTime? = LocalDateTime.parse(popEndDtBefore,formatter)
-	    	notice.popStrtDt = popStrtDtAfter
-	    	notice.popEndDt = popEndDtAfter
-		}
-		
-		if(topNoticeYn == "false"){
-		    notice.topNoticeStrtDt = null
-		    notice.topNoticeEndDt = null
-		} else {
-		    var topNoticeStrtDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeStrtDtBefore,formatter)
-		    var topNoticeEndDtAfter : LocalDateTime? = LocalDateTime.parse(topNoticeEndDtBefore,formatter)
-		    notice.topNoticeStrtDt = topNoticeStrtDtAfter
-		    notice.topNoticeEndDt = topNoticeEndDtAfter		
-		}	
-			
-		    notice.createDt = createDtAfter
-		
-		    noticeRepository.save(notice)
-		
-		    return "redirect:/notice/list"
 	}
 }
