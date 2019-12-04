@@ -22,7 +22,6 @@
                 </tr>
             </table>
             <div class="button">
-                <input type="hidden" id="_method" name="_method" value="" />
                 <button type="button" id="btnList" onclick="location.href='/faqs/listView'">목록</button>
                 <button th:if="!${faqDetail?.faqId}" id="btnRegist" th:formaction="@{/faqs}">등록</button>
                 <button th:if="${faqDetail?.faqId}" id="btnUpdate" th:formaction="@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}" >수정 완료</button>
