@@ -8,8 +8,21 @@
 </head>
 <body>
 
-
 <div sec:authorize="isAuthenticated()">
+    <!-- 로그아웃 -->
+    <form th:action="@{/logout}" method="post">
+        <div>
+            <button id="btnLogout" type="submit">로그아웃</button>
+        </div>
+    </form>
+
+    <div id="userMenus"></div>
+    <div id="contents" style="border: 1px solid red"></div>
+
+    <br>
+    <br>
+    <br>
+
     <div>[ 사용자 정보 ]</div>
     <div>아이디 : <span sec:authentication="name"></span></div>
     <div>상세 :</div>
@@ -62,14 +75,7 @@
     <span sec:authentication="authorities"></span>
     <br/>
     <br/>
-
-    <form th:action="@{/logout}" method="post">
-        <label>
-            <input type="submit" th:value="LOGOUT"/>
-        </label>
-    </form>
 </div>
-
 <div sec:authorize="isAnonymous()">
     로그인이 필요합니다.
     <form th:action="@{/logout}" method="post">
@@ -80,5 +86,29 @@
 </div>
 
 
+<link rel="stylesheet" type="text/css" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.css}" />
+<script th:src="@{/assets/vendors/jquery-3.4.0/jquery-3.4.0.js}"></script>
+<script th:src="@{/assets/vendors/jquery-serialize-object/jquery.serializeObject.js}"></script>
+<script th:src="@{/assets/vendors/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
+
+
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function () {
+        /*<![CDATA[*/
+        const menus = [[ ${#authentication.details.menus}]];
+
+        $.each(menus, function (idx, menu) {
+            const menuUrl = menu.url;
+            const btnMenu = $('<div>').text(menu.menuId + ' 메뉴로 이동하기 (' + menuUrl + ')').css('cursor', 'pointer');
+            $('#userMenus').append(btnMenu);
+            btnMenu.on('click', function () {
+                if (menuUrl == '') return;
+                $('#contents').load(menuUrl, function(responseText, textStatus, jqXHR) {});
+            });
+        });
+
+        /*]]>*/
+    });
+</script>
 </body>
 </html>
