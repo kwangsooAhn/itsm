@@ -63,11 +63,7 @@ class UserController {
         mapper.findAndRegisterModules() // localDateTime 변환을 위해 선언
         val mapperedUser: UserEntity = mapper.readValue(user)
 
-
-        //todo 전체 역할 ㅈ
         val roles = roleService.getRoles(mapperedUser.roleEntities)
-
-
 
         model.addAttribute("users", mapperedUser)
         model.addAttribute("roles", roles)
