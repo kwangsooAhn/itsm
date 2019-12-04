@@ -3,7 +3,6 @@ package co.brainz.itsm.user.entity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.*
-import co.brainz.itsm.role.entity.RoleEntity
 
 @Entity
 @Table(name = "awfUser")

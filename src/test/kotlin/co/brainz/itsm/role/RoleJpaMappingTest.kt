@@ -12,10 +12,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import co.brainz.itsm.role.respository.RoleRepository
+import co.brainz.itsm.role.respository.ITSMRoleRepository
 import co.brainz.itsm.role.respository.AuthRepository
-import co.brainz.itsm.role.respository.UserRepository
-import co.brainz.itsm.role.entity.RoleEntity
+import co.brainz.itsm.role.respository.ITSMUserRepository
+import co.brainz.itsm.role.entity.ITSMRoleEntity
 
 import java.time.LocalDateTime
 import co.brainz.itsm.user.entity.UserEntity
@@ -27,13 +27,13 @@ import co.brainz.itsm.role.entity.AuthEntity
 class RoleJpaMappingTest {
 
 	@Autowired
-	lateinit var roleRepository: RoleRepository
+	lateinit var roleRepository: ITSMRoleRepository
 
 	@Autowired
 	lateinit var authRepository: AuthRepository
 
 	@Autowired
-	lateinit var userRepository: UserRepository
+	lateinit var userRepository: ITSMUserRepository
 
 	@Before
 	fun save() {
@@ -45,7 +45,7 @@ class RoleJpaMappingTest {
 		val auth2 = AuthEntity("notice.create")
 
 		roleRepository.save(
-			RoleEntity(
+			ITSMRoleEntity(
 				roleId = "2", roleName = "서비스데스크담당자", roleDesc = "역할설명",
 				createId = "ksmcreate", createDate = inputDate, updateId = "ksmupdate", updateDate = inputDate,
 				userEntityList = listOf(user1, user2), authEntityList = listOf(auth1, auth2)

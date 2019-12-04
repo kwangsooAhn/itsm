@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.slf4j.LoggerFactory
 import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
-import co.brainz.itsm.role.service.RoleService
-import co.brainz.itsm.role.entity.RoleEntity
+import co.brainz.itsm.role.service.ITSMRoleService
+import co.brainz.itsm.role.entity.ITSMRoleEntity
 import co.brainz.itsm.role.entity.AuthEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.entity.UserEntity
@@ -44,7 +44,7 @@ public class RoleController {
 	}
 
 	@Autowired
-	lateinit var roleService: RoleService
+	lateinit var roleService: ITSMRoleService
 
 	@GetMapping("/form")
 	public fun getRolelist(request: HttpServletRequest, model: Model): String {
@@ -150,7 +150,7 @@ public class RoleController {
 	//역할 저장
 	@PostMapping("/insertRole")
 	@ResponseBody
-	fun insertRole(@RequestBody roleInfo: RoleParamClass, model: Model): RoleEntity {
+	fun insertRole(@RequestBody roleInfo: RoleParamClass, model: Model): ITSMRoleEntity {
 		logger.debug(">>> mapperd {} <<<", roleInfo)
 
 		var userEntityList: List<UserEntity> = mutableListOf<UserEntity>()
@@ -184,7 +184,7 @@ public class RoleController {
 
 		var inputDate = LocalDateTime.now()
 		return roleService.insertRole(
-			RoleEntity(
+			ITSMRoleEntity(
 				roleId = roleInfo.roleId.toString(),
 				roleName = roleInfo.roleName.toString(),
 				roleDesc = roleInfo.roleDesc.toString(),

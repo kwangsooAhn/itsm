@@ -3,19 +3,19 @@ package co.brainz.itsm.role.service
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Autowired
 import org.slf4j.LoggerFactory
-import co.brainz.itsm.role.entity.RoleEntity
+import co.brainz.itsm.role.entity.ITSMRoleEntity
 import co.brainz.itsm.role.entity.AuthEntity
-import co.brainz.itsm.role.respository.RoleRepository
+import co.brainz.itsm.role.respository.ITSMRoleRepository
 import co.brainz.itsm.role.respository.AuthRepository
-import co.brainz.itsm.role.respository.UserRepository
+import co.brainz.itsm.role.respository.ITSMUserRepository
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.entity.UserEntity
 
 @Service
-public open class RoleService {
+public open class ITSMRoleService {
 
 	companion object {
-		private val logger = LoggerFactory.getLogger(RoleService::class.java)
+		private val logger = LoggerFactory.getLogger(ITSMRoleService::class.java)
 	}
 
 	fun Logging(): Unit {
@@ -23,16 +23,16 @@ public open class RoleService {
 	}
 
 	@Autowired
-	lateinit var roleRepository: RoleRepository
+	lateinit var roleRepository: ITSMRoleRepository
 
 	@Autowired
 	lateinit var authRepository: AuthRepository
 
 	@Autowired
-	lateinit var userRepository: UserRepository
+	lateinit var userRepository: ITSMUserRepository
 
 	//상단 역할정보를 가져온다.
-	public fun getRoleList(): MutableList<RoleEntity> {
+	public fun getRoleList(): MutableList<ITSMRoleEntity> {
 		return roleRepository.findByOrderByRoleNameAsc()
 	}
 
@@ -47,7 +47,7 @@ public open class RoleService {
 	}
 
 	//역할별 역할 상세정보 조회
-	public fun getRoleDetail(roleId: String): List<RoleEntity> {
+	public fun getRoleDetail(roleId: String): List<ITSMRoleEntity> {
 		return roleRepository.findByRoleId(roleId)
 	}
 
@@ -57,7 +57,7 @@ public open class RoleService {
 	}
 
 	//역할 저장
-	public fun insertRole(roleEntity: RoleEntity) : RoleEntity {
+	public fun insertRole(roleEntity: ITSMRoleEntity) : ITSMRoleEntity {
 		return roleRepository.save(roleEntity)
 	}
 

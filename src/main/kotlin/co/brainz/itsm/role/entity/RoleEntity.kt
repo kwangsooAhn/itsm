@@ -8,7 +8,7 @@ import co.brainz.itsm.user.entity.UserEntity
 
 @Entity
 @Table(name = "awfRole")
-data public class RoleEntity(
+data public class ITSMRoleEntity(
 	@Id
 	@Column(name = "roleId") var roleId: String,
 	@Column(name = "roleName") var roleName: String,
