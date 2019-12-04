@@ -21,6 +21,10 @@ class UserController {
 
     @Autowired
     lateinit var codeService: CodeService
+    @Autowired
+    lateinit var roleService: RoleService
+
+
 
     /**
      * 사용자 조회 뷰를 호출한다.
@@ -41,6 +45,8 @@ class UserController {
         val mapperedUsers: MutableList<UserEntity> = mapper.readValue(users)
         model.addAttribute("users", mapperedUsers)
 
+
+
         logger.debug(">>> users {} <<<", users)
         logger.debug(">>> mapperd {} <<<", mapperedUsers)
 
@@ -58,25 +64,13 @@ class UserController {
         val mapperedUser: UserEntity = mapper.readValue(user)
 
 
-//        val userArray = arrayListOf<MutableMap<String, Any?>>()
-//
-//        mapperedUser::class.declaredMemberProperties.forEach {
-//
-//            logger.debug(">>> UserEntity property {} <<<", it.name)
-//            logger.debug(">>> UserEntity property value {} <<<", it.getter.call(mapperedUser))
-//
-//            if (UserConstants.UserCodeAndColumnMap.getUserColumnToCode(it.name) != "") {
-//                val userMap = mutableMapOf<String, Any?>()
-//                userMap["code"] = UserConstants.UserCodeAndColumnMap.getUserColumnToCode(it.name)
-//                userMap["property"] = it.name
-//                userMap["value"] = it.getter.call(mapperedUser)
-//                userArray.add(userMap)
-//            }
-//        }
+        //todo 전체 역할 ㅈ
+        val roles = roleService.getRoles(mapperedUser.roleEntities)
 
-//        model.addAttribute("users", userArray)
+
+
         model.addAttribute("users", mapperedUser)
-        model.addAttribute("roles", mapperedUser.roleEntities)
+        model.addAttribute("roles", roles)
 
 
         logger.debug(">>> users {} <<<", user)
@@ -85,6 +79,5 @@ class UserController {
 
         return "user/userDetail"
     }
-
 
 }

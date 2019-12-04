@@ -36,21 +36,23 @@ class UserService {
     /**
      * 사용자 ID로 정보를 수정한다.
      */
-    fun updateUser(user: UserUpdateDto): UserEntity {
-        val updateEntity = userRepository.findByUserId(user.userId)
-        user.userName?.let { updateEntity.userName = user.userName!! }
-        user.email?.let { updateEntity.email = user.email!! }
-        user.position?.let { updateEntity.position = user.position!! }
-        user.department?.let { updateEntity.department = user.department }
-        user.extensionNumber?.let { updateEntity.extensionNumber = user.extensionNumber }
+    fun updateUser(update: UserUpdateDto): UserEntity {
+        val targetEntity = userRepository.findByUserId(update.userId)
+        update.userName?.let { targetEntity.userName = update.userName!! }
+        update.email?.let { targetEntity.email = update.email!! }
+        update.position?.let { targetEntity.position = update.position!! }
+        update.department?.let { targetEntity.department = update.department }
+        update.extensionNumber?.let { targetEntity.extensionNumber = update.extensionNumber }
 
-
-        user.roles?.let {
-            updateEntity.roleEntities = roleRepository.findAllById(user.roles!!).toSet()
+        targetEntity.roleEntities = update.roles?.let {
+            roleRepository.findAllById(it).toMutableSet()
         }
 
-        updateEntity.updateDate = LocalDateTime.now()
-        updateEntity.updateId = SecurityContextHolder.getContext().authentication.principal as String
-        return userRepository.save(updateEntity)
+        targetEntity.updateDate = LocalDateTime.now()
+        targetEntity.updateId = SecurityContextHolder.getContext().authentication.principal as String
+
+        logger.debug("targetEntity {}, update {}", targetEntity, update)
+
+        return userRepository.save(targetEntity)
     }
 }
