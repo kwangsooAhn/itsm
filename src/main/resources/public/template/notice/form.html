@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- bootstrap -->
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+<!-- jQuery -->
+<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<!-- dateTimePicker -->
+<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/moment.js"></script>
+<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<br />
+		<form id="frm" method="post">
+			<input id=create_dt name="createDt" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
+			<table class="table" border="1">
+				<tr>
+					<th>*제목</th>
+					<td colspan="3"><input id="notice_title" name="noticeTitle" type="text" th:value="${notice?.noticeTitle}" maxlength = "20" /></td>
+				</tr>
+				<tr>
+					<th>*내용</th>
+					<td colspan="3" style="text-align: center;"><textarea id="notice_contents" name="noticeContents" maxlength="140" rows="7" style="width: 750px; resize: none;" th:text="${notice?.noticeContents}"></textarea></td>
+				</tr>
+				<tr>
+					<th>*작성자</th>
+					<td colspan="3"><input id=create_userid name="createUserid" type="text" th:value="${notice?.createUserid}" maxlength = "20"/></td>
+				</tr>
+				<tr>
+					<th>*팝업 알림 설정</th>
+					<td>
+						<div>
+							<label><input type="radio" id="pop_radio_bt_up" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('pop_tab',true,this)" />설정</label>
+							<label><input type="radio" id="pop_radio_bt_down" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('pop_tab',false, this)">미설정</label>
+						</div>
+					</td>
+					<th>*상단 공지 설정</th>
+					<td>
+						<div>
+							<label><input type="radio" id="top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('top_notice_tab',true,this)">설정</label> 
+							<label><input type="radio" id="top_radio_bt_down" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('top_notice_tab',false, this)">미설정</label>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div id="pop_tab">
+				<table class="table" border="1">
+					<tr>
+						<th rowspan="4">팝업 알림 설정 정보</th>
+						<th>*높이</th>
+						<th colspan="2"><input type="number" id="pop_height" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" >px</th>
+					</tr>
+					<tr>
+						<th>*넓이</th>
+						<td colspan="2"><input type="number" id="pop_width" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" >px</td>
+					</tr>
+					<tr>
+						<th>*시작일</th>
+						<td colspan="2">
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
+												<input type="text" id="pop_strt_dt" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal">
+												<div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
+													<div class="input-group-text">
+														<i class="fa fa-calendar"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>*종료일</th>
+						<td colspan="2">
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<div class="input-group date" id="popEndDtCal" data-target-input="nearest">
+												<input type="text" id="pop_end_dt" th:value="${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
+												<div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
+													<div class="input-group-text">
+														<i class="fa fa-calendar"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div id="top_notice_tab">
+				<table class="table" border="1">
+					<tr>
+						<th rowspan="4">상단 공지 설정 정보</th>
+						<th>*시작일</th>
+						<td colspan="2">
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
+												<input type="text" id="top_notice_strt_dt" th:value="${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
+												<div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
+													<div class="input-group-text">
+														<i class="fa fa-calendar"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>*종료일</th>
+						<td colspan="2">
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<div class="input-group date" id="topNoticeEndDtCal"
+												data-target-input="nearest">
+												<input type="text" id="top_notice_end_dt" th:value="${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
+												<div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
+													<div class="input-group-text">
+														<i class="fa fa-calendar"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div style="float: right;">
+				<button type="button" onclick="location.href='/notices/list'">목록</button>
+				<button th:if="!${notice?.noticeNo}" type="button" id="insert" >등록</button>
+				<button th:if="${notice?.noticeNo}" type="button" id="update">수정 완료</button>
+			</div>
+		</form>
+	</div>
+
+
+	<script th:inline="javascript">
+	
+	/*<![CDATA[ */		
+	$(document).ready(function() {	
+	
+		// 팝업 및 상단 설정 관련 보이기 및 숨기기.
+        if(/*[[${notice.noticeNo}]]*/ != null) {
+		if($("input[name=popYn]").val() == 'true'){
+			$('#pop_radio_bt_up').prop('checked',true) 
+		    $('#pop_tab').show();
+		}else{
+			$('#pop_radio_bt_down').prop('checked',true)
+			$('#pop_width').val("")
+			$('#pop_height').val("")
+			$('#pop_strt_dt').val("")
+			$('#pop_end_dt').val("")
+		    $('#pop_tab').hide();
+		}
+		if($("input[name=topNoticeYn]").val() == 'true'){
+			$('#top_radio_bt_up').prop('checked',true) 
+		    $('#top_notice_tab').show();
+		}else{
+			$('#top_radio_bt_down').prop('checked',true) 
+			$('#top_notice_strt_dt').val("")
+			$('#top_notice_end_dt').val("")
+		    $('#top_notice_tab').hide();
+		}
+	    } 	
+	})
+
+	// 팝업 및 상단 설정 관련 함수
+	function setDisplay(param, param2, param3) {
+
+		param3.value = param2
+		if(param2 == true){
+			if(param == "pop_tab"){
+				$('#pop_width').val(/*[[${notice.popWidth} ? ${notice.popWidth} : 500]]*/);
+				$('#pop_height').val(/*[[${notice.popHeight} ? ${notice.popHeight} : 500]]*/);
+				$('#pop_strt_dt').val(/*[[${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/);
+				$('#pop_end_dt').val(/*[[${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/);
+			
+			}else if(param == "top_notice_tab"){
+				$('#top_notice_strt_dt').val(/*[[${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/);
+				$('#top_notice_end_dt').val(/*[[${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/);	
+				
+			}
+			
+	       $('#'+param).show();
+		}else{
+			if(param == "pop_tab"){
+				$('#pop_width').val("")
+				$('#pop_height').val("")
+				$('#pop_strt_dt').val("")
+				$('#pop_end_dt').val("")
+				$('input[name=popYn]').val(false);	
+			}else if(param == "top_notice_tab"){
+				$('#top_notice_strt_dt').val("")
+				$('#top_notice_end_dt').val("")
+				$('input[name=topNoticeYn]').val(false);
+			}
+	       $('#'+param).hide();	  
+		}
+	}
+	
+	//calendar 설정 함수
+    $(function () {
+        $('#topNoticeEndDtCal').datetimepicker({
+        	format : 'YYYY-MM-DD HH:mm:ss'
+        });
+        
+        $('#topNoticeStrtDtCal').datetimepicker({
+        	format : 'YYYY-MM-DD HH:mm:ss'
+        });
+        
+        $('#popEndDtCal').datetimepicker({
+        	format : 'YYYY-MM-DD HH:mm:ss'
+        });
+        
+        $('#popStrtDtCal').datetimepicker({
+        	format : 'YYYY-MM-DD HH:mm:ss'
+        });
+    });
+    
+	
+	// pop width, heigth maxLengthCheck
+   function maxLengthCheck(object){
+		
+   if (object.value.length > object.maxLength){
+    object.value = object.value.slice(0, object.maxLength);
+    }   
+   }
+
+	// validation check
+	function validation() {
+		 if($('#notice_title').val() == ""){alert("제목을 입력하세요."); return false;} 
+		 if($('#notice_contents').val() == ""){alert("내용을 입력하세요."); return false;}
+		 if($('#create_userid').val() == ""){alert("작성자를 입력하세요."); return false;}	
+		 
+		 if($('#pop_radio_bt_up').is(':checked')){
+		 if($('#pop_height').val() == ""){alert("높이를 입력하세요."); return false;}
+		 if($('#pop_width').val() == ""){alert("넓이를 입력하세요"); return false;}	 
+		 if($('#pop_strt_dt').val() == ''){alert("팝업 시작일을 입력하세요."); return false;}
+		 if($('#pop_end_dt').val() == ''){alert("팝업 종료일을 입력하세요."); return false;} 
+		 if(($('#pop_strt_dt').val() > $('#pop_end_dt').val()) || ($('#pop_strt_dt').val() == $('#pop_end_dt').val())){alert("팝업 알림  시작일이 종료일보다 크거나 같습니다."); return false;}
+		 }
+		 
+		 if($('#top_radio_bt_up').is(':checked')){
+		 if($('#top_notice_strt_dt').val() == ""){alert("상단 공지 시작일을 입력하세요."); return false;}
+		 if($('#top_notice_end_dt').val() == ""){alert("상단 공지 종료일을 입력하세요."); return false;}
+		 if(($('#top_notice_strt_dt').val() > $('#top_notice_end_dt').val()) || ($('#top_notice_strt_dt').val() == $('#top_notice_end_dt').val())){alert("상단 공지 시작일이 종료일보다 크거나 같습니다."); return false;}
+		 }
+	}
+	/* ]]> */
+	</script>
+	
+	<script th:inline="javascript" th:if="!${notice?.noticeNo}">
+	$('#insert').click(function () {
+		
+		if(validation() == false){
+			return false;
+		}
+		
+		var jsonData = JSON.stringify({
+			noticeTitle : $('#notice_title').val(),
+			noticeContents : $('#notice_contents').val(),
+			popYn : $('input[name=popYn]').val(),
+			popStrtDt : $('#pop_strt_dt').val(),
+			popEndDt : $('#pop_end_dt').val(),
+			popWidth :  $('#pop_width').val(),
+			popHeight :  $('#pop_height').val(),
+			topNoticeYn : $('input[name=topNoticeYn]').val(),
+			topNoticeStrtDt: $('#top_notice_strt_dt').val(),
+			topNoticeEndDt : $('#top_notice_end_dt').val(),
+			createDt: $('#create_dt').val(),
+			createUserid :$('#create_userid').val()
+		});
+		$.ajax({
+			url : "http://localhost/notices",
+			type : "POST",
+			data : jsonData,
+			contentType : "application/json",
+			success: function () {
+				alert("저장을 성공하였습니다.");
+				location.href = '/notices/list';
+			},
+			error: function() {
+				alert("저장을 실패하였습니다.");
+			}
+		});
+	});
+	</script>
+	
+	<script th:inline="javascript" th:if="${notice?.noticeNo}">
+	/*<![CDATA[ */	
+	var noticeNo = /*[[${notice.noticeNo}]]*/;
+	
+	$('#update').click(function () {
+		
+		if(validation() == false){
+			return false;
+		}
+		
+		var jsonData = JSON.stringify({
+			noticeNo : noticeNo,
+			noticeTitle : $('#notice_title').val(),
+			noticeContents : $('#notice_contents').val(),
+			popYn : $('input[name=popYn]').val(),
+			popStrtDt : $('#pop_strt_dt').val(),
+			popEndDt : $('#pop_end_dt').val(),
+			popWidth :  $('#pop_width').val(),
+			popHeight :  $('#pop_height').val(),
+			topNoticeYn : $('input[name=topNoticeYn]').val(),
+			topNoticeStrtDt: $('#top_notice_strt_dt').val(),
+			topNoticeEndDt : $('#top_notice_end_dt').val(),
+			createDt: $('#create_dt').val(),
+			createUserid :$('#create_userid').val()
+		});
+		$.ajax({
+			url : "http://localhost/notices/"+noticeNo,
+			type : "PUT",
+			data : jsonData,
+			contentType : "application/json",
+			success: function () {
+				alert("수정을 성공하였습니다.");
+				location.href = '/notices/list';
+			},
+			error: function() {
+				alert("수정을 실패하였습니다.");
+			}
+		});
+	});
+	/* ]]> */
+	</script>
+
+
+</body>
+</html>
