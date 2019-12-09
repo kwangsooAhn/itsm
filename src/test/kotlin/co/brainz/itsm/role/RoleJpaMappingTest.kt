@@ -12,14 +12,14 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import co.brainz.itsm.role.respository.RoleRepository
-import co.brainz.itsm.role.respository.AuthRepository
+import co.brainz.itsm.settings.role.RoleRepository
+import co.brainz.itsm.settings.auth.AuthRepository
 import co.brainz.itsm.settings.user.UserRepository
-import co.brainz.itsm.role.entity.RoleEntity
+import co.brainz.itsm.settings.role.RoleEntity
+import co.brainz.itsm.settings.user.UserEntity
+import co.brainz.itsm.settings.auth.AuthEntity
 
 import java.time.LocalDateTime
-import co.brainz.itsm.settings.user.UserEntity
-import co.brainz.itsm.role.entity.AuthEntity
 
 @RunWith(SpringJUnit4ClassRunner::class)
 @SpringBootTest

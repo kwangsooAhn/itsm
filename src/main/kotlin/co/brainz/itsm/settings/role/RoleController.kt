@@ -1,4 +1,4 @@
-package co.brainz.itsm.role.controller
+package co.brainz.itsm.settings.role
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestParam
@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletRequest
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletResponse
 
-import co.brainz.itsm.role.entity.RoleEntity
-import co.brainz.itsm.role.entity.AuthEntity
+import co.brainz.itsm.settings.role.RoleEntity
+import co.brainz.itsm.settings.auth.AuthEntity
 import co.brainz.itsm.settings.user.UserEntity
-import co.brainz.itsm.role.service.RoleService
+import co.brainz.itsm.settings.role.RoleService
 
 data class RoleParamClass(
     var roleId: String? = null, var roleName: String? = null, var roleDesc: String? = null,
@@ -182,14 +182,14 @@ public class RoleController {
                 authEntityList = authEntityList
             )
         )
-        
+
         return result.roleId
     }
 
     //역할 삭제
     @RequestMapping(path = ["/{roleId}"], method = [RequestMethod.DELETE])
     @ResponseBody
-    fun deleteRole(@PathVariable roleId: String) : String {
+    fun deleteRole(@PathVariable roleId: String): String {
         var result = "false"
         try {
             if (roleId != null) {

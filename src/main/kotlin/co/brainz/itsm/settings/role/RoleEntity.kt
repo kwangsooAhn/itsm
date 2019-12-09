@@ -1,10 +1,11 @@
-package co.brainz.itsm.role.entity
+package co.brainz.itsm.settings.role
 
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.*
 import org.springframework.format.annotation.DateTimeFormat
 import co.brainz.itsm.settings.user.UserEntity
+import co.brainz.itsm.settings.auth.AuthEntity
 
 @Entity
 @Table(name = "awfRole")

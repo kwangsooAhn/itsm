@@ -95,12 +95,4 @@ public class NoticeController {
 		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(id))
 		return "notice/form"
 	}
-	
-	//공지사항 팝업 생성
-	@RequestMapping(value = ["noticePopUp/{id}"], method = [RequestMethod.GET])
-    public fun getNoticePopUp(@PathVariable id :String, model : Model) : String{
-		model.addAttribute("isPopUp","true")
-		model.addAttribute("noticePopUp", noticeService.findNoticeByNoticeNo(id))
-		return "notice/noticePopUp"
-	}
 }
