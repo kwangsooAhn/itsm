@@ -12,13 +12,13 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import co.brainz.itsm.role.respository.ITSMRoleRepository
+import co.brainz.itsm.role.respository.RoleRepository
 import co.brainz.itsm.role.respository.AuthRepository
-import co.brainz.itsm.role.respository.ITSMUserRepository
-import co.brainz.itsm.role.entity.ITSMRoleEntity
+import co.brainz.itsm.settings.user.UserRepository
+import co.brainz.itsm.role.entity.RoleEntity
 
 import java.time.LocalDateTime
-import co.brainz.itsm.user.entity.UserEntity
+import co.brainz.itsm.settings.user.UserEntity
 import co.brainz.itsm.role.entity.AuthEntity
 
 @RunWith(SpringJUnit4ClassRunner::class)
@@ -26,59 +26,61 @@ import co.brainz.itsm.role.entity.AuthEntity
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 class RoleJpaMappingTest {
 
-	@Autowired
-	lateinit var roleRepository: ITSMRoleRepository
+    @Autowired
+    lateinit var roleRepository: RoleRepository
 
-	@Autowired
-	lateinit var authRepository: AuthRepository
+    @Autowired
+    lateinit var authRepository: AuthRepository
 
-	@Autowired
-	lateinit var userRepository: ITSMUserRepository
+    @Autowired
+    lateinit var userRepository: UserRepository
 
-	@Before
-	fun save() {
-		var inputDate = LocalDateTime.now()
-		
-		val user1 = UserEntity("faqmanager")
-		val user2 = UserEntity("faquser")
-		val auth1 = AuthEntity("notice.read")
-		val auth2 = AuthEntity("notice.create")
+    @Before
+    fun save() {
+        var inputDate = LocalDateTime.now()
 
-		roleRepository.save(
-			ITSMRoleEntity(
-				roleId = "2", roleName = "서비스데스크담당자", roleDesc = "역할설명",
-				createId = "ksmcreate", createDate = inputDate, updateId = "ksmupdate", updateDate = inputDate,
-				userEntityList = listOf(user1, user2), authEntityList = listOf(auth1, auth2)
-			)
-		)
-	}
+        var userId1 = "kbh"
+        var userId2 = "admin"
+        val user1 = userRepository.findByUserId(userId1)
+        val user2 = userRepository.findByUserId(userId2)
+        val auth1 = AuthEntity("notice.read")
+        val auth2 = AuthEntity("notice.create")
 
-	@After
-	fun delete() {
-		roleRepository.deleteById("2")
-	}
+        roleRepository.save(
+            RoleEntity(
+                roleId = "2", roleName = "서비스데스크담당자", roleDesc = "역할설명",
+                createId = "ksmcreate", createDate = inputDate, updateId = "ksmupdate", updateDate = inputDate,
+                userEntityList = listOf(user1, user2), authEntityList = listOf(auth1, auth2)
+            )
+        )
+    }
 
-	@Test
-	fun Save() {
-		var role = roleRepository.findByRoleId("2")
-		Assert.assertEquals(role.get(0).roleDesc, "역할설명")
-	}
+    @After
+    fun delete() {
+        roleRepository.deleteById("2")
+    }
 
-	@Test
-	fun getTopRoleList() {
-		var list = roleRepository.findByOrderByRoleNameAsc()
-		Assert.assertNotNull(list)
-	}
+    @Test
+    fun Save() {
+        var role = roleRepository.findByRoleId("2")
+        Assert.assertEquals(role.get(0).roleDesc, "역할설명")
+    }
 
-	@Test
-	fun getAuthList() {
-		var list = authRepository.findByOrderByAuthIdAsc()
-		Assert.assertNotNull(list)
-	}
-	
-	@Test
-	fun getUserList() {
-		var list = userRepository.findByOrderByUserIdAsc()
-		Assert.assertNotNull(list)
-	}
+    @Test
+    fun getTopRoleList() {
+        var list = roleRepository.findByOrderByRoleNameAsc()
+        Assert.assertNotNull(list)
+    }
+
+    @Test
+    fun getAuthList() {
+        var list = authRepository.findByOrderByAuthIdAsc()
+        Assert.assertNotNull(list)
+    }
+
+    @Test
+    fun getUserList() {
+        var list = userRepository.findByOrderByUserIdAsc()
+        Assert.assertNotNull(list)
+    }
 }

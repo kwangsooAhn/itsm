@@ -69,7 +69,7 @@
             <td>
                 <form id="userSearchForm" name="userSearchForm">
                     <input id="userSearch" name="userSearch" type="text" /><button type="button" id="btnUserSearch" name="btnUserSearch">추가</button><br/>
-                    <span name="roleUserId" th:each="user : ${userList}" th:id="${user?.userId}"  th:text="| ${user?.userName}(${user?.userId})[삭제],|" />
+                    <span name="roleUserId" th:each="user : ${userList}" th:id="${user?.userId}"  th:text="| [${user?.userName}(${user?.userId})<삭제>]|" />
                 </form>
             </td>
         </tr>
@@ -101,8 +101,8 @@
         </tr>
     </table>
 <script type="text/javascript" th:inline="javascript">
-$(document).ready(function () {
 /*<![CDATA[*/    
+$(document).ready(function () {
     $('#sessionCreateId').hide();
     if ($('#txtRoleId').val() != null || $('#txtRoleId').val() != ''){
         $("#txtRoleId").attr("readonly",true);
@@ -127,27 +127,30 @@ $(document).ready(function () {
     
     /** 삭제 버튼  */
     $('#btnDelete').on('click', function () {
-        var obj = new Object();
-        obj.roleId = $('#txtRoleId').val();    //역할 아이디
-        var roleJson = JSON.stringify(obj);
         $.ajax({
-            url: "/roles/deleteRole",
-            type:"POST",
-            data:roleJson,
-            contentType:"application/json;charset=UTF-8",
-            dataType:"json",
-            success: function (users) {
+            url: '/roles/'+$("#txtRoleId").val(),
+            type:"DELETE",
+            dataType:"text",
+            success: function (result) {
+            	console.log(result)
+                if (result == "true") {
+                    alert("삭제 되었습니다.");
+                    window.location.href ="/roles/form";
+                } else {
+                    alert("삭제가 실패되었습니다 .관리자에게 문의 주세요.")
+                }
             },
             error: function (request, status, error) {
-                alert("삭제 되었습니다.");
-                window.location.href ="/roles/form";
+                alert("관리자에게 문의 주세요.");
+                console.log(request);
+                console.log(status);
+                console.log(error);
             }
         }) ;
     });
     
     /** 저장 버튼  */
     $('#btnSave').on('click', function () {
-        
         if ($('#txtRoleId').val() == "" || $('#txtRoleId').val() == "" ) {
             alert("역할 아이디를 입력하세요.");
             return;
@@ -182,11 +185,11 @@ $(document).ready(function () {
             type:"POST",
             data:roleJson,
             contentType:"application/json;charset=UTF-8",
-            dataType:"json",
+            dataType:"text",
             success: function (role) {
-                if (role.roleId != "") {
+                if (role != "") {
                     alert("저장 되었습니다.");
-                    window.location.href ="/roles/"+role.roleId;
+                    window.location.href ="/roles/"+role;
                 }
             },
             error: function (request, status, error) {
@@ -199,23 +202,18 @@ $(document).ready(function () {
     });
     
     /** 역할별 사용자 삭제 버튼  */
-    $('[name=roleUserId]').on('click', function () {
+    $("body").on("click","[name=roleUserId]",function(e) {
         $("#"+this.id).remove();
-    });
+    }); 
     
     /** 사용자 조회 버튼  */
     $('#btnUserSearch').on('click', function () {
-        var obj = new Object();
-        obj.userid = $('#userSearch').val();
-        var userIdJson = JSON.stringify(obj);
         $.ajax({
             url: "/roles/getUserId",
-            type:"POST",
-            data:userIdJson,
-            contentType:"application/json;charset=UTF-8",
-            dataType:"json",
+            type:"get",
+            data:{ "userId" : $("#userSearch").val() },
             success: function (users) {
-               if (users.userId != "") {
+               if (users.userId != "" || users =="undefined") {
                    var duplicate = false;
                    var tableUserList = $('[name=roleUserId]').text();
                    var arrayUserList = tableUserList.split(",");
@@ -228,7 +226,7 @@ $(document).ready(function () {
                    if (duplicate) {
                        alert("중복된  사용자 아아디입니다.");
                    } else {
-                       $('#userSearchForm').last().append("<span name='roleUserId' id="+users.userId+">"+users.userName+"("+users.userId+")[삭제],</span>");  
+                       $('#userSearchForm').last().append("<span name='roleUserId' id="+users.userId+">["+users.userName+"("+users.userId+")<삭제>] </div>");  
                    }
                } else {
                    alert("없는 사용자 아이디 입니다. 다시 확인 하세요.");
@@ -242,8 +240,8 @@ $(document).ready(function () {
             }
         }) ;
     });
-/*]]>*/
 });
+/*]]>*/
 </script>
 </body>
 </html>

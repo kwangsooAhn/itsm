@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import co.brainz.itsm.role.respository.RoleRepository
 
 /**
  * 사용자 관리 서비스

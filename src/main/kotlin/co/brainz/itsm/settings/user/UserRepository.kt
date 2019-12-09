@@ -16,4 +16,8 @@ interface UserRepository: JpaRepository<UserEntity, String>, JpaSpecificationExe
      */
     fun findByUserId(userId: String): UserEntity
 
+    /**
+      * 사용자 아이디를 아이디 순서로 정렬 하도록(역할메뉴에서 사용)
+    */
+    public fun findByOrderByUserIdAsc(): MutableList<UserEntity>
 }

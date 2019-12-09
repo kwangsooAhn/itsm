@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.*
+import co.brainz.itsm.role.entity.RoleEntity
 
 @Entity
 @Table(name = "awfUser")
