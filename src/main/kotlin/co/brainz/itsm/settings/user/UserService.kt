@@ -43,6 +43,8 @@ class UserService {
         update.position?.let { targetEntity.position = update.position!! }
         update.department?.let { targetEntity.department = update.department }
         update.extensionNumber?.let { targetEntity.extensionNumber = update.extensionNumber }
+        update.certificationCode?.let { targetEntity.certificationCode = update.certificationCode!! }
+        update.status?.let { targetEntity.status = update.status }
 
         targetEntity.roleEntities = update.roles?.let {
             roleRepository.findAllById(it).toMutableSet()
