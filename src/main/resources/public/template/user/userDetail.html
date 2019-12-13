@@ -8,14 +8,6 @@
 </head>
 <body>
 <form sec:authorize="hasAuthority('user.read')" id="userDetailEditModal" onsubmit="return false">
-    <!--    <div class="input-group" th:each="user: ${users}">-->
-    <!--        <span class="input-group-addon" th:text="#{*{user.get('code')}}">Text</span>-->
-    <!--        <input th:if="${user.get('code')} == 'user.id'" type="text" class="form-control"-->
-    <!--               th:name="*{user.get('property')}" th:value="*{user.get('value')}" readonly="readonly"/>-->
-    <!--        <input th:unless="${user.get('code')} == 'user.id'" type="text" class="form-control"-->
-    <!--               th:name="*{user.get('property')}" th:value="*{user.get('value')}"/>-->
-    <!--    </div>-->
-
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" th:text="#{user.id}">아이디</span>
@@ -32,7 +24,6 @@
                aria-describedby="inputGroup-sizing-default" readonly="readonly" name="userName"
                th:value="${users.userName}">
     </div>
-
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" th:text="#{user.email}">이메일</span>
@@ -57,7 +48,6 @@
                aria-describedby="inputGroup-sizing-default" readonly="readonly" name="department"
                th:value="${users.department}">
     </div>
-
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" th:text="#{user.extensionNumber}">내선번호</span>
@@ -65,17 +55,7 @@
         <input type="text" class="form-control" aria-label="Sizing example input"
                aria-describedby="inputGroup-sizing-default" readonly="readonly" name="extensionNumber"
                th:value="${users.extensionNumber}">
-
     </div>
-
-    <!--    <div class="input-group mb-3">-->
-    <!--        <div class="input-group-prepend">-->
-    <!--            <span class="input-group-text"  th:text="#{user.phoneNumber}">전화번호</span>-->
-    <!--        </div>-->
-    <!--        <input type="text" class="form-control" aria-label="Sizing example input"-->
-    <!--               aria-describedby="inputGroup-sizing-default" readonly="readonly" th:value="${users.phoneNumber}">-->
-    <!--    </div>-->
-
     <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
         <div>역할</div>
         <div class="custom-control custom-checkbox" th:each="role, stat : ${roles}">
@@ -84,7 +64,6 @@
             <label class="custom-control-label" th:for="|roles*{stat.index}|" th:text="*{role.roleName}"></label>
         </div>
     </div>
-
 </form>
 </body>
 </html>

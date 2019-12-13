@@ -19,8 +19,6 @@ data class UserEntity(
         var extensionNumber: String?,
         var createId: String,
         var updateId: String,
-        var status: String?,
-        var certificationCode: String?,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var expiredDt: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDate: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDate: LocalDateTime,

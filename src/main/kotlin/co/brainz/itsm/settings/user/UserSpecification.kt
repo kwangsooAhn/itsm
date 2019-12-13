@@ -15,6 +15,7 @@ class UserSpecification(private val userSearchDto: UserSearchDto) : Specificatio
         if (userSearchDto.searchKey == "" || userSearchDto.searchValue == "") return null
         val tableColumn = UserConstants.UserCodeAndColumnMap.getUserCodeToColum(userSearchDto.searchKey)
         val predicate = mutableListOf<Predicate>()
+        // TODO 특수문자 처리해야된다.
         predicate.add(criteriaBuilder.like(root.get<String>(tableColumn), "%" + userSearchDto.searchValue + "%"))
         return criteriaBuilder.and(*predicate.toTypedArray())
     }

@@ -1,0 +1,35 @@
+package co.brainz.framework.auth.handler
+
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
+import org.springframework.stereotype.Component
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
+/**
+ * 로그인 요청 인증 성공 처리 클래스
+ *
+ * 부가적인 정보를 추가적으로 담는다.
+ * 로그인 성공시 default url ("/") 로 리다이렉트한다.
+ */
+@Component
+class AliceAuthSuccessHandler() : SavedRequestAwareAuthenticationSuccessHandler() {
+
+    private val thisLogger: Logger = LoggerFactory.getLogger(this::class.java)
+
+    override fun onAuthenticationSuccess(
+            request: HttpServletRequest,
+            response: HttpServletResponse,
+            authentication: Authentication
+    ) {
+        val auth: Authentication = SecurityContextHolder.getContext().authentication
+        thisLogger.debug("isAuthenticated:{}\nname:{}\nprincipal:{}\nauthorities:{}\ncredentials:{}\ndetails:{}", auth.isAuthenticated, auth.name, auth.principal, auth.authorities, auth.credentials, auth.details)
+
+        // TODO 로그인 실패 카운트 0 으로 초기화 및 이력 업데이트
+        super.onAuthenticationSuccess(request, response, authentication)
+    }
+
+}

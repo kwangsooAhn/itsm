@@ -22,8 +22,7 @@ class UserService {
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(userSearchDto: UserSearchDto): MutableList<UserEntity> {
-        //return userRepository.findAll(UserSpecification(userSearchDto))
-        return userRepository.findAll()
+        return userRepository.findAll(UserSpecification(userSearchDto))
     }
 
     /**
@@ -50,8 +49,8 @@ class UserService {
             roleRepository.findAllById(it).toMutableSet()
         }
 
-        targetEntity.updateDate = LocalDateTime.now()
-        targetEntity.updateId = SecurityContextHolder.getContext().authentication.principal as String
+        targetEntity.updateDt = LocalDateTime.now()
+        targetEntity.updateUserid = SecurityContextHolder.getContext().authentication.principal as String
 
         logger.debug("targetEntity {}, update {}", targetEntity, update)
 
