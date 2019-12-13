@@ -47,8 +47,8 @@ class UserService {
             roleRepository.findAllById(it).toMutableSet()
         }
 
-        targetEntity.updateDate = LocalDateTime.now()
-        targetEntity.updateId = SecurityContextHolder.getContext().authentication.principal as String
+        targetEntity.updateDt = LocalDateTime.now()
+        targetEntity.updateUserid = SecurityContextHolder.getContext().authentication.principal as String
 
         logger.debug("targetEntity {}, update {}", targetEntity, update)
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>파일을 업로드해보자 ~</title>
+
+    <link rel="stylesheet" href="../../assets/vendors/dropzone/dropzone.css">
+    <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.js"></script>
+    <script src="../../assets/vendors/dropzone/dropzone.js"></script>
+    <script src="../../assets/js/fileUploader.js"></script>
+    <script>
+        $(document).ready(function () {
+
+        	fileUploader.init({extra: {formId:'mainFrm', task:'Test'}});
+
+            $('#action').click(function () {
+                $.ajax({
+                    url: '/fileSubmit',
+                    type: 'post',
+                    dataType: 'json',
+                    data: $('#mainFrm').serialize(),
+                    success: function (response) {
+                        alert('저장끝')
+                    },
+                    error: function (res, msg, xhr) {
+                        console.log('error')
+                        console.log(res)
+                        console.log(msg)
+                        console.log(xhr)
+
+                    }
+                });
+            });
+
+        });
+
+
+    </script>
+</head>
+<body>
+
+<form id="mainFrm" name="mainFrm">
+    <label for="id">추가적으로 필요한 </label><input type="text" id="id" name="id" value="my id"/>
+    <label for="name">값이다. </label><input type="text" id="name" name="name" value="my name"/>
+</form>
+
+<div id="dropZoneFiles"></div>
+<div id="dropZoneUploadedFiles"></div>
+
+<button type="button" id="action">SUBMIT</button>
+
+</body>
+</html>
