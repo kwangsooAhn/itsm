@@ -1,4 +1,4 @@
-package co.brainz.itsm.certification.serivce
+package co.brainz.itsm.common
 
 import java.util.Random
 
