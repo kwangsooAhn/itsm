@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="assets/css/itsm.css">
 <link rel="stylesheet" href="assets/css/bootstrap-alice.css">
 <meta charset="UTF-8">
 </head>
@@ -17,11 +16,11 @@
           <span style="margin-left: 60px;">ALICE ITSM</span>
         </a>
         <ul class="top-menu">
-          <li><a href="#" class="active">Service Request</a></li>
+          <li><a href="#">Service Request</a></li>
           <li><a href="#">Reports</a></li>
           <li><a href="#">Workflow</a></li>
           <li><a href="#">Form</a></li>
-          <li><a href="#">Configuration</a></li>
+          <li><a href="#" class="active">Configuration</a></li>
         </ul>
       </nav>
     </div>
@@ -33,87 +32,86 @@
           <li>
             <a href="#" class="active">
               <img alt="" src="assets/media/icons/icon_warning.png">
-              <span>My Dashboard</span>
+              <span>Notice</span>
             </a>
           </li>
           <li>
             <a href="#">
               <img alt="" src="assets/media/icons/icon_report.png">
-              <span>Service Requset</span>
+              <span>FAQ</span>
             </a>
           </li>
           <li>
             <a href="#">
               <img alt="" src="assets/media/icons/icon_question.png">
-              <span>Histroy</span>
+              <span>Board</span>
             </a>
           </li>
         </ul>
       </nav>
       <!-- 컨텐츠 영역  -->
       <div class="contents">
-        <div class="contents-title">My Dashboard</div>
-        <div class="panel">
-          <div class="panel-title">Assigned to me</div>
+        <div class="contents-title">공지사항</div>
+        <div class="contents-desc">회사의 주요 정책, 행사, 전달사항 등을 알리는 공간입니다.</div>
+        <div class="search-area">
+          <div><i class="fas fa-search"></i><input class="search-box" placeholder="Search"/></div>
+          <div><i class="fa fa-calendar"></i><input class="date-box" placeholder="From" value=""></div>
+          <div><i class="fa fa-calendar"></i><input class="date-box" placeholder="To" value=""/></div>
+          <a class="btn-add" href="#">Add</a>
+        </div>
+        <div class="list">
           <table class="table">
             <colgroup>
-              <col width="20%">
               <col width="15%">
-              <col width="30%">
-              <col width="10%">
-              <col width="10%">
+              <col width="40%">
+              <col width="15%">
+              <col width="15%">
               <col width="15%">
             </colgroup>
             <thead>
               <tr>
-                <th scope="col">CSR No.</th>
-                <th scope="col">Process</th>
+                <th scope="col">Type</th>
                 <th scope="col">Title</th>
+                <th scope="col">Popup</th>
                 <th scope="col">Name</th>
-                <th scope="col">State</th>
                 <th scope="col">Date</th>
               </tr>
             </thead>
             <tbody>
               <!-- 임시데이터 -->
               <tr>
-                <td>CSR2019112639811</td>
-                <td>단순문의</td>
-                <td class="align-left"><a href="#">프린트가 안됩니다.</a></td>
+                <td><a class="btn-type" href="#">팝업</a></td>
+                <td class="align-left"><a href="#">2019년 하반기 프로젝트이력사항 취합 안내</a></td>
+                <td><a class="fas fa-search-plus btn-zoom"></a></td>
                 <td>정희찬</td>
-                <td>접수 대기 중</td>
                 <td>2019.11.26 11:00:00</td>
               </tr>
               <tr>
-                <td>CSR2019112639811</td>
-                <td>단순문의</td>
-                <td class="align-left"><a href="#">프린트가 안됩니다.</a></td>
+                <td><a class="btn-type" href="#">팝업</a></td>
+                <td class="align-left"><a href="#">2019년 하반기 프로젝트이력사항 취합 안내</a></td>
+                <td><a class="fas fa-search-plus btn-zoom"></a></td>
                 <td>정희찬</td>
-                <td>접수 대기 중</td>
                 <td>2019.11.26 11:00:00</td>
               </tr>
               <tr>
-                <td>CSR2019112639811</td>
-                <td>단순문의</td>
-                <td class="align-left"><a href="#">프린트가 안됩니다.</a></td>
+                <td></td>
+                <td class="align-left"><a href="#">2019년 하반기 프로젝트이력사항 취합 안내</a></td>
+                <td></td>
                 <td>정희찬</td>
-                <td>접수 대기 중</td>
                 <td>2019.11.26 11:00:00</td>
               </tr>
               <tr>
-                <td>CSR2019112639811</td>
-                <td>단순문의</td>
-                <td class="align-left"><a href="#">프린트가 안됩니다.</a></td>
+                <td><a class="btn-type" href="#">팝업</a></td>
+                <td class="align-left"><a href="#">2019년 하반기 프로젝트이력사항 취합 안내</a></td>
+                <td><a class="fas fa-search-plus btn-zoom"></a></td>
                 <td>정희찬</td>
-                <td>접수 대기 중</td>
                 <td>2019.11.26 11:00:00</td>
               </tr>
               <tr>
-                <td>CSR2019112639811</td>
-                <td>단순문의</td>
-                <td class="align-left"><a href="#">프린트가 안됩니다.</a></td>
+                <td><a class="btn-type" href="#">팝업</a></td>
+                <td class="align-left"><a href="#">2019년 하반기 프로젝트이력사항 취합 안내</a></td>
+                <td><a class="fas fa-search-plus btn-zoom"></a></td>
                 <td>정희찬</td>
-                <td>접수 대기 중</td>
                 <td>2019.11.26 11:00:00</td>
               </tr>
             </tbody>
