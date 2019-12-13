@@ -46,7 +46,7 @@
     <div th:if="${validCode == 0 || validCode == 3}">
         <div sec:authorize="isAuthenticated()">
             <form id="sendForm" method="get" onsubmit="return false">
-                <button id="btnSend" th:formaction="@{/certification/send}">인증메일 재요청</button>
+                <button id="btnSend" th:formaction="@{/certification/sendCertifiedMail}">인증메일 재요청</button>
             </form>
         </div>
         <div sec:authorize="isAnonymous()">
@@ -59,7 +59,7 @@
 <script type="text/javascript">
     /*<![CDATA[*/
     window.onload = function() {
-        document.getElementById("btnSend").addEventListener("click", function() { restSubmit("get","[[@{/certification/send}]]"); });
+        document.getElementById("btnSend").addEventListener("click", function() { restSubmit("get","[[@{/certification/sendCertifiedMail}]]"); });
     }
 
     function restSubmit(method, url) {

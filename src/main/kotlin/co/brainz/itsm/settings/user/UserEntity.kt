@@ -17,11 +17,13 @@ data class UserEntity(
         var position: String?,
         var department: String?,
         var extensionNumber: String?,
-        var createId: String,
-        var updateId: String,
+        var createUserid: String,
+        var updateUserid: String,
+        var status: String?,
+        var certificationCode: String?,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var expiredDt: LocalDateTime,
-        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDate: LocalDateTime,
-        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDate: LocalDateTime,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDt: LocalDateTime,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDt: LocalDateTime,
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awfUserRoleMap",

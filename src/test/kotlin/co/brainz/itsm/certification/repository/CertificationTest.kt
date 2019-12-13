@@ -1,6 +1,6 @@
 package co.brainz.itsm.certification.repository
 
-import co.brainz.framework.auth.security.AliceUserDto
+import co.brainz.framework.auth.entity.AliceUserDto
 import co.brainz.framework.util.EncryptionUtil
 import co.brainz.itsm.certification.CertificationDto
 import co.brainz.itsm.certification.CertificationEnum

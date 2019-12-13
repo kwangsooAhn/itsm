@@ -1,12 +1,16 @@
 package co.brainz.itsm.notice.controller
 
+import co.brainz.itsm.certification.CertificationEnum
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.ui.Model
 import org.springframework.beans.factory.annotation.Autowired
 import co.brainz.itsm.notice.service.NoticeService
+import co.brainz.itsm.settings.user.UserEntity
+import co.brainz.itsm.settings.user.UserService
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 
 @Controller
 class NoticePopUpController {

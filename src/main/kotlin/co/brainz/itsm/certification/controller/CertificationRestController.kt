@@ -1,6 +1,6 @@
 package co.brainz.itsm.certification.controller
 
-import co.brainz.framework.auth.security.AliceUserDto
+import co.brainz.framework.auth.entity.AliceUserDto
 import co.brainz.itsm.certification.SignUpDto
 import co.brainz.itsm.certification.serivce.CertificationService
 import org.slf4j.LoggerFactory
@@ -31,7 +31,11 @@ class CertificationRestController {
     }
 
     @GetMapping("/sendCertifiedMail")
-    fun send() {
+    fun sendCertifiedMail() {
+        println(">>>>>>>>>>>>>")
+        println(">>>>>>>>>>>>>")
+        println(">>>>>>>>>>>>>")
+        println(">>>>>>>>>>>>>")
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         certificationService.sendMail(aliceUserDto.userId, aliceUserDto.email)
     }
