@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 페이지</title>
+</head>
+<body>
+    <div id="container" align="center">
+        <table style="text-align: left; width: 360px;">
+            <tr>
+                <th>아이디 *</th>
+                <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
+            </tr>
+            <tr>
+                <th>비밀번호 *</th>
+                <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
+            </tr>
+            <tr>
+                <th>비밀번호 재확인 *</th>
+                <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
+            </tr>
+            <tr>
+                <th>이름 *</th>
+                <td><input type="text" id="userName" name="userName" maxlength="100" required="required"></td>
+            </tr>
+            <tr>
+                <th>이메일 *</th>
+                <td><input type="text" id="email" name="email" maxlength="100" required="required"></td>
+            </tr>
+            <tr>
+                <th>직책</th>
+                <td><input type="text" id="position" name="position" maxlength="100"></td>
+            </tr>
+            <tr>
+                <th>부서</th>
+                <td><input type="text" id="department" name="department" maxlength="100"></td>
+            </tr>
+            <tr>
+                <th>내선번호</th>
+                <td><input type="text" id="extensionNumber" name="extensionNumber" maxlength="100"></td>
+            </tr>
+        </table>
+        <button style="margin-top: 25px;" onclick="userRegister()">회원가입</button>
+    </div>
+
+    <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+    <script th:src="@{/assets/js/validation.js}"></script>
+    <script th:src="@{/assets/js/withoutJquery.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        // 사용자 등록
+        function userRegister() {
+            if (emptyValidation()) {
+                if (document.getElementById("password").value != document.getElementById("rePassword").value) {
+                    alert("비밀번호가 일치하지 않습니다.");
+                    return false;
+                } else {
+                    // 비밀번호 validation Check
+                    const password = document.getElementById("password").value;
+                    if (!passwordValidation(password)) {
+                        return false;
+                    }
+                    // 비밀번호 RSA 암호화
+                    const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+                    const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+                    const rsa = new RSAKey();
+                    rsa.setPublic(keyModule, keyExponent);
+
+                    const registerInfo = {
+                        userId: document.getElementById("userId").value,
+                        password: rsa.encrypt(password),
+                        userName: document.getElementById("userName").value,
+                        email: document.getElementById("email").value,
+                        position: document.getElementById("position").value,
+                        department: document.getElementById("department").value,
+                        extensionNumber: document.getElementById("extensionNumber").value
+                    };
+                    // 등록
+                    restSubmit("POST", "/certification/register", registerInfo);
+                }
+            }
+        }
+        // 빈 값 체크
+        function emptyValidation() {
+            if (document.getElementById("userId").value == '') {
+                alert("아이디를 입력해주세요.");
+                return false;
+            }
+            if (document.getElementById("password").value == '') {
+                alert("비밀번호를 입력해주세요.");
+                return false;
+            }
+            if (document.getElementById("rePassword").value == '') {
+                alert("비밀번호 재확인을 입력해주세요.");
+                return false;
+            }
+            if (document.getElementById("userName").value == '') {
+                alert("이름을 입력해주세요.");
+                return false;
+            }
+            if (document.getElementById("email").value == '') {
+                alert("이메일을 입력해주세요.");
+                return false;
+            }
+            return true;
+        }
+
+        // 데이터 전송
+        function restSubmit(method, url, data) {
+            const xmlHttp = createXmlHttpRequestObject();
+            xmlHttp.open(method, url);
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == XMLHttpRequest.DONE) {
+                    if (xmlHttp.status == 200) {
+                        switch (xmlHttp.responseText) {
+                            case "0":
+                                alert("가입되었습니다.");
+                                location.href="/login";
+                                break;
+                            case "1":
+                                alert("동일한 아이디가 존재합니다.");
+                                break;
+                            default :
+                                alert("가입이 실패되었습니다.");
+                                break;
+                        }
+                    } else if (xmlHttp.status == 400) {
+                        alert('There was an error 400');
+                    } else {
+                        alert('something else other than 200 was returned');
+                    }
+                }
+            };
+            xmlHttp.setRequestHeader('Content-Type', 'application/json');
+            xmlHttp.send(JSON.stringify(data));
+        }
+        /*]]>*/
+    </script>
+</body>
+</html>
