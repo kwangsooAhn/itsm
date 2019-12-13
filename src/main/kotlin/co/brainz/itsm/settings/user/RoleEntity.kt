@@ -13,9 +13,9 @@ data class RoleEntity(
         @Id var roleId: String,
         @Column(name = "roleName") var roleName: String,
         @Column(name = "roleDesc") var roleDesc: String?,
-        @Column(name = "createId") var createId: String?,
-        @Column(name = "createDate") var createDate: LocalDateTime?,
-        @Column(name = "updateId") var updateId: String?,
-        @Column(name = "updateDate") var updateDate: LocalDateTime?
+        @Column(name = "createUserid") var createUserid: String?,
+        @Column(name = "createDt") var createDt: LocalDateTime?,
+        @Column(name = "updateUserid") var updateUserid: String?,
+        @Column(name = "updateDt") var updateDt: LocalDateTime?
 
 ) : Serializable
