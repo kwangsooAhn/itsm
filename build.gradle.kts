@@ -95,8 +95,8 @@ tasks.jacocoTestReport {
 detekt {
     toolVersion = "1.1.1"
     input = files(
-            "src/main/kotlin",
-            "src/test/kotlin"
+        "src/main/kotlin",
+        "src/test/kotlin"
     )
     parallel = false
     buildUponDefaultConfig = false
