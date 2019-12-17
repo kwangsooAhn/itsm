@@ -2,13 +2,13 @@ const aliceJs = {};
 /**
  * XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
- * @param element 에러를 출력할 장소 element id
+ * @param elementId 에러를 출력할 장소 element id
  * @param text response text
  * @returns {HTMLTableElement}
  */
-aliceJs.xhrErrorResponse = function (element, text) {
+aliceJs.xhrErrorResponse = function (elementId, text) {
     /*<![CDATA[*/
-    let elmNode = document.getElementById(element);
+    let elmNode = document.getElementById(elementId);
     while (elmNode.hasChildNodes()) {
         elmNode.removeChild(elmNode.firstChild)
     }
