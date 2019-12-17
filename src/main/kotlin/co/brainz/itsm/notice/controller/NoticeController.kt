@@ -1,32 +1,18 @@
 package co.brainz.itsm.notice.controller 
 
-import org.springframework.web.bind.annotation.RestController
-import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.RequestMapping
-import javax.annotation.Resource
+import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.notice.service.NoticeService
-import org.springframework.web.bind.annotation.GetMapping
+import co.brainz.itsm.utility.ConvertParam
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.RequestParam
-import javax.servlet.http.HttpServletRequest
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatterBuilder
-import java.time.temporal.ChronoField
-import co.brainz.itsm.utility.ConvertParam
 import org.springframework.web.bind.annotation.PathVariable
-import co.brainz.itsm.notice.repository.NoticeRepository
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestBody
-import co.brainz.itsm.notice.entity.NoticeEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.ui.ModelMap
+import org.springframework.web.bind.annotation.RequestParam
+import java.time.LocalDateTime
+import javax.servlet.http.HttpServletRequest
 
 
 @Controller
