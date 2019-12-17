@@ -51,6 +51,9 @@
     <script th:src="@{/assets/js/withoutJquery.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        const STATUS_SUCCESS = "0";
+        const STATUS_ERROR_ID_DUPLICATION = "1";
+
         // 사용자 등록
         function userRegister() {
             if (emptyValidation()) {
@@ -68,6 +71,11 @@
                     const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
                     const rsa = new RSAKey();
                     rsa.setPublic(keyModule, keyExponent);
+
+                    // 이메일 validation Check
+                    if (!emailValidation(document.getElementById("email").value)) {
+                        return false;
+                    }
 
                     const registerInfo = {
                         userId: document.getElementById("userId").value,
@@ -116,11 +124,11 @@
                 if (xmlHttp.readyState == XMLHttpRequest.DONE) {
                     if (xmlHttp.status == 200) {
                         switch (xmlHttp.responseText) {
-                            case "0":
+                            case STATUS_SUCCESS:
                                 alert("가입되었습니다.");
                                 location.href="/login";
                                 break;
-                            case "1":
+                            case STATUS_ERROR_ID_DUPLICATION:
                                 alert("동일한 아이디가 존재합니다.");
                                 break;
                             default :

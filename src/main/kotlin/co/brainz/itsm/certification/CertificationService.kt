@@ -1,6 +1,5 @@
 package co.brainz.itsm.certification
 
-
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.itsm.common.CodeRepository
@@ -21,13 +20,11 @@ class CertificationService(private val certificationRepository: CertificationRep
                            private val codeRepository: CodeRepository,
                            private val cryptoRsa: CryptoRsa) {
 
-
     /**
      * 사용자를 등록한다.
      */
-    fun insertUser(signUp: SignUpDto): Int {
-        // 가입 성공 : 0, 가입 실패 - 아이디 중복 : 1, 가입 실패 : 2
-        var result = 2
+    fun insertUser(signUp: SignUpDto): String {
+        var result = CertificationConstants.STATUS_ERROR.code
         if (certificationRepository.findByIdOrNull(signUp.userId) == null) {
             // 패스워드 RSA 복호화 후 암호화.
             val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
@@ -36,7 +33,7 @@ class CertificationService(private val certificationRepository: CertificationRep
 
             // 코드 테이블에서 설정된 역할 등록.
             val codeEntityList = codeRepository.findByPCode(CertificationConstants.USER_DEFAULT_ROLE.code)
-            var roleIdList = mutableListOf<String>()
+            val roleIdList = mutableListOf<String>()
             codeEntityList.forEach {
                 it.value?.let { value -> roleIdList.add(value) }
             }
@@ -56,9 +53,9 @@ class CertificationService(private val certificationRepository: CertificationRep
                     roleEntities = roleEntityList
             )
             certificationRepository.save(userEntity)
-            result = 0
+            result = CertificationConstants.STATUS_SUCCESS.code;
         } else {
-            result = 1
+            result = CertificationConstants.STATUS_ERROR_ID_DUPLICATION.code;
         }
         return result
     }
