@@ -47,3 +47,4 @@ label:
   message: "메시지"
   path: "호출 URL"
   exceptionType: "에러 종류"
+  knownError: "알려진 에러"

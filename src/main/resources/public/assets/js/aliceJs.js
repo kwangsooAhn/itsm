@@ -25,6 +25,10 @@ aliceJs.xhrErrorResponse = function (element, text) {
         '메시지': obj['message'],
         '호출 URL': obj['path']
     };
+    if (obj['knownError']) {
+        data['알려진 에러'] = obj['knownError']
+    }
+
     /*]]>*/
     const table = document.createElement('table');
     for (const [key, value] of Object.entries(data)) {

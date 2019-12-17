@@ -23,6 +23,11 @@
         <td th:text="#{label.path}"></td>
         <td th:text="${path}"></td>
     </tr>
+
+    <tr th:unless="${knownError} == null">
+        <td th:text="#{label.knownError}"></td>
+        <td th:text="${knownError}"></td>
+    </tr>
     </tbody>
 </table>
 </body>

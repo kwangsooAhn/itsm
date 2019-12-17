@@ -17,6 +17,6 @@ class ErrorRestSample {
 
     @GetMapping("/alice")
     fun alice() {
-        throw AliceException(AliceErrorConstants.ERR, "Alice REST exception ~")
+        throw AliceException(AliceErrorConstants.ERR_00002, "Alice REST exception ~")
     }
 }
