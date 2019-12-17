@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/exception/io}">
+    <button>IO EXCEPTION</button>
+</form>
+<form th:action="@{/exception/alice}">
+    <button>ALICE EXCEPTION</button>
+</form>
+
+<div>
+    <button id="restio">JSON IO EXCEPTION</button>
+</div>
+<div>
+    <button id="restalice">JSON ALICE EXCEPTION</button>
+</div>
+
+<div id="error"></div>
+
+<script th:src="@{/assets/js/aliceJs.js}" th:inline="javascript"></script>
+<script th:inline="javascript">
+    window.onload = function () {
+        function loadDoc(e, url) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                console.log('state change - ' + this.readyState + ':' + this.status);
+                if (this.readyState === 0) {
+                    console.log('요청이 초기화되지 않음, 객체만 생성되고 아직 초기화되지 않은 상태(' + this.status + ')')
+                } else if (this.readyState === 1) {
+                    console.log('서버연결설정, OPEN 메서드가 호출되고 아직 send 메서드가 불리지 않은 상태(' + this.status + ')')
+                } else if (this.readyState === 2) {
+                    console.log('요청 접수, send메서드가 불렸지만 status와 헤더는 아직 도착하지 않음(' + this.status + ')')
+                } else if (this.readyState === 3) {
+                    console.log('처리 요청, 데이터의 일부를 받은 상태(' + this.status + ')')
+                } else if (this.readyState === 4 && this.status === 200) {
+                    console.log('요청 완료및 응답 준비, 데이터를 전부 받음(' + this.status + ')');
+                    console.log(this.getResponseHeader('Content-Type'));
+                    document.getElementById('responseText').innerHTML = this.responseText;
+
+                } else if (this.readyState === 4 && this.status > 200) {
+                    console.log('에러발생 ' + this.readyState + ':' + this.status);
+                    aliceJs.xhrErrorResponse('error', this.responseText);
+
+
+                } else {
+                    console.log('이건 뭐여?');
+                    console.log(this.readyState + ':' + this.status)
+                    document.getElementById('error').innerHTML = 'What?';
+                }
+            }
+            ;
+
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+        document.getElementById("restio").addEventListener('click', e => {
+            loadDoc(e, '/exceptionrest/io')
+        }, false);
+
+        document.getElementById("restalice").addEventListener('click', e => {
+            loadDoc(e, '/exceptionrest/alice')
+        }, false)
+
+    }
+
+</script>
+
+</body>
+</html>

@@ -41,3 +41,9 @@ user:
 btn:
   save: "저장"
   close: "닫기"
+
+label:
+  title: "제목"
+  message: "메시지"
+  path: "호출 URL"
+  exceptionType: "에러 종류"
