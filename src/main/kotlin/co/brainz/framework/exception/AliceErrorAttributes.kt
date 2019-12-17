@@ -22,20 +22,18 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
 
     override fun getErrorAttributes(webRequest: WebRequest, includeStackTrace: Boolean): MutableMap<String, Any> {
         val exception = getError(webRequest)
-
         val errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace) as LinkedHashMap<String, Any>
-        errorAttributes["exceptionType"] = exception::class.java.canonicalName
-
-        when (exception) {
-            is AliceException -> {
-                logger.error("Known Alice error.")
-                errorAttributes["knownError"] = exception.getCode() + " (" + exception.getCodeDetail() + ")"
+        if (exception != null) {
+            errorAttributes["exceptionType"] = exception::class.java.canonicalName
+            when (exception) {
+                is AliceException -> {
+                    val knownErrMsg = exception.getCode() + " (" + exception.getCodeDetail() + ")"
+                    logger.error("Known Alice error. {}", knownErrMsg)
+                    errorAttributes["knownError"] = knownErrMsg
+                }
             }
         }
-
         logger.error("Exception type: {}", errorAttributes["exceptionType"])
         return errorAttributes
     }
-
-
 }

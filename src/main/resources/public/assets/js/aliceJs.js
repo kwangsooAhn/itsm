@@ -21,10 +21,12 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         // [[#{label.message}]]: obj['message'],
         // [[#{label.path}]]: obj['path']
         '제목': obj['error'] + '(' + obj['status'] + ')',
-        '에러종류': obj['exceptionType'],
         '메시지': obj['message'],
         '호출 URL': obj['path']
     };
+    if (obj['exceptionType']) {
+        data['에러종류'] = obj['exceptionType']
+    }
     if (obj['knownError']) {
         data['알려진 에러'] = obj['knownError']
     }

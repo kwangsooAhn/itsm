@@ -21,6 +21,9 @@
 <div>
     <button id="restalice">JSON ALICE EXCEPTION</button>
 </div>
+<div>
+    <button id="restalicexx">JSON ALICE request exception</button>
+</div>
 
 <div id="error"></div>
 
@@ -46,6 +49,7 @@
 
                 } else if (this.readyState === 4 && this.status > 200) {
                     console.log('에러발생 ' + this.readyState + ':' + this.status);
+                    console.log('에러발생 ' + this.responseText);
                     aliceJs.xhrErrorResponse('error', this.responseText);
 
 
@@ -67,6 +71,10 @@
 
         document.getElementById("restalice").addEventListener('click', e => {
             loadDoc(e, '/exceptionrest/alice')
+        }, false)
+
+        document.getElementById("restalicexx").addEventListener('click', e => {
+            loadDoc(e, '/exceptionrest/alicexxxx')
         }, false)
 
     }

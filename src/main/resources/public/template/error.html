@@ -12,10 +12,6 @@
         <td th:text="|${error} (${status})|"></td>
     </tr>
     <tr>
-        <td th:text="#{label.exceptionType}"></td>
-        <td th:text="${exceptionType}"></td>
-    </tr>
-    <tr>
         <td th:text="#{label.message}"></td>
         <td th:text="${message}"></td>
     </tr>
@@ -23,7 +19,10 @@
         <td th:text="#{label.path}"></td>
         <td th:text="${path}"></td>
     </tr>
-
+    <tr th:unless="${exceptionType} == null">
+        <td th:text="#{label.exceptionType}"></td>
+        <td th:text="${exceptionType}"></td>
+    </tr>
     <tr th:unless="${knownError} == null">
         <td th:text="#{label.knownError}"></td>
         <td th:text="${knownError}"></td>
