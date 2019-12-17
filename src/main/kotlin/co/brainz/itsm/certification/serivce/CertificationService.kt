@@ -8,7 +8,6 @@ import co.brainz.itsm.certification.repository.CertificationRepository
 import co.brainz.itsm.common.KeyGenerator
 import co.brainz.itsm.settings.user.UserEntity
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -18,15 +17,10 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 @Service
-public open class CertificationService {
+public open class CertificationService(private val certificationRepository: CertificationRepository,
+                                       private val mailService: MailService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    @Autowired
-    lateinit var certificationRepository: CertificationRepository
-
-    @Autowired
-    lateinit var mailService: MailService
 
     @Value("\${server.protocol}")
     lateinit var senderProtocol: String

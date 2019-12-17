@@ -1,7 +1,6 @@
 package co.brainz.itsm.certification.serivce
 
 import co.brainz.itsm.certification.MailDto
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
@@ -10,13 +9,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine
 import javax.mail.internet.MimeMessage
 
 @Component
-class MailService {
-
-    @Autowired
-    lateinit var javaMailSender: JavaMailSender
-
-    @Autowired
-    lateinit var springTemplateEngine: SpringTemplateEngine
+class MailService(private val javaMailSender: JavaMailSender,
+                  private val springTemplateEngine: SpringTemplateEngine) {
 
     lateinit var mimeMessageHelper: MimeMessageHelper
     lateinit var context: Context
