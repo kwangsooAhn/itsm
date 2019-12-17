@@ -1,5 +1,6 @@
 package co.brainz.sample.error
 
+import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,6 +17,6 @@ class ErrorRestSample {
 
     @GetMapping("/alice")
     fun alice() {
-        throw AliceException("ITSM-00001", "Alice REST exception ~")
+        throw AliceException(AliceErrorConstants.ERR, "Alice REST exception ~")
     }
 }

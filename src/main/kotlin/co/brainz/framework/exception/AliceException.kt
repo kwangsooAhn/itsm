@@ -1,13 +1,20 @@
 package co.brainz.framework.exception
 
 class AliceException : Exception {
-    private val code: String
+    private val err: AliceErrorConstants
 
-    constructor(code: String, message: String) : super(message) {
-        this.code = code
+    constructor(code: AliceErrorConstants, message: String) : super(message) {
+        this.err = code
     }
 
-    constructor(code: String, message: String, cause: Throwable) : super(message, cause) {
-        this.code = code
+    constructor(code: AliceErrorConstants, message: String, cause: Throwable) : super(message, cause) {
+        this.err = code
+    }
+
+    fun getCode(): String {
+        return this.err.code
+    }
+    fun getCodeDetail(): String {
+        return this.err.detail
     }
 }
