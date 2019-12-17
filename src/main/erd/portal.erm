@@ -11,7 +11,7 @@
 	</page_setting>
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
-	<x>55</x>
+	<x>86</x>
 	<y>0</y>
 	<default_color>
 		<r>128</r>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2019-11-06 17:32:29</creation_date>
-			<updated_date>2019-12-03 10:13:37</updated_date>
+			<updated_date>2019-12-16 18:24:42</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
@@ -492,7 +492,7 @@
 			</color>
 			<connections>
 			</connections>
-			<physical_name>PORTAL_NOTICE</physical_name>
+			<physical_name>portal_notice</physical_name>
 			<logical_name>공지사항</logical_name>
 			<description></description>
 			<constraint></constraint>
@@ -888,7 +888,7 @@
 			</color>
 			<connections>
 			</connections>
-			<physical_name>PORTAL_FAQ</physical_name>
+			<physical_name>portal_faq</physical_name>
 			<logical_name>FAQ정보</logical_name>
 			<description></description>
 			<constraint></constraint>
@@ -1045,18 +1045,18 @@
 				<group_name>META-DATA</group_name>
 				<columns>
 					<normal_column>
-						<word_id>0</word_id>
+						<word_id>1</word_id>
 						<id>0</id>
 						<description></description>
 						<unique_key_name></unique_key_name>
 						<logical_name></logical_name>
 						<physical_name></physical_name>
-						<type>timestamp</type>
+						<type>varchar(n)</type>
 						<constraint></constraint>
 						<default_value></default_value>
 						<auto_increment>false</auto_increment>
 						<foreign_key>false</foreign_key>
-						<not_null>false</not_null>
+						<not_null>true</not_null>
 						<primary_key>false</primary_key>
 						<unique_key>false</unique_key>
 						<character_set></character_set>
@@ -1078,8 +1078,41 @@
 						</sequence>
 					</normal_column>
 					<normal_column>
-						<word_id>1</word_id>
+						<word_id>0</word_id>
 						<id>1</id>
+						<description></description>
+						<unique_key_name></unique_key_name>
+						<logical_name></logical_name>
+						<physical_name></physical_name>
+						<type>timestamp</type>
+						<constraint></constraint>
+						<default_value></default_value>
+						<auto_increment>false</auto_increment>
+						<foreign_key>false</foreign_key>
+						<not_null>true</not_null>
+						<primary_key>false</primary_key>
+						<unique_key>false</unique_key>
+						<character_set></character_set>
+						<collation></collation>
+						<sequence>
+							<name></name>
+							<schema></schema>
+							<increment></increment>
+							<min_value></min_value>
+							<max_value></max_value>
+							<start></start>
+							<cache></cache>
+							<nocache>false</nocache>
+							<cycle>false</cycle>
+							<order>false</order>
+							<description></description>
+							<data_type></data_type>
+							<decimal_size>0</decimal_size>
+						</sequence>
+					</normal_column>
+					<normal_column>
+						<word_id>18</word_id>
+						<id>2</id>
 						<description></description>
 						<unique_key_name></unique_key_name>
 						<logical_name></logical_name>
@@ -1112,45 +1145,12 @@
 					</normal_column>
 					<normal_column>
 						<word_id>17</word_id>
-						<id>2</id>
-						<description></description>
-						<unique_key_name></unique_key_name>
-						<logical_name></logical_name>
-						<physical_name></physical_name>
-						<type>timestamp</type>
-						<constraint></constraint>
-						<default_value></default_value>
-						<auto_increment>false</auto_increment>
-						<foreign_key>false</foreign_key>
-						<not_null>false</not_null>
-						<primary_key>false</primary_key>
-						<unique_key>false</unique_key>
-						<character_set></character_set>
-						<collation></collation>
-						<sequence>
-							<name></name>
-							<schema></schema>
-							<increment></increment>
-							<min_value></min_value>
-							<max_value></max_value>
-							<start></start>
-							<cache></cache>
-							<nocache>false</nocache>
-							<cycle>false</cycle>
-							<order>false</order>
-							<description></description>
-							<data_type></data_type>
-							<decimal_size>0</decimal_size>
-						</sequence>
-					</normal_column>
-					<normal_column>
-						<word_id>18</word_id>
 						<id>3</id>
 						<description></description>
 						<unique_key_name></unique_key_name>
 						<logical_name></logical_name>
 						<physical_name></physical_name>
-						<type>varchar(n)</type>
+						<type>timestamp</type>
 						<constraint></constraint>
 						<default_value></default_value>
 						<auto_increment>false</auto_increment>

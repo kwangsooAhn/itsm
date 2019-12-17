@@ -1,4 +1,4 @@
-package co.brainz.itsm.settings.user
+package co.brainz.itsm.user
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor

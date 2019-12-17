@@ -10,5 +10,6 @@ import javax.persistence.Table
 data class CodeEntity(
         @Id
         val code: String,
-        val pCode: String
+        val pCode: String,
+        val value: String? = null
 ) : Serializable
