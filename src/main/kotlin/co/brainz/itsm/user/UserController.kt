@@ -1,4 +1,4 @@
-package co.brainz.itsm.settings.user
+package co.brainz.itsm.user
 
 import co.brainz.itsm.common.CodeService
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper

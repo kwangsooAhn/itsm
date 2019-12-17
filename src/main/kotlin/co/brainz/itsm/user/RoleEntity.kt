@@ -1,4 +1,4 @@
-package co.brainz.itsm.settings.user
+package co.brainz.itsm.user
 
 import java.io.Serializable
 import java.time.LocalDateTime

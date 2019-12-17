@@ -1,4 +1,4 @@
-package co.brainz.itsm.settings.user
+package co.brainz.itsm.user
 
 /**
  * 사용자 관련 상수를 정의한 클래스
