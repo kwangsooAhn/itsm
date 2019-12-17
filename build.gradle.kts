@@ -128,15 +128,8 @@ val dokkaJar by tasks.creating(Jar::class) {
     from(tasks.dokka)
 }
 
-// JAR
-tasks.jar {
-    enabled = true
-    exclude("**/sample/**", "**/FrameworkApplication*")
-    exclude("public/", "static/", "*.properties", "*.xml")
-}
-
 tasks.bootJar {
-    classifier = "boot"
+    exclude("**/sample/**", "**/FrameworkApplication*")
 }
 
 tasks.withType<KotlinCompile> {

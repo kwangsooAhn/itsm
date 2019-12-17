@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "awfUser")
+@Table(name = "awf_user")
 data class UserEntity(
         @Id val userId: String,
         var password: String,
@@ -19,11 +19,9 @@ data class UserEntity(
         var extensionNumber: String?,
         var createUserid: String,
         var updateUserid: String,
-        var status: String?,
-        var certificationCode: String?,
-        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var expiredDt: LocalDateTime,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var expiredDt: LocalDateTime?,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDt: LocalDateTime,
-        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDt: LocalDateTime,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDt: LocalDateTime?,
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awfUserRoleMap",
