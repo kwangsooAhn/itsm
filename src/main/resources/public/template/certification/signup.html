@@ -52,7 +52,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         const STATUS_SUCCESS = "0";
-        const STATUS_ERROR_ID_DUPLICATION = "1";
+        const STATUS_ERROR_USER_ID_DUPLICATION = "1";
 
         // 사용자 등록
         function userRegister() {
@@ -128,7 +128,7 @@
                                 alert("가입되었습니다.");
                                 location.href="/login";
                                 break;
-                            case STATUS_ERROR_ID_DUPLICATION:
+                            case STATUS_ERROR_USER_ID_DUPLICATION:
                                 alert("동일한 아이디가 존재합니다.");
                                 break;
                             default :

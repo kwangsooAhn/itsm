@@ -55,7 +55,7 @@ class CertificationService(private val certificationRepository: CertificationRep
             certificationRepository.save(userEntity)
             result = CertificationConstants.STATUS_SUCCESS.code;
         } else {
-            result = CertificationConstants.STATUS_ERROR_ID_DUPLICATION.code;
+            result = CertificationConstants.STATUS_ERROR_USER_ID_DUPLICATION.code;
         }
         return result
     }

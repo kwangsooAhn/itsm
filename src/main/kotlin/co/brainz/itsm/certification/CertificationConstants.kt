@@ -9,6 +9,6 @@ enum class CertificationConstants(val code: String) {
      * 가입 상태 코드.
      */
     STATUS_SUCCESS("0"),
-    STATUS_ERROR_ID_DUPLICATION("1"),
+    STATUS_ERROR_USER_ID_DUPLICATION("1"),
     STATUS_ERROR("2")
 }
