@@ -1,24 +1,36 @@
 package co.brainz.itsm.certification.serivce
 
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.util.EncryptionUtil
-import co.brainz.itsm.certification.CertificationDto
-import co.brainz.itsm.certification.CertificationEnum
-import co.brainz.itsm.certification.MailDto
+import co.brainz.itsm.certification.*
 import co.brainz.itsm.certification.repository.CertificationRepository
+import co.brainz.itsm.common.CodeRepository
+import co.brainz.itsm.common.Constants
 import co.brainz.itsm.common.KeyGenerator
-import co.brainz.itsm.settings.user.UserEntity
+import co.brainz.itsm.user.RoleRepository
+import co.brainz.itsm.user.UserEntity
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 import java.net.Inet4Address
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.security.PrivateKey
+import java.time.LocalDateTime
 
 @Service
 public open class CertificationService(private val certificationRepository: CertificationRepository,
-                                       private val mailService: MailService) {
+                                       private val roleRepository: RoleRepository,
+                                       private val codeRepository: CodeRepository,
+                                       private val mailService: MailService,
+                                       private val cryptoRsa: CryptoRsa) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -36,10 +48,48 @@ public open class CertificationService(private val certificationRepository: Cert
 
     val host: String = Inet4Address.getLocalHost().hostAddress
 
+    fun insertUser(signUpDto: SignUpDto): String {
+        var result = SignUpStatus.STATUS_ERROR.code
+        if (certificationRepository.findByIdOrNull(signUpDto.userId) == null) {
+            // 패스워드 RSA 복호화 후 암호화.
+            val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+            val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+            val password = cryptoRsa.decrypt(privateKey, signUpDto.password)
+
+            // 코드 테이블에서 설정된 역할 등록.
+            val codeEntityList = codeRepository.findByPCode(DefaultRole.USER_DEFAULT_ROLE.code)
+            val roleIdList = mutableListOf<String>()
+            codeEntityList.forEach {
+                it.value?.let { value -> roleIdList.add(value) }
+            }
+            val roleEntityList = roleRepository.findByRoleIdIn(roleIdList)
+            // Dto to Entity.
+            val userEntity = UserEntity(
+                    userId = signUpDto.userId,
+                    password = BCryptPasswordEncoder().encode(password),
+                    userName = signUpDto.userName,
+                    email = signUpDto.email,
+                    position = signUpDto.position,
+                    department = signUpDto.department,
+                    extensionNumber = signUpDto.extensionNumber,
+                    createUserid = Constants.CREATE_USER_ID,
+                    createDt = LocalDateTime.now(),
+                    expiredDt = LocalDateTime.now().plusMonths(3),
+                    roleEntities = roleEntityList,
+                    status = UserStatus.SIGNUP.code
+            )
+            certificationRepository.save(userEntity)
+            result = SignUpStatus.STATUS_SUCCESS.code;
+        } else {
+            result = SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code;
+        }
+        return result
+    }
+
     @Transactional
     fun sendMail(userId: String, email: String) {
         val certificationKey: String = KeyGenerator().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, CertificationEnum.SIGNUP.code)
+        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserStatus.SIGNUP.code)
         updateUser(certificationDto)
         sendCertificationMail(certificationDto)
     }
@@ -86,9 +136,9 @@ public open class CertificationService(private val certificationRepository: Cert
     fun status(): Int {
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: UserEntity = findByUserId(userId)
-        var validCode: Int = CertificationEnum.SIGNUP.value
-        if (userDto.status == CertificationEnum.CERTIFIED.code) {
-            validCode = CertificationEnum.CERTIFIED.value
+        var validCode: Int = UserStatus.SIGNUP.value
+        if (userDto.status == UserStatus.CERTIFIED.code) {
+            validCode = UserStatus.CERTIFIED.value
         }
         return validCode
     }
@@ -98,22 +148,22 @@ public open class CertificationService(private val certificationRepository: Cert
         val decryptUid: String = EncryptionUtil().twoWayDeCode(uid)
         val values: List<String> = decryptUid.split(":".toRegex())
         val userDto: UserEntity = findByUserId(values[1])
-        var validCode: Int = CertificationEnum.SIGNUP.value
+        var validCode: Int = UserStatus.SIGNUP.value
 
         when (userDto.status) {
-            CertificationEnum.SIGNUP.code -> {
+            UserStatus.SIGNUP.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
-                        val certificationDto: CertificationDto = CertificationDto(userDto.userId, userDto.email, "", CertificationEnum.CERTIFIED.code)
+                        val certificationDto: CertificationDto = CertificationDto(userDto.userId, userDto.email, "", UserStatus.CERTIFIED.code)
                         updateUser(certificationDto)
-                        CertificationEnum.CERTIFIED.value
+                        UserStatus.CERTIFIED.value
                     }
                     else -> {
-                        CertificationEnum.ERROR.value
+                        UserStatus.ERROR.value
                     }
                 }
             }
-            CertificationEnum.CERTIFIED.code -> validCode = CertificationEnum.OVER.value
+            UserStatus.CERTIFIED.code -> validCode = UserStatus.OVER.value
         }
         return validCode
     }

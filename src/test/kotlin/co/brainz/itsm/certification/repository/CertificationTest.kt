@@ -3,10 +3,10 @@ package co.brainz.itsm.certification.repository
 import co.brainz.framework.auth.entity.AliceUserDto
 import co.brainz.framework.util.EncryptionUtil
 import co.brainz.itsm.certification.CertificationDto
-import co.brainz.itsm.certification.CertificationEnum
+import co.brainz.itsm.certification.UserStatus
 import co.brainz.itsm.certification.serivce.CertificationService
 import co.brainz.itsm.common.KeyGenerator
-import co.brainz.itsm.settings.user.UserEntity
+import co.brainz.itsm.user.UserEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 import java.net.Inet4Address
+import java.time.LocalDateTime
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(properties = ["classpath:application.properties"])
@@ -58,7 +59,7 @@ class CertificationTest {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
         securityContext = SecurityContextHolder.getContext()
         val userDto: UserEntity = certificationService.findByUserId(userId)
-        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userId, userDto.userName,userDto.email, userDto.useYn, userDto.tryLoginCount, userDto.expiredDt, emptySet(), emptySet())
+        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userId, userDto.userName,userDto.email, userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), emptySet(), emptySet())
         val usernamePasswordAuthenticationToken: UsernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
         usernamePasswordAuthenticationToken.details = aliceUserDto
         securityContext.authentication = usernamePasswordAuthenticationToken
@@ -70,7 +71,7 @@ class CertificationTest {
         assertThat(userDto.email).isEqualTo(email)
 
         //User status init.
-        val status : String = CertificationEnum.SIGNUP.code
+        val status : String = UserStatus.SIGNUP.code
         val certificationCode: String = ""
         val certificationDto: CertificationDto = CertificationDto(userId, email, certificationCode, status)
         certificationService.updateUser(certificationDto)
@@ -78,7 +79,7 @@ class CertificationTest {
         //Check user status init.
         mvc.perform(get("/certification/status"))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", CertificationEnum.SIGNUP.value))
+                .andExpect(model().attribute("validCode", UserStatus.SIGNUP.value))
     }
 
     //Send Mail
@@ -95,14 +96,14 @@ class CertificationTest {
         userStatusInit()
 
         val certificationKey: String = KeyGenerator().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, CertificationEnum.SIGNUP.code)
+        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserStatus.SIGNUP.code)
         certificationService.updateUser(certificationDto)
 
         val uid: String = "${certificationKey}:${userId}:${email}"
         val encryptUid: String = EncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", CertificationEnum.CERTIFIED.value))
+                .andExpect(model().attribute("validCode", UserStatus.CERTIFIED.value))
     }
 
 }

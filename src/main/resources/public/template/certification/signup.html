@@ -1,49 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<<<<<<< HEAD
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script src="../../assets/js/withoutJquery.js"></script>
-</head>
-<body>
-<div class="container">
-    <form id="signupForm" method="post" onsubmit="return false">
-        <div><span>USERID :</span><span><input type="text" name="userId" id="userId" value="lizeelf" /></span></div>
-        <div><span>USERNAME :</span><span><input type="text" name="userName" id="userName" value="LIZEELF" /></span></div>
-        <div><span>PASSWORD :</span><span><input type="password" name="password" id="password" value="itsm123" /></span></div>
-        <div><span>EMAIL :</span><span><input type="text" name="email" id="email" value="phc@brainz.co.kr" /></span></div>
-        <div><span>USEYN :</span><span><input type="text" name="useYn" id="useYn" value="true" /></span></div>
-        <button id="btnRegist" th:formaction="@{/certification/regist}">등록</button>
-    </form>
-</div>
-</body>
-<script type="text/javascript">
-    /*<![CDATA[*/
-    window.onload = function() {
-        document.getElementById("btnRegist").addEventListener("click", function() { restSubmit("post","[[@{/certification/regist}]]"); });
-    }
-
-    function restSubmit(method, url) {
-        var xmlhttp = createXmlHttpRequestObject();
-        xmlhttp.open(method,url);
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                if (xmlhttp.status == 200) {
-                    alert("등록되었습니다.\r\n로그인 후 메일인증을 진행해주세요.");
-                    window.location = "/login";
-                } else if (xmlhttp.status == 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
-            }
-        };
-        xmlhttp.send(new FormData(document.getElementById("signupForm")));
-    }
-    /*]]>*/
-</script>
-</html>
-=======
     <meta charset="UTF-8">
     <title>회원가입 페이지</title>
 </head>
@@ -192,4 +149,3 @@
     </script>
 </body>
 </html>
->>>>>>> develop.as.191206
