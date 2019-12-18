@@ -113,7 +113,6 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
         }
     }
 
-
     fun getList(task: String): MutableList<FileLocEntity> {
         return fileLocRepository.findAll()
     }
@@ -126,9 +125,7 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
         fileLocRepository.deleteById(fileLocEntity.fileSeq)
     }
 
-    @Throws(Exception::class)
     fun download(seq: Long): ResponseEntity<InputStreamResource> {
-
         var fileLocEntity = fileLocRepository.getOne(seq)
         var resource = FileSystemResource(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
         if (resource.exists()) {

@@ -1,5 +1,6 @@
 package co.brainz.framework.fileTransaction.controller
 
+import co.brainz.framework.fileTransaction.entity.FileLocEntity
 import co.brainz.framework.fileTransaction.service.FileService
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.InputStreamResource
@@ -47,7 +48,6 @@ class FileController(private val fileService: FileService) {
      * 저장된 파일을 다운로드 한다.
      */
     @GetMapping("/filedownload")
-    @Throws(Exception::class)
     fun downloadFile(@RequestParam seq: Long, @RequestParam test: String): ResponseEntity<InputStreamResource> {
         return fileService.download(seq)
     }
@@ -58,14 +58,8 @@ class FileController(private val fileService: FileService) {
      * @param task 파일 목록을 가져오기 위한 값.
      */
     @GetMapping("/filelist")
-    fun getFileList(@RequestParam task: String): ModelAndView {
-
-        val files = fileService.getList(task)
-        var mv = ModelAndView("jsonView")
-        mv.addObject("files", files)
-
-        return mv
-
+    fun getFileList(@RequestParam task: String): MutableList<FileLocEntity> {
+        return fileService.getList(task)
     }
 
     /**
