@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.brainz.framework.util.EncryptionUtil
 
-@PropertySource("/public/template/sample/jasypt.sample.properties")
+@PropertySource("classpath:/public/template/sample/jasypt.sample.properties")
 @RestController
 public class EncryptionConfigControllerSample {
 
