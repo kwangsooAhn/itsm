@@ -1,4 +1,4 @@
-package co.brainz.itsm.user
+package co.brainz.itsm.role
 
 import java.io.Serializable
 

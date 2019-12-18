@@ -1,4 +1,4 @@
-package co.brainz.itsm.settings.auth
+package co.brainz.itsm.auth
 
 import org.springframework.stereotype.Repository
 import org.springframework.data.jpa.repository.JpaRepository

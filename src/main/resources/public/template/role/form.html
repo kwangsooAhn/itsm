@@ -65,29 +65,20 @@
             </td>
         </tr>
         <tr>
-            <th>사용자</th>
-            <td>
-                <form id="userSearchForm" name="userSearchForm">
-                    <input id="userSearch" name="userSearch" type="text" /><button type="button" id="btnUserSearch" name="btnUserSearch">추가</button><br/>
-                    <span name="roleUserId" th:each="user : ${userList}" th:id="${user?.userId}"  th:text="| [${user?.userName}(${user?.userId})<삭제>]|" />
-                </form>
-            </td>
-        </tr>
-        <tr>
             <th>등록자</th>
-            <td><span id="spanCreateId" name="spanCreateId" th:text="${roleDetail[0]?.createId}"></span></td>
+            <td><span id="spanCreateUserid" name="spanCreateUserid" th:text="${roleDetail[0]?.createUserid}"></span></td>
         </tr>
         <tr>
             <th>등록일시</th>
-            <td><span id="spanCreateDate" name="spanCreateDate" th:text="${#temporals.format(roleDetail[0]?.createDate,'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span id="spanCreateDt" name="spanCreateDt" th:text="${#temporals.format(roleDetail[0]?.createDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
         <tr>
             <th>수정자</th>
-            <td><span id="spanUpdateId" name="spanUpdateId" th:text="${roleDetail[0]?.updateId}"></span></td>
+            <td><span id="spanUpdateUserid" name="spanUpdateUserid" th:text="${roleDetail[0]?.updateUserid}"></span></td>
         </tr>
         <tr>
             <th>수정일시</th>
-            <td><span id="spanUpdateDate" name="spanUpdateDate" th:text="${#temporals.format(roleDetail[0]?.updateDate,'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${#temporals.format(roleDetail[0]?.updateDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
     </table>
     <table>
@@ -117,12 +108,10 @@ $(document).ready(function () {
         $('input:checkbox[name="roleAuth"]').each(function() {
             this.checked = false;
         });
-        $('#userSearch').val('');
-        $('[name=roleUserId]').remove();
-        $('#spanCreateId').text('');
-        $('#spanCreateDate').text('');
-        $('#spanUpdateId').text('');
-        $('#spanUpdateDate').text('');
+        $('#spanCreateUserid').text('');
+        $('#spanCreateDt').text('');
+        $('#spanUpdateUserid').text('');
+        $('#spanUpdateDt').text('');
     });
     
     /** 삭제 버튼  */
@@ -171,12 +160,6 @@ $(document).ready(function () {
             arrAuthId[index] = this.id;
         });
         obj.arrAuthId = arrAuthId;
-        var tableUserList = $('[name=roleUserId]').text();
-        var arrUserId = new Array();           //역할 사용자
-        $("span[name=roleUserId]").each(function(index, item) {
-            arrUserId[index] = this.id;
-        });
-        obj.arrUserId =  arrUserId;
         obj.createUserId = $('#sessionCreateId').text(); //등록자
         var roleJson = JSON.stringify(obj);
         
@@ -191,46 +174,6 @@ $(document).ready(function () {
                     alert("저장 되었습니다.");
                     window.location.href ="/roles/"+role;
                 }
-            },
-            error: function (request, status, error) {
-                alert("관리자에게 문의 주세요.");
-                console.log(request);
-                console.log(status);
-                console.log(error);
-            }
-        }) ;
-    });
-    
-    /** 역할별 사용자 삭제 버튼  */
-    $("body").on("click","[name=roleUserId]",function(e) {
-        $("#"+this.id).remove();
-    }); 
-    
-    /** 사용자 조회 버튼  */
-    $('#btnUserSearch').on('click', function () {
-        $.ajax({
-            url: "/roles/getUserId",
-            type:"get",
-            data:{ "userId" : $("#userSearch").val() },
-            success: function (users) {
-               if (users.userId != "" || users =="undefined") {
-                   var duplicate = false;
-                   var tableUserList = $('[name=roleUserId]').text();
-                   var arrayUserList = tableUserList.split(",");
-                   var addUserInfo = users.userName+'('+users.userId+')[삭제]';
-                   $.each(arrayUserList, function(index, item){
-                       if (arrayUserList[index].trim() == addUserInfo.trim()) {
-                          duplicate = true;
-                       }
-                   });
-                   if (duplicate) {
-                       alert("중복된  사용자 아아디입니다.");
-                   } else {
-                       $('#userSearchForm').last().append("<span name='roleUserId' id="+users.userId+">["+users.userName+"("+users.userId+")<삭제>] </div>");  
-                   }
-               } else {
-                   alert("없는 사용자 아이디 입니다. 다시 확인 하세요.");
-               }
             },
             error: function (request, status, error) {
                 alert("관리자에게 문의 주세요.");

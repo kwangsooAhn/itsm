@@ -12,12 +12,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import co.brainz.itsm.settings.role.RoleRepository
-import co.brainz.itsm.settings.auth.AuthRepository
-import co.brainz.itsm.settings.user.UserRepository
-import co.brainz.itsm.settings.role.RoleEntity
-import co.brainz.itsm.settings.user.UserEntity
-import co.brainz.itsm.settings.auth.AuthEntity
+import co.brainz.itsm.role.RoleRepository
+import co.brainz.itsm.auth.AuthRepository
+import co.brainz.itsm.user.UserRepository
+import co.brainz.itsm.role.RoleEntity
+import co.brainz.itsm.user.UserEntity
+import co.brainz.itsm.auth.AuthEntity
 
 import java.time.LocalDateTime
 
@@ -39,18 +39,19 @@ class RoleJpaMappingTest {
     fun save() {
         var inputDate = LocalDateTime.now()
 
-        var userId1 = "kbh"
-        var userId2 = "admin"
-        val user1 = userRepository.findByUserId(userId1)
-        val user2 = userRepository.findByUserId(userId2)
         val auth1 = AuthEntity("notice.read")
         val auth2 = AuthEntity("notice.create")
 
         roleRepository.save(
             RoleEntity(
-                roleId = "2", roleName = "서비스데스크담당자", roleDesc = "역할설명",
-                createId = "ksmcreate", createDate = inputDate, updateId = "ksmupdate", updateDate = inputDate,
-                userEntityList = listOf(user1, user2), authEntityList = listOf(auth1, auth2)
+                roleId = "2",
+                roleName = "서비스데스크담당자",
+                roleDesc = "역할설명",
+                createUserid = "ksmcreate",
+                createDt = inputDate,
+                updateUserid = "ksmupdate",
+                updateDt = inputDate,
+                authEntityList = listOf(auth1, auth2)
             )
         )
     }
@@ -75,12 +76,6 @@ class RoleJpaMappingTest {
     @Test
     fun getAuthList() {
         var list = authRepository.findByOrderByAuthIdAsc()
-        Assert.assertNotNull(list)
-    }
-
-    @Test
-    fun getUserList() {
-        var list = userRepository.findByOrderByUserIdAsc()
         Assert.assertNotNull(list)
     }
 }

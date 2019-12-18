@@ -1,4 +1,4 @@
-package co.brainz.itsm.settings.auth
+package co.brainz.itsm.auth
 
 import java.io.Serializable
 import javax.persistence.Table
@@ -10,13 +10,13 @@ import java.time.LocalDateTime
 import javax.persistence.ManyToMany
 
 @Entity
-@Table(name = "awfAuth")
+@Table(name = "awf_auth")
 data public class AuthEntity(
     @Id var authId: String,
     @Column(name = "authName") var authName: String? = null,
     @Column(name = "authDesc") var authDesc: String? = null,
-    @Column(name = "createId") var createId: String? = null,
-    @Column(name = "createDate") var createDate: LocalDateTime? = null,
-    @Column(name = "updateId") var updateId: String? = null,
-    @Column(name = "updateDate") var updateDate: LocalDateTime? = null
+    @Column(name = "createUserid") var createUserid: String? = null,
+    @Column(name = "createDt") var createDt: LocalDateTime? = null,
+    @Column(name = "updateUserid") var updateUserid: String? = null,
+    @Column(name = "updateDt") var updateDt: LocalDateTime? = null
 ) : Serializable 

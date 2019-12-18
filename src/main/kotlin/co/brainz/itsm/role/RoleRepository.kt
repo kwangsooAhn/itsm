@@ -1,8 +1,8 @@
-package co.brainz.itsm.settings.role
+package co.brainz.itsm.role
 
 import org.springframework.stereotype.Repository
 import org.springframework.data.jpa.repository.JpaRepository
-import co.brainz.itsm.settings.role.RoleEntity
+import co.brainz.itsm.role.RoleEntity
 
 @Repository
 public interface RoleRepository : JpaRepository<RoleEntity, String> {
@@ -11,5 +11,7 @@ public interface RoleRepository : JpaRepository<RoleEntity, String> {
 
     //상단 역할명 조회
     public fun findByOrderByRoleNameAsc(): MutableList<RoleEntity>
+    
+    public fun findByRoleIdIn(roleId: Collection<String>): Set<RoleEntity>
 
 }

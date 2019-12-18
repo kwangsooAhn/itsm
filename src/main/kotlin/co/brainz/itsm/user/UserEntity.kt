@@ -1,6 +1,6 @@
 package co.brainz.itsm.user
 
-import co.brainz.itsm.user.RoleEntity
+import co.brainz.itsm.role.RoleEntity
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime

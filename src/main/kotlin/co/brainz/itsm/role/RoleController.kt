@@ -1,4 +1,4 @@
-package co.brainz.itsm.settings.role
+package co.brainz.itsm.role
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestParam
@@ -16,14 +16,13 @@ import javax.servlet.http.HttpServletRequest
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletResponse
 
-import co.brainz.itsm.settings.role.RoleEntity
-import co.brainz.itsm.settings.auth.AuthEntity
-import co.brainz.itsm.settings.user.UserEntity
-import co.brainz.itsm.settings.role.RoleService
+import co.brainz.itsm.role.RoleEntity
+import co.brainz.itsm.auth.AuthEntity
+import co.brainz.itsm.role.RoleService
 
 data class RoleParamClass(
     var roleId: String? = null, var roleName: String? = null, var roleDesc: String? = null,
-    var createUserId: String? = null, var arrAuthId: Array<String>? = null,
+    var createUserid: String? = null, var arrAuthId: Array<String>? = null,
     var arrUserId: Array<String>? = null
 )
 
@@ -54,8 +53,6 @@ public class RoleController {
         if (roleAllList.size > 0) {
             var roleId = roleAllList[0].roleId
             var roleDetail = roleService.getRoleDetail(roleId)
-
-            var userRoleMapList = roleAllList[0].userEntityList
             var roleAuthMapList = roleAllList[0].authEntityList
             var authList = mutableListOf<AuthEntity>()
             //아래의 부분은 Entity에서 구현해야 하지 않을까? 라는 고민이 있음.
@@ -81,7 +78,6 @@ public class RoleController {
                 }
                 model.addAttribute("authList", authList)
             }
-            model.addAttribute("userList", userRoleMapList)
             model.addAttribute("roleDetail", roleDetail)
         }
 
@@ -98,7 +94,6 @@ public class RoleController {
         var roleId = id
         if (roleId != "") {
             var roleDetail = roleService.getRoleDetail(roleId)
-            var userRoleMapList = roleDetail[0].userEntityList
             var roleAuthMapList = roleDetail[0].authEntityList
             var authList = mutableListOf<AuthEntity>()
             if (roleAuthMapList != null) {
@@ -123,20 +118,11 @@ public class RoleController {
                 }
                 model.addAttribute("authList", authList)
             }
-            model.addAttribute("userList", userRoleMapList)
             model.addAttribute("roleDetail", roleDetail)
         }
 
         model.addAttribute("roleList", roleAllList)
         return "role/form"
-    }
-
-    //사용자 조회
-    @RequestMapping(path = ["/getUserId"], method = [RequestMethod.GET])
-    @ResponseBody
-    fun getUserId(@RequestParam userId: String): UserEntity {
-        logger.debug(">>> mapperd {} <<<", userId)
-        return roleService.getUserId(userId)
     }
 
     //역할 저장
@@ -158,27 +144,16 @@ public class RoleController {
             authEntityList = roleAuthMapList
         }
 
-        var userRoleMapList = mutableListOf<UserEntity>()
-        if (roleInfo.arrUserId != null) {
-            var userList = roleInfo.arrUserId
-            for (user in userList!!.indices) {
-                userRoleMapList.add(
-                    roleService.getUserId(userList[user].toString())
-                )
-            }
-        }
-
         var inputDate = LocalDateTime.now()
         var result = roleService.insertRole(
             RoleEntity(
                 roleId = roleInfo.roleId.toString(),
                 roleName = roleInfo.roleName.toString(),
                 roleDesc = roleInfo.roleDesc.toString(),
-                createId = roleInfo.createUserId.toString(),
-                createDate = inputDate,
-                updateId = roleInfo.createUserId.toString(),
-                updateDate = inputDate,
-                userEntityList = userRoleMapList,
+                createUserid = roleInfo.createUserid.toString(),
+                createDt = inputDate,
+                updateUserid = roleInfo.createUserid.toString(),
+                updateDt = inputDate,
                 authEntityList = authEntityList
             )
         )
