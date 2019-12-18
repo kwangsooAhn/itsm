@@ -35,10 +35,10 @@
 /*<![CDATA[*/
 window.onload = function() {
     if ("[[${faqDetail?.faqId}]]" == "") {
-        document.getElementById("btnRegist").addEventListener("click", function() { restSubmit("post","[[@{/faqs}]]","true"); });
+        document.getElementById("btnRegist").addEventListener("click", function() { restSubmit("post","[[@{/faqs}]]",true); });
     } else {
-        document.getElementById("btnUpdate").addEventListener("click", function() { restSubmit("put","[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]","true"); });
-        document.getElementById("btnDelete").addEventListener("click", function() { restSubmit("delete","[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]","true"); });
+        document.getElementById("btnUpdate").addEventListener("click", function() { restSubmit("put","[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]",true); });
+        document.getElementById("btnDelete").addEventListener("click", function() { restSubmit("delete","[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]",true); });
     }
 }
 

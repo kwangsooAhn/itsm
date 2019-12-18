@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="_csrf" th:content="${_csrf.token}"/>
-<meta name="_csrf_header" content="${_csrf.headerName}"/>    
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>    
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
 <title>Insert title here</title>
@@ -115,6 +115,12 @@
 	
 	//RESTFUL API
 	var noticeNo = /*[[${notice.noticeNo}]]*/;
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
 	
 	//Delete
 	$('#delete').click(function () {
