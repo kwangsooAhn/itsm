@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="_csrf" content="${_csrf.token}"/>
 <script src="../../assets/js/withoutJquery.js"></script>
 </head>
 <body>
@@ -42,9 +41,10 @@ window.onload = function() {
     }
 }
 
-function restSubmit(method, url, async) {
-    var xmlhttp = createXmlHttpRequestObject(method, url, async);
+function restSubmit(method, url) {
+    var xmlhttp = createXmlHttpRequestObject();
     
+    xmlhttp.open(method,url)
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
             if (xmlhttp.status == 200) {
