@@ -10,5 +10,7 @@ data class UserUpdateDto(
         var department: String?,
         var extensionNumber: String?,
         var phoneNumber: String?,
-        var roles: Set<String>?
+        var roles: Set<String>?,
+        var certificationCode: String?,
+        var status: String?
 ) : Serializable

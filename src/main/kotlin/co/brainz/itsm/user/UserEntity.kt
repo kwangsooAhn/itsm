@@ -1,5 +1,6 @@
 package co.brainz.itsm.user
 
+import co.brainz.itsm.user.RoleEntity
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -19,6 +20,8 @@ data class UserEntity(
         var extensionNumber: String? = null,
         var createUserid: String,
         var updateUserid: String? = null,
+        var status: String?,
+        var certificationCode: String? = null,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var expiredDt: LocalDateTime? = null,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDt: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDt: LocalDateTime? = null,
@@ -27,6 +30,6 @@ data class UserEntity(
         @JoinTable(name = "awfUserRoleMap",
                 joinColumns = [JoinColumn(name = "userId")],
                 inverseJoinColumns = [JoinColumn(name = "roleId")])
-        var roleEntities: Set<RoleEntity>? = null
+        var roleEntities: Set<RoleEntity>?
 
 ) : Serializable
