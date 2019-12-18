@@ -145,8 +145,9 @@ var fileUploader = (function($) {
                     },
                     error: function(res, msg, xhr) {
                         console.log('error');
-                        console.log(res);
-                        console.log(msg);
+
+                        console.log(res.responseText);
+
                         console.log(xhr);
                     }
                 });
@@ -212,6 +213,9 @@ var fileUploader = (function($) {
                     //$(file.previewElement).find('.dz-success-mark').hide();
                     //$(file.previewElement).find('.dz-error-mark').show();
                     var res = JSON.parse(xhr.response)
+
+                    //aliceJs.xhrErrorResponse()
+
                     $(file.previewElement).find('.dz-error-message').text(res.msg).addClass("dz-error");
                 });
 
