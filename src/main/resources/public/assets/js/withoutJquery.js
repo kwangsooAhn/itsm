@@ -2,10 +2,19 @@
  * 
  */
 
- 
-function createXmlHttpRequestObject() {
+
+function createXmlHttpRequestObject(method,url,async) {
     // will store the reference to the XMLHttpRequest object
     var xmlHttp;
+    var token;
+    var metas = document.getElementsByTagName('meta');
+    
+    for (var i = 0; i < metas.length; i++) {
+		if (metas[i].getAttribute('name') === '_csrf') {
+			token = metas[i].getAttribute('content');
+		}
+	}
+    
     // if running Internet Explorer
     if (window.ActiveXObject) {
         try {
@@ -26,5 +35,10 @@ function createXmlHttpRequestObject() {
     if (!xmlHttp)
         alert("Error creating the XMLHttpRequest object.");
     else
+    	alert(method);
+    alert(url);
+    alert(async);
+    	xmlHttp.open(method,url,async);
+        xmlHttp.setRequestHeader('X-CSRF-TOKEN',token);
         return xmlHttp;
 }
