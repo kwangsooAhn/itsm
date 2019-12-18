@@ -2,7 +2,7 @@
  * 
  */
 
-
+ 
 function createXmlHttpRequestObject() {
     // will store the reference to the XMLHttpRequest object
     var xmlHttp;
