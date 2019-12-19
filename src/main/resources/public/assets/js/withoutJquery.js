@@ -2,10 +2,14 @@
  * 
  */
 
-
-function createXmlHttpRequestObject() {
-    // will store the reference to the XMLHttpRequest object
+function createXmlHttpRequestObject(method, url, async) {
+	// will store the reference to the XMLHttpRequest object
     var xmlHttp;
+    var token;
+    var metas = document.getElementsByTagName('meta');
+
+    if( typeof async === "undefined" ){ async = true; }
+    
     // if running Internet Explorer
     if (window.ActiveXObject) {
         try {
@@ -23,8 +27,20 @@ function createXmlHttpRequestObject() {
         }
     }
     // return the created object or display an error message
-    if (!xmlHttp)
+    if (!xmlHttp) {
         alert("Error creating the XMLHttpRequest object.");
-    else
+    } else {
+        if (method.toUpperCase() != "GET") {
+            for (var i = 0; i < metas.length; i++) {
+                if (metas[i].getAttribute('name') === '_csrf') {
+                    token = metas[i].getAttribute('content');
+                    }
+            }
+            xmlHttp.open(method, url, async);
+            xmlHttp.setRequestHeader('X-CSRF-TOKEN', token);
+        } else {
+            xmlHttp.open(method, url, async);
+        }
         return xmlHttp;
+    }
 }
