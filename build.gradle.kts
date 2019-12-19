@@ -113,6 +113,7 @@ detekt {
             destination = file("$buildDir/reports/detekt/detekt.html")
         }
     }
+    config = files("./alice-detekt-config.yml")
 }
 
 // JAVADOC
