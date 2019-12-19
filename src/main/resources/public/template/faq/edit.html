@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="_csrf" th:content="${_csrf.token}"/>
 <script src="../../assets/js/withoutJquery.js"></script>
 </head>
 <body>
@@ -34,17 +35,15 @@
 /*<![CDATA[*/
 window.onload = function() {
     if ("[[${faqDetail?.faqId}]]" == "") {
-        document.getElementById("btnRegist").addEventListener("click", function() { restSubmit("post","[[@{/faqs}]]"); });
+        document.getElementById("btnRegist").addEventListener("click", function() { restSubmit("post", "[[@{/faqs}]]"); });
     } else {
-        document.getElementById("btnUpdate").addEventListener("click", function() { restSubmit("put","[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]"); });
-        document.getElementById("btnDelete").addEventListener("click", function() { restSubmit("delete","[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]"); });
+        document.getElementById("btnUpdate").addEventListener("click", function() { restSubmit("put", "[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]"); });
+        document.getElementById("btnDelete").addEventListener("click", function() { restSubmit("delete", "[[@{/faqs/{faqId}(faqId=${faqDetail?.faqId})}]]"); });
     }
 }
 
-function restSubmit(method, url) {
-    var xmlhttp = createXmlHttpRequestObject();
-    
-    xmlhttp.open(method,url)
+function restSubmit(method, url, async) {
+    var xmlhttp = createXmlHttpRequestObject(method, url, async);
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
             if (xmlhttp.status == 200) {

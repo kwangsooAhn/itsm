@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>    
 <!-- bootstrap -->
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
 <!-- jQuery -->
@@ -283,6 +285,13 @@
 			return false;
 		}
 		
+	    var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+
+	    $(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader(header, token);
+	    });
+
 		var jsonData = JSON.stringify({
 			noticeTitle : $('#notice_title').val(),
 			noticeContents : $('#notice_contents').val(),
@@ -322,6 +331,13 @@
 		if(validation() == false){
 			return false;
 		}
+		
+	    var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+
+	    $(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader(header, token);
+	    });
 		
 		var jsonData = JSON.stringify({
 			noticeNo : noticeNo,
