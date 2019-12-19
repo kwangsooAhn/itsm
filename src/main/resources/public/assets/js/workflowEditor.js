@@ -5,11 +5,10 @@
 }(this, (function (exports) {
     'use strict';
 
-    /* test function */
-    function testFunc() {
-        console.log('test');
+    function init() {
+        console.info('Workflow editor initialization.');
     }
 
-    exports.testFunc = testFunc;
+    exports.init = init;
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
