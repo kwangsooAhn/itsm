@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="../../assets/js/withoutJquery.js"></script>
+</head>
+<body>
+<div class="container">
+    <div><a href="javascript:openWorkflowEditor();">추가</a></div>
+</div>
+</body>
+<script type="text/javascript">
+    function openWorkflowEditor() {
+        window.open('/process/edit', 'workflowEditor', 'width=1500, height=800');
+    }
+</script>
+</html>
