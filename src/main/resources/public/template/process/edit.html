@@ -37,6 +37,7 @@
         .properties-menu { display: inline-block; position: absolute; top: 48px; right: 8px; width: 300px; height: 500px; background-color: #e2e6ea; }
         .properties-menu p { padding-left: 10px; }
         .properties-menu p > label { display: inline-block; width: 80px; }
+
     </style>
 </head>
 <body>
@@ -51,12 +52,12 @@
         <a href="">Image Download</a>
     </div>
     <div class="element-menu">
-        <span class="shape event"></span>
-        <span class="shape activity"></span>
-        <span class="shape gateway"></span>
-        <span class="shape pool"></span>
+        <img id="logo" class="shape" src="https://lh3.googleusercontent.com/-IhVc_Wxy6dY/AAAAAAAAAAI/AAAAAAAAAAA/fl45Fty4PEI/photo.jpg" draggable="true" />
+        <img id="blue" class="shape" src="https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201607071105" draggable="true" />
     </div>
-    <div class="drawing-board"></div>
+    <div class="drawing-board">
+        <svg height="898" width="898" id="box"></svg>
+    </div>
     <div class="properties-menu">
         <p><label for="element-id">ID</label><input type="text" id="element-id" /></p>
         <p><label for="element-name">Name</label><input type="text" id="element-name" /></p>
