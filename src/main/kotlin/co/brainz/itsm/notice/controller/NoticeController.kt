@@ -1,4 +1,4 @@
-package co.brainz.itsm.notice.controller 
+package co.brainz.itsm.notice.controller  
 
 import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.notice.service.NoticeService
