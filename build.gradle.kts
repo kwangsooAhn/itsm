@@ -81,13 +81,14 @@ ktlint {
 // JACOCO
 jacoco {
     toolVersion = "0.8.5"
+    reportsDir = file("${buildDir}/reports/jacoco/")
 }
 
 tasks.jacocoTestReport {
     reports {
-        xml.isEnabled = false
-        csv.isEnabled = false
-        html.destination = file("${buildDir}/jacocoHtml")
+        xml.isEnabled = true
+        csv.isEnabled = true
+        html.isEnabled = true
     }
 }
 
@@ -106,11 +107,11 @@ detekt {
     reports {
         xml {
             enabled = true
-            destination = file("$buildDir/reports/detekt/detekt.xml")
+            destination = file("${buildDir}/reports/detekt/detekt.xml")
         }
         html {
             enabled = true
-            destination = file("$buildDir/reports/detekt/detekt.html")
+            destination = file("${buildDir}/reports/detekt/detekt.html")
         }
     }
     config = files("./alice-detekt-config.yml")
@@ -119,7 +120,7 @@ detekt {
 // JAVADOC
 tasks.dokka {
     outputFormat = "html"
-    outputDirectory = "$buildDir/javadoc"
+    outputDirectory = "${buildDir}/javadoc"
 }
 
 val dokkaJar by tasks.creating(Jar::class) {
