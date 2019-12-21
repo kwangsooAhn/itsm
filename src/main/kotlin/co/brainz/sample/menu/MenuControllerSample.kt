@@ -13,10 +13,10 @@ class MenuControllerSample {
 
     @GetMapping("/main")
     fun main(): String {
-
-
-
-        return "main"
+        return "sample/main"
     }
+
+
+
 
 }

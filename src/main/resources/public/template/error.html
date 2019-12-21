@@ -2,12 +2,32 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ERROR</title>
 </head>
 <body>
-에러지렁 메렁.
-에러처리는 언제할꺼야? <(@ㅁ@)>
-<!--/*@thymesVar id="errorMsg" type=""*/-->
-<div th:text="${errorMsg}"></div>
+<table>
+    <tbody>
+    <tr>
+        <td th:text="#{label.title}"></td>
+        <td th:text="|${error} (${status})|"></td>
+    </tr>
+    <tr>
+        <td th:text="#{label.message}"></td>
+        <td th:text="${message}"></td>
+    </tr>
+    <tr>
+        <td th:text="#{label.path}"></td>
+        <td th:text="${path}"></td>
+    </tr>
+    <tr th:unless="${exceptionType} == null">
+        <td th:text="#{label.exceptionType}"></td>
+        <td th:text="${exceptionType}"></td>
+    </tr>
+    <tr th:unless="${knownError} == null">
+        <td th:text="#{label.knownError}"></td>
+        <td th:text="${knownError}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

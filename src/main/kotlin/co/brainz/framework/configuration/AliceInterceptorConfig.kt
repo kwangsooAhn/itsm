@@ -1,6 +1,6 @@
 package co.brainz.framework.configuration
 
-import co.brainz.framework.handler.AliceInterceptor
+import co.brainz.framework.interceptor.AliceInterceptor
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
