@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <!-- bootstrap -->
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
 <!-- jQuery -->
@@ -28,7 +30,7 @@
                 <col width="620px">
             </colgroup>
             <td>
-                <a th:each="role : ${roleList}" th:href="'/roles/'+${role.roleId}" th:text="|[ ${role.roleName} ]|" >
+                <a name="alink" th:each="role : ${roleList}" th:id="${role.roleId}" th:text="|[ ${role.roleName} ]|" >
             </td>
         </tr>
     </table>
@@ -40,19 +42,19 @@
         <tr>
             <th>* 역할 아이디</th>
             <td>
-                <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail[0]?.roleId}"  maxlength="100"/>
+                <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
             </td>
         </tr>
         <tr>
             <th>* 역할명</th>
             <td>
-                <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail[0]?.roleName}" maxlength="100" />
+                <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
             </td>
         </tr>
         <tr>
             <th>역할설명</th>
             <td>
-                <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${roleDetail[0]?.roleDesc}"/>
+                <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${roleDetail?.roleDesc}"/>
             </td>
         </tr>
         <tr>
@@ -66,19 +68,19 @@
         </tr>
         <tr>
             <th>등록자</th>
-            <td><span id="spanCreateUserid" name="spanCreateUserid" th:text="${roleDetail[0]?.createUserid}"></span></td>
+            <td><span id="spanCreateUserid" name="spanCreateUserid" th:text="${roleDetail?.createUserid}"></span></td>
         </tr>
         <tr>
             <th>등록일시</th>
-            <td><span id="spanCreateDt" name="spanCreateDt" th:text="${#temporals.format(roleDetail[0]?.createDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span id="spanCreateDt" name="spanCreateDt" th:text="${#temporals.format(roleDetail?.createDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
         <tr>
             <th>수정자</th>
-            <td><span id="spanUpdateUserid" name="spanUpdateUserid" th:text="${roleDetail[0]?.updateUserid}"></span></td>
+            <td><span id="spanUpdateUserid" name="spanUpdateUserid" th:text="${roleDetail?.updateUserid}"></span></td>
         </tr>
         <tr>
             <th>수정일시</th>
-            <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${#temporals.format(roleDetail[0]?.updateDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${#temporals.format(roleDetail?.updateDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
     </table>
     <table>
@@ -87,17 +89,36 @@
                 <button type="button" id="btnDelete" name="btnDelete" >삭제</button>
             </td>
             <td>
-                <button type="button" id="btnSave" name="btnSave" >저장</button>
+                <button type="button" id="btnUpdate" name="btnUpdate" >수정</button>
+            </td>
+            <td>
+                <button type="button" id="btnRegist" name="btnRegist" >등록</button>
             </td>
         </tr>
     </table>
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/    
 $(document).ready(function () {
+	
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+	    
     $('#sessionCreateId').hide();
-    if ($('#txtRoleId').val() != null || $('#txtRoleId').val() != ''){
+    if ($('#txtRoleId').val() != null && $('#txtRoleId').val() != '') {
         $("#txtRoleId").attr("readonly",true);
-    } 
+        $("#btnUpdate").show();
+        $("#btnRegist").hide();
+    } else {
+        var first = $("a[name='alink']").first();
+        onGetDetail(first[0].attributes.id.value);
+        $("#btnUpdate").show();
+        $("#btnRegist").hide();
+    }
+    
     /** 추가 버튼  */
     $('#btnSearch').on('click', function () {
         $('#txtRoleId').val('');
@@ -112,21 +133,40 @@ $(document).ready(function () {
         $('#spanCreateDt').text('');
         $('#spanUpdateUserid').text('');
         $('#spanUpdateDt').text('');
+        $("#btnUpdate").hide();
+        $("#btnRegist").show();
+    });
+    
+    /** 등록 버튼  */
+    $('#btnRegist').on('click', function () {
+        onSave('post');
+    });
+
+    /** 수정 버튼  */
+    $('#btnUpdate').on('click', function () {
+        onSave('put');
+    });
+    
+    $("a[name='alink']").on("click", function(){
+        $("#btnUpdate").show();
+        $("#btnRegist").hide();
+        onGetDetail(this.id);
     });
     
     /** 삭제 버튼  */
     $('#btnDelete').on('click', function () {
         $.ajax({
             url: '/roles/'+$("#txtRoleId").val(),
-            type:"DELETE",
+            type:"delete",
             dataType:"text",
             success: function (result) {
-            	console.log(result)
                 if (result == "true") {
                     alert("삭제 되었습니다.");
                     window.location.href ="/roles/form";
+                } else if(result == "false") {
+                    alert("삭제가 실패되었습니다 .관리자에게 문의 주세요.");
                 } else {
-                    alert("삭제가 실패되었습니다 .관리자에게 문의 주세요.")
+                    alert("관련된 사용자부터 삭제하세요.");
                 }
             },
             error: function (request, status, error) {
@@ -138,8 +178,41 @@ $(document).ready(function () {
         }) ;
     });
     
-    /** 저장 버튼  */
-    $('#btnSave').on('click', function () {
+    function onGetDetail(roldId) {
+        $.ajax({
+            url: '/roles/' + roldId,
+            type:"get",
+            success: function (role) {
+                $('#txtRoleId').val(role[0].roleId);
+                $('#txtRoleName').val(role[0].roleName);
+                $('#txtRoleDesc').val(role[0].roleDesc);
+                $(".roleAuth input").prop('checked', false);
+                $('input:checkbox[name="roleAuth"]').each(function() {
+                    for (var i = 0; i<role[0].arrAuthList.length; i++) {
+                        if (this.id == role[0].arrAuthList[i].authId) {
+                            if (role[0].arrAuthList[i].authDesc == "checked") {
+                                 this.checked = true;
+                                 break;
+                            }  else {
+                                this.checked = false;
+                            }
+                        }
+                    }
+                });
+                $('#spanCreateUserid').text(role[0].createUserid);
+                $('#spanCreateDt').text(role[0].createDt);
+                $('#spanUpdateUserid').text(role[0].updateUserid);
+                $('#spanUpdateDt').text(role[0].updateeDt);
+            },
+            error: function (request, status, error) {
+                alert("관리자에게 문의 주세요.");
+                console.log(request);
+                console.log(status);
+                console.log(error);
+            }
+        });
+    }
+    function onSave(flag) {
         if ($('#txtRoleId').val() == "" || $('#txtRoleId').val() == "" ) {
             alert("역할 아이디를 입력하세요.");
             return;
@@ -160,19 +233,21 @@ $(document).ready(function () {
             arrAuthId[index] = this.id;
         });
         obj.arrAuthId = arrAuthId;
-        obj.createUserId = $('#sessionCreateId').text(); //등록자
+        if (flag == 'post') {
+            obj.createUserid = $('#sessionCreateId').text(); //등록자    
+        } else {
+            obj.updateUserid = $('#sessionCreateId').text(); //수정자
+        }
         var roleJson = JSON.stringify(obj);
-        
         $.ajax({
-            url: "/roles/insertRole",
-            type:"POST",
+            url: '/roles/'+$("#txtRoleId").val(),
+            type:flag,
             data:roleJson,
             contentType:"application/json;charset=UTF-8",
-            dataType:"text",
             success: function (role) {
                 if (role != "") {
                     alert("저장 되었습니다.");
-                    window.location.href ="/roles/"+role;
+                    window.location.href ="/roles/form";
                 }
             },
             error: function (request, status, error) {
@@ -181,8 +256,8 @@ $(document).ready(function () {
                 console.log(status);
                 console.log(error);
             }
-        }) ;
-    });
+        });
+    }
 });
 /*]]>*/
 </script>

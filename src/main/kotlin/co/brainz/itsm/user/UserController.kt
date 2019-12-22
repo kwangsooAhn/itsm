@@ -11,6 +11,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import co.brainz.itsm.role.RoleService
+import org.springframework.web.bind.annotation.PostMapping
 
 /**
  * 사용자 관리 뷰 클래스
@@ -25,8 +26,6 @@ class UserController {
     @Autowired
     lateinit var roleService: RoleService
 
-
-
     /**
      * 사용자 조회 뷰를 호출한다.
      */
@@ -39,7 +38,7 @@ class UserController {
     /**
      * 사용자 조회 리스트 뷰 호출한다.
      */
-    @GetMapping("/search")
+    @PostMapping("/search")
     fun getUserSearch(users: String, model: Model): String {
         val mapper = jacksonObjectMapper()
         mapper.findAndRegisterModules() // localDateTime 변환을 위해 선언

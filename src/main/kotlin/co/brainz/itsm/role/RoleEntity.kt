@@ -1,10 +1,9 @@
 package co.brainz.itsm.role
 
-import java.io.Serializable
-import java.time.LocalDateTime
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.format.annotation.DateTimeFormat
-import co.brainz.itsm.user.UserEntity
-import co.brainz.itsm.auth.AuthEntity
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
@@ -12,6 +11,11 @@ import javax.persistence.ManyToMany
 import javax.persistence.Table
 import javax.persistence.Entity
 import javax.persistence.Column
+import java.io.Serializable
+import java.time.LocalDateTime
+import co.brainz.itsm.user.UserEntity
+import co.brainz.itsm.auth.AuthEntity
+
 @Entity
 @Table(name = "awf_role")
 data public class RoleEntity(
@@ -20,10 +24,11 @@ data public class RoleEntity(
     @Column(name = "roleName") var roleName: String,
     @Column(name = "roleDesc") var roleDesc: String? = null,
     @Column(name = "createUserid") var createUserid: String? = null,
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "createDt") var createDt: LocalDateTime? = null,
+    @CreatedDate @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "createDt") var createDt: LocalDateTime? = null,
     @Column(name = "updateUserid") var updateUserid: String? = null,
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "updateDt") var updateDt: LocalDateTime? = null,
-    @ManyToMany
+    @LastModifiedDate @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "updateDt") var updateDt: LocalDateTime? = null,
+    @JsonIgnore(access = JsonProperty.Access.READ_WRITE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "awfRoleAuthMap",
         joinColumns = [JoinColumn(name = "roleId")],
