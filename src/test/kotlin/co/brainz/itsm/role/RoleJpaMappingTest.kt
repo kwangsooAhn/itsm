@@ -14,9 +14,7 @@ import org.junit.runner.RunWith
 
 import co.brainz.itsm.role.RoleRepository
 import co.brainz.itsm.auth.AuthRepository
-import co.brainz.itsm.user.UserRepository
 import co.brainz.itsm.role.RoleEntity
-import co.brainz.itsm.user.UserEntity
 import co.brainz.itsm.auth.AuthEntity
 
 import java.time.LocalDateTime
@@ -31,9 +29,6 @@ class RoleJpaMappingTest {
 
     @Autowired
     lateinit var authRepository: AuthRepository
-
-    @Autowired
-    lateinit var userRepository: UserRepository
 
     @Before
     fun save() {

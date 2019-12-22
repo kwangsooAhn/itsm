@@ -140,7 +140,7 @@ public class RoleService {
             val getRoles = roleRepository.findAll()
             var i = 0
             for (allRole in getRoles) {
-                for (dtoRole in roleEntities!!) {
+                for (dtoRole in roleEntities) {
                     if (dtoRole.roleId == allRole.roleId) {
                         i = 1
                         break

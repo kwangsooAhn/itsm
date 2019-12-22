@@ -17,17 +17,12 @@ import co.brainz.itsm.auth.AuthEntity
 @RequestMapping("/roles")
 class RoleRestController {
 
-    companion object {
-        private val logger = LoggerFactory.getLogger(RoleRestController::class.java)
-    }
+    private val logger = LoggerFactory.getLogger(RoleRestController::class.java)
     
     var roleService: RoleService
     constructor(roleService: RoleService) {
         this.roleService = roleService
     }
-    
-    /*@Autowired
-    lateinit var roleService: RoleService*/
 
     //역할 전체 목록을 조회한다.
     @GetMapping("/", "")
@@ -37,12 +32,12 @@ class RoleRestController {
 
     //역할 상세 정보를 조회한다.
     @GetMapping("/{roleId}")
-    fun getDetailRoles(@PathVariable roleId: String): List<RoleDto> {
+    fun getRoles(@PathVariable roleId: String): List<RoleDto> {
         return roleService.selectDetailRoles(roleId)
     }
 
     //역할 등록 한다.
-    @PostMapping("/{roleId}")
+    @PostMapping("/")
     fun insertRole(@RequestBody role: RoleDto): String {
         return roleService.saveRole(role)
     }
@@ -56,8 +51,7 @@ class RoleRestController {
     //역할 삭제한다.
     @DeleteMapping("/{roleId}")
     fun deleteRole(@PathVariable roleId: String): String {
-        var result = "false"
-        result = roleService.deleteRole(roleId)
+        var result = roleService.deleteRole(roleId)
         return result
     }
 }

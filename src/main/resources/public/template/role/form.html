@@ -234,13 +234,15 @@ $(document).ready(function () {
         });
         obj.arrAuthId = arrAuthId;
         if (flag == 'post') {
-            obj.createUserid = $('#sessionCreateId').text(); //등록자    
+            obj.createUserid = $('#sessionCreateId').text(); //등록자
+            strUrl = '/roles/';
         } else {
             obj.updateUserid = $('#sessionCreateId').text(); //수정자
+            strUrl = '/roles/'+$("#txtRoleId").val();
         }
         var roleJson = JSON.stringify(obj);
         $.ajax({
-            url: '/roles/'+$("#txtRoleId").val(),
+            url: strUrl,
             type:flag,
             data:roleJson,
             contentType:"application/json;charset=UTF-8",

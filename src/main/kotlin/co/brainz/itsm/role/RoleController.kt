@@ -19,14 +19,8 @@ import co.brainz.itsm.role.RoleService
 @Controller
 public class RoleController {
 
-    companion object {
-        private val logger = LoggerFactory.getLogger(RoleController::class.java)
-    }
-
-    fun Logging(): Unit {
-        logger.info("INFO{ }", "roleController")
-    }
-
+    private val logger = LoggerFactory.getLogger(RoleController::class.java)
+    
     var roleService: RoleService
     constructor(roleService: RoleService) {
         this.roleService = roleService
