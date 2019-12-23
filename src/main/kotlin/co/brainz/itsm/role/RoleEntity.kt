@@ -15,6 +15,7 @@ import java.io.Serializable
 import java.time.LocalDateTime
 import co.brainz.itsm.user.UserEntity
 import co.brainz.itsm.auth.AuthEntity
+import com.fasterxml.jackson.annotation.JsonFormat
 
 @Entity
 @Table(name = "awf_role")
@@ -24,9 +25,11 @@ data public class RoleEntity(
     @Column(name = "roleName") var roleName: String,
     @Column(name = "roleDesc") var roleDesc: String? = null,
     @Column(name = "createUserid") var createUserid: String? = null,
-    @CreatedDate @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "createDt") var createDt: LocalDateTime? = null,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @Column(name = "createDt") var createDt: LocalDateTime? = null,
     @Column(name = "updateUserid") var updateUserid: String? = null,
-    @LastModifiedDate @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @Column(name = "updateDt") var updateDt: LocalDateTime? = null,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @Column(name = "updateDt") var updateDt: LocalDateTime? = null,
     @JsonIgnore(access = JsonProperty.Access.READ_WRITE)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

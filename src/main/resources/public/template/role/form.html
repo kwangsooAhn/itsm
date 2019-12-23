@@ -99,14 +99,14 @@
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/    
 $(document).ready(function () {
-	
+    
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
 
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
-	    
+        
     $('#sessionCreateId').hide();
     if ($('#txtRoleId').val() != null && $('#txtRoleId').val() != '') {
         $("#txtRoleId").attr("readonly",true);
@@ -188,21 +188,17 @@ $(document).ready(function () {
                 $('#txtRoleDesc').val(role[0].roleDesc);
                 $(".roleAuth input").prop('checked', false);
                 $('input:checkbox[name="roleAuth"]').each(function() {
+                    this.checked = false;
                     for (var i = 0; i<role[0].arrAuthList.length; i++) {
                         if (this.id == role[0].arrAuthList[i].authId) {
-                            if (role[0].arrAuthList[i].authDesc == "checked") {
-                                 this.checked = true;
-                                 break;
-                            }  else {
-                                this.checked = false;
-                            }
+                            this.checked = true;
                         }
                     }
                 });
                 $('#spanCreateUserid').text(role[0].createUserid);
                 $('#spanCreateDt').text(role[0].createDt);
                 $('#spanUpdateUserid').text(role[0].updateUserid);
-                $('#spanUpdateDt').text(role[0].updateeDt);
+                $('#spanUpdateDt').text(role[0].updateDt);
             },
             error: function (request, status, error) {
                 alert("관리자에게 문의 주세요.");

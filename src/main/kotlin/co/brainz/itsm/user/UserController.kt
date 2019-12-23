@@ -38,7 +38,7 @@ class UserController {
     /**
      * 사용자 조회 리스트 뷰 호출한다.
      */
-    @PostMapping("/search")
+    @GetMapping("/search")
     fun getUserSearch(users: String, model: Model): String {
         val mapper = jacksonObjectMapper()
         mapper.findAndRegisterModules() // localDateTime 변환을 위해 선언
