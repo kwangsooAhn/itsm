@@ -6,27 +6,21 @@
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}"/>
 <!-- jQuery -->
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<!-- dateTimePicker -->
-<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/moment.js"></script>
-<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="../../assets/vendors/window-date-picker/js/window-date-picker.js"></script>
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
 <link rel="stylesheet" th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" />
+<script src="../../assets/js/datetimePicker.js"></script>
 </head>
 <body>
 	<br />
 	<br />
-	<div id="picker"></div>
 	<div class="container">
 		<form id="form_search" method="get" action="/notices/list">
 			<div class="pull-right" style="width: 1100px; margin: 10px 0;">
 				<input type="checkbox" id="notice_title" name="notice_title" value="check" />제목 
 				<input type="checkbox" id="create_userId" name="create_userId" value="check" />작성자 
-				<input type="text" name="keyword" id="keyword">
-				<!-- calendar -->
-				<input type="text" id = "from_date" name = "fromDate" th:value = "${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('fromDate'):#dates.format(#dates.createNow(),'yyyy-MM-dd hh:mm:ss')}" class="form-control datetimepicker-input" data-target="#fromDateCal"/>
-				<input type="text" id = "to_date" name = "toDate" th:value = "${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#toDateCal"/>
+				<input type="text" id="keyword" name="keyword">
+				<input type="text" id="from_date" name="fromDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('fromDate'):#dates.format(#dates.createNow(),'dd-MM-yyyy HH:mm')}" />
+				<input type="text" id="to_date" name="toDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#temporals.format(addCurrentDate, 'dd-MM-yyyy')}" />
 				<!-- submit -->
 				<button type="submit" id="btnSearch" name="btnSearch" onclick="return validation()">검색</button>
 			</div>
@@ -74,27 +68,9 @@
 	</div>
 
 	<script th:inline="javascript">
-
-	    //calendar 설정 함수
-        $(function () {
-            /*$('#fromDateCal').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });*/
-
-			let picker = new WindowDatePicker({
-				el: '#picker',
-				inputEl: '#from_date',
-				type: 'DATEHOUR',
-				dateType: 'YYYY-MM-DD',
-				hourType: "24",
-				inputToggle: true
-			});
-			picker.setPosition();
-            
-            /*$('#toDateCal').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });*/
-        });
+		// initialization date picker
+		dateTimePicker.initDateTimePicker('from_date');
+		dateTimePicker.initDatePicker('to_date');
 		
 		//validation check and submit
 		function validation() {
