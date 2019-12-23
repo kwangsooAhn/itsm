@@ -1,7 +1,7 @@
 const aliceJs = {};
 
 /**
- *  * XMLHttpReqeust 응답시 에러 발생하는 경우 호출
+ *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
  * @param elementId 에러를 출력할 장소 element id
  * @param text response text
@@ -74,6 +74,7 @@ aliceJs.serialize = function (form) {
     return serialized.join('&');
 
 };
+
 /**
  * serialize array로 돌려준다.
  * @param form
@@ -112,36 +113,25 @@ aliceJs.serializeArray = function (form) {
     }
     return serialized;
 };
+
 /**
  * serialize object 로 돌려준다
  * @param form
  * @returns {{}}
  */
 aliceJs.serializeObject = function (form) {
-
-    // Setup our serialized data
-    const serialized = {};
-    // Loop through each field in the form
-    for (let i = 0; i < form.elements.length; i++) {
-
-        const field = form.elements[i];
-
-        // Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
-        if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' || field.type === 'submit' || field.type === 'button') continue;
-
-        // If a multi-select, get all selections
-        if (field.type === 'select-multiple') {
-            for (let n = 0; n < field.options.length; n++) {
-                if (!field.options[n].selected) continue;
-                serialized[field.name] = field.options[n].value;
+    const result = {};
+    this.serializeArray(form).forEach(function (element) {
+        const node = result[element.name];
+        if ('undefined' !== typeof node && node !== null) {
+            if (Array.isArray(node)) {
+                node.push(element.value);
+            } else {
+                result[element.name] = [node, element.value];
             }
+        } else {
+            result[element.name] = element.value;
         }
-
-        // Convert field data to a query string
-        else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
-            serialized[field.name] = field.value;
-        }
-    }
-    return serialized;
+    });
+    return result
 };
-
