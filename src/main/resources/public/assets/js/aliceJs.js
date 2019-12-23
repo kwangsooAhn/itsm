@@ -12,7 +12,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         elmNode.removeChild(elmNode.firstChild);
     }
 
-    if (text === 'undefined') {
+    if (text === undefined) {
         return;
     }
 
