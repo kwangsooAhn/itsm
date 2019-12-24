@@ -14,53 +14,43 @@ import co.brainz.itsm.notice.entity.NoticeEntity
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RequestBody
 import co.brainz.itsm.notice.service.NoticeService
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 
 @RestController
 @RequestMapping("/notices")
-class NoticeRestController {
+class NoticeRestController(private val noticeRepository : NoticeRepository, private val noticeService : NoticeService) {
 
-	companion object {
-		private val logger = LoggerFactory.getLogger(NoticeRestController::class.java)
-	}
-
-	fun Logging(): Unit {
-		logger.info("INFO{ }", "NoticeRestController")
-	}
-
-	@Autowired
-	lateinit var noticeRepository: NoticeRepository
-	
-	
-    @Autowired
-	lateinit var noticeService: NoticeService
-
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
 	//Notice insert
-	@RequestMapping(value = ["/", ""], method = [RequestMethod.POST])
+    @PostMapping("/", "")
 	fun insertNotice(@RequestBody  notice: NoticeEntity){
 		noticeRepository.save(notice)
 	}
 	
 	//Notice update
-	@RequestMapping(value = ["/{id}"], method = [RequestMethod.PUT])
+    @PutMapping("/{id}")
 	fun updateNotice(@RequestBody notice:NoticeEntity){
 		noticeRepository.save(notice)
 	}
 
 	//Notice delete
-	@RequestMapping(value = ["/{id}"], method = [RequestMethod.DELETE])
+    @PostMapping("/{id}")
 	fun deleteNotice(@PathVariable id: String) {
 		noticeRepository.deleteById(id)
 	}
 	
 	//공지사항 세부 조회
-	@RequestMapping(value = [("/{id}")], method = [RequestMethod.GET])
+    @GetMapping("/{id}")
 	fun getNotice(@PathVariable id : String): NoticeEntity {
 		return noticeService.findNoticeByNoticeNo(id)		
 	}
 	
 	//공지사항 리스트 데이터 조회
-	@RequestMapping(value = ["/",""], method = [RequestMethod.GET])
+    @GetMapping("/", "")
     fun getNoticeList(): List<NoticeEntity> {
 		return noticeService.findNoticeList()
 	}

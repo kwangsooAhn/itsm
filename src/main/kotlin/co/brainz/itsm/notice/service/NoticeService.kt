@@ -8,19 +8,9 @@ import co.brainz.itsm.notice.entity.NoticeEntity
 import java.time.LocalDateTime
 
 @Service
-public open class NoticeService {
+public open class NoticeService(private val noticeRepository : NoticeRepository) {
 	
-	companion object {
-		private val logger  = LoggerFactory.getLogger(NoticeService::class.java)
-	}
-	
-	fun Logging() : Unit {
-		logger.info("INFO{ }", "NoticeSerivce")
-	}
-	
-	@Autowired
-    lateinit var noticeRepository : NoticeRepository
-	
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
 	public fun findNoticeList() : MutableList<NoticeEntity> {
 		return noticeRepository.findAll()

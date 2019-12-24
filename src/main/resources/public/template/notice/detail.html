@@ -3,9 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="_csrf" th:content="${_csrf.token}"/>
-<meta name="_csrf_header" th:content="${_csrf.headerName}"/>    
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<script src="../../assets/js/withoutJquery.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -80,65 +80,56 @@
 		<div style = "float:right;">
 			<button type="button" onclick="location.href='/notices/list'">목록</button>
             <button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notices/form?id={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''">수정</button>
-			<button th:if="${notice?.noticeNo}" type="button" id="delete">삭제</button>
+			<button th:if="${notice?.noticeNo}" type="button" id="delete" th:onclick="restSubmit('POST',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])">삭제</button>
 		</div>
 		</form>
 	</div>
-
-
-	<script th:inline="javascript">
 	
+	<script th:inline="javascript">
 	/*<![CDATA[ */	
-	$(document).ready(function() {
+		window.onload = function() {
 
 		// 게시물 삭제 처리 시, validation 체크.
 		var noticeNo = /*[[${notice.noticeNo}]]*/;
 		if(noticeNo == null){
 			if(noticeNo == null){alert("이미 삭제된 게시물 입니다."); return history.go(-1)};
 		}
-	
-		if($("input[name=popYn]").val() == "true"){
-			$('#pop_radio_bt_up').prop('checked',true) 
-		       $('#pop_tab').show();
-		}else{
-			$('#pop_radio_bt_down').prop('checked',true) 
-		       $('#pop_tab').hide();
+
+		if(document.getElementsByName('popYn')[0].value == 'true') {
+			document.getElementById('pop_radio_bt_up').checked = true;
+			document.getElementById('pop_tab').style.display = '';
+		} else {
+			document.getElementById('pop_radio_bt_down').checked = true;
+			document.getElementById('pop_tab').style.display = 'none';
 		}
-		if($("input[name=topNoticeYn]").val() == "true"){
-			$('#top_radio_bt_up').prop('checked',true) 
-		       $('#top_notice_tab').show();
-		}else{
-			$('#top_radio_bt_down').prop('checked',true) 
-		       $('#top_notice_tab').hide();
+		
+		if(document.getElementsByName('topNoticeYn')[0].value == 'true') {
+			document.getElementById('top_radio_bt_up').checked = true;
+			document.getElementById('top_notice_tab').style.display = '';
+		} else {
+		    document.getElementById('top_radio_bt_down').checked = true;
+			document.getElementById('top_notice_tab').style.display = 'none';
 		}
-	});	
+	}
 	
 	//RESTFUL API
-	var noticeNo = /*[[${notice.noticeNo}]]*/;
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-
-    $(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(header, token);
-    });
-	
-	//Delete
-	$('#delete').click(function () {
-		$.ajax({
-			url : "http://localhost/notices/"+noticeNo,
-			type : "DELETE",
-			success: function() {
-				alert("삭제 처리되었습니다.");
-				location.href = '/notices/list';
-			},
-			error: function () {
-				alert('삭제 완료되었습니다.');
-			}
-		});
-	});
-
+	function restSubmit(method, url, async) {
+		var xmlhttp = createXmlHttpRequestObject(method, url, async);
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+				if (xmlhttp.status == 200) {
+					alert("삭제 처리되었습니다.");
+					window.location = "/notices/list";
+                } else if (xmlhttp.status == 400) {
+                	alert('There was an error 400');
+                } else {
+                	alert('something else other than 200 was returned');
+                }
+			}	
+    	};
+    	xmlhttp.send(null);	
+	}
 	/* ]]> */
 	</script>
-
 </body>
 </html>

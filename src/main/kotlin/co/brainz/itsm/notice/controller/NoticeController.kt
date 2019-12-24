@@ -13,31 +13,19 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
+import org.springframework.web.bind.annotation.GetMapping
+import co.brainz.itsm.user.UserService
+import org.springframework.security.core.context.SecurityContextHolder
+import co.brainz.itsm.user.UserEntity
+import co.brainz.itsm.certification.UserStatus
 
 
 @Controller
-@RequestMapping("/notices")
-public class NoticeController {
+public class NoticeController(private val noticeRepository : NoticeRepository, private val noticeService : NoticeService, private val convertParam : ConvertParam, private val userService : UserService) {
 	
-	companion object {
-		private val logger = LoggerFactory.getLogger(NoticeController::class.java)
-	}
-
-	fun Logging(): Unit {
-		logger.info("INFO{ }", "NoticeController")
-	}
-	
-	@Autowired
-	lateinit var noticeRepository: NoticeRepository
-
-	@Autowired
-	lateinit var noticeService: NoticeService
-
-	@Autowired
-	lateinit var convertParam: ConvertParam
-
+    private val logger = LoggerFactory.getLogger(this::class.java)
 	//공지사항 리스트 화면
-	@RequestMapping(value = ["/list"], method = [RequestMethod.GET])
+    @GetMapping("/notices/list")
 	public fun getNoticeList(request: HttpServletRequest, model: Model): String {
 
 		if (!(request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check")) {
@@ -67,14 +55,18 @@ public class NoticeController {
 	}
 	
 	//공지사항 조회 화면
-	@RequestMapping(value = ["/notice"], method = [RequestMethod.GET])
+    @GetMapping("/notices/notice")
 	public fun getNotice(request: HttpServletRequest, model: Model): String {
+        val userId: String = SecurityContextHolder.getContext().authentication.principal as String
+        val userDto: UserEntity = userService.selectUser(userId)
+        println("userDto.createUserid" + " " + userDto.createUserid)
+                
 		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(request.getParameter("id")))
 		return "notice/detail"
 	}
 
 	//공지사항 편집 화면
-	@RequestMapping(value = ["/form"], method = [RequestMethod.GET])
+    @GetMapping("/notices/form")
 	public fun getNoticeForm(@RequestParam(value = "id", defaultValue = "0") id: String, model: Model): String {
 		var addCurrentDate = LocalDateTime.now().plusDays(1)
 		model.addAttribute("addCurrentDate",addCurrentDate)
@@ -83,10 +75,28 @@ public class NoticeController {
 	}
 	
 	//공지사항 팝업 생성
-	@RequestMapping(value = ["noticePopUp/{id}"], method = [RequestMethod.GET])
-    public fun getNoticePopUp(@PathVariable id :String, model : Model) : String{
-		model.addAttribute("isPopUp","true")
+    @GetMapping("/notices/noticePopUp/{id}")
+    public fun getNoticePopUp(@PathVariable id :String, @RequestParam(required=false) value : String?, model : Model) : String{
+		
+        if(value == "true"){
+        model.addAttribute("isPopUp","true")
+        }
+ 
 		model.addAttribute("noticePopUp", noticeService.findNoticeByNoticeNo(id))
 		return "notice/noticePopUp"
 	}
+    
+    @GetMapping("/index2")
+    fun noticePopUp(model: Model): String {
+
+        model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
+
+        //사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
+        val userId: String = SecurityContextHolder.getContext().authentication.principal as String
+        val userDto: UserEntity = userService.selectUser(userId)
+        if (userDto.status == UserStatus.SIGNUP.code) {
+            return "redirect:/certification/status"
+        }
+        return "index2"
+    }
 }

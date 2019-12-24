@@ -110,23 +110,22 @@
                 format: 'YYYY-MM-DD'
             });
         });
-		
-		//validation check and submit
+
 		function validation(){
-			var search_value = $('#form_search #keyword').val();
-			var check_value = $("input:checkbox[id='notice_title']").is(":checked") == false && jQuery("input:checkbox[id='create_userId']").is(":checked") == false
-			
-			if(check_value == true){alert("검색 조건을 선택해 주세요."); return false;}
-			if(search_value == ''){alert("검색어를 입력해주세요."); return false;}
-			if($('#from_date').val() == ''){alert("검색 시작 날짜를 입력해주세요."); return false;}
-			if($('#to_date').val() == ''){alert("검색 종료 날짜를 입력해주세요."); return false;}	
-			if($('#from_date').val() > $('#to_date').val()){alert("검색 시작 날짜가 종료 날짜보다 큽니다."); return false;}
+            var checkValue = document.getElementById('notice_title').checked == false && document.getElementById('create_userId').checked == false
+			var searchValue = document.getElementById('keyword').value;
+	
+	        if(checkValue == true){alert('검색 조건을 선택해 주세요.'); return false;}
+			if(searchValue == ''){alert('검색어를 입력해주세요.'); return false;}
+			if(document.getElementById('from_date').value == ''){alert('검색 시작 날짜를 입력해주세요'); return false;}
+			if(document.getElementById('to_date').value == ''){alert('검색 종료 날짜를 입력해주세요.'); return false;}
+			if(document.getElementById('from_date').value > document.getElementById('to_date').value){alert("검색 시작 날짜가 종료 날짜보다 큽니다."); return false;}
 		}
 		
 		//list 팝업 생성
 		function openPopUp(id) {
 			var targetId = id;
-			var targetUrl = "noticePopUp/" + targetId;
+			var targetUrl = "noticePopUp/" + targetId + "?value=true"
 			window.open(targetUrl, targetId, "width = 500, height = 500");			
 		}
 	</script>

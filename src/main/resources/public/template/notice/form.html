@@ -3,11 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="_csrf" th:content="${_csrf.token}"/>
-<meta name="_csrf_header" th:content="${_csrf.headerName}"/>    
 <!-- bootstrap -->
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
 <!-- jQuery -->
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<script src="../../assets/js/withoutJquery.js"></script>
 <!-- dateTimePicker -->
 <script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/moment.js"></script>
 <script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
@@ -156,8 +156,8 @@
 			</div>
 			<div style="float: right;">
 				<button type="button" onclick="location.href='/notices/list'">목록</button>
-				<button th:if="!${notice?.noticeNo}" type="button" id="insert" >등록</button>
-				<button th:if="${notice?.noticeNo}" type="button" id="update">수정 완료</button>
+				<button th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/notices}]])">등록</button>
+				<button th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])">수정 완료</button>
 			</div>
 		</form>
 	</div>
@@ -166,67 +166,61 @@
 	<script th:inline="javascript">
 	
 	/*<![CDATA[ */		
-	$(document).ready(function() {	
-	
-		// 팝업 및 상단 설정 관련 보이기 및 숨기기.
+    window.onload = function() {
         if(/*[[${notice.noticeNo}]]*/ != null) {
-		if($("input[name=popYn]").val() == 'true'){
-			$('#pop_radio_bt_up').prop('checked',true) 
-		    $('#pop_tab').show();
-		}else{
-			$('#pop_radio_bt_down').prop('checked',true)
-			$('#pop_width').val("")
-			$('#pop_height').val("")
-			$('#pop_strt_dt').val("")
-			$('#pop_end_dt').val("")
-		    $('#pop_tab').hide();
-		}
-		if($("input[name=topNoticeYn]").val() == 'true'){
-			$('#top_radio_bt_up').prop('checked',true) 
-		    $('#top_notice_tab').show();
-		}else{
-			$('#top_radio_bt_down').prop('checked',true) 
-			$('#top_notice_strt_dt').val("")
-			$('#top_notice_end_dt').val("")
-		    $('#top_notice_tab').hide();
-		}
-	    } 	
-	})
-
-	// 팝업 및 상단 설정 관련 함수
-	function setDisplay(param, param2, param3) {
-
-		param3.value = param2
-		if(param2 == true){
-			if(param == "pop_tab"){
-				$('#pop_width').val(/*[[${notice.popWidth} ? ${notice.popWidth} : 500]]*/);
-				$('#pop_height').val(/*[[${notice.popHeight} ? ${notice.popHeight} : 500]]*/);
-				$('#pop_strt_dt').val(/*[[${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/);
-				$('#pop_end_dt').val(/*[[${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/);
-			
-			}else if(param == "top_notice_tab"){
-				$('#top_notice_strt_dt').val(/*[[${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/);
-				$('#top_notice_end_dt').val(/*[[${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/);	
-				
-			}
-			
-	       $('#'+param).show();
-		}else{
-			if(param == "pop_tab"){
-				$('#pop_width').val("")
-				$('#pop_height').val("")
-				$('#pop_strt_dt').val("")
-				$('#pop_end_dt').val("")
-				$('input[name=popYn]').val(false);	
-			}else if(param == "top_notice_tab"){
-				$('#top_notice_strt_dt').val("")
-				$('#top_notice_end_dt').val("")
-				$('input[name=topNoticeYn]').val(false);
-			}
-	       $('#'+param).hide();	  
-		}
+            if(document.getElementsByName('popYn')[0].value == 'true') {
+                document.getElementById('pop_radio_bt_up').checked = true;
+                document.getElementById('pop_tab').style.display = '';
+            } else {
+                document.getElementById('pop_radio_bt_down').checked = true;
+                document.getElementById('pop_width').value = '';
+                document.getElementById('pop_height').value = '';
+                document.getElementById('pop_strt_dt').value = '';
+                document.getElementById('pop_end_dt').value = '';
+                document.getElementById('pop_tab').style.display = 'none';
+            }
+            
+            if(document.getElementsByName('topNoticeYn')[0].value == 'true') {
+                document.getElementById('top_radio_bt_up').checked = true;
+                document.getElementById('top_notice_tab').style.display = '';
+            } else {
+                document.getElementById('top_radio_bt_down').checked = true;
+                document.getElementById('top_notice_strt_dt').value = '';
+                document.getElementById('top_notice_end_dt').value = '';
+                document.getElementById('top_notice_tab').style.display = 'none';
+            }    
+        }
 	}
-	
+
+	 function setDisplay(param, param2, param3) {
+		 param3.value = param2
+		 
+		 if(param2 == true) {
+			 if(param == "pop_tab") {
+				 document.getElementById('pop_width').value = /*[[${notice.popWidth} ? ${notice.popWidth} : 500]]*/;
+				 document.getElementById('pop_height').value = /*[[${notice.popHeight} ? ${notice.popHeight} : 500]]*/;
+				 document.getElementById('pop_strt_dt').value = /*[[${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
+				 document.getElementById('pop_end_dt').value = /*[[${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
+			 } else if (param == "top_notice_tab") {
+				 document.getElementById('top_notice_strt_dt').value = /*[[${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
+				 document.getElementById('top_notice_end_dt').value = /*[[${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
+			 }
+			  document.getElementById(param).style.display = '';
+		 } else {
+			 if(param == "pop_tab") {
+	             document.getElementById('pop_width').value = '';
+	             document.getElementById('pop_height').value = '';
+	             document.getElementById('pop_strt_dt').value = '';
+	             document.getElementById('pop_end_dt').value = '';
+	             document.getElementsByName('popYn')[0].value = false;
+			 } else if(param == "top_notice_tab") {
+				 document.getElementById('top_notice_strt_dt').value = '';
+				 document.getElementById('top_notice_end_dt').value = '';
+				 document.getElementsByName('topNoticeYn')[0].value = false;
+			 }
+			 document.getElementById(param).style.display = 'none';
+		 }
+	 }
 	//calendar 설정 함수
     $(function () {
         $('#topNoticeEndDtCal').datetimepicker({
@@ -246,129 +240,120 @@
         });
     });
     
-	
 	// pop width, heigth maxLengthCheck
    function maxLengthCheck(object){
-		
-   if (object.value.length > object.maxLength){
-    object.value = object.value.slice(0, object.maxLength);
-    }   
+	if (object.value.length > object.maxLength){
+	   object.value = object.value.slice(0, object.maxLength);
+	   }
    }
 
 	// validation check
-	function validation() {
-		 if($('#notice_title').val() == ""){alert("제목을 입력하세요."); return false;} 
-		 if($('#notice_contents').val() == ""){alert("내용을 입력하세요."); return false;}
-		 if($('#create_userid').val() == ""){alert("작성자를 입력하세요."); return false;}	
+	function validation() { 
+		 if(document.getElementById('notice_title').value == ''){alert("제목을 입력하세요."); return false;} 
+	     if(document.getElementById('notice_contents').value == ''){alert("내용을 입력하세요."); return false;}
+	     if(document.getElementById('create_userid').value == ''){alert("작성자를 입력하세요."); return false;} 
 		 
-		 if($('#pop_radio_bt_up').is(':checked')){
-		 if($('#pop_height').val() == ""){alert("높이를 입력하세요."); return false;}
-		 if($('#pop_width').val() == ""){alert("넓이를 입력하세요"); return false;}	 
-		 if($('#pop_strt_dt').val() == ''){alert("팝업 시작일을 입력하세요."); return false;}
-		 if($('#pop_end_dt').val() == ''){alert("팝업 종료일을 입력하세요."); return false;} 
-		 if(($('#pop_strt_dt').val() > $('#pop_end_dt').val()) || ($('#pop_strt_dt').val() == $('#pop_end_dt').val())){alert("팝업 알림  시작일이 종료일보다 크거나 같습니다."); return false;}
+		 if(document.getElementById('pop_radio_bt_up').checked){
+	     if(document.getElementById('pop_height').value == ''){alert("높이를 입력하세요."); return false;}
+	     if(document.getElementById('pop_width').value == ''){alert("넓이를 입력하세요"); return false;}    
+	     if(document.getElementById('pop_strt_dt').value == ''){alert("팝업 시작일을 입력하세요."); return false;}
+	     if(document.getElementById('pop_end_dt').value == ''){alert("팝업 종료일을 입력하세요."); return false;} 
+		 if((document.getElementById('pop_strt_dt').value > document.getElementById('pop_end_dt').value) || (document.getElementById('pop_strt_dt').value == document.getElementById('pop_end_dt').value)){alert("팝업 알림 시작일이 종료일보다 크거나 같습니다."); return false;}
 		 }
 		 
-		 if($('#top_radio_bt_up').is(':checked')){
-		 if($('#top_notice_strt_dt').val() == ""){alert("상단 공지 시작일을 입력하세요."); return false;}
-		 if($('#top_notice_end_dt').val() == ""){alert("상단 공지 종료일을 입력하세요."); return false;}
-		 if(($('#top_notice_strt_dt').val() > $('#top_notice_end_dt').val()) || ($('#top_notice_strt_dt').val() == $('#top_notice_end_dt').val())){alert("상단 공지 시작일이 종료일보다 크거나 같습니다."); return false;}
+		 if(document.getElementById('top_radio_bt_up').checked){
+		 if(document.getElementById('top_notice_strt_dt').value == ''){alert("상단 공지 시작일을 입력하세요."); return false;}
+		 if(document.getElementById('top_notice_end_dt').value == ''){alert('상단 공지 종료일을 입력하세요.'); return false;}
+		 if((document.getElementById('top_notice_strt_dt').value > document.getElementById('top_notice_end_dt').value) || (document.getElementById('top_notice_strt_dt').value == document.getElementById('top_notice_end_dt').value)){alert("상단 공지 시작일이 종료일보다 크거나 같습니다."); return false;}
 		 }
 	}
 	/* ]]> */
 	</script>
 	
 	<script th:inline="javascript" th:if="!${notice?.noticeNo}">
-	$('#insert').click(function () {
-		
+	/*<![CDATA[ */  
+	function restSubmit(method, url, async) {
+
 		if(validation() == false){
 			return false;
 		}
 		
-	    var token = $("meta[name='_csrf']").attr("content");
-	    var header = $("meta[name='_csrf_header']").attr("content");
-
-	    $(document).ajaxSend(function(e, xhr, options) {
-	        xhr.setRequestHeader(header, token);
-	    });
-
 		var jsonData = JSON.stringify({
-			noticeTitle : $('#notice_title').val(),
-			noticeContents : $('#notice_contents').val(),
-			popYn : $('input[name=popYn]').val(),
-			popStrtDt : $('#pop_strt_dt').val(),
-			popEndDt : $('#pop_end_dt').val(),
-			popWidth :  $('#pop_width').val(),
-			popHeight :  $('#pop_height').val(),
-			topNoticeYn : $('input[name=topNoticeYn]').val(),
-			topNoticeStrtDt: $('#top_notice_strt_dt').val(),
-			topNoticeEndDt : $('#top_notice_end_dt').val(),
-			createDt: $('#create_dt').val(),
-			createUserid :$('#create_userid').val()
+			noticeTitle : document.getElementById('notice_title').value,
+			noticeContents : document.getElementById('notice_contents').value,
+			popYn : document.getElementsByName('popYn')[0].value,
+			popStrtDt : document.getElementById('pop_strt_dt').value,
+			popEndDt : document.getElementById('pop_end_dt').value,
+			popWidth : document.getElementById('pop_width').value,
+			popHeight : document.getElementById('pop_height').value,
+			topNoticeYn : document.getElementsByName('topNoticeYn')[0].value,
+			topNoticeStrtDt: document.getElementById('top_notice_strt_dt').value,
+			topNoticeEndDt : document.getElementById('top_notice_end_dt').value,
+			createDt : document.getElementById('create_dt').value,
+			createUserid : document.getElementById('create_userid').value
 		});
-		$.ajax({
-			url : "http://localhost/notices",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json",
-			success: function () {
-				alert("저장을 성공하였습니다.");
-				location.href = '/notices/list';
-			},
-			error: function() {
-				alert("저장을 실패하였습니다.");
-			}
-		});
-	});
+		
+	    var xmlhttp = createXmlHttpRequestObject(method, url, async);
+	    xmlhttp.onreadystatechange = function() {
+	        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+	            if (xmlhttp.status == 200) {
+	                alert("글이 등록되었습니다.");
+	                window.location = "/notices/list";
+	            } else if (xmlhttp.status == 400) {
+	                alert('There was an error 400');
+	            } else {
+	                alert('something else other than 200 was returned');
+	            }
+	        }
+	    };
+        xmlhttp.setRequestHeader('Content-Type', 'application/json');
+	    xmlhttp.send(jsonData);
+	}
+	/* ]]> */
 	</script>
 	
 	<script th:inline="javascript" th:if="${notice?.noticeNo}">
 	/*<![CDATA[ */	
-	var noticeNo = /*[[${notice.noticeNo}]]*/;
-	
-	$('#update').click(function () {
+	function restSubmit(method, url, async) {
+		var noticeNo = /*[[${notice.noticeNo}]]*/;
 		
 		if(validation() == false){
 			return false;
 		}
 		
-	    var token = $("meta[name='_csrf']").attr("content");
-	    var header = $("meta[name='_csrf_header']").attr("content");
-
-	    $(document).ajaxSend(function(e, xhr, options) {
-	        xhr.setRequestHeader(header, token);
-	    });
-		
 		var jsonData = JSON.stringify({
 			noticeNo : noticeNo,
-			noticeTitle : $('#notice_title').val(),
-			noticeContents : $('#notice_contents').val(),
-			popYn : $('input[name=popYn]').val(),
-			popStrtDt : $('#pop_strt_dt').val(),
-			popEndDt : $('#pop_end_dt').val(),
-			popWidth :  $('#pop_width').val(),
-			popHeight :  $('#pop_height').val(),
-			topNoticeYn : $('input[name=topNoticeYn]').val(),
-			topNoticeStrtDt: $('#top_notice_strt_dt').val(),
-			topNoticeEndDt : $('#top_notice_end_dt').val(),
-			createDt: $('#create_dt').val(),
-			createUserid :$('#create_userid').val()
+		    noticeTitle : document.getElementById('notice_title').value,
+            noticeContents : document.getElementById('notice_contents').value,
+            popYn : document.getElementsByName('popYn')[0].value,
+            popStrtDt : document.getElementById('pop_strt_dt').value,
+            popEndDt : document.getElementById('pop_end_dt').value,
+            popWidth : document.getElementById('pop_width').value,
+            popHeight : document.getElementById('pop_height').value,
+            topNoticeYn : document.getElementsByName('topNoticeYn')[0].value,
+            topNoticeStrtDt: document.getElementById('top_notice_strt_dt').value,
+            topNoticeEndDt : document.getElementById('top_notice_end_dt').value,
+            createDt : document.getElementById('create_dt').value,
+            createUserid : document.getElementById('create_userid').value
 		});
-		$.ajax({
-			url : "http://localhost/notices/"+noticeNo,
-			type : "PUT",
-			data : jsonData,
-			contentType : "application/json",
-			success: function () {
-				alert("수정을 성공하였습니다.");
-				location.href = '/notices/list';
-			},
-			error: function() {
-				alert("수정을 실패하였습니다.");
-			}
-		});
-	});
-	/* ]]> */
+		
+		var xmlhttp = createXmlHttpRequestObject(method, url, async);
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+				if (xmlhttp.status == 200) {
+					alert("글이 수정되었습니다.");
+					window.location = "/notices/list";
+				} else if (xmlhttp.status == 400) {
+					alert('There was an error 400');
+	            } else {
+	                alert('something else other than 200 was returned');
+	            }
+	        }
+	    };
+	    xmlhttp.setRequestHeader('Content-Type', 'application/json');
+	    xmlhttp.send(jsonData);
+	}
+    /* ]]> */
 	</script>
 
 
