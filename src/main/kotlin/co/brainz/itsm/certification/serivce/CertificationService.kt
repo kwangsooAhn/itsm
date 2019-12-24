@@ -3,7 +3,12 @@ package co.brainz.itsm.certification.serivce
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.util.EncryptionUtil
-import co.brainz.itsm.certification.*
+import co.brainz.itsm.certification.CertificationDto
+import co.brainz.itsm.certification.DefaultRole
+import co.brainz.itsm.certification.MailDto
+import co.brainz.itsm.certification.SignUpDto
+import co.brainz.itsm.certification.SignUpStatus
+import co.brainz.itsm.certification.UserStatus
 import co.brainz.itsm.certification.repository.CertificationRepository
 import co.brainz.itsm.common.CodeRepository
 import co.brainz.itsm.common.Constants
@@ -60,7 +65,7 @@ public open class CertificationService(private val certificationRepository: Cert
             val codeEntityList = codeRepository.findByPCode(DefaultRole.USER_DEFAULT_ROLE.code)
             val roleIdList = mutableListOf<String>()
             codeEntityList.forEach {
-                it.value?.let { value -> roleIdList.add(value) }
+                it.codeValue?.let { value -> roleIdList.add(value) }
             }
             val roleEntityList = roleRepository.findByRoleIdIn(roleIdList)
             // Dto to Entity.
