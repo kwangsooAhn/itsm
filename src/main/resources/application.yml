@@ -37,8 +37,16 @@ spring:
                 smtp.starttls.enable: true
         titleName: Alice
 server: 
-    port: 80
-    protocol: http
+    port: 443
+    protocol: https
+    ssl:
+     enabled: true
+     key-store: classpath:public\key\itsm.jks
+     key-store-password: itsm123 
+     key-password: itsm123
+     key-alias: itsm
+     trust-store: classpath:public\key\itsm.ts
+     trust-store-password: itsm123
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\
     
