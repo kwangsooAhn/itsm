@@ -42,11 +42,11 @@ server:
     ssl:
      enabled: true
      key-store: classpath:public\key\itsm.jks
-     key-store-password: itsm123 
-     key-password: itsm123
+     key-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==) #itsm123
+     key-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
      key-alias: itsm
      trust-store: classpath:public\key\itsm.ts
-     trust-store-password: itsm123
+     trust-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\
     
