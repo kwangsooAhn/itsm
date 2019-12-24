@@ -5,7 +5,6 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.certification.UserStatus
 import co.brainz.itsm.certification.serivce.CertificationService
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -25,10 +24,8 @@ class CertificationController(private val certificationService: CertificationSer
         return "certification/signup"
     }
 
-
     @GetMapping("/status")
     fun status(request: HttpServletRequest, model: Model): String {
-        val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val validCode: Int = certificationService.status()
         model.addAttribute("validCode", validCode)
         return "certification/status"

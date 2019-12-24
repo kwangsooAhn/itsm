@@ -18,6 +18,9 @@
     <button id="sendLogin" type="button">로그인</button>
     <button id="userSignUp" type="button" onclick="location.href='/certification/signup'">회원가입</button>
 </div>
+<div>
+    <a href="/oauth/google/login">Google 아이디로 로그인</a>
+</div>
 <!--/*@thymesVar id="errorMsg" type=""*/-->
 <div th:text="${errorMsg}"></div>
 
@@ -42,7 +45,5 @@
         /*]]>*/
     });
 </script>
-
-
 </body>
 </html>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.util.Optional
 
 /**
  * 사용자 관리 서비스
@@ -30,6 +31,13 @@ class UserService {
      */
     fun selectUser(userId: String): UserEntity {
         return userRepository.findByUserId(userId)
+    }
+
+    /**
+     * 사용자 EMAIL로 해당 정보를 조회한다.
+     */
+    fun selectByEmail(email: String): Optional<UserEntity> {
+        return userRepository.findByEmail(email)
     }
 
     /**
