@@ -1,4 +1,4 @@
-package co.brainz.framework.handler
+package co.brainz.framework.interceptor
 
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa

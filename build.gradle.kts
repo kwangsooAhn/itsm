@@ -53,18 +53,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.13")
     implementation("org.apache.tika:tika-core:1.22")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
-    //implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-    //implementation("org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE")
-    //implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.0.RELEASE")
-    //implementation("org.springframework.security.oauth:spring-security-oauth2-autoconfigure:2.0.1.SNAPSHOT")
-    implementation("org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE")
-    implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.1.RELEASE")
-    //implementation("com.google.oauth-client:google-oauth-client:1.30.5")
-    //implementation("com.google.api-client:google-api-client:1.30.7")
-    implementation("org.springframework.social:spring-social-google:latest.integration")
-    implementation("org.springframework.social:spring-social-facebook:latest.integration")
-
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5") 
 }
 
 // KTLINT
