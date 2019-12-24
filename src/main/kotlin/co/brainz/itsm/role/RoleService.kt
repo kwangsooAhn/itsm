@@ -54,14 +54,8 @@ public class RoleService(
      * 역할 정보 등록 한다.
      */
     public fun insertRole(roleInfo: RoleDto): String {
-        
-        val authIdList = mutableListOf<String>()
-        var authIdArray = roleInfo.arrAuthId
-        for (auth in authIdArray!!.indices) {
-            authIdList.add(authIdArray[auth])
-        }
-        var authEntity = authRepository.findByAuthIdIn(authIdList)
 
+        var authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
         var inputDate = LocalDateTime.now()
         var result = roleRepository.save(
             RoleEntity(
@@ -82,13 +76,7 @@ public class RoleService(
     public fun updateRole(roleInfo: RoleDto): String {
 
         var roleDetailInfo = roleRepository.findByRoleId(roleInfo.roleId.toString()).get(0)
-        val authIdList = mutableListOf<String>()
-        var authIdArray = roleInfo.arrAuthId
-        for (auth in authIdArray!!.indices) {
-            authIdList.add(authIdArray[auth])
-        }
-        var authEntity = authRepository.findByAuthIdIn(authIdList)
-
+        var authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
         var inputDate = LocalDateTime.now()
         var result = roleRepository.save(
             RoleEntity(

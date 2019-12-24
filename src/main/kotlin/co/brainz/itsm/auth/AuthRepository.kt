@@ -16,5 +16,5 @@ public interface AuthRepository : JpaRepository<AuthEntity, String> {
     /**
      * 역할별 권한 조회
      */
-    public fun findByAuthIdIn(authId: List<String>): List<AuthEntity>
+    public fun findByAuthIdIn(authId: Array<String>): List<AuthEntity>
 }
