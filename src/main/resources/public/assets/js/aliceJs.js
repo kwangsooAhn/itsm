@@ -121,7 +121,7 @@ aliceJs.serializeArray = function (form) {
  */
 aliceJs.serializeObject = function (form) {
     const result = {};
-    this.serializeArray(form).forEach(function (element) {
+    aliceJs.serializeArray(form).forEach(function (element) {
         const node = result[element.name];
         if ('undefined' !== typeof node && node !== null) {
             if (Array.isArray(node)) {
@@ -134,4 +134,72 @@ aliceJs.serializeObject = function (form) {
         }
     });
     return result
+};
+
+/**
+ * 비동기 호출 및 응답시 사용한다.
+ *
+ * @param method get or post
+ * @param url get인 경우 쿼리도 같이 보내줘야한다. post인 경우는 @params 를 사용한다.
+ * @param callbackFunc 리턴값 사용할 콜백 메서드
+ * @param params post 인 경우 사용할 파라미터
+ * @param async 비동기 true, 동기 false
+ */
+aliceJs.sendXhr = function (method, url, callbackFunc, params, async) {
+    let xhr;
+    try {
+        if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        } else {
+            xhr = new XMLHttpRequest();
+        }
+
+    } catch (e) {
+        alert("Error creating the XMLHttpRequest object.");
+        return;
+    }
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 0) {
+            //console.log('요청이 초기화되지 않음, 객체만 생성되고 아직 초기화되지 않은 상태(' + this.status + ')')
+        } else if (this.readyState === 1) {
+            //console.log('서버연결설정, OPEN 메서드가 호출되고 아직 send 메서드가 불리지 않은 상태(' + this.status + ')')
+        } else if (this.readyState === 2) {
+            // console.log('요청 접수, send메서드가 불렸지만 status와 헤더는 아직 도착하지 않음(' + this.status + ')')
+        } else if (this.readyState === 3) {
+            // console.log('처리 요청, 데이터의 일부를 받은 상태(' + this.status + ')')
+        } else if (this.readyState === 4 && this.status === 200) {
+            // console.log('요청 완료및 응답 준비, 데이터를 전부 받음(' + this.status + ')');
+            aliceJs.xhrErrorResponse('searchError');
+            if (typeof callbackFunc === 'function') {
+                callbackFunc(this);
+            }
+
+        } else {
+            if (this.responseType === '') {
+                console.error('Response type is empty.');
+                document.getElementById('searchError').innerHTML = this.responseText;
+            } else {
+                aliceJs.xhrErrorResponse('searchError', this.responseText);
+            }
+        }
+    };
+
+    // 네트워크 수준의 에러시 처리 내용
+    xhr.onerror = function () {
+        console.error('Maybe network error');
+        aliceJs.xhrErrorResponse('searchError', this.responseText);
+    };
+
+    xhr.open(method, url, (async === undefined || async === null) ? true : async);
+
+    // post인경우 csrf 적용
+    if (method.toUpperCase() === "POST") {
+        const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
+        const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
+        xhr.setRequestHeader(header, token);
+    } else {
+        params = null;
+    }
+    xhr.send(params);
 };
