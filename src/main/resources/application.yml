@@ -36,6 +36,14 @@ spring:
                 smtp.auth: true
                 smtp.starttls.enable: true
         titleName: Alice
+    oauth:
+        google:
+            client:
+                clientId: 216233964755-978chebr937c9838ulkc4sf5v5bld3vi.apps.googleusercontent.com
+                clientSecret: cbCc3PJBWlq57GuXt3rGI_8Y
+                scope: profile email
+                redirectUri: http://localhost:80/oauth/google/callback
+                accessTokenUri: https://www.googleapis.com/oauth2/v4/token
 server: 
     port: 80
     protocol: http

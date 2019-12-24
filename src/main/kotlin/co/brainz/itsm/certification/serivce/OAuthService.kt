@@ -99,19 +99,19 @@ class OAuthServiceGoogle(): OAuthServiceIF {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @Value("\${google.client.clientId}")
+    @Value("\${spring.oauth.google.client.clientId}")
     lateinit var googleClientId: String
 
-    @Value("\${google.client.clientSecret}")
+    @Value("\${spring.oauth.google.client.clientSecret}")
     lateinit var googleClientSecret: String
 
-    @Value("\${google.client.scope}")
+    @Value("\${spring.oauth.google.client.scope}")
     lateinit var googleClientScope: String
 
-    @Value("\${google.client.redirectUri}")
+    @Value("\${spring.oauth.google.client.redirectUri}")
     lateinit var googleClientRedirectUri: String
 
-    @Value("\${google.client.accessTokenUri}")
+    @Value("\${spring.oauth.google.client.accessTokenUri}")
     lateinit var googleClientAccessTokenUri: String
 
     override fun serviceUrl(): String {

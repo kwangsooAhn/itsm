@@ -53,7 +53,9 @@ dependencies {
     implementation("commons-codec:commons-codec:1.13")
     implementation("org.apache.tika:tika-core:1.22")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5") 
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+    implementation("org.springframework.social:spring-social-google:latest.integration")
+    implementation("org.springframework.social:spring-social-facebook:latest.integration")
 }
 
 // KTLINT
