@@ -28,13 +28,13 @@ public class NoticeController(private val noticeRepository : NoticeRepository, p
     @GetMapping("/notices/list")
 	public fun getNoticeList(request: HttpServletRequest, model: Model): String {
 
-		if (!(request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check")) {
-		    if (request.getParameter("notice_title") == "check") {
+		if (!(request.getParameter("notice_title") == "true" && request.getParameter("create_userId") == "true")) {
+		    if (request.getParameter("notice_title") == "true") {
 			    var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
 				var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
 				model.addAttribute("noticeList", noticeService.findAllByTitle(request.getParameter("keyword"), fromDate, toDate)
 				)
-			} else if (request.getParameter("create_userId") == "check") {
+			} else if (request.getParameter("create_userId") == "true") {
 				var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
 				var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
 				model.addAttribute( "noticeList", noticeService.findAllByWriter(request.getParameter("keyword"), fromDate, toDate)
@@ -42,7 +42,7 @@ public class NoticeController(private val noticeRepository : NoticeRepository, p
 			} else {
 				model.addAttribute("noticeList", noticeService.findNoticeList())
 			}
-		} else if (request.getParameter("notice_title") == "check" && request.getParameter("create_userId") == "check") {
+		} else if (request.getParameter("notice_title") == "true" && request.getParameter("create_userId") == "true") {
 			var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
 			var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
 			model.addAttribute( "noticeList", noticeService.findAllCheck(request.getParameter("keyword"), fromDate, toDate)
@@ -57,10 +57,6 @@ public class NoticeController(private val noticeRepository : NoticeRepository, p
 	//공지사항 조회 화면
     @GetMapping("/notices/notice")
 	public fun getNotice(request: HttpServletRequest, model: Model): String {
-        val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: UserEntity = userService.selectUser(userId)
-        println("userDto.createUserid" + " " + userDto.createUserid)
-                
 		model.addAttribute("notice", noticeService.findNoticeByNoticeNo(request.getParameter("id")))
 		return "notice/detail"
 	}

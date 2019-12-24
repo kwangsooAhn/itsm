@@ -25,7 +25,7 @@
 				<th>작성자</th>
 				<td colspan="3"><span th:text="${notice?.createUserid}"/></span></td>
 			</tr>
-			<tr>
+			<tr style = "display:none;">
 				<th>팝업 알림 설정</th>
 				<td>
 					<div>
@@ -42,7 +42,7 @@
 				</td>
 			</tr>
 		</table>
-		<div id="pop_tab">
+		<div id="pop_tab" style = "display:none;">
 			<table class="table" border="1">
 				<tr>
 					<th rowspan="4">팝업 알림 설정 정보</th>
@@ -64,7 +64,7 @@
 			</table>
 		</div>
 
-		<div id="top_notice_tab">
+		<div id="top_notice_tab" style = "display:none;">
 			<table class="table" border="1">
 				<tr>
 					<th rowspan="4">상단 공지 설정 정보</th>
@@ -97,7 +97,7 @@
 
 		if(document.getElementsByName('popYn')[0].value == 'true') {
 			document.getElementById('pop_radio_bt_up').checked = true;
-			document.getElementById('pop_tab').style.display = '';
+			/* document.getElementById('pop_tab').style.display = ''; */
 		} else {
 			document.getElementById('pop_radio_bt_down').checked = true;
 			document.getElementById('pop_tab').style.display = 'none';
@@ -105,7 +105,7 @@
 		
 		if(document.getElementsByName('topNoticeYn')[0].value == 'true') {
 			document.getElementById('top_radio_bt_up').checked = true;
-			document.getElementById('top_notice_tab').style.display = '';
+			/* document.getElementById('top_notice_tab').style.display = ''; */
 		} else {
 		    document.getElementById('top_radio_bt_down').checked = true;
 			document.getElementById('top_notice_tab').style.display = 'none';
