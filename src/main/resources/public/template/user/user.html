@@ -10,15 +10,13 @@
 <div sec:authorize="hasAuthority('user.read')">
     <div style="border: 1px solid red">
         <div>- 검색영역 -</div>
-        <form id="search" onsubmit="return false">
-            <select id="searchKey" name="searchKey">
-                <option value="">--</option>
-                <option th:each="userSearch : ${userSearchCode}"
-                        th:value="${userSearch.code}"
-                        th:text="#{${userSearch.code}}">
-                </option>
-            </select>
-            <input type="text" id="searchValue" name="searchValue" th:placeholder="#{searchWord}"/>
+        <form id="searchForm" onsubmit="return false">
+            <div th:each="userSearch : ${userSearchCode}">
+                <input type="checkbox" th:id="|searchKey${userSearchStat.index}|" name="searchKey"
+                       th:value="${userSearch.code}" th:checked="${userSearchStat.index} == 0">
+                <label th:for="|searchKey${userSearchStat.index}|" th:text="#{${userSearch.code}}"></label>
+            </div>
+            <input type="text" id="searchValue" name="searchValue" th:placeholder="#{common.searchWord}"/>
         </form>
     </div>
     <div style="border: 1px solid red">
@@ -34,128 +32,63 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="userDetailModal" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-body" id="userDetail"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{btn.close}">닫기</button>
-            </div>
-        </div>
-
-    </div>
+<div style="border: 1px solid red">
+    <div>- 사용자 편집 모달 영역 -</div>
+    <div id="userDetailModal" style="display: none"></div>
 </div>
-<script type="text/javascript" th:inline="javascript">
-    $(document).ready(function () {
-        /*<![CDATA[*/
-        /***************************************************************************************************************
-         *  검색란 엔터키 이벤트
-         */
-        $('#searchValue').on('keypress', function (e) {
-            if (e.keyCode === 13) {
-                searchUser()
-            }
-        });
 
-        /***************************************************************************************************************
-         *  사용자 등록 버튼 클릭시 등록 화면을 연다.
-         */
-        $('#userReg').on('click', function () {
-            alert('사용자 등록 화면 만들기')
-        });
 
-        /***************************************************************************************************************
-         *  사용자를 검색한다.
-         */
-        function searchUser() {
-            $.ajax({
-                type: "get",
-                url: '/users',
-                data: $('#search').serializeObject(),
-                success: function (users) {
-                    $.ajax({
-                        type: 'get', url: '/users/search', data: {users: JSON.stringify(users)}
-                    }).done(function (data) {
-                        $('#userList').html(data)
-                    });
-                },
-                error: function (request, status, error) {
-                    alert("Call failed. code : " + request.status + ", message : " + request.errorMsg);
-                }
-            });
+<div style="border: 1px solid red">
+    <div>- 에러 출력 영역 -</div>
+    <div id="searchError"></div>
+</div>
+
+<script>
+
+    /**
+     * 검색창 엔터 입력시 동작
+     */
+    document.getElementById('searchValue').addEventListener('keypress', function (e) {
+        if (e.key !== undefined && e.key === 'Enter') {
+            searchUser();
         }
-
-        /***************************************************************************************************************
-         * 모달 닫기
-         */
-        $('#userDetailModal').on('hidden.bs.modal', function (e) {
-            $('#userDetail').empty();
-        });
-
-        /***************************************************************************************************************
-         * 모달 열기
-         */
-        $('#userDetailModal').on('show.bs.modal', function (e) {
-            $.ajax({
-                type: "get",
-                url: '/users/' + $(e.relatedTarget).data('id'),
-                success: function (user) {
-                    $.ajax({
-                        type: 'get', url: '/users/detail', data: {user: JSON.stringify(user)}
-                    }).done(function (data) {
-                        $('#userDetail').html(data);
-
-                        $('#userDetail input[type=text].form-control:not(input[name=userId])').on('dblclick', function () {
-                            $('#userDetail input[type=text].form-control').prop('readonly', true);
-                            $(this).prop('readonly', function (i, v) {
-                                return !v
-                            });
-                        });
-
-                        $('#userDetail input[type=text].form-control').on('keypress', function (e) {
-                            if (e.keyCode === 13) {
-                                userDetailSave()
-                            }
-                        });
-
-                        $('#userDetail input[type=checkbox].custom-control-input').on('change', function (e) {
-                            userDetailSave()
-                        });
-
-                    });
-                },
-                error: function (request, status, error) {
-                    alert("Call failed. code : " + request.status + ", message : " + request.errorMsg);
-                }
-            });
-        });
-
-        /***************************************************************************************************************
-         * 저장하기
-         */
-        function userDetailSave() {
-            $.ajax({
-                type: "put",
-                url: '/users/' + $('#userDetailEditModal #userId').val(),
-                data: $('#userDetailEditModal').serializeObject(),
-                traditional: true,
-                success: function (response) {
-                    //$('#userDetailModal').modal('hide');
-                    $('#saveResult').html(response);
-                    $('#userDetail input[type=text].form-control').prop('readonly', true);
-                    searchUser();
-                },
-                error: function (request, status, error) {
-                    alert("Call failed. code : " + request.status + ", message : " + request.errorMsg);
-                }
-            });
-        }
-
-        /** 최초 검색 실행하기 */
-        searchUser();
-        /*]]>*/
     });
+
+    /**
+     * 사용자를 검색한다.
+     */
+    function searchUser() {
+        aliceJs.sendXhr('get', '/users/list?' + aliceJs.serialize(document.getElementById('searchForm')), setUserClickEvent);
+    }
+
+    /**
+     * 사용자 데이터 조회 후 각 row 마다 클릭 이벤트를 생성한다.
+     * @param response
+     */
+    function setUserClickEvent(response) {
+        document.getElementById('userList').innerHTML = response.responseText;
+
+        Array.prototype.forEach.call(document.getElementsByClassName('userRows'), function (user) {
+            user.addEventListener('click', function (e) {
+                document.getElementById('userDetailModal').style.display = '';
+                let url = '/users/' + this.querySelector('input[type=hidden][name=userId]').value + '/edit';
+                aliceJs.sendXhr('get', url, openUserEditor);
+            })
+        });
+    }
+
+    /**
+     * 사용자 상세조회 화면을 연다.
+     * @param response
+     */
+    function openUserEditor(response) {
+        document.getElementById('userDetailModal').innerHTML = response.responseText;
+
+
+
+    }
+
+    searchUser()
 </script>
 </body>
 </html>

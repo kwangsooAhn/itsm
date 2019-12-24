@@ -178,7 +178,11 @@ aliceJs.sendXhr = function (method, url, callbackFunc, params, async) {
         } else {
             if (this.responseType === '') {
                 console.error('Response type is empty.');
-                document.getElementById('searchError').innerHTML = this.responseText;
+                try {
+                    aliceJs.xhrErrorResponse('searchError', this.responseText);
+                } catch (e) {
+                    document.getElementById('searchError').innerHTML = this.responseText;
+                }
             } else {
                 aliceJs.xhrErrorResponse('searchError', this.responseText);
             }

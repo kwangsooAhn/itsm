@@ -8,62 +8,42 @@
 </head>
 <body>
 <form sec:authorize="hasAuthority('user.read')" id="userDetailEditModal" onsubmit="return false">
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" th:text="#{user.id}">아이디</span>
-        </div>
-        <input type="text" class="form-control" aria-label="Sizing example input"
-               aria-describedby="inputGroup-sizing-default" readonly="readonly" name="userId"
-               th:value="${users.userId}">
+    <div>
+        <label th:text="#{user.id}" for="userId">아이디</label>
+        <input type="text" id="userId" name="userId" th:value="${users.userId}" readonly="readonly"/>
     </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" th:text="#{user.name}">이름</span>
-        </div>
-        <input type="text" class="form-control" aria-label="Sizing example input"
-               aria-describedby="inputGroup-sizing-default" readonly="readonly" name="userName"
-               th:value="${users.userName}">
+    <div>
+        <label th:text="#{user.name}" for="userName">이름</label>
+        <input type="text" id="userName" name="userName" th:value="${users.userName}" readonly="readonly"/>
     </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" th:text="#{user.email}">이메일</span>
-        </div>
-        <input type="text" class="form-control" aria-label="Sizing example input"
-               aria-describedby="inputGroup-sizing-default" readonly="readonly" name="email" th:value="${users.email}">
+    <div>
+        <label th:text="#{user.email}" for="email">이메일</label>
+        <input type="text" id="email" name="email" th:value="${users.email}" readonly="readonly"/>
+    </div>
+    <div>
+        <label th:text="#{user.position}" for="position">직책</label>
+        <input type="text" id="position" name="position" th:value="${users.position}" readonly="readonly"/>
+    </div>
+    <div>
+        <label th:text="#{user.department}" for="department">부서</label>
+        <input type="text" id="department" name="department" th:value="${users.department}" readonly="readonly"/>
+    </div>
+    <div>
+        <label th:text="#{user.extensionNumber}" for="extensionNumber">내선번호</label>
+        <input type="text" id="extensionNumber" name="extensionNumber" th:value="${users.extensionNumber}"
+               readonly="readonly"/>
     </div>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" th:text="#{user.position}">직책</span>
-        </div>
-        <input type="text" class="form-control" aria-label="Sizing example input"
-               aria-describedby="inputGroup-sizing-default" readonly="readonly" name="position"
-               th:value="${users.position}">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" th:text="#{user.department}">부서</span>
-        </div>
-        <input type="text" class="form-control" aria-label="Sizing example input"
-               aria-describedby="inputGroup-sizing-default" readonly="readonly" name="department"
-               th:value="${users.department}">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" th:text="#{user.extensionNumber}">내선번호</span>
-        </div>
-        <input type="text" class="form-control" aria-label="Sizing example input"
-               aria-describedby="inputGroup-sizing-default" readonly="readonly" name="extensionNumber"
-               th:value="${users.extensionNumber}">
-    </div>
+
     <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
         <div>역할</div>
-        <div class="custom-control custom-checkbox" th:each="role, stat : ${roles}">
-            <input type="checkbox" class="custom-control-input" th:id="|roles*{stat.index}|" name="roles"
-                   th:value="*{role.roleId}" th:checked="*{role.checked}">
-            <label class="custom-control-label" th:for="|roles*{stat.index}|" th:text="*{role.roleName}"></label>
+        <div th:each="role : ${roles}">
+            <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">
+            <label th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
         </div>
     </div>
+
+
 </form>
 </body>
 </html>
