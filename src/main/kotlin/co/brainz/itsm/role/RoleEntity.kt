@@ -37,6 +37,5 @@ data public class RoleEntity(
         joinColumns = [JoinColumn(name = "roleId")],
         inverseJoinColumns = [JoinColumn(name = "authId")]
     )
-    var authEntityList: List<AuthEntity>? = mutableListOf<AuthEntity>()
-
+    var authEntityList: List<AuthEntity>?
 ) : Serializable

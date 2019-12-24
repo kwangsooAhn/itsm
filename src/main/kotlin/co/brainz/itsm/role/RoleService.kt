@@ -37,18 +37,16 @@ public class RoleService(
      * 역할 삭제 한다.
      */
     public fun deleteRole(roleId: String): String {
-        var result = "false"
-        if (roleId != null) {
-            var userRoleMapCount = userRoleMapRepository.findByRoleId(roleId).count()
-            if (userRoleMapCount == 0) {
-                roleRepository.deleteById(roleId)
-                result = "true"
-            } else {
-                result = "PlaseDeleteMapperUser"
-            }
+        var result = ""
+
+        var userRoleMapCount = userRoleMapRepository.findByRoleId(roleId).count()
+        if (userRoleMapCount == 0) {
+            roleRepository.deleteById(roleId)
+            result = "true"
         } else {
-            result = "false"
+            result = "PlaseDeleteMapperUser"
         }
+
         return result
     }
 
@@ -56,17 +54,13 @@ public class RoleService(
      * 역할 정보 등록 한다.
      */
     public fun insertRole(roleInfo: RoleDto): String {
-        var roleAuthMapList = mutableListOf<AuthEntity>()
-        if (roleInfo.arrAuthId != null) {
-            var authList = roleInfo.arrAuthId
-            for (auth in authList!!.indices) {
-                roleAuthMapList.add(
-                    AuthEntity(
-                        authId = authList[auth]
-                    )
-                )
-            }
+        
+        val authIdList = mutableListOf<String>()
+        var authIdArray = roleInfo.arrAuthId
+        for (auth in authIdArray!!.indices) {
+            authIdList.add(authIdArray[auth])
         }
+        var authEntity = authRepository.findByAuthIdIn(authIdList)
 
         var inputDate = LocalDateTime.now()
         var result = roleRepository.save(
@@ -76,7 +70,7 @@ public class RoleService(
                 roleDesc = roleInfo.roleDesc.toString(),
                 createUserid = roleInfo.createUserid.toString(),
                 createDt = inputDate,
-                authEntityList = roleAuthMapList
+                authEntityList = authEntity
             )
         )
         return result.roleId
@@ -88,17 +82,12 @@ public class RoleService(
     public fun updateRole(roleInfo: RoleDto): String {
 
         var roleDetailInfo = roleRepository.findByRoleId(roleInfo.roleId.toString()).get(0)
-        var roleAuthMapList = mutableListOf<AuthEntity>()
-        if (roleInfo.arrAuthId != null) {
-            var authList = roleInfo.arrAuthId
-            for (auth in authList!!.indices) {
-                roleAuthMapList.add(
-                    AuthEntity(
-                        authId = authList[auth]
-                    )
-                )
-            }
+        val authIdList = mutableListOf<String>()
+        var authIdArray = roleInfo.arrAuthId
+        for (auth in authIdArray!!.indices) {
+            authIdList.add(authIdArray[auth])
         }
+        var authEntity = authRepository.findByAuthIdIn(authIdList)
 
         var inputDate = LocalDateTime.now()
         var result = roleRepository.save(
@@ -110,7 +99,7 @@ public class RoleService(
                 createDt = roleDetailInfo.createDt,
                 updateUserid = roleInfo.updateUserid.toString(),
                 updateDt = inputDate,
-                authEntityList = roleAuthMapList
+                authEntityList = authEntity
             )
         )
         return result.roleId

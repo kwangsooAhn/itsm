@@ -163,14 +163,12 @@ $(document).ready(function () {
                 if (result == "true") {
                     alert("삭제 되었습니다.");
                     window.location.href ="/roles/form";
-                } else if(result == "false") {
-                    alert("삭제가 실패되었습니다 .관리자에게 문의 주세요.");
                 } else {
                     alert("관련된 사용자부터 삭제하세요.");
                 }
             },
             error: function (request, status, error) {
-                alert("관리자에게 문의 주세요.");
+                alert("삭제가 실패되었습니다 . 관리자에게 문의 주세요.");
                 console.log(request);
                 console.log(status);
                 console.log(error);
@@ -199,6 +197,7 @@ $(document).ready(function () {
                 $('#spanCreateDt').text(role[0].createDt);
                 $('#spanUpdateUserid').text(role[0].updateUserid);
                 $('#spanUpdateDt').text(role[0].updateDt);
+                $("#txtRoleId").attr("readonly",true);
             },
             error: function (request, status, error) {
                 alert("관리자에게 문의 주세요.");

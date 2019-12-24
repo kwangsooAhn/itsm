@@ -17,15 +17,9 @@ import co.brainz.itsm.role.RoleService
 
 @RequestMapping("/roles")
 @Controller
-public class RoleController {
+public class RoleController(private val roleService: RoleService) {
 
     private val logger = LoggerFactory.getLogger(RoleController::class.java)
-
-    var roleService: RoleService
-
-    constructor(roleService: RoleService) {
-        this.roleService = roleService
-    }
 
     /**
      * 역할  설정 뷰를 호출한다.

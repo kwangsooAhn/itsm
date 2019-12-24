@@ -22,15 +22,9 @@ import co.brainz.itsm.auth.AuthEntity
  */
 @RestController
 @RequestMapping("/roles")
-class RoleRestController {
+class RoleRestController(private val roleService: RoleService) {
 
     private val logger = LoggerFactory.getLogger(RoleRestController::class.java)
-
-    val roleService: RoleService
-
-    constructor(roleService: RoleService) {
-        this.roleService = roleService
-    }
 
     /**
      * 역할 전체 목록을 조회한다.
