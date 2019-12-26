@@ -26,9 +26,7 @@
 		<input type="checkbox" name="close" value="OK" onclick="closePop(1);">오늘 하루 이창을 열지 않음
 	</div>
 
-	<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
 	<script th:inline="javascript">
-	    
 		function closePop(expiredays) {
 			var winName = window.name
 			setCookie(winName, "done", expiredays);
@@ -38,6 +36,10 @@
 		//create cookie
 		function setCookie(name, value, expiredays) {
 			var todayDate = new Date();
+			todayDate = new Date(parseInt(todayDate.getTime() / 86400000) * 86400000 + 54000000); 
+			if(todayDate > new Date()) {
+				expiredays = expiredays - 1;
+			}
 			todayDate.setDate(todayDate.getDate() + expiredays);
 			document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 		}

@@ -55,11 +55,11 @@
 					<tr>
 						<th rowspan="4">팝업 알림 설정 정보</th>
 						<th>*높이</th>
-						<th colspan="2"><input type="number" id="pop_height" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" >px</th>
+						<th colspan="2"><input type="number" id="pop_height" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4">px</th>
 					</tr>
 					<tr>
 						<th>*넓이</th>
-						<td colspan="2"><input type="number" id="pop_width" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" >px</td>
+						<td colspan="2"><input type="number" id="pop_width" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4">px</td>
 					</tr>
 					<tr>
 						<th>*시작일</th>
@@ -239,13 +239,6 @@
         	format : 'YYYY-MM-DD HH:mm:ss'
         });
     });
-    
-	// pop width, heigth maxLengthCheck
-   function maxLengthCheck(object){
-	if (object.value.length > object.maxLength){
-	   object.value = object.value.slice(0, object.maxLength);
-	   }
-   }
 
 	// validation check
 	function validation() { 
@@ -255,7 +248,9 @@
 		 
 		 if(document.getElementById('pop_radio_bt_up').checked){
 	     if(document.getElementById('pop_height').value == ''){alert("높이를 입력하세요."); return false;}
-	     if(document.getElementById('pop_width').value == ''){alert("넓이를 입력하세요"); return false;}    
+	     if(document.getElementById('pop_height').value > 1000 || document.getElementById('pop_height').value < 500 ){alert("높이는 500px부터 1000px 사이의 값만 입력 가능합니다."); return false;}
+	     if(document.getElementById('pop_width').value == ''){alert("넓이를 입력하세요"); return false;}
+	     if(document.getElementById('pop_width').value > 1000 || document.getElementById('pop_width').value < 500 ){alert("넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."); return false;}
 	     if(document.getElementById('pop_strt_dt').value == ''){alert("팝업 시작일을 입력하세요."); return false;}
 	     if(document.getElementById('pop_end_dt').value == ''){alert("팝업 종료일을 입력하세요."); return false;} 
 		 if((document.getElementById('pop_strt_dt').value > document.getElementById('pop_end_dt').value) || (document.getElementById('pop_strt_dt').value == document.getElementById('pop_end_dt').value)){alert("팝업 알림 시작일이 종료일보다 크거나 같습니다."); return false;}

@@ -56,7 +56,7 @@
                 </div>
 
                 <!-- submit -->
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/noticeList', true, true)">검색</button>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/ajaxList', true, true)">검색</button>
             </div>
         </form>
         <button type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'">등록</button>
@@ -65,7 +65,7 @@
 
     <script th:inline="javascript">
         window.onload = function() {
-        	restSubmit('get', '/notices/noticeList', true, false);
+        	restSubmit('get', '/notices/ajaxList', true, false);
         }    
 
         //calendar 설정 함수

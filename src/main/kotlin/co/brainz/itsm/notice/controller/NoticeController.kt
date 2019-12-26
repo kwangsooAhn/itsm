@@ -4,12 +4,9 @@ import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.utility.ConvertParam
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
@@ -25,19 +22,14 @@ public class NoticeController(private val noticeRepository : NoticeRepository, p
 	
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    //공지사항 리스트 화면
     @GetMapping("notices/list")
-    public fun getNoticeList(request: HttpServletRequest, model: Model) : String 
-    {
+    public fun getNoticeList(request: HttpServletRequest, model: Model) : String {
         var addCurrentDate = LocalDateTime.now().plusDays(1)
         model.addAttribute("addCurrentDate",addCurrentDate)
-        println("addCurrentDate" +  " " + addCurrentDate);
         return "notice/list"
-        
     }
 
-	//공지사항 검색 후, 리스트 데이터 
-    @GetMapping("/notices/noticeList")
+    @GetMapping("/notices/ajaxList")
 	public fun getNoticeSearchList(request: HttpServletRequest, model: Model): String {
 
 		if (!(request.getParameter("notice_title") == "true" && request.getParameter("create_userId") == "true")) {
@@ -63,7 +55,7 @@ public class NoticeController(private val noticeRepository : NoticeRepository, p
 		var addCurrentDate = LocalDateTime.now().plusDays(1)
 		model.addAttribute("addCurrentDate",addCurrentDate)
 		model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
-		return "notice/noticeList"
+		return "notice/ajaxList"
 	}
 	
 	//공지사항 조회 화면
