@@ -11,6 +11,8 @@ import java.time.LocalDateTime
 import org.hibernate.annotations.GenericGenerator
 import com.fasterxml.jackson.annotation.JsonFormat
 
+
+
 @Entity
 @Table(name = "portalNotice")
 public data class NoticeEntity(

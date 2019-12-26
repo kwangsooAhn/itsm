@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.Optional
+import co.brainz.itsm.role.RoleRepository
 
 /**
  * 사용자 관리 서비스
