@@ -4,7 +4,13 @@ import co.brainz.itsm.role.RoleEntity
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
+import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_user")
@@ -25,7 +31,7 @@ data class UserEntity(
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var expiredDt: LocalDateTime? = null,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDt: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDt: LocalDateTime? = null,
-        @ManyToMany(fetch = FetchType.LZAY)
+        @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(name = "awfUserRoleMap",
                 joinColumns = [JoinColumn(name = "userId")],
                 inverseJoinColumns = [JoinColumn(name = "roleId")])
