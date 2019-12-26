@@ -1,23 +1,24 @@
 package co.brainz.sample.file.controller
 
-import co.brainz.framework.fileTransaction.controller.FileController
 import co.brainz.framework.fileTransaction.service.FileService
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.servlet.ModelAndView
 
 @Controller
-class FileUploadTestSample {
+class FileUploadTestSample(private val fileService: FileService) {
 
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    @Autowired
-    lateinit var fileService: FileService
+    @GetMapping("/files")
+    fun getFile(): String {
+        return "sample/fileUploader"
+    }
 
     @PostMapping("/fileSubmit")
     fun formSubmit(@ModelAttribute fileSubmitDto: FileSubmitTestDtoSample): ModelAndView {
