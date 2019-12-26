@@ -53,54 +53,20 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
+
                 <!-- submit -->
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get','/notices/list')">검색</button>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/noticeList', true, true)">검색</button>
             </div>
         </form>
         <button type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'">등록</button>
-        <div>
-            <table class="table table-hover" style="text-align: center">
-                <colgroup>
-                    <col width="10%">
-                    <col width="40%">
-                    <col width="10%">
-                    <col width="20%">
-                    <col width="20%">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>제목</th>
-                        <th>팝업</th>
-                        <th>작성자</th>
-                        <th>등록일시</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    <tr th:each="topNotice : ${topNoticeList}">
-                        <td th:if="${topNotice.topNoticeYn} == true"><img src="../assets/media/icons/icon_notice.gif"></td>
-                        <td th:unless="${topNotice.topNoticeYn} == true"></td>
-                        <td style = "text-align:left"><a href="/notices/notice?id="  th:attrappend="href=${topNotice.noticeNo}" th:text="${topNotice.noticeTitle}"></a></td>
-                        <td th:if="${topNotice.popYn} == true "><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif"></a></td>
-                        <td th:unless="${topNotice.popYn} == true "></td>
-                        <td th:text="${topNotice.createUserid}"></td>
-                        <td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
-                    </tr>
-                    <tr th:each="notice : ${noticeList}">
-                        <td id="topNoticeYn"></td>
-                        <td style = "text-align:left"><a href="/notices/notice?id=" th:attrappend="href=${notice.noticeNo}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
-                        <td th:if="${notice.popYn} == true "><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>
-                        <td th:unless="${notice.popYn} == true "></td>
-                        <td id="createUserid" th:text="${notice.createUserid}"></td>
-                        <td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
+    <div id="noticeList"></div>
 
     <script th:inline="javascript">
+        window.onload = function() {
+        	restSubmit('get', '/notices/noticeList', true, false);
+        }    
 
         //calendar 설정 함수
         $(function () {
@@ -131,11 +97,13 @@
             window.open(targetUrl, targetId, "width = 500, height = 500");
         }
 
-        function restSubmit(method, url, async) {
+        function restSubmit(method, url, async, validate) {
 
-            if(validation() == false) {
-                return false;
-            }
+        	if(validate == true) {
+        		if(validation() == false) {
+        			return false;
+        		}
+        	}
 
             var data = {
                 notice_title : document.getElementById('notice_title').checked,
@@ -145,12 +113,13 @@
                 toDate : document.getElementById('to_date').value
             };
 
-            var getUrl = "/notices/list?notice_title="+data.notice_title+"&create_userId="+data.create_userId+"&keyword="+data.keyword+"&fromDate="+data.fromDate+"&toDate="+data.toDate+"&btnSearch=";
+            var getUrl = url+"?notice_title="+data.notice_title+"&create_userId="+data.create_userId+"&keyword="+data.keyword+"&fromDate="+data.fromDate+"&toDate="+data.toDate+"&btnSearch=";
             var xmlhttp  = createXmlHttpRequestObject(method, getUrl, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                     if (xmlhttp.status == 200) {
-                        document.getElementById("text").innerHTML = xmlhttp.responseText; 
+                        var xmlhttpStr = xmlhttp.responseText;
+                        document.getElementById("noticeList").innerHTML = xmlhttpStr;
                     } else if (xmlhttp.status == 400) {
                         alert('There was an error 400');
                     } else {

@@ -24,9 +24,21 @@ import co.brainz.itsm.certification.UserStatus
 public class NoticeController(private val noticeRepository : NoticeRepository, private val noticeService : NoticeService, private val convertParam : ConvertParam, private val userService : UserService) {
 	
     private val logger = LoggerFactory.getLogger(this::class.java)
-	//공지사항 리스트 화면
-    @GetMapping("/notices/list")
-	public fun getNoticeList(request: HttpServletRequest, model: Model): String {
+
+    //공지사항 리스트 화면
+    @GetMapping("notices/list")
+    public fun getNoticeList(request: HttpServletRequest, model: Model) : String 
+    {
+        var addCurrentDate = LocalDateTime.now().plusDays(1)
+        model.addAttribute("addCurrentDate",addCurrentDate)
+        println("addCurrentDate" +  " " + addCurrentDate);
+        return "notice/list"
+        
+    }
+
+	//공지사항 검색 후, 리스트 데이터 
+    @GetMapping("/notices/noticeList")
+	public fun getNoticeSearchList(request: HttpServletRequest, model: Model): String {
 
 		if (!(request.getParameter("notice_title") == "true" && request.getParameter("create_userId") == "true")) {
 		    if (request.getParameter("notice_title") == "true") {
@@ -51,7 +63,7 @@ public class NoticeController(private val noticeRepository : NoticeRepository, p
 		var addCurrentDate = LocalDateTime.now().plusDays(1)
 		model.addAttribute("addCurrentDate",addCurrentDate)
 		model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
-		return "notice/list"
+		return "notice/noticeList"
 	}
 	
 	//공지사항 조회 화면
