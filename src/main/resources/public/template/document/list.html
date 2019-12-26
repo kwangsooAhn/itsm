@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="../../assets/js/withoutJquery.js"></script>
+</head>
+<body>
+<div class="container">
+    <div>
+        <a href="javascript:openDocumentForm();">추가</a>
+        <a href="javascript:openDocumentEdit();">편집</a>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function openDocumentForm() {
+        window.open('/document/form', '새 문서양식 추가', 'width=1500, height=800');
+    }
+    
+    function openDocumentEdit() {
+        window.open('/document/edit', '문서양식 편집', 'width=1500, height=800');
+    }
+</script>
+</html>
