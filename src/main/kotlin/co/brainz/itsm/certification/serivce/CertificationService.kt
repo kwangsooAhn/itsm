@@ -13,7 +13,7 @@ import co.brainz.itsm.certification.repository.CertificationRepository
 import co.brainz.itsm.common.CodeRepository
 import co.brainz.itsm.common.Constants
 import co.brainz.itsm.common.KeyGenerator
-import co.brainz.itsm.user.RoleRepository
+import co.brainz.itsm.role.RoleRepository
 import co.brainz.itsm.user.UserEntity
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
