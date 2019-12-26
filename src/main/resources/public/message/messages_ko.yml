@@ -10,6 +10,8 @@ common:
     path: "호출 URL"
     exceptionType: "예외 종류"
     knownError: "정의된 에러"
+  msg:
+    save: "저장되었습니다"
 
 # Menu
 menu:

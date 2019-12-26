@@ -4,6 +4,8 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Main</title>
 </head>
 <body>
@@ -99,7 +101,6 @@
         /*<![CDATA[*/
         const menus = [[ ${#authentication.details.menus}]];
         menus.forEach(menu => {
-            /*<![CDATA[*/
             const menuUrl = menu.url;
             const docDiv = document.createElement('div');
             docDiv.style.cursor = 'pointer';

@@ -37,6 +37,8 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         valueTd.innerText = obj.text;
     });
     elmNode.appendChild(table);
+
+    alert('Error !!')
 };
 
 /*!
@@ -139,13 +141,21 @@ aliceJs.serializeObject = function (form) {
 /**
  * 비동기 호출 및 응답시 사용한다.
  *
- * @param method get or post
- * @param url get인 경우 쿼리도 같이 보내줘야한다. post인 경우는 @params 를 사용한다.
- * @param callbackFunc 리턴값 사용할 콜백 메서드
- * @param params post 인 경우 사용할 파라미터
- * @param async 비동기 true, 동기 false
+ *
+ * @param option
+ * method get or post
+ * url get인 경우 쿼리도 같이 보내줘야한다. post인 경우는 @params 를 사용한다.
+ * callbackFunc 리턴값 사용할 콜백 메서드
+ * params post 인 경우 사용할 파라미터
+ * async 비동기 true, 동기 false
  */
-aliceJs.sendXhr = function (method, url, callbackFunc, params, async) {
+aliceJs.sendXhr = function (option) {
+    let method = option.method;
+    let url = option.url;
+    let callbackFunc = option.callbackFunc;
+    let params = option.params;
+    let async = (option.async === undefined || option.async === null) ? true : option.async;
+
     let xhr;
     try {
         if (window.ActiveXObject) {
@@ -173,6 +183,8 @@ aliceJs.sendXhr = function (method, url, callbackFunc, params, async) {
             aliceJs.xhrErrorResponse('searchError');
             if (typeof callbackFunc === 'function') {
                 callbackFunc(this);
+            } else {
+                console.info('No callback function');
             }
 
         } else {
@@ -195,13 +207,14 @@ aliceJs.sendXhr = function (method, url, callbackFunc, params, async) {
         aliceJs.xhrErrorResponse('searchError', this.responseText);
     };
 
-    xhr.open(method, url, (async === undefined || async === null) ? true : async);
+    xhr.open(method, url, async);
 
-    // post인경우 csrf 적용
-    if (method.toUpperCase() === "POST") {
+    // get 이외 csrf 적용
+    if (method.toUpperCase() !== "GET") {
         const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
         const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
         xhr.setRequestHeader(header, token);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     } else {
         params = null;
     }

@@ -1,6 +1,7 @@
 package co.brainz.itsm.user
 
 import co.brainz.itsm.common.CodeService
+import co.brainz.itsm.role.RoleService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -50,5 +51,4 @@ class UserController(private val codeService: CodeService,
 
         return "user/userDetail"
     }
-
 }

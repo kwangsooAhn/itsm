@@ -34,7 +34,6 @@
                readonly="readonly"/>
     </div>
 
-
     <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
         <div>역할</div>
         <div th:each="role : ${roles}">
@@ -43,6 +42,9 @@
         </div>
     </div>
 
+    <div>
+        <button type="button" th:text="#{common.btn.close}" id="closeUserDetail">닫기</button>
+    </div>
 
 </form>
 </body>
