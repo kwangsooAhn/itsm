@@ -6,12 +6,9 @@
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}"/>
 <!-- jQuery -->
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<!-- dateTimePicker -->
-<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/moment.js"></script>
-<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
-<title>Insert title here</title>
+<script type="text/javascript" src="../../assets/vendors/window-date-picker/js/window-date-picker.js"></script>
+<link rel="stylesheet" th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" />
+<script src="../../assets/js/datetimePicker.js"></script>
 </head>
 <body>
 	<br />
@@ -21,37 +18,9 @@
 			<div class="pull-right" style="width: 1100px; margin: 10px 0;">
 				<input type="checkbox" id="notice_title" name="notice_title" value="check" />제목 
 				<input type="checkbox" id="create_userId" name="create_userId" value="check" />작성자 
-				<input type="text" name="keyword" id="keyword">
-				
-				<!-- calendar -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="input-group date" id="fromDateCal" data-target-input="nearest">
-                                    <input type="text" id = "from_date" name = "fromDate" th:value = "${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('fromDate'):#dates.format(#dates.createNow(),'yyyy-MM-dd hh:mm:ss')}" class="form-control datetimepicker-input" data-target="#fromDateCal"/>
-                                    <div class="input-group-append" data-target="#fromDateCal" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="input-group date" id="toDateCal" data-target-input="nearest">
-                                    <input type="text" id = "to_date" name = "toDate" th:value = "${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#toDateCal"/>
-                                    <div class="input-group-append" data-target="#toDateCal" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>                
+				<input type="text" id="keyword" name="keyword">
+				<input type="text" id="from_date" name="fromDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('fromDate'):#dates.format(#dates.createNow(),'dd-MM-yyyy HH:mm')}" />
+				<input type="text" id="to_date" name="toDate" th:value="${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#temporals.format(addCurrentDate, 'dd-MM-yyyy')}" />
 				<!-- submit -->
 				<button type="submit" id="btnSearch" name="btnSearch" onclick="return validation()">검색</button>
 			</div>
@@ -80,7 +49,7 @@
 						<td th:if="${topNotice.topNoticeYn} == true"><img src="../assets/media/icons/icon_notice.gif"></td>
 						<td th:unless="${topNotice.topNoticeYn} == true"></td>
 						<td style = "text-align:left"><a href="/notices/notice?id="  th:attrappend="href=${topNotice.noticeNo}" th:text="${topNotice.noticeTitle}"></a></td>
-						<td th:if="${topNotice.popYn} == true "><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif"></a></td>
+						<td th:if="${topNotice.popYn} == true "><img src="../assets/media/icons/icon_pop.gif"></td>
 						<td th:unless="${topNotice.popYn} == true "></td>
 						<td th:text="${topNotice.createUserid}"></td>
 						<td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
@@ -88,7 +57,7 @@
 					<tr th:each="notice : ${noticeList}">
 						<td id="topNoticeYn"></td>
 						<td style = "text-align:left"><a href="/notices/notice?id=" th:attrappend="href=${notice.noticeNo}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
-						<td th:if="${notice.popYn} == true "><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>
+						<td th:if="${notice.popYn} == true "><img src="../assets/media/icons/icon_pop.gif"></td>
 						<td th:unless="${notice.popYn} == true "></td>
 						<td id="createUserid" th:text="${notice.createUserid}"></td>
 						<td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
@@ -99,20 +68,12 @@
 	</div>
 
 	<script th:inline="javascript">
-
-	    //calendar 설정 함수
-        $(function () {
-            $('#fromDateCal').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
-            
-            $('#toDateCal').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
-        });
+		// initialization date picker
+		dateTimePicker.initDateTimePicker('from_date');
+		dateTimePicker.initDatePicker('to_date');
 		
 		//validation check and submit
-		function validation(){
+		function validation() {
 			var search_value = $('#form_search #keyword').val();
 			var check_value = $("input:checkbox[id='notice_title']").is(":checked") == false && jQuery("input:checkbox[id='create_userId']").is(":checked") == false
 			
@@ -121,13 +82,6 @@
 			if($('#from_date').val() == ''){alert("검색 시작 날짜를 입력해주세요."); return false;}
 			if($('#to_date').val() == ''){alert("검색 종료 날짜를 입력해주세요."); return false;}	
 			if($('#from_date').val() > $('#to_date').val()){alert("검색 시작 날짜가 종료 날짜보다 큽니다."); return false;}
-		}
-		
-		//list 팝업 생성
-		function openPopUp(id) {
-			var targetId = id;
-			var targetUrl = "noticePopUp/" + targetId;
-			window.open(targetUrl, targetId, "width = 500, height = 500");			
 		}
 	</script>
 </body>

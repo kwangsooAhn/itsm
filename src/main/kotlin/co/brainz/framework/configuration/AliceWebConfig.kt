@@ -30,11 +30,6 @@ class AliceWebConfig{
         return lci
     }
 
-    /**
-    [Use *.yml as MessageSource]
-    기존의 *.properties를 사용하려면 아래 messageSource와 YamlMessageSource를 주석처리 후,
-    application.properties의  "spring.messages.basename" 주석을 해제한다.
-     */
     @Bean("messageSource")
     fun messageSource() : MessageSource {
         class YamlMessageSource : ResourceBundleMessageSource() {
@@ -45,7 +40,7 @@ class AliceWebConfig{
         }
 
         val ms = YamlMessageSource()
-        ms.setBasename("public/message/yml/messages")
+        ms.setBasename("public/message/messages")
         ms.setDefaultEncoding("UTF-8")
         ms.setAlwaysUseMessageFormat(true)
         ms.setUseCodeAsDefaultMessage(true)
