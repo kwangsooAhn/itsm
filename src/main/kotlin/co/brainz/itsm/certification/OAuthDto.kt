@@ -4,6 +4,5 @@ import java.io.Serializable
 
 data class OAuthDto(
         var email: String = "",
-        var name: String? = "",
         var serviceType: String? = ""
 ) : Serializable

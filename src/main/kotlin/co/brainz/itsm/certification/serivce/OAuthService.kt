@@ -85,9 +85,11 @@ class OAuthService(private val userService: UserService,
 
     fun isExistUser(oAuthDto: OAuthDto): Boolean {
         var isExist = false
-        val userDto: Optional<UserEntity> = userService.selectByEmail(oAuthDto.email)
-        when (userDto.isEmpty) {
-            false -> isExist = true
+        if (oAuthDto.email.isNotEmpty()) {
+            val userDto: Optional<UserEntity> = userService.selectByEmail(oAuthDto.email)
+            when (userDto.isEmpty) {
+                false -> isExist = true
+            }
         }
         return isExist
     }
@@ -136,19 +138,33 @@ class OAuthServiceGoogle(): OAuthServiceIF {
     }
 
     override fun callback(parameters: MultiValueMap<String, String>, service: String): OAuthDto {
-        val restTemplate = RestTemplate()
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
-        val requestEntity = HttpEntity(parameters, headers)
-        val responseEntity: ResponseEntity<Map<String, Any>> = restTemplate.exchange<Map<String, Any>>(googleClientAccessTokenUri, HttpMethod.POST, requestEntity, MutableMap::class.java)
-        val responseMap: Map<String, Any>? = responseEntity.body
+        val responseMap: Map<String, Any>? = responseData(parameters)
+        return makeOAuthDto(responseMap, service)
+    }
+
+    fun makeOAuthDto(responseMap: Map<String, Any>?, service: String): OAuthDto {
         val idToken: String = responseMap!!["id_token"] as String
         val tokens: List<String> = idToken.split("\\.".toRegex())
         val base64 = Base64(true)
         val body = String(base64.decode(tokens[1]), charset = Charsets.UTF_8)
         val mapper = ObjectMapper()
         val result: MutableMap<*, *>? = mapper.readValue(body, MutableMap::class.java)
-        return OAuthDto(result?.get("email") as String, result?.get("name") as String, service)
+        val oAuthDto = OAuthDto()
+        if (result != null) {
+            if (result["email"] != null) {
+                oAuthDto.email = result["email"] as String
+            }
+        }
+        return oAuthDto
+    }
+
+    fun responseData(parameters: MultiValueMap<String, String>): Map<String, Any>? {
+        val restTemplate = RestTemplate()
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
+        val requestEntity = HttpEntity(parameters, headers)
+        val responseEntity: ResponseEntity<Map<String, Any>> = restTemplate.exchange<Map<String, Any>>(googleClientAccessTokenUri, HttpMethod.POST, requestEntity, MutableMap::class.java)
+        return responseEntity.body
     }
 
 }
@@ -157,7 +173,7 @@ class OAuthServiceGoogle(): OAuthServiceIF {
 class OAuthServiceFacebook(): OAuthServiceIF {
 
     override fun serviceUrl(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     private fun oAuth2Parameters(): OAuth2Parameters {
@@ -172,7 +188,7 @@ class OAuthServiceFacebook(): OAuthServiceIF {
     }
 
     override fun callback(parameters: MultiValueMap<String, String>, service: String): OAuthDto {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
 

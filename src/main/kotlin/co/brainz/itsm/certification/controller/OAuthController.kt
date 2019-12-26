@@ -50,7 +50,12 @@ class OAuthController(private val oAuthService: OAuthService,
                 //TODO: facebook
             }
         }
-        oAuthService.callbackUrl(oAuthDto)
+
+        when (oAuthDto.email.isNotEmpty()) {
+            true -> oAuthService.callbackUrl(oAuthDto)
+            false -> logger.error("oAuth email is not exists.")
+        }
+
         return "redirect:/"
     }
 }
