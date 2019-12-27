@@ -54,7 +54,7 @@ public open class CertificationService(private val certificationRepository: Cert
         val codeEntityList = codeRepository.findByPCode(role)
         val roleIdList = mutableListOf<String>()
         codeEntityList.forEach {
-            it.value?.let { value -> roleIdList.add(value) }
+            it.codeValue?.let { codeValue -> roleIdList.add(codeValue) }
         }
         return roleRepository.findByRoleIdIn(roleIdList)
     }

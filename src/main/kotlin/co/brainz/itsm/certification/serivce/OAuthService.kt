@@ -149,7 +149,7 @@ class OAuthServiceGoogle(): OAuthServiceIF {
         val body = String(base64.decode(tokens[1]), charset = Charsets.UTF_8)
         val mapper = ObjectMapper()
         val result: MutableMap<*, *>? = mapper.readValue(body, MutableMap::class.java)
-        val oAuthDto = OAuthDto()
+        val oAuthDto = OAuthDto("", service)
         if (result != null) {
             if (result["email"] != null) {
                 oAuthDto.email = result["email"] as String
