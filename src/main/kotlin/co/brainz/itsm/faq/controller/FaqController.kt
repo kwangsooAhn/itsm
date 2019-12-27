@@ -40,7 +40,6 @@ class FaqController(private val faqService: FaqService) {
     /**
      * FAQ 신규 등록 화면 호출 처리
      */
-
     @GetMapping("/new")
     fun getFaqNew(request: HttpServletRequest, model: Model): String {
         return faqEditPagePath
@@ -49,7 +48,6 @@ class FaqController(private val faqService: FaqService) {
     /**
      * FAQ 검색 결과 리스트 화면 호출 처리
      */
-
     @GetMapping("/list")
     fun getFaqList(request: HttpServletRequest, model: Model): String {
         model.addAttribute("faqs", faqService.findAll())
@@ -59,7 +57,6 @@ class FaqController(private val faqService: FaqService) {
     /**
      * FAQ 상세 조회 화면 호출 처리
      */
-
     @GetMapping("/{faqId}/view")
     fun getFaqView(@PathVariable faqId: String, model: Model): String {
         model.addAttribute("faq", faqService.findOne(faqId))
@@ -69,7 +66,6 @@ class FaqController(private val faqService: FaqService) {
     /**
      * FAQ 수정 화면 호출 처리
      */
-
     @GetMapping("/{faqId}/edit")
     fun getFaqEdit(@PathVariable faqId: String, model: Model): String {
         if (faqId != "") {
