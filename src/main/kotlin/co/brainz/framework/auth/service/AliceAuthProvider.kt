@@ -69,12 +69,30 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
             throw BadCredentialsException(userId)
         }
 
-        val menuList = mutableSetOf<AliceMenuEntity>()
+        val authorities = authorities(aliceUser)
+        val menuList = menuList(aliceUser, authorities)
+        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
+        usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList)
+
+        return usernamePasswordAuthenticationToken
+    }
+
+    fun authorities(aliceUser: AliceUserEntity): MutableSet<GrantedAuthority> {
         val authorities = mutableSetOf<GrantedAuthority>()
+        authorities.run {
+            aliceUser.getAuthorities().forEach {
+                authorities.add(SimpleGrantedAuthority(it.authority))
+            }
+        }
+        return authorities
+    }
+
+    fun menuList(aliceUser: AliceUserEntity, authorities: MutableSet<GrantedAuthority>): Set<AliceMenuEntity> {
+        val menuList = mutableSetOf<AliceMenuEntity>()
         authorities.run {
             val authId = mutableSetOf<String>()
             aliceUser.getAuthorities().forEach {
-                authorities.add(SimpleGrantedAuthority(it.authority))
                 authId.add(it.authority)
             }
 
@@ -89,13 +107,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
                 logger.debug(">>> Get menu {} <<<", it.menuId)
             }
         }
-
-
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
-        usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList)
-
-        return usernamePasswordAuthenticationToken
+        return menuList
     }
 
     override fun supports(authentication: Class<*>): Boolean {

@@ -20,4 +20,9 @@ class AliceUserDetailsService(private var aliceUserRepository: AliceUserReposito
         return aliceAuthRepository.findByAuthIdIn(authIds)
     }
 
+    @Throws(EmptyResultDataAccessException::class)
+    fun loadUserByUserIdAndPlatform(userId: String, platform: String): AliceUserEntity {
+        return aliceUserRepository.findByUserIdAndPlatform(userId, platform)
+    }
+
 }

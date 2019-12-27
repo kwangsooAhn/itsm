@@ -54,6 +54,7 @@
         /*<![CDATA[*/
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
+        const STATUS_ERROR_EMAIL_DUPLICATION = "3";
 
         // 사용자 등록
         function userRegister() {
@@ -130,6 +131,9 @@
                                 break;
                             case STATUS_ERROR_USER_ID_DUPLICATION:
                                 alert("동일한 아이디가 존재합니다.");
+                                break;
+                            case STATUS_ERROR_EMAIL_DUPLICATION:
+                                alert("이미 사용중인 이메일입니다.")
                                 break;
                             default :
                                 alert("가입이 실패되었습니다.");
