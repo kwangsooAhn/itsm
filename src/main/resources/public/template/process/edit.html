@@ -38,6 +38,12 @@
         .properties-menu p { padding-left: 10px; }
         .properties-menu p > label { display: inline-block; width: 80px; }
 
+        path.link { fill: none; stroke: #000; stroke-width: 2px; cursor: default; }
+        svg:not(.active):not(.ctrl) path.link { cursor: pointer; }
+        path.link.selected { stroke-dasharray: 10,2; }
+        path.link.dragline { pointer-events: none; }
+        path.link.hidden { stroke-width: 0; }
+
     </style>
 </head>
 <body>
@@ -57,9 +63,7 @@
         <span class="shape gateway"></span>
         <span class="shape pool"></span>
     </div>
-    <div class="drawing-board">
-        <svg width="1405" height="750" id="box"></svg>
-    </div>
+    <div class="drawing-board"></div>
     <div class="properties-menu">
         <p><label for="element-id">ID</label><input type="text" id="element-id" /></p>
         <p><label for="element-name">Name</label><input type="text" id="element-name" /></p>
