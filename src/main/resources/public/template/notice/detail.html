@@ -14,73 +14,73 @@
 		<form id = "frm" method = "post">
 		<table class="table" border="1">
 			<tr>
-				<th>제목</th>
+				<th th:text="#{notice.title}"></th>
 				<td colspan="3"><span th:text="${notice?.noticeTitle}"></span></td>
 			</tr>
 			<tr>
-				<th>내용</th>
+				<th th:text="#{notice.contents}"></th>
 				<td colspan="3" style="text-align:center;"><textarea maxlength="140" rows="10" style="width:750px; resize:none;" th:text="${notice?.noticeContents}" readonly = "readonly"></textarea></td>
 			</tr>
 			<tr>
-				<th>작성자</th>
+				<th th:text="#{notice.user}"></th>
 				<td colspan="3"><span th:text="${notice?.createUserid}"/></span></td>
 			</tr>
 			<tr style = "display:none;">
-				<th>팝업 알림 설정</th>
+				<th th:text="#{notice.popUpNoticeSettings}"></th>
 				<td>
 					<div>
-						<label><input type="radio" id = "pop_radio_bt_up" name="popYn" th:value="${notice.popYn}" onclick ="return(false);">설정</label>
-						<label><input type="radio" id = "pop_radio_bt_down" name="popYn" th:value="${notice.popYn}" onclick ="return(false);">미설정</label>
+						<label><input type="radio" id = "popRadioBtUp" name="popYn" th:value="${notice.popYn}" onclick ="return(false);" th:text="#{notice.set}"></label>
+						<label><input type="radio" id = "popRadioBtDown" name="popYn" th:value="${notice.popYn}" onclick ="return(false);" th:text="#{notice.notSet}"></label>
 					</div>
 				</td>
-				<th>상단 공지 설정</th>
+				<th th:text="#{notice.topNoticeSettings}"></th>
 				<td>
 					<div>
-						<label><input type="radio" id = "top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);">설정</label>
-						<label><input type="radio" id = "top_radio_bt_down" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);">미설정</label>
+						<label><input type="radio" id = "topRadioBtUp" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);" th:text="#{notice.set}"></label>
+						<label><input type="radio" id = "topRadioBtDown" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);" th:text="#{notice.notSet}"></label>
 					</div>
 				</td>
 			</tr>
 		</table>
-		<div id="pop_tab" style = "display:none;">
+		<div id="popTab" style = "display:none;">
 			<table class="table" border="1">
 				<tr>
-					<th rowspan="4">팝업 알림 설정 정보</th>
-					<th>*높이</th>
+					<th rowspan="4" th:text="#{notice.popUpNoticeSettingsInfo}"></th>
+					<th th:text="#{notice.height}"></th>
 					<td colspan="2"><span th:text="${notice?.popHeight}"></span></td>
 				</tr>
 				<tr>
-					<th>*넓이</th>
+					<th th:text="#{notice.width}"></th>
 					<td colspan="2"><span th:text="${notice?.popWidth}"/></span></td>
 				</tr>
 				<tr>
-					<th>*시작일</th>
+					<th th:text="#{notice.strtDt}"></th>
 					<td colspan="2"><span th:text="${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}" ></span></td>
 				</tr>
 				<tr>
-					<th>*종료일</th>
+					<th th:text="#{notice.endDt}"></th>
 					<td colspan="2"><span th:text="${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}"/></span></td>
 				</tr>
 			</table>
 		</div>
 
-		<div id="top_notice_tab" style = "display:none;">
+		<div id="topNoticeTab" style = "display:none;">
 			<table class="table" border="1">
 				<tr>
-					<th rowspan="4">상단 공지 설정 정보</th>
-					<th>*시작일</th>
+					<th rowspan="4" th:text="#{notice.topNoticeSettingsInfo}"></th>
+					<th th:text="#{notice.strtDt}"></th>
 					<td colspan="2"><span th:text="${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
 				</tr>
 				<tr>
-					<th>*종료일</th>
+					<th th:text="#{notice.endDt}"></th>
 					<td colspan="2"><span th:text="${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
 				</tr>
 			</table>
 		</div>
 		<div style = "float:right;">
-			<button type="button" onclick="location.href='/notices/list'">목록</button>
-            <button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notices/form?id={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''">수정</button>
-			<button th:if="${notice?.noticeNo}" type="button" id="delete" th:onclick="restSubmit('POST',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])">삭제</button>
+			<button type="button" onclick="location.href='/notices/list'" th:text="#{notice.list}"></button>
+            <button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notices/form?id={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''" th:text="#{notice.modify}"></button>
+			<button th:if="${notice?.noticeNo}" type="button" id="delete" th:onclick="restSubmit('POST',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.delete}"></button>
 		</div>
 		</form>
 	</div>
@@ -96,19 +96,19 @@
 		}
 
 		if(document.getElementsByName('popYn')[0].value == 'true') {
-			document.getElementById('pop_radio_bt_up').checked = true;
-			/* document.getElementById('pop_tab').style.display = ''; */
+			document.getElementById('popRadioBtUp').checked = true;
+			/* document.getElementById('popTab').style.display = ''; */
 		} else {
-			document.getElementById('pop_radio_bt_down').checked = true;
-			document.getElementById('pop_tab').style.display = 'none';
+			document.getElementById('popRadioBtDown').checked = true;
+			document.getElementById('popTab').style.display = 'none';
 		}
 		
 		if(document.getElementsByName('topNoticeYn')[0].value == 'true') {
-			document.getElementById('top_radio_bt_up').checked = true;
-			/* document.getElementById('top_notice_tab').style.display = ''; */
+			document.getElementById('topRadioBtUp').checked = true;
+			/* document.getElementById('topNoticeTab').style.display = ''; */
 		} else {
-		    document.getElementById('top_radio_bt_down').checked = true;
-			document.getElementById('top_notice_tab').style.display = 'none';
+		    document.getElementById('topRadioBtDown').checked = true;
+			document.getElementById('topNoticeTab').style.display = 'none';
 		}
 	}
 	

@@ -32,24 +32,24 @@ public class NoticeController(private val noticeRepository : NoticeRepository, p
     @GetMapping("/notices/ajaxList")
 	public fun getNoticeSearchList(request: HttpServletRequest, model: Model): String {
 
-		if (!(request.getParameter("notice_title") == "true" && request.getParameter("create_userId") == "true")) {
-		    if (request.getParameter("notice_title") == "true") {
-			    var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
-				var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
-				model.addAttribute("noticeList", noticeService.findAllByTitle(request.getParameter("keyword"), fromDate, toDate)
+		if (!(request.getParameter("noticeTitle") == "true" && request.getParameter("createUserid") == "true")) {
+		    if (request.getParameter("noticeTitle") == "true") {
+			    var fromDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDt"), "fromDt")
+				var toDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDt"), "toDt")
+				model.addAttribute("noticeList", noticeService.findAllByTitle(request.getParameter("keyword"), fromDt, toDt)
 				)
-			} else if (request.getParameter("create_userId") == "true") {
-				var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
-				var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
-				model.addAttribute( "noticeList", noticeService.findAllByWriter(request.getParameter("keyword"), fromDate, toDate)
+			} else if (request.getParameter("createUserid") == "true") {
+				var fromDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDt"), "fromDt")
+				var toDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDt"), "toDt")
+				model.addAttribute("noticeList", noticeService.findAllByWriter(request.getParameter("keyword"), fromDt, toDt)
 				)
 			} else {
 				model.addAttribute("noticeList", noticeService.findNoticeList())
 			}
-		} else if (request.getParameter("notice_title") == "true" && request.getParameter("create_userId") == "true") {
-			var fromDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDate"), "fromDate")
-			var toDate: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDate"), "toDate")
-			model.addAttribute( "noticeList", noticeService.findAllCheck(request.getParameter("keyword"), fromDate, toDate)
+		} else if (request.getParameter("noticeTitle") == "true" && request.getParameter("createUserid") == "true") {
+			var fromDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDt"), "fromDt")
+			var toDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDt"), "toDt")
+			model.addAttribute( "noticeList", noticeService.findAllCheck(request.getParameter("keyword"), fromDt, toDt)
 			)
 		}
 		var addCurrentDate = LocalDateTime.now().plusDays(1)

@@ -21,14 +21,14 @@ public class ConvertParam {
 	
       var dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-      if (target == "fromDate") {
+      if (target == "fromDt") {
          var dateFormatterPrefix: DateTimeFormatter = DateTimeFormatterBuilder().append(dateFormatter).parseDefaulting(ChronoField.HOUR_OF_DAY, 0).parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0).parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0).toFormatter()
-         var fromDate: LocalDateTime = LocalDateTime.parse(source, dateFormatterPrefix)
-         return fromDate
-      } else if (target == "toDate") {
+         var fromDt: LocalDateTime = LocalDateTime.parse(source, dateFormatterPrefix)
+         return fromDt
+      } else if (target == "toDt") {
          var dateFormatterSuffix: DateTimeFormatter = DateTimeFormatterBuilder().append(dateFormatter).parseDefaulting(ChronoField.HOUR_OF_DAY, 23).parseDefaulting(ChronoField.MINUTE_OF_HOUR, 59).parseDefaulting(ChronoField.SECOND_OF_MINUTE, 59).toFormatter()
-         var toDate: LocalDateTime = LocalDateTime.parse(source, dateFormatterSuffix)
-         return toDate
+         var toDt: LocalDateTime = LocalDateTime.parse(source, dateFormatterSuffix)
+         return toDt
       } else {		  
 		throw IllegalArgumentException("When you use the parameter type of a method incorrectly")
 	  }

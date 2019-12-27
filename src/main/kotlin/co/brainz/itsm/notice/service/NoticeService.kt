@@ -20,20 +20,20 @@ public open class NoticeService(private val noticeRepository : NoticeRepository)
 		return noticeRepository.findTopNoticeList()
 	}
 	
-	public fun findAllByTitle(keyword : String, fromDate : LocalDateTime, toDate : LocalDateTime) : MutableList<NoticeEntity>{
-		return noticeRepository.findAllByTitle(keyword, fromDate, toDate)
+	public fun findAllByTitle(keyword : String, fromDt : LocalDateTime, toDt : LocalDateTime) : MutableList<NoticeEntity>{
+		return noticeRepository.findAllByTitle(keyword, fromDt, toDt)
 	
 	}
 	
-	public fun findAllByWriter(keyword : String, fromDate : LocalDateTime, toDate : LocalDateTime) : MutableList<NoticeEntity>{
-		return noticeRepository.findAllByWriter(keyword,fromDate,toDate)
+	public fun findAllByWriter(keyword : String, fromDt : LocalDateTime, toDt : LocalDateTime) : MutableList<NoticeEntity>{
+		return noticeRepository.findAllByWriter(keyword,fromDt,toDt)
 	}
 	
-	public fun findAllCheck(keyword : String, fromDate : LocalDateTime, toDate : LocalDateTime) : MutableList<NoticeEntity>{
+	public fun findAllCheck(keyword : String, fromDt : LocalDateTime, toDt : LocalDateTime) : MutableList<NoticeEntity>{
 		
 		var copyKeyword : String = keyword
 		
-		return noticeRepository.findAllCheck(keyword, copyKeyword, fromDate, toDate)
+		return noticeRepository.findAllCheck(keyword, copyKeyword, fromDt, toDt)
 	}
 	
 	public fun findNoticeByNoticeNo(noticeNo : String) : NoticeEntity{

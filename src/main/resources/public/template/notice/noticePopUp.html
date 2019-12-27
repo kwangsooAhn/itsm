@@ -8,15 +8,15 @@
 	<div class="container">
 		<table class="table" border="1">
 			<tr>
-				<th>제목</th>
+				<th th:text="#{notice.title}"></th>
 				<td colspan="3"><span th:text="${noticePopUp.noticeTitle}"></span></td>
 			</tr>
 			<tr>
-				<th>내용</th>
+				<th th:text="#{notice.contents}"></th>
 				<td colspan="3" style="text-align: center;"><textarea maxlength="140" rows="10" style="width: 750px; resize: none;" th:text="${noticePopUp.noticeContents}" readonly="readonly"></textarea></td>
 			</tr>
 			<tr>
-				<th>작성자</th>
+				<th th:text="#{notice.user}"></th>
 				<td colspan="3"><span th:text="${noticePopUp.createUserid}" /></span></td>
 			</tr>
 		</table>

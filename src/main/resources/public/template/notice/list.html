@@ -19,10 +19,10 @@
     <br />
     <br />
     <div class="container">
-        <form id="form_search" method="get">
+        <form id="formSearch" method="get">
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
-                <input type="checkbox" id="notice_title" name="notice_title" value="check" />제목 
-                <input type="checkbox" id="create_userId" name="create_userId" value="check" />작성자 
+                <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
+                <input type="checkbox" id="createUserid" name="createUserid" value="check" th:text="#{notice.user}"/>
                 <input type="text" name="keyword" id="keyword">
                 
                 <!-- calendar -->
@@ -30,9 +30,9 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <div class="input-group date" id="fromDateCal" data-target-input="nearest">
-                                    <input type="text" id = "from_date" name = "fromDate" th:value = "${#httpServletRequest.getParameter('fromDate')!=null?#httpServletRequest.getParameter('fromDate'):#dates.format(#dates.createNow(),'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#fromDateCal"/>
-                                    <div class="input-group-append" data-target="#fromDateCal" data-toggle="datetimepicker">
+                                <div class="input-group date" id="fromDtCal" data-target-input="nearest">
+                                    <input type="text" id = "fromDt" name = "fromDt" th:value = "${#httpServletRequest.getParameter('fromDt')!=null?#httpServletRequest.getParameter('fromDt'):#dates.format(#dates.createNow(),'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#fromDtCal"/>
+                                    <div class="input-group-append" data-target="#fromDtCal" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
                                 </div>
@@ -44,9 +44,9 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <div class="input-group date" id="toDateCal" data-target-input="nearest">
-                                    <input type="text" id = "to_date" name = "toDate" th:value = "${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#toDateCal"/>
-                                    <div class="input-group-append" data-target="#toDateCal" data-toggle="datetimepicker">
+                                <div class="input-group date" id="toDtCal" data-target-input="nearest">
+                                    <input type="text" id = "toDt" name = "toDt" th:value = "${#httpServletRequest.getParameter('toDt')!=null?#httpServletRequest.getParameter('toDt'):#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#toDtCal"/>
+                                    <div class="input-group-append" data-target="#toDtCal" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
                                 </div>
@@ -56,10 +56,10 @@
                 </div>
 
                 <!-- submit -->
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/ajaxList', true, true)">검색</button>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/ajaxList', true, true)" th:text="#{notice.search}"></button>
             </div>
         </form>
-        <button type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'">등록</button>
+        <button type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'" th:text="#{notice.regist}"></button>
     </div>
     <div id="noticeList"></div>
 
@@ -70,24 +70,24 @@
 
         //calendar 설정 함수
         $(function () {
-            $('#fromDateCal').datetimepicker({
+            $('#fromDtCal').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
             
-            $('#toDateCal').datetimepicker({
+            $('#toDtCal').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
         });
 
         function validation(){
-            var checkValue = document.getElementById('notice_title').checked == false && document.getElementById('create_userId').checked == false
+            var checkValue = document.getElementById('noticeTitle').checked == false && document.getElementById('createUserid').checked == false
             var searchValue = document.getElementById('keyword').value;
 
             if(checkValue == true){alert('검색 조건을 선택해 주세요.'); return false;}
             if(searchValue == ''){alert('검색어를 입력해주세요.'); return false;}
-            if(document.getElementById('from_date').value == ''){alert('검색 시작 날짜를 입력해주세요'); return false;}
-            if(document.getElementById('to_date').value == ''){alert('검색 종료 날짜를 입력해주세요.'); return false;}
-            if(document.getElementById('from_date').value > document.getElementById('to_date').value){alert("검색 시작 날짜가 종료 날짜보다 큽니다."); return false;}
+            if(document.getElementById('fromDt').value == ''){alert('검색 시작 날짜를 입력해주세요'); return false;}
+            if(document.getElementById('toDt').value == ''){alert('검색 종료 날짜를 입력해주세요.'); return false;}
+            if(document.getElementById('fromDt').value > document.getElementById('toDt').value){alert("검색 시작 날짜가 종료 날짜보다 큽니다."); return false;}
         }
 
         //list 팝업 생성
@@ -106,14 +106,14 @@
         	}
 
             var data = {
-                notice_title : document.getElementById('notice_title').checked,
-                create_userId : document.getElementById('create_userId').checked,
+                noticeTitle : document.getElementById('noticeTitle').checked,
+                createUserid : document.getElementById('createUserid').checked,
                 keyword : document.getElementById('keyword').value,
-                fromDate : document.getElementById('from_date').value,
-                toDate : document.getElementById('to_date').value
+                fromDt : document.getElementById('fromDt').value,
+                toDt : document.getElementById('toDt').value
             };
 
-            var getUrl = url+"?notice_title="+data.notice_title+"&create_userId="+data.create_userId+"&keyword="+data.keyword+"&fromDate="+data.fromDate+"&toDate="+data.toDate+"&btnSearch=";
+            var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserid="+data.createUserid+"&keyword="+data.keyword+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
             var xmlhttp  = createXmlHttpRequestObject(method, getUrl, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4

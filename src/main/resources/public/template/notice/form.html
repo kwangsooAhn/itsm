@@ -19,57 +19,57 @@
 	<div class="container">
 		<br />
 		<form id="frm" method="post">
-			<input id=create_dt name="createDt" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
+			<input id=createDt name="createDt" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
 			<table class="table" border="1">
 				<tr>
-					<th>*제목</th>
-					<td colspan="3"><input id="notice_title" name="noticeTitle" type="text" th:value="${notice?.noticeTitle}" maxlength = "20" /></td>
+					<th th:text="#{notice.title}"></th>
+					<td colspan="3"><input id="noticeTitle" name="noticeTitle" type="text" th:value="${notice?.noticeTitle}" maxlength = "20" /></td>
 				</tr>
 				<tr>
-					<th>*내용</th>
-					<td colspan="3" style="text-align: center;"><textarea id="notice_contents" name="noticeContents" maxlength="140" rows="7" style="width: 750px; resize: none;" th:text="${notice?.noticeContents}"></textarea></td>
+					<th th:text="#{notice.contents}"></th>
+					<td colspan="3" style="text-align: center;"><textarea id="noticeContents" name="noticeContents" maxlength="140" rows="7" style="width: 750px; resize: none;" th:text="${notice?.noticeContents}"></textarea></td>
 				</tr>
 				<tr>
-					<th>*작성자</th>
-					<td colspan="3"><input id=create_userid name="createUserid" type="text" th:value="${notice?.createUserid}" maxlength = "20"/></td>
+					<th th:text="#{notice.user}"></th>
+					<td colspan="3"><input id=createUserid name="createUserid" type="text" th:value="${notice?.createUserid}" maxlength = "20"/></td>
 				</tr>
 				<tr>
-					<th>*팝업 알림 설정</th>
+					<th th:text="#{notice.popUpNoticeSettings}"></th>
 					<td>
 						<div>
-							<label><input type="radio" id="pop_radio_bt_up" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('pop_tab',true,this)" />설정</label>
-							<label><input type="radio" id="pop_radio_bt_down" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('pop_tab',false, this)">미설정</label>
+							<label><input type="radio" id="popRadioBtUp" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('popTab',true,this)" th:text="#{notice.set}"/></label>
+							<label><input type="radio" id="popRadioBtDown" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('popTab',false, this)" th:text="#{notice.notSet}"></label>
 						</div>
 					</td>
-					<th>*상단 공지 설정</th>
+					<th th:text="#{notice.topNoticeSettings}"></th>
 					<td>
 						<div>
-							<label><input type="radio" id="top_radio_bt_up" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('top_notice_tab',true,this)">설정</label> 
-							<label><input type="radio" id="top_radio_bt_down" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('top_notice_tab',false, this)">미설정</label>
+							<label><input type="radio" id="topRadioBtUp" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('topNoticeTab',true,this)" th:text="#{notice.set}"/></label> 
+							<label><input type="radio" id="topRadioBtDown" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('topNoticeTab',false, this)" th:text="#{notice.notSet}"></label>
 						</div>
 					</td>
 				</tr>
 			</table>
-			<div id="pop_tab">
+			<div id="popTab">
 				<table class="table" border="1">
 					<tr>
-						<th rowspan="4">팝업 알림 설정 정보</th>
-						<th>*높이</th>
-						<th colspan="2"><input type="number" id="pop_height" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4">px</th>
+						<th rowspan="4" th:text="#{notice.popUpNoticeSettingsInfo}"></th>
+						<th th:text="#{notice.height}"></th>
+						<th colspan="2"><input type="number" id="popHeight" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4">px</th>
 					</tr>
 					<tr>
-						<th>*넓이</th>
-						<td colspan="2"><input type="number" id="pop_width" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4">px</td>
+						<th th:text="#{notice.width}"></th>
+						<td colspan="2"><input type="number" id="popWidth" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4">px</td>
 					</tr>
 					<tr>
-						<th>*시작일</th>
+						<th th:text="#{notice.strtDt}"></th>
 						<td colspan="2">
 							<div class="container">
 								<div class="row">
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
-												<input type="text" id="pop_strt_dt" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal">
+												<input type="text" id="popStrtDt" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal">
 												<div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -83,14 +83,14 @@
 						</td>
 					</tr>
 					<tr>
-						<th>*종료일</th>
+						<th th:text="#{notice.endDt}"></th>
 						<td colspan="2">
 							<div class="container">
 								<div class="row">
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="popEndDtCal" data-target-input="nearest">
-												<input type="text" id="pop_end_dt" th:value="${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
+												<input type="text" id="popEndDt" th:value="${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
 												<div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -106,18 +106,18 @@
 				</table>
 			</div>
 
-			<div id="top_notice_tab">
+			<div id="topNoticeTab">
 				<table class="table" border="1">
 					<tr>
-						<th rowspan="4">상단 공지 설정 정보</th>
-						<th>*시작일</th>
+						<th rowspan="4" th:text="#{notice.topNoticeSettingsInfo}"></th>
+						<th th:text="#{notice.strtDt}"></th>
 						<td colspan="2">
 							<div class="container">
 								<div class="row">
 									<div class="col-sm-6">
 										<div class="form-group">
 											<div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
-												<input type="text" id="top_notice_strt_dt" th:value="${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
+												<input type="text" id="topNoticeStrtDt" th:value="${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
 												<div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -131,7 +131,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th>*종료일</th>
+						<th th:text="#{notice.endDt}"></th>
 						<td colspan="2">
 							<div class="container">
 								<div class="row">
@@ -139,7 +139,7 @@
 										<div class="form-group">
 											<div class="input-group date" id="topNoticeEndDtCal"
 												data-target-input="nearest">
-												<input type="text" id="top_notice_end_dt" th:value="${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
+												<input type="text" id="topNoticeEndDt" th:value="${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
 												<div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
 													<div class="input-group-text">
 														<i class="fa fa-calendar"></i>
@@ -155,9 +155,9 @@
 				</table>
 			</div>
 			<div style="float: right;">
-				<button type="button" onclick="location.href='/notices/list'">목록</button>
-				<button th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/notices}]])">등록</button>
-				<button th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])">수정 완료</button>
+				<button type="button" onclick="location.href='/notices/list'" th:text="#{notice.list}"></button>
+				<button th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/notices}]])" th:text="#{notice.regist}"></button>
+				<button th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.modifyCompleted}"></button>
 			</div>
 		</form>
 	</div>
@@ -169,25 +169,25 @@
     window.onload = function() {
         if(/*[[${notice.noticeNo}]]*/ != null) {
             if(document.getElementsByName('popYn')[0].value == 'true') {
-                document.getElementById('pop_radio_bt_up').checked = true;
-                document.getElementById('pop_tab').style.display = '';
+                document.getElementById('popRadioBtUp').checked = true;
+                document.getElementById('popTab').style.display = '';
             } else {
-                document.getElementById('pop_radio_bt_down').checked = true;
-                document.getElementById('pop_width').value = '';
-                document.getElementById('pop_height').value = '';
-                document.getElementById('pop_strt_dt').value = '';
-                document.getElementById('pop_end_dt').value = '';
-                document.getElementById('pop_tab').style.display = 'none';
+                document.getElementById('popRadioBtDown').checked = true;
+                document.getElementById('popWidth').value = '';
+                document.getElementById('popHeight').value = '';
+                document.getElementById('popStrtDt').value = '';
+                document.getElementById('popEndDt').value = '';
+                document.getElementById('popTab').style.display = 'none';
             }
             
             if(document.getElementsByName('topNoticeYn')[0].value == 'true') {
-                document.getElementById('top_radio_bt_up').checked = true;
-                document.getElementById('top_notice_tab').style.display = '';
+                document.getElementById('topRadioBtUp').checked = true;
+                document.getElementById('topNoticeTab').style.display = '';
             } else {
-                document.getElementById('top_radio_bt_down').checked = true;
-                document.getElementById('top_notice_strt_dt').value = '';
-                document.getElementById('top_notice_end_dt').value = '';
-                document.getElementById('top_notice_tab').style.display = 'none';
+                document.getElementById('topRadioBtDown').checked = true;
+                document.getElementById('topNoticeStrtDt').value = '';
+                document.getElementById('topNoticeEndDt').value = '';
+                document.getElementById('topNoticeTab').style.display = 'none';
             }    
         }
 	}
@@ -196,26 +196,26 @@
 		 param3.value = param2
 		 
 		 if(param2 == true) {
-			 if(param == "pop_tab") {
-				 document.getElementById('pop_width').value = /*[[${notice.popWidth} ? ${notice.popWidth} : 500]]*/;
-				 document.getElementById('pop_height').value = /*[[${notice.popHeight} ? ${notice.popHeight} : 500]]*/;
-				 document.getElementById('pop_strt_dt').value = /*[[${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
-				 document.getElementById('pop_end_dt').value = /*[[${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
-			 } else if (param == "top_notice_tab") {
-				 document.getElementById('top_notice_strt_dt').value = /*[[${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
-				 document.getElementById('top_notice_end_dt').value = /*[[${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
+			 if(param == "popTab") {
+				 document.getElementById('popWidth').value = /*[[${notice.popWidth} ? ${notice.popWidth} : 500]]*/;
+				 document.getElementById('popHeight').value = /*[[${notice.popHeight} ? ${notice.popHeight} : 500]]*/;
+				 document.getElementById('popStrtDt').value = /*[[${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
+				 document.getElementById('popEndDt').value = /*[[${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
+			 } else if (param == "topNoticeTab") {
+				 document.getElementById('topNoticeStrtDt').value = /*[[${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
+				 document.getElementById('topNoticeEndDt').value = /*[[${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
 			 }
 			  document.getElementById(param).style.display = '';
 		 } else {
-			 if(param == "pop_tab") {
-	             document.getElementById('pop_width').value = '';
-	             document.getElementById('pop_height').value = '';
-	             document.getElementById('pop_strt_dt').value = '';
-	             document.getElementById('pop_end_dt').value = '';
+			 if(param == "popTab") {
+	             document.getElementById('popWidth').value = '';
+	             document.getElementById('popHeight').value = '';
+	             document.getElementById('popStrtDt').value = '';
+	             document.getElementById('popEndDt').value = '';
 	             document.getElementsByName('popYn')[0].value = false;
-			 } else if(param == "top_notice_tab") {
-				 document.getElementById('top_notice_strt_dt').value = '';
-				 document.getElementById('top_notice_end_dt').value = '';
+			 } else if(param == "topNoticeTab") {
+				 document.getElementById('topNoticeStrtDt').value = '';
+				 document.getElementById('topNoticeEndDt').value = '';
 				 document.getElementsByName('topNoticeYn')[0].value = false;
 			 }
 			 document.getElementById(param).style.display = 'none';
@@ -242,24 +242,24 @@
 
 	// validation check
 	function validation() { 
-		 if(document.getElementById('notice_title').value == ''){alert("제목을 입력하세요."); return false;} 
-	     if(document.getElementById('notice_contents').value == ''){alert("내용을 입력하세요."); return false;}
-	     if(document.getElementById('create_userid').value == ''){alert("작성자를 입력하세요."); return false;} 
+		 if(document.getElementById('noticeTitle').value == ''){alert("제목을 입력하세요."); return false;} 
+	     if(document.getElementById('noticeContents').value == ''){alert("내용을 입력하세요."); return false;}
+	     if(document.getElementById('createUserid').value == ''){alert("작성자를 입력하세요."); return false;} 
 		 
-		 if(document.getElementById('pop_radio_bt_up').checked){
-	     if(document.getElementById('pop_height').value == ''){alert("높이를 입력하세요."); return false;}
-	     if(document.getElementById('pop_height').value > 1000 || document.getElementById('pop_height').value < 500 ){alert("높이는 500px부터 1000px 사이의 값만 입력 가능합니다."); return false;}
-	     if(document.getElementById('pop_width').value == ''){alert("넓이를 입력하세요"); return false;}
-	     if(document.getElementById('pop_width').value > 1000 || document.getElementById('pop_width').value < 500 ){alert("넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."); return false;}
-	     if(document.getElementById('pop_strt_dt').value == ''){alert("팝업 시작일을 입력하세요."); return false;}
-	     if(document.getElementById('pop_end_dt').value == ''){alert("팝업 종료일을 입력하세요."); return false;} 
-		 if((document.getElementById('pop_strt_dt').value > document.getElementById('pop_end_dt').value) || (document.getElementById('pop_strt_dt').value == document.getElementById('pop_end_dt').value)){alert("팝업 알림 시작일이 종료일보다 크거나 같습니다."); return false;}
+		 if(document.getElementById('popRadioBtUp').checked){
+	     if(document.getElementById('popHeight').value == ''){alert("높이를 입력하세요."); return false;}
+	     if(document.getElementById('popHeight').value > 1000 || document.getElementById('popHeight').value < 500 ){alert("높이는 500px부터 1000px 사이의 값만 입력 가능합니다."); return false;}
+	     if(document.getElementById('popWidth').value == ''){alert("넓이를 입력하세요"); return false;}
+	     if(document.getElementById('popWidth').value > 1000 || document.getElementById('popWidth').value < 500 ){alert("넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."); return false;}
+	     if(document.getElementById('popStrtDt').value == ''){alert("팝업 시작일을 입력하세요."); return false;}
+	     if(document.getElementById('popEndDt').value == ''){alert("팝업 종료일을 입력하세요."); return false;} 
+		 if((document.getElementById('popStrtDt').value > document.getElementById('popEndDt').value) || (document.getElementById('popStrtDt').value == document.getElementById('popEndDt').value)){alert("팝업 알림 시작일이 종료일보다 크거나 같습니다."); return false;}
 		 }
 		 
-		 if(document.getElementById('top_radio_bt_up').checked){
-		 if(document.getElementById('top_notice_strt_dt').value == ''){alert("상단 공지 시작일을 입력하세요."); return false;}
-		 if(document.getElementById('top_notice_end_dt').value == ''){alert('상단 공지 종료일을 입력하세요.'); return false;}
-		 if((document.getElementById('top_notice_strt_dt').value > document.getElementById('top_notice_end_dt').value) || (document.getElementById('top_notice_strt_dt').value == document.getElementById('top_notice_end_dt').value)){alert("상단 공지 시작일이 종료일보다 크거나 같습니다."); return false;}
+		 if(document.getElementById('topRadioBtUp').checked){
+		 if(document.getElementById('topNoticeStrtDt').value == ''){alert("상단 공지 시작일을 입력하세요."); return false;}
+		 if(document.getElementById('topNoticeEndDt').value == ''){alert('상단 공지 종료일을 입력하세요.'); return false;}
+		 if((document.getElementById('topNoticeStrtDt').value > document.getElementById('topNoticeEndDt').value) || (document.getElementById('topNoticeStrtDt').value == document.getElementById('topNoticeEndDt').value)){alert("상단 공지 시작일이 종료일보다 크거나 같습니다."); return false;}
 		 }
 	}
 	/* ]]> */
@@ -274,18 +274,18 @@
 		}
 		
 		var jsonData = JSON.stringify({
-			noticeTitle : document.getElementById('notice_title').value,
-			noticeContents : document.getElementById('notice_contents').value,
+			noticeTitle : document.getElementById('noticeTitle').value,
+			noticeContents : document.getElementById('noticeContents').value,
 			popYn : document.getElementsByName('popYn')[0].value,
-			popStrtDt : document.getElementById('pop_strt_dt').value,
-			popEndDt : document.getElementById('pop_end_dt').value,
-			popWidth : document.getElementById('pop_width').value,
-			popHeight : document.getElementById('pop_height').value,
+			popStrtDt : document.getElementById('popStrtDt').value,
+			popEndDt : document.getElementById('popEndDt').value,
+			popWidth : document.getElementById('popWidth').value,
+			popHeight : document.getElementById('popHeight').value,
 			topNoticeYn : document.getElementsByName('topNoticeYn')[0].value,
-			topNoticeStrtDt: document.getElementById('top_notice_strt_dt').value,
-			topNoticeEndDt : document.getElementById('top_notice_end_dt').value,
-			createDt : document.getElementById('create_dt').value,
-			createUserid : document.getElementById('create_userid').value
+			topNoticeStrtDt: document.getElementById('topNoticeStrtDt').value,
+			topNoticeEndDt : document.getElementById('topNoticeEndDt').value,
+			createDt : document.getElementById('createDt').value,
+			createUserid : document.getElementById('createUserid').value
 		});
 		
 	    var xmlhttp = createXmlHttpRequestObject(method, url, async);
@@ -318,18 +318,18 @@
 		
 		var jsonData = JSON.stringify({
 			noticeNo : noticeNo,
-		    noticeTitle : document.getElementById('notice_title').value,
-            noticeContents : document.getElementById('notice_contents').value,
+		    noticeTitle : document.getElementById('noticeTitle').value,
+            noticeContents : document.getElementById('noticeContents').value,
             popYn : document.getElementsByName('popYn')[0].value,
-            popStrtDt : document.getElementById('pop_strt_dt').value,
-            popEndDt : document.getElementById('pop_end_dt').value,
-            popWidth : document.getElementById('pop_width').value,
-            popHeight : document.getElementById('pop_height').value,
+            popStrtDt : document.getElementById('popStrtDt').value,
+            popEndDt : document.getElementById('popEndDt').value,
+            popWidth : document.getElementById('popWidth').value,
+            popHeight : document.getElementById('popHeight').value,
             topNoticeYn : document.getElementsByName('topNoticeYn')[0].value,
-            topNoticeStrtDt: document.getElementById('top_notice_strt_dt').value,
-            topNoticeEndDt : document.getElementById('top_notice_end_dt').value,
-            createDt : document.getElementById('create_dt').value,
-            createUserid : document.getElementById('create_userid').value
+            topNoticeStrtDt: document.getElementById('topNoticeStrtDt').value,
+            topNoticeEndDt : document.getElementById('topNoticeEndDt').value,
+            createDt : document.getElementById('createDt').value,
+            createUserid : document.getElementById('createUserid').value
 		});
 		
 		var xmlhttp = createXmlHttpRequestObject(method, url, async);
