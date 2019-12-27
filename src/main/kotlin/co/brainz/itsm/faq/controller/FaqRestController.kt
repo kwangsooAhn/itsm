@@ -1,51 +1,71 @@
 package co.brainz.itsm.faq.controller
 
-
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.ModelAttribute
-import javax.servlet.http.HttpServletRequest
-import org.springframework.web.servlet.ModelAndView
-import org.springframework.ui.Model
-import co.brainz.itsm.faq.service.FaqService
-import org.springframework.beans.factory.annotation.Autowired
 import co.brainz.itsm.faq.entity.FaqEntity
+import co.brainz.itsm.faq.service.FaqService
+import javax.servlet.http.HttpServletRequest
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
+/**
+ * ### FAQ 관련 데이터 조회 처리용 클래스.
+ *
+ * FaqRestController는 REST API형식의 호출을 처리한다.
+ *
+ * @author Jung heechan
+ * @see co.brainz.itsm.faq.controller.FaqController
+ */
 @RestController
-@RequestMapping("faqs")
-class FaqRestController {
+@RequestMapping("rest/faqs")
+class FaqRestController(private val faqService: FaqService) {
 
-    private val logger = LoggerFactory.getLogger(FaqRestController::class.java)
-    
-    @Autowired
-    lateinit var faqService: FaqService
-       
-    @RequestMapping(path = ["/",""], method = [RequestMethod.GET])
+    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+
+    /**
+     * FAQ 리스트 데이터 조회
+     */
+    @GetMapping("/", "")
     fun getFaqs(request: HttpServletRequest): List<FaqEntity> {
         return faqService.findAll()
     }
-        
-    @RequestMapping(path = ["/",""], method = [RequestMethod.POST])
-    fun insertFaq(request: HttpServletRequest, @RequestParam("faqGroup") faqGroupParam: String, faq: FaqEntity) {
-        faqService.save(faq)
-    }
-        
-    @RequestMapping(path = ["/{faqId}"], method = [RequestMethod.GET])
+
+    /**
+     * FAQ 1건 상세 조회
+     */
+    @GetMapping("/{faqId}")
     fun getFaq(request: HttpServletRequest, @PathVariable faqId: String): FaqEntity {
         return faqService.findOne(faqId)
     }
-        
-    @RequestMapping(path = ["/{faqId}"], method = [RequestMethod.PUT])
+
+    /**
+     * 신규 FAQ 등록 처리
+     */
+    @PostMapping("/", "")
+    fun insertFaq(request: HttpServletRequest, @RequestParam("faqGroup") faqGroupParam: String, faq: FaqEntity) {
+        faqService.save(faq)
+    }
+
+    /**
+     * FAQ 수정 처리
+     */
+    @PutMapping("/{faqId}")
     fun updateFaq(request: HttpServletRequest, @ModelAttribute faq: FaqEntity) {
         faqService.save(faq)
     }
-	
-    @RequestMapping(path = ["/{faqId}"], method = [RequestMethod.DELETE])
+
+    /**
+     * FAQ 삭제 처리
+     */
+    @DeleteMapping("/{faqId}")
     fun deleteFaq(request: HttpServletRequest, @PathVariable faqId: String) {
         faqService.delete(faqId)
-    }        
+    }
 }
