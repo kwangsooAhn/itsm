@@ -1,8 +1,10 @@
 package co.brainz.itsm.certification.controller
 
 import co.brainz.itsm.certification.OAuthDto
-import co.brainz.itsm.certification.ServiceTypeEnum
-import co.brainz.itsm.certification.serivce.*
+import co.brainz.itsm.certification.PlatformEnum
+import co.brainz.itsm.certification.service.OAuthService
+import co.brainz.itsm.certification.service.OAuthServiceGoogle
+import co.brainz.itsm.certification.service.OAuthServiceKakao
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -18,46 +20,50 @@ import javax.servlet.http.HttpServletResponse
 @RequestMapping("/oauth")
 class OAuthController(private val oAuthService: OAuthService,
                       private val oAuthServiceGoogle: OAuthServiceGoogle,
-                      private val oAuthServiceFacebook: OAuthServiceFacebook) {
+                      private val oAuthServiceKakao: OAuthServiceKakao) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @RequestMapping("/{service}/login")
-    fun oauthLogin(request: HttpServletRequest, response: HttpServletResponse, @PathVariable service: String) {
+    @RequestMapping("/{platform}/login")
+    fun oAuthLogin(request: HttpServletRequest, response: HttpServletResponse, @PathVariable platform: String) {
 
-        var serviceUrl: String = "redirect:/"
-        when (service) {
-            ServiceTypeEnum.GOOGLE.value -> {
-                serviceUrl = oAuthServiceGoogle.serviceUrl()
+        var platformUrl: String = "redirect:/"
+        when (platform) {
+            PlatformEnum.GOOGLE.value -> {
+                platformUrl = oAuthServiceGoogle.platformUrl()
             }
-            ServiceTypeEnum.FACEBOOK.value -> {
-                //TODO: facebook
-                serviceUrl = oAuthServiceFacebook.serviceUrl()
+            PlatformEnum.KAKAO.value -> {
+                platformUrl = oAuthServiceKakao.platformUrl()
             }
 
         }
-        response.sendRedirect(serviceUrl)
+        response.sendRedirect(platformUrl)
     }
 
-    @GetMapping("/{service}/callback")
-    fun callback(request: HttpServletRequest, @RequestParam(value="code") code: String, @PathVariable service: String, model: Model): String {
+    @GetMapping("/{platform}/callback")
+    fun callback(request: HttpServletRequest, @RequestParam(value="code") code: String, @PathVariable platform: String, model: Model): String {
 
         var oAuthDto = OAuthDto()
-        when (service) {
-            ServiceTypeEnum.GOOGLE.value -> {
+        when (platform) {
+            PlatformEnum.GOOGLE.value -> {
                 val parameters: MultiValueMap<String, String> = oAuthServiceGoogle.setParameters(code)
-                oAuthDto = oAuthServiceGoogle.callback(parameters, service)
+                oAuthDto = oAuthServiceGoogle.callback(parameters, PlatformEnum.GOOGLE.code)
             }
-            ServiceTypeEnum.FACEBOOK.value -> {
-                //TODO: facebook
+            PlatformEnum.KAKAO.value -> {
+                val error = request.getParameter("error")
+                when (request.getParameter("error")) {
+                    null -> {
+                        val parameters: MultiValueMap<String, String> = oAuthServiceKakao.setParameters(code)
+                        oAuthDto = oAuthServiceKakao.callback(parameters, PlatformEnum.KAKAO.code)
+                    }
+                    else -> logger.error(error)
+                }
             }
         }
-
-        when (oAuthDto.email.isNotEmpty()) {
+        when (oAuthDto.userid.isNotEmpty()) {
             true -> oAuthService.callbackUrl(oAuthDto)
-            false -> logger.error("oAuth email is not exists.")
+            false -> logger.error("oAuth account is not exists.")
         }
-
         return "redirect:/"
     }
 }

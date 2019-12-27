@@ -1,6 +1,6 @@
 package co.brainz.itsm.certification.repository
 
-import co.brainz.itsm.certification.serivce.OAuthServiceGoogle
+import co.brainz.itsm.certification.service.OAuthServiceGoogle
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
 import org.assertj.core.api.Assertions.assertThat
@@ -33,7 +33,7 @@ class OAuthTest {
 
     @Test
     fun requestValid() {
-        val serviceUrl = URLDecoder.decode(oAuthServiceGoogle.serviceUrl(), charset("UTF-8"))
+        val serviceUrl = URLDecoder.decode(oAuthServiceGoogle.platformUrl(), charset("UTF-8"))
         val googleLoginApiUrl = "https://accounts.google.com/o/oauth2/auth"
         val serviceUrlPath = serviceUrl.substring(0, serviceUrl.indexOf("?"))
         assertThat(googleLoginApiUrl).isEqualTo(serviceUrlPath)

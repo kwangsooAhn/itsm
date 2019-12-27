@@ -18,8 +18,8 @@ interface UserRepository: JpaRepository<UserEntity, String>, JpaSpecificationExe
     fun findByUserId(userId: String): UserEntity
 
     /**
-     * 사용자 EMAIL로 해당 사용자 정보를 조회한다.
+     * 사용자 ID, 플랫폼로 해당 사용자 정보를 조회한다.
      */
-    fun findByEmail(email: String): Optional<UserEntity>
+    fun findByUserIdAndPlatform(userId: String, platform: String): Optional<UserEntity>
 
 }

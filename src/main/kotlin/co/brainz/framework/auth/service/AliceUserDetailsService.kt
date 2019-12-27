@@ -21,8 +21,8 @@ class AliceUserDetailsService(private var aliceUserRepository: AliceUserReposito
     }
 
     @Throws(EmptyResultDataAccessException::class)
-    fun loadUserByEmail(userId: String): AliceUserEntity {
-        return aliceUserRepository.findByEmail(userId)
+    fun loadUserByUserIdAndPlatform(userId: String, platform: String): AliceUserEntity {
+        return aliceUserRepository.findByUserIdAndPlatform(userId, platform)
     }
 
 }

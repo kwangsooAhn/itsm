@@ -1,4 +1,4 @@
-package co.brainz.itsm.certification.serivce
+package co.brainz.itsm.certification.service
 
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
@@ -176,7 +176,7 @@ public open class CertificationService(private val certificationRepository: Cert
             UserStatus.SIGNUP.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
-                        val certificationDto: CertificationDto = CertificationDto(userDto.userId, userDto.email, "", UserStatus.CERTIFIED.code)
+                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserStatus.CERTIFIED.code)
                         updateUser(certificationDto)
                         UserStatus.CERTIFIED.value
                     }

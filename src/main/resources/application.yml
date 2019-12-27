@@ -41,9 +41,16 @@ spring:
             client:
                 clientId: 216233964755-978chebr937c9838ulkc4sf5v5bld3vi.apps.googleusercontent.com
                 clientSecret: cbCc3PJBWlq57GuXt3rGI_8Y
-                scope: profile email
+                scope: profile email openid
                 redirectUri: http://localhost:80/oauth/google/callback
                 accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+        kakao:
+            client:
+                clientId: c361c9b6d39521005fdbacb496f181b7
+                authorizeUri: https://kauth.kakao.com/oauth/authorize
+                redirectUri: http://localhost:80/oauth/kakao/callback
+                accessTokenUri: https://kauth.kakao.com/oauth/token
+                profileUri: https://kapi.kakao.com/v2/user/me
 server: 
     port: 80
     protocol: http

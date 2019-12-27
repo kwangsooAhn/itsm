@@ -35,10 +35,10 @@ class UserService {
     }
 
     /**
-     * 사용자 EMAIL로 해당 정보를 조회한다.
+     * 사용자 ID, 플랫폼으로 해당 정보를 조회한다.
      */
-    fun selectByEmail(email: String): Optional<UserEntity> {
-        return userRepository.findByEmail(email)
+    fun selectByUserIdAndPlatform(userId: String, platform: String): Optional<UserEntity> {
+        return userRepository.findByUserIdAndPlatform(userId, platform)
     }
 
     /**

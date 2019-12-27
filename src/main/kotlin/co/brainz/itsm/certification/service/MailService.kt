@@ -1,4 +1,4 @@
-package co.brainz.itsm.certification.serivce
+package co.brainz.itsm.certification.service
 
 import co.brainz.itsm.certification.MailDto
 import org.springframework.mail.javamail.JavaMailSender

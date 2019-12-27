@@ -3,7 +3,7 @@ package co.brainz.itsm.certification.controller
 
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.certification.UserStatus
-import co.brainz.itsm.certification.serivce.CertificationService
+import co.brainz.itsm.certification.service.CertificationService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

@@ -1,7 +1,7 @@
 package co.brainz.itsm.user
 
+import co.brainz.itsm.certification.PlatformEnum
 import co.brainz.itsm.role.RoleEntity
-import co.brainz.itsm.certification.ServiceTypeEnum
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -23,7 +23,7 @@ data class UserEntity(
         var updateUserid: String? = null,
         var status: String?,
         var certificationCode: String? = null,
-        var serviceType: String? = ServiceTypeEnum.ALICE.code,
+        var platform: String? = PlatformEnum.ALICE.code,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var expiredDt: LocalDateTime? = null,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDt: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDt: LocalDateTime? = null,
