@@ -1,6 +1,7 @@
 package co.brainz.itsm.certification.controller
 
 import co.brainz.itsm.certification.OAuthDto
+import co.brainz.itsm.certification.ServiceTypeEnum
 import co.brainz.itsm.certification.serivce.*
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -26,13 +27,14 @@ class OAuthController(private val oAuthService: OAuthService,
 
         var serviceUrl: String = "redirect:/"
         when (service) {
-            "google" -> {
+            ServiceTypeEnum.GOOGLE.value -> {
                 serviceUrl = oAuthServiceGoogle.serviceUrl()
             }
-            "facebook" -> {
+            ServiceTypeEnum.FACEBOOK.value -> {
                 //TODO: facebook
                 serviceUrl = oAuthServiceFacebook.serviceUrl()
             }
+
         }
         response.sendRedirect(serviceUrl)
     }
