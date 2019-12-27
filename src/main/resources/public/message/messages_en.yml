@@ -49,3 +49,14 @@ user:
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
+
+# FAQ
+faq:
+  add: "Add"
+  list: "List"
+  save: "Save"
+  delete: "Delete"
+  group: "Group"
+  title: "Title"
+  contents: "Contents"
+  edit: "Edit"
