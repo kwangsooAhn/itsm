@@ -44,11 +44,11 @@ class OAuthController(private val oAuthService: OAuthService,
 
         var oAuthDto = OAuthDto()
         when (service) {
-            "google" -> {
+            ServiceTypeEnum.GOOGLE.value -> {
                 val parameters: MultiValueMap<String, String> = oAuthServiceGoogle.setParameters(code)
                 oAuthDto = oAuthServiceGoogle.callback(parameters, service)
             }
-            "facebook" -> {
+            ServiceTypeEnum.FACEBOOK.value -> {
                 //TODO: facebook
             }
         }
