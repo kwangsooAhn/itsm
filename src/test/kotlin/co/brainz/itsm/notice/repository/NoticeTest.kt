@@ -33,8 +33,8 @@ class NoticeTest() {
     fun save() {
         var inputDate = LocalDateTime.now()
         var entity = NoticeEntity(
-            noticeTitle = "테스트 123",
-            noticeContents =  "테스트 내용",
+            noticeTitle = "Demo Data",
+            noticeContents =  "Demo Data",
             popYn = true,
             popStrtDt = inputDate,
             popEndDt = inputDate,
@@ -43,7 +43,7 @@ class NoticeTest() {
             topNoticeYn = true,
             topNoticeStrtDt = inputDate,
             topNoticeEndDt = inputDate,
-            createUserid = "testUser",
+            createUserid = "Demo Data",
             createDt = inputDate,
             updateUserid = null,
             updateDt = null
