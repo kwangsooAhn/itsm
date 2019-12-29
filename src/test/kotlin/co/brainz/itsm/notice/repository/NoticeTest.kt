@@ -27,37 +27,47 @@ class NoticeTest() {
     @Autowired
     lateinit var noticeService: NoticeService
     
+    lateinit var savedEntity : NoticeEntity
+    
     @Before
-    fun before() {
-        println("before")
-    }
-
-    @Test
     fun save() {
         var inputDate = LocalDateTime.now()
-        noticeRepository.save(
-            NoticeEntity(
-                noticeNo = 'test'
-                noticeTitle = "테스트 123",
-                noticeContents =  "테스트 내용",
-                popYn = true,
-                popStrtDt = inputDate,
-                popEndDt = inputDate,
-                popWidth = 500,
-                popHeight = 500,
-                topNoticeYn = true,
-                topNoticeStrtDt = inputDate,
-                topNoticeEndDt = inputDate,
-                createUserid = "testUser",
-                createDt = inputDate,
-                updateUserid = null,
-                updateDt = null
-            )
+        var entity = NoticeEntity(
+            noticeTitle = "테스트 123",
+            noticeContents =  "테스트 내용",
+            popYn = true,
+            popStrtDt = inputDate,
+            popEndDt = inputDate,
+            popWidth = 500,
+            popHeight = 500,
+            topNoticeYn = true,
+            topNoticeStrtDt = inputDate,
+            topNoticeEndDt = inputDate,
+            createUserid = "testUser",
+            createDt = inputDate,
+            updateUserid = null,
+            updateDt = null
         )
+       
+        savedEntity = noticeRepository.save(entity)
+      
+    }
+    
+    @Test
+    fun findNoticeByNoticeNo() {
+        var id  = savedEntity.noticeNo
+        if(id != null) {
+            var data =  noticeService.findNoticeByNoticeNo(id)
+            Assert.assertNotNull(data)
+        }
+      
     }
     
     @After
-    fun after() {
-/*        noticeRepository.deleteById('')*/
+    fun deleteById() {
+        var id  = savedEntity.noticeNo
+        if(id != null) {
+        noticeRepository.deleteById(id)
+        }
     } 
 }
