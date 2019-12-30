@@ -36,9 +36,32 @@ spring:
                 smtp.auth: true
                 smtp.starttls.enable: true
         titleName: Alice
+    oauth:
+        google:
+            client:
+                clientId: 216233964755-978chebr937c9838ulkc4sf5v5bld3vi.apps.googleusercontent.com
+                clientSecret: cbCc3PJBWlq57GuXt3rGI_8Y
+                scope: profile email openid
+                redirectUri: https://localhost/oauth/google/callback
+                accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+        kakao:
+            client:
+                clientId: c361c9b6d39521005fdbacb496f181b7
+                authorizeUri: https://kauth.kakao.com/oauth/authorize
+                redirectUri: https://localhost/oauth/kakao/callback
+                accessTokenUri: https://kauth.kakao.com/oauth/token
+                profileUri: https://kapi.kakao.com/v2/user/me
 server: 
-    port: 80
-    protocol: http
+    port: 443
+    protocol: https
+    ssl:
+     enabled: true
+     key-store: classpath:public\key\itsm.jks
+     key-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==) #itsm123
+     key-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
+     key-alias: itsm
+     trust-store: classpath:public\key\itsm.ts
+     trust-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\
     

@@ -31,6 +31,7 @@ data class AliceUserEntity(
         val createDt: LocalDateTime?,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val updateDt: LocalDateTime?,
+        val platform: String = "",
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awfUserRoleMap",

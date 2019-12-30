@@ -51,3 +51,14 @@ user:
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
+
+# FAQ
+faq:
+  add: "추가"
+  list: "목록"
+  save: "저장"
+  delete: "삭제"
+  group: "그룹"
+  title: "제목"
+  contents: "내용"
+  edit: "수정"
