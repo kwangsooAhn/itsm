@@ -48,6 +48,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
     implementation("org.apache.logging.log4j:log4j-web:2.7")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2")
     implementation("commons-codec:commons-codec:1.13")
