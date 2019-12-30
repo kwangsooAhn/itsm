@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
  * 사용자 관리 데이터 처리 클래스
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/rest/users")
 class UserRestController(private var userService: UserService) {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 

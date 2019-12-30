@@ -1,23 +1,18 @@
 package co.brainz.itsm.user
 
+import co.brainz.itsm.role.RoleRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import co.brainz.itsm.role.RoleRepository
 
 /**
  * 사용자 관리 서비스
  */
 @Service
-class UserService {
+class UserService(private val userRepository: UserRepository, private val roleRepository: RoleRepository) {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    @Autowired
-    lateinit var userRepository: UserRepository
-    @Autowired
-    lateinit var roleRepository: RoleRepository
 
     /**
      * 사용자 목록을 조회한다.
