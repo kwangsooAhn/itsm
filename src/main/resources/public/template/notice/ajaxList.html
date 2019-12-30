@@ -31,15 +31,15 @@
                         <td th:if="${topNotice.popYn} == true "><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif"></a></td>
                         <td th:unless="${topNotice.popYn} == true "></td>
                         <td th:text="${topNotice.createUserid}"></td>
-                        <td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
+                        <td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd HH:mm')} : ${topNotice.createDt}"></td>
                     </tr>
-                    <tr th:each="notice : ${noticeList}">
+                    <tr th:each="notice : ${noticeList}" th:if="${notice.topNoticeYn} ==  false">
                         <td id="topNoticeYn"></td>
                         <td style = "text-align:left"><a href="/notices/notice?id=" th:attrappend="href=${notice.noticeNo}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
                         <td th:if="${notice.popYn} == true "><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>
                         <td th:unless="${notice.popYn} == true "></td>
                         <td id="createUserid" th:text="${notice.createUserid}"></td>
-                        <td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
+                        <td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm')} : ${notice.createDt}"></td>
                     </tr>
                 </tbody>
             </table>

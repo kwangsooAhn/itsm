@@ -3,7 +3,6 @@ package co.brainz.itsm.notice.controller
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
 import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.PathVariable
 import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.notice.entity.NoticeEntity
@@ -16,38 +15,37 @@ import org.springframework.web.bind.annotation.GetMapping
 
 @RestController
 @RequestMapping("/notices")
-class NoticeRestController(private val noticeRepository : NoticeRepository, private val noticeService : NoticeService) {
+class NoticeRestController(private val noticeRepository: NoticeRepository, private val noticeService: NoticeService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-	//Notice insert
+    //Notice insert
     @PostMapping("/", "")
-	fun insertNotice(@RequestBody  notice: NoticeEntity){
-		noticeRepository.save(notice)
-	}
-	
-	//Notice update
+    fun insertNotice(@RequestBody notice: NoticeEntity) {
+        noticeRepository.save(notice)
+    }
+    
+    //Notice update
     @PutMapping("/{id}")
-	fun updateNotice(@RequestBody notice:NoticeEntity){
-		noticeRepository.save(notice)
-	}
+    fun updateNotice(@RequestBody notice: NoticeEntity) {
+        noticeRepository.save(notice)
+    }
 
-	//Notice delete
-    @PostMapping("/{id}")
-	fun deleteNotice(@PathVariable id: String) {
-		noticeRepository.deleteById(id)
-	}
-	
-	//공지사항 세부 조회
+    //Notice delete
+    @DeleteMapping("/{id}")
+    fun deleteNotice(@PathVariable id: String) {
+        noticeRepository.deleteById(id)
+    }
+    
+    //공지사항 세부 조회
     @GetMapping("/{id}")
-	fun getNotice(@PathVariable id : String): NoticeEntity {
-		return noticeService.findNoticeByNoticeNo(id)		
-	}
-	
-	//공지사항 리스트 데이터 조회
+    fun getNotice(@PathVariable id: String): NoticeEntity {
+        return noticeService.findNoticeByNoticeNo(id)        
+    }
+    
+    //공지사항 리스트 데이터 조회
     @GetMapping("/", "")
     fun getNoticeList(): List<NoticeEntity> {
-		return noticeService.findNoticeList()
-	}
-
+        return noticeService.findNoticeList()
+    }
 }

@@ -13,28 +13,27 @@ import com.fasterxml.jackson.annotation.JsonFormat
 
 @Entity
 @Table(name = "portal_notice")
-public data class NoticeEntity(
+data class NoticeEntity(
     @Id @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid") @Column(name="notice_no") var noticeNo: String? = null,
-	@Column(name="notice_title") var noticeTitle: String? = null,
-	@Column(name="notice_contents") var noticeContents: String? = null,
-	@Column(name="pop_yn") var popYn: Boolean? = null,
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	@Column(name="pop_strt_dt") var popStrtDt: LocalDateTime? = null,
+    @Column(name="notice_title") var noticeTitle: String? = null,
+    @Column(name="notice_contents") var noticeContents: String? = null,
+    @Column(name="pop_yn") var popYn: Boolean? = true   ,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	@Column(name="pop_end_dt") var popEndDt: LocalDateTime? = null,
-	@Column(name="pop_width") var popWidth: Int? = null,
-	@Column(name="pop_height") var popHeight: Int? = null,
-	@Column(name="top_notice_yn") var topNoticeYn: Boolean? = null,
+    @Column(name="pop_strt_dt") var popStrtDt: LocalDateTime? = null,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	@Column(name="top_notice_strt_dt") var topNoticeStrtDt: LocalDateTime? = null,
+    @Column(name="pop_end_dt") var popEndDt: LocalDateTime? = null,
+    @Column(name="pop_width") var popWidth: Int? = 500,
+    @Column(name="pop_height") var popHeight: Int? = 500,
+    @Column(name="top_notice_yn") var topNoticeYn: Boolean? = true,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	@Column(name="top_notice_end_dt") var topNoticeEndDt: LocalDateTime? = null,
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	@Column(name="create_dt") var createDt: LocalDateTime? = null,
-	@Column(name="create_userid") var createUserid: String? = null,
-	@Column(name="update_dt") var updateDt: LocalDateTime? = null,
-	@Column(name="update_userid") var updateUserid: String? = null
-
+    @Column(name="top_notice_strt_dt") var topNoticeStrtDt: LocalDateTime? = null,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @Column(name="top_notice_end_dt") var topNoticeEndDt: LocalDateTime? = null,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @Column(name="create_dt") var createDt: LocalDateTime? = null,
+    @Column(name="create_userid") var createUserid: String? = null,
+    @Column(name="update_dt") var updateDt: LocalDateTime? = null,
+    @Column(name="update_userid") var updateUserid: String? = null
 ) : Serializable {
 }
