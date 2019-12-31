@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<table class="table table-hover" style="text-align: center">
+  <colgroup>
+    <col width="30%">
+    <col width="70%">
+  </colgroup>
+  <thead>
+    <tr>
+      <th th:text="#{faq.group}">그룹</th>
+      <th th:text="#{faq.title}">제목</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="faqs">
+    <tr th:each="faq : ${faqs}">
+      <td th:text="${faq.faqGroup}"></td>
+      <td><a th:href="@{/faqs/{id}/view(id=${faq.faqId})}" th:text="${faq.faqTitle}"></a></td>
+      <td><a th:href="@{/faqs/{id}/edit(id=${faq.faqId})}" th:text="#{faq.edit}">편집</a></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

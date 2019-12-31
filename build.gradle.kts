@@ -18,7 +18,7 @@ group = "co.brainz"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
-val developmentOnly: Configuration by configurations.creating
+val developmentOnly by configurations.creating
 configurations {
     runtimeClasspath {
         extendsFrom(developmentOnly)
@@ -54,6 +54,7 @@ dependencies {
     implementation("org.apache.tika:tika-core:1.22")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+    implementation("org.springframework.social:spring-social-google:latest.integration")
 }
 
 // KTLINT
@@ -93,23 +94,23 @@ tasks.jacocoTestReport {
 
 // DETEKT
 detekt {
-    toolVersion = "1.1.1"
-    input = files(
+    toolVersion = "1.1.1"                             
+    input = files(                                    
         "src/main/kotlin",
         "src/test/kotlin"
     )
-    parallel = false
-    buildUponDefaultConfig = false
-    disableDefaultRuleSets = false
-    debug = false
-    ignoreFailures = true
+    parallel = false                                  
+    buildUponDefaultConfig = false                    
+    disableDefaultRuleSets = false                    
+    debug = false                                     
+    ignoreFailures = true                            
     reports {
         xml {
-            enabled = true
+            enabled = true                            
             destination = file("$buildDir/reports/detekt/detekt.xml")
         }
         html {
-            enabled = true
+            enabled = true                                
             destination = file("$buildDir/reports/detekt/detekt.html")
         }
     }
@@ -124,7 +125,7 @@ tasks.dokka {
 val dokkaJar by tasks.creating(Jar::class) {
     group = JavaBasePlugin.DOCUMENTATION_GROUP
     description = "Assembles Kotlin docs with Dokka"
-    archiveClassifier.set("javadoc")
+    classifier = "javadoc"
     from(tasks.dokka)
 }
 

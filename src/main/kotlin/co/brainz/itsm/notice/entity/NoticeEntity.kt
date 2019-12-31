@@ -11,6 +11,8 @@ import java.time.LocalDateTime
 import org.hibernate.annotations.GenericGenerator
 import com.fasterxml.jackson.annotation.JsonFormat
 
+
+
 @Entity
 @Table(name = "portal_notice")
 data class NoticeEntity(
@@ -18,7 +20,7 @@ data class NoticeEntity(
     @GenericGenerator(name="system-uuid", strategy = "uuid") @Column(name="notice_no") var noticeNo: String? = null,
     @Column(name="notice_title") var noticeTitle: String? = null,
     @Column(name="notice_contents") var noticeContents: String? = null,
-    @Column(name="pop_yn") var popYn: Boolean? = true   ,
+    @Column(name="pop_yn") var popYn: Boolean? = true,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @Column(name="pop_strt_dt") var popStrtDt: LocalDateTime? = null,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")

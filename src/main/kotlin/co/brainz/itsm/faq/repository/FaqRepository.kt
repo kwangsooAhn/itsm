@@ -1,13 +1,13 @@
 package co.brainz.itsm.faq.repository
 
-import org.springframework.stereotype.Repository
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Query
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor
-import java.time.LocalDateTime
 import co.brainz.itsm.faq.entity.FaqEntity
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
+/**
+ * ### FAQ용 Repository 클래스.
+ *
+ * @author Jung heechan
+ */
 @Repository
-public interface FaqRepository : JpaRepository<FaqEntity, String> {
-
-}
+public interface FaqRepository : JpaRepository<FaqEntity, String>

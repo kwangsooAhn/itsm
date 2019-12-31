@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<script src="../../assets/js/withoutJquery.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div id="faqList">
+    </div>
+    <div class="button">
+      <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+window.onload = function() {
+  loadXMLDoc();
+}
+    
+function loadXMLDoc() {
+  var xmlhttp = createXmlHttpRequestObject("GET", "/faqs/list");
+
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+      if (xmlhttp.status == 200) {
+        document.getElementById("faqList").innerHTML = xmlhttp.responseText;
+      } else if (xmlhttp.status == 400) {
+          alert('There was an error 400');
+      } else {
+          alert('something else other than 200 was returned');
+      }
+    }
+  };
+  xmlhttp.send();
+}
+</script>
+</html>

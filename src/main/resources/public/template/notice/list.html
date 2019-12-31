@@ -7,11 +7,9 @@
 <!-- jQuery -->
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
 <script src="../../assets/js/withoutJquery.js"></script>
-<!-- dateTimePicker -->
-<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/moment.js"></script>
-<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
+<script type="text/javascript" src="../../assets/vendors/window-date-picker/js/window-date-picker.js"></script>
+<link rel="stylesheet" th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" />
+<script src="../../assets/js/datetimePicker.js"></script>
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <title>Insert title here</title>
 </head>
@@ -24,37 +22,9 @@
                 <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
                 <input type="checkbox" id="createUserid" name="createUserid" value="check" th:text="#{notice.user}"/>
                 <input type="text" name="keyWord" id="keyWord">
+                <input type="text" id="fromDt" name="fromDt" th:value="${#httpServletRequest.getParameter('fromDt')!=null?#httpServletRequest.getParameter('fromDt'):#dates.format(#dates.createNow(),'dd-MM-yyyy HH:mm')}" />
+                <input type="text" id="toDt" name="toDt" th:value="${#httpServletRequest.getParameter('toDt')!=null?#httpServletRequest.getParameter('toDt'):#temporals.format(addCurrentDate, 'dd-MM-yyyy')}" />
                 
-                <!-- calendar -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="input-group date" id="fromDtCal" data-target-input="nearest">
-                                    <input type="text" id = "fromDt" name = "fromDt" th:value = "${#httpServletRequest.getParameter('fromDt')!=null?#httpServletRequest.getParameter('fromDt'):#dates.format(#dates.createNow(),'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#fromDtCal"/>
-                                    <div class="input-group-append" data-target="#fromDtCal" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="input-group date" id="toDtCal" data-target-input="nearest">
-                                    <input type="text" id = "toDt" name = "toDt" th:value = "${#httpServletRequest.getParameter('toDt')!=null?#httpServletRequest.getParameter('toDt'):#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#toDtCal"/>
-                                    <div class="input-group-append" data-target="#toDtCal" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- submit -->
                 <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/ajaxList', true, true)" th:text="#{notice.search}"></button>
             </div>
@@ -66,7 +36,12 @@
     <script th:inline="javascript">
         window.onload = function() {
             restSubmit('get', '/notices/ajaxList', true, false);
-        }    
+        }
+        
+        // initialization date picker
+        dateTimePicker.initDateTimePicker('from_date');
+        dateTimePicker.initDatePicker('to_date');
+        
 
         //calendar 설정 함수
         $(function () {

@@ -12,7 +12,9 @@ enum class DefaultRole(val code: String) {
 }
 
 enum class SignUpStatus(val code: String) {
+    STATUS_VALID_SUCCESS("-1"),
     STATUS_SUCCESS("0"),
     STATUS_ERROR_USER_ID_DUPLICATION("1"),
-    STATUS_ERROR("2")
+    STATUS_ERROR("2"),
+    STATUS_ERROR_EMAIL_DUPLICATION("3")
 }

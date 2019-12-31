@@ -11,5 +11,5 @@ data class CodeEntity(
         @Id
         val code: String,
         val pCode: String,
-        val value: String? = null
+        val codeValue: String? = null
 ) : Serializable
