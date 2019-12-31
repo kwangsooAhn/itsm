@@ -1,24 +1,25 @@
 package co.brainz.itsm.notice.controller  
 
-import co.brainz.itsm.notice.service.NoticeService
+import co.brainz.itsm.certification.UserStatus
 import co.brainz.itsm.notice.entity.NoticeEntity
+import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.utility.ConvertParam
+import co.brainz.itsm.user.UserEntity
+import co.brainz.itsm.user.UserService
+import java.time.LocalDateTime
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
-import java.time.LocalDateTime
-import javax.servlet.http.HttpServletRequest
 import org.springframework.web.bind.annotation.GetMapping
-import co.brainz.itsm.user.UserService
 import org.springframework.security.core.context.SecurityContextHolder
-import co.brainz.itsm.user.UserEntity
-import co.brainz.itsm.certification.UserStatus
-
 
 @Controller
-class NoticeController(private val noticeService: NoticeService, private val convertParam: ConvertParam, private val userService: UserService) {
+class NoticeController(private val userService: UserService,
+                              private val noticeService: NoticeService,
+                              private val convertParam: ConvertParam) {
     
     private val logger = LoggerFactory.getLogger(this::class.java)
      val day : Long = 1
@@ -31,13 +32,13 @@ class NoticeController(private val noticeService: NoticeService, private val con
     }
 
     @GetMapping("/notices/ajaxList")
-    public fun getNoticeSearchList(request: HttpServletRequest, model: Model): String {
+    fun getNoticeSearchList(request: HttpServletRequest, model: Model): String {
         val isNoticeTitle = request.getParameter("noticeTitle")!!.toBoolean()
         val isCreateUserid = request.getParameter("createUserid")!!.toBoolean()
         val keyWord = request.getParameter("keyWord")
         var noticeList = emptyList<NoticeEntity>()
-        var fromDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDt"), "fromDt")
-        var toDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDt"), "toDt")
+        val fromDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDt"), "fromDt")
+        val toDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDt"), "toDt")
         
         when (isNoticeTitle && isCreateUserid) {
             true -> {
@@ -88,8 +89,8 @@ class NoticeController(private val noticeService: NoticeService, private val con
 
         val isValue = value!!.toBoolean()
         
-        if (isValue == true) {
-        model.addAttribute("isPopUp", "true")
+        if (isValue) {
+            model.addAttribute("isPopUp", "true")
         }
  
         model.addAttribute("noticePopUp", noticeService.findNoticeByNoticeNo(id))

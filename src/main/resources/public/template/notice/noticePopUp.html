@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
     <div class="container">
@@ -36,13 +35,17 @@
 
     //create cookie
     function setCookie(name, value, expiredays) {
+    	//todo 기간변수
+    	var msOfDay = 86400000;
+    	var addMilliSecond = 54000000;
     	var todayDate = new Date();
-    	todayDate = new Date(parseInt(todayDate.getTime() / 86400000) * 86400000 + 54000000); 
-    	if (todayDate > new Date()) {
+    	targetDate = new Date(parseInt(todayDate.getTime() / msOfDay) * msOfDay + addMilliSecond);
+
+    	if (targetDate > new Date()) {
     		expiredays = expiredays - 1;
     	}
-    	todayDate.setDate(todayDate.getDate() + expiredays);
-    	document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    	targetDate.setDate(targetDate.getDate() + expiredays);
+    	document.cookie = name + "=" + escape(value) + "; path=/; expires=" + targetDate.toGMTString() + ";"
     }
 </script>
 </body>

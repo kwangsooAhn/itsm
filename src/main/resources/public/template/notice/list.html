@@ -11,7 +11,6 @@
 <link rel="stylesheet" th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" />
 <script src="../../assets/js/datetimePicker.js"></script>
 <meta name="_csrf" th:content="${_csrf.token}"/>
-<title>Insert title here</title>
 </head>
 <body>
     <br />
@@ -38,17 +37,30 @@
         restSubmit('get', '/notices/ajaxList', true, false);
     }
         
-    // initialization date picker       // initialization date picker
-    dateTimePicker.initDateTimePicker('fromDt');
-    dateTimePicker.initDatePicker('toDt');
+    // initialization date picker 
+    // dateTimePicker.initDatePicker('fromDt');
+    // dateTimePicker.initDatePicker('toDt');
 
     function validation() {
         var checkValue = document.getElementById('noticeTitle').checked == false && document.getElementById('createUserid').checked == false
 
-        if (checkValue == true) {alert('검색 조건을 선택해 주세요.'); return false;}
-        if (document.getElementById('fromDt').value == '') {alert('검색 시작 날짜를 입력해주세요'); return false;}
-        if (document.getElementById('toDt').value == '') {alert('검색 종료 날짜를 입력해주세요.'); return false;}
-        if (document.getElementById('fromDt').value > document.getElementById('toDt').value) {alert("검색 시작 날짜가 종료 날짜보다 큽니다."); return false;}
+        if (checkValue) {
+        	alert('검색 조건을 선택해 주세요.');
+        	return false;
+        }
+        if (document.getElementById('fromDt').value == '') {
+        	alert('검색 시작 날짜를 입력해주세요'); 
+        	return false;
+        }
+        if (document.getElementById('toDt').value == '') {
+        	alert('검색 종료 날짜를 입력해주세요.');
+        	return false;
+        }
+        if (document.getElementById('fromDt').value > document.getElementById('toDt').value) {
+        	alert("검색 시작 날짜가 종료 날짜보다 큽니다.");
+        	return false;
+        }
+        return true;
     }
 
     //list 팝업 생성
@@ -60,22 +72,22 @@
 
     function restSubmit(method, url, async, validate) {
 
-        if (validate == true) {
-            if (validation() == false) {
+        if (validate) {
+            if (!validation()) {
                 return false;
             }
         }
 
         var data = {
-            noticeTitle : document.getElementById('noticeTitle').checked,
-            createUserid : document.getElementById('createUserid').checked,
-            keyWord : document.getElementById('keyWord').value,
-            fromDt : document.getElementById('fromDt').value,
-            toDt : document.getElementById('toDt').value
+            noticeTitle: document.getElementById('noticeTitle').checked,
+            createUserid: document.getElementById('createUserid').checked,
+            keyWord: document.getElementById('keyWord').value,
+            fromDt: document.getElementById('fromDt').value,
+            toDt: document.getElementById('toDt').value
         };
 
         var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserid="+data.createUserid+"&keyWord="+data.keyWord+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
-        var xmlhttp  = createXmlHttpRequestObject(method, getUrl, async);
+        var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                 if (xmlhttp.status == 200) {

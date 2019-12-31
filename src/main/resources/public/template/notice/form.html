@@ -13,25 +13,25 @@
 <script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
-<title>Insert title here</title>
 </head>
 <body>
     <div class="container">
         <br />
         <form id="frm" method="post">
             <input id=createDt name="createDt" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
+            <input id=createUserid name="createUserid" type="hidden" th:value="${notice.createUserid != null} ? ${notice.createUserid} : ${userName}"/>
             <table class="table" border="1">
                 <tr>
                     <th th:text="#{notice.title}"></th>
-                    <td colspan="3"><input id="noticeTitle" name="noticeTitle" type="text" th:value="${notice?.noticeTitle}" maxlength = "500"/></td>
+                    <td colspan="3"><input id="noticeTitle" name="noticeTitle" type="text" th:value="${notice?.noticeTitle}" maxlength="128"/></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.contents}"></th>
-                    <td colspan="3" style="text-align: center;"><textarea id="noticeContents" name="noticeContents" maxlength="5000" rows="7" style="width: 750px; resize: none;" th:text="${notice?.noticeContents}"></textarea></td>
+                    <td colspan="3" style="text-align: center;"><textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7" style="width: 750px; resize: none;" th:text="${notice?.noticeContents}"></textarea></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.user}"></th>
-                    <td colspan="3"><input id=createUserid name="createUserid" type="text" th:value="${notice.createUserid != null} ? ${notice.createUserid} : ${userName}" maxlength = "20" readonly/></td>
+                    <td colspan="3"><span th:text="${userName}"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.popUpNoticeSettings}"></th>
@@ -161,8 +161,6 @@
             </div>
         </form>
     </div>
-
-
 <script th:inline="javascript">
 /*<![CDATA[ */        
     window.onload = function() {
@@ -191,33 +189,33 @@
         }
     }
 
-     function setDisplay(param, param2) {     
-         if (param2 == true) {
-             if (param == "popTab") {
+     function setDisplay(name, condition) {     
+         if (condition) {
+             if (name == "popTab") {
                  document.getElementById('popWidth').value = /*[[${notice.popWidth} ? ${notice.popWidth} : 500]]*/;
                  document.getElementById('popHeight').value = /*[[${notice.popHeight} ? ${notice.popHeight} : 500]]*/;
                  document.getElementById('popStrtDt').value = /*[[${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
                  document.getElementById('popEndDt').value = /*[[${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
                  document.getElementsByName('popYn')[0].value = true;
-             } else if (param == "topNoticeTab") {
+             } else if (name == "topNoticeTab") {
                  document.getElementById('topNoticeStrtDt').value = /*[[${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
                  document.getElementById('topNoticeEndDt').value = /*[[${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
                  document.getElementsByName('topNoticeYn')[0].value = true;
              }
-              document.getElementById(param).style.display = '';
-         } else if (param2 == false) {
-             if (param == "popTab") {
+              document.getElementById(name).style.display = '';
+         } else {
+             if (name == "popTab") {
                  document.getElementById('popWidth').value = '';
                  document.getElementById('popHeight').value = '';
                  document.getElementById('popStrtDt').value = '';
                  document.getElementById('popEndDt').value = '';
                  document.getElementsByName('popYn')[0].value = false;
-             } else if (param == "topNoticeTab") {
+             } else if (name == "topNoticeTab") {
                  document.getElementById('topNoticeStrtDt').value = '';
                  document.getElementById('topNoticeEndDt').value = '';
                  document.getElementsByName('topNoticeYn')[0].value = false;
              }
-             document.getElementById(param).style.display = 'none';
+             document.getElementById(name).style.display = 'none';
          }
      }
     //calendar 설정 함수
@@ -241,25 +239,65 @@
 
     // validation check
     function validation() { 
-         if (document.getElementById('noticeTitle').value == '') {alert("제목을 입력하세요."); return false;} 
-         if (document.getElementById('noticeContents').value == '') {alert("내용을 입력하세요."); return false;}
-         if (document.getElementById('createUserid').value == '') {alert("작성자를 입력하세요."); return false;} 
+         if (document.getElementById('noticeTitle').value == '') {
+        	 alert("제목을 입력하세요."); 
+        	 return false;
+         } 
+         if (document.getElementById('noticeContents').value == '') {
+        	 alert("내용을 입력하세요.");
+        	 return false;
+         }
+         if (document.getElementById('createUserid').value == '') {
+        	 alert("작성자를 입력하세요.");
+        	 return false;
+         } 
          
          if (document.getElementById('popRadioBtUp').checked) {
-         if (document.getElementById('popHeight').value == '') {alert("높이를 입력하세요."); return false;}
-         if (document.getElementById('popHeight').value > 1000 || document.getElementById('popHeight').value < 500 ) {alert("높이는 500px부터 1000px 사이의 값만 입력 가능합니다."); return false;}
-         if (document.getElementById('popWidth').value == '') {alert("넓이를 입력하세요"); return false;}
-         if (document.getElementById('popWidth').value > 1000 || document.getElementById('popWidth').value < 500 ) {alert("넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."); return false;}
-         if (document.getElementById('popStrtDt').value == '') {alert("팝업 시작일을 입력하세요."); return false;}
-         if (document.getElementById('popEndDt').value == '') {alert("팝업 종료일을 입력하세요."); return false;} 
-         if ((document.getElementById('popStrtDt').value > document.getElementById('popEndDt').value) || (document.getElementById('popStrtDt').value == document.getElementById('popEndDt').value)) {alert("팝업 알림 시작일이 종료일보다 크거나 같습니다."); return false;}
+             if (document.getElementById('popHeight').value == '') {
+            	 alert("높이를 입력하세요.");
+            	 return false;
+             }
+             if (document.getElementById('popHeight').value > 1000 || document.getElementById('popHeight').value < 500 ) {
+            	 alert("높이는 500px부터 1000px 사이의 값만 입력 가능합니다.");
+            	 return false;
+             }
+             if (document.getElementById('popWidth').value == '') {
+            	 alert("넓이를 입력하세요");
+            	 return false;
+             }
+             if (document.getElementById('popWidth').value > 1000 || document.getElementById('popWidth').value < 500 ) {
+            	 alert("넓이는 500px부터 1000px 사이의 값만 입력 가능합니다.");
+            	 return false;
+             }
+             if (document.getElementById('popStrtDt').value == '') {
+            	 alert("팝업 시작일을 입력하세요.");
+            	 return false;
+             }
+             if (document.getElementById('popEndDt').value == '') {
+            	 alert("팝업 종료일을 입력하세요.");
+            	 return false;
+             } 
+             if ((document.getElementById('popStrtDt').value > document.getElementById('popEndDt').value) || (document.getElementById('popStrtDt').value == document.getElementById('popEndDt').value)) {
+            	 alert("팝업 알림 시작일이 종료일보다 크거나 같습니다.");
+            	 return false;
+             }
          }
          
          if (document.getElementById('topRadioBtUp').checked) {
-         if (document.getElementById('topNoticeStrtDt').value == '') {alert("상단 공지 시작일을 입력하세요."); return false;}
-         if (document.getElementById('topNoticeEndDt').value == '') {alert('상단 공지 종료일을 입력하세요.'); return false;}
-         if ((document.getElementById('topNoticeStrtDt').value > document.getElementById('topNoticeEndDt').value) || (document.getElementById('topNoticeStrtDt').value == document.getElementById('topNoticeEndDt').value)) {alert("상단 공지 시작일이 종료일보다 크거나 같습니다."); return false;}
+             if (document.getElementById('topNoticeStrtDt').value == '') {
+            	 alert("상단 공지 시작일을 입력하세요."); 
+            	 return false;
+             }
+             if (document.getElementById('topNoticeEndDt').value == '') {
+            	 alert('상단 공지 종료일을 입력하세요.'); 
+            	 return false;
+             }
+             if ((document.getElementById('topNoticeStrtDt').value > document.getElementById('topNoticeEndDt').value) || (document.getElementById('topNoticeStrtDt').value == document.getElementById('topNoticeEndDt').value)) {
+            	 alert("상단 공지 시작일이 종료일보다 크거나 같습니다.");
+            	 return false;
+             }
          }
+         return true;
     }
     
     function maxLengthCheck(object) {
@@ -273,23 +311,23 @@
 <script th:inline="javascript" th:if="!${notice?.noticeNo}">
 /*<![CDATA[ */  
     function restSubmit(method, url, async) {
-        if (validation() == false) {
+        if (!validation()) {
             return false;
         }
         
         var jsonData = JSON.stringify({
-            noticeTitle : document.getElementById('noticeTitle').value,
-            noticeContents : document.getElementById('noticeContents').value,
-            popYn : document.getElementsByName('popYn')[0].value,
-            popStrtDt : document.getElementById('popStrtDt').value,
-            popEndDt : document.getElementById('popEndDt').value,
-            popWidth : document.getElementById('popWidth').value,
-            popHeight : document.getElementById('popHeight').value,
-            topNoticeYn : document.getElementsByName('topNoticeYn')[0].value,
+            noticeTitle: document.getElementById('noticeTitle').value,
+            noticeContents: document.getElementById('noticeContents').value,
+            popYn: document.getElementsByName('popYn')[0].value,
+            popStrtDt: document.getElementById('popStrtDt').value,
+            popEndDt: document.getElementById('popEndDt').value,
+            popWidth: document.getElementById('popWidth').value,
+            popHeight: document.getElementById('popHeight').value,
+            topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
             topNoticeStrtDt: document.getElementById('topNoticeStrtDt').value,
-            topNoticeEndDt : document.getElementById('topNoticeEndDt').value,
-            createDt : document.getElementById('createDt').value,
-            createUserid : document.getElementById('createUserid').value
+            topNoticeEndDt: document.getElementById('topNoticeEndDt').value,
+            createDt: document.getElementById('createDt').value,
+            createUserid: document.getElementById('createUserid').value
         });
         
         var xmlhttp = createXmlHttpRequestObject(method, url, async);
@@ -316,24 +354,24 @@
     function restSubmit(method, url, async) {
         var noticeNo = /*[[${notice.noticeNo}]]*/;
         
-        if (validation() == false) {
+        if (!validation()) {
             return false;
         }
         
         var jsonData = JSON.stringify({
-            noticeNo : noticeNo,
-            noticeTitle : document.getElementById('noticeTitle').value,
-            noticeContents : document.getElementById('noticeContents').value,
-            popYn : document.getElementsByName('popYn')[0].value,
-            popStrtDt : document.getElementById('popStrtDt').value,
-            popEndDt : document.getElementById('popEndDt').value,
-            popWidth : document.getElementById('popWidth').value,
-            popHeight : document.getElementById('popHeight').value,
-            topNoticeYn : document.getElementsByName('topNoticeYn')[0].value,
+            noticeNo: noticeNo,
+            noticeTitle: document.getElementById('noticeTitle').value,
+            noticeContents: document.getElementById('noticeContents').value,
+            popYn: document.getElementsByName('popYn')[0].value,
+            popStrtDt: document.getElementById('popStrtDt').value,
+            popEndDt: document.getElementById('popEndDt').value,
+            popWidth: document.getElementById('popWidth').value,
+            popHeight: document.getElementById('popHeight').value,
+            topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
             topNoticeStrtDt: document.getElementById('topNoticeStrtDt').value,
-            topNoticeEndDt : document.getElementById('topNoticeEndDt').value,
-            createDt : document.getElementById('createDt').value,
-            createUserid : document.getElementById('createUserid').value
+            topNoticeEndDt: document.getElementById('topNoticeEndDt').value,
+            createDt: document.getElementById('createDt').value,
+            createUserid: document.getElementById('createUserid').value
         });
         
         var xmlhttp = createXmlHttpRequestObject(method, url, async);

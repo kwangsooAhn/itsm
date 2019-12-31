@@ -1,13 +1,13 @@
 package co.brainz.itsm.notice.service
 
+import co.brainz.itsm.notice.entity.NoticeEntity
+import co.brainz.itsm.notice.repository.NoticeRepository
+import java.time.LocalDateTime
 import org.springframework.stereotype.Service
 import org.slf4j.LoggerFactory
-import co.brainz.itsm.notice.repository.NoticeRepository
-import co.brainz.itsm.notice.entity.NoticeEntity
-import java.time.LocalDateTime
 
 @Service
-open class NoticeService(private val noticeRepository: NoticeRepository) {
+class NoticeService(private val noticeRepository: NoticeRepository) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 

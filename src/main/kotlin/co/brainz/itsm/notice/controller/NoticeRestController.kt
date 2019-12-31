@@ -1,21 +1,22 @@
 package co.brainz.itsm.notice.controller
 
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.RequestMapping
-import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.PathVariable
-import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.notice.entity.NoticeEntity
-import org.springframework.web.bind.annotation.RequestBody
+import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.notice.service.NoticeService
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestBody
 
 @RestController
 @RequestMapping("/notices")
-class NoticeRestController(private val noticeRepository: NoticeRepository, private val noticeService: NoticeService) {
+class NoticeRestController(private val noticeRepository: NoticeRepository,
+                                   private val noticeService: NoticeService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 

@@ -1,11 +1,10 @@
 package co.brainz.itsm.notice.repository
 
-import org.springframework.stereotype.Repository
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Query
 import co.brainz.itsm.notice.entity.NoticeEntity
 import java.time.LocalDateTime
-
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
 
 @Repository
 interface NoticeRepository: JpaRepository<NoticeEntity, String> {
