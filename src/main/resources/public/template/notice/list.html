@@ -20,7 +20,7 @@
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
                 <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
                 <input type="checkbox" id="createUserid" name="createUserid" value="check" th:text="#{notice.user}"/>
-                <input type="text" name="keyWord" id="keyWord">
+                <input type="text" name="keyWord" id="keyWord" />
                 <input type="text" id="fromDt" name="fromDt" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}" />
                 <input type="text" id="toDt" name="toDt" th:value="${#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" />
 
@@ -42,17 +42,15 @@
     // dateTimePicker.initDatePicker('toDt');
 
     function validation() {
-        var checkValue = document.getElementById('noticeTitle').checked == false && document.getElementById('createUserid').checked == false
-
-        if (checkValue) {
+        if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserid').checked) {
         	alert('검색 조건을 선택해 주세요.');
         	return false;
         }
-        if (document.getElementById('fromDt').value == '') {
+        if (document.getElementById('fromDt').value === '') {
         	alert('검색 시작 날짜를 입력해주세요'); 
         	return false;
         }
-        if (document.getElementById('toDt').value == '') {
+        if (document.getElementById('toDt').value === '') {
         	alert('검색 종료 날짜를 입력해주세요.');
         	return false;
         }
@@ -65,13 +63,11 @@
 
     //list 팝업 생성
     function openPopUp(id) {
-        var targetId = id;
-        var targetUrl = "noticePopUp/" + targetId + "?value=true";
-        window.open(targetUrl, targetId, "width = 500, height = 500");
+        var targetUrl = "noticePopUp/" + id + "?value=true";
+        window.open(targetUrl, id, "width = 500, height = 500");
     }
 
     function restSubmit(method, url, async, validate) {
-
         if (validate) {
             if (!validation()) {
                 return false;

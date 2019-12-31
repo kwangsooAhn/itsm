@@ -5,7 +5,6 @@ import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GenerationType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
@@ -35,5 +34,4 @@ data class NoticeEntity(
     @Column(name="create_userid") var createUserid: String? = null,
     @Column(name="update_dt") var updateDt: LocalDateTime? = null,
     @Column(name="update_userid") var updateUserid: String? = null
-) : Serializable {
-}
+) : Serializable

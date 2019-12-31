@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody
 @RestController
 @RequestMapping("/notices")
 class NoticeRestController(private val noticeRepository: NoticeRepository,
-                                   private val noticeService: NoticeService) {
+                           private val noticeService: NoticeService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 

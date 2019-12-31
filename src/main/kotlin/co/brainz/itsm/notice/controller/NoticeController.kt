@@ -1,6 +1,7 @@
 package co.brainz.itsm.notice.controller  
 
 import co.brainz.itsm.certification.UserStatus
+import co.brainz.itsm.common.Constants
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.utility.ConvertParam
@@ -18,16 +19,15 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 @Controller
 class NoticeController(private val userService: UserService,
-                              private val noticeService: NoticeService,
-                              private val convertParam: ConvertParam) {
+                       private val noticeService: NoticeService,
+                       private val convertParam: ConvertParam) {
     
     private val logger = LoggerFactory.getLogger(this::class.java)
-     val day : Long = 1
 
     @GetMapping("notices/list")
     fun getNoticeList(request: HttpServletRequest, model: Model) : String {
         model.addAttribute("currentDate", LocalDateTime.now())
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(day))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
         return "notice/list"
     }
 
@@ -57,7 +57,7 @@ class NoticeController(private val userService: UserService,
             }
         }
 
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(day))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
         model.addAttribute("noticeList", noticeList)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
         return "notice/ajaxList"
@@ -77,7 +77,7 @@ class NoticeController(private val userService: UserService,
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: UserEntity = userService.selectUser(userId)
  
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(day))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
         model.addAttribute("notice", noticeService.findNoticeByNoticeNo(id))
         model.addAttribute("userName", userDto.userName)
         return "notice/form"
@@ -87,12 +87,10 @@ class NoticeController(private val userService: UserService,
     @GetMapping("/notices/noticePopUp/{id}")
     fun getNoticePopUp(@PathVariable id: String, @RequestParam(required=false) value: String?, model: Model): String {
 
-        val isValue = value!!.toBoolean()
-        
-        if (isValue) {
+        if (value!!.toBoolean()) {
             model.addAttribute("isPopUp", "true")
         }
- 
+
         model.addAttribute("noticePopUp", noticeService.findNoticeByNoticeNo(id))
         return "notice/noticePopUp"
     }

@@ -8,21 +8,21 @@
         <table class="table" border="1">
             <tr>
                 <th th:text="#{notice.title}"></th>
-                <td colspan="3"><span th:text="${noticePopUp.noticeTitle}"></span></td>
+                <td colspan="3" th:text="${noticePopUp.noticeTitle}"></td>
             </tr>
             <tr>
                 <th th:text="#{notice.contents}"></th>
-                <td colspan="3" style="text-align: center;"><textarea maxlength="140" rows="10" style="width: 750px; resize: none;" th:text="${noticePopUp.noticeContents}" readonly="readonly"></textarea></td>
+                <td colspan="3" th:text="${noticePopUp.noticeContents}"></td>
             </tr>
             <tr>
                 <th th:text="#{notice.user}"></th>
-                <td colspan="3"><span th:text="${noticePopUp.createUserid}" /></span></td>
+                <td colspan="3" th:text="${noticePopUp.createUserid}"></td>
             </tr>
         </table>
     </div>
     
     <div align="right" th:if="!${isPopUp}">
-        <input type="checkbox" name="close" value="OK" onclick="closePop(1);">오늘 하루 이창을 열지 않음
+        <input type="checkbox" name="close" value="OK" onclick="closePop(1);" />오늘 하루 이창을 열지 않음
     </div>
     
 <script th:inline="javascript">
@@ -39,7 +39,7 @@
     	var msOfDay = 86400000;
     	var addMilliSecond = 54000000;
     	var todayDate = new Date();
-    	targetDate = new Date(parseInt(todayDate.getTime() / msOfDay) * msOfDay + addMilliSecond);
+    	var targetDate = new Date(parseInt(todayDate.getTime() / msOfDay) * msOfDay + addMilliSecond);
 
     	if (targetDate > new Date()) {
     		expiredays = expiredays - 1;
