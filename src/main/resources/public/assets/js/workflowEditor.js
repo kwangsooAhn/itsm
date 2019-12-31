@@ -36,7 +36,7 @@
         getBoundingBoxCenter: function(selection) {
             const element = selection.node();
             const bbox = element.getBBox();
-            return {x: bbox.x + bbox.width / 2, y: bbox.y + bbox.height / 2, width: bbox.width, height: bbox.height};
+            return {x: bbox.x, y: bbox.y, cx: bbox.x + bbox.width / 2, cy: bbox.y + bbox.height / 2, width: bbox.width, height: bbox.height};
         }
     }
 
@@ -188,19 +188,28 @@
             const targetBBox = utils.getBoundingBoxCenter(d.target);
             const sourceBBox = utils.getBoundingBoxCenter(d.source);
 
-            const deltaX = targetBBox.x - sourceBBox.x;
-            const deltaY = targetBBox.y - sourceBBox.y;
-            const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            const normX = deltaX / dist;
-            const normY = deltaY / dist;
-            const sourcePadding = sourceBBox.width / 2;
-            const targetPadding = targetBBox.width / 2;
-            const sourceX = sourceBBox.x + (sourcePadding * normX);
-            const sourceY = sourceBBox.y + (sourcePadding * normY);
-            const targetX = targetBBox.x - (targetPadding * normX);
-            const targetY = targetBBox.y - (targetPadding * normY);
+            let min = Number.MAX_SAFE_INTEGER;
+            let best = {};
+            [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
+                [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]].forEach(s =>
+                [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
+                    [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]].forEach(d => {
+                    let dist = Math.hypot(
+                        (targetBBox.x + d[0]) - (sourceBBox.x + s[0]),
+                        (targetBBox.y + d[1]) - (sourceBBox.y + s[1])
+                    );
+                    if (dist < min) {
+                        min = dist;
+                        best = {
+                            s: { x: sourceBBox.x + s[0], y: sourceBBox.y + s[1] },
+                            d: { x: targetBBox.x + d[0], y: targetBBox.y + d[1] }
+                        };
+                    }
+                })
+            );
 
-            return `M${sourceX},${sourceY}L${targetX},${targetY}`;
+            let lineFunction = d3.line().x(d => d.x).y(d => d.y).curve(d3.curveLinear);
+            return lineFunction([best.s, best.d]);
         });
     }
 
@@ -236,7 +245,7 @@
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
-                    .attr('d', `M${bbox.x},${bbox.y}L${bbox.x},${bbox.y}`);
+                    .attr('d', `M${bbox.cx},${bbox.cy}L${bbox.cx},${bbox.cy}`);
 
                 setConnectors();
             } else {
@@ -604,7 +613,7 @@
 
                 if (d3.event.ctrlKey) {
                     const bbox = utils.getBoundingBoxCenter(mousedownNode);
-                    dragLine.attr('d', `M${bbox.x},${bbox.y}L${d3.mouse(this)[0]},${d3.mouse(this)[1]}`);
+                    dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.mouse(this)[0]},${d3.mouse(this)[1]}`);
                 } else {
                     if (mouseupNode && selectedNode) {
                         svg.selectAll('.menu').remove();
@@ -627,8 +636,8 @@
             .attr('id', 'end-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 6)
-            .attr('markerWidth', 3)
-            .attr('markerHeight', 3)
+            .attr('markerWidth', 5)
+            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('svg:path')
             .attr('d', 'M0,-5L10,0L0,5')
@@ -638,8 +647,8 @@
             .attr('id', 'start-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 4)
-            .attr('markerWidth', 3)
-            .attr('markerHeight', 3)
+            .attr('markerWidth', 5)
+            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('svg:path')
             .attr('d', 'M10,-5L0,0L10,5')
