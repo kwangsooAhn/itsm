@@ -11,14 +11,14 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import javax.servlet.http.HttpServletRequest
 
-
 /**
  * 로그인 처리 클래스
  */
 @Controller
 class AliceLoginController(private val userDetailsService: AliceUserDetailsService) {
 
-    val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val initPage: String = "/document/documentSearch" 
 
     /**
      * 로그인 페이지로 이동한다.
@@ -47,7 +47,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
             aliceUserEntity = userDetailsService.loadUserByUsername(securityContext.authentication.principal.toString())
             logger.debug("login info {}", aliceUserEntity)
             request.removeAttribute(AliceConstants.RsaKey.USE_RSA.value)
-            page = "redirect:"
+            page = "redirect:" + initPage
         }
 
         return page
