@@ -110,6 +110,30 @@
     }
 
     /**
+     * 해당 element의 properties를 표시한다.
+     *
+     * @param node 선택된 element
+     */
+    function setProperties(node) {
+        const propertiesContainer = d3.select('.properties-menu');
+        propertiesContainer.selectAll('*').remove();
+        if (typeof node !== 'undefined') { // show element properties
+            propertiesContainer.append('h3').text('Element Properties');
+            for (let i = 0; i < 10; i++) {
+                let propertyContainer = propertiesContainer.append('p');
+                let label = propertyContainer.append('label');
+                label.attr('for', 'attr_' + i);
+                label.text('속성 ' + (i + 1));
+                let input = propertyContainer.append('input');
+                input.attr('id','attr_' + (i + 1));
+                input.attr('value','property value ' + (i + 1));
+            }
+        } else { // show workflow properties
+            propertiesContainer.append('h3').text('Workflow Properties');
+        }
+    }
+
+    /**
      * 선택된 element 를 해제한다.
      */
     function removeNodeSelected() {
@@ -230,6 +254,7 @@
                     }
                 }
                 setMenuItem(node);
+                setProperties(node);
             }
             d3.event.preventDefault();
         },
@@ -280,6 +305,8 @@
         const self = this;
         self.width = 80;
         self.height = 50;
+        x = x - (self.width / 2);
+        y = y - (self.height / 2);
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
         self.nodeElement = svg.append('rect')
@@ -568,6 +595,7 @@
                     return;
                 }
                 removeNodeSelected();
+                setProperties();
             })
             .on('mousemove', function() {
                 if (!mousedownNode) {
