@@ -32,7 +32,7 @@ class UserJpaTest {
         userEntity = UserEntity(
             "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
             0, "과장", "ITSM팀", "02-6416-8324", "admin",
-            "admin", "status", "code", LocalDateTime.now(), LocalDateTime.now(),
+            "admin", "status", "code", "", LocalDateTime.now(), LocalDateTime.now(),
             LocalDateTime.now(), emptySet()
         )
 
