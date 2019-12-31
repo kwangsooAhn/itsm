@@ -1,63 +1,67 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="_csrf" th:content="${_csrf.token}"/>
-<script src="../../assets/js/withoutJquery.js"></script>
+    <title>FAQ 편집</title>
 </head>
 <body>
-  <div class="container">
-    <form id="faqForm" method="post" onsubmit="return false">
-      <table>
-        <tr>
-          <th th:text="'*' + #{faq.group}">*그룹</th>
-          <td><input id="faqGroup" name="faqGroup" type="text" th:value="${faq?.faqGroup}" maxlength = "100" required="required" /></td>
-        </tr>
-        <tr>
-          <th th:text="'*' + #{faq.title}">*제목</th>
-          <td><input id="faqTitle" name="faqTitle" type="text" th:value="${faq?.faqTitle}" maxlength = "200" required="required" /></td>
-        </tr>
-        <tr>
-          <th th:text="'*' + #{faq.contents}">*내용</th>
-          <td><textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea></td>
-        </tr>
-      </table>
-      <div class="button">
-        <button type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{faq.list}">목록</button>
-        <button th:if="!${faq?.faqId}" id="btnRegist" th:text="#{faq.save}">저장</button>
-        <button th:if="${faq?.faqId}" id="btnUpdate" th:text="#{faq.save}">저장</button>
-        <button th:if="${faq?.faqId}" id="btnDelete" th:text="#{faq.delete}">삭제</button>
-      </div>
-    </form>
-  </div>
+<th:block layout:fragment="content">
+    <div class="container">
+        <form id="faqForm" method="post" onsubmit="return false">
+            <table>
+                <tr>
+                    <th th:text="'*' + #{faq.group}">*그룹</th>
+                    <td><input id="faqGroup" name="faqGroup" type="text" th:value="${faq?.faqGroup}" maxlength = "100" required="required" /></td>
+                </tr>
+                <tr>
+                    <th th:text="'*' + #{faq.title}">*제목</th>
+                    <td><input id="faqTitle" name="faqTitle" type="text" th:value="${faq?.faqTitle}" maxlength = "200" required="required" /></td>
+                </tr>
+                <tr>
+                    <th th:text="'*' + #{faq.contents}">*내용</th>
+                    <td><textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea></td>
+                </tr>
+            </table>
+            <div class="button">
+                <button type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{faq.list}">목록</button>
+                <button th:if="!${faq?.faqId}" id="btnRegist" th:text="#{faq.save}">저장</button>
+                <button th:if="${faq?.faqId}" id="btnUpdate" th:text="#{faq.save}">저장</button>
+                <button th:if="${faq?.faqId}" id="btnDelete" th:text="#{faq.delete}">삭제</button>
+            </div>
+        </form>
+    </div>
+</th:block>
 </body>
+<th:block layout:fragment="pageScript">
 <script type="text/javascript">
 /*<![CDATA[*/
 window.onload = function() {
-  if ("[[${faq?.faqId}]]" == "") {
-    document.getElementById("btnRegist").addEventListener("click", function() { restSubmit("post", "[[@{/rest/faqs}]]"); });
-  } else {
-    document.getElementById("btnUpdate").addEventListener("click", function() { restSubmit("put", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]"); });
-    document.getElementById("btnDelete").addEventListener("click", function() { restSubmit("delete", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]"); });
-  }
+    if ("[[${faq?.faqId}]]" == "") {
+        document.getElementById("btnRegist").addEventListener("click", function() { restSubmit("post", "[[@{/rest/faqs}]]"); });
+    } else {
+        document.getElementById("btnUpdate").addEventListener("click", function() { restSubmit("put", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]"); });
+        document.getElementById("btnDelete").addEventListener("click", function() { restSubmit("delete", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]"); });
+    }
 }
 
 function restSubmit(method, url, async) {
-  var xmlhttp = createXmlHttpRequestObject(method, url, async);
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-      if (xmlhttp.status == 200) {
-        alert("Success");
-        window.location = "/faqs/search";
-      } else if (xmlhttp.status == 400) {
-        alert('There was an error 400');
-      } else {
-        alert('something else other than 200 was returned');
-      }
-    }
-  };
-  xmlhttp.send(new FormData(document.getElementById("faqForm")));
+    var xmlhttp = createXmlHttpRequestObject(method, url, async);
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+            if (xmlhttp.status == 200) {
+                alert("Success");
+                window.location = "/faqs/search";
+            } else if (xmlhttp.status == 400) {
+                alert('There was an error 400');
+            } else {
+                alert('something else other than 200 was returned');
+            }
+        }
+    };
+    xmlhttp.send(new FormData(document.getElementById("faqForm")));
 }
 /*]]>*/
 </script>
+</th:block>
 </html>
