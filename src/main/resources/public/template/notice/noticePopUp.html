@@ -2,45 +2,51 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
-	<div class="container">
-		<table class="table" border="1">
-			<tr>
-				<th>제목</th>
-				<td colspan="3"><span th:text="${noticePopUp.noticeTitle}"></span></td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td colspan="3" style="text-align: center;"><textarea maxlength="140" rows="10" style="width: 750px; resize: none;" th:text="${noticePopUp.noticeContents}" readonly="readonly"></textarea></td>
-			</tr>
-			<tr>
-				<th>작성자</th>
-				<td colspan="3"><span th:text="${noticePopUp.createUserid}" /></span></td>
-			</tr>
-		</table>
-	</div>
+    <div class="container">
+        <table class="table" border="1">
+            <tr>
+                <th th:text="#{notice.title}"></th>
+                <td colspan="3" th:text="${noticePopUp.noticeTitle}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{notice.contents}"></th>
+                <td colspan="3" th:text="${noticePopUp.noticeContents}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{notice.user}"></th>
+                <td colspan="3" th:text="${noticePopUp.createUserid}"></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div align="right" th:if="!${isPopUp}">
+        <input type="checkbox" name="close" value="OK" onclick="closePop(1);" />오늘 하루 이창을 열지 않음
+    </div>
+    
+<script th:inline="javascript">
+    
+    function closePop(expiredays) {
+    	var winName = window.name
+    	setCookie(winName, "done", expiredays);
+    	self.close();
+    }
 
-	<div align="right">
-		<input type="checkbox" name="close" value="OK" onclick="closePop(1);">오늘 하루 이창을 열지 않음
-	</div>
+    //create cookie
+    function setCookie(name, value, expiredays) {
+    	//todo 기간변수
+    	var msOfDay = 86400000;
+    	var addMilliSecond = 54000000;
+    	var todayDate = new Date();
+    	var targetDate = new Date(parseInt(todayDate.getTime() / msOfDay) * msOfDay + addMilliSecond);
 
-	<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-	<script th:inline="javascript">
-	    
-		function closePop(expiredays) {
-			var winName = window.name
-			setCookie(winName, "done", expiredays);
-			self.close();
-		}
-
-		//create cookie
-		function setCookie(name, value, expiredays) {
-			var todayDate = new Date();
-			todayDate.setDate(todayDate.getDate() + expiredays);
-			document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-		}
-	</script>
+    	if (targetDate > new Date()) {
+    		expiredays = expiredays - 1;
+    	}
+    	targetDate.setDate(targetDate.getDate() + expiredays);
+    	document.cookie = name + "=" + escape(value) + "; path=/; expires=" + targetDate.toGMTString() + ";"
+    }
+</script>
 </body>
 </html>
