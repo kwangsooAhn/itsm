@@ -4,7 +4,7 @@ import co.brainz.framework.auth.entity.AliceUserDto
 import co.brainz.framework.util.EncryptionUtil
 import co.brainz.itsm.certification.CertificationDto
 import co.brainz.itsm.certification.UserStatus
-import co.brainz.itsm.certification.serivce.CertificationService
+import co.brainz.itsm.certification.service.CertificationService
 import co.brainz.itsm.common.KeyGenerator
 import co.brainz.itsm.user.UserEntity
 import org.assertj.core.api.Assertions.assertThat
@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
-import java.net.Inet4Address
 import java.time.LocalDateTime
 
 @RunWith(SpringRunner::class)
@@ -38,21 +37,8 @@ class CertificationTest {
     @Autowired
     lateinit var webApplicationContext: WebApplicationContext
 
-    @Value("\${spring.mail.username}")
-    lateinit var senderEmail: String
-
-    @Value("\${spring.mail.titleName}")
-    lateinit var senderName: String
-
-    @Value("\${server.port}")
-    lateinit var senderPort: String
-
-    @Value("\${server.protocol}")
-    lateinit var senderProtocol: String
-
-    val host: String = Inet4Address.getLocalHost().hostAddress
-    val userId: String = "lizeelf"
-    val email: String = "phc@brainz.co.kr"
+    val userId: String = "mail"
+    val email: String = "brainz.zitsm@brainz.co.kr"
 
     @Before
     fun init() {

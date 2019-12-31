@@ -13,4 +13,6 @@ interface CertificationRepository: JpaRepository<UserEntity, String>, JpaSpecifi
     fun saveCertification(userId: String, certificationCode: String, status: String)
 
     fun findByUserId(userId: String): UserEntity
+
+    fun findByEmail(email: String): UserEntity
 }
