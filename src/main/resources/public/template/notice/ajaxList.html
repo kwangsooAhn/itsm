@@ -24,19 +24,19 @@
                 </thead>
                 <tbody id="tbody">
                     <tr th:each="topNotice : ${topNoticeList}">
-                        <td th:if="${topNotice.topNoticeYn} == true"><img src="../assets/media/icons/icon_notice.gif"></td>
-                        <td th:unless="${topNotice.topNoticeYn} == true"></td>
+                        <td th:if="${topNotice.topNoticeYn}"><img src="../assets/media/icons/icon_notice.gif"></td>
+                        <td th:unless="${topNotice.topNoticeYn}"></td>
                         <td style = "text-align:left"><a href="/notices/notice?id="  th:attrappend="href=${topNotice.noticeNo}" th:text="${topNotice.noticeTitle}"></a></td>
-                        <td th:if="${topNotice.popYn} == true "><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif"></a></td>
-                        <td th:unless="${topNotice.popYn} == true "></td>
+                        <td th:if="${topNotice.popYn}"><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif"></a></td>
+                        <td th:unless="${topNotice.popYn}"></td>
                         <td th:text="${topNotice.createUserid}"></td>
                         <td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd HH:mm')} : ${topNotice.createDt}"></td>
                     </tr>
                     <tr th:each="notice : ${noticeList}" th:if="${notice.topNoticeYn} ==  false">
                         <td id="topNoticeYn"></td>
                         <td style = "text-align:left"><a href="/notices/notice?id=" th:attrappend="href=${notice.noticeNo}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
-                        <td th:if="${notice.popYn} == true "><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>
-                        <td th:unless="${notice.popYn} == true "></td>
+                        <td th:if="${notice.popYn}"><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>
+                        <td th:unless="${notice.popYn}"></td>
                         <td id="createUserid" th:text="${notice.createUserid}"></td>
                         <td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm')} : ${notice.createDt}"></td>
                     </tr>
