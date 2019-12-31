@@ -8,12 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/layout")
-class LayOutController {
+class LayoutController {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    @GetMapping("/menu")
+    private val layoutViewPage: String = "layout/layout"
+    private val menuTestViewPage: String = "menuTest"
+
+    @GetMapping("/", "")
     fun getLayout(): String {
-        return "layout"
+        return layoutViewPage
+    }
+
+    @GetMapping("/menuTest")
+    fun getMenu(): String {
+        return menuTestViewPage
     }
 }

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout/defaultLayout">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>FAQ 상세</title>
 </head>
 <body>
+<th:block layout:fragment="content">
   <div class="container">
     <form id="faqForm" method="post">
       <table>
@@ -21,6 +24,7 @@
       <button type="button" onclick="location.href='/faqs/search'" th:text="#{faq.list}">목록</button>
     </div>
   </div>
+</th:block>
 </body>
 <script type="text/javascript">
 </script>

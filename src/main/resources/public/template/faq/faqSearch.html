@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout/defaultLayout">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="_csrf" th:content="${_csrf.token}"/>
-<script src="../../assets/js/withoutJquery.js"></script>
+    <title>FAQ 리스트</title>
 </head>
 <body>
+<th:block layout:fragment="content">
   <div class="container">
     <div id="faqList">
     </div>
@@ -13,7 +14,9 @@
       <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
     </div>
   </div>
+</th:block>
 </body>
+<th:block layout:fragment="pageScript">
 <script type="text/javascript">
 window.onload = function() {
   loadXMLDoc();
@@ -36,4 +39,5 @@ function loadXMLDoc() {
   xmlhttp.send();
 }
 </script>
+</th:block>
 </html>
