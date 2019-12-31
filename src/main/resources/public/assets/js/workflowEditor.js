@@ -26,6 +26,20 @@
         mousedownLink = null;
     }
 
+    const utils = {
+        /**
+         * 해당 element의 중앙 x,y 좌표와 넓이,높이를 리턴한다.
+         *
+         * @param selection
+         * @returns {{x: number, width: number, y: number, height: number}}
+         */
+        getBoundingBoxCenter: function(selection) {
+            const element = selection.node();
+            const bbox = element.getBBox();
+            return {x: bbox.x + bbox.width / 2, y: bbox.y + bbox.height / 2, width: bbox.width, height: bbox.height};
+        }
+    }
+
     /**
      * 해당 element의 메뉴를 표시한다.
      *
@@ -40,27 +54,27 @@
             x = node.attr('x');
             y = node.attr('y');
         }
+
+        // 임시메뉴
         let menu = [{
             title: 'Item #1',
             action: function(elem, i) {
                 console.log('Item #1 clicked!');
-                console.log(elem);
             }
         }, {
             title: 'Item #2',
             action: function(elem, i) {
                 console.log('Item #2 clicked!');
-                console.log(elem);
             }
         }];
 
-        let menuItemContainer = svg.append('g').classed('menu', true).style('display', 'none');
+        const menuItemContainer = svg.append('g').classed('menu', true).style('display', 'none');
 
-        let menuRect = menuItemContainer.append('rect')
+        const menuRect = menuItemContainer.append('rect')
             .attr('height', menu.length * 25)
             .style('fill', '#eee');
 
-        let menuItems = menuItemContainer.selectAll('menu_item')
+        const menuItems = menuItemContainer.selectAll('menu_item')
             .data(menu)
             .enter()
             .append('g')
@@ -109,8 +123,61 @@
      * set connector.
      */
     function setConnectors() {
-        console.log(links)
         path = path.data(links);
+
+        // update existing links
+        path.classed('selected', d => d === selectedLink)
+            .style('marker-start', d => d.left ? 'url(#start-arrow)' : '')
+            .style('marker-end', d => d.right ? 'url(#end-arrow)' : '');
+
+        // remove old links
+        path.exit().remove();
+
+        // add new links
+        path = path.enter().append('svg:path')
+            .attr('class', 'link')
+            .classed('selected', d => d === selectedLink)
+            .style('marker-start', d => d.left ? 'url(#start-arrow)' : '')
+            .style('marker-end', d => d.right ? 'url(#end-arrow)' : '')
+            .on('mousedown', d => {
+                if (d3.event.ctrlKey) {
+                    return;
+                }
+
+                // select link
+                mousedownLink = d;
+                selectedLink = (mousedownLink === selectedLink) ? null : mousedownLink;
+                selectedNode = null;
+                setConnectors();
+            })
+            .merge(path);
+
+        // draw links
+        drawConnectors();
+    }
+
+    /**
+     * draw connector.
+     */
+    function drawConnectors() {
+        path.attr('d', d => {
+            const targetBBox = utils.getBoundingBoxCenter(d.target);
+            const sourceBBox = utils.getBoundingBoxCenter(d.source);
+
+            const deltaX = targetBBox.x - sourceBBox.x;
+            const deltaY = targetBBox.y - sourceBBox.y;
+            const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const normX = deltaX / dist;
+            const normY = deltaY / dist;
+            const sourcePadding = sourceBBox.width / 2;
+            const targetPadding = targetBBox.width / 2;
+            const sourceX = sourceBBox.x + (sourcePadding * normX);
+            const sourceY = sourceBBox.y + (sourcePadding * normY);
+            const targetX = targetBBox.x - (targetPadding * normX);
+            const targetY = targetBBox.y - (targetPadding * normY);
+
+            return `M${sourceX},${sourceY}L${targetX},${targetY}`;
+        });
     }
 
     /**
@@ -120,37 +187,33 @@
      */
     const elementMouseEventHandler = {
         mouseover: function() {
-            let node = d3.select(this);
+            const node = d3.select(this);
             if (!mousedownNode || node === mousedownNode) {
                 return;
             }
             node.attr('stroke-width', 2);
         },
         mouseout: function() {
-            let node = d3.select(this);
+            const node = d3.select(this);
             if (!mousedownNode || node === mousedownNode) {
                 return;
             }
             node.attr('stroke-width', 1);
         },
         mousedown: function () {
-            let node = d3.select(this);
+            const node = d3.select(this);
             if (d3.event.ctrlKey) {
                 removeNodeSelected();
                 mousedownNode = node;
                 selectedNode = (mousedownNode === selectedNode) ? null : mousedownNode;
                 selectedLink = null;
 
+                const bbox = utils.getBoundingBoxCenter(mousedownNode);
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
-                    .classed('hidden', false);
-                if (node.node() instanceof SVGCircleElement) {
-                    dragLine
-                        .attr('d', `M${mousedownNode.attr('cx')},${mousedownNode.attr('cy')}L${mousedownNode.attr('cx')},${mousedownNode.attr('cy')}`);
-                } else {
-                    dragLine
-                        .attr('d', `M${mousedownNode.attr('x')},${mousedownNode.attr('y')}L${mousedownNode.attr('x')},${mousedownNode.attr('y')}`);
-                }
+                    .classed('hidden', false)
+                    .attr('d', `M${bbox.x},${bbox.y}L${bbox.x},${bbox.y}`);
+
                 setConnectors();
             } else {
                 if (selectedNode === node) {
@@ -160,48 +223,49 @@
                 mousedownNode = node;
                 selectedNode = (mousedownNode === selectedNode) ? null : mousedownNode;
                 selectedNode.style('stroke-width', 2);
-                if (false) {
-                    node.parent.pointElement1.style('opacity', 1);
-                    node.parent.pointElement2.style('opacity', 1);
-                    node.parent.pointElement3.style('opacity', 1);
-                    node.parent.pointElement4.style('opacity', 1);
+                if (node.node().classList.contains('activity')) {
+                    const selectedNodeId = selectedNode.node().id;
+                    for (let i = 1; i <= 4; i++) {
+                        d3.select('#' + selectedNodeId + '_point' + i).style('opacity', 1);
+                    }
                 }
-
                 setMenuItem(node);
             }
             d3.event.preventDefault();
         },
         mouseup: function() {
-            let node = d3.select(this);
-            if (!mousedownNode) {
-                return;
+            const node = d3.select(this);
+            if (d3.event.ctrlKey) {
+                if (!mousedownNode) {
+                    return;
+                }
+                dragLine
+                    .classed('hidden', true)
+                    .style('marker-end', '');
+
+                mouseupNode = node;
+                if (mouseupNode === mousedownNode) {
+                    resetMouseVars();
+                    return;
+                }
+
+                node.attr('stroke-width', 1);
+
+                const isRight = mousedownNode.node().id < mouseupNode.node().id;
+                const source = isRight ? mousedownNode : mouseupNode;
+                const target = isRight ? mouseupNode : mousedownNode;
+
+                const link = links.filter((l) => l.source === source && l.target === target)[0];
+                if (link) {
+                    link[isRight ? 'right' : 'left'] = true;
+                } else {
+                    links.push({source, target, left: !isRight, right: isRight});
+                }
+
+                selectedLink = link;
+                selectedNode = null;
+                setConnectors();
             }
-            dragLine
-                .classed('hidden', true)
-                .style('marker-end', '');
-
-            mouseupNode = node;
-            if (mouseupNode === mousedownNode) {
-                resetMouseVars();
-                return;
-            }
-
-            node.attr('stroke-width', 1);
-
-            const isRight = mousedownNode.node().id < mouseupNode.node().id;
-            const source = isRight ? mousedownNode : mouseupNode;
-            const target = isRight ? mouseupNode : mousedownNode;
-
-            const link = links.filter((l) => l.source === source && l.target === target)[0];
-            if (link) {
-                link[isRight ? 'right' : 'left'] = true;
-            } else {
-                links.push({ source, target, left: !isRight, right: isRight });
-            }
-
-            selectedLink = link;
-            selectedNode = null;
-            setConnectors();
         }
     }
 
@@ -219,13 +283,13 @@
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
         self.nodeElement = svg.append('rect')
-            .attr('id', ++lastNodesId)
+            .attr('id', 'node' + (++lastNodesId))
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
             .attr('y', self.rectData.y)
             .style('fill', 'yellow')
-            .style('opacity', 0.5)
+            .style('opacity', 1)
             .style('stroke', 'black')
             .style('stroke-width', 1)
             .attr('class', 'node activity')
@@ -237,12 +301,14 @@
                 if (d3.event.ctrlKey) {
                     return;
                 }
-                for (let i = 0, len = self.rectData.length; i < len; i++) {
-                    self.nodeElement
-                        .attr('x', self.rectData[i].x += d3.event.dx)
-                        .attr('y', self.rectData[i].y += d3.event.dy);
+                const rectData = this.rectData;
+                for (let i = 0, len = rectData.length; i < len; i++) {
+                    this.nodeElement
+                        .attr('x', rectData[i].x += d3.event.dx)
+                        .attr('y', rectData[i].y += d3.event.dy);
                 }
                 self.nodeElement.style('cursor', 'move');
+
                 updateRect();
             }));
 
@@ -250,8 +316,8 @@
             .classed('pointer', true)
             .style('opacity', 0)
             .call(d3.drag().on('drag', () => {
-                if (selectedNode && selectedNode === self.nodeElement) {
-                    self.pointElement1
+                if (selectedNode && selectedNode.node().id === this.nodeElement.node().id) {
+                    this.pointElement1
                         .attr('cx', d => { return d.x += d3.event.dx })
                         .attr('cy', d => { return d.y += d3.event.dy });
                     updateRect();
@@ -261,10 +327,10 @@
             .classed('pointer', true)
             .style('opacity', 0)
             .call(d3.drag().on('drag', () => {
-                if (selectedNode && selectedNode === self.nodeElement) {
-                    self.pointElement2
-                        .attr('cx', self.rectData[1].x += d3.event.dx)
-                        .attr('cy', self.rectData[1].y += d3.event.dy);
+                if (selectedNode && selectedNode.node().id === this.nodeElement.node().id) {
+                    this.pointElement2
+                        .attr('cx', this.rectData[1].x += d3.event.dx)
+                        .attr('cy', this.rectData[1].y += d3.event.dy);
                     updateRect();
                 }
             }));
@@ -272,10 +338,10 @@
             .classed('pointer', true)
             .style('opacity', 0)
             .call(d3.drag().on('drag', () => {
-                if (selectedNode && selectedNode === self.nodeElement) {
-                    self.pointElement3
-                        .attr('cx', self.rectData[1].x += d3.event.dx)
-                        .attr('cy', self.rectData[0].y += d3.event.dy);
+                if (selectedNode && selectedNode.node().id === this.nodeElement.node().id) {
+                    this.pointElement3
+                        .attr('cx', this.rectData[1].x += d3.event.dx)
+                        .attr('cy', this.rectData[0].y += d3.event.dy);
                     updateRect();
                 }
             }));
@@ -283,43 +349,50 @@
             .classed('pointer', true)
             .style('opacity', 0)
             .call(d3.drag().on('drag', () => {
-                if (selectedNode && selectedNode === self.nodeElement) {
-                    self.pointElement4
-                        .attr('cx', self.rectData[0].x += d3.event.dx)
-                        .attr('cy', self.rectData[1].y += d3.event.dy);
+                if (selectedNode && selectedNode.node().id === this.nodeElement.node().id) {
+                    this.pointElement4
+                        .attr('cx', this.rectData[0].x += d3.event.dx)
+                        .attr('cy', this.rectData[1].y += d3.event.dy);
                     updateRect();
                 }
             }));
 
         function updateRect() {
             const pointerRadius = 4;
+            const rectData = self.rectData;
 
             self.nodeElement
-                .attr('x', self.rectData[1].x - self.rectData[0].x > 0 ? self.rectData[0].x : self.rectData[1].x)
-                .attr('y', self.rectData[1].y - self.rectData[0].y > 0 ? self.rectData[0].y :  self.rectData[1].y)
-                .attr('width', Math.abs(self.rectData[1].x - self.rectData[0].x))
-                .attr('height', Math.abs(self.rectData[1].y - self.rectData[0].y));
+                .attr('x', rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x)
+                .attr('y', rectData[1].y - rectData[0].y > 0 ? rectData[0].y :  rectData[1].y)
+                .attr('width', Math.abs(rectData[1].x - rectData[0].x))
+                .attr('height', Math.abs(rectData[1].y - rectData[0].y));
 
             self.pointElement1
-                .data(self.rectData)
+                .data(rectData)
+                .attr('id', self.nodeElement.node().id + '_point1')
                 .attr('r', pointerRadius)
-                .attr('cx', self.rectData[0].x)
-                .attr('cy', self.rectData[0].y);
+                .attr('cx', rectData[0].x)
+                .attr('cy', rectData[0].y);
             self.pointElement2
-                .data(self.rectData)
+                .data(rectData)
+                .attr('id', self.nodeElement.node().id + '_point2')
                 .attr('r', pointerRadius)
-                .attr('cx', self.rectData[1].x)
-                .attr('cy', self.rectData[1].y);
+                .attr('cx', rectData[1].x)
+                .attr('cy', rectData[1].y);
             self.pointElement3
-                .data(self.rectData)
+                .data(rectData)
+                .attr('id', self.nodeElement.node().id + '_point3')
                 .attr('r', pointerRadius)
-                .attr('cx', self.rectData[1].x)
-                .attr('cy', self.rectData[0].y);
+                .attr('cx', rectData[1].x)
+                .attr('cy', rectData[0].y);
             self.pointElement4
-                .data(self.rectData)
+                .data(rectData)
+                .attr('id', self.nodeElement.node().id + '_point4')
                 .attr('r', pointerRadius)
-                .attr('cx', self.rectData[0].x)
-                .attr('cy', self.rectData[1].y);
+                .attr('cx', rectData[0].x)
+                .attr('cy', rectData[1].y);
+
+            drawConnectors();
         }
         updateRect();
     }
@@ -351,12 +424,12 @@
         const radius = 20;
 
         self.nodeElement = svg.append('circle')
-            .attr('id', ++lastNodesId)
+            .attr('id', 'node' + (++lastNodesId))
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
             .style('fill', 'red')
-            .style('opacity', 0.5)
+            .style('opacity', 1)
             .style('stroke', 'black')
             .style('stroke-width', 1)
             .attr('class', 'node event')
@@ -372,6 +445,7 @@
                     .attr('cx', d3.event.x)
                     .attr('cy', d3.event.y);
                 self.nodeElement.style('cursor', 'move');
+                drawConnectors();
             }));
 
         return self;
@@ -390,14 +464,14 @@
         const width = 30, height = 30;
 
         self.nodeElement = svg.append('rect')
-            .attr('id', ++lastNodesId)
+            .attr('id', 'node' + (++lastNodesId))
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
             .attr('transform', 'rotate(45, ' + x + ', ' + y + ')')
             .style('fill', 'blue')
-            .style('opacity', 0.5)
+            .style('opacity', 1)
             .style('stroke', 'black')
             .style('stroke-width', 1)
             .attr('class', 'node gateway')
@@ -415,6 +489,7 @@
                     .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
 
                 self.nodeElement.style('cursor', 'move');
+                drawConnectors();
             }));
 
         return self;
@@ -436,52 +511,49 @@
     }
 
     /**
-     * drop 시 호출.
-     *
-     * @param e
-     */
-    function elementDrop(e) {
-        let x = e.x - 68,
-            y = e.y - 48;
-
-        let element;
-        if (e.target.classList.contains('event')) {
-            element = new EventElement(x, y);
-        } else if (e.target.classList.contains('activity')) {
-            element = new ActivityElement(x, y);
-        } else if (e.target.classList.contains('gateway')) {
-            element = new GatewayElement(x, y);
-        } else if (e.target.classList.contains('pool')) {
-            element = new PoolElement(x, y);
-        }
-    }
-
-    /**
-     *
+     * element-menu에 element 를 추가한다.
      */
     function addElements() {
-
+        //TODO: add element
     }
 
     /**
      * element의 drag & drop 이벤트를 추가한다.
      */
     function addDragEvent() {
-        let elementMenu = document.getElementsByClassName('element-menu')[0];
+        const elementMenu = document.getElementsByClassName('element-menu')[0];
         elementMenu.addEventListener('dragover', e => {e.preventDefault();});
 
-        let elements = elementMenu.querySelectorAll('span');
+        const elements = elementMenu.querySelectorAll('span');
         for (let i = 0, len = elements.length; i < len; i++) {
             elements[i].setAttribute('draggable', 'true');
-            elements[i].addEventListener('dragend', e => { elementDrop(e) });
+            elements[i].addEventListener('dragend', e => {
+                let x = e.x - 68, //TODO: element-menu 넓이 및 margin 등 제외 필요
+                    y = e.y - 48; //TODO: toolbar 높이 및 margin 등 제외 필요
+
+                let element;
+                if (e.target.classList.contains('event')) {
+                    element = new EventElement(x, y);
+                } else if (e.target.classList.contains('activity')) {
+                    element = new ActivityElement(x, y);
+                } else if (e.target.classList.contains('gateway')) {
+                    element = new GatewayElement(x, y);
+                } else if (e.target.classList.contains('pool')) {
+                    element = new PoolElement(x, y);
+                }
+
+                if (element) {
+                    //TODO:
+                }
+            });
         }
 
-        let drawingBoard = document.getElementsByClassName('drawing-board')[0];
+        const drawingBoard = document.getElementsByClassName('drawing-board')[0];
         drawingBoard.addEventListener('dragover', e => {e.preventDefault();});
     }
 
     /**
-     * svg 추가.
+     * svg 추가 및 필요한 element 추가.
      */
     function initD3() {
         const width = 1405;
@@ -501,20 +573,25 @@
                 if (!mousedownNode) {
                     return;
                 }
-                if (mousedownNode.node() instanceof SVGCircleElement) {
-                    dragLine.attr('d', `M${mousedownNode.attr('cx')},${mousedownNode.attr('cy')}L${d3.mouse(this)[0]},${d3.mouse(this)[1]}`);
-                } else {
-                    dragLine.attr('d', `M${mousedownNode.attr('x')},${mousedownNode.attr('y')}L${d3.mouse(this)[0]},${d3.mouse(this)[1]}`);
-                }
 
+                if (d3.event.ctrlKey) {
+                    const bbox = utils.getBoundingBoxCenter(mousedownNode);
+                    dragLine.attr('d', `M${bbox.x},${bbox.y}L${d3.mouse(this)[0]},${d3.mouse(this)[1]}`);
+                } else {
+                    if (mouseupNode && selectedNode) {
+                        svg.selectAll('.menu').remove();
+                    }
+                }
             })
             .on('mouseup', function() {
-                if (mousedownNode) {
-                    dragLine
-                        .classed('hidden', true)
-                        .style('marker-end', '');
+                if (d3.event.ctrlKey) {
+                    if (mousedownNode) {
+                        dragLine
+                            .classed('hidden', true)
+                            .style('marker-end', '');
+                    }
+                    resetMouseVars();
                 }
-                resetMouseVars();
             });
 
         // define arrow markers for links
