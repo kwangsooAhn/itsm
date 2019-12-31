@@ -26,7 +26,7 @@
         <input type="checkbox" name="close" value="OK" onclick="closePop(1);">오늘 하루 이창을 열지 않음
     </div>
     
-    <script th:inline="javascript">
+<script th:inline="javascript">
     
     function closePop(expiredays) {
     	var winName = window.name
@@ -44,6 +44,6 @@
     	todayDate.setDate(todayDate.getDate() + expiredays);
     	document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
     }
-    </script>
+</script>
 </body>
 </html>

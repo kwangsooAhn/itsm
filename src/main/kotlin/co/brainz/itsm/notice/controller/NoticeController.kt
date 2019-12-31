@@ -25,6 +25,7 @@ class NoticeController(private val noticeService: NoticeService, private val con
 
     @GetMapping("notices/list")
     fun getNoticeList(request: HttpServletRequest, model: Model) : String {
+        model.addAttribute("currentDate", LocalDateTime.now())
         model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(day))
         return "notice/list"
     }

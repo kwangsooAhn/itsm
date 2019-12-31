@@ -163,9 +163,8 @@
     </div>
 
 
-    <script th:inline="javascript">
-    
-    /*<![CDATA[ */        
+<script th:inline="javascript">
+/*<![CDATA[ */        
     window.onload = function() {
         if (/*[[${notice.noticeNo}]]*/ != null) {
             if (document.getElementsByName('popYn')[0].value == 'true') {
@@ -262,17 +261,17 @@
          if ((document.getElementById('topNoticeStrtDt').value > document.getElementById('topNoticeEndDt').value) || (document.getElementById('topNoticeStrtDt').value == document.getElementById('topNoticeEndDt').value)) {alert("상단 공지 시작일이 종료일보다 크거나 같습니다."); return false;}
          }
     }
-    /* ]]> */
     
     function maxLengthCheck(object) {
-    	if (object.value.length > object.maxLength) {
-    		object.value = object.value.slice(0, object.maxLength);
-    	}
+        if (object.value.length > object.maxLength) {
+            object.value = object.value.slice(0, object.maxLength);
+        }
     }
-    </script>
+/* ]]> */
+</script>
     
-    <script th:inline="javascript" th:if="!${notice?.noticeNo}">
-    /*<![CDATA[ */  
+<script th:inline="javascript" th:if="!${notice?.noticeNo}">
+/*<![CDATA[ */  
     function restSubmit(method, url, async) {
         if (validation() == false) {
             return false;
@@ -309,11 +308,11 @@
         xmlhttp.setRequestHeader('Content-Type', 'application/json');
         xmlhttp.send(jsonData);
     }
-    /* ]]> */
-    </script>
+/* ]]> */
+</script>
     
-    <script th:inline="javascript" th:if="${notice?.noticeNo}">
-    /*<![CDATA[ */    
+<script th:inline="javascript" th:if="${notice?.noticeNo}">
+/*<![CDATA[ */    
     function restSubmit(method, url, async) {
         var noticeNo = /*[[${notice.noticeNo}]]*/;
         
@@ -353,7 +352,7 @@
         xmlhttp.setRequestHeader('Content-Type', 'application/json');
         xmlhttp.send(jsonData);
     }
-    /* ]]> */
-    </script>
+/* ]]> */
+</script>
 </body>
 </html>
