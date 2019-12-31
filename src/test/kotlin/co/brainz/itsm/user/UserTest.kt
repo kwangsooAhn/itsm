@@ -30,7 +30,6 @@ class UserTest {
     @MockBean(name = "userService")
     private lateinit var userService: UserService
 
-
     private lateinit var userEntity: UserEntity
     private lateinit var userUpdateDto: UserUpdateDto
 
@@ -39,7 +38,7 @@ class UserTest {
         userEntity = UserEntity(
             "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
             0, "과장", "ITSM팀", "02-6416-8324", "admin",
-            "admin", "status", "code", LocalDateTime.now(), LocalDateTime.now(),
+            "admin", "status", "code", "", LocalDateTime.now(), LocalDateTime.now(),
             LocalDateTime.now(), emptySet()
         )
 
@@ -54,7 +53,6 @@ class UserTest {
         given(userService.selectUser("kbh")).willReturn(userEntity)
 
     }
-
 
     @Test
     @WithMockUser
