@@ -32,7 +32,7 @@ class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdap
         if (securityContextObject != null && requestUrl != "") {
             val securityContext = securityContextObject as SecurityContext
             val aliceUserDto = securityContext.authentication.details as AliceUserDto
-            val regex = "\\{([0-9a-zA-Z]*)}".toRegex()
+            val regex = "\\{([a-zA-Z]*)}".toRegex()
             aliceUserDto.urls.let {
                 urlList ->
                 if (urlList.contains(AliceUrlEntity(requestUrl, requestMethod))) {

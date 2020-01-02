@@ -12,6 +12,7 @@ common:
     knownError: "Known Error"
   msg:
     save: "Saved"
+    authFail: "Unauthorized page."
 
 # Menu
 menu:

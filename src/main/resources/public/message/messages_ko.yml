@@ -12,6 +12,7 @@ common:
     knownError: "정의된 에러"
   msg:
     save: "저장되었습니다"
+    authFail: "권한이 없는 페이지입니다."
 
 # Menu
 menu:
