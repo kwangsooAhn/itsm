@@ -28,4 +28,9 @@ class DocumentController {
         //To-do 컴포넌트 상세 정보 가져오기
         return "document/edit"
     }
+    
+    @GetMapping("/documentSearch")
+    fun getDocumentSearch(request: HttpServletRequest, model: Model): String {
+        return "document/documentSearch"
+    }
 }

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title>첫 Layout 화면</title>
+</head>
+<body>
+    <th:block layout:fragment="content" th:replace="document/documentSearch :: content">
+    </th:block>
+</body>
+</html>

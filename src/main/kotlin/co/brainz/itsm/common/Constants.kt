@@ -10,5 +10,6 @@ class Constants() {
          */
         const val CREATE_USER_ID: String = "system"
         const val USER_EXPIRED_VALUE: Long = 3
+        const val SEARCH_RANGE_VALUE: Long = 1
     }
 }
