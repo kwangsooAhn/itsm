@@ -5,7 +5,13 @@ import co.brainz.itsm.role.RoleEntity
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
+import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_user")

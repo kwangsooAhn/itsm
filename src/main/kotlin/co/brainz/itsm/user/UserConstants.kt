@@ -5,25 +5,19 @@ package co.brainz.itsm.user
  */
 enum class UserConstants(val value: String) {
     /** 검색 selectbox 에 사용할 부모 코드 */
-    PCODE("user")
-
+    PCODE("user.search")
     ;
 
     /**
      * DB코드(messages.yml 과 동일한 값) - JPA Entity 맵핑 정보
      */
     enum class UserCodeAndColumnMap(val code: String, val column: String) {
-        ID("user.id", "userId"),
-        NAME("user.name", "userName"),
-        EMAIL("user.email", "email"),
-        TRYLOGIN("user.tryLoginCount", "tryLoginCount"),
-        EXPIREDATE("user.expiredDate", "expiredDt"),
-        POSITION("user.position", "position"),
-        DEPARTMENT("user.department", "department"),
-        EXTENSION("user.extensionNumber", "extensionNumber"),
-        PHONE("user.phoneNumber", "phoneNumber")
+        ID("user.search.id", "userId"),
+        NAME("user.search.name", "userName"),
+        POSITION("user.search.position", "position"),
+        DEPARTMENT("user.search.department", "department"),
+        EXTENSION("user.search.extensionNumber", "extensionNumber")
         ;
-
 
         companion object {
             /**

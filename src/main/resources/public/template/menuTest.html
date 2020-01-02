@@ -4,6 +4,8 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Main</title>
 </head>
 <body>
@@ -18,6 +20,7 @@
 
     <div id="userMenus"></div>
     <div id="contents" style="border: 1px solid red"></div>
+    <div id="layoutError" style="border: 1px solid red"></div>
 
     <br>
     <br>
@@ -86,30 +89,50 @@
 </div>
 
 
-<link rel="stylesheet" type="text/css" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.css}"/>
 <script th:src="@{/assets/vendors/jquery-3.4.0/jquery-3.4.0.js}"></script>
 <script th:src="@{/assets/vendors/jquery-serialize-object/jquery.serializeObject.js}"></script>
 <script th:src="@{/assets/vendors/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
 <script th:src="@{/assets/js/aliceJs.js}"></script>
+<script th:src="@{/assets/js/withoutJquery.js}"></script>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', () => {
 
-
-<script type="text/javascript" th:inline="javascript">
-    $(document).ready(function () {
         /*<![CDATA[*/
         const menus = [[ ${#authentication.details.menus}]];
-
-        $.each(menus, function (idx, menu) {
+        menus.forEach(menu => {
             const menuUrl = menu.url;
-            const btnMenu = $('<div>').text(menu.menuId + ' 메뉴로 이동하기 (' + menuUrl + ')').css('cursor', 'pointer');
-            $('#userMenus').append(btnMenu);
-            btnMenu.on('click', function () {
-                if (menuUrl == '') return;
-                $('#contents').load(menuUrl, function(responseText, textStatus, jqXHR) {});
-            });
+            const docDiv = document.createElement('div');
+            docDiv.style.cursor = 'pointer';
+            docDiv.innerText = menu.menuId + ' 메뉴로 이동하기 (' + menuUrl + ')';
+            if (menuUrl !== '') {
+                docDiv.addEventListener('click', function (e) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState === 4 && this.status === 200) {
+                            const contents = document.getElementById('contents');
+                            contents.innerHTML = this.responseText;
+                            const myScripts = contents.getElementsByTagName("script");
+                            if (myScripts.length > 0) {
+                                Function(myScripts[0].innerHTML)();
+                            }
+                        } else if (this.readyState === 4 && this.status !== 200) {
+                            aliceJs.xhrErrorResponse('layoutError', this.responseText);
+                        }
+                    }
+                    xhr.onerror = function () {
+                        aliceJs.xhrErrorResponse('layoutError', this.responseText);
+                    };
+                    xhr.open('get', menuUrl, true);
+                    xhr.send();
+                });
+            }
+            document.getElementById('userMenus').appendChild(docDiv);
         });
-
         /*]]>*/
-    });
+
+    })
+
 </script>
 </body>
 </html>

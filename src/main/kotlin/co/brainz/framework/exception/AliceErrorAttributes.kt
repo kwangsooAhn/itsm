@@ -2,6 +2,7 @@ package co.brainz.framework.exception
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
+import org.springframework.dao.InvalidDataAccessResourceUsageException
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.WebRequest
 
@@ -30,6 +31,10 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                     val knownErrMsg = exception.getCode() + " (" + exception.getCodeDetail() + ")"
                     logger.error("Known Alice error. {}", knownErrMsg)
                     errorAttributes["knownError"] = knownErrMsg
+                }
+                is InvalidDataAccessResourceUsageException -> {
+                    logger.error(exception.message)
+                    errorAttributes["message"] = "Invalid data access resource."
                 }
             }
         }

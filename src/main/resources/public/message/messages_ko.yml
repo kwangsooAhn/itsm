@@ -10,6 +10,8 @@ common:
     path: "호출 URL"
     exceptionType: "예외 종류"
     knownError: "정의된 에러"
+  msg:
+    save: "저장되었습니다"
 
 # Menu
 menu:
@@ -49,6 +51,12 @@ user:
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
+  search:
+    id: "아이디"
+    name: "이름"
+    position: "직책"
+    department: "부서"
+    extensionNumber: "내선번호"
 
 # FAQ
 faq:
@@ -60,7 +68,7 @@ faq:
   title: "제목"
   contents: "내용"
   edit: "수정"
-  
+
 # NOTICE
 notice:
   title: "제목"
