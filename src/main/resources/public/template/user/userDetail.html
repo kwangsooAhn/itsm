@@ -37,7 +37,8 @@
     <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
         <div>역할</div>
         <div th:each="role : ${roles}">
-            <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">
+            <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}"
+                   th:checked="*{role.checked}">
             <label th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
         </div>
     </div>
