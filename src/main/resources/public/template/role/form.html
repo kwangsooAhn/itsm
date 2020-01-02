@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -19,7 +20,7 @@
     <table>
         <tr>
             <td>
-                <button type="button" id="btnSearch" name="btnSearch">추가</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch">추가</button>
                 <span sec:authentication="name" id="sessionCreateId" name="sessionCreateId"></span>
             </td>
         </tr>
@@ -86,13 +87,13 @@
     <table>
         <tr>
             <td>
-                <button type="button" id="btnDelete" name="btnDelete" >삭제</button>
+                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" >삭제</button>
             </td>
             <td>
-                <button type="button" id="btnUpdate" name="btnUpdate" >수정</button>
+                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" >수정</button>
             </td>
             <td>
-                <button type="button" id="btnRegist" name="btnRegist" >등록</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" >등록</button>
             </td>
         </tr>
     </table>

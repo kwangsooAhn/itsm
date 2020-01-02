@@ -45,7 +45,7 @@ class CertificationTest {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
         securityContext = SecurityContextHolder.getContext()
         val userDto: UserEntity = certificationService.findByUserId(userId)
-        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userId, userDto.userName,userDto.email, userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), emptySet(), emptySet())
+        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userId, userDto.userName,userDto.email, userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), emptySet(), emptySet(), emptySet())
         val usernamePasswordAuthenticationToken: UsernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
         usernamePasswordAuthenticationToken.details = aliceUserDto
         securityContext.authentication = usernamePasswordAuthenticationToken

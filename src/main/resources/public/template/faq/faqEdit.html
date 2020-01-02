@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title>FAQ 편집</title>
 </head>
@@ -25,9 +26,9 @@
             </table>
             <div class="button">
                 <button type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{faq.list}">목록</button>
-                <button th:if="!${faq?.faqId}" id="btnRegist" th:text="#{faq.save}">저장</button>
-                <button th:if="${faq?.faqId}" id="btnUpdate" th:text="#{faq.save}">저장</button>
-                <button th:if="${faq?.faqId}" id="btnDelete" th:text="#{faq.delete}">삭제</button>
+                <button sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist" th:text="#{faq.save}">저장</button>
+                <button sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}" id="btnUpdate" th:text="#{faq.save}">저장</button>
+                <button sec:authorize="hasAuthority('faq.delete')" th:if="${faq?.faqId}" id="btnDelete" th:text="#{faq.delete}">삭제</button>
             </div>
         </form>
     </div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- bootstrap -->
@@ -28,7 +29,7 @@
                 <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/ajaxList', true, true)" th:text="#{notice.search}"></button>
             </div>
         </form>
-        <button type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'" th:text="#{notice.regist}"></button>
+        <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'" th:text="#{notice.regist}"></button>
     </div>
     <div id="noticeList">
 </div>

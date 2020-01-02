@@ -1,5 +1,7 @@
 package co.brainz.framework.auth.service
 
+import co.brainz.framework.auth.entity.AliceAuthEntity
+import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.entity.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceConstants
@@ -70,10 +72,12 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         }
 
         val authorities = authorities(aliceUser)
-        val menuList = menuList(aliceUser, authorities)
+        val authList = authList(aliceUser, authorities)
+        val menuList = menuList(authList)
+        val urlList = urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList)
+                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList)
 
         return usernamePasswordAuthenticationToken
     }
@@ -88,26 +92,42 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         return authorities
     }
 
-    fun menuList(aliceUser: AliceUserEntity, authorities: MutableSet<GrantedAuthority>): Set<AliceMenuEntity> {
-        val menuList = mutableSetOf<AliceMenuEntity>()
+    fun authList(aliceUser: AliceUserEntity, authorities: MutableSet<GrantedAuthority>): Set<AliceAuthEntity> {
+        var authList = setOf<AliceAuthEntity>()
         authorities.run {
             val authId = mutableSetOf<String>()
             aliceUser.getAuthorities().forEach {
                 authId.add(it.authority)
             }
-
-            val authList = userDetailsService.getAuthList(authId)
-            authList.forEach {
-                menuList.addAll(it.aliceMenuList)
-            }
+            authList = userDetailsService.getAuthList(authId)
         }
+        return authList
+    }
 
+    fun menuList(authList: Set<AliceAuthEntity>): Set<AliceMenuEntity> {
+        val menuList = mutableSetOf<AliceMenuEntity>()
+        authList.forEach {
+            menuList.addAll(it.aliceMenuList)
+        }
         if (logger.isDebugEnabled) {
             menuList.forEach {
                 logger.debug(">>> Get menu {} <<<", it.menuId)
             }
         }
         return menuList
+    }
+
+    fun urlList(authList: Set<AliceAuthEntity>): Set<AliceUrlEntity> {
+        val urlList = mutableSetOf<AliceUrlEntity>()
+        authList.forEach {
+            urlList.addAll(it.aliceUrl)
+        }
+        if (logger.isDebugEnabled) {
+            urlList.forEach {
+                logger.debug(">>> Get url [{}] {} <<<", it.method, it.url)
+            }
+        }
+        return urlList
     }
 
     override fun supports(authentication: Class<*>): Boolean {
