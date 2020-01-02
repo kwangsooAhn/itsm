@@ -12,12 +12,13 @@ import javax.persistence.criteria.Root
 class UserSpecification(private val userSearchDto: UserSearchDto) : Specification<UserEntity> {
 
     override fun toPredicate(root: Root<UserEntity>, query: CriteriaQuery<*>, criteriaBuilder: CriteriaBuilder): Predicate? {
-        if (userSearchDto.searchKey.size == 0 || userSearchDto.searchValue == "") return null
+        val searchValue = userSearchDto.searchValue.trim()
+        if (userSearchDto.searchKey.size == 0 || searchValue == "") return null
         val predicate = mutableListOf<Predicate>()
         // TODO 특수문자 처리해야된다.
         userSearchDto.searchKey.forEach {
             val tableColumn = UserConstants.UserCodeAndColumnMap.getUserCodeToColum(it)
-            predicate.add(criteriaBuilder.like(root.get<String>(tableColumn), "%" + userSearchDto.searchValue + "%"))
+            predicate.add(criteriaBuilder.like(root.get<String>(tableColumn), "%$searchValue%"))
 
 
         }

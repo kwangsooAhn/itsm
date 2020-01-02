@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/rest/users")
-class UserRestController(private var userService: UserService) {
+class UserRestController(private val userService: UserService) {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
@@ -39,22 +39,4 @@ class UserRestController(private var userService: UserService) {
     fun updateUser(user: UserUpdateDto): UserEntity {
         return userService.updateUser(user)
     }
-
-    /**
-     * TODO 사용자를 저장한다.
-     *
-     */
-//    @PostMapping("/{userId}")
-//    fun setUser(@PathVariable userId: String, user: UserEntity): String {
-//        userService.save
-//        return ""
-//    }
-
-    /**
-     * TODO 사용자를 삭제한다.
-     */
-//    @DeleteMapping("/{userId}")
-//    fun deleteUser(@PathVariable userId: String): String {
-//        return ""
-//    }
 }
