@@ -118,10 +118,7 @@
                             }
                         } else if (this.readyState === 4 && this.status !== 200) {
                             aliceJs.xhrErrorResponse('layoutError', this.responseText);
-                        } else {
-                            console.log(this.readyState + ':' + this.status);
                         }
-
                     }
                     xhr.onerror = function () {
                         aliceJs.xhrErrorResponse('layoutError', this.responseText);
