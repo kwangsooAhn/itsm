@@ -20,7 +20,7 @@
         </thead>
         <tbody>
         <tr style="cursor: pointer" class="userRows" th:each="user : ${users}">
-            <td><input type="hidden" name="userId" th:value="${user.userId}"></td>
+            <td><label th:text="${user.userId}"></label><input type="hidden" name="userId" th:value="${user.userId}"></td>
             <td th:text="${user.userName}">이름</td>
             <td th:text="${user.department}">부서</td>
             <td th:text="${user.position}">직책</td>

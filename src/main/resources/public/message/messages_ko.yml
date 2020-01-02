@@ -51,6 +51,12 @@ user:
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
+  search:
+    id: "아이디"
+    name: "이름"
+    position: "직책"
+    department: "부서"
+    extensionNumber: "내선번호"
 
 # FAQ
 faq:

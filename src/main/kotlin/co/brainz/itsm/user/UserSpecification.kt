@@ -15,14 +15,10 @@ class UserSpecification(private val userSearchDto: UserSearchDto) : Specificatio
         val searchValue = userSearchDto.searchValue.trim()
         if (userSearchDto.searchKey.size == 0 || searchValue == "") return null
         val predicate = mutableListOf<Predicate>()
-        // TODO 특수문자 처리해야된다.
         userSearchDto.searchKey.forEach {
             val tableColumn = UserConstants.UserCodeAndColumnMap.getUserCodeToColum(it)
             predicate.add(criteriaBuilder.like(root.get<String>(tableColumn), "%$searchValue%"))
-
-
         }
         return criteriaBuilder.or(*predicate.toTypedArray())
     }
-
 }
