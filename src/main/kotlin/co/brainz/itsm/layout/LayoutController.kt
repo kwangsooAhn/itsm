@@ -14,7 +14,6 @@ class LayoutController {
 
     private val layoutViewPage: String = "layout/layout"
     private val menuTestViewPage: String = "menuTest"
-    private val authFailedViewPage: String = "authFailed"
 
     @GetMapping("/", "")
     fun getLayout(): String {
@@ -24,10 +23,5 @@ class LayoutController {
     @GetMapping("/menuTest")
     fun getMenu(): String {
         return menuTestViewPage
-    }
-
-    @GetMapping("/authFailed")
-    fun getAuthFailed(): String {
-        return authFailedViewPage
     }
 }

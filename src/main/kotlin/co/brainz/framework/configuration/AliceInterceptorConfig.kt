@@ -16,10 +16,6 @@ class AliceInterceptorConfig(private val interceptor: AliceInterceptor,
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(interceptor).addPathPatterns("/**")
-                .excludePathPatterns("/assets/**", "'/favicon.ico")
-                .excludePathPatterns("/", "/logout", "/certification/**", "/oauth/**", "/portal/**")
-                .excludePathPatterns("/layout/**", "/index**") // 임시
-                .excludePathPatterns("/process/**", "/document/**", "/exception/**", "/files/**") // 임시
         registry.addInterceptor(localeChangeInterceptor)
     }
 }
