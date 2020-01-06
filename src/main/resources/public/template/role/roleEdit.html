@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -19,7 +20,7 @@
     <table>
         <tr>
             <td>
-                <button type="button" id="btnSearch" name="btnSearch">추가</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch">추가</button>
                 <span sec:authentication="name" id="sessionCreateId" name="sessionCreateId"></span>
             </td>
         </tr>
@@ -86,13 +87,13 @@
     <table>
         <tr>
             <td>
-                <button type="button" id="btnDelete" name="btnDelete" >삭제</button>
+                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" >삭제</button>
             </td>
             <td>
-                <button type="button" id="btnUpdate" name="btnUpdate" >수정</button>
+                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" >수정</button>
             </td>
             <td>
-                <button type="button" id="btnRegist" name="btnRegist" >등록</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" >등록</button>
             </td>
         </tr>
     </table>
@@ -156,13 +157,13 @@ $(document).ready(function () {
     /** 삭제 버튼  */
     $('#btnDelete').on('click', function () {
         $.ajax({
-            url: '/roles/'+$("#txtRoleId").val(),
+            url: '/rest/roles/'+$("#txtRoleId").val(),
             type:"delete",
             dataType:"text",
             success: function (result) {
                 if (result == "true") {
                     alert("삭제 되었습니다.");
-                    window.location.href ="/roles/form";
+                    window.location.href ="/roles/edit";
                 } else {
                     alert("관련된 사용자부터 삭제하세요.");
                 }
@@ -178,7 +179,7 @@ $(document).ready(function () {
     
     function onGetDetail(roldId) {
         $.ajax({
-            url: '/roles/' + roldId,
+            url: '/rest/roles/' + roldId,
             type:"get",
             success: function (role) {
                 $('#txtRoleId').val(role[0].roleId);
@@ -230,10 +231,10 @@ $(document).ready(function () {
         obj.arrAuthId = arrAuthId;
         if (flag == 'post') {
             obj.createUserid = $('#sessionCreateId').text(); //등록자
-            strUrl = '/roles/';
+            strUrl = '/rest/roles';
         } else {
             obj.updateUserid = $('#sessionCreateId').text(); //수정자
-            strUrl = '/roles/'+$("#txtRoleId").val();
+            strUrl = '/rest/roles/'+$("#txtRoleId").val();
         }
         var roleJson = JSON.stringify(obj);
         $.ajax({
@@ -244,7 +245,7 @@ $(document).ready(function () {
             success: function (role) {
                 if (role != "") {
                     alert("저장 되었습니다.");
-                    window.location.href ="/roles/form";
+                    window.location.href ="/roles/edit";
                 }
             },
             error: function (request, status, error) {

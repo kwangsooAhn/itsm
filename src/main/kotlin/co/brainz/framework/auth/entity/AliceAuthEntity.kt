@@ -27,5 +27,11 @@ data class AliceAuthEntity(
         @JoinTable(name = "awfMenuAuthMap",
                 joinColumns = [JoinColumn(name = "authId")],
                 inverseJoinColumns = [JoinColumn(name = "menuId")])
-        val aliceMenuList: Set<AliceMenuEntity>
+        val aliceMenuList: Set<AliceMenuEntity>,
+        @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @JoinTable(name = "awf_url_auth_map",
+                   joinColumns = [JoinColumn(name = "authId")],
+                   inverseJoinColumns = [JoinColumn(name = "url", referencedColumnName = "url"),
+                                         JoinColumn(name = "method", referencedColumnName = "method")])
+        val aliceUrl: Set<AliceUrlEntity>
 ) : Serializable

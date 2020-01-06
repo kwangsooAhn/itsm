@@ -16,6 +16,7 @@ data class AliceUserDto(
         val tryLoginCount: Int,
         val expiredDt: LocalDateTime,
         val grantedAuthories: Set<GrantedAuthority>,
-        val menus: Set<AliceMenuEntity>
+        val menus: Set<AliceMenuEntity>,
+        val urls: Set<AliceUrlEntity>
 ) : Serializable {
 }

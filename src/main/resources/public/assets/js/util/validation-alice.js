@@ -15,10 +15,10 @@ function passwordValidation(password) {
     var userId =  document.getElementById("userId").value;
     var emailId = document.getElementById("email").value.split('@');
     var extensionNumber = document.getElementById("extensionNumber").value; 
-    var SearchUpperCase = password.search(upperCaseReg);
-    var SearchLowerCase = password.search(lowerCaseReg);
-    var SearchNumber =  password.search(numberReg);
-    var SearchSpecialChar = password.search(specialCharReg);
+    var searchUpperCase = password.search(upperCaseReg);
+    var searchLowerCase = password.search(lowerCaseReg);
+    var searchNumber =  password.search(numberReg);
+    var searchSpecialChar = password.search(specialCharReg);
 
    
     /*
@@ -50,7 +50,7 @@ function passwordValidation(password) {
      * 2가지의 문자 구성인 경우 8자 이상, 20자 미만의 비밀번호를 설정한다.
      * 문자 구성 : 대문자, 소문자, 특수문자, 숫자
      */
-    if ((SearchUpperCase < 0 && SearchLowerCase < 0) || (SearchLowerCase < 0 && SearchSpecialChar < 0) || (SearchSpecialChar < 0 && SearchNumber < 0) || (SearchNumber < 0 && SearchUpperCase < 0)) {
+    if ((searchUpperCase < 0 && searchLowerCase < 0) || (searchLowerCase < 0 && searchSpecialChar < 0) || (searchSpecialChar < 0 && searchNumber < 0) || (searchNumber < 0 && searchUpperCase < 0)) {
         if (password.length < 8 || password.length > 20) {
             alert("2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다.");
             return false;

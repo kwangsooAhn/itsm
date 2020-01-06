@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title>FAQ 리스트</title>
 </head>
@@ -10,7 +11,7 @@
 <div class="container">
     <div id="faqList">
     </div>
-    <div class="button">
+    <div sec:authorize="hasAuthority('faq.create')" class="button">
         <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
     </div>
   </div>

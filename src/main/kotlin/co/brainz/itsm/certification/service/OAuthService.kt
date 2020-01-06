@@ -75,10 +75,12 @@ class OAuthService(private val userService: UserService,
     fun oAuthLogin(oAuthDto: OAuthDto) {
         val aliceUser: AliceUserEntity = userDetailsService.loadUserByUserIdAndPlatform(oAuthDto.userid, oAuthDto.platform)
         val authorities = aliceAuthProvider.authorities(aliceUser)
-        val menuList = aliceAuthProvider.menuList(aliceUser, authorities)
+        val authList = aliceAuthProvider.authList(aliceUser, authorities)
+        val menuList = aliceAuthProvider.menuList(authList)
+        val urlList = aliceAuthProvider.urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList)
+                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList)
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }
 
