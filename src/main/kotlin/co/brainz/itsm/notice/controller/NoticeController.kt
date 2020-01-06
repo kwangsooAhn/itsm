@@ -1,6 +1,5 @@
-package co.brainz.itsm.notice.controller  
+package co.brainz.itsm.notice.controller
 
-import co.brainz.itsm.certification.UserStatus
 import co.brainz.itsm.common.Constants
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService
@@ -99,14 +98,6 @@ class NoticeController(private val userService: UserService,
     fun noticePopUp(model: Model): String {
 
         model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
-
-        //사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
-        val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: UserEntity = userService.selectUser(userId)
-        
-        if (userDto.status == UserStatus.SIGNUP.code) {
-            return "redirect:/certification/status"
-        }
         return "index2"
     }
 }

@@ -23,7 +23,7 @@
             </form>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a href="/">메인화면으로 이동</a>
+            <a href="/document/documentSearch">메인화면으로 이동</a>
         </div>
     </div>
     <div th:if="${validCode == 2}">
@@ -37,7 +37,7 @@
             </form>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a href="/">메인화면으로 이동</a>
+            <a href="/document/documentSearch">메인화면으로 이동</a>
         </div>
     </div>
     <div th:if="${validCode == 3}">
