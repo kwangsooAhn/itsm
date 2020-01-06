@@ -4,7 +4,7 @@ const dateTimePicker = (function() {
         type: 'DATE', // DATE(default), DATEHOUR, HOUR
         dateType: 'YYYY-MM-DD', // YYYY-MM-DD(default), YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
         hourType: '24', // 12(default), 24
-        lang: 'en' // en(default), ko, ja
+        lang: 'ko' // en(default), ko, ja
     }
 
     /**
