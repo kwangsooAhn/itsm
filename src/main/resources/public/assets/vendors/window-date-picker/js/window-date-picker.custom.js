@@ -388,7 +388,7 @@
     toggleEl: null,
     type: DATE,
     dateType: YMD,
-    hourType: $24,
+    hourType: $12,
     allowEmpty: true,
     showButtons: false,
     inputToggle: false,
@@ -536,14 +536,14 @@
             this.els.hourContainer.innerHTML = "\n                <div class=\"wdp-hour-arrow-container\">\n                    <div>\n                        ".concat(this.renderUpIcon(), "\n                    </div>\n                    <div>\n                        ").concat(this.renderUpIcon(), "\n                    </div>\n                    ").concat(this.hourType == $12 ? "<div>".concat(this.renderUpIcon(), "</div>") : '', "\n                </div>\n                <div class=\"wdp-hour-el-container\">\n                    <input type=\"text\" spellcheck=\"false\" class=\"wdp-hour-el\">\n                    <input type=\"text\" spellcheck=\"false\" class=\"wdp-hour-el\">\n                    ").concat(this.hourType == $12 ? '<input type="text" spellcheck="false" class="wdp-hour-el">' : '', "\n                </div>\n                <div class=\"wdp-hour-arrow-container\">\n                    <div>\n                        ").concat(this.renderDownIcon(), "\n                    </div>\n                    <div>\n                        ").concat(this.renderDownIcon(), "\n                    </div>\n                    ").concat(this.hourType == $12 ? "<div>".concat(this.renderDownIcon(), "</div>") : '', "\n                </div>\n            ");
             this.els.body.appendChild(this.els.hourContainer);
 
-            var isDefaultType = true;
-            if (this.hourType === $12 && (this.dateType === MDY || this.dateType === DMY)) {
-              isDefaultType = false;
+            var isDefaultAmPmType = false;
+            if (this.hourType === $12 && (this.dateType === YMD || this.dateType === YDM)) {
+              isDefaultAmPmType = true;
             }
 
-            var hourIndex = isDefaultType ? 2 : 1;
-            var minuteIndex = isDefaultType ? 3 : 2;
-            var ampmIndex = isDefaultType ? 1 : 3;
+            var hourIndex = isDefaultAmPmType ? 2 : 1;
+            var minuteIndex = isDefaultAmPmType ? 3 : 2;
+            var ampmIndex = isDefaultAmPmType ? 1 : 3;
 
             this.els.hourInput = this.els.hourContainer.querySelector('.wdp-hour-el-container > input:nth-child(' + hourIndex + ')');
             this.els.hourInput.value = Util.renderNumber(this.value.hour || 0);

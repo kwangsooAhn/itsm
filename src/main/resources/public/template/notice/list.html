@@ -34,28 +34,28 @@
 <script th:inline="javascript">
     window.onload = function() {
         restSubmit('get', '/notices/ajaxList', true, false);
+
+        // initialization date picker
+        dateTimePicker.initDatePicker('fromDt');
+        dateTimePicker.initDatePicker('toDt');
     }
-        
-    // initialization date picker 
-    dateTimePicker.initDatePicker('fromDt');
-    dateTimePicker.initDatePicker('toDt');
 
     function validation() {
         if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserid').checked) {
-        	alert('검색 조건을 선택해 주세요.');
-        	return false;
+            alert('검색 조건을 선택해 주세요.');
+            return false;
         }
         if (document.getElementById('fromDt').value === '') {
-        	alert('검색 시작 날짜를 입력해주세요'); 
-        	return false;
+            alert('검색 시작 날짜를 입력해주세요'); 
+            return false;
         }
         if (document.getElementById('toDt').value === '') {
-        	alert('검색 종료 날짜를 입력해주세요.');
-        	return false;
+            alert('검색 종료 날짜를 입력해주세요.');
+            return false;
         }
         if (document.getElementById('fromDt').value > document.getElementById('toDt').value) {
-        	alert("검색 시작 날짜가 종료 날짜보다 큽니다.");
-        	return false;
+            alert("검색 시작 날짜가 종료 날짜보다 큽니다.");
+            return false;
         }
         return true;
     }
