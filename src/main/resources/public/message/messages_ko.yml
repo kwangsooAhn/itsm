@@ -92,3 +92,12 @@ notice:
   modify: "수정"
   modifyCompleted: "수정 완료"
   delete: "삭제"
+
+# LOGIN
+login:
+  uid : "아이디"
+  upasswd : "패스워드"
+  sendLogin : "로그인"
+  userSignUp : "회원가입"
+  gooleLogin : "Google 아이디로 로그인"
+  KokaoLogin : "Kakao 아이디로 로그인"
