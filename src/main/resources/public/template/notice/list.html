@@ -1,134 +1,104 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- bootstrap -->
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}"/>
 <!-- jQuery -->
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<!-- dateTimePicker -->
-<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/moment.js"></script>
-<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
-<title>Insert title here</title>
+<script src="../../assets/js/withoutJquery.js"></script>
+<script type="text/javascript" src="../../assets/vendors/window-date-picker/js/window-date-picker.js"></script>
+<link rel="stylesheet" th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" />
+<script src="../../assets/js/datetimePicker.js"></script>
+<meta name="_csrf" th:content="${_csrf.token}"/>
 </head>
 <body>
-	<br />
-	<br />
-	<div class="container">
-		<form id="form_search" method="get" action="/notices/list">
-			<div class="pull-right" style="width: 1100px; margin: 10px 0;">
-				<input type="checkbox" id="notice_title" name="notice_title" value="check" />제목 
-				<input type="checkbox" id="create_userId" name="create_userId" value="check" />작성자 
-				<input type="text" name="keyword" id="keyword">
-				
-				<!-- calendar -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="input-group date" id="fromDateCal" data-target-input="nearest">
-                                    <input type="text" id = "from_date" name = "fromDate" th:value = "${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('fromDate'):#dates.format(#dates.createNow(),'yyyy-MM-dd hh:mm:ss')}" class="form-control datetimepicker-input" data-target="#fromDateCal"/>
-                                    <div class="input-group-append" data-target="#fromDateCal" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="input-group date" id="toDateCal" data-target-input="nearest">
-                                    <input type="text" id = "to_date" name = "toDate" th:value = "${#httpServletRequest.getParameter('toDate')!=null?#httpServletRequest.getParameter('toDate'):#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" class="form-control datetimepicker-input" data-target="#toDateCal"/>
-                                    <div class="input-group-append" data-target="#toDateCal" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>                
-				<!-- submit -->
-				<button type="submit" id="btnSearch" name="btnSearch" onclick="return validation()">검색</button>
-			</div>
-		</form>
-		<button type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'">등록</button>
-		<div>
-			<table class="table table-hover" style="text-align: center">
-				<colgroup>
-					<col width="10%">
-					<col width="40%">
-					<col width="10%">
-					<col width="20%">
-					<col width="20%">
-				</colgroup>
-				<thead>
-					<tr>
-						<th></th>
-						<th>제목</th>
-						<th>팝업</th>
-						<th>작성자</th>
-						<th>등록일시</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="topNotice : ${topNoticeList}">
-						<td th:if="${topNotice.topNoticeYn} == true"><img src="../assets/media/icons/icon_notice.gif"></td>
-						<td th:unless="${topNotice.topNoticeYn} == true"></td>
-						<td style = "text-align:left"><a href="/notices/notice?id="  th:attrappend="href=${topNotice.noticeNo}" th:text="${topNotice.noticeTitle}"></a></td>
-						<td th:if="${topNotice.popYn} == true "><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif"></a></td>
-						<td th:unless="${topNotice.popYn} == true "></td>
-						<td th:text="${topNotice.createUserid}"></td>
-						<td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd')} : ${topNotice.createDt}"></td>
-					</tr>
-					<tr th:each="notice : ${noticeList}">
-						<td id="topNoticeYn"></td>
-						<td style = "text-align:left"><a href="/notices/notice?id=" th:attrappend="href=${notice.noticeNo}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
-						<td th:if="${notice.popYn} == true "><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>
-						<td th:unless="${notice.popYn} == true "></td>
-						<td id="createUserid" th:text="${notice.createUserid}"></td>
-						<td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd')} : ${notice.createDt}"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+    <br />
+    <br />
+    <div class="container">
+        <form id="formSearch" method="get">
+            <div class="pull-right" style="width: 1100px; margin: 10px 0;">
+                <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
+                <input type="checkbox" id="createUserid" name="createUserid" value="check" th:text="#{notice.user}"/>
+                <input type="text" name="keyWord" id="keyWord" />
+                <input type="text" id="fromDt" name="fromDt" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}" />
+                <input type="text" id="toDt" name="toDt" th:value="${#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" />
 
-	<script th:inline="javascript">
+                <!-- submit -->
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/ajaxList', true, true)" th:text="#{notice.search}"></button>
+            </div>
+        </form>
+        <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'" th:text="#{notice.regist}"></button>
+    </div>
+    <div id="noticeList">
+</div>
+<script th:inline="javascript">
+    window.onload = function() {
+        restSubmit('get', '/notices/ajaxList', true, false);
+    }
+        
+    // initialization date picker 
+    // dateTimePicker.initDatePicker('fromDt');
+    // dateTimePicker.initDatePicker('toDt');
 
-	    //calendar 설정 함수
-        $(function () {
-            $('#fromDateCal').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
-            
-            $('#toDateCal').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
-        });
-		
-		//validation check and submit
-		function validation(){
-			var search_value = $('#form_search #keyword').val();
-			var check_value = $("input:checkbox[id='notice_title']").is(":checked") == false && jQuery("input:checkbox[id='create_userId']").is(":checked") == false
-			
-			if(check_value == true){alert("검색 조건을 선택해 주세요."); return false;}
-			if(search_value == ''){alert("검색어를 입력해주세요."); return false;}
-			if($('#from_date').val() == ''){alert("검색 시작 날짜를 입력해주세요."); return false;}
-			if($('#to_date').val() == ''){alert("검색 종료 날짜를 입력해주세요."); return false;}	
-			if($('#from_date').val() > $('#to_date').val()){alert("검색 시작 날짜가 종료 날짜보다 큽니다."); return false;}
-		}
-		
-		//list 팝업 생성
-		function openPopUp(id) {
-			var targetId = id;
-			var targetUrl = "noticePopUp/" + targetId;
-			window.open(targetUrl, targetId, "width = 500, height = 500");			
-		}
-	</script>
+    function validation() {
+        if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserid').checked) {
+        	alert('검색 조건을 선택해 주세요.');
+        	return false;
+        }
+        if (document.getElementById('fromDt').value === '') {
+        	alert('검색 시작 날짜를 입력해주세요'); 
+        	return false;
+        }
+        if (document.getElementById('toDt').value === '') {
+        	alert('검색 종료 날짜를 입력해주세요.');
+        	return false;
+        }
+        if (document.getElementById('fromDt').value > document.getElementById('toDt').value) {
+        	alert("검색 시작 날짜가 종료 날짜보다 큽니다.");
+        	return false;
+        }
+        return true;
+    }
+
+    //list 팝업 생성
+    function openPopUp(id) {
+        var targetUrl = "noticePopUp/" + id + "?value=true";
+        window.open(targetUrl, id, "width = 500, height = 500");
+    }
+
+    function restSubmit(method, url, async, validate) {
+        if (validate) {
+            if (!validation()) {
+                return false;
+            }
+        }
+
+        var data = {
+            noticeTitle: document.getElementById('noticeTitle').checked,
+            createUserid: document.getElementById('createUserid').checked,
+            keyWord: document.getElementById('keyWord').value,
+            fromDt: document.getElementById('fromDt').value,
+            toDt: document.getElementById('toDt').value
+        };
+
+        var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserid="+data.createUserid+"&keyWord="+data.keyWord+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
+        var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                if (xmlhttp.status == 200) {
+                    var xmlhttpStr = xmlhttp.responseText;
+                    document.getElementById("noticeList").innerHTML = xmlhttpStr;
+                } else if (xmlhttp.status == 400) {
+                    alert('There was an error 400');
+                } else {
+                    alert('something else other than 200 was returned');
+                }
+            } 
+        };
+        xmlhttp.send(null);
+    }
+</script>
 </body>
 </html>

@@ -1,0 +1,94 @@
+# Common
+common: 
+  searchWord: "Search"
+  btn: 
+    save: "SAVE"
+    close: "CLOSE"
+  label: 
+    title: "Title"
+    message: "Message"
+    path: "URL"
+    exceptionType: "Exception Type"
+    knownError: "Known Error"
+  msg:
+    save: "Saved"
+
+# Menu
+menu:
+  service: "Service"
+  service.request: "Service Request"
+  service.list: "Servie History"
+  help: "Helpdesk"
+  help.notice: "Notice"
+  help.faq: "FAQ"
+
+# Auth
+auth:
+  service.read:
+    all: "서비스 요청 전체 조회"
+    my: "서비스 요청 자신 업무만 조회"
+  service.create: "서비스 요청 작성"
+  notice.read: "공지사항 조회"
+  notice.create: "공지사항 등록"
+  notice.update: "공지사항 변경"
+  notice.delete: "공지사항 삭제"
+  faq.read: "공지사항 조회"
+  faq.create: "공지사항 등록"
+  faq.update: "공지사항 변경"
+  faq.delete: "공지사항 삭제"
+
+# User
+user:
+  id: "User ID"
+  name: "Name"
+  email: "Email"
+  position: "Postion"
+  department: "Department"
+  extensionNumber: "ExtensionNumber"
+  phoneNumber: "phoneNumber"
+  reg: "Sign up"
+  read: "User read"
+  create: "User create"
+  update: "User update"
+  delete: "User delete"
+  search:
+    id: "ID"
+    name: "Name"
+    position: "Position"
+    department: "Department"
+    extensionNumber: "Extension number"
+
+# FAQ
+faq:
+  add: "Add"
+  list: "List"
+  save: "Save"
+  delete: "Delete"
+  group: "Group"
+  title: "Title"
+  contents: "Contents"
+  edit: "Edit"
+
+# NOTICE
+notice:
+  title: "Title"
+  user: "User"
+  popUp:  "PopUp"
+  createDt: "CreateDt"
+  search: "Search"
+  regist: "Regist"
+  contents: "Contents"
+  popUpNoticeSettings: "PopUp Notice Settings"
+  popUpNoticeSettingsInfo: "PopUp Notice Settings Info"
+  topNoticeSettings: "Top Notice Settings"
+  topNoticeSettingsInfo: "Top Notice Settings Info"
+  width: "Width"
+  height: "Height"
+  strtDt: "Start Date"
+  endDt: "End Date"
+  set: "Set"
+  notSet: "Not Set"
+  list: "List"
+  modify: "Modify"
+  modifyCompleted: "Modify Completed"
+  delete: "Delete"

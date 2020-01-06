@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<!-- bootstrap -->
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
+<!-- jQuery -->
+<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
+<!-- dateTimePicker -->
+<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/moment.js"></script>
+<script type="text/javascript" src="../../assets/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
+<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-datetimepicker/css/font-awesome-4.7.0/css/font-awesome.min.css}" />
+<title>역할 정보</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch">추가</button>
+                <span sec:authentication="name" id="sessionCreateId" name="sessionCreateId"></span>
+            </td>
+        </tr>
+    </table>
+    <table border="1" id="roleTable" >
+        <tr>
+            <colgroup>
+                <col width="620px">
+            </colgroup>
+            <td>
+                <a name="alink" th:each="role : ${roleList}" th:id="${role.roleId}" th:text="|[ ${role.roleName} ]|" >
+            </td>
+        </tr>
+    </table>
+    <table border="1">
+        <colgroup>
+            <col width="120px">
+            <col width="480px">
+        </colgroup>
+        <tr>
+            <th>* 역할 아이디</th>
+            <td>
+                <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
+            </td>
+        </tr>
+        <tr>
+            <th>* 역할명</th>
+            <td>
+                <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
+            </td>
+        </tr>
+        <tr>
+            <th>역할설명</th>
+            <td>
+                <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${roleDetail?.roleDesc}"/>
+            </td>
+        </tr>
+        <tr>
+            <th>권한</th>
+            <td>
+                <ui th:each="auth : ${authList}">
+                    <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
+                    <span th:text="${auth?.authName}"></span>
+                </ui>
+            </td>
+        </tr>
+        <tr>
+            <th>등록자</th>
+            <td><span id="spanCreateUserid" name="spanCreateUserid" th:text="${roleDetail?.createUserid}"></span></td>
+        </tr>
+        <tr>
+            <th>등록일시</th>
+            <td><span id="spanCreateDt" name="spanCreateDt" th:text="${#temporals.format(roleDetail?.createDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
+        </tr>
+        <tr>
+            <th>수정자</th>
+            <td><span id="spanUpdateUserid" name="spanUpdateUserid" th:text="${roleDetail?.updateUserid}"></span></td>
+        </tr>
+        <tr>
+            <th>수정일시</th>
+            <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${#temporals.format(roleDetail?.updateDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>
+                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" >삭제</button>
+            </td>
+            <td>
+                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" >수정</button>
+            </td>
+            <td>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" >등록</button>
+            </td>
+        </tr>
+    </table>
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/    
+$(document).ready(function () {
+    
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+        
+    $('#sessionCreateId').hide();
+    if ($('#txtRoleId').val() != null && $('#txtRoleId').val() != '') {
+        $("#txtRoleId").attr("readonly",true);
+        $("#btnUpdate").show();
+        $("#btnRegist").hide();
+    } else {
+        var first = $("a[name='alink']").first();
+        onGetDetail(first[0].attributes.id.value);
+        $("#btnUpdate").show();
+        $("#btnRegist").hide();
+    }
+    
+    /** 추가 버튼  */
+    $('#btnSearch').on('click', function () {
+        $('#txtRoleId').val('');
+        $("#txtRoleId").attr("readonly",false);
+        $('#txtRoleName').val('');
+        $('#txtRoleDesc').val('');
+        $(".roleAuth input").prop('checked', false);
+        $('input:checkbox[name="roleAuth"]').each(function() {
+            this.checked = false;
+        });
+        $('#spanCreateUserid').text('');
+        $('#spanCreateDt').text('');
+        $('#spanUpdateUserid').text('');
+        $('#spanUpdateDt').text('');
+        $("#btnUpdate").hide();
+        $("#btnRegist").show();
+    });
+    
+    /** 등록 버튼  */
+    $('#btnRegist').on('click', function () {
+        onSave('post');
+    });
+
+    /** 수정 버튼  */
+    $('#btnUpdate').on('click', function () {
+        onSave('put');
+    });
+    
+    $("a[name='alink']").on("click", function(){
+        $("#btnUpdate").show();
+        $("#btnRegist").hide();
+        onGetDetail(this.id);
+    });
+    
+    /** 삭제 버튼  */
+    $('#btnDelete').on('click', function () {
+        $.ajax({
+            url: '/roles/'+$("#txtRoleId").val(),
+            type:"delete",
+            dataType:"text",
+            success: function (result) {
+                if (result == "true") {
+                    alert("삭제 되었습니다.");
+                    window.location.href ="/roles/form";
+                } else {
+                    alert("관련된 사용자부터 삭제하세요.");
+                }
+            },
+            error: function (request, status, error) {
+                alert("삭제가 실패되었습니다 . 관리자에게 문의 주세요.");
+                console.log(request);
+                console.log(status);
+                console.log(error);
+            }
+        }) ;
+    });
+    
+    function onGetDetail(roldId) {
+        $.ajax({
+            url: '/roles/' + roldId,
+            type:"get",
+            success: function (role) {
+                $('#txtRoleId').val(role[0].roleId);
+                $('#txtRoleName').val(role[0].roleName);
+                $('#txtRoleDesc').val(role[0].roleDesc);
+                $(".roleAuth input").prop('checked', false);
+                $('input:checkbox[name="roleAuth"]').each(function() {
+                    this.checked = false;
+                    for (var i = 0; i<role[0].arrAuthList.length; i++) {
+                        if (this.id == role[0].arrAuthList[i].authId) {
+                            this.checked = true;
+                        }
+                    }
+                });
+                $('#spanCreateUserid').text(role[0].createUserid);
+                $('#spanCreateDt').text(role[0].createDt);
+                $('#spanUpdateUserid').text(role[0].updateUserid);
+                $('#spanUpdateDt').text(role[0].updateDt);
+                $("#txtRoleId").attr("readonly",true);
+            },
+            error: function (request, status, error) {
+                alert("관리자에게 문의 주세요.");
+                console.log(request);
+                console.log(status);
+                console.log(error);
+            }
+        });
+    }
+    function onSave(flag) {
+        if ($('#txtRoleId').val() == "" || $('#txtRoleId').val() == "" ) {
+            alert("역할 아이디를 입력하세요.");
+            return;
+        }
+        
+        if ($('#txtRoleName').val() == "" || $('#txtRoleName').val() == "" ) {
+            alert("역할 명을 입력하세요.");
+            return;
+        }
+        
+        //저장 데이터 수집
+        var obj = new Object();
+        obj.roleId = $('#txtRoleId').val();    //역할 아이디
+        obj.roleName = $('#txtRoleName').val();//역할 명
+        obj.roleDesc= $('#txtRoleDesc').val(); //역할 설명
+        var arrAuthId = new Array();           //역할 권한
+        $("input[name=roleAuth]:checked").each(function(index, item) {
+            arrAuthId[index] = this.id;
+        });
+        obj.arrAuthId = arrAuthId;
+        if (flag == 'post') {
+            obj.createUserid = $('#sessionCreateId').text(); //등록자
+            strUrl = '/roles/';
+        } else {
+            obj.updateUserid = $('#sessionCreateId').text(); //수정자
+            strUrl = '/roles/'+$("#txtRoleId").val();
+        }
+        var roleJson = JSON.stringify(obj);
+        $.ajax({
+            url: strUrl,
+            type:flag,
+            data:roleJson,
+            contentType:"application/json;charset=UTF-8",
+            success: function (role) {
+                if (role != "") {
+                    alert("저장 되었습니다.");
+                    window.location.href ="/roles/form";
+                }
+            },
+            error: function (request, status, error) {
+                alert("관리자에게 문의 주세요.");
+                console.log(request);
+                console.log(status);
+                console.log(error);
+            }
+        });
+    }
+});
+/*]]>*/
+</script>
+</body>
+</html>

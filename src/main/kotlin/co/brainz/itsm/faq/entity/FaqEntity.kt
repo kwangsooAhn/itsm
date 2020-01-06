@@ -1,27 +1,47 @@
 package co.brainz.itsm.faq.entity
 
 import java.io.Serializable
-import javax.persistence.Table
+import java.time.LocalDateTime
+import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GenerationType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.Column
-import java.time.LocalDateTime
+import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
+/**
+ * ### FAQ 엔티티 클래스.
+ *
+ * @author Jung heechan
+ */
 @Entity
-@Table(name = "portalFaq")
+@Table(name = "portal_faq")
 public data class FaqEntity(
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid") @Column var faqId: String = "",
-    @Column var faqGroup: String = "",
-    @Column var faqTitle: String = "",
-    @Column var faqContent: String = "",
-    @Column var createDt: LocalDateTime = LocalDateTime.now(),
-    @Column var createUserid: String?,
-    @Column var updateDt: LocalDateTime?,
-    @Column var updateUserid: String?
 
-) : Serializable {
-}
+    @Id @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "faq_id")
+    var faqId: String = "",
+
+    @Column(name = "faq_group")
+    var faqGroup: String = "",
+
+    @Column(name = "faq_title")
+    var faqTitle: String = "",
+
+    @Column(name = "faq_content")
+    var faqContent: String = "",
+
+    @Column(name = "create_dt")
+    var createDt: LocalDateTime = LocalDateTime.now(),
+
+    @Column(name = "create_userid")
+    var createUserid: String?,
+
+    @Column(name = "update_dt")
+    var updateDt: LocalDateTime?,
+
+    @Column(name = "update_userid")
+    var updateUserid: String?
+
+) : Serializable
