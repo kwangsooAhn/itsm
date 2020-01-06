@@ -19,4 +19,33 @@ object AliceConstants {
         USE_RSA("RSA")
         ;
     }
+    
+    /**
+     * 접근 허용 url Patten 정의.
+     */
+    enum class AccessAllowUrlPatten(val value: String) {
+
+        PATTEN1("/assets/**"),
+        PATTEN2("/favicon.ico"),
+        PATTEN3("/"),
+        PATTEN4("/logout"),
+        PATTEN5("/certification/**"),
+        PATTEN6("/oauth/**"),
+        PATTEN7("/portal/**"),
+        PATTEN8("/layout/**"),
+        PATTEN9("/index**"),
+        PATTEN10("/document/**"),
+        PATTEN11("/exception/**"),
+        PATTEN12("/error");
+        
+        companion object {
+            fun getAccessAllowUrlPatten(): List<String> {
+                val pattens = mutableListOf<String>()
+                values().forEach {
+                    pattens.add(it.value)
+                }
+                return pattens
+            }
+        }
+    }
 }

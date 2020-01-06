@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -156,8 +157,8 @@
             </div>
             <div style="float: right;">
                 <button type="button" onclick="location.href='/notices/list'" th:text="#{notice.list}"></button>
-                <button th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/notices}]])" th:text="#{notice.regist}"></button>
-                <button th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.modifyCompleted}"></button>
+                <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/notices}]])" th:text="#{notice.regist}"></button>
+                <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.modifyCompleted}"></button>
             </div>
         </form>
     </div>
