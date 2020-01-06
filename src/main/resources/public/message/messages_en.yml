@@ -95,9 +95,9 @@ notice:
   
 # LOGIN
 login:
-  uid : "ID"
-  upasswd : "PassWord"
-  sendLogin : "Login"
-  userSignUp : "Sign Up"
-  gooleLogin : "Google Login"
-  KokaoLogin : "Kokao Login"
+  uid: "ID"
+  upasswd: "PassWord"
+  sendLogin: "Login"
+  userSignUp: "Sign Up"
+  gooleLogin: "Google Login"
+  KokaoLogin: "Kokao Login"

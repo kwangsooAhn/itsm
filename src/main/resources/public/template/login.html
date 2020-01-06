@@ -40,13 +40,11 @@
         document.getElementById('uid').focus();
     }
     
-    document.onkeypress = keyPress;
-    function keyPress() {
-      var ieKey = window.event.keyCode;
-      if (ieKey == 13 ) {
-          onLogin();
-      }
-    }
+    window.onkeydown = function() {
+        if (event.keyCode == 13) {
+        	onLogin();
+        }
+    };
     
     function onLogin() {
         const rsa = new RSAKey();
@@ -55,7 +53,7 @@
         document.getElementById('password').value = rsa.encrypt(document.getElementById("upasswd").value.trim());
         document.loginForm.submit();
     }
-/*]]>*/
+    /*]]>*/
 </script>
 </body>
 </html>
