@@ -33,10 +33,11 @@ object AliceConstants {
         PATTEN6("/oauth/**"),
         PATTEN7("/portal/**"),
         PATTEN8("/layout/**"),
-        PATTEN9("/index**"),
-        PATTEN10("/document/**"),
-        PATTEN11("/exception/**"),
-        PATTEN12("/error");
+        PATTEN9("/layout**"),
+        PATTEN10("/index**"),
+        PATTEN11("/document/**"),
+        PATTEN12("/exception/**"),
+        PATTEN13("/error");
         
         companion object {
             fun getAccessAllowUrlPatten(): List<String> {

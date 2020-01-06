@@ -5,8 +5,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- bootstrap -->
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}"/>
+<!-- jQuery -->
+<script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
 <script src="../../assets/js/withoutJquery.js"></script>
-<script type="text/javascript" src="../../assets/vendors/window-date-picker/js/window-date-picker.custom.js"></script>
+<script type="text/javascript" src="../../assets/vendors/window-date-picker/js/window-date-picker.js"></script>
 <link rel="stylesheet" th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" />
 <script src="../../assets/js/datetimePicker.js"></script>
 <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -24,21 +26,21 @@
                 <input type="text" id="toDt" name="toDt" th:value="${#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" />
 
                 <!-- submit -->
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/ajaxList', true, true)" th:text="#{notice.search}"></button>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true, true)" th:text="#{notice.search}"></button>
             </div>
         </form>
-        <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'" th:text="#{notice.regist}"></button>
+        <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
     </div>
     <div id="noticeList">
-</div>
+    </div>
 <script th:inline="javascript">
     window.onload = function() {
-        restSubmit('get', '/notices/ajaxList', true, false);
-
-        // initialization date picker
-        dateTimePicker.initDatePicker('fromDt');
-        dateTimePicker.initDatePicker('toDt');
+        restSubmit('get', '/notices/list', true, false);
     }
+        
+    // initialization date picker 
+    // dateTimePicker.initDatePicker('fromDt');
+    // dateTimePicker.initDatePicker('toDt');
 
     function validation() {
         if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserid').checked) {
@@ -46,7 +48,7 @@
             return false;
         }
         if (document.getElementById('fromDt').value === '') {
-            alert('검색 시작 날짜를 입력해주세요'); 
+            alert('검색 시작 날짜를 입력해주세요');
             return false;
         }
         if (document.getElementById('toDt').value === '') {
