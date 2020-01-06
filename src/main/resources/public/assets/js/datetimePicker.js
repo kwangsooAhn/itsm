@@ -3,7 +3,8 @@ const dateTimePicker = (function() {
         inputToggle: true,
         type: 'DATE', // DATE(default), DATEHOUR, HOUR
         dateType: 'YYYY-MM-DD', // YYYY-MM-DD(default), YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
-        hourType: '24' // 12, 24(default)
+        hourType: '24', // 12(default), 24
+        lang: 'en' // en(default), ko, ja
     }
 
     /**
@@ -19,7 +20,6 @@ const dateTimePicker = (function() {
         const pickerId = 'picker-' + targetId;
         options.value = targetElement.value;
         options.el = '#' + pickerId;
-        options.lang = 'ko'; // 언어 설정.
         options.inputEl = targetElement;
 
         // create target element container
