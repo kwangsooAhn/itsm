@@ -21,7 +21,7 @@ import co.brainz.itsm.auth.AuthEntity
  * 역할 관리 데이터 처리 클래스
  */
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/rest/roles")
 class RoleRestController(private val roleService: RoleService) {
 
     private val logger = LoggerFactory.getLogger(RoleRestController::class.java)
@@ -45,7 +45,7 @@ class RoleRestController(private val roleService: RoleService) {
     /**
      * 역할 등록 한다.
      */
-    @PostMapping("/")
+    @PostMapping("/", "")
     fun insertRole(@RequestBody role: RoleDto): String {
         return roleService.insertRole(role)
     }
