@@ -8,7 +8,7 @@
 </head>
 <body>
 <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(users)}">
-    <table class="table table-hover">
+    <table>
         <thead>
         <tr>
             <th th:text="#{user.id}">아이디</th>
@@ -19,16 +19,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${users}" data-toggle="modal" data-target="#userDetailModal" th:data-id="${user.userId}">
-            <td th:text="${user.userId}">사용자 아이디</td>
-            <td th:text="${user.userName}">사용자 이름</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
+        <tr style="cursor: pointer" class="userRows" th:each="user : ${users}">
+            <td><label th:text="${user.userId}"></label><input type="hidden" name="userId" th:value="${user.userId}"></td>
+            <td th:text="${user.userName}">이름</td>
+            <td th:text="${user.department}">부서</td>
+            <td th:text="${user.position}">직책</td>
+            <td th:text="${user.extensionNumber}">내선번호</td>
         </tr>
         </tbody>
     </table>
 </div>
-<div id="saveResult"></div>
 </body>
 </html>

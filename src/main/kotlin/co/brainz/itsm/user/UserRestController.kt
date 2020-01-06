@@ -2,20 +2,19 @@ package co.brainz.itsm.user
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * 사용자 관리 데이터 처리 클래스
  */
 @RestController
-@RequestMapping("/users")
-class UserRestController {
-
+@RequestMapping("/rest/users")
+class UserRestController(private val userService: UserService) {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
-
-    @Autowired
-    lateinit var userService: UserService
 
     /**
      * 사용자 전체 목록을 조회한다.
@@ -34,29 +33,10 @@ class UserRestController {
     }
 
     /**
-     * 사용자를 저장한다.
-     */
-    @PostMapping("/{userId}")
-    fun setUser(@PathVariable userId: String, user: UserEntity): String {
-        //userService.selectUser(userId)
-
-        return ""
-    }
-
-    /**
      * 사용자를 업데이트한다.
      */
     @PutMapping("/{userId}")
-    fun updateUser(@PathVariable userId: String, user: UserUpdateDto): UserEntity {
+    fun updateUser(user: UserUpdateDto): UserEntity {
         return userService.updateUser(user)
     }
-
-    /**
-     * 사용자를 삭제한다.
-     */
-    @DeleteMapping("/{userId}")
-    fun deleteUser(@PathVariable userId: String): String {
-        return ""
-    }
-
 }

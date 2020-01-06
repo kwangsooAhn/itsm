@@ -10,6 +10,8 @@ common:
     path: "URL"
     exceptionType: "Exception Type"
     knownError: "Known Error"
+  msg:
+    save: "Saved"
 
 # Menu
 menu:
@@ -39,16 +41,22 @@ auth:
 user:
   id: "User ID"
   name: "Name"
-  email: "이메일"
-  position: "직책"
-  department: "부서"
-  extensionNumber: "내선번호"
-  phoneNumber: "전화번호"
-  reg: "사용자 등록"
-  read: "사용자 조회"
-  create: "사용자 생성"
-  update: "사용자 변경"
-  delete: "사용자 삭제"
+  email: "Email"
+  position: "Postion"
+  department: "Department"
+  extensionNumber: "ExtensionNumber"
+  phoneNumber: "phoneNumber"
+  reg: "Sign up"
+  read: "User read"
+  create: "User create"
+  update: "User update"
+  delete: "User delete"
+  search:
+    id: "ID"
+    name: "Name"
+    position: "Position"
+    department: "Department"
+    extensionNumber: "Extension number"
 
 # FAQ
 faq:
@@ -60,7 +68,7 @@ faq:
   title: "Title"
   contents: "Contents"
   edit: "Edit"
-  
+
 # NOTICE
 notice:
   title: "Title"
