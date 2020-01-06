@@ -21,9 +21,9 @@ object AliceConstants {
     }
     
     /**
-     * 허용하지 않는 url Patten 정의.
+     * 접근 허용 url Patten 정의.
      */
-    enum class ExcludeUrlPatten(val value: String) {
+    enum class AccessAllowUrlPatten(val value: String) {
 
         PATTEN1("/assets/**"),
         PATTEN2("/favicon.ico"),
@@ -39,7 +39,7 @@ object AliceConstants {
         PATTEN12("/error");
         
         companion object {
-            fun getExcludeUrlPatten(): List<String> {
+            fun getAccessAllowUrlPatten(): List<String> {
                 val pattens = mutableListOf<String>()
                 values().forEach {
                     pattens.add(it.value)

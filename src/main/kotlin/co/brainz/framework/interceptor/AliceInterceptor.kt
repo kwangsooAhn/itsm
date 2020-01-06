@@ -73,7 +73,7 @@ class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdap
      * URL 제외 패턴 확인.
      */
     fun urlExcludePatternCheck(requestUrl: String): Boolean {
-        val result = AliceConstants.ExcludeUrlPatten.getExcludeUrlPatten().find {
+        val result = AliceConstants.AccessAllowUrlPatten.getAccessAllowUrlPatten().find {
             if ("\\*\\*$".toRegex().containsMatchIn(it)) {
                 requestUrl.startsWith(it.replace("**", ""))
             } else {
