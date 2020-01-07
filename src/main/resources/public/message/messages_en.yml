@@ -92,3 +92,12 @@ notice:
   modify: "Modify"
   modifyCompleted: "Modify Completed"
   delete: "Delete"
+  
+# LOGIN
+login:
+  uid: "ID"
+  upasswd: "PassWord"
+  sendLogin: "Login"
+  userSignUp: "Sign Up"
+  gooleLogin: "Google Login"
+  kakaoLogin: "Kakao Login"

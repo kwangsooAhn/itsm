@@ -5,48 +5,55 @@
     <title>Login</title>
 </head>
 <body>
-
-테스트계정: kbh/itsm123
 <form id="loginForm" name="loginForm" th:action="@{/login}" method="post">
     <input type="hidden" id="userId" name="userId"/>
     <input type="hidden" id="password" name="password"/>
 </form>
-
 <div>
-    <label for="uid">아이디: </label><input type="text" id="uid" name="uid"/>
-    <label for="upasswd">비밀번호:</label><input type="password" id="upasswd" name="upasswd"/>
-    <button id="sendLogin" type="button">로그인</button>
-    <button id="userSignUp" type="button" onclick="location.href='/certification/signup'">회원가입</button>
+    <label for="uid" th:text="#{login.uid}"></label> : <input type="text" id="uid" name="uid"/>
+    <label for="upasswd" th:text="#{login.upasswd}"></label> : <input type="password" id="upasswd" name="upasswd"/>
+    <button id="sendLogin" th:text="#{login.sendLogin}" type="button" onclick="onLogin();"></button>
+    <button id="userSignUp" th:text="#{login.userSignUp}" type="button" onclick="location.href='/certification/signup'"></button>
 </div>
 <div>
-    <a href="/oauth/google/login">Google 아이디로 로그인</a>
+    <a href="/oauth/google/login" th:text="#{login.gooleLogin}"></a>
 </div>
 <div>
-    <a href="/oauth/kakao/login">Kakao 아이디로 로그인</a>
+    <a href="/oauth/kakao/login" th:text="#{login.kakaoLogin}"></a>
 </div>
 <!--/*@thymesVar id="errorMsg" type=""*/-->
 <div th:text="${errorMsg}"></div>
 
-<script th:src="@{/assets/vendors/jquery-3.4.0/jquery-3.4.0.js}"></script>
 <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
 <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    $(document).ready(function () {
-        /*<![CDATA[*/
-        const keyModule = [[ ${#request.getAttribute('_publicKeyModulus')}]];
-        const keyExponent = [[ ${#request.getAttribute('_publicKeyExponent')}]];
-        $('#sendLogin').on('click', function () {
-            const rsa = new RSAKey();
-            rsa.setPublic(keyModule, keyExponent);
-            $('#userId').val(rsa.encrypt($.trim($('#uid').val())));
-            $('#password').val(rsa.encrypt($.trim($('#upasswd').val())));
-            $('#loginForm').submit();
-        });
-        /*]]>*/
-    });
+    var keyModule = "";
+    var keyExponent = "";
+    
+    /*<![CDATA[*/
+    window.onload = function() {
+        keyModule = [[ ${#request.getAttribute('_publicKeyModulus')}]];
+        keyExponent = [[ ${#request.getAttribute('_publicKeyExponent')}]];
+        document.getElementById('uid').focus();
+    }
+    
+    window.onkeydown = function() {
+        if (event.keyCode == 13) {
+            onLogin();
+        }
+    };
+    
+    function onLogin() {
+        const rsa = new RSAKey();
+        rsa.setPublic(keyModule, keyExponent);
+        document.getElementById('userId').value = rsa.encrypt(document.getElementById("uid").value.trim());
+        document.getElementById('password').value = rsa.encrypt(document.getElementById("upasswd").value.trim());
+        document.loginForm.submit();
+    }
+    /*]]>*/
 </script>
 </body>
 </html>
