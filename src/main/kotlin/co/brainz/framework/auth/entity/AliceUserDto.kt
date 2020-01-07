@@ -9,6 +9,7 @@ import java.time.LocalDateTime
  * 로그인 인증시 인증 상세 정보에 담길 데이터 클래스
  */
 data class AliceUserDto(
+        val userKey: String,
         val userId: String,
         val userName: String,
         val email: String,
@@ -18,5 +19,4 @@ data class AliceUserDto(
         val grantedAuthories: Set<GrantedAuthority>,
         val menus: Set<AliceMenuEntity>,
         val urls: Set<AliceUrlEntity>
-) : Serializable {
-}
+) : Serializable

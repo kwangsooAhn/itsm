@@ -14,5 +14,5 @@ interface CertificationRepository: JpaRepository<UserEntity, String>, JpaSpecifi
 
     fun findByUserId(userId: String): UserEntity
 
-    fun findByEmail(email: String): UserEntity
+    fun countByEmail(email: String): Int
 }

@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit4.SpringRunner
 import java.time.LocalDateTime
+import java.util.*
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
@@ -30,7 +31,7 @@ class UserJpaTest {
     @Before
     fun setUp() {
         userEntity = UserEntity(
-            "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
+            UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
             0, "과장", "ITSM팀", "02-6416-8324", "admin",
             "admin", "status", "code", "", LocalDateTime.now(), LocalDateTime.now(),
             LocalDateTime.now(), emptySet()

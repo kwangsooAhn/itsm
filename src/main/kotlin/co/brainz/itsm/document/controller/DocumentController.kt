@@ -1,6 +1,6 @@
 package co.brainz.itsm.document.controller
 
-import co.brainz.itsm.certification.UserStatus
+import co.brainz.itsm.certification.constants.CertificationConstants
 import co.brainz.itsm.user.UserEntity
 import co.brainz.itsm.user.UserService
 import org.springframework.security.core.context.SecurityContextHolder
@@ -39,7 +39,7 @@ class DocumentController(private val userService: UserService) {
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: UserEntity = userService.selectUser(userId)
 
-        if (userDto.status == UserStatus.SIGNUP.code) {
+        if (userDto.status == CertificationConstants.UserStatus.SIGNUP.code) {
             return "redirect:/certification/status"
         }
         return "document/documentSearch"
