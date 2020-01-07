@@ -24,7 +24,7 @@ public class RoleController(private val roleService: RoleService) {
     /**
      * 역할  설정 뷰를 호출한다.
      */
-    @GetMapping("/form", "")
+    @GetMapping("/edit", "")
     public fun getRolelist(request: HttpServletRequest, model: Model): String {
 
         var roleAllList = roleService.selectRoleList()
@@ -32,6 +32,6 @@ public class RoleController(private val roleService: RoleService) {
         model.addAttribute("authList", authAllList)
         model.addAttribute("roleList", roleAllList)
 
-        return "role/form"
+        return "role/roleEdit"
     }
 }

@@ -78,9 +78,9 @@
             </table>
         </div>
         <div style = "float:right;">
-            <button type="button" onclick="location.href='/notices/list'" th:text="#{notice.list}"></button>
-            <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notices/form?id={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''" th:text="#{notice.modify}"></button>
-            <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete" th:onclick="restSubmit('DELETE',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.delete}"></button>
+            <button type="button" onclick="location.href='/notices/search'" th:text="#{notice.list}"></button>
+            <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notices/{id}/edit(id=${notice.NoticeNo})}+'\''" th:text="#{notice.modify}"></button>
+            <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete" th:onclick="restSubmit('DELETE',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.delete}"></button>
         </div>
         </form>
     </div>
@@ -116,7 +116,7 @@
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                 if (xmlhttp.status == 200) {
                     alert("삭제 처리되었습니다.");
-                    window.location = "/notices/list";
+                    window.location = "/notices/search";
                 } else if (xmlhttp.status == 400) {
                     alert('There was an error 400');
                 } else {
