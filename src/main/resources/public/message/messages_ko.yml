@@ -100,4 +100,4 @@ login:
   sendLogin: "로그인"
   userSignUp: "회원가입"
   gooleLogin: "Google 아이디로 로그인"
-  KokaoLogin: "Kakao 아이디로 로그인"
+  kakaoLogin: "kakao 아이디로 로그인"
