@@ -26,16 +26,16 @@
                 <input type="text" id="toDt" name="toDt" th:value="${#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" />
 
                 <!-- submit -->
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/ajaxList', true, true)" th:text="#{notice.search}"></button>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true, true)" th:text="#{notice.search}"></button>
             </div>
         </form>
-        <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/form'" th:text="#{notice.regist}"></button>
+        <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
     </div>
     <div id="noticeList">
-</div>
+    </div>
 <script th:inline="javascript">
     window.onload = function() {
-        restSubmit('get', '/notices/ajaxList', true, false);
+        restSubmit('get', '/notices/list', true, false);
     }
         
     // initialization date picker 
