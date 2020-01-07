@@ -23,22 +23,28 @@
 <script th:src="@{/assets/vendors/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
 
-<script type="text/javascript" th:inline="javascript">
-    $(document).ready(function () {
-        /*<![CDATA[*/
-        const menus = [[ ${#authentication.details.menus}]];
+        <script type="text/javascript" th:inline="javascript">
+            $(document).ready(function () {
+                /*<![CDATA[*/
+                const menus = [[ ${#authentication.details.menus}]];
 
-        $.each(menus, function (idx, menu) {
-            const menuUrl = menu.url;
-            const btnMenu = $('<a>').text(menu.menuId + ' 메뉴로 이동하기 (' + menuUrl + ')').attr('href', menuUrl);
-            $('#userMenus').append(btnMenu).append("<br/>");
-            //btnMenu.on('click', function () {
-            //    if (menuUrl == '') return;
-            //    $('#contents1').load(menuUrl, function(responseText, textStatus, jqXHR) {});
-            //});
-        });
-        /*]]>*/
-    });
-</script>
-</body>
+                $.each(menus, function (idx, menu) {
+                    const menuUrl = menu.url;
+                    const btnMenu = $('<a>').text(menu.menuId + ' 메뉴로 이동하기 (' + menuUrl + ')').attr('href', menuUrl);
+                    $('#userMenus').append(btnMenu).append("<br/>");
+                    //btnMenu.on('click', function () {
+                    //    if (menuUrl == '') return;
+                    //    $('#contents1').load(menuUrl, function(responseText, textStatus, jqXHR) {});
+                    //});
+                });
+
+                /*]]>*/
+
+            });
+
+            function logout() {
+                document.getElementById("logoutForm").submit();
+            }
+        </script>
+    </body>
 </html>

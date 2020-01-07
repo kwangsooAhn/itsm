@@ -63,7 +63,7 @@
     }
 
     function restSubmit(method, url) {
-        var xmlhttp = createXmlHttpRequestObject();
+        var xmlhttp = createXmlHttpRequestObject(method, url);
         xmlhttp.open(method,url);
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {

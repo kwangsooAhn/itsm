@@ -8,15 +8,17 @@ import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Component
 
 @Component
-class AliceUserDetailsService(private var aliceUserRepository: AliceUserRepository
-                              , private var aliceAuthRepository: AliceAuthRepository) {
+class AliceUserDetailsService(
+    private var aliceUserRepository: AliceUserRepository,
+    private var aliceAuthRepository: AliceAuthRepository
+) {
 
     @Throws(EmptyResultDataAccessException::class)
     fun loadUserByUsername(userId: String): AliceUserEntity {
         return aliceUserRepository.findByUserId(userId)
     }
 
-    fun getAuthList(authIds: MutableSet<String>): Set<AliceAuthEntity> {
+    fun getAuthList(authIds: Set<String>): Set<AliceAuthEntity> {
         return aliceAuthRepository.findByAuthIdIn(authIds)
     }
 
