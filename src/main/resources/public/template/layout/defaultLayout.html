@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" >
-<head>
-    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Alice</title>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
-</head>
-<body>
-    <th:block th:replace="layout/menu">menu</th:block>
-    <th:block layout:fragment="content"></th:block>
-    <footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
-</body>
-    <th:block layout:fragment="pageScript"></th:block>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Alice</title>
+        <th:block th:replace="layout/fragments/commonHead">header</th:block>
+    </head>
+    <body>
+        <th:block th:replace="layout/menu">menu</th:block>
+        <th:block layout:fragment="content">contents</th:block>
+        <footer th:replace="layout/fragments/commonFooter :: commonFooter">footer</footer>
+    </body>
+    <th:block layout:fragment="pageScript">script</th:block>
+
 </html>

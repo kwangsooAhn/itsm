@@ -21,6 +21,8 @@ menu:
   help: "Helpdesk"
   help.notice: "Notice"
   help.faq: "FAQ"
+  settings: "settings"
+  settings.users: "Users management"
 
 # Auth
 auth:
