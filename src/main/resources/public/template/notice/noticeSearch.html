@@ -34,11 +34,11 @@
 <script th:inline="javascript">
     window.onload = function() {
         restSubmit('get', '/notices/list', true, false);
-    }
         
-    // initialization date picker 
-    // dateTimePicker.initDatePicker('fromDt');
-    // dateTimePicker.initDatePicker('toDt');
+     // initialization date picker
+        dateTimePicker.initDatePicker('fromDt');
+        dateTimePicker.initDatePicker('toDt');
+    }
 
     function validation() {
         if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserid').checked) {
