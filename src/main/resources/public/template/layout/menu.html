@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>Insert title here</title>
-    </head>
-    <body>
-        <a href="/layout/menuTest">메뉴이동</a>
-        <a href="/notices/search">공지사항</a>
-        <a href="/faqs/search">FAQ</a>
-        <a href="/roles/edit">역할 CRUD</a>
-        <a href="/process/list">프로세스목록</a>
-        <a href="/document/list">문서양식 목록</a>
-        <a href="/exception/list">예외처리</a>
-        <a href="/files">파일업로드</a>
-        <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post">
-            <a href="javascript:logout()">로그아웃</a>
-        </form>
-        <div style="border: 1px solid red"></div>
-        <div id="userMenus"></div>
-        <div id="contents1" style="border: 1px solid red"></div>
-        <link rel="stylesheet" type="text/css" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.css}"/>
-        <script th:src="@{/assets/vendors/jquery-3.4.0/jquery-3.4.0.js}"></script>
-        <script th:src="@{/assets/vendors/jquery-serialize-object/jquery.serializeObject.js}"></script>
-        <script th:src="@{/assets/vendors/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
-        <script th:src="@{/assets/js/aliceJs.js}"></script>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <a href="/layout/menuTest">메뉴이동</a>
+    <a href="/notices/search">공지사항</a>
+    <a href="/faqs/search">FAQ</a>
+    <a href="/roles/edit">역할 CRUD</a>
+    <a href="/process/list">프로세스목록</a>
+    <a href="/document/list">문서양식 목록</a>
+    <a href="/exception/list">예외처리</a>
+    <a href="/files">파일업로드</a>
+    <a href="/logout">로그아웃</a>
+<div style="border: 1px solid red"></div>
+<div id="userMenus"></div>
+<div id="contents1" style="border: 1px solid red"></div>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.css}" />
+<script th:src="@{/assets/vendors/jquery-3.4.0/jquery-3.4.0.js}"></script>
+<script th:src="@{/assets/vendors/jquery-serialize-object/jquery.serializeObject.js}"></script>
+<script th:src="@{/assets/vendors/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
 
         <script type="text/javascript" th:inline="javascript">
             $(document).ready(function () {
