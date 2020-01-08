@@ -31,10 +31,8 @@ import java.security.PrivateKey
  * 정상적으로 처리가 완료되면 successHandler로 이동하고 실패시 failureHandler 로 이동한다.
  */
 @Component
-class AliceAuthProvider(
-    private val userDetailsService: AliceUserDetailsService,
-    private val cryptoRsa: CryptoRsa
-) : AuthenticationProvider {
+class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
+                        private val cryptoRsa: CryptoRsa) : AuthenticationProvider {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -79,8 +77,8 @@ class AliceAuthProvider(
         val urlList = urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
-            aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-            aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList
+                aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList
         )
         return usernamePasswordAuthenticationToken
     }

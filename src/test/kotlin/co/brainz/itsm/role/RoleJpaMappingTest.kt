@@ -42,9 +42,9 @@ class RoleJpaMappingTest {
                 roleId = "2",
                 roleName = "서비스데스크담당자",
                 roleDesc = "역할설명",
-                createUserid = "ksmcreate",
+                createUserkey = "ksmcreate",
                 createDt = inputDate,
-                updateUserid = "ksmupdate",
+                updateUserkey = "ksmupdate",
                 updateDt = inputDate,
                 authEntityList = listOf(auth1, auth2)
             )

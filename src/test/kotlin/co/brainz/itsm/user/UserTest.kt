@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDateTime
+import java.util.*
 
 
 @RunWith(SpringRunner::class)
@@ -36,7 +37,7 @@ class UserTest {
     @Before
     fun setUp() {
         userEntity = UserEntity(
-            "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
+            UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
             0, "과장", "ITSM팀", "02-6416-8324", "admin",
             "admin", "status", "code", "", LocalDateTime.now(), LocalDateTime.now(),
             LocalDateTime.now(), emptySet()

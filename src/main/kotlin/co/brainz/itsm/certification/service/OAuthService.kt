@@ -4,9 +4,8 @@ import co.brainz.framework.auth.entity.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.itsm.certification.DefaultRole
+import co.brainz.itsm.certification.constants.CertificationConstants
 import co.brainz.itsm.certification.OAuthDto
-import co.brainz.itsm.certification.UserStatus
 import co.brainz.itsm.certification.repository.CertificationRepository
 import co.brainz.itsm.common.Constants
 import co.brainz.itsm.user.UserEntity
@@ -58,15 +57,16 @@ class OAuthService(private val userService: UserService,
 
     fun oAuthSave(oAuthDto: OAuthDto) {
         val userEntity = UserEntity(
+                userKey = "",
                 userId = oAuthDto.userid,
                 password = "",
                 userName = oAuthDto.email,
                 email = oAuthDto.email,
-                createUserid = Constants.CREATE_USER_ID,
+                createUserkey = Constants.CREATE_USER_ID,
                 createDt = LocalDateTime.now(),
                 expiredDt = LocalDateTime.now().plusMonths(Constants.USER_EXPIRED_VALUE),
-                roleEntities = certificationService.roleEntityList(DefaultRole.USER_DEFAULT_ROLE.code),
-                status = UserStatus.CERTIFIED.code,
+                roleEntities = certificationService.roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
+                status = CertificationConstants.UserStatus.CERTIFIED.code,
                 platform = oAuthDto.platform
         )
         certificationRepository.save(userEntity)
@@ -79,7 +79,7 @@ class OAuthService(private val userService: UserService,
         val menuList = aliceAuthProvider.menuList(authList)
         val urlList = aliceAuthProvider.urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
-        usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+        usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
                 aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList)
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }

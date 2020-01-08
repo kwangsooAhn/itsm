@@ -11,6 +11,7 @@
     <table>
         <thead>
         <tr>
+            <th th:text="#{user.key}">사용자키</th>
             <th th:text="#{user.id}">아이디</th>
             <th th:text="#{user.name}">이름</th>
             <th th:text="#{user.department}">부서</th>
@@ -20,6 +21,7 @@
         </thead>
         <tbody>
         <tr style="cursor: pointer" class="userRows" th:each="user : ${users}">
+            <td th:text="${user.userKey}">사용자키</td>
             <td><label th:text="${user.userId}"></label><input type="hidden" name="userId" th:value="${user.userId}"></td>
             <td th:text="${user.userName}">이름</td>
             <td th:text="${user.department}">부서</td>

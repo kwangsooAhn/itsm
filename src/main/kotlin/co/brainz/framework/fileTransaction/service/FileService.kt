@@ -1,5 +1,6 @@
 package co.brainz.framework.fileTransaction.service
 
+import co.brainz.framework.auth.entity.AliceUserDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.entity.FileLocEntity
@@ -75,8 +76,7 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): FileLocEntity {
         val fileLocEntity: FileLocEntity
-
-        val userid = SecurityContextHolder.getContext().authentication.principal as String
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = getRandomFilename()
         val tempPath = getDir("temp", fileName)
         val filePath = getDir("uploadRoot", fileName)
@@ -87,8 +87,8 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
 
         multipartFile.transferTo(tempPath.toFile())
 
-        fileLocEntity = FileLocEntity(0, userid, false, filePath.parent.toString(), fileName, multipartFile.originalFilename,
-                multipartFile.size, 0, userid, userid, LocalDateTime.now(), LocalDateTime.now())
+        fileLocEntity = FileLocEntity(0, aliceUserDto.userKey, false, filePath.parent.toString(), fileName, multipartFile.originalFilename,
+                multipartFile.size, 0, aliceUserDto.userKey, aliceUserDto.userKey, LocalDateTime.now(), LocalDateTime.now())
         logger.debug("{}", fileLocEntity)
         fileLocRepository.save(fileLocEntity)
         logger.debug(">> 임시업로드파일 {}", tempPath.toAbsolutePath())

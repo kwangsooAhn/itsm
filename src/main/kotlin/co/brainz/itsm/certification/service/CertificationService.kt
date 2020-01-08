@@ -3,7 +3,10 @@ package co.brainz.itsm.certification.service
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.util.EncryptionUtil
-import co.brainz.itsm.certification.*
+import co.brainz.itsm.certification.constants.CertificationConstants
+import co.brainz.itsm.certification.CertificationDto
+import co.brainz.itsm.certification.MailDto
+import co.brainz.itsm.certification.SignUpDto
 import co.brainz.itsm.certification.repository.CertificationRepository
 import co.brainz.itsm.common.CodeRepository
 import co.brainz.itsm.common.Constants
@@ -62,11 +65,12 @@ public open class CertificationService(private val certificationRepository: Cert
     fun insertUser(signUpDto: SignUpDto): String {
         var code: String = signUpValid(signUpDto)
         when (code) {
-            SignUpStatus.STATUS_VALID_SUCCESS.code -> {
+            CertificationConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val password = cryptoRsa.decrypt(privateKey, signUpDto.password)
                 val userEntity = UserEntity(
+                        userKey = "",
                         userId = signUpDto.userId,
                         password = BCryptPasswordEncoder().encode(password),
                         userName = signUpDto.userName,
@@ -74,14 +78,14 @@ public open class CertificationService(private val certificationRepository: Cert
                         position = signUpDto.position,
                         department = signUpDto.department,
                         extensionNumber = signUpDto.extensionNumber,
-                        createUserid = Constants.CREATE_USER_ID,
+                        createUserkey = Constants.CREATE_USER_ID,
                         createDt = LocalDateTime.now(),
                         expiredDt = LocalDateTime.now().plusMonths(3),
-                        roleEntities = roleEntityList(DefaultRole.USER_DEFAULT_ROLE.code),
-                        status = UserStatus.SIGNUP.code
+                        roleEntities = roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
+                        status = CertificationConstants.UserStatus.SIGNUP.code
                 )
                 certificationRepository.save(userEntity)
-                code = SignUpStatus.STATUS_SUCCESS.code
+                code = CertificationConstants.SignUpStatus.STATUS_SUCCESS.code
             }
         }
         return code
@@ -89,17 +93,16 @@ public open class CertificationService(private val certificationRepository: Cert
 
     fun signUpValid(signUpDto: SignUpDto): String {
         var isContinue = true
-        var code: String = SignUpStatus.STATUS_VALID_SUCCESS.code
+        var code: String = CertificationConstants.SignUpStatus.STATUS_VALID_SUCCESS.code
         if (certificationRepository.findByIdOrNull(signUpDto.userId) != null) {
-            code = SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+            code = CertificationConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }
         when (isContinue) {
             true -> {
                 try {
-                    val userDto: UserEntity = certificationRepository.findByEmail(signUpDto.email)
-                    if (userDto.email == signUpDto.email) {
-                        code = SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
+                    if (certificationRepository.countByEmail(signUpDto.email) > 0) {
+                        code = CertificationConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                     }
                 } catch (e: EmptyResultDataAccessException) {
                 }
@@ -111,7 +114,7 @@ public open class CertificationService(private val certificationRepository: Cert
     @Transactional
     fun sendMail(userId: String, email: String) {
         val certificationKey: String = KeyGenerator().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserStatus.SIGNUP.code)
+        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, CertificationConstants.UserStatus.SIGNUP.code)
         updateUser(certificationDto)
         sendCertificationMail(certificationDto)
     }
@@ -158,9 +161,9 @@ public open class CertificationService(private val certificationRepository: Cert
     fun status(): Int {
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: UserEntity = findByUserId(userId)
-        var validCode: Int = UserStatus.SIGNUP.value
-        if (userDto.status == UserStatus.CERTIFIED.code) {
-            validCode = UserStatus.CERTIFIED.value
+        var validCode: Int = CertificationConstants.UserStatus.SIGNUP.value
+        if (userDto.status == CertificationConstants.UserStatus.CERTIFIED.code) {
+            validCode = CertificationConstants.UserStatus.CERTIFIED.value
         }
         return validCode
     }
@@ -170,22 +173,22 @@ public open class CertificationService(private val certificationRepository: Cert
         val decryptUid: String = EncryptionUtil().twoWayDeCode(uid)
         val values: List<String> = decryptUid.split(":".toRegex())
         val userDto: UserEntity = findByUserId(values[1])
-        var validCode: Int = UserStatus.SIGNUP.value
+        var validCode: Int = CertificationConstants.UserStatus.SIGNUP.value
 
         when (userDto.status) {
-            UserStatus.SIGNUP.code -> {
+            CertificationConstants.UserStatus.SIGNUP.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
-                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserStatus.CERTIFIED.code)
+                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", CertificationConstants.UserStatus.CERTIFIED.code)
                         updateUser(certificationDto)
-                        UserStatus.CERTIFIED.value
+                        CertificationConstants.UserStatus.CERTIFIED.value
                     }
                     else -> {
-                        UserStatus.ERROR.value
+                        CertificationConstants.UserStatus.ERROR.value
                     }
                 }
             }
-            UserStatus.CERTIFIED.code -> validCode = UserStatus.OVER.value
+            CertificationConstants.UserStatus.CERTIFIED.code -> validCode = CertificationConstants.UserStatus.OVER.value
         }
         return validCode
     }

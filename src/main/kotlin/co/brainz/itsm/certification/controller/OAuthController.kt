@@ -1,7 +1,7 @@
 package co.brainz.itsm.certification.controller
 
 import co.brainz.itsm.certification.OAuthDto
-import co.brainz.itsm.certification.PlatformEnum
+import co.brainz.itsm.certification.constants.OAuthConstants
 import co.brainz.itsm.certification.service.OAuthService
 import co.brainz.itsm.certification.service.OAuthServiceGoogle
 import co.brainz.itsm.certification.service.OAuthServiceKakao
@@ -29,10 +29,10 @@ class OAuthController(private val oAuthService: OAuthService,
 
         var platformUrl: String = "redirect:/"
         when (platform) {
-            PlatformEnum.GOOGLE.value -> {
+            OAuthConstants.PlatformEnum.GOOGLE.value -> {
                 platformUrl = oAuthServiceGoogle.platformUrl()
             }
-            PlatformEnum.KAKAO.value -> {
+            OAuthConstants.PlatformEnum.KAKAO.value -> {
                 platformUrl = oAuthServiceKakao.platformUrl()
             }
 
@@ -45,16 +45,16 @@ class OAuthController(private val oAuthService: OAuthService,
 
         var oAuthDto = OAuthDto()
         when (platform) {
-            PlatformEnum.GOOGLE.value -> {
+            OAuthConstants.PlatformEnum.GOOGLE.value -> {
                 val parameters: MultiValueMap<String, String> = oAuthServiceGoogle.setParameters(code)
-                oAuthDto = oAuthServiceGoogle.callback(parameters, PlatformEnum.GOOGLE.code)
+                oAuthDto = oAuthServiceGoogle.callback(parameters, OAuthConstants.PlatformEnum.GOOGLE.code)
             }
-            PlatformEnum.KAKAO.value -> {
+            OAuthConstants.PlatformEnum.KAKAO.value -> {
                 val error = request.getParameter("error")
                 when (request.getParameter("error")) {
                     null -> {
                         val parameters: MultiValueMap<String, String> = oAuthServiceKakao.setParameters(code)
-                        oAuthDto = oAuthServiceKakao.callback(parameters, PlatformEnum.KAKAO.code)
+                        oAuthDto = oAuthServiceKakao.callback(parameters, OAuthConstants.PlatformEnum.KAKAO.code)
                     }
                     else -> logger.error(error)
                 }

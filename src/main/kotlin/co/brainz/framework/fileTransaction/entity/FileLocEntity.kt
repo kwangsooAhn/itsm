@@ -30,8 +30,8 @@ data class FileLocEntity(
         @Column(name = "origin_name", length = 1024) var originName: String?,
         @Column(name = "file_size") var fileSize: Long?,
         @Column(name = "sort") var sort: Int?,
-        @Column(name = "create_userid") var createUserid: String?,
-        @Column(name = "update_userid") var updateUserid: String?,
+        @Column(name = "create_userkey") var createUserkey: String?,
+        @Column(name = "update_userkey") var updateUserkey: String?,
         @Column(name = "create_dt") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDt: LocalDateTime?,
         @Column(name = "update_dt") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDt: LocalDateTime?
 ) : Serializable

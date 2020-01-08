@@ -12,7 +12,7 @@ import javax.persistence.IdClass
 @IdClass(UserRoleMapId::class)
 data public class UserRoleMapEntity(
     @Id
-    @Column(name = "userId") var userId: String,
+    @Column(name = "userKey") var userKey: String,
     @Id
     @Column(name = "roleId") var roleId: String
 ) : Serializable
