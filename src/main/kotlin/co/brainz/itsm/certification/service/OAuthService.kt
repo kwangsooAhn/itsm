@@ -65,8 +65,7 @@ class OAuthService(private val userService: UserService,
                 createUserkey = Constants.CREATE_USER_ID,
                 createDt = LocalDateTime.now(),
                 expiredDt = LocalDateTime.now().plusMonths(Constants.USER_EXPIRED_VALUE),
-                //roleEntities = certificationService.roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
-                roleEntities = certificationService.roleEntityList(""),
+                roleEntities = certificationService.roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                 status = CertificationConstants.UserStatus.CERTIFIED.code,
                 platform = oAuthDto.platform
         )
