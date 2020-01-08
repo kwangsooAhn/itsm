@@ -72,36 +72,31 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         }
 
         val authorities = authorities(aliceUser)
-        val authList = authList(aliceUser, authorities)
+        val authList = authList(aliceUser)
         val menuList = menuList(authList)
         val urlList = urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
-        usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList)
-
+        usernamePasswordAuthenticationToken.details = AliceUserDto(
+                aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList
+        )
         return usernamePasswordAuthenticationToken
     }
 
-    fun authorities(aliceUser: AliceUserEntity): MutableSet<GrantedAuthority> {
+    fun authorities(aliceUser: AliceUserEntity): Set<GrantedAuthority> {
         val authorities = mutableSetOf<GrantedAuthority>()
-        authorities.run {
-            aliceUser.getAuthorities().forEach {
-                authorities.add(SimpleGrantedAuthority(it.authority))
-            }
+        aliceUser.getAuthorities().forEach {
+            authorities.add(SimpleGrantedAuthority(it.authority))
         }
         return authorities
     }
 
-    fun authList(aliceUser: AliceUserEntity, authorities: MutableSet<GrantedAuthority>): Set<AliceAuthEntity> {
-        var authList = setOf<AliceAuthEntity>()
-        authorities.run {
-            val authId = mutableSetOf<String>()
-            aliceUser.getAuthorities().forEach {
-                authId.add(it.authority)
-            }
-            authList = userDetailsService.getAuthList(authId)
+    fun authList(aliceUser: AliceUserEntity): Set<AliceAuthEntity> {
+        val authId = mutableSetOf<String>()
+        aliceUser.getAuthorities().forEach {
+            authId.add(it.authority)
         }
-        return authList
+        return userDetailsService.getAuthList(authId)
     }
 
     fun menuList(authList: Set<AliceAuthEntity>): Set<AliceMenuEntity> {
