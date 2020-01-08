@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -19,8 +18,8 @@
     <div class="container">
         <br />
         <form id="frm" method="post">
-            <input id=createDt name="createDt" type="hidden" th:value="${notice?.createDt} ?  ${#temporals.format(notice?.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
-            <input id=createUserid name="createUserid" type="hidden" th:value="${notice?.createUserid != null} ? ${notice?.createUserid} : ${userName}"/>
+            <input id=createDt name="createDt" type="hidden" th:value="${notice.createDt} ?  ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
+            <input id=createUserid name="createUserid" type="hidden" th:value="${notice.createUserid != null} ? ${notice.createUserid} : ${userName}"/>
             <table class="table" border="1">
                 <tr>
                     <th th:text="#{notice.title}"></th>
@@ -38,15 +37,15 @@
                     <th th:text="#{notice.popUpNoticeSettings}"></th>
                     <td>
                         <div>
-                            <label><input type="radio" id="popRadioBtUp" name="popYn" th:value="${notice?.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('popTab',true)" th:text="#{notice.set}"/></label>
-                            <label><input type="radio" id="popRadioBtDown" name="popYn" th:value="${notice?.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('popTab',false)" th:text="#{notice.notSet}"/></label>
+                            <label><input type="radio" id="popRadioBtUp" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('popTab',true)" th:text="#{notice.set}"/></label>
+                            <label><input type="radio" id="popRadioBtDown" name="popYn" th:value="${notice.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('popTab',false)" th:text="#{notice.notSet}"/></label>
                         </div>
                     </td>
                     <th th:text="#{notice.topNoticeSettings}"></th>
                     <td>
                         <div>
-                            <label><input type="radio" id="topRadioBtUp" name="topNoticeYn" th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('topNoticeTab',true)" th:text="#{notice.set}"/></label> 
-                            <label><input type="radio" id="topRadioBtDown" name="topNoticeYn" th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('topNoticeTab',false)" th:text="#{notice.notSet}"/></label>
+                            <label><input type="radio" id="topRadioBtUp" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('topNoticeTab',true)" th:text="#{notice.set}"/></label> 
+                            <label><input type="radio" id="topRadioBtDown" name="topNoticeYn" th:value="${notice.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('topNoticeTab',false)" th:text="#{notice.notSet}"/></label>
                         </div>
                     </td>
                 </tr>
@@ -56,7 +55,7 @@
                     <tr>
                         <th rowspan="4" th:text="#{notice.popUpNoticeSettingsInfo}"></th>
                         <th th:text="#{notice.height}"></th>
-                        <th colspan="2"><input type="number" id="popHeight" name="popHeight" th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" />px</th>
+                        <th colspan="2"><input type="number" id="popHeight" name="popHeight" th:value="${notice.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" />px</th>
                     </tr>
                     <tr>
                         <th th:text="#{notice.width}"></th>
@@ -70,7 +69,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
-                                                <input type="text" id="popStrtDt" th:value="${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal" />
+                                                <input type="text" id="popStrtDt" th:value="${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal" />
                                                 <div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -91,7 +90,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="popEndDtCal" data-target-input="nearest">
-                                                <input type="text" id="popEndDt" th:value="${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
+                                                <input type="text" id="popEndDt" th:value="${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
                                                 <div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -118,7 +117,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
-                                                <input type="text" id="topNoticeStrtDt" th:value="${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
+                                                <input type="text" id="topNoticeStrtDt" th:value="${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
                                                 <div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -140,7 +139,7 @@
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeEndDtCal"
                                                 data-target-input="nearest">
-                                                <input type="text" id="topNoticeEndDt" th:value="${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
+                                                <input type="text" id="topNoticeEndDt" th:value="${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${addCurrentDate}" name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
                                                 <div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -157,15 +156,15 @@
             </div>
             <div style="float: right;">
                 <button type="button" onclick="location.href='/notices/list'" th:text="#{notice.list}"></button>
-                <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/rest/notices}]])" th:text="#{notice.regist}"></button>
-                <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.modifyCompleted}"></button>
+                <button th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/notices}]])" th:text="#{notice.regist}"></button>
+                <button th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.modifyCompleted}"></button>
             </div>
         </form>
     </div>
 <script th:inline="javascript">
 /*<![CDATA[ */        
     window.onload = function() {
-        if (/*[[${notice?.noticeNo}]]*/ != null) {
+        if (/*[[${notice.noticeNo}]]*/ != null) {
             if (document.getElementsByName('popYn')[0].value == 'true') {
                 document.getElementById('popRadioBtUp').checked = true;
                 document.getElementById('popTab').style.display = '';
@@ -193,14 +192,14 @@
      function setDisplay(name, condition) {     
          if (condition) {
              if (name === "popTab") {
-                 document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
-                 document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
-                 document.getElementById('popStrtDt').value = /*[[${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
-                 document.getElementById('popEndDt').value = /*[[${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
+                 document.getElementById('popWidth').value = /*[[${notice.popWidth} ? ${notice.popWidth} : 500]]*/;
+                 document.getElementById('popHeight').value = /*[[${notice.popHeight} ? ${notice.popHeight} : 500]]*/;
+                 document.getElementById('popStrtDt').value = /*[[${notice.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
+                 document.getElementById('popEndDt').value = /*[[${notice.popEndDt} ?  ${#temporals.format(notice.popEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
                  document.getElementsByName('popYn')[0].value = true;
              } else if (name === "topNoticeTab") {
-                 document.getElementById('topNoticeStrtDt').value = /*[[${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
-                 document.getElementById('topNoticeEndDt').value = /*[[${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
+                 document.getElementById('topNoticeStrtDt').value = /*[[${notice.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,'yyyy-MM-dd HH:mm:ss')}:${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]*/;
+                 document.getElementById('topNoticeEndDt').value = /*[[${notice.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,'yyyy-MM-dd HH:mm:ss')}:${#temporals.format(addCurrentDate,'yyyy-MM-dd HH:mm:ss')}]]*/;
                  document.getElementsByName('topNoticeYn')[0].value = true;
              }
               document.getElementById(name).style.display = '';
@@ -331,7 +330,7 @@
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                 if (xmlhttp.status == 200) {
                     alert("글이 등록되었습니다.");
-                    window.location = "/notices/search";
+                    window.location = "/notices/list";
                 } else if (xmlhttp.status == 400) {
                     alert('There was an error 400');
                 } else {
@@ -375,7 +374,7 @@
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                 if (xmlhttp.status == 200) {
                     alert("글이 수정되었습니다.");
-                    window.location = "/notices/search";
+                    window.location = "/notices/list";
                 } else if (xmlhttp.status == 400) {
                     alert('There was an error 400');
                 } else {
