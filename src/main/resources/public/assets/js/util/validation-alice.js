@@ -109,8 +109,8 @@ function passwordValidation(password) {
                 return false;
             }
         }
-        return true;
     }
+    return true;
 }
 
 // 이메일 validation check
