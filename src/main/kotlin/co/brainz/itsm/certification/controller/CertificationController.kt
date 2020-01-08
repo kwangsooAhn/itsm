@@ -5,6 +5,7 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.certification.constants.CertificationConstants
 import co.brainz.itsm.certification.service.CertificationService
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping

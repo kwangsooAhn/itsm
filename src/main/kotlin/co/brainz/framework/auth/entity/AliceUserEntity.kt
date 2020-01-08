@@ -28,8 +28,8 @@ data class AliceUserEntity(
         val email: String,
         val useYn: Boolean,
         val tryLoginCount: Int,
-        val createUserid: String?,
-        val updateUserid: String?,
+        val createUserkey: String?,
+        val updateUserkey: String?,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val expiredDt: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

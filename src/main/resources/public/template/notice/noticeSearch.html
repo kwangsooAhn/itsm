@@ -20,7 +20,7 @@
         <form id="formSearch" method="get">
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
                 <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
-                <input type="checkbox" id="createUserid" name="createUserid" value="check" th:text="#{notice.user}"/>
+                <input type="checkbox" id="createUserkey" name="createUserkey" value="check" th:text="#{notice.user}"/>
                 <input type="text" name="keyWord" id="keyWord" />
                 <input type="text" id="fromDt" name="fromDt" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}" />
                 <input type="text" id="toDt" name="toDt" th:value="${#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" />
@@ -43,7 +43,7 @@
     // dateTimePicker.initDatePicker('toDt');
 
     function validation() {
-        if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserid').checked) {
+        if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserkey').checked) {
         	alert('검색 조건을 선택해 주세요.');
         	return false;
         }
@@ -77,13 +77,13 @@
 
         var data = {
             noticeTitle: document.getElementById('noticeTitle').checked,
-            createUserid: document.getElementById('createUserid').checked,
+            createUserkey: document.getElementById('createUserkey').checked,
             keyWord: document.getElementById('keyWord').value,
             fromDt: document.getElementById('fromDt').value,
             toDt: document.getElementById('toDt').value
         };
 
-        var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserid="+data.createUserid+"&keyWord="+data.keyWord+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
+        var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserkey="+data.createUserkey+"&keyWord="+data.keyWord+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
         var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4

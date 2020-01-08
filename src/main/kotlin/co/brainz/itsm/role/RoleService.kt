@@ -1,5 +1,6 @@
 package co.brainz.itsm.role
 
+import co.brainz.framework.auth.entity.AliceUserDto
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Autowired
 import org.slf4j.LoggerFactory
@@ -10,6 +11,7 @@ import co.brainz.itsm.role.RoleRepository
 import co.brainz.itsm.auth.AuthRepository
 import co.brainz.itsm.user.UserRoleMapRepository
 import co.brainz.itsm.role.RoleDetailDto
+import org.springframework.security.core.context.SecurityContextHolder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -39,7 +41,7 @@ public class RoleService(
     public fun deleteRole(roleId: String): String {
         var result = ""
 
-        var userRoleMapCount = userRoleMapRepository.findByRoleId(roleId).count()
+        val userRoleMapCount = userRoleMapRepository.findByRoleId(roleId).count()
         if (userRoleMapCount == 0) {
             roleRepository.deleteById(roleId)
             result = "true"
@@ -54,16 +56,14 @@ public class RoleService(
      * 역할 정보 등록 한다.
      */
     public fun insertRole(roleInfo: RoleDto): String {
-
-        var authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
-        var inputDate = LocalDateTime.now()
-        var result = roleRepository.save(
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
+        val result = roleRepository.save(
             RoleEntity(
                 roleId = roleInfo.roleId.toString(),
                 roleName = roleInfo.roleName.toString(),
                 roleDesc = roleInfo.roleDesc.toString(),
-                createUserid = roleInfo.createUserid.toString(),
-                createDt = inputDate,
+                createUserkey = aliceUserDto.userKey,
                 authEntityList = authEntity
             )
         )
@@ -74,19 +74,18 @@ public class RoleService(
      * 역할 정보 수정 한다.
      */
     public fun updateRole(roleInfo: RoleDto): String {
-
-        var roleDetailInfo = roleRepository.findByRoleId(roleInfo.roleId.toString()).get(0)
-        var authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
-        var inputDate = LocalDateTime.now()
-        var result = roleRepository.save(
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val roleDetailInfo = roleRepository.findByRoleId(roleInfo.roleId.toString()).get(0)
+        val authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
+        val result = roleRepository.save(
             RoleEntity(
                 roleId = roleInfo.roleId.toString(),
                 roleName = roleInfo.roleName.toString(),
                 roleDesc = roleInfo.roleDesc.toString(),
-                createUserid = roleDetailInfo.createUserid.toString(),
+                createUserkey = roleDetailInfo.createUserkey.toString(),
                 createDt = roleDetailInfo.createDt,
-                updateUserid = roleInfo.updateUserid.toString(),
-                updateDt = inputDate,
+                updateUserkey = aliceUserDto.userKey,
+                updateDt = LocalDateTime.now(),
                 authEntityList = authEntity
             )
         )
@@ -98,16 +97,16 @@ public class RoleService(
      */
     fun selectDetailRoles(roleId: String): List<RoleDto> {
         val dto = mutableListOf<RoleDto>()
-        var roleInfo = roleRepository.findByRoleId(roleId).get(0)
-        var roleAuthMapList = roleInfo.authEntityList
+        val roleInfo = roleRepository.findByRoleId(roleId).get(0)
+        val roleAuthMapList = roleInfo.authEntityList
         dto.add(
             RoleDto(
                 roleInfo.roleId,
                 roleInfo.roleName,
                 roleInfo.roleDesc,
-                roleInfo.createUserid,
+                roleInfo.createUserkey,
                 roleInfo.createDt,
-                roleInfo.updateUserid,
+                roleInfo.updateUserkey,
                 roleInfo.updateDt,
                 null,
                 roleAuthMapList

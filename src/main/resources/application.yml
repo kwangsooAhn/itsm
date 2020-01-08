@@ -1,6 +1,6 @@
 spring: 
     datasource: 
-        hikari.maximum-pool-size: 10
+        hikari.maximum-pool-size: 5
         platform: postgres
         url: ENC(YbJqvHIZCJfoeXSAtzK59GtHmcQFMS3vh/emNM5vzl1bHUzGIiNoFwfkcZGg4idmmB0NbibwMy4r5SAIwc1Udw==) #jdbc:log4jdbc:postgresql://10.0.10.175:32784/itsm 
         username: ENC(C4bWbxHAbRqyUnYZQNlsjA==) # itsm

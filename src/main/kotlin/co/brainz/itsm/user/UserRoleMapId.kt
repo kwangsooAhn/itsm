@@ -3,6 +3,6 @@ package co.brainz.itsm.user
 import java.io.Serializable
 
 public open class UserRoleMapId(
-    var userId: String = "",
+    var userKey: String = "",
     var roleId: String = ""
 ) : Serializable

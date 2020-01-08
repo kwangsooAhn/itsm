@@ -17,9 +17,9 @@ data class AliceRoleEntity(
         @Id var roleId: String,
         var roleName: String,
         var roleDesc: String,
-        var createUserid: String?,
+        var createUserkey: String?,
         var createDt: LocalDateTime?,
-        var updateUserid: String?,
+        var updateUserkey: String?,
         var updateDt: LocalDateTime?,
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])

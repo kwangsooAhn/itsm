@@ -78,7 +78,7 @@ public open class CertificationService(private val certificationRepository: Cert
                         position = signUpDto.position,
                         department = signUpDto.department,
                         extensionNumber = signUpDto.extensionNumber,
-                        createUserid = Constants.CREATE_USER_ID,
+                        createUserkey = Constants.CREATE_USER_ID,
                         createDt = LocalDateTime.now(),
                         expiredDt = LocalDateTime.now().plusMonths(3),
                         //roleEntities = roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
