@@ -109,7 +109,7 @@ function passwordValidation(password) {
                 return false;
             }
         }
-        return false;
+        return true;
     }
 }
 
