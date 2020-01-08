@@ -16,7 +16,6 @@
         <tr>
             <td>
                 <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch">추가</button>
-                <span sec:authentication="name" id="sessionCreateId" name="sessionCreateId"></span>
             </td>
         </tr>
     </table>
@@ -64,7 +63,7 @@
         </tr>
         <tr>
             <th>등록자</th>
-            <td><span id="spanCreateUserid" name="spanCreateUserid" th:text="${roleDetail?.createUserid}"></span></td>
+            <td><span id="spanCreateUserkey" name="spanCreateUserkey" th:text="${roleDetail?.createUserkey}"></span></td>
         </tr>
         <tr>
             <th>등록일시</th>
@@ -72,7 +71,7 @@
         </tr>
         <tr>
             <th>수정자</th>
-            <td><span id="spanUpdateUserid" name="spanUpdateUserid" th:text="${roleDetail?.updateUserid}"></span></td>
+            <td><span id="spanUpdateUserkey" name="spanUpdateUserkey" th:text="${roleDetail?.updateUserkey}"></span></td>
         </tr>
         <tr>
             <th>수정일시</th>
@@ -102,8 +101,7 @@ $(document).ready(function () {
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
-        
-    $('#sessionCreateId').hide();
+
     if ($('#txtRoleId').val() != null && $('#txtRoleId').val() != '') {
         $("#txtRoleId").attr("readonly",true);
         $("#btnUpdate").show();
@@ -125,9 +123,9 @@ $(document).ready(function () {
         $('input:checkbox[name="roleAuth"]').each(function() {
             this.checked = false;
         });
-        $('#spanCreateUserid').text('');
+        $('#spanCreateUserkey').text('');
         $('#spanCreateDt').text('');
-        $('#spanUpdateUserid').text('');
+        $('#spanUpdateUserkey').text('');
         $('#spanUpdateDt').text('');
         $("#btnUpdate").hide();
         $("#btnRegist").show();
@@ -189,9 +187,9 @@ $(document).ready(function () {
                         }
                     }
                 });
-                $('#spanCreateUserid').text(role[0].createUserid);
+                $('#spanCreateUserkey').text(role[0].createUserkey);
                 $('#spanCreateDt').text(role[0].createDt);
-                $('#spanUpdateUserid').text(role[0].updateUserid);
+                $('#spanUpdateUserkey').text(role[0].updateUserkey);
                 $('#spanUpdateDt').text(role[0].updateDt);
                 $("#txtRoleId").attr("readonly",true);
             },
@@ -225,10 +223,8 @@ $(document).ready(function () {
         });
         obj.arrAuthId = arrAuthId;
         if (flag == 'post') {
-            obj.createUserid = $('#sessionCreateId').text(); //등록자
             strUrl = '/rest/roles';
         } else {
-            obj.updateUserid = $('#sessionCreateId').text(); //수정자
             strUrl = '/rest/roles/'+$("#txtRoleId").val();
         }
         var roleJson = JSON.stringify(obj);

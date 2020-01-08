@@ -54,7 +54,7 @@ class UserService(private val userRepository: UserRepository, private val roleRe
         }
 
         targetEntity.updateDt = LocalDateTime.now()
-        targetEntity.updateUserid = SecurityContextHolder.getContext().authentication.principal as String
+        targetEntity.updateUserkey = SecurityContextHolder.getContext().authentication.principal as String
 
         logger.debug("targetEntity {}, update {}", targetEntity, update)
 

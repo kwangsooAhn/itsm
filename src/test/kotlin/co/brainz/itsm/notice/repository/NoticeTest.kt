@@ -43,9 +43,9 @@ class NoticeTest() {
             topNoticeYn = true,
             topNoticeStrtDt = inputDate,
             topNoticeEndDt = inputDate,
-            createUserid = "Demo Data",
+            createUserkey = "Demo Data",
             createDt = inputDate,
-            updateUserid = null,
+            updateUserkey = null,
             updateDt = null
         )
        

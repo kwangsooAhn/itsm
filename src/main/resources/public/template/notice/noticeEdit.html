@@ -19,8 +19,6 @@
     <div class="container">
         <br />
         <form id="frm" method="post">
-            <input id=createDt name="createDt" type="hidden" th:value="${notice?.createDt} ?  ${#temporals.format(notice?.createDt,'yyyy-MM-dd HH:mm:ss')} : ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
-            <input id=createUserid name="createUserid" type="hidden" th:value="${notice?.createUserid != null} ? ${notice?.createUserid} : ${userName}"/>
             <table class="table" border="1">
                 <tr>
                     <th th:text="#{notice.title}"></th>
@@ -32,7 +30,7 @@
                 </tr>
                 <tr>
                     <th th:text="#{notice.user}"></th>
-                    <td colspan="3" th:text="${userName}"></td>
+                    <td><span sec:authentication="details.userKey"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.popUpNoticeSettings}"></th>
@@ -321,9 +319,7 @@
             popHeight: document.getElementById('popHeight').value,
             topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
             topNoticeStrtDt: document.getElementById('topNoticeStrtDt').value,
-            topNoticeEndDt: document.getElementById('topNoticeEndDt').value,
-            createDt: document.getElementById('createDt').value,
-            createUserid: document.getElementById('createUserid').value
+            topNoticeEndDt: document.getElementById('topNoticeEndDt').value
         });
         
         var xmlhttp = createXmlHttpRequestObject(method, url, async);
@@ -365,9 +361,7 @@
             popHeight: document.getElementById('popHeight').value,
             topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
             topNoticeStrtDt: document.getElementById('topNoticeStrtDt').value,
-            topNoticeEndDt: document.getElementById('topNoticeEndDt').value,
-            createDt: document.getElementById('createDt').value,
-            createUserid: document.getElementById('createUserid').value
+            topNoticeEndDt: document.getElementById('topNoticeEndDt').value
         });
         
         var xmlhttp = createXmlHttpRequestObject(method, url, async);

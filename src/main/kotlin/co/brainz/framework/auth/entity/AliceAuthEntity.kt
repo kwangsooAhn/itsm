@@ -19,9 +19,9 @@ data class AliceAuthEntity(
         @Id var authId: String,
         var authName: String,
         var authDesc: String,
-        var createUserid: String?,
+        var createUserkey: String?,
         var createDt: LocalDateTime?,
-        var updateUserid: String?,
+        var updateUserkey: String?,
         var updateDt: LocalDateTime?,
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awfMenuAuthMap",

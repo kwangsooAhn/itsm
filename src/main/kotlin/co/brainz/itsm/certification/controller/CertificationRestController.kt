@@ -1,8 +1,8 @@
 package co.brainz.itsm.certification.controller
 
 import co.brainz.framework.auth.entity.AliceUserDto
+import co.brainz.itsm.certification.constants.CertificationConstants
 import co.brainz.itsm.certification.SignUpDto
-import co.brainz.itsm.certification.SignUpStatus
 import co.brainz.itsm.certification.service.CertificationService
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -17,7 +17,7 @@ class CertificationRestController(private val certificationService: Certificatio
     @PostMapping("/register")
     fun setUser(@RequestBody signUpDto: SignUpDto): String {
         val result = certificationService.insertUser(signUpDto)
-        if (result == SignUpStatus.STATUS_SUCCESS.code) {
+        if (result == CertificationConstants.SignUpStatus.STATUS_SUCCESS.code) {
             certificationService.sendMail(signUpDto.userId, signUpDto.email)
         }
         return result

@@ -1,5 +1,6 @@
 package co.brainz.framework.auth.entity
 
+import org.hibernate.annotations.GenericGenerator
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -8,6 +9,7 @@ import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
@@ -17,14 +19,17 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_user")
 data class AliceUserEntity(
-        @Id val userId: String,
+        @Id @GeneratedValue(generator = "system-uuid")
+        @GenericGenerator(name = "system-uuid", strategy = "uuid")
+        val userKey: String,
+        val userId: String,
         val userName: String,
         val password: String,
         val email: String,
         val useYn: Boolean,
         val tryLoginCount: Int,
-        val createUserid: String?,
-        val updateUserid: String?,
+        val createUserkey: String?,
+        val updateUserkey: String?,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val expiredDt: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -35,7 +40,7 @@ data class AliceUserEntity(
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awfUserRoleMap",
-                joinColumns = [JoinColumn(name = "userId")],
+                joinColumns = [JoinColumn(name = "userKey")],
                 inverseJoinColumns = [JoinColumn(name = "roleId")])
         val aliceRoleEntities: Set<AliceRoleEntity>?
 
