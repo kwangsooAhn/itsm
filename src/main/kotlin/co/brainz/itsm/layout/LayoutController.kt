@@ -17,9 +17,9 @@ import co.brainz.itsm.user.UserService
 class LayoutController(private val noticeService: NoticeService, private val userService: UserService) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
-
-    private val layoutViewPage: String = "layout/layout"
-    private val menuTestViewPage: String = "menuTest"
+    private val layoutPage: String = "layout/layout"
+    private val statusPage: String = "redirect:/certification/status"
+    private val menuTestPage: String = "menuTest"
 
     @GetMapping("/", "")
     fun getLayout(model: Model): String {
@@ -29,14 +29,14 @@ class LayoutController(private val noticeService: NoticeService, private val use
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: UserEntity = userService.selectUser(userId)
         if (userDto.status == CertificationConstants.UserStatus.SIGNUP.code) {
-            return "redirect:/certification/status"
+            return statusPage
         }
 
-        return layoutViewPage
+        return layoutPage
     }
 
     @GetMapping("/menuTest")
     fun getMenu(): String {
-        return menuTestViewPage
+        return menuTestPage
     }
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest
 public class RoleController(private val roleService: RoleService) {
 
     private val logger = LoggerFactory.getLogger(RoleController::class.java)
+    private val roleEditPage: String = "role/roleEdit"
 
     /**
      * 역할  설정 뷰를 호출한다.
@@ -24,6 +25,6 @@ public class RoleController(private val roleService: RoleService) {
         model.addAttribute("authList", authAllList)
         model.addAttribute("roleList", roleAllList)
 
-        return "role/roleEdit"
+        return roleEditPage
     }
 }
