@@ -1,11 +1,9 @@
 package co.brainz.itsm.notice.controller
 
-import co.brainz.framework.auth.entity.AliceUserDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.notice.service.NoticeService
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

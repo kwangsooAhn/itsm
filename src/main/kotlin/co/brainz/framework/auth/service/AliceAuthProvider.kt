@@ -76,7 +76,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         val menuList = menuList(authList)
         val urlList = urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
-        usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+        usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
                 aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList)
 
         return usernamePasswordAuthenticationToken

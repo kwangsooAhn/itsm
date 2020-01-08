@@ -32,7 +32,7 @@ import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import java.time.LocalDateTime
-import java.util.Optional
+import java.util.*
 import javax.transaction.Transactional
 
 @Service
@@ -76,7 +76,7 @@ class OAuthService(private val userService: UserService,
     fun oAuthLogin(oAuthDto: OAuthDto) {
         val aliceUser: AliceUserEntity = userDetailsService.loadUserByUserIdAndPlatform(oAuthDto.userid, oAuthDto.platform)
         val authorities = aliceAuthProvider.authorities(aliceUser)
-        val authList = aliceAuthProvider.authList(aliceUser, authorities)
+        val authList = aliceAuthProvider.authList(aliceUser)
         val menuList = aliceAuthProvider.menuList(authList)
         val urlList = aliceAuthProvider.urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
