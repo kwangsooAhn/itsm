@@ -1,5 +1,6 @@
 package co.brainz.itsm.user.entity
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserSearchDto
 import org.springframework.data.jpa.domain.Specification
@@ -11,9 +12,9 @@ import javax.persistence.criteria.Root
 /**
  * 사용자 전체 검색시 조회시 사용할 필드를 정의한다
  */
-class UserSpecification(private val userSearchDto: UserSearchDto) : Specification<UserEntity> {
+class UserSpecification(private val userSearchDto: UserSearchDto) : Specification<AliceUserEntity> {
 
-    override fun toPredicate(root: Root<UserEntity>, query: CriteriaQuery<*>, criteriaBuilder: CriteriaBuilder): Predicate? {
+    override fun toPredicate(root: Root<AliceUserEntity>, query: CriteriaQuery<*>, criteriaBuilder: CriteriaBuilder): Predicate? {
         val searchValue = userSearchDto.searchValue.trim()
         if (userSearchDto.searchKey.size == 0 || searchValue == "") return null
         val predicate = mutableListOf<Predicate>()

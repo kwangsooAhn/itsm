@@ -4,11 +4,11 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.certification.constants.CertificationConstants
 import co.brainz.itsm.certification.dto.OAuthDto
 import co.brainz.itsm.certification.repository.CertificationRepository
 import co.brainz.itsm.code.constants.CodeConstants
-import co.brainz.itsm.user.entity.UserEntity
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
@@ -56,7 +56,7 @@ class OAuthService(private val userService: UserService,
     }
 
     fun oAuthSave(oAuthDto: OAuthDto) {
-        val userEntity = UserEntity(
+        val userEntity = AliceUserEntity(
                 userKey = "",
                 userId = oAuthDto.userid,
                 password = "",
@@ -66,7 +66,7 @@ class OAuthService(private val userService: UserService,
                 createDt = LocalDateTime.now(),
                 expiredDt = LocalDateTime.now().plusMonths(CodeConstants.USER_EXPIRED_VALUE),
                 roleEntities = certificationService.roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
-                status = CertificationConstants.UserStatus.CERTIFIED.code,
+                status = AliceConstants.UserEnum.Status.CERTIFIED.code,
                 platform = oAuthDto.platform
         )
         certificationRepository.save(userEntity)
@@ -87,7 +87,7 @@ class OAuthService(private val userService: UserService,
     fun isExistUser(oAuthDto: OAuthDto): Boolean {
         var isExist = false
         if (oAuthDto.userid.isNotEmpty()) {
-            val userDto: Optional<UserEntity> = userService.selectByUserIdAndPlatform(oAuthDto.userid, oAuthDto.platform)
+            val userDto: Optional<AliceUserEntity> = userService.selectByUserIdAndPlatform(oAuthDto.userid, oAuthDto.platform)
             if (!userDto.isEmpty) {
                 isExist = true
             }

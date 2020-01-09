@@ -29,10 +29,10 @@ class OAuthController(private val oAuthService: OAuthService,
 
         var platformUrl: String = "redirect:/"
         when (platform) {
-            OAuthConstants.PlatformEnum.GOOGLE.value -> {
+            OAuthConstants.Platform.GOOGLE.value -> {
                 platformUrl = oAuthServiceGoogle.platformUrl()
             }
-            OAuthConstants.PlatformEnum.KAKAO.value -> {
+            OAuthConstants.Platform.KAKAO.value -> {
                 platformUrl = oAuthServiceKakao.platformUrl()
             }
 
@@ -45,16 +45,16 @@ class OAuthController(private val oAuthService: OAuthService,
 
         var oAuthDto = OAuthDto()
         when (platform) {
-            OAuthConstants.PlatformEnum.GOOGLE.value -> {
+            OAuthConstants.Platform.GOOGLE.value -> {
                 val parameters: MultiValueMap<String, String> = oAuthServiceGoogle.setParameters(code)
-                oAuthDto = oAuthServiceGoogle.callback(parameters, OAuthConstants.PlatformEnum.GOOGLE.code)
+                oAuthDto = oAuthServiceGoogle.callback(parameters, OAuthConstants.Platform.GOOGLE.code)
             }
-            OAuthConstants.PlatformEnum.KAKAO.value -> {
+            OAuthConstants.Platform.KAKAO.value -> {
                 val error = request.getParameter("error")
                 when (request.getParameter("error")) {
                     null -> {
                         val parameters: MultiValueMap<String, String> = oAuthServiceKakao.setParameters(code)
-                        oAuthDto = oAuthServiceKakao.callback(parameters, OAuthConstants.PlatformEnum.KAKAO.code)
+                        oAuthDto = oAuthServiceKakao.callback(parameters, OAuthConstants.Platform.KAKAO.code)
                     }
                     else -> logger.error(error)
                 }

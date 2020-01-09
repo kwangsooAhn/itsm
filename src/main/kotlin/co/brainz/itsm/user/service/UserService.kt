@@ -1,10 +1,10 @@
 package co.brainz.itsm.user.service
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.entity.UserSpecification
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserSearchDto
-import co.brainz.itsm.user.entity.UserEntity
 import co.brainz.itsm.user.repository.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -23,28 +23,28 @@ class UserService(private val userRepository: UserRepository, private val roleRe
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(userSearchDto: UserSearchDto): MutableList<UserEntity> {
+    fun selectUserList(userSearchDto: UserSearchDto): MutableList<AliceUserEntity> {
         return userRepository.findAll(UserSpecification(userSearchDto))
     }
 
     /**
      * 사용자 ID로 해당 정보를 1건 조회한다.
      */
-    fun selectUser(userId: String): UserEntity {
+    fun selectUser(userId: String): AliceUserEntity {
         return userRepository.findByUserId(userId)
     }
 
     /**
      * 사용자 ID, 플랫폼으로 해당 정보를 조회한다.
      */
-    fun selectByUserIdAndPlatform(userId: String, platform: String): Optional<UserEntity> {
+    fun selectByUserIdAndPlatform(userId: String, platform: String): Optional<AliceUserEntity> {
         return userRepository.findByUserIdAndPlatform(userId, platform)
     }
 
     /**
      * 사용자 ID로 정보를 수정한다.
      */
-    fun updateUser(update: UserUpdateDto): UserEntity {
+    fun updateUser(update: UserUpdateDto): AliceUserEntity {
         val targetEntity = userRepository.findByUserId(update.userId)
         update.userName?.let { targetEntity.userName = update.userName!! }
         update.email?.let { targetEntity.email = update.email!! }
@@ -52,7 +52,7 @@ class UserService(private val userRepository: UserRepository, private val roleRe
         update.department?.let { targetEntity.department = update.department }
         update.extensionNumber?.let { targetEntity.extensionNumber = update.extensionNumber }
         update.certificationCode?.let { targetEntity.certificationCode = update.certificationCode!! }
-        update.status?.let { targetEntity.status = update.status }
+        update.status?.let { targetEntity.status = update.status!! }
 
         targetEntity.roleEntities = update.roles?.let {
             roleRepository.findAllById(it).toMutableSet()

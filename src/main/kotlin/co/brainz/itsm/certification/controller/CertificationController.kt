@@ -34,7 +34,7 @@ class CertificationController(private val certificationService: CertificationSer
 
     @GetMapping("/valid")
     fun valid(request: HttpServletRequest, @RequestParam(value="uid", defaultValue = "") uid: String, model: Model): String {
-        var validCode: Int = CertificationConstants.UserStatus.ERROR.value
+        var validCode: Int = CertificationConstants.Status.ERROR.value
         if (uid != "") {
             validCode = certificationService.valid(uid)
         }

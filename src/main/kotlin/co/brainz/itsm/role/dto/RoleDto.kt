@@ -1,7 +1,7 @@
 package co.brainz.itsm.role.dto
 
+import co.brainz.framework.auth.entity.AliceAuthEntity
 import java.time.LocalDateTime
-import co.brainz.itsm.auth.entity.AuthEntity
 import com.fasterxml.jackson.annotation.JsonFormat
 
 /**
@@ -18,5 +18,5 @@ data public class RoleDto(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         var updateDt: LocalDateTime?,
         var arrAuthId: Array<String>?,
-        var arrAuthList: List<AuthEntity>?
+        var arrAuthList: List<AliceAuthEntity>?
 )

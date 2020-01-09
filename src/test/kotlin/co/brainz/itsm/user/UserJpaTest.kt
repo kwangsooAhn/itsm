@@ -1,8 +1,9 @@
 package co.brainz.itsm.user
 
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.JasyptConfig
 import co.brainz.itsm.user.dto.UserUpdateDto
-import co.brainz.itsm.user.entity.UserEntity
 import co.brainz.itsm.user.repository.UserRepository
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 import org.hamcrest.CoreMatchers
@@ -28,16 +29,16 @@ class UserJpaTest {
     @Autowired
     private lateinit var userRepository: UserRepository
 
-    private lateinit var userEntity: UserEntity
+    private lateinit var userEntity: AliceUserEntity
     private lateinit var userUpdateDto: UserUpdateDto
 
     @Before
     fun setUp() {
-        userEntity = UserEntity(
+        userEntity = AliceUserEntity(
                 UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
                 0, "과장", "ITSM팀", "02-6416-8324", "admin",
-                "admin", "status", "code", "", LocalDateTime.now(), LocalDateTime.now(),
-                LocalDateTime.now(), emptySet()
+                "admin", "status", "code", AliceConstants.UserEnum.Platform.ALICE.code,
+                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), emptySet()
         )
 
         userUpdateDto = UserUpdateDto(

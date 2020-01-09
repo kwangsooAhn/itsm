@@ -1,9 +1,9 @@
 package co.brainz.itsm.notice.controller
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService
-import co.brainz.itsm.user.entity.UserEntity
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.utility.ConvertParam
 import org.slf4j.LoggerFactory
@@ -102,7 +102,7 @@ class NoticeController(private val userService: UserService,
     fun getNoticeForm(@PathVariable noticeId: String, model: Model): String {
         
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: UserEntity = userService.selectUser(userId)
+        val userDto: AliceUserEntity = userService.selectUser(userId)
  
         model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeId))

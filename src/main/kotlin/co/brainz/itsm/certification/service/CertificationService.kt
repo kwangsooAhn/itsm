@@ -1,5 +1,7 @@
 package co.brainz.itsm.certification.service
 
+import co.brainz.framework.auth.entity.AliceRoleEntity
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.util.EncryptionUtil
@@ -10,9 +12,7 @@ import co.brainz.itsm.certification.dto.SignUpDto
 import co.brainz.itsm.certification.repository.CertificationRepository
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.constants.CodeConstants
-import co.brainz.itsm.role.entity.RoleEntity
 import co.brainz.itsm.role.repository.RoleRepository
-import co.brainz.itsm.user.entity.UserEntity
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
@@ -52,7 +52,7 @@ public open class CertificationService(private val certificationRepository: Cert
 
     val host: String = Inet4Address.getLocalHost().hostAddress
 
-    fun roleEntityList(role: String): Set<RoleEntity>? {
+    fun roleEntityList(role: String): Set<AliceRoleEntity>? {
         val codeEntityList = codeRepository.findByPCode(role)
         val roleIdList = mutableListOf<String>()
         codeEntityList.forEach {
@@ -68,7 +68,7 @@ public open class CertificationService(private val certificationRepository: Cert
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val password = cryptoRsa.decrypt(privateKey, signUpDto.password)
-                val userEntity = UserEntity(
+                val userEntity = AliceUserEntity(
                         userKey = "",
                         userId = signUpDto.userId,
                         password = BCryptPasswordEncoder().encode(password),
@@ -81,7 +81,7 @@ public open class CertificationService(private val certificationRepository: Cert
                         createDt = LocalDateTime.now(),
                         expiredDt = LocalDateTime.now().plusMonths(3),
                         roleEntities = roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
-                        status = CertificationConstants.UserStatus.SIGNUP.code
+                        status = CertificationConstants.Status.SIGNUP.code
                 )
                 certificationRepository.save(userEntity)
                 code = CertificationConstants.SignUpStatus.STATUS_SUCCESS.code
@@ -113,7 +113,7 @@ public open class CertificationService(private val certificationRepository: Cert
     @Transactional
     fun sendMail(userId: String, email: String) {
         val certificationKey: String = KeyGeneratorService().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, CertificationConstants.UserStatus.SIGNUP.code)
+        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, CertificationConstants.Status.SIGNUP.code)
         updateUser(certificationDto)
         sendCertificationMail(certificationDto)
     }
@@ -153,16 +153,16 @@ public open class CertificationService(private val certificationRepository: Cert
         return params
     }
 
-    fun findByUserId(userId: String): UserEntity {
+    fun findByUserId(userId: String): AliceUserEntity {
         return certificationRepository.findByUserId(userId)
     }
 
     fun status(): Int {
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: UserEntity = findByUserId(userId)
-        var validCode: Int = CertificationConstants.UserStatus.SIGNUP.value
-        if (userDto.status == CertificationConstants.UserStatus.CERTIFIED.code) {
-            validCode = CertificationConstants.UserStatus.CERTIFIED.value
+        val userDto: AliceUserEntity = findByUserId(userId)
+        var validCode: Int = CertificationConstants.Status.SIGNUP.value
+        if (userDto.status == AliceConstants.UserEnum.Status.CERTIFIED.code) {
+            validCode = AliceConstants.UserEnum.Status.CERTIFIED.value
         }
         return validCode
     }
@@ -171,23 +171,23 @@ public open class CertificationService(private val certificationRepository: Cert
     fun valid(uid: String): Int {
         val decryptUid: String = EncryptionUtil().twoWayDeCode(uid)
         val values: List<String> = decryptUid.split(":".toRegex())
-        val userDto: UserEntity = findByUserId(values[1])
-        var validCode: Int = CertificationConstants.UserStatus.SIGNUP.value
+        val userDto: AliceUserEntity = findByUserId(values[1])
+        var validCode: Int = CertificationConstants.Status.SIGNUP.value
 
         when (userDto.status) {
-            CertificationConstants.UserStatus.SIGNUP.code -> {
+            CertificationConstants.Status.SIGNUP.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
-                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", CertificationConstants.UserStatus.CERTIFIED.code)
+                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", AliceConstants.UserEnum.Status.CERTIFIED.code)
                         updateUser(certificationDto)
-                        CertificationConstants.UserStatus.CERTIFIED.value
+                        AliceConstants.UserEnum.Status.CERTIFIED.value
                     }
                     else -> {
-                        CertificationConstants.UserStatus.ERROR.value
+                        CertificationConstants.Status.ERROR.value
                     }
                 }
             }
-            CertificationConstants.UserStatus.CERTIFIED.code -> validCode = CertificationConstants.UserStatus.OVER.value
+            AliceConstants.UserEnum.Status.CERTIFIED.code -> validCode = CertificationConstants.Status.OVER.value
         }
         return validCode
     }

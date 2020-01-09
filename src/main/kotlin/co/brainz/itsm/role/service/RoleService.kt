@@ -1,12 +1,12 @@
 package co.brainz.itsm.role.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import org.springframework.stereotype.Service
-import co.brainz.itsm.auth.entity.AuthEntity
+import co.brainz.framework.auth.entity.AliceAuthEntity
+import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.itsm.auth.repository.AuthRepository
+import org.springframework.stereotype.Service
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
-import co.brainz.itsm.role.entity.RoleEntity
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.repository.UserRoleMapRepository
 import org.springframework.security.core.context.SecurityContextHolder
@@ -21,14 +21,14 @@ public class RoleService(
     /**
      * 상단 전체 역할정보를 가져온다.
      */
-    public fun selectRoleList(): MutableList<RoleEntity> {
+    public fun selectRoleList(): MutableList<AliceRoleEntity> {
         return roleRepository.findByOrderByRoleNameAsc()
     }
 
     /**
      * 전체 권한정보를 가져온다.
      */
-    public fun selectAuthList(): MutableList<AuthEntity> {
+    public fun selectAuthList(): MutableList<AliceAuthEntity> {
         return authRepository.findByOrderByAuthIdAsc()
     }
 
@@ -56,7 +56,7 @@ public class RoleService(
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
         val result = roleRepository.save(
-                RoleEntity(
+                AliceRoleEntity(
                         roleId = roleInfo.roleId.toString(),
                         roleName = roleInfo.roleName.toString(),
                         roleDesc = roleInfo.roleDesc.toString(),
@@ -75,7 +75,7 @@ public class RoleService(
         val roleDetailInfo = roleRepository.findByRoleId(roleInfo.roleId.toString()).get(0)
         val authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
         val result = roleRepository.save(
-                RoleEntity(
+                AliceRoleEntity(
                         roleId = roleInfo.roleId.toString(),
                         roleName = roleInfo.roleName.toString(),
                         roleDesc = roleInfo.roleDesc.toString(),
@@ -115,7 +115,7 @@ public class RoleService(
     /**
      * 모든 역할 목록을 조회한다.
      */
-    fun getRoles(roleEntities: Set<RoleEntity>?): MutableList<RoleDetailDto> {
+    fun getRoles(roleEntities: Set<AliceRoleEntity>?): MutableList<RoleDetailDto> {
         val dto = mutableListOf<RoleDetailDto>()
         if (roleEntities != null) {
             val getRoles = roleRepository.findAll()

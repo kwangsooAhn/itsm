@@ -1,9 +1,9 @@
 package co.brainz.itsm.user.controller
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserSearchDto
-import co.brainz.itsm.user.entity.UserEntity
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,7 +24,7 @@ class UserRestController(private val userService: UserService) {
      * 사용자 전체 목록을 조회한다.
      */
     @GetMapping("/", "")
-    fun getUsers(userSearchDto: UserSearchDto): MutableList<UserEntity> {
+    fun getUsers(userSearchDto: UserSearchDto): MutableList<AliceUserEntity> {
         return userService.selectUserList(userSearchDto)
     }
 
@@ -32,7 +32,7 @@ class UserRestController(private val userService: UserService) {
      * 사용자 ID로 해당 정보를 1건 조회한다.
      */
     @GetMapping("/{userId}")
-    fun getUser(@PathVariable userId: String): UserEntity {
+    fun getUser(@PathVariable userId: String): AliceUserEntity {
         return userService.selectUser(userId)
     }
 
@@ -40,7 +40,7 @@ class UserRestController(private val userService: UserService) {
      * 사용자를 업데이트한다.
      */
     @PutMapping("/{userId}")
-    fun updateUser(user: UserUpdateDto): UserEntity {
+    fun updateUser(user: UserUpdateDto): AliceUserEntity {
         return userService.updateUser(user)
     }
 }

@@ -1,10 +1,14 @@
 package co.brainz.itsm.certification.constants
 
+import co.brainz.framework.constants.AliceConstants
+
 object CertificationConstants {
 
-    enum class UserStatus(val code: String, val value: Int) {
+    /**
+     * 사용자 상태.
+     */
+    enum class Status(val code: String, val value: Int): AliceConstants.UserEnum {
         SIGNUP("user.status.signup", 0),
-        CERTIFIED("user.status.certified", 1),
         OVER("user.status.over", 2),
         ERROR("user.status.error", 3)
     }

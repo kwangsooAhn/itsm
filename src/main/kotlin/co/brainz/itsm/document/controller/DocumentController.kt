@@ -1,7 +1,7 @@
 package co.brainz.itsm.document.controller
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.certification.constants.CertificationConstants
-import co.brainz.itsm.user.entity.UserEntity
 import co.brainz.itsm.user.service.UserService
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -37,9 +37,9 @@ class DocumentController(private val userService: UserService) {
     fun getDocumentSearch(request: HttpServletRequest, model: Model): String {
         //사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: UserEntity = userService.selectUser(userId)
+        val userDto: AliceUserEntity = userService.selectUser(userId)
 
-        if (userDto.status == CertificationConstants.UserStatus.SIGNUP.code) {
+        if (userDto.status == CertificationConstants.Status.SIGNUP.code) {
             return "redirect:/certification/status"
         }
         return "document/documentSearch"
