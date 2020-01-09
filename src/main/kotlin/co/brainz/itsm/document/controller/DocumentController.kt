@@ -1,8 +1,8 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.certification.constants.CertificationConstants
-import co.brainz.itsm.user.UserEntity
-import co.brainz.itsm.user.UserService
+import co.brainz.itsm.user.entity.UserEntity
+import co.brainz.itsm.user.service.UserService
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

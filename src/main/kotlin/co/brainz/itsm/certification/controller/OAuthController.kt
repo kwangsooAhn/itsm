@@ -1,6 +1,6 @@
 package co.brainz.itsm.certification.controller
 
-import co.brainz.itsm.certification.OAuthDto
+import co.brainz.itsm.certification.dto.OAuthDto
 import co.brainz.itsm.certification.constants.OAuthConstants
 import co.brainz.itsm.certification.service.OAuthService
 import co.brainz.itsm.certification.service.OAuthServiceGoogle

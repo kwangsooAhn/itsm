@@ -1,8 +1,8 @@
 package co.brainz.itsm.certification.controller
 
-import co.brainz.framework.auth.entity.AliceUserDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.certification.constants.CertificationConstants
-import co.brainz.itsm.certification.SignUpDto
+import co.brainz.itsm.certification.dto.SignUpDto
 import co.brainz.itsm.certification.service.CertificationService
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder

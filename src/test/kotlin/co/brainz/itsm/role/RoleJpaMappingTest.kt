@@ -12,10 +12,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import co.brainz.itsm.role.RoleRepository
-import co.brainz.itsm.auth.AuthRepository
-import co.brainz.itsm.role.RoleEntity
-import co.brainz.itsm.auth.AuthEntity
+import co.brainz.itsm.auth.repository.AuthRepository
+import co.brainz.itsm.role.entity.RoleEntity
+import co.brainz.itsm.auth.entity.AuthEntity
+import co.brainz.itsm.role.repository.RoleRepository
 
 import java.time.LocalDateTime
 
@@ -38,16 +38,16 @@ class RoleJpaMappingTest {
         val auth2 = AuthEntity("notice.create")
 
         roleRepository.save(
-            RoleEntity(
-                roleId = "2",
-                roleName = "서비스데스크담당자",
-                roleDesc = "역할설명",
-                createUserkey = "ksmcreate",
-                createDt = inputDate,
-                updateUserkey = "ksmupdate",
-                updateDt = inputDate,
-                authEntityList = listOf(auth1, auth2)
-            )
+                RoleEntity(
+                        roleId = "2",
+                        roleName = "서비스데스크담당자",
+                        roleDesc = "역할설명",
+                        createUserkey = "ksmcreate",
+                        createDt = inputDate,
+                        updateUserkey = "ksmupdate",
+                        updateDt = inputDate,
+                        authEntityList = listOf(auth1, auth2)
+                )
         )
     }
 

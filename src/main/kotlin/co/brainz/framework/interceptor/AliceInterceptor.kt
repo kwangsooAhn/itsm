@@ -1,7 +1,6 @@
 package co.brainz.framework.interceptor
 
-import co.brainz.framework.auth.entity.AliceUrlEntity
-import co.brainz.framework.auth.entity.AliceUserDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants

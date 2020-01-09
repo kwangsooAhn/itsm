@@ -1,10 +1,10 @@
 package co.brainz.itsm.notice.controller
 
-import co.brainz.itsm.common.Constants
+import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService
-import co.brainz.itsm.user.UserEntity
-import co.brainz.itsm.user.UserService
+import co.brainz.itsm.user.entity.UserEntity
+import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.utility.ConvertParam
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -39,7 +39,7 @@ class NoticeController(private val userService: UserService,
     @GetMapping("/search")
     fun getNoticeSearch(request: HttpServletRequest, model: Model) : String {
         model.addAttribute("currentDate", LocalDateTime.now())
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         return "notice/noticeSearch"
     }
 
@@ -72,7 +72,7 @@ class NoticeController(private val userService: UserService,
             }
         }
 
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("noticeList", noticeList)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
         return "notice/noticeList"
@@ -104,7 +104,7 @@ class NoticeController(private val userService: UserService,
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: UserEntity = userService.selectUser(userId)
  
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeId))
         model.addAttribute("userName", userDto.userName)
         return "notice/noticeEdit"

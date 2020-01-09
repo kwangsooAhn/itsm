@@ -1,6 +1,6 @@
 package co.brainz.framework.fileTransaction.service
 
-import co.brainz.framework.auth.entity.AliceUserDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.entity.FileLocEntity

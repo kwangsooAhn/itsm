@@ -4,16 +4,15 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.util.EncryptionUtil
 import co.brainz.itsm.certification.constants.CertificationConstants
-import co.brainz.itsm.certification.CertificationDto
-import co.brainz.itsm.certification.MailDto
-import co.brainz.itsm.certification.SignUpDto
+import co.brainz.itsm.certification.dto.CertificationDto
+import co.brainz.itsm.certification.dto.MailDto
+import co.brainz.itsm.certification.dto.SignUpDto
 import co.brainz.itsm.certification.repository.CertificationRepository
-import co.brainz.itsm.common.CodeRepository
-import co.brainz.itsm.common.Constants
-import co.brainz.itsm.common.KeyGenerator
-import co.brainz.itsm.role.RoleEntity
-import co.brainz.itsm.role.RoleRepository
-import co.brainz.itsm.user.UserEntity
+import co.brainz.itsm.code.repository.CodeRepository
+import co.brainz.itsm.code.constants.CodeConstants
+import co.brainz.itsm.role.entity.RoleEntity
+import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.entity.UserEntity
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
@@ -78,7 +77,7 @@ public open class CertificationService(private val certificationRepository: Cert
                         position = signUpDto.position,
                         department = signUpDto.department,
                         extensionNumber = signUpDto.extensionNumber,
-                        createUserkey = Constants.CREATE_USER_ID,
+                        createUserkey = CodeConstants.CREATE_USER_ID,
                         createDt = LocalDateTime.now(),
                         expiredDt = LocalDateTime.now().plusMonths(3),
                         roleEntities = roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
@@ -113,7 +112,7 @@ public open class CertificationService(private val certificationRepository: Cert
 
     @Transactional
     fun sendMail(userId: String, email: String) {
-        val certificationKey: String = KeyGenerator().getKey(50, false)
+        val certificationKey: String = KeyGeneratorService().getKey(50, false)
         val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, CertificationConstants.UserStatus.SIGNUP.code)
         updateUser(certificationDto)
         sendCertificationMail(certificationDto)

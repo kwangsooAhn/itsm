@@ -1,5 +1,9 @@
 package co.brainz.itsm.user
 
+import co.brainz.itsm.user.dto.UserSearchDto
+import co.brainz.itsm.user.dto.UserUpdateDto
+import co.brainz.itsm.user.entity.UserEntity
+import co.brainz.itsm.user.service.UserService
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,16 +41,16 @@ class UserTest {
     @Before
     fun setUp() {
         userEntity = UserEntity(
-            UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
-            0, "과장", "ITSM팀", "02-6416-8324", "admin",
-            "admin", "status", "code", "", LocalDateTime.now(), LocalDateTime.now(),
-            LocalDateTime.now(), emptySet()
+                UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
+                0, "과장", "ITSM팀", "02-6416-8324", "admin",
+                "admin", "status", "code", "", LocalDateTime.now(), LocalDateTime.now(),
+                LocalDateTime.now(), emptySet()
         )
 
         userUpdateDto = UserUpdateDto(
-            "kbh", "beom", "kbh@brainz.co.kr", "대리", "ITSM팀",
-            "02-6416-8324", "010-0000-1234", emptySet(), "code",
-            "status"
+                "kbh", "beom", "kbh@brainz.co.kr", "대리", "ITSM팀",
+                "02-6416-8324", "010-0000-1234", emptySet(), "code",
+                "status"
         )
 
         val userSearchDto = UserSearchDto(mutableListOf("user.id", "user.name"), "kbh")

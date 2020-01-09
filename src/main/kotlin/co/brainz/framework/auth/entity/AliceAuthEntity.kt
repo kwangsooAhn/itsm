@@ -1,6 +1,6 @@
 package co.brainz.framework.auth.entity
 
-import co.brainz.framework.menu.AliceMenuEntity
+import co.brainz.framework.menu.entity.AliceMenuEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.CascadeType
@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
 import javax.persistence.Table
-
 
 @Entity
 @Table(name = "awf_auth")

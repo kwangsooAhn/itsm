@@ -2,11 +2,11 @@ package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
-import co.brainz.framework.auth.entity.AliceUserDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
-import co.brainz.framework.menu.AliceMenuEntity
+import co.brainz.framework.menu.entity.AliceMenuEntity
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.authentication.AuthenticationProvider
