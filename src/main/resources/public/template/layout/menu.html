@@ -6,7 +6,7 @@
     </head>
     <body>
         <div>
-            <ul id="menu"></ul>
+            <ul id="menus"></ul>
             <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post">
                 <a href="javascript:logout()" th:text="#{common.btn.logout}">로그아웃</a>
             </form>
@@ -34,14 +34,14 @@
         var parentMenuId = /*[[${menu.pMenuId}]]*/'부모메뉴아이디';
         var menuId = /*[[${menu.menuId}]]*/'메뉴아이디';
 
-        var atag = document.createElement('a');
-        atag.href = menuUrl;
-        atag.innerText = menuName;
+        var goToMenu = document.createElement('a');
+        goToMenu.href = menuUrl;
+        goToMenu.innerText = menuName;
 
-        var li = document.createElement('li');
-        li.appendChild(atag);
+        var menuItem = document.createElement('li');
+        menuItem.appendChild(goToMenu);
 
-        document.getElementById('menu').appendChild(li);
+        document.getElementById('menus').appendChild(menuItem);
         /*[/]*/
         /*[/]*/
         /*]]>*/
