@@ -4,6 +4,7 @@ common:
   btn: 
     save: "SAVE"
     close: "CLOSE"
+    logout: "LOGOUT"
   label: 
     title: "Title"
     message: "Message"

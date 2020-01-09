@@ -9,8 +9,7 @@
 <th:block layout:fragment="pageScript">
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
-    $(document).ready(function () {
-        /*[# th:each="noticePopUp : ${noticePopUp}"]*/  
+        /*[# th:each="noticePopUp : ${noticePopUp}"]*/
         var targetId = /*[[ ${noticePopUp.noticeNo} ]]*/;
         var targetUrl = "/notices/" + targetId + "/view-pop";
         var targetWidth = /*[[ ${noticePopUp.popWidth} ]]*/;
@@ -19,13 +18,12 @@
         if(getCookie(targetId) != "done"){
             window.open(targetUrl, targetId, " width= " + targetWidth + " , height= " + targetHeight );
         }
-        
-        
+
+
        /*[/]*/
 
         window.location.href = "/document/documentSearch"
-    });
-    
+
     //팝업 기능 관련, 쿠키 설정
     function getCookie(name) {
        var nameOfCookie = name + "=";

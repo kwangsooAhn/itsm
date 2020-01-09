@@ -4,6 +4,7 @@ common:
   btn: 
     save: "저장"
     close: "닫기"
+    logout: "로그아웃"
   label: 
     title: "제목"
     message: "메시지"

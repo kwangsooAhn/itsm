@@ -47,7 +47,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
             aliceUserEntity = userDetailsService.loadUserByUsername(securityContext.authentication.principal.toString())
             logger.debug("login info {}", aliceUserEntity)
             request.removeAttribute(AliceConstants.RsaKey.USE_RSA.value)
-            page = "redirect:" + initPage
+            page = "redirect:$initPage"
         }
 
         return page
