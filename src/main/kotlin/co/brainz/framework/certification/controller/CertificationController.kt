@@ -1,11 +1,10 @@
-package co.brainz.itsm.certification.controller
+package co.brainz.framework.certification.controller
 
 
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.itsm.certification.constants.CertificationConstants
-import co.brainz.itsm.certification.service.CertificationService
+import co.brainz.framework.certification.service.CertificationService
+import co.brainz.framework.constants.UserConstants
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -34,7 +33,7 @@ class CertificationController(private val certificationService: CertificationSer
 
     @GetMapping("/valid")
     fun valid(request: HttpServletRequest, @RequestParam(value="uid", defaultValue = "") uid: String, model: Model): String {
-        var validCode: Int = CertificationConstants.Status.ERROR.value
+        var validCode: Int = UserConstants.Status.ERROR.value
         if (uid != "") {
             validCode = certificationService.valid(uid)
         }

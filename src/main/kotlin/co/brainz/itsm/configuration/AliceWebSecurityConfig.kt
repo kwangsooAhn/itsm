@@ -1,4 +1,4 @@
-package co.brainz.configuration
+package co.brainz.itsm.configuration
 
 import co.brainz.framework.auth.handler.AliceAuthFailureHandler
 import co.brainz.framework.auth.handler.AliceAuthSuccessHandler

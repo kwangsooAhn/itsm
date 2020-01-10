@@ -33,9 +33,9 @@ data class AliceUserEntity(
         var extensionNumber: String? = null,
         val createUserkey: String?,
         var updateUserkey: String? = null,
-        var status: String = UserConstants.UserEnum.Status.CERTIFIED.code,
+        var status: String = UserConstants.Status.CERTIFIED.code,
         var certificationCode: String? = null,
-        var platform: String = UserConstants.UserEnum.Platform.ALICE.code,
+        var platform: String = UserConstants.Platform.ALICE.code,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val expiredDt: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -1,6 +1,6 @@
-package co.brainz.itsm.certification.service
+package co.brainz.framework.certification.service
 
-import co.brainz.itsm.certification.dto.OAuthDto
+import co.brainz.framework.certification.dto.OAuthDto
 import org.springframework.util.MultiValueMap
 
 interface OAuthServiceIF {

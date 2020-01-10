@@ -1,4 +1,4 @@
-package co.brainz.itsm.certification.repository
+package co.brainz.framework.certification.repository
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import org.springframework.data.jpa.repository.JpaRepository

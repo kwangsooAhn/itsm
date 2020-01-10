@@ -1,10 +1,10 @@
-package co.brainz.itsm.certification.controller
+package co.brainz.framework.certification.controller
 
-import co.brainz.itsm.certification.dto.OAuthDto
-import co.brainz.itsm.certification.constants.OAuthConstants
-import co.brainz.itsm.certification.service.OAuthService
-import co.brainz.itsm.certification.service.OAuthServiceGoogle
-import co.brainz.itsm.certification.service.OAuthServiceKakao
+import co.brainz.framework.certification.dto.OAuthDto
+import co.brainz.framework.certification.service.OAuthService
+import co.brainz.framework.certification.service.OAuthServiceGoogle
+import co.brainz.framework.certification.service.OAuthServiceKakao
+import co.brainz.framework.constants.UserConstants
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -29,10 +29,10 @@ class OAuthController(private val oAuthService: OAuthService,
 
         var platformUrl: String = "redirect:/"
         when (platform) {
-            OAuthConstants.Platform.GOOGLE.value -> {
+            UserConstants.Platform.GOOGLE.value -> {
                 platformUrl = oAuthServiceGoogle.platformUrl()
             }
-            OAuthConstants.Platform.KAKAO.value -> {
+            UserConstants.Platform.KAKAO.value -> {
                 platformUrl = oAuthServiceKakao.platformUrl()
             }
 
@@ -45,16 +45,16 @@ class OAuthController(private val oAuthService: OAuthService,
 
         var oAuthDto = OAuthDto()
         when (platform) {
-            OAuthConstants.Platform.GOOGLE.value -> {
+            UserConstants.Platform.GOOGLE.value -> {
                 val parameters: MultiValueMap<String, String> = oAuthServiceGoogle.setParameters(code)
-                oAuthDto = oAuthServiceGoogle.callback(parameters, OAuthConstants.Platform.GOOGLE.code)
+                oAuthDto = oAuthServiceGoogle.callback(parameters, UserConstants.Platform.GOOGLE.code)
             }
-            OAuthConstants.Platform.KAKAO.value -> {
+            UserConstants.Platform.KAKAO.value -> {
                 val error = request.getParameter("error")
                 when (request.getParameter("error")) {
                     null -> {
                         val parameters: MultiValueMap<String, String> = oAuthServiceKakao.setParameters(code)
-                        oAuthDto = oAuthServiceKakao.callback(parameters, OAuthConstants.Platform.KAKAO.code)
+                        oAuthDto = oAuthServiceKakao.callback(parameters, UserConstants.Platform.KAKAO.code)
                     }
                     else -> logger.error(error)
                 }

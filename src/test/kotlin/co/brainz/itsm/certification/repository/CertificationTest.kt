@@ -4,10 +4,9 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.util.EncryptionUtil
-import co.brainz.itsm.certification.dto.CertificationDto
-import co.brainz.itsm.certification.constants.CertificationConstants
-import co.brainz.itsm.certification.service.CertificationService
-import co.brainz.itsm.certification.service.KeyGeneratorService
+import co.brainz.framework.certification.dto.CertificationDto
+import co.brainz.framework.certification.service.CertificationService
+import co.brainz.framework.certification.service.KeyGeneratorService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -57,7 +56,7 @@ class CertificationTest {
         assertThat(userDto.email).isEqualTo(email)
 
         //User status init.
-        val status : String = CertificationConstants.Status.SIGNUP.code
+        val status : String = UserConstants.Status.SIGNUP.code
         val certificationCode: String = ""
         val certificationDto: CertificationDto = CertificationDto(userId, email, certificationCode, status)
         certificationService.updateUser(certificationDto)
@@ -65,7 +64,7 @@ class CertificationTest {
         //Check user status init.
         mvc.perform(get("/certification/status"))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", CertificationConstants.Status.SIGNUP.value))
+                .andExpect(model().attribute("validCode", UserConstants.Status.SIGNUP.value))
     }
 
     //Send Mail
@@ -82,14 +81,14 @@ class CertificationTest {
         userStatusInit()
 
         val certificationKey: String = KeyGeneratorService().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, CertificationConstants.Status.SIGNUP.code)
+        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
         certificationService.updateUser(certificationDto)
 
         val uid: String = "${certificationKey}:${userId}:${email}"
         val encryptUid: String = EncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", UserConstants.UserEnum.Status.CERTIFIED.value))
+                .andExpect(model().attribute("validCode", UserConstants.Status.CERTIFIED.value))
     }
 
 }

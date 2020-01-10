@@ -1,4 +1,4 @@
-package co.brainz.itsm.certification.dto
+package co.brainz.framework.certification.dto
 
 import java.io.Serializable
 

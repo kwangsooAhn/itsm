@@ -1,7 +1,7 @@
-package co.brainz.itsm.layout
+package co.brainz.itsm.layout.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.itsm.certification.constants.CertificationConstants
+import co.brainz.framework.constants.UserConstants
 import co.brainz.itsm.notice.service.NoticeService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -28,7 +28,7 @@ class LayoutController(private val noticeService: NoticeService, private val use
         //사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: AliceUserEntity = userService.selectUser(userId)
-        if (userDto.status == CertificationConstants.Status.SIGNUP.code) {
+        if (userDto.status == UserConstants.Status.SIGNUP.code) {
             return "redirect:/certification/status"
         }
 

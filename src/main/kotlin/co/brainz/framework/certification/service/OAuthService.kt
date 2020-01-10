@@ -1,14 +1,12 @@
-package co.brainz.itsm.certification.service
+package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.UserConstants
-import co.brainz.itsm.certification.constants.CertificationConstants
-import co.brainz.itsm.certification.dto.OAuthDto
-import co.brainz.itsm.certification.repository.CertificationRepository
-import co.brainz.itsm.code.constants.CodeConstants
+import co.brainz.framework.certification.dto.OAuthDto
+import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
@@ -62,11 +60,11 @@ class OAuthService(private val userService: UserService,
                 password = "",
                 userName = oAuthDto.email,
                 email = oAuthDto.email,
-                createUserkey = CodeConstants.CREATE_USER_ID,
+                createUserkey = UserConstants.CREATE_USER_ID,
                 createDt = LocalDateTime.now(),
-                expiredDt = LocalDateTime.now().plusMonths(CodeConstants.USER_EXPIRED_VALUE),
-                roleEntities = certificationService.roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
-                status = UserConstants.UserEnum.Status.CERTIFIED.code,
+                expiredDt = LocalDateTime.now().plusMonths(UserConstants.USER_EXPIRED_VALUE),
+                roleEntities = certificationService.roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
+                status = UserConstants.Status.CERTIFIED.code,
                 platform = oAuthDto.platform
         )
         certificationRepository.save(userEntity)

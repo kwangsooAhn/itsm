@@ -1,4 +1,4 @@
-package co.brainz.itsm.certification.service
+package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -6,13 +6,11 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.util.EncryptionUtil
-import co.brainz.itsm.certification.constants.CertificationConstants
-import co.brainz.itsm.certification.dto.CertificationDto
-import co.brainz.itsm.certification.dto.MailDto
-import co.brainz.itsm.certification.dto.SignUpDto
-import co.brainz.itsm.certification.repository.CertificationRepository
+import co.brainz.framework.certification.dto.CertificationDto
+import co.brainz.framework.certification.dto.MailDto
+import co.brainz.framework.certification.dto.SignUpDto
+import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.itsm.code.repository.CodeRepository
-import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.role.repository.RoleRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -65,7 +63,7 @@ public open class CertificationService(private val certificationRepository: Cert
     fun insertUser(signUpDto: SignUpDto): String {
         var code: String = signUpValid(signUpDto)
         when (code) {
-            CertificationConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
+            UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val password = cryptoRsa.decrypt(privateKey, signUpDto.password)
@@ -78,14 +76,14 @@ public open class CertificationService(private val certificationRepository: Cert
                         position = signUpDto.position,
                         department = signUpDto.department,
                         extensionNumber = signUpDto.extensionNumber,
-                        createUserkey = CodeConstants.CREATE_USER_ID,
+                        createUserkey = UserConstants.CREATE_USER_ID,
                         createDt = LocalDateTime.now(),
                         expiredDt = LocalDateTime.now().plusMonths(3),
-                        roleEntities = roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
-                        status = CertificationConstants.Status.SIGNUP.code
+                        roleEntities = roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
+                        status = UserConstants.Status.SIGNUP.code
                 )
                 certificationRepository.save(userEntity)
-                code = CertificationConstants.SignUpStatus.STATUS_SUCCESS.code
+                code = UserConstants.SignUpStatus.STATUS_SUCCESS.code
             }
         }
         return code
@@ -93,16 +91,16 @@ public open class CertificationService(private val certificationRepository: Cert
 
     fun signUpValid(signUpDto: SignUpDto): String {
         var isContinue = true
-        var code: String = CertificationConstants.SignUpStatus.STATUS_VALID_SUCCESS.code
+        var code: String = UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code
         if (certificationRepository.findByIdOrNull(signUpDto.userId) != null) {
-            code = CertificationConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+            code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }
         when (isContinue) {
             true -> {
                 try {
                     if (certificationRepository.countByEmail(signUpDto.email) > 0) {
-                        code = CertificationConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
+                        code = UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                     }
                 } catch (e: EmptyResultDataAccessException) {
                 }
@@ -114,7 +112,7 @@ public open class CertificationService(private val certificationRepository: Cert
     @Transactional
     fun sendMail(userId: String, email: String) {
         val certificationKey: String = KeyGeneratorService().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, CertificationConstants.Status.SIGNUP.code)
+        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
         updateUser(certificationDto)
         sendCertificationMail(certificationDto)
     }
@@ -161,9 +159,9 @@ public open class CertificationService(private val certificationRepository: Cert
     fun status(): Int {
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: AliceUserEntity = findByUserId(userId)
-        var validCode: Int = CertificationConstants.Status.SIGNUP.value
-        if (userDto.status == UserConstants.UserEnum.Status.CERTIFIED.code) {
-            validCode = UserConstants.UserEnum.Status.CERTIFIED.value
+        var validCode: Int = UserConstants.Status.SIGNUP.value
+        if (userDto.status == UserConstants.Status.CERTIFIED.code) {
+            validCode = UserConstants.Status.CERTIFIED.value
         }
         return validCode
     }
@@ -173,22 +171,22 @@ public open class CertificationService(private val certificationRepository: Cert
         val decryptUid: String = EncryptionUtil().twoWayDeCode(uid)
         val values: List<String> = decryptUid.split(":".toRegex())
         val userDto: AliceUserEntity = findByUserId(values[1])
-        var validCode: Int = CertificationConstants.Status.SIGNUP.value
+        var validCode: Int = UserConstants.Status.SIGNUP.value
 
         when (userDto.status) {
-            CertificationConstants.Status.SIGNUP.code -> {
+            UserConstants.Status.SIGNUP.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
-                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserConstants.UserEnum.Status.CERTIFIED.code)
+                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserConstants.Status.CERTIFIED.code)
                         updateUser(certificationDto)
-                        UserConstants.UserEnum.Status.CERTIFIED.value
+                        UserConstants.Status.CERTIFIED.value
                     }
                     else -> {
-                        CertificationConstants.Status.ERROR.value
+                        UserConstants.Status.ERROR.value
                     }
                 }
             }
-            UserConstants.UserEnum.Status.CERTIFIED.code -> validCode = CertificationConstants.Status.OVER.value
+            UserConstants.Status.CERTIFIED.code -> validCode = UserConstants.Status.OVER.value
         }
         return validCode
     }

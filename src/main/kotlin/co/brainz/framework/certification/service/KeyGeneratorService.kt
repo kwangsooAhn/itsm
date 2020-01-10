@@ -1,4 +1,4 @@
-package co.brainz.itsm.certification.service
+package co.brainz.framework.certification.service
 
 import java.util.Random
 

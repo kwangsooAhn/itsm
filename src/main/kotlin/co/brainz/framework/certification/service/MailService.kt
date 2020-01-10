@@ -1,6 +1,6 @@
-package co.brainz.itsm.certification.service
+package co.brainz.framework.certification.service
 
-import co.brainz.itsm.certification.dto.MailDto
+import co.brainz.framework.certification.dto.MailDto
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
