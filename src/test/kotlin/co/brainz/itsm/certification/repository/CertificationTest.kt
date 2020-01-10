@@ -2,7 +2,7 @@ package co.brainz.itsm.certification.repository
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.util.EncryptionUtil
 import co.brainz.itsm.certification.dto.CertificationDto
 import co.brainz.itsm.certification.constants.CertificationConstants
@@ -89,7 +89,7 @@ class CertificationTest {
         val encryptUid: String = EncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", AliceConstants.UserEnum.Status.CERTIFIED.value))
+                .andExpect(model().attribute("validCode", UserConstants.UserEnum.Status.CERTIFIED.value))
     }
 
 }

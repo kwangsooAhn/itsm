@@ -1,6 +1,6 @@
 package co.brainz.framework.auth.entity
 
-import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.UserConstants
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.security.core.GrantedAuthority
@@ -33,9 +33,9 @@ data class AliceUserEntity(
         var extensionNumber: String? = null,
         val createUserkey: String?,
         var updateUserkey: String? = null,
-        var status: String = AliceConstants.UserEnum.Status.CERTIFIED.code,
+        var status: String = UserConstants.UserEnum.Status.CERTIFIED.code,
         var certificationCode: String? = null,
-        var platform: String = AliceConstants.UserEnum.Platform.ALICE.code,
+        var platform: String = UserConstants.UserEnum.Platform.ALICE.code,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val expiredDt: LocalDateTime,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

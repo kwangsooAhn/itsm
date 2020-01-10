@@ -4,7 +4,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.UserConstants
 import co.brainz.itsm.certification.constants.CertificationConstants
 import co.brainz.itsm.certification.dto.OAuthDto
 import co.brainz.itsm.certification.repository.CertificationRepository
@@ -66,7 +66,7 @@ class OAuthService(private val userService: UserService,
                 createDt = LocalDateTime.now(),
                 expiredDt = LocalDateTime.now().plusMonths(CodeConstants.USER_EXPIRED_VALUE),
                 roleEntities = certificationService.roleEntityList(CertificationConstants.DefaultRole.USER_DEFAULT_ROLE.code),
-                status = AliceConstants.UserEnum.Status.CERTIFIED.code,
+                status = UserConstants.UserEnum.Status.CERTIFIED.code,
                 platform = oAuthDto.platform
         )
         certificationRepository.save(userEntity)

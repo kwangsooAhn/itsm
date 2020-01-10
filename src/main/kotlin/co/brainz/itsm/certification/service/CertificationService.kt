@@ -3,6 +3,7 @@ package co.brainz.itsm.certification.service
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.util.EncryptionUtil
 import co.brainz.itsm.certification.constants.CertificationConstants
@@ -161,8 +162,8 @@ public open class CertificationService(private val certificationRepository: Cert
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: AliceUserEntity = findByUserId(userId)
         var validCode: Int = CertificationConstants.Status.SIGNUP.value
-        if (userDto.status == AliceConstants.UserEnum.Status.CERTIFIED.code) {
-            validCode = AliceConstants.UserEnum.Status.CERTIFIED.value
+        if (userDto.status == UserConstants.UserEnum.Status.CERTIFIED.code) {
+            validCode = UserConstants.UserEnum.Status.CERTIFIED.value
         }
         return validCode
     }
@@ -178,16 +179,16 @@ public open class CertificationService(private val certificationRepository: Cert
             CertificationConstants.Status.SIGNUP.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
-                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", AliceConstants.UserEnum.Status.CERTIFIED.code)
+                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserConstants.UserEnum.Status.CERTIFIED.code)
                         updateUser(certificationDto)
-                        AliceConstants.UserEnum.Status.CERTIFIED.value
+                        UserConstants.UserEnum.Status.CERTIFIED.value
                     }
                     else -> {
                         CertificationConstants.Status.ERROR.value
                     }
                 }
             }
-            AliceConstants.UserEnum.Status.CERTIFIED.code -> validCode = CertificationConstants.Status.OVER.value
+            UserConstants.UserEnum.Status.CERTIFIED.code -> validCode = CertificationConstants.Status.OVER.value
         }
         return validCode
     }
