@@ -1,6 +1,6 @@
 package co.brainz.itsm.notice.service
 
-import co.brainz.framework.auth.entity.AliceUserDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.repository.NoticeRepository
 import java.time.LocalDateTime

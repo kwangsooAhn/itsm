@@ -1,10 +1,10 @@
 package co.brainz.itsm.notice.controller
 
-import co.brainz.itsm.common.Constants
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService
-import co.brainz.itsm.user.UserEntity
-import co.brainz.itsm.user.UserService
+import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.utility.ConvertParam
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -37,14 +37,14 @@ class NoticeController(private val userService: UserService,
     private val noticeEditPage: String = "notice/noticeEdit"
     private val noticeViewPage: String = "notice/noticeView"
     private val noticePopUpPage: String = "notice/noticePopUp"
-    
+
     /**
      * 공지사항 검색 화면 호출 처리
      */
     @GetMapping("/search")
     fun getNoticeSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute("currentDate", LocalDateTime.now())
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         return noticeSearchPage
     }
 
@@ -77,7 +77,7 @@ class NoticeController(private val userService: UserService,
             }
         }
 
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("noticeList", noticeList)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
         return noticeListPage
@@ -107,9 +107,9 @@ class NoticeController(private val userService: UserService,
     fun getNoticeForm(@PathVariable noticeId: String, model: Model): String {
 
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: UserEntity = userService.selectUser(userId)
+        val userDto: AliceUserEntity = userService.selectUser(userId)
 
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeId))
         model.addAttribute("userName", userDto.userName)
         return noticeEditPage
