@@ -23,6 +23,7 @@ class OAuthController(private val oAuthService: OAuthService,
                       private val oAuthServiceKakao: OAuthServiceKakao) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val redirectPage: String = "redirect:/"
 
     @RequestMapping("/{platform}/login")
     fun oAuthLogin(request: HttpServletRequest, response: HttpServletResponse, @PathVariable platform: String) {
@@ -64,6 +65,6 @@ class OAuthController(private val oAuthService: OAuthService,
             true -> oAuthService.callbackUrl(oAuthDto)
             false -> logger.error("oAuth account is not exists.")
         }
-        return "redirect:/"
+        return redirectPage
     }
 }

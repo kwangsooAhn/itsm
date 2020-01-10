@@ -24,17 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 class FaqController(private val faqService: FaqService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val faqSearchPagePath: String = "faq/faqSearch"
-    private val faqEditPagePath: String = "faq/faqEdit"
-    private val faqListPagePath: String = "faq/faqList"
-    private val faqViewPagePath: String = "faq/faqView"
+    private val faqSearchPage: String = "faq/faqSearch"
+    private val faqEditPage: String = "faq/faqEdit"
+    private val faqListPage: String = "faq/faqList"
+    private val faqViewPage: String = "faq/faqView"
 
     /**
      * FAQ 검색 화면 호출 처리
      */
     @GetMapping("/search")
     fun getFaqSearch(request: HttpServletRequest, model: Model): String {
-        return faqSearchPagePath
+        return faqSearchPage
     }
 
     /**
@@ -42,7 +42,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/new")
     fun getFaqNew(request: HttpServletRequest, model: Model): String {
-        return faqEditPagePath
+        return faqEditPage
     }
 
     /**
@@ -51,7 +51,7 @@ class FaqController(private val faqService: FaqService) {
     @GetMapping("/list")
     fun getFaqList(request: HttpServletRequest, model: Model): String {
         model.addAttribute("faqs", faqService.findAll())
-        return faqListPagePath
+        return faqListPage
     }
 
     /**
@@ -60,7 +60,7 @@ class FaqController(private val faqService: FaqService) {
     @GetMapping("/{faqId}/view")
     fun getFaqView(@PathVariable faqId: String, model: Model): String {
         model.addAttribute("faq", faqService.findOne(faqId))
-        return faqViewPagePath
+        return faqViewPage
     }
 
     /**
@@ -71,6 +71,6 @@ class FaqController(private val faqService: FaqService) {
         if (faqId != "") {
             model.addAttribute("faq", faqService.findOne(faqId))
         }
-        return faqEditPagePath
+        return faqEditPage
     }
 }

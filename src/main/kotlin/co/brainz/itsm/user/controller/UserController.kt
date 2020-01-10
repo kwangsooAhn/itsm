@@ -24,6 +24,9 @@ class UserController(
         private val roleService: RoleService
 ) {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val userPage: String = "user/user"
+    private val userListPage: String = "user/userList"
+    private val userDetailPage: String = "user/userDetail"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -31,7 +34,7 @@ class UserController(
     @GetMapping("/search")
     fun getUserSearch(model: Model): String {
         model.addAttribute("userSearchCode", codeService.selectCodeByParent(UserConstants.PCODE.value))
-        return "user/user"
+        return userPage
     }
 
     /**
@@ -41,7 +44,7 @@ class UserController(
     fun getUserList(userSearchDto: UserSearchDto, model: Model): String {
         val users = userService.selectUserList(userSearchDto)
         model.addAttribute("users", users)
-        return "user/userList"
+        return userListPage
     }
 
     /**
@@ -54,6 +57,6 @@ class UserController(
         model.addAttribute("users", users)
         model.addAttribute("roles", roles)
 
-        return "user/userDetail"
+        return userDetailPage
     }
 }

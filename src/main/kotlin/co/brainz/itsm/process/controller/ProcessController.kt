@@ -11,10 +11,13 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/process")
 class ProcessController {
 
+    private val listPage: String = "process/list"
+    private val editPage: String = "process/edit"
+
     @GetMapping("/list")
-    fun getProcessList(request: HttpServletRequest, model: Model) = "process/list"
+    fun getProcessList(request: HttpServletRequest, model: Model) = listPage
 
     @GetMapping("/edit")
-    fun getEditor(@RequestParam(value="processId", defaultValue="") processId: String) = "process/edit"
+    fun getEditor(@RequestParam(value = "processId", defaultValue = "") processId: String) = editPage
 
 }

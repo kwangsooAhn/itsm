@@ -17,18 +17,20 @@ import javax.servlet.http.HttpServletRequest
 class CertificationController(private val certificationService: CertificationService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val signupPage: String = "certification/signup"
+    private val statusPage: String = "certification/status"
 
     @GetMapping("/signup")
     fun getSignUp(request: HttpServletRequest): String {
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
-        return "certification/signup"
+        return signupPage
     }
 
     @GetMapping("/status")
     fun status(request: HttpServletRequest, model: Model): String {
         val validCode: Int = certificationService.status()
         model.addAttribute("validCode", validCode)
-        return "certification/status"
+        return statusPage
     }
 
     @GetMapping("/valid")
@@ -38,6 +40,6 @@ class CertificationController(private val certificationService: CertificationSer
             validCode = certificationService.valid(uid)
         }
         model.addAttribute("validCode", validCode)
-        return "certification/status"
+        return statusPage
     }
 }

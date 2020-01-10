@@ -13,35 +13,41 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping("/document")
 class DocumentController(private val userService: UserService) {
-    
+
+    private val listPage: String = "document/list"
+    private val formPage: String = "document/form"
+    private val editPage: String = "document/edit"
+    private val statusPage: String = "redirect:/certification/status"
+    private val documentSearchPage: String = "document/documentSearch"
+
     @GetMapping("/list")
     fun getDocList(request: HttpServletRequest, model: Model): String {
-        return "document/list"
+        return listPage
     }
-    
+
     @GetMapping("/form")
     fun getDocForm(request: HttpServletRequest, model: Model): String {
         //To-do 지원 가능한 언어 목록 가져오기
-        
+
         //To-do 템플릿 정보 가져오기
-        return "document/form"
+        return formPage
     }
-    
+
     @GetMapping("/edit")
     fun getDocEditor(request: HttpServletRequest, model: Model): String {
         //To-do 컴포넌트 상세 정보 가져오기
-        return "document/edit"
+        return editPage
     }
-    
+
     @GetMapping("/documentSearch")
     fun getDocumentSearch(request: HttpServletRequest, model: Model): String {
         //사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: AliceUserEntity = userService.selectUser(userId)
+        val userDto: UserEntity = userService.selectUser(userId)
 
         if (userDto.status == UserConstants.Status.SIGNUP.code) {
-            return "redirect:/certification/status"
+            return statusPage
         }
-        return "document/documentSearch"
+        return documentSearchPage
     }
 }
