@@ -1,50 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
-<head>
-    <title>첫 Layout 화면</title>
-</head>
-<body>
-<th:block layout:fragment="pageScript">
-<script type="text/javascript" th:inline="javascript">
-/*<![CDATA[*/
-    $(document).ready(function () {
-        /*[# th:each="noticePopUp : ${noticePopUp}"]*/  
-        var targetId = /*[[ ${noticePopUp.noticeNo} ]]*/;
-        var targetUrl = "/notices/" + targetId + "/view-pop";
-        var targetWidth = /*[[ ${noticePopUp.popWidth} ]]*/;
-        var targetHeight = /*[[ ${noticePopUp.popHeight} ]]*/;
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+    <head>
+        <title>첫 Layout 화면</title>
+    </head>
+    <body>
+        <th:block layout:fragment="pageScript">
+            <script type="text/javascript" th:inline="javascript">
+                /*<![CDATA[*/
+                /*[# th:each="noticePopUp : ${noticePopUp}"]*/
+                var targetId = /*[[ ${noticePopUp.noticeNo} ]]*/;
+                var targetUrl = "/notices/" + targetId + "/view-pop";
+                var targetWidth = /*[[ ${noticePopUp.popWidth} ]]*/;
+                var targetHeight = /*[[ ${noticePopUp.popHeight} ]]*/;
 
-        if(getCookie(targetId) != "done"){
-            window.open(targetUrl, targetId, " width= " + targetWidth + " , height= " + targetHeight );
-        }
-        
-        
-       /*[/]*/
+                if (getCookie(targetId) != "done") {
+                    window.open(targetUrl, targetId, " width= " + targetWidth + " , height= " + targetHeight);
+                }
+                /*[/]*/
 
-        window.location.href = "/document/documentSearch"
-    });
-    
-    //팝업 기능 관련, 쿠키 설정
-    function getCookie(name) {
-       var nameOfCookie = name + "=";
-       var x = 0;
-       while (x <= document.cookie.length) {
-           var y = (x + nameOfCookie.length);
-           if (document.cookie.substring(x, y) == nameOfCookie) {
-               if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
-                   endOfCookie = document.cookie.length;
-               return unescape(document.cookie.substring(y, endOfCookie));
-               }
-           x = document.cookie.indexOf(" ", x) + 1;
-           if (x == 0)
-               break;
-           }
-       return "";
-   }
-    /*]]>*/
-</script>
-</th:block>
-</body>
+                window.location.href = "/document/documentSearch";
+
+                //팝업 기능 관련, 쿠키 설정
+                function getCookie(name) {
+                    var nameOfCookie = name + "=";
+                    var x = 0;
+                    while (x <= document.cookie.length) {
+                        var y = (x + nameOfCookie.length);
+                        if (document.cookie.substring(x, y) == nameOfCookie) {
+                            if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+                                endOfCookie = document.cookie.length;
+                            return unescape(document.cookie.substring(y, endOfCookie));
+                        }
+                        x = document.cookie.indexOf(" ", x) + 1;
+                        if (x == 0)
+                            break;
+                    }
+                    return "";
+                }
+
+                /*]]>*/
+            </script>
+        </th:block>
+    </body>
 </html>
