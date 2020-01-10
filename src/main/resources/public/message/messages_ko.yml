@@ -22,8 +22,9 @@ menu:
   help: "헬프데스크"
   help.notice: "공지사항"
   help.faq: "FAQ"
-  settings: "설정"
-  settings.users: "사용자 관리"
+  setting: "설정"
+  setting.user: "사용자 관리"
+  setting.role: "역할 관리"
 
 # auth
 auth:

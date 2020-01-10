@@ -22,8 +22,9 @@ menu:
   help: "Helpdesk"
   help.notice: "Notice"
   help.faq: "FAQ"
-  settings: "settings"
-  settings.users: "Users management"
+  setting: "settings"
+  setting.user: "Users management"
+  setting.role: "Role management"
 
 # Auth
 auth:
