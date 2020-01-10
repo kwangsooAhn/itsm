@@ -4,6 +4,7 @@ common:
   btn: 
     save: "SAVE"
     close: "CLOSE"
+    logout: "LOGOUT"
   label: 
     title: "Title"
     message: "Message"
@@ -21,6 +22,9 @@ menu:
   help: "Helpdesk"
   help.notice: "Notice"
   help.faq: "FAQ"
+  setting: "settings"
+  setting.user: "Users management"
+  setting.role: "Role management"
 
 # Auth
 auth:

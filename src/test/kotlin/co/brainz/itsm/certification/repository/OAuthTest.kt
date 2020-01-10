@@ -1,6 +1,6 @@
 package co.brainz.itsm.certification.repository
 
-import co.brainz.itsm.certification.service.OAuthServiceGoogle
+import co.brainz.framework.certification.service.OAuthServiceGoogle
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
 import org.assertj.core.api.Assertions.assertThat

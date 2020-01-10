@@ -17,14 +17,14 @@ data class AliceRoleEntity(
         @Id var roleId: String,
         var roleName: String,
         var roleDesc: String,
-        var createUserkey: String?,
-        var createDt: LocalDateTime?,
-        var updateUserkey: String?,
-        var updateDt: LocalDateTime?,
+        var createUserkey: String? = null,
+        var createDt: LocalDateTime = LocalDateTime.now(),
+        var updateUserkey: String? = null,
+        var updateDt: LocalDateTime? = null,
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awfRoleAuthMap",
                 joinColumns = [JoinColumn(name = "roleId", referencedColumnName = "roleId")],
                 inverseJoinColumns = [JoinColumn(name = "authId", referencedColumnName = "authId")])
-        var aliceAuthEntities: MutableSet<AliceAuthEntity> = HashSet()
+        var authEntityList: List<AliceAuthEntity>?
 ) : Serializable

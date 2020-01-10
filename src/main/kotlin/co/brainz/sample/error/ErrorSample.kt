@@ -11,9 +11,11 @@ import java.io.IOException
 @RequestMapping("/exception")
 class ErrorSample {
 
+    private val errorhandlePage: String = "sample/errorhandle"
+
     @GetMapping("/list")
     fun list(): String {
-        return "sample/errorhandle"
+        return errorhandlePage
     }
 
     @GetMapping("/io")
