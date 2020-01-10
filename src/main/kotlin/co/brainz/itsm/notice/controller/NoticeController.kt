@@ -77,7 +77,7 @@ class NoticeController(private val userService: UserService,
             }
         }
 
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(Constants.SEARCH_RANGE_VALUE))
+        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("noticeList", noticeList)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
         return noticeListPage

@@ -43,7 +43,7 @@ class DocumentController(private val userService: UserService) {
     fun getDocumentSearch(request: HttpServletRequest, model: Model): String {
         //사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: UserEntity = userService.selectUser(userId)
+        val userDto: AliceUserEntity = userService.selectUser(userId)
 
         if (userDto.status == UserConstants.Status.SIGNUP.code) {
             return statusPage
