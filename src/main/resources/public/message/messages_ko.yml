@@ -4,6 +4,7 @@ common:
   btn: 
     save: "저장"
     close: "닫기"
+    logout: "로그아웃"
   label: 
     title: "제목"
     message: "메시지"
@@ -21,6 +22,9 @@ menu:
   help: "헬프데스크"
   help.notice: "공지사항"
   help.faq: "FAQ"
+  setting: "설정"
+  setting.user: "사용자 관리"
+  setting.role: "역할 관리"
 
 # auth
 auth:
