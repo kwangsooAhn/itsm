@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest
 class AliceLoginController(private val userDetailsService: AliceUserDetailsService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val initPage: String = "/document/documentSearch" 
+    private val documentSearchPage: String = "/document/documentSearch"
 
     /**
      * 로그인 페이지로 이동한다.
@@ -47,9 +47,10 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
             aliceUserEntity = userDetailsService.loadUserByUsername(securityContext.authentication.principal.toString())
             logger.debug("login info {}", aliceUserEntity)
             request.removeAttribute(AliceConstants.RsaKey.USE_RSA.value)
-            page = "redirect:$initPage"
+            page = "redirect:$documentSearchPage"
         }
 
         return page
     }
 }
+

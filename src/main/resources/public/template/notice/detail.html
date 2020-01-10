@@ -77,7 +77,7 @@
             </table>
         </div>
         <div style = "float:right;">
-            <button type="button" onclick="location.href='/notices/list'" th:text="#{notice.list}"></button>
+            <button type="button" id="btnList" onclick="location.href='/notices/list'" th:text="#{notice.list}"></button>
             <button th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notices/form?id={noticeNo}(noticeNo = ${notice.NoticeNo})}+'\''" th:text="#{notice.modify}"></button>
             <button th:if="${notice?.noticeNo}" type="button" id="delete" th:onclick="restSubmit('DELETE',[[@{/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.delete}"></button>
         </div>

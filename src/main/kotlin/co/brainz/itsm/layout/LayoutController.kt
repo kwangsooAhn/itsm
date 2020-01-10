@@ -18,9 +18,10 @@ class LayoutController(private val noticeService: NoticeService, private val use
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    private val layoutViewPage: String = "layout/layout"
-    private val menuViewPage: String = "layout/menu"
-
+    private val layoutPage: String = "layout/layout"
+    private val menuPage: String = "layout/menu"
+    private val statusPage: String = "redirect:/certification/status"
+    
     @GetMapping("/", "")
     fun getLayout(model: Model): String {
         model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
@@ -29,14 +30,15 @@ class LayoutController(private val noticeService: NoticeService, private val use
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: UserEntity = userService.selectUser(userId)
         if (userDto.status == CertificationConstants.UserStatus.SIGNUP.code) {
-            return "redirect:/certification/status"
+            return statusPage
         }
 
-        return layoutViewPage
+        return layoutPage
     }
 
     @GetMapping("/menu")
     fun getMenu(): String {
-        return menuViewPage
+        return menuPage
     }
 }
+
