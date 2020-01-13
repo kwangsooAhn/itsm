@@ -1,53 +1,77 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>Insert title here</title>
-    </head>
-    <body>
-        <div>
-            <ul id="menus"></ul>
-            <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post">
-                <a href="javascript:logout()" th:text="#{common.btn.logout}">로그아웃</a>
-            </form>
-        </div>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-primary alice-navbar">
+        <a class="navbar-brand" href="#">
+            <img th:src="@{/assets/media/icons/logo.png}" width="40" height="40" alt="Alice">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul id="menus" class="navbar-nav mr-auto">
+            </ul>
+            <div class="alice-navbar-profile">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    Hello, <span sec:authentication="details.userName"></span>
+                    <img th:src="@{/assets/media/image/profile_sample.jpg}" alt="profile pic" />
+                    <span class="caret"></span>
+                </button>
+            </div>
+        </div><!-- collapse navbar-collapse -->
+    </nav>
+<div style="color:#000000">
+    <div>
+        <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post">
+            <a href="javascript:logout()" th:text="#{common.btn.logout}">로그아웃</a>
+        </form>
+    </div>
+    <div style="border: 1px solid red"></div>
+    <div>샘플 테스트용 메뉴 입니다</div>
+    <div>
+        <a href="/notices/search">공지사항</a>
+        <a href="/faqs/search">FAQ</a>
+        <a href="/roles/edit">역할 CRUD</a>
+        <a href="/process/list">프로세스목록</a>
+        <a href="/document/list">문서양식 목록</a>
+        <a href="/exception/list">예외처리</a>
+        <a href="/files">파일업로드</a>
+    </div>
+    <div style="border: 1px solid red"></div>
+</div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    /*[# th:each="menu : ${#authentication.details.menus}"]*/
+    /*[# th:unless="${#lists.isEmpty(menu.url)}"]*/
+    var menuUrl = /*[[${menu.url}]]*/'메뉴경로';
+    var menuName = /*[[#{|menu.${menu.menuId}|}]]*/'메뉴명';
+    var parentMenuId = /*[[${menu.pMenuId}]]*/'부모메뉴아이디';
+    var menuId = /*[[${menu.menuId}]]*/'메뉴아이디';
 
-        <div style="border: 1px solid red"></div>
-        <div>샘플 테스트용 메뉴 입니다</div>
-        <div>
-            <a href="/notices/search">공지사항</a>
-            <a href="/faqs/search">FAQ</a>
-            <a href="/roles/edit">역할 CRUD</a>
-            <a href="/process/list">프로세스목록</a>
-            <a href="/document/list">문서양식 목록</a>
-            <a href="/exception/list">예외처리</a>
-            <a href="/files">파일업로드</a>
-        </div>
-        <div style="border: 1px solid red"></div>
-    </body>
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        /*[# th:each="menu : ${#authentication.details.menus}"]*/
-        /*[# th:unless="${#lists.isEmpty(menu.url)}"]*/
-        var menuUrl = /*[[${menu.url}]]*/'메뉴경로';
-        var menuName = /*[[#{|menu.${menu.menuId}|}]]*/'메뉴명';
-        var parentMenuId = /*[[${menu.pMenuId}]]*/'부모메뉴아이디';
-        var menuId = /*[[${menu.menuId}]]*/'메뉴아이디';
+    var goToMenu = document.createElement('a');
+    goToMenu.href = menuUrl;
+    goToMenu.innerText = menuName;
+    goToMenu.setAttribute('class','nav-link');
 
-        var goToMenu = document.createElement('a');
-        goToMenu.href = menuUrl;
-        goToMenu.innerText = menuName;
+    var menuItem = document.createElement('li');
+    menuItem.appendChild(goToMenu);
+    menuItem.classList.add('nav-item')
 
-        var menuItem = document.createElement('li');
-        menuItem.appendChild(goToMenu);
+    document.getElementById('menus').appendChild(menuItem);
+    /*[/]*/
+    /*[/]*/
+    /*]]>*/
 
-        document.getElementById('menus').appendChild(menuItem);
-        /*[/]*/
-        /*[/]*/
-        /*]]>*/
-
-        function logout() {
-            document.getElementById("logoutForm").submit();
-        }
-    </script>
+    function logout() {
+        document.getElementById("logoutForm").submit();
+    }
+</script>
 </html>
