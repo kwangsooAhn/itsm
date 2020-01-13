@@ -43,9 +43,9 @@ class NoticeTest() {
             topNoticeYn = true,
             topNoticeStrtDt = inputDate,
             topNoticeEndDt = inputDate,
-            createUserid = "Demo Data",
+            createUserkey = "Demo Data",
             createDt = inputDate,
-            updateUserid = null,
+            updateUserkey = null,
             updateDt = null
         )
        
@@ -55,19 +55,15 @@ class NoticeTest() {
     
     @Test
     fun findNoticeByNoticeNo() {
-        var id  = savedEntity.noticeNo
-        if(id != null) {
-            var data =  noticeService.findNoticeByNoticeNo(id)
-            Assert.assertNotNull(data)
-        }
+        val id  = savedEntity.noticeNo
+        val data =  noticeService.findNoticeByNoticeNo(id)
+        Assert.assertNotNull(data)
       
     }
     
     @After
     fun deleteById() {
-        var id  = savedEntity.noticeNo
-        if(id != null) {
+        val id  = savedEntity.noticeNo
         noticeRepository.deleteById(id)
-        }
     } 
 }

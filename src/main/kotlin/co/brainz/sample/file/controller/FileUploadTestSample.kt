@@ -15,9 +15,11 @@ class FileUploadTestSample(private val fileService: FileService) {
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
 
+    private val fileUploaderPage: String = "sample/fileUploader"
+
     @GetMapping("/files")
     fun getFile(): String {
-        return "sample/fileUploader"
+        return fileUploaderPage
     }
 
     @PostMapping("/fileSubmit")

@@ -2,11 +2,11 @@ package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
-import co.brainz.framework.auth.entity.AliceUserDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
-import co.brainz.framework.menu.AliceMenuEntity
+import co.brainz.framework.menu.entity.AliceMenuEntity
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.authentication.AuthenticationProvider
@@ -31,10 +31,8 @@ import java.security.PrivateKey
  * 정상적으로 처리가 완료되면 successHandler로 이동하고 실패시 failureHandler 로 이동한다.
  */
 @Component
-class AliceAuthProvider(
-    private val userDetailsService: AliceUserDetailsService,
-    private val cryptoRsa: CryptoRsa
-) : AuthenticationProvider {
+class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
+                        private val cryptoRsa: CryptoRsa) : AuthenticationProvider {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -79,8 +77,8 @@ class AliceAuthProvider(
         val urlList = urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
-            aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-            aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList
+                aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList
         )
         return usernamePasswordAuthenticationToken
     }

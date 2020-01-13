@@ -35,13 +35,13 @@ public data class FaqEntity(
     @Column(name = "create_dt")
     var createDt: LocalDateTime = LocalDateTime.now(),
 
-    @Column(name = "create_userid")
-    var createUserid: String?,
+    @Column(name = "create_userkey")
+    var createUserkey: String?,
 
     @Column(name = "update_dt")
     var updateDt: LocalDateTime?,
 
-    @Column(name = "update_userid")
-    var updateUserid: String?
+    @Column(name = "update_userkey")
+    var updateUserkey: String?
 
 ) : Serializable

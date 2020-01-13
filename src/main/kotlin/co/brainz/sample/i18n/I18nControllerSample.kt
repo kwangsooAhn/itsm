@@ -13,26 +13,28 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @Controller
 class I18nControllerSample {
-    
+
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
-    
-    fun Logging() : Unit{
-        logger.info("INFO{ }","I18nController")
+
+    private val sampleI18nPage: String = "sample/sampleI18n"
+
+    fun Logging(): Unit {
+        logger.info("INFO{ }", "I18nController")
     }
-    
-    fun main(args : Array<String>) {
+
+    fun main(args: Array<String>) {
         SpringApplication.run(this::class.java)
     }
-    
+
     @Autowired
-    lateinit var LocaleChangeInterceptor : LocaleChangeInterceptor
-    
+    lateinit var LocaleChangeInterceptor: LocaleChangeInterceptor
+
     // 테스트 페이지 링크
     @RequestMapping("/sample/sampleI18n")
-    public fun sampleI18n() : String {
-        return "sample/sampleI18n"
+    public fun sampleI18n(): String {
+        return sampleI18nPage
     }
-    
+
 }

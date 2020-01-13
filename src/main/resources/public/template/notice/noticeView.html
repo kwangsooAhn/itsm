@@ -6,7 +6,7 @@
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}" />
 <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-<script src="../../assets/js/withoutJquery.js"></script>
+<script src="../../assets/js/util/util-alice.js"></script>
 </head>
 <body>
     <div class="container">
@@ -23,7 +23,7 @@
             </tr>
             <tr>
                 <th th:text="#{notice.user}"></th>
-                <td colspan="3"><span th:text="${notice?.createUserid}"/></span></td>
+                <td colspan="3"><span th:text="${notice?.createUserkey}"/></span></td>
             </tr>
             <tr style = "display:none;">
                 <th th:text="#{notice.popUpNoticeSettings}"></th>

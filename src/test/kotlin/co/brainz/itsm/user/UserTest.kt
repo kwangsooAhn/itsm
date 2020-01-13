@@ -1,5 +1,10 @@
 package co.brainz.itsm.user
 
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.constants.UserConstants
+import co.brainz.itsm.user.dto.UserSearchDto
+import co.brainz.itsm.user.dto.UserUpdateDto
+import co.brainz.itsm.user.service.UserService
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDateTime
+import java.util.*
 
 
 @RunWith(SpringRunner::class)
@@ -30,22 +36,22 @@ class UserTest {
     @MockBean(name = "userService")
     private lateinit var userService: UserService
 
-    private lateinit var userEntity: UserEntity
+    private lateinit var userEntity: AliceUserEntity
     private lateinit var userUpdateDto: UserUpdateDto
 
     @Before
     fun setUp() {
-        userEntity = UserEntity(
-            "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
-            0, "과장", "ITSM팀", "02-6416-8324", "admin",
-            "admin", "status", "code", "", LocalDateTime.now(), LocalDateTime.now(),
-            LocalDateTime.now(), emptySet()
+        userEntity = AliceUserEntity(
+                UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
+                0, "과장", "ITSM팀", "02-6416-8324", "admin",
+                "admin", "status", "code", UserConstants.Platform.ALICE.code,
+                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), emptySet()
         )
 
         userUpdateDto = UserUpdateDto(
-            "kbh", "beom", "kbh@brainz.co.kr", "대리", "ITSM팀",
-            "02-6416-8324", "010-0000-1234", emptySet(), "code",
-            "status"
+                "kbh", "beom", "kbh@brainz.co.kr", "대리", "ITSM팀",
+                "02-6416-8324", "010-0000-1234", emptySet(), "code",
+                "status"
         )
 
         val userSearchDto = UserSearchDto(mutableListOf("user.id", "user.name"), "kbh")

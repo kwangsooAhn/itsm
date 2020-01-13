@@ -1,18 +1,17 @@
 package co.brainz.itsm.certification.repository
 
-import co.brainz.framework.auth.entity.AliceUserDto
+import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.util.EncryptionUtil
-import co.brainz.itsm.certification.CertificationDto
-import co.brainz.itsm.certification.UserStatus
-import co.brainz.itsm.certification.service.CertificationService
-import co.brainz.itsm.common.KeyGenerator
-import co.brainz.itsm.user.UserEntity
+import co.brainz.framework.certification.dto.CertificationDto
+import co.brainz.framework.certification.service.CertificationService
+import co.brainz.framework.certification.service.KeyGeneratorService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -44,8 +43,8 @@ class CertificationTest {
     fun init() {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
         securityContext = SecurityContextHolder.getContext()
-        val userDto: UserEntity = certificationService.findByUserId(userId)
-        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userId, userDto.userName,userDto.email, userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), emptySet(), emptySet(), emptySet())
+        val userDto: AliceUserEntity = certificationService.findByUserId(userId)
+        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userKey, userDto.userId, userDto.userName, userDto.email, userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), emptySet(), emptySet(), emptySet())
         val usernamePasswordAuthenticationToken: UsernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
         usernamePasswordAuthenticationToken.details = aliceUserDto
         securityContext.authentication = usernamePasswordAuthenticationToken
@@ -53,11 +52,11 @@ class CertificationTest {
 
     fun userStatusInit() {
         //Check user exists.
-        val userDto: UserEntity = certificationService.findByUserId(userId)
+        val userDto: AliceUserEntity = certificationService.findByUserId(userId)
         assertThat(userDto.email).isEqualTo(email)
 
         //User status init.
-        val status : String = UserStatus.SIGNUP.code
+        val status : String = UserConstants.Status.SIGNUP.code
         val certificationCode: String = ""
         val certificationDto: CertificationDto = CertificationDto(userId, email, certificationCode, status)
         certificationService.updateUser(certificationDto)
@@ -65,7 +64,7 @@ class CertificationTest {
         //Check user status init.
         mvc.perform(get("/certification/status"))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", UserStatus.SIGNUP.value))
+                .andExpect(model().attribute("validCode", UserConstants.Status.SIGNUP.value))
     }
 
     //Send Mail
@@ -81,15 +80,15 @@ class CertificationTest {
     fun userMailValid() {
         userStatusInit()
 
-        val certificationKey: String = KeyGenerator().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserStatus.SIGNUP.code)
+        val certificationKey: String = KeyGeneratorService().getKey(50, false)
+        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
         certificationService.updateUser(certificationDto)
 
         val uid: String = "${certificationKey}:${userId}:${email}"
         val encryptUid: String = EncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", UserStatus.CERTIFIED.value))
+                .andExpect(model().attribute("validCode", UserConstants.Status.CERTIFIED.value))
     }
 
 }
