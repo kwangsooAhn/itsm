@@ -37,7 +37,8 @@
             }
         }];
 
-        const menuItemContainer = d3.select('.drawing-board').select('svg').append('g').classed('menu', true).style('display', 'none');
+        const menuItemContainer = d3.select('.drawing-board').select('svg').append('g')
+            .classed('menu', true).style('display', 'none');
 
         const menuRect = menuItemContainer.append('rect')
             .attr('height', menu.length * 25)

@@ -8,23 +8,23 @@
     let svg,
         path,
         dragLine;
-    let lastNodesId = 0;
+    let lastElementsId = 0;
     const links = [];
 
-    let mouseupNode,
-        mousedownNode,
-        selectedNode,
+    let mouseupElement,
+        mousedownElement,
+        selectedElement,
         mousedownLink,
         selectedLink;
 
-    let isSelectedConnector = false;
+    let isDrawConnector = false;
 
     /**
      * reset mouse variables.
      */
     function resetMouseVars() {
-        mousedownNode = null;
-        mouseupNode = null;
+        mousedownElement = null;
+        mouseupElement = null;
         mousedownLink = null;
     }
 
@@ -45,8 +45,8 @@
     /**
      * 선택된 element 를 해제한다.
      */
-    function removeNodeSelected() {
-        selectedNode = null;
+    function removeElementSelected() {
+        selectedElement = null;
         svg.selectAll('.node').style('stroke-width', 1);
         svg.selectAll('.pointer').style('opacity', 0);
         svg.selectAll('.menu').remove();
@@ -80,7 +80,7 @@
                 // select link
                 mousedownLink = d;
                 selectedLink = (mousedownLink === selectedLink) ? null : mousedownLink;
-                selectedNode = null;
+                selectedElement = null;
                 setConnectors();
             })
             .merge(path);
@@ -137,14 +137,14 @@
     const elementMouseEventHandler = {
         mouseover: function() {
             const elem = d3.select(this);
-            if (!mousedownNode || elem === mousedownNode) {
+            if (!mousedownElement || elem === mousedownElement) {
                 return;
             }
-            node.attr('stroke-width', 2);
+            elem.attr('stroke-width', 2);
         },
         mouseout: function() {
             const elem = d3.select(this);
-            if (!mousedownNode || node === mousedownNode) {
+            if (!mousedownElement || elem === mousedownElement) {
                 return;
             }
             elem.attr('stroke-width', 1);
@@ -152,12 +152,12 @@
         mousedown: function () {
             const elem = d3.select(this);
             if (d3.event.ctrlKey) {
-                removeNodeSelected();
-                mousedownNode = elem;
-                selectedNode = (mousedownNode === selectedNode) ? null : mousedownNode;
+                removeElementSelected();
+                mousedownElement = elem;
+                selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
                 selectedLink = null;
 
-                const bbox = utils.getBoundingBoxCenter(mousedownNode);
+                const bbox = utils.getBoundingBoxCenter(mousedownElement);
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
@@ -165,17 +165,17 @@
 
                 setConnectors();
             } else {
-                if (selectedNode === elem) {
+                if (selectedElement === elem) {
                     return;
                 }
-                removeNodeSelected();
-                mousedownNode = elem;
-                selectedNode = (mousedownNode === selectedNode) ? null : mousedownNode;
-                selectedNode.style('stroke-width', 2);
+                removeElementSelected();
+                mousedownElement = elem;
+                selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
+                selectedElement.style('stroke-width', 2);
                 if (elem.node().classList.contains('task')) {
-                    const selectedNodeId = selectedNode.node().id;
+                    const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
-                        d3.select('#' + selectedNodeId + '_point' + i).style('opacity', 1);
+                        d3.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
                     }
                 }
                 wfEditor.setElementMenu(elem);
@@ -185,24 +185,24 @@
         mouseup: function() {
             const elem = d3.select(this);
             if (d3.event.ctrlKey) {
-                if (!mousedownNode) {
+                if (!mousedownElement) {
                     return;
                 }
                 dragLine
                     .classed('hidden', true)
                     .style('marker-end', '');
 
-                mouseupNode = elem;
-                if (mouseupNode === mousedownNode) {
+                mouseupElement = elem;
+                if (mouseupElement === mousedownElement) {
                     resetMouseVars();
                     return;
                 }
 
                 elem.attr('stroke-width', 1);
 
-                const isRight = mousedownNode.node().id < mouseupNode.node().id;
-                const source = isRight ? mousedownNode : mouseupNode;
-                const target = isRight ? mouseupNode : mousedownNode;
+                const isRight = mousedownElement.node().id < mouseupElement.node().id;
+                const source = isRight ? mousedownElement : mouseupElement;
+                const target = isRight ? mouseupElement : mousedownElement;
 
                 const link = links.filter((l) => l.source === source && l.target === target)[0];
                 if (link) {
@@ -212,7 +212,7 @@
                 }
 
                 selectedLink = link;
-                selectedNode = null;
+                selectedElement = null;
                 setConnectors();
             }
         }
@@ -234,7 +234,7 @@
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
         self.nodeElement = svg.append('rect')
-            .attr('id', 'node' + (++lastNodesId))
+            .attr('id', 'node' + (++lastElementsId))
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
@@ -267,7 +267,7 @@
             .classed('pointer', true)
             .style('opacity', 0)
             .call(d3.drag().on('drag', () => {
-                if (selectedNode && selectedNode.node().id === this.nodeElement.node().id) {
+                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
                     this.pointElement1
                         .attr('cx', d => { return d.x += d3.event.dx })
                         .attr('cy', d => { return d.y += d3.event.dy });
@@ -278,7 +278,7 @@
             .classed('pointer', true)
             .style('opacity', 0)
             .call(d3.drag().on('drag', () => {
-                if (selectedNode && selectedNode.node().id === this.nodeElement.node().id) {
+                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
                     this.pointElement2
                         .attr('cx', this.rectData[1].x += d3.event.dx)
                         .attr('cy', this.rectData[1].y += d3.event.dy);
@@ -289,7 +289,7 @@
             .classed('pointer', true)
             .style('opacity', 0)
             .call(d3.drag().on('drag', () => {
-                if (selectedNode && selectedNode.node().id === this.nodeElement.node().id) {
+                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
                     this.pointElement3
                         .attr('cx', this.rectData[1].x += d3.event.dx)
                         .attr('cy', this.rectData[0].y += d3.event.dy);
@@ -300,7 +300,7 @@
             .classed('pointer', true)
             .style('opacity', 0)
             .call(d3.drag().on('drag', () => {
-                if (selectedNode && selectedNode.node().id === this.nodeElement.node().id) {
+                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
                     this.pointElement4
                         .attr('cx', this.rectData[0].x += d3.event.dx)
                         .attr('cy', this.rectData[1].y += d3.event.dy);
@@ -375,7 +375,7 @@
         const radius = 20;
 
         self.nodeElement = svg.append('circle')
-            .attr('id', 'node' + (++lastNodesId))
+            .attr('id', 'node' + (++lastElementsId))
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
@@ -415,7 +415,7 @@
         const width = 30, height = 30;
 
         self.nodeElement = svg.append('rect')
-            .attr('id', 'node' + (++lastNodesId))
+            .attr('id', 'node' + (++lastElementsId))
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -462,35 +462,47 @@
     }
 
     /**
-     * element-palette에 element 를 추가하고, element의 drag & drop 이벤트를 추가한다.
+     * Annotation element.
+     *
+     * @param x drop할 마우스 x좌표
+     * @param y drop할 마우스 y좌표
+     * @returns {AnnotationElement}
+     * @constructor
+     */
+    function AnnotationElement(x, y) {
+        const self = this;
+        //TODO: add logic annotation element
+        return this;
+    }
+
+    /**
+     * element에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.element-palette, .drawing-board')
-            .on('dragover', () => {
-                d3.event.preventDefault();
-            });
+        d3.selectAll('.element-palette, .drawing-board').on('dragover', () => d3.event.preventDefault());
 
         d3.select('.element-palette').select('.connector')
             .on('click', function() {
-                isSelectedConnector = !d3.select(this).classed('selected');
-                d3.select(this).classed('selected', isSelectedConnector);
+                isDrawConnector = !d3.select(this).classed('selected');
+                d3.select(this).classed('selected', isDrawConnector);
             });
 
         d3.select('.element-palette').selectAll('span.shape')
             .attr('draggable', 'true')
             .on('dragend', function() {
-                let x = d3.event.pageX - 68,
-                    y = d3.event.pageY - 48;
-                let element;
-
-                if (d3.select(this).classed('event')) {
-                    element = new EventElement(x, y);
-                } else if (d3.select(this).classed('task')) {
-                    element = new TaskElement(x, y);
-                } else if (d3.select(this).classed('gateway')) {
-                    element = new GatewayElement(x, y);
-                } else if (d3.select(this).classed('group')) {
-                    element = new GroupElement(x, y);
+                let x = d3.event.pageX - 68, //TODO: hardcoding
+                    y = d3.event.pageY - 48; //TODO: hardcoding
+                let _this = d3.select(this);
+                if (_this.classed('event')) {
+                    new EventElement(x, y);
+                } else if (_this.classed('task')) {
+                    new TaskElement(x, y);
+                } else if (_this.classed('gateway')) {
+                    new GatewayElement(x, y);
+                } else if (_this.classed('group')) {
+                    new GroupElement(x, y);
+                } else if (_this.classed('annotation')) {
+                    new AnnotationElement(x, y);
                 }
             });
     }
@@ -498,7 +510,7 @@
     /**
      * svg 추가 및 필요한 element 추가.
      */
-    function initWorkflow() {
+    function initWorkflowEdit() {
         const width = 1405;
         const height = 750;
 
@@ -510,26 +522,26 @@
                 if (d3.event.ctrlKey) {
                     return;
                 }
-                removeNodeSelected();
+                removeElementSelected();
                 wfEditor.setElementMenu();
             })
             .on('mousemove', function() {
-                if (!mousedownNode) {
+                if (!mousedownElement) {
                     return;
                 }
 
                 if (d3.event.ctrlKey) {
-                    const bbox = utils.getBoundingBoxCenter(mousedownNode);
+                    const bbox = utils.getBoundingBoxCenter(mousedownElement);
                     dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.mouse(this)[0]},${d3.mouse(this)[1]}`);
                 } else {
-                    if (mouseupNode && selectedNode) {
+                    if (mouseupElement && selectedElement) {
                         svg.selectAll('.menu').remove();
                     }
                 }
             })
             .on('mouseup', function() {
                 if (d3.event.ctrlKey) {
-                    if (mousedownNode) {
+                    if (mousedownElement) {
                         dragLine
                             .classed('hidden', true)
                             .style('marker-end', '');
@@ -575,7 +587,7 @@
     function init() {
         console.info('Workflow editor initialization.');
 
-        initWorkflow();
+        initWorkflowEdit();
         addElementsEvent();
     }
 
