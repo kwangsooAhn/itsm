@@ -8,6 +8,14 @@ const aliceJs = {};
  */
 aliceJs.xhrErrorResponse = function (elementId, text) {
     let elmNode = document.getElementById(elementId);
+
+    if (elmNode == null) {
+        elmNode = document.createElement('div');
+        elmNode.setAttribute('id', 'printError');
+        elmNode.setAttribute('name', 'printError');
+        document.getElementsByTagName('body').item(0).appendChild(elmNode);
+    }
+
     while (elmNode.hasChildNodes()) {
         elmNode.removeChild(elmNode.firstChild);
     }
@@ -169,6 +177,10 @@ aliceJs.sendXhr = function (option) {
         return;
     }
 
+    if (option.responseType) {
+        xhr.responseType = option.responseType;
+    }
+
     xhr.onreadystatechange = function () {
         if (this.readyState === 0) {
             //console.log('요청이 초기화되지 않음, 객체만 생성되고 아직 초기화되지 않은 상태(' + this.status + ')')
@@ -180,7 +192,7 @@ aliceJs.sendXhr = function (option) {
             // console.log('처리 요청, 데이터의 일부를 받은 상태(' + this.status + ')')
         } else if (this.readyState === 4 && this.status === 200) {
             // console.log('요청 완료및 응답 준비, 데이터를 전부 받음(' + this.status + ')');
-            aliceJs.xhrErrorResponse('searchError');
+            aliceJs.xhrErrorResponse('printError');
             if (typeof callbackFunc === 'function') {
                 callbackFunc(this);
             } else {
@@ -189,14 +201,15 @@ aliceJs.sendXhr = function (option) {
 
         } else {
             if (this.responseType === '') {
-                console.error('Response type is empty.');
                 try {
-                    aliceJs.xhrErrorResponse('searchError', this.responseText);
+                    console.debug('Response type is empty.');
+                    aliceJs.xhrErrorResponse('printError', this.responseText);
                 } catch (e) {
-                    document.getElementById('searchError').innerHTML = this.responseText;
+                    console.debug(this.responseText);
+                    document.getElementsByTagName('body').item(0).innerHTML = this.responseText;
                 }
             } else {
-                aliceJs.xhrErrorResponse('searchError', this.responseText);
+                aliceJs.xhrErrorResponse('printError', this.responseText);
             }
         }
     };
@@ -204,7 +217,7 @@ aliceJs.sendXhr = function (option) {
     // 네트워크 수준의 에러시 처리 내용
     xhr.onerror = function () {
         console.error('Maybe network error');
-        aliceJs.xhrErrorResponse('searchError', this.responseText);
+        aliceJs.xhrErrorResponse('printError', this.responseText);
     };
 
     xhr.open(method, url, async);
@@ -222,13 +235,15 @@ aliceJs.sendXhr = function (option) {
 };
 
 function createXmlHttpRequestObject(method, url, async) {
-	// will store the reference to the XMLHttpRequest object
+    // will store the reference to the XMLHttpRequest object
     var xmlHttp;
     var token;
     var metas = document.getElementsByTagName('meta');
 
-    if( typeof async === "undefined" ){ async = true; }
-    
+    if (typeof async === "undefined") {
+        async = true;
+    }
+
     // if running Internet Explorer
     if (window.ActiveXObject) {
         try {
@@ -253,7 +268,7 @@ function createXmlHttpRequestObject(method, url, async) {
             for (var i = 0; i < metas.length; i++) {
                 if (metas[i].getAttribute('name') === '_csrf') {
                     token = metas[i].getAttribute('content');
-                    }
+                }
             }
             xmlHttp.open(method, url, async);
             xmlHttp.setRequestHeader('X-CSRF-TOKEN', token);

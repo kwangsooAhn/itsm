@@ -5,12 +5,16 @@ common:
     save: "저장"
     close: "닫기"
     logout: "로그아웃"
-  label: 
+    delete: "삭제"
+  label:
     title: "제목"
     message: "메시지"
     path: "호출 URL"
     exceptionType: "예외 종류"
     knownError: "정의된 에러"
+    addFile: "파일 추가"
+    success: "성공"
+    fail: "실패"
   msg:
     save: "저장되었습니다"
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.servlet.ModelAndView
+import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class FileUploadTestSample(private val fileService: FileService) {
@@ -23,18 +23,16 @@ class FileUploadTestSample(private val fileService: FileService) {
     }
 
     @PostMapping("/fileSubmit")
-    fun formSubmit(@ModelAttribute fileSubmitDto: FileSubmitTestDtoSample): ModelAndView {
-
+    @ResponseBody
+    fun formSubmit(@ModelAttribute fileSubmitDto: FileSubmitTestDtoSample): Boolean {
+        var rslt = false;
         logger.debug("id {}:name: {}", fileSubmitDto.id, fileSubmitDto.name)
         for (seq in fileSubmitDto.fileSeq.orEmpty()) {
             logger.debug("{}:{} ", seq)
         }
 
         fileService.upload(fileSubmitDto.fileSeq)
-
-        var mv = ModelAndView("jsonView")
-        mv.addObject("msg", "filesubmit")
-
-        return mv
+        rslt = true
+        return rslt
     }
 }
