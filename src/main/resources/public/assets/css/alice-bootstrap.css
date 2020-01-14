@@ -10797,6 +10797,7 @@ body {
   background: linear-gradient(to right, #5574F7 30%, #60C3FF);
   color: #fff;
   padding: 0.625rem 1.25rem;
+  line-height: 1.0rem;
   font-size: 1.25rem;
   font-weight: 700;
 }
@@ -10824,6 +10825,9 @@ body {
 
 .alice-navbar-profile .btn {
   color: #fff;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  border-width: 0rem;
   font-size: 1.25rem;
   font-weight: 400;
 }

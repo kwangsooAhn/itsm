@@ -34,6 +34,7 @@ body {
         background: linear-gradient( to right, #5574F7 30%, #60C3FF );
         color: $white;
         padding: 0.625rem 1.25rem; // 10px 20px
+        line-height: 1.0rem;
         
         font: {
             size: 1.25rem; // 20px
@@ -63,6 +64,9 @@ body {
 
             .btn {
                 color: $white;
+                padding-top: 0rem;
+                padding-bottom: 0rem;
+                border-width: 0rem;
                 font: {
                     size: 1.25rem; // 20px
                     weight: 400;
