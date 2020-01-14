@@ -35,27 +35,27 @@
     window.onload = function() {
         restSubmit('get', '/notices/list', true, false);
 
-     // initialization date picker
+        // initialization date picker
         dateTimePicker.initDatePicker('fromDt');
         dateTimePicker.initDatePicker('toDt');
     }
 
     function validation() {
-        if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserkey').checked) {
-        	alert('검색 조건을 선택해 주세요.');
-        	return false;
+        if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserid').checked) {
+            alert('검색 조건을 선택해 주세요.');
+            return false;
         }
         if (document.getElementById('fromDt').value === '') {
-        	alert('검색 시작 날짜를 입력해주세요');
-        	return false;
+            alert('검색 시작 날짜를 입력해주세요');
+            return false;
         }
         if (document.getElementById('toDt').value === '') {
-        	alert('검색 종료 날짜를 입력해주세요.');
-        	return false;
+            alert('검색 종료 날짜를 입력해주세요.');
+            return false;
         }
         if (document.getElementById('fromDt').value > document.getElementById('toDt').value) {
-        	alert("검색 시작 날짜가 종료 날짜보다 큽니다.");
-        	return false;
+            alert("검색 시작 날짜가 종료 날짜보다 큽니다.");
+            return false;
         }
         return true;
     }
@@ -75,13 +75,13 @@
 
         var data = {
             noticeTitle: document.getElementById('noticeTitle').checked,
-            createUserkey: document.getElementById('createUserkey').checked,
+            createUserid: document.getElementById('createUserid').checked,
             keyWord: document.getElementById('keyWord').value,
             fromDt: document.getElementById('fromDt').value,
             toDt: document.getElementById('toDt').value
         };
 
-        var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserkey="+data.createUserkey+"&keyWord="+data.keyWord+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
+        var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserid="+data.createUserid+"&keyWord="+data.keyWord+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
         var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
