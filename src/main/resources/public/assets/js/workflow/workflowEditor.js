@@ -17,6 +17,8 @@
         mousedownLink,
         selectedLink;
 
+    let isSelectedConnector = false;
+
     /**
      * reset mouse variables.
      */
@@ -37,99 +39,6 @@
             const element = selection.node();
             const bbox = element.getBBox();
             return {x: bbox.x, y: bbox.y, cx: bbox.x + bbox.width / 2, cy: bbox.y + bbox.height / 2, width: bbox.width, height: bbox.height};
-        }
-    }
-
-    /**
-     * 해당 element의 메뉴를 표시한다.
-     *
-     * @param node 선택된 element
-     */
-    function setMenuItem(node) {
-        let x , y;
-        if (node.node() instanceof SVGCircleElement) {
-            x = node.attr('cx') - node.attr('r');
-            y = node.attr('cy') - node.attr('r');
-        } else {
-            x = node.attr('x');
-            y = node.attr('y');
-        }
-
-        // 임시메뉴
-        let menu = [{
-            title: 'Item #1',
-            action: function(elem, i) {
-                console.log('Item #1 clicked!');
-            }
-        }, {
-            title: 'Item #2',
-            action: function(elem, i) {
-                console.log('Item #2 clicked!');
-            }
-        }];
-
-        const menuItemContainer = svg.append('g').classed('menu', true).style('display', 'none');
-
-        const menuRect = menuItemContainer.append('rect')
-            .attr('height', menu.length * 25)
-            .style('fill', '#eee');
-
-        const menuItems = menuItemContainer.selectAll('menu_item')
-            .data(menu)
-            .enter()
-            .append('g')
-            .attr('transform', (d, i) => {
-                return 'translate(' + 10 + ',' + ((i + 1) * 20) + ')';
-            })
-            .on('mouseover', d => {
-                d3.select(this).style('fill', 'steelblue');
-            })
-            .on('mouseout', d => {
-                d3.select(this).style('fill', 'black');
-            })
-            .on('click', (d, i) => {
-                d.action(node, i);
-            })
-            .append('text')
-            .text(d => {
-                return d.title;
-            });
-
-        let width = 0;
-        menuItems.each(function(d){
-            let len = this.getComputedTextLength();
-            if (len > width) {
-                width = len;
-            }
-        })
-        menuRect.attr('width', width + 20);
-
-        menuItemContainer.attr('transform', 'translate(' + x + ',' + (y - (menu.length * 25)) + ')');
-        menuItemContainer.style('display', 'block');
-        menuItemContainer.datum(node);
-    }
-
-    /**
-     * 해당 element의 properties를 표시한다.
-     *
-     * @param node 선택된 element
-     */
-    function setProperties(node) {
-        const propertiesContainer = d3.select('.properties-menu');
-        propertiesContainer.selectAll('*').remove();
-        if (typeof node !== 'undefined') { // show element properties
-            propertiesContainer.append('h3').text('Element Properties');
-            for (let i = 0; i < 10; i++) {
-                let propertyContainer = propertiesContainer.append('p');
-                let label = propertyContainer.append('label');
-                label.attr('for', 'attr_' + i);
-                label.text('속성 ' + (i + 1));
-                let input = propertyContainer.append('input');
-                input.attr('id','attr_' + (i + 1));
-                input.attr('value','property value ' + (i + 1));
-            }
-        } else { // show workflow properties
-            propertiesContainer.append('h3').text('Workflow Properties');
         }
     }
 
@@ -227,24 +136,24 @@
      */
     const elementMouseEventHandler = {
         mouseover: function() {
-            const node = d3.select(this);
-            if (!mousedownNode || node === mousedownNode) {
+            const elem = d3.select(this);
+            if (!mousedownNode || elem === mousedownNode) {
                 return;
             }
             node.attr('stroke-width', 2);
         },
         mouseout: function() {
-            const node = d3.select(this);
+            const elem = d3.select(this);
             if (!mousedownNode || node === mousedownNode) {
                 return;
             }
-            node.attr('stroke-width', 1);
+            elem.attr('stroke-width', 1);
         },
         mousedown: function () {
-            const node = d3.select(this);
+            const elem = d3.select(this);
             if (d3.event.ctrlKey) {
                 removeNodeSelected();
-                mousedownNode = node;
+                mousedownNode = elem;
                 selectedNode = (mousedownNode === selectedNode) ? null : mousedownNode;
                 selectedLink = null;
 
@@ -256,26 +165,25 @@
 
                 setConnectors();
             } else {
-                if (selectedNode === node) {
+                if (selectedNode === elem) {
                     return;
                 }
                 removeNodeSelected();
-                mousedownNode = node;
+                mousedownNode = elem;
                 selectedNode = (mousedownNode === selectedNode) ? null : mousedownNode;
                 selectedNode.style('stroke-width', 2);
-                if (node.node().classList.contains('activity')) {
+                if (elem.node().classList.contains('task')) {
                     const selectedNodeId = selectedNode.node().id;
                     for (let i = 1; i <= 4; i++) {
                         d3.select('#' + selectedNodeId + '_point' + i).style('opacity', 1);
                     }
                 }
-                setMenuItem(node);
-                setProperties(node);
+                wfEditor.setElementMenu(elem);
             }
             d3.event.preventDefault();
         },
         mouseup: function() {
-            const node = d3.select(this);
+            const elem = d3.select(this);
             if (d3.event.ctrlKey) {
                 if (!mousedownNode) {
                     return;
@@ -284,13 +192,13 @@
                     .classed('hidden', true)
                     .style('marker-end', '');
 
-                mouseupNode = node;
+                mouseupNode = elem;
                 if (mouseupNode === mousedownNode) {
                     resetMouseVars();
                     return;
                 }
 
-                node.attr('stroke-width', 1);
+                elem.attr('stroke-width', 1);
 
                 const isRight = mousedownNode.node().id < mouseupNode.node().id;
                 const source = isRight ? mousedownNode : mouseupNode;
@@ -335,7 +243,7 @@
             .style('opacity', 1)
             .style('stroke', 'black')
             .style('stroke-width', 1)
-            .attr('class', 'node activity')
+            .attr('class', 'node task')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .on('mousedown', elementMouseEventHandler.mousedown)
@@ -441,14 +349,14 @@
     }
 
     /**
-     * Activity element.
+     * Task element.
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
-     * @returns {ActivityElement}
+     * @returns {TaskElement}
      * @constructor
      */
-    function ActivityElement(x, y) {
+    function TaskElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
         return this;
@@ -539,14 +447,14 @@
     }
 
     /**
-     * pool element.
+     * Group element.
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
-     * @returns {PoolElement}
+     * @returns {GroupElement}
      * @constructor
      */
-    function PoolElement(x, y) {
+    function GroupElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
         this.nodeElement.style('fill', 'green');
@@ -554,51 +462,43 @@
     }
 
     /**
-     * element-menu에 element 를 추가한다.
+     * element-palette에 element 를 추가하고, element의 drag & drop 이벤트를 추가한다.
      */
-    function addElements() {
-        //TODO: add element
-    }
+    function addElementsEvent() {
+        d3.selectAll('.element-palette, .drawing-board')
+            .on('dragover', () => {
+                d3.event.preventDefault();
+            });
 
-    /**
-     * element의 drag & drop 이벤트를 추가한다.
-     */
-    function addDragEvent() {
-        const elementMenu = document.getElementsByClassName('element-menu')[0];
-        elementMenu.addEventListener('dragover', e => {e.preventDefault();});
+        d3.select('.element-palette').select('.connector')
+            .on('click', function() {
+                isSelectedConnector = !d3.select(this).classed('selected');
+                d3.select(this).classed('selected', isSelectedConnector);
+            });
 
-        const elements = elementMenu.querySelectorAll('span');
-        for (let i = 0, len = elements.length; i < len; i++) {
-            elements[i].setAttribute('draggable', 'true');
-            elements[i].addEventListener('dragend', e => {
-                let x = e.x - 68, //TODO: element-menu 넓이 및 margin 등 제외 필요
-                    y = e.y - 48; //TODO: toolbar 높이 및 margin 등 제외 필요
-
+        d3.select('.element-palette').selectAll('span.shape')
+            .attr('draggable', 'true')
+            .on('dragend', function() {
+                let x = d3.event.pageX - 68,
+                    y = d3.event.pageY - 48;
                 let element;
-                if (e.target.classList.contains('event')) {
-                    element = new EventElement(x, y);
-                } else if (e.target.classList.contains('activity')) {
-                    element = new ActivityElement(x, y);
-                } else if (e.target.classList.contains('gateway')) {
-                    element = new GatewayElement(x, y);
-                } else if (e.target.classList.contains('pool')) {
-                    element = new PoolElement(x, y);
-                }
 
-                if (element) {
-                    //TODO:
+                if (d3.select(this).classed('event')) {
+                    element = new EventElement(x, y);
+                } else if (d3.select(this).classed('task')) {
+                    element = new TaskElement(x, y);
+                } else if (d3.select(this).classed('gateway')) {
+                    element = new GatewayElement(x, y);
+                } else if (d3.select(this).classed('group')) {
+                    element = new GroupElement(x, y);
                 }
             });
-        }
-
-        const drawingBoard = document.getElementsByClassName('drawing-board')[0];
-        drawingBoard.addEventListener('dragover', e => {e.preventDefault();});
     }
 
     /**
      * svg 추가 및 필요한 element 추가.
      */
-    function initD3() {
+    function initWorkflow() {
         const width = 1405;
         const height = 750;
 
@@ -611,7 +511,7 @@
                     return;
                 }
                 removeNodeSelected();
-                setProperties();
+                wfEditor.setElementMenu();
             })
             .on('mousemove', function() {
                 if (!mousedownNode) {
@@ -675,9 +575,8 @@
     function init() {
         console.info('Workflow editor initialization.');
 
-        initD3();
-        addElements();
-        addDragEvent();
+        initWorkflow();
+        addElementsEvent();
     }
 
     exports.init = init;
