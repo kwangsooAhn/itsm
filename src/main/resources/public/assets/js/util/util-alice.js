@@ -201,10 +201,8 @@ aliceJs.sendXhr = function (option) {
         } else {
             if (this.responseType === '') {
                 try {
-                    console.debug('Response type is empty.');
                     aliceJs.xhrErrorResponse('printError', this.responseText);
                 } catch (e) {
-                    console.debug(this.responseText);
                     document.getElementsByTagName('body').item(0).innerHTML = this.responseText;
                 }
             } else {
