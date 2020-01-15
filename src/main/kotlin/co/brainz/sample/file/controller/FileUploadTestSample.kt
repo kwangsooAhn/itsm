@@ -25,14 +25,14 @@ class FileUploadTestSample(private val fileService: FileService) {
     @PostMapping("/fileSubmit")
     @ResponseBody
     fun formSubmit(@ModelAttribute fileSubmitDto: FileSubmitTestDtoSample): Boolean {
-        var rslt = false;
+
         logger.debug("id {}:name: {}", fileSubmitDto.id, fileSubmitDto.name)
         for (seq in fileSubmitDto.fileSeq.orEmpty()) {
             logger.debug("{}:{} ", seq)
         }
 
         fileService.upload(fileSubmitDto.fileSeq)
-        rslt = true
-        return rslt
+
+        return true
     }
 }
