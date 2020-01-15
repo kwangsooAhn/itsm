@@ -12,7 +12,6 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     if (elmNode == null) {
         elmNode = document.createElement('div');
         elmNode.setAttribute('id', 'printError');
-        elmNode.setAttribute('name', 'printError');
         document.getElementsByTagName('body').item(0).appendChild(elmNode);
     }
 
