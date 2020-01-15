@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import org.springframework.web.servlet.ModelAndView
 
 /**
  * 파일 관련 컨트롤 클래스
@@ -48,7 +47,7 @@ class FileController(private val fileService: FileService) {
      * 저장된 파일을 다운로드 한다.
      */
     @GetMapping("/filedownload")
-    fun downloadFile(@RequestParam seq: Long, @RequestParam test: String): ResponseEntity<InputStreamResource> {
+    fun downloadFile(@RequestParam seq: Long): ResponseEntity<InputStreamResource> {
         return fileService.download(seq)
     }
 
@@ -68,11 +67,8 @@ class FileController(private val fileService: FileService) {
      * @param seq 파일 고유시퀀스번호
      */
     @DeleteMapping("/filedel")
-    fun delete(@RequestParam seq: Long): ModelAndView {
-        logger.debug(">>>>>>>>>>>>>> {} >>>>> {} ", seq)
+    fun delete(@RequestParam seq: Long): Boolean {
         fileService.delete(seq)
-        var mv = ModelAndView("jsonView")
-        mv.addObject("msg", "Delete...")
-        return mv
+        return true
     }
 }

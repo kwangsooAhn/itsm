@@ -5,12 +5,16 @@ common:
     save: "SAVE"
     close: "CLOSE"
     logout: "LOGOUT"
+    delete: "DELETE"
   label: 
     title: "Title"
     message: "Message"
     path: "URL"
     exceptionType: "Exception Type"
     knownError: "Known Error"
+    addFile: "Add files"
+    success: "Success"
+    fail: "Fail"
   msg:
     save: "Saved"
 
