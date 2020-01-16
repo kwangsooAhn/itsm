@@ -80,7 +80,8 @@ public open class CertificationService(private val certificationRepository: Cert
                         createDt = LocalDateTime.now(),
                         expiredDt = LocalDateTime.now().plusMonths(3),
                         roleEntities = roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
-                        status = UserConstants.Status.SIGNUP.code
+                        status = UserConstants.Status.SIGNUP.code,
+                        oauthKey = ""
                 )
                 certificationRepository.save(userEntity)
                 code = UserConstants.SignUpStatus.STATUS_SUCCESS.code
@@ -110,9 +111,15 @@ public open class CertificationService(private val certificationRepository: Cert
     }
 
     @Transactional
-    fun sendMail(userId: String, email: String) {
+    fun sendMail(userId: String, email: String, target: String?) {
         val certificationKey: String = KeyGeneratorService().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
+        lateinit var certificationDto: CertificationDto
+
+        if (target === null) {
+            certificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
+        } else if (target === "updateUserEdit") {
+            certificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.EDIT.code)
+        }
         updateUser(certificationDto)
         sendCertificationMail(certificationDto)
     }
@@ -162,6 +169,8 @@ public open class CertificationService(private val certificationRepository: Cert
         var validCode: Int = UserConstants.Status.SIGNUP.value
         if (userDto.status == UserConstants.Status.CERTIFIED.code) {
             validCode = UserConstants.Status.CERTIFIED.value
+        } else if (userDto.status == UserConstants.Status.EDIT.code) {
+            validCode = UserConstants.Status.EDIT.value
         }
         return validCode
     }
@@ -174,7 +183,7 @@ public open class CertificationService(private val certificationRepository: Cert
         var validCode: Int = UserConstants.Status.SIGNUP.value
 
         when (userDto.status) {
-            UserConstants.Status.SIGNUP.code -> {
+            UserConstants.Status.SIGNUP.code, UserConstants.Status.EDIT.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
                         val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserConstants.Status.CERTIFIED.code)

@@ -11,6 +11,7 @@
                 <a href="javascript:logout()" th:text="#{common.btn.logout}">로그아웃</a>
             </form>
         </div>
+        <a th:href="@{/users/{userKey}/userEdit(userKey=${userKey})}">자기정보 수정화면</a>
 
         <div style="border: 1px solid red"></div>
         <div>샘플 테스트용 메뉴 입니다</div>

@@ -65,7 +65,8 @@ class OAuthService(private val userService: UserService,
                 expiredDt = LocalDateTime.now().plusMonths(UserConstants.USER_EXPIRED_VALUE),
                 roleEntities = certificationService.roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                 status = UserConstants.Status.CERTIFIED.code,
-                platform = oAuthDto.platform
+                platform = oAuthDto.platform,
+                oauthKey = oAuthDto.oauthKey
         )
         certificationRepository.save(userEntity)
     }
@@ -78,7 +79,7 @@ class OAuthService(private val userService: UserService,
         val urlList = aliceAuthProvider.urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList)
+                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey!! ,authorities, menuList, urlList)
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }
 
@@ -153,6 +154,7 @@ class OAuthServiceGoogle: OAuthServiceIF {
             if (result["email"] != null) {
                 oAuthDto.userid = result["email"] as String
                 oAuthDto.email = result["email"] as String
+                oAuthDto.oauthKey = result["email"] as String
             }
         }
         return oAuthDto
@@ -211,6 +213,7 @@ class OAuthServiceKakao: OAuthServiceIF {
             val profileInfo = requestProfile(accessToken)
             if (profileInfo.isNotEmpty()) {
                 oAuthDto.userid = jsonToMap(profileInfo, "id")
+                oAuthDto.oauthKey = jsonToMap(profileInfo, "id")
             }
         }
         return oAuthDto

@@ -37,8 +37,9 @@ object AliceConstants {
         PATTEN10("/index**"),
         PATTEN11("/document/**"),
         PATTEN12("/exception/**"),
-        PATTEN13("/error");
-        
+        PATTEN13("/error"),
+        PATTEN14("/users/**"),
+        PATTEN15("/rest/users/**");
         companion object {
             fun getAccessAllowUrlPatten(): List<String> {
                 val pattens = mutableListOf<String>()

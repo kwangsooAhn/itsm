@@ -22,13 +22,25 @@ object UserConstants {
         SIGNUP("user.status.signup", 0),
         CERTIFIED("user.status.certified", 1),
         OVER("user.status.over", 2),
-        ERROR("user.status.error", 3)
+        ERROR("user.status.error", 3),
+        EDIT("user.status.edit",4)
     }
 
     /**
      * 사용자 등록 상태.
      */
     enum class SignUpStatus(val code: String) {
+        STATUS_VALID_SUCCESS("-1"),
+        STATUS_SUCCESS("0"),
+        STATUS_ERROR_USER_ID_DUPLICATION("1"),
+        STATUS_ERROR("2"),
+        STATUS_ERROR_EMAIL_DUPLICATION("3")
+    }
+    
+    /**
+     * 사용자 수정 상태
+     */
+    enum class UserEditStatus(val code: String) {
         STATUS_VALID_SUCCESS("-1"),
         STATUS_SUCCESS("0"),
         STATUS_ERROR_USER_ID_DUPLICATION("1"),

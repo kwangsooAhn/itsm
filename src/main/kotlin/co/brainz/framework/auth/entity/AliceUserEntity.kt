@@ -22,9 +22,9 @@ data class AliceUserEntity(
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
         val userKey: String,
-        val userId: String,
+        var userId: String,
         var userName: String,
-        val password: String,
+        var password: String,
         var email: String,
         val useYn: Boolean = true,
         val tryLoginCount: Int = 0,
@@ -46,7 +46,8 @@ data class AliceUserEntity(
         @JoinTable(name = "awfUserRoleMap",
                 joinColumns = [JoinColumn(name = "userKey")],
                 inverseJoinColumns = [JoinColumn(name = "roleId")])
-        var roleEntities: Set<AliceRoleEntity>?
+        var roleEntities: Set<AliceRoleEntity>?,
+        var oauthKey: String?
 
 ) : Serializable {
     fun getAuthorities(): MutableSet<GrantedAuthority> {

@@ -1,5 +1,6 @@
 package co.brainz.itsm.user.controller
 
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -12,6 +13,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import javax.servlet.http.HttpServletRequest
 
 /**
  * 사용자 관리 클래스
@@ -27,6 +29,7 @@ class UserController(
     private val userPage: String = "user/user"
     private val userListPage: String = "user/userList"
     private val userDetailPage: String = "user/userDetail"
+    private val userEditPage: String = "user/userEdit"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -58,5 +61,17 @@ class UserController(
         model.addAttribute("roles", roles)
 
         return userDetailPage
+    }
+
+    /**
+     * 사용자 자기정보 수정화면을 호출한다.
+     */
+    @GetMapping("/{userKey}/userEdit")
+    fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
+        val users = userService.selectUserKey(userKey)
+        request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
+        model.addAttribute("users", users)
+
+        return userEditPage
     }
 }
