@@ -43,9 +43,7 @@ object AliceConstants {
         PATTEN96("/filedownload"),
         PATTEN97("/filelist"),
         PATTEN98("/filedel"),
-        PATTEN99("/fileSubmit"),
-        FORM("/forms/**"), //form 권한 생성시 삭제
-        REST_FORM("/rest/forms**") //form 권한 생성시 삭제
+        PATTEN99("/fileSubmit")
         ;
 
         companion object {
