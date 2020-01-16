@@ -5,12 +5,16 @@ common:
     save: "저장"
     close: "닫기"
     logout: "로그아웃"
-  label: 
+    delete: "삭제"
+  label:
     title: "제목"
     message: "메시지"
     path: "호출 URL"
     exceptionType: "예외 종류"
     knownError: "정의된 에러"
+    addFile: "파일 추가"
+    success: "성공"
+    fail: "실패"
   msg:
     save: "저장되었습니다"
 
@@ -105,3 +109,30 @@ login:
   userSignUp: "회원가입"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
+
+# FORM
+form:
+  label:
+    list: "문서양식 목록"
+    name: "문서양식 이름"
+    description: "설명"
+    lang: "언어"
+    templatesList: "템플릿 목록"
+  btn:
+    register: "등록"
+    save: "저장"
+    modify: "수정"
+    delete: "삭제"
+    before: "이전"
+    next: "다음"
+  status:
+    edit: "편집중"
+    simu: "시뮬레이션 완료"
+    publish: "발행"
+    destroy: "폐기"
+  lang:
+    ko: "한국어"
+  msg:
+    alert:
+      delete: "삭제되었습니다."
+      nameNotExist: "문서양식 이름을 입력해주세요."

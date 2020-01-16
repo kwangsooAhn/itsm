@@ -5,12 +5,16 @@ common:
     save: "SAVE"
     close: "CLOSE"
     logout: "LOGOUT"
+    delete: "DELETE"
   label: 
     title: "Title"
     message: "Message"
     path: "URL"
     exceptionType: "Exception Type"
     knownError: "Known Error"
+    addFile: "Add files"
+    success: "Success"
+    fail: "Fail"
   msg:
     save: "Saved"
 
@@ -105,3 +109,30 @@ login:
   userSignUp: "Sign Up"
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
+
+# FORM
+form:
+  label:
+    list: "Form List"
+    name: "Form Name"
+    description: "Description"
+    lang: "Language"
+    templatesList: "Templates List"
+  btn:
+    register: "Register"
+    save: "Save"
+    modify: "Modify"
+    delete: "Delete"
+    before: "Before"
+    next: "Next"
+  status:
+    edit: "Editing"
+    simu: "Simulation Complete"
+    publish: "Publish"
+    destroy: "Destroy"
+  lang:
+    ko: "Korean"
+  msg:
+    alert:
+      delete: "Deleted"
+      nameNotExist: "Please enter a form name."

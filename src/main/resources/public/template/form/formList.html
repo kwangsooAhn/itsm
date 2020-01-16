@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        table td {
+            border-left: 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <colgroup>
+                <col width="15%">
+                <col width="40%">
+                <col width="10%">
+                <col width="17%">
+                <col width="10%">
+                <col width="4%">
+                <col width="4%">
+            </colgroup>
+            <tbody>
+                <tr th:each="form: ${formList}">
+                    <td th:text="${form.form_name}"></td>
+                    <td th:text="${form.form_desc}"></td>
+                    <td th:text="${form.create_user_name}"></td>
+                    <td th:if="${form.update_dt == null && form.update_user_name == null}"
+                        th:text="|${form.create_dt} ${form.create_user_name}|"></td>
+                    <td th:unless="${form.update_dt == null && form.update_user_name == null}"
+                        th:text="|${form.update_dt} ${form.update_user_name}|"></td>
+                    <td th:text="#{${form.status}}"></td>
+                    <td>
+                        <button th:text="#{form.btn.modify}" th:disabled="${form.disabled}"
+                                th:attr="onclick=|openFormDesignerEdit('${form.form_id}')|"></button>
+                    </td>
+                    <td>
+                        <button th:text="#{form.btn.delete}" th:disabled="${form.disabled}"
+                                th:attr="onclick=|deleteForm('${form.form_id}')|"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
