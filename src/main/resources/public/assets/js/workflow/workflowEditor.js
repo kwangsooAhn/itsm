@@ -490,8 +490,10 @@
         d3.select('.element-palette').selectAll('span.shape')
             .attr('draggable', 'true')
             .on('dragend', function() {
-                let x = d3.event.pageX - 68, //TODO: hardcoding
-                    y = d3.event.pageY - 48; //TODO: hardcoding
+                const svgOffset = svg.node().getBoundingClientRect();
+                let x = d3.event.pageX - svgOffset.left - window.pageXOffset,
+                    y = d3.event.pageY - svgOffset.top - window.pageYOffset;
+
                 let _this = d3.select(this);
                 if (_this.classed('event')) {
                     new EventElement(x, y);
