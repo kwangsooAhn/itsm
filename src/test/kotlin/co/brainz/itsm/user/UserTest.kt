@@ -22,7 +22,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDateTime
-import java.util.*
+import java.util.TimeZone
+import java.util.UUID
 
 
 @RunWith(SpringRunner::class)
@@ -45,7 +46,7 @@ class UserTest {
                 UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
                 0, "과장", "ITSM팀", "02-6416-8324", "admin",
                 "admin", "status", "code", UserConstants.Platform.ALICE.code,
-                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), emptySet()
+                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), emptySet(), TimeZone.getDefault().id
         )
 
         userUpdateDto = UserUpdateDto(
