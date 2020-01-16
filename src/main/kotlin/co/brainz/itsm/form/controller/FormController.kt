@@ -10,6 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletRequest
 
+/**
+ * ### 폼(문서양식) 관련 화면 호출 처리용 클래스.
+ *
+ * FormController에서 처리하는 모든 호출은 View 혹은 View + Data를 반환한다.
+ * 즉, View가 포함되는 호출에 대한 처리이며, 순수하게 JSON 데이터만 반환하는 경우는 FormRestController에서 담당한다.
+ *
+ * @author Woo Dajung
+ * @see co.brainz.itsm.form.controller.FormRestController
+ */
 @Controller
 @RequestMapping("/forms")
 class FormController(private val formService: FormService,
