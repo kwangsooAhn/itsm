@@ -5,12 +5,16 @@ common:
     save: "SAVE"
     close: "CLOSE"
     logout: "LOGOUT"
+    delete: "DELETE"
   label: 
     title: "Title"
     message: "Message"
     path: "URL"
     exceptionType: "Exception Type"
     knownError: "Known Error"
+    addFile: "Add files"
+    success: "Success"
+    fail: "Fail"
   msg:
     save: "Saved"
 
@@ -25,6 +29,8 @@ menu:
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
+  setting.form: "Form"
+  setting.process: "Process"
 
 # Auth
 auth:
@@ -40,7 +46,14 @@ auth:
   faq.create: "공지사항 등록"
   faq.update: "공지사항 변경"
   faq.delete: "공지사항 삭제"
-
+  form.read: "form read"
+  form.create: "form create"
+  form.update: "form update"
+  form.delete: "form delete"
+  process.read: "process read"
+  process.create: "process create"
+  process.update: "process update"
+  process.delete: "process delete"
 # User
 user:
   id: "User ID"
@@ -105,3 +118,30 @@ login:
   userSignUp: "Sign Up"
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
+
+# FORM
+form:
+  label:
+    list: "Form List"
+    name: "Form Name"
+    description: "Description"
+    lang: "Language"
+    templatesList: "Templates List"
+  btn:
+    register: "Register"
+    save: "Save"
+    modify: "Modify"
+    delete: "Delete"
+    before: "Before"
+    next: "Next"
+  status:
+    edit: "Editing"
+    simu: "Simulation Complete"
+    publish: "Publish"
+    destroy: "Destroy"
+  lang:
+    ko: "Korean"
+  msg:
+    alert:
+      delete: "Deleted"
+      nameNotExist: "Please enter a form name."
