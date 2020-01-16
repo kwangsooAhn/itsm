@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
+import java.util.TimeZone
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
 
