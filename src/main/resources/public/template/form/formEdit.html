@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <script src="../../assets/js/util/util-alice.js"></script>
+    <!-- 임시 style -->
+    <style>
+        table th {
+            text-align: left;
+        }
+        table td > input, textarea, select {
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="prevContainer">
+        <table>
+            <tr>
+                <th th:text="|#{form.label.name} *|"></th>
+            </tr>
+            <tr>
+                <td><input type="text" id="form_name" maxlength="50" required="required" tabindex="1"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{form.label.description}"></th>
+            </tr>
+            <tr>
+                <td><textarea id="form_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
+            </tr>
+            <tr>
+                <th th:text="#{form.label.lang}"></th>
+            </tr>
+            <tr>
+                <td>
+                    <select id="lang" tabindex="3" th:each="lang : ${langList}">
+                        <option th:value="${lang.code}" th:text="#{${lang.code}}"></option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div><a th:text="#{form.btn.next}" href="javascript:replaceContent();"></a></div>
+    </div>
+    <div id="nextContainer" style="display:none;">
+        <h1 th:text="#{form.label.templatesList}"></h1>
+        <div>
+            <a th:text="#{form.btn.before}" href="javascript:replaceContent();"></a>
+            <a th:text="#{form.btn.save}" href="javascript:insertForm();"></a>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function replaceContent() {
+        const prev = document.getElementById("prevContainer");
+        const next = document.getElementById("nextContainer");
+        if (next.style.display === "none") {
+            prev.style.display = "none";
+            next.style.display = "block";
+        } else {
+            prev.style.display = "block";
+            next.style.display = "none";
+        }
+    }
+
+    //폼 등록
+    function insertForm() {
+        //빈 값 체크
+        if (emptyValidation()) {
+            const formInfo = {
+                formName: document.getElementById("form_name").value,
+                formDesc: document.getElementById("form_desc").value,
+                lang: document.getElementById("lang").value
+            };
+            //등록
+            restSubmit("POST", "/rest/forms", formInfo);
+        }
+    }
+
+    //빈 값 체크
+    function emptyValidation() {
+        if (document.getElementById("form_name").value == "") {
+            alert("[[#{form.msg.alert.nameNotExist}]]");
+            replaceContent();
+            return false;
+        }
+        return true;
+    }
+
+    //REST API
+    function restSubmit(method, url, data) {
+        const xmlHttp = createXmlHttpRequestObject(method, url);
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == XMLHttpRequest.DONE) {
+                if (xmlHttp.status == 200) {
+                    window.close();
+                    window.open("/forms/" + xmlHttp.responseText + "/edit", "문서양식 편집", "width=1500, height=800");
+                } else if (xmlHttp.status == 400) {
+                    alert("There was an error 400");
+                } else {
+                    alert("something else other than 200 was returned");
+                }
+                return false;
+            }
+        };
+        xmlHttp.setRequestHeader("Content-Type", "application/json");
+        xmlHttp.send(JSON.stringify(data));
+    }
+</script>
+</html>
