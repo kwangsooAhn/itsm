@@ -159,7 +159,7 @@
         /*<![CDATA[ */
         window.onload = function() {
             if (/*[[${notice?.noticeNo}]]*/ != null) {
-                if (document.getElementsByName('popYn')[0].value == 'true') {
+                if (document.getElementsByName('popYn')[0].value === 'true') {
                     document.getElementById('popRadioBtUp').checked = true;
                     document.getElementById('popTab').style.display = '';
                 } else {
@@ -171,7 +171,7 @@
                     document.getElementById('popTab').style.display = 'none';
                 }
 
-                if (document.getElementsByName('topNoticeYn')[0].value == 'true') {
+                if (document.getElementsByName('topNoticeYn')[0].value === 'true') {
                     document.getElementById('topRadioBtUp').checked = true;
                     document.getElementById('topNoticeTab').style.display = '';
                 } else {
@@ -228,7 +228,7 @@
                 return false;
             }
             if (document.getElementById('popRadioBtUp').checked) {
-                if (document.getElementById('popHeight').value == '') {
+                if (document.getElementById('popHeight').value === '') {
                     alert("높이를 입력하세요.");
                     return false;
                 }
@@ -236,7 +236,7 @@
                     alert("높이는 500px부터 1000px 사이의 값만 입력 가능합니다.");
                     return false;
                 }
-                if (document.getElementById('popWidth').value == '') {
+                if (document.getElementById('popWidth').value === '') {
                     alert("넓이를 입력하세요");
                     return false;
                 }
@@ -244,30 +244,30 @@
                     alert("넓이는 500px부터 1000px 사이의 값만 입력 가능합니다.");
                     return false;
                 }
-                if (document.getElementById('popStrtDt').value == '') {
+                if (document.getElementById('popStrtDt').value === '') {
                     alert("팝업 시작일을 입력하세요.");
                     return false;
                 }
-                if (document.getElementById('popEndDt').value == '') {
+                if (document.getElementById('popEndDt').value === '') {
                     alert("팝업 종료일을 입력하세요.");
                     return false;
                 }
-                if ((document.getElementById('popStrtDt').value > document.getElementById('popEndDt').value) || (document.getElementById('popStrtDt').value == document.getElementById('popEndDt').value)) {
+                if ((document.getElementById('popStrtDt').value > document.getElementById('popEndDt').value) || (document.getElementById('popStrtDt').value === document.getElementById('popEndDt').value)) {
                     alert("팝업 알림 시작일이 종료일보다 크거나 같습니다.");
                     return false;
                 }
             }
 
             if (document.getElementById('topRadioBtUp').checked) {
-                if (document.getElementById('topNoticeStrtDt').value == '') {
+                if (document.getElementById('topNoticeStrtDt').value === '') {
                     alert("상단 공지 시작일을 입력하세요.");
                     return false;
                 }
-                if (document.getElementById('topNoticeEndDt').value == '') {
+                if (document.getElementById('topNoticeEndDt').value === '') {
                     alert('상단 공지 종료일을 입력하세요.');
                     return false;
                 }
-                if ((document.getElementById('topNoticeStrtDt').value > document.getElementById('topNoticeEndDt').value) || (document.getElementById('topNoticeStrtDt').value == document.getElementById('topNoticeEndDt').value)) {
+                if ((document.getElementById('topNoticeStrtDt').value > document.getElementById('topNoticeEndDt').value) || (document.getElementById('topNoticeStrtDt').value === document.getElementById('topNoticeEndDt').value)) {
                     alert("상단 공지 시작일이 종료일보다 크거나 같습니다.");
                     return false;
                 }
@@ -305,11 +305,11 @@
 
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    if (xmlhttp.status == 200) {
+                if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (xmlhttp.status === 200) {
                         alert("글이 등록되었습니다.");
                         window.location = "/notices/search";
-                    } else if (xmlhttp.status == 400) {
+                    } else if (xmlhttp.status === 400) {
                         alert('There was an error 400');
                     } else {
                         alert('something else other than 200 was returned');
@@ -331,8 +331,6 @@
                 return false;
             }
 
-            alert('123:' + document.getElementById('popStrtDt').value);
-
             var jsonData = JSON.stringify({
                 noticeNo: noticeNo,
                 noticeTitle: document.getElementById('noticeTitle').value,
@@ -349,11 +347,11 @@
 
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    if (xmlhttp.status == 200) {
+                if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (xmlhttp.status === 200) {
                         alert("글이 수정되었습니다.");
                         window.location = "/notices/search";
-                    } else if (xmlhttp.status == 400) {
+                    } else if (xmlhttp.status === 400) {
                         alert('There was an error 400');
                     } else {
                         alert('something else other than 200 was returned');
