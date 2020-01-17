@@ -17,6 +17,7 @@ common:
     fail: "Fail"
   msg:
     save: "Saved"
+    delete.success: "Deleted."
 
 # Menu
 menu:
