@@ -26,5 +26,10 @@ class AliceUserDetailsService(
     fun loadUserByUserIdAndPlatform(userId: String, platform: String): AliceUserEntity {
         return aliceUserRepository.findByUserIdAndPlatform(userId, platform)
     }
+    
+    @Throws(EmptyResultDataAccessException::class)
+    fun loadUserByOauthKeyAndPlatform(oauthKey: String, platform: String): AliceUserEntity {
+        return aliceUserRepository.findByOauthKeyAndPlatform(oauthKey, platform)
+    }
 
 }

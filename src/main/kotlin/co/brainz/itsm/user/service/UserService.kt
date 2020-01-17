@@ -56,6 +56,13 @@ class UserService(private val userRepository: UserRepository,
     fun selectByUserIdAndPlatform(userId: String, platform: String): Optional<AliceUserEntity> {
         return userRepository.findByUserIdAndPlatform(userId, platform)
     }
+    
+    /*
+     * 사용자 oauthKey, 플랫폼으로 해당 정보를 조회한다.
+     */
+    fun selectByOauthKeyAndPlatform(oauthKey: String, platform: String): Optional<AliceUserEntity> {
+        return userRepository.findByOauthKeyAndPlatform(oauthKey, platform)
+    }
 
     /**
      * 사용자 ID로 정보를 수정한다.
@@ -143,7 +150,7 @@ class UserService(private val userRepository: UserRepository,
                 }
             }
         }*/
-        return code        
+        return code
         
     }
 }

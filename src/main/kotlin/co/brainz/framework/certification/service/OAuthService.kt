@@ -46,7 +46,7 @@ class OAuthService(private val userService: UserService,
     fun callbackUrl(oAuthDto: OAuthDto) {
         when (isExistUser(oAuthDto)) {
             false -> {
-                logger.info("oAuth Save {}", oAuthDto.userid)
+                logger.info("oAuth Save {}", oAuthDto.oauthKey)
                 oAuthSave(oAuthDto)
             }
         }
@@ -58,7 +58,7 @@ class OAuthService(private val userService: UserService,
                 userKey = "",
                 userId = oAuthDto.userid,
                 password = "",
-                userName = oAuthDto.email,
+                userName = oAuthDto.userName,
                 email = oAuthDto.email,
                 createUserkey = UserConstants.CREATE_USER_ID,
                 createDt = LocalDateTime.now(),
@@ -72,12 +72,12 @@ class OAuthService(private val userService: UserService,
     }
 
     fun oAuthLogin(oAuthDto: OAuthDto) {
-        val aliceUser: AliceUserEntity = userDetailsService.loadUserByUserIdAndPlatform(oAuthDto.userid, oAuthDto.platform)
+        val aliceUser: AliceUserEntity = userDetailsService.loadUserByOauthKeyAndPlatform(oAuthDto.oauthKey, oAuthDto.platform)
         val authorities = aliceAuthProvider.authorities(aliceUser)
         val authList = aliceAuthProvider.authList(aliceUser)
         val menuList = aliceAuthProvider.menuList(authList)
         val urlList = aliceAuthProvider.urlList(authList)
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
+        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
                 aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey!! ,authorities, menuList, urlList)
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
@@ -85,8 +85,8 @@ class OAuthService(private val userService: UserService,
 
     fun isExistUser(oAuthDto: OAuthDto): Boolean {
         var isExist = false
-        if (oAuthDto.userid.isNotEmpty()) {
-            val userDto: Optional<AliceUserEntity> = userService.selectByUserIdAndPlatform(oAuthDto.userid, oAuthDto.platform)
+        if (oAuthDto.oauthKey.isNotEmpty()) {
+            val userDto: Optional<AliceUserEntity> = userService.selectByOauthKeyAndPlatform(oAuthDto.oauthKey, oAuthDto.platform)
             if (!userDto.isEmpty) {
                 isExist = true
             }
@@ -155,6 +155,9 @@ class OAuthServiceGoogle: OAuthServiceIF {
                 oAuthDto.userid = result["email"] as String
                 oAuthDto.email = result["email"] as String
                 oAuthDto.oauthKey = result["email"] as String
+            }
+            if (result["name"] != null) {
+                oAuthDto.userName = result["name"] as String
             }
         }
         return oAuthDto
