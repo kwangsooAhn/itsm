@@ -17,8 +17,7 @@ class AliceWebConfig{
     @Bean("localeResolver")
     fun localeResolver() : LocaleResolver {
         val slr = SessionLocaleResolver()
-        //slr.setDefaultLocale(Locale.KOREA)
-        slr.setDefaultLocale(Locale.US)
+        slr.setDefaultLocale(Locale.KOREA)
         return slr
     }
 

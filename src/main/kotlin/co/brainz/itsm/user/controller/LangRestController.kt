@@ -19,12 +19,11 @@ class LangRestController(private val localeResolver: LocaleResolver) {
 
     @PostMapping("/", "")
     fun updateLang(@RequestBody info: String, request: HttpServletRequest, response: HttpServletResponse) {
-
         val mapper = ObjectMapper()
         val result: MutableMap<*, *>? = mapper.readValue(info, MutableMap::class.java)
         val lang = result?.get("lang").toString()
-        localeResolver.setLocale(request, response, Locale(lang))
 
+        return localeResolver.setLocale(request, response, Locale(lang))
     }
 
 
