@@ -136,3 +136,7 @@ form:
     alert:
       delete: "삭제되었습니다."
       nameNotExist: "문서양식 이름을 입력해주세요."
+
+# Portal
+portal:
+  intro: "PortalMain Test 화면입니다. 여기에 이쁘장한 포탈을 만들어 볼까 해요."

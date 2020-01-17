@@ -16,6 +16,11 @@ object UserConstants {
     const val USER_EXPIRED_VALUE: Long = 3
 
     /**
+     * 사용자 기본 언어셋.
+     */
+    const val USER_LOCALE_LANG: String = "ko"
+
+    /**
      * 사용자 상태.
      */
     enum class Status(val code: String, val value: Int) {

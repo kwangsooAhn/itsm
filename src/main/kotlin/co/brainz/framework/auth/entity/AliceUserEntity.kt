@@ -46,7 +46,8 @@ data class AliceUserEntity(
         @JoinTable(name = "awfUserRoleMap",
                 joinColumns = [JoinColumn(name = "userKey")],
                 inverseJoinColumns = [JoinColumn(name = "roleId")])
-        var roleEntities: Set<AliceRoleEntity>?
+        var roleEntities: Set<AliceRoleEntity>?,
+        val lang: String
 
 ) : Serializable {
     fun getAuthorities(): MutableSet<GrantedAuthority> {

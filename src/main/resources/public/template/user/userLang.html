@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <title>User Language Configuration</title>
+</head>
+<body>
+    <div>
+        <select name="lang" id="lang">
+            <option th:each="itemData: ${langList}" th:value="${itemData.codeValue}" th:text="${itemData.codeValue}"></option>
+        </select>
+        <button onclick="changeLang()">적용</button>
+        <a href="/portal/portalMain">메인으로 이동</a>
+    </div>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+
+        function changeLang() {
+            const info = {
+                lang: document.getElementById("lang").value
+            };
+            submit("POST", "/rest/lang", true, info)
+        }
+
+        function submit(method, url, async, data) {
+            const xmlHttp = createXmlHttpRequestObject(method, url, async);
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == XMLHttpRequest.DONE) {
+                    if (xmlHttp.status == 200) {
+                        alert("Change Language");
+                        break;
+                    } else if (xmlHttp.status == 400) {
+                        alert('There was an error 400');
+                    } else {
+                        alert('something else other than 200 was returned');
+                    }
+                }
+            };
+            xmlHttp.setRequestHeader('Content-Type', 'application/json');
+            xmlHttp.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>

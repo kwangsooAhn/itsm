@@ -45,7 +45,7 @@ class UserTest {
                 UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
                 0, "과장", "ITSM팀", "02-6416-8324", "admin",
                 "admin", "status", "code", UserConstants.Platform.ALICE.code,
-                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), emptySet()
+                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), emptySet(), "en"
         )
 
         userUpdateDto = UserUpdateDto(
