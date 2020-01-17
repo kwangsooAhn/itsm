@@ -17,7 +17,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit4.SpringRunner
 import java.time.LocalDateTime
-import java.util.*
+import java.util.TimeZone
+import java.util.UUID
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
@@ -38,7 +39,7 @@ class UserJpaTest {
                 UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
                 0, "과장", "ITSM팀", "02-6416-8324", "admin",
                 "admin", "status", "code", UserConstants.Platform.ALICE.code,
-                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), emptySet(), "en"
+                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), emptySet(), TimeZone.getDefault().id, "en"
         )
 
         userUpdateDto = UserUpdateDto(

@@ -66,6 +66,7 @@ class OAuthService(private val userService: UserService,
                 roleEntities = certificationService.roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                 status = UserConstants.Status.CERTIFIED.code,
                 platform = oAuthDto.platform,
+                timezone = TimeZone.getDefault().id,
                 lang = UserConstants.USER_LOCALE_LANG
         )
         certificationRepository.save(userEntity)
@@ -79,7 +80,7 @@ class OAuthService(private val userService: UserService,
         val urlList = aliceAuthProvider.urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList, "en")
+                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList, aliceUser.timezone, "en")
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }
 

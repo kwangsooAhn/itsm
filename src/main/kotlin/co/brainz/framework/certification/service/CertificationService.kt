@@ -27,6 +27,7 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.security.PrivateKey
 import java.time.LocalDateTime
+import java.util.TimeZone
 
 @Service
 public open class CertificationService(private val certificationRepository: CertificationRepository,
@@ -81,6 +82,7 @@ public open class CertificationService(private val certificationRepository: Cert
                         expiredDt = LocalDateTime.now().plusMonths(3),
                         roleEntities = roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                         status = UserConstants.Status.SIGNUP.code,
+                        timezone = TimeZone.getDefault().id,
                         lang = UserConstants.USER_LOCALE_LANG
                 )
                 certificationRepository.save(userEntity)

@@ -20,5 +20,6 @@ data class AliceUserDto(
         val grantedAuthories: Set<GrantedAuthority>,
         val menus: Set<AliceMenuEntity>,
         val urls: Set<AliceUrlEntity>,
+        val timezone: String,
         val lang: String
 ) : Serializable

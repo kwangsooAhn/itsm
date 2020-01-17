@@ -29,6 +29,8 @@ menu:
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
+  setting.form: "Form"
+  setting.process: "Process"
 
 # Auth
 auth:
@@ -44,7 +46,14 @@ auth:
   faq.create: "공지사항 등록"
   faq.update: "공지사항 변경"
   faq.delete: "공지사항 삭제"
-
+  form.read: "form read"
+  form.create: "form create"
+  form.update: "form update"
+  form.delete: "form delete"
+  process.read: "process read"
+  process.create: "process create"
+  process.update: "process update"
+  process.delete: "process delete"
 # User
 user:
   id: "User ID"

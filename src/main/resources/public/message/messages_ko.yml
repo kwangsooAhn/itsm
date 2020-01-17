@@ -29,6 +29,8 @@ menu:
   setting: "설정"
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
+  setting.form: "문서양식"
+  setting.process: "프로세스"
 
 # auth
 auth:
@@ -44,6 +46,14 @@ auth:
   faq.create: "공지사항 등록"
   faq.update: "공지사항 변경"
   faq.delete: "공지사항 삭제"
+  form.read: "문서양식 조회"
+  form.create: "문서양식 등록"
+  form.update: "문서양식 변경"
+  form.delete: "문서양식 삭제"
+  process.read: "프로세스 조회"
+  process.create: "프로세스 등록"
+  process.update: "프로세스 변경"
+  process.delete: "프로세스 삭제"
 
 # 사용자
 user:
