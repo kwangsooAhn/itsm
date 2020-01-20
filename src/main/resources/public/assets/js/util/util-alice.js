@@ -224,7 +224,12 @@ aliceJs.sendXhr = function (option) {
         const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
         const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
         xhr.setRequestHeader(header, token);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        if (option.contentType) {
+            xhr.setRequestHeader('Content-type', option.contentType);
+        } else {
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        }
+
     } else {
         params = null;
     }

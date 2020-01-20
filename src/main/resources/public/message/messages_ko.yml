@@ -17,6 +17,7 @@ common:
     fail: "실패"
   msg:
     save: "저장되었습니다"
+    delete.success: "삭제되었습니다."
 
 # Menu
 menu:
