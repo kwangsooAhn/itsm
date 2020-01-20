@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-    <p>PortalMain Test 화면입니다. 여기에 이쁘장한 포탈을 만들어 볼까 해요.</p>
+    <p th:text="#{portal.intro}"></p>
     <span sec:authorize="isAuthenticated()">
         <button type="button" onclick="location.href='/layout'">메인으로 이동</button>
     </span>

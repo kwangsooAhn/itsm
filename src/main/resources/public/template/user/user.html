@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
-    <meta charset="UTF-8">
     <title>사용자목록</title>
 </head>
 <body>
+<th:block layout:fragment="content">
 <div sec:authorize="hasAuthority('user.read')">
     <div style="border: 1px solid red">
         <div>- 검색영역 -</div>
@@ -30,116 +31,114 @@
         <div id="userList"></div>
     </div>
 </div>
-
 <!-- Modal -->
 <div style="border: 1px solid red">
     <div>- 사용자 편집 모달 영역 -</div>
     <div id="userDetailModal" style="display: none"></div>
 </div>
-
-
 <div style="border: 1px solid red">
     <div>- 에러 출력 영역 -</div>
     <div id="searchError"></div>
 </div>
-
-<script th:src="@{/assets/js/util/util-alice.js}"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    /**
-     * 검색창 엔터 입력시 동작
-     */
-    document.getElementById('searchValue').addEventListener('keypress', function (e) {
-        if (e.key !== undefined && e.key === 'Enter') {
-            searchUser();
-        }
-    });
-
-    /**
-     * 사용자를 검색한다.
-     */
-    function searchUser() {
-        const opt = {
-            method: 'get',
-            url: '/users/list?' + aliceJs.serialize(document.getElementById('searchForm')),
-            callbackFunc: setUserClickEvent,
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    /**
-     * 사용자 데이터 조회 후 각 row 마다 클릭 이벤트를 생성한다.
-     * @param response
-     */
-    function setUserClickEvent(response) {
-        document.getElementById('userList').innerHTML = response.responseText;
-
-        Array.prototype.forEach.call(document.getElementsByClassName('userRows'), function (user) {
-            user.addEventListener('click', function () {
-                document.getElementById('userDetailModal').style.display = '';
-                const opt = {
-                    url: '/users/' + this.querySelector('input[type=hidden][name=userId]').value + '/edit',
-                    method: 'get',
-                    callbackFunc: openUserEditor
-                };
-                aliceJs.sendXhr(opt);
-            })
-        });
-    }
-
-    /**
-     * 사용자 상세 조회 화면을 열고 클릭 및 저장 이벤트를 할당한다.
-     * @param response
-     */
-    function openUserEditor(response) {
-        document.getElementById('userDetailModal').innerHTML = response.responseText;
-
-        // 1. 사용자 정보 필드 더블클릭시 readonly 처리
-        // 2. enter 입력시 저장
-        document.querySelectorAll('#userDetailModal input[type=text]').forEach(function (el) {
-            el.addEventListener('dblclick', function () {
-                document.querySelectorAll('#userDetailModal input[type=text]').forEach(it => it.readOnly = true);
-                if (el.getAttribute('id') !== 'userId') {
-                    el.readOnly = false;
-                }
-            });
-            el.addEventListener('keypress', function (e) {
-                if (e.key !== undefined && e.key === 'Enter') {
-                    saveUserDetail();
-                }
-            })
-        });
-
-        // 역할 체크 박스 클릭시 저장
-        document.querySelectorAll('#userDetailModal input[type=checkbox]').forEach(function (el) {
-            el.addEventListener('change', function () {
-                saveUserDetail();
-            })
-        });
-
-        // 상세 조회 화면 닫기
-        document.getElementById('closeUserDetail').addEventListener('click', function () {
-            document.getElementById('userDetailModal').style.display = 'none';
-        });
-    }
-
-    /**
-     * 사용자 정보를 업데이트 한다.
-     */
-    function saveUserDetail() {
-        const opt = {
-            url: '/users/' + document.querySelector('#userDetailEditModal input[type=text][name=userId]').value,
-            method: 'put',
-            params: aliceJs.serialize(document.getElementById('userDetailEditModal')),
-            callbackFunc: function () {
-                alert([[#{common.msg.save}]]);
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    searchUser()
-    /*]]>*/
-</script>
+</th:block>
 </body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        /**
+         * 검색창 엔터 입력시 동작
+         */
+        document.getElementById('searchValue').addEventListener('keypress', function (e) {
+            if (e.key !== undefined && e.key === 'Enter') {
+                searchUser();
+            }
+        });
+
+        /**
+         * 사용자를 검색한다.
+         */
+        function searchUser() {
+            const opt = {
+                method: 'get',
+                url: '/users/list?' + aliceJs.serialize(document.getElementById('searchForm')),
+                callbackFunc: setUserClickEvent,
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /**
+         * 사용자 데이터 조회 후 각 row 마다 클릭 이벤트를 생성한다.
+         * @param response
+         */
+        function setUserClickEvent(response) {
+            document.getElementById('userList').innerHTML = response.responseText;
+
+            Array.prototype.forEach.call(document.getElementsByClassName('userRows'), function (user) {
+                user.addEventListener('click', function () {
+                    document.getElementById('userDetailModal').style.display = '';
+                    const opt = {
+                        url: '/users/' + this.querySelector('input[type=hidden][name=userId]').value + '/edit',
+                        method: 'get',
+                        callbackFunc: openUserEditor
+                    };
+                    aliceJs.sendXhr(opt);
+                })
+            });
+        }
+
+        /**
+         * 사용자 상세 조회 화면을 열고 클릭 및 저장 이벤트를 할당한다.
+         * @param response
+         */
+        function openUserEditor(response) {
+            document.getElementById('userDetailModal').innerHTML = response.responseText;
+
+            // 1. 사용자 정보 필드 더블클릭시 readonly 처리
+            // 2. enter 입력시 저장
+            document.querySelectorAll('#userDetailModal input[type=text]').forEach(function (el) {
+                el.addEventListener('dblclick', function () {
+                    document.querySelectorAll('#userDetailModal input[type=text]').forEach(it => it.readOnly = true);
+                    if (el.getAttribute('id') !== 'userId') {
+                        el.readOnly = false;
+                    }
+                });
+                el.addEventListener('keypress', function (e) {
+                    if (e.key !== undefined && e.key === 'Enter') {
+                        saveUserDetail();
+                    }
+                })
+            });
+
+            // 역할 체크 박스 클릭시 저장
+            document.querySelectorAll('#userDetailModal input[type=checkbox]').forEach(function (el) {
+                el.addEventListener('change', function () {
+                    saveUserDetail();
+                })
+            });
+
+            // 상세 조회 화면 닫기
+            document.getElementById('closeUserDetail').addEventListener('click', function () {
+                document.getElementById('userDetailModal').style.display = 'none';
+            });
+        }
+
+        /**
+         * 사용자 정보를 업데이트 한다.
+         */
+        function saveUserDetail() {
+            const opt = {
+                url: '/users/' + document.querySelector('#userDetailEditModal input[type=text][name=userId]').value,
+                method: 'put',
+                params: aliceJs.serialize(document.getElementById('userDetailEditModal')),
+                callbackFunc: function () {
+                    alert([[#{common.msg.save}]]);
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        searchUser()
+        /*]]>*/
+    </script>
+</th:block>
 </html>
