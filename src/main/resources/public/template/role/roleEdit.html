@@ -16,10 +16,10 @@
         </tr>
     </table>
     <table border="1" id="roleTable" >
+        <colgroup>
+            <col width="620px">
+        </colgroup>
         <tr>
-            <colgroup>
-                <col width="620px">
-            </colgroup>
             <td>
                 <a name="alink" th:each="role : ${roleList}" th:text="|[${role.roleName}]|" th:id="${role.roleId}" ></a>
             </td>
@@ -149,7 +149,7 @@
                     url: '/rest/roles/' + document.getElementById('txtRoleId').value,
                     callbackFunc: function() {
                         alert([[#{common.msg.delete.success}]]);
-                        window.location.href ="/roles/edit";
+                        window.location.href ='/roles/edit';
                     }
                 }
 
@@ -187,12 +187,12 @@
 
             function onSave(flag) {
                 if (document.getElementById('txtRoleId').value == '' || document.getElementById('txtRoleId').value == '' ) {
-                    alert("역할 아이디를 입력하세요.");
+                    alert('역할 아이디를 입력하세요.');
                     return;
                 }
 
                 if (document.getElementById('txtRoleName').value == '' || document.getElementById('txtRoleName').value == '' ) {
-                    alert("역할 명을 입력하세요.");
+                    alert('역할 명을 입력하세요.');
                     return;
                 }
 
@@ -217,10 +217,10 @@
                     method: flag,
                     url: strUrl,
                     params: roleJson,
-                    contentType: "application/json",
+                    contentType: 'application/json',
                     callbackFunc: function () {
                         alert([[#{common.msg.save}]]);
-                        window.location.href ="/roles/edit";
+                        window.location.href ='/roles/edit';
                     }
                 };
                 aliceJs.sendXhr(opt);

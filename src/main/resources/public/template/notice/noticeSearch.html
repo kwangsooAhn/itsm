@@ -53,7 +53,7 @@
                 return false;
             }
             if (document.getElementById('fromDt').value > document.getElementById('toDt').value) {
-                alert("검색 시작 날짜가 종료 날짜보다 큽니다.");
+                alert('검색 시작 날짜가 종료 날짜보다 큽니다.');
                 return false;
             }
             return true;
@@ -61,8 +61,8 @@
 
         //list 팝업 생성
         function openPopUp(id) {
-            var targetUrl = "noticePopUp/" + id + "?value=true";
-            window.open(targetUrl, id, "width = 500, height = 500");
+            var targetUrl = 'noticePopUp/' + id + '?value=true';
+            window.open(targetUrl, id, 'width = 500, height = 500');
         }
 
         function restSubmit(method, url, async, validate) {
@@ -80,13 +80,13 @@
                 toDt: document.getElementById('toDt').value
             };
 
-            var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserkey="+data.createUserkey+"&keyWord="+data.keyWord+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
+            var getUrl = url+'?noticeTitle='+data.noticeTitle+'&createUserkey='+data.createUserkey+'&keyWord='+data.keyWord+'&fromDt='+data.fromDt+'&toDt='+data.toDt+'&btnSearch=';
             var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
             xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    if (xmlhttp.status == 200) {
+                if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (xmlhttp.status === 200) {
                         var xmlhttpStr = xmlhttp.responseText;
-                        document.getElementById("noticeList").innerHTML = xmlhttpStr;
+                        document.getElementById('noticeList').innerHTML = xmlhttpStr;
                     } else if (xmlhttp.status == 400) {
                         alert('There was an error 400');
                     } else {

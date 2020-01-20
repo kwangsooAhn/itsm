@@ -91,18 +91,19 @@
         window.onload = function() {
             // 게시물 삭제 처리 시, validation 체크.
             var noticeNo = /*[[${notice.noticeNo}]]*/;
-            if (noticeNo == null) {
-                if (noticeNo == null) {alert("이미 삭제된 게시물 입니다."); return history.go(-1);}
+            if (noticeNo === null) {
+                alert('이미 삭제된 게시물 입니다.');
+                return history.go(-1);
             }
 
-            if (document.getElementsByName('popYn')[0].value == 'true') {
+            if (document.getElementsByName('popYn')[0].value === 'true') {
                 document.getElementById('popRadioBtUp').checked = true;
             } else {
                 document.getElementById('popRadioBtDown').checked = true;
                 document.getElementById('popTab').style.display = 'none';
             }
 
-            if (document.getElementsByName('topNoticeYn')[0].value == 'true') {
+            if (document.getElementsByName('topNoticeYn')[0].value === 'true') {
                 document.getElementById('topRadioBtUp').checked = true;
             } else {
                 document.getElementById('topRadioBtDown').checked = true;
@@ -114,11 +115,11 @@
         function restSubmit(method, url, async) {
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    if (xmlhttp.status == 200) {
-                        alert("삭제 처리되었습니다.");
-                        window.location = "/notices/search";
-                    } else if (xmlhttp.status == 400) {
+                if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (xmlhttp.status === 200) {
+                        alert('삭제 처리되었습니다.');
+                        window.location = '/notices/search';
+                    } else if (xmlhttp.status === 400) {
                         alert('There was an error 400');
                     } else {
                         alert('something else other than 200 was returned');
