@@ -5,6 +5,41 @@
 }(this, (function (exports) {
     'use strict';
 
+    const workflowProperties = [
+        {'name': 'id', 'type': 'text', 'default': ''},
+        {'name': 'name', 'type': 'text', 'default': ''},
+        {'name': 'description', 'type': 'textarea', 'default': ''}
+    ];
+
+    const elementsProperties = {
+        'event': [
+            {'name': 'name', 'type': 'text', 'default': ''}
+        ],
+        'task': [
+            {'name': 'name', 'type': 'text', 'default': ''},
+            {'name': 'description', 'type': 'textarea', 'default': ''},
+            {'name': 'assignee-type', 'type': 'select', 'default': ''},
+            {'name': 'assignee', 'type': 'text', 'default': ''},
+            {'name': 'notification', 'type': 'checkbox', 'default': ''}
+        ],
+        'gateway': [
+            {'name': 'name', 'type': 'text', 'default': ''}
+        ],
+        'group': [
+            {'name': 'name', 'type': 'text', 'default': ''},
+            {'name': 'description', 'type': 'textarea', 'default': ''}
+        ],
+        'annotation': [
+            {'name': 'text', 'type': 'textarea', 'default': ''},
+        ],
+        'connector': [
+            {'name': 'name', 'type': 'text', 'default': ''},
+            {'name': 'condition', 'type': 'text', 'textarea': ''},
+            {'name': 'start-id', 'type': 'text', 'text': ''},
+            {'name': 'end-id', 'type': 'text', 'text': ''}
+        ],
+    };
+
     /**
      * 해당 element의 메뉴를 표시한다.
      *
@@ -71,7 +106,7 @@
             if (len > width) {
                 width = len;
             }
-        })
+        });
         menuRect.attr('width', width + 20);
 
         menuItemContainer.attr('transform', 'translate(' + x + ',' + (y - (menu.length * 25)) + ')');
@@ -89,17 +124,44 @@
         propertiesContainer.selectAll('*').remove();
         if (typeof elem !== 'undefined') { // show element properties
             propertiesContainer.append('h3').text('Element Properties');
-            for (let i = 0; i < 10; i++) {
+
+            let _this = elem;
+            let properties = [];
+            if (_this.classed('event')) {
+                properties = elementsProperties['event'];
+            } else if (_this.classed('task')) {
+                properties = elementsProperties['task'];
+            } else if (_this.classed('gateway')) {
+                properties = elementsProperties['gateway'];
+            } else if (_this.classed('group')) {
+                properties = elementsProperties['group'];
+            } else if (_this.classed('annotation')) {
+                properties = elementsProperties['annotation'];
+            }
+
+            for (let i = 0, len = properties.length; i < len; i++) {
+                let property = properties[i];
                 let propertyContainer = propertiesContainer.append('p');
                 let label = propertyContainer.append('label');
-                label.attr('for', 'attr_' + i);
-                label.text('속성 ' + (i + 1));
+                label.attr('for', property.name);
+                label.text(property.name);
                 let input = propertyContainer.append('input');
-                input.attr('id','attr_' + (i + 1));
-                input.attr('value','property value ' + (i + 1));
+                input.attr('id', property.name);
+                input.attr('value', property.default);
             }
         } else { // show workflow properties
             propertiesContainer.append('h3').text('Workflow Properties');
+
+            for (let i = 0, len = workflowProperties.length; i < len; i++) {
+                let property = workflowProperties[i];
+                let propertyContainer = propertiesContainer.append('p');
+                let label = propertyContainer.append('label');
+                label.attr('for', property.name);
+                label.text(property.name);
+                let input = propertyContainer.append('input');
+                input.attr('id', property.name);
+                input.attr('value', property.default);
+            }
         }
     }
 

@@ -40,7 +40,7 @@
             const bbox = element.getBBox();
             return {x: bbox.x, y: bbox.y, cx: bbox.x + bbox.width / 2, cy: bbox.y + bbox.height / 2, width: bbox.width, height: bbox.height};
         }
-    }
+    };
 
     /**
      * 선택된 element 를 해제한다.
@@ -196,9 +196,7 @@
                     return;
                 }
 
-                if (mousedownElement === mouseoverElement) {
-
-                } else {
+                if (mousedownElement !== mouseoverElement) {
                     mouseoverElement.style('stroke', 'black');
                     mouseoverElement.style('stroke-width', 1);
 
@@ -491,8 +489,10 @@
      * @constructor
      */
     function AnnotationElement(x, y) {
-        const self = this;
         //TODO: add logic annotation element
+        this.base = RectResizableElement;
+        this.base(x, y);
+        this.nodeElement.style('fill', 'gray');
         return this;
     }
 
