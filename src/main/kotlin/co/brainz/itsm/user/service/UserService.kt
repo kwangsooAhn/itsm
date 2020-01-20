@@ -10,20 +10,19 @@ import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.framework.certification.service.CertificationService
 import co.brainz.framework.certification.service.MailService
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.encryption.CryptoRsa
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.util.Optional
 import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
-import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.encryption.CryptoRsa
-import java.security.PrivateKey
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.data.repository.findByIdOrNull
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import java.util.Optional
 
 /**
  * 사용자 관리 서비스
@@ -134,10 +133,14 @@ class UserService(private val userRepository: UserRepository,
         return code
     }
     
+    /**
+     * 자기정보 수정 시, 이메일 및 ID의 중복을 검사한다.
+     */
+
     fun userEditValid(update: UserUpdateDto): String {
         var isContinue = true
         var code: String = UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
-        if (userRepository.findByIdOrNull(update.userId!!) != null) {
+        if (userRepository.countByUserId(update.userId!!) > 0) {
             code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }

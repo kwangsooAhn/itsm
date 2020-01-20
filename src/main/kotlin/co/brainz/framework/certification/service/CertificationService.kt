@@ -93,7 +93,7 @@ public open class CertificationService(private val certificationRepository: Cert
     fun signUpValid(signUpDto: SignUpDto): String {
         var isContinue = true
         var code: String = UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code
-        if (certificationRepository.findByIdOrNull(signUpDto.userId) != null) {
+        if (certificationRepository.countByUserId(signUpDto.userId) > 0) {
             code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }

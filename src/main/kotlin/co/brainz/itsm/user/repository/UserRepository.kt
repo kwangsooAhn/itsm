@@ -33,4 +33,9 @@ interface UserRepository: JpaRepository<AliceUserEntity, String>, JpaSpecificati
      */
     fun findByUserKey(userKey: String): AliceUserEntity
 
+    /**
+     * 사용자의 ID의 개수를 리턴한다.
+     */
+    fun countByUserId(userId: String): Int
+
 }
