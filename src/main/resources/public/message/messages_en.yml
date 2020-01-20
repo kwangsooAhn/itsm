@@ -145,3 +145,7 @@ form:
     alert:
       delete: "Deleted"
       nameNotExist: "Please enter a form name."
+
+# Portal
+portal:
+  intro: "Welcome to PortalMain Test."

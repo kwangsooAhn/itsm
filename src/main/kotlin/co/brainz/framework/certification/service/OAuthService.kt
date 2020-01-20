@@ -30,7 +30,8 @@ import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import java.time.LocalDateTime
-import java.util.*
+import java.util.Optional
+import java.util.TimeZone
 import javax.transaction.Transactional
 
 @Service
@@ -66,7 +67,8 @@ class OAuthService(private val userService: UserService,
                 roleEntities = certificationService.roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                 status = UserConstants.Status.CERTIFIED.code,
                 platform = oAuthDto.platform,
-                timezone = TimeZone.getDefault().id
+                timezone = TimeZone.getDefault().id,
+                lang = UserConstants.USER_LOCALE_LANG
         )
         certificationRepository.save(userEntity)
     }
@@ -79,7 +81,7 @@ class OAuthService(private val userService: UserService,
         val urlList = aliceAuthProvider.urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList, aliceUser.timezone)
+                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang)
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }
 
