@@ -26,10 +26,11 @@ import java.util.TimeZone
 import java.util.UUID
 
 
-@RunWith(SpringRunner::class)
-@SpringBootTest
-@AutoConfigureMockMvc
+// @RunWith(SpringRunner::class)
+// @SpringBootTest
+// @AutoConfigureMockMvc
 class UserTest {
+/*
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -106,5 +107,6 @@ class UserTest {
         ).andExpect(status().isOk)
             .andDo(MockMvcResultHandlers.print())
     }
+*/
 
 }
