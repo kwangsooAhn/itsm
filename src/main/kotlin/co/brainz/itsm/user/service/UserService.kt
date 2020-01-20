@@ -23,6 +23,7 @@ import co.brainz.framework.encryption.CryptoRsa
 import java.security.PrivateKey
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.data.repository.findByIdOrNull
 
 /**
  * 사용자 관리 서비스
@@ -136,7 +137,7 @@ class UserService(private val userRepository: UserRepository,
     fun userEditValid(update: UserUpdateDto): String {
         var isContinue = true
         var code: String = UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
-      /*  if (userRepository.findByIdOrNull(update.userId!!) != null) {
+        if (userRepository.findByIdOrNull(update.userId!!) != null) {
             code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }
@@ -149,8 +150,7 @@ class UserService(private val userRepository: UserRepository,
                 } catch (e: EmptyResultDataAccessException) {
                 }
             }
-        }*/
+        }
         return code
-        
     }
 }
