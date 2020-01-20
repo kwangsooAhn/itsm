@@ -12,7 +12,7 @@
     <input type="hidden" id="userKey" name="userKey" th:value="${users.userKey}"/>
     <input type="hidden" id="oldPassword" name="oldPassword" th:value="${users.password}"/>
         <table style="text-align: left; width: 360px;">
-            <tbody th:if="${users.platform.equals('user.platform.alice')}">
+            <tbody id="tbody">
                 <tr>
                     <th>아이디 *</th>
                     <td><input type="text" id="userId" name="userId" th:value="${users.userId}" maxlength="100" required="required"></td>
@@ -81,7 +81,13 @@
     <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
+     /*<![CDATA[*/
+    	window.onload = function() {
+    	    if (/*[[${!users.platform.equals('user.platform.alice')}]]*/) {
+    	           document.getElementById('tbody').style.display = 'none';
+    	    }
+    	}
+
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
         const STATUS_ERROR_EMAIL_DUPLICATION = "3";
@@ -128,7 +134,7 @@
                     if (xmlHttp.status == 200) {
                         switch (xmlHttp.responseText) {
                             case STATUS_SUCCESS:
-                                alert("수정되었습니다..");
+                                alert("수정되었습니다.");
                                 break;
                             case STATUS_ERROR_USER_ID_DUPLICATION:
                                 alert("동일한 아이디가 존재합니다.");
