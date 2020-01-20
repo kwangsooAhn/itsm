@@ -49,7 +49,7 @@
         selectedElement = null;
         svg.selectAll('.node').style('stroke-width', 1);
         svg.selectAll('.pointer').style('opacity', 0);
-        svg.selectAll('.menu').remove();
+        svg.selectAll('.tooltip').remove();
     }
 
     /**
@@ -177,7 +177,7 @@
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
                 selectedElement.style('stroke-width', 2);
-                if (elem.node().classList.contains('task')) {
+                if (elem.node().classList.contains('resizable')) {
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
                         d3.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
@@ -187,6 +187,7 @@
             }
         },
         mouseup: function() {
+            const elem = d3.select(this);
             if (isDrawConnector) {
                 dragLine
                     .classed('hidden', true)
@@ -211,7 +212,13 @@
                     }
                 }
                 resetMouseVars();
+            } else {
+                wfEditor.setElementMenu(elem);
             }
+        },
+        mousedrag: function() {
+            const bbox = utils.getBoundingBoxCenter(mousedownElement);
+            dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
         }
     }
 
@@ -240,20 +247,16 @@
             .style('opacity', 1)
             .style('stroke', 'black')
             .style('stroke-width', 1)
-            .attr('class', 'node task')
+            .attr('class', 'node resizable')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(d3.drag()
                 .on('start', elementMouseEventHandler.mousedown)
                 .on('drag', () => {
                     if (isDrawConnector) {
-                        const bbox = utils.getBoundingBoxCenter(mousedownElement);
-                        dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
+                        elementMouseEventHandler.mousedrag();
                     } else {
-                        if (mouseoverElement && selectedElement) {
-                            svg.selectAll('.menu').remove();
-                        }
-
+                        svg.selectAll('.tooltip').remove();
                         const rectData = this.rectData;
                         for (let i = 0, len = rectData.length; i < len; i++) {
                             this.nodeElement
@@ -364,6 +367,23 @@
     function TaskElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
+        this.nodeElement.classed('task', true);
+        return this;
+    }
+
+    /**
+     * Subprocess element.
+     *
+     * @param x drop할 마우스 x좌표
+     * @param y drop할 마우스 y좌표
+     * @returns {SubprocessElement}
+     * @constructor
+     */
+    function SubprocessElement(x, y) {
+        this.base = RectResizableElement;
+        this.base(x, y);
+        this.nodeElement.classed('subprocess', true);
+        this.nodeElement.style('fill', 'pink');
         return this;
     }
 
@@ -395,12 +415,9 @@
                 .on('start', elementMouseEventHandler.mousedown)
                 .on('drag', () => {
                     if (isDrawConnector) {
-                        const bbox = utils.getBoundingBoxCenter(mousedownElement);
-                        dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
+                        elementMouseEventHandler.mousedrag();
                     } else {
-                        if (mouseoverElement && selectedElement) {
-                            svg.selectAll('.menu').remove();
-                        }
+                        svg.selectAll('.tooltip').remove();
                         self.nodeElement
                             .attr('cx', d3.event.x)
                             .attr('cy', d3.event.y);
@@ -444,12 +461,9 @@
                 .on('start', elementMouseEventHandler.mousedown)
                 .on('drag', () => {
                     if (isDrawConnector) {
-                        const bbox = utils.getBoundingBoxCenter(mousedownElement);
-                        dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
+                        elementMouseEventHandler.mousedrag();
                     } else {
-                        if (mouseoverElement && selectedElement) {
-                            svg.selectAll('.menu').remove();
-                        }
+                        svg.selectAll('.tooltip').remove();
                         self.nodeElement
                             .attr('x', d3.event.x - (width / 2))
                             .attr('y', d3.event.y - (height / 2))
@@ -476,6 +490,7 @@
     function GroupElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
+        this.nodeElement.classed('group', true);
         this.nodeElement.style('fill', 'green');
         return this;
     }
@@ -492,6 +507,7 @@
         //TODO: add logic annotation element
         this.base = RectResizableElement;
         this.base(x, y);
+        this.nodeElement.classed('annotation', true);
         this.nodeElement.style('fill', 'gray');
         return this;
     }
@@ -523,6 +539,8 @@
                     new EventElement(x, y);
                 } else if (_this.classed('task')) {
                     new TaskElement(x, y);
+                } else if (_this.classed('subprocess')) {
+                    new SubprocessElement(x, y);
                 } else if (_this.classed('gateway')) {
                     new GatewayElement(x, y);
                 } else if (_this.classed('group')) {

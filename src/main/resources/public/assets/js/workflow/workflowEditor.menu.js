@@ -22,6 +22,9 @@
             {'name': 'assignee', 'type': 'text', 'default': ''},
             {'name': 'notification', 'type': 'checkbox', 'default': ''}
         ],
+        'subprocess': [
+            {'name': 'sub-process-id', 'type': 'text', 'default': ''}
+        ],
         'gateway': [
             {'name': 'name', 'type': 'text', 'default': ''}
         ],
@@ -59,63 +62,63 @@
             y = elem.attr('y');
         }
 
-        // 임시메뉴
-        let menu = [{
-            title: 'Item #1',
+        let actionTooltip = [{
+            title: 'remove',
+            image: '../../assets/media/icons/dataflow/ic_edit.png',
             action: function(e, i) {
                 console.log('Item #1 clicked!');
             }
         }, {
-            title: 'Item #2',
+            title: 'copy',
+            image: '../../assets/media/icons/dataflow/ic_edit.png',
             action: function(e, i) {
                 console.log('Item #2 clicked!');
             }
+        }, {
+            title: 'edit',
+            image: '../../assets/media/icons/dataflow/ic_edit.png',
+            action: function(e, i) {
+                console.log('Item #3 clicked!');
+            }
+        }, {
+            title: 'add',
+            image: '../../assets/media/icons/dataflow/ic_edit.png',
+            action: function(e, i) {
+                console.log('Item #4 clicked!');
+            }
         }];
 
-        const menuItemContainer = d3.select('.drawing-board').select('svg').append('g')
-            .classed('menu', true).style('display', 'none');
+        const actionTooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
+            .classed('tooltip action', true).style('display', 'none');
 
-        const menuRect = menuItemContainer.append('rect')
-            .attr('height', menu.length * 25)
+        const containerWidth = actionTooltip.length * 25,
+              containerHeight = 30;
+        const containerRect = actionTooltipItemContainer.append('rect')
+            .attr('width', containerWidth)
+            .attr('height', containerHeight)
             .style('fill', '#eee');
 
-        const menuItems = menuItemContainer.selectAll('menu_item')
-            .data(menu)
+        containerRect.selectAll('tooltip-item')
+            .data(actionTooltip)
             .enter()
-            .append('g')
-            .attr('transform', (d, i) => {
-                return 'translate(' + 10 + ',' + ((i + 1) * 20) + ')';
-            })
-            .on('mouseover', d => {
-                d3.select(this).style('fill', 'steelblue');
-            })
-            .on('mouseout', d => {
-                d3.select(this).style('fill', 'black');
-            })
+            .append('image')
+            .attr('x', 0)
+            .attr('y', 5)
+            .attr('width', 20)
+            .attr('height', 20)
+            .attr('xlink:href', d => { return d.image })
             .on('click', (d, i) => {
                 d.action(elem, i);
-            })
-            .append('text')
-            .text(d => {
-                return d.title;
             });
 
-        let width = 0;
-        menuItems.each(function(d){
-            let len = this.getComputedTextLength();
-            if (len > width) {
-                width = len;
-            }
-        });
-        menuRect.attr('width', width + 20);
-
-        menuItemContainer.attr('transform', 'translate(' + x + ',' + (y - (menu.length * 25)) + ')');
-        menuItemContainer.style('display', 'block');
-        menuItemContainer.datum(elem);
+        const bbox = elem.node().getBBox();
+        actionTooltipItemContainer.attr('transform', 'translate(' + (bbox.x + bbox.width / 2 - containerWidth / 2) + ', ' + (bbox.y - containerHeight - 10) + ')');
+        actionTooltipItemContainer.style('display', 'block');
+        actionTooltipItemContainer.datum(elem);
     }
 
     /**
-     * 해당 element의 properties를 표시한다.
+     * 해당 element의 속성을 표시한다.
      *
      * @param elem 선택된 element
      */
@@ -131,6 +134,8 @@
                 properties = elementsProperties['event'];
             } else if (_this.classed('task')) {
                 properties = elementsProperties['task'];
+            } else if (_this.classed('subprocess')) {
+                properties = elementsProperties['subprocess'];
             } else if (_this.classed('gateway')) {
                 properties = elementsProperties['gateway'];
             } else if (_this.classed('group')) {
