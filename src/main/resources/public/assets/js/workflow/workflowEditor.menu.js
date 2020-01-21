@@ -81,14 +81,18 @@
             }
         }];
 
+        if (elem.classed('group') || elem.classed('annotation')) {
+            actionTooltip = actionTooltip.slice(2);
+        }
+
         const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
-            .classed('tooltip', true).style('display', 'none');
+            .attr('class', 'tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * 25,
               containerHeight = 30;
 
         tooltipItemContainer.append('rect')
-            .classed('action-tooltip', true)
+            .attr('class', 'action-tooltip')
             .attr('width', containerWidth)
             .attr('height', containerHeight)
             .style('fill', '#eee');
@@ -119,6 +123,10 @@
      * @param elem 선택된 element
      */
     function setFavoritesElementItems(elem) {
+        if (elem.classed('group') || elem.classed('annotation')) {
+            return;
+        }
+
         let favoritesElements = [{
             title: 'user task',
             image: '../../assets/media/icons/workflow/ic_doc.png',
@@ -247,7 +255,7 @@
               y = bbox.y;
 
         tooltipItemContainer.append('rect')
-            .classed('element-tooltip', true)
+            .attr('class', 'element-tooltip')
             .attr('x', x)
             .attr('y', y)
             .attr('width', containerWidth)
@@ -258,7 +266,7 @@
             .data(items)
             .enter()
             .append('image')
-            .classed('element-tooltip-item', true)
+            .attr('class', 'element-tooltip-item')
             .attr('x', x + 5)
             .attr('y', (d, i) => { return y + 5 + (i * 25) })
             .attr('width', 20)

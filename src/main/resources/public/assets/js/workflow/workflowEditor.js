@@ -281,7 +281,7 @@
             });
 
         self.pointElement1 = svg.append('circle')
-            .classed('pointer', true)
+            .attr('class', 'pointer')
             .style('opacity', 0)
             .call(pointerDrag.on('drag', () => {
                     if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
@@ -292,7 +292,7 @@
                     }
                 }));
         self.pointElement2 = svg.append('circle')
-            .classed('pointer', true)
+            .attr('class', 'pointer')
             .style('opacity', 0)
             .call(pointerDrag.on('drag', () => {
                     if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
@@ -303,7 +303,7 @@
                     }
                 }));
         self.pointElement3 = svg.append('circle')
-            .classed('pointer', true)
+            .attr('class', 'pointer')
             .style('opacity', 0)
             .call(pointerDrag.on('drag', () => {
                     if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
@@ -314,7 +314,7 @@
                     }
                 }));
         self.pointElement4 = svg.append('circle')
-            .classed('pointer', true)
+            .attr('class', 'pointer')
             .style('opacity', 0)
             .call(pointerDrag.on('drag', () => {
                     if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
@@ -516,12 +516,40 @@
      * @constructor
      */
     function AnnotationElement(x, y) {
-        //TODO: add logic annotation element
-        this.base = RectResizableElement;
-        this.base(x, y);
-        this.nodeElement.classed('annotation', true);
-        this.nodeElement.style('fill', 'gray');
-        return this;
+        const self = this;
+        const width = 35, height = 30;
+
+        self.nodeElement = svg.append('rect')
+            .attr('id', 'node' + (++lastElementsId))
+            .attr('width', width)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
+            .style('fill-opacity', 0)
+            .style('stroke', 'black')
+            .style('stroke-width', 1)
+            .style('stroke-dasharray', '5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5')
+            .attr('class', 'node annotation')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(d3.drag()
+                .on('start', elementMouseEventHandler.mousedown)
+                .on('drag', () => {
+                    if (isDrawConnector) {
+                        elementMouseEventHandler.mousedrag();
+                    } else {
+                        svg.selectAll('.tooltip').remove();
+                        self.nodeElement
+                            .attr('x', d3.event.x - (width / 2))
+                            .attr('y', d3.event.y - (height / 2));
+
+                        self.nodeElement.style('cursor', 'move');
+                    }
+                })
+                .on('end', elementMouseEventHandler.mouseup)
+            );
+
+        return self;
     }
 
     /**
