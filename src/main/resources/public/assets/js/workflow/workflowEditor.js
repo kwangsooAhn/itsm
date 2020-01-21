@@ -59,8 +59,8 @@
         path = path.data(links);
         // update existing links
         path.classed('selected', d => d === selectedLink)
-            .style('marker-start', d => d.left ? 'url(#start-arrow)' : '')
-            .style('marker-end', d => d.right ? 'url(#end-arrow)' : '');
+            .style('marker-start', d => '')
+            .style('marker-end', d => 'url(#end-arrow)');
 
         // remove old links
         path.exit().remove();
@@ -271,50 +271,58 @@
                 .on('end', elementMouseEventHandler.mouseup)
             );
 
+        let pointerDrag = d3.drag()
+            .on('start', () => {
+                svg.selectAll('.tooltip').remove();
+            })
+            .on('end', () => {
+                wfEditor.setElementMenu(self.nodeElement);
+            });
+
         self.pointElement1 = svg.append('circle')
             .classed('pointer', true)
             .style('opacity', 0)
-            .call(d3.drag().on('drag', () => {
-                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                    this.pointElement1
-                        .attr('cx', d => { return d.x += d3.event.dx })
-                        .attr('cy', d => { return d.y += d3.event.dy });
-                    updateRect();
-                }
-            }));
+            .call(pointerDrag.on('drag', () => {
+                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
+                        this.pointElement1
+                            .attr('cx', d => { return d.x += d3.event.dx })
+                            .attr('cy', d => { return d.y += d3.event.dy });
+                        updateRect();
+                    }
+                }));
         self.pointElement2 = svg.append('circle')
             .classed('pointer', true)
             .style('opacity', 0)
-            .call(d3.drag().on('drag', () => {
-                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                    this.pointElement2
-                        .attr('cx', this.rectData[1].x += d3.event.dx)
-                        .attr('cy', this.rectData[1].y += d3.event.dy);
-                    updateRect();
-                }
-            }));
+            .call(pointerDrag.on('drag', () => {
+                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
+                        this.pointElement2
+                            .attr('cx', this.rectData[1].x += d3.event.dx)
+                            .attr('cy', this.rectData[1].y += d3.event.dy);
+                        updateRect();
+                    }
+                }));
         self.pointElement3 = svg.append('circle')
             .classed('pointer', true)
             .style('opacity', 0)
-            .call(d3.drag().on('drag', () => {
-                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                    this.pointElement3
-                        .attr('cx', this.rectData[1].x += d3.event.dx)
-                        .attr('cy', this.rectData[0].y += d3.event.dy);
-                    updateRect();
-                }
-            }));
+            .call(pointerDrag.on('drag', () => {
+                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
+                        this.pointElement3
+                            .attr('cx', this.rectData[1].x += d3.event.dx)
+                            .attr('cy', this.rectData[0].y += d3.event.dy);
+                        updateRect();
+                    }
+                }));
         self.pointElement4 = svg.append('circle')
             .classed('pointer', true)
             .style('opacity', 0)
-            .call(d3.drag().on('drag', () => {
-                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                    this.pointElement4
-                        .attr('cx', this.rectData[0].x += d3.event.dx)
-                        .attr('cy', this.rectData[1].y += d3.event.dy);
-                    updateRect();
-                }
-            }));
+            .call(pointerDrag.on('drag', () => {
+                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
+                        this.pointElement4
+                            .attr('cx', this.rectData[0].x += d3.event.dx)
+                            .attr('cy', this.rectData[1].y += d3.event.dy);
+                        updateRect();
+                    }
+                }));
 
         function updateRect() {
             const pointerRadius = 4;
@@ -382,8 +390,9 @@
     function SubprocessElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement.classed('subprocess', true);
-        this.nodeElement.style('fill', 'pink');
+        this.nodeElement
+            .classed('subprocess', true)
+            .style('fill', 'pink');
         return this;
     }
 
@@ -490,8 +499,10 @@
     function GroupElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement.classed('group', true);
-        this.nodeElement.style('fill', 'green');
+        this.nodeElement
+            .classed('group', true)
+            .style('fill-opacity', '0')
+            .style('stroke-dasharray', '5,5');
         return this;
     }
 
@@ -562,7 +573,7 @@
         svg = d3.select('.drawing-board').append('svg')
             .attr('width', width)
             .attr('height', height)
-            .on("mousedown", function() {
+            .on('mousedown', function() {
                 if (isDrawConnector) {
                     return;
                 }

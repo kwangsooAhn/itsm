@@ -6,49 +6,49 @@
     'use strict';
 
     const workflowProperties = [
-        {'name': 'id', 'type': 'text', 'default': ''},
-        {'name': 'name', 'type': 'text', 'default': ''},
-        {'name': 'description', 'type': 'textarea', 'default': ''}
+        {'attribute': 'id', 'name': 'Workflow ID', 'type': 'text', 'default': ''},
+        {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
+        {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
     ];
 
     const elementsProperties = {
         'event': [
-            {'name': 'name', 'type': 'text', 'default': ''}
+            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''}
         ],
         'task': [
-            {'name': 'name', 'type': 'text', 'default': ''},
-            {'name': 'description', 'type': 'textarea', 'default': ''},
-            {'name': 'assignee-type', 'type': 'select', 'default': ''},
-            {'name': 'assignee', 'type': 'text', 'default': ''},
-            {'name': 'notification', 'type': 'checkbox', 'default': ''}
+            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
+            {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''},
+            {'attribute': 'assignee-type', 'name': '수행자 타입', 'type': 'selectbox', 'default': '', 'sub-list': 'assignee,candidate users, candidate groups'},
+            {'attribute': 'assignee', 'name': '수행자', 'type': 'text', 'default': ''},
+            {'attribute': 'notification', 'name': '메일통보 여부', 'type': 'checkbox', 'default': ''}
         ],
         'subprocess': [
-            {'name': 'sub-process-id', 'type': 'text', 'default': ''}
+            {'attribute': 'sub-process-id', 'name': '서브 프로세스 ID', 'type': 'text', 'default': ''}
         ],
         'gateway': [
-            {'name': 'name', 'type': 'text', 'default': ''}
+            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''}
         ],
         'group': [
-            {'name': 'name', 'type': 'text', 'default': ''},
-            {'name': 'description', 'type': 'textarea', 'default': ''}
+            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
+            {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
         ],
         'annotation': [
-            {'name': 'text', 'type': 'textarea', 'default': ''},
+            {'attribute': 'text', 'name': '텍스트', 'type': 'textarea', 'default': ''},
         ],
         'connector': [
-            {'name': 'name', 'type': 'text', 'default': ''},
-            {'name': 'condition', 'type': 'text', 'textarea': ''},
-            {'name': 'start-id', 'type': 'text', 'text': ''},
-            {'name': 'end-id', 'type': 'text', 'text': ''}
+            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
+            {'attribute': 'condition', 'name': '조건', 'type': 'text', 'textarea': ''},
+            {'attribute': 'start-id', 'name': 'Source Element ID', 'type': 'text', 'text': ''},
+            {'attribute': 'end-id', 'name': 'Target Element ID', 'type': 'text', 'text': ''}
         ],
     };
 
     /**
-     * 해당 element의 메뉴를 표시한다.
+     * 해당 element의 툴팁메뉴를 표시한다.
      *
      * @param elem 선택된 element
      */
-    function setMenuItem(elem) {
+    function setTooltipItem(elem) {
         if (typeof elem === 'undefined') {
             return;
         }
@@ -64,27 +64,27 @@
 
         let actionTooltip = [{
             title: 'remove',
-            image: '../../assets/media/icons/dataflow/ic_edit.png',
-            action: function(e, i) {
-                console.log('Item #1 clicked!');
+            image: '../../assets/media/icons/dataflow/ic_wastebasket_ov.png',
+            action: function(el, i) {
+                console.log('remove');
             }
         }, {
             title: 'copy',
-            image: '../../assets/media/icons/dataflow/ic_edit.png',
-            action: function(e, i) {
-                console.log('Item #2 clicked!');
+            image: '../../assets/media/icons/dataflow/ic_doc.png',
+            action: function(el, i) {
+                console.log('copy');
             }
         }, {
             title: 'edit',
             image: '../../assets/media/icons/dataflow/ic_edit.png',
-            action: function(e, i) {
-                console.log('Item #3 clicked!');
+            action: function(el, i) {
+                console.log('edit');
             }
         }, {
             title: 'add',
-            image: '../../assets/media/icons/dataflow/ic_edit.png',
-            action: function(e, i) {
-                console.log('Item #4 clicked!');
+            image: '../../assets/media/icons/dataflow/ic_doc.png',
+            action: function(el, i) {
+                console.log('add');
             }
         }];
 
@@ -93,21 +93,23 @@
 
         const containerWidth = actionTooltip.length * 25,
               containerHeight = 30;
-        const containerRect = actionTooltipItemContainer.append('rect')
+
+        actionTooltipItemContainer.append('rect')
             .attr('width', containerWidth)
             .attr('height', containerHeight)
             .style('fill', '#eee');
 
-        containerRect.selectAll('tooltip-item')
+        actionTooltipItemContainer.selectAll('tooltip-item')
             .data(actionTooltip)
             .enter()
             .append('image')
-            .attr('x', 0)
+            .attr('x', (d, i) => { return i * 25 })
             .attr('y', 5)
             .attr('width', 20)
             .attr('height', 20)
             .attr('xlink:href', d => { return d.image })
-            .on('click', (d, i) => {
+            .on('mousedown', (d, i) => {
+                d3.event.stopPropagation();
                 d.action(elem, i);
             });
 
@@ -143,35 +145,60 @@
             } else if (_this.classed('annotation')) {
                 properties = elementsProperties['annotation'];
             }
-
-            for (let i = 0, len = properties.length; i < len; i++) {
-                let property = properties[i];
-                let propertyContainer = propertiesContainer.append('p');
-                let label = propertyContainer.append('label');
-                label.attr('for', property.name);
-                label.text(property.name);
-                let input = propertyContainer.append('input');
-                input.attr('id', property.name);
-                input.attr('value', property.default);
-            }
+            makePropertiesItem(propertiesContainer, properties);
         } else { // show workflow properties
             propertiesContainer.append('h3').text('Workflow Properties');
+            makePropertiesItem(propertiesContainer, workflowProperties);
+        }
+    }
 
-            for (let i = 0, len = workflowProperties.length; i < len; i++) {
-                let property = workflowProperties[i];
-                let propertyContainer = propertiesContainer.append('p');
-                let label = propertyContainer.append('label');
-                label.attr('for', property.name);
-                label.text(property.name);
-                let input = propertyContainer.append('input');
-                input.attr('id', property.name);
-                input.attr('value', property.default);
+    /**
+     * 속성 항목을 생성한다.
+     *
+     * @param propertiesContainer
+     * @param properties 속성정보목록
+     */
+    function makePropertiesItem(propertiesContainer, properties) {
+        for (let i = 0, len = properties.length; i < len; i++) {
+            let property = properties[i];
+            let propertyContainer = propertiesContainer.append('p');
+            let label = propertyContainer.append('label');
+            label.attr('for', property.attribute);
+            label.text(property.name);
+
+            if (property.type === 'text') {
+                propertyContainer.append('input')
+                    .attr('id', property.attribute)
+                    .attr('value', property.default);
+            } else if (property.type === 'textarea') {
+                propertyContainer.append('textarea')
+                    .attr('id', property.attribute)
+                    .attr('value', property.default);
+            } else if (property.type === 'checkbox') {
+                propertyContainer.append('input')
+                    .attr('type', 'checkbox')
+                    .attr('id', property.attribute)
+                    .attr('value', property.default);
+            } else if (property.type === 'selectbox') {
+                propertyContainer.append('select')
+                    .attr('id', property.attribute)
+                    .attr('value', property.default)
+                    .selectAll('option')
+                    .data(property['sub-list'].split(','))
+                    .enter()
+                    .append('option')
+                    .attr('value', d => d)
+                    .text(d => d);
             }
         }
     }
 
+    /**
+     *
+     * @param elem
+     */
     function setElementMenu(elem) {
-        setMenuItem(elem);
+        setTooltipItem(elem);
         setProperties(elem);
     }
 
