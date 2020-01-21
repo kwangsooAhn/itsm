@@ -8,22 +8,21 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-  <div class="container">
-      <form id="formSearch" method="get">
-          <div class="pull-right" style="width: 1100px; margin: 10px 0;">
-              <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
-              <input type="checkbox" id="createUserkey" name="createUserkey" value="check" th:text="#{notice.user}"/>
-              <input type="text" name="keyWord" id="keyWord" />
-              <input type="text" id="fromDt" name="fromDt" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}" />
-              <input type="text" id="toDt" name="toDt" th:value="${#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" />
-
-              <!-- submit -->
-              <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true, true)" th:text="#{notice.search}"></button>
-          </div>
-      </form>
-      <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
-  </div>
-  <div id="noticeList"></div>
+    <div class="container">
+        <form id="formSearch" method="get">
+            <div class="pull-right" style="width: 1100px; margin: 10px 0;">
+                <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
+                <input type="checkbox" id="createUserkey" name="createUserkey" value="check" th:text="#{notice.user}"/>
+                <input type="text" name="keyWord" id="keyWord" />
+                <input type="text" id="fromDt" name="fromDt" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}" />
+                <input type="text" id="toDt" name="toDt" th:value="${#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" />
+                <!-- submit -->
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true, true)" th:text="#{notice.search}"></button>
+            </div>
+        </form>
+        <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
+    </div>
+    <div id="noticeList"></div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
@@ -82,6 +81,7 @@
             var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    onProcessBar();
                     if (xmlhttp.status === 200) {
                         var xmlhttpStr = xmlhttp.responseText;
                         document.getElementById('noticeList').innerHTML = xmlhttpStr;

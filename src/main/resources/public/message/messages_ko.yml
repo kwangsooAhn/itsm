@@ -6,6 +6,8 @@ common:
     close: "닫기"
     logout: "로그아웃"
     delete: "삭제"
+    modify: "수정"
+    add: "추가"
   label:
     title: "제목"
     message: "메시지"
@@ -15,6 +17,10 @@ common:
     addFile: "파일 추가"
     success: "성공"
     fail: "실패"
+    createUserName: "등록자"
+    updateeUserName: "수정자"
+    createDate: "등록일시"
+    updateDate: "수정일시"
   msg:
     save: "저장되었습니다"
     delete.success: "삭제되었습니다."
@@ -151,3 +157,11 @@ form:
 # Portal
 portal:
   intro: "PortalMain Test 화면입니다. 여기에 이쁘장한 포탈을 만들어 볼까 해요."
+
+# Role
+role:
+  label:
+    roleId: "역할 아이디"
+    roleName: "역할 명"
+    roleDesc: "역할 설명"
+    roleAuth: "권한"

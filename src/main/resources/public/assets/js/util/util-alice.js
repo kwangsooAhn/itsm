@@ -213,6 +213,7 @@ aliceJs.sendXhr = function (option) {
             } else {
                 aliceJs.xhrErrorResponse('printError', this.responseText);
             }
+            onProcessBar();
         }
     };
 
@@ -290,6 +291,11 @@ function createXmlHttpRequestObject(method, url, async) {
  * visible : 보기 여부
  */
 function onProcessBar(visible) {
+    //divProcessBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
+    var divCheck = document.getElementById('divProcessBar');
+    if (divCheck === null || divCheck === undefined) {
+        return false;
+    }
     var bVisible = 'none';
     if (visible != '' && visible != undefined) {
         bVisible = visible;

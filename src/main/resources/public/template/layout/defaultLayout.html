@@ -8,7 +8,7 @@
     <header>
         <th:block th:replace="layout/menu">menu</th:block>
     </header>
-     <div id="divProcessBar" style="z-index:1000; position: relative; display: block; width: 100%; heigth: 100%; background-color: grey; opacity: 0.5; pointer-events: none;">
+    <div id="divProcessBar" style="z-index:1000; position: relative; display: block; width: 100%; heigth: 100%; background-color: grey; opacity: 0.5; pointer-events: none;">
         <img id="aProcssBar" name="aProcssBar" th:src="@{/assets/media/image/loading_w_dark.gif}" style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
         <th:block layout:fragment="content"></th:block>
     </div>

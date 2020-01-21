@@ -6,6 +6,7 @@ common:
     close: "CLOSE"
     logout: "LOGOUT"
     delete: "DELETE"
+    add: "ADD"
   label: 
     title: "Title"
     message: "Message"
@@ -15,6 +16,10 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
+    createUserName: "Create Name"
+    updateeUserName: "Update Name"
+    createDate: "Create Date"
+    updateDate: "Update Date"
   msg:
     save: "Saved"
     delete.success: "Deleted."
@@ -150,3 +155,11 @@ form:
 # Portal
 portal:
   intro: "Welcome to PortalMain Test."
+  
+  # Role
+role:
+  label:
+    roleId: "Role Id"
+    roleName: "Role Name"
+    roleDesc: "Role Desc"
+    roleAuth: "Role Auth"

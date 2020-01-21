@@ -11,7 +11,7 @@
     <table>
         <tr>
             <td>
-                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch">추가</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch" th:text="#{common.btn.add}">추가</button>
             </td>
         </tr>
     </table>
@@ -31,25 +31,25 @@
             <col width="480px">
         </colgroup>
         <tr>
-            <th>* 역할 아이디</th>
+            <th th:text="'*' + #{role.label.roleId}">* 역할 아이디</th>
             <td>
                 <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
             </td>
         </tr>
         <tr>
-            <th>* 역할명</th>
+            <th th:text="'*' + #{role.label.roleName}">* 역할명</th>
             <td>
                 <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
             </td>
         </tr>
         <tr>
-            <th>역할설명</th>
+            <th th:text="#{role.label.roleDesc}">역할설명</th>
             <td>
                 <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${roleDetail?.roleDesc}"/>
             </td>
         </tr>
         <tr>
-            <th>권한</th>
+            <th th:text="#{role.label.roleAuth}">권한</th>
             <td>
                 <ui th:each="auth : ${authList}">
                     <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
@@ -58,32 +58,32 @@
             </td>
         </tr>
         <tr>
-            <th>등록자</th>
+            <th th:text="#{common.label.createUserName}">등록자</th>
             <td><span id="spanCreateUserkey" name="spanCreateUserkey" th:text="${roleDetail?.createUserkey}"></span></td>
         </tr>
         <tr>
-            <th>등록일시</th>
+            <th th:text="#{common.label.createDate}">등록일시</th>
             <td><span id="spanCreateDt" name="spanCreateDt" th:text="${#temporals.format(roleDetail?.createDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
         <tr>
-            <th>수정자</th>
+            <th th:text="#{common.label.updateeUserName}">수정자</th>
             <td><span id="spanUpdateUserkey" name="spanUpdateUserkey" th:text="${roleDetail?.updateUserkey}"></span></td>
         </tr>
         <tr>
-            <th>수정일시</th>
+            <th th:text="#{common.label.updateDate}">수정일시</th>
             <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${#temporals.format(roleDetail?.updateDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
     </table>
     <table>
         <tr>
             <td>
-                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" >삭제</button>
+                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" th:text="#{common.btn.delete}">삭제</button>
             </td>
             <td>
-                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" >수정</button>
+                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" th:text="#{common.btn.modify}">수정</button>
             </td>
             <td>
-                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" >등록</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" th:text="#{common.btn.save}">저장</button>
             </td>
         </tr>
     </table>

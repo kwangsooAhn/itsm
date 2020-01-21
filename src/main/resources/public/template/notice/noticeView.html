@@ -116,6 +116,7 @@
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    onProcessBar();
                     if (xmlhttp.status === 200) {
                         alert('삭제 처리되었습니다.');
                         window.location = '/notices/search';
@@ -128,6 +129,7 @@
             };
             xmlhttp.send(null);
         }
+        onProcessBar();
         /* ]]> */
     </script>
 </th:block>
