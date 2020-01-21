@@ -31,5 +31,14 @@
         </tbody>
     </table>
 </div>
+<th:block layout:fragment="pageScript">
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        onProcessBar();
+    }
+    /*]]>*/
+    </script>
+</th:block>
 </body>
 </html>

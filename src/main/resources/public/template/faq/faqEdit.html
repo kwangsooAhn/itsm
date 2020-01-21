@@ -44,6 +44,7 @@ window.onload = function() {
         document.getElementById("btnUpdate").addEventListener("click", function() { restSubmit("put", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]"); });
         document.getElementById("btnDelete").addEventListener("click", function() { restSubmit("delete", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]"); });
     }
+    onProcessBar();
 }
 
 function restSubmit(method, url, async) {
