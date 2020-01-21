@@ -21,26 +21,24 @@
 </div>
 <!--/*@thymesVar id="errorMsg" type="co.brainz.framework.auth.handler.AliceAuthFailureHandler"*/-->
 <div th:text="${errorMsg}"></div>
-
-<script th:src="@{/assets/vendors/jquery-3.4.0/jquery-3.4.0.js}"></script>
 <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
 <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
 <script type="text/javascript" th:inline="javascript">
-    $(document).ready(function () {
+    window.onload = function() {
         /*<![CDATA[*/
         const keyModule = [[ ${#request.getAttribute('_publicKeyModulus')}]];
         const keyExponent = [[ ${#request.getAttribute('_publicKeyExponent')}]];
-        $('#sendLogin').on('click', function () {
+        document.getElementById('sendLogin').addEventListener('click', function () {
             const rsa = new RSAKey();
             rsa.setPublic(keyModule, keyExponent);
-            $('#userId').val(rsa.encrypt($.trim($('#uid').val())));
-            $('#password').val(rsa.encrypt($.trim($('#upasswd').val())));
-            $('#loginForm').submit();
+            document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
+            document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
+            document.getElementById('loginForm').submit();
         });
         /*]]>*/
-    });
+    };
 </script>
 </body>
 </html>

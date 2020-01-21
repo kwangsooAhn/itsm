@@ -9,6 +9,7 @@ spring:
     jpa: 
         database: POSTGRESQL
         show-sql: true
+        properties.hibernate.format_sql: true
     data.jpa.repositories.bootstrap-mode: lazy
     thymeleaf: 
         suffix: .html

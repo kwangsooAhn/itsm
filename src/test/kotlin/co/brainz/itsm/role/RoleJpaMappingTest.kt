@@ -19,12 +19,12 @@ import co.brainz.itsm.role.repository.RoleRepository
 
 import java.time.LocalDateTime
 
-@RunWith(SpringJUnit4ClassRunner::class)
-@SpringBootTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
+// @RunWith(SpringJUnit4ClassRunner::class)
+// @SpringBootTest
+// @AutoConfigureTestDatabase(replace = Replace.NONE)
 class RoleJpaMappingTest {
 
-    @Autowired
+   /* @Autowired
     lateinit var roleRepository: RoleRepository
 
     @Autowired
@@ -72,5 +72,5 @@ class RoleJpaMappingTest {
     fun getAuthList() {
         var list = authRepository.findByOrderByAuthIdAsc()
         Assert.assertNotNull(list)
-    }
+    }*/
 }

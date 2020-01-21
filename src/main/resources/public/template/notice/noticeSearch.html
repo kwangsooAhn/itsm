@@ -1,17 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<!-- bootstrap -->
-<link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-4.3.1-dist/css/bootstrap.min.css}"/>
-<script src="../../assets/js/util/util-alice.js"></script>
-<script type="text/javascript" src="../../assets/vendors/window-date-picker/js/window-date-picker.custom.js"></script>
-<link rel="stylesheet" th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" />
-<script src="../../assets/js/util/datetimepicker-alice.js"></script>
-<meta name="_csrf" th:content="${_csrf.token}"/>
+    <title>공지사항 리스트</title>
 </head>
 <body>
+<th:block layout:fragment="content">
     <br />
     <br />
     <div class="container">
@@ -31,72 +27,75 @@
     </div>
     <div id="noticeList">
     </div>
-<script th:inline="javascript">
-    window.onload = function() {
-        restSubmit('get', '/notices/list', true, false);
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        window.onload = function() {
+            restSubmit('get', '/notices/list', true, false);
 
-     // initialization date picker
-        dateTimePicker.initDatePicker('fromDt');
-        dateTimePicker.initDatePicker('toDt');
-    }
+            // initialization date picker
+            dateTimePicker.initDatePicker('fromDt');
+            dateTimePicker.initDatePicker('toDt');
+        }
 
-    function validation() {
-        if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserkey').checked) {
-        	alert('검색 조건을 선택해 주세요.');
-        	return false;
-        }
-        if (document.getElementById('fromDt').value === '') {
-        	alert('검색 시작 날짜를 입력해주세요');
-        	return false;
-        }
-        if (document.getElementById('toDt').value === '') {
-        	alert('검색 종료 날짜를 입력해주세요.');
-        	return false;
-        }
-        if (document.getElementById('fromDt').value > document.getElementById('toDt').value) {
-        	alert("검색 시작 날짜가 종료 날짜보다 큽니다.");
-        	return false;
-        }
-        return true;
-    }
-
-    //list 팝업 생성
-    function openPopUp(id) {
-        var targetUrl = "noticePopUp/" + id + "?value=true";
-        window.open(targetUrl, id, "width = 500, height = 500");
-    }
-
-    function restSubmit(method, url, async, validate) {
-        if (validate) {
-            if (!validation()) {
+        function validation() {
+            if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserkey').checked) {
+                alert('검색 조건을 선택해 주세요.');
                 return false;
             }
+            if (document.getElementById('fromDt').value === '') {
+                alert('검색 시작 날짜를 입력해주세요');
+                return false;
+            }
+            if (document.getElementById('toDt').value === '') {
+                alert('검색 종료 날짜를 입력해주세요.');
+                return false;
+            }
+            if (document.getElementById('fromDt').value > document.getElementById('toDt').value) {
+                alert('검색 시작 날짜가 종료 날짜보다 큽니다.');
+                return false;
+            }
+            return true;
         }
 
-        var data = {
-            noticeTitle: document.getElementById('noticeTitle').checked,
-            createUserkey: document.getElementById('createUserkey').checked,
-            keyWord: document.getElementById('keyWord').value,
-            fromDt: document.getElementById('fromDt').value,
-            toDt: document.getElementById('toDt').value
-        };
+        //list 팝업 생성
+        function openPopUp(id) {
+            var targetUrl = 'noticePopUp/' + id + '?value=true';
+            window.open(targetUrl, id, 'width = 500, height = 500');
+        }
 
-        var getUrl = url+"?noticeTitle="+data.noticeTitle+"&createUserkey="+data.createUserkey+"&keyWord="+data.keyWord+"&fromDt="+data.fromDt+"&toDt="+data.toDt+"&btnSearch=";
-        var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                if (xmlhttp.status == 200) {
-                    var xmlhttpStr = xmlhttp.responseText;
-                    document.getElementById("noticeList").innerHTML = xmlhttpStr;
-                } else if (xmlhttp.status == 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
+        function restSubmit(method, url, async, validate) {
+            if (validate) {
+                if (!validation()) {
+                    return false;
                 }
-            } 
-        };
-        xmlhttp.send(null);
-    }
-</script>
-</body>
+            }
+
+            var data = {
+                noticeTitle: document.getElementById('noticeTitle').checked,
+                createUserkey: document.getElementById('createUserkey').checked,
+                keyWord: document.getElementById('keyWord').value,
+                fromDt: document.getElementById('fromDt').value,
+                toDt: document.getElementById('toDt').value
+            };
+
+            var getUrl = url+'?noticeTitle='+data.noticeTitle+'&createUserkey='+data.createUserkey+'&keyWord='+data.keyWord+'&fromDt='+data.fromDt+'&toDt='+data.toDt+'&btnSearch=';
+            var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (xmlhttp.status === 200) {
+                        var xmlhttpStr = xmlhttp.responseText;
+                        document.getElementById('noticeList').innerHTML = xmlhttpStr;
+                    } else if (xmlhttp.status === 400) {
+                        alert('There was an error 400');
+                    } else {
+                        alert('something else other than 200 was returned');
+                    }
+                }
+            };
+            xmlhttp.send(null);
+        }
+    </script>
+</th:block>
 </html>

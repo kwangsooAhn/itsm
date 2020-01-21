@@ -45,7 +45,7 @@
     		expiredays = expiredays - 1;
     	}
     	targetDate.setDate(targetDate.getDate() + expiredays);
-    	document.cookie = name + "=" + escape(value) + "; path=/; expires=" + targetDate.toGMTString() + ";"
+    	document.cookie = name + "=" + escape(value) + '; path=/; expires=' + targetDate.toGMTString() + ';';
     }
 </script>
 </body>

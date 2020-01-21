@@ -12,7 +12,6 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     if (elmNode == null) {
         elmNode = document.createElement('div');
         elmNode.setAttribute('id', 'printError');
-        elmNode.setAttribute('name', 'printError');
         document.getElementsByTagName('body').item(0).appendChild(elmNode);
     }
 
@@ -202,10 +201,8 @@ aliceJs.sendXhr = function (option) {
         } else {
             if (this.responseType === '') {
                 try {
-                    console.debug('Response type is empty.');
                     aliceJs.xhrErrorResponse('printError', this.responseText);
                 } catch (e) {
-                    console.debug(this.responseText);
                     document.getElementsByTagName('body').item(0).innerHTML = this.responseText;
                 }
             } else {
@@ -227,7 +224,12 @@ aliceJs.sendXhr = function (option) {
         const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
         const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
         xhr.setRequestHeader(header, token);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        if (option.contentType) {
+            xhr.setRequestHeader('Content-type', option.contentType);
+        } else {
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        }
+
     } else {
         params = null;
     }
