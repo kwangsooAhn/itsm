@@ -608,9 +608,11 @@
           this.wheelHourInput = this.wheelHourInput.bind(this);
           this.wheelMinuteInput = this.wheelMinuteInput.bind(this);
           this.wheelAMInput = this.wheelAMInput.bind(this);
+          this.changePage = this.changePage.bind(this);
           this.setPosition = this.setPosition.bind(this);
           this.clickWindow = this.clickWindow.bind(this);
           this.open = this.open.bind(this);
+          this.close = this.close.bind(this);
           this.toggle = this.toggle.bind(this);
           this.pickerOpen = false;
           this.inputToggle = o.inputToggle;
