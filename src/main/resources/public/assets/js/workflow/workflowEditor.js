@@ -120,6 +120,7 @@
             return lineFunction([best.s, best.d]);
 
             /*
+            // 추후 참고 수정 예정.
             const lineGenerator = d3.line();
             //lineGenerator.curve(d3.curveStep);
             //lineGenerator.curve(d3.curveStepAfter);

@@ -17,10 +17,10 @@
         ],
         'task': [
             {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-            {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''},
             {'attribute': 'assignee-type', 'name': '수행자 타입', 'type': 'selectbox', 'default': '', 'sub-list': 'assignee,candidate users, candidate groups'},
             {'attribute': 'assignee', 'name': '수행자', 'type': 'text', 'default': ''},
-            {'attribute': 'notification', 'name': '메일통보 여부', 'type': 'checkbox', 'default': ''}
+            {'attribute': 'notification', 'name': '메일통보 여부', 'type': 'checkbox', 'default': ''},
+            {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
         ],
         'subprocess': [
             {'attribute': 'sub-process-id', 'name': '서브 프로세스 ID', 'type': 'text', 'default': ''}
@@ -48,62 +48,56 @@
      *
      * @param elem 선택된 element
      */
-    function setTooltipItem(elem) {
+    function setActionTooltipItem(elem) {
         if (typeof elem === 'undefined') {
             return;
         }
 
-        let x , y;
-        if (elem.node() instanceof SVGCircleElement) {
-            x = elem.attr('cx') - elem.attr('r');
-            y = elem.attr('cy') - elem.attr('r');
-        } else {
-            x = elem.attr('x');
-            y = elem.attr('y');
-        }
-
         let actionTooltip = [{
             title: 'remove',
-            image: '../../assets/media/icons/dataflow/ic_wastebasket_ov.png',
+            image: '../../assets/media/icons/workflow/ic_wastebasket_ov.png',
             action: function(el, i) {
+                removeElementItems();
                 console.log('remove');
             }
         }, {
             title: 'copy',
-            image: '../../assets/media/icons/dataflow/ic_doc.png',
+            image: '../../assets/media/icons/workflow/ic_doc.png',
             action: function(el, i) {
+                removeElementItems();
                 console.log('copy');
             }
         }, {
             title: 'edit',
-            image: '../../assets/media/icons/dataflow/ic_edit.png',
+            image: '../../assets/media/icons/workflow/ic_edit.png',
             action: function(el, i) {
-                console.log('edit');
+                setElementTypeItems(el);
             }
         }, {
             title: 'add',
-            image: '../../assets/media/icons/dataflow/ic_doc.png',
+            image: '../../assets/media/icons/workflow/ic_doc.png',
             action: function(el, i) {
-                console.log('add');
+                setFavoritesElementItems(el);
             }
         }];
 
-        const actionTooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
-            .classed('tooltip action', true).style('display', 'none');
+        const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
+            .classed('tooltip', true).style('display', 'none');
 
         const containerWidth = actionTooltip.length * 25,
               containerHeight = 30;
 
-        actionTooltipItemContainer.append('rect')
+        tooltipItemContainer.append('rect')
+            .classed('action-tooltip', true)
             .attr('width', containerWidth)
             .attr('height', containerHeight)
             .style('fill', '#eee');
 
-        actionTooltipItemContainer.selectAll('tooltip-item')
+        tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
             .enter()
             .append('image')
-            .attr('x', (d, i) => { return i * 25 })
+            .attr('x', (d, i) => { return  5 + (i * 25) })
             .attr('y', 5)
             .attr('width', 20)
             .attr('height', 20)
@@ -114,9 +108,174 @@
             });
 
         const bbox = elem.node().getBBox();
-        actionTooltipItemContainer.attr('transform', 'translate(' + (bbox.x + bbox.width / 2 - containerWidth / 2) + ', ' + (bbox.y - containerHeight - 10) + ')');
-        actionTooltipItemContainer.style('display', 'block');
-        actionTooltipItemContainer.datum(elem);
+        tooltipItemContainer.attr('transform', 'translate(' + (bbox.x + bbox.width / 2 - containerWidth / 2) + ', ' + (bbox.y - containerHeight - 10) + ')');
+        tooltipItemContainer.style('display', 'block');
+        tooltipItemContainer.datum(elem);
+    }
+
+    /**
+     * show favorites elements tooltip.
+     *
+     * @param elem 선택된 element
+     */
+    function setFavoritesElementItems(elem) {
+        let favoritesElements = [{
+            title: 'user task',
+            image: '../../assets/media/icons/workflow/ic_doc.png',
+            action: function(el, i) {
+                console.log('add user task');
+            }
+        }, {
+            title: 'manual task',
+            image: '../../assets/media/icons/workflow/ic_doc.png',
+            action: function(el, i) {
+                console.log('add manual task');
+            }
+        }, {
+            title: 'exclusive gateway',
+            image: '../../assets/media/icons/workflow/ic_doc.png',
+            action: function(el, i) {
+                console.log('add exclusive gateway');
+            }
+        }, {
+            title: 'end event',
+            image: '../../assets/media/icons/workflow/ic_doc.png',
+            action: function(el, i) {
+                console.log('add end event');
+            }
+        }];
+        setElementItems(favoritesElements, elem);
+    }
+
+    /**
+     * show elements type tooltip.
+     *
+     * @param elem 선택된 element
+     */
+    function setElementTypeItems(elem) {
+        let elementTypeItems = [];
+        if (elem.classed('event')) {
+            elementTypeItems = [{
+                title: 'start event',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit type start');
+                }
+            }, {
+                title: 'end event',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit type end');
+                }
+            }];
+        } else if (elem.classed('task')) {
+            elementTypeItems = [{
+                title: 'user task',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit user task');
+                }
+            }, {
+                title: 'manual task',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit manual task');
+                }
+            }, {
+                title: 'script task',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit script task');
+                }
+            }, {
+                title: 'send task',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit send task');
+                }
+            }, {
+                title: 'receive task',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit receive task');
+                }
+            }];
+        } else if (elem.classed('gateway')) {
+            elementTypeItems = [{
+                title: 'exclusive gateway',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit exclusive gateway');
+                }
+            }, {
+                title: 'parallel gateway',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit parallel gateway');
+                }
+            }, {
+                title: ' inclusive gateway',
+                image: '../../assets/media/icons/workflow/ic_info.png',
+                action: function(el, i) {
+                    console.log('edit exclusive gateway');
+                }
+            }];
+        }
+        setElementItems(elementTypeItems, elem);
+    }
+
+    /**
+     * show elements type tooltip.
+     *
+     * @param items tooltip에 표시할 항목목록
+     * @param elem 선택된 element
+     */
+    function setElementItems(items, elem) {
+        removeElementItems();
+
+        if (items.length === 0) {
+            return;
+        }
+
+        const tooltipItemContainer = d3.select('g.tooltip'),
+              actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+              containerWidth = 30,
+              containerHeight = items.length * 25;
+
+        const bbox = actionTooltipContainer.node().getBBox(),
+              x = bbox.x + bbox.width + 5,
+              y = bbox.y;
+
+        tooltipItemContainer.append('rect')
+            .classed('element-tooltip', true)
+            .attr('x', x)
+            .attr('y', y)
+            .attr('width', containerWidth)
+            .attr('height', containerHeight)
+            .style('fill', '#eee');
+
+        tooltipItemContainer.selectAll('element-tooltip-item')
+            .data(items)
+            .enter()
+            .append('image')
+            .classed('element-tooltip-item', true)
+            .attr('x', x + 5)
+            .attr('y', (d, i) => { return y + 5 + (i * 25) })
+            .attr('width', 20)
+            .attr('height', 20)
+            .attr('xlink:href', d => { return d.image })
+            .on('mousedown', (d, i) => {
+                d3.event.stopPropagation();
+                d.action(elem, i);
+            });
+    }
+
+    /**
+     * remove element tooltip items.
+     */
+    function removeElementItems() {
+        d3.selectAll('.element-tooltip-item').remove();
+        d3.selectAll('.element-tooltip').remove();
     }
 
     /**
@@ -130,8 +289,8 @@
         if (typeof elem !== 'undefined') { // show element properties
             propertiesContainer.append('h3').text('Element Properties');
 
-            let _this = elem;
-            let properties = [];
+            let _this = elem,
+                properties = [];
             if (_this.classed('event')) {
                 properties = elementsProperties['event'];
             } else if (_this.classed('task')) {
@@ -162,18 +321,22 @@
         for (let i = 0, len = properties.length; i < len; i++) {
             let property = properties[i];
             let propertyContainer = propertiesContainer.append('p');
-            let label = propertyContainer.append('label');
-            label.attr('for', property.attribute);
-            label.text(property.name);
+            propertyContainer.append('label')
+                .attr('for', property.attribute)
+                .text(property.name);
 
             if (property.type === 'text') {
                 propertyContainer.append('input')
                     .attr('id', property.attribute)
-                    .attr('value', property.default);
+                    .attr('value', property.default)
+                    .style('width', '180px');
             } else if (property.type === 'textarea') {
                 propertyContainer.append('textarea')
                     .attr('id', property.attribute)
-                    .attr('value', property.default);
+                    .attr('value', property.default)
+                    .attr('rows', 5)
+                    .style('resize', 'none')
+                    .style('width', '180px');
             } else if (property.type === 'checkbox') {
                 propertyContainer.append('input')
                     .attr('type', 'checkbox')
@@ -183,6 +346,7 @@
                 propertyContainer.append('select')
                     .attr('id', property.attribute)
                     .attr('value', property.default)
+                    .style('width', '180px')
                     .selectAll('option')
                     .data(property['sub-list'].split(','))
                     .enter()
@@ -194,11 +358,12 @@
     }
 
     /**
+     * 선택된 element 의 속성 및 tooltip 메뉴를 표시한다.
      *
-     * @param elem
+     * @param elem 선택된 element
      */
     function setElementMenu(elem) {
-        setTooltipItem(elem);
+        setActionTooltipItem(elem);
         setProperties(elem);
     }
 
