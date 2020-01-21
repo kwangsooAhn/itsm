@@ -50,7 +50,8 @@ object UserConstants {
         STATUS_SUCCESS("0"),
         STATUS_ERROR_USER_ID_DUPLICATION("1"),
         STATUS_ERROR("2"),
-        STATUS_ERROR_EMAIL_DUPLICATION("3")
+        STATUS_ERROR_EMAIL_DUPLICATION("3"),
+        STATUS_SUCCESS_EDIT_EMAIL("4")
     }
 
     /**

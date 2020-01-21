@@ -63,8 +63,7 @@ class UserController(
 
         return userDetailPage
     }
-
-
+    
     /**
      * 사용자 자기정보 수정화면을 호출한다.
      */

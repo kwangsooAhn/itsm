@@ -55,8 +55,10 @@ class UserRestController(private val userService: UserService, private val certi
 
         val result = userService.updateUserEdit(user)
 
-        if (result == UserConstants.UserEditStatus.STATUS_SUCCESS.code) {
-            certificationService.sendMail(user.userId!!, user.email!!,  "updateUserEdit")
+        if (result == UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code) {
+            certificationService.sendMail(user.userId, user.email!!, "updateUserEditEmail")
+        } else {
+            certificationService.sendMail(user.userId, user.email!!, "updateUserEdit")
         }
         return result
     }

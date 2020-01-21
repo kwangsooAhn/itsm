@@ -4,7 +4,7 @@ import java.io.Serializable
 
 data class UserUpdateDto(
         var userKey: String,
-        var userId: String?,
+        var userId: String,
         var userName: String?,
         var password: String?,
         var email: String?,

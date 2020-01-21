@@ -119,8 +119,10 @@ public open class CertificationService(private val certificationRepository: Cert
 
         if (target === null) {
             certificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
-        } else if (target === "updateUserEdit") {
+        } else if (target === "updateUserEditEmail") {
             certificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.EDIT.code)
+        } else if (target === "updateUserEdit") {
+            certificationDto = CertificationDto(userId, email, "", UserConstants.Status.CERTIFIED.code)
         }
         updateUser(certificationDto)
         sendCertificationMail(certificationDto)

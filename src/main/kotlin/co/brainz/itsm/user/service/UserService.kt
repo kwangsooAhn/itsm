@@ -69,7 +69,7 @@ class UserService(private val userRepository: UserRepository,
      * 사용자 ID로 정보를 수정한다.
      */
    fun updateUser(update: UserUpdateDto): AliceUserEntity {
-        val targetEntity = userRepository.findByUserId(update.userId!!)
+        val targetEntity = userRepository.findByUserId(update.userId)
         update.userName?.let { targetEntity.userName = update.userName!! }
         update.email?.let { targetEntity.email = update.email!! }
         update.position?.let { targetEntity.position = update.position!! }
@@ -107,13 +107,14 @@ class UserService(private val userRepository: UserRepository,
                 val targetEntity = userRepository.findByUserKey(update.userKey)
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+                val emailConfirmVal = targetEntity.email
         
                 if (targetEntity.password != update.password) {
                     val password = cryptoRsa.decrypt(privateKey, update.password!!)
                     update.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
                 }
         
-                update.userId?.let { targetEntity.userName = update.userId!!}
+                update.userId.let { targetEntity.userName = update.userId}
                 update.userName?.let { targetEntity.userName = update.userName!! }
                 update.email?.let { targetEntity.email = update.email!! }
                 update.position?.let { targetEntity.position = update.position!! }
@@ -126,10 +127,13 @@ class UserService(private val userRepository: UserRepository,
                 logger.debug("targetEntity {}, updateEdit {}", targetEntity, update)
                 
                 userRepository.save(targetEntity)
-                code = UserConstants.UserEditStatus.STATUS_SUCCESS.code
                 
+                if (targetEntity.email ==  emailConfirmVal) {
+                    code = UserConstants.UserEditStatus.STATUS_SUCCESS.code
+                } else {
+                    code = UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
+                }
             }
-            
         }
         return code
     }
@@ -140,14 +144,14 @@ class UserService(private val userRepository: UserRepository,
     fun userEditValid(update: UserUpdateDto): String {
         var isContinue = true
         var code: String = UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
-        if (userRepository.findByIdOrNull(update.userId!!) != null) {
+        if (userRepository.countByUserId(update.userId) > 1) {
             code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }
         when (isContinue) {
             true -> {
                 try {
-                    if (certificationRepository.countByEmail(update.email!!) > 0) {
+                    if (certificationRepository.countByEmail(update.email!!) > 1) {
                         code = UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                     }
                 } catch (e: EmptyResultDataAccessException) {

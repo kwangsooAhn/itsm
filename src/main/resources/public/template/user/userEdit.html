@@ -91,6 +91,7 @@
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_USER_ID_DUPLICATION = '1';
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
+        const STATUS_SUCCESS_EDIT_EMAIL = '4';
        
         function userEdit() {
             const oldPassword = document.getElementById('oldPassword').value;
@@ -136,6 +137,9 @@
                             case STATUS_SUCCESS:
                                 alert('수정되었습니다.');
                                 break;
+                            case STATUS_SUCCESS_EDIT_EMAIL:
+                            	alert('이메일 정보가 수정되었습니다.');
+                            	break;
                             case STATUS_ERROR_USER_ID_DUPLICATION:
                                 alert('동일한 아이디가 존재합니다.');
                                 break;
