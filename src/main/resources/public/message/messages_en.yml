@@ -15,6 +15,7 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
+    attachFile: "Attach file"
   msg:
     save: "Saved"
 

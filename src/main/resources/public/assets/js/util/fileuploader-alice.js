@@ -21,6 +21,7 @@ const fileUploader = (function () {
 
         // 파일 추가 버튼 정의 및 추가
         const dropZoneFiles = document.getElementById('dropZoneFiles');
+        dropZoneFiles.className = 'fileEditorable';
 
         const addFileSpan = document.createElement('span');
         addFileSpan.className = 'add-file-button';
@@ -117,17 +118,20 @@ const fileUploader = (function () {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
-
                 // 등록된 파일이 있으면 조회.
                 const opt = {
                     method: 'get',
-                    url: '/filelist?task=sample',
+                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
-                        files.forEach(function (file) {
+
+                        files.forEach(function (fileMap) {
+                            let file = fileMap.fileLocEntity;
+
                             // 파일 목록 생성
                             const originName = document.createElement('span');
                             originName.setAttribute('name', 'loadedFileNames');
+                            originName.style.cursor = 'pointer';
                             originName.innerText = file.originName;
                             const fileSize = document.createElement('span');
                             fileSize.setAttribute('name', 'loadedFileSize');
@@ -138,10 +142,9 @@ const fileUploader = (function () {
                             fileSeq.value = file.fileSeq;
                             const delBtn = document.createElement('button');
                             delBtn.setAttribute('type', 'button');
-                            delBtn.className = 'file-delete';
+                            delBtn.className = 'file-delete fileEditorable';
                             delBtn.innerText = 'DELETE';
                             const fileTag = document.createElement('div');
-                            fileTag.style.cursor = 'pointer';
                             fileTag.append(originName);
                             fileTag.append(fileSize);
                             fileTag.append(fileSeq);
@@ -180,7 +183,7 @@ const fileUploader = (function () {
                                     method: 'delete',
                                     url: '/filedel?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
-                                        console.log(xhr)
+                                        console.log(xhr);
                                         alert('삭제완료');
                                         thisEvent.parentElement.remove();
                                     },
@@ -190,6 +193,12 @@ const fileUploader = (function () {
                                 aliceJs.sendXhr(delBtnOpt);
                             });
                         });
+
+                        if (extraParam.hasOwnProperty('editor') && !extraParam.editor) {
+                            for (let editor of document.getElementsByClassName('fileEditorable')) {
+                                editor.style.display = 'none'
+                            }
+                        }
                     },
                     params: '',
                     async: true
@@ -202,7 +211,6 @@ const fileUploader = (function () {
                 //all queued files: .getQueuedFiles()
                 //all uploading files: .getUploadingFiles()
 
-
                 this.on("addedfile", function (file) {
                     console.log('addfile..');
                     // Hookup the start button
@@ -210,7 +218,6 @@ const fileUploader = (function () {
                 });
 
                 this.on("removedfile", function (file) {
-
                 });
 
                 this.on("sending", function (file, xhr, formData) {
@@ -219,12 +226,6 @@ const fileUploader = (function () {
                     // And disable the start button
                     //file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
                     console.log('sending...');
-                    // const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
-                    // const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
-                    //
-                    // console.log(formData);
-                    //
-                    // formData.append(header, token);
                 });
 
                 // Update the total progress bar
@@ -238,10 +239,7 @@ const fileUploader = (function () {
                     seq.setAttribute('type', 'hidden');
                     seq.setAttribute('name', 'fileSeq');
                     seq.value = response.file.fileSeq;
-                    document.getElementById(extraParam.formId).appendChild(seq);
-
-                    //$(file.previewElement).find('.dz-success-mark').show();
-                    //$(file.previewElement).find('.dz-error-mark').hide();
+                    file.previewElement.appendChild(seq);
                 });
 
                 this.on("error", function (file, errorMsg, xhr) {
@@ -290,5 +288,4 @@ const fileUploader = (function () {
             createDropZone();
         }
     }
-
 }());

@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository
 interface FileLocRepository : JpaRepository<FileLocEntity, Long> {
     override fun getOne(fileSeq: Long): FileLocEntity
     override fun findAll(): MutableList<FileLocEntity>
-    fun findAllByUploaded(uploaded: Boolean): MutableList<FileLocEntity>
 }
