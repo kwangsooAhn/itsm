@@ -5,22 +5,30 @@
     <script src="../../assets/js/util/util-alice.js"></script>
     <script src="../../assets/vendors/d3/d3.min.js"></script>
     <script src="../../assets/js/workflow/workflowEditor.js"></script>
+    <script src="../../assets/js/workflow/workflowEditor.menu.js"></script>
+    <script src="../../assets/js/workflow/workflowEditor.util.js"></script>
     <style type="text/css">
         /* 임시 CSS */
-        .toolbar { height: 40px; background-color: rgba(171, 132, 135, 0.5); }
+        .toolbar { width: 1465px; height: 40px; background-color: rgba(171, 132, 135, 0.5); }
         .toolbar a { margin: 10px; }
-        .element-menu { display: inline-block; width: 60px; height: 750px; background-color: #b1afab; float: left; }
-        .element-menu .shape { display: inline-block; width: 40px; height: 40px; margin: 10px; }
-        .element-menu .shape.event { background-color: #e0a800; border-radius: 50%; }
-        .element-menu .shape.activity { background-color: #e83e8c; height: 30px; }
-        .element-menu .shape.gateway { width: 0; height: 0; border: 20px solid transparent; border-bottom-color: red; position: relative; top: -20px; }
-        .element-menu .shape.gateway:after { content: ''; position: absolute; left: -20px; top: 20px; width: 0; height: 0; border: 20px solid transparent; border-top-color: red; }
-        .element-menu .shape.pool { background-color: #0c4dcd; height: 30px; }
+        .element-palette { display: inline-block; width: 60px; height: 750px; background-color: #b1afab; position: absolute; top: 48px; }
+        .element-palette .connector { display: inline-block; width: 36px; height: 5px; background-color: transparent;  border-width: 1px; border-color: black; border-style: solid; margin-left: 10px; margin-top: 20px; margin-bottom: 0;}
+        .element-palette .connector.selected { border-color: red;}
+        .element-palette .shape { display: inline-block; width: 36px; height: 36px; background-color: transparent;  border-width: 2px; border-color: black; border-style: solid; margin: 10px;}
+        .element-palette .shape.event { border-radius: 50%; }
+        .element-palette .shape.task { height: 26px; }
+        .element-palette .shape.gateway { width: 0; height: 0; border: 20px solid transparent; border-bottom-color: red; position: relative; top: -20px; }
+        .element-palette .shape.gateway:after { content: ''; position: absolute; left: -20px; top: 20px; width: 0; height: 0; border: 20px solid transparent; border-top-color: red; }
+        .element-palette .shape.group { width: 36px; height: 26px; border-style: dotted; }
+        .element-palette .shape.annotation { width: 36px; height: 26px; border-style: dotted; }
+        .element-palette .separator { display: inline-block; width: 40px; height: 2px; background: gray; margin-left: 10px; }
         .drawing-board {
             display: inline-block;
+            position: absolute;
+            top: 48px;
+            left: 68px;
             width: 1405px;
             height: 750px;
-            float: left;
             background-color: #f6f6f6;
             background-image:
                     linear-gradient(90deg, #cdcccc 0px, #cdcccc 1px, transparent 1px, transparent 99px,  transparent 100px),
@@ -34,9 +42,17 @@
                     linear-gradient(#cdcccc, #cdcccc);
             background-size:100px 100%, 100% 100px, 100% 10px, 10px 100%, 100% 100px, 100px 100%, 100px 100%, 100px 100px, 100px 100px;
         }
-        .properties-menu { display: inline-block; position: absolute; top: 48px; right: 8px; width: 300px; height: 500px; background-color: #e2e6ea; }
-        .properties-menu p { padding-left: 10px; }
-        .properties-menu p > label { display: inline-block; width: 80px; }
+        .properties-panel { display: inline-block; position: absolute; top: 48px; left: 1173px; width: 300px; height: 500px; background-color: #e2e6ea; }
+        .properties-panel h3 { padding-left: 10px; }
+        .properties-panel p { padding-left: 10px; }
+        .properties-panel p > label { display: inline-block; width: 80px; }
+
+        path.link { fill: none; stroke: #000; stroke-width: 2px; cursor: default; }
+        svg:not(.active):not(.ctrl) path.link { cursor: pointer; }
+        path.link.selected { stroke-dasharray: 10,2; }
+        path.link.dragline { pointer-events: none; }
+        path.link.hidden { stroke-width: 0; }
+
     </style>
 </head>
 <body>
@@ -50,17 +66,17 @@
         <a href="">Export</a>
         <a href="">Image Download</a>
     </div>
-    <div class="element-menu">
+    <div class="element-palette" draggable="true">
+        <span class="connector"></span>
+        <span class="separator"></span>
         <span class="shape event"></span>
-        <span class="shape activity"></span>
+        <span class="shape task"></span>
         <span class="shape gateway"></span>
-        <span class="shape pool"></span>
+        <span class="shape group"></span>
+        <span class="shape annotation"></span>
     </div>
     <div class="drawing-board"></div>
-    <div class="properties-menu">
-        <p><label for="element-id">ID</label><input type="text" id="element-id" /></p>
-        <p><label for="element-name">Name</label><input type="text" id="element-name" /></p>
-    </div>
+    <div class="properties-panel"></div>
 </div>
 </body>
 <script type="text/javascript">

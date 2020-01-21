@@ -47,7 +47,9 @@ data class AliceUserEntity(
                 joinColumns = [JoinColumn(name = "userKey")],
                 inverseJoinColumns = [JoinColumn(name = "roleId")])
         var roleEntities: Set<AliceRoleEntity>?,
-        var oauthKey: String?
+        var oauthKey: String?,
+        var timezone: String,
+        val lang: String
 
 ) : Serializable {
     fun getAuthorities(): MutableSet<GrantedAuthority> {

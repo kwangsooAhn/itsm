@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "awfScheduledTaskMst")
+@Table(name = "awf_scheduled_task_mst")
 public data class ScheduleTaskEntity(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var taskId: Long,

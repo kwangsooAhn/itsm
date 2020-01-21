@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.nio.file.Files
+import java.nio.file.NoSuchFileException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
@@ -87,8 +88,10 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
 
         multipartFile.transferTo(tempPath.toFile())
 
-        fileLocEntity = FileLocEntity(0, aliceUserDto.userKey, false, filePath.parent.toString(), fileName, multipartFile.originalFilename,
-                multipartFile.size, 0, aliceUserDto.userKey, aliceUserDto.userKey, LocalDateTime.now(), LocalDateTime.now())
+        fileLocEntity = FileLocEntity(
+            0, aliceUserDto.userKey, false, filePath.parent.toString(), fileName, multipartFile.originalFilename,
+            multipartFile.size, 0, aliceUserDto.userKey, aliceUserDto.userKey, LocalDateTime.now(), LocalDateTime.now()
+        )
         logger.debug("{}", fileLocEntity)
         fileLocRepository.save(fileLocEntity)
         logger.debug(">> 임시업로드파일 {}", tempPath.toAbsolutePath())
@@ -106,7 +109,11 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
             Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
 
             logger.debug(">> 임시업로드파일 {} 을 사용할 위치로 이동 {}", tempPath.toAbsolutePath(), filePath.toAbsolutePath())
-            logger.debug(">> 여기에 업로드 파일 {}({})", fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName, fileLocEntity.randomName)
+            logger.debug(
+                ">> 여기에 업로드 파일 {}({})",
+                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName,
+                fileLocEntity.randomName
+            )
 
             fileLocEntity.uploaded = true
             fileLocRepository.save(fileLocEntity)
@@ -114,27 +121,51 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
     }
 
     fun getList(task: String): MutableList<FileLocEntity> {
-        return fileLocRepository.findAll()
+        return fileLocRepository.findAllByUploaded(true)
     }
 
     @Transactional
     fun delete(seq: Long) {
         val fileLocEntity = fileLocRepository.getOne(seq)
-        Files.delete(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
-        logger.debug(">> 삭제한 파일 정보 {}({})", fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName, fileLocEntity.originName)
+        try {
+            Files.delete(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
+            logger.info(
+                "Delete physical file {}({})",
+                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName,
+                fileLocEntity.originName
+            )
+        } catch (e: NoSuchFileException) {
+            logger.warn(
+                "Delete physical file failed. NoSuchFileException {}\nFile info: {}({})",
+                e.message,
+                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName,
+                fileLocEntity.originName
+            )
+        } catch (e: Exception) {
+            logger.warn(
+                "Delete physical file failed. NoSuchFileException {}\nFile info: {}({})",
+                e.message,
+                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName,
+                fileLocEntity.originName
+            )
+        }
         fileLocRepository.deleteById(fileLocEntity.fileSeq)
     }
 
     fun download(seq: Long): ResponseEntity<InputStreamResource> {
         var fileLocEntity = fileLocRepository.getOne(seq)
-        var resource = FileSystemResource(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
+        var resource =
+            FileSystemResource(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
         if (resource.exists()) {
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(Tika().detect(resource.path)))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileLocEntity.originName + "\"")
-                    .body(InputStreamResource(resource.inputStream));
+                .contentType(MediaType.parseMediaType(Tika().detect(resource.path)))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileLocEntity.originName + "\"")
+                .body(InputStreamResource(resource.inputStream));
         } else {
-            logger.error("File not fount: {}", fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName)
+            logger.error(
+                "File not fount: {}",
+                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName
+            )
             throw AliceException(AliceErrorConstants.ERR, "File not found: " + fileLocEntity.originName)
         }
     }

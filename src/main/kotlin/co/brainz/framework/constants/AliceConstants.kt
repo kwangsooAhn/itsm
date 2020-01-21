@@ -35,11 +35,19 @@ object AliceConstants {
         PATTEN8("/layout/**"),
         PATTEN9("/layout**"),
         PATTEN10("/index**"),
-        PATTEN11("/document/**"),
+        PATTEN11("/document/documentSearch"),
         PATTEN12("/exception/**"),
         PATTEN13("/error"),
         PATTEN14("/users/**"),
-        PATTEN15("/rest/users/**");
+        PATTEN15("/rest/users/**"),
+        PATTEN94("/files"),
+        PATTEN95("/fileupload"),
+        PATTEN96("/filedownload"),
+        PATTEN97("/filelist"),
+        PATTEN98("/filedel"),
+        PATTEN99("/fileSubmit")
+        ;
+
         companion object {
             fun getAccessAllowUrlPatten(): List<String> {
                 val pattens = mutableListOf<String>()

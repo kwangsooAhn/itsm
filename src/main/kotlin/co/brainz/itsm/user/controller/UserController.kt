@@ -30,6 +30,7 @@ class UserController(
     private val userListPage: String = "user/userList"
     private val userDetailPage: String = "user/userDetail"
     private val userEditPage: String = "user/userEdit"
+    private val userLangPage: String = "user/userLang"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -63,6 +64,7 @@ class UserController(
         return userDetailPage
     }
 
+
     /**
      * 사용자 자기정보 수정화면을 호출한다.
      */
@@ -73,5 +75,20 @@ class UserController(
         model.addAttribute("users", users)
 
         return userEditPage
+    }    
+
+    @GetMapping("/lang")
+    fun getUserLang(model: Model): String {
+
+        //code 테이블에 저장?
+        //yml파일로 작성한 후 해당 파일 목록을 출력
+        val langList = codeService.selectCodeByParent("user.lang")
+
+        //for (code in codeList) {
+        //}
+
+        model.addAttribute("langList", langList)
+
+        return userLangPage
     }
 }

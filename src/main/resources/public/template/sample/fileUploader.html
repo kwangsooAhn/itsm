@@ -1,53 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>파일을 업로드해보자 ~</title>
-
-    <link rel="stylesheet" href="../../assets/vendors/dropzone/dropzone.css">
-    <script src="../../assets/vendors/jquery-3.4.0/jquery-3.4.0.js"></script>
-    <script src="../../assets/vendors/dropzone/dropzone.js"></script>
-    <script src="../../assets/js/util/fileuploader-alice.js"></script>
-    <script>
-        $(document).ready(function () {
-
-        	fileUploader.init({extra: {formId:'mainFrm', task:'Test'}});
-
-            $('#action').click(function () {
-                $.ajax({
+    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/util/fileuploader-alice.js}" th:inline="javascript"></script>
+    <script th:inline="javascript">
+        window.onload = function() {
+            fileUploader.init({extra: {formId: 'mainFrm', task: 'Test'}});
+            document.getElementById('action').addEventListener('click', function () {
+                const opt = {
+                    method: 'post',
                     url: '/fileSubmit',
-                    type: 'post',
-                    dataType: 'json',
-                    data: $('#mainFrm').serialize(),
-                    success: function (response) {
-                        alert('저장끝')
+                    callbackFunc: function (response) {
+                        console.log(response);
+                        console.log(response.responseText);
                     },
-                    error: function (res, msg, xhr) {
-                        console.log('error')
-                        console.log(res)
-                        console.log(msg)
-                        console.log(xhr)
-
-                    }
-                });
+                    params: aliceJs.serialize(document.getElementById('mainFrm')),
+                    async: true
+                }
+                aliceJs.sendXhr(opt);
             });
-
-        });
-
-
+        };
     </script>
 </head>
 <body>
-
 <form id="mainFrm" name="mainFrm">
     <label for="id">추가적으로 필요한 </label><input type="text" id="id" name="id" value="my id"/>
     <label for="name">값이다. </label><input type="text" id="name" name="name" value="my name"/>
 </form>
-
 <div id="dropZoneFiles"></div>
 <div id="dropZoneUploadedFiles"></div>
-
 <button type="button" id="action">SUBMIT</button>
-
 </body>
 </html>

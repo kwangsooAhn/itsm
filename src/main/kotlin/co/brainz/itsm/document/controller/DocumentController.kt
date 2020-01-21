@@ -15,30 +15,8 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/document")
 class DocumentController(private val userService: UserService) {
 
-    private val listPage: String = "document/list"
-    private val formPage: String = "document/form"
-    private val editPage: String = "document/edit"
     private val statusPage: String = "redirect:/certification/status"
     private val documentSearchPage: String = "document/documentSearch"
-
-    @GetMapping("/list")
-    fun getDocList(request: HttpServletRequest, model: Model): String {
-        return listPage
-    }
-
-    @GetMapping("/form")
-    fun getDocForm(request: HttpServletRequest, model: Model): String {
-        //To-do 지원 가능한 언어 목록 가져오기
-
-        //To-do 템플릿 정보 가져오기
-        return formPage
-    }
-
-    @GetMapping("/edit")
-    fun getDocEditor(request: HttpServletRequest, model: Model): String {
-        //To-do 컴포넌트 상세 정보 가져오기
-        return editPage
-    }
 
     @GetMapping("/documentSearch")
     fun getDocumentSearch(request: HttpServletRequest, model: Model): String {

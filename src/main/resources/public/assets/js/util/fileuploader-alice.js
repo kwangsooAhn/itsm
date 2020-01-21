@@ -8,55 +8,99 @@
  *        - formId 임시로 업로드한 파일명을 실제로 사용하기 위해 request 에 포함하여 전달할 form id (form tag)
  *        - task 현재 문서에 보여주기 위한 파일을 가져올 sql key
  */
-var fileUploader = (function($) {
+const fileUploader = (function () {
     "use strict";
-    // test
 
-    var extraParam;
-    var setExtraParam = function (param) {
+    let extraParam;
+    const setExtraParam = function (param) {
         extraParam = param;
-    }
+    };
 
-    var createDropZone = function() {
+    const createDropZone = function () {
+        /*<![CDATA[*/
+
         // 파일 추가 버튼 정의 및 추가
-        $('#dropZoneFiles').before($('<button>').append($('<span>').text('Add File')).addClass('add-file-button'));
+        const dropZoneFiles = document.getElementById('dropZoneFiles');
+
+        const addFileSpan = document.createElement('span');
+        addFileSpan.className = 'add-file-button';
+        const addFileBtn = document.createElement('button');
+        addFileBtn.innerText = 'ADD';
+        addFileSpan.appendChild(addFileBtn);
+        dropZoneFiles.appendChild(addFileSpan);
 
         // 파일 드랍 영역 및 파일을 보여줄 장소 정의
-        var fileDropZone = $('<div>').attr('id', 'dropZoneFileUpload').addClass('dropzone');
+        const fileDropZone = document.createElement('div');
+        fileDropZone.id = 'dropZoneFileUpload';
+        fileDropZone.className = 'dropzone';
 
         // 파일 템플릿 생성
-        var thumbnailData = $('<img>').attr('data-dz-thumbnail', '');
-        var filenameData = $('<span>').attr('data-dz-name', '');
-        var sizeData = $('<span>').attr('data-dz-size', '');
-        var errorMsgData = $('<span>').attr('data-dz-errormessage', '');
-        var progressData = $('<span>').attr('data-dz-uploadprogress', '').addClass('dz-upload');
-        var deleteButtonData = $('<button>').addClass('dz-remove').attr('data-dz-remove', '').text('Delete');
+        const thumbnailData = document.createElement('img');
+        thumbnailData.dataset.dzThumbnail = '';
+        const filenameData = document.createElement('span');
+        filenameData.dataset.dzName = '';
+        const sizeData = document.createElement('span');
+        sizeData.dataset.dzSize = '';
+        const errorMsgData = document.createElement('span');
+        errorMsgData.dataset.dzErrormessage = '';
+        const progressData = document.createElement('span');
+        progressData.dataset.dzUploadprogress = '';
+        progressData.className = 'dz-upload';
+        const deleteButtonData = document.createElement('button');
+        deleteButtonData.className = 'dz-remove';
+        deleteButtonData.dataset.dzRemove = '';
+        deleteButtonData.innerText = 'DELETE';
 
-        var detail = $('<div>').addClass('dz-details');
-        var filename = $('<div>').addClass('dz-filename').append(filenameData);
-        var size = $('<div>').addClass('dz-size').append(sizeData);
-        detail.append(size).append(filename);
+        const detail = document.createElement('div');
+        detail.className = 'dz-details';
+        const filename = document.createElement('div');
+        filename.className = 'dz-filename';
+        filename.appendChild(filenameData);
 
-        var thumbnail = $('<div>').addClass('dz-image').append(thumbnailData);
-        var progress = $('<div>').addClass('dz-progress').append(progressData);
-        var errorMsg = $('<div>').addClass('dz-error-message').append(errorMsgData);
-        var successMark = $('<div>').addClass('dz-success-mark').append($('<span>').text('success'));
-        var errorMark = $('<div>').addClass('dz-error-mark').append($('<span>').text('error'));
+        const size = document.createElement('div');
+        size.className = 'dz-size';
+        size.appendChild(sizeData);
+        detail.appendChild(size).appendChild(filename);
 
-        var fileViewTemplate = $('<div>').attr('name', 'fileTemplate').addClass('dz-preview dz-file-preview')
-            .append(thumbnail)
-            .append(detail)
-            .append(progress)
-            .append(errorMsg)
-            .append(successMark)
-            .append(errorMark)
-            .append(deleteButtonData);
+        const thumbnail = document.createElement('div');
+        thumbnail.className = 'dz-image';
+        thumbnail.appendChild(thumbnailData);
+        const progress = document.createElement('div');
+        progress.className = 'dz-progress';
+        progress.appendChild(progressData);
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'dz-error-message';
+        errorMsg.appendChild(errorMsgData);
+        const successMark = document.createElement('div');
+        successMark.className = 'dz-success-mark';
+        const successMarkSpan = document.createElement('span');
+        successMarkSpan.innerText = 'SUCCESS';
+        successMark.appendChild(successMarkSpan);
+        const errorMark = document.createElement('div');
+        errorMark.className = 'dz-error-mark';
+        const errorMarkSpan = document.createElement('span');
+        errorMarkSpan.innerText = 'FAILED';
+        errorMark.appendChild(errorMarkSpan);
+
+        const fileViewTemplate = document.createElement('div');
+        fileViewTemplate.setAttribute('id', 'fileTemplate');
+        fileViewTemplate.setAttribute('name', 'fileTemplate');
+        fileViewTemplate.className = 'dz-preview dz-file-preview';
+        fileViewTemplate.appendChild(thumbnail);
+        fileViewTemplate.appendChild(detail);
+        fileViewTemplate.appendChild(progress);
+        fileViewTemplate.appendChild(errorMsg);
+        fileViewTemplate.appendChild(successMark);
+        fileViewTemplate.appendChild(errorMark);
+        fileViewTemplate.appendChild(deleteButtonData);
+        const fileView = document.createElement('div');
+        fileView.appendChild(fileViewTemplate);
 
         // 파일 업로드 영역에 드랍 영역 정의
-        $('#dropZoneFiles').append(fileDropZone);
+        document.getElementById('dropZoneFiles').appendChild(fileDropZone);
 
         // 파일 업로드 기능 정의
-        var myDropZone = new Dropzone('#dropZoneFiles #dropZoneFileUpload', {
+        const myDropZone = new Dropzone('#dropZoneFiles #dropZoneFileUpload', {
             paramName: "file", // file 매개변수명
             params: extraParam || null, // 추가 매개변수
             maxFilesize: 3, // MB
@@ -66,91 +110,91 @@ var fileUploader = (function($) {
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
             //acceptedFiles: "image/*",
-            previewTemplate: $('<div>').append(fileViewTemplate).html(), // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
+            previewTemplate: fileView.innerHTML, // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
             autoQueue: true, // Make sure the files aren't queued until manually added
             clickable: ".add-file-button", // Define the element that should be used as click trigger to select files.
-            init: function() { // 드랍존 초기화시 사용할 이벤트 리스너 등록
-                var _this = this;
+            headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
+            },
+            init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
 
                 // 등록된 파일이 있으면 조회.
-                $.ajax({
-                    url: '/filelist',
-                    type: 'get',
-                    dataType: 'json',
-                    data: {task: extraParam.task},
-                    success: function(response) {
-                        $.each(response.files, function(i, file) {
-
+                const opt = {
+                    method: 'get',
+                    url: '/filelist?task=sample',
+                    callbackFunc: function (response) {
+                        const files = JSON.parse(response.responseText);
+                        files.forEach(function (file) {
                             // 파일 목록 생성
-                            var originName = $('<span>').attr('name', 'loadedFileNames').text(file.originName)
-                            var fileSize = $('<span>').attr('name', 'loadedFileSize').text(' ('+file.size+')')
-                            var fileSeq = $('<input>').attr({'type':'hidden', 'name': 'loadedFileSeq'}).text(file.fileSeq)
-                            var delBtn = $('<button>').attr('type', 'button').addClass('file-delete').text('Delete');
-                            var fileTag = $('<div>').css('cursor', 'pointer').append(originName).append(fileSize).append(fileSeq).append(delBtn)
-                            $('#dropZoneUploadedFiles').append(fileTag)
+                            const originName = document.createElement('span');
+                            originName.setAttribute('name', 'loadedFileNames');
+                            originName.innerText = file.originName;
+                            const fileSize = document.createElement('span');
+                            fileSize.setAttribute('name', 'loadedFileSize');
+                            fileSize.innerText = ' (' + file.fileSize + ')';
+                            const fileSeq = document.createElement('input');
+                            fileSeq.setAttribute('type', 'hidden');
+                            fileSeq.setAttribute('name', 'loadedFileSeq');
+                            fileSeq.value = file.fileSeq;
+                            const delBtn = document.createElement('button');
+                            delBtn.setAttribute('type', 'button');
+                            delBtn.className = 'file-delete';
+                            delBtn.innerText = 'DELETE';
+                            const fileTag = document.createElement('div');
+                            fileTag.style.cursor = 'pointer';
+                            fileTag.append(originName);
+                            fileTag.append(fileSize);
+                            fileTag.append(fileSeq);
+                            fileTag.append(delBtn);
+
+                            document.getElementById('dropZoneUploadedFiles').appendChild(fileTag);
 
                             // 파일 다운로드
-                            $(originName).on('click', function() {
-                                var _this = $(this)
-                                $.ajax({
-                                    url: '/filedownload',
-                                    type: 'get',
-                                    data: {seq: Number(_this.parent().find('input[name=loadedFileSeq]').text()), test: _this.parent().find('span[name=loadedFileNames]').text()},
-                                    xhrFields: {
-                                        responseType: 'blob'
-                                    },
-                                    success: function (data) {
-                                        var a = document.createElement('a');
-                                        var url = window.URL.createObjectURL(data);
+                            originName.addEventListener('click', function (e) {
+                                const thisEvent = e.target;
+                                const fileDownOpt = {
+                                    method: 'get',
+                                    url: '/filedownload?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
+                                    callbackFunc: function (xhr) {
+                                        console.log(xhr)
+                                        const a = document.createElement('a');
+                                        const url = window.URL.createObjectURL(xhr.response);
                                         a.href = url;
-                                        a.download = _this.parent().find('span[name=loadedFileNames').text();
+                                        a.download = thisEvent.parentElement.querySelector('span[name=loadedFileNames').innerText;
                                         document.body.append(a);
                                         a.click();
                                         a.remove();
                                         window.URL.revokeObjectURL(url);
                                     },
-                                    error: function(res, error, xhr) {
-                                        alert('다운로드중 에러.')
-                                        console.log(res)
-                                    }
-                                });
-
+                                    params: '',
+                                    async: true,
+                                    responseType: 'blob'
+                                }
+                                aliceJs.sendXhr(fileDownOpt);
                             });
 
                             // 파일삭제
-                            $(delBtn).on('click', function() {
-                                var _delBtn = $(this);
-                                $.ajax({
-                                    url: '/filedel',
-                                    type: 'delete',
-                                    dataType: 'json',
-                                    data: {seq: Number(_delBtn.parent().find('input[name=loadedFileSeq]').text()), testSeq: _delBtn.parent().find('span[name=loadedFileNames]').text()},
-                                    success: function(res) {
-                                        alert('삭제완료')
-                                        _delBtn.parent().remove()
+                            delBtn.addEventListener('click', function (e) {
+                                const thisEvent = e.target;
+                                const delBtnOpt = {
+                                    method: 'delete',
+                                    url: '/filedel?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
+                                    callbackFunc: function (xhr) {
+                                        console.log(xhr)
+                                        alert('삭제완료');
+                                        thisEvent.parentElement.remove();
                                     },
-                                    error: function(res, error, xhr) {
-                                        alert('에러남');
-                                        console.log(res);
-                                        console.log(error);
-                                        console.log(xhr);
-                                    }
-
-                                })
-
+                                    params: '',
+                                    async: true
+                                };
+                                aliceJs.sendXhr(delBtnOpt);
                             });
-
-
                         });
                     },
-                    error: function(res, msg, xhr) {
-                        console.log('error');
-
-                        console.log(res.responseText);
-
-                        console.log(xhr);
-                    }
-                });
+                    params: '',
+                    async: true
+                };
+                aliceJs.sendXhr(opt);
 
                 //파일접근시 사용.
                 //all accepted files: .getAcceptedFiles()
@@ -159,68 +203,76 @@ var fileUploader = (function($) {
                 //all uploading files: .getUploadingFiles()
 
 
-                this.on("addedfile", function(file) {
+                this.on("addedfile", function (file) {
                     console.log('addfile..');
                     // Hookup the start button
                     //file.previewElement.querySelector(".start").onclick = function() { _this.enqueueFile(file); };
                 });
 
-                this.on("removedfile", function(file) {
+                this.on("removedfile", function (file) {
 
                 });
 
-                // Update the total progress bar
-                this.on("totaluploadprogress", function(progress) {
-                    //document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
-                    console.log('totaluploadprogress..');
-                });
-
-                this.on("sending", function(file) {
+                this.on("sending", function (file, xhr, formData) {
                     // Show the total progress bar when upload starts
                     //document.querySelector("#total-progress").style.opacity = "1";
                     // And disable the start button
                     //file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
-                    console.log('sending..');
+                    console.log('sending...');
+                    // const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
+                    // const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
+                    //
+                    // console.log(formData);
+                    //
+                    // formData.append(header, token);
                 });
 
-                // Hide the total progress bar when nothing's uploading anymore
-                this.on("queuecomplete", function(progress) {
-                    //document.querySelector("#total-progress").style.opacity = "0";
-                    console.log('queuecomplete..');
+                // Update the total progress bar
+                this.on("totaluploadprogress", function (progress) {
+                    //document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
+                    console.log('totaluploadprogress..');
                 });
 
-                this.on("success", function(file, response) {
-                    var seq = $('<input>').attr({'type':'hidden', 'name':'fileSeq'}).val(response.file.fileSeq);
-                    console.log(seq)
-                    $('#' + extraParam.formId).append(seq);
+                this.on("success", function (file, response) {
+                    const seq = document.createElement('input');
+                    seq.setAttribute('type', 'hidden');
+                    seq.setAttribute('name', 'fileSeq');
+                    seq.value = response.file.fileSeq;
+                    document.getElementById(extraParam.formId).appendChild(seq);
+
                     //$(file.previewElement).find('.dz-success-mark').show();
                     //$(file.previewElement).find('.dz-error-mark').hide();
                 });
 
-                this.on("complete", function(file) {
+                this.on("error", function (file, errorMsg, xhr) {
+                    console.log('error...')
+                    const res = JSON.parse(xhr.response);
+                    file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+
+                    // file.previewElement.querySelector('.dz-success-mark').style.display = '';
+                    // file.previewElement.querySelector('.dz-success-mark').style.display = 'none';
+                    // aliceJs.xhrErrorResponse()
+                    // file.previewElement.querySelector('.dz-error-message').addClass("dz-error");
+                });
+
+                this.on("complete", function (file) {
                     //fileDropzone.removeFile(file);
                     //fileDropzone.removeAllFiles(file);
                     console.log('complete..');
                 });
 
-                this.on("canceled", function() {
+                // Hide the total progress bar when nothing's uploading anymore
+                this.on("queuecomplete", function (progress) {
+                    //document.querySelector("#total-progress").style.opacity = "0";
+                    console.log('queuecomplete..');
+                });
+
+                this.on("canceled", function () {
                     console.log('canceled..');
 
                 });
-
-                this.on("error", function(file, errorMsg, xhr) {
-                    console.error('error')
-                    //$(file.previewElement).find('.dz-success-mark').hide();
-                    //$(file.previewElement).find('.dz-error-mark').show();
-                    var res = JSON.parse(xhr.response)
-
-                    //aliceJs.xhrErrorResponse()
-
-                    $(file.previewElement).find('.dz-error-message').text(res.msg).addClass("dz-error");
-                });
-
             },
-            accept: function(file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
+            accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
                 console.log('accept');
                 if (file.name == "justinbieber.jpg") {
                     done("Naha, you don't.");
@@ -229,6 +281,7 @@ var fileUploader = (function($) {
                 }
             }
         });
+        /*]]>*/
     };
 
     return {
@@ -238,4 +291,4 @@ var fileUploader = (function($) {
         }
     }
 
-}(jQuery));
+}());

@@ -18,16 +18,16 @@ data class NoticeEntity(
         @Column(name="notice_title") var noticeTitle: String = "",
         @Column(name="notice_contents") var noticeContents: String = "",
         @Column(name="pop_yn") var popYn: Boolean = true,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
         @Column(name="pop_strt_dt") var popStrtDt: LocalDateTime? = null,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
         @Column(name="pop_end_dt") var popEndDt: LocalDateTime? = null,
         @Column(name="pop_width") var popWidth: Int? = 500,
         @Column(name="pop_height") var popHeight: Int? = 500,
         @Column(name="top_notice_yn") var topNoticeYn: Boolean = true,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
         @Column(name="top_notice_strt_dt") var topNoticeStrtDt: LocalDateTime? = null,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
         @Column(name="top_notice_end_dt") var topNoticeEndDt: LocalDateTime? = null,
         @Column(name="create_dt") var createDt: LocalDateTime = LocalDateTime.now(),
         @Column(name="create_userkey") var createUserkey: String? = null,
