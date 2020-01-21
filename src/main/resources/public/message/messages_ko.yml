@@ -32,6 +32,7 @@ menu:
   setting.role: "역할 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
+  editMyInfo: "자기 정보 수정"
 
 # auth
 auth:
