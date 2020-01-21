@@ -1,17 +1,17 @@
 package co.brainz.itsm.user.service
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.itsm.role.repository.RoleRepository
-import co.brainz.itsm.user.entity.UserSpecification
-import co.brainz.itsm.user.dto.UserUpdateDto
-import co.brainz.itsm.user.dto.UserSearchDto
 import co.brainz.framework.constants.UserConstants
-import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.framework.certification.service.CertificationService
 import co.brainz.framework.certification.service.MailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
+import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.entity.UserSpecification
+import co.brainz.itsm.user.dto.UserUpdateDto
+import co.brainz.itsm.user.dto.UserSearchDto
+import co.brainz.itsm.user.repository.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.dao.EmptyResultDataAccessException
 import java.security.PrivateKey
 import java.time.LocalDateTime
@@ -136,11 +137,10 @@ class UserService(private val userRepository: UserRepository,
     /**
      * 자기정보 수정 시, 이메일 및 ID의 중복을 검사한다.
      */
-
     fun userEditValid(update: UserUpdateDto): String {
         var isContinue = true
         var code: String = UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
-        if (userRepository.countByUserId(update.userId!!) > 0) {
+        if (userRepository.findByIdOrNull(update.userId!!) != null) {
             code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }
