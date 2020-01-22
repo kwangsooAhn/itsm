@@ -49,7 +49,7 @@
         selectedElement = null;
         svg.selectAll('.node').style('stroke-width', 1);
         svg.selectAll('.pointer').style('opacity', 0);
-        svg.selectAll('.menu').remove();
+        svg.selectAll('.tooltip').remove();
     }
 
     /**
@@ -59,8 +59,8 @@
         path = path.data(links);
         // update existing links
         path.classed('selected', d => d === selectedLink)
-            .style('marker-start', d => d.left ? 'url(#start-arrow)' : '')
-            .style('marker-end', d => d.right ? 'url(#end-arrow)' : '');
+            .style('marker-start', d => '')
+            .style('marker-end', d => 'url(#end-arrow)');
 
         // remove old links
         path.exit().remove();
@@ -120,6 +120,7 @@
             return lineFunction([best.s, best.d]);
 
             /*
+            // 추후 참고 수정 예정.
             const lineGenerator = d3.line();
             //lineGenerator.curve(d3.curveStep);
             //lineGenerator.curve(d3.curveStepAfter);
@@ -177,7 +178,7 @@
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
                 selectedElement.style('stroke-width', 2);
-                if (elem.node().classList.contains('task')) {
+                if (elem.node().classList.contains('resizable')) {
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
                         d3.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
@@ -187,6 +188,7 @@
             }
         },
         mouseup: function() {
+            const elem = d3.select(this);
             if (isDrawConnector) {
                 dragLine
                     .classed('hidden', true)
@@ -211,7 +213,13 @@
                     }
                 }
                 resetMouseVars();
+            } else {
+                wfEditor.setElementMenu(elem);
             }
+        },
+        mousedrag: function() {
+            const bbox = utils.getBoundingBoxCenter(mousedownElement);
+            dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
         }
     }
 
@@ -240,20 +248,16 @@
             .style('opacity', 1)
             .style('stroke', 'black')
             .style('stroke-width', 1)
-            .attr('class', 'node task')
+            .attr('class', 'node resizable')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(d3.drag()
                 .on('start', elementMouseEventHandler.mousedown)
                 .on('drag', () => {
                     if (isDrawConnector) {
-                        const bbox = utils.getBoundingBoxCenter(mousedownElement);
-                        dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
+                        elementMouseEventHandler.mousedrag();
                     } else {
-                        if (mouseoverElement && selectedElement) {
-                            svg.selectAll('.menu').remove();
-                        }
-
+                        svg.selectAll('.tooltip').remove();
                         const rectData = this.rectData;
                         for (let i = 0, len = rectData.length; i < len; i++) {
                             this.nodeElement
@@ -268,50 +272,58 @@
                 .on('end', elementMouseEventHandler.mouseup)
             );
 
+        let pointerDrag = d3.drag()
+            .on('start', () => {
+                svg.selectAll('.tooltip').remove();
+            })
+            .on('end', () => {
+                wfEditor.setElementMenu(self.nodeElement);
+            });
+
         self.pointElement1 = svg.append('circle')
-            .classed('pointer', true)
+            .attr('class', 'pointer')
             .style('opacity', 0)
-            .call(d3.drag().on('drag', () => {
-                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                    this.pointElement1
-                        .attr('cx', d => { return d.x += d3.event.dx })
-                        .attr('cy', d => { return d.y += d3.event.dy });
-                    updateRect();
-                }
-            }));
+            .call(pointerDrag.on('drag', () => {
+                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
+                        this.pointElement1
+                            .attr('cx', d => { return d.x += d3.event.dx })
+                            .attr('cy', d => { return d.y += d3.event.dy });
+                        updateRect();
+                    }
+                }));
         self.pointElement2 = svg.append('circle')
-            .classed('pointer', true)
+            .attr('class', 'pointer')
             .style('opacity', 0)
-            .call(d3.drag().on('drag', () => {
-                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                    this.pointElement2
-                        .attr('cx', this.rectData[1].x += d3.event.dx)
-                        .attr('cy', this.rectData[1].y += d3.event.dy);
-                    updateRect();
-                }
-            }));
+            .call(pointerDrag.on('drag', () => {
+                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
+                        this.pointElement2
+                            .attr('cx', this.rectData[1].x += d3.event.dx)
+                            .attr('cy', this.rectData[1].y += d3.event.dy);
+                        updateRect();
+                    }
+                }));
         self.pointElement3 = svg.append('circle')
-            .classed('pointer', true)
+            .attr('class', 'pointer')
             .style('opacity', 0)
-            .call(d3.drag().on('drag', () => {
-                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                    this.pointElement3
-                        .attr('cx', this.rectData[1].x += d3.event.dx)
-                        .attr('cy', this.rectData[0].y += d3.event.dy);
-                    updateRect();
-                }
-            }));
+            .call(pointerDrag.on('drag', () => {
+                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
+                        this.pointElement3
+                            .attr('cx', this.rectData[1].x += d3.event.dx)
+                            .attr('cy', this.rectData[0].y += d3.event.dy);
+                        updateRect();
+                    }
+                }));
         self.pointElement4 = svg.append('circle')
-            .classed('pointer', true)
+            .attr('class', 'pointer')
             .style('opacity', 0)
-            .call(d3.drag().on('drag', () => {
-                if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                    this.pointElement4
-                        .attr('cx', this.rectData[0].x += d3.event.dx)
-                        .attr('cy', this.rectData[1].y += d3.event.dy);
-                    updateRect();
-                }
-            }));
+            .call(pointerDrag.on('drag', () => {
+                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
+                        this.pointElement4
+                            .attr('cx', this.rectData[0].x += d3.event.dx)
+                            .attr('cy', this.rectData[1].y += d3.event.dy);
+                        updateRect();
+                    }
+                }));
 
         function updateRect() {
             const pointerRadius = 4;
@@ -364,6 +376,24 @@
     function TaskElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
+        this.nodeElement.classed('task', true);
+        return this;
+    }
+
+    /**
+     * Subprocess element.
+     *
+     * @param x drop할 마우스 x좌표
+     * @param y drop할 마우스 y좌표
+     * @returns {SubprocessElement}
+     * @constructor
+     */
+    function SubprocessElement(x, y) {
+        this.base = RectResizableElement;
+        this.base(x, y);
+        this.nodeElement
+            .classed('subprocess', true)
+            .style('fill', 'pink');
         return this;
     }
 
@@ -395,12 +425,9 @@
                 .on('start', elementMouseEventHandler.mousedown)
                 .on('drag', () => {
                     if (isDrawConnector) {
-                        const bbox = utils.getBoundingBoxCenter(mousedownElement);
-                        dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
+                        elementMouseEventHandler.mousedrag();
                     } else {
-                        if (mouseoverElement && selectedElement) {
-                            svg.selectAll('.menu').remove();
-                        }
+                        svg.selectAll('.tooltip').remove();
                         self.nodeElement
                             .attr('cx', d3.event.x)
                             .attr('cy', d3.event.y);
@@ -444,12 +471,9 @@
                 .on('start', elementMouseEventHandler.mousedown)
                 .on('drag', () => {
                     if (isDrawConnector) {
-                        const bbox = utils.getBoundingBoxCenter(mousedownElement);
-                        dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
+                        elementMouseEventHandler.mousedrag();
                     } else {
-                        if (mouseoverElement && selectedElement) {
-                            svg.selectAll('.menu').remove();
-                        }
+                        svg.selectAll('.tooltip').remove();
                         self.nodeElement
                             .attr('x', d3.event.x - (width / 2))
                             .attr('y', d3.event.y - (height / 2))
@@ -476,7 +500,10 @@
     function GroupElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement.style('fill', 'green');
+        this.nodeElement
+            .classed('group', true)
+            .style('fill-opacity', '0')
+            .style('stroke-dasharray', '5,5');
         return this;
     }
 
@@ -489,11 +516,40 @@
      * @constructor
      */
     function AnnotationElement(x, y) {
-        //TODO: add logic annotation element
-        this.base = RectResizableElement;
-        this.base(x, y);
-        this.nodeElement.style('fill', 'gray');
-        return this;
+        const self = this;
+        const width = 35, height = 30;
+
+        self.nodeElement = svg.append('rect')
+            .attr('id', 'node' + (++lastElementsId))
+            .attr('width', width)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
+            .style('fill-opacity', 0)
+            .style('stroke', 'black')
+            .style('stroke-width', 1)
+            .style('stroke-dasharray', '5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5')
+            .attr('class', 'node annotation')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(d3.drag()
+                .on('start', elementMouseEventHandler.mousedown)
+                .on('drag', () => {
+                    if (isDrawConnector) {
+                        elementMouseEventHandler.mousedrag();
+                    } else {
+                        svg.selectAll('.tooltip').remove();
+                        self.nodeElement
+                            .attr('x', d3.event.x - (width / 2))
+                            .attr('y', d3.event.y - (height / 2));
+
+                        self.nodeElement.style('cursor', 'move');
+                    }
+                })
+                .on('end', elementMouseEventHandler.mouseup)
+            );
+
+        return self;
     }
 
     /**
@@ -523,6 +579,8 @@
                     new EventElement(x, y);
                 } else if (_this.classed('task')) {
                     new TaskElement(x, y);
+                } else if (_this.classed('subprocess')) {
+                    new SubprocessElement(x, y);
                 } else if (_this.classed('gateway')) {
                     new GatewayElement(x, y);
                 } else if (_this.classed('group')) {
@@ -544,7 +602,7 @@
         svg = d3.select('.drawing-board').append('svg')
             .attr('width', width)
             .attr('height', height)
-            .on("mousedown", function() {
+            .on('mousedown', function() {
                 if (isDrawConnector) {
                     return;
                 }
