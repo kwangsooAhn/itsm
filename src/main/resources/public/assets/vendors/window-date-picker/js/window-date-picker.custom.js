@@ -1392,11 +1392,16 @@
         }, {
           key: "setEmptyValue",
           value: function setEmptyValue() {
+            var d = new Date(),
+                weekDay = this.getWeekDay(d);
             this.value = {
               value: '',
-              day: 0,
-              month: 0,
-              year: 0
+              day: d.getDate(),
+              weekDay: weekDay,
+              month: d.getMonth() + 1,
+              year: d.getFullYear(),
+              hour: this.type != DATE && this.hourType == $12 ? 12 : 0,
+              minute: 0
             };
           }
           /**
@@ -1726,7 +1731,7 @@
               var displaySpanText = "".concat(v.year, "/").concat(Util.renderNumber(v.month), "/").concat(Util.renderNumber(v.day), " (").concat(this.LANG.DAYS_ABBR[v.weekDay], ")");
               if (this.dateType == DMY) {
                 displaySpanText = "".concat(this.LANG.DAYS_ABBR[v.weekDay], ", ").concat(v.day, "/").concat(this.LANG.MONTHS_ABBR[v.month], "/").concat(v.year);
-              } else if (this.dateType == MDY) {6
+              } else if (this.dateType == MDY) {
                 displaySpanText = "".concat(this.LANG.DAYS_ABBR[v.weekDay], ", ").concat(this.LANG.MONTHS_ABBR[v.month], "/").concat(v.day, "/").concat(v.year);
               } else if (this.dateType == YDM) {
                 displaySpanText = "".concat(v.year, "/").concat(Util.renderNumber(v.day), "/").concat(Util.renderNumber(v.month), " (").concat(this.LANG.DAYS_ABBR[v.weekDay], ")");
