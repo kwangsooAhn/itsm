@@ -128,6 +128,18 @@ const fileUploader = (function () {
                         files.forEach(function (fileMap) {
                             let file = fileMap.fileLocEntity;
 
+                            const fileBytes = file.fileSize;
+                            const logValueDigit = 1024;
+                            const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+                            const fileSizeLogValue = Math.floor(Math.log(fileBytes) / Math.log(logValueDigit));
+
+                            let convertedFileSize;
+                            if (fileSizeLogValue == "-Infinity") {
+                                convertedFileSize = "0 " + unit[0];
+                            } else {
+                                convertedFileSize = (fileBytes / Math.pow(logValueDigit, Math.floor(fileSizeLogValue))).toFixed(2) + " " + unit[fileSizeLogValue];
+                            }
+
                             // 파일 목록 생성
                             const originName = document.createElement('span');
                             originName.setAttribute('name', 'loadedFileNames');
@@ -135,7 +147,7 @@ const fileUploader = (function () {
                             originName.innerText = file.originName;
                             const fileSize = document.createElement('span');
                             fileSize.setAttribute('name', 'loadedFileSize');
-                            fileSize.innerText = ' (' + file.fileSize + ')';
+                            fileSize.innerText = ' (' + convertedFileSize + ')';
                             const fileSeq = document.createElement('input');
                             fileSeq.setAttribute('type', 'hidden');
                             fileSeq.setAttribute('name', 'loadedFileSeq');
