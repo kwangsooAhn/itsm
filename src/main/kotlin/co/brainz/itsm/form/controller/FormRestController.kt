@@ -61,6 +61,6 @@ class FormRestController(private val formService: FormService) {
      */
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String) {
-        formService.deleteFrom(formId)
+        formService.deleteForm(formId)
     }
 }
