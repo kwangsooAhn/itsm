@@ -38,6 +38,7 @@ menu:
   setting.role: "Role management"
   setting.form: "Form"
   setting.process: "Process"
+  editMyInfo: "Edit my info"
 
 # Auth
 auth:
