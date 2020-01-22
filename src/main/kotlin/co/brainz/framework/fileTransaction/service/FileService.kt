@@ -3,8 +3,11 @@ package co.brainz.framework.fileTransaction.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.fileTransaction.dto.FileDto
 import co.brainz.framework.fileTransaction.entity.FileLocEntity
+import co.brainz.framework.fileTransaction.entity.FileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.FileLocRepository
+import co.brainz.framework.fileTransaction.repository.FileOwnMapRepository
 import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -20,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.nio.file.Files
-import java.nio.file.NoSuchFileException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
@@ -32,12 +34,12 @@ import java.util.*
  * 파일 서비스 클래스
  */
 @Service
-class FileService(private val fileLocRepository: FileLocRepository, private val environment: Environment) {
-
-    companion object {
-        private val logger = LoggerFactory.getLogger(FileService::class.java)
-    }
-
+class FileService(
+    private val fileLocRepository: FileLocRepository,
+    private val fileOwnMapRepository: FileOwnMapRepository,
+    private val environment: Environment
+) {
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Value("\${file.upload.dir}")
     lateinit var basePath: String
@@ -74,6 +76,10 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
         return Paths.get(dir.toString() + File.separator + fileName)
     }
 
+    /**
+     * 파일을 임시로 업로드한다.
+     * temp 경로에 파일을 임시로 업로드하고 파일관리테이블에 uploaded 상태를 false로 저장한다.
+     */
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): FileLocEntity {
         val fileLocEntity: FileLocEntity
@@ -89,8 +95,18 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
         multipartFile.transferTo(tempPath.toFile())
 
         fileLocEntity = FileLocEntity(
-            0, aliceUserDto.userKey, false, filePath.parent.toString(), fileName, multipartFile.originalFilename,
-            multipartFile.size, 0, aliceUserDto.userKey, aliceUserDto.userKey, LocalDateTime.now(), LocalDateTime.now()
+            0,
+            aliceUserDto.userKey,
+            false,
+            filePath.parent.toString(),
+            fileName,
+            multipartFile.originalFilename,
+            multipartFile.size,
+            0,
+            aliceUserDto.userKey,
+            aliceUserDto.userKey,
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
         logger.debug("{}", fileLocEntity)
         fileLocRepository.save(fileLocEntity)
@@ -99,34 +115,63 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
         return fileLocEntity
     }
 
-    @Transactional
-    fun upload(fileSeq: List<Long>?) {
-        for (seq in fileSeq.orEmpty()) {
-            var fileLocEntity = fileLocRepository.getOne(seq)
-
-            var filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
+    /**
+     * 임시 업로드된 파일을 업로드한다.
+     * 임시 업로드 경로에 업로드된 파일을 업로드하고 파일관리테이블에 uploaded 상태를 true 변경하여 조회가 가능하도록 한다.
+     */
+    fun upload(fileDto: FileDto) {
+        for (fileSeq in fileDto.fileSeq.orEmpty()) {
+            val fileLocEntity = fileLocRepository.getOne(fileSeq)
+            val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
             val tempPath = getDir("temp", fileLocEntity.randomName)
             Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
-
             logger.debug(">> 임시업로드파일 {} 을 사용할 위치로 이동 {}", tempPath.toAbsolutePath(), filePath.toAbsolutePath())
             logger.debug(
                 ">> 여기에 업로드 파일 {}({})",
                 fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName,
                 fileLocEntity.randomName
             )
-
             fileLocEntity.uploaded = true
-            fileLocRepository.save(fileLocEntity)
+            try {
+                val fileOwnMapEntity = FileOwnMapEntity(fileDto.ownId, fileLocEntity)
+                fileOwnMapRepository.save(fileOwnMapEntity)
+            } catch (e: Exception) {
+                logger.error("{}", e.message)
+                Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
+                throw AliceException(AliceErrorConstants.ERR, e.message)
+            }
         }
     }
 
-    fun getList(task: String): MutableList<FileLocEntity> {
-        return fileLocRepository.findAllByUploaded(true)
+    /**
+     * 파일 목록을 가져온다.
+     */
+    fun getList(ownId: String): List<FileOwnMapEntity> {
+        return fileOwnMapRepository.findAllByOwnIdAndFileLocEntityUploaded(ownId, true)
     }
 
+    /**
+     * 시퀀스 번호로 파일을 삭제한다.
+     */
     @Transactional
     fun delete(seq: Long) {
-        val fileLocEntity = fileLocRepository.getOne(seq)
+        delete(fileOwnMapRepository.findByFileLocEntityFileSeq(seq).fileLocEntity)
+    }
+
+    /**
+     * 소유번호로 파일을 삭제한다.
+     */
+    fun delete(ownId: String) {
+        val fileOwnMapEntityList = fileOwnMapRepository.findAllByOwnId(ownId)
+        for (fileOwnMapEntity in fileOwnMapEntityList) {
+            delete(fileOwnMapEntity.fileLocEntity)
+        }
+    }
+
+    /**
+     * 파일을 삭제한다.
+     */
+    private fun delete(fileLocEntity: FileLocEntity) {
         try {
             Files.delete(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
             logger.info(
@@ -134,36 +179,32 @@ class FileService(private val fileLocRepository: FileLocRepository, private val 
                 fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName,
                 fileLocEntity.originName
             )
-        } catch (e: NoSuchFileException) {
-            logger.warn(
-                "Delete physical file failed. NoSuchFileException {}\nFile info: {}({})",
-                e.message,
-                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName,
-                fileLocEntity.originName
-            )
         } catch (e: Exception) {
             logger.warn(
-                "Delete physical file failed. NoSuchFileException {}\nFile info: {}({})",
+                "Delete physical file failed. {}\nFile info: {}({})",
                 e.message,
                 fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName,
                 fileLocEntity.originName
             )
         }
-        fileLocRepository.deleteById(fileLocEntity.fileSeq)
+        fileOwnMapRepository.deleteByFileLocEntity(fileLocEntity)
     }
 
+    /**
+     * 파일을 다운로드 한다.
+     */
     fun download(seq: Long): ResponseEntity<InputStreamResource> {
-        var fileLocEntity = fileLocRepository.getOne(seq)
-        var resource =
+        val fileLocEntity = fileLocRepository.getOne(seq)
+        val resource =
             FileSystemResource(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
         if (resource.exists()) {
             return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(Tika().detect(resource.path)))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileLocEntity.originName + "\"")
-                .body(InputStreamResource(resource.inputStream));
+                .body(InputStreamResource(resource.inputStream))
         } else {
             logger.error(
-                "File not fount: {}",
+                "File not found: {}",
                 fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName
             )
             throw AliceException(AliceErrorConstants.ERR, "File not found: " + fileLocEntity.originName)

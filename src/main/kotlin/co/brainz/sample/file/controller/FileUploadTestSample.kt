@@ -4,7 +4,6 @@ import co.brainz.framework.fileTransaction.service.FileService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
@@ -24,15 +23,11 @@ class FileUploadTestSample(private val fileService: FileService) {
 
     @PostMapping("/fileSubmit")
     @ResponseBody
-    fun formSubmit(@ModelAttribute fileSubmitDto: FileSubmitTestDtoSample): Boolean {
-
+    fun formSubmit(fileSubmitDto: FileSubmitTestDtoSample): Boolean {
         logger.debug("id {}:name: {}", fileSubmitDto.id, fileSubmitDto.name)
         for (seq in fileSubmitDto.fileSeq.orEmpty()) {
             logger.debug("{}:{} ", seq)
         }
-
-        fileService.upload(fileSubmitDto.fileSeq)
-
         return true
     }
 }

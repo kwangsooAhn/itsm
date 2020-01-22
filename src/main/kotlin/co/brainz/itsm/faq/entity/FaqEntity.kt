@@ -1,5 +1,6 @@
 package co.brainz.itsm.faq.entity
 
+import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -7,7 +8,6 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
-import org.hibernate.annotations.GenericGenerator
 
 /**
  * ### FAQ 엔티티 클래스.
@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator
  */
 @Entity
 @Table(name = "portal_faq")
-public data class FaqEntity(
+data class FaqEntity(
 
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")

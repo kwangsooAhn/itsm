@@ -2,7 +2,6 @@ package co.brainz.framework.exception
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
-import org.springframework.dao.InvalidDataAccessResourceUsageException
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.WebRequest
 
@@ -21,9 +20,9 @@ import org.springframework.web.context.request.WebRequest
 class AliceErrorAttributes : DefaultErrorAttributes() {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun getErrorAttributes(webRequest: WebRequest, includeStackTrace: Boolean): MutableMap<String, Any> {
+    override fun getErrorAttributes(webRequest: WebRequest, includeStackTrace: Boolean): MutableMap<String, Any?> {
         val exception = getError(webRequest)
-        val errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace) as LinkedHashMap<String, Any>
+        val errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace) as LinkedHashMap<String, Any?>
         if (exception != null) {
             errorAttributes["exceptionType"] = exception::class.java.canonicalName
             when (exception) {
@@ -32,12 +31,18 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                     logger.error("Known Alice error. {}", knownErrMsg)
                     errorAttributes["knownError"] = knownErrMsg
                 }
-                is InvalidDataAccessResourceUsageException -> {
-                    logger.error(exception.message)
-                    errorAttributes["message"] = "Invalid data access resource."
+                else -> {
+                    var throwable = exception.cause
+                    var msg = ""
+                    while (throwable !== null) {
+                         msg += "\n" + throwable.message
+                        throwable = throwable.cause
+                    }
+                    errorAttributes["message"] = msg
                 }
             }
         }
+        logger.error(exception.message)
         logger.error("Exception type: {}", errorAttributes["exceptionType"])
         return errorAttributes
     }

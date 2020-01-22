@@ -3,12 +3,12 @@ package co.brainz.framework.exception
 class AliceException : Exception {
     private val err: AliceErrorConstants
 
-    constructor(code: AliceErrorConstants, message: String) : super(message) {
-        this.err = code
+    constructor(error: AliceErrorConstants, message: String?) : super(message) {
+        this.err = error
     }
 
-    constructor(code: AliceErrorConstants, message: String, cause: Throwable) : super(message, cause) {
-        this.err = code
+    constructor(error: AliceErrorConstants, message: String?, cause: Throwable?) : super(message, cause) {
+        this.err = error
     }
 
     fun getCode(): String {

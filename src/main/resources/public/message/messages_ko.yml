@@ -15,6 +15,7 @@ common:
     addFile: "파일 추가"
     success: "성공"
     fail: "실패"
+    attachFile: "첨부파일"
   msg:
     save: "저장되었습니다"
     delete.success: "삭제되었습니다."
