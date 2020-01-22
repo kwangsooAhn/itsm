@@ -42,6 +42,9 @@
             </div>
         </div><!-- collapse navbar-collapse -->
     </nav>
+    <div>
+        <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
+    </div>
 </body>
 <script type="text/javascript" th:inline="javascript">
 function logout() {
