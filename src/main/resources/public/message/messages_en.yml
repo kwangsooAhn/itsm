@@ -17,9 +17,10 @@ common:
     success: "Success"
     fail: "Fail"
     createUserName: "Create Name"
-    updateeUserName: "Update Name"
+    updateUserName: "Update Name"
     createDate: "Create Date"
     updateDate: "Update Date"
+    attachFile: "Attach file"
   msg:
     save: "Saved"
     delete.success: "Deleted."
