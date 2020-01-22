@@ -159,7 +159,6 @@ const fileUploader = (function () {
                                     method: 'get',
                                     url: '/filedownload?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
-                                        console.log(xhr)
                                         const a = document.createElement('a');
                                         const url = window.URL.createObjectURL(xhr.response);
                                         a.href = url;
@@ -183,7 +182,6 @@ const fileUploader = (function () {
                                     method: 'delete',
                                     url: '/filedel?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
-                                        console.log(xhr);
                                         alert('삭제완료');
                                         thisEvent.parentElement.remove();
                                     },
@@ -212,7 +210,6 @@ const fileUploader = (function () {
                 //all uploading files: .getUploadingFiles()
 
                 this.on("addedfile", function (file) {
-                    console.log('addfile..');
                     // Hookup the start button
                     //file.previewElement.querySelector(".start").onclick = function() { _this.enqueueFile(file); };
                 });
@@ -225,13 +222,11 @@ const fileUploader = (function () {
                     //document.querySelector("#total-progress").style.opacity = "1";
                     // And disable the start button
                     //file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
-                    console.log('sending...');
                 });
 
                 // Update the total progress bar
                 this.on("totaluploadprogress", function (progress) {
                     //document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
-                    console.log('totaluploadprogress..');
                 });
 
                 this.on("success", function (file, response) {
@@ -243,10 +238,8 @@ const fileUploader = (function () {
                 });
 
                 this.on("error", function (file, errorMsg, xhr) {
-                    console.log('error...')
                     const res = JSON.parse(xhr.response);
                     file.previewElement.querySelector('.dz-error-message').innerText = res.message;
-
                     // file.previewElement.querySelector('.dz-success-mark').style.display = '';
                     // file.previewElement.querySelector('.dz-success-mark').style.display = 'none';
                     // aliceJs.xhrErrorResponse()
@@ -256,22 +249,17 @@ const fileUploader = (function () {
                 this.on("complete", function (file) {
                     //fileDropzone.removeFile(file);
                     //fileDropzone.removeAllFiles(file);
-                    console.log('complete..');
                 });
 
                 // Hide the total progress bar when nothing's uploading anymore
                 this.on("queuecomplete", function (progress) {
                     //document.querySelector("#total-progress").style.opacity = "0";
-                    console.log('queuecomplete..');
                 });
 
                 this.on("canceled", function () {
-                    console.log('canceled..');
-
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
-                console.log('accept');
                 if (file.name == "justinbieber.jpg") {
                     done("Naha, you don't.");
                 } else {
