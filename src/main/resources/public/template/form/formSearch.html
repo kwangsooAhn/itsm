@@ -6,15 +6,15 @@
     <script src="../../assets/js/util/util-alice.js"></script>
 </head>
 <body>
-    <div class="container" style="width: 70%; margin: auto;">
-        <h1 th:text="#{form.label.list}"></h1>
-        <div align="right">
-            <button type="button" onclick="openFormEdit();" th:text="#{form.btn.register}"></button>
-            <input type="text" id="search" th:placeholder="#{common.searchWord}">
-        </div>
-        <hr>
-        <div id="formList" style="margin-top: 20px"></div>
+<div class="container" style="width: 70%; margin: auto;">
+    <h1 th:text="#{form.label.list}"></h1>
+    <div align="right">
+        <button type="button" onclick="openFormEdit();" th:text="#{form.btn.register}"></button>
+        <input type="text" id="search" th:placeholder="#{common.searchWord}" />
     </div>
+    <hr>
+    <div id="formList" style="margin-top: 20px"></div>
+</div>
 </body>
 <script type="text/javascript">
     /*<![CDATA[*/
@@ -35,7 +35,7 @@
 
     //폼 삭제
     function deleteForm(formId) {
-        restSubmit("DELETE", "/rest/forms/" + formId, function() {
+        restSubmit("DELETE", "/forms/" + formId, function() {
             alert("[[#{form.msg.alert.delete}]]");
             location.reload();
         });

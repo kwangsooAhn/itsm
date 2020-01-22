@@ -1,14 +1,17 @@
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.form.constants.FormConstants
-import co.brainz.itsm.form.service.FormService
+import co.brainz.workflow.engine.WFEngine
+import co.brainz.workflow.form.constants.FormConstants
+import co.brainz.workflow.form.repository.FormRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletRequest
+import javax.transaction.Transactional
 
 /**
  * ### 폼(문서양식) 관련 화면 호출 처리용 클래스.
@@ -21,8 +24,8 @@ import javax.servlet.http.HttpServletRequest
  */
 @Controller
 @RequestMapping("/forms")
-class FormController(private val formService: FormService,
-                     private val codeService: CodeService) {
+class FormController(private val codeService: CodeService,
+                     private val formRepository: FormRepository) {
 
     private val formSearchPage: String = "form/formSearch"
     private val formListPage: String = "form/formList"
@@ -42,7 +45,7 @@ class FormController(private val formService: FormService,
      */
     @GetMapping("/list")
     fun getFormList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("formList", formService.findFormList(request.getParameter("search")))
+        model.addAttribute("formList", WFEngine().form(formRepository).formList(request.getParameter("search")))
         return formListPage
     }
 
@@ -52,7 +55,7 @@ class FormController(private val formService: FormService,
     @GetMapping("/new")
     fun getFormNew(request: HttpServletRequest, model: Model): String {
         //언어 목록
-        model.addAttribute("langList", codeService.selectCodeByParent(FormConstants.P_CODE.value))
+        model.addAttribute("langList", codeService.selectCodeByParent(FormConstants.FormLang.P_CODE.value))
         //TODO 템플릿 정보 가져오기
 
         return formEditPage
@@ -64,6 +67,17 @@ class FormController(private val formService: FormService,
     @GetMapping("/{formId}/edit")
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
         //TODO 컴포넌트 상세 정보 가져오기
+        model.addAttribute("form", WFEngine().form(formRepository).form(formId))
         return formDesignerEditPage
+    }
+
+    /**
+     * 폼 삭제.
+     */
+    @Transactional
+    @DeleteMapping("/{formId}")
+    fun deleteForm(@PathVariable formId: String): String {
+        WFEngine().form(formRepository).deleteForm(formId)
+        return formListPage
     }
 }
