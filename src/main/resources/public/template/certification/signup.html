@@ -76,7 +76,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            onProgressBar();
+            hiddenProgressBar();
         }
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
@@ -149,7 +149,7 @@
             const xmlHttp = createXmlHttpRequestObject(method, url, async);
             xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == XMLHttpRequest.DONE) {
-                    onProgressBar();
+                    hiddenProgressBar();
                     if (xmlHttp.status == 200) {
                         switch (xmlHttp.responseText) {
                             case STATUS_SUCCESS:
