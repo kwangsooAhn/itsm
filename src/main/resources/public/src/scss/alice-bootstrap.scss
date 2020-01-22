@@ -84,3 +84,74 @@ body {
 .nav-link {
     margin: 0rem 1.375rem;
 }
+
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#main-menu > li {
+    float: left;
+    position: relative;
+}
+
+#main-menu > li > a {
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+}
+
+.sub-menu {
+    position: absolute;
+    background: #e0e0e0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.15s ease-in;
+    margin-top: 1.00rem;
+    margin-left: 2.00rem;
+    display: block;
+    width: 12.5rem;
+
+    font: {
+        size: 1.12rem; // 18px;
+        weight: 400;
+    }
+}
+
+.sub-menu > li {
+    padding: 16px 28px;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+.sub-menu > li >  a {
+    color: rgba(48, 48, 48, 0.6);
+    text-decoration: none;
+}
+
+#main-menu > li:hover .sub-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sub-menu > li >  a:hover {
+    text-decoration: underline;
+}
+
+#profile-menu {
+    display: none;
+    position: absolute;
+}
+
+#profile-menu > ul > li > a {
+    color: rgba(48, 48, 48, 0.6);
+    background: #e0e0e0;
+    transition: all 0.15s ease-in;
+    display: block;
+    width: 12.5rem;
+    text-align: right;
+    font: {
+        size: 1.12rem; // 18px;
+        weight: 400;
+    }
+}
