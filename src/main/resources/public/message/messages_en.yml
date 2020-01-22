@@ -163,3 +163,6 @@ role:
     roleName: "Role Name"
     roleDesc: "Role Desc"
     roleAuth: "Role Auth"
+  msg:
+    idNotExist: "Please enter a role id."
+    nameNotExist: "Please enter a role name."

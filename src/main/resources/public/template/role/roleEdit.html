@@ -187,12 +187,12 @@
 
             function onSave(flag) {
                 if (document.getElementById('txtRoleId').value === '' || document.getElementById('txtRoleId').value === '' ) {
-                    alert('역할 아이디를 입력하세요.');
+                   alert([[#{role.msg.idNotExist}]]);
                     return;
                 }
 
                 if (document.getElementById('txtRoleName').value === '' || document.getElementById('txtRoleName').value === '' ) {
-                    alert('역할 명을 입력하세요.');
+                    alert([[#{role.msg.nameNotExist}]]);
                     return;
                 }
 
