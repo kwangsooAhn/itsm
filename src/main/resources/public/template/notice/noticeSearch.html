@@ -33,7 +33,7 @@
             // initialization date picker
             dateTimePicker.initDatePicker('fromDt');
             dateTimePicker.initDatePicker('toDt');
-            onProcessBar();
+            onProgressBar();
         }
         
         function validation() {
@@ -81,7 +81,7 @@
             var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    onProcessBar();
+                    onProgressBar();
                     if (xmlhttp.status === 200) {
                         var xmlhttpStr = xmlhttp.responseText;
                         document.getElementById('noticeList').innerHTML = xmlhttpStr;

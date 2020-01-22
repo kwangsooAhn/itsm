@@ -69,7 +69,7 @@
             }
 
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
-            onProcessBar();
+            onProgressBar();
         }
 
         function restSubmit(method, url, async) {
@@ -77,11 +77,11 @@
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                     if (xmlhttp.status == 200) {
-                        onProcessBar();
+                        onProgressBar();
                         alert("Success");
                         window.location = "/faqs/search";
                     } else if (xmlhttp.status == 400) {
-                        onProcessBar();
+                        onProgressBar();
                         alert('There was an error 400');
                     } else {
                         console.log(xmlhttp);

@@ -181,7 +181,7 @@
                     document.getElementById('topNoticeTab').style.display = 'none';
                 }
             }
-            onProcessBar();
+            onProgressBar();
         }
 
         function setDisplay(name, condition) {
@@ -349,7 +349,7 @@
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    onProcessBar();
+                    onProgressBar();
                     if (xmlhttp.status === 200) {
                         alert('글이 수정되었습니다.');
                         window.location = '/notices/search';

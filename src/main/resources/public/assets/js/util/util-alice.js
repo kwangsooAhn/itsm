@@ -183,26 +183,26 @@ aliceJs.sendXhr = function (option) {
     xhr.onreadystatechange = function () {
         if (this.readyState === 0) {
             //console.log('요청이 초기화되지 않음, 객체만 생성되고 아직 초기화되지 않은 상태(' + this.status + ')');
-            onProcessBar('block');
+            onProgressBar('block');
         } else if (this.readyState === 1) {
             //console.log('서버연결설정, OPEN 메서드가 호출되고 아직 send 메서드가 불리지 않은 상태(' + this.status + ')');
-            onProcessBar('block');
+            onProgressBar('block');
         } else if (this.readyState === 2) {
             //console.log('요청 접수, send메서드가 불렸지만 status와 헤더는 아직 도착하지 않음(' + this.status + ')');
-             onProcessBar('block');
+             onProgressBar('block');
         } else if (this.readyState === 3) {
             //console.log('처리 요청, 데이터의 일부를 받은 상태(' + this.status + ')');
-             onProcessBar('block');
+             onProgressBar('block');
         } else if (this.readyState === 4 && this.status === 200) {
             //console.log('요청 완료및 응답 준비, 데이터를 전부 받음(' + this.status + ')');
-            onProcessBar();
+            onProgressBar();
             aliceJs.xhrErrorResponse('printError');
             if (typeof callbackFunc === 'function') {
                 callbackFunc(this);
             } else {
                 console.info('No callback function');
             }
-            onProcessBar();
+            onProgressBar();
         } else {
             if (this.responseType === '') {
                 try {
@@ -213,7 +213,7 @@ aliceJs.sendXhr = function (option) {
             } else {
                 aliceJs.xhrErrorResponse('printError', this.responseText);
             }
-            onProcessBar();
+            onProgressBar();
         }
     };
 
@@ -243,7 +243,7 @@ aliceJs.sendXhr = function (option) {
 };
 
 function createXmlHttpRequestObject(method, url, async) {
-    onProcessBar('block');
+    onProgressBar('block');
     // will store the reference to the XMLHttpRequest object
     var xmlHttp;
     var token;
@@ -290,29 +290,29 @@ function createXmlHttpRequestObject(method, url, async) {
 /*
  * visible : 보기 여부
  */
-function onProcessBar(visible) {
-    //divProcessBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
-    var divCheck = document.getElementById('divProcessBar');
-    if (divCheck === null || divCheck === undefined) {
+function onProgressBar(visible) {
+    //divProgressBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
+    var divCheck = document.getElementById('divProgressBar');
+    if (divCheck === null) {
         return false;
     }
     var bVisible = 'none';
-    if (visible != '' && visible != undefined) {
+    if (visible !== '' && visible !== undefined) {
         bVisible = visible;
     } else {
         bVisible = 'none';
     }
     //bVisible = 'block';
     if (bVisible === 'none') {
-        document.getElementById('aProcssBar').style.display = 'none';
-        document.getElementById('divProcessBar').style.backgroundColor = '';
-        document.getElementById('divProcessBar').style.opacity = '';
-        document.getElementById('divProcessBar').style.pointerEvents = '';
+        document.getElementById('aProgressBar').style.display = 'none';
+        document.getElementById('divProgressBar').style.backgroundColor = '';
+        document.getElementById('divProgressBar').style.opacity = '';
+        document.getElementById('divProgressBar').style.pointerEvents = '';
     } else if (bVisible === 'block') {
-        document.getElementById('aProcssBar').style.display = 'block';
-        document.getElementById('divProcessBar').style.backgroundColor = 'grey';
-        document.getElementById('divProcessBar').style.opacity = '0.5';
-        document.getElementById('divProcessBar').style.pointerEvents = 'none';
+        document.getElementById('aProgressBar').style.display = 'block';
+        document.getElementById('divProgressBar').style.backgroundColor = 'grey';
+        document.getElementById('divProgressBar').style.opacity = '0.5';
+        document.getElementById('divProgressBar').style.pointerEvents = 'none';
     }
 }
 

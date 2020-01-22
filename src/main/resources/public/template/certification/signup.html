@@ -6,8 +6,8 @@
     <title>회원가입 페이지</title>
 </head>
 <body>
-    <div id="divProcessBar" style="z-index:1000; position: relative; display: block; width: 100%; heigth: 100%; background-color: grey; opacity: 0.5; pointer-events: none;">
-    <img id="aProcssBar" name="aProcssBar" th:src="@{/assets/media/image/loading_w_dark.gif}" style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
+    <div id="divProgressBar" style="z-index:1000; position: relative; display: block; width: 100%; heigth: 100%; background-color: grey; opacity: 0.5; pointer-events: none;">
+    <img id="aProgressBar" name="aProgressBar" th:src="@{/assets/media/image/loading_w_dark.gif}" style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
         <div id="container" align="center">
             <table style="text-align: left; width: 360px;">
                 <tr>
@@ -76,7 +76,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            onProcessBar();
+            onProgressBar();
         }
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
@@ -149,7 +149,7 @@
             const xmlHttp = createXmlHttpRequestObject(method, url, async);
             xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == XMLHttpRequest.DONE) {
-                    onProcessBar();
+                    onProgressBar();
                     if (xmlHttp.status == 200) {
                         switch (xmlHttp.responseText) {
                             case STATUS_SUCCESS:

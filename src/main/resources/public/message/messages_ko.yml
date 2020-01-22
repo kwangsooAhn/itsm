@@ -18,7 +18,7 @@ common:
     success: "성공"
     fail: "실패"
     createUserName: "등록자"
-    updateeUserName: "수정자"
+    updateUserName: "수정자"
     createDate: "등록일시"
     updateDate: "수정일시"
     attachFile: "첨부파일"
