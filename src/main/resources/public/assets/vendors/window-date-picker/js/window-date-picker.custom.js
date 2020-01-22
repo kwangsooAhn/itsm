@@ -608,9 +608,11 @@
           this.wheelHourInput = this.wheelHourInput.bind(this);
           this.wheelMinuteInput = this.wheelMinuteInput.bind(this);
           this.wheelAMInput = this.wheelAMInput.bind(this);
+          this.changePage = this.changePage.bind(this);
           this.setPosition = this.setPosition.bind(this);
           this.clickWindow = this.clickWindow.bind(this);
           this.open = this.open.bind(this);
+          this.close = this.close.bind(this);
           this.toggle = this.toggle.bind(this);
           this.pickerOpen = false;
           this.inputToggle = o.inputToggle;
@@ -1390,11 +1392,16 @@
         }, {
           key: "setEmptyValue",
           value: function setEmptyValue() {
+            var d = new Date(),
+                weekDay = this.getWeekDay(d);
             this.value = {
               value: '',
-              day: 0,
-              month: 0,
-              year: 0
+              day: d.getDate(),
+              weekDay: weekDay,
+              month: d.getMonth() + 1,
+              year: d.getFullYear(),
+              hour: this.type != DATE && this.hourType == $12 ? 12 : 0,
+              minute: 0
             };
           }
           /**
@@ -1724,7 +1731,7 @@
               var displaySpanText = "".concat(v.year, "/").concat(Util.renderNumber(v.month), "/").concat(Util.renderNumber(v.day), " (").concat(this.LANG.DAYS_ABBR[v.weekDay], ")");
               if (this.dateType == DMY) {
                 displaySpanText = "".concat(this.LANG.DAYS_ABBR[v.weekDay], ", ").concat(v.day, "/").concat(this.LANG.MONTHS_ABBR[v.month], "/").concat(v.year);
-              } else if (this.dateType == MDY) {6
+              } else if (this.dateType == MDY) {
                 displaySpanText = "".concat(this.LANG.DAYS_ABBR[v.weekDay], ", ").concat(this.LANG.MONTHS_ABBR[v.month], "/").concat(v.day, "/").concat(v.year);
               } else if (this.dateType == YDM) {
                 displaySpanText = "".concat(v.year, "/").concat(Util.renderNumber(v.day), "/").concat(Util.renderNumber(v.month), " (").concat(this.LANG.DAYS_ABBR[v.weekDay], ")");
