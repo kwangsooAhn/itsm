@@ -1,4 +1,4 @@
-package co.brainz.workflow.form
+package co.brainz.workflow.form.service
 
 import co.brainz.workflow.form.dto.FormDto
 

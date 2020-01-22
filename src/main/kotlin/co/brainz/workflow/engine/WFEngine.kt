@@ -1,7 +1,7 @@
 package co.brainz.workflow.engine
 
 import co.brainz.workflow.form.repository.FormRepository
-import co.brainz.workflow.form.Form
+import co.brainz.workflow.form.service.Form
 import co.brainz.workflow.form.service.FormProvider
 import org.springframework.stereotype.Controller
 
