@@ -1,6 +1,6 @@
 package co.brainz.framework.fileTransaction.controller
 
-import co.brainz.framework.fileTransaction.entity.FileLocEntity
+import co.brainz.framework.fileTransaction.entity.FileOwnMapEntity
 import co.brainz.framework.fileTransaction.service.FileService
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.InputStreamResource
@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile
 class FileController(private val fileService: FileService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
 
     /**
      * 파일 업로드.
@@ -54,11 +53,11 @@ class FileController(private val fileService: FileService) {
     /**
      * 파일 목록 가져오기.
      *
-     * @param task 파일 목록을 가져오기 위한 값.
+     * @param ownId 파일 목록을 가져오기 위한 값.
      */
     @GetMapping("/filelist")
-    fun getFileList(@RequestParam task: String): MutableList<FileLocEntity> {
-        return fileService.getList(task)
+    fun getFileList(ownId: String): List<FileOwnMapEntity> {
+        return fileService.getList(ownId)
     }
 
     /**

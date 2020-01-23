@@ -1,12 +1,16 @@
 # Common
-common: 
+common:
   searchWord: "Search"
-  btn: 
+  btn:
     save: "SAVE"
     close: "CLOSE"
     logout: "LOGOUT"
     delete: "DELETE"
-  label: 
+    register: "REGISTER"
+    modify: "MODIFY"
+    before: "BEFORE"
+    next: "NEXT"
+  label:
     title: "Title"
     message: "Message"
     path: "URL"
@@ -15,6 +19,7 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
+    attachFile: "Attach file"
   msg:
     save: "Saved"
     delete.success: "Deleted."
@@ -32,6 +37,7 @@ menu:
   setting.role: "Role management"
   setting.form: "Form"
   setting.process: "Process"
+  editMyInfo: "Edit my info"
 
 # Auth
 auth:
@@ -55,6 +61,7 @@ auth:
   process.create: "process create"
   process.update: "process update"
   process.delete: "process delete"
+
 # User
 user:
   id: "User ID"
@@ -110,7 +117,7 @@ notice:
   modify: "Modify"
   modifyCompleted: "Modify Completed"
   delete: "Delete"
-  
+
 # LOGIN
 login:
   uid: "ID"
@@ -125,16 +132,11 @@ form:
   label:
     list: "Form List"
     name: "Form Name"
+    edit: "Form Edit"
+    register: "Form Register"
     description: "Description"
     lang: "Language"
     templatesList: "Templates List"
-  btn:
-    register: "Register"
-    save: "Save"
-    modify: "Modify"
-    delete: "Delete"
-    before: "Before"
-    next: "Next"
   status:
     edit: "Editing"
     simu: "Simulation Complete"
@@ -144,8 +146,25 @@ form:
     ko: "Korean"
   msg:
     alert:
-      delete: "Deleted"
       nameNotExist: "Please enter a form name."
+
+# Process
+process:
+  label:
+    list: "Process List"
+    name: "Process Name"
+    edit: "Process Edit"
+    register: "Process Register"
+    description: "Description"
+    templatesList: "Templates List"
+  status:
+    edit: "Editing"
+    simu: "Simulation Complete"
+    publish: "Publish"
+    destroy: "Destroy"
+  msg:
+    alert:
+      nameNotExist: "Please enter a process name."
 
 # Portal
 portal:

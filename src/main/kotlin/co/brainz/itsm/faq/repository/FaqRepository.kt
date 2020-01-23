@@ -10,4 +10,4 @@ import org.springframework.stereotype.Repository
  * @author Jung heechan
  */
 @Repository
-public interface FaqRepository : JpaRepository<FaqEntity, String>
+interface FaqRepository : JpaRepository<FaqEntity, String>

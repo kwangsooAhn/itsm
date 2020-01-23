@@ -1,19 +1,18 @@
 package co.brainz.itsm.faq.controller
 
+import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.service.FaqService
-import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 
 /**
  * ### FAQ 관련 데이터 조회 처리용 클래스.
@@ -49,16 +48,16 @@ class FaqRestController(private val faqService: FaqService) {
      * 신규 FAQ 등록 처리
      */
     @PostMapping("/", "")
-    fun insertFaq(request: HttpServletRequest, @RequestParam("faqGroup") faqGroupParam: String, faq: FaqEntity) {
-        faqService.save(faq)
+    fun insertFaq(faqDto: FaqDto) {
+        faqService.save(faqDto)
     }
 
     /**
      * FAQ 수정 처리
      */
     @PutMapping("/{faqId}")
-    fun updateFaq(request: HttpServletRequest, @ModelAttribute faq: FaqEntity) {
-        faqService.save(faq)
+    fun updateFaq(faqDto: FaqDto) {
+        faqService.save(faqDto)
     }
 
     /**

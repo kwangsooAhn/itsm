@@ -1,11 +1,15 @@
 # common
-common: 
+common:
   searchWord: "검색어를 입력하세요"
-  btn: 
+  btn:
     save: "저장"
     close: "닫기"
     logout: "로그아웃"
     delete: "삭제"
+    register: "등록"
+    modify: "수정"
+    before: "이전"
+    next: "다음"
   label:
     title: "제목"
     message: "메시지"
@@ -15,6 +19,7 @@ common:
     addFile: "파일 추가"
     success: "성공"
     fail: "실패"
+    attachFile: "첨부파일"
   msg:
     save: "저장되었습니다"
     delete.success: "삭제되었습니다."
@@ -32,6 +37,7 @@ menu:
   setting.role: "역할 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
+  editMyInfo: "자기 정보 수정"
 
 # auth
 auth:
@@ -126,16 +132,11 @@ form:
   label:
     list: "문서양식 목록"
     name: "문서양식 이름"
+    edit: "문서양식 편집"
+    register: "문서양식 등록"
     description: "설명"
     lang: "언어"
     templatesList: "템플릿 목록"
-  btn:
-    register: "등록"
-    save: "저장"
-    modify: "수정"
-    delete: "삭제"
-    before: "이전"
-    next: "다음"
   status:
     edit: "편집중"
     simu: "시뮬레이션 완료"
@@ -145,8 +146,25 @@ form:
     ko: "한국어"
   msg:
     alert:
-      delete: "삭제되었습니다."
       nameNotExist: "문서양식 이름을 입력해주세요."
+
+# Process
+process:
+  label:
+    list: "프로세스 목록"
+    name: "프로세스 이름"
+    edit: "프로세스 편집"
+    register: "프로세스 등록"
+    description: "설명"
+    templatesList: "템플릿 목록"
+  status:
+    edit: "편집중"
+    simu: "시뮬레이션 완료"
+    publish: "발행"
+    destroy: "폐기"
+  msg:
+    alert:
+      nameNotExist: "프로세스 이름을 입력해주세요."
 
 # Portal
 portal:

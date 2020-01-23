@@ -1,4 +1,6 @@
 const dateTimePicker = (function() {
+    'use strict';
+
     const defaultOptions = {
         inputToggle: true,
         type: 'DATE', // DATE(default), DATEHOUR, HOUR
@@ -36,11 +38,9 @@ const dateTimePicker = (function() {
         targetContainer.appendChild(pickerContainer);
 
         // initialization picker
-        const picker = new WindowDatePicker(options);
+        let picker = new WindowDatePicker(options);
         picker.setPosition();
-        picker.el.addEventListener('wdp.change', () => {
-            //picker.toggle(); // 선택 후 바로 닫고 싶을 경우 comment 해제
-        });
+        return picker;
     }
 
     /**
@@ -54,7 +54,10 @@ const dateTimePicker = (function() {
         if (typeof dateType !== 'undefined') {
             options.dateType = dateType;
         }
-        initPicker(targetId, options);
+        let picker = initPicker(targetId, options);
+        picker.el.addEventListener('wdp.change', () => {
+            picker.close();
+        });
     }
 
     /**
@@ -73,7 +76,17 @@ const dateTimePicker = (function() {
         if (typeof hourType !== 'undefined') {
             options.hourType = '' + hourType;
         }
-        initPicker(targetId, options);
+        let picker = initPicker(targetId, options);
+        picker.el.addEventListener('wdp.change', () => {
+            if (picker.page === 'DATE') {
+                picker.changePage();
+            }
+        });
+        picker.el.addEventListener('wdp.close', () => {
+            if (picker.page === 'HOUR') {
+                picker.changePage();
+            }
+        });
     }
 
     /**

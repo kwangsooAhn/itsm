@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -14,38 +15,40 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <table>
-        <colgroup>
-            <col width="15%">
-            <col width="40%">
-            <col width="10%">
-            <col width="17%">
-            <col width="10%">
-            <col width="4%">
-            <col width="4%">
-        </colgroup>
-        <tbody>
-        <tr th:each="form: ${formList}">
-            <td th:text="${form.formName}"></td>
-            <td th:text="${form.formDesc}"></td>
-            <td th:text="${form.createUserKey}"></td>
-            <td th:if="${form.updateDt == null && form.updateUserKey == null}"
-                th:text="|${form.createDt} ${form.createUserKey}|"></td>
-            <td th:unless="${form.updateDt == null && form.updateUserKey == null}"
-                th:text="|${form.updateDt} ${form.updateUserKey}|"></td>
-            <td th:text="#{${form.formStatus}}"></td>
-            <td>
-                <button th:text="#{form.btn.modify}" th:disabled="${!form.formEnabled}"
-                        th:attr="onclick=|openFormDesignerEdit('${form.formId}')|"></button>
-            </td>
-            <td>
-                <button th:text="#{form.btn.delete}" th:disabled="${!form.formEnabled}"
-                        th:attr="onclick=|deleteForm('${form.formId}')|"></button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <div>
+        <table>
+            <colgroup>
+                <col width="15%">
+                <col width="37%">
+                <col width="10%">
+                <col width="20%">
+                <col width="10%">
+                <col width="4%">
+                <col width="4%">
+            </colgroup>
+            <tbody>
+                <tr th:each="form: ${formList}">
+                    <td th:text="${form.formName}"></td>
+                    <td th:text="${form.formDesc}"></td>
+                    <td th:text="${form.createUserKey}"></td>
+                    <td th:if="${form.updateDt == null && form.updateUserKey == null}"
+                        th:text="|${form.createDt} ${form.createUserKey}|"></td>
+                    <td th:unless="${form.updateDt == null && form.updateUserKey == null}"
+                        th:text="|${form.updateDt} ${form.updateUserKey}|"></td>
+                    <td th:text="#{${form.formStatus}}"></td>
+                    <td>
+                        <button sec:authorize="hasAuthority('form.update')"
+                            th:text="#{common.btn.modify}" th:disabled="${!form.formEnabled}"
+                            th:attr="onclick=|openFormDesignerEdit('${form.formId}')|"></button>
+                    </td>
+                    <td>
+                        <button sec:authorize="hasAuthority('form.delete')"
+                                th:text="#{common.btn.delete}" th:disabled="${!form.formEnabled}"
+                                th:attr="onclick=|deleteForm('${form.formId}')|"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

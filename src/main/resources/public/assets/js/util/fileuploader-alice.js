@@ -21,11 +21,13 @@ const fileUploader = (function () {
 
         // 파일 추가 버튼 정의 및 추가
         const dropZoneFiles = document.getElementById('dropZoneFiles');
+        dropZoneFiles.className = 'fileEditorable';
 
         const addFileSpan = document.createElement('span');
         addFileSpan.className = 'add-file-button';
         const addFileBtn = document.createElement('button');
         addFileBtn.innerText = 'ADD';
+        addFileBtn.setAttribute('type', 'button');
         addFileSpan.appendChild(addFileBtn);
         dropZoneFiles.appendChild(addFileSpan);
 
@@ -117,31 +119,45 @@ const fileUploader = (function () {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
-
                 // 등록된 파일이 있으면 조회.
                 const opt = {
                     method: 'get',
-                    url: '/filelist?task=sample',
+                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
-                        files.forEach(function (file) {
+
+                        files.forEach(function (fileMap) {
+                            let file = fileMap.fileLocEntity;
+
+                            const fileBytes = file.fileSize;
+                            const logValueDigit = 1024;
+                            const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+                            const fileSizeLogValue = Math.floor(Math.log(fileBytes) / Math.log(logValueDigit));
+
+                            let convertedFileSize;
+                            if (fileSizeLogValue == "-Infinity") {
+                                convertedFileSize = "0 " + unit[0];
+                            } else {
+                                convertedFileSize = (fileBytes / Math.pow(logValueDigit, Math.floor(fileSizeLogValue))).toFixed(2) + " " + unit[fileSizeLogValue];
+                            }
+
                             // 파일 목록 생성
                             const originName = document.createElement('span');
                             originName.setAttribute('name', 'loadedFileNames');
+                            originName.style.cursor = 'pointer';
                             originName.innerText = file.originName;
                             const fileSize = document.createElement('span');
                             fileSize.setAttribute('name', 'loadedFileSize');
-                            fileSize.innerText = ' (' + file.fileSize + ')';
+                            fileSize.innerText = ' (' + convertedFileSize + ')';
                             const fileSeq = document.createElement('input');
                             fileSeq.setAttribute('type', 'hidden');
                             fileSeq.setAttribute('name', 'loadedFileSeq');
                             fileSeq.value = file.fileSeq;
                             const delBtn = document.createElement('button');
                             delBtn.setAttribute('type', 'button');
-                            delBtn.className = 'file-delete';
+                            delBtn.className = 'file-delete fileEditorable';
                             delBtn.innerText = 'DELETE';
                             const fileTag = document.createElement('div');
-                            fileTag.style.cursor = 'pointer';
                             fileTag.append(originName);
                             fileTag.append(fileSize);
                             fileTag.append(fileSeq);
@@ -156,7 +172,6 @@ const fileUploader = (function () {
                                     method: 'get',
                                     url: '/filedownload?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
-                                        console.log(xhr)
                                         const a = document.createElement('a');
                                         const url = window.URL.createObjectURL(xhr.response);
                                         a.href = url;
@@ -180,7 +195,6 @@ const fileUploader = (function () {
                                     method: 'delete',
                                     url: '/filedel?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
-                                        console.log(xhr)
                                         alert('삭제완료');
                                         thisEvent.parentElement.remove();
                                     },
@@ -190,6 +204,12 @@ const fileUploader = (function () {
                                 aliceJs.sendXhr(delBtnOpt);
                             });
                         });
+
+                        if (extraParam.hasOwnProperty('editor') && !extraParam.editor) {
+                            for (let editor of document.getElementsByClassName('fileEditorable')) {
+                                editor.style.display = 'none'
+                            }
+                        }
                     },
                     params: '',
                     async: true
@@ -202,15 +222,12 @@ const fileUploader = (function () {
                 //all queued files: .getQueuedFiles()
                 //all uploading files: .getUploadingFiles()
 
-
                 this.on("addedfile", function (file) {
-                    console.log('addfile..');
                     // Hookup the start button
                     //file.previewElement.querySelector(".start").onclick = function() { _this.enqueueFile(file); };
                 });
 
                 this.on("removedfile", function (file) {
-
                 });
 
                 this.on("sending", function (file, xhr, formData) {
@@ -218,19 +235,11 @@ const fileUploader = (function () {
                     //document.querySelector("#total-progress").style.opacity = "1";
                     // And disable the start button
                     //file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
-                    console.log('sending...');
-                    // const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
-                    // const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
-                    //
-                    // console.log(formData);
-                    //
-                    // formData.append(header, token);
                 });
 
                 // Update the total progress bar
                 this.on("totaluploadprogress", function (progress) {
                     //document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
-                    console.log('totaluploadprogress..');
                 });
 
                 this.on("success", function (file, response) {
@@ -238,17 +247,12 @@ const fileUploader = (function () {
                     seq.setAttribute('type', 'hidden');
                     seq.setAttribute('name', 'fileSeq');
                     seq.value = response.file.fileSeq;
-                    document.getElementById(extraParam.formId).appendChild(seq);
-
-                    //$(file.previewElement).find('.dz-success-mark').show();
-                    //$(file.previewElement).find('.dz-error-mark').hide();
+                    file.previewElement.appendChild(seq);
                 });
 
                 this.on("error", function (file, errorMsg, xhr) {
-                    console.log('error...')
                     const res = JSON.parse(xhr.response);
                     file.previewElement.querySelector('.dz-error-message').innerText = res.message;
-
                     // file.previewElement.querySelector('.dz-success-mark').style.display = '';
                     // file.previewElement.querySelector('.dz-success-mark').style.display = 'none';
                     // aliceJs.xhrErrorResponse()
@@ -258,22 +262,17 @@ const fileUploader = (function () {
                 this.on("complete", function (file) {
                     //fileDropzone.removeFile(file);
                     //fileDropzone.removeAllFiles(file);
-                    console.log('complete..');
                 });
 
                 // Hide the total progress bar when nothing's uploading anymore
                 this.on("queuecomplete", function (progress) {
                     //document.querySelector("#total-progress").style.opacity = "0";
-                    console.log('queuecomplete..');
                 });
 
                 this.on("canceled", function () {
-                    console.log('canceled..');
-
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
-                console.log('accept');
                 if (file.name == "justinbieber.jpg") {
                     done("Naha, you don't.");
                 } else {
@@ -290,5 +289,4 @@ const fileUploader = (function () {
             createDropZone();
         }
     }
-
 }());
