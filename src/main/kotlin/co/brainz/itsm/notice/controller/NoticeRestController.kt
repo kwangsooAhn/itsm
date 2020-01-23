@@ -35,7 +35,6 @@ class NoticeRestController(private val noticeService: NoticeService) {
     @DeleteMapping("/{noticeId}")
     fun deleteNotice(@PathVariable noticeId: String) {
         noticeService.delete(noticeId)
-        //noticeRepository.deleteById(noticeId)
     }
 
     //공지사항 세부 조회
