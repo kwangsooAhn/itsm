@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletRequest
 class UserController(
         private val codeService: CodeService,
         private val userService: UserService,
-        private val roleService: RoleService
-) {
+        private val roleService: RoleService) {
+    
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userPage: String = "user/user"
     private val userListPage: String = "user/userList"
@@ -63,16 +63,19 @@ class UserController(
 
         return userDetailPage
     }
-    
+
     /**
      * 사용자 자기정보 수정화면을 호출한다.
      */
     @GetMapping("/{userKey}/userEdit")
     fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
         val users = userService.selectUserKey(userKey)
+        val langList = codeService.selectCodeByParent("user.lang")
+        val timezoneList = userService.selectTimezoneList()
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
         model.addAttribute("users", users)
-
+        model.addAttribute("langList", langList)
+        model.addAttribute("timezoneList", timezoneList)
         return userEditPage
     }    
 

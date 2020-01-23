@@ -11,45 +11,53 @@
     <div id="container" align="center">
     <input type="hidden" id="userKey" name="userKey" th:value="${users.userKey}"/>
     <input type="hidden" id="oldPassword" name="oldPassword" th:value="${users.password}"/>
-        <table style="text-align: left; width: 360px;">
+        <table style="text-align: left;">
             <tbody id="tbody">
                 <tr>
-                    <th>아이디 *</th>
-                    <td><input type="text" id="userId" name="userId" th:value="${users.userId}" maxlength="100" required="required"></td>
+                    <th th:text="#{user.id}"/>
+                    <td><input type="text" id="userId" name="userId" th:value="${users.userId}" maxlength="100" required="required"/>
                 </tr>
                 <tr>
-                    <th>비밀번호 *</th>
-                    <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
+                    <th th:text="#{user.password}"/>
+                    <td><input type="password" id="password" name="password" maxlength="100" required="required"/>
                 </tr>
                 <tr>
-                    <th>비밀번호 재확인 *</th>
-                    <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
+                    <th th:text="#{user.rePassword}"/>
+                    <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/>
                 </tr>
             </tbody>
             <tbody>
                 <tr>
-                    <th>이름 *</th>
-                    <td><input type="text" id="userName" name="userName" th:value="${users.userName}" maxlength="100" required="required"></td>
+                    <th th:text="#{user.name}"/>
+                    <td><input type="text" id="userName" name="userName" th:value="${users.userName}" maxlength="100" required="required"/>
                 </tr>
                 <tr>
-                    <th>이메일 *</th>
-                    <td><input type="text" id="email" name="email" th:value="${users.email}" maxlength="100" required="required"></td>
+                    <th th:text="#{user.email}"/>
+                    <td><input type="text" id="email" name="email" th:value="${users.email}" maxlength="100" required="required"/>
+                </tr>
+                <tr><th></th><td>이메일 변경 시, 인증 절차가 필요합니다.</td></tr>
+                <tr>
+                    <th th:text="#{user.position}"/>
+                    <td><input type="text" id="position" name="position" th:value="${users.position}" maxlength="100"/>
                 </tr>
                 <tr>
-                    <th>직책</th>
-                    <td><input type="text" id="position" name="position" th:value="${users.position}" maxlength="100"></td>
+                    <th th:text="#{user.department}"/>
+                    <td><input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/>
                 </tr>
                 <tr>
-                    <th>부서</th>
-                    <td><input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"></td>
+                    <th th:text="#{user.extensionNumber}"/>
+                    <td><input type="text" id="extensionNumber" name="extensionNumber" th:value="${users.extensionNumber}" maxlength="100"/>
                 </tr>
                 <tr>
-                    <th>내선번호</th>
-                    <td><input type="text" id="extensionNumber" name="extensionNumber" th:value="${users.extensionNumber}" maxlength="100"></td>
+                    <th th:text="#{user.timezone}"/> 
+                    <td><select name="timezone" id="timezone"><option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}" th:text="${tzData.timezoneId}"></option></select></td>
                 </tr>
+                <tr>
+                    <th th:text="#{user.lang}"/>
+                    <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}" th:text="${itemData.codeValue}"></option></select></td>
             </tbody>
         </table>
-        <button style="margin-top: 25px;" onclick="userEdit()">회원 정보 수정</button>
+        <button style="margin-top: 25px;" onclick="userEdit()" th:text="#{user.editUserInfo}"></button>
     </div>
     <br>
     <br>
@@ -123,7 +131,9 @@
                     email: document.getElementById('email').value,
                     position: document.getElementById('position').value,
                     department: document.getElementById('department').value,
-                    extensionNumber: document.getElementById('extensionNumber').value
+                    extensionNumber: document.getElementById('extensionNumber').value,
+                    timezone: document.getElementById('timezone').value,
+                    lang: document.getElementById('lang').value
             };
             editSubmit('PUT', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]], true, editData);
         }
@@ -138,7 +148,7 @@
                                 alert('수정되었습니다.');
                                 break;
                             case STATUS_SUCCESS_EDIT_EMAIL:
-                            	alert('이메일 정보가 수정되었습니다.');
+                            	alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
                             	break;
                             case STATUS_ERROR_USER_ID_DUPLICATION:
                                 alert('동일한 아이디가 존재합니다.');

@@ -58,24 +58,29 @@ auth:
 # User
 user:
   id: "User ID"
+  password: "Password"
+  rePassword: "rePassword"
   name: "Name"
   email: "Email"
   position: "Postion"
   department: "Department"
   extensionNumber: "ExtensionNumber"
   phoneNumber: "phoneNumber"
+  timezone: "TimeZone"
+  lang: "Language"
   reg: "Sign up"
   read: "User read"
   create: "User create"
   update: "User update"
   delete: "User delete"
+  editUserInfo: "Eidt User Information"
   search:
     id: "ID"
     name: "Name"
     position: "Position"
     department: "Department"
     extensionNumber: "Extension number"
-
+    
 # FAQ
 faq:
   add: "Add"

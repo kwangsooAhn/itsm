@@ -45,7 +45,7 @@ class UserJpaTest {
         userUpdateDto = UserUpdateDto(
                 "testKey", "kbh", "beom", "itsm123", "kbh@brainz.co.kr", "대리", "ITSM팀",
                 "02-6416-8324", "010-0000-1234", emptySet(), "code",
-                "status"
+                "status", TimeZone.getDefault().id, "en"
         )
 
     }

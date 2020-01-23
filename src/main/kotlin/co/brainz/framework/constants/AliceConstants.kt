@@ -38,8 +38,6 @@ object AliceConstants {
         PATTEN11("/document/documentSearch"),
         PATTEN12("/exception/**"),
         PATTEN13("/error"),
-        PATTEN14("/users/**"),
-        PATTEN15("/rest/users/**"),
         PATTEN94("/files"),
         PATTEN95("/fileupload"),
         PATTEN96("/filedownload"),
