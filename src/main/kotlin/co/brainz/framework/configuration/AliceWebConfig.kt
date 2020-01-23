@@ -5,6 +5,7 @@ import org.apache.http.client.HttpClient
 import org.apache.http.conn.ssl.NoopHostnameVerifier
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.ssl.SSLContextBuilder
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
@@ -21,9 +22,14 @@ import java.util.MissingResourceException
 import java.util.ResourceBundle
 import javax.net.ssl.SSLContext
 
-
 @Configuration
 class AliceWebConfig{
+
+    @Value("\${server.ssl.key-store-password}")
+    private val keyStorePassword = ""
+
+    @Value("\${server.ssl.trust-store-password}")
+    private var trustStorePassword = ""
 
     // 1. LocaleResolver
     @Bean("localeResolver")
@@ -65,8 +71,8 @@ class AliceWebConfig{
     fun restTemplate(builder: RestTemplateBuilder): RestTemplate? {
         val sslContext: SSLContext = SSLContextBuilder
                 .create()
-                .loadKeyMaterial(ResourceUtils.getFile("classpath:itsm.jks"), "itsm123".toCharArray(), "itsm123".toCharArray())
-                .loadTrustMaterial(ResourceUtils.getFile("classpath:itsm.ts"), "itsm123".toCharArray())
+                .loadKeyMaterial(ResourceUtils.getFile("classpath:itsm.jks"), keyStorePassword.toCharArray(), keyStorePassword.toCharArray())
+                .loadTrustMaterial(ResourceUtils.getFile("classpath:itsm.ts"), trustStorePassword.toCharArray())
                 .build()
         val client: HttpClient = HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()
         return builder.requestFactory { HttpComponentsClientHttpRequestFactory(client) }.build()

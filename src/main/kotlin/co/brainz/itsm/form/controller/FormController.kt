@@ -2,22 +2,19 @@ package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.form.service.FormService
-import co.brainz.workflow.engine.WFEngine
 import co.brainz.workflow.form.constants.FormConstants
 import co.brainz.workflow.form.dto.FormDto
-import co.brainz.workflow.form.repository.FormRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.client.RestTemplate
 import javax.servlet.http.HttpServletRequest
-import javax.transaction.Transactional
 
 /**
  * ### 폼(문서양식) 관련 화면 호출 처리용 클래스.
@@ -30,8 +27,7 @@ import javax.transaction.Transactional
 @Controller
 @RequestMapping("/forms")
 class FormController(private val codeService: CodeService,
-                     private val formService: FormService,
-                     private val formRepository: FormRepository) {
+                     private val formService: FormService) {
 
     private val formSearchPage: String = "form/formSearch"
     private val formListPage: String = "form/formList"
@@ -51,18 +47,8 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/list")
     fun getFormList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("formList", formService.getFormList())
+        model.addAttribute("formList", formService.getFormList(request.getParameter("search") ?: ""))
         return formListPage
-    }
-
-
-    /**
-     * 폼 정보 조회.
-     */
-    @GetMapping("/{formId}")
-    fun getForm(@PathVariable formId: String, model: Model): String {
-        model.addAttribute("form", WFEngine().form(formRepository).form(formId))
-        return formEditPage
     }
 
     /**
@@ -83,17 +69,16 @@ class FormController(private val codeService: CodeService,
     @GetMapping("/{formId}/edit")
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
         //TODO 컴포넌트 상세 정보 가져오기
-        model.addAttribute("form", WFEngine().form(formRepository).form(formId))
+        model.addAttribute("form", formService.getForm(formId))
         return formDesignerEditPage
     }
 
     /**
      * 폼 삭제.
      */
-    @Transactional
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String): String {
-        WFEngine().form(formRepository).deleteForm(formId)
+        formService.deleteForm(formId)
         return formListPage
     }
 
@@ -102,7 +87,16 @@ class FormController(private val codeService: CodeService,
      */
     @PostMapping("")
     fun insertForm(@RequestBody formDto: FormDto): String {
-        WFEngine().form(formRepository).insertForm(formDto)
+        formService.insertForm(formDto)
+        return formListPage
+    }
+
+    /**
+     * 폼 업데이트.
+     */
+    @PutMapping("/{formId}")
+    fun updateForm(@RequestBody formDto: FormDto): String {
+        formService.updateForm(formDto)
         return formListPage
     }
 }

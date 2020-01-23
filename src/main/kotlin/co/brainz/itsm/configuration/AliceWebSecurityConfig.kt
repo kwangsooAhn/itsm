@@ -6,6 +6,7 @@ import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.configuration.AliceWebSecurityConfigurerAdapter
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -25,9 +26,11 @@ class AliceWebSecurityConfig(authProvider: AliceAuthProvider,
     }
 
     override fun authorizeRequestConfigure(http: HttpSecurity) {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers("/", "/login", "/logout", "/certification/**", "/oauth/**", "/portal/**", "/rest/**").permitAll()
                 .anyRequest().authenticated()
+                .and().csrf().ignoringAntMatchers("/rest/**")
         logger.debug("> http configure <")
     }
 }

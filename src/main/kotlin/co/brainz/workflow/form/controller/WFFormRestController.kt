@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
+import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/rest/wf/forms")
@@ -37,6 +38,7 @@ class WFFormRestController(private val formRepository: FormRepository) {
         return WFEngine().form(formRepository).updateForm(formDto)
     }
 
+    @Transactional
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String) {
         return WFEngine().form(formRepository).deleteForm(formId)
