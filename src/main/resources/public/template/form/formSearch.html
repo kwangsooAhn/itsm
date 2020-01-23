@@ -1,72 +1,80 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+            layout:decorator="layout/defaultLayout">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <script src="../../assets/js/util/util-alice.js"></script>
+    <title th:text="#{form.label.list}"></title>
 </head>
 <body>
-    <div class="container" style="width: 70%; margin: auto;">
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto auto auto;">
         <h1 th:text="#{form.label.list}"></h1>
         <div align="right">
-            <button type="button" onclick="openFormEdit();" th:text="#{form.btn.register}"></button>
+            <button type="button" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"
+                    th:text="#{common.btn.register}"></button>
             <input type="text" id="search" th:placeholder="#{common.searchWord}">
         </div>
         <hr>
         <div id="formList" style="margin-top: 20px"></div>
     </div>
+</th:block>
 </body>
+<th:block layout:fragment="pageScript">
 <script type="text/javascript">
     /*<![CDATA[*/
     window.onload = function() {
-        getFormList(document.getElementById("search").value);
+        getFormList(document.getElementById('search').value);
+        hiddenProgressBar();
     };
 
-    document.getElementById("search").onkeyup = function() {
+    document.getElementById('search').onkeyup = function() {
         getFormList(this.value);
     };
 
     //폼 리스트 조회
     function getFormList(search) {
-        restSubmit("GET", "/forms/list?search=" + search.trim(), function(result) {
+        restSubmit('GET', '/forms/list?search=' + search.trim(), function(result) {
             document.getElementById('formList').innerHTML = result;
         });
     }
 
     //폼 삭제
     function deleteForm(formId) {
-        restSubmit("DELETE", "/rest/forms/" + formId, function() {
-            alert("[[#{form.msg.alert.delete}]]");
+        restSubmit('DELETE', '/rest/forms/' + formId, function() {
+            alert('[[#{common.msg.delete.success}]]');
             location.reload();
         });
     }
 
     //폼 편집화면 오픈
     function openFormEdit() {
-        window.open("/forms/new", "새 문서양식 추가", "width=1500, height=800");
+        window.open('/forms/new', '_blank', 'width=1500, height=800');
     }
 
     //폼 디자이너 편집화면 오픈
     function openFormDesignerEdit(formId) {
-        window.open("/forms/" + formId + "/edit", "문서양식 편집", "width=1500, height=800");
+        window.open('/forms/' + formId + '/edit', '_blank', 'width=1500, height=800');
     }
 
     //REST API
     function restSubmit(method, url, response) {
         const xmlHttp = createXmlHttpRequestObject(method, url);
         xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == XMLHttpRequest.DONE) {
-                if (xmlHttp.status == 200) {
+            if (xmlHttp.readyState === XMLHttpRequest.DONE) {
+                if (xmlHttp.status === 200) {
                     response(xmlHttp.responseText);
-                } else if (xmlHttp.status == 400) {
-                    alert("There was an error 400");
+                } else if (xmlHttp.status === 400) {
+                    alert('There was an error 400');
                 } else {
-                    alert("something else other than 200 was returned");
+                    alert('something else other than 200 was returned');
                 }
             }
+            hiddenProgressBar();
         };
         xmlHttp.send();
     }
     /*]]>*/
 </script>
+</th:block>
 </html>

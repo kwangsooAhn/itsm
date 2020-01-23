@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{form.label.register}"></title>
+    <title th:text="#{process.label.register}"></title>
     <th:block th:replace="layout/fragments/commonHead"></th:block>
     <!-- 임시 style -->
     <style>
@@ -18,24 +18,25 @@
         <div id="prevContainer">
             <table>
                 <tr>
-                    <th th:text="|#{form.label.name} *|"></th>
+                    <th th:text="|#{process.label.name} *|"></th>
                 </tr>
                 <tr>
-                    <td><input type="text" id="form_name" maxlength="50" required="required" tabindex="1"/></td>
+                    <td><input type="text" id="process_name" maxlength="50" required="required" tabindex="1"/></td>
                 </tr>
                 <tr>
-                    <th th:text="#{form.label.description}"></th>
+                    <th th:text="#{process.label.description}"></th>
                 </tr>
                 <tr>
-                    <td><textarea id="form_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
+                    <td><textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
                 </tr>
                 <tr>
-                    <th th:text="#{form.label.lang}"></th>
+                    <th th:text="#{form.label.name}"></th>
                 </tr>
                 <tr>
                     <td>
-                        <select id="lang" tabindex="3">
-                            <option th:each="lang: ${langList}" th:value="${lang.code}" th:text="#{${lang.code}}"></option>
+                        <select id="form" tabindex="3">
+                            <option th:each="form: ${formList}" th:value="${form.form_id}" th:text="${form.form_name}">
+                            </option>
                         </select>
                     </td>
                 </tr>
@@ -43,10 +44,10 @@
             <div><a th:text="#{common.btn.next}" href="javascript:replaceContent();"></a></div>
         </div>
         <div id="nextContainer" style="display:none;">
-            <h1 th:text="#{form.label.templatesList}"></h1>
+            <h1 th:text="#{process.label.templatesList}"></h1>
             <div>
                 <a th:text="#{common.btn.before}" href="javascript:replaceContent();"></a>
-                <a th:text="#{common.btn.save}" href="javascript:insertForm();"></a>
+                <a th:text="#{common.btn.save}" href="javascript:insertProcess();"></a>
             </div>
         </div>
     </div>
@@ -64,24 +65,24 @@
         }
     }
 
-    //폼 등록
-    function insertForm() {
+    //프로세스 등록
+    function insertProcess() {
         //빈 값 체크
         if (emptyValidation()) {
-            const formInfo = {
-                formName: document.getElementById('form_name').value,
-                formDesc: document.getElementById('form_desc').value,
-                lang: document.getElementById('lang').value
+            const processInfo = {
+                processName: document.getElementById('process_name').value,
+                processDesc: document.getElementById('process_desc').value,
+                formId: document.getElementById('form').value
             };
             //등록
-            restSubmit('POST', '/rest/forms', formInfo);
+            restSubmit('POST', '/rest/processes', processInfo);
         }
     }
 
     //빈 값 체크
     function emptyValidation() {
-        if (document.getElementById('form_name').value === '') {
-            alert('[[#{form.msg.alert.nameNotExist}]]');
+        if (document.getElementById('process_name').value === '') {
+            alert('[[#{process.msg.alert.nameNotExist}]]');
             replaceContent();
             return false;
         }
@@ -95,7 +96,7 @@
             if (xmlHttp.readyState === XMLHttpRequest.DONE) {
                 if (xmlHttp.status === 200) {
                     window.close();
-                    window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500, height=800');
+                    window.open('/processes/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500, height=800');
                 } else if (xmlHttp.status === 400) {
                     alert('There was an error 400');
                 } else {

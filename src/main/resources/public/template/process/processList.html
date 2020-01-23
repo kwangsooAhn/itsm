@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        table td {
+            border-left: 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            <colgroup>
+                <col width="18%">
+                <col width="20%">
+                <col width="13%">
+                <col width="10%">
+                <col width="20%">
+                <col width="11%">
+                <col width="4%">
+                <col width="4%">
+            </colgroup>
+            <tbody>
+                <tr th:each="process: ${processList}">
+                    <td th:text="${process.processName}"></td>
+                    <td th:text="${process.processDesc}"></td>
+                    <td th:text="${process.formName}"></td>
+                    <td th:text="${process.createUserkey}"></td>
+                    <td th:if="${process.updateDt == null && process.updateUserkey == null}"
+                        th:text="|${process.createDt} ${process.createUserkey}|"></td>
+                    <td th:unless="${process.updateDt == null && process.updateUserkey == null}"
+                        th:text="|${process.updateDt} ${process.updateUserkey}|"></td>
+                    <td th:text="#{${process.processStatus}}"></td>
+                    <td>
+                        <button sec:authorize="hasAuthority('process.update')"
+                                th:text="#{common.btn.modify}" th:disabled="${!process.enabled}"
+                                th:attr="onclick=|openProcessDesignerEdit('${process.processId}')|"></button>
+                    </td>
+                    <td>
+                        <button sec:authorize="hasAuthority('process.delete')"
+                                th:text="#{common.btn.delete}" th:disabled="${!process.enabled}"
+                                th:attr="onclick=|deleteProcess('${process.processId}')|"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

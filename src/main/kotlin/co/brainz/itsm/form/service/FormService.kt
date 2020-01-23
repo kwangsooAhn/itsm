@@ -80,7 +80,7 @@ class FormService {
     /**
      * 폼 1건 데이터 삭제.
      */
-    fun deleteFrom(formId: String) {
+    fun deleteForm(formId: String) {
         //TODO DB에서 삭제.
     }
 }

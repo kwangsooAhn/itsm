@@ -1,13 +1,17 @@
 # Common
-common: 
+common:
   searchWord: "Search"
-  btn: 
+  btn:
     save: "SAVE"
     close: "CLOSE"
     logout: "LOGOUT"
     delete: "DELETE"
-    add: "ADD"
-  label: 
+    register: "REGISTER"
+    modify: "MODIFY"
+    before: "BEFORE"
+    next: "NEXT"
+    add: "추가"
+  label:
     title: "Title"
     message: "Message"
     path: "URL"
@@ -16,10 +20,10 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
-    createUserName: "Create Name"
-    updateUserName: "Update Name"
-    createDate: "Create Date"
-    updateDate: "Update Date"
+    createUserName: "등록자"
+    updateUserName: "수정자"
+    createDate: "등록일시"
+    updateDate: "수정일시"
     attachFile: "Attach file"
   msg:
     save: "Saved"
@@ -62,6 +66,7 @@ auth:
   process.create: "process create"
   process.update: "process update"
   process.delete: "process delete"
+
 # User
 user:
   id: "User ID"
@@ -117,7 +122,7 @@ notice:
   modify: "Modify"
   modifyCompleted: "Modify Completed"
   delete: "Delete"
-  
+
 # LOGIN
 login:
   uid: "ID"
@@ -132,16 +137,11 @@ form:
   label:
     list: "Form List"
     name: "Form Name"
+    edit: "Form Edit"
+    register: "Form Register"
     description: "Description"
     lang: "Language"
     templatesList: "Templates List"
-  btn:
-    register: "Register"
-    save: "Save"
-    modify: "Modify"
-    delete: "Delete"
-    before: "Before"
-    next: "Next"
   status:
     edit: "Editing"
     simu: "Simulation Complete"
@@ -151,14 +151,31 @@ form:
     ko: "Korean"
   msg:
     alert:
-      delete: "Deleted"
       nameNotExist: "Please enter a form name."
+
+# Process
+process:
+  label:
+    list: "Process List"
+    name: "Process Name"
+    edit: "Process Edit"
+    register: "Process Register"
+    description: "Description"
+    templatesList: "Templates List"
+  status:
+    edit: "Editing"
+    simu: "Simulation Complete"
+    publish: "Publish"
+    destroy: "Destroy"
+  msg:
+    alert:
+      nameNotExist: "Please enter a process name."
 
 # Portal
 portal:
   intro: "Welcome to PortalMain Test."
-  
-  # Role
+
+# Role
 role:
   label:
     roleId: "Role Id"
