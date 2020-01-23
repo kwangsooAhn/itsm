@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service
 import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.dao.EmptyResultDataAccessException
 import java.security.PrivateKey
 import java.time.LocalDateTime

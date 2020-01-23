@@ -13,28 +13,31 @@
         <table style="text-align: left;">
             <tbody id="tbody">
                 <tr>
-                    <th th:text="#{user.id}"/>
+                    <th th:text="#{user.id}+'*'"/>
                     <td><input type="text" id="userId" name="userId" th:value="${users.userId}" maxlength="100" required="required"/>
                 </tr>
                 <tr>
-                    <th th:text="#{user.password}"/>
+                    <th th:text="#{user.password}+'*'"/>
                     <td><input type="password" id="password" name="password" maxlength="100" required="required"/>
                 </tr>
                 <tr>
-                    <th th:text="#{user.rePassword}"/>
+                    <th th:text="#{user.rePassword}+'*'"/>
                     <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/>
                 </tr>
             </tbody>
             <tbody>
                 <tr>
-                    <th th:text="#{user.name}"/>
+                    <th th:text="#{user.name}+'*'"/>
                     <td><input type="text" id="userName" name="userName" th:value="${users.userName}" maxlength="100" required="required"/>
                 </tr>
                 <tr>
-                    <th th:text="#{user.email}"/>
+                    <th th:text="#{user.email}+'*'"/>
                     <td><input type="text" id="email" name="email" th:value="${users.email}" maxlength="100" required="required"/>
                 </tr>
-                <tr><th></th><td>이메일 변경 시, 인증 절차가 필요합니다.</td></tr>
+                <tr>
+                    <th/>
+                    <td th:text="#{user.message}"/>
+                </tr>
                 <tr>
                     <th th:text="#{user.position}"/>
                     <td><input type="text" id="position" name="position" th:value="${users.position}" maxlength="100"/>
@@ -48,12 +51,12 @@
                     <td><input type="text" id="extensionNumber" name="extensionNumber" th:value="${users.extensionNumber}" maxlength="100"/>
                 </tr>
                 <tr>
-                    <th th:text="#{user.timezone}"/>
+                    <th th:text="#{user.timezone}+'*'"/>
                     <td><select name="timezone" id="timezone"><option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}"
                     th:text="${tzData.timezoneId}"></option></select></td>
                 </tr>
                 <tr>
-                    <th th:text="#{user.lang}"/>
+                    <th th:text="#{user.lang}+'*'"/>
                     <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}" 
                     th:text="${itemData.codeValue}"></option></select></td>
             </tbody>
