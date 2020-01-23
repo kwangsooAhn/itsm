@@ -24,7 +24,7 @@ class UserController(
         private val codeService: CodeService,
         private val userService: UserService,
         private val roleService: RoleService) {
-    
+
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userPage: String = "user/user"
     private val userListPage: String = "user/userList"

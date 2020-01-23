@@ -117,7 +117,7 @@ class UserService(private val certificationRepository: CertificationRepository,
                     val password = cryptoRsa.decrypt(privateKey, update.password!!)
                     update.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
                 }
-        
+
                 update.userId.let { targetEntity.userName = update.userId}
                 update.userName?.let { targetEntity.userName = update.userName!! }
                 update.email?.let { targetEntity.email = update.email!! }
@@ -173,7 +173,7 @@ class UserService(private val certificationRepository: CertificationRepository,
         }
         return code
     }
-    
+
     /**
      * 자기정보 수정 시, 타임존의 데이터를 가져온다.
      */

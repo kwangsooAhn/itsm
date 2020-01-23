@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse
 class UserRestController(private val certificationService: CertificationService,
                                                      private val userService: UserService,
                                               private val localeResolver: LocaleResolver ) {
-    
+
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
