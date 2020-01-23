@@ -57,6 +57,9 @@ dependencies {
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     implementation("org.springframework.social:spring-social-google:latest.integration")
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+    implementation("org.apache.httpcomponents:httpcore:4.4.13")
+    implementation("org.apache.httpcomponents:httpclient:4.5.11")
+    implementation("org.modelmapper:modelmapper:2.3.6")
 }
 
 // KTLINT
