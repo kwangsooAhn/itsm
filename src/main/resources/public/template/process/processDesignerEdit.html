@@ -2,12 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{process.label.edit}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script src="../../assets/js/util/util-alice.js"></script>
-    <script src="../../assets/vendors/d3/d3.min.js"></script>
-    <script src="../../assets/js/workflow/workflowEditor.js"></script>
-    <script src="../../assets/js/workflow/workflowEditor.menu.js"></script>
-    <script src="../../assets/js/workflow/workflowEditor.util.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
+    <script th:src="@{/assets/js/workflow/workflowEditor.js}"></script>
+    <script th:src="@{/assets/js/workflow/workflowEditor.menu.js}"></script>
+    <script th:src="@{/assets/js/workflow/workflowEditor.util.js}"></script>
     <style type="text/css">
         /* 임시 CSS */
         .toolbar { width: 1465px; height: 40px; background-color: rgba(171, 132, 135, 0.5); }
@@ -60,13 +63,13 @@
 <body>
 <div class="container">
     <div class="toolbar">
-        <a href="">Save</a>
-        <a href="">Simulation</a>
-        <a href="">Undo</a>
-        <a href="">Redo</a>
-        <a href="">Import</a>
-        <a href="">Export</a>
-        <a href="">Image Download</a>
+        <a href="#" id="btnSave">Save</a>
+        <a href="#" id="btnSimulation">Simulation</a>
+        <a href="#" id="btnUndo">Undo</a>
+        <a href="#" id="btnRedo">Redo</a>
+        <a href="#" id="btnImport">Import</a>
+        <a href="#" id="btnExport">Export</a>
+        <a href="#" id="btnDownload">Image Download</a>
     </div>
     <div class="element-palette" draggable="true">
         <span class="connector"></span>
@@ -84,7 +87,7 @@
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        wfEditor.init();
+        wfEditor.init({processId: '[[${processId}]]'});
     }
 </script>
 </html>
