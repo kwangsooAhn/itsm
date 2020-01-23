@@ -37,7 +37,7 @@ class FormService(private val restTemplate: RestTemplate) {
         return uri.build().toUri()
     }
 
-    fun getFormList(search: String): List<FormDto> {
+    fun findFormList(search: String): List<FormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
         val uri = makeUri("/rest/wf/forms", params)

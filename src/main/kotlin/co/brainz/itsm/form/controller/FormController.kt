@@ -47,7 +47,7 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/list")
     fun getFormList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("formList", formService.getFormList(request.getParameter("search") ?: ""))
+        model.addAttribute("formList", formService.findFormList(request.getParameter("search") ?: ""))
         return formListPage
     }
 
