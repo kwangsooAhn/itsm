@@ -169,6 +169,7 @@
                 if (document.getElementsByName('popYn')[0].value === 'true') {
                     document.getElementById('popRadioBtUp').checked = true;
                     document.getElementById('popTab').style.display = '';
+                    setDisplay('popTab',true)
                 } else {
                     document.getElementById('popRadioBtDown').checked = true;
                     document.getElementById('popWidth').value = '';
@@ -181,14 +182,19 @@
                 if (document.getElementsByName('topNoticeYn')[0].value === 'true') {
                     document.getElementById('topRadioBtUp').checked = true;
                     document.getElementById('topNoticeTab').style.display = '';
+                    setDisplay('topNoticeTab',true)
                 } else {
                     document.getElementById('topRadioBtDown').checked = true;
                     document.getElementById('topNoticeStrtDt').value = '';
                     document.getElementById('topNoticeEndDt').value = '';
                     document.getElementById('topNoticeTab').style.display = 'none';
                 }
+            } else {
+                document.getElementById('topRadioBtDown').checked = true;
+                setDisplay('topNoticeTab', false);
+                document.getElementById('popRadioBtDown').checked = true;
+                setDisplay('popTab', false);
             }
-
             fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
         }
 
@@ -360,7 +366,6 @@
                 topNoticeEndDt: document.getElementById('topNoticeEndDt').value,
                 fileSeq: fileSeq
             });
-
             const xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
