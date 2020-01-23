@@ -306,7 +306,8 @@
 
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+                    hiddenProgressBar();
                     if (xmlhttp.status === 200) {
                         alert('글이 등록되었습니다.');
                         window.location = '/notices/search';

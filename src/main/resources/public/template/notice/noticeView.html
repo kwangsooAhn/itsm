@@ -109,6 +109,7 @@
                 document.getElementById('topRadioBtDown').checked = true;
                 document.getElementById('topNoticeTab').style.display = 'none';
             }
+            hiddenProgressBar();
         }
 
         //RESTFUL API
@@ -129,7 +130,6 @@
             };
             xmlhttp.send(null);
         }
-        hiddenProgressBar();
         /* ]]> */
     </script>
 </th:block>
