@@ -24,6 +24,8 @@
 
 $alice-primary:    #5887F9 !default;
 $alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$nav-logo-height: 2.5rem; // 40px
+$nav-top-bottom-margin: 0.625rem; // 10px;
 
 body {
     font-family: $alice-font-family;
@@ -33,7 +35,7 @@ body {
     &-navbar {
         background: linear-gradient( to right, #5574F7 30%, #60C3FF );
         color: $white;
-        padding: 0.625rem 1.25rem; // 10px 20px
+        padding: $nav-top-bottom-margin 1.25rem; // 10px 20px
         line-height: 1.0rem;
         
         font: {
@@ -74,9 +76,15 @@ body {
             }
         }
     }
+
+    &-container {
+        height: calc(100vh - #{$nav-logo-height + ($nav-top-bottom-margin * 2)});
+        overflow: auto;
+    }
 }
 
 .navbar-brand {
+    height: $nav-logo-height;
     padding: 0rem;
     margin-right: 1.25rem; // 20px
 }
