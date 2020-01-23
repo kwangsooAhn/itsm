@@ -27,6 +27,7 @@ const fileUploader = (function () {
         addFileSpan.className = 'add-file-button';
         const addFileBtn = document.createElement('button');
         addFileBtn.innerText = 'ADD';
+        addFileBtn.setAttribute('type', 'button');
         addFileSpan.appendChild(addFileBtn);
         dropZoneFiles.appendChild(addFileSpan);
 

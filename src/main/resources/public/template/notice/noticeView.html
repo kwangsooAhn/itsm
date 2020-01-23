@@ -21,6 +21,13 @@
                 <td colspan="3" style="text-align:left; width:500px; height:250px;"><span th:text="${notice?.noticeContents}"></span></td>
             </tr>
             <tr>
+                <th th:text="#{common.label.attachFile}">첨부파일</th>
+                <td colspan="3">
+                    <div id="dropZoneFiles"></div>
+                    <div id="dropZoneUploadedFiles"></div>
+                </td>
+            </tr>
+            <tr>
                 <th th:text="#{notice.user}"></th>
                 <td colspan="3"><span th:text="${notice?.createUserkey}"/></span></td>
             </tr>
@@ -90,7 +97,7 @@
         /*<![CDATA[ */
         window.onload = function() {
             // 게시물 삭제 처리 시, validation 체크.
-            var noticeNo = /*[[${notice.noticeNo}]]*/;
+            const noticeNo = /*[[${notice.noticeNo}]]*/;
             if (noticeNo === null) {
                 alert('이미 삭제된 게시물 입니다.');
                 return history.go(-1);
@@ -109,6 +116,8 @@
                 document.getElementById('topRadioBtDown').checked = true;
                 document.getElementById('topNoticeTab').style.display = 'none';
             }
+
+            fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
         }
 
         //RESTFUL API
