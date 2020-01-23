@@ -21,6 +21,13 @@
                     <td colspan="3"><textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7" style="width: 750px; resize: none;" th:text="${notice?.noticeContents}"></textarea></td>
                 </tr>
                 <tr>
+                    <th th:text="#{common.label.attachFile}">첨부파일</th>
+                    <td colspan="3">
+                        <div id="dropZoneFiles"></div>
+                        <div id="dropZoneUploadedFiles"></div>
+                    </td>
+                </tr>
+                <tr>
                     <th th:text="#{notice.user}"></th>
                     <td><span sec:authentication="details.userKey"></span></td>
                 </tr>
@@ -162,6 +169,7 @@
                 if (document.getElementsByName('popYn')[0].value === 'true') {
                     document.getElementById('popRadioBtUp').checked = true;
                     document.getElementById('popTab').style.display = '';
+                    setDisplay('popTab',true)
                 } else {
                     document.getElementById('popRadioBtDown').checked = true;
                     document.getElementById('popWidth').value = '';
@@ -174,13 +182,20 @@
                 if (document.getElementsByName('topNoticeYn')[0].value === 'true') {
                     document.getElementById('topRadioBtUp').checked = true;
                     document.getElementById('topNoticeTab').style.display = '';
+                    setDisplay('topNoticeTab',true)
                 } else {
                     document.getElementById('topRadioBtDown').checked = true;
                     document.getElementById('topNoticeStrtDt').value = '';
                     document.getElementById('topNoticeEndDt').value = '';
                     document.getElementById('topNoticeTab').style.display = 'none';
                 }
+            } else {
+                document.getElementById('topRadioBtDown').checked = true;
+                setDisplay('topNoticeTab', false);
+                document.getElementById('popRadioBtDown').checked = true;
+                setDisplay('popTab', false);
             }
+            fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
             hiddenProgressBar();
         }
 
@@ -291,7 +306,10 @@
                 return false;
             }
 
-            var jsonData = JSON.stringify({
+            const fileSeq = [];
+            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
+
+            const jsonData = JSON.stringify({
                 noticeTitle: document.getElementById('noticeTitle').value,
                 noticeContents: document.getElementById('noticeContents').value,
                 popYn: document.getElementsByName('popYn')[0].value,
@@ -301,10 +319,11 @@
                 popHeight: document.getElementById('popHeight').value,
                 topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
                 topNoticeStrtDt: document.getElementById('topNoticeStrtDt').value,
-                topNoticeEndDt: document.getElementById('topNoticeEndDt').value
+                topNoticeEndDt: document.getElementById('topNoticeEndDt').value,
+                fileSeq: fileSeq
             });
 
-            var xmlhttp = createXmlHttpRequestObject(method, url, async);
+            const xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {
                     if (xmlhttp.status === 200) {
@@ -326,13 +345,15 @@
     <script th:inline="javascript" th:if="${notice?.noticeNo}">
         /*<![CDATA[ */
         function restSubmit(method, url, async) {
-            var noticeNo = /*[[${notice.noticeNo}]]*/;
+            const noticeNo = /*[[${notice.noticeNo}]]*/;
 
             if (!validation()) {
                 return false;
             }
 
-            var jsonData = JSON.stringify({
+            const fileSeq = [];
+            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
+            const jsonData = JSON.stringify({
                 noticeNo: noticeNo,
                 noticeTitle: document.getElementById('noticeTitle').value,
                 noticeContents: document.getElementById('noticeContents').value,
@@ -343,10 +364,10 @@
                 popHeight: document.getElementById('popHeight').value,
                 topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
                 topNoticeStrtDt: document.getElementById('topNoticeStrtDt').value,
-                topNoticeEndDt: document.getElementById('topNoticeEndDt').value
+                topNoticeEndDt: document.getElementById('topNoticeEndDt').value,
+                fileSeq: fileSeq
             });
-
-            var xmlhttp = createXmlHttpRequestObject(method, url, async);
+            const xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {
                     if (xmlhttp.status === 200) {
