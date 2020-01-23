@@ -80,7 +80,6 @@
             var getUrl = url+'?noticeTitle='+data.noticeTitle+'&createUserkey='+data.createUserkey+'&keyWord='+data.keyWord+'&fromDt='+data.fromDt+'&toDt='+data.toDt+'&btnSearch=';
             var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
             xmlhttp.onreadystatechange = function() {
-                hiddenProgressBar();
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {
                     if (xmlhttp.status === 200) {
                         var xmlhttpStr = xmlhttp.responseText;

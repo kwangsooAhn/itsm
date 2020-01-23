@@ -282,6 +282,7 @@ function createXmlHttpRequestObject(method, url, async) {
         }
         return xmlHttp;
     }
+    hiddenProgressBar();
 }
 
 /*
@@ -292,7 +293,7 @@ function showProgressBar() {
     var divCheck = document.getElementById('divProgressBar');
     if (divCheck === null) {
         var divProgressBar = document.createElement('div');
-        divProgressBar.setAttribute("id","divProgressBar");
+        divProgressBar.id = 'divProgressBar';
         divProgressBar.style.zIndex = 1000;
         divProgressBar.style.position = 'fixed';
         divProgressBar.style.display = 'block';

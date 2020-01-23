@@ -116,7 +116,6 @@
         function restSubmit(method, url, async) {
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
-                hiddenProgressBar();
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {
                     if (xmlhttp.status === 200) {
                         alert('삭제 처리되었습니다.');

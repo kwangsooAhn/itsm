@@ -306,7 +306,6 @@
 
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
-                hiddenProgressBar();
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {
                     if (xmlhttp.status === 200) {
                         alert('글이 등록되었습니다.');
@@ -349,7 +348,6 @@
 
             var xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
-                hiddenProgressBar();
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {
                     if (xmlhttp.status === 200) {
                         alert('글이 수정되었습니다.');

@@ -93,7 +93,6 @@
     function restSubmit(method, url, data) {
         const xmlHttp = createXmlHttpRequestObject(method, url);
         xmlHttp.onreadystatechange = function() {
-            hiddenProgressBar();
             if (xmlHttp.readyState === XMLHttpRequest.DONE) {
                 if (xmlHttp.status === 200) {
                     window.close();
