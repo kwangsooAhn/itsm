@@ -8,7 +8,9 @@
     <header>
         <th:block th:replace="layout/menu">menu</th:block>
     </header>
-    <th:block layout:fragment="content"></th:block>
+    <div class="alice-container">
+        <th:block layout:fragment="content"></th:block>
+    </div>
     <footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
 </body>
     <th:block layout:fragment="pageScript"></th:block>
