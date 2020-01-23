@@ -15,6 +15,7 @@ common:
     addFile: "파일 추가"
     success: "성공"
     fail: "실패"
+    attachFile: "첨부파일"
   msg:
     save: "저장되었습니다"
     delete.success: "삭제되었습니다."
@@ -32,6 +33,7 @@ menu:
   setting.role: "역할 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
+  editMyInfo: "자기 정보 수정"
 
 # auth
 auth:
