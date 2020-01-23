@@ -10,6 +10,7 @@ common:
     modify: "MODIFY"
     before: "BEFORE"
     next: "NEXT"
+    add: "추가"
   label:
     title: "Title"
     message: "Message"
@@ -19,6 +20,10 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
+    createUserName: "등록자"
+    updateUserName: "수정자"
+    createDate: "등록일시"
+    updateDate: "수정일시"
     attachFile: "Attach file"
   msg:
     save: "Saved"
@@ -169,3 +174,14 @@ process:
 # Portal
 portal:
   intro: "Welcome to PortalMain Test."
+
+# Role
+role:
+  label:
+    roleId: "Role Id"
+    roleName: "Role Name"
+    roleDesc: "Role Desc"
+    roleAuth: "Role Auth"
+  msg:
+    idNotExist: "Please enter a role id."
+    nameNotExist: "Please enter a role name."

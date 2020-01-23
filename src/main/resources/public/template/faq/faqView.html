@@ -19,7 +19,7 @@
                     <td th:text="${faq?.faqContent}"></td>
                 </tr>
                 <tr>
-                    <th th:text="'*' + #{common.label.attachFile}">첨부파일</th>
+                    <th th:text="#{common.label.attachFile}">첨부파일</th>
                     <td>
                         <div id="dropZoneFiles"></div>
                         <div id="dropZoneUploadedFiles"></div>
@@ -38,6 +38,7 @@
     <script type="text/javascript">
         window.onload = function () {
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]', editor: false}});
+            hiddenProgressBar();
         }
     </script>
 </th:block>
