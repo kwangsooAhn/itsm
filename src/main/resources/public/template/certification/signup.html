@@ -148,8 +148,8 @@
         function restSubmit(method, url, async, data) {
             const xmlHttp = createXmlHttpRequestObject(method, url, async);
             xmlHttp.onreadystatechange = function() {
+                hiddenProgressBar();
                 if (xmlHttp.readyState == XMLHttpRequest.DONE) {
-                    hiddenProgressBar();
                     if (xmlHttp.status == 200) {
                         switch (xmlHttp.responseText) {
                             case STATUS_SUCCESS:

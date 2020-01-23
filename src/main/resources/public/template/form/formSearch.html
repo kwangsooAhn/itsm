@@ -61,6 +61,7 @@
     function restSubmit(method, url, response) {
         const xmlHttp = createXmlHttpRequestObject(method, url);
         xmlHttp.onreadystatechange = function() {
+            hiddenProgressBar();
             if (xmlHttp.readyState === XMLHttpRequest.DONE) {
                 if (xmlHttp.status === 200) {
                     response(xmlHttp.responseText);
@@ -70,7 +71,6 @@
                     alert('something else other than 200 was returned');
                 }
             }
-            hiddenProgressBar();
         };
         xmlHttp.send();
     }
