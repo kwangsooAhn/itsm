@@ -658,7 +658,7 @@
      */
     function drawWorkflow(data) {
         console.debug(JSON.parse(data));
-        this.data = JSON.parse(data);
+        wfEditor.data = JSON.parse(data);
         wfEditor.setElementMenu();
     }
 

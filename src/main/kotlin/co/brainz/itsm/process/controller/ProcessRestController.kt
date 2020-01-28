@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
@@ -81,9 +80,9 @@ class ProcessRestController(private val processService: ProcessService) {
      * 프로세스 저장.
      */
     @PostMapping("/data")
-    fun saveProcessData(@RequestParam data: String): String {
+    fun saveProcessData(@RequestBody processData: String): String {
         // 테스트용 데이터
-        println(data)
+        println(processData)
         return "1"
     }
 }

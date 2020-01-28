@@ -26,6 +26,7 @@
                 }
             }
         };
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
         xhr.send(JSON.stringify(wfEditor.data));
     }
 
