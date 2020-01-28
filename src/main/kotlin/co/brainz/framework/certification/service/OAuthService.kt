@@ -10,7 +10,7 @@ import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
-import org.json.*
+import org.json.JSONObject
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -34,6 +34,7 @@ import java.time.LocalDateTime
 import java.util.Optional
 import java.util.TimeZone
 import javax.transaction.Transactional
+
 
 @Service
 class OAuthService(private val userService: UserService,
