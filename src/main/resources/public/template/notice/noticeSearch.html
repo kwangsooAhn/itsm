@@ -8,8 +8,6 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <br />
-    <br />
     <div class="container">
         <form id="formSearch" method="get">
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
@@ -18,15 +16,13 @@
                 <input type="text" name="keyWord" id="keyWord" />
                 <input type="text" id="fromDt" name="fromDt" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}" />
                 <input type="text" id="toDt" name="toDt" th:value="${#temporals.format(addCurrentDate, 'yyyy-MM-dd')}" />
-
                 <!-- submit -->
                 <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true, true)" th:text="#{notice.search}"></button>
             </div>
         </form>
         <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
     </div>
-    <div id="noticeList">
-    </div>
+    <div id="noticeList"></div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
@@ -37,8 +33,9 @@
             // initialization date picker
             dateTimePicker.initDatePicker('fromDt');
             dateTimePicker.initDatePicker('toDt');
+            hiddenProgressBar();
         }
-
+        
         function validation() {
             if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserkey').checked) {
                 alert('검색 조건을 선택해 주세요.');
@@ -83,7 +80,7 @@
             var getUrl = url+'?noticeTitle='+data.noticeTitle+'&createUserkey='+data.createUserkey+'&keyWord='+data.keyWord+'&fromDt='+data.fromDt+'&toDt='+data.toDt+'&btnSearch=';
             var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
             xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                if (xmlhttp.readyState === XMLHttpRequest.DONE) {
                     if (xmlhttp.status === 200) {
                         var xmlhttpStr = xmlhttp.responseText;
                         document.getElementById('noticeList').innerHTML = xmlhttpStr;
