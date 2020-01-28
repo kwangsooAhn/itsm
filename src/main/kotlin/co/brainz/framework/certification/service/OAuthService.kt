@@ -214,13 +214,10 @@ class OAuthServiceKakao: OAuthServiceIF {
             val accessToken = jsonToMap(accessTokenInfo, "access_token")
             val profileInfo = requestProfile(accessToken)
             val jObject = JSONObject(profileInfo)
-            val kakaoAccountObject = jObject.getJSONObject("kakao_account")
-            val email = kakaoAccountObject.getString("email")
             val propertiesObject = jObject.getJSONObject("properties")
             val userName = propertiesObject.getString("nickname")
             if (profileInfo.isNotEmpty()) {
                 oAuthDto.userid = jsonToMap(profileInfo, "id")
-                oAuthDto.email = email
                 oAuthDto.userName = userName
             }
         }
