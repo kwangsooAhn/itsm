@@ -10,6 +10,7 @@ import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
+import org.json.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -59,7 +60,7 @@ class OAuthService(private val userService: UserService,
                 userKey = "",
                 userId = oAuthDto.userid,
                 password = "",
-                userName = oAuthDto.email,
+                userName = oAuthDto.userName,
                 email = oAuthDto.email,
                 createUserkey = UserConstants.CREATE_USER_ID,
                 createDt = LocalDateTime.now(),
@@ -212,8 +213,15 @@ class OAuthServiceKakao: OAuthServiceIF {
         if (accessTokenInfo.isNotEmpty()) {
             val accessToken = jsonToMap(accessTokenInfo, "access_token")
             val profileInfo = requestProfile(accessToken)
+            val jObject = JSONObject(profileInfo)
+            val kakaoAccountObject = jObject.getJSONObject("kakao_account")
+            val email = kakaoAccountObject.getString("email")
+            val propertiesObject = jObject.getJSONObject("properties")
+            val userName = propertiesObject.getString("nickname")
             if (profileInfo.isNotEmpty()) {
                 oAuthDto.userid = jsonToMap(profileInfo, "id")
+                oAuthDto.email = email
+                oAuthDto.userName = userName
             }
         }
         return oAuthDto

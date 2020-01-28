@@ -47,7 +47,7 @@ spring:
                 accessTokenUri: https://www.googleapis.com/oauth2/v4/token
         kakao:
             client:
-                clientId: c361c9b6d39521005fdbacb496f181b7
+                clientId: efbca2ec2718f75ecad7770fa497cac0
                 authorizeUri: https://kauth.kakao.com/oauth/authorize
                 redirectUri: https://localhost/oauth/kakao/callback
                 accessTokenUri: https://kauth.kakao.com/oauth/token
