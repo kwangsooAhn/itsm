@@ -45,32 +45,14 @@ class FormService(private val restTemplate: RestTemplate) {
         val mapper = ObjectMapper()
         val list: List<Map<String, Any>> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, Map::class.java))
         val formList = mutableListOf<FormDto>()
-        val dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
         for (item in list) {
-            val formDto = FormDto(
-                    formId = item["formId"] as String,
-                    formName = item["formName"] as String,
-                    formStatus = item["formStatus"] as String,
-                    formDesc = item["formDesc"] as String,
-                    createDt = LocalDateTime.parse(item["createDt"].toString(), dateTimeFormatter),
-                    createUserKey = item["createUserKey"] as String,
-                    updateDt = item["updateDt"]?.let { LocalDateTime.parse(it.toString(), dateTimeFormatter) },
-                    updateUserKey = item["updateUserKey"]?.toString()
-            )
-            when (item["formStatus"] as String) {
-                FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true
-            }
-            formList.add(formDto)
+            formList.add(makeFormDto(item))
         }
 
         return formList
     }
 
-    fun getForm(formId: String): FormDto {
-        val uri = makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>())
-        val responseBody = restTemplate.getForObject(uri, String::class.java)
-        val mapper = ObjectMapper()
-        val item = mapper.readValue(responseBody, Map::class.java)
+    fun makeFormDto(item: Map<*, *>): FormDto {
         val dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
         val formDto = FormDto(
                 formId = item["formId"] as String,
@@ -89,6 +71,14 @@ class FormService(private val restTemplate: RestTemplate) {
         return formDto
     }
 
+    fun getForm(formId: String): FormDto {
+        val uri = makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>())
+        val responseBody = restTemplate.getForObject(uri, String::class.java)
+        val mapper = ObjectMapper()
+        val item: Map<*, *> = mapper.readValue(responseBody, Map::class.java)
+        return makeFormDto(item)
+    }
+
     fun deleteForm(formId: String) {
         restTemplate.delete(makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>()))
     }
@@ -99,10 +89,11 @@ class FormService(private val restTemplate: RestTemplate) {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
         val parameters: MultiValueMap<String, String> = LinkedMultiValueMap()
+
         //TODO: formDto를 MultiValueMap에 저장
 
         val requestEntity = HttpEntity(parameters, headers)
-        val responseEntity: String? = restTemplate.postForObject(uri, requestEntity, String::class.java)
+        restTemplate.postForObject(uri, requestEntity, String::class.java)
 
     }
 
