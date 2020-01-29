@@ -12,7 +12,7 @@ import java.util.Optional
 class FormProvider(private val formRepository: FormRepository) : Form {
 
     override fun formList(search: String): List<FormDto> {
-        val formEntityList = formRepository.findFormEntityByFormNameOrFormDescIgnoreCaseContaining(search, search)
+        val formEntityList = formRepository.findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContaining(search, search)
         val formList = mutableListOf<FormDto>()
         for (item in formEntityList) {
             formList.add(formEntityToDto(item))
