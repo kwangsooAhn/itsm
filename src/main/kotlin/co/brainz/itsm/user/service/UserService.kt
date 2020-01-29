@@ -3,8 +3,6 @@ package co.brainz.itsm.user.service
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.certification.repository.CertificationRepository
-import co.brainz.framework.certification.service.CertificationService
-import co.brainz.framework.certification.service.MailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.itsm.role.repository.RoleRepository
@@ -32,11 +30,9 @@ import java.util.Optional
 @Service
 class UserService(private val certificationRepository: CertificationRepository,
                         private val cryptoRsa: CryptoRsa,
-                        private val certificationService: CertificationService,
                         private val roleRepository: RoleRepository,
                         private val userRepository: UserRepository,
-                        private val userTimezoneRepository: UserTimezoneRepository,
-                        private val mailService: MailService) {
+                        private val userTimezoneRepository: UserTimezoneRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 

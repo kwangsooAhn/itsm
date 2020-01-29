@@ -77,20 +77,5 @@ class UserController(
         model.addAttribute("langList", langList)
         model.addAttribute("timezoneList", timezoneList)
         return userEditPage
-    }    
-
-    @GetMapping("/lang")
-    fun getUserLang(model: Model): String {
-
-        //code 테이블에 저장?
-        //yml파일로 작성한 후 해당 파일 목록을 출력
-        val langList = codeService.selectCodeByParent("user.lang")
-
-        //for (code in codeList) {
-        //}
-
-        model.addAttribute("langList", langList)
-
-        return userLangPage
     }
 }

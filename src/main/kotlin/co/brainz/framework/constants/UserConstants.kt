@@ -28,7 +28,7 @@ object UserConstants {
         CERTIFIED("user.status.certified", 1),
         OVER("user.status.over", 2),
         ERROR("user.status.error", 3),
-        EDIT("user.status.edit",4)
+        EDIT("user.status.edit", 4)
     }
 
     /**

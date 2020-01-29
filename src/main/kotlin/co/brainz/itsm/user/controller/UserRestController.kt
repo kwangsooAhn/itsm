@@ -6,7 +6,6 @@ import co.brainz.framework.certification.service.CertificationService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserSearchDto
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
