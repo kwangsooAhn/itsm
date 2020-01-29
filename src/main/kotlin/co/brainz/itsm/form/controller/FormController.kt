@@ -63,7 +63,7 @@ class FormController(private val formService: FormService,
      */
     @GetMapping("/{formId}/edit")
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
-        //TODO 컴포넌트 상세 정보 가져오기
+        model.addAttribute("formId", formId)
         return formDesignerEditPage
     }
 }

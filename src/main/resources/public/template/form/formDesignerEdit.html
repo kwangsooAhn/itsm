@@ -2,11 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{form.label.edit}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script src="../../assets/js/util/util-alice.js"></script>
-    <script src="../../assets/js/form/formEditor.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/js/form/formEditor.js}"></script>
     <!-- 화면 틀어져서 임시로 bak 으로 변경함.-->
-    <link type="text/css" rel="stylesheet" href="../../assets/css/bootstrap-alice.bak.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/assets/css/bootstrap-alice.bak.css}"/>
     <style type="text/css">
         body {
             display: flex;
@@ -58,7 +61,7 @@
         </button>
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#">저장</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" id="btnSave">저장</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">작업취소</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">작업재실행</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">미리보기</a></li>
@@ -78,7 +81,7 @@
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        formEditor.init();
+        formEditor.init({formId: '[[${formId}]]'});
     }
 </script>
 </html>
