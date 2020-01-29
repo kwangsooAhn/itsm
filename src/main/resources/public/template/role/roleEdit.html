@@ -11,11 +11,11 @@
     <table>
         <tr>
             <td>
-                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch">추가</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch" th:text="#{common.btn.add}">추가</button>
             </td>
         </tr>
     </table>
-    <table border="1" id="roleTable" >
+    <table border="1" id="roleTable">
         <colgroup>
             <col width="620px">
         </colgroup>
@@ -31,25 +31,25 @@
             <col width="480px">
         </colgroup>
         <tr>
-            <th>* 역할 아이디</th>
+            <th th:text="'*' + #{role.label.roleId}"></th>
             <td>
                 <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
             </td>
         </tr>
         <tr>
-            <th>* 역할명</th>
+            <th th:text="'*' + #{role.label.roleName}"></th>
             <td>
                 <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
             </td>
         </tr>
         <tr>
-            <th>역할설명</th>
+            <th th:text="#{role.label.roleDesc}"></th>
             <td>
                 <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${roleDetail?.roleDesc}"/>
             </td>
         </tr>
         <tr>
-            <th>권한</th>
+            <th th:text="#{role.label.roleAuth}"></th>
             <td>
                 <ui th:each="auth : ${authList}">
                     <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
@@ -58,32 +58,32 @@
             </td>
         </tr>
         <tr>
-            <th>등록자</th>
+            <th th:text="#{common.label.createUserName}"></th>
             <td><span id="spanCreateUserkey" name="spanCreateUserkey" th:text="${roleDetail?.createUserkey}"></span></td>
         </tr>
         <tr>
-            <th>등록일시</th>
+            <th th:text="#{common.label.createDate}"></th>
             <td><span id="spanCreateDt" name="spanCreateDt" th:text="${#temporals.format(roleDetail?.createDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
         <tr>
-            <th>수정자</th>
+            <th th:text="#{common.label.updateUserName}"></th>
             <td><span id="spanUpdateUserkey" name="spanUpdateUserkey" th:text="${roleDetail?.updateUserkey}"></span></td>
         </tr>
         <tr>
-            <th>수정일시</th>
+            <th th:text="#{common.label.updateDate}"></th>
             <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${#temporals.format(roleDetail?.updateDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
     </table>
     <table>
         <tr>
             <td>
-                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" >삭제</button>
+                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" th:text="#{common.btn.delete}"></button>
             </td>
             <td>
-                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" >수정</button>
+                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" th:text="#{common.btn.modify}"></button>
             </td>
             <td>
-                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" >등록</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" th:text="#{common.btn.save}"></button>
             </td>
         </tr>
     </table>
@@ -187,12 +187,12 @@
 
             function onSave(flag) {
                 if (document.getElementById('txtRoleId').value === '' || document.getElementById('txtRoleId').value === '' ) {
-                    alert('역할 아이디를 입력하세요.');
+                   alert([[#{role.msg.idNotExist}]]);
                     return;
                 }
 
                 if (document.getElementById('txtRoleName').value === '' || document.getElementById('txtRoleName').value === '' ) {
-                    alert('역할 명을 입력하세요.');
+                    alert([[#{role.msg.nameNotExist}]]);
                     return;
                 }
 
@@ -225,6 +225,7 @@
                 };
                 aliceJs.sendXhr(opt);
             }
+            hiddenProgressBar();
         };
         /*]]>*/
     </script>

@@ -22,7 +22,7 @@ data class AliceRoleEntity(
         var updateUserkey: String? = null,
         var updateDt: LocalDateTime? = null,
 
-        @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
         @JoinTable(name = "awfRoleAuthMap",
                 joinColumns = [JoinColumn(name = "roleId", referencedColumnName = "roleId")],
                 inverseJoinColumns = [JoinColumn(name = "authId", referencedColumnName = "authId")])

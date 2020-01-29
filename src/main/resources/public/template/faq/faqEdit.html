@@ -69,6 +69,7 @@
             }
 
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
+            hiddenProgressBar();
         }
 
         function restSubmit(method, url, async) {
