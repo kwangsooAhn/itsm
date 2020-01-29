@@ -339,15 +339,17 @@ function hiddenProgressBar() {
  */
 function i18n(messageId) {
     var result = '';
-    var strUrl = '/i18n/'+ messageId;
-    const opt = {
-             method: 'GET',
-             url: strUrl,
-             async: false,
-             callbackFunc: function(response) {
-                 result = response.responseText;
-             }
-    };
-    aliceJs.sendXhr(opt);
+    if (messageId !== '' && messageId !== null && messageId !== undefined) {
+        const strUrl = '/i18n/'+ messageId;
+        const opt = {
+                 method: 'GET',
+                 url: strUrl,
+                 async: false,
+                 callbackFunc: function(response) {
+                     result = response.responseText;
+                 }
+        };
+        aliceJs.sendXhr(opt);
+    }
     return result;
 }
