@@ -10,7 +10,6 @@ import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
-import org.json.JSONObject
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -34,7 +33,6 @@ import java.time.LocalDateTime
 import java.util.Optional
 import java.util.TimeZone
 import javax.transaction.Transactional
-
 
 @Service
 class OAuthService(private val userService: UserService,
@@ -214,9 +212,11 @@ class OAuthServiceKakao: OAuthServiceIF {
         if (accessTokenInfo.isNotEmpty()) {
             val accessToken = jsonToMap(accessTokenInfo, "access_token")
             val profileInfo = requestProfile(accessToken)
-            val jObject = JSONObject(profileInfo)
-            val propertiesObject = jObject.getJSONObject("properties")
-            val userName = propertiesObject.getString("nickname")
+            val mapper = ObjectMapper()
+            val result: MutableMap<*, *> = mapper.readValue(profileInfo, MutableMap::class.java)
+            val propertyMap = result.get("properties") as MutableMap<*, *>
+            val userName = propertyMap.get("nickname") as String
+
             if (profileInfo.isNotEmpty()) {
                 oAuthDto.userid = jsonToMap(profileInfo, "id")
                 oAuthDto.userName = userName

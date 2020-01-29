@@ -57,7 +57,6 @@ dependencies {
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     implementation("org.springframework.social:spring-social-google:latest.integration")
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
-    implementation("com.vaadin.external.google:android-json:0.0.20131108.vaadin1")   
 }
 
 // KTLINT
