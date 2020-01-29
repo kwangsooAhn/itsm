@@ -185,3 +185,14 @@ role:
   msg:
     idNotExist: "Please enter a role id."
     nameNotExist: "Please enter a role name."
+
+# Validation
+validation:
+  msg:
+    pwNotContainSpace: "Password cannot contain spaces."
+    pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
+    pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
+    pwContainsId: "Password contains an ID."
+    pwContainsEmail: "Password contains an email ID."
+    pwContainsInnerPhoneNumber: "The password contains your extension."
+    checkEmailFormat: "Please enter the correct email format."

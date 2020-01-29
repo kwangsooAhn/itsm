@@ -332,3 +332,18 @@ function hiddenProgressBar() {
     }
     divCheck.parentNode.removeChild(divCheck);
 }
+
+function i18n(code) {
+    var result = '';
+    var strUrl = '/i18n/'+ code;
+    const opt = {
+             method: 'GET',
+             url: strUrl,
+             async: false,
+             callbackFunc: function(response) {
+                 result = response.responseText;
+             }
+    };
+    aliceJs.sendXhr(opt);
+    return result;
+}
