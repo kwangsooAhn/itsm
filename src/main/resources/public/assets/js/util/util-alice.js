@@ -333,9 +333,13 @@ function hiddenProgressBar() {
     divCheck.parentNode.removeChild(divCheck);
 }
 
-function i18n(code) {
+/**
+ * 메시지를 받아서 다국어를 반환한다.
+ * @param messageId 다국어 yaml id를 받는다.
+ */
+function i18n(messageId) {
     var result = '';
-    var strUrl = '/i18n/'+ code;
+    var strUrl = '/i18n/'+ messageId;
     const opt = {
              method: 'GET',
              url: strUrl,
