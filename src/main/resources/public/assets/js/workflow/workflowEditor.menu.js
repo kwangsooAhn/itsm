@@ -82,7 +82,9 @@
         }];
 
         if (elem.classed('group') || elem.classed('annotation')) {
-            actionTooltip = actionTooltip.slice(2);
+            actionTooltip = actionTooltip.slice(0, 2);
+        } else if (elem.classed('connector')) {
+            actionTooltip = actionTooltip.slice(0, 1);
         }
 
         const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
@@ -111,10 +113,13 @@
                 d.action(elem, i);
             });
 
-        const bbox = elem.node().getBBox();
-        tooltipItemContainer.attr('transform', 'translate(' + (bbox.x + bbox.width / 2 - containerWidth / 2) + ', ' + (bbox.y - containerHeight - 10) + ')');
-        tooltipItemContainer.style('display', 'block');
-        tooltipItemContainer.datum(elem);
+        const bbox = wfEditor.utils.getBoundingBoxCenter(elem),
+              translateX = bbox.cx - containerWidth / 2,
+              translateY = (elem.classed('connector') ? bbox.cy :  bbox.y) - containerHeight - 10;
+        tooltipItemContainer
+            .attr('transform', `translate(${translateX},${translateY})`)
+            .style('display', 'block')
+            .datum(elem);
     }
 
     /**
@@ -123,7 +128,7 @@
      * @param elem 선택된 element
      */
     function setFavoritesElementItems(elem) {
-        if (elem.classed('group') || elem.classed('annotation')) {
+        if (elem.classed('group') || elem.classed('annotation') || elem.classed('connector')) {
             return;
         }
 
@@ -250,7 +255,7 @@
               containerWidth = 30,
               containerHeight = items.length * 25;
 
-        const bbox = actionTooltipContainer.node().getBBox(),
+        const bbox = wfEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
               x = bbox.x + bbox.width + 5,
               y = bbox.y;
 
@@ -296,23 +301,14 @@
         propertiesContainer.selectAll('*').remove();
         if (typeof elem !== 'undefined') { // show element properties
             propertiesContainer.append('h3').text('Element Properties');
-
-            let _this = elem,
-                properties = [];
-            if (_this.classed('event')) {
-                properties = elementsProperties['event'];
-            } else if (_this.classed('task')) {
-                properties = elementsProperties['task'];
-            } else if (_this.classed('subprocess')) {
-                properties = elementsProperties['subprocess'];
-            } else if (_this.classed('gateway')) {
-                properties = elementsProperties['gateway'];
-            } else if (_this.classed('group')) {
-                properties = elementsProperties['group'];
-            } else if (_this.classed('annotation')) {
-                properties = elementsProperties['annotation'];
+            const elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+            for (let i = 0, len = elementsKeys.length; i < len; i++) {
+                if (elem.classed(elementsKeys[i])) {
+                    let properties = elementsProperties[elementsKeys[i]];
+                    makePropertiesItem(propertiesContainer, properties);
+                    break;
+                }
             }
-            makePropertiesItem(propertiesContainer, properties);
         } else { // show workflow properties
             propertiesContainer.append('h3').text('Workflow Properties');
             makePropertiesItem(propertiesContainer, workflowProperties);
@@ -376,5 +372,6 @@
     }
 
     exports.setElementMenu = setElementMenu;
+    exports.setActionTooltipItem = setActionTooltipItem;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
