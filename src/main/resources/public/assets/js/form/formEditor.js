@@ -8,7 +8,7 @@
     let data = {};
     
     function init(form) {
-        console.info('form editor initialization.');
+        console.info('form editor initialization. [FORM ID: ' + form.formId + ']');
 
         // add save button event handler.
         document.querySelector('#btnSave').addEventListener('click', saveForm);
