@@ -65,27 +65,15 @@ class UserService(private val certificationRepository: CertificationRepository,
     }
 
     /**
-     * 사용자 ID로 정보를 수정한다.
+     * 사용자 KEY로 정보를 수정한다.
      */
    fun updateUser(update: UserUpdateDto): AliceUserEntity {
-        val targetEntity = userRepository.findByUserId(update.userId)
-        update.userName?.let { targetEntity.userName = update.userName!! }
-        update.email?.let { targetEntity.email = update.email!! }
-        update.position?.let { targetEntity.position = update.position!! }
-        update.department?.let { targetEntity.department = update.department }
-        update.extensionNumber?.let { targetEntity.extensionNumber = update.extensionNumber }
-        update.certificationCode?.let { targetEntity.certificationCode = update.certificationCode!! }
-        update.status?.let { targetEntity.status = update.status!! }
+        val targetEntity = updateDataInput(update)
 
         targetEntity.roleEntities = update.roles?.let {
             roleRepository.findAllById(it).toMutableSet()
         }
-
-        targetEntity.updateDt = LocalDateTime.now()
-        targetEntity.updateUserkey = SecurityContextHolder.getContext().authentication.principal as String
-
-        logger.debug("targetEntity {}, update {}", targetEntity, update)
-
+        
         return userRepository.save(targetEntity)
     }
 
@@ -103,30 +91,17 @@ class UserService(private val certificationRepository: CertificationRepository,
         var code: String = userEditValid(update)
         when (code) {
             UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
-                val targetEntity = userRepository.findByUserKey(update.userKey)
+                val userEntity = userRepository.findByUserKey(update.userKey)
+                val emailConfirmVal = userEntity.email
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-                val emailConfirmVal = targetEntity.email
+                val targetEntity = updateDataInput(update)
         
                 if (targetEntity.password != update.password) {
                     val password = cryptoRsa.decrypt(privateKey, update.password!!)
                     update.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
                 }
-
-                update.userId.let { targetEntity.userName = update.userId}
-                update.userName?.let { targetEntity.userName = update.userName!! }
-                update.email?.let { targetEntity.email = update.email!! }
-                update.position?.let { targetEntity.position = update.position!! }
-                update.department?.let { targetEntity.department = update.department }
-                update.extensionNumber?.let { targetEntity.extensionNumber = update.extensionNumber }
-                update.timezone?.let { targetEntity.timezone = update.timezone!! }
-                update.lang?.let { targetEntity.lang = update.lang!! }
-
-                targetEntity.updateDt = LocalDateTime.now()
-                targetEntity.updateUserkey = SecurityContextHolder.getContext().authentication.principal as String
-        
-                logger.debug("targetEntity {}, updateEdit {}", targetEntity, update)
-                
+                logger.debug("targetEntity {}, update {}", targetEntity, update)
                 userRepository.save(targetEntity)
                 
                 if (targetEntity.email ==  emailConfirmVal) {
@@ -168,11 +143,31 @@ class UserService(private val certificationRepository: CertificationRepository,
         }
         return code
     }
+    
+    /**
+     * 사용자 수정 관련 데이터 저장 공통화
+     */
+    fun updateDataInput(update: UserUpdateDto): AliceUserEntity {
+        val targetEntity = userRepository.findByUserKey(update.userKey)
+        update.userId.let { targetEntity.userId = update.userId}
+        update.userName?.let { targetEntity.userName = update.userName!! }
+        update.email?.let { targetEntity.email = update.email!! }
+        update.position?.let { targetEntity.position = update.position!! }
+        update.department?.let { targetEntity.department = update.department }
+        update.extensionNumber?.let { targetEntity.extensionNumber = update.extensionNumber }
+        update.timezone?.let { targetEntity.timezone = update.timezone!! }
+        update.lang?.let { targetEntity.lang = update.lang!! }
+
+        targetEntity.updateDt = LocalDateTime.now()
+        targetEntity.updateUserkey = SecurityContextHolder.getContext().authentication.principal as String      
+  
+        return targetEntity
+    }
 
     /**
      * 자기정보 수정 시, 타임존의 데이터를 가져온다.
      */
     fun selectTimezoneList(): MutableList<UserTimezoneEntity> {
-        return userTimezoneRepository.findAll()
+        return userTimezoneRepository.findAllByOrderByTimezoneIdAsc()
     }
 }

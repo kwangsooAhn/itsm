@@ -62,9 +62,9 @@ class UserRestController(private val certificationService: CertificationService,
         val result = userService.updateUserEdit(user)
 
         if (result == UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code) {
-            certificationService.sendMail(user.userId, user.email!!, "updateUserEditEmail")
+            certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code)
         } else {
-            certificationService.sendMail(user.userId, user.email!!, "updateUserEdit")
+            certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code)
         }
         localeResolver.setLocale(request, response, Locale(user.lang))
         return result

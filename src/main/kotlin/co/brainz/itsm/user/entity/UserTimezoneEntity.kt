@@ -9,6 +9,6 @@ import javax.persistence.Table
 @Entity
 @Table(name="awf_timezone")
 data class UserTimezoneEntity(
-        @Id @Column(name="timezone_Id") val timezoneId: String,
+        @Id @Column(name="timezone_id") val timezoneId: String,
         @Column(name="timezone_value") val timezoneValue: String
 ) : Serializable

@@ -114,16 +114,26 @@ public open class CertificationService(private val certificationRepository: Cert
 
     @Transactional
     fun sendMail(userId: String, email: String, target: String?) {
-        val certificationKey: String = KeyGeneratorService().getKey(50, false)
-        lateinit var certificationDto: CertificationDto
+        var certificationKey: String = KeyGeneratorService().getKey(50, false)
+        var statusCode = UserConstants.Status.SIGNUP.code
 
-        if (target === null) {
-            certificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
-        } else if (target === "updateUserEditEmail") {
-            certificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.EDIT.code)
-        } else if (target === "updateUserEdit") {
-            certificationDto = CertificationDto(userId, email, "", UserConstants.Status.CERTIFIED.code)
+        when (target) {
+            UserConstants.SendMailStatus.CREATE_USER.code -> {
+                statusCode = UserConstants.Status.SIGNUP.code
+            }
+            UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> {
+                statusCode = UserConstants.Status.EDIT.code
+            }
+            UserConstants.SendMailStatus.UPDATE_USER.code -> {
+                statusCode = UserConstants.Status.CERTIFIED.code
+                certificationKey = ""
+                var certificationDto = CertificationDto(userId, email, certificationKey, statusCode)
+                updateUser(certificationDto)
+                return
+            }
         }
+        
+        var certificationDto = CertificationDto(userId, email, certificationKey, statusCode)
         updateUser(certificationDto)
         sendCertificationMail(certificationDto)
     }

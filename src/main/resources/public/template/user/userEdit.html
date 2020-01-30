@@ -96,7 +96,23 @@
      /*<![CDATA[*/
         window.onload = function() {
             if (/*[[${!users.platform.equals('user.platform.alice')}]]*/) {
-                   document.getElementById('tbody').style.display = 'none';
+                document.getElementById('tbody').style.display = 'none';
+            }
+            if(/*[[${users.lang != null}]]*/) {
+                var selectLength = document.getElementById('lang').length;
+                for (i = 0; i < selectLength; i++) {
+                   if (document.getElementById('lang').options[i].value == /*[[${users.lang}]]*/) {
+                	  document.getElementById('lang').options[i].selected = true;
+                   }
+                }
+            }
+            if(/*[[${users.timezone != null}]]*/) {
+            	var selectLength = document.getElementById('timezone').length;
+            	for (i = 0; i < selectLength; i++) {
+            		if (document.getElementById('timezone').options[i].value == /*[[${users.timezone}]]*/) {
+                        document.getElementById('timezone').options[i].selected = true;
+            		}
+            	}
             }
         }
 
@@ -207,6 +223,11 @@
             }
             if (!emailValidation(document.getElementById('email').value)) {
                 return false;
+            }
+            if (document.getElementById('extensionNumber').value !== '') {
+                if (!extensionNumberValidation(document.getElementById('extensionNumber').value)) {
+                    return false;
+                }
             }
             return true;
         }
