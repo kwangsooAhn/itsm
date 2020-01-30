@@ -53,7 +53,7 @@ class ProcessController(private val processService: ProcessService,
      */
     @GetMapping("/{processId}/edit")
     fun getProcessDesignerEdit(@PathVariable processId: String, model: Model): String {
-        //TODO 프로세스 상세 정보 가져오기
+        model.addAttribute("processId", processId)
         return processDesignerEditPage
     }
 }
