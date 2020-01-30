@@ -31,9 +31,7 @@ class FormProvider(private val formRepository: FormRepository) : Form {
                 formId = formDto.formStatus,
                 formName = formDto.formName,
                 formDesc = formDto.formDesc,
-                formStatus = formDto.formStatus,
-                createUserkey = formDto.createUserKey,
-                createDt = formDto.createDt
+                formStatus = formDto.formStatus
         )
         formRepository.save(formEntity)
     }
