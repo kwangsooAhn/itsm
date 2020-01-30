@@ -15,9 +15,7 @@
 
     let mousedownElement,
         mouseoverElement,
-        selectedElement,
-        mousedownLink,
-        selectedLink;
+        selectedElement
 
     let isDrawConnector = false;
 
@@ -27,22 +25,7 @@
     function resetMouseVars() {
         mousedownElement = null;
         mouseoverElement = null;
-        mousedownLink = null;
     }
-
-    const utils = {
-        /**
-         * 해당 element의 중앙 x,y 좌표와 넓이,높이를 리턴한다.
-         *
-         * @param selection
-         * @returns {{x: number, width: number, y: number, height: number}}
-         */
-        getBoundingBoxCenter: function(selection) {
-            const element = selection.node();
-            const bbox = element.getBBox();
-            return {x: bbox.x, y: bbox.y, cx: bbox.x + bbox.width / 2, cy: bbox.y + bbox.height / 2, width: bbox.width, height: bbox.height};
-        }
-    };
 
     /**
      * 선택된 element 를 해제한다.
@@ -52,6 +35,7 @@
         svg.selectAll('.node').style('stroke-width', 1);
         svg.selectAll('.pointer').style('opacity', 0);
         svg.selectAll('.tooltip').remove();
+        svg.selectAll('.connector').classed('selected', false);
     }
 
     /**
@@ -59,30 +43,29 @@
      */
     function setConnectors() {
         path = path.data(links);
-        // update existing links
-        path.classed('selected', d => d === selectedLink)
-            .style('marker-start', d => '')
-            .style('marker-end', d => 'url(#end-arrow)');
 
         // remove old links
         path.exit().remove();
 
         // add new links
         path = path.enter().append('path')
-            .attr('class', 'link')
-            .classed('selected', d => d === selectedLink)
-            .style('marker-start', d => '')
-            .style('marker-end', d => 'url(#end-arrow)')
-            .on('mousedown', d => {
+            .attr('class', 'link connector')
+            .style('marker-end', 'url(#end-arrow)')
+            .on('mousedown', function(e){
+                d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
                 }
 
+                removeElementSelected();
+                resetMouseVars();
+
                 // select link
-                mousedownLink = d;
-                selectedLink = (mousedownLink === selectedLink) ? null : mousedownLink;
+                let selectedLink = d3.select(this).classed('selected', true);
                 selectedElement = null;
+
                 setConnectors();
+                wfEditor.setElementMenu(selectedLink);
             })
             .merge(path);
 
@@ -95,8 +78,8 @@
      */
     function drawConnectors() {
         path.attr('d', d => {
-            const targetBBox = utils.getBoundingBoxCenter(d.target);
-            const sourceBBox = utils.getBoundingBoxCenter(d.source);
+            const targetBBox = wfEditor.utils.getBoundingBoxCenter(d.target);
+            const sourceBBox = wfEditor.utils.getBoundingBoxCenter(d.source);
 
             let min = Number.MAX_SAFE_INTEGER;
             let best = {};
@@ -158,16 +141,15 @@
             elem.style('stroke', 'black');
             elem.style('stroke-width', 1);
         },
-        mousedown: function (e) {
+        mousedown: function () {
             const elem = d3.select(this);
             if (isDrawConnector) {
                 resetMouseVars();
                 removeElementSelected();
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
-                selectedLink = null;
 
-                const bbox = utils.getBoundingBoxCenter(mousedownElement);
+                const bbox = wfEditor.utils.getBoundingBoxCenter(mousedownElement);
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
@@ -209,18 +191,17 @@
                     const link = links.filter((l) => (l.source === source && l.target === target) || (l.source === target && l.target === source))[0];
                     if (!link) {
                         links.push({source, target});
-                        selectedLink = link;
                         selectedElement = null;
                         setConnectors();
                     }
                 }
                 resetMouseVars();
             } else {
-                wfEditor.setElementMenu(elem);
+                wfEditor.setActionTooltipItem(elem);
             }
         },
         mousedrag: function() {
-            const bbox = utils.getBoundingBoxCenter(mousedownElement);
+            const bbox = wfEditor.utils.getBoundingBoxCenter(mousedownElement);
             dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
         }
     }
@@ -605,6 +586,7 @@
             .attr('width', width)
             .attr('height', height)
             .on('mousedown', function() {
+                d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
                 }
@@ -612,6 +594,7 @@
                 wfEditor.setElementMenu();
             })
             .on('mouseup', function() {
+                d3.event.stopPropagation();
                 if (isDrawConnector && mousedownElement) {
                     dragLine
                         .classed('hidden', true)
