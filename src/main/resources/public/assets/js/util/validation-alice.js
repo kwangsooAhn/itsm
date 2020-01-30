@@ -121,12 +121,3 @@ function emailValidation(email) {
     }
     return true;
 }
-
-// 사무실 번호, 핸드폰 번호 validation check
-function extensionNumberValidation(extensionNumber) {
-	if (!numberReg.test(extensionNumber)) {
-		alert("숫자만 입력 가능합니다.");
-		return false;
-	}
-	return true;
-}

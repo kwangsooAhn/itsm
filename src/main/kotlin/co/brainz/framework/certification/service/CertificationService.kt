@@ -127,15 +127,14 @@ public open class CertificationService(private val certificationRepository: Cert
             UserConstants.SendMailStatus.UPDATE_USER.code -> {
                 statusCode = UserConstants.Status.CERTIFIED.code
                 certificationKey = ""
-                var certificationDto = CertificationDto(userId, email, certificationKey, statusCode)
-                updateUser(certificationDto)
-                return
             }
         }
-        
+
         var certificationDto = CertificationDto(userId, email, certificationKey, statusCode)
         updateUser(certificationDto)
-        sendCertificationMail(certificationDto)
+        when (target) {
+            UserConstants.SendMailStatus.CREATE_USER.code, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> sendCertificationMail(certificationDto)
+        }
     }
 
     @Transactional

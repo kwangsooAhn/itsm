@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface UserTimezoneRepository: JpaRepository<UserTimezoneEntity,String> {
 
-    public fun findAllByOrderByTimezoneIdAsc(): MutableList<UserTimezoneEntity>
+    fun findAllByOrderByTimezoneIdAsc(): MutableList<UserTimezoneEntity>
 }

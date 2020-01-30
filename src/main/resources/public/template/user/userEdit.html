@@ -48,7 +48,8 @@
                 </tr>
                 <tr>
                     <th th:text="#{user.extensionNumber}"/>
-                    <td><input type="text" id="extensionNumber" name="extensionNumber" th:value="${users.extensionNumber}" maxlength="100"/>
+                    <td><input type="text" id="extensionNumber" name="extensionNumber" th:value="${users.extensionNumber}"
+                    onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
                 </tr>
                 <tr>
                     <th th:text="#{user.timezone}+'*'"/>
@@ -117,6 +118,27 @@
             hiddenProgressBar();
         }
 
+        function onlyNumber(event) {
+        	event = event || window.evnet;
+            var keyID = (event.which) ? event.which : event.keyCode;
+            if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
+            || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) {
+            	return;
+            } else {
+                return false;
+            }
+        }
+
+        function removeChar(event) {
+            event = event || window.event;
+            var keyID = (event.which) ? event.which : event.keyCode;
+            if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) {
+                return;
+            } else {
+                event.target.value = event.target.value.replace(/[^0-9]/g, "");
+            }
+        }
+
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_USER_ID_DUPLICATION = '1';
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
@@ -168,10 +190,12 @@
                             case STATUS_SUCCESS:
                                 alert('수정되었습니다.');
                                 hiddenProgressBar();
+                                window.location.reload();
                                 break;
                             case STATUS_SUCCESS_EDIT_EMAIL:
                             	alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
                             	hiddenProgressBar();
+                                window.location.reload();
                             	break;
                             case STATUS_ERROR_USER_ID_DUPLICATION:
                                 alert('동일한 아이디가 존재합니다.');
@@ -232,11 +256,7 @@
             if (!emailValidation(document.getElementById('email').value)) {
                 return false;
             }
-            if (document.getElementById('extensionNumber').value !== '') {
-                if (!extensionNumberValidation(document.getElementById('extensionNumber').value)) {
-                    return false;
-                }
-            }
+
             return true;
         }
         /*]]>*/

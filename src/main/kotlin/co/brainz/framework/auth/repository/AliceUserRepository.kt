@@ -5,6 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface AliceUserRepository: JpaRepository<AliceUserEntity, String> {
     fun findByUserId(userId: String): AliceUserEntity
-    fun findByUserIdAndPlatform(email: String, platform: String): AliceUserEntity
     fun findByOauthKeyAndPlatform(oauthKey: String, platform: String): AliceUserEntity
 }

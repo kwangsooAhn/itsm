@@ -96,18 +96,18 @@ class UserService(private val certificationRepository: CertificationRepository,
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(update)
-        
+
                 if (targetEntity.password != update.password) {
                     val password = cryptoRsa.decrypt(privateKey, update.password!!)
                     update.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
                 }
                 logger.debug("targetEntity {}, update {}", targetEntity, update)
                 userRepository.save(targetEntity)
-                
-                if (targetEntity.email ==  emailConfirmVal) {
-                    code = UserConstants.UserEditStatus.STATUS_SUCCESS.code
+
+                code =  if (targetEntity.email ==  emailConfirmVal) {
+                    UserConstants.UserEditStatus.STATUS_SUCCESS.code
                 } else {
-                    code = UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
+                    UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
                 }
             }
         }

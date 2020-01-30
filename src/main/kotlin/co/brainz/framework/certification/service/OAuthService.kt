@@ -57,7 +57,7 @@ class OAuthService(private val userService: UserService,
     fun oAuthSave(oAuthDto: OAuthDto) {
         val userEntity = AliceUserEntity(
                 userKey = "",
-                userId = oAuthDto.userid,
+                userId = oAuthDto.userId,
                 password = "",
                 userName = oAuthDto.userName,
                 email = oAuthDto.email,
@@ -156,7 +156,7 @@ class OAuthServiceGoogle: OAuthServiceIF {
         val oAuthDto = OAuthDto(platform = platformValue)
         if (result != null) {
             if (result["email"] != null) {
-                oAuthDto.userid = result["email"] as String
+                oAuthDto.userId = result["email"] as String
                 oAuthDto.email = result["email"] as String
                 oAuthDto.oauthKey = result["email"] as String
             }
@@ -224,7 +224,7 @@ class OAuthServiceKakao: OAuthServiceIF {
             val userName = propertyMap.get("nickname") as String
 
             if (profileInfo.isNotEmpty()) {
-                oAuthDto.userid = jsonToMap(profileInfo, "id")
+                oAuthDto.userId = jsonToMap(profileInfo, "id")
                 oAuthDto.oauthKey = jsonToMap(profileInfo, "id")
                 oAuthDto.userName = userName
             }
