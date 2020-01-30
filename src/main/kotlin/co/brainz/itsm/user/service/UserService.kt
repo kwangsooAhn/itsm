@@ -14,14 +14,12 @@ import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.repository.UserTimezoneRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.dao.EmptyResultDataAccessException
 import java.security.PrivateKey
-import java.time.LocalDateTime
 import java.util.Optional
 
 /**
@@ -29,10 +27,10 @@ import java.util.Optional
  */
 @Service
 class UserService(private val certificationRepository: CertificationRepository,
-                        private val cryptoRsa: CryptoRsa,
-                        private val roleRepository: RoleRepository,
-                        private val userRepository: UserRepository,
-                        private val userTimezoneRepository: UserTimezoneRepository) {
+                  private val cryptoRsa: CryptoRsa,
+                  private val roleRepository: RoleRepository,
+                  private val userRepository: UserRepository,
+                  private val userTimezoneRepository: UserTimezoneRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -56,7 +54,7 @@ class UserService(private val certificationRepository: CertificationRepository,
     fun selectByUserIdAndPlatform(userId: String, platform: String): Optional<AliceUserEntity> {
         return userRepository.findByUserIdAndPlatform(userId, platform)
     }
-    
+
     /*
      * 사용자 oauthKey, 플랫폼으로 해당 정보를 조회한다.
      */
@@ -67,13 +65,13 @@ class UserService(private val certificationRepository: CertificationRepository,
     /**
      * 사용자 KEY로 정보를 수정한다.
      */
-   fun updateUser(update: UserUpdateDto): AliceUserEntity {
+    fun updateUser(update: UserUpdateDto): AliceUserEntity {
         val targetEntity = updateDataInput(update)
 
         targetEntity.roleEntities = update.roles?.let {
             roleRepository.findAllById(it).toMutableSet()
         }
-        
+
         return userRepository.save(targetEntity)
     }
 
@@ -121,7 +119,7 @@ class UserService(private val certificationRepository: CertificationRepository,
         var isContinue = true
         val targetEntity = userRepository.findByUserKey(update.userKey)
         var code: String = UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
-        
+
         if (targetEntity.userId != update.userId) {
             if (userRepository.countByUserId(update.userId) > 0) {
                 code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
@@ -143,7 +141,7 @@ class UserService(private val certificationRepository: CertificationRepository,
         }
         return code
     }
-    
+
     /**
      * 사용자 수정 관련 데이터 저장 공통화
      */
@@ -158,9 +156,6 @@ class UserService(private val certificationRepository: CertificationRepository,
         update.timezone?.let { targetEntity.timezone = update.timezone!! }
         update.lang?.let { targetEntity.lang = update.lang!! }
 
-        targetEntity.updateDt = LocalDateTime.now()
-        targetEntity.updateUserkey = SecurityContextHolder.getContext().authentication.principal as String      
-  
         return targetEntity
     }
 

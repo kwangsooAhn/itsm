@@ -1,15 +1,12 @@
 package co.brainz.itsm.faq.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.dto.FileDto
 import co.brainz.framework.fileTransaction.service.FileService
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.repository.FaqRepository
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 /**
  * ### FAQ 관련 서비스 레이어 클래스.
@@ -40,8 +37,6 @@ class FaqService(private val faqRepository: FaqRepository, private val fileServi
      */
     @Transactional
     fun save(faqDto: FaqDto) {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val userKey = aliceUserDto.userKey
         val faqEntity = if (faqDto.faqId.isNotBlank()) {
             faqRepository.getOne(faqDto.faqId)
         } else {
@@ -49,18 +44,12 @@ class FaqService(private val faqRepository: FaqRepository, private val fileServi
                 faqDto.faqId,
                 faqDto.faqGroup,
                 faqDto.faqTitle,
-                faqDto.faqContent,
-                faqDto.createDt,
-                userKey,
-                faqDto.updateDt,
-                userKey
+                faqDto.faqContent
             )
         }
         faqEntity.faqGroup = faqDto.faqGroup
         faqEntity.faqTitle = faqDto.faqTitle
         faqEntity.faqContent = faqDto.faqContent
-        faqEntity.updateUserkey = userKey
-        faqEntity.updateDt = LocalDateTime.now()
 
         val savedFaqEntity = faqRepository.save(faqEntity)
         fileService.upload(FileDto(savedFaqEntity.faqId, faqDto.fileSeq))

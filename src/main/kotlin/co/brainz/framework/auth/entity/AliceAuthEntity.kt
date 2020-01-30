@@ -1,8 +1,8 @@
 package co.brainz.framework.auth.entity
 
 import co.brainz.framework.menu.entity.AliceMenuEntity
+import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
-import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -18,14 +18,10 @@ data class AliceAuthEntity(
         @Id var authId: String,
         var authName: String,
         var authDesc: String,
-        var createUserkey: String?,
-        var createDt: LocalDateTime?,
-        var updateUserkey: String?,
-        var updateDt: LocalDateTime?,
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awfMenuAuthMap",
-                joinColumns = [JoinColumn(name = "authId")],
-                inverseJoinColumns = [JoinColumn(name = "menuId")])
+                   joinColumns = [JoinColumn(name = "authId")],
+                   inverseJoinColumns = [JoinColumn(name = "menuId")])
         val aliceMenuList: Set<AliceMenuEntity>,
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awf_url_auth_map",
@@ -33,4 +29,5 @@ data class AliceAuthEntity(
                    inverseJoinColumns = [JoinColumn(name = "url", referencedColumnName = "url"),
                                          JoinColumn(name = "method", referencedColumnName = "method")])
         val aliceUrl: Set<AliceUrlEntity>
-) : Serializable
+
+): Serializable, AliceMetaEntity()
