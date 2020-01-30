@@ -1,6 +1,5 @@
 package co.brainz.itsm.role.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.itsm.auth.repository.AuthRepository
@@ -9,8 +8,6 @@ import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.repository.UserRoleMapRepository
-import org.springframework.security.core.context.SecurityContextHolder
-import java.time.LocalDateTime
 
 @Service
 public class RoleService(
@@ -53,17 +50,14 @@ public class RoleService(
      * 역할 정보 등록 한다.
      */
     public fun insertRole(roleInfo: RoleDto): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
-        val result = roleRepository.save(
-                AliceRoleEntity(
-                        roleId = roleInfo.roleId.toString(),
-                        roleName = roleInfo.roleName.toString(),
-                        roleDesc = roleInfo.roleDesc.toString(),
-                        createUserkey = aliceUserDto.userKey,
-                        authEntityList = authEntity
-                )
+        val roleEntity = AliceRoleEntity(
+                roleId = roleInfo.roleId.toString(),
+                roleName = roleInfo.roleName.toString(),
+                roleDesc = roleInfo.roleDesc.toString(),
+                authEntityList = authEntity
         )
+        val result = roleRepository.save(roleEntity)
         return result.roleId
     }
 
@@ -71,18 +65,12 @@ public class RoleService(
      * 역할 정보 수정 한다.
      */
     public fun updateRole(roleInfo: RoleDto): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val roleDetailInfo = roleRepository.findByRoleId(roleInfo.roleId.toString()).get(0)
         val authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
         val result = roleRepository.save(
                 AliceRoleEntity(
                         roleId = roleInfo.roleId.toString(),
                         roleName = roleInfo.roleName.toString(),
                         roleDesc = roleInfo.roleDesc.toString(),
-                        createUserkey = roleDetailInfo.createUserkey.toString(),
-                        createDt = roleDetailInfo.createDt,
-                        updateUserkey = aliceUserDto.userKey,
-                        updateDt = LocalDateTime.now(),
                         authEntityList = authEntity
                 )
         )

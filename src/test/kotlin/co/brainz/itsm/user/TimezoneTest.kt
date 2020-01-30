@@ -138,7 +138,6 @@ class TimezoneTest {
             deleteNotice(notice.noticeNo)
         }
         val noticeDto = NoticeEntity(
-                createDt = createDt,
                 noticeTitle = "JUNIT_TEST",
                 noticeContents = "JUNIT TEST",
                 popYn = false,

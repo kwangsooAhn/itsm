@@ -1,12 +1,14 @@
 package co.brainz.framework.auth.entity
 
 import co.brainz.framework.constants.UserConstants
+import co.brainz.framework.auditor.AliceMetaEntity
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.io.Serializable
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
@@ -31,26 +33,21 @@ data class AliceUserEntity(
         var position: String? = null,
         var department: String? = null,
         var extensionNumber: String? = null,
-        val createUserkey: String?,
-        var updateUserkey: String? = null,
+        override var createUserkey: String = UserConstants.CREATE_USER_ID,
         var status: String = UserConstants.Status.CERTIFIED.code,
         var certificationCode: String? = null,
         var platform: String = UserConstants.Platform.ALICE.code,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val expiredDt: LocalDateTime,
-        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        val createDt: LocalDateTime?,
-        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        var updateDt: LocalDateTime? = null,
         @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(name = "awfUserRoleMap",
-                joinColumns = [JoinColumn(name = "userKey")],
-                inverseJoinColumns = [JoinColumn(name = "roleId")])
+                   joinColumns = [JoinColumn(name = "userKey")],
+                   inverseJoinColumns = [JoinColumn(name = "roleId")])
         var roleEntities: Set<AliceRoleEntity>?,
         var timezone: String,
         val lang: String
 
-) : Serializable {
+): Serializable, AliceMetaEntity() {
     fun getAuthorities(): MutableSet<GrantedAuthority> {
 
         val authorities = mutableSetOf<GrantedAuthority>()

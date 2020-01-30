@@ -1,8 +1,8 @@
 package co.brainz.itsm.faq.entity
 
+import co.brainz.framework.auditor.AliceMetaEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
-import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -17,7 +17,6 @@ import javax.persistence.Table
 @Entity
 @Table(name = "portal_faq")
 data class FaqEntity(
-
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "faq_id")
@@ -30,18 +29,6 @@ data class FaqEntity(
     var faqTitle: String = "",
 
     @Column(name = "faq_content")
-    var faqContent: String = "",
+    var faqContent: String = ""
 
-    @Column(name = "create_dt")
-    var createDt: LocalDateTime = LocalDateTime.now(),
-
-    @Column(name = "create_userkey")
-    var createUserkey: String?,
-
-    @Column(name = "update_dt")
-    var updateDt: LocalDateTime?,
-
-    @Column(name = "update_userkey")
-    var updateUserkey: String?
-
-) : Serializable
+): Serializable, AliceMetaEntity()

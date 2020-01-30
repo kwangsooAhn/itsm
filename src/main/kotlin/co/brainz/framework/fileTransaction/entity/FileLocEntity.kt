@@ -1,8 +1,7 @@
 package co.brainz.framework.fileTransaction.entity
 
-import org.springframework.format.annotation.DateTimeFormat
+import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
-import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -29,11 +28,7 @@ data class FileLocEntity(
     @Column(name = "random_name") var randomName: String?,
     @Column(name = "origin_name") var originName: String?,
     @Column(name = "file_size") var fileSize: Long?,
-    @Column(name = "sort") var sort: Int?,
-    @Column(name = "create_userkey") var createUserkey: String?,
-    @Column(name = "update_userkey") var updateUserkey: String?,
-    @Column(name = "create_dt") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var createDt: LocalDateTime?,
-    @Column(name = "update_dt") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") var updateDt: LocalDateTime?
+    @Column(name = "sort") var sort: Int?
 
-) : Serializable
+) : Serializable, AliceMetaEntity()
 

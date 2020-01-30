@@ -8,9 +8,7 @@ import co.brainz.itsm.user.dto.UserSearchDto
 import co.brainz.itsm.user.repository.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 import java.util.Optional
 
 /**
@@ -57,9 +55,6 @@ class UserService(private val userRepository: UserRepository, private val roleRe
         targetEntity.roleEntities = update.roles?.let {
             roleRepository.findAllById(it).toMutableSet()
         }
-
-        targetEntity.updateDt = LocalDateTime.now()
-        targetEntity.updateUserkey = SecurityContextHolder.getContext().authentication.principal as String
 
         logger.debug("targetEntity {}, update {}", targetEntity, update)
 
