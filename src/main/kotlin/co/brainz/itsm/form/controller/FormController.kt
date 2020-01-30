@@ -52,7 +52,7 @@ class FormController(private val formService: FormService,
     @GetMapping("/new")
     fun getFormNew(request: HttpServletRequest, model: Model): String {
         //언어 목록
-        model.addAttribute("langList", codeService.selectCodeByParent(FormConstants.P_CODE.value))
+        model.addAttribute("langList", codeService.selectCodeByParent(FormConstants.FORM_LANG))
         //TODO 템플릿 정보 가져오기
 
         return formEditPage

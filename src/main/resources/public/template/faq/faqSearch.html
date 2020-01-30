@@ -21,13 +21,14 @@
 <script type="text/javascript">
 window.onload = function() {
     loadXMLDoc();
+    hiddenProgressBar();
 }
 
 function loadXMLDoc() {
     var xmlhttp = createXmlHttpRequestObject("GET", "/faqs/list");
 
     xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
             if (xmlhttp.status == 200) {
                 document.getElementById("faqList").innerHTML = xmlhttp.responseText;
             } else if (xmlhttp.status == 400) {

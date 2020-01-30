@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -14,13 +15,13 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div>
         <table>
             <colgroup>
                 <col width="15%">
-                <col width="40%">
+                <col width="37%">
                 <col width="10%">
-                <col width="17%">
+                <col width="20%">
                 <col width="10%">
                 <col width="4%">
                 <col width="4%">
@@ -36,11 +37,13 @@
                         th:text="|${form.update_dt} ${form.update_user_name}|"></td>
                     <td th:text="#{${form.status}}"></td>
                     <td>
-                        <button th:text="#{form.btn.modify}" th:disabled="${form.disabled}"
+                        <button sec:authorize="hasAuthority('form.update')"
+                                th:text="#{common.btn.modify}" th:disabled="${form.disabled}"
                                 th:attr="onclick=|openFormDesignerEdit('${form.form_id}')|"></button>
                     </td>
                     <td>
-                        <button th:text="#{form.btn.delete}" th:disabled="${form.disabled}"
+                        <button sec:authorize="hasAuthority('form.delete')"
+                                th:text="#{common.btn.delete}" th:disabled="${form.disabled}"
                                 th:attr="onclick=|deleteForm('${form.form_id}')|"></button>
                     </td>
                 </tr>

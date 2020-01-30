@@ -218,9 +218,15 @@ class OAuthServiceKakao: OAuthServiceIF {
         if (accessTokenInfo.isNotEmpty()) {
             val accessToken = jsonToMap(accessTokenInfo, "access_token")
             val profileInfo = requestProfile(accessToken)
+            val mapper = ObjectMapper()
+            val result: MutableMap<*, *> = mapper.readValue(profileInfo, MutableMap::class.java)
+            val propertyMap = result.get("properties") as MutableMap<*, *>
+            val userName = propertyMap.get("nickname") as String
+
             if (profileInfo.isNotEmpty()) {
                 oAuthDto.userid = jsonToMap(profileInfo, "id")
                 oAuthDto.oauthKey = jsonToMap(profileInfo, "id")
+                oAuthDto.userName = userName
             }
         }
         return oAuthDto

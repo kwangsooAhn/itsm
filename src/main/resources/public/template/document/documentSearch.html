@@ -9,5 +9,12 @@
 <th:block layout:fragment="content">
     처리할 문서를 찾을 수 있는 화면을 만들어 볼까 합니다.
 </th:block>
+<th:block layout:fragment="pageScript">
+<script th:inline="javascript">
+    window.onload = function() {
+        hiddenProgressBar();
+    }
+</script>
+</th:block>
 </body>
 </html>

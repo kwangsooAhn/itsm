@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <title>회원가입 페이지</title>
 </head>
 <body>
+    <div id="divProgressBar" style="z-index: 1000; position: fixed; display: block; width: 100%; height: 100%; top: 50;  left: 0;  right: 0;  bottom: 0;  background-color: grey; opacity: 0.5; pointer-events: all;">
+        <img id="aProgressBar" name="aProgressBar" th:src="@{/assets/media/image/loading_w_dark.gif}" style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
+    </div>
     <div id="container" align="center">
         <table style="text-align: left; width: 360px;">
             <tr>
@@ -64,7 +67,6 @@
             5. 공백을 허용하지 않는다.
         </pre>
     </div>
-
     <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
     <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
     <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
@@ -73,6 +75,9 @@
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        window.onload = function() {
+            hiddenProgressBar();
+        }
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
         const STATUS_ERROR_EMAIL_DUPLICATION = "3";
