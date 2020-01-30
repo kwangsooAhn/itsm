@@ -41,7 +41,7 @@
 
     //폼 삭제
     function deleteForm(formId) {
-        restSubmit('DELETE', '/rest/forms/' + formId, function() {
+        restSubmit('DELETE', '/forms/' + formId, function() {
             alert('[[#{common.msg.delete.success}]]');
             location.reload();
         });
