@@ -51,13 +51,14 @@ public class RoleService(
      */
     public fun insertRole(roleInfo: RoleDto): String {
         val authEntity = authRepository.findByAuthIdIn(roleInfo.arrAuthId!!)
-        val roleEntity = AliceRoleEntity(
-                roleId = roleInfo.roleId.toString(),
-                roleName = roleInfo.roleName.toString(),
-                roleDesc = roleInfo.roleDesc.toString(),
-                authEntityList = authEntity
+        val result = roleRepository.save(
+                AliceRoleEntity(
+                        roleId = roleInfo.roleId.toString(),
+                        roleName = roleInfo.roleName.toString(),
+                        roleDesc = roleInfo.roleDesc.toString(),
+                        authEntityList = authEntity
+                )
         )
-        val result = roleRepository.save(roleEntity)
         return result.roleId
     }
 

@@ -21,6 +21,6 @@ data class AliceRoleEntity(
         @JoinTable(name = "awfRoleAuthMap",
                 joinColumns = [JoinColumn(name = "roleId", referencedColumnName = "roleId")],
                 inverseJoinColumns = [JoinColumn(name = "authId", referencedColumnName = "authId")])
-        var authEntityList: List<AliceAuthEntity>
+        var authEntityList: List<AliceAuthEntity>?
 
 ): Serializable, AliceMetaEntity()

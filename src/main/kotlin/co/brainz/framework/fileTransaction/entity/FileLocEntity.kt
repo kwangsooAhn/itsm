@@ -30,5 +30,5 @@ data class FileLocEntity(
     @Column(name = "file_size") var fileSize: Long?,
     @Column(name = "sort") var sort: Int?
 
-) : Serializable, AliceMetaEntity()
+): Serializable, AliceMetaEntity()
 
