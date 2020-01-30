@@ -1,3 +1,10 @@
+/**
+* @projectDescription Form Desigener Library
+*
+* @author woodajung
+* @version 1.0
+* @sdoc js/form/FormComponent.js
+*/
 (function (global, factory) {
     typeof exports === "object" && typeof module !== "undefined" ? factory(exports) :
     typeof define === "function" && define.amd ? define(["exports"], factory) :
@@ -6,27 +13,28 @@
     "use strict";
     
     const _contextCompProperties = [
-            {"type": "text", "name": "텍스트", "icon": ""},
-            {"type": "textarea", "name": "문단", "icon": ""},
-            {"type": "list", "name": "리스트 선택", "icon": ""},
-            {"type": "radio", "name": "라디오 버튼", "icon": ""},
-            {"type": "checkbox", "name": "체크박스", "icon": ""},
-            {"type": "label", "name": "라벨", "icon": ""},
-            {"type": "image", "name": "이미지", "icon": ""},
-            {"type": "line", "name": "라인", "icon": ""},
-            {"type": "date", "name": "날짜", "icon": ""},
-            {"type": "time", "name": "시간", "icon": ""},
-            {"type": "datetime", "name": "일시", "icon": ""},
-            {"type": "fileupload", "name": "파일업로드", "icon": ""}
-        ],
-        _contextMenuProperties = [
-            {"type": "delete", "name": "삭제", "icon": ""},
-            {"type": "copy", "name": "복사", "icon": ""},
-        ],
-        _KEYCODE = { ARROW_UP: 38, ARROW_DOWN: 40, ENTER: 13 };
+              {"type": "text", "name": "텍스트", "icon": ""},
+              {"type": "textarea", "name": "문단", "icon": ""},
+              {"type": "list", "name": "리스트 선택", "icon": ""},
+              {"type": "radio", "name": "라디오 버튼", "icon": ""},
+              {"type": "checkbox", "name": "체크박스", "icon": ""},
+              {"type": "label", "name": "라벨", "icon": ""},
+              {"type": "image", "name": "이미지", "icon": ""},
+              {"type": "line", "name": "라인", "icon": ""},
+              {"type": "date", "name": "날짜", "icon": ""},
+              {"type": "time", "name": "시간", "icon": ""},
+              {"type": "datetime", "name": "일시", "icon": ""},
+              {"type": "fileupload", "name": "파일업로드", "icon": ""}
+          ],
+          _contextMenuProperties = [
+              {"type": "delete", "name": "삭제", "icon": ""},
+             {"type": "copy", "name": "복사", "icon": ""},
+          ],
+          _KEYCODE = { ARROW_UP: 38, ARROW_DOWN: 40, ENTER: 13 };
+    
     let _context = null,
         eventHandler = {
-        onBoxKeyDownHandler: function(e) {
+        onEditboxKeyDownHandler: function(e) {
             if (_context.childLength === 0) return;
             let keyCode = e.keyCode ? e.keyCode : e.which;
             switch (keyCode) {
@@ -77,20 +85,20 @@
                 _context.resize();
             }
         },
-        onBoxKeyPressHandler: function(e) {
+        onEditboxKeyPressHandler: function(e) {
             let keyCode = e.keyCode ? e.keyCode : e.which;
             if (keyCode === _KEYCODE.ENTER) {
                 if (this.textContent.length === 0) {
                     e.preventDefault();
                     if (_context.selected === null) {
-                        addBox(true);
+                        addEditBox(true);
                     }
                 } else if (this.textContent.length > 0 && this.textContent.charAt(0) === "/") {
                     e.preventDefault();
                 }
             }
         },
-        onBoxKeyUpHandler: function(e) {
+        onEditboxKeyUpHandler: function(e) {
             let keyCode = e.keyCode ? e.keyCode : e.which;
             if (_context.control === null) return;
             if (_context.selected && (keyCode === _KEYCODE.ARROW_UP || keyCode === _KEYCODE.ARROW_DOWN)) return;
@@ -117,7 +125,7 @@
         },
         onFormClickHandler: function(e) {
             _context.hide();
-            if (e.target.classList.contains('component') && e.target.dataset.type !== "box" &&
+            if (e.target.classList.contains("component") && e.target.dataset.type !== "editbox" &&
                 Component.getSelectedComponentId() !== e.target.id) {
                 Component.setSelectedComponentId(e.target.id);
                 Component.hidePropertyPanel();
@@ -140,10 +148,13 @@
         }
     };
     /**
-     * 컨텍스트 메뉴 
+     * 폼 디자이너 컨텍스트 메뉴 객체
+     *
+     * @method ContextMenu
+     * @access private
      */
     function ContextMenu() {
-        this.control = document.getElementById("component-context");
+        this.control = document.getElementById("context-menu");
         if (this.control !== null) { this.control.innerHTML = ""; };
         
         this.top = 0;
@@ -166,15 +177,15 @@
                 let item = items[i];
                 let el = document.createElement("li");
                 el.className = "context-item";
-                el.setAttribute('data-type', item.type);
-                el.setAttribute('data-name', item.name);
+                el.setAttribute("data-type", item.type);
+                el.setAttribute("data-name", item.name);
                 el.textContent = item.name;
                 el.onclick = function (e) {
                     _context.hide();
                     if (e.target.dataset.type === "delete") {
-                        Component.remove(eventElem.id);
+                        //Component.remove(eventElem.id);
                     } else if (e.target.dataset.type === "copy") {
-                        Component.copy(eventElem);
+                        //Component.copy(eventElem);
                     } else {
                         addComponent(this.dataset.type, this.dataset.name, eventElem);
                     }
@@ -204,7 +215,7 @@
             let text = search.replace("/", ""); //검색어
             for (let i = 0, len = items.length; i < len; i++) {
                 let item = items[i];
-                if (search === "/") { //'/'를 입력한 경우 모두 검색
+                if (search === "/") { //"/"를 입력한 경우 모두 검색
                     result.push(item);
                 } else {
                     if (text === item.name.slice(0, text.length)) {
@@ -215,52 +226,115 @@
             return result;
         }
     });
+    
     /**
-     * 폼 디자이너 toolbar 메뉴 설정 및 이벤트 핸들러 등록
+     * 컴포넌트 추가
      *
-     * @function initToolbarEvents.
-     * @access private.
-     */
-    function initToolbarEvents() {
-        //저장
-        //작업취소
-        //작업재실행
-        //미리보기
-        //export
-        //import
-    }
-    /**
-     * 컴포넌트 신규 추가
-     *
-     * @function addComponent.
-     * @param type 컴포넌트 타입.
-     * @param name 컴포넌트 명.
-     * @param targetElement 컴포넌트를 추가할 위치를 나타내는 element.
-     * @access private.
+     * @method addComponent
+     * @param type 컴포넌트 타입
+     * @param name 컴포넌트 명
+     * @param targetElement 컴포넌트를 추가할 위치를 나타내는 element
+     * @access private
      */
     function addComponent(type, name, targetElement) {
         let comp = Component.add({type: type, name: name, attrs: {}, isFocus: true, targetElement: targetElement});
-        comp.addEventListener( 'contextmenu', eventHandler.onCompRightClickHandler, false);
+        comp.addEventListener( "contextmenu", eventHandler.onCompRightClickHandler, false);
         let box = document.querySelectorAll("[contenteditable=true]");
-        if (box.length === 0 || Component.getLastComponentId() === comp.id) { addBox(false);}
+        if (box.length === 0 || Component.getLastComponentId() === comp.id) { addEditBox(false);}
     }
-    function addBox(isFocus) {
-        let box = Component.add({type: 'box', name: '', isFocus: isFocus});
-        box.addEventListener( 'keydown', eventHandler.onBoxKeyDownHandler, false);
-        box.addEventListener( 'keypress', eventHandler.onBoxKeyPressHandler, false);
-        box.addEventListener( 'keyup', eventHandler.onBoxKeyUpHandler, false);
-        box.addEventListener( 'contextmenu', eventHandler.onCompRightClickHandler, false);
+    /**
+     * 편집가능한 영역 추가
+     *
+     * @method addEditBox
+     * @param isFocus 포커스 여부
+     * @access private
+     */
+    function addEditBox(isFocus) {
+        let editbox = Component.add({type: "editbox", name: "", isFocus: isFocus});
+        editbox.addEventListener( "keydown", eventHandler.onEditboxKeyDownHandler, false);
+        editbox.addEventListener( "keypress", eventHandler.onEditboxKeyPressHandler, false);
+        editbox.addEventListener( "keyup", eventHandler.onEditboxKeyUpHandler, false);
+        editbox.addEventListener( "contextmenu", eventHandler.onCompRightClickHandler, false);
     }
+    /**
+     * 폼 디자이너 저장
+     *
+     * @method saveForm
+     * @access public
+     */
+    function saveForm() {
+        //TODO: 저장
+    }
+    /**
+     * 작업 취소
+     *
+     * @method undoForm
+     * @access public
+     */
+    function undoForm() {
+        //TODO: 작업 취소
+    }
+    /**
+     * 작업 재실행
+     *
+     * @method redoForm
+     * @access public
+     */
+    function redoForm() {
+        //TODO: 작업 재실행
+    }
+    /**
+     * 미리보기
+     *
+     * @method previewForm
+     * @access public
+     */
+    function previewForm() {
+        //TODO: 미리보기
+    }
+    /**
+     * export
+     *
+     * @method exportForm
+     * @access public
+     */
+    function exportForm() {
+        //TODO: export
+    }
+    /**
+     * import
+     *
+     * @method importForm
+     * @access public
+     */
+    function importForm() {
+        //TODO: import
+    }
+    /**
+     * 폼 디자이너 편집 화면 초기화
+     *
+     * @function init
+     * @param type 컴포넌트 타입
+     * @param name 컴포넌트 명
+     * @param targetElement 컴포넌트를 추가할 위치를 나타내는 element
+     * @access public
+     */
     function init(data) {
         Component.init();
-        initToolbarEvents();
         _context = new ContextMenu();
         
         let formDesigner = document.getElementById("form-designer");
-        formDesigner.addEventListener( 'click', eventHandler.onFormClickHandler, false);
-        addBox(true);
+        formDesigner.addEventListener( "click", eventHandler.onFormClickHandler, false);
+        addEditBox(true);
     }
     
     exports.init = init;
+    exports.save = saveForm;
+    exports.undo = undoForm;
+    exports.redo = redoForm;
+    exports.preview = previewForm;
+    exports.exportform = exportForm;
+    exports.importform = exportForm;
+    
     Object.defineProperty(exports, "__esModule", { value: true });
 })));
