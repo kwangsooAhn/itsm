@@ -63,7 +63,8 @@ dependencies {
     api("com.querydsl:querydsl-jpa")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
-    implementation("com.querydsl:querydsl-apt:4.2.1:jpa")
+    compile("com.querydsl:querydsl-apt:4.2.1:jpa")
+    kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
 }
 
 // KTLINT
