@@ -130,7 +130,7 @@ public open class CertificationService(private val certificationRepository: Cert
             }
         }
 
-        var certificationDto = CertificationDto(userId, email, certificationKey, statusCode)
+        val certificationDto = CertificationDto(userId, email, certificationKey, statusCode)
         updateUser(certificationDto)
         when (target) {
             UserConstants.SendMailStatus.CREATE_USER.code, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> sendCertificationMail(certificationDto)
