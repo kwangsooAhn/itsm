@@ -5,6 +5,8 @@
 }(this, (function (exports) {
     'use strict';
 
+    let data = {};
+
     let svg,
         path,
         dragLine;
@@ -616,7 +618,7 @@
                         .style('marker-end', '');
                     resetMouseVars();
                 }
-            })
+            });
 
         // define arrow markers for links
         svg.append('defs').append('marker')
@@ -650,17 +652,46 @@
     }
 
     /**
-     * process designer 초기화.
+     * Draw a dataflow with the loaded information.
+     *
+     * @param data
      */
-    function init() {
-        console.info('Workflow editor initialization.');
-
-        initWorkflowEdit();
-        addElementsEvent();
-
+    function drawWorkflow(data) {
+        console.debug(JSON.parse(data));
+        wfEditor.data = JSON.parse(data);
         wfEditor.setElementMenu();
     }
 
+    /**
+     * process designer 초기화.
+     *
+     * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8-d2fa-44cf-962c-9f853c24ea7b'}
+     */
+    function init(process) {
+        console.info('Workflow editor initialization. [PROCESS ID: ' + process.processId + ']');
+
+        initWorkflowEdit();
+        addElementsEvent();
+        wfEditor.initWorkflowUtil();
+
+        // load process data.
+        const xhr = createXmlHttpRequestObject('GET', '/rest/processes/data/' + process.processId);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    drawWorkflow(xhr.responseText);
+                } else if (xhr.status === 400) {
+                    alert('There was an error 400');
+                } else {
+                    console.log(xhr);
+                    alert('something else other than 200 was returned. ' + xhr.status);
+                }
+            }
+        };
+        xhr.send();
+    }
+
     exports.init = init;
+    exports.data = data;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

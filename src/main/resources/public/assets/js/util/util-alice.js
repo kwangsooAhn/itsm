@@ -280,9 +280,9 @@ function createXmlHttpRequestObject(method, url, async) {
         } else {
             xmlHttp.open(method, url, async);
         }
+        hiddenProgressBar();
         return xmlHttp;
     }
-    hiddenProgressBar();
 }
 
 /*
