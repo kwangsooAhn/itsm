@@ -21,10 +21,10 @@ class AliceUserDetailsService(
     fun getAuthList(authIds: Set<String>): Set<AliceAuthEntity> {
         return aliceAuthRepository.findByAuthIdIn(authIds)
     }
-
+    
     @Throws(EmptyResultDataAccessException::class)
-    fun loadUserByUserIdAndPlatform(userId: String, platform: String): AliceUserEntity {
-        return aliceUserRepository.findByUserIdAndPlatform(userId, platform)
+    fun loadUserByOauthKeyAndPlatform(oauthKey: String, platform: String): AliceUserEntity {
+        return aliceUserRepository.findByOauthKeyAndPlatform(oauthKey, platform)
     }
 
 }

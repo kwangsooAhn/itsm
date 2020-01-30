@@ -12,7 +12,8 @@ import java.util.Optional
 class FormProvider(private val formRepository: FormRepository) : Form {
 
     override fun formList(search: String): List<FormDto> {
-        val formEntityList = formRepository.findFormEntityList(search, search)
+        //val formEntityList = formRepository.findFormEntityList(search, search)
+        val formEntityList = formRepository.findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContaining(search, search)
         val formList = mutableListOf<FormDto>()
         for (item in formEntityList) {
             formList.add(formEntityToDto(item))
@@ -31,9 +32,7 @@ class FormProvider(private val formRepository: FormRepository) : Form {
                 formId = formDto.formStatus,
                 formName = formDto.formName,
                 formDesc = formDto.formDesc,
-                formStatus = formDto.formStatus,
-                createUserkey = formDto.createUserKey,
-                createDt = formDto.createDt
+                formStatus = formDto.formStatus
         )
         formRepository.save(formEntity)
     }
@@ -44,8 +43,6 @@ class FormProvider(private val formRepository: FormRepository) : Form {
             formEntity.get().formName = formDto.formName
             formEntity.get().formDesc = formDto.formDesc
             formEntity.get().formStatus = formDto.formStatus
-            formEntity.get().updateUserkey =  formDto.updateUserKey
-            formEntity.get().updateDt = formDto.updateDt
             formRepository.save(formEntity.get())
         }
     }

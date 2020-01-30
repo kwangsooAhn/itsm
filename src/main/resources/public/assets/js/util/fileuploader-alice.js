@@ -195,7 +195,7 @@ const fileUploader = (function () {
                                     method: 'delete',
                                     url: '/filedel?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
-                                        alert('삭제완료');
+                                        alert(i18n('common.msg.delete.success'));
                                         thisEvent.parentElement.remove();
                                     },
                                     params: '',
