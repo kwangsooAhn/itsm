@@ -15,4 +15,6 @@ interface CertificationRepository: JpaRepository<AliceUserEntity, String>, JpaSp
     fun findByUserId(userId: String): AliceUserEntity
 
     fun countByEmail(email: String): Int
+
+    fun countByUserId(userId: String): Int
 }

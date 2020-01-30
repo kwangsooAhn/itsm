@@ -1,5 +1,6 @@
 package co.brainz.itsm.layout.controller
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.UserConstants
 import co.brainz.itsm.notice.service.NoticeService
@@ -27,9 +28,10 @@ class LayoutController(private val noticeService: NoticeService, private val use
         model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
 
         //사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
-        val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: AliceUserEntity = userService.selectUser(userId)
-        if (userDto.status == UserConstants.Status.SIGNUP.code) {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val userKey = aliceUserDto.userKey
+        val userDto: AliceUserEntity = userService.selectUserKey(userKey)
+        if (userDto.status == UserConstants.Status.SIGNUP.code || userDto.status == UserConstants.Status.EDIT.code) {
             return statusPage
         }
 

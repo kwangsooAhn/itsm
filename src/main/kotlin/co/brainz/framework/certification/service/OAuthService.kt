@@ -47,7 +47,7 @@ class OAuthService(private val userService: UserService,
     fun callbackUrl(oAuthDto: OAuthDto) {
         when (isExistUser(oAuthDto)) {
             false -> {
-                logger.info("oAuth Save {}", oAuthDto.userid)
+                logger.info("oAuth Save {}", oAuthDto.oauthKey)
                 oAuthSave(oAuthDto)
             }
         }
@@ -57,7 +57,7 @@ class OAuthService(private val userService: UserService,
     fun oAuthSave(oAuthDto: OAuthDto) {
         val userEntity = AliceUserEntity(
                 userKey = "",
-                userId = oAuthDto.userid,
+                userId = oAuthDto.userId,
                 password = "",
                 userName = oAuthDto.userName,
                 email = oAuthDto.email,
@@ -65,6 +65,7 @@ class OAuthService(private val userService: UserService,
                 roleEntities = certificationService.roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                 status = UserConstants.Status.CERTIFIED.code,
                 platform = oAuthDto.platform,
+                oauthKey = oAuthDto.oauthKey,
                 timezone = TimeZone.getDefault().id,
                 lang = UserConstants.USER_LOCALE_LANG
         )
@@ -72,21 +73,22 @@ class OAuthService(private val userService: UserService,
     }
 
     fun oAuthLogin(oAuthDto: OAuthDto) {
-        val aliceUser: AliceUserEntity = userDetailsService.loadUserByUserIdAndPlatform(oAuthDto.userid, oAuthDto.platform)
+        val aliceUser: AliceUserEntity = userDetailsService.loadUserByOauthKeyAndPlatform(oAuthDto.oauthKey, oAuthDto.platform)
         val authorities = aliceAuthProvider.authorities(aliceUser)
         val authList = aliceAuthProvider.authList(aliceUser)
         val menuList = aliceAuthProvider.menuList(authList)
         val urlList = aliceAuthProvider.urlList(authList)
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
+        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang)
+        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey!!, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang)
+
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }
 
     fun isExistUser(oAuthDto: OAuthDto): Boolean {
         var isExist = false
-        if (oAuthDto.userid.isNotEmpty()) {
-            val userDto: Optional<AliceUserEntity> = userService.selectByUserIdAndPlatform(oAuthDto.userid, oAuthDto.platform)
+        if (oAuthDto.oauthKey.isNotEmpty()) {
+            val userDto: Optional<AliceUserEntity> = userService.selectByOauthKeyAndPlatform(oAuthDto.oauthKey, oAuthDto.platform)
             if (!userDto.isEmpty) {
                 isExist = true
             }
@@ -152,8 +154,12 @@ class OAuthServiceGoogle: OAuthServiceIF {
         val oAuthDto = OAuthDto(platform = platformValue)
         if (result != null) {
             if (result["email"] != null) {
-                oAuthDto.userid = result["email"] as String
+                oAuthDto.userId = result["email"] as String
                 oAuthDto.email = result["email"] as String
+                oAuthDto.oauthKey = result["email"] as String
+            }
+            if (result["name"] != null) {
+                oAuthDto.userName = result["name"] as String
             }
         }
         return oAuthDto
@@ -216,7 +222,8 @@ class OAuthServiceKakao: OAuthServiceIF {
             val userName = propertyMap.get("nickname") as String
 
             if (profileInfo.isNotEmpty()) {
-                oAuthDto.userid = jsonToMap(profileInfo, "id")
+                oAuthDto.userId = jsonToMap(profileInfo, "id")
+                oAuthDto.oauthKey = jsonToMap(profileInfo, "id")
                 oAuthDto.userName = userName
             }
         }
