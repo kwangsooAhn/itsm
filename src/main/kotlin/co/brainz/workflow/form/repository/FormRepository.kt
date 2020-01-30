@@ -6,6 +6,7 @@ import java.util.Optional
 
 interface FormRepository: JpaRepository<FormEntity, String>, FormRepositoryCustom {
 
+    fun findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContaining(formName: String, formDesc: String): List<FormEntity>
     fun findFormEntityByFormId(formId: String): Optional<FormEntity>
     fun removeFormEntityByFormId(formId: String)
 }
