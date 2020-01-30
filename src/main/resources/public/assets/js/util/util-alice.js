@@ -267,7 +267,6 @@ function createXmlHttpRequestObject(method, url, async) {
     }
     // return the created object or display an error message
     if (!xmlHttp) {
-        hiddenProgressBar();
         alert("Error creating the XMLHttpRequest object.");
     } else {
         if (method.toUpperCase() != "GET") {
@@ -281,9 +280,7 @@ function createXmlHttpRequestObject(method, url, async) {
         } else {
             xmlHttp.open(method, url, async);
         }
-        xmlHttp.onload = function() {
-            hiddenProgressBar();
-        }
+        hiddenProgressBar();
         return xmlHttp;
     }
 }
