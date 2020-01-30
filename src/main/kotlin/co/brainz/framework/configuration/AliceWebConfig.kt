@@ -1,17 +1,35 @@
 package co.brainz.framework.configuration
 
 import net.rakugakibox.util.YamlResourceBundle
+import org.apache.http.client.HttpClient
+import org.apache.http.conn.ssl.NoopHostnameVerifier
+import org.apache.http.impl.client.HttpClients
+import org.apache.http.ssl.SSLContextBuilder
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.ResourceBundleMessageSource
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
+import org.springframework.util.ResourceUtils
+import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
-import java.util.*
+import java.util.Locale
+import java.util.MissingResourceException
+import java.util.ResourceBundle
+import javax.net.ssl.SSLContext
 
 @Configuration
 class AliceWebConfig{
+
+    @Value("\${server.ssl.key-store-password}")
+    private val keyStorePassword = ""
+
+    @Value("\${server.ssl.trust-store-password}")
+    private var trustStorePassword = ""
 
     // 1. LocaleResolver
     @Bean("localeResolver")
@@ -46,6 +64,18 @@ class AliceWebConfig{
         ms.setUseCodeAsDefaultMessage(true)
         ms.setFallbackToSystemLocale(true)
         return ms
+    }
+
+    @Bean
+    @Throws(Exception::class)
+    fun restTemplate(builder: RestTemplateBuilder): RestTemplate? {
+        val sslContext: SSLContext = SSLContextBuilder
+                .create()
+                .loadKeyMaterial(ResourceUtils.getFile("classpath:itsm.jks"), keyStorePassword.toCharArray(), keyStorePassword.toCharArray())
+                .loadTrustMaterial(ResourceUtils.getFile("classpath:itsm.ts"), trustStorePassword.toCharArray())
+                .build()
+        val client: HttpClient = HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()
+        return builder.requestFactory { HttpComponentsClientHttpRequestFactory(client) }.build()
     }
 
 }
