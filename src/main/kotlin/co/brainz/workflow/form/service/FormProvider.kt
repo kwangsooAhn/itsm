@@ -43,8 +43,6 @@ class FormProvider(private val formRepository: FormRepository) : Form {
             formEntity.get().formName = formDto.formName
             formEntity.get().formDesc = formDto.formDesc
             formEntity.get().formStatus = formDto.formStatus
-            formEntity.get().updateUserkey =  formDto.updateUserKey
-            formEntity.get().updateDt = formDto.updateDt
             formRepository.save(formEntity.get())
         }
     }
