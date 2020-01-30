@@ -14,7 +14,7 @@
         document.querySelector('#btnSave').addEventListener('click', saveForm);
 
         // load form data.
-        const xhr = createXmlHttpRequestObject('GET', '/rest/wf/forms/data/' + form.formId);
+        const xhr = createXmlHttpRequestObject('GET', '/rest/forms/data/' + form.formId);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
@@ -43,7 +43,7 @@
      * 문서양식 저장.
      */
     function saveForm() {
-        const xhr = createXmlHttpRequestObject('POST', '/rest/wf/forms/data');
+        const xhr = createXmlHttpRequestObject('POST', '/rest/forms/data');
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
