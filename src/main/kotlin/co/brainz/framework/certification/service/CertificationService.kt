@@ -15,7 +15,6 @@ import co.brainz.itsm.role.repository.RoleRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -82,6 +81,7 @@ public open class CertificationService(private val certificationRepository: Cert
                         expiredDt = LocalDateTime.now().plusMonths(3),
                         roleEntities = roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                         status = UserConstants.Status.SIGNUP.code,
+                        oauthKey = "",
                         timezone = TimeZone.getDefault().id,
                         lang = UserConstants.USER_LOCALE_LANG
                 )
@@ -95,7 +95,7 @@ public open class CertificationService(private val certificationRepository: Cert
     fun signUpValid(signUpDto: SignUpDto): String {
         var isContinue = true
         var code: String = UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code
-        if (certificationRepository.findByIdOrNull(signUpDto.userId) != null) {
+        if (certificationRepository.countByUserId(signUpDto.userId) > 0) {
             code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }
@@ -113,11 +113,28 @@ public open class CertificationService(private val certificationRepository: Cert
     }
 
     @Transactional
-    fun sendMail(userId: String, email: String) {
-        val certificationKey: String = KeyGeneratorService().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
+    fun sendMail(userId: String, email: String, target: String?) {
+        var certificationKey: String = KeyGeneratorService().getKey(50, false)
+        var statusCode = UserConstants.Status.SIGNUP.code
+
+        when (target) {
+            UserConstants.SendMailStatus.CREATE_USER.code -> {
+                statusCode = UserConstants.Status.SIGNUP.code
+            }
+            UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> {
+                statusCode = UserConstants.Status.EDIT.code
+            }
+            UserConstants.SendMailStatus.UPDATE_USER.code -> {
+                statusCode = UserConstants.Status.CERTIFIED.code
+                certificationKey = ""
+            }
+        }
+
+        val certificationDto = CertificationDto(userId, email, certificationKey, statusCode)
         updateUser(certificationDto)
-        sendCertificationMail(certificationDto)
+        when (target) {
+            UserConstants.SendMailStatus.CREATE_USER.code, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> sendCertificationMail(certificationDto)
+        }
     }
 
     @Transactional
@@ -165,6 +182,8 @@ public open class CertificationService(private val certificationRepository: Cert
         var validCode: Int = UserConstants.Status.SIGNUP.value
         if (userDto.status == UserConstants.Status.CERTIFIED.code) {
             validCode = UserConstants.Status.CERTIFIED.value
+        } else if (userDto.status == UserConstants.Status.EDIT.code) {
+            validCode = UserConstants.Status.EDIT.value
         }
         return validCode
     }
@@ -177,7 +196,7 @@ public open class CertificationService(private val certificationRepository: Cert
         var validCode: Int = UserConstants.Status.SIGNUP.value
 
         when (userDto.status) {
-            UserConstants.Status.SIGNUP.code -> {
+            UserConstants.Status.SIGNUP.code, UserConstants.Status.EDIT.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
                         val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserConstants.Status.CERTIFIED.code)

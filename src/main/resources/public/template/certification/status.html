@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <div th:if="${validCode == 0}">
+    <div th:if="${validCode == 0 || validCode == 4}">
         <p>메일 인증 후 사용가능합니다.</p>
         <p>등록한 메일에서 인증을 진행해주세요.</p>
     </div>
@@ -43,7 +43,7 @@
     <div th:if="${validCode == 3}">
         <p>인증코드가 잘못되었습니다.</p>
     </div>
-    <div th:if="${validCode == 0 || validCode == 3}">
+    <div th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
         <div sec:authorize="isAuthenticated()">
             <form id="sendForm" method="get" onsubmit="return false">
                 <button id="btnSend" th:formaction="@{/certification/sendCertifiedMail}">인증메일 재요청</button>

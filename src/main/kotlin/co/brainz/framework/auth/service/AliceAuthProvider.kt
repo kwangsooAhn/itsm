@@ -4,7 +4,6 @@ import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.configuration.AliceWebConfig
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.menu.entity.AliceMenuEntity
@@ -79,7 +78,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
                 aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang
+                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang
         )
         return usernamePasswordAuthenticationToken
     }

@@ -36,7 +36,7 @@
                 <div id="profile-menu">
                     <ul>
                         <li><a href="javascript:logout()" th:text="#{common.btn.logout}">로그아웃1</a></li>
-                        <li><a href="#" th:text="#{menu.editMyInfo}">내 정보 수정1</a></li>
+                        <li><a th:href="@{/users/{userKey}/userEdit(userKey=${#authentication.details.userKey})}" th:text="#{menu.editMyInfo}">내 정보 수정1</a></li>
                     </ul>
                 </div>
             </div>

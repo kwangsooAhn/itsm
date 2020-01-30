@@ -70,17 +70,23 @@ auth:
 # 사용자
 user:
   id: "아이디"
+  password: "비밀번호"
+  rePassword: "비밀번호 재확인"
   name: "이름"
   email: "이메일"
   position: "직책"
   department: "부서"
   extensionNumber: "내선번호"
   phoneNumber: "전화번호"
+  timezone: "타임존"
+  lang: "언어"
   reg: "사용자 등록"
   read: "사용자 조회"
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
+  editUserInfo: "회원 정보 수정"
+  message: "이메일 변경 시, 인증 절차가 필요합니다."
   search:
     id: "아이디"
     name: "이름"
