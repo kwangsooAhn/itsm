@@ -25,7 +25,7 @@ function passwordValidation(password) {
      * 비밀번호에 공백을 포함하지 않는다.
      */
     if (blankReg.test(password)) {
-        alert("비밀번호에 공백을 포함할 수 없습니다.");
+        alert(i18n('validation.msg.pwNotContainSpace'));
         return false;
     }
 
@@ -37,7 +37,7 @@ function passwordValidation(password) {
      */
     if (lowerCaseReg.test(password) || upperCaseReg.test(password) || specialCharReg.test(password) || numberReg.test(password)) {
         if (password.length < 10 || password.length > 20) {
-            alert("1가지 문자 구성의 경우 10자~20자의 비밀번호를 설정해야 합니다.");
+            alert(i18n('validation.msg.pwOneBetween10And20'));
             return false;
         }
     }
@@ -51,7 +51,7 @@ function passwordValidation(password) {
     if ((searchUpperCase < 0 && searchLowerCase < 0) || (searchLowerCase < 0 && searchSpecialChar < 0) ||
         (searchSpecialChar < 0 && searchNumber < 0) || (searchNumber < 0 && searchUpperCase < 0)) {
         if (password.length < 8 || password.length > 20) {
-            alert("2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다.");
+            alert(i18n('validation.msg.pwTwoBetween8And20'));
             return false;
         }
     }
@@ -62,7 +62,7 @@ function passwordValidation(password) {
      * 비밀번호에 사용자의 ID를 포함하지 않는다. 
      */
     if (password.search(userId) > -1) {
-        alert("비밀번호에 아이디가 포함되어 있습니다.");
+        alert(i18n('validation.msg.pwContainsId'));
         return false;
     }
     
@@ -72,7 +72,7 @@ function passwordValidation(password) {
      * 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
      */
     if (password.search(emailId[0]) > -1) {
-        alert("비밀번호에 이메일 아이디가 포함되어 있습니다.");
+        alert(i18n('validation.msg.pwContainsEmail'));
         return false;
     }
     
@@ -91,7 +91,7 @@ function passwordValidation(password) {
                 lastNum = extensionNumber.substring(6, 10);
 
                 if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    alert("비밀번호에 사용자의 내선 번호가 포함되어 있습니다.");
+                    alert(i18n('validation.msg.pwContainsInnerPhoneNumber'));
                     return false;
                 }
             } else {
@@ -99,13 +99,13 @@ function passwordValidation(password) {
                 lastNum = extensionNumber.substring(7, 11);
 
                 if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    alert("비밀번호에 사용자의 내선 번호가 포함되어 있습니다.");
+                    alert(i18n('validation.msg.pwContainsInnerPhoneNumber'));
                     return false;
                 }
             }
         } else {
             if (password.search(extensionNumber) > -1) {
-                alert("비밀번호에 사용자의 내선 번호가 포함되어 있습니다.");
+                alert(i18n('validation.msg.pwContainsInnerPhoneNumber'));
                 return false;
             }
         }
@@ -116,7 +116,7 @@ function passwordValidation(password) {
 // 이메일 validation check
 function emailValidation(email) {
     if (!emailReg.test(email)) {
-        alert("이메일 형식에 맞게 입력해주세요.");
+        alert(i18n('validation.msg.checkEmailFormat'));
         return false;
     }
     return true;

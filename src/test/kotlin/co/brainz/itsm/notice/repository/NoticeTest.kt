@@ -1,18 +1,16 @@
-package co.brainz.itsm.notice.repsitory
+package co.brainz.itsm.notice.repository
 
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.beans.factory.annotation.Autowired
-
 import org.junit.Assert
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.time.LocalDateTime
-import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService
 
@@ -42,11 +40,7 @@ class NoticeTest() {
             popHeight = 500,
             topNoticeYn = true,
             topNoticeStrtDt = inputDate,
-            topNoticeEndDt = inputDate,
-            createUserkey = "Demo Data",
-            createDt = inputDate,
-            updateUserkey = null,
-            updateDt = null
+            topNoticeEndDt = inputDate
         )
        
         savedEntity = noticeRepository.save(entity)

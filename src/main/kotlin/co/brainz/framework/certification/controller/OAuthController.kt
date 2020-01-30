@@ -61,7 +61,7 @@ class OAuthController(private val oAuthService: OAuthService,
                 }
             }
         }
-        when (oAuthDto.userid.isNotEmpty()) {
+        when (oAuthDto.oauthKey.isNotEmpty()) {
             true -> oAuthService.callbackUrl(oAuthDto)
             false -> logger.error("oAuth account is not exists.")
         }

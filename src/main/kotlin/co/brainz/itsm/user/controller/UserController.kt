@@ -1,5 +1,6 @@
 package co.brainz.itsm.user.controller
 
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -12,6 +13,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import javax.servlet.http.HttpServletRequest
 
 /**
  * 사용자 관리 클래스
@@ -21,13 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping
 class UserController(
         private val codeService: CodeService,
         private val userService: UserService,
-        private val roleService: RoleService
-) {
+        private val roleService: RoleService) {
+
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userPage: String = "user/user"
     private val userListPage: String = "user/userList"
     private val userDetailPage: String = "user/userDetail"
-    private val userLangPage: String = "user/userLang"
+    private val userEditPage: String = "user/userEdit"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -61,18 +63,19 @@ class UserController(
         return userDetailPage
     }
 
-    @GetMapping("/lang")
-    fun getUserLang(model: Model): String {
-
-        //code 테이블에 저장?
-        //yml파일로 작성한 후 해당 파일 목록을 출력
-        val langList = codeService.selectCodeByParent("user.lang")
-
-        //for (code in codeList) {
-        //}
-
+    /**
+     * 사용자 자기정보 수정화면을 호출한다.
+     */
+    @GetMapping("/{userKey}/userEdit")
+    fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
+        val pCode = "user.lang"
+        val users = userService.selectUserKey(userKey)
+        val langList = codeService.selectCodeByParent(pCode)
+        val timezoneList = userService.selectTimezoneList()
+        request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
+        model.addAttribute("users", users)
         model.addAttribute("langList", langList)
-
-        return userLangPage
+        model.addAttribute("timezoneList", timezoneList)
+        return userEditPage
     }
 }

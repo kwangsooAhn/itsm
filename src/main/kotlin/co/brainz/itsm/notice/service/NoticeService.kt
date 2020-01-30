@@ -1,13 +1,11 @@
 package co.brainz.itsm.notice.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.dto.FileDto
 import co.brainz.framework.fileTransaction.service.FileService
 import co.brainz.itsm.notice.dto.NoticeDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.repository.NoticeRepository
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -47,7 +45,6 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     @Transactional
     fun insertNotice(noticeDto: NoticeDto) {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val noticeEntity = NoticeEntity(
             noticeDto.noticeNo,
             noticeDto.noticeTitle,
@@ -59,11 +56,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
             noticeDto.popHeight,
             noticeDto.topNoticeYn,
             noticeDto.topNoticeStrtDt,
-            noticeDto.topNoticeEndDt,
-            noticeDto.createDt,
-            aliceUserDto.userKey,
-            null,
-            null
+            noticeDto.topNoticeEndDt
         )
         val resltNoticeEntity = noticeRepository.save(noticeEntity)
         fileService.upload(FileDto(resltNoticeEntity.noticeNo, noticeDto.fileSeq))
@@ -71,10 +64,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     @Transactional
     fun updateNotice(noticeDto: NoticeDto) {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val noticeEntity = noticeRepository.findByNoticeNo(noticeDto.noticeNo)
-        noticeEntity.updateDt = LocalDateTime.now()
-        noticeEntity.updateUserkey = aliceUserDto.userKey
         noticeEntity.noticeTitle = noticeDto.noticeTitle
         noticeEntity.noticeContents = noticeDto.noticeContents
         noticeEntity.popStrtDt = noticeDto.popStrtDt

@@ -1,8 +1,8 @@
 package co.brainz.workflow.form.entity
 
+import co.brainz.framework.auditor.AliceMetaEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
-import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -17,9 +17,5 @@ data class FormEntity(
         @Column(name = "form_id") val formId: String,
         @Column(name = "form_name") var formName: String,
         @Column(name = "form_desc") var formDesc: String? = null,
-        @Column(name = "form_status") var formStatus: String,
-        @Column(name = "create_dt") var createDt: LocalDateTime,
-        @Column(name = "create_userkey") var createUserkey: String,
-        @Column(name = "update_dt") var updateDt: LocalDateTime? = null,
-        @Column(name = "update_userkey") var updateUserkey: String? = null
-) : Serializable
+        @Column(name = "form_status") var formStatus: String
+): Serializable, AliceMetaEntity()

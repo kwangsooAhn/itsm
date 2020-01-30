@@ -332,3 +332,24 @@ function hiddenProgressBar() {
     }
     divCheck.parentNode.removeChild(divCheck);
 }
+
+/**
+ * 메시지를 받아서 다국어를 반환한다.
+ * @param messageId 다국어 yaml id를 받는다.
+ */
+function i18n(messageId) {
+    var result = '';
+    if (messageId !== '' && messageId !== null && messageId !== undefined) {
+        const strUrl = '/i18n/'+ messageId;
+        const opt = {
+                 method: 'GET',
+                 url: strUrl,
+                 async: false,
+                 callbackFunc: function(response) {
+                     result = response.responseText;
+                 }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    return result;
+}

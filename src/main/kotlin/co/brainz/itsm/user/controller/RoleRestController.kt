@@ -1,4 +1,4 @@
-package co.brainz.itsm.user
+package co.brainz.itsm.user.controller
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.itsm.role.dto.RoleDto
