@@ -11,7 +11,8 @@
     <table>
         <tr>
             <td>
-                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch" th:text="#{common.btn.add}">추가</button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch" 
+                 th:onclick="|javascript:onSearch()|" th:text="#{common.btn.add}">추가</button>
             </td>
         </tr>
     </table>
@@ -77,13 +78,16 @@
     <table>
         <tr>
             <td>
-                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" th:text="#{common.btn.delete}"></button>
+                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" 
+                 th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
             </td>
             <td>
-                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" th:text="#{common.btn.modify}"></button>
+                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" 
+                 th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
             </td>
             <td>
-                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" th:text="#{common.btn.save}"></button>
+                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" 
+                 th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.save}"></button>
             </td>
         </tr>
     </table>
@@ -92,69 +96,54 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        var AUTH_DELETE = false;
+        var AUTH_CRAETE = false;
+        var AUTH_UPDATE = false;
+
         window.onload = function() {
+            if (document.getElementById('btnUpdate') !== null) {
+                AUTH_UPDATE = true;
+            }
+            
+            if (document.getElementById('btnRegist') !== null) {
+                AUTH_CRAETE = true;
+            }
+            
+            if (document.getElementById('btnDelete') !== null) {
+                AUTH_DELETE = true;
+            }
+
             if (document.getElementById('txtRoleId').value != null && document.getElementById('txtRoleId').value != '') {
                 document.getElementById('txtRoleId').setAttribute('readonly','true');
-                document.getElementById('btnUpdate').style.display = 'block';
-                document.getElementById('btnRegist').style.display = 'none';
+                if (AUTH_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
+                }
+                if (AUTH_CRAETE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
             } else {
                 var first = document.querySelector('a[name=alink]');
                 onGetDetail(first.getAttribute('id'));
-                document.getElementById('btnUpdate').style.display = 'block';
-                document.getElementById('btnRegist').style.display = 'none';
-            }
-
-            /** 추가 버튼  */
-            document.getElementById('btnSearch').addEventListener('click', function () {
-                document.getElementById('txtRoleId').value = '';
-                document.getElementById('txtRoleId').removeAttribute('readonly');
-                document.getElementById('txtRoleName').value = '';
-                document.getElementById('txtRoleDesc').value = '';
-                var roleAuths = document.getElementsByName('roleAuth');
-                for(var i = 0; i < roleAuths.length; i++) {
-                    roleAuths[i].checked = false;
+                if (AUTH_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
                 }
-
-                document.getElementById('spanCreateUserkey').innerHTML = '';
-                document.getElementById('spanCreateDt').innerHTML = '';
-                document.getElementById('spanUpdateUserkey').innerHTML = '';
-                document.getElementById('spanUpdateDt').innerHTML = '';
-                document.getElementById('btnUpdate').style.display = 'none';
-                document.getElementById('btnRegist').style.display = 'block';
-            });
-
-            /** 등록 버튼  */
-            document.getElementById('btnRegist').addEventListener('click', function () {
-                onSave('post');
-            });
-
-            /** 수정 버튼  */
-            document.getElementById('btnUpdate').addEventListener('click', function () {
-                onSave('put');
-            });
+                if (AUTH_CRAETE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
+            }
 
             var roleList = document.querySelectorAll('a[name=alink]');
             for(var i = 0; i < roleList.length; i++) {
                 roleList[i].addEventListener('click', function(){
-                    document.getElementById('btnUpdate').style.display = 'block';
-                    document.getElementById('btnRegist').style.display = 'none';
+                    if (AUTH_UPDATE) {
+                        document.getElementById('btnUpdate').style.display = 'block';
+                    }
+                    if (AUTH_CRAETE) {
+                        document.getElementById('btnRegist').style.display = 'none';
+                    }
                     onGetDetail(this.id);
                 });
             }
-
-            /** 삭제 버튼  */
-            document.getElementById('btnDelete').addEventListener('click', function () {
-                const opt = {
-                    method: 'delete',
-                    url: '/rest/roles/' + document.getElementById('txtRoleId').value,
-                    callbackFunc: function() {
-                        alert([[#{common.msg.delete.success}]]);
-                        window.location.href ='/roles/edit';
-                    }
-                }
-
-                aliceJs.sendXhr(opt);
-            });
 
             function onGetDetail(roldId) {
                 const opt = {
@@ -185,48 +174,86 @@
                 aliceJs.sendXhr(opt);
             }
 
-            function onSave(flag) {
-                if (document.getElementById('txtRoleId').value === '' || document.getElementById('txtRoleId').value === '' ) {
-                   alert([[#{role.msg.idNotExist}]]);
-                    return;
-                }
-
-                if (document.getElementById('txtRoleName').value === '' || document.getElementById('txtRoleName').value === '' ) {
-                    alert([[#{role.msg.nameNotExist}]]);
-                    return;
-                }
-
-                //저장 데이터 수집
-                var obj = new Object();
-                obj.roleId = document.getElementById('txtRoleId').value;    //역할 아이디
-                obj.roleName = document.getElementById('txtRoleName').value;//역할 명
-                obj.roleDesc= document.getElementById('txtRoleDesc').value; //역할 설명
-                var arrAuthId = new Array();           //역할 권한
-                Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]:checked'), function(item) {
-                    arrAuthId.push(item.id);
-                });
-                obj.arrAuthId = arrAuthId;
-                if (flag == 'post') {
-                    strUrl = '/rest/roles';
-                } else {
-                    strUrl = '/rest/roles/'+ document.getElementById('txtRoleId').value;
-                }
-                var roleJson = JSON.stringify(obj);
-
-                const opt = {
-                    method: flag,
-                    url: strUrl,
-                    params: roleJson,
-                    contentType: 'application/json',
-                    callbackFunc: function () {
-                        alert([[#{common.msg.save}]]);
-                        window.location.href ='/roles/edit';
-                    }
-                };
-                aliceJs.sendXhr(opt);
-            }
             hiddenProgressBar();
         };
+        
+        /*추가 버튼 */
+        function onSearch() {
+            document.getElementById('txtRoleId').value = '';
+            document.getElementById('txtRoleId').removeAttribute('readonly');
+            document.getElementById('txtRoleName').value = '';
+            document.getElementById('txtRoleDesc').value = '';
+            var roleAuths = document.getElementsByName('roleAuth');
+            for(var i = 0; i < roleAuths.length; i++) {
+                roleAuths[i].checked = false;
+            }
+
+            document.getElementById('spanCreateUserkey').innerHTML = '';
+            document.getElementById('spanCreateDt').innerHTML = '';
+            document.getElementById('spanUpdateUserkey').innerHTML = '';
+            document.getElementById('spanUpdateDt').innerHTML = '';
+            if (AUTH_UPDATE) {
+                document.getElementById('btnUpdate').style.display = 'none';
+            }
+            if (AUTH_CRAETE) {
+                document.getElementById('btnRegist').style.display = 'block';
+            }
+        }
+
+        /*등록, 수정 버튼*/
+        function onSave(flag) {
+            if (document.getElementById('txtRoleId').value === '' || document.getElementById('txtRoleId').value === '' ) {
+               alert([[#{role.msg.idNotExist}]]);
+                return;
+            }
+
+            if (document.getElementById('txtRoleName').value === '' || document.getElementById('txtRoleName').value === '' ) {
+                alert([[#{role.msg.nameNotExist}]]);
+                return;
+            }
+
+            //저장 데이터 수집
+            var obj = new Object();
+            obj.roleId = document.getElementById('txtRoleId').value;    //역할 아이디
+            obj.roleName = document.getElementById('txtRoleName').value;//역할 명
+            obj.roleDesc= document.getElementById('txtRoleDesc').value; //역할 설명
+            var arrAuthId = new Array();                                //역할 권한
+            Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]:checked'), function(item) {
+                arrAuthId.push(item.id);
+            });
+            obj.arrAuthId = arrAuthId;
+            if (flag == 'post') {
+                strUrl = '/rest/roles';
+            } else {
+                strUrl = '/rest/roles/'+ document.getElementById('txtRoleId').value;
+            }
+            var roleJson = JSON.stringify(obj);
+
+            const opt = {
+                method: flag,
+                url: strUrl,
+                params: roleJson,
+                contentType: 'application/json',
+                callbackFunc: function () {
+                    alert([[#{common.msg.save}]]);
+                    window.location.href ='/roles/edit';
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        
+        /** 삭제 버튼  */
+        function onDelete() {
+            const opt = {
+                    method: 'delete',
+                    url: '/rest/roles/' + document.getElementById('txtRoleId').value,
+                    callbackFunc: function() {
+                        alert([[#{common.msg.delete.success}]]);
+                        window.location.href ='/roles/edit';
+                    }
+                  }
+            aliceJs.sendXhr(opt);
+        }
         /*]]>*/
     </script>
 </th:block>

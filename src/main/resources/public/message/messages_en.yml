@@ -10,7 +10,7 @@ common:
     modify: "MODIFY"
     before: "BEFORE"
     next: "NEXT"
-    add: "추가"
+    add: "ADD"
   label:
     title: "Title"
     message: "Message"
@@ -20,10 +20,10 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
-    createUserName: "등록자"
-    updateUserName: "수정자"
-    createDate: "등록일시"
-    updateDate: "수정일시"
+    createUserName: "Create User Name"
+    updateUserName: "Create Update Name"
+    createDate: "Create Date"
+    updateDate: "Update Date"
     attachFile: "Attach file"
   msg:
     save: "Saved"
