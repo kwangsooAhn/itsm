@@ -17,7 +17,7 @@ class FormRestController(private val formService: FormService) {
      */
     @GetMapping("/data/{formId}")
     fun getFormData(@PathVariable formId: String): String {
-        // 테스트용 프로세스 데이터
+        // 테스트용 문서양식 데이터
         return """
                {
                 "form": {"id": "$formId", "name": "장애신고", "description": "장애신고 신청서 문서양식입니다."},
