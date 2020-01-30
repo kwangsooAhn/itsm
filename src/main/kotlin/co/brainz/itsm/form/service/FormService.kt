@@ -1,86 +1,105 @@
 package co.brainz.itsm.form.service
 
-import co.brainz.itsm.form.dto.FormDto
-import org.springframework.security.core.context.SecurityContextHolder
+import co.brainz.workflow.form.constants.FormConstants
+import co.brainz.workflow.form.dto.FormDto
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
+import org.springframework.web.client.RestTemplate
+
+import org.springframework.web.util.UriComponentsBuilder
+import java.net.InetAddress
+import java.net.URI
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Service
-class FormService {
+class FormService(private val restTemplate: RestTemplate) {
 
-    /**
-     * 폼 데이터 조회.
-     */
-    fun findFormList(search: String): MutableList<Map<String, String?>> {
-        //TODO DB에서 리스트 조회. like 검색 필요.
-        //임시 데이터
-        val formList = mutableListOf<Map<String, String?>>()
-        if (search.isEmpty()) {
-            val form = mutableMapOf<String, String?>()
-            form["form_id"] = "1"
-            form["form_name"] = "단순문의"
-            form["form_desc"] = "단순한 문의사항 접수하는 문서양식"
-            form["create_dt"] = "2019-12-31 09:50:20"
-            form["create_user_name"] = "이소현"
-            form["update_dt"] = null
-            form["update_user_name"] = null
-            form["status"] = "form.status.edit"
-            form["disabled"] = "false"
-            formList.add(form)
+    @Value("\${server.protocol}")
+    lateinit var protocol: String
+
+    @Value("\${server.port}")
+    lateinit var port: String
+
+    fun makeUri(callUrl: String, params: MultiValueMap<String, String>): URI {
+        val formUrl = protocol + "://" + InetAddress.getLocalHost().hostAddress + ":" + port + callUrl
+        val uri = UriComponentsBuilder.fromHttpUrl(formUrl)
+        if (params.isNotEmpty()) {
+            uri.queryParams(params)
         }
-        val form2 = mutableMapOf<String, String>()
-        form2["form_id"] = "2"
-        form2["form_name"] = "장애신고"
-        form2["form_desc"] = "서비스 장애관련 문의사항을 접수하는 문서양식"
-        form2["create_dt"] = "2019-12-13 12:30:40"
-        form2["create_user_name"] = "이소현"
-        form2["update_dt"] = "2020-01-09 17:35:40"
-        form2["update_user_name"] = "관리자"
-        form2["status"] = "form.status.simu"
-        form2["disabled"] = "false"
-        formList.add(form2)
 
-        val form3 = mutableMapOf<String, String>()
-        form3["form_id"] = "3"
-        form3["form_name"] = "인프라 변경 관리"
-        form3["form_desc"] = "인프라 변경 관련 사항을 접수하는 문서양식"
-        form3["create_dt"] = "2019-08-10 12:30:40"
-        form3["create_user_name"] = "관리자"
-        form3["update_dt"] = "2019-12-01 17:35:40"
-        form3["update_user_name"] = "관리자"
-        form3["status"] = "form.status.publish"
-        form3["disabled"] = "true"
-        formList.add(form3)
+        return uri.build().toUri()
+    }
 
-        val form4 = mutableMapOf<String, String?>()
-        form4["form_id"] = "4"
-        form4["form_name"] = "인프라 변경 관리22"
-        form4["form_desc"] = "인프라 변경 관련 사항을 접수하는 문서양식22"
-        form4["create_dt"] = "2019-08-10 12:30:40"
-        form4["create_user_name"] = "관리자22"
-        form4["update_dt"] = null
-        form4["update_user_name"] = null
-        form4["status"] = "form.status.destroy"
-        form4["disabled"] = "true"
-        formList.add(form4)
+    fun findFormList(search: String): List<FormDto> {
+        val params = LinkedMultiValueMap<String, String>()
+        params.add("search", search)
+        val uri = makeUri("/rest/wf/forms", params)
+        val responseBody = restTemplate.getForObject(uri, String::class.java)
+        val mapper = ObjectMapper()
+        val list: List<Map<String, Any>> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, Map::class.java))
+        val formList = mutableListOf<FormDto>()
+        for (item in list) {
+            formList.add(makeFormDto(item))
+        }
 
         return formList
     }
 
-    /**
-     * 폼 신규 기본 정보 등록.
-     */
-    fun insertForm(formDto: FormDto): String {
-        //TODO DB에 저장.
-        val userName: String = SecurityContextHolder.getContext().authentication.name //사용자 이름
+    fun makeFormDto(item: Map<*, *>): FormDto {
+        val dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
+        val formDto = FormDto(
+                formId = item["formId"] as String,
+                formName = item["formName"] as String,
+                formStatus = item["formStatus"] as String,
+                formDesc = item["formDesc"] as String,
+                createDt = LocalDateTime.parse(item["createDt"].toString(), dateTimeFormatter),
+                createUserKey = item["createUserKey"] as String,
+                updateDt = item["updateDt"]?.let { LocalDateTime.parse(it.toString(), dateTimeFormatter) },
+                updateUserKey = item["updateUserKey"]?.toString()
+        )
+        when (item["formStatus"] as String) {
+            FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true
+        }
 
-        //등록된 form_id return
-        return "100"
+        return formDto
     }
 
-    /**
-     * 폼 1건 데이터 삭제.
-     */
+    fun getForm(formId: String): FormDto {
+        val uri = makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>())
+        val responseBody = restTemplate.getForObject(uri, String::class.java)
+        val mapper = ObjectMapper()
+        val item: Map<*, *> = mapper.readValue(responseBody, Map::class.java)
+        return makeFormDto(item)
+    }
+
     fun deleteForm(formId: String) {
-        //TODO DB에서 삭제.
+        restTemplate.delete(makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>()))
     }
+
+    fun insertForm(formDto: FormDto) {
+        val uri = makeUri("/rest/wf/forms", LinkedMultiValueMap<String, String>())
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
+        val parameters: MultiValueMap<String, String> = LinkedMultiValueMap()
+
+        //TODO: formDto를 MultiValueMap에 저장
+
+        val requestEntity = HttpEntity(parameters, headers)
+        restTemplate.postForObject(uri, requestEntity, String::class.java)
+
+    }
+
+    fun updateForm(formDto: FormDto) {
+        val uri = makeUri("/rest/wf/forms/${formDto.formId}", LinkedMultiValueMap<String, String>())
+        restTemplate.put(uri, formDto)
+    }
+
 }
