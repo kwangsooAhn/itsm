@@ -16,7 +16,7 @@
 
     let mousedownElement,
         mouseoverElement,
-        selectedElement
+        selectedElement;
 
     let isDrawConnector = false;
     const durationTime = 100;
