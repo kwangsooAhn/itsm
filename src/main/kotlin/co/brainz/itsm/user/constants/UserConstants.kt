@@ -16,7 +16,8 @@ enum class UserConstants(val value: String) {
         NAME("user.search.name", "userName"),
         POSITION("user.search.position", "position"),
         DEPARTMENT("user.search.department", "department"),
-        EXTENSION("user.search.extensionNumber", "extensionNumber")
+        OFFICE("user.search.officeNumber", "officeNumber"),
+        MOBILE("user.search.mobileNumber", "mobileNumber")
         ;
 
         companion object {

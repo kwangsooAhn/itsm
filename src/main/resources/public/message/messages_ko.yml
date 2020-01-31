@@ -76,8 +76,8 @@ user:
   email: "이메일"
   position: "직책"
   department: "부서"
-  extensionNumber: "내선번호"
-  phoneNumber: "전화번호"
+  officeNumber: "사무실 번호"
+  mobileNumber: "핸드폰 번호"
   timezone: "타임존"
   lang: "언어"
   reg: "사용자 등록"
@@ -92,7 +92,8 @@ user:
     name: "이름"
     position: "직책"
     department: "부서"
-    extensionNumber: "내선번호"
+    officeNumber: "사무실 번호"
+    mobileNumber: "핸드폰 번호"
 
 # FAQ
 faq:
@@ -201,5 +202,5 @@ validation:
     pwTwoBetween8And20: "2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다."
     pwContainsId: "비밀번호에 아이디가 포함되어 있습니다."
     pwContainsEmail: "비밀번호에 이메일 아이디가 포함되어 있습니다."
-    pwContainsInnerPhoneNumber: "비밀번호에 사용자의 내선 번호가 포함되어 있습니다."
+    pwContainsInnerMobileNumber: "비밀번호에 사용자의 핸드폰 번호가 포함되어 있습니다."
     checkEmailFormat: "이메일 형식에 맞게 입력해주세요."

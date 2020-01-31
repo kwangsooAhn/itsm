@@ -152,7 +152,8 @@ class UserService(private val certificationRepository: CertificationRepository,
         update.email?.let { targetEntity.email = update.email!! }
         update.position?.let { targetEntity.position = update.position!! }
         update.department?.let { targetEntity.department = update.department }
-        update.extensionNumber?.let { targetEntity.extensionNumber = update.extensionNumber }
+        update.officeNumber?.let { targetEntity.officeNumber = update.officeNumber }
+        update.mobileNumber?.let { targetEntity.mobileNumber = update.mobileNumber }
         update.timezone?.let { targetEntity.timezone = update.timezone!! }
         update.lang?.let { targetEntity.lang = update.lang!! }
 
