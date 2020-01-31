@@ -58,7 +58,7 @@ class TimezoneTest {
     lateinit var usernamePasswordAuthenticationToken: UsernamePasswordAuthenticationToken
 
     val userId = "lizeelf"
-    val createDt: LocalDateTime = LocalDateTime.of(2020, 1, 16, 10, 43, 20, 0)
+    val createDt: LocalDateTime = LocalDateTime.now()
 
     @Before
     fun init() {
