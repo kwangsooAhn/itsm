@@ -40,8 +40,12 @@
                 <td><input type="text" id="department" name="department" maxlength="100"></td>
             </tr>
             <tr>
-                <th>내선번호</th>
-                <td><input type="text" id="extensionNumber" name="extensionNumber" maxlength="100"></td>
+                <th>사무실 번호</th>
+                <td><input type="text" id="officeNumber" name="officeNumber" maxlength="100"></td>
+            </tr>
+            <tr>
+                <th>핸드폰 번호</th>
+                <td><input type="text" id="mobileNumber" name="mobileNumber" maxlength="100"></td>
             </tr>
         </table>
         <button style="margin-top: 25px;" onclick="userRegister()">회원가입</button>
@@ -112,7 +116,8 @@
                         email: document.getElementById("email").value,
                         position: document.getElementById("position").value,
                         department: document.getElementById("department").value,
-                        extensionNumber: document.getElementById("extensionNumber").value
+                        officeNumber: document.getElementById("officeNumber").value
+                        mobileNumber: document.getElementById("mobileNumber").value
                     };
                     // 등록
                     restSubmit("POST", "/certification/register",true,registerInfo);

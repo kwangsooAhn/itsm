@@ -76,8 +76,8 @@ user:
   email: "Email"
   position: "Postion"
   department: "Department"
-  extensionNumber: "ExtensionNumber"
-  phoneNumber: "phoneNumber"
+  officeNumber: "officeNumber"
+  mobileNumber: "mobileNumber"
   timezone: "TimeZone"
   lang: "Language"
   reg: "Sign up"
@@ -92,7 +92,8 @@ user:
     name: "Name"
     position: "Position"
     department: "Department"
-    extensionNumber: "Extension number"
+    officeNumber: "Office number"
+    mobileNumber: "Mobile number"
     
 # FAQ
 faq:
@@ -200,5 +201,5 @@ validation:
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
     pwContainsId: "Password contains an ID."
     pwContainsEmail: "Password contains an email ID."
-    pwContainsInnerPhoneNumber: "The password contains your extension."
+    pwContainsInnerMobileNumber: "The password contains your mobile."
     checkEmailFormat: "Please enter the correct email format."

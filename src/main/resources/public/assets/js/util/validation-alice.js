@@ -13,7 +13,7 @@ function passwordValidation(password) {
     
     var userId =  document.getElementById("userId").value;
     var emailId = document.getElementById("email").value.split('@');
-    var extensionNumber = document.getElementById("extensionNumber").value; 
+    var mobileNumber = document.getElementById("mobileNumber").value;
     var searchUpperCase = password.search(upperCaseReg);
     var searchLowerCase = password.search(lowerCaseReg);
     var searchNumber =  password.search(numberReg);
@@ -77,35 +77,35 @@ function passwordValidation(password) {
     }
     
     /*
-     * Extension Number Inclusion Validation Check
+     * Mobile Number Inclusion Validation Check
      * [ 설명 ]
-     * 비밀번호에 사용자의 내선 번호를 포함하지 않는다.
+     * 비밀번호에 사용자의 핸드폰 번호를 포함하지 않는다.
      */
-    if (extensionNumber != "") {
-        if (extensionNumber.length >= 10) {
+    if (mobileNumber != "") {
+        if (mobileNumber.length >= 10) {
             var middleNum = "";
             var lastNum = "";
 
-            if (extensionNumber.length === 10) {
-                middleNum = extensionNumber.substring(3, 6);
-                lastNum = extensionNumber.substring(6, 10);
+            if (mobileNumber.length === 10) {
+                middleNum = mobileNumber.substring(3, 6);
+                lastNum = mobileNumber.substring(6, 10);
 
                 if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    alert(i18n('validation.msg.pwContainsInnerPhoneNumber'));
+                    alert(i18n('validation.msg.pwContainsInnerMobileNumber'));
                     return false;
                 }
             } else {
-                middleNum = extensionNumber.substring(3, 7);
-                lastNum = extensionNumber.substring(7, 11);
+                middleNum = mobileNumber.substring(3, 7);
+                lastNum = mobileNumber.substring(7, 11);
 
                 if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    alert(i18n('validation.msg.pwContainsInnerPhoneNumber'));
+                    alert(i18n('validation.msg.pwContainsInnerMobileNumber'));
                     return false;
                 }
             }
         } else {
-            if (password.search(extensionNumber) > -1) {
-                alert(i18n('validation.msg.pwContainsInnerPhoneNumber'));
+            if (password.search(mobileNumber) > -1) {
+                alert(i18n('validation.msg.pwContainsInnerMobileNumber'));
                 return false;
             }
         }
