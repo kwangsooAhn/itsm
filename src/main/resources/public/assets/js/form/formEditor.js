@@ -7,11 +7,10 @@
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-        typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.formEditor = global.formEditor || {})));
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
+    (factory((global.formEditor = global.formEditor || {})));
 }(this, (function (exports) {
     'use strict';
-    
     const _contextCompProperties = [
               {'type': 'text', 'name': '텍스트', 'icon': ''},
               {'type': 'textarea', 'name': '문단', 'icon': ''},
