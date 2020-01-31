@@ -3,80 +3,94 @@
 <head>
     <title th:text="#{form.label.edit}"></title>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/js/form/formEditor.js}"></script>
-    <!-- 화면 틀어져서 임시로 bak 으로 변경함.-->
-    <link type="text/css" rel="stylesheet" th:href="@{/assets/css/bootstrap-alice.bak.css}"/>
+    <script th:src="@{/assets/js/form/formComponent.js}"></script>
     <style type="text/css">
-        body {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-            margin: 0;
-            color: #8F8681;
-        }
-        .navbar{ background: #A67F78; height: 6vh; }
-        .container-fluid{ 
-            width: 100vw; 
-            height:100%; 
-            position: relative; 
-            display: flex; 
-            flex: 1 1 0%; 
-            background: #ffffff;
-            padding: 0;
-         }
-        .main{ 
-            flex-grow: 1; 
-            flex-shrink: 1; 
+        /* 임시 CSS */
+        html, body {margin: 0; height: 100%; overflow: hidden;}
+        .container { height: 100%;  margin: 0; padding: 0;}
+        .form-designer {display: flex; height: 100%; flex-direction: column;}
+        .navbar{height: 35px; display: flex; align-items: center; justify-content: space-between; flex-grow: 0; position: relative; background: #4C5264; color: #ffffff;}
+        .menu {height: 100%; display: flex; align-items: center; flex-grow: 0; flex-shrink: 0;  margin-right: 8px;}
+        .logo {display: inline-flex; flex-shrink: 0; align-items: center; color: #ffffff; text-decoration:none; padding-left: 8px; padding-right: 8px;}
+        .nav {flex-grow: 0; flex-shrink: 0; display: flex; align-items: stretch; list-style-type: none; margin: 0; padding: 0;}
+        .nav-item {display: inline-flex; flex-shrink: 0; align-items: center; padding-left: 8px; padding-right: 8px;}
+        .nav-item a {color: #ffffff; text-decoration:none;}
+        .title {flex-grow: 0; flex-shrink: 0; padding-right: 8px;}
+        .panel {width: 100%; height:100%; display: flex; flex: 1 1 0;}
+        .content {
+            width: calc(100% - 300px); 
+            max-width: calc(100% - 300px);
+            height: 100%;
             display: flex; 
             flex-direction: column; 
-            background: #ffffff; 
-            z-index: 1; 
-            width: calc(100vw - 240px); 
-            height: calc(100vh - 6vh); 
-            max-height: 100%;
-            padding: 15px;
+            flex: 1 1 0;
+            align-items: center;
             color: #32435F;
+            background: #F6F6F7; 
+            z-index: 1;
+            padding: 30px 50px 0px 50px;
+            overflow: auto;
         }
-        .sidebar{ 
-            flex-grow: 0; 
-            flex-shrink: 0; 
-            pointer-events: none; 
-            position: relative; 
-            z-index: 99; 
-            background: #E1DCD9; 
-            transition: box-shadow 300ms ease-in 0s; 
-            width: 240px; 
+        .sidebar {
+            width: 300px;
+            height: 100%;
+            max-height: 100%;
+            display: flex;
+            flex-direction:  column;
+            flex-grow: 0; /*flex container의 크기가 커져도 flex item의 크기가 커지지 않고 원래 크기로 유지*/
+            flex-shrink: 0; /*flex container의 크기가 flex item의 크기보다 작아져도 flex item의 크기가 줄어들지 않고 원래 크기로 유지*/
+            position: relative;
+            background: #ffffff; 
+            transition: box-shadow 300ms ease-in 0s;
+            overflow: auto;
+            z-index: 99;
         }
+        .component {width: 100%; max-width: 100%; padding: 10px; cursor: move; border: none;}
+        .component.over { border: 3px dashed #ccc; }
+        .group {display: flex; flex-wrap: wrap; width: 100%; align-items: center; pointer-events: none;}
+        .field input[type=text] {width: 100%; height: 25px;}
+        .field textarea {width: 100%;}
+        #property-panel .title{padding: 30px 0px 0px 0px; font-size: 30px; font-weight: bold; text-align: center;}
+        
+        [contenteditable=true]:empty:before {content: attr(placeholder); display: block; /* For Firefox */}
+        div[contenteditable=true] {color : #333;font-size: 12px; width: 100%; height:30px; padding: 10px; line-height: 30px;}
+        div:focus { outline: none; border: 3px dashed #ccc;}
+        
+        #component-context { background: #4C5264; color: #ffffff; position: absolute; display: none; width: 200px; padding: 0; margin: 0; overflow: auto; top: 0; left: 10; z-index:999;}
+        #component-context li {height: 32px; line-height: 32px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 10px 5px;}
+        #component-context li:hover {background-color: #ddd;}
+        #component-context li.active {background-color: #ddd;}
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="#">Logo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="menu">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#" id="btnSave">저장</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">작업취소</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">작업재실행</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">미리보기</a></li>
-            </ul>
+    <div class="container light-thema">
+        <div class="form-designer" id="form-designer">
+            <nav class="navbar">
+                <div class="menu">
+                    <a class="logo" href="#">Logo</a>
+                    <ul class="nav">
+                        <li class="nav-item"><a class="link" href="#" id="btnSave">저장</a></li>
+                        <li class="nav-item"><a class="link" href="#">작업취소</a></li>
+                        <li class="nav-item"><a class="link" href="#">작업재실행</a></li>
+                        <li class="nav-item"><a class="link" href="#">미리보기</a></li>
+                        <li class="nav-item"><a class="link" href="#">export</a></li>
+                        <li class="nav-item"><a class="link" href="#">import</a></li>
+                    </ul>
+                </div>
+                <div class="title"><span>단순문의 v1.0</span></div>
+            </nav>
+            <div class="panel">
+                <div class="content" id="form-panel"></div>
+                <div class="sidebar" id="property-panel"></div>
+            </div>
         </div>
-        <div class="ml-auto">
-            <span class="navbar-text">단순문의 v1.0</span>
-        </div>
-    </nav>
-    <div class="container-fluid">
-        <div class="main">
-        Typing '/' for add component
-        </div>
-        <div class="sidebar">
-        </div>
+        <ul id="component-context"></ul>
     </div>
 </body>
 <script type="text/javascript">
