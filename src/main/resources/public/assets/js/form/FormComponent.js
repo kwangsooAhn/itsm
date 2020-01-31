@@ -1,18 +1,18 @@
 (function (global, factory) {
-    typeof exports === "object" && typeof module !== "undefined" ? factory(exports) :
-    typeof define === "function" && define.amd ? define(["exports"], factory) :
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (factory((global.Component = global.Component || {})));
 }(this, (function (exports) {
-    "use strict";
+    'use strict';
     
     const _defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
-          _defaultPalceholder = "Typing '/' for add component";
+          _defaultPalceholder = 'Typing "/" for add component';
     
     let _formPanel = null,
         _propertyPanel = null,
         _componentId = 0,
         _componentIndex = 0,
-        _selectedComponentId = "",
+        _selectedComponentId = '',
         _dragComponent = null,
         _children = [],
         eventHandler = {
@@ -51,17 +51,17 @@
                 let targetType = e.target.dataset.type;
                 let targetName = e.target.dataset.name;
                 if (targetType !== _dragComponent.dataset.type) {
-                    if (_dragComponent.dataset.type === "editbox") {
-                        e.target.setAttribute("contenteditable", "true");
-                        e.target.setAttribute("placeholder", _defaultPalceholder);
-                        _dragComponent.removeAttribute("contenteditable");
-                        _dragComponent.removeAttribute("placeholder");
+                    if (_dragComponent.dataset.type === 'editbox') {
+                        e.target.setAttribute('contenteditable', 'true');
+                        e.target.setAttribute('placeholder', _defaultPalceholder);
+                        _dragComponent.removeAttribute('contenteditable');
+                        _dragComponent.removeAttribute('placeholder');
                     }
-                    if (targetType === "editbox") {
-                        _dragComponent.setAttribute("contenteditable", "true");
-                        _dragComponent.setAttribute("placeholder", _defaultPalceholder);
-                        e.target.removeAttribute("contenteditable");
-                        e.target.removeAttribute("placeholder");
+                    if (targetType === 'editbox') {
+                        _dragComponent.setAttribute('contenteditable', 'true');
+                        _dragComponent.setAttribute('placeholder', _defaultPalceholder);
+                        e.target.removeAttribute('contenteditable');
+                        e.target.removeAttribute('placeholder');
                     }
                     e.target.dataset.type = _dragComponent.dataset.type;
                     _dragComponent.dataset.type = targetType;
@@ -94,7 +94,7 @@
      */
     function createElement(template) {
         var elem = document.createElement('div');
-        elem.classList.add("group");
+        elem.classList.add('group');
         elem.innerHTML = template;
         return elem;
     }
@@ -129,25 +129,25 @@
         options = options || {};
         if (options.targetElement !== undefined) {
             elem = options.targetElement;
-            elem.innerHTML = "";
-            elem.removeAttribute("contenteditable");
-            elem.removeAttribute("placeholder");
-            elem.setAttribute("data-name", options.name);
+            elem.innerHTML = '';
+            elem.removeAttribute('contenteditable');
+            elem.removeAttribute('placeholder');
+            elem.setAttribute('data-name', options.name);
             _selectedComponentId = elem.id;
             showPropertyPanel(elem.id);
         } else {
-            elem = document.createElement("div");
-            elem.classList.add("component");
-            elem.setAttribute("id", "component_" + (++_componentId));
-            elem.setAttribute("tabIndex", (++_componentIndex));
-            elem.setAttribute("draggable", true);
+            elem = document.createElement('div');
+            elem.classList.add('component');
+            elem.setAttribute('id', 'component_' + (++_componentId));
+            elem.setAttribute('tabIndex', (++_componentIndex));
+            elem.setAttribute('draggable', true);
             _formPanel.appendChild(elem);
             _children.push(elem);
         }
-        elem.setAttribute("data-type", options.type);
+        elem.setAttribute('data-type', options.type);
         let comp = null;
         switch (options.type) {
-            case "text":
+            case 'text':
                 comp = createElement(`
                     <div class='field'>
                         <div class='label'>TEXT</div>
@@ -155,11 +155,11 @@
                     <div class='field'>
                         <input type='text' placeholder='' readonly />
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + "%";
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + "%";
+                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
+                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
-            case "textarea":
+            case 'textarea':
                 comp = createElement(`
                     <div class='field'>
                         <div class='label'>TEXT</div>
@@ -167,25 +167,25 @@
                     <div class='field'>
                         <textarea placeholder='' rows='4' readonly ></textarea>
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + "%";
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + "%";
+                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
+                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
-            case "list":
+            case 'list':
                 comp = createElement(`
                     <div class='field'>
                         <div class='label'>TEXT</div>
                     </div>
                     <div class='field'>
                         <select>
-                            <option value="">Option</option>
+                            <option value=''>Option</option>
                         </select>
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = "100%";
-                comp.lastElementChild.style.flexBasis = "100%";
+                comp.firstElementChild.style.flexBasis  = '100%';
+                comp.lastElementChild.style.flexBasis = '100%';
                 elem.appendChild(comp);
                 break;
-            case "radio":
+            case 'radio':
                 comp = createElement(`
                     <div class='field'>
                         <div class='label'>TEXT</div>
@@ -193,44 +193,44 @@
                     <div class='field'>
                         <input type='radio' name='' value=''/> Option
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = "100%";
-                comp.lastElementChild.style.flexBasis = "100%";
+                comp.firstElementChild.style.flexBasis  = '100%';
+                comp.lastElementChild.style.flexBasis = '100%';
                 elem.appendChild(comp);
                 break;
-            case "checkbox":
+            case 'checkbox':
                 comp = createElement(`
                         <div class='field'>
                             <div class='label'>TEXT</div>
                         </div>
                         <div class='field'>
-                            <input type="checkbox" name='' value=''/> Option
+                            <input type='checkbox' name='' value=''/> Option
                         </div>`);
-                    comp.firstElementChild.style.flexBasis  = "100%";
-                    comp.lastElementChild.style.flexBasis = "100%";
+                    comp.firstElementChild.style.flexBasis  = '100%';
+                    comp.lastElementChild.style.flexBasis = '100%';
                     elem.appendChild(comp);
                 break;
-            case "label":
+            case 'label':
                 comp = createElement(`
                     <div class='field' style='flex-basis: 100%;'>
                         <div class='label'>TEXT</div>
                     </div>`);
                 elem.appendChild(comp);
                 break;
-            case "image":
+            case 'image':
                 comp = createElement(`
                     <div class='field' style='flex-basis: 100%;'>
                         <img src='' alt=''>
                     </div>`);
                 elem.appendChild(comp);
                 break;
-            case "line":
+            case 'line':
                 comp = createElement(`
                     <div class='field' style='flex-basis: 100%;'>
                         <hr>
                     </div>`);
                 elem.appendChild(comp);
                 break;
-            case "date":
+            case 'date':
                 //TODO: datepicker 추가
                 comp = createElement(`
                     <div class='field'>
@@ -239,11 +239,11 @@
                     <div class='field'>
                         <input type='text' placeholder='yyyy-MM-dd' readonly />
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + "%";
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + "%";
+                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
+                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
-            case "time":
+            case 'time':
                 //TODO: datepicker 추가
                 comp = createElement(`
                     <div class='field'>
@@ -252,11 +252,11 @@
                     <div class='field'>
                         <input type='text' placeholder='HH:mm:ss' readonly />
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + "%";
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + "%";
+                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
+                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
-            case "datetime":
+            case 'datetime':
                 //TODO: datepicker 추가
                 comp = createElement(`
                     <div class='field'>
@@ -265,23 +265,23 @@
                     <div class='field'>
                         <input type='text' placeholder='yyyy-MM-dd HH:mm:ss' readonly />
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + "%";
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + "%";
+                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
+                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
-            case "fileupload":
+            case 'fileupload':
                 comp = createElement(`
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type="file" name='files[]' multiple />
+                        <input type='file' name='files[]' multiple />
                     </div>`);
                 elem.appendChild(comp);
                 break;
-            case "editbox":
-                elem.setAttribute("contenteditable", "true");
-                elem.setAttribute("placeholder", _defaultPalceholder);
+            case 'editbox':
+                elem.setAttribute('contenteditable', 'true');
+                elem.setAttribute('placeholder', _defaultPalceholder);
                 break;
             default:
-                console.log("컴포넌트가 존재하지 않습니다.");
+                console.log('컴포넌트가 존재하지 않습니다.');
         }
         elem.addEventListener('dragstart', eventHandler.onDragStartHandler, false);
         elem.addEventListener('drag', eventHandler.onDragHandler, false);
@@ -323,9 +323,9 @@
      */
     function showPropertyPanel(id) {
         let component = getComponentById(id);
-        let title = document.createElement("div");
-        title.classList.add("title");
-        title.textContent = component.dataset.name + " 컴포넌트";
+        let title = document.createElement('div');
+        title.classList.add('title');
+        title.textContent = component.dataset.name + ' 컴포넌트';
         _propertyPanel.appendChild(title);
         
         //TODO:세부속성 출력
@@ -337,7 +337,7 @@
      * @access public
      */
     function hidePropertyPanel() {
-        _propertyPanel.innerHTML = "";
+        _propertyPanel.innerHTML = '';
     }
     /**
      * 선택된 컴포넌트 ID 조회
@@ -365,7 +365,7 @@
      * @access public
      */
     function getLastComponentId() {
-        return  "component_" + _componentId;
+        return  'component_' + _componentId;
     }
     /**
      * 컴포넌트 초기화
@@ -374,8 +374,8 @@
      * @access public
      */
     function init() {
-        _formPanel = document.getElementById("form-panel");
-        _propertyPanel = document.getElementById("property-panel");
+        _formPanel = document.getElementById('form-panel');
+        _propertyPanel = document.getElementById('property-panel');
     }
     exports.init = init;
     exports.add = addComponent;
@@ -387,5 +387,5 @@
     exports.showPropertyPanel = showPropertyPanel;
     exports.hidePropertyPanel = hidePropertyPanel;
     
-    Object.defineProperty(exports, "__esModule", { value: true });
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));
