@@ -20,14 +20,14 @@ import java.time.LocalDateTime
 import java.util.TimeZone
 import java.util.UUID
 
-@RunWith(SpringRunner::class)
+/*@RunWith(SpringRunner::class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @EnableEncryptableProperties
-@Import(JasyptConfig::class)
+@Import(JasyptConfig::class)*/
 class UserJpaTest {
 
-    @Autowired
+   /* @Autowired
     private lateinit var userRepository: UserRepository
 
     private lateinit var userEntity: AliceUserEntity
@@ -58,5 +58,5 @@ class UserJpaTest {
         val rsltEntity = userRepository.save(targetEntity)
 
         Assert.assertThat(rsltEntity.userName, CoreMatchers.`is`(CoreMatchers.equalTo("beom")))
-    }
+    }*/
 }
