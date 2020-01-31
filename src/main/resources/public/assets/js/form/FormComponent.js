@@ -6,7 +6,7 @@
     'use strict';
     
     const _defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
-          _defaultPalceholder = 'Typing "/" for add component';
+          _defaultPlaceholder= 'Typing "/" for add component';
     
     let _formPanel = null,
         _propertyPanel = null,
@@ -24,8 +24,8 @@
         onDragHandler: function(e) {
         },
         onDragEndHandler: function(e) {
-            if ( _children.length > 0 ) {
-                for ( let i = 0, len = _children.length; i < len; i ++ ) {
+            if (_children.length > 0) {
+                for (let i = 0, len = _children.length; i < len; i ++) {
                    var child = _children[i];
                    child.classList.remove('over');
                 }
@@ -107,8 +107,8 @@
      * @access private
      */
     function getComponentById(id) {
-       if ( _children.length > 0 ) {
-            for ( let i = 0, len = _children.length; i < len; i ++ ) {
+       if (_children.length > 0) {
+            for (let i = 0, len = _children.length; i < len; i ++) {
                var child = _children[i];
                if (child.id === id) {
                    return child;

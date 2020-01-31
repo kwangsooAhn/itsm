@@ -163,7 +163,7 @@
         this.childLength = 0;
         this.selectedIndex = 0;
     }
-    Object.assign( ContextMenu.prototype, {
+    Object.assign(ContextMenu.prototype, {
         constructor: ContextMenu,
         hide: function() {
             if (this.control.style.display === 'block') {
@@ -238,7 +238,7 @@
      */
     function addComponent(type, name, targetElement) {
         let comp = Component.add({type: type, name: name, attrs: {}, isFocus: true, targetElement: targetElement});
-        comp.addEventListener( 'contextmenu', eventHandler.onCompRightClickHandler, false);
+        comp.addEventListener('contextmenu', eventHandler.onCompRightClickHandler, false);
         let box = document.querySelectorAll('[contenteditable=true]');
         if (box.length === 0 || Component.getLastComponentId() === comp.id) { addEditBox(false);}
     }
@@ -251,10 +251,10 @@
      */
     function addEditBox(isFocus) {
         let editbox = Component.add({type: 'editbox', name: '', isFocus: isFocus});
-        editbox.addEventListener( 'keydown', eventHandler.onEditboxKeyDownHandler, false);
-        editbox.addEventListener( 'keypress', eventHandler.onEditboxKeyPressHandler, false);
-        editbox.addEventListener( 'keyup', eventHandler.onEditboxKeyUpHandler, false);
-        editbox.addEventListener( 'contextmenu', eventHandler.onCompRightClickHandler, false);
+        editbox.addEventListener('keydown', eventHandler.onEditboxKeyDownHandler, false);
+        editbox.addEventListener('keypress', eventHandler.onEditboxKeyPressHandler, false);
+        editbox.addEventListener('keyup', eventHandler.onEditboxKeyUpHandler, false);
+        editbox.addEventListener('contextmenu', eventHandler.onCompRightClickHandler, false);
     }
     /**
      * 폼 디자이너 저장
@@ -342,9 +342,7 @@
      * 폼 디자이너 편집 화면 초기화
      *
      * @function init
-     * @param type 컴포넌트 타입
-     * @param name 컴포넌트 명
-     * @param targetElement 컴포넌트를 추가할 위치를 나타내는 element
+     * @param form 폼 정보
      * @access public
      */
     function init(form) {
@@ -353,7 +351,7 @@
         _context = new ContextMenu();
         
         let formDesigner = document.getElementById('form-designer');
-        formDesigner.addEventListener( 'click', eventHandler.onFormClickHandler, false);
+        formDesigner.addEventListener('click', eventHandler.onFormClickHandler, false);
         addEditBox(true);
         
         // load form data.
