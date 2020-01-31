@@ -27,7 +27,6 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.Calendar
 
 
@@ -103,11 +102,7 @@ class FileService(
             fileName,
             multipartFile.originalFilename,
             multipartFile.size,
-            0,
-            aliceUserDto.userKey,
-            aliceUserDto.userKey,
-            LocalDateTime.now(),
-            LocalDateTime.now()
+            0
         )
         logger.debug("{}", fileLocEntity)
         fileLocRepository.save(fileLocEntity)

@@ -27,7 +27,8 @@ object UserConstants {
         SIGNUP("user.status.signup", 0),
         CERTIFIED("user.status.certified", 1),
         OVER("user.status.over", 2),
-        ERROR("user.status.error", 3)
+        ERROR("user.status.error", 3),
+        EDIT("user.status.edit", 4)
     }
 
     /**
@@ -39,6 +40,18 @@ object UserConstants {
         STATUS_ERROR_USER_ID_DUPLICATION("1"),
         STATUS_ERROR("2"),
         STATUS_ERROR_EMAIL_DUPLICATION("3")
+    }
+    
+    /**
+     * 사용자 수정 상태
+     */
+    enum class UserEditStatus(val code: String) {
+        STATUS_VALID_SUCCESS("-1"),
+        STATUS_SUCCESS("0"),
+        STATUS_ERROR_USER_ID_DUPLICATION("1"),
+        STATUS_ERROR("2"),
+        STATUS_ERROR_EMAIL_DUPLICATION("3"),
+        STATUS_SUCCESS_EDIT_EMAIL("4")
     }
 
     /**
@@ -56,6 +69,15 @@ object UserConstants {
         GOOGLE("user.platform.google", "google"),
         FACEBOOK("user.platform.facebook", "facebook"),
         KAKAO("user.platform.kakao", "kakao")
+    }
+    /**
+     * 사용자 자기정보 메일 관련 수정 상태
+     */
+    enum class SendMailStatus(val code: String) {
+       CREATE_USER("0"),
+       UPDATE_USER("1"),
+       UPDATE_USER_EMAIL("2")
+ 
     }
 
 }

@@ -1,5 +1,6 @@
 package co.brainz.itsm.notice.entity
 
+import co.brainz.framework.auditor.AliceMetaEntity
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -28,9 +29,6 @@ data class NoticeEntity(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
         @Column(name="top_notice_strt_dt") var topNoticeStrtDt: LocalDateTime? = null,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
-        @Column(name="top_notice_end_dt") var topNoticeEndDt: LocalDateTime? = null,
-        @Column(name="create_dt") var createDt: LocalDateTime = LocalDateTime.now(),
-        @Column(name="create_userkey") var createUserkey: String? = null,
-        @Column(name="update_dt") var updateDt: LocalDateTime? = null,
-        @Column(name="update_userkey") var updateUserkey: String? = null
-) : Serializable
+        @Column(name="top_notice_end_dt") var topNoticeEndDt: LocalDateTime? = null
+
+): Serializable, AliceMetaEntity()
