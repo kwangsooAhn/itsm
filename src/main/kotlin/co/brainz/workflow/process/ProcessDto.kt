@@ -11,10 +11,10 @@ data class ProcessDto(
     val processStatus: String,
     val formId: String? = null,
     val formName: String? = null,
-    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     val createDt: LocalDateTime?,
     val createUserkey: String?,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     val updateDt: LocalDateTime? = null,
     val updateUserkey: String? = null,
     val enabled: Boolean? = false
