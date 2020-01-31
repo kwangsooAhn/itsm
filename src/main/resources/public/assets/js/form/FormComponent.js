@@ -53,13 +53,13 @@
                 if (targetType !== _dragComponent.dataset.type) {
                     if (_dragComponent.dataset.type === 'editbox') {
                         e.target.setAttribute('contenteditable', 'true');
-                        e.target.setAttribute('placeholder', _defaultPalceholder);
+                        e.target.setAttribute('placeholder', _defaultPlaceholder);
                         _dragComponent.removeAttribute('contenteditable');
                         _dragComponent.removeAttribute('placeholder');
                     }
                     if (targetType === 'editbox') {
                         _dragComponent.setAttribute('contenteditable', 'true');
-                        _dragComponent.setAttribute('placeholder', _defaultPalceholder);
+                        _dragComponent.setAttribute('placeholder', _defaultPlaceholder);
                         e.target.removeAttribute('contenteditable');
                         e.target.removeAttribute('placeholder');
                     }
@@ -278,7 +278,7 @@
                 break;
             case 'editbox':
                 elem.setAttribute('contenteditable', 'true');
-                elem.setAttribute('placeholder', _defaultPalceholder);
+                elem.setAttribute('placeholder', _defaultPlaceholder);
                 break;
             default:
                 console.log('컴포넌트가 존재하지 않습니다.');
