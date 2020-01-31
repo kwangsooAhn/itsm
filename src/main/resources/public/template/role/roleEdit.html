@@ -50,7 +50,7 @@
             </td>
         </tr>
         <tr>
-            <th th:text="#{role.label.roleAuth}"></th>
+            <th th:text="'*' + #{role.label.roleAuth}"></th>
             <td>
                 <ui th:each="auth : ${authList}">
                     <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
@@ -104,16 +104,16 @@
             if (document.getElementById('btnUpdate') !== null) {
                 AUTH_UPDATE = true;
             }
-            
+
             if (document.getElementById('btnRegist') !== null) {
                 AUTH_CRAETE = true;
             }
-            
+
             if (document.getElementById('btnDelete') !== null) {
                 AUTH_DELETE = true;
             }
 
-            if (document.getElementById('txtRoleId').value != null && document.getElementById('txtRoleId').value != '') {
+            if (document.getElementById('txtRoleId').value !== null && document.getElementById('txtRoleId').value !== '') {
                 document.getElementById('txtRoleId').setAttribute('readonly','true');
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
@@ -176,7 +176,7 @@
 
             hiddenProgressBar();
         };
-        
+
         /*추가 버튼 */
         function onSearch() {
             document.getElementById('txtRoleId').value = '';
@@ -203,7 +203,7 @@
         /*등록, 수정 버튼*/
         function onSave(flag) {
             if (document.getElementById('txtRoleId').value === '' || document.getElementById('txtRoleId').value === '' ) {
-               alert([[#{role.msg.idNotExist}]]);
+                alert([[#{role.msg.idNotExist}]]);
                 return;
             }
 
@@ -221,8 +221,14 @@
             Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]:checked'), function(item) {
                 arrAuthId.push(item.id);
             });
+
+            if (arrAuthId.length === 0) {
+                alert([[#{role.msg.authNotExist}]]);
+                return;
+            }
+
             obj.arrAuthId = arrAuthId;
-            if (flag == 'post') {
+            if (flag === 'post') {
                 strUrl = '/rest/roles';
             } else {
                 strUrl = '/rest/roles/'+ document.getElementById('txtRoleId').value;
@@ -241,7 +247,7 @@
             };
             aliceJs.sendXhr(opt);
         }
-        
+
         /** 삭제 버튼  */
         function onDelete() {
             const opt = {

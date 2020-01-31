@@ -191,7 +191,7 @@ role:
   msg:
     idNotExist: "Please enter a role id."
     nameNotExist: "Please enter a role name."
-
+    authNotExist: "Please enter a auth name."
 # Validation
 validation:
   msg:
