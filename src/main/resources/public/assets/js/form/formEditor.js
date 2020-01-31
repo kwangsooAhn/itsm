@@ -57,19 +57,19 @@
                     break;
                 case _KEYCODE.ARROW_DOWN:
                     if (_context.selected !== null) {
-                       _context.selected.classList.remove('active');
+                        _context.selected.classList.remove('active');
                         if (_context.selectedIndex < _context.childLength) {
-                           _context.selected =_context.control.childNodes[_context.selectedIndex + 1];
-                           _context.selectedIndex++;
+                            _context.selected =_context.control.childNodes[_context.selectedIndex + 1];
+                            _context.selectedIndex++;
                         } else {
-                           _context.selected = _context.control.childNodes[0];
-                           _context.selectedIndex = 0;
+                            _context.selected = _context.control.childNodes[0];
+                            _context.selectedIndex = 0;
                         }
-                       _context.selected.classList.add('active');
+                        _context.selected.classList.add('active');
                     } else {
-                       _context.selected = _context.control.childNodes[0];
-                       _context.selectedIndex = 0;
-                       _context.selected.classList.add('active');
+                        _context.selected = _context.control.childNodes[0];
+                        _context.selectedIndex = 0;
+                        _context.selected.classList.add('active');
                     }
                     break;
                 case _KEYCODE.ENTER:
@@ -155,7 +155,7 @@
      */
     function ContextMenu() {
         this.control = document.getElementById('context-menu');
-        if (this.control !== null) { this.control.innerHTML = ''; };
+        if (this.control !== null) { this.control.innerHTML = ''; }
         
         this.top = 0;
         this.left = 0;
@@ -347,14 +347,14 @@
      * @param targetElement 컴포넌트를 추가할 위치를 나타내는 element
      * @access public
      */
-    function init(data) {
+    function init(form) {
         console.info('form editor initialization. [FORM ID: ' + form.formId + ']');
         Component.init();
         _context = new ContextMenu();
         
         let formDesigner = document.getElementById('form-designer');
         formDesigner.addEventListener( 'click', eventHandler.onFormClickHandler, false);
-        addBox(true);
+        addEditBox(true);
         
         // load form data.
         const xhr = createXmlHttpRequestObject('GET', '/rest/forms/data/' + form.formId);
