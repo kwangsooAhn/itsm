@@ -29,9 +29,12 @@
         <input type="text" id="department" name="department" th:value="${users.department}" readonly="readonly"/>
     </div>
     <div>
-        <label th:text="#{user.extensionNumber}" for="extensionNumber">내선번호</label>
-        <input type="text" id="extensionNumber" name="extensionNumber" th:value="${users.extensionNumber}"
-               readonly="readonly"/>
+        <label th:text="#{user.officeNumber}" for="officeNumber">사무실 번호</label>
+        <input type="text" id="officeNumber" name="officeNumber" th:value="${users.officeNumber}" readonly="readonly"/>
+    </div>
+    <div>
+        <label th:text="#{user.mobileNumber}" for="mobileNumber">핸드폰 번호</label>
+        <input type="text" id="mobileNumber" name="mobileNumber" th:value="${users.mobileNumber}" readonly="readonly"/>
     </div>
 
     <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">

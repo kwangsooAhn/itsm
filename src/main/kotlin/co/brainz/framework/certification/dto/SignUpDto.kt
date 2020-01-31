@@ -9,5 +9,6 @@ data class SignUpDto(
         var email: String,
         var position: String?,
         var department: String?,
-        var extensionNumber: String?
+        var officeNumber: String?,
+        var mobileNumber: String?
 ) : Serializable

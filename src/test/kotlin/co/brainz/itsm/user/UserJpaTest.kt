@@ -37,7 +37,7 @@ class UserJpaTest {
     fun setUp() {
         userEntity = AliceUserEntity(
                 UUID.randomUUID().toString(), "kbh", "itsm123", "kbh", "kbh@brainz.co.kr", true,
-                0, "과장", "ITSM팀", "02-6416-8324", "admin",
+                0, "과장", "ITSM팀", "02-6416-8324", "010-0000-0000","admin",
                 "status", "code", UserConstants.Platform.ALICE.code,
                 LocalDateTime.now(), emptySet(), "", TimeZone.getDefault().id, "en"
         )
