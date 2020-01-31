@@ -10,7 +10,6 @@
     let svg,
         path,
         dragLine;
-    let lastElementsId = 0;
     const links = [];
 
     let mousedownElement,
@@ -222,7 +221,7 @@
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
         self.nodeElement = svg.append('rect')
-            .attr('id', 'node' + (++lastElementsId))
+            .attr('id', wfEditor.utils.generateUUID)
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
@@ -393,7 +392,7 @@
         const radius = 20;
 
         self.nodeElement = svg.append('circle')
-            .attr('id', 'node' + (++lastElementsId))
+            .attr('id', wfEditor.utils.generateUUID)
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
@@ -437,7 +436,7 @@
         const width = 30, height = 30;
 
         self.nodeElement = svg.append('rect')
-            .attr('id', 'node' + (++lastElementsId))
+            .attr('id', wfEditor.utils.generateUUID)
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -503,7 +502,7 @@
         const width = 35, height = 30;
 
         self.nodeElement = svg.append('rect')
-            .attr('id', 'node' + (++lastElementsId))
+            .attr('id', wfEditor.utils.generateUUID)
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))

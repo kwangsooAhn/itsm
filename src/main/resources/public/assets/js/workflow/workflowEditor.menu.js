@@ -43,6 +43,37 @@
         ],
     };
 
+    const elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+
+    /**
+     * elements.
+     *
+     * @param elem 선택된 element
+     */
+    function getElementDataProperty(elem) {
+        const elemId = elem.node().id;
+        let elements = wfEditor.data.elements;
+        let filterData = elements.filter(attr => { return attr.id == elemId });
+        if (filterData.length === 0) {
+            for (let i = 0, len = elementsKeys.length; i < len; i++) {
+                if (elem.classed(elementsKeys[i])) {
+                    const bbox = wfEditor.utils.getBoundingBoxCenter(elem);
+                    elements.push({
+                        id: elemId,
+                        category: elementsKeys[i],
+                        type: '',
+                        display: {width: bbox.width, height: bbox.height, 'position-x': bbox.x, 'position-y': bbox.y},
+                        data: {}
+                    });
+                    break;
+                }
+            }
+            return {};
+        } else {
+            return filterData[0].data;
+        }
+    }
+
     /**
      * 해당 element의 툴팁메뉴를 표시한다.
      *
@@ -297,67 +328,102 @@
      * @param elem 선택된 element
      */
     function setProperties(elem) {
-        const propertiesContainer = d3.select('.properties-panel');
-        propertiesContainer.selectAll('*').remove();
         if (typeof elem !== 'undefined') { // show element properties
-            propertiesContainer.append('h3').text('Element Properties');
-            const elementsKeys = Object.getOwnPropertyNames(elementsProperties);
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
                     let properties = elementsProperties[elementsKeys[i]];
-                    makePropertiesItem(propertiesContainer, properties);
+                    makePropertiesItem( elem.node().id, properties, getElementDataProperty(elem));
                     break;
                 }
             }
         } else { // show workflow properties
-            propertiesContainer.append('h3').text('Workflow Properties');
-            makePropertiesItem(propertiesContainer, workflowProperties);
+            makePropertiesItem(wfEditor.data.process.id, workflowProperties, wfEditor.data.process);
+        }
+    }
+
+    /**
+     * 변경된 element 속성 값을 저장한다.
+     *
+     * @param id element ID
+     */
+    function changePropertiesValue(id) {
+        const container = document.querySelector('.properties-panel');
+        const propertyObjects = container.querySelectorAll('input, select, textarea');
+        if (id === wfEditor.data.process.id) {
+            for (let i = 0, len = propertyObjects.length; i < len; i++) {
+                let propertyObject = propertyObjects[i];
+                wfEditor.data.process[propertyObject.name] = propertyObject.value;
+            }
+        } else {
+            let elementData = wfEditor.data.elements.filter(attr => { return attr.id == id });
+            for (let i = 0, len = propertyObjects.length; elementData.length > 0 && i < len; i++) {
+                let propertyObject = propertyObjects[i];
+                let propertyValue = propertyObject.value;
+                if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
+                    propertyValue = propertyObject.checked ? 'Y' : 'N';
+                }
+                elementData[0].data[propertyObject.name] = propertyValue;
+            }
         }
     }
 
     /**
      * 속성 항목을 생성한다.
      *
-     * @param propertiesContainer
+     * @param id ID
      * @param properties 속성정보목록
+     * @param data 데이터속성
      */
-    function makePropertiesItem(propertiesContainer, properties) {
+    function makePropertiesItem(id, properties, data) {
+        const propertiesContainer = document.querySelector('.properties-panel');
+        propertiesContainer.innerHTML = '';
+
         for (let i = 0, len = properties.length; i < len; i++) {
             let property = properties[i];
-            let propertyContainer = propertiesContainer.append('p');
-            propertyContainer.append('label')
-                .attr('for', property.attribute)
-                .text(property.name);
+            let propertyContainer = document.createElement('p');
+            let labelObject = document.createElement('label');
+            labelObject.htmlFor =  property.attribute;
+            labelObject.textContent = property.name;
+            propertyContainer.append(labelObject);
 
+            let elementObject;
             if (property.type === 'text') {
-                propertyContainer.append('input')
-                    .attr('id', property.attribute)
-                    .attr('value', property.default)
-                    .style('width', '180px');
+                elementObject = document.createElement('input');
+                elementObject.style.width = '180px';
             } else if (property.type === 'textarea') {
-                propertyContainer.append('textarea')
-                    .attr('id', property.attribute)
-                    .attr('value', property.default)
-                    .attr('rows', 5)
-                    .style('resize', 'none')
-                    .style('width', '180px');
+                elementObject = document.createElement('textarea');
+                elementObject.rows = 5;
+                elementObject.style.resize = 'none';
+                elementObject.style.width = '180px';
             } else if (property.type === 'checkbox') {
-                propertyContainer.append('input')
-                    .attr('type', 'checkbox')
-                    .attr('id', property.attribute)
-                    .attr('value', property.default);
+                elementObject = document.createElement('input');
+                elementObject.type = 'checkbox';
+                if (data[property.attribute] && data[property.attribute] === 'Y') {
+                    elementObject.checked = true;
+                }
             } else if (property.type === 'selectbox') {
-                propertyContainer.append('select')
-                    .attr('id', property.attribute)
-                    .attr('value', property.default)
-                    .style('width', '180px')
-                    .selectAll('option')
-                    .data(property['sub-list'].split(','))
-                    .enter()
-                    .append('option')
-                    .attr('value', d => d)
-                    .text(d => d);
+                elementObject = document.createElement('select');
+                elementObject.style.width = '180px';
+                const optionList = property['sub-list'].split(',');
+                for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
+                    let option = document.createElement('option');
+                    option.value = optionList[j];
+                    option.text = optionList[j];
+                    elementObject.append(option);
+                }
             }
+            if (elementObject) {
+                elementObject.id = property.attribute;
+                elementObject.name = property.attribute;
+                if (data[property.attribute] && property.type !== 'checkbox') {
+                    elementObject.value = data[property.attribute];
+                }
+                elementObject.addEventListener('change', event => {
+                    changePropertiesValue(id);
+                });
+                propertyContainer.append(elementObject);
+            }
+            propertiesContainer.append(propertyContainer);
         }
     }
 
