@@ -4,7 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
-class ProcessService(private val processMstRepository: ProcessMstRepository) {
+class ProcessProvider(private val processMstRepository: ProcessMstRepository) {
 
     /**
      * 프로세스 데이터 조회.
@@ -14,22 +14,27 @@ class ProcessService(private val processMstRepository: ProcessMstRepository) {
         val procMstList = if (search.isEmpty()) {
             processMstRepository.findAll()
         } else {
-            processMstRepository.findByProcNameLikeOrProcDescLike(search, search)
+            val word = "%$search%"
+            processMstRepository.findByProcNameLikeOrProcDescLike(word, word)
         }
         procMstList.forEach {
+            val enabled = when (it.procStatus) {
+                ProcessConstants.Status.EDIT.code, ProcessConstants.Status.SIMULATION.code -> true
+                else -> false
+            }
             processDtoList.add(
                 ProcessDto(
                     it.procId,
                     it.procName,
                     it.procDesc,
                     it.procStatus,
-                    "TODO",
-                    "TODO",
+                    it.formEntity?.formId,
+                    it.formEntity?.formName,
                     it.createDt,
                     it.createUserkey,
                     it.updateDt,
                     it.updateUserkey,
-                    false
+                    enabled
                 )
             )
         }

@@ -1,7 +1,7 @@
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.form.service.FormService
-import co.brainz.workflow.process.ProcessService
+import co.brainz.itsm.process.service.ProcessService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping

@@ -2,7 +2,6 @@ package co.brainz.workflow.form.controller
 
 import co.brainz.workflow.engine.WFEngine
 import co.brainz.workflow.form.dto.FormDto
-import co.brainz.workflow.form.repository.FormRepository
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,31 +15,31 @@ import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/rest/wf/forms")
-class WFFormRestController(private val formRepository: FormRepository) {
+class WFFormRestController(private val wfEngine: WFEngine) {
 
     @GetMapping("")
     fun getFormList(request: HttpServletRequest): List<FormDto> {
-        return WFEngine().form(formRepository).formList(request.getParameter("search") ?: "")
+        return wfEngine.form().formList(request.getParameter("search") ?: "")
     }
 
     @GetMapping("/{formId}")
     fun getForm(@PathVariable formId: String): FormDto {
-        return WFEngine().form(formRepository).form(formId)
+        return wfEngine.form().form(formId)
     }
 
     @PostMapping("")
     fun insertForm(@RequestBody formDto: FormDto) {
-        return WFEngine().form(formRepository).insertForm(formDto)
+        return wfEngine.form().insertForm(formDto)
     }
 
     @PutMapping("/{formId}")
     fun updateForm(@RequestBody formDto: FormDto, @PathVariable formId: String) {
-        return WFEngine().form(formRepository).updateForm(formDto)
+        return wfEngine.form().updateForm(formDto)
     }
 
     @Transactional
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String) {
-        return WFEngine().form(formRepository).deleteForm(formId)
+        return wfEngine.form().deleteForm(formId)
     }
 }

@@ -34,7 +34,7 @@
 
         //프로세스 리스트 조회
         function getProcessList(search) {
-            restSubmit('GET', '/processes/list?search=' + search.trim(), function(result) {
+            restSubmit('GET', '/processes/list?search=' + encodeURIComponent(search.trim()), function(result) {
                 document.getElementById('processList').innerHTML = result;
             });
         }

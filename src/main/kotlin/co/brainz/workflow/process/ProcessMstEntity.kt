@@ -1,17 +1,21 @@
 package co.brainz.workflow.process
 
+import co.brainz.workflow.form.entity.FormEntity
 import org.hibernate.annotations.GenericGenerator
+import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 /**
  * 프로세스 정보 엔티티
- * TODO wf_form_mst 관련 엔티티가 완성되면 OneToOne 추가해야한다.
  */
 @Entity
 @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -21,6 +25,10 @@ data class ProcessMstEntity(
     @GeneratedValue(generator = "system-uuid")
     @Column(name = "proc_id")
     val procId: String,
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "form_id")
+    val formEntity: FormEntity?,
 
     @Column(name = "proc_key")
     val procKey: String,
@@ -41,9 +49,11 @@ data class ProcessMstEntity(
     val updateUserkey: String?,
 
     @Column(name = "create_dt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val createDt: LocalDateTime?,
 
     @Column(name = "update_dt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val updateDt: LocalDateTime?
 
 ) : Serializable
