@@ -53,7 +53,7 @@
     function getElementDataProperty(elem) {
         const elemId = elem.node().id;
         let elements = wfEditor.data.elements;
-        let filterData = elements.filter(attr => { return attr.id == elemId });
+        let filterData = elements.filter(attr => { return attr.id === elemId; });
         if (filterData.length === 0) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
@@ -355,7 +355,7 @@
                 wfEditor.data.process[propertyObject.name] = propertyObject.value;
             }
         } else {
-            let elementData = wfEditor.data.elements.filter(attr => { return attr.id == id });
+            let elementData = wfEditor.data.elements.filter(attr => { return attr.id === id; });
             for (let i = 0, len = propertyObjects.length; elementData.length > 0 && i < len; i++) {
                 let propertyObject = propertyObjects[i];
                 let propertyValue = propertyObject.value;
