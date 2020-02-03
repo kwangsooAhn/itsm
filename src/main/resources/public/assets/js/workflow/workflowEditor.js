@@ -290,58 +290,82 @@
                 .on('end', elementMouseEventHandler.mouseup)
             );
 
-        let pointerDrag = d3.drag()
-            .on('start', () => {
-                svg.selectAll('.tooltip').remove();
-            })
-            .on('end', () => {
-                wfEditor.setElementMenu(self.nodeElement);
-            });
-
         self.pointElement1 = svg.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
-            .call(pointerDrag.on('drag', () => {
+            .call(d3.drag()
+                .on('start', () => {
+                    svg.selectAll('.tooltip').remove();
+                })
+                .on('drag', () => {
                     if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
                         this.pointElement1
                             .attr('cx', d => { return d.x += d3.event.dx })
                             .attr('cy', d => { return d.y += d3.event.dy });
                         updateRect();
                     }
-                }));
+                })
+                .on('end', () => {
+                    wfEditor.setElementMenu(self.nodeElement);
+                })
+            );
         self.pointElement2 = svg.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
-            .call(pointerDrag.on('drag', () => {
+            .call(d3.drag()
+                .on('start', () => {
+                    svg.selectAll('.tooltip').remove();
+                })
+                .on('drag', () => {
                     if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
                         this.pointElement2
                             .attr('cx', this.rectData[1].x += d3.event.dx)
                             .attr('cy', this.rectData[1].y += d3.event.dy);
                         updateRect();
                     }
-                }));
+                })
+                .on('end', () => {
+                    wfEditor.setElementMenu(self.nodeElement);
+                })
+            );
         self.pointElement3 = svg.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
-            .call(pointerDrag.on('drag', () => {
+            .call(d3.drag()
+                .on('start', () => {
+                    svg.selectAll('.tooltip').remove();
+                })
+                .on('drag', () => {
                     if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
                         this.pointElement3
                             .attr('cx', this.rectData[1].x += d3.event.dx)
                             .attr('cy', this.rectData[0].y += d3.event.dy);
                         updateRect();
                     }
-                }));
+                })
+                .on('end', () => {
+                    wfEditor.setElementMenu(self.nodeElement);
+                })
+            );
         self.pointElement4 = svg.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
-            .call(pointerDrag.on('drag', () => {
+            .call(d3.drag()
+                .on('start', () => {
+                    svg.selectAll('.tooltip').remove();
+                })
+                .on('drag', () => {
                     if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
                         this.pointElement4
                             .attr('cx', this.rectData[0].x += d3.event.dx)
                             .attr('cy', this.rectData[1].y += d3.event.dy);
                         updateRect();
                     }
-                }));
+                })
+                .on('end', () => {
+                    wfEditor.setElementMenu(self.nodeElement);
+                })
+            );
 
         function updateRect() {
             const pointerRadius = 4;
