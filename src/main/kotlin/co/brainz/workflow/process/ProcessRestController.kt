@@ -1,8 +1,6 @@
-package co.brainz.itsm.process.controller
+package co.brainz.workflow.process
 
-import co.brainz.itsm.process.dto.ProcessDto
-import co.brainz.itsm.process.dto.ProcessSearchDto
-import co.brainz.itsm.process.service.ProcessService
+import co.brainz.workflow.engine.WFEngine
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -11,18 +9,17 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/rest/processes")
-class ProcessRestController(private val processService: ProcessService) {
+class ProcessRestController(private val wfEngine: WFEngine) {
 
     /**
      * 프로세스 데이터 조회.
      */
     @GetMapping("")
-    fun getProcesses(request: HttpServletRequest): MutableList<ProcessSearchDto> {
-        return processService.findProcessList(request.getParameter("search"))
+    fun getProcesses(search: String): MutableList<ProcessDto> {
+        return wfEngine.process().selectProcessList(search)
     }
 
     /**
@@ -30,7 +27,7 @@ class ProcessRestController(private val processService: ProcessService) {
      */
     @PostMapping("")
     fun insertProcess(@RequestBody processDto: ProcessDto): String {
-        return processService.insertProcess(processDto)
+        return wfEngine.process().insertProcess(processDto)
     }
 
     /**
@@ -38,7 +35,7 @@ class ProcessRestController(private val processService: ProcessService) {
      */
     @GetMapping("/{processId}")
     fun getProcess(@PathVariable processId: String) {
-        //TODO 프로세스 1건 데이터 조회
+        TODO("Should be implemented")
     }
 
     /**
@@ -46,7 +43,7 @@ class ProcessRestController(private val processService: ProcessService) {
      */
     @PutMapping("/{processId}")
     fun updateProcess(@PathVariable processId: String) {
-        //TODO 프로세스 1건 데이터 수정
+        TODO("Should be implemented")
     }
 
     /**
@@ -54,7 +51,7 @@ class ProcessRestController(private val processService: ProcessService) {
      */
     @DeleteMapping("/{processId}")
     fun deleteProcess(@PathVariable processId: String) {
-        processService.deleteProcess(processId)
+        wfEngine.process().deleteProcess(processId)
     }
 
     /**
