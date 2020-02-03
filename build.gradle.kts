@@ -9,9 +9,9 @@ plugins {
     kotlin("jvm") version "1.3.50"
     kotlin("plugin.spring") version "1.3.50"
     kotlin("plugin.jpa") version "1.3.50"
-    kotlin("kapt") version "1.3.50"
     id("org.jlleitschuh.gradle.ktlint") version "9.1.0"
     id("io.gitlab.arturbosch.detekt").version("1.1.1")
+    id("org.jetbrains.kotlin.kapt") version "1.3.50"
     jacoco
 }
 
@@ -33,6 +33,8 @@ configurations {
 repositories {
     mavenCentral()
 }
+
+apply(plugin = "kotlin-kapt")
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -60,11 +62,9 @@ dependencies {
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
     implementation("org.apache.httpcomponents:httpcore:4.4.13")
     implementation("org.apache.httpcomponents:httpclient:4.5.11")
-    api("com.querydsl:querydsl-jpa")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
-    compile("com.querydsl:querydsl-apt:4.2.1:jpa")
-    //kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
+    compile("com.querydsl:querydsl-jpa:4.2.1")
+    kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
 }
 
 // KTLINT
