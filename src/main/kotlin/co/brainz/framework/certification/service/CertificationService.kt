@@ -82,7 +82,8 @@ public open class CertificationService(private val certificationRepository: Cert
                         status = UserConstants.Status.SIGNUP.code,
                         oauthKey = "",
                         timezone = TimeZone.getDefault().id,
-                        lang = UserConstants.USER_LOCALE_LANG
+                        lang = UserConstants.USER_LOCALE_LANG,
+                        timeformat =  UserConstants.USER_TIME_FORMAT
                 )
                 certificationRepository.save(userEntity)
                 code = UserConstants.SignUpStatus.STATUS_SUCCESS.code

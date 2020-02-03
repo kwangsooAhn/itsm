@@ -18,15 +18,25 @@ import org.springframework.web.servlet.LocaleResolver
 import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
+import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.auth.dto.AliceUserDto
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import co.brainz.framework.auth.service.AliceAuthProvider
 
 /**
  * 사용자 관리 데이터 처리 클래스
  */
 @RestController
 @RequestMapping("/rest/users")
-class UserRestController(private val certificationService: CertificationService,
-                                                     private val userService: UserService,
-                                              private val localeResolver: LocaleResolver ) {
+class UserRestController(
+    private val certificationService: CertificationService,
+    private val userService: UserService,
+    private val localeResolver: LocaleResolver,
+    private val userDetailsService: AliceUserDetailsService,
+    private val aliceAuthProvider: AliceAuthProvider
+) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -58,15 +68,46 @@ class UserRestController(private val certificationService: CertificationService,
      * 사용자가 자신의 정보를 업데이트한다.
      */
     @PutMapping("/{userKey}/userEdit")
-    fun updateUserEdit(@RequestBody user: UserUpdateDto, request: HttpServletRequest, response: HttpServletResponse): String {
+    fun updateUserEdit(
+        @RequestBody user: UserUpdateDto, request: HttpServletRequest,
+        response: HttpServletResponse
+    ): String {
         val result = userService.updateUserEdit(user)
 
         if (result == UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code) {
-            certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code)
+            certificationService.sendMail(
+                user.userId,
+                user.email!!,
+                UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code
+            )
         } else {
             certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code)
         }
         localeResolver.setLocale(request, response, Locale(user.lang))
+        if (SecurityContextHolder.getContext().authentication != null) {
+            val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+            if (user.userKey.equals(aliceUserDto.userKey)) {
+                SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(user));
+            }
+        }
         return result
+    }
+
+     /**
+     * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
+     */
+    fun createNewAuthentication(User: UserUpdateDto): Authentication {
+        var aliceUser = userService.selectUserKey(User.userKey)
+        val authorities = aliceAuthProvider.authorities(aliceUser)
+        val authList = aliceAuthProvider.authList(aliceUser)
+        val menuList = aliceAuthProvider.menuList(authList)
+        val urlList = aliceAuthProvider.urlList(authList)
+        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
+        usernamePasswordAuthenticationToken.details = AliceUserDto(
+            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email,
+            aliceUser.useYn, aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey,
+            authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeformat
+        )
+        return usernamePasswordAuthenticationToken
     }
 }

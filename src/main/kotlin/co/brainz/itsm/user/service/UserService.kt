@@ -156,6 +156,7 @@ class UserService(private val certificationRepository: CertificationRepository,
         update.mobileNumber?.let { targetEntity.mobileNumber = update.mobileNumber }
         update.timezone?.let { targetEntity.timezone = update.timezone!! }
         update.lang?.let { targetEntity.lang = update.lang!! }
+        update.timeformat?.let { targetEntity.timeformat = update.timeformat!! }
 
         return targetEntity
     }

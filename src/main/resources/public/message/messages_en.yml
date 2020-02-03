@@ -1,5 +1,6 @@
 # Common
 common:
+  lang: "en"
   searchWord: "Search"
   btn:
     save: "SAVE"
@@ -79,6 +80,9 @@ user:
   officeNumber: "officeNumber"
   mobileNumber: "mobileNumber"
   timezone: "TimeZone"
+  timeFormat: "Date/Time Format"
+  date: "Date Format"
+  time: "Time Format"
   lang: "Language"
   reg: "Sign up"
   read: "User read"

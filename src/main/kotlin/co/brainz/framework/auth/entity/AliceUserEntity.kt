@@ -47,7 +47,8 @@ data class AliceUserEntity(
         var roleEntities: Set<AliceRoleEntity>?,
         var oauthKey: String?,
         var timezone: String,
-        var lang: String
+        var lang: String,
+        var timeformat: String
 
 ): Serializable, AliceMetaEntity() {
     fun getAuthorities(): MutableSet<GrantedAuthority> {

@@ -60,6 +60,17 @@
                     th:text="${tzData.timezoneId}"></option></select></td>
                 </tr>
                 <tr>
+                    <th th:text="#{user.timeFormat}+'*'"/></th>
+                    <td>
+                        <span th:text="#{user.date}"></span>
+                        <select name="date" id="date"><option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}"
+                                th:text="${dateData.codeValue}"></option></select>
+                        <span th:text="#{user.time}"></span>
+                        <select name="time" id="time"><option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}"
+                                th:text="${timeData.code}"></option></select>
+                    </td>
+                </tr>
+                <tr>
                     <th th:text="#{user.lang}+'*'"/>
                     <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}" 
                     th:text="${itemData.codeValue}"></option></select></td>
@@ -106,27 +117,44 @@
                 var selectLength = document.getElementById('lang').length;
                 for (i = 0; i < selectLength; i++) {
                    if (document.getElementById('lang').options[i].value == /*[[${users.lang}]]*/) {
-                	  document.getElementById('lang').options[i].selected = true;
+                      document.getElementById('lang').options[i].selected = true;
                    }
                 }
             }
             if (/*[[${users.timezone != null}]]*/) {
-            	var selectLength = document.getElementById('timezone').length;
-            	for (i = 0; i < selectLength; i++) {
-            		if (document.getElementById('timezone').options[i].value == /*[[${users.timezone}]]*/) {
+                var selectLength = document.getElementById('timezone').length;
+                for (i = 0; i < selectLength; i++) {
+                    if (document.getElementById('timezone').options[i].value == /*[[${users.timezone}]]*/) {
                         document.getElementById('timezone').options[i].selected = true;
-            		}
-            	}
+                    }
+                }
+            }
+            
+            if (/*[[${users.timeformat != null}]]*/) {
+                var selectLength = document.getElementById('date').length;
+                for (i = 0; i < selectLength; i++) {
+                    if (document.getElementById('date').options[i].value == /*[[${usersDate}]]*/) {
+                        document.getElementById('date').options[i].selected = true;
+                    }
+                }
+                
+                selectLength = document.getElementById('time').length;
+                for (i = 0; i < selectLength; i++) {
+                    if (document.getElementById('time').options[i].value == /*[[${usersTime}]]*/) {
+                        document.getElementById('time').options[i].selected = true;
+                    }
+                }
+                
             }
             hiddenProgressBar();
         }
 
         function onlyNumber(event) {
-        	event = event || window.evnet;
+            event = event || window.evnet;
             var keyID = (event.which) ? event.which : event.keyCode;
             if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
             || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) {
-            	return;
+                return;
             } else {
                 return false;
             }
@@ -180,7 +208,8 @@
                     officeNumber: document.getElementById('officeNumber').value,
                     mobileNumber: document.getElementById('mobileNumber').value,
                     timezone: document.getElementById('timezone').value,
-                    lang: document.getElementById('lang').value
+                    lang: document.getElementById('lang').value,
+                    timeformat: document.getElementById('date').value +' '+ document.getElementById('time').value
             };
             editSubmit('PUT', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]], true, editData);
         }
@@ -197,10 +226,10 @@
                                 window.location.reload();
                                 break;
                             case STATUS_SUCCESS_EDIT_EMAIL:
-                            	alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
-                            	hiddenProgressBar();
+                                alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
+                                hiddenProgressBar();
                                 window.location.reload();
-                            	break;
+                                break;
                             case STATUS_ERROR_USER_ID_DUPLICATION:
                                 alert('동일한 아이디가 존재합니다.');
                                 hiddenProgressBar();

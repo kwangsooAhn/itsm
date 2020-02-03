@@ -12,7 +12,9 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     if (elmNode == null) {
         elmNode = document.createElement('div');
         elmNode.setAttribute('id', 'printError');
-        document.getElementsByTagName('body').item(0).appendChild(elmNode);
+        if (document.getElementsByTagName('body').item(0) !== null) {
+            document.getElementsByTagName('body').item(0).appendChild(elmNode);
+        }
     }
 
     while (elmNode.hasChildNodes()) {
@@ -315,7 +317,9 @@ function showProgressBar() {
         imgProgressBar.style.bottom = '0';
         imgProgressBar.style.margin = 'auto';
         divProgressBar.appendChild(imgProgressBar);
-        document.body.appendChild(divProgressBar);
+        if (document.body !== null) {
+            document.body.appendChild(divProgressBar);
+        }
     } else {
         return false;
     }
@@ -352,4 +356,83 @@ function i18n(messageId) {
         aliceJs.sendXhr(opt);
     }
     return result;
+}
+
+/**
+ * 파라미터로 받은 날짜 데이터 기준으로 4가지 date 포맷을 받아서 yyyy-mm-dd HH:MM로 반환한다.
+ * @param p_date 입력받는 날짜 2020-02-03 or 2020-02-03 14:30 or 2020-02-03 14:30 오전
+ *  @param p_format 입력받는 날짜 형식
+ */
+function changeDateFormatYYYYMMDD(p_date, p_format) {
+    var v_date = '';
+    var arrayDate = '';
+    var arrayResultDate = '';
+    var arrrayFormat = '';
+
+    if (p_date === '' || p_date === null) {
+        return false;
+    } else {
+        //최대 날짜 형식이 2020-02-03 14:30 오후라고 들어올 것이라고 생각해서 배열처리한다.
+        arrayDate = p_date.split(' ');
+    }
+
+    if (p_format === '' || p_format === null) {
+        return false;
+    } else {
+        //최대 포맷 형식이 YYYY-MM-DD HH:MM a 라고 들어올 것이라고 생각해서 배열처리한다.
+        arrayFormat = p_format.split(' ');
+    }
+
+    //파라미터 날짜 형식에 따라서 다시  날짜만 YYY-MM-DD로 변환한다.
+    if (arrayFormat[0].toUpperCase() === 'YYYY-MM-DD') {
+        v_date = arrayDate[0];
+    } else if (arrayFormat[0].toUpperCase() === 'YYYY-DD-MM') {
+        arrayResultDate = arrayDate[0].split('-');
+        v_date = arrayResultDate[0] +'-'+ arrayResultDate[2] +'-'+ arrayResultDate[1];
+    } else if  (arrayFormat[0].toUpperCase() === 'DD-MM-YYYY') {
+        arrayResultDate = arrayDate[0].split('-');
+        v_date = arrayResultDate[2] +'-'+ arrayResultDate[1] +'-'+ arrayResultDate[0];
+    } else if (arrayFormat[0].toUpperCase() === 'MM-DD-YYYY') {
+        arrayResultDate = arrayDate[0].split('-');
+        v_date = arrayResultDate[2] +'-'+ arrayResultDate[0] +'-'+ arrayResultDate[1];
+    } else {
+        return false;
+    }
+
+    //받은 날짜가 시간도 있다면 시간을 추가 한다.
+    if (arrayDate.length === 2 || arrayDate.length === 3) {
+        v_date = v_date +' '+ arrayDate[1];
+    }
+
+    //올바르게 변환한 yyyy-mm-dd와 시간을 객체로 변환한다.
+    var result_date = new Date(v_date);
+    var year = result_date.getFullYear();
+    var month = (1+result_date.getMonth());
+        month = month >= 10 ? month : '0' + month;
+    var day = result_date.getDate();
+        day = day >= 10 ? day : '0' + day;
+    var hour = '';
+    var min = '';
+    if (arrayDate.length === 2 || arrayDate.length === 3) {
+        hour = result_date.getHours();
+        if (arrayDate.length === 3) {
+            if (p_date.indexOf('PM') !== -1 || p_date.indexOf('오후') !== -1) {
+                hour = eval(hour+12)
+            }
+            //java LocalDateTime은 hour를 24로 계산할 수 없다.
+            if (hour === 24) {
+            	hour = 23;
+            }
+        }
+
+        hour = hour >= 10 ? hour : '0'+hour;
+        min = result_date.getMinutes();
+        min = min >= 10 ? min : '0'+min;
+    }
+    if (arrayDate.length === 1) {
+        v_date = year+'-'+month+'-'+day;
+    } else if (arrayDate.length === 2 || arrayDate.length === 3) {
+        v_date = year+'-'+month+'-'+day+' '+ hour+':'+min;
+    }
+    return v_date;
 }
