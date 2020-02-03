@@ -83,12 +83,14 @@
                 }
                 d3.select(this).style('cursor', 'pointer')
             })
-            .on('mousedown', (d, i) => {
+            .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
                 }
-                path._groups[0][i].dispatchEvent(new Event('mousedown'));
+                const event = document.createEvent('MouseEvent');
+                event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                path._groups[0][i].dispatchEvent(event);
             })
             .merge(paintedPath);
 
@@ -100,16 +102,19 @@
      * draw connector.
      */
     function drawConnectors() {
-        const getLinePath = d => {
+        const getLinePath = function(d) {
             const targetBBox = wfEditor.utils.getBoundingBoxCenter(d.target);
             const sourceBBox = wfEditor.utils.getBoundingBoxCenter(d.source);
 
-            let min = Number.MAX_SAFE_INTEGER;
+            let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
             let best = {};
-            [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
-                [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]].forEach(s =>
-                [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
-                    [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]].forEach(d => {
+            let sourcePointArray = [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
+                [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]];
+            let targetPointArray = [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
+                [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]];
+
+            sourcePointArray.forEach(function(s) {
+                targetPointArray.forEach(function (d) {
                     let dist = Math.hypot(
                         (targetBBox.x + d[0]) - (sourceBBox.x + s[0]),
                         (targetBBox.y + d[1]) - (sourceBBox.y + s[1])
@@ -122,9 +127,9 @@
                         };
                     }
                 })
-            );
+            });
 
-            let lineFunction = d3.line().x(d => d.x).y(d => d.y).curve(d3.curveLinear);
+            let lineFunction = d3.line().x(function(d) {return  d.x;}).y(function(d){return d.y;}).curve(d3.curveLinear);
             return lineFunction([best.s, best.d]);
 
             /*
@@ -138,8 +143,8 @@
             */
         }
 
-        path.attr('d', d => getLinePath(d));
-        paintedPath.attr('d', d => getLinePath(d));
+        path.attr('d', function(d) {return getLinePath(d);});
+        paintedPath.attr('d', function(d) {return getLinePath(d);});
     }
 
     /**
@@ -185,7 +190,7 @@
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
-                    .attr('d', `M${bbox.cx},${bbox.cy}L${bbox.cx},${bbox.cy}`);
+                    .attr('d', 'M' + bbox.cx + ',' + bbox.cy + 'L' + bbox.cx + ',' + bbox.cy);
             } else {
                 if (selectedElement === elem) {
                     return;
@@ -193,8 +198,8 @@
                 removeElementSelected();
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
-                selectedElement.style('stroke-width', 2).transition().duration(durationTime);;
-                if (elem.node().classList.contains('resizable')) {
+                selectedElement.style('stroke-width', 2).transition().duration(durationTime);
+                if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
                         svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
@@ -223,9 +228,9 @@
 
                     const source = mousedownElement;
                     const target = mouseoverElement;
-                    const link = links.filter((l) => (l.source === source && l.target === target) || (l.source === target && l.target === source))[0];
+                    const link = links.filter(function(l) {(l.source === source && l.target === target) || (l.source === target && l.target === source)})[0];
                     if (!link) {
-                        links.push({source, target});
+                        links.push({source: source, target: target});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -237,7 +242,7 @@
         },
         mousedrag: function() {
             const bbox = wfEditor.utils.getBoundingBoxCenter(mousedownElement);
-            dragLine.attr('d', `M${bbox.cx},${bbox.cy}L${d3.event.x},${d3.event.y}`);
+            dragLine.attr('d', 'M' + bbox.cx + ',' + bbox.cy + 'L' + d3.event.x + ',' + d3.event.y);
         }
     }
 
@@ -271,19 +276,18 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(d3.drag()
                 .on('start', elementMouseEventHandler.mousedown)
-                .on('drag', () => {
+                .on('drag', function() {
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
                         svg.selectAll('.tooltip').remove();
-                        const rectData = this.rectData;
+                        const rectData = self.rectData;
                         for (let i = 0, len = rectData.length; i < len; i++) {
-                            this.nodeElement
+                            self.nodeElement
                                 .attr('x', rectData[i].x += d3.event.dx)
                                 .attr('y', rectData[i].y += d3.event.dy);
                         }
                         self.nodeElement.style('cursor', 'move');
-
                         updateRect();
                     }
                 })
@@ -294,18 +298,18 @@
             .attr('class', 'pointer')
             .style('opacity', 0)
             .call(d3.drag()
-                .on('start', () => {
+                .on('start', function() {
                     svg.selectAll('.tooltip').remove();
                 })
-                .on('drag', () => {
-                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                        this.pointElement1
-                            .attr('cx', d => { return d.x += d3.event.dx })
-                            .attr('cy', d => { return d.y += d3.event.dy });
+                .on('drag', function() {
+                    if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
+                        self.pointElement1
+                            .attr('cx', function(d) { return d.x += d3.event.dx; })
+                            .attr('cy', function(d) { return d.y += d3.event.dy; });
                         updateRect();
                     }
                 })
-                .on('end', () => {
+                .on('end', function() {
                     wfEditor.setElementMenu(self.nodeElement);
                 })
             );
@@ -313,18 +317,18 @@
             .attr('class', 'pointer')
             .style('opacity', 0)
             .call(d3.drag()
-                .on('start', () => {
+                .on('start', function() {
                     svg.selectAll('.tooltip').remove();
                 })
-                .on('drag', () => {
-                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                        this.pointElement2
-                            .attr('cx', this.rectData[1].x += d3.event.dx)
-                            .attr('cy', this.rectData[1].y += d3.event.dy);
+                .on('drag', function() {
+                    if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
+                        self.pointElement2
+                            .attr('cx', self.rectData[1].x += d3.event.dx)
+                            .attr('cy', self.rectData[1].y += d3.event.dy);
                         updateRect();
                     }
                 })
-                .on('end', () => {
+                .on('end', function() {
                     wfEditor.setElementMenu(self.nodeElement);
                 })
             );
@@ -332,18 +336,18 @@
             .attr('class', 'pointer')
             .style('opacity', 0)
             .call(d3.drag()
-                .on('start', () => {
+                .on('start', function() {
                     svg.selectAll('.tooltip').remove();
                 })
-                .on('drag', () => {
-                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                        this.pointElement3
-                            .attr('cx', this.rectData[1].x += d3.event.dx)
-                            .attr('cy', this.rectData[0].y += d3.event.dy);
+                .on('drag', function() {
+                    if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
+                        self.pointElement3
+                            .attr('cx', self.rectData[1].x += d3.event.dx)
+                            .attr('cy', self.rectData[0].y += d3.event.dy);
                         updateRect();
                     }
                 })
-                .on('end', () => {
+                .on('end', function() {
                     wfEditor.setElementMenu(self.nodeElement);
                 })
             );
@@ -351,18 +355,18 @@
             .attr('class', 'pointer')
             .style('opacity', 0)
             .call(d3.drag()
-                .on('start', () => {
+                .on('start', function() {
                     svg.selectAll('.tooltip').remove();
                 })
-                .on('drag', () => {
-                    if (selectedElement && selectedElement.node().id === this.nodeElement.node().id) {
-                        this.pointElement4
-                            .attr('cx', this.rectData[0].x += d3.event.dx)
-                            .attr('cy', this.rectData[1].y += d3.event.dy);
+                .on('drag', function() {
+                    if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
+                        self.pointElement4
+                            .attr('cx', self.rectData[0].x += d3.event.dx)
+                            .attr('cy', self.rectData[1].y += d3.event.dy);
                         updateRect();
                     }
                 })
-                .on('end', () => {
+                .on('end', function() {
                     wfEditor.setElementMenu(self.nodeElement);
                 })
             );
@@ -465,7 +469,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(d3.drag()
                 .on('start', elementMouseEventHandler.mousedown)
-                .on('drag', () => {
+                .on('drag', function() {
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
@@ -511,7 +515,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(d3.drag()
                 .on('start', elementMouseEventHandler.mousedown)
-                .on('drag', () => {
+                .on('drag', function() {
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
@@ -576,7 +580,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(d3.drag()
                 .on('start', elementMouseEventHandler.mousedown)
-                .on('drag', () => {
+                .on('drag', function() {
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
@@ -598,7 +602,7 @@
      * element에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.element-palette, .drawing-board').on('dragover', () => d3.event.preventDefault());
+        d3.selectAll('.element-palette, .drawing-board').on('dragover', function() {d3.event.preventDefault();});
 
         d3.select('.element-palette').select('.connector')
             .on('click', function() {

@@ -53,7 +53,7 @@
     function getElementDataProperty(elem) {
         const elemId = elem.node().id;
         let elements = wfEditor.data.elements;
-        let filterData = elements.filter(attr => { return attr.id === elemId; });
+        let filterData = elements.filter(function(attr) { return attr.id === elemId; });
         if (filterData.length === 0) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
@@ -134,12 +134,12 @@
             .data(actionTooltip)
             .enter()
             .append('image')
-            .attr('x', (d, i) => { return  5 + (i * 25) })
+            .attr('x', function(d, i) { return  5 + (i * 25); })
             .attr('y', 5)
             .attr('width', 20)
             .attr('height', 20)
-            .attr('xlink:href', d => { return d.image })
-            .on('mousedown', (d, i) => {
+            .attr('xlink:href', function(d) { return d.image; })
+            .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
                 d.action(elem, i);
             });
@@ -148,7 +148,7 @@
               translateX = bbox.cx - containerWidth / 2,
               translateY = (elem.classed('connector') ? bbox.cy :  bbox.y) - containerHeight - 10;
         tooltipItemContainer
-            .attr('transform', `translate(${translateX},${translateY})`)
+            .attr('transform', 'translate(' + translateX + ',' + translateY + ')')
             .style('display', 'block')
             .datum(elem);
     }
@@ -304,11 +304,11 @@
             .append('image')
             .attr('class', 'element-tooltip-item')
             .attr('x', x + 5)
-            .attr('y', (d, i) => { return y + 5 + (i * 25) })
+            .attr('y', function(d, i) { return y + 5 + (i * 25); })
             .attr('width', 20)
             .attr('height', 20)
-            .attr('xlink:href', d => { return d.image })
-            .on('mousedown', (d, i) => {
+            .attr('xlink:href', function(d) { return d.image; })
+            .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
                 d.action(elem, i);
             });
@@ -355,7 +355,7 @@
                 wfEditor.data.process[propertyObject.name] = propertyObject.value;
             }
         } else {
-            let elementData = wfEditor.data.elements.filter(attr => { return attr.id === id; });
+            let elementData = wfEditor.data.elements.filter(function(attr) { return attr.id === id; });
             for (let i = 0, len = propertyObjects.length; elementData.length > 0 && i < len; i++) {
                 let propertyObject = propertyObjects[i];
                 let propertyValue = propertyObject.value;
@@ -384,7 +384,7 @@
             let labelObject = document.createElement('label');
             labelObject.htmlFor =  property.attribute;
             labelObject.textContent = property.name;
-            propertyContainer.append(labelObject);
+            propertyContainer.appendChild(labelObject);
 
             let elementObject;
             if (property.type === 'text') {
@@ -409,7 +409,7 @@
                     let option = document.createElement('option');
                     option.value = optionList[j];
                     option.text = optionList[j];
-                    elementObject.append(option);
+                    elementObject.appendChild(option);
                 }
             }
             if (elementObject) {
@@ -418,12 +418,12 @@
                 if (data[property.attribute] && property.type !== 'checkbox') {
                     elementObject.value = data[property.attribute];
                 }
-                elementObject.addEventListener('change', event => {
+                elementObject.addEventListener('change', function(event) {
                     changePropertiesValue(id);
                 });
-                propertyContainer.append(elementObject);
+                propertyContainer.appendChild(elementObject);
             }
-            propertiesContainer.append(propertyContainer);
+            propertiesContainer.appendChild(propertyContainer);
         }
     }
 
