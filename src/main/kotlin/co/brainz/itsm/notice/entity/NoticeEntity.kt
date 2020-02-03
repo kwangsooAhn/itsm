@@ -1,6 +1,5 @@
 package co.brainz.itsm.notice.entity
 
-
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auditor.AliceMetaEntity
 import com.fasterxml.jackson.annotation.JsonFormat
@@ -34,7 +33,7 @@ data class NoticeEntity(
         @Column(name="top_notice_strt_dt") var topNoticeStrtDt: LocalDateTime? = null,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
         @Column(name="top_notice_end_dt") var topNoticeEndDt: LocalDateTime? = null,
-        
+
         @ManyToOne(targetEntity=AliceUserEntity::class, fetch = FetchType.LAZY)
         @JoinColumn(name = "create_userkey", insertable=false, updatable=false)
         var aliceUserEntity: AliceUserEntity? = null
