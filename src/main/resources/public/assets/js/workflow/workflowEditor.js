@@ -9,15 +9,17 @@
 
     let svg,
         path,
+        paintedPath,
         dragLine;
     let lastElementsId = 0;
     const links = [];
 
     let mousedownElement,
         mouseoverElement,
-        selectedElement
+        selectedElement;
 
     let isDrawConnector = false;
+    const durationTime = 100;
 
     /**
      * reset mouse variables.
@@ -32,7 +34,7 @@
      */
     function removeElementSelected() {
         selectedElement = null;
-        svg.selectAll('.node').style('stroke-width', 1);
+        svg.selectAll('.node').style('stroke-width', 1).transition().duration(durationTime);
         svg.selectAll('.pointer').style('opacity', 0);
         svg.selectAll('.tooltip').remove();
         svg.selectAll('.connector').classed('selected', false);
@@ -43,15 +45,17 @@
      */
     function setConnectors() {
         path = path.data(links);
+        paintedPath = paintedPath.data(links);
 
         // remove old links
         path.exit().remove();
+        paintedPath.exit().remove();
 
         // add new links
         path = path.enter().append('path')
             .attr('class', 'link connector')
             .style('marker-end', 'url(#end-arrow)')
-            .on('mousedown', function(e){
+            .on('mousedown', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
@@ -69,6 +73,26 @@
             })
             .merge(path);
 
+        // add new paintedPath links
+        paintedPath = paintedPath.enter().append('path')
+            .style('stroke', 'none')
+            .style('stroke-width', 20)
+            .attr('pointer-events', 'all')
+            .on('mouseover', function() {
+                if (isDrawConnector) {
+                    return;
+                }
+                d3.select(this).style('cursor', 'pointer')
+            })
+            .on('mousedown', (d, i) => {
+                d3.event.stopPropagation();
+                if (isDrawConnector) {
+                    return;
+                }
+                path._groups[0][i].dispatchEvent(new Event('mousedown'));
+            })
+            .merge(paintedPath);
+
         // draw links
         drawConnectors();
     }
@@ -77,7 +101,7 @@
      * draw connector.
      */
     function drawConnectors() {
-        path.attr('d', d => {
+        const getLinePath = d => {
             const targetBBox = wfEditor.utils.getBoundingBoxCenter(d.target);
             const sourceBBox = wfEditor.utils.getBoundingBoxCenter(d.source);
 
@@ -113,7 +137,10 @@
             lineGenerator.curve(d3.curveLinear);
             return lineGenerator([[sourceBBox.cx, sourceBBox.cy], [targetBBox.cx, targetBBox.cy]]);
             */
-        });
+        }
+
+        path.attr('d', d => getLinePath(d));
+        paintedPath.attr('d', d => getLinePath(d));
     }
 
     /**
@@ -125,12 +152,16 @@
         mouseover: function() {
             const elem = d3.select(this);
             mouseoverElement = null;
+
             if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
+                elem.style('cursor', 'pointer');
                 return;
             }
             mouseoverElement = elem;
-            mouseoverElement.style('stroke', 'red');
-            mouseoverElement.style('stroke-width', 3);
+            elem.style('stroke', 'red')
+                .style('stroke-width', 3)
+                .transition()
+                .duration(durationTime);
         },
         mouseout: function() {
             const elem = d3.select(this);
@@ -138,8 +169,10 @@
                 return;
             }
             mouseoverElement = null;
-            elem.style('stroke', 'black');
-            elem.style('stroke-width', 1);
+            elem.style('stroke', 'black')
+                .style('stroke-width', 1)
+                .transition()
+                .duration(durationTime);
         },
         mousedown: function () {
             const elem = d3.select(this);
@@ -161,11 +194,11 @@
                 removeElementSelected();
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
-                selectedElement.style('stroke-width', 2);
+                selectedElement.style('stroke-width', 2).transition().duration(durationTime);;
                 if (elem.node().classList.contains('resizable')) {
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
-                        d3.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
+                        svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
                     }
                 }
                 wfEditor.setElementMenu(elem);
@@ -183,8 +216,11 @@
                 }
 
                 if (mousedownElement !== mouseoverElement) {
-                    mouseoverElement.style('stroke', 'black');
-                    mouseoverElement.style('stroke-width', 1);
+                    mouseoverElement
+                        .style('stroke', 'black')
+                        .style('stroke-width', 1)
+                        .transition()
+                        .duration(durationTime);
 
                     const source = mousedownElement;
                     const target = mouseoverElement;
@@ -628,10 +664,11 @@
 
         // line displayed when dragging new nodes
         dragLine = svg.append('path')
-            .attr('class', 'link dragline hidden')
+            .attr('class', 'link drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
         path = svg.append('g').selectAll('path');
+        paintedPath = svg.append('g').selectAll('path');
     }
 
     /**
