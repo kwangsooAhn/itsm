@@ -27,6 +27,8 @@ class ProcessService(private val restTemplate: RestTemplate) {
     @Value("\${server.port}")
     lateinit var port: String
 
+    private val uri = "/rest/wf/processes"
+
     fun makeUri(callUrl: String, params: MultiValueMap<String, String>): URI {
         val formUrl = protocol + "://" + InetAddress.getLocalHost().hostAddress + ":" + port + callUrl
         val uri = UriComponentsBuilder.fromHttpUrl(formUrl)
@@ -43,7 +45,7 @@ class ProcessService(private val restTemplate: RestTemplate) {
     fun selectProcessList(search: String): List<ProcessDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
-        val uri = makeUri("/rest/processes", params)
+        val uri = makeUri(uri, params)
 
         val procListJson = restTemplate.getForObject(uri, String::class.java)
 
