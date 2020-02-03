@@ -1,5 +1,6 @@
 package co.brainz.workflow.process
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.form.entity.FormEntity
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.format.annotation.DateTimeFormat
@@ -11,6 +12,7 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.OneToOne
 import javax.persistence.Table
 
@@ -54,6 +56,10 @@ data class ProcessMstEntity(
 
     @Column(name = "update_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    val updateDt: LocalDateTime?
+    val updateDt: LocalDateTime?,
+
+    @ManyToOne(targetEntity=AliceUserEntity::class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_userkey", insertable=false, updatable=false)
+    var aliceUserEntity: AliceUserEntity? = null
 
 ) : Serializable
