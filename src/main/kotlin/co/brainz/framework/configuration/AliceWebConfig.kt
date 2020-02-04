@@ -11,8 +11,8 @@ import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.ResourceBundleMessageSource
+import org.springframework.core.io.Resource
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
-import org.springframework.util.ResourceUtils
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor
@@ -30,6 +30,12 @@ class AliceWebConfig{
 
     @Value("\${server.ssl.trust-store-password}")
     private var trustStorePassword = ""
+
+    @Value("classpath:itsm.jks")
+    private lateinit var jksFile: Resource
+
+    @Value("classpath:itsm.ts")
+    private lateinit var tsFile: Resource
 
     // 1. LocaleResolver
     @Bean("localeResolver")
@@ -71,8 +77,8 @@ class AliceWebConfig{
     fun restTemplate(builder: RestTemplateBuilder): RestTemplate? {
         val sslContext: SSLContext = SSLContextBuilder
                 .create()
-                .loadKeyMaterial(ResourceUtils.getFile("classpath:itsm.jks"), keyStorePassword.toCharArray(), keyStorePassword.toCharArray())
-                .loadTrustMaterial(ResourceUtils.getFile("classpath:itsm.ts"), trustStorePassword.toCharArray())
+                .loadKeyMaterial(jksFile.file, keyStorePassword.toCharArray(), keyStorePassword.toCharArray())
+                .loadTrustMaterial(tsFile.file, trustStorePassword.toCharArray())
                 .build()
         val client: HttpClient = HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()
         return builder.requestFactory { HttpComponentsClientHttpRequestFactory(client) }.build()
