@@ -22,6 +22,7 @@ import java.util.MissingResourceException
 import java.util.ResourceBundle
 import javax.net.ssl.SSLContext
 
+
 @Configuration
 class AliceWebConfig{
 
@@ -72,8 +73,8 @@ class AliceWebConfig{
 
         val sslContext: SSLContext = SSLContextBuilder
                 .create()
-                .loadKeyMaterial(ClassPathResource("itsm.jks").file, keyStorePassword.toCharArray(), keyStorePassword.toCharArray())
-                .loadTrustMaterial(ClassPathResource("itsm.ts").file, trustStorePassword.toCharArray())
+                .loadKeyMaterial(ClassPathResource("itsm.jks").url, keyStorePassword.toCharArray(), keyStorePassword.toCharArray())
+                .loadTrustMaterial(ClassPathResource("itsm.ts").url, trustStorePassword.toCharArray())
                 .build()
         val client: HttpClient = HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()
         return builder.requestFactory { HttpComponentsClientHttpRequestFactory(client) }.build()
