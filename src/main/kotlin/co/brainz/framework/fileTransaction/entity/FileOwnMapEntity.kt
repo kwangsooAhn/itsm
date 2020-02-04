@@ -9,7 +9,7 @@ import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.IdClass
 import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
@@ -19,7 +19,9 @@ data class FileOwnMapEntity(
     @Id @Column(name = "own_id")
     var ownId: String,
 
-    @Id @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE]) @JoinColumn(name = "file_seq")
+    @Id
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @JoinColumn(name = "file_seq")
     var fileLocEntity: FileLocEntity
 
 ) : Serializable
