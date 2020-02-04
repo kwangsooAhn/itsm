@@ -35,13 +35,8 @@
         var dateFormat = '';
 
         window.onload = function() {
+        	dateFormat = formatArray[0].toUpperCase();
             restSubmit('get', '/notices/list', true, false);
-            if (formatArray.length == 2) {
-                dateFormat = formatArray[0].toUpperCase();
-            } else if (formatArray.length == 3){
-                dateFormat = formatArray[0].toUpperCase();
-            }
-            
             // initialization date picker
             dateTimePicker.initDatePicker('fromDt', dateFormat);
             dateTimePicker.initDatePicker('toDt', dateFormat);

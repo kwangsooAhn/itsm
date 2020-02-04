@@ -365,15 +365,35 @@ function i18n(messageId) {
  */
 function changeDateFormatYYYYMMDD(p_date, p_format) {
     var v_date = '';
-    var arrayDate = '';
+    var arrayDate = new Array();
     var arrayResultDate = '';
     var arrrayFormat = '';
-
+    var index = 0;
     if (p_date === '' || p_date === null) {
         return;
     } else {
-        //최대 날짜 형식이 2020-02-03 14:30 오후라고 들어올 것이라고 생각해서 배열처리한다.
-        arrayDate = p_date.split(' ');
+        v_date = p_date.replace(/ /gi, ""); 
+        if (v_date.length == 10) {
+            arrayDate[0] = v_date;
+        } else if (v_date.length == 15) {
+            arrayDate[0] = v_date.substring(0,10);
+            index = v_date.lastIndexOf(':');
+            arrayDate[1] = v_date.substring(index-2,index+3);
+        } else if (v_date.length == 17) {
+            arrayDate[0] = v_date.substring(0,10);
+            index = v_date.lastIndexOf(':');
+            arrayDate[1] = v_date.substring(index-2,index+3);
+            if (p_date.indexOf('PM') !== -1 || p_date.indexOf('오후') !== -1) {
+                if (p_date.indexOf('PM') !== -1) {
+                    index = v_date.lastIndexOf('PM');
+                } else if (p_date.indexOf('오후') !== -1) {
+                    index = v_date.lastIndexOf('오후');
+                }
+                arrayDate[2] = v_date.substring(index-2,index+2);
+            }
+        } else {
+            return;
+        }
     }
 
     if (p_format === '' || p_format === null) {
@@ -401,12 +421,11 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
 
     //받은 날짜가 시간도 있다면 시간을 추가 한다.
     if (arrayDate.length === 2 || arrayDate.length === 3) {
-        v_date = v_date +' '+ arrayDate[2];
+        v_date = v_date +' '+ arrayDate[1];
     }
-
+    //console.log("v_date==="+v_date);
     //올바르게 변환한 yyyy-mm-dd와 시간을 객체로 변환한다.
     var result_date = new Date(v_date);
-
     var year = result_date.getFullYear();
     var month = (1+result_date.getMonth());
         month = month >= 10 ? month : '0' + month;
@@ -422,19 +441,16 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
             }
             //java LocalDateTime은 hour를 24로 계산할 수 없다.
             if (hour === 24) {
-            	hour = 23;
+                hour = 23;
             }
         }
-
         hour = hour >= 10 ? hour : '0'+hour;
         min = result_date.getMinutes();
         min = min >= 10 ? min : '0'+min;
     }
     if (arrayDate.length === 1) {
-
         v_date = year+'-'+month+'-'+day;
     } else if (arrayDate.length === 2 || arrayDate.length === 3) {
-    	console.log("2222");
         v_date = year+'-'+month+'-'+day+' '+ hour+':'+min;
     }
     return v_date;
