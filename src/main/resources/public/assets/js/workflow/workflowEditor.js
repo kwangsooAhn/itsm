@@ -43,12 +43,8 @@
      * set connector.
      */
     function setConnectors() {
-        path = path.data(links);
-        paintedPath = paintedPath.data(links);
-
-        // remove old links
-        path.exit().remove();
-        paintedPath.exit().remove();
+        path = path.data(links).exit().remove();
+        paintedPath = paintedPath.data(links).exit().remove();
 
         // add new links
         path = path.enter().append('path')
