@@ -11,12 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
+import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.InetAddress
 import java.net.URI
 
 @Service
-class ProcessService() {
+class ProcessService(private val restTemplate: RestTemplate) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -46,14 +47,13 @@ class ProcessService() {
         params.add("search", search)
         val uri = makeUri(uri, params)
 
-        //val procListJson = restTemplate.getForObject(uri, String::class.java)
-        val procListJson = ""
+        val procListJson = restTemplate.getForObject(uri, String::class.java)
 
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         return mapper.readValue(
-            procListJson,
-            mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java)
+                procListJson,
+                mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java)
         )
     }
 
