@@ -2,6 +2,7 @@ package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.encryption.CryptoRsa
@@ -60,6 +61,21 @@ public open class CertificationService(private val certificationRepository: Cert
         return roleRepository.findByRoleIdIn(roleIdList)
     }
 
+    fun getDefaultUserRoleMapList(role: String): List<AliceUserRoleMapEntity> {
+        val userRoleMapList = mutableListOf<AliceUserRoleMapEntity>()
+        val codeEntityList = codeRepository.findByPCode(role)
+        val roleIdList = mutableListOf<String>()
+        codeEntityList.forEach {
+            it.codeValue?.let { codeValue -> roleIdList.add(codeValue) }
+        }
+
+        roleRepository.findByRoleIdIn(roleIdList).forEach {role ->
+            userRoleMapList.add(AliceUserRoleMapEntity("",role))
+        }
+
+        return userRoleMapList
+    }
+
     fun insertUser(signUpDto: SignUpDto): String {
         var code: String = signUpValid(signUpDto)
         when (code) {
@@ -78,7 +94,7 @@ public open class CertificationService(private val certificationRepository: Cert
                         officeNumber = signUpDto.officeNumber,
                         mobileNumber = signUpDto.mobileNumber,
                         expiredDt = LocalDateTime.now().plusMonths(3),
-                        roleEntities = roleEntityList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
+                        userRoleMapEntities = getDefaultUserRoleMapList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                         status = UserConstants.Status.SIGNUP.code,
                         oauthKey = "",
                         timezone = TimeZone.getDefault().id,

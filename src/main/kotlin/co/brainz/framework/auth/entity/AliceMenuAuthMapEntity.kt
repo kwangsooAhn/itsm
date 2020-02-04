@@ -6,20 +6,27 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
+import javax.persistence.IdClass
+import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_menu_auth_map")
+@IdClass(AliceMenuAuthMapPk::class)
 data class AliceMenuAuthMapEntity (
         @Id
         @ManyToOne(fetch = FetchType.LAZY)
-        @Column(name = "menu_id")
+        @JoinColumn(name = "menu_id")
         val menu: AliceMenuEntity,
 
         @Id
         @ManyToOne(fetch = FetchType.LAZY)
-        @Column(name = "auth_id")
+        @JoinColumn(name = "auth_id")
         val auth: AliceAuthEntity
-) : Serializable{
-}
+) : Serializable
+
+data class AliceMenuAuthMapPk(
+        val menu: String,
+        val auth: String
+) : Serializable

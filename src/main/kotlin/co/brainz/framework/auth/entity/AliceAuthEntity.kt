@@ -18,18 +18,12 @@ import javax.persistence.Table
 data class AliceAuthEntity(
         @Id var authId: String,
         var authName: String,
-        var authDesc: String,
+        var authDesc: String
         /*@ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awfMenuAuthMap",
                    joinColumns = [JoinColumn(name = "authId")],
                    inverseJoinColumns = [JoinColumn(name = "menuId")])
         val aliceMenuList: Set<AliceMenuEntity>,*/
-
-        @OneToMany(fetch = FetchType.LAZY)
-        @JoinTable(name = "awf_menu_auth_map",
-                joinColumns = [JoinColumn(name = "auth_id")],
-                inverseJoinColumns = [JoinColumn(name = "menu_id")])
-        val menuEntities: List<AliceMenuEntity>,
 
         /*@ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "awf_url_auth_map",
@@ -37,16 +31,13 @@ data class AliceAuthEntity(
                    inverseJoinColumns = [JoinColumn(name = "url", referencedColumnName = "url"),
                                          JoinColumn(name = "method", referencedColumnName = "method")])
         val aliceUrl: Set<AliceUrlEntity>*/
+): Serializable, AliceMetaEntity() {
+        @OneToMany(mappedBy = "auth", fetch = FetchType.LAZY)
+        val urlAuthMapEntities = mutableListOf<AliceUrlAuthMapEntity>()
 
-        @OneToMany(fetch = FetchType.LAZY)
-        @JoinTable(name = "awf_url_auth_map",
-                joinColumns = [JoinColumn(name = "auth_id")],
-                inverseJoinColumns = [JoinColumn(name = "url"), JoinColumn(name = "method")])
-        val urlEntities: List<AliceUrlEntity>,
+        @OneToMany(mappedBy = "auth", fetch = FetchType.LAZY)
+        val menuAuthMapEntities = mutableListOf<AliceMenuAuthMapEntity>()
 
-        @OneToMany(fetch = FetchType.LAZY)
-        @JoinTable(name = "awf_role_auth_map",
-                joinColumns = [JoinColumn(name = "auth_id")],
-                inverseJoinColumns = [JoinColumn(name = "role_id")])
-        val roleEntities: List<AliceRoleEntity>
-): Serializable, AliceMetaEntity()
+        @OneToMany(mappedBy = "auth", fetch = FetchType.LAZY)
+        val roleAuthMapEntities = mutableListOf<AliceRoleAuthMapEntity>()
+}

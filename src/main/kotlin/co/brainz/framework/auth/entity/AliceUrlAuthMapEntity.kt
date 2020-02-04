@@ -1,6 +1,7 @@
 package co.brainz.framework.auth.entity
 
 import java.io.Serializable
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
@@ -12,14 +13,13 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_url_auth_map")
-@IdClass(AliceUrlAuthMapId::class)
+@IdClass(AliceUrlAuthMapPk::class)
 data class AliceUrlAuthMapEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns(
-        JoinColumn(name = "url"),
-        JoinColumn(name = "method")
-    )
+            JoinColumn(name = "url"),
+            JoinColumn(name = "method"))
     val url: AliceUrlEntity,
 
     @Id
@@ -28,6 +28,7 @@ data class AliceUrlAuthMapEntity(
     val auth: AliceAuthEntity
 ) : Serializable
 
-data class AliceUrlAuthMapId(val url: AliceUrlEntity, val auth: AliceAuthEntity) : Serializable {
-
-}
+data class AliceUrlAuthMapPk(
+        val url: AliceUrlEntityPk,
+        val auth: String
+) : Serializable

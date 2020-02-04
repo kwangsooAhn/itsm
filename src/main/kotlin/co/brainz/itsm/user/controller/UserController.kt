@@ -1,5 +1,6 @@
 package co.brainz.itsm.user.controller
 
+import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
@@ -56,7 +57,13 @@ class UserController(
     @GetMapping("/{userId}/edit")
     fun getUserDetail(@PathVariable userId: String, model: Model): String {
         val users = userService.selectUser(userId)
-        val roles = roleService.getRoles(users.roleEntities)
+        val roleEntities = mutableSetOf<AliceRoleEntity>()
+
+        users.userRoleMapEntities.forEach {userRoleMap ->
+            roleEntities.add(userRoleMap.role)
+        }
+
+        val roles = roleService.getRoles(roleEntities)
         model.addAttribute("users", users)
         model.addAttribute("roles", roles)
 

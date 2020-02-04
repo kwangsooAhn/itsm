@@ -1,15 +1,10 @@
 package co.brainz.framework.auth.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
-import org.hibernate.mapping.Join
 import java.io.Serializable
-import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.JoinTable
-import javax.persistence.ManyToMany
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
@@ -18,7 +13,7 @@ import javax.persistence.Table
 data class AliceRoleEntity(
         @Id var roleId: String,
         var roleName: String,
-        var roleDesc: String,
+        var roleDesc: String
         /*
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
         @JoinTable(name = "awfRoleAuthMap",
@@ -26,12 +21,10 @@ data class AliceRoleEntity(
                 inverseJoinColumns = [JoinColumn(name = "authId", referencedColumnName = "authId")])
         var authEntityList: List<AliceAuthEntity>?
         */
+): Serializable, AliceMetaEntity() {
+        @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+        val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()
 
-        @OneToMany(fetch = FetchType.LAZY)
-        @JoinTable(name = "awf_user_role_map",
-                joinColumns = [JoinColumn(name = "role_id")],
-                inverseJoinColumns = [JoinColumn(name = "user_id")]
-        )
-        val userEntities: List<AliceUserEntity>
-
-): Serializable, AliceMetaEntity()
+        @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+        val roleAuthMapEntities = mutableListOf<AliceRoleAuthMapEntity>()
+}

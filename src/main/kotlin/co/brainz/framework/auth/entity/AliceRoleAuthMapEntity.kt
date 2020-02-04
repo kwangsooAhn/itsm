@@ -5,20 +5,27 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
+import javax.persistence.IdClass
+import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_role_auth_map")
+@IdClass(AliceRoleAuthMapPk::class)
 data class AliceRoleAuthMapEntity(
         @Id
         @ManyToOne(fetch = FetchType.LAZY)
-        @Column(name = "role_id")
+        @JoinColumn(name = "role_id")
         val role: AliceRoleEntity,
 
         @Id
         @ManyToOne(fetch = FetchType.LAZY)
-        @Column(name = "auth_id")
+        @JoinColumn(name = "auth_id")
         val auth: AliceAuthEntity
-) : Serializable {
-}
+) : Serializable
+
+data class AliceRoleAuthMapPk(
+        val role: String,
+        val auth: String
+) : Serializable

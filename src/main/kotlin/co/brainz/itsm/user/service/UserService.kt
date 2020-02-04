@@ -68,9 +68,9 @@ class UserService(private val certificationRepository: CertificationRepository,
     fun updateUser(update: UserUpdateDto): AliceUserEntity {
         val targetEntity = updateDataInput(update)
 
-        targetEntity.roleEntities = update.roles?.let {
+        /*targetEntity.roleEntities = update.roles?.let {
             roleRepository.findAllById(it).toMutableSet()
-        }
+        }*/
 
         return userRepository.save(targetEntity)
     }
