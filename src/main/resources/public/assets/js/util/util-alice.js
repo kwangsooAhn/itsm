@@ -370,14 +370,14 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
     var arrrayFormat = '';
 
     if (p_date === '' || p_date === null) {
-        return false;
+        return;
     } else {
         //최대 날짜 형식이 2020-02-03 14:30 오후라고 들어올 것이라고 생각해서 배열처리한다.
         arrayDate = p_date.split(' ');
     }
 
     if (p_format === '' || p_format === null) {
-        return false;
+        return;
     } else {
         //최대 포맷 형식이 YYYY-MM-DD HH:MM a 라고 들어올 것이라고 생각해서 배열처리한다.
         arrayFormat = p_format.split(' ');
@@ -396,16 +396,17 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
         arrayResultDate = arrayDate[0].split('-');
         v_date = arrayResultDate[2] +'-'+ arrayResultDate[0] +'-'+ arrayResultDate[1];
     } else {
-        return false;
+        return;
     }
 
     //받은 날짜가 시간도 있다면 시간을 추가 한다.
     if (arrayDate.length === 2 || arrayDate.length === 3) {
-        v_date = v_date +' '+ arrayDate[1];
+        v_date = v_date +' '+ arrayDate[2];
     }
 
     //올바르게 변환한 yyyy-mm-dd와 시간을 객체로 변환한다.
     var result_date = new Date(v_date);
+
     var year = result_date.getFullYear();
     var month = (1+result_date.getMonth());
         month = month >= 10 ? month : '0' + month;
@@ -430,8 +431,10 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
         min = min >= 10 ? min : '0'+min;
     }
     if (arrayDate.length === 1) {
+
         v_date = year+'-'+month+'-'+day;
     } else if (arrayDate.length === 2 || arrayDate.length === 3) {
+    	console.log("2222");
         v_date = year+'-'+month+'-'+day+' '+ hour+':'+min;
     }
     return v_date;
