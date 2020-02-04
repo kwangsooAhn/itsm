@@ -52,8 +52,8 @@ class ProcessService(private val restTemplate: RestTemplate) {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         return mapper.readValue(
-                procListJson,
-                mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java)
+            procListJson,
+            mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java)
         )
     }
 

@@ -17,7 +17,7 @@ class LocalDateTimeAttributeConverter(): AttributeConverter<LocalDateTime, Times
         return if (locDateTime == null) {
             null
         } else {
-            Timestamp.valueOf(locDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime())
+            Timestamp.valueOf(locDateTime.atZone(ZoneId.of(timezone())).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime())
         }
     }
 

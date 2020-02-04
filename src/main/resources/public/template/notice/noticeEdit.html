@@ -388,7 +388,7 @@
                 topNoticeEndDt: changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value,format),
                 fileSeq: fileSeq
             });
-console.log(jsonData);
+
             const xmlhttp = createXmlHttpRequestObject(method, url, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {
