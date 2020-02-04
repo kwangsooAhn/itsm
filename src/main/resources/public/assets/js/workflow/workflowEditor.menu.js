@@ -418,6 +418,11 @@
                 if (data[property.attribute] && property.type !== 'checkbox') {
                     elementObject.value = data[property.attribute];
                 }
+                if (id === wfEditor.data.process.id && property.attribute === 'name') {
+                    elementObject.addEventListener('keyup', function(event) {
+                        document.querySelector('.process-name').textContent = this.value;
+                    });
+                }
                 elementObject.addEventListener('change', function(event) {
                     changePropertiesValue(id);
                 });

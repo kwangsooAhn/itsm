@@ -43,8 +43,12 @@
      * set connector.
      */
     function setConnectors() {
-        path = path.data(links).exit().remove();
-        paintedPath = paintedPath.data(links).exit().remove();
+        path = path.data(links);
+        paintedPath = paintedPath.data(links);
+
+        // remove old links
+        path.exit().remove();
+        paintedPath.exit().remove();
 
         // add new links
         path = path.enter().append('path')
@@ -702,6 +706,7 @@
     function drawWorkflow(data) {
         console.debug(JSON.parse(data));
         wfEditor.data = JSON.parse(data);
+        document.querySelector('.process-name').textContent = wfEditor.data.process.name;
         wfEditor.setElementMenu();
     }
 
