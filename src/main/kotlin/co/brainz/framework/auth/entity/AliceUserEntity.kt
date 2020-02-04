@@ -16,6 +16,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -40,11 +41,19 @@ data class AliceUserEntity(
         var platform: String = UserConstants.Platform.ALICE.code,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val expiredDt: LocalDateTime,
-        @ManyToMany(fetch = FetchType.EAGER)
-        @JoinTable(name = "awfUserRoleMap",
-                   joinColumns = [JoinColumn(name = "userKey")],
-                   inverseJoinColumns = [JoinColumn(name = "roleId")])
-        var roleEntities: Set<AliceRoleEntity>?,
+
+        @OneToMany(fetch = FetchType.LAZY)
+        @JoinTable(name = "awf_user_role_map",
+                joinColumns = [JoinColumn(name = "user_key")],
+                inverseJoinColumns = [JoinColumn(name = "role_id")]
+        )
+        val roleEntities: List<AliceRoleEntity>,
+
+        //@ManyToMany(fetch = FetchType.EAGER)
+        //@JoinTable(name = "awfUserRoleMap",
+        //           joinColumns = [JoinColumn(name = "userKey")],
+        //           inverseJoinColumns = [JoinColumn(name = "roleId")])
+        //var roleEntities: Set<AliceRoleEntity>?,
         var oauthKey: String?,
         var timezone: String,
         var lang: String
