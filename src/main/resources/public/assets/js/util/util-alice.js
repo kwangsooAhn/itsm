@@ -12,9 +12,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     if (elmNode == null) {
         elmNode = document.createElement('div');
         elmNode.setAttribute('id', 'printError');
-        if (document.getElementsByTagName('body').item(0) !== null) {
-            document.getElementsByTagName('body').item(0).appendChild(elmNode);
-        }
+        document.getElementsByTagName('body').item(0).appendChild(elmNode);
     }
 
     while (elmNode.hasChildNodes()) {
@@ -317,9 +315,7 @@ function showProgressBar() {
         imgProgressBar.style.bottom = '0';
         imgProgressBar.style.margin = 'auto';
         divProgressBar.appendChild(imgProgressBar);
-        if (document.body !== null) {
-            document.body.appendChild(divProgressBar);
-        }
+        document.body.appendChild(divProgressBar);
     } else {
         return false;
     }
