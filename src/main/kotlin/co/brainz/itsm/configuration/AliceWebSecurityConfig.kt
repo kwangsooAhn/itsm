@@ -28,7 +28,7 @@ class AliceWebSecurityConfig(authProvider: AliceAuthProvider,
     override fun authorizeRequestConfigure(http: HttpSecurity) {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/logout", "/certification/**", "/oauth/**", "/portal/**", "/rest/**","/i18n/**").permitAll()
+                .antMatchers("/", "/login", "/logout", "/sessionInValid", "/certification/**", "/oauth/**", "/portal/**", "/rest/**","/i18n/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().ignoringAntMatchers("/rest/**")
         logger.debug("> http configure <")

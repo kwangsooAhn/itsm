@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import javax.servlet.http.HttpServletRequest
 
@@ -51,6 +52,13 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
         }
 
         return page
+    }
+
+    @GetMapping("/sessionInValid")
+    fun sessionExpired(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("counter", 3);
+        model.addAttribute("expired", request.getParameterValues("expired"))
+        return  "/sessionInvalid"
     }
 }
 

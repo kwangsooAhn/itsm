@@ -58,6 +58,11 @@ abstract class AliceWebSecurityConfigurerAdapter(private val authProvider: Alice
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
+                .and()
+                .sessionManagement()
+                .invalidSessionUrl("/sessionInValid?expired=false")
+                .maximumSessions(10)
+                .expiredUrl("/sessionInValid?expired=true")
         //TODO csrf, 세션만료등 에러 핸들러 구현 요망 .and().exceptionHandling().accessDeniedHandler(AliceAccessDeniedHandler())
     }
 }

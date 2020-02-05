@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<h3>Session InValid</h3>
+<h3><span id="counter">[[${counter}]]</span> 초 뒤 로그인 페이지로 이동합니다.</h3>
+<form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        console.log('[${expired}]')
+        let count = [[${counter}]],
+            timer;
+        const counting = function() {
+            clearTimeout(timer);
+            if (count !== 1) {
+                count -= 1;
+                document.querySelector('#counter').textContent = count;
+                timer = setTimeout(counting, 1000);
+            } else {
+                clearTimeout(timer);
+                const logoutForm = document.getElementById('logoutForm');
+                if (window.opener !== null) {
+                    window.opener.name = 'alice_web';
+                    logoutForm.target = window.opener.name;
+                }
+                logoutForm.submit();
+                if (window.opener !== null) {
+                    window.close();
+                }
+            }
+        };
+        timer = setTimeout(counting, 1000);
+    }
+    /*]]>*/
+</script>
+</body>
+</html>
