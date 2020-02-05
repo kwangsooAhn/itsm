@@ -19,6 +19,11 @@ object UserConstants {
      * 사용자 기본 언어셋.
      */
     const val USER_LOCALE_LANG: String = "ko"
+    
+    /**
+     * 사용자 기본 날짜 포맷
+     */
+    const val USER_TIME_FORMAT: String = "yyyy-MM-dd HH:mm"
 
     /**
      * 사용자 상태.

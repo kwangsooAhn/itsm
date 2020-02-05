@@ -34,9 +34,11 @@
                     <td th:text="${process.formName}"></td>
                     <td th:text="${process.userName}"></td>
                     <td th:if="${process.updateDt == null && process.updateUserkey == null}"
-                        th:text="|${#temporals.format(process.createDt,'yyyy-MM-dd HH:mm')} ${process.createUserkey}|"></td>
+                        th:with="dateformat=${#authentication.details.timeformat}" 
+                        th:text="|${#temporals.format(process.createDt,dateformat)} ${process.createUserkey}|"></td>
                     <td th:unless="${process.updateDt == null && process.updateUserkey == null}"
-                        th:text="|${#temporals.format(process.updateDt,'yyyy-MM-dd HH:mm')} ${process.updateUserkey}|"></td>
+                        th:with="dateformat=${#authentication.details.timeformat}" 
+                        th:text="|${#temporals.format(process.updateDt,dateformat)} ${process.updateUserkey}|"></td>
                     <td th:text="#{${process.processStatus}}"></td>
                     <td>
                         <button sec:authorize="hasAuthority('process.update')"

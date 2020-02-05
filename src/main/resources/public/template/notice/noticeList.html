@@ -30,7 +30,7 @@
                         <td th:if="${topNotice.popYn}"><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif"></a></td>
                         <td th:unless="${topNotice.popYn}"></td>
                         <td th:text="${topNotice?.aliceUserEntity.userName}"></td>
-                        <td th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,'yyyy-MM-dd HH:mm')} : ${topNotice.createDt}"></td>
+                        <td th:with="dateformat=${#authentication.details.timeformat}" th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,dateformat)} : ${topNotice.createDt}"></td>
                     </tr>
                     <tr th:each="notice : ${noticeList}" th:if="${notice.topNoticeYn} ==  false">
                         <td id="topNoticeYn"></td>
@@ -38,7 +38,7 @@
                         <td th:if="${notice.popYn}"><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>
                         <td th:unless="${notice.popYn}"></td>
                         <td id="userName" th:text="${notice?.aliceUserEntity.userName}"></td>
-                        <td th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,'yyyy-MM-dd HH:mm')} : ${notice.createDt}"></td>
+                        <td th:with="dateformat=${#authentication.details.timeformat}" th:text="${notice.createDt} ? ${#temporals.format(notice.createDt,dateformat)} : ${notice.createDt}"></td>
                     </tr>
                 </tbody>
             </table>
