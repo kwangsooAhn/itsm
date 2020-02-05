@@ -11,14 +11,11 @@ class WFLocalDateTimeConverter(): AttributeConverter<LocalDateTime, Timestamp> {
         return if (locDateTime == null) {
             null
         } else {
-            println(">>등록시")
             Timestamp.valueOf(locDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime())
         }
     }
 
     override fun convertToEntityAttribute(sqlTimestamp: Timestamp?): LocalDateTime? {
-        println(">>>>>222>>>>>>")
-        println(sqlTimestamp)
         return sqlTimestamp?.toLocalDateTime()
     }
 
