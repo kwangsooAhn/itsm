@@ -4,8 +4,10 @@ package co.brainz.itsm.user.constants
  * 사용자 관련 상수를 정의한 클래스
  */
 enum class UserConstants(val value: String) {
-    /** 검색 selectbox 에 사용할 부모 코드 */
-    PCODE("user.search")
+    PCODE("user.search"),     /** 검색 selectbox 에 사용할 부모 코드 */
+    PLANGCODE("user.lang"),   /** 사용자 언어 사용할 부모 코드 */
+    PDATECODE("user.date"),   /** 사용자 날짜 형식 사용할 부모 코드 */
+    PTIMECODE("user.time")    /** 사용자 시간 형식 사용할 부모 코드 */
     ;
 
     /**

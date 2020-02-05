@@ -64,7 +64,7 @@
         </tr>
         <tr>
             <th th:text="#{common.label.createDate}"></th>
-            <td><span id="spanCreateDt" name="spanCreateDt" th:text="${#temporals.format(roleDetail?.createDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(roleDetail?.createDt,dateformat)}"></span></td>
         </tr>
         <tr>
             <th th:text="#{common.label.updateUserName}"></th>
@@ -72,7 +72,7 @@
         </tr>
         <tr>
             <th th:text="#{common.label.updateDate}"></th>
-            <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${#temporals.format(roleDetail?.updateDt,'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(roleDetail?.updateDt,dateformat)}"></span></td>
         </tr>
     </table>
     <table>

@@ -115,7 +115,7 @@ class TimezoneTest {
         usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
                 aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, userTimezone, aliceUser.lang
+                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, userTimezone, aliceUser.lang, aliceUser.timeformat
         )
         securityContext.authentication = usernamePasswordAuthenticationToken
     }

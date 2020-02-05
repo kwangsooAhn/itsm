@@ -1,10 +1,14 @@
 package co.brainz.itsm.utility
 
+import co.brainz.framework.auth.dto.AliceUserDto
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
 import java.time.format.DateTimeFormatterBuilder
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Component
 class ConvertParam {
@@ -14,7 +18,7 @@ class ConvertParam {
      * hg.jung
      *
      */
-    fun convertToLocalDateTime(source: String, target: String): LocalDateTime {
+    fun convertToSearchLocalDateTime(source: String, target: String): LocalDateTime {
         val dateForm = "yyyy-MM-dd"
         val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(dateForm)
         val dateFormatterPrefix: DateTimeFormatter
@@ -32,5 +36,37 @@ class ConvertParam {
         } else {
             throw IllegalArgumentException("When you use the parameter type of a method incorrectly")
         }
+    }
+
+    fun converterLocalDateTime(value: String, dateTimeFormatter: DateTimeFormatter): LocalDateTime {
+        var localDateTime = LocalDateTime.parse(value, dateTimeFormatter)
+        val timezone = timezone()
+        if (timezone.isNotEmpty()) {
+            localDateTime = LocalDateTime.parse(value, dateTimeFormatter).atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(timezone())).toLocalDateTime()
+        }
+        return localDateTime
+    }
+
+    fun converterLocalDateTime(value: LocalDateTime, dateTimeFormatter: DateTimeFormatter): LocalDateTime {
+        var localDateTime = value
+        val timezone = timezone()
+        if (timezone.isNotEmpty()) {
+            localDateTime = localDateTime.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(timezone())).toLocalDateTime()
+        }
+        return localDateTime
+    }
+
+    fun timezone(): String {
+        val isAnonymous = AuthenticationTrustResolverImpl().isAnonymous(SecurityContextHolder.getContext().authentication)
+        var timezone = ""
+        when (isAnonymous) {
+            false -> {
+                if (SecurityContextHolder.getContext().authentication != null) {
+                    val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+                    timezone = aliceUserDto.timezone
+                }
+            }
+        }
+        return timezone
     }
 }
