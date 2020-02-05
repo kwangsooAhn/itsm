@@ -57,8 +57,8 @@ class NoticeController(private val userService: UserService,
         val isCreateUserkey = request.getParameter("createUserkey")!!.toBoolean()
         val keyWord = request.getParameter("keyWord")
         var noticeList = emptyList<NoticeEntity>()
-        val fromDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("fromDt"), "fromDt")
-        val toDt: LocalDateTime = convertParam.convertToLocalDateTime(request.getParameter("toDt"), "toDt")
+        val fromDt: LocalDateTime = convertParam.convertToSearchLocalDateTime(request.getParameter("fromDt"), "fromDt")
+        val toDt: LocalDateTime = convertParam.convertToSearchLocalDateTime(request.getParameter("toDt"), "toDt")
 
         when (isNoticeTitle && isCreateUserkey) {
             true -> {

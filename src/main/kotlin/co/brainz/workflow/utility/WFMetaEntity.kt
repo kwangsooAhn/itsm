@@ -1,6 +1,5 @@
-package co.brainz.framework.auditor
+package co.brainz.workflow.utility
 
-import co.brainz.itsm.utility.LocalDateTimeAttributeConverter
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -19,19 +18,19 @@ import javax.persistence.MappedSuperclass
  * 생성 사용자키, 생성일, 수정 사옹자키, 수정일을 공통으로 사용한다.
  *
  */
-
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-open class AliceMetaEntity(
+open class WFMetaEntity(
         @CreatedBy @Column(name="create_userkey", nullable = false, updatable = false)
         open var createUserkey: String = "",
-        @Convert(converter = LocalDateTimeAttributeConverter::class)
+        @Convert(converter = WFLocalDateTimeConverter::class)
         @CreatedDate @Column(name="create_dt", nullable = false, updatable = false)
         var createDt: LocalDateTime = LocalDateTime.now(),
         @LastModifiedBy @Column(name="update_userkey", insertable = false)
         var updateUserkey: String? = null,
-        @Convert(converter = LocalDateTimeAttributeConverter::class)
+        @Convert(converter = WFLocalDateTimeConverter::class)
         @LastModifiedDate @Column(name="update_dt", insertable = false)
         var updateDt: LocalDateTime? = LocalDateTime.now()
 
 ): Serializable
+
