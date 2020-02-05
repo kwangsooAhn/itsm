@@ -84,16 +84,20 @@ class TimezoneTest {
 
     fun menuList(authList: Set<AliceAuthEntity>): Set<AliceMenuEntity> {
         val menuList = mutableSetOf<AliceMenuEntity>()
-        authList.forEach {
-            menuList.addAll(it.aliceMenuList)
+        authList.forEach {auth ->
+            auth.menuAuthMapEntities.forEach {menuAuthMap ->
+                menuList.add(menuAuthMap.menu)
+            }
         }
         return menuList
     }
 
     fun urlList(authList: Set<AliceAuthEntity>): Set<AliceUrlEntity> {
         val urlList = mutableSetOf<AliceUrlEntity>()
-        authList.forEach {
-            urlList.addAll(it.aliceUrl)
+        authList.forEach {auth ->
+            auth.urlAuthMapEntities.forEach {urlAuthMap ->
+                urlList.add(urlAuthMap.url)
+            }
         }
         return urlList
     }
