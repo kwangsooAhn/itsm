@@ -31,6 +31,7 @@
     <script th:inline="javascript">
         /*<![CDATA[ */
         var format = /*[[${#authentication.details.timeformat}]]*/;
+        var lang = /*[[${#authentication.details.lang}]]*/;
         var formatArray = format.split(' ');
         var dateFormat = '';
 
@@ -38,8 +39,8 @@
         	dateFormat = formatArray[0].toUpperCase();
             restSubmit('get', '/notices/list', true, false);
             // initialization date picker
-            dateTimePicker.initDatePicker('fromDt', dateFormat);
-            dateTimePicker.initDatePicker('toDt', dateFormat);
+            dateTimePicker.initDatePicker('fromDt', dateFormat, lang);
+            dateTimePicker.initDatePicker('toDt', dateFormat, lang);
             hiddenProgressBar();
         }
         
