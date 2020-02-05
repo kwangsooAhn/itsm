@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
-
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.InetAddress
 import java.net.URI
@@ -62,7 +61,8 @@ class FormService(private val restTemplate: RestTemplate) {
                 createDt = LocalDateTime.parse(item["createDt"].toString(), dateTimeFormatter),
                 createUserKey = item["createUserKey"] as String,
                 updateDt = item["updateDt"]?.let { LocalDateTime.parse(it.toString(), dateTimeFormatter) },
-                updateUserKey = item["updateUserKey"]?.toString()
+                updateUserKey = item["updateUserKey"]?.toString(),
+                userName = item["userName"] as String
         )
         when (item["formStatus"] as String) {
             FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true

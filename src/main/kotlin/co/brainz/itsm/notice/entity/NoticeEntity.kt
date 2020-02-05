@@ -1,5 +1,6 @@
 package co.brainz.itsm.notice.entity
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auditor.AliceMetaEntity
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
@@ -8,6 +9,8 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
@@ -29,6 +32,10 @@ data class NoticeEntity(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
         @Column(name="top_notice_strt_dt") var topNoticeStrtDt: LocalDateTime? = null,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd  HH:mm", timezone = "Asia/Seoul")
-        @Column(name="top_notice_end_dt") var topNoticeEndDt: LocalDateTime? = null
+        @Column(name="top_notice_end_dt") var topNoticeEndDt: LocalDateTime? = null,
+
+        @ManyToOne(targetEntity=AliceUserEntity::class, fetch = FetchType.LAZY)
+        @JoinColumn(name = "create_userkey", insertable=false, updatable=false)
+        var aliceUserEntity: AliceUserEntity? = null
 
 ): Serializable, AliceMetaEntity()
