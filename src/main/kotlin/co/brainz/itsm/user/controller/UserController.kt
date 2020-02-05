@@ -1,5 +1,6 @@
 package co.brainz.itsm.user.controller
 
+import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
@@ -56,7 +57,13 @@ class UserController(
     @GetMapping("/{userId}/edit")
     fun getUserDetail(@PathVariable userId: String, model: Model): String {
         val users = userService.selectUser(userId)
-        val roles = roleService.getRoles(users.roleEntities)
+        val roleEntities = mutableSetOf<AliceRoleEntity>()
+
+        users.userRoleMapEntities.forEach {userRoleMap ->
+            roleEntities.add(userRoleMap.role)
+        }
+
+        val roles = roleService.getRoles(roleEntities)
         model.addAttribute("users", users)
         model.addAttribute("roles", roles)
 
@@ -68,14 +75,24 @@ class UserController(
      */
     @GetMapping("/{userKey}/userEdit")
     fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
-        val pCode = "user.lang"
         val users = userService.selectUserKey(userKey)
-        val langList = codeService.selectCodeByParent(pCode)
+        val timeFormat = users.timeformat.split(' ')
+        val usersDate = timeFormat[0].toString()
+        val usersTime = if (timeFormat.size == 3) { timeFormat[1] + ' ' + timeFormat[2] } else { timeFormat[1] }
+
+        val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
+        val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
+        val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
+
         model.addAttribute("users", users)
+        model.addAttribute("usersDate", usersDate)
+        model.addAttribute("usersTime", usersTime)
         model.addAttribute("langList", langList)
         model.addAttribute("timezoneList", timezoneList)
+        model.addAttribute("dateList", dateList)
+        model.addAttribute("timeList", timeList)
         return userEditPage
     }
 }

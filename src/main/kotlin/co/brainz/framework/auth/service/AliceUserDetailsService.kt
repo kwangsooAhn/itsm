@@ -18,7 +18,7 @@ class AliceUserDetailsService(
         return aliceUserRepository.findByUserId(userId)
     }
 
-    fun getAuthList(authIds: Set<String>): Set<AliceAuthEntity> {
+    fun getAuthList(authIds: MutableSet<String>): MutableSet<AliceAuthEntity> {
         return aliceAuthRepository.findByAuthIdIn(authIds)
     }
     

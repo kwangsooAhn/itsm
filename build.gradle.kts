@@ -10,7 +10,7 @@ plugins {
     kotlin("plugin.spring") version "1.3.50"
     kotlin("plugin.jpa") version "1.3.50"
     id("org.jlleitschuh.gradle.ktlint") version "9.1.0"
-    id("io.gitlab.arturbosch.detekt").version("1.1.1")
+    id("io.gitlab.arturbosch.detekt") version "1.1.1"
     id("org.jetbrains.kotlin.kapt") version "1.3.50"
     jacoco
 }

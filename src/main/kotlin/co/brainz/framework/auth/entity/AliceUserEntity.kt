@@ -8,14 +8,11 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.JoinTable
-import javax.persistence.ManyToMany
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -40,24 +37,30 @@ data class AliceUserEntity(
         var platform: String = UserConstants.Platform.ALICE.code,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val expiredDt: LocalDateTime,
-        @ManyToMany(fetch = FetchType.EAGER)
-        @JoinTable(name = "awfUserRoleMap",
-                   joinColumns = [JoinColumn(name = "userKey")],
-                   inverseJoinColumns = [JoinColumn(name = "roleId")])
-        var roleEntities: Set<AliceRoleEntity>?,
+
+        //@ManyToMany(fetch = FetchType.EAGER)
+        //@JoinTable(name = "awfUserRoleMap",
+        //           joinColumns = [JoinColumn(name = "userKey")],
+        //           inverseJoinColumns = [JoinColumn(name = "roleId")])
+        //var roleEntities: Set<AliceRoleEntity>?,
         var oauthKey: String?,
         var timezone: String,
-        var lang: String
+        var lang: String,
+        var timeformat: String
 
 ): Serializable, AliceMetaEntity() {
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()
+
     fun getAuthorities(): MutableSet<GrantedAuthority> {
 
         val authorities = mutableSetOf<GrantedAuthority>()
         val rolePrefix = "ROLE_"
-        for (role in this.roleEntities!!) {
-            authorities.add(SimpleGrantedAuthority(rolePrefix + role.roleId))
-            for (auth in role.authEntityList!!) {
-                authorities.add(SimpleGrantedAuthority(auth.authId))
+        this.userRoleMapEntities.forEach{userRoleMap ->
+            authorities.add(SimpleGrantedAuthority(rolePrefix + userRoleMap.role.roleId))
+            userRoleMap.role.roleAuthMapEntities.forEach{roleAuthMap ->
+                authorities.add(SimpleGrantedAuthority(roleAuthMap.auth.authId))
             }
         }
 

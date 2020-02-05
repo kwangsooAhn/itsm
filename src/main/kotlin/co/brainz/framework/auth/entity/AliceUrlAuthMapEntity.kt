@@ -1,0 +1,37 @@
+package co.brainz.framework.auth.entity
+
+import java.io.Serializable
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.Id
+import javax.persistence.IdClass
+import javax.persistence.JoinColumn
+import javax.persistence.JoinColumns
+import javax.persistence.ManyToOne
+import javax.persistence.Table
+
+@Entity
+@Table(name = "awf_url_auth_map")
+@IdClass(AliceUrlAuthMapPk::class)
+data class AliceUrlAuthMapEntity(
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns(
+            JoinColumn(name = "method"),
+            JoinColumn(name = "url")
+    )
+    val url: AliceUrlEntity,
+
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auth_id")
+    val auth: AliceAuthEntity
+) : Serializable
+
+data class AliceUrlAuthMapPk(
+        val url: AliceUrlEntityPk,
+        val auth: String
+) : Serializable{
+    constructor() : this(AliceUrlEntityPk(),"")
+}
