@@ -68,7 +68,7 @@ class OAuthService(private val userService: UserService,
                 oauthKey = oAuthDto.oauthKey,
                 timezone = TimeZone.getDefault().id,
                 lang = UserConstants.USER_LOCALE_LANG,
-                timeformat =  UserConstants.USER_TIME_FORMAT
+                timeformat = UserConstants.USER_TIME_FORMAT
         )
         certificationRepository.save(userEntity)
     }

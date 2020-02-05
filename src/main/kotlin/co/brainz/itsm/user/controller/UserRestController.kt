@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.auth.dto.AliceUserDto
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import co.brainz.framework.auth.service.AliceAuthProvider
@@ -34,7 +33,6 @@ class UserRestController(
     private val certificationService: CertificationService,
     private val userService: UserService,
     private val localeResolver: LocaleResolver,
-    private val userDetailsService: AliceUserDetailsService,
     private val aliceAuthProvider: AliceAuthProvider
 ) {
 
@@ -97,7 +95,7 @@ class UserRestController(
      * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
      */
     fun createNewAuthentication(User: UserUpdateDto): Authentication {
-        var aliceUser = userService.selectUserKey(User.userKey)
+        val aliceUser = userService.selectUserKey(User.userKey)
         val authorities = aliceAuthProvider.authorities(aliceUser)
         val authList = aliceAuthProvider.authList(aliceUser)
         val menuList = aliceAuthProvider.menuList(authList)

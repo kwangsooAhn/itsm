@@ -363,19 +363,19 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
     var v_date = '';
     var arrayDate = new Array();
     var arrayResultDate = '';
-    var arrrayFormat = '';
+    var arrayFormat = '';
     var index = 0;
     if (p_date === '' || p_date === null) {
         return;
     } else {
         v_date = p_date.replace(/ /gi, ""); 
-        if (v_date.length == 10) {
+        if (v_date.length === 10) {
             arrayDate[0] = v_date;
-        } else if (v_date.length == 15) {
+        } else if (v_date.length === 15) {
             arrayDate[0] = v_date.substring(0,10);
             index = v_date.lastIndexOf(':');
             arrayDate[1] = v_date.substring(index-2,index+3);
-        } else if (v_date.length == 17) {
+        } else if (v_date.length === 17) {
             arrayDate[0] = v_date.substring(0,10);
             index = v_date.lastIndexOf(':');
             arrayDate[1] = v_date.substring(index-2,index+3);

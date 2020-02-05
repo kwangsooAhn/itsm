@@ -68,22 +68,14 @@ class UserController(
      */
     @GetMapping("/{userKey}/userEdit")
     fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
-        val pCode = "user.lang"
-        var pDateCode = "user.date"
-        var pTimeCode = "user.time"
         val users = userService.selectUserKey(userKey)
-        var timeFormat = users.timeformat.split(' ')
-        var usersDate = timeFormat[0].toString()
-        var usersTime = ""
-        if (timeFormat.size == 3) {
-            usersTime = timeFormat[1].toString() + ' ' + timeFormat[2].toString()
-        } else {
-            usersTime = timeFormat[1].toString()
-        }
+        val timeFormat = users.timeformat.split(' ')
+        val usersDate = timeFormat[0].toString()
+        val usersTime = if (timeFormat.size == 3) { timeFormat[1] + ' ' + timeFormat[2] } else { timeFormat[1] }
 
-        val langList = codeService.selectCodeByParent(pCode)
-        val dateList = codeService.selectCodeByParent(pDateCode)
-        val timeList = codeService.selectCodeByParent(pTimeCode)
+        val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
+        val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
+        val timeList = codeService.selectCodeByParent(UserConstants.TIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
