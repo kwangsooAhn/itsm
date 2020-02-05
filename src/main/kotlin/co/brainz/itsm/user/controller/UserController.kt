@@ -75,7 +75,7 @@ class UserController(
 
         val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
         val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
-        val timeList = codeService.selectCodeByParent(UserConstants.TIMECODE.value)
+        val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 

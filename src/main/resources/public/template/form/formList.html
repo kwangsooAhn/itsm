@@ -30,7 +30,7 @@
                 <tr th:each="form: ${formList}">
                     <td th:text="${form.formName}"></td>
                     <td th:text="${form.formDesc}"></td>
-                    <td th:text="${form.createUserKey}"></td>
+                    <td th:text="${form.userName}"></td>
                     <td th:if="${form.updateDt == null && form.updateUserKey == null}"
                         th:with="dateformat=${#authentication.details.timeformat}" 
                         th:text="|${#temporals.format(form.createDt,dateformat)} ${form.createUserKey}|"></td>
