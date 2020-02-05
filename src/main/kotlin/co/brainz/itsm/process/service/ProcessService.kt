@@ -1,5 +1,6 @@
 package co.brainz.itsm.process.service
 
+import co.brainz.itsm.utility.ConvertParam
 import co.brainz.workflow.process.ProcessConstants
 import co.brainz.workflow.process.ProcessDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.InetAddress
 import java.net.URI
+import java.time.format.DateTimeFormatter
 
 @Service
 class ProcessService(private val restTemplate: RestTemplate) {
@@ -46,15 +48,15 @@ class ProcessService(private val restTemplate: RestTemplate) {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
         val uri = makeUri(uri, params)
-
         val procListJson = restTemplate.getForObject(uri, String::class.java)
-
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val list: List<ProcessDto> = mapper.readValue(procListJson, mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java))
+        for (item in list) {
+            item.createDt = item.createDt?.let { ConvertParam().converterLocalDateTime(it, DateTimeFormatter.ISO_DATE_TIME) }
+            item.updateDt = item.updateDt?.let { ConvertParam().converterLocalDateTime(it, DateTimeFormatter.ISO_DATE_TIME) }
+        }
 
-        return mapper.readValue(
-                procListJson,
-                mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java)
-        )
+        return list
     }
 
     /**

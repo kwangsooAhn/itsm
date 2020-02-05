@@ -31,10 +31,10 @@
                     <td th:text="${form.formName}"></td>
                     <td th:text="${form.formDesc}"></td>
                     <td th:text="${form.userName}"></td>
-                    <td th:if="${form.updateDt == null && form.updateUserKey == null}"
-                        th:text="|${form.createDt} ${form.createUserKey}|"></td>
-                    <td th:unless="${form.updateDt == null && form.updateUserKey == null}"
-                        th:text="|${form.updateDt} ${form.updateUserKey}|"></td>
+                    <td th:if="${form.updateDt == null && form.updateUserkey == null}"
+                        th:text="|${form.createDt} ${form.createUserkey}|"></td>
+                    <td th:unless="${form.updateDt == null && form.updateUserkey == null}"
+                        th:text="|${form.updateDt} ${form.updateUserkey}|"></td>
                     <td th:text="#{${form.formStatus}}"></td>
                     <td>
                         <button sec:authorize="hasAuthority('form.update')"
