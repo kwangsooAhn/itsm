@@ -6,7 +6,7 @@ const dateTimePicker = (function() {
         type: 'DATE', // DATE(default), DATEHOUR, HOUR
         dateType: 'YYYY-MM-DD', // YYYY-MM-DD(default), YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
         hourType: '24', // 12(default), 24
-        lang: 'en'
+        lang: 'en' //en(default), ko, ja
     }
 
     /**
@@ -48,7 +48,7 @@ const dateTimePicker = (function() {
      *
      * @param targetId Target element id
      * @param dateType date format (optional) - YYYY-MM-DD(default), YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
-     * @param dateType lang format (optional) - en, ko, ja
+     * @param lang lang format (optional) - en, ko, ja
      */
     function initDatePicker(targetId, dateType, lang) {
         let options = JSON.parse(JSON.stringify(defaultOptions));
@@ -70,7 +70,7 @@ const dateTimePicker = (function() {
      * @param targetId Target element id
      * @param dateType date format (optional) - YYYY-MM-DD(default), YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
      * @param hourType hour format (optional) - 24(default), 12
-     * @param dateType lang format (optional) - en, ko, ja
+     * @param lang lang format (optional) - en, ko, ja
      */
     function initDateTimePicker(targetId, dateType, hourType, lang) {
         let options = JSON.parse(JSON.stringify(defaultOptions));
