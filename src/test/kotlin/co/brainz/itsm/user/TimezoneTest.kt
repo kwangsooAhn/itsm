@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.context.WebApplicationContext
@@ -41,11 +42,12 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
-@RunWith(SpringRunner::class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@RunWith(SpringRunner::class)
+//@SpringBootTest
+//@AutoConfigureMockMvc
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class TimezoneTest {
+/*
 
     @Autowired
     lateinit var webApplicationContext: WebApplicationContext
@@ -102,6 +104,7 @@ class TimezoneTest {
         return urlList
     }
 
+    @Transactional
     fun makeToken(timezone: String) {
         val aliceUser = userDetailsService.loadUserByUsername(userId)
         val authorities = authorities(aliceUser)
@@ -131,9 +134,11 @@ class TimezoneTest {
         return ow.writeValueAsString(noticeDto)
     }
 
-    /**
+    */
+/**
      * 공지사항 등록(기존데이터 삭제후).
-     */
+     *//*
+
     @Test
     fun insertData() {
         makeToken("")
@@ -190,9 +195,11 @@ class TimezoneTest {
         return noticeList
     }
 
-    /**
+    */
+/**
      * 공지사항 조회.
-     */
+     *//*
+
     @Test
     fun searchData() {
         val timezone = "Africa/Cairo"
@@ -214,5 +221,6 @@ class TimezoneTest {
         println(">> TimeZone Time: ${noticeList[0].createDt.withNano(0)}")
         println(">> Local Time: $dataDt")
     }
+*/
 
 }
