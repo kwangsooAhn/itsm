@@ -7,7 +7,6 @@ import co.brainz.workflow.form.repository.FormRepository
 import org.springframework.stereotype.Service
 import java.util.Optional
 
-
 @Service
 class FormProvider(private val formRepository: FormRepository) : Form {
 
@@ -32,7 +31,8 @@ class FormProvider(private val formRepository: FormRepository) : Form {
                 formId = formDto.formStatus,
                 formName = formDto.formName,
                 formDesc = formDto.formDesc,
-                formStatus = formDto.formStatus
+                formStatus = formDto.formStatus,
+                aliceUserEntity = null
         )
         formRepository.save(formEntity)
     }
@@ -60,7 +60,8 @@ class FormProvider(private val formRepository: FormRepository) : Form {
                 createUserkey = formEntity.createUserkey,
                 createDt = formEntity.createDt,
                 updateUserkey = formEntity.updateUserkey,
-                updateDt = formEntity.updateDt
+                updateDt = formEntity.updateDt,
+                userName = formEntity.aliceUserEntity!!.userName
         )
         when (formEntity.formStatus) {
             FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true

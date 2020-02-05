@@ -12,5 +12,6 @@ data class FormDto(
         val createUserkey: String,
         val createDt: LocalDateTime,
         val updateUserkey: String? = null,
-        val updateDt: LocalDateTime? = null
+        val updateDt: LocalDateTime? = null,
+        val userName: String? = null
 ) : Serializable

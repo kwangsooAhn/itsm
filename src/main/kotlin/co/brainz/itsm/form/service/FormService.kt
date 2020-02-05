@@ -61,7 +61,8 @@ class FormService(private val restTemplate: RestTemplate) {
                 createDt = ConvertParam().converterLocalDateTime(item["createDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
                 createUserkey = item["createUserkey"] as String,
                 updateDt = item["updateDt"]?.let { ConvertParam().converterLocalDateTime(it.toString(), DateTimeFormatter.ISO_DATE_TIME) },
-                updateUserkey = item["updateUserkey"]?.toString()
+                updateUserkey = item["updateUserkey"]?.toString(),
+                userName = item["userName"] as String
         )
         when (item["formStatus"] as String) {
             FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true

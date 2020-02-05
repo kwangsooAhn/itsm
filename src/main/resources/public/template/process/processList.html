@@ -32,7 +32,7 @@
                     <td th:text="${process.processName}"></td>
                     <td th:text="${process.processDesc}"></td>
                     <td th:text="${process.formName}"></td>
-                    <td th:text="${process.createUserkey}"></td>
+                    <td th:text="${process.userName}"></td>
                     <td th:if="${process.updateDt == null && process.updateUserkey == null}"
                         th:text="|${#temporals.format(process.createDt,'yyyy-MM-dd HH:mm')} ${process.createUserkey}|"></td>
                     <td th:unless="${process.updateDt == null && process.updateUserkey == null}"
