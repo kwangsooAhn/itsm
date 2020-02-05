@@ -1,5 +1,6 @@
 package co.brainz.itsm.form.service
 
+import co.brainz.itsm.utility.ConvertParam
 import co.brainz.workflow.form.constants.FormConstants
 import co.brainz.workflow.form.dto.FormDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -11,11 +12,9 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
-
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.InetAddress
 import java.net.URI
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Service
@@ -59,10 +58,10 @@ class FormService(private val restTemplate: RestTemplate) {
                 formName = item["formName"] as String,
                 formStatus = item["formStatus"] as String,
                 formDesc = item["formDesc"] as String,
-                createDt = LocalDateTime.parse(item["createDt"].toString(), dateTimeFormatter),
-                createUserKey = item["createUserKey"] as String,
-                updateDt = item["updateDt"]?.let { LocalDateTime.parse(it.toString(), dateTimeFormatter) },
-                updateUserKey = item["updateUserKey"]?.toString()
+                createDt = ConvertParam().converterLocalDateTime(item["createDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+                createUserkey = item["createUserkey"] as String,
+                updateDt = item["updateDt"]?.let { ConvertParam().converterLocalDateTime(it.toString(), DateTimeFormatter.ISO_DATE_TIME) },
+                updateUserkey = item["updateUserkey"]?.toString()
         )
         when (item["formStatus"] as String) {
             FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true

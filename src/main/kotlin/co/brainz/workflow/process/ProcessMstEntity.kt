@@ -1,6 +1,7 @@
 package co.brainz.workflow.process
 
 import co.brainz.workflow.form.entity.FormEntity
+import co.brainz.workflow.utility.WFMetaEntity
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
@@ -40,20 +41,6 @@ data class ProcessMstEntity(
     val procStatus: String,
 
     @Column(name = "proc_desc")
-    val procDesc: String?,
+    val procDesc: String?
 
-    @Column(name = "create_userkey")
-    val createUserkey: String?,
-
-    @Column(name = "update_userkey")
-    val updateUserkey: String?,
-
-    @Column(name = "create_dt")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    val createDt: LocalDateTime?,
-
-    @Column(name = "update_dt")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    val updateDt: LocalDateTime?
-
-) : Serializable
+) : Serializable, WFMetaEntity()

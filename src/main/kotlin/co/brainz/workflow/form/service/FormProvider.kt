@@ -57,9 +57,9 @@ class FormProvider(private val formRepository: FormRepository) : Form {
                 formName = formEntity.formName,
                 formStatus = formEntity.formStatus,
                 formDesc = formEntity.formDesc,
-                createUserKey = formEntity.createUserkey,
+                createUserkey = formEntity.createUserkey,
                 createDt = formEntity.createDt,
-                updateUserKey = formEntity.updateUserkey,
+                updateUserkey = formEntity.updateUserkey,
                 updateDt = formEntity.updateDt
         )
         when (formEntity.formStatus) {

@@ -1,6 +1,6 @@
 package co.brainz.workflow.form.entity
 
-import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.workflow.utility.WFMetaEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import javax.persistence.Column
@@ -18,4 +18,4 @@ data class FormEntity(
         @Column(name = "form_name") var formName: String,
         @Column(name = "form_desc") var formDesc: String? = null,
         @Column(name = "form_status") var formStatus: String
-): Serializable, AliceMetaEntity()
+): Serializable, WFMetaEntity()
