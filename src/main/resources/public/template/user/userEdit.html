@@ -115,16 +115,16 @@
             }
             if(/*[[${users.lang != null}]]*/) {
                 var selectLength = document.getElementById('lang').length;
-                for (i = 0; i < selectLength; i++) {
-                   if (document.getElementById('lang').options[i].value == /*[[${users.lang}]]*/) {
-                      document.getElementById('lang').options[i].selected = true;
+                for (var i = 0; i < selectLength; i++) {
+                   if (document.getElementById('lang').options[i].value === /*[[${users.lang}]]*/) {
+                       document.getElementById('lang').options[i].selected = true;
                    }
                 }
             }
             if (/*[[${users.timezone != null}]]*/) {
                 var selectLength = document.getElementById('timezone').length;
-                for (i = 0; i < selectLength; i++) {
-                    if (document.getElementById('timezone').options[i].value == /*[[${users.timezone}]]*/) {
+                for (var i = 0; i < selectLength; i++) {
+                    if (document.getElementById('timezone').options[i].value === /*[[${users.timezone}]]*/) {
                         document.getElementById('timezone').options[i].selected = true;
                     }
                 }
@@ -132,15 +132,15 @@
             
             if (/*[[${users.timeformat != null}]]*/) {
                 var selectLength = document.getElementById('date').length;
-                for (i = 0; i < selectLength; i++) {
-                    if (document.getElementById('date').options[i].value == /*[[${usersDate}]]*/) {
+                for (var i = 0; i < selectLength; i++) {
+                    if (document.getElementById('date').options[i].value === /*[[${usersDate}]]*/) {
                         document.getElementById('date').options[i].selected = true;
                     }
                 }
                 
                 selectLength = document.getElementById('time').length;
-                for (i = 0; i < selectLength; i++) {
-                    if (document.getElementById('time').options[i].value == /*[[${usersTime}]]*/) {
+                for (var i = 0; i < selectLength; i++) {
+                    if (document.getElementById('time').options[i].value === /*[[${usersTime}]]*/) {
                         document.getElementById('time').options[i].selected = true;
                     }
                 }
@@ -150,7 +150,7 @@
         }
 
         function onlyNumber(event) {
-            event = event || window.evnet;
+            event = event || window.event;
             var keyID = (event.which) ? event.which : event.keyCode;
             if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
             || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) {

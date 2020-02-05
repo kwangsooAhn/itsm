@@ -1,6 +1,5 @@
 # Common
 common:
-  lang: "en"
   searchWord: "Search"
   btn:
     save: "SAVE"

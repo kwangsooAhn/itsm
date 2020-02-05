@@ -1,6 +1,5 @@
 # common
 common:
-  lang: "ko"
   searchWord: "검색어를 입력하세요"
   btn:
     save: "저장"
