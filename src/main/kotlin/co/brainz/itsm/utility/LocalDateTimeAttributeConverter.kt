@@ -11,7 +11,12 @@ class LocalDateTimeAttributeConverter(): AttributeConverter<LocalDateTime, Times
         return if (locDateTime == null) {
             null
         } else {
-            Timestamp.valueOf(locDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime())
+            val timezone = ConvertParam().timezone()
+            return if (timezone.isNotEmpty()) {
+                Timestamp.valueOf(locDateTime.atZone(ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime())
+            } else {
+                Timestamp.valueOf(locDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime())
+            }
         }
     }
 
