@@ -31,4 +31,6 @@ data class AliceUrlAuthMapEntity(
 data class AliceUrlAuthMapPk(
         val url: AliceUrlEntityPk,
         val auth: String
-) : Serializable
+) : Serializable{
+    constructor() : this(AliceUrlEntityPk(),"")
+}

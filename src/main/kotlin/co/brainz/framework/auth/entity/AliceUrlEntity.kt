@@ -26,4 +26,6 @@ data class AliceUrlEntity(
 data class AliceUrlEntityPk(
         val url: String,
         val method: String
-) : Serializable
+) : Serializable {
+        constructor() : this("","")
+}

@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.security.PrivateKey
@@ -36,6 +37,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    @Transactional
     override fun authenticate(authentication: Authentication): Authentication {
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val session = attr.request.session

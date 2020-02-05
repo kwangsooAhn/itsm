@@ -2,7 +2,6 @@ package co.brainz.itsm.role
 
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleEntity
-import co.brainz.itsm.auth.repository.AuthRepository
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace

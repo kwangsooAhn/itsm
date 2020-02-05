@@ -61,7 +61,7 @@ public open class CertificationService(private val certificationRepository: Cert
         return roleRepository.findByRoleIdIn(roleIdList)
     }
 
-    fun getDefaultUserRoleMapList(role: String): List<AliceUserRoleMapEntity> {
+    /*fun getDefaultUserRoleMapList(role: String): List<AliceUserRoleMapEntity> {
         val userRoleMapList = mutableListOf<AliceUserRoleMapEntity>()
         val codeEntityList = codeRepository.findByPCode(role)
         val roleIdList = mutableListOf<String>()
@@ -74,7 +74,7 @@ public open class CertificationService(private val certificationRepository: Cert
         }
 
         return userRoleMapList
-    }
+    }*/
 
     fun insertUser(signUpDto: SignUpDto): String {
         var code: String = signUpValid(signUpDto)
@@ -94,7 +94,7 @@ public open class CertificationService(private val certificationRepository: Cert
                         officeNumber = signUpDto.officeNumber,
                         mobileNumber = signUpDto.mobileNumber,
                         expiredDt = LocalDateTime.now().plusMonths(3),
-                        userRoleMapEntities = getDefaultUserRoleMapList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
+                        //userRoleMapEntities = getDefaultUserRoleMapList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                         status = UserConstants.Status.SIGNUP.code,
                         oauthKey = "",
                         timezone = TimeZone.getDefault().id,

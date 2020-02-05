@@ -28,4 +28,6 @@ data class AliceRoleAuthMapEntity(
 data class AliceRoleAuthMapPk(
         val role: String,
         val auth: String
-) : Serializable
+) : Serializable {
+        constructor() : this("","")
+}
