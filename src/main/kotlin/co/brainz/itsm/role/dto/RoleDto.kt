@@ -17,6 +17,6 @@ data public class RoleDto(
         var updateUserkey: String?,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         var updateDt: LocalDateTime?,
-        var arrAuthId: Array<String>?,
-        var arrAuthList: List<AliceAuthEntity>?
+        var arrAuthId: MutableSet<String>?,
+        var arrAuthList: MutableList<AliceAuthEntity>?
 )

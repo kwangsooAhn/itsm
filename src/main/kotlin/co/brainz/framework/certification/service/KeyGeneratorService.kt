@@ -17,7 +17,7 @@ class KeyGeneratorService {
         val random: Random = Random()
         val sb: StringBuffer = StringBuffer()
 
-        var num: Int = 0
+        var num: Int
         do {
             num = random.nextInt(75) + 48
             if ((num in 48..57) || (num in 65..90) || (num in 97..122)) {

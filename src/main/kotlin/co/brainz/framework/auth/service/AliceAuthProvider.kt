@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.security.PrivateKey
@@ -36,6 +37,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    @Transactional
     override fun authenticate(authentication: Authentication): Authentication {
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val session = attr.request.session
@@ -78,7 +80,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
                 aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang
+                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeformat
         )
         return usernamePasswordAuthenticationToken
     }
@@ -101,8 +103,10 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
 
     fun menuList(authList: Set<AliceAuthEntity>): Set<AliceMenuEntity> {
         val menuList = mutableSetOf<AliceMenuEntity>()
-        authList.forEach {
-            menuList.addAll(it.aliceMenuList)
+        authList.forEach {auth ->
+            auth.menuAuthMapEntities.forEach {menuAuthMap ->
+                menuList.add(menuAuthMap.menu)
+            }
         }
         if (logger.isDebugEnabled) {
             menuList.forEach {
@@ -114,8 +118,10 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
 
     fun urlList(authList: Set<AliceAuthEntity>): Set<AliceUrlEntity> {
         val urlList = mutableSetOf<AliceUrlEntity>()
-        authList.forEach {
-            urlList.addAll(it.aliceUrl)
+        authList.forEach {auth ->
+            auth.urlAuthMapEntities.forEach {urlAuthMap ->
+                urlList.add(urlAuthMap.url)
+            }
         }
         if (logger.isDebugEnabled) {
             urlList.forEach {
