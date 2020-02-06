@@ -25,6 +25,7 @@ common:
     createDate: "Create Date"
     updateDate: "Update Date"
     attachFile: "Attach file"
+    notSelect: "Not Select"
   msg:
     save: "Saved"
     delete.success: "Deleted."
@@ -33,7 +34,7 @@ common:
 menu:
   service: "Service"
   service.request: "Service Request"
-  service.list: "Servie History"
+  service.list: "Service History"
   help: "Helpdesk"
   help.notice: "Notice"
   help.faq: "FAQ"
@@ -74,7 +75,7 @@ user:
   rePassword: "rePassword"
   name: "Name"
   email: "Email"
-  position: "Postion"
+  position: "Position"
   department: "Department"
   officeNumber: "officeNumber"
   mobileNumber: "mobileNumber"
@@ -88,7 +89,7 @@ user:
   create: "User create"
   update: "User update"
   delete: "User delete"
-  editUserInfo: "Eidt User Information"
+  editUserInfo: "Edit User Information"
   message: "When you change your email, you need to verify"
   search:
     id: "ID"
@@ -196,6 +197,7 @@ role:
     idNotExist: "Please enter a role id."
     nameNotExist: "Please enter a role name."
     authNotExist: "Please enter a auth name."
+
 # Validation
 validation:
   msg:
