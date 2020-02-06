@@ -1,53 +1,27 @@
 package co.brainz.itsm.form.service
 
-import co.brainz.itsm.utility.ConvertParam
+import co.brainz.itsm.provider.ProviderForm
+import co.brainz.itsm.provider.ProviderUtilities
+import co.brainz.itsm.provider.dto.FormDto
 import co.brainz.workflow.form.constants.FormConstants
-import co.brainz.workflow.form.dto.FormDto
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.util.UriComponentsBuilder
-import java.net.InetAddress
-import java.net.URI
 import java.time.format.DateTimeFormatter
 
 @Service
-class FormService(private val restTemplate: RestTemplate) {
-
-    @Value("\${server.protocol}")
-    lateinit var protocol: String
-
-    @Value("\${server.port}")
-    lateinit var port: String
-
-    fun makeUri(callUrl: String, params: MultiValueMap<String, String>): URI {
-        val formUrl = protocol + "://" + InetAddress.getLocalHost().hostAddress + ":" + port + callUrl
-        val uri = UriComponentsBuilder.fromHttpUrl(formUrl)
-        if (params.isNotEmpty()) {
-            uri.queryParams(params)
-        }
-
-        return uri.build().toUri()
-    }
+class FormService(private val providerForm: ProviderForm) {
 
     fun findFormList(search: String): List<FormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
-        val uri = makeUri("/rest/wf/forms", params)
-        val responseBody = restTemplate.getForObject(uri, String::class.java)
+        val responseBody = providerForm.wfGetFormListToJson(params)
         val mapper = ObjectMapper()
         val list: List<Map<String, Any>> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, Map::class.java))
         val formList = mutableListOf<FormDto>()
         for (item in list) {
             formList.add(makeFormDto(item))
         }
-
         return formList
     }
 
@@ -58,9 +32,9 @@ class FormService(private val restTemplate: RestTemplate) {
                 formName = item["formName"] as String,
                 formStatus = item["formStatus"] as String,
                 formDesc = item["formDesc"] as String,
-                createDt = ConvertParam().converterLocalDateTime(item["createDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+                createDt = ProviderUtilities().toTimezone(item["createDt"].toString(), dateTimeFormatter),
                 createUserkey = item["createUserkey"] as String,
-                updateDt = item["updateDt"]?.let { ConvertParam().converterLocalDateTime(it.toString(), DateTimeFormatter.ISO_DATE_TIME) },
+                updateDt = item["updateDt"]?.let { ProviderUtilities().toTimezone(it.toString(), dateTimeFormatter) },
                 updateUserkey = item["updateUserkey"]?.toString(),
                 userName = item["userName"] as String
         )
@@ -72,34 +46,26 @@ class FormService(private val restTemplate: RestTemplate) {
     }
 
     fun getForm(formId: String): FormDto {
-        val uri = makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>())
-        val responseBody = restTemplate.getForObject(uri, String::class.java)
+        val responseBody = providerForm.wfGetFormToJson(formId)
         val mapper = ObjectMapper()
         val item: Map<*, *> = mapper.readValue(responseBody, Map::class.java)
         return makeFormDto(item)
     }
 
     fun deleteForm(formId: String) {
-        restTemplate.delete(makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>()))
+        providerForm.wfDeleteForm(formId)
     }
 
     fun insertForm(formDto: FormDto) {
-        val uri = makeUri("/rest/wf/forms", LinkedMultiValueMap<String, String>())
-
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
-        val parameters: MultiValueMap<String, String> = LinkedMultiValueMap()
-
-        //TODO: formDto를 MultiValueMap에 저장
-
-        val requestEntity = HttpEntity(parameters, headers)
-        restTemplate.postForObject(uri, requestEntity, String::class.java)
-
+        formDto.createDt = ProviderUtilities().toGMT(formDto.createDt)
+        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
+        providerForm.wfPostForm(formDto)
     }
 
     fun updateForm(formDto: FormDto) {
-        val uri = makeUri("/rest/wf/forms/${formDto.formId}", LinkedMultiValueMap<String, String>())
-        restTemplate.put(uri, formDto)
+        formDto.createDt = ProviderUtilities().toGMT(formDto.createDt)
+        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
+        providerForm.wfPutForm(formDto)
     }
 
 }

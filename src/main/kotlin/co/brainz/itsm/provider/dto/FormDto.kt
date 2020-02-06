@@ -1,6 +1,5 @@
-package co.brainz.workflow.form.dto
+package co.brainz.itsm.provider.dto
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -11,8 +10,8 @@ data class FormDto(
         var formDesc: String? = null,
         var formEnabled: Boolean = false,
         val createUserkey: String,
-        val createDt: LocalDateTime,
+        var createDt: LocalDateTime,
         val updateUserkey: String? = null,
-        val updateDt: LocalDateTime? = null,
+        var updateDt: LocalDateTime? = null,
         val userName: String? = null
 ) : Serializable

@@ -23,12 +23,12 @@ import javax.persistence.MappedSuperclass
 open class WFMetaEntity(
         @CreatedBy @Column(name="create_userkey", nullable = false, updatable = false)
         open var createUserkey: String = "",
-        @Convert(converter = WFLocalDateTimeConverter::class)
+        //@Convert(converter = WFLocalDateTimeConverter::class)
         @CreatedDate @Column(name="create_dt", nullable = false, updatable = false)
         var createDt: LocalDateTime = LocalDateTime.now(),
         @LastModifiedBy @Column(name="update_userkey", insertable = false)
         var updateUserkey: String? = null,
-        @Convert(converter = WFLocalDateTimeConverter::class)
+        //@Convert(converter = WFLocalDateTimeConverter::class)
         @LastModifiedDate @Column(name="update_dt", insertable = false)
         var updateDt: LocalDateTime? = LocalDateTime.now()
 

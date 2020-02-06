@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 import java.util.Optional
 
 @Service
-class FormProvider(private val formRepository: FormRepository) : Form {
+class WFFormService(private val formRepository: FormRepository) : Form {
 
     override fun formList(search: String): List<FormDto> {
         //val formEntityList = formRepository.findFormEntityList(search, search)

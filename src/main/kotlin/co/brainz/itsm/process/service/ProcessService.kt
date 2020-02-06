@@ -1,6 +1,6 @@
 package co.brainz.itsm.process.service
 
-import co.brainz.itsm.utility.ConvertParam
+import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.workflow.process.ProcessConstants
 import co.brainz.workflow.process.ProcessDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -52,8 +52,8 @@ class ProcessService(private val restTemplate: RestTemplate) {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val list: List<ProcessDto> = mapper.readValue(procListJson, mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java))
         for (item in list) {
-            item.createDt = item.createDt?.let { ConvertParam().converterLocalDateTime(it, DateTimeFormatter.ISO_DATE_TIME) }
-            item.updateDt = item.updateDt?.let { ConvertParam().converterLocalDateTime(it, DateTimeFormatter.ISO_DATE_TIME) }
+            item.createDt = item.createDt?.let { ProviderUtilities().toTimezone(it) }
+            item.updateDt = item.updateDt?.let { ProviderUtilities().toTimezone(it) }
         }
 
         return list
