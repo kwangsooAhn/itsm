@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpSession
 
 /**
  * 로그인 처리 클래스
@@ -55,9 +56,9 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
     }
 
     @GetMapping("/sessionInValid")
-    fun sessionExpired(request: HttpServletRequest, model: Model): String {
+    fun sessionExpired(session: HttpSession, request: HttpServletRequest, model: Model): String {
         model.addAttribute("counter", 3);
-        model.addAttribute("expired", request.getParameterValues("expired"))
+        model.addAttribute("expired", session == null)
         return  "/sessionInvalid"
     }
 }

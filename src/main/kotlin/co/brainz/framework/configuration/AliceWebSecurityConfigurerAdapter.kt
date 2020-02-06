@@ -7,6 +7,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.web.DefaultRedirectStrategy
+import org.springframework.security.web.RedirectStrategy
+import org.springframework.security.web.session.InvalidSessionStrategy
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
 
 /**
  * spring security 적용을 위한 설정 클래스
@@ -60,9 +66,19 @@ abstract class AliceWebSecurityConfigurerAdapter(private val authProvider: Alice
                 .deleteCookies("JSESSIONID")
                 .and()
                 .sessionManagement()
-                .invalidSessionUrl("/sessionInValid?expired=false")
-                .maximumSessions(10)
-                .expiredUrl("/sessionInValid?expired=true")
+                .invalidSessionStrategy(invalidSessionStrategy("/sessionInValid"))
+                .invalidSessionUrl("/sessionInValid")
+
+
         //TODO csrf, 세션만료등 에러 핸들러 구현 요망 .and().exceptionHandling().accessDeniedHandler(AliceAccessDeniedHandler())
+    }
+
+    private fun invalidSessionStrategy(invalidSessionUrl: String): InvalidSessionStrategy {
+        return InvalidSessionStrategy { request: HttpServletRequest, response: HttpServletResponse ->
+            val ajaxHeader = request.getHeader("X-Requested-With")
+            if ("XMLHttpRequest" == ajaxHeader) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Ajax Request Denied (Session Expired)")
+            }
+        }
     }
 }
