@@ -1,6 +1,8 @@
 package co.brainz.framework.auth.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.framework.auth.entity.AliceRoleAuthMapEntity
+import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.FetchType

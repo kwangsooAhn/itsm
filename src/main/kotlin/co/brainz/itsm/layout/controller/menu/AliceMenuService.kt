@@ -1,7 +1,7 @@
-package co.brainz.framework.menu.service
+package co.brainz.itsm.layout.controller.menu
 
-import co.brainz.framework.menu.entity.AliceMenuEntity
-import co.brainz.framework.menu.repository.AliceMenuRepository
+import co.brainz.framework.auth.entity.AliceMenuEntity
+import co.brainz.framework.auth.repository.AliceMenuRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

@@ -1,8 +1,6 @@
 package co.brainz.framework.auth.entity
 
-import co.brainz.framework.menu.entity.AliceMenuEntity
 import java.io.Serializable
-import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
