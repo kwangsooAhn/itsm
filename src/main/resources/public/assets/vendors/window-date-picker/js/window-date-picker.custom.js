@@ -612,7 +612,7 @@
           this.setPosition = this.setPosition.bind(this);
           this.clickWindow = this.clickWindow.bind(this);
           this.open = this.open.bind(this);
-          this.close = this.close.bind(this);
+          this.closeDateContainer = this.closeDateContainer.bind(this);
           this.toggle = this.toggle.bind(this);
           this.pickerOpen = false;
           this.inputToggle = o.inputToggle;
@@ -1784,6 +1784,16 @@
               Util.addEventListenerOnce(n, Util.ANIMATION_END, function () {
                 n.classList.remove("wdp-animation-fade-".concat(b));
               });
+            });
+          }
+        }, {
+          key: "closeDateContainer",
+          value: function closeDateContainer() {
+            var _this7 = this;
+            _this7.els.dateContainer.classList.add("wdp-animation-fade-out-rev");
+            Util.addEventListenerOnce(_this7.els.dateContainer, Util.ANIMATION_END, function () {
+              _this7.els.dateContainer.classList.remove("wdp-animation-fade-out-rev");
+              _this7.close();
             });
           }
           /**
