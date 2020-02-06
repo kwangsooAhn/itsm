@@ -141,6 +141,10 @@ login:
   userSignUp: "회원가입"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
+  gotoLoginPage: "로그인 페이지로 가기"
+  msg:
+    redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
+
 
 # FORM
 form:

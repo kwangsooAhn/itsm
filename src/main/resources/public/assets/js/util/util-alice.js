@@ -190,6 +190,8 @@ aliceJs.sendXhr = function (option) {
             //console.log('요청 접수, send메서드가 불렸지만 status와 헤더는 아직 도착하지 않음(' + this.status + ')');
         } else if (this.readyState === 3) {
             //console.log('처리 요청, 데이터의 일부를 받은 상태(' + this.status + ')');
+        } else if (this.status === 403) {
+            window.location.href = '/sessionInValid';
         } else if (this.readyState === 4 && this.status === 200) {
             //console.log('요청 완료및 응답 준비, 데이터를 전부 받음(' + this.status + ')');
             aliceJs.xhrErrorResponse('printError');
@@ -245,14 +247,14 @@ function createXmlHttpRequestObject(method, url, async) {
     var token;
     var metas = document.getElementsByTagName('meta');
 
-    if (typeof async === "undefined") {
+    if (typeof async === 'undefined') {
         async = true;
     }
 
     // if running Internet Explorer
     if (window.ActiveXObject) {
         try {
-            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
         } catch (e) {
             xmlHttp = false;
         }
@@ -267,9 +269,16 @@ function createXmlHttpRequestObject(method, url, async) {
     }
     // return the created object or display an error message
     if (!xmlHttp) {
-        alert("Error creating the XMLHttpRequest object.");
+        alert('Error creating the XMLHttpRequest object.');
+        hiddenProgressBar();
     } else {
-        if (method.toUpperCase() != "GET") {
+        xmlHttp.onload = function() {
+            hiddenProgressBar();
+            if(xmlHttp.status === 403) {
+                window.location.href = '/sessionInValid';
+            }
+        }
+        if (method.toUpperCase() !== 'GET') {
             for (var i = 0; i < metas.length; i++) {
                 if (metas[i].getAttribute('name') === '_csrf') {
                     token = metas[i].getAttribute('content');
@@ -280,7 +289,6 @@ function createXmlHttpRequestObject(method, url, async) {
         } else {
             xmlHttp.open(method, url, async);
         }
-        hiddenProgressBar();
         return xmlHttp;
     }
 }

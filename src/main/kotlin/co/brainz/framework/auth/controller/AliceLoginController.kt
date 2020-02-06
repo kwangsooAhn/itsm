@@ -21,6 +21,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val documentSearchPage: String = "/document/documentSearch"
+    private val invalidSessionPage: String = "sessionInvalid"
 
     /**
      * 로그인 페이지로 이동한다.
@@ -55,11 +56,13 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
         return page
     }
 
+    /**
+     * Invalid Session 상태에서 redirect 되는 페이지.
+     */
     @GetMapping("/sessionInValid")
     fun sessionExpired(session: HttpSession, request: HttpServletRequest, model: Model): String {
         model.addAttribute("counter", 3);
-        model.addAttribute("expired", session == null)
-        return  "/sessionInvalid"
+        return  invalidSessionPage
     }
 }
 

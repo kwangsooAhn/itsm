@@ -55,10 +55,10 @@
                         alert('저장실패');
                     }
                 } else if (xhr.status === 400) {
-                    alert('There was an error 400');
+                    console.error('There was an error 400');
                 } else {
-                    console.log(xhr);
-                    alert('something else other than 200 was returned. ' + xhr.status);
+                    console.debug(xhr);
+                    console.error('something else other than 200 was returned. ' + xhr.status);
                 }
             }
         };

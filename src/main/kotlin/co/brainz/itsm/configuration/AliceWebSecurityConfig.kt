@@ -2,12 +2,10 @@ package co.brainz.itsm.configuration
 
 import co.brainz.framework.auth.handler.AliceAuthFailureHandler
 import co.brainz.framework.auth.handler.AliceAuthSuccessHandler
-import co.brainz.framework.auth.handler.AliceInvalidSessionStrategy
 import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.configuration.AliceWebSecurityConfigurerAdapter
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity

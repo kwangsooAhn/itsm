@@ -1,38 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
 </head>
 <body>
 <h3>Session InValid</h3>
-<h3><span id="counter">[[${counter}]]</span> 초 뒤 로그인 페이지로 이동합니다.</h3>
+<h3><span id="counter"></span></h3>
+<button type="button" id="gotoLoginPage" th:text="#{login.gotoLoginPage}"/>
 <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 <script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
     window.onload = function() {
-        console.log('[[${expired}]]')
+        /*<![CDATA[*/
         let count = [[${counter}]],
-            timer;
+            timer,
+            counterMsg = [[#{login.msg.redirectedLoginPage}]];
+
+        setCounterMsg(count);
+        document.querySelector('#gotoLoginPage').addEventListener('click', gotoLoginPage);
         const counting = function() {
             clearTimeout(timer);
             if (count !== 1) {
                 count -= 1;
-                document.querySelector('#counter').textContent = count;
+                setCounterMsg(count);
                 timer = setTimeout(counting, 1000);
             } else {
-                clearTimeout(timer);
-                const logoutForm = document.getElementById('logoutForm');
-                if (window.opener !== null) {
-                    window.opener.name = 'alice_web';
-                    logoutForm.target = window.opener.name;
-                }
-                logoutForm.submit();
-                if (window.opener !== null) {
-                    window.close();
-                }
+                gotoLoginPage();
             }
         };
         timer = setTimeout(counting, 1000);
+
+        function setCounterMsg(count) {
+            document.querySelector('#counter').textContent = counterMsg.replace('{0}', count);
+        }
+
+        function gotoLoginPage() {
+            clearTimeout(timer);
+            const logoutForm = document.getElementById('logoutForm');
+            if (window.opener !== null) {
+                window.opener.name = 'alice_web';
+                logoutForm.target = window.opener.name;
+            }
+            logoutForm.submit();
+            if (window.opener !== null) {
+                window.close();
+            }
+        }
     }
     /*]]>*/
 </script>

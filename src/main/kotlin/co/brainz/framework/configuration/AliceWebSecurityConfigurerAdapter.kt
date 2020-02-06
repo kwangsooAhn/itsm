@@ -7,8 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.web.DefaultRedirectStrategy
-import org.springframework.security.web.RedirectStrategy
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.security.web.session.InvalidSessionStrategy
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -22,6 +21,8 @@ abstract class AliceWebSecurityConfigurerAdapter(private val authProvider: Alice
                                                  private val authSuccessHandler: AliceAuthSuccessHandler,
                                                  private val authFailureHandler: AliceAuthFailureHandler)
     : WebSecurityConfigurerAdapter() {
+
+    private val httpSessionRequestCache: HttpSessionRequestCache = HttpSessionRequestCache()
     
     override fun configure(web: WebSecurity) {
         ignoreConfigure(web)
@@ -67,17 +68,28 @@ abstract class AliceWebSecurityConfigurerAdapter(private val authProvider: Alice
                 .and()
                 .sessionManagement()
                 .invalidSessionStrategy(invalidSessionStrategy("/sessionInValid"))
-                .invalidSessionUrl("/sessionInValid")
-
 
         //TODO csrf, 세션만료등 에러 핸들러 구현 요망 .and().exceptionHandling().accessDeniedHandler(AliceAccessDeniedHandler())
     }
 
+    /**
+     * invalid session Strategy.
+     */
     private fun invalidSessionStrategy(invalidSessionUrl: String): InvalidSessionStrategy {
         return InvalidSessionStrategy { request: HttpServletRequest, response: HttpServletResponse ->
-            val ajaxHeader = request.getHeader("X-Requested-With")
-            if ("XMLHttpRequest" == ajaxHeader) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Ajax Request Denied (Session Expired)")
+            httpSessionRequestCache.saveRequest(request, response)
+            val requestURI = request.requestURI;
+            if (requestURI != "/" && requestURI != "/login") {
+                // val ajaxHeader = request.getHeader("X-Requested-With")
+                // if ("XMLHttpRequest" == ajaxHeader) {
+                // 보통 위의 경우로 ajax 통신을 구분하는데.. 안되서..
+                if (request.getHeader("Sec-Fetch-Mode") != "navigate") {
+                    response.status = HttpServletResponse.SC_FORBIDDEN
+                } else {
+                    response.sendRedirect(request.contextPath + invalidSessionUrl)
+                }
+            } else {
+                response.sendRedirect(request.contextPath + requestURI)
             }
         }
     }
