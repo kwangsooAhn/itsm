@@ -1,4 +1,4 @@
-package co.brainz.framework.menu.entity
+package co.brainz.framework.auth.entity
 
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceMenuAuthMapEntity
