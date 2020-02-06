@@ -1790,9 +1790,9 @@
           key: "closeDateContainer",
           value: function closeDateContainer() {
             var _this7 = this;
-            _this7.els.dateContainer.classList.add("wdp-animation-fade-out-rev");
+            _this7.els.dateContainer.classList.add('wdp-animation-fade-out-rev');
             Util.addEventListenerOnce(_this7.els.dateContainer, Util.ANIMATION_END, function () {
-              _this7.els.dateContainer.classList.remove("wdp-animation-fade-out-rev");
+              _this7.els.dateContainer.classList.remove('wdp-animation-fade-out-rev');
               _this7.close();
             });
           }
