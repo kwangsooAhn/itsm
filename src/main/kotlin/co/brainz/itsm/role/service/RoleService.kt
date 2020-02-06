@@ -61,7 +61,7 @@ public class RoleService(
         val result = roleRepository.save(role)
 
         authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach {auth ->
-            roleAuthMapRepository.save(AliceRoleAuthMapEntity(role,auth))
+            roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
 
         return result.roleId
@@ -79,7 +79,7 @@ public class RoleService(
         val result = roleRepository.save(role)
 
         authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach {auth ->
-            roleAuthMapRepository.save(AliceRoleAuthMapEntity(role,auth))
+            roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
 
         return result.roleId

@@ -2,7 +2,6 @@ package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.encryption.CryptoRsa
