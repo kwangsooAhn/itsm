@@ -35,7 +35,8 @@
                 <tr>
                     <td>
                         <select id="form" tabindex="3">
-                            <option th:each="form: ${formList}" th:value="${form.form_id}" th:text="${form.form_name}">
+                            <option value="" th:text="#{common.label.notSelect}"></option>
+                            <option th:each="form: ${formList}" th:value="${form.formId}" th:text="${form.formName}">
                             </option>
                         </select>
                     </td>
@@ -75,7 +76,7 @@
                 formId: document.getElementById('form').value
             };
             //등록
-            restSubmit('POST', '/rest/processes', processInfo);
+            restSubmit('POST', '/rest/processes/data', processInfo);
         }
     }
 

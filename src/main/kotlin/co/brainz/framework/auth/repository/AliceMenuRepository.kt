@@ -1,6 +1,6 @@
-package co.brainz.framework.menu.repository
+package co.brainz.framework.auth.repository
 
-import co.brainz.framework.menu.entity.AliceMenuEntity
+import co.brainz.framework.auth.entity.AliceMenuEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface AliceMenuRepository : JpaRepository<AliceMenuEntity, String> {

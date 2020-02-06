@@ -1,7 +1,7 @@
 package co.brainz.framework.auth.dto
 
 import co.brainz.framework.auth.entity.AliceUrlEntity
-import co.brainz.framework.menu.entity.AliceMenuEntity
+import co.brainz.framework.auth.entity.AliceMenuEntity
 import org.springframework.security.core.GrantedAuthority
 import java.io.Serializable
 import java.time.LocalDateTime

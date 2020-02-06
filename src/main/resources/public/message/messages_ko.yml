@@ -25,6 +25,7 @@ common:
     createDate: "등록일시"
     updateDate: "수정일시"
     attachFile: "첨부파일"
+    notSelect: "선택 안 함"
   msg:
     save: "저장되었습니다"
     delete.success: "삭제되었습니다."
