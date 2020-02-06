@@ -1,14 +1,8 @@
-package co.brainz.framework.menu.entity
+package co.brainz.framework.auth.entity
 
-import co.brainz.framework.auth.entity.AliceAuthEntity
-import co.brainz.framework.auth.entity.AliceMenuAuthMapEntity
 import java.io.Serializable
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.JoinTable
-import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
