@@ -1,6 +1,6 @@
 package co.brainz.itsm.user
 
-import co.brainz.framework.auth.dto.AliceUserDto
+/*import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -42,10 +42,10 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
-//@RunWith(SpringRunner::class)
-//@SpringBootTest
-//@AutoConfigureMockMvc
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(SpringRunner::class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)*/
 class TimezoneTest {
 /*
 
