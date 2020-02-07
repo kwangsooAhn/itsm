@@ -95,7 +95,7 @@
         xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState === XMLHttpRequest.DONE) {
                 if (xmlHttp.status === 200) {
-                    //window.close();
+                    window.close();
                     //window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500, height=800');
                 } else if (xmlHttp.status === 400) {
                     alert('There was an error 400');

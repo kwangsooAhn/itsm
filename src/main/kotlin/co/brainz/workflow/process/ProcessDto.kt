@@ -17,6 +17,6 @@ data class ProcessDto(
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var updateDt: LocalDateTime? = null,
     val updateUserkey: String? = null,
-    val userName: String? = null,
+    //val userName: String? = null,
     val enabled: Boolean? = false
 ) : Serializable

@@ -1,6 +1,8 @@
 package co.brainz.itsm.process.service
 
+import co.brainz.itsm.provider.ProviderProcess
 import co.brainz.itsm.provider.ProviderUtilities
+import co.brainz.itsm.provider.dto.FormDto
 import co.brainz.workflow.process.ProcessConstants
 import co.brainz.workflow.process.ProcessDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -16,22 +18,21 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.InetAddress
 import java.net.URI
-import java.time.format.DateTimeFormatter
 
 @Service
-class ProcessService(private val restTemplate: RestTemplate) {
+class ProcessService(private val providerProcess: ProviderProcess) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @Value("\${server.protocol}")
+/*    @Value("\${server.protocol}")
     lateinit var protocol: String
 
     @Value("\${server.port}")
     lateinit var port: String
 
-    private val uri = "/rest/wf/processes"
+    private val uri = "/rest/wf/processes"*/
 
-    fun makeUri(callUrl: String, params: MultiValueMap<String, String>): URI {
+/*    fun makeUri(callUrl: String, params: MultiValueMap<String, String>): URI {
         val formUrl = protocol + "://" + InetAddress.getLocalHost().hostAddress + ":" + port + callUrl
         val uri = UriComponentsBuilder.fromHttpUrl(formUrl)
         if (params.isNotEmpty()) {
@@ -39,24 +40,23 @@ class ProcessService(private val restTemplate: RestTemplate) {
         }
 
         return uri.build().toUri()
-    }
+    }*/
 
     /**
      * 프로세스 데이터 조회.
      */
-    fun selectProcessList(search: String): List<ProcessDto> {
+    fun findProcessList(search: String): List<ProcessDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
-        val uri = makeUri(uri, params)
-        val procListJson = restTemplate.getForObject(uri, String::class.java)
+        val responseBody = providerProcess.wfGetProcessList(params)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val list: List<ProcessDto> = mapper.readValue(procListJson, mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java))
-        for (item in list) {
+        val processList: List<ProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java))
+        for (item in processList) {
             item.createDt = item.createDt?.let { ProviderUtilities().toTimezone(it) }
             item.updateDt = item.updateDt?.let { ProviderUtilities().toTimezone(it) }
         }
 
-        return list
+        return processList
     }
 
     /**

@@ -1,10 +1,9 @@
 package co.brainz.workflow.process
 
-import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.form.entity.FormEntity
-import co.brainz.workflow.utility.WFMetaEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -43,8 +42,16 @@ data class ProcessMstEntity(
     @Column(name = "proc_desc")
     val procDesc: String?,
 
-    @ManyToOne(targetEntity=AliceUserEntity::class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_userkey", insertable=false, updatable=false)
-    var aliceUserEntity: AliceUserEntity? = null
+    @Column(name = "create_dt")
+    var createDt: LocalDateTime? = null,
 
-) : Serializable, WFMetaEntity()
+    @Column(name = "create_userkey")
+    var createUserkey: String? = null,
+
+    @Column(name = "update_dt")
+    var updateDt: LocalDateTime? = null,
+
+    @Column(name = "update_userkey")
+    var updateUserkey: String? = null
+
+) : Serializable

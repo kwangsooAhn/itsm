@@ -34,7 +34,7 @@ class ProcessProvider(private val processMstRepository: ProcessMstRepository) {
                     it.createUserkey,
                     it.updateDt,
                     it.updateUserkey,
-                    it.aliceUserEntity!!.userName,
+                    //it.aliceUserEntity!!.userName,
                     enabled
                 )
             )

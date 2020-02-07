@@ -3,15 +3,16 @@ package co.brainz.itsm.provider
 import co.brainz.itsm.provider.constants.ProviderConstants
 import co.brainz.itsm.provider.dto.FormDto
 import co.brainz.itsm.provider.dto.UrlDto
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.*
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
-
 
 @Service
 class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() {
@@ -57,8 +58,5 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
         val responseJson = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
         return responseJson.statusCode == HttpStatus.OK
     }
-
-
-
 
 }
