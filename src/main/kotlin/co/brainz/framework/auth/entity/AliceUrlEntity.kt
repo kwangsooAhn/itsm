@@ -24,8 +24,6 @@ data class AliceUrlEntity(
 ): Serializable
 
 data class AliceUrlEntityPk(
-        val url: String,
-        val method: String
-) : Serializable {
-        constructor() : this("","")
-}
+        val url: String = "",
+        val method: String = ""
+) : Serializable

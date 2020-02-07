@@ -59,8 +59,8 @@ const dateTimePicker = (function() {
             options.lang = lang;
         }
         let picker = initPicker(targetId, options);
-        picker.el.addEventListener('wdp.change', function() {
-            picker.close();
+        picker.el.addEventListener('wdp.change', () => {
+            picker.closeDateContainer();
         });
     }
 
@@ -85,12 +85,12 @@ const dateTimePicker = (function() {
             options.lang = '' + lang;
         }
         let picker = initPicker(targetId, options);
-        picker.el.addEventListener('wdp.change', function() {
+        picker.el.addEventListener('wdp.change', () => {
             if (picker.page === 'DATE') {
                 picker.changePage();
             }
         });
-        picker.el.addEventListener('wdp.close', function() {
+        picker.el.addEventListener('wdp.close', () => {
             if (picker.page === 'HOUR') {
                 picker.changePage();
             }

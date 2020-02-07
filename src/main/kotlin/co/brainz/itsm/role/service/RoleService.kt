@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.repository.RoleRepository
-import co.brainz.itsm.user.repository.UserRoleMapRepository
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 
 @Service
 public class RoleService(
         private val roleRepository: RoleRepository,
         private val authRepository: AliceAuthRepository,
-        private val userRoleMapRepository: UserRoleMapRepository,
+        private val userRoleMapRepository: AliceUserRoleMapRepository,
         private val roleAuthMapRepository: AliceRoleAuthMapRepository
 ) {
     /**
