@@ -1,6 +1,6 @@
 package co.brainz.itsm.certification.repository
 
-import co.brainz.framework.certification.service.OAuthServiceGoogle
+/*import co.brainz.framework.certification.service.OAuthServiceGoogle
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
 import org.assertj.core.api.Assertions.assertThat
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 import java.net.URLDecoder
-import kotlin.collections.HashSet
+import kotlin.collections.HashSet*/
 
 // @RunWith(SpringRunner::class)
 // @SpringBootTest(properties = ["classpath:application.yml"], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
