@@ -25,12 +25,12 @@ open class WFMetaEntity(
         open var createUserkey: String = "",
         //@Convert(converter = WFLocalDateTimeConverter::class)
         @CreatedDate @Column(name="create_dt", nullable = false, updatable = false)
-        var createDt: LocalDateTime = LocalDateTime.now(),
+        open var createDt: LocalDateTime? = null,
         @LastModifiedBy @Column(name="update_userkey", insertable = false)
         var updateUserkey: String? = null,
         //@Convert(converter = WFLocalDateTimeConverter::class)
         @LastModifiedDate @Column(name="update_dt", insertable = false)
-        var updateDt: LocalDateTime? = LocalDateTime.now()
+        open var updateDt: LocalDateTime? = LocalDateTime.now()
 
 ): Serializable
 

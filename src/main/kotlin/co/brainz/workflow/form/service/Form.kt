@@ -18,8 +18,7 @@ interface Form {
     /**
      * 폼 등록.
      */
-    //fun insertForm(formDto: FormDto)
-    fun insertForm(multiValueMap: LinkedMultiValueMap<String, Any>)
+    fun insertForm(formDto: FormDto)
 
     /**
      * 폼 수정.

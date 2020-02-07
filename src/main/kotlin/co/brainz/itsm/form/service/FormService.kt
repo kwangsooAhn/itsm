@@ -1,17 +1,13 @@
 package co.brainz.itsm.form.service
 
-import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.provider.ProviderForm
 import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.dto.FormDto
 import co.brainz.workflow.form.constants.FormConstants
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.UUID
 
 @Service
 class FormService(private val providerForm: ProviderForm) {
@@ -39,8 +35,7 @@ class FormService(private val providerForm: ProviderForm) {
                 createDt = ProviderUtilities().toTimezone(item["createDt"].toString(), dateTimeFormatter),
                 createUserkey = item["createUserkey"] as String,
                 updateDt = item["updateDt"]?.let { ProviderUtilities().toTimezone(it.toString(), dateTimeFormatter) },
-                updateUserkey = item["updateUserkey"]?.toString(),
-                userName = item["userName"] as String
+                updateUserkey = item["updateUserkey"]?.toString()
         )
         when (item["formStatus"] as String) {
             FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true
@@ -61,13 +56,13 @@ class FormService(private val providerForm: ProviderForm) {
     }
 
     fun insertForm(formDto: FormDto) {
-        formDto.createDt = ProviderUtilities().toGMT(formDto.createDt)
+        formDto.createDt = formDto.createDt?.let { ProviderUtilities().toGMT(it) }
         formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
         providerForm.wfPostForm(formDto)
     }
 
     fun updateForm(formDto: FormDto) {
-        formDto.createDt = ProviderUtilities().toGMT(formDto.createDt)
+        formDto.createDt = formDto.createDt?.let { ProviderUtilities().toGMT(it) }
         formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
         providerForm.wfPutForm(formDto)
     }

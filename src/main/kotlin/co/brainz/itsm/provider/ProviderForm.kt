@@ -36,17 +36,8 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
 
     fun wfPostForm(formDto: FormDto): Boolean {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.POST_FORM.url, port = port, protocol = ProviderConstants.Protocol.HTTPS.value))
-        println("url : " + url)
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_JSON
-        val objectMapper = ObjectMapper()
-        val parameters = LinkedMultiValueMap<String, Any>()
-        parameters.setAll(objectMapper.convertValue(formDto, object : TypeReference<Map<String?, Any?>?>() {}))
-        val requestEntity = HttpEntity(parameters, headers)
-        println(restTemplate.postForObject(url, requestEntity, String::class.java))
-        println("end....")
-        return true
-        //return restTemplate.postForObject(url, requestEntity, Boolean::class.java)?:false
+        val responseJson = restTemplate.postForEntity(url, formDto, String::class.java)
+        return responseJson.statusCode == HttpStatus.OK
     }
 
     fun wfPutForm(formDto: FormDto): Boolean {
@@ -57,8 +48,7 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
         val parameters: LinkedMultiValueMap<*, *>? = objectMapper.convertValue(formDto, LinkedMultiValueMap::class.java)
         val requestEntity = HttpEntity(parameters, headers)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
-        //TODO: 파싱
-        return false
+        return responseJson.statusCode == HttpStatus.OK
     }
 
     fun wfDeleteForm(formId: String): Boolean {

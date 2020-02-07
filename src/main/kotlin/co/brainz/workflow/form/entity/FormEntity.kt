@@ -1,16 +1,12 @@
 package co.brainz.workflow.form.entity
 
-import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.workflow.utility.WFMetaEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
@@ -22,7 +18,8 @@ data class FormEntity(
         @Column(name = "form_name") var formName: String,
         @Column(name = "form_desc") var formDesc: String? = null,
         @Column(name = "form_status") var formStatus: String,
-        @ManyToOne(targetEntity = AliceUserEntity::class, fetch = FetchType.LAZY)
-        @JoinColumn(name = "create_userkey", insertable=false, updatable=false)
-        var aliceUserEntity: AliceUserEntity?
-): Serializable, WFMetaEntity()
+        @Column(name = "create_dt") var createDt: LocalDateTime? = null,
+        @Column(name = "create_userkey") var createUserkey: String? = null,
+        @Column(name = "update_dt") var updateDt: LocalDateTime? = null,
+        @Column(name = "update_userkey") var updateUserkey: String? = null
+): Serializable

@@ -28,14 +28,9 @@ class WFFormRestController(private val wfEngine: WFEngine) {
         return wfEngine.form().form(formId)
     }
 
-    /*@PostMapping("")
-    fun insertForm(@RequestBody formDto: FormDto) {
-        println("<<<<<<<<<<")
-        return wfEngine.form().insertForm(formDto)
-    }*/
     @PostMapping("")
-    fun insertForm(@RequestBody multiValueMap: LinkedMultiValueMap<String, Any>) {
-        return wfEngine.form().insertForm(multiValueMap)
+    fun insertForm(@RequestBody formDto: FormDto) {
+        return wfEngine.form().insertForm(formDto)
     }
 
     @PutMapping("/{formId}")

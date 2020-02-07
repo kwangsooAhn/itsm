@@ -38,10 +38,8 @@ class FormRestController(private val formService: FormService) {
      */
     @PostMapping("/data")
     fun saveFormData(@RequestBody formData: String): String {
-        println("xxxxxxxxxxxxxxxxxxxxxxxxxxx")
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val formDto = FormDto(
-                formId = "xxxxx",
                 formName = "TEST111",
                 formDesc = "TEST",
                 formStatus = "form.status.edit",
@@ -49,7 +47,6 @@ class FormRestController(private val formService: FormService) {
                 createDt = LocalDateTime.now(),
                 createUserkey = aliceUserDto.userKey
         )
-
         formService.insertForm(formDto)
         return "1"
     }
