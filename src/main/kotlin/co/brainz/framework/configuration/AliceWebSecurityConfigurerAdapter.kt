@@ -22,8 +22,6 @@ abstract class AliceWebSecurityConfigurerAdapter(private val authProvider: Alice
                                                  private val authFailureHandler: AliceAuthFailureHandler)
     : WebSecurityConfigurerAdapter() {
 
-    private val httpSessionRequestCache: HttpSessionRequestCache = HttpSessionRequestCache()
-    
     override fun configure(web: WebSecurity) {
         ignoreConfigure(web)
     }
