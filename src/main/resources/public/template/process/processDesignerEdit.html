@@ -7,8 +7,11 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta http-equiv="expire" content="-1"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
     <script th:src="@{/assets/js/workflow/workflowEditor.js}"></script>
     <script th:src="@{/assets/js/workflow/workflowEditor.menu.js}"></script>
     <script th:src="@{/assets/js/workflow/workflowEditor.util.js}"></script>
