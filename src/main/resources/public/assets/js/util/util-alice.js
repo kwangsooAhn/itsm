@@ -237,6 +237,7 @@ aliceJs.sendXhr = function (option) {
     } else {
         params = null;
     }
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.send(params);
 };
 
@@ -272,12 +273,6 @@ function createXmlHttpRequestObject(method, url, async) {
         alert('Error creating the XMLHttpRequest object.');
         hiddenProgressBar();
     } else {
-        xmlHttp.onload = function() {
-            hiddenProgressBar();
-            if(xmlHttp.status === 403) {
-                window.location.href = '/sessionInValid';
-            }
-        }
         if (method.toUpperCase() !== 'GET') {
             for (var i = 0; i < metas.length; i++) {
                 if (metas[i].getAttribute('name') === '_csrf') {
@@ -291,6 +286,7 @@ function createXmlHttpRequestObject(method, url, async) {
         }
         return xmlHttp;
     }
+    hiddenProgressBar();
 }
 
 /*
