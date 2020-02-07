@@ -156,9 +156,12 @@
         mouseover: function() {
             const elem = d3.select(this);
             mouseoverElement = null;
-
+            let cursor = 'pointer';
+            if (isDrawConnector) {
+                cursor = 'crosshair';
+            }
+            elem.style('cursor', cursor);
             if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
-                elem.style('cursor', 'pointer');
                 return;
             }
             mouseoverElement = elem;
@@ -170,6 +173,7 @@
         mouseout: function() {
             const elem = d3.select(this);
             if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
+                elem.style('cursor', 'default');
                 return;
             }
             mouseoverElement = null;
@@ -205,12 +209,14 @@
                         svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
                     }
                 }
+                elem.style('cursor', 'move');
                 wfEditor.setElementMenu(elem);
             }
         },
         mouseup: function() {
             const elem = d3.select(this);
             if (isDrawConnector) {
+                elem.style('cursor', 'default');
                 dragLine
                     .classed('hidden', true)
                     .style('marker-end', '');
@@ -237,6 +243,7 @@
                 }
                 resetMouseVars();
             } else {
+                elem.style('cursor', 'pointer');
                 wfEditor.setActionTooltipItem(elem);
             }
         },
@@ -297,6 +304,8 @@
         self.pointElement1 = svg.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
+            .on('mouseover', function() { self.pointElement1.style('cursor', 'nw-resize'); })
+            .on('mouseout', function() { self.pointElement1.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
                     svg.selectAll('.tooltip').remove();
@@ -316,6 +325,8 @@
         self.pointElement2 = svg.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
+            .on('mouseover', function() { self.pointElement2.style('cursor', 'se-resize'); })
+            .on('mouseout', function() { self.pointElement2.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
                     svg.selectAll('.tooltip').remove();
@@ -335,6 +346,8 @@
         self.pointElement3 = svg.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
+            .on('mouseover', function() { self.pointElement3.style('cursor', 'ne-resize'); })
+            .on('mouseout', function() { self.pointElement3.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
                     svg.selectAll('.tooltip').remove();
@@ -354,6 +367,8 @@
         self.pointElement4 = svg.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
+            .on('mouseover', function() { self.pointElement4.style('cursor', 'sw-resize'); })
+            .on('mouseout', function() { self.pointElement4.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
                     svg.selectAll('.tooltip').remove();
