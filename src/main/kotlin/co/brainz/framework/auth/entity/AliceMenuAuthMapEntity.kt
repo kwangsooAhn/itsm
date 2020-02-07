@@ -25,8 +25,6 @@ data class AliceMenuAuthMapEntity (
 ) : Serializable
 
 data class AliceMenuAuthMapPk(
-        val menu: String,
-        val auth: String
-) : Serializable {
-        constructor() : this("","")
-}
+        val menu: String = "",
+        val auth: String = ""
+) : Serializable
