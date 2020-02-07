@@ -617,9 +617,9 @@
      * element에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.element-palette, .drawing-board').on('dragover', function() {d3.event.preventDefault();});
+        d3.selectAll('.alice-workflow-element-palette, .alice-workflow-drawing-board').on('dragover', function() {d3.event.preventDefault();});
 
-        d3.select('.element-palette').select('.connector')
+        d3.select('.alice-workflow-element-palette').select('.connector')
             .on('click', function() {
                 isDrawConnector = !d3.select(this).classed('selected');
                 d3.select(this).classed('selected', isDrawConnector);
@@ -629,7 +629,7 @@
                 wfEditor.setElementMenu();
             });
 
-        d3.select('.element-palette').selectAll('span.shape')
+        d3.select('.alice-workflow-element-palette').selectAll('span.shape')
             .attr('draggable', 'true')
             .on('dragend', function() {
                 const svgOffset = svg.node().getBoundingClientRect();
@@ -660,7 +660,7 @@
         const height = 750;
 
         // add svg and svg event
-        svg = d3.select('.drawing-board').append('svg')
+        svg = d3.select('.alice-workflow-drawing-board').append('svg')
             .attr('width', width)
             .attr('height', height)
             .on('mousedown', function() {

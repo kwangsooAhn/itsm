@@ -1,0 +1,199 @@
+@import "bootstrap-4.4.1/bootstrap";
+
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareL.woff) format('woff');
+    font-weight: 300;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareR.woff) format('woff');
+    font-weight: 400;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareB.woff) format('woff');
+    font-weight: 700;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareEB.woff) format('woff');
+    font-weight: 800;
+}
+
+$alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$workflow-element-palette-width: 3.75rem; // 60px
+$workflow-toolbar-height: 2.5rem; // 40px
+$workflow-properties-panel-width: 18.75rem; // 300px
+
+body {
+    font-family: $alice-font-family;
+}
+
+.alice-workflow {
+    &-toolbar {
+        width: 100vw;
+        height: $workflow-toolbar-height;
+        background-color: rgba(171, 132, 135, 0.5);
+        //background: linear-gradient( to right, #5574F7 30%, #60C3FF );
+        color: $white;
+        padding: 0.625rem 1.25rem; // 10 20
+        line-height: 1.0rem;
+        
+        font: {
+            size: 1.25rem; // 20
+            weight: 700;
+        }
+
+        a {
+            margin: 0.625rem;
+            color: $white;
+        }
+
+        .process-name {
+            float: right;
+            padding-right: 1.25rem;
+        }
+    }
+
+    &-element-palette {
+        display: inline-block;
+        width: $workflow-element-palette-width;
+        height: calc(100vh - #{$workflow-toolbar-height});
+        background-color: #b1afab;
+        position: absolute;
+        top: $workflow-toolbar-height;
+
+        .connector {
+            display: inline-block;
+            width: 2.25rem;
+            height: 0.313rem;
+            background-color: transparent;
+            border-width: 0.063rem;
+            border-color: black;
+            border-style: solid;
+            margin-left: 0.625rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0;
+        }
+
+        .connector.selected {
+            border-color: red;
+        }
+
+        .shape {
+            display: inline-block;
+            width: 2.25rem;
+            height: 2.25rem;
+            background-color: transparent;
+            border-width: 0.125rem;
+            border-color: black;
+            border-style: solid;
+            margin: 0.625rem;
+
+            .event {
+                border-radius: 50%;
+            }
+
+            .task {
+                height: 1.625rem;
+            }
+
+            .subprocess {
+                height: 1.625rem;
+            }
+
+            .gateway {
+                width: 0;
+                height: 0;
+                border: 1.25rem solid transparent;
+                border-bottom-color: red;
+                position: relative;
+                top: -1.25rem;
+            }
+
+            .gateway:after {
+                content: '';
+                position: absolute;
+                left: -1.25rem;
+                top: 1.25rem;
+                width: 0;
+                height: 0;
+                border: 1.25rem solid transparent;
+                border-top-color: red;
+            }
+
+            .group {
+                width: 2.25rem;
+                height: 1.625rem;
+                border-style: dotted;
+            }
+
+            .annotation {
+                width: 2.25rem;
+                height: 1.625rem;
+                border-style: dotted;
+            }
+        }
+
+        .separator {
+            display: inline-block;
+            width: 2.5rem;
+            height: 0.125rem;
+            background: gray;
+            margin-left: 0.625rem;
+        }
+    }
+
+    &-drawing-board {
+        display: inline-block;
+        position: absolute;
+        top: $workflow-toolbar-height;
+        left: $workflow-element-palette-width;
+        width: calc(100vw - #{$workflow-element-palette-width + $workflow-properties-panel-width});
+        height: calc(100vh - #{$workflow-toolbar-height});
+        background-color: #f6f6f6;
+        background-image:
+                linear-gradient(90deg, #cdcccc 0, #cdcccc 0.063rem, transparent 0.063rem, transparent 6.188rem,  transparent 6.25rem),
+                linear-gradient(#cdcccc 0, #cdcccc 0.063rem, transparent 0.063rem, transparent 6.188rem,  transparent 6.25rem),
+                linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0.063rem, transparent 6.188rem,  transparent 6.25rem),
+                linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0.063rem, transparent 6.188rem,  transparent 6.25rem),
+                linear-gradient(transparent 0, transparent 0.313rem, #f6f6f6 0.313rem, #f6f6f6 5.938rem, transparent 5.938rem, transparent 6.25rem),
+                linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0.063rem, transparent 6.188rem, #e0e0e0 6.188rem, #e0e0e0 6.25rem),
+                linear-gradient(90deg, transparent 0, transparent 0.313rem, #f6f6f6 0.313rem, #f6f6f6 5.938rem, transparent 5.938rem, transparent 6.25rem),
+                linear-gradient(transparent 0, transparent 0.063rem, #f6f6f6 0.063rem, #f6f6f6 6.188rem, transparent 6.188rem, transparent 6.25rem),
+                linear-gradient(#cdcccc, #cdcccc);
+        background-size:6.25rem 100%, 100% 6.25rem, 100% 0.625rem, 0.625rem 100%, 100% 6.25rem, 6.25rem 100%, 6.25rem 100%, 6.25rem 6.25rem, 6.25rem 6.25rem;
+
+        path.link { fill: none; stroke: #000; stroke-width: 0.125rem; cursor: default; }
+        svg:not(.active):not(.ctrl) path.link { cursor: pointer; }
+        path.link.selected { stroke-dasharray: 10,2; stroke-width: 0.188rem; }
+        path.link.drag-line { pointer-events: none; }
+        path.link.hidden { stroke-width: 0; }
+
+    }
+
+    &-properties-panel {
+        display: inline-block;
+        position: absolute;
+        top: $workflow-toolbar-height;
+        left: calc(100vw - #{$workflow-properties-panel-width});
+        width: $workflow-properties-panel-width;
+        height: calc(100vh - #{$workflow-toolbar-height});
+        background-color: #e2e6ea;
+
+        h3 {
+            padding-left: 0.625rem;
+        }
+
+        p {
+            padding-left: 0.625rem;
+
+            label {
+                display: inline-block;
+                width: 5rem;
+            }
+        }
+    }
+}
+

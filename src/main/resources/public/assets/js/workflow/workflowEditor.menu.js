@@ -347,7 +347,7 @@
      * @param id element ID
      */
     function changePropertiesValue(id) {
-        const container = document.querySelector('.properties-panel');
+        const container = document.querySelector('.alice-workflow-properties-panel');
         const propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === wfEditor.data.process.id) {
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
@@ -375,7 +375,7 @@
      * @param data 데이터속성
      */
     function makePropertiesItem(id, properties, data) {
-        const propertiesContainer = document.querySelector('.properties-panel');
+        const propertiesContainer = document.querySelector('.alice-workflow-properties-panel');
         propertiesContainer.innerHTML = '';
 
         for (let i = 0, len = properties.length; i < len; i++) {
