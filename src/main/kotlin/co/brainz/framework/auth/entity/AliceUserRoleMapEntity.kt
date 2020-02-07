@@ -1,6 +1,5 @@
 package co.brainz.framework.auth.entity
 
-import org.springframework.data.annotation.Reference
 import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.FetchType

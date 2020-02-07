@@ -60,7 +60,7 @@ const dateTimePicker = (function() {
         }
         let picker = initPicker(targetId, options);
         picker.el.addEventListener('wdp.change', () => {
-            picker.close();
+            picker.closeDateContainer();
         });
     }
 
