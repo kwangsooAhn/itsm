@@ -1,13 +1,17 @@
 package co.brainz.itsm.form.service
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.provider.ProviderForm
 import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.dto.FormDto
 import co.brainz.workflow.form.constants.FormConstants
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 
 @Service
 class FormService(private val providerForm: ProviderForm) {
@@ -56,7 +60,17 @@ class FormService(private val providerForm: ProviderForm) {
         providerForm.wfDeleteForm(formId)
     }
 
-    fun insertForm(formDto: FormDto) {
+    fun insertForm(formDto2: FormDto) {
+        val userDto: AliceUserEntity = SecurityContextHolder.getContext().authentication.details as AliceUserEntity
+        val formDto = FormDto(
+                formId = UUID.randomUUID().toString(),
+                formName = "TEST111",
+                formDesc = "TEST",
+                formStatus = "form.status.edit",
+                formEnabled = true,
+                createDt = ProviderUtilities().toGMT(LocalDateTime.now()),
+                createUserkey = userDto.userKey
+        )
         formDto.createDt = ProviderUtilities().toGMT(formDto.createDt)
         formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
         providerForm.wfPostForm(formDto)

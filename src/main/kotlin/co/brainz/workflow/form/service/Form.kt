@@ -17,12 +17,12 @@ interface Form {
     /**
      * 폼 등록.
      */
-    fun insertForm(WFFormDto: FormDto)
+    fun insertForm(formDto: FormDto)
 
     /**
      * 폼 수정.
      */
-    fun updateForm(WFFormDto: FormDto)
+    fun updateForm(formDto: FormDto)
 
     /**
      * 폼 삭제.

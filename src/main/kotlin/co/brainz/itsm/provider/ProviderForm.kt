@@ -42,8 +42,12 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
         headers.contentType = MediaType.APPLICATION_JSON
         val objectMapper = ObjectMapper()
         val parameters: LinkedMultiValueMap<*, *>? = objectMapper.convertValue(formDto, LinkedMultiValueMap::class.java)
+        println(">>>>>>parameters")
+        println(parameters)
         val requestEntity = HttpEntity(parameters, headers)
-        return restTemplate.postForObject(url, requestEntity, Boolean::class.java)?:false
+        println(restTemplate.postForObject(url, requestEntity, Boolean::class.java))
+        return true
+        //return restTemplate.postForObject(url, requestEntity, Boolean::class.java)?:false
     }
 
     fun wfPutForm(formDto: FormDto): Boolean {
