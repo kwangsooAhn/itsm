@@ -1,6 +1,7 @@
 package co.brainz.workflow.form.service
 
 import co.brainz.workflow.form.dto.FormDto
+import org.springframework.util.LinkedMultiValueMap
 
 interface Form {
 
@@ -17,7 +18,8 @@ interface Form {
     /**
      * 폼 등록.
      */
-    fun insertForm(formDto: FormDto)
+    //fun insertForm(formDto: FormDto)
+    fun insertForm(multiValueMap: LinkedMultiValueMap<String, Any>)
 
     /**
      * 폼 수정.

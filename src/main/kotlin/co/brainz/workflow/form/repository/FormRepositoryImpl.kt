@@ -2,11 +2,12 @@ package co.brainz.workflow.form.repository
 
 import co.brainz.workflow.form.entity.FormEntity
 //import co.brainz.workflow.form.entity.QFormEntity
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+//import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
-@Repository
-class FormRepositoryImpl: QuerydslRepositorySupport(FormEntity::class.java), FormRepositoryCustom {
+//@Repository
+//class FormRepositoryImpl: QuerydslRepositorySupport(FormEntity::class.java), FormRepositoryCustom {
+class FormRepositoryImpl {
 
     /*override fun findFormEntityList(formName: String, formDesc: String): List<FormEntity> {
         val table = QFormEntity.formEntity

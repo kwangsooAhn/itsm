@@ -19,7 +19,7 @@ class FormService(private val providerForm: ProviderForm) {
     fun findFormList(search: String): List<FormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
-        val responseBody = providerForm.wfGetFormListToJson(params)
+        val responseBody = providerForm.wfGetFormList(params)
         val mapper = ObjectMapper()
         val list: List<Map<String, Any>> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, Map::class.java))
         val formList = mutableListOf<FormDto>()
@@ -50,7 +50,7 @@ class FormService(private val providerForm: ProviderForm) {
     }
 
     fun getForm(formId: String): FormDto {
-        val responseBody = providerForm.wfGetFormToJson(formId)
+        val responseBody = providerForm.wfGetForm(formId)
         val mapper = ObjectMapper()
         val item: Map<*, *> = mapper.readValue(responseBody, Map::class.java)
         return makeFormDto(item)
@@ -60,17 +60,7 @@ class FormService(private val providerForm: ProviderForm) {
         providerForm.wfDeleteForm(formId)
     }
 
-    fun insertForm(formDto2: FormDto) {
-        val userDto: AliceUserEntity = SecurityContextHolder.getContext().authentication.details as AliceUserEntity
-        val formDto = FormDto(
-                formId = UUID.randomUUID().toString(),
-                formName = "TEST111",
-                formDesc = "TEST",
-                formStatus = "form.status.edit",
-                formEnabled = true,
-                createDt = ProviderUtilities().toGMT(LocalDateTime.now()),
-                createUserkey = userDto.userKey
-        )
+    fun insertForm(formDto: FormDto) {
         formDto.createDt = ProviderUtilities().toGMT(formDto.createDt)
         formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
         providerForm.wfPostForm(formDto)

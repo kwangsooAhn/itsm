@@ -2,6 +2,7 @@ package co.brainz.workflow.form.controller
 
 import co.brainz.workflow.engine.WFEngine
 import co.brainz.workflow.form.dto.FormDto
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,9 +28,14 @@ class WFFormRestController(private val wfEngine: WFEngine) {
         return wfEngine.form().form(formId)
     }
 
-    @PostMapping("")
+    /*@PostMapping("")
     fun insertForm(@RequestBody formDto: FormDto) {
+        println("<<<<<<<<<<")
         return wfEngine.form().insertForm(formDto)
+    }*/
+    @PostMapping("")
+    fun insertForm(@RequestBody multiValueMap: LinkedMultiValueMap<String, Any>) {
+        return wfEngine.form().insertForm(multiValueMap)
     }
 
     @PutMapping("/{formId}")

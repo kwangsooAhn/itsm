@@ -4,8 +4,12 @@ import co.brainz.workflow.form.constants.FormConstants
 import co.brainz.workflow.form.dto.FormDto
 import co.brainz.workflow.form.entity.FormEntity
 import co.brainz.workflow.form.repository.FormRepository
+import co.brainz.workflow.process.ProcessDto
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
-import java.util.Optional
+import org.springframework.util.LinkedMultiValueMap
+import java.util.*
 
 @Service
 class WFFormService(private val formRepository: FormRepository) : Form {
@@ -26,7 +30,48 @@ class WFFormService(private val formRepository: FormRepository) : Form {
         return formEntityToDto(formEntity.get())
     }
 
-    override fun insertForm(formDto: FormDto) {
+    override fun insertForm(multiValueMap: LinkedMultiValueMap<String, Any>) {
+        println(">>>>>>>>>>")
+        println(multiValueMap)
+        /*val formDto = FormDto(
+                formName = multiValueMap.
+        )*/
+
+        val objectMapper = ObjectMapper()
+        /*val map: Map<String, String> = objectMapper.convertValue(multiValueMap, object : TypeReference<Map<String?, String?>?>() {})
+        println(map)*/
+
+
+
+        //val list: List<FormDto> = objectMapper.readValue(multiValueMap, objectMapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
+
+        /*var formDto = FormDto()
+        val itr = multiValueMap.keys.iterator()
+        while (itr.hasNext()) {
+            val key = itr.next()
+            val fields = FormDto::class.java.getDeclaredFields()
+            for (filed in fields) {
+                if (filed.name == key) {
+
+                }
+            }
+        }*/
+
+
+        val a = objectMapper.convertValue(multiValueMap, FormDto::class.java)
+        //objectMapper.convertValue(multiValueMap, object : TypeReference<FormDto>>() {})
+        println(a)
+        println("aaaaaaaaaaaa")
+    }
+
+    //map의 key를 돌리면서... formDto에 값을 셋팅한다.
+    //공통 컨버터가 있을까??
+    //없으면.. 만들어서?
+
+
+
+    /*override fun insertForm(formDto: FormDto) {
+        println(">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx><<<<<<<<")
         val formEntity = FormEntity(
                 formId = formDto.formStatus,
                 formName = formDto.formName,
@@ -35,7 +80,7 @@ class WFFormService(private val formRepository: FormRepository) : Form {
                 aliceUserEntity = null
         )
         formRepository.save(formEntity)
-    }
+    }*/
 
     override fun updateForm(formDto: FormDto) {
         val formEntity: Optional<FormEntity> = formRepository.findFormEntityByFormId(formDto.formId)

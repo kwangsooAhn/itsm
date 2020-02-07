@@ -4,7 +4,7 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class FormDto(
-        val formId: String,
+        val formId: String = "",
         val formName: String,
         val formStatus: String,
         var formDesc: String? = null,

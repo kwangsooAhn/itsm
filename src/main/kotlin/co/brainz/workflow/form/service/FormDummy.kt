@@ -2,6 +2,7 @@ package co.brainz.workflow.form.service
 
 import co.brainz.workflow.form.constants.FormConstants
 import co.brainz.workflow.form.dto.FormDto
+import org.springframework.util.LinkedMultiValueMap
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -64,9 +65,13 @@ class FormDummy: Form {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun insertForm(formDto: FormDto) {
+    override fun insertForm(multiValueMap: LinkedMultiValueMap<String, Any>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    /*override fun insertForm(formDto: FormDto) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }*/
 
     override fun updateForm(formDto: FormDto) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
