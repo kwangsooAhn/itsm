@@ -10,6 +10,8 @@ import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.auth.dto.AliceAuthSimpleDto
+import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
 
 @Service
 public class RoleService(
@@ -37,15 +39,18 @@ public class RoleService(
      */
     public fun deleteRole(roleId: String): String {
         var result = ""
+        val roleInfo = roleRepository.findByRoleId(roleId)[0]
 
-        val userRoleMapCount = userRoleMapRepository.findByRoleId(roleId).count()
+        val userRoleMapCount = roleInfo.userRoleMapEntities.count()
         if (userRoleMapCount == 0) {
+            roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
+                roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(roleInfo.roleId, roleAuthMap.auth.authId))
+            }
             roleRepository.deleteById(roleId)
             result = "true"
         } else {
             result = "PlaseDeleteMapperUser"
         }
-
         return result
     }
 
@@ -72,13 +77,16 @@ public class RoleService(
      */
     public fun updateRole(roleInfo: RoleDto): String {
         val role = AliceRoleEntity(
-                roleId = roleInfo.roleId.toString(),
-                roleName = roleInfo.roleName.toString(),
-                roleDesc = roleInfo.roleDesc.toString()
+            roleId = roleInfo.roleId.toString(),
+            roleName = roleInfo.roleName.toString(),
+            roleDesc = roleInfo.roleDesc.toString()
         )
         val result = roleRepository.save(role)
 
-        authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach {auth ->
+        roleRepository.findByRoleId(role.roleId)[0].roleAuthMapEntities.forEach { roleAuthMap ->
+            roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(role.roleId, roleAuthMap.auth.authId))
+        }
+        authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach { auth ->
             roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
 
@@ -91,12 +99,14 @@ public class RoleService(
     fun selectDetailRoles(roleId: String): List<RoleDto> {
         val dto = mutableListOf<RoleDto>()
         val roleInfo = roleRepository.findByRoleId(roleId)[0]
-        val authList = mutableListOf<AliceAuthEntity>()
+        var authList = mutableListOf<AliceAuthSimpleDto>()
 
-        roleInfo.roleAuthMapEntities.forEach {roleAuthMap ->
-            authList.add(roleAuthMap.auth)
+        var index = 0
+        roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
+            authList.add(index, AliceAuthSimpleDto(roleAuthMap.auth.authId, roleAuthMap.auth.authName, roleAuthMap.auth.authDesc))
+            index = index + 1
         }
-
+        
         dto.add(
                 RoleDto(
                         roleInfo.roleId,
