@@ -144,6 +144,7 @@ login:
   kakaoLogin: "Kakao Login"
   gotoLoginPage: "Go to the login page"
   msg:
+    sessionExpired: "Your session has expired."
     redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
 
 # FORM

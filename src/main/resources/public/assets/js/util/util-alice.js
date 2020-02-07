@@ -273,6 +273,9 @@ function createXmlHttpRequestObject(method, url, async) {
         alert('Error creating the XMLHttpRequest object.');
         hiddenProgressBar();
     } else {
+        xmlHttp.onload = function() {
+            hiddenProgressBar();
+        }
         if (method.toUpperCase() !== 'GET') {
             for (var i = 0; i < metas.length; i++) {
                 if (metas[i].getAttribute('name') === '_csrf') {
@@ -286,7 +289,6 @@ function createXmlHttpRequestObject(method, url, async) {
         }
         return xmlHttp;
     }
-    hiddenProgressBar();
 }
 
 /*

@@ -2,9 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <style type="text/css">
+        body { text-align: center; }
+    </style>
 </head>
 <body>
-<h3>Session InValid</h3>
+<img th:src="@{/assets/media/image/session_id.jpg}"/>
+<h3>[[#{login.msg.sessionExpired}]]</h3>
 <h3><span id="counter"></span></h3>
 <button type="button" id="gotoLoginPage" th:text="#{login.gotoLoginPage}"/>
 <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>

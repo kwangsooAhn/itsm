@@ -44,7 +44,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
         logger.debug(">>> securityContextObject is null? {} <<<", securityContextObject == null)
 
         if (securityContextObject != null) {
-            logger.debug(">>> Aleady login. <<<")
+            logger.debug(">>> Already login. <<<")
 
             val securityContext = securityContextObject as SecurityContext
             aliceUserEntity = userDetailsService.loadUserByUsername(securityContext.authentication.principal.toString())
