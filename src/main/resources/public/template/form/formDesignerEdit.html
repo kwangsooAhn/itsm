@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{form.label.edit}"></title>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta http-equiv="expire" content="-1"/>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="pragma" content="no-cache" />
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
     <script th:src="@{/assets/js/form/formEditor.js}"></script>
     <script th:src="@{/assets/js/form/formComponent.js}"></script>
     <style type="text/css">
         /* 임시 CSS */
-        html, body {margin: 0; height: 100%; overflow: hidden;}
-        .container { height: 100%;  margin: 0; padding: 0;}
+        html, body {margin: 0; padding: 0; height: 100%; overflow: auto;}
+        
+        .container { height: 100%;}
         .form-designer {display: flex; height: 100%; flex-direction: column;}
+        
         .toolbar{height: 35px; display: flex; align-items: center; justify-content: space-between; flex-grow: 0; position: relative; background: #4C5264; color: #ffffff;}
         .menu {height: 100%; display: flex; align-items: center; flex-grow: 0; flex-shrink: 0;  margin-right: 8px;}
         .logo {display: inline-flex; flex-shrink: 0; align-items: center; color: #ffffff; text-decoration:none; padding-left: 8px; padding-right: 8px;}
@@ -58,11 +63,11 @@
         .field textarea {width: 100%;}
         #property-panel .title{padding: 30px 0px 0px 0px; font-size: 30px; font-weight: bold; text-align: center;}
         
-        [contenteditable=true]:empty:before {content: attr(placeholder); display: block; /* For Firefox */}
+        [contenteditable=true]:empty:before {content: attr(placeholder); display: block;}
         div[contenteditable=true] {color : #333;font-size: 12px; width: 100%; height:30px; padding: 10px; line-height: 30px;}
         div:focus { outline: none; border: 3px dashed #ccc;}
         
-        #context-menu { background: #4C5264; color: #ffffff; position: absolute; display: none; width: 200px; padding: 0; margin: 0; overflow: auto; top: 0; left: 10; z-index:999;}
+        #context-menu { background: #4C5264; color: #ffffff; position: absolute; display: none; width: 200px; max-height: 200px; padding: 0; margin: 0; overflow: auto; top: 0; left: 10; z-index:999;}
         #context-menu li {height: 32px; line-height: 32px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 10px 5px;}
         #context-menu li:hover {background-color: #ddd;}
         #context-menu li.active {background-color: #ddd;}
