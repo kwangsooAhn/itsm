@@ -1,6 +1,6 @@
 package co.brainz.itsm.notice.repository
 
-import org.springframework.boot.test.context.SpringBootTest
+/*import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
@@ -12,7 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.time.LocalDateTime
 import co.brainz.itsm.notice.entity.NoticeEntity
-import co.brainz.itsm.notice.service.NoticeService
+import co.brainz.itsm.notice.service.NoticeService*/
 
 //@RunWith(SpringJUnit4ClassRunner::class)
 //@SpringBootTest
