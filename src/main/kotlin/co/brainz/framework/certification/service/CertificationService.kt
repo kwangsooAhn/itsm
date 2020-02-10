@@ -79,7 +79,7 @@ class CertificationService(private val certificationRepository: CertificationRep
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val password = cryptoRsa.decrypt(privateKey, signUpDto.password)
-                val user = AliceUserEntity(
+                var user = AliceUserEntity(
                         userKey = "",
                         userId = signUpDto.userId,
                         password = BCryptPasswordEncoder().encode(password),
@@ -96,11 +96,9 @@ class CertificationService(private val certificationRepository: CertificationRep
                         lang = UserConstants.USER_LOCALE_LANG,
                         timeformat = UserConstants.USER_TIME_FORMAT
                 )
-                certificationRepository.save(user)
-
+                user = certificationRepository.save(user)
                 getDefaultUserRoleList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach {role ->
-                    val userRoleMapEntity = AliceUserRoleMapEntity(user,role)
-                    userRoleMapRepository.save(userRoleMapEntity)
+                    userRoleMapRepository.save(AliceUserRoleMapEntity(user,role))
                 }
                 code = UserConstants.SignUpStatus.STATUS_SUCCESS.code
                 logger.info("New user created : $1", user.userName)
