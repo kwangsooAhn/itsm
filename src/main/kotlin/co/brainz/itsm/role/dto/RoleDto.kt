@@ -8,7 +8,7 @@ import co.brainz.framework.auth.dto.AliceAuthSimpleDto
 /**
  * 역할 조회시 사용한다.
  */
-data public class RoleDto(
+data class RoleDto(
         var roleId: String?,
         var roleName: String?,
         var roleDesc: String?,
