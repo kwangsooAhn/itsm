@@ -2,6 +2,8 @@ package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.encryption.CryptoRsa
@@ -28,10 +30,14 @@ import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.util.TimeZone
 
+/**
+ * @since 1.0
+ */
 @Service
-public open class CertificationService(private val certificationRepository: CertificationRepository,
+class CertificationService(private val certificationRepository: CertificationRepository,
                                        private val roleRepository: RoleRepository,
                                        private val codeRepository: CodeRepository,
+                                       private val userRoleMapRepository: AliceUserRoleMapRepository,
                                        private val mailService: MailService,
                                        private val cryptoRsa: CryptoRsa) {
 
@@ -51,29 +57,20 @@ public open class CertificationService(private val certificationRepository: Cert
 
     val host: String = Inet4Address.getLocalHost().hostAddress
 
-    fun roleEntityList(role: String): Set<AliceRoleEntity>? {
-        val codeEntityList = codeRepository.findByPCode(role)
+    fun getDefaultUserRoleList(pRole: String): List<AliceRoleEntity> {
+        val roleList = mutableListOf<AliceRoleEntity>()
+        val codeEntityList = codeRepository.findByPCode(pRole)
         val roleIdList = mutableListOf<String>()
-        codeEntityList.forEach {
-            it.codeValue?.let { codeValue -> roleIdList.add(codeValue) }
+        codeEntityList.forEach {codeEntity ->
+            codeEntity.codeValue?.let { codeValue -> roleIdList.add(codeValue) }
         }
-        return roleRepository.findByRoleIdIn(roleIdList)
+
+        roleRepository.findByRoleIdIn(roleIdList).forEach { role ->
+            roleList.add(role)
+        }
+
+        return roleList
     }
-
-    /*fun getDefaultUserRoleMapList(role: String): List<AliceUserRoleMapEntity> {
-        val userRoleMapList = mutableListOf<AliceUserRoleMapEntity>()
-        val codeEntityList = codeRepository.findByPCode(role)
-        val roleIdList = mutableListOf<String>()
-        codeEntityList.forEach {
-            it.codeValue?.let { codeValue -> roleIdList.add(codeValue) }
-        }
-
-        roleRepository.findByRoleIdIn(roleIdList).forEach {role ->
-            userRoleMapList.add(AliceUserRoleMapEntity("",role))
-        }
-
-        return userRoleMapList
-    }*/
 
     fun insertUser(signUpDto: SignUpDto): String {
         var code: String = signUpValid(signUpDto)
@@ -82,7 +79,7 @@ public open class CertificationService(private val certificationRepository: Cert
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val password = cryptoRsa.decrypt(privateKey, signUpDto.password)
-                val userEntity = AliceUserEntity(
+                val user = AliceUserEntity(
                         userKey = "",
                         userId = signUpDto.userId,
                         password = BCryptPasswordEncoder().encode(password),
@@ -93,15 +90,20 @@ public open class CertificationService(private val certificationRepository: Cert
                         officeNumber = signUpDto.officeNumber,
                         mobileNumber = signUpDto.mobileNumber,
                         expiredDt = LocalDateTime.now().plusMonths(3),
-                        //userRoleMapEntities = getDefaultUserRoleMapList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                         status = UserConstants.Status.SIGNUP.code,
                         oauthKey = "",
                         timezone = TimeZone.getDefault().id,
                         lang = UserConstants.USER_LOCALE_LANG,
                         timeformat = UserConstants.USER_TIME_FORMAT
                 )
-                certificationRepository.save(userEntity)
+                certificationRepository.save(user)
+
+                getDefaultUserRoleList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach {role ->
+                    val userRoleMapEntity = AliceUserRoleMapEntity(user,role)
+                    userRoleMapRepository.save(userRoleMapEntity)
+                }
                 code = UserConstants.SignUpStatus.STATUS_SUCCESS.code
+                logger.info("New user created : $1", user.userName)
             }
         }
         return code
@@ -158,14 +160,14 @@ public open class CertificationService(private val certificationRepository: Cert
     }
 
     fun makeLinkUrl(certificationDto: CertificationDto): String {
-        val uid: String = "${certificationDto.certificationCode}:${certificationDto.userId}:${certificationDto.email}"
+        val uid = "${certificationDto.certificationCode}:${certificationDto.userId}:${certificationDto.email}"
         val encryptUid: String = EncryptionUtil().twoWayEnCode(uid)
         val urlEncryptUid: String = URLEncoder.encode(encryptUid, StandardCharsets.UTF_8)
         return "${senderProtocol}://${host}:${senderPort}/certification/valid?uid=${urlEncryptUid}"
     }
 
     fun makeMailInfo(certificationDto: CertificationDto): MailDto {
-        val subject: String = "[Alice Project] 인증메일"
+        val subject = "[Alice Project] 인증메일"
         val content: String = mailService.content
         val to: ArrayList<String> = arrayListOf(certificationDto.email)
         return MailDto(subject, content, senderEmail, senderName, to, arrayListOf(), arrayListOf())
