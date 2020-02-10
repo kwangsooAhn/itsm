@@ -3,17 +3,17 @@ package co.brainz.workflow.form.service
 import co.brainz.workflow.form.constants.FormConstants
 import co.brainz.workflow.form.dto.FormDto
 import co.brainz.workflow.form.entity.FormMstEntity
-import co.brainz.workflow.form.repository.FormRepository
+import co.brainz.workflow.form.repository.FormMstMstRepository
 import org.springframework.stereotype.Service
 import java.util.Optional
 
 
 @Service
-class WFFormService(private val formRepository: FormRepository) : Form {
+class WFFormService(private val formMstRepository: FormMstMstRepository) : Form {
 
     override fun formList(search: String): List<FormDto> {
         //val formEntityList = formRepository.findFormEntityList(search, search)
-        val formEntityList = formRepository.findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContaining(search, search)
+        val formEntityList = formMstRepository.findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContaining(search, search)
         val formList = mutableListOf<FormDto>()
         for (item in formEntityList) {
             formList.add(formEntityToDto(item))
@@ -23,7 +23,7 @@ class WFFormService(private val formRepository: FormRepository) : Form {
     }
 
     override fun form(formId: String): FormDto {
-        val formEntity = formRepository.findFormEntityByFormId(formId)
+        val formEntity = formMstRepository.findFormEntityByFormId(formId)
         return formEntityToDto(formEntity.get())
     }
 
@@ -36,21 +36,21 @@ class WFFormService(private val formRepository: FormRepository) : Form {
                 createDt = formDto.createDt,
                 createUserkey = formDto.createUserkey
         )
-        formRepository.save(formEntity)
+        formMstRepository.save(formEntity)
     }
 
     override fun updateForm(formDto: FormDto) {
-        val formMstEntity: Optional<FormMstEntity> = formRepository.findFormEntityByFormId(formDto.formId)
+        val formMstEntity: Optional<FormMstEntity> = formMstRepository.findFormEntityByFormId(formDto.formId)
         formMstEntity.ifPresent {
             formMstEntity.get().formName = formDto.formName
             formMstEntity.get().formDesc = formDto.formDesc
             formMstEntity.get().formStatus = formDto.formStatus
-            formRepository.save(formMstEntity.get())
+            formMstRepository.save(formMstEntity.get())
         }
     }
 
     override fun deleteForm(formId: String) {
-        formRepository.removeFormEntityByFormId(formId)
+        formMstRepository.removeFormEntityByFormId(formId)
     }
 
     fun formEntityToDto(formMstEntity: FormMstEntity): FormDto {
