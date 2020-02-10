@@ -11,12 +11,14 @@ import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.framework.auth.dto.AliceAuthSimpleDto
 import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 
 @Service
 class RoleService(
         private val roleRepository: RoleRepository,
         private val authRepository: AliceAuthRepository,
-        private val roleAuthMapRepository: AliceRoleAuthMapRepository
+        private val roleAuthMapRepository: AliceRoleAuthMapRepository,
+        private val userRoleMapRepository: AliceUserRoleMapRepository
 ) {
     /**
      * 상단 전체 역할정보를 가져온다.
@@ -37,8 +39,7 @@ class RoleService(
      */
     fun deleteRole(roleId: String): String {
         val roleInfo = roleRepository.findByRoleId(roleId)[0]
-
-        val userRoleMapCount = roleInfo.userRoleMapEntities.count()
+        val userRoleMapCount = userRoleMapRepository.findByRoleId(roleId).count()
         return if (userRoleMapCount == 0) {
             roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
                 roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(roleInfo.roleId, roleAuthMap.auth.authId))
