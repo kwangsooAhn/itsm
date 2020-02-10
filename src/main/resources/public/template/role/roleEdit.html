@@ -100,7 +100,7 @@
         var AUTH_CRAETE = false;
         var AUTH_UPDATE = false;
 
-        window.onload = function() {
+        window.addEventListener('load', function() {
             if (document.getElementById('btnUpdate') !== null) {
                 AUTH_UPDATE = true;
             }
@@ -173,9 +173,7 @@
                 };
                 aliceJs.sendXhr(opt);
             }
-
-            hiddenProgressBar();
-        };
+        });
 
         /*추가 버튼 */
         function onSearch() {

@@ -35,14 +35,13 @@
         var formatArray = format.split(' ');
         var dateFormat = '';
 
-        window.onload = function() {
-        	dateFormat = formatArray[0].toUpperCase();
+        window.addEventListener('load', function() {
+            dateFormat = formatArray[0].toUpperCase();
             restSubmit('get', '/notices/list', true, false);
             // initialization date picker
             dateTimePicker.initDatePicker('fromDt', dateFormat, lang);
             dateTimePicker.initDatePicker('toDt', dateFormat, lang);
-            hiddenProgressBar();
-        }
+        });
         
         function validation() {
             if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserkey').checked) {
