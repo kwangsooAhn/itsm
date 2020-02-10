@@ -9,9 +9,9 @@ import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserSearchDto
 import co.brainz.itsm.user.entity.UserSpecification
-import co.brainz.itsm.user.entity.UserTimezoneEntity
+import co.brainz.framework.auth.entity.TimezoneEntity
 import co.brainz.itsm.user.repository.UserRepository
-import co.brainz.itsm.user.repository.UserTimezoneRepository
+import co.brainz.framework.auth.repository.TimezoneRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -30,7 +30,7 @@ class UserService(private val certificationRepository: CertificationRepository,
                   private val cryptoRsa: CryptoRsa,
                   private val roleRepository: RoleRepository,
                   private val userRepository: UserRepository,
-                  private val userTimezoneRepository: UserTimezoneRepository) {
+                  private val userTimezoneRepository: TimezoneRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -164,7 +164,7 @@ class UserService(private val certificationRepository: CertificationRepository,
     /**
      * 자기정보 수정 시, 타임존의 데이터를 가져온다.
      */
-    fun selectTimezoneList(): MutableList<UserTimezoneEntity> {
+    fun selectTimezoneList(): MutableList<TimezoneEntity> {
         return userTimezoneRepository.findAllByOrderByTimezoneIdAsc()
     }
 }

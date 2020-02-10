@@ -1,6 +1,6 @@
 package co.brainz.itsm.role
 
-import co.brainz.framework.auth.entity.AliceAuthEntity
+/*import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 
 import co.brainz.itsm.role.repository.RoleRepository
 
-import java.time.LocalDateTime
+import java.time.LocalDateTime*/
 
 // @RunWith(SpringJUnit4ClassRunner::class)
 // @SpringBootTest
