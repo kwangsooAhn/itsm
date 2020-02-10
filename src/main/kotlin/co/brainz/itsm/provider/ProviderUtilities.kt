@@ -24,6 +24,12 @@ open class ProviderUtilities {
 
     protected val keyRegex = "\\{([a-zA-Z]*)}".toRegex()
 
+    /**
+     * Set URI.
+     *
+     * @param urlDto
+     * @return uri
+     */
     fun makeUri(urlDto: UrlDto): URI {
         if (urlDto.protocol.isNotEmpty()) {
             this.protocol = urlDto.protocol
@@ -40,7 +46,11 @@ open class ProviderUtilities {
     }
 
     /**
-     * GMT -> Timezone
+     * GMT -> Timezone.
+     *
+     * @param value
+     * @param dateTimeFormatter
+     * @return localDateTime
      */
     fun toTimezone(value: String, dateTimeFormatter: DateTimeFormatter): LocalDateTime {
         var localDateTime = LocalDateTime.parse(value, dateTimeFormatter)
@@ -52,7 +62,10 @@ open class ProviderUtilities {
     }
 
     /**
-     * GMT -> Timezone
+     * GMT -> Timezone.
+     *
+     * @param localDateTime
+     * @return localDateTime
      */
     fun toTimezone(localDateTime: LocalDateTime): LocalDateTime {
         val timezone = ConvertParam().timezone()
@@ -63,7 +76,10 @@ open class ProviderUtilities {
     }
 
     /**
-     * Timezone -> GMT
+     * Timezone -> GMT.
+     *
+     * @param localDateTime
+     * @return localDateTime
      */
     fun toGMT(localDateTime: LocalDateTime): LocalDateTime {
         val timezone = ConvertParam().timezone()
@@ -73,15 +89,17 @@ open class ProviderUtilities {
         return localDateTime
     }
 
-
-
-
+    /**
+     * Set HttpEntity.
+     *
+     * @param dto
+     * @return HttpEntity
+     */
     fun setHttpEntity(dto: Any): HttpEntity<LinkedMultiValueMap<*, *>> {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
         val objectMapper = ObjectMapper()
         val parameters: LinkedMultiValueMap<*, *>? = objectMapper.convertValue(dto, LinkedMultiValueMap::class.java)
-        val requestEntity = HttpEntity(parameters, headers)
         return HttpEntity(parameters, headers)
     }
 

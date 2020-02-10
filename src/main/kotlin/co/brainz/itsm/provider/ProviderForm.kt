@@ -13,16 +13,34 @@ import org.springframework.web.client.RestTemplate
 @Service
 class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() {
 
+    /**
+     * Search FormList.
+     *
+     * @param params
+     * @return String
+     */
     fun wfGetFormList(params: LinkedMultiValueMap<String, String>): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.GET_FORM_LIST.url, parameters = params))
         return restTemplate.getForObject(url, String::class.java)?:""
     }
 
+    /**
+     * Search Form.
+     *
+     * @param formId
+     * @return String
+     */
     fun wfGetForm(formId: String): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.GET_FORM.url.replace(keyRegex, formId)))
         return restTemplate.getForObject(url, String::class.java)?:""
     }
 
+    /**
+     * Insert Form.
+     *
+     * @param formDto
+     * @return String
+     */
     fun wfPostForm(formDto: FormDto): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.POST_FORM.url))
         val responseJson = restTemplate.postForEntity(url, formDto, String::class.java)
@@ -32,6 +50,12 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
         }
     }
 
+    /**
+     * Update Form.
+     *
+     * @param formDto
+     * @return Boolean
+     */
     fun wfPutForm(formDto: FormDto): Boolean {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.PUT_FORM.url.replace(keyRegex, formDto.formId)))
         val requestEntity = setHttpEntity(formDto)
@@ -39,6 +63,12 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
         return responseJson.statusCode == HttpStatus.OK
     }
 
+    /**
+     * Delete Form.
+     *
+     * @param formId
+     * @return Boolean
+     */
     fun wfDeleteForm(formId: String): Boolean {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.DELETE_FORM.url.replace(keyRegex, formId)))
         val requestEntity = HttpEntity(null, null)

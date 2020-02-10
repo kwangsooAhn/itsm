@@ -11,6 +11,12 @@ import java.util.Optional
 @Service
 class WFFormService(private val formMstRepository: FormMstMstRepository) : Form {
 
+    /**
+     * Search FormList.
+     *
+     * @param search
+     * @return List<FormDto>
+     */
     override fun formList(search: String): List<FormDto> {
         //val formEntityList = formRepository.findFormEntityList(search, search)
         val formEntityList = formMstRepository.findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(search, search)
@@ -22,11 +28,23 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
         return formList
     }
 
+    /**
+     * Search Form.
+     *
+     * @param formId
+     * @return FormDto
+     */
     override fun form(formId: String): FormDto {
         val formEntity = formMstRepository.findFormEntityByFormId(formId)
         return formEntityToDto(formEntity.get())
     }
 
+    /**
+     * Insert Form.
+     *
+     * @param formDto
+     * @return FormDto
+     */
     override fun insertForm(formDto: FormDto): FormDto {
         val formMstEntity = FormMstEntity(
                 formId = formDto.formId,
@@ -49,6 +67,11 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
         )
     }
 
+    /**
+     * Update Form.
+     *
+     * @param formDto
+     */
     override fun updateForm(formDto: FormDto) {
         val formMstEntity: Optional<FormMstEntity> = formMstRepository.findFormEntityByFormId(formDto.formId)
         formMstEntity.ifPresent {
@@ -59,6 +82,11 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
         }
     }
 
+    /**
+     * Delete Form.
+     *
+     * @param formId
+     */
     override fun deleteForm(formId: String) {
         formMstRepository.removeFormEntityByFormId(formId)
     }
