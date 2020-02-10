@@ -6,7 +6,11 @@ import co.brainz.framework.certification.service.CertificationService
 import co.brainz.framework.constants.UserConstants
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("certification")
