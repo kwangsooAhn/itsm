@@ -20,16 +20,41 @@
 <body>
 <div class="alice-workflow-container">
     <div class="alice-workflow-toolbar">
-        <a href="#" id="btnSave">Save</a>
-        <a href="#" id="btnSimulation">Simulation</a>
-        <a href="#" id="btnUndo">Undo</a>
-        <a href="#" id="btnRedo">Redo</a>
-        <a href="#" id="btnImport">Import</a>
-        <a href="#" id="btnExport">Export</a>
-        <a href="#" id="btnDownload">Image Download</a>
+        <span class="logo"></span>
+        <a href="#" id="btnSave">
+            <img th:src="@{/assets/media/icons/workflow/topmenu/save.png}"/>
+            <label th:text="#{common.btn.save}"/>
+        </a>
+        <a href="#" id="btnSimulation">
+            <img th:src="@{/assets/media/icons/workflow/topmenu/simulation.png}"/>
+            <label th:text="#{workflow.label.simulation}"/>
+        </a>
+        <span class="separator"></span>
+        <a href="#" id="btnUndo">
+            <img th:src="@{/assets/media/icons/workflow/topmenu/undo.png}"/>
+            <label th:text="#{workflow.label.undo}"/>
+        </a>
+        <a href="#" id="btnRedo">
+            <img th:src="@{/assets/media/icons/workflow/topmenu/redo.png}"/>
+            <label th:text="#{workflow.label.redo}"/>
+        </a>
+        <span class="separator"></span>
+        <a href="#" id="btnImport">
+            <img th:src="@{/assets/media/icons/workflow/topmenu/import.png}"/>
+            <label th:text="#{workflow.label.import}"/>
+        </a>
+        <a href="#" id="btnExport">
+            <img th:src="@{/assets/media/icons/workflow/topmenu/export.png}"/>
+            <label th:text="#{workflow.label.export}"/>
+        </a>
+        <span class="separator"></span>
+        <a href="#" id="btnDownload">
+            <img th:src="@{/assets/media/icons/workflow/topmenu/image-download.png}"/>
+            <label th:text="#{workflow.label.imageDownload}"/>
+        </a>
         <span class="process-name"></span>
     </div>
-    <div class="alice-workflow-element-palette" draggable="true">
+    <div class="alice-workflow-element-palette">
         <span class="connector"></span>
         <span class="separator"></span>
         <span class="shape event"></span>

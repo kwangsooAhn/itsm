@@ -9902,96 +9902,112 @@ body {
 .alice-workflow-toolbar {
   width: 100vw;
   height: 2.5rem;
-  background-color: rgba(171, 132, 135, 0.5);
+  background-color: #4c5264;
   color: #fff;
-  padding: 0.625rem 1.25rem;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
   line-height: 1rem;
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 0.938rem;
+}
+.alice-workflow-toolbar .logo {
+  display: inline-block;
+  width: 3.75rem;
+  height: 1.25rem;
+  float: left;
+  background-color: transparent;
+  background-size: 1.25rem 1.25rem;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("../media/icons/logo.png");
 }
 .alice-workflow-toolbar a {
-  margin: 0.625rem;
+  text-decoration: none;
+  margin-left: 1.25rem;
+  display: inline-block;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  vertical-align: middle;
+  float: left;
   color: #fff;
 }
-.alice-workflow-toolbar .process-name {
+.alice-workflow-toolbar a img {
+  cursor: pointer;
+}
+.alice-workflow-toolbar a label {
+  margin-left: 0.313rem;
+  cursor: pointer;
+}
+.alice-workflow-toolbar span.process-name {
+  display: inline-block;
+  height: 1.25rem;
+  line-height: 1.25rem;
   float: right;
-  padding-right: 1.25rem;
+  margin-right: 1.25rem;
+}
+.alice-workflow-toolbar span.separator {
+  display: inline-block;
+  width: 0.063rem;
+  height: 1.25rem;
+  background-color: #f6f6f7;
+  margin-left: 1.25rem;
+  float: left;
 }
 .alice-workflow-element-palette {
   display: inline-block;
   width: 3.75rem;
   height: calc(100vh - 2.5rem);
-  background-color: #b1afab;
+  background-color: #f6f6f7;
   position: absolute;
   top: 2.5rem;
+  border: #bcc5d3 solid 0.063rem;
 }
 .alice-workflow-element-palette .connector {
   display: inline-block;
-  width: 2.25rem;
-  height: 0.313rem;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin: 0.625rem 0.938rem;
   background-color: transparent;
-  border-width: 0.063rem;
-  border-color: black;
-  border-style: solid;
-  margin-left: 0.625rem;
-  margin-top: 1.25rem;
-  margin-bottom: 0;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("../media/icons/workflow/element/connector-off.png");
 }
 .alice-workflow-element-palette .connector.selected {
-  border-color: red;
+  background-image: url("../media/icons/workflow/element/connector-on.png");
 }
 .alice-workflow-element-palette .shape {
   display: inline-block;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin: 0.625rem 0.938rem;
   background-color: transparent;
-  border-width: 0.125rem;
-  border-color: black;
-  border-style: solid;
-  margin: 0.625rem;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
-.alice-workflow-element-palette .shape .event {
-  border-radius: 50%;
+.alice-workflow-element-palette .event {
+  background-image: url("../media/icons/workflow/element/event.png");
 }
-.alice-workflow-element-palette .shape .task {
-  height: 1.625rem;
+.alice-workflow-element-palette .task {
+  background-image: url("../media/icons/workflow/element/task.png");
 }
-.alice-workflow-element-palette .shape .subprocess {
-  height: 1.625rem;
+.alice-workflow-element-palette .subprocess {
+  background-image: url("../media/icons/workflow/element/subprocess.png");
 }
-.alice-workflow-element-palette .shape .gateway {
-  width: 0;
-  height: 0;
-  border: 1.25rem solid transparent;
-  border-bottom-color: red;
-  position: relative;
-  top: -1.25rem;
+.alice-workflow-element-palette .gateway {
+  background-image: url("../media/icons/workflow/element/gateway.png");
 }
-.alice-workflow-element-palette .shape .gateway:after {
-  content: "";
-  position: absolute;
-  left: -1.25rem;
-  top: 1.25rem;
-  width: 0;
-  height: 0;
-  border: 1.25rem solid transparent;
-  border-top-color: red;
+.alice-workflow-element-palette .group {
+  background-image: url("../media/icons/workflow/element/group.png");
 }
-.alice-workflow-element-palette .shape .group {
-  width: 2.25rem;
-  height: 1.625rem;
-  border-style: dotted;
+.alice-workflow-element-palette .annotation {
+  background-image: url("../media/icons/workflow/element/annotation.png");
 }
-.alice-workflow-element-palette .shape .annotation {
-  width: 2.25rem;
-  height: 1.625rem;
-  border-style: dotted;
-}
-.alice-workflow-element-palette .separator {
+.alice-workflow-element-palette span.separator {
   display: inline-block;
   width: 2.5rem;
-  height: 0.125rem;
-  background: gray;
+  height: 0.063rem;
+  background: lightgray;
   margin-left: 0.625rem;
 }
 .alice-workflow-drawing-board {
@@ -9999,10 +10015,10 @@ body {
   position: absolute;
   top: 2.5rem;
   left: 3.75rem;
-  width: calc(100vw - 22.5rem);
+  width: calc(100vw - 23.75rem);
   height: calc(100vh - 2.5rem);
-  background-color: #f6f6f6;
-  background-image: linear-gradient(90deg, #cdcccc 0, #cdcccc 0.063rem, transparent 0.063rem, transparent 6.188rem, transparent 6.25rem), linear-gradient(#cdcccc 0, #cdcccc 0.063rem, transparent 0.063rem, transparent 6.188rem, transparent 6.25rem), linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0.063rem, transparent 6.188rem, transparent 6.25rem), linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0.063rem, transparent 6.188rem, transparent 6.25rem), linear-gradient(transparent 0, transparent 0.313rem, #f6f6f6 0.313rem, #f6f6f6 5.938rem, transparent 5.938rem, transparent 6.25rem), linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0.063rem, transparent 6.188rem, #e0e0e0 6.188rem, #e0e0e0 6.25rem), linear-gradient(90deg, transparent 0, transparent 0.313rem, #f6f6f6 0.313rem, #f6f6f6 5.938rem, transparent 5.938rem, transparent 6.25rem), linear-gradient(transparent 0, transparent 0.063rem, #f6f6f6 0.063rem, #f6f6f6 6.188rem, transparent 6.188rem, transparent 6.25rem), linear-gradient(#cdcccc, #cdcccc);
+  background-color: #ffffff;
+  background-image: linear-gradient(90deg, #cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(#cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0px, transparent 6.25rem, transparent 6.25rem), linear-gradient(transparent 0, transparent 0, #f6f6f6 0, #f6f6f6 6.25rem, transparent 6.188rem, transparent 6.25rem), linear-gradient(#cdcccc, #cdcccc);
   background-size: 6.25rem 100%, 100% 6.25rem, 100% 0.625rem, 0.625rem 100%, 100% 6.25rem, 6.25rem 100%, 6.25rem 100%, 6.25rem 6.25rem, 6.25rem 6.25rem;
 }
 .alice-workflow-drawing-board path.link {
@@ -10024,24 +10040,56 @@ body {
 .alice-workflow-drawing-board path.link.hidden {
   stroke-width: 0;
 }
+.alice-workflow-drawing-board defs marker {
+  marker-width: 5;
+  marker-height: 8;
+}
+.alice-workflow-drawing-board defs marker path {
+  fill: #000000;
+}
+.alice-workflow-drawing-board g.alice-tooltip rect.tooltip-container {
+  fill: #f6f6f7;
+  stroke: #bcc5d3;
+  stroke-width: 0.5;
+}
+.alice-workflow-drawing-board .node {
+  fill: #ffffff;
+  opacity: 1;
+  stroke: #000000;
+  stroke-width: 1;
+}
+.alice-workflow-drawing-board .group {
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5;
+}
+.alice-workflow-drawing-board .annotation {
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
+}
 .alice-workflow-properties-panel {
   display: inline-block;
+  background-color: #f6f6f7;
+  width: 20rem;
+  height: calc(100vh - 2.5rem);
   position: absolute;
   top: 2.5rem;
-  left: calc(100vw - 18.75rem);
-  width: 18.75rem;
-  height: calc(100vh - 2.5rem);
-  background-color: #e2e6ea;
-}
-.alice-workflow-properties-panel h3 {
-  padding-left: 0.625rem;
+  left: calc(100vw - 20rem);
+  border: #bcc5d3 solid 0.063rem;
 }
 .alice-workflow-properties-panel p {
-  padding-left: 0.625rem;
+  padding-left: 0.938rem;
+  font-size: 0.813rem;
 }
 .alice-workflow-properties-panel p label {
   display: inline-block;
-  width: 5rem;
+  width: 5.625rem;
+  vertical-align: top;
+}
+.alice-workflow-properties-panel p input:not([type=checkbox]), .alice-workflow-properties-panel p select, .alice-workflow-properties-panel p textarea {
+  width: 11.25rem;
+}
+.alice-workflow-properties-panel p:first-of-type {
+  padding-top: 1.875rem;
 }
 
 /*# sourceMappingURL=alice-workflow.css.map */

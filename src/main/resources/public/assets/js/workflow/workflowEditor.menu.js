@@ -6,7 +6,7 @@
     'use strict';
 
     const workflowProperties = [
-        {'attribute': 'id', 'name': 'Workflow ID', 'type': 'text', 'default': ''},
+        {'attribute': 'id', 'name': 'ID', 'type': 'text', 'default': ''},
         {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
         {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
     ];
@@ -42,6 +42,64 @@
             {'attribute': 'end-id', 'name': 'Target Element ID', 'type': 'text', 'text': ''}
         ],
     };
+
+    const tooltipItems = [
+        {
+            title: 'delete', parent: 'action-tooltip',
+            url: '../../assets/media/icons/workflow/tooltip/delete.png',
+            action: function(el, i) {
+                removeElementItems();
+                console.log('remove');
+            }
+        },
+        {
+            title: 'copy', parent: 'action-tooltip',
+            url: '../../assets/media/icons/workflow/tooltip/copy.png',
+            action: function(el, i) {
+                removeElementItems();
+                console.log('copy');
+            }
+        },
+        {
+            title: 'edit', parent: 'action-tooltip',
+            url: '../../assets/media/icons/workflow/tooltip/edit.png',
+            action: function(el, i) {
+                setElementTypeItems(el);
+            }
+        },
+        {
+            title: 'suggest', parent: 'action-tooltip',
+            url: '../../assets/media/icons/workflow/tooltip/suggest.png',
+            action: function(el, i) {
+                setSuggestElementItems(el);
+            }
+        },
+        {
+            title: 'userTask', parent: 'suggest-tooltip',
+            url: '../../assets/media/icons/workflow/suggestion/usertask.png',
+            action: function(el, i) {
+                console.log('add user task');
+            }
+        }, {
+            title: 'manualTask', parent: 'suggest-tooltip',
+            url: '../../assets/media/icons/workflow/suggestion/manual.png',
+            action: function(el, i) {
+                console.log('add manual task');
+            }
+        }, {
+            title: 'exclusiveGateway', parent: 'suggest-tooltip',
+            url: '../../assets/media/icons/workflow/suggestion/gateways.png',
+            action: function(el, i) {
+                console.log('add exclusive gateway');
+            }
+        }, {
+            title: 'endEvent', parent: 'suggest-tooltip',
+            url: '../../assets/media/icons/workflow/suggestion/end.png',
+            action: function(el, i) {
+                console.log('add end event');
+            }
+        }
+    ]
 
     const elementsKeys = Object.getOwnPropertyNames(elementsProperties);
 
@@ -84,61 +142,36 @@
             return;
         }
 
-        let actionTooltip = [{
-            title: 'remove',
-            image: '../../assets/media/icons/workflow/ic_wastebasket_ov.png',
-            action: function(el, i) {
-                removeElementItems();
-                console.log('remove');
-            }
-        }, {
-            title: 'copy',
-            image: '../../assets/media/icons/workflow/ic_doc.png',
-            action: function(el, i) {
-                removeElementItems();
-                console.log('copy');
-            }
-        }, {
-            title: 'edit',
-            image: '../../assets/media/icons/workflow/ic_edit.png',
-            action: function(el, i) {
-                setElementTypeItems(el);
-            }
-        }, {
-            title: 'add',
-            image: '../../assets/media/icons/workflow/ic_doc.png',
-            action: function(el, i) {
-                setFavoritesElementItems(el);
-            }
-        }];
-
+        let actionTooltip = tooltipItems.filter(function(item) { return item.parent === 'action-tooltip'; });
         if (elem.classed('group') || elem.classed('annotation')) {
             actionTooltip = actionTooltip.slice(0, 2);
         } else if (elem.classed('connector')) {
             actionTooltip = actionTooltip.slice(0, 1);
         }
 
-        const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
-            .attr('class', 'tooltip').style('display', 'none');
+        const tooltipItemContainer = d3.select('.alice-workflow-drawing-board').select('svg').append('g')
+            .attr('class', 'alice-tooltip').style('display', 'none');
 
-        const containerWidth = actionTooltip.length * 25,
+        const containerWidth = actionTooltip.length * 25 + 5,
               containerHeight = 30;
 
         tooltipItemContainer.append('rect')
-            .attr('class', 'action-tooltip')
+            .attr('class', 'tooltip-container action-tooltip')
             .attr('width', containerWidth)
-            .attr('height', containerHeight)
-            .style('fill', '#eee');
+            .attr('height', containerHeight);
 
         tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
             .enter()
+            //.append('rect')
             .append('image')
+            .attr('class', 'action-tooltip-item')
             .attr('x', function(d, i) { return  5 + (i * 25); })
             .attr('y', 5)
             .attr('width', 20)
             .attr('height', 20)
-            .attr('xlink:href', function(d) { return d.image; })
+            //.style('fill', function(d) { return 'url(#alice-tooltip-' + d.title + ')'; })
+            .attr('xlink:href', function(d) { return d.url; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
                 d.action(elem, i);
@@ -158,37 +191,13 @@
      *
      * @param elem 선택된 element
      */
-    function setFavoritesElementItems(elem) {
+    function setSuggestElementItems(elem) {
         if (elem.classed('group') || elem.classed('annotation') || elem.classed('connector')) {
             return;
         }
 
-        let favoritesElements = [{
-            title: 'user task',
-            image: '../../assets/media/icons/workflow/ic_doc.png',
-            action: function(el, i) {
-                console.log('add user task');
-            }
-        }, {
-            title: 'manual task',
-            image: '../../assets/media/icons/workflow/ic_doc.png',
-            action: function(el, i) {
-                console.log('add manual task');
-            }
-        }, {
-            title: 'exclusive gateway',
-            image: '../../assets/media/icons/workflow/ic_doc.png',
-            action: function(el, i) {
-                console.log('add exclusive gateway');
-            }
-        }, {
-            title: 'end event',
-            image: '../../assets/media/icons/workflow/ic_doc.png',
-            action: function(el, i) {
-                console.log('add end event');
-            }
-        }];
-        setElementItems(favoritesElements, elem);
+        let suggestTooltip = tooltipItems.filter(function(item) { return item.parent === 'suggest-tooltip'; });
+        setElementItems(suggestTooltip, elem);
     }
 
     /**
@@ -201,13 +210,13 @@
         if (elem.classed('event')) {
             elementTypeItems = [{
                 title: 'start event',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit type start');
                 }
             }, {
                 title: 'end event',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit type end');
                 }
@@ -215,31 +224,31 @@
         } else if (elem.classed('task')) {
             elementTypeItems = [{
                 title: 'user task',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit user task');
                 }
             }, {
                 title: 'manual task',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit manual task');
                 }
             }, {
                 title: 'script task',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit script task');
                 }
             }, {
                 title: 'send task',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit send task');
                 }
             }, {
                 title: 'receive task',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit receive task');
                 }
@@ -247,19 +256,19 @@
         } else if (elem.classed('gateway')) {
             elementTypeItems = [{
                 title: 'exclusive gateway',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit exclusive gateway');
                 }
             }, {
                 title: 'parallel gateway',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit parallel gateway');
                 }
             }, {
                 title: ' inclusive gateway',
-                image: '../../assets/media/icons/workflow/ic_info.png',
+                url: '../../assets/media/icons/workflow/ic_info.png',
                 action: function(el, i) {
                     console.log('edit exclusive gateway');
                 }
@@ -281,22 +290,21 @@
             return;
         }
 
-        const tooltipItemContainer = d3.select('g.tooltip'),
+        const tooltipItemContainer = d3.select('g.alice-tooltip'),
               actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
               containerWidth = 30,
-              containerHeight = items.length * 25;
+              containerHeight = items.length * 25 + 5;
 
         const bbox = wfEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
               x = bbox.x + bbox.width + 5,
               y = bbox.y;
 
         tooltipItemContainer.append('rect')
-            .attr('class', 'element-tooltip')
+            .attr('class', 'tooltip-container element-tooltip')
             .attr('x', x)
             .attr('y', y)
             .attr('width', containerWidth)
-            .attr('height', containerHeight)
-            .style('fill', '#eee');
+            .attr('height', containerHeight);
 
         tooltipItemContainer.selectAll('element-tooltip-item')
             .data(items)
@@ -307,7 +315,7 @@
             .attr('y', function(d, i) { return y + 5 + (i * 25); })
             .attr('width', 20)
             .attr('height', 20)
-            .attr('xlink:href', function(d) { return d.image; })
+            .attr('xlink:href', function(d) { return d.url; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
                 d.action(elem, i);
@@ -389,12 +397,10 @@
             let elementObject;
             if (property.type === 'text') {
                 elementObject = document.createElement('input');
-                elementObject.style.width = '180px';
             } else if (property.type === 'textarea') {
                 elementObject = document.createElement('textarea');
                 elementObject.rows = 5;
                 elementObject.style.resize = 'none';
-                elementObject.style.width = '180px';
             } else if (property.type === 'checkbox') {
                 elementObject = document.createElement('input');
                 elementObject.type = 'checkbox';
@@ -403,7 +409,6 @@
                 }
             } else if (property.type === 'selectbox') {
                 elementObject = document.createElement('select');
-                elementObject.style.width = '180px';
                 const optionList = property['sub-list'].split(',');
                 for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
                     let option = document.createElement('option');
@@ -442,6 +447,24 @@
         setProperties(elem);
     }
 
+    function loadTooltipItems() {
+        const defs = d3.select('svg').append('defs');
+        defs.selectAll('pattern').data(tooltipItems)
+            .enter()
+            .append('pattern')
+            .attr('id', function(d) { return d.parent + '-' + d.title; })
+            .attr('width', 1)
+            .attr('height', 1)
+            .attr('patternUnits', 'objectBoundingBox')
+            .append('image')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', 20)
+            .attr('height', 20)
+            .attr('xlink:href', function(d) { return d.url; })
+    }
+
+    exports.loadTooltipItems = loadTooltipItems;
     exports.setElementMenu = setElementMenu;
     exports.setActionTooltipItem = setActionTooltipItem;
     Object.defineProperty(exports, '__esModule', {value: true});

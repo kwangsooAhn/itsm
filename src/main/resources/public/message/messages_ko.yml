@@ -143,6 +143,16 @@ login:
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
 
+# workflow
+workflow:
+  label:
+    simulation: "미리보기"
+    undo: "작업취소"
+    redo: "작업재실행"
+    import: "가져오기"
+    export: "내보내기"
+    imageDownload: "이미지로 저장하기"
+
 # FORM
 form:
   label:

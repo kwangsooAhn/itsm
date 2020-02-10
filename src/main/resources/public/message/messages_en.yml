@@ -143,6 +143,16 @@ login:
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
 
+# workflow
+workflow:
+  label:
+    simulation: "Simulation"
+    undo: "Undo"
+    redo: "Redo"
+    import: "Import"
+    export: "Export"
+    imageDownload: "Image Download"
+
 # FORM
 form:
   label:

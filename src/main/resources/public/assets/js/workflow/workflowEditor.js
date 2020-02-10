@@ -35,7 +35,7 @@
         selectedElement = null;
         svg.selectAll('.node').style('stroke-width', 1).transition().duration(durationTime);
         svg.selectAll('.pointer').style('opacity', 0);
-        svg.selectAll('.tooltip').remove();
+        svg.selectAll('.alice-tooltip').remove();
         svg.selectAll('.connector').classed('selected', false);
     }
 
@@ -244,7 +244,9 @@
                 resetMouseVars();
             } else {
                 elem.style('cursor', 'pointer');
-                wfEditor.setActionTooltipItem(elem);
+                if (svg.selectAll('.alice-tooltip').node() == null) {
+                    wfEditor.setActionTooltipItem(elem);
+                }
             }
         },
         mousedrag: function() {
@@ -269,15 +271,11 @@
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
         self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
             .attr('y', self.rectData.y)
-            .style('fill', 'yellow')
-            .style('opacity', 1)
-            .style('stroke', 'black')
-            .style('stroke-width', 1)
             .attr('class', 'node resizable')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -287,7 +285,7 @@
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
-                        svg.selectAll('.tooltip').remove();
+                        svg.selectAll('.alice-tooltip').remove();
                         const rectData = self.rectData;
                         for (let i = 0, len = rectData.length; i < len; i++) {
                             self.nodeElement
@@ -308,7 +306,7 @@
             .on('mouseout', function() { self.pointElement1.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
-                    svg.selectAll('.tooltip').remove();
+                    svg.selectAll('.alice-tooltip').remove();
                 })
                 .on('drag', function() {
                     if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
@@ -329,7 +327,7 @@
             .on('mouseout', function() { self.pointElement2.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
-                    svg.selectAll('.tooltip').remove();
+                    svg.selectAll('.alice-tooltip').remove();
                 })
                 .on('drag', function() {
                     if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
@@ -350,7 +348,7 @@
             .on('mouseout', function() { self.pointElement3.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
-                    svg.selectAll('.tooltip').remove();
+                    svg.selectAll('.alice-tooltip').remove();
                 })
                 .on('drag', function() {
                     if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
@@ -371,7 +369,7 @@
             .on('mouseout', function() { self.pointElement4.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
-                    svg.selectAll('.tooltip').remove();
+                    svg.selectAll('.alice-tooltip').remove();
                 })
                 .on('drag', function() {
                     if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
@@ -452,9 +450,7 @@
     function SubprocessElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement
-            .classed('subprocess', true)
-            .style('fill', 'pink');
+        this.nodeElement.classed('subprocess', true);
         return this;
     }
 
@@ -471,14 +467,10 @@
         const radius = 20;
 
         self.nodeElement = svg.append('circle')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
-            .style('fill', 'red')
-            .style('opacity', 1)
-            .style('stroke', 'black')
-            .style('stroke-width', 1)
             .attr('class', 'node event')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -488,7 +480,7 @@
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
-                        svg.selectAll('.tooltip').remove();
+                        svg.selectAll('.alice-tooltip').remove();
                         self.nodeElement
                             .attr('cx', d3.event.x)
                             .attr('cy', d3.event.y);
@@ -515,16 +507,12 @@
         const width = 30, height = 30;
 
         self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
             .attr('transform', 'rotate(45, ' + x + ', ' + y + ')')
-            .style('fill', 'blue')
-            .style('opacity', 1)
-            .style('stroke', 'black')
-            .style('stroke-width', 1)
             .attr('class', 'node gateway')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -534,7 +522,7 @@
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
-                        svg.selectAll('.tooltip').remove();
+                        svg.selectAll('.alice-tooltip').remove();
                         self.nodeElement
                             .attr('x', d3.event.x - (width / 2))
                             .attr('y', d3.event.y - (height / 2))
@@ -561,10 +549,7 @@
     function GroupElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement
-            .classed('group', true)
-            .style('fill-opacity', '0')
-            .style('stroke-dasharray', '5,5');
+        this.nodeElement.classed('group', true);
         return this;
     }
 
@@ -581,15 +566,11 @@
         const width = 35, height = 30;
 
         self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
-            .style('fill-opacity', 0)
-            .style('stroke', 'black')
-            .style('stroke-width', 1)
-            .style('stroke-dasharray', '5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5')
             .attr('class', 'node annotation')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -599,7 +580,7 @@
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
-                        svg.selectAll('.tooltip').remove();
+                        svg.selectAll('.alice-tooltip').remove();
                         self.nodeElement
                             .attr('x', d3.event.x - (width / 2))
                             .attr('y', d3.event.y - (height / 2));
@@ -686,23 +667,17 @@
             .attr('id', 'end-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 6)
-            .attr('markerWidth', 5)
-            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('path')
-            .attr('d', 'M0,-5L10,0L0,5')
-            .attr('fill', '#000');
+            .attr('d', 'M0,-5L10,0L0,5');
 
         svg.append('defs').append('marker')
             .attr('id', 'start-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 4)
-            .attr('markerWidth', 5)
-            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('path')
-            .attr('d', 'M10,-5L0,0L10,5')
-            .attr('fill', '#000');
+            .attr('d', 'M10,-5L0,0L10,5');
 
         // line displayed when dragging new nodes
         dragLine = svg.append('path')
@@ -736,6 +711,7 @@
         workflowUtil.polyfill();
         initWorkflowEdit();
         addElementsEvent();
+        wfEditor.loadTooltipItems();
         wfEditor.initWorkflowUtil();
 
         // load process data.
