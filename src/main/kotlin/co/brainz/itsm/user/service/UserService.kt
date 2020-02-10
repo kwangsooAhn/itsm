@@ -5,9 +5,9 @@ import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserUpdateDto
-import co.brainz.itsm.user.dto.UserSearchDto
 import co.brainz.itsm.user.entity.UserSpecification
 import co.brainz.framework.auth.entity.TimezoneEntity
 import co.brainz.itsm.user.repository.UserRepository
@@ -30,15 +30,17 @@ class UserService(private val certificationRepository: CertificationRepository,
                   private val cryptoRsa: CryptoRsa,
                   private val roleRepository: RoleRepository,
                   private val userRepository: UserRepository,
-                  private val userTimezoneRepository: TimezoneRepository) {
+                  private val userTimezoneRepository: TimezoneRepository,
+                  private val codeService: CodeService) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(userSearchDto: UserSearchDto): MutableList<AliceUserEntity> {
-        return userRepository.findAll(UserSpecification(userSearchDto))
+    fun selectUserList(searchValue: String): MutableList<AliceUserEntity> {
+        val codeList= codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
+        return userRepository.findAll(UserSpecification(codeList, searchValue))
     }
 
     /**

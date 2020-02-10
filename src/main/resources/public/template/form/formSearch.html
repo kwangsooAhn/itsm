@@ -13,7 +13,7 @@
         <div align="right">
             <button type="button" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"
                     th:text="#{common.btn.register}"></button>
-            <input type="text" id="search" th:placeholder="#{common.searchWord}">
+            <input type="text" id="search" style="width: 270px" th:placeholder="#{form.label.searchPlaceholder}">
         </div>
         <hr>
         <div id="formList" style="margin-top: 20px"></div>
