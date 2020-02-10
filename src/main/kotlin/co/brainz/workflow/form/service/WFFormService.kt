@@ -7,7 +7,6 @@ import co.brainz.workflow.form.repository.FormMstMstRepository
 import org.springframework.stereotype.Service
 import java.util.Optional
 
-
 @Service
 class WFFormService(private val formMstRepository: FormMstMstRepository) : Form {
 
@@ -91,6 +90,12 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
         formMstRepository.removeFormEntityByFormId(formId)
     }
 
+    /**
+     * Entity -> Dto.
+     *
+     * @param formMstEntity
+     * @return FormDto
+     */
     fun formEntityToDto(formMstEntity: FormMstEntity): FormDto {
         val formDto = FormDto(
                 formId = formMstEntity.formId,
