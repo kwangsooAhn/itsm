@@ -1,11 +1,11 @@
 package co.brainz.itsm.user
 
-import co.brainz.framework.auth.dto.AliceUserDto
+/*import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.menu.entity.AliceMenuEntity
+import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.itsm.notice.entity.NoticeEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
@@ -42,10 +42,10 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
-//@RunWith(SpringRunner::class)
-//@SpringBootTest
-//@AutoConfigureMockMvc
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(SpringRunner::class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)*/
 class TimezoneTest {
 /*
 

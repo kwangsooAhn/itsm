@@ -1,6 +1,6 @@
 package co.brainz.itsm.user
 
-import co.brainz.framework.auth.entity.AliceUserEntity
+/*import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.UserConstants
 import co.brainz.itsm.user.dto.UserSearchDto
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDateTime
 import java.util.TimeZone
-import java.util.UUID
+import java.util.UUID*/
 
 
 // @RunWith(SpringRunner::class)

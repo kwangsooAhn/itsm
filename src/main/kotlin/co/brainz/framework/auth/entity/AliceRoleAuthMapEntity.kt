@@ -28,4 +28,3 @@ data class AliceRoleAuthMapPk(
         val role: String = "",
         val auth: String = ""
 ) : Serializable
-
