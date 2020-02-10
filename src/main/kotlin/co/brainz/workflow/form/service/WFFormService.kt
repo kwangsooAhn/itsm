@@ -2,14 +2,11 @@ package co.brainz.workflow.form.service
 
 import co.brainz.workflow.form.constants.FormConstants
 import co.brainz.workflow.form.dto.FormDto
-import co.brainz.workflow.form.entity.FormEntity
+import co.brainz.workflow.form.entity.FormMstEntity
 import co.brainz.workflow.form.repository.FormRepository
-import co.brainz.workflow.process.ProcessDto
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
-import java.util.*
+import java.util.Optional
+
 
 @Service
 class WFFormService(private val formRepository: FormRepository) : Form {
@@ -31,7 +28,7 @@ class WFFormService(private val formRepository: FormRepository) : Form {
     }
 
     override fun insertForm(formDto: FormDto) {
-        val formEntity = FormEntity(
+        val formEntity = FormMstEntity(
                 formId = formDto.formId,
                 formName = formDto.formName,
                 formDesc = formDto.formDesc,
@@ -43,12 +40,12 @@ class WFFormService(private val formRepository: FormRepository) : Form {
     }
 
     override fun updateForm(formDto: FormDto) {
-        val formEntity: Optional<FormEntity> = formRepository.findFormEntityByFormId(formDto.formId)
-        formEntity.ifPresent {
-            formEntity.get().formName = formDto.formName
-            formEntity.get().formDesc = formDto.formDesc
-            formEntity.get().formStatus = formDto.formStatus
-            formRepository.save(formEntity.get())
+        val formMstEntity: Optional<FormMstEntity> = formRepository.findFormEntityByFormId(formDto.formId)
+        formMstEntity.ifPresent {
+            formMstEntity.get().formName = formDto.formName
+            formMstEntity.get().formDesc = formDto.formDesc
+            formMstEntity.get().formStatus = formDto.formStatus
+            formRepository.save(formMstEntity.get())
         }
     }
 
@@ -56,18 +53,18 @@ class WFFormService(private val formRepository: FormRepository) : Form {
         formRepository.removeFormEntityByFormId(formId)
     }
 
-    fun formEntityToDto(formEntity: FormEntity): FormDto {
+    fun formEntityToDto(formMstEntity: FormMstEntity): FormDto {
         val formDto = FormDto(
-                formId = formEntity.formId,
-                formName = formEntity.formName,
-                formStatus = formEntity.formStatus,
-                formDesc = formEntity.formDesc,
-                createUserkey = formEntity.createUserkey,
-                createDt = formEntity.createDt,
-                updateUserkey = formEntity.updateUserkey,
-                updateDt = formEntity.updateDt
+                formId = formMstEntity.formId,
+                formName = formMstEntity.formName,
+                formStatus = formMstEntity.formStatus,
+                formDesc = formMstEntity.formDesc,
+                createUserkey = formMstEntity.createUserkey,
+                createDt = formMstEntity.createDt,
+                updateUserkey = formMstEntity.updateUserkey,
+                updateDt = formMstEntity.updateDt
         )
-        when (formEntity.formStatus) {
+        when (formMstEntity.formStatus) {
             FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true
         }
         return formDto

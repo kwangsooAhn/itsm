@@ -1,6 +1,6 @@
 package co.brainz.workflow.process
 
-import co.brainz.workflow.form.entity.FormEntity
+import co.brainz.workflow.form.entity.FormMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -10,7 +10,6 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.OneToOne
 import javax.persistence.Table
 
@@ -28,7 +27,7 @@ data class ProcessMstEntity(
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    val formEntity: FormEntity?,
+    val formMstEntity: FormMstEntity?,
 
     @Column(name = "proc_key")
     val procKey: String,

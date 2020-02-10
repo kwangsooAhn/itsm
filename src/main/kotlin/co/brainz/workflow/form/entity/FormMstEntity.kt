@@ -11,7 +11,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "wf_form_mst")
-data class FormEntity(
+data class FormMstEntity(
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
         @Column(name = "form_id")
