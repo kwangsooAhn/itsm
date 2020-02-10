@@ -22,4 +22,12 @@ object ProviderConstants {
         HTTPS("https"),
         HTTP("http")
     }
+
+    enum class FormStatus(val value: String) {
+        EDIT("form.status.edit"),
+        SIMULATION("form.status.simu"),
+        PUBLISH("publish"),
+        DESTROY("destroy")
+    }
+
 }

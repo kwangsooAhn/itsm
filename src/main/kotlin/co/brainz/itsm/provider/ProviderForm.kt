@@ -35,10 +35,13 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
         return restTemplate.getForObject(url, String::class.java)?:""
     }
 
-    fun wfPostForm(formDto: FormDto): Boolean {
+    fun wfPostForm(formDto: FormDto): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.POST_FORM.url, port = port, protocol = ProviderConstants.Protocol.HTTPS.value))
         val responseJson = restTemplate.postForEntity(url, formDto, String::class.java)
-        return responseJson.statusCode == HttpStatus.OK
+        return when (responseJson.statusCode) {
+            HttpStatus.OK -> responseJson.body.toString()
+            else -> ""
+        }
     }
 
     fun wfPutForm(formDto: FormDto): Boolean {

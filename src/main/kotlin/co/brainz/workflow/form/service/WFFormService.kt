@@ -13,7 +13,7 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
 
     override fun formList(search: String): List<FormDto> {
         //val formEntityList = formRepository.findFormEntityList(search, search)
-        val formEntityList = formMstRepository.findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContaining(search, search)
+        val formEntityList = formMstRepository.findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(search, search)
         val formList = mutableListOf<FormDto>()
         for (item in formEntityList) {
             formList.add(formEntityToDto(item))
@@ -27,8 +27,8 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
         return formEntityToDto(formEntity.get())
     }
 
-    override fun insertForm(formDto: FormDto) {
-        val formEntity = FormMstEntity(
+    override fun insertForm(formDto: FormDto): FormDto {
+        val formMstEntity = FormMstEntity(
                 formId = formDto.formId,
                 formName = formDto.formName,
                 formDesc = formDto.formDesc,
@@ -36,7 +36,17 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
                 createDt = formDto.createDt,
                 createUserkey = formDto.createUserkey
         )
-        formMstRepository.save(formEntity)
+        val dataEntity = formMstRepository.save(formMstEntity)
+
+        return FormDto(
+                formId = dataEntity.formId,
+                formName = dataEntity.formName,
+                formDesc = dataEntity.formDesc,
+                formEnabled = true,
+                createUserkey = dataEntity.createUserkey,
+                createDt = dataEntity.createDt,
+                formStatus = dataEntity.formStatus
+        )
     }
 
     override fun updateForm(formDto: FormDto) {

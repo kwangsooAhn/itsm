@@ -3,7 +3,6 @@ package co.brainz.itsm.form.controller
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.provider.dto.FormDto
-import co.brainz.workflow.form.constants.FormConstants
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -55,10 +54,6 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/new")
     fun getFormNew(request: HttpServletRequest, model: Model): String {
-        //언어 목록
-        model.addAttribute("langList", codeService.selectCodeByParent(FormConstants.FormLang.P_CODE.value))
-        //TODO 템플릿 정보 가져오기
-
         return formEditPage
     }
 

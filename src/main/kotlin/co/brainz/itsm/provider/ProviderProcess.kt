@@ -35,10 +35,13 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
         return restTemplate.getForObject(url, String::class.java)?:""
     }
 
-    fun wfPostProcess(processDto: ProcessDto): Boolean {
+    fun wfPostProcess(processDto: ProcessDto): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.POST_PROCESS.url, port = port, protocol = ProviderConstants.Protocol.HTTPS.value))
         val responseJson = restTemplate.postForEntity(url, processDto, String::class.java)
-        return responseJson.statusCode == HttpStatus.OK
+        return when (responseJson.statusCode) {
+            HttpStatus.OK -> responseJson.body.toString()
+            else -> ""
+        }
     }
 
     fun wfPutProcess(processDto: ProcessDto): Boolean {

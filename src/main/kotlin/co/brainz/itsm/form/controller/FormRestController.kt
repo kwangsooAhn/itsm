@@ -1,13 +1,8 @@
 package co.brainz.itsm.form.controller
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.form.service.FormService
-import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.dto.FormDto
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDateTime
-import java.util.UUID
 
 @RestController
 @RequestMapping("/rest/forms")
@@ -37,17 +32,7 @@ class FormRestController(private val formService: FormService) {
      * 문서양식 저장.
      */
     @PostMapping("/data")
-    fun saveFormData(@RequestBody formData: String): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val formDto = FormDto(
-                formName = "TEST111",
-                formDesc = "TEST",
-                formStatus = "form.status.edit",
-                formEnabled = true,
-                createDt = LocalDateTime.now(),
-                createUserkey = aliceUserDto.userKey
-        )
-        formService.insertForm(formDto)
-        return "1"
+    fun saveFormData(@RequestBody formDto: FormDto): String {
+        return formService.insertForm(formDto)
     }
 }

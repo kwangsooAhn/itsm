@@ -6,7 +6,7 @@ import java.util.Optional
 
 interface FormMstMstRepository: JpaRepository<FormMstEntity, String>, FormMstRepositoryCustom {
 
-    fun findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContaining(formName: String, formDesc: String): List<FormMstEntity>
+    fun findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(formName: String, formDesc: String): List<FormMstEntity>
     fun findFormEntityByFormId(formId: String): Optional<FormMstEntity>
     fun removeFormEntityByFormId(formId: String)
 }

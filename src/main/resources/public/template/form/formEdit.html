@@ -27,17 +27,7 @@
                     <th th:text="#{form.label.description}"></th>
                 </tr>
                 <tr>
-                    <td><textarea id="form_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
-                </tr>
-                <tr>
-                    <th th:text="#{form.label.lang}"></th>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="lang" tabindex="3">
-                            <option th:each="lang: ${langList}" th:value="${lang.code}" th:text="#{${lang.code}}"></option>
-                        </select>
-                    </td>
+                    <td><textarea id="form_desc" style="height:100px;" maxlength="128" tabindex="2"></textarea></td>
                 </tr>
             </table>
             <div><a th:text="#{common.btn.next}" href="javascript:replaceContent();"></a></div>
@@ -70,11 +60,9 @@
         if (emptyValidation()) {
             const formInfo = {
                 formName: document.getElementById('form_name').value,
-                formDesc: document.getElementById('form_desc').value,
-                lang: document.getElementById('lang').value
+                formDesc: document.getElementById('form_desc').value
             };
             //등록
-            //restSubmit('POST', '/forms', formInfo);
             restSubmit('POST', '/rest/forms/data', formInfo);
         }
     }
@@ -95,8 +83,9 @@
         xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState === XMLHttpRequest.DONE) {
                 if (xmlHttp.status === 200) {
+                    opener.location.reload();
                     window.close();
-                    //window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500, height=800');
+                    window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500, height=800');
                 } else if (xmlHttp.status === 400) {
                     alert('There was an error 400');
                 } else {
