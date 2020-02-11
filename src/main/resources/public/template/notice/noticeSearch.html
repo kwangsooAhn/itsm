@@ -75,13 +75,10 @@
                 toDt: changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])
             };
 
-<<<<<<< HEAD
-            var getUrl = url+'?noticeTitle='+data.noticeTitle+'&createUserkey='+data.createUserkey+'&keyWord='+data.keyWord+'&fromDt='+data.fromDt+'&toDt='+data.toDt+'&btnSearch=';
-
+            const getUrl = url + '?isSearch=' + data.isSearch + '&searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
             const opt = {
                 method: method,
                 url: getUrl,
-                async, async,
                 callbackFunc: function(response) {
                     if (response.readyState === XMLHttpRequest.DONE) {
                         if (response.status === 200) {
@@ -91,26 +88,10 @@
                         } else {
                             alert('something else other than 200 was returned');
                         }
-=======
-            const getUrl = url + '?isSearch=' + data.isSearch + '&searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
-            const xmlHttp = createXmlHttpRequestObject(method, getUrl);
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                    if (xmlHttp.status === 200) {
-                        document.getElementById('noticeList').innerHTML = xmlHttp.responseText;
-                    } else if (xmlHttp.status === 400) {
-                        alert('There was an error 400');
-                    } else {
-                        alert('something else other than 200 was returned');
->>>>>>> refs/heads/develop.as.200207
                     }
                 }
             };
-<<<<<<< HEAD
             aliceJs.sendXhr(opt);
-=======
-            xmlHttp.send(null);
->>>>>>> refs/heads/develop.as.200207
         }
         /* ]]> */
     </script>
