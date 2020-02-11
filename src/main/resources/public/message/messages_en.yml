@@ -143,16 +143,6 @@ login:
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
 
-# workflow
-workflow:
-  label:
-    simulation: "Simulation"
-    undo: "Undo"
-    redo: "Redo"
-    import: "Import"
-    export: "Export"
-    imageDownload: "Image Download"
-
 # FORM
 form:
   label:
@@ -183,6 +173,12 @@ process:
     register: "Process Register"
     description: "Description"
     templatesList: "Templates List"
+    simulation: "Simulation"
+    undo: "Undo"
+    redo: "Redo"
+    import: "Import"
+    export: "Export"
+    imageDownload: "Image Download"
   status:
     edit: "Editing"
     simu: "Simulation Complete"

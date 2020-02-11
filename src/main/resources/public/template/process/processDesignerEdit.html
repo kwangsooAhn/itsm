@@ -9,7 +9,7 @@
     <meta http-equiv="expire" content="-1"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
-    <link th:href="@{/assets/css/alice-workflow.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/process-designer.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
     <script th:src="@{/public/assets/js/process/workflow.util.js}"></script>
@@ -18,8 +18,8 @@
     <script th:src="@{/public/assets/js/process/processEditor.util.js}"></script>
 </head>
 <body>
-<div class="alice-workflow-container">
-    <div class="alice-workflow-toolbar">
+<div class="alice-process-container">
+    <div class="alice-process-toolbar">
         <span class="logo"></span>
         <a href="#" id="btnSave">
             <img th:src="@{/public/assets/media/icons/process/topmenu/save.png}"/>
@@ -27,34 +27,34 @@
         </a>
         <a href="#" id="btnSimulation">
             <img th:src="@{/public/assets/media/icons/process/topmenu/simulation.png}"/>
-            <label th:text="#{workflow.label.simulation}"/>
+            <label th:text="#{process.label.simulation}"/>
         </a>
         <span class="separator"></span>
         <a href="#" id="btnUndo">
             <img th:src="@{/public/assets/media/icons/process/topmenu/undo.png}"/>
-            <label th:text="#{workflow.label.undo}"/>
+            <label th:text="#{process.label.undo}"/>
         </a>
         <a href="#" id="btnRedo">
             <img th:src="@{/public/assets/media/icons/process/topmenu/redo.png}"/>
-            <label th:text="#{workflow.label.redo}"/>
+            <label th:text="#{process.label.redo}"/>
         </a>
         <span class="separator"></span>
         <a href="#" id="btnImport">
             <img th:src="@{/public/assets/media/icons/process/topmenu/import.png}"/>
-            <label th:text="#{workflow.label.import}"/>
+            <label th:text="#{process.label.import}"/>
         </a>
         <a href="#" id="btnExport">
             <img th:src="@{/public/assets/media/icons/process/topmenu/export.png}"/>
-            <label th:text="#{workflow.label.export}"/>
+            <label th:text="#{process.label.export}"/>
         </a>
         <span class="separator"></span>
         <a href="#" id="btnDownload">
             <img th:src="@{/public/assets/media/icons/process/topmenu/image-download.png}"/>
-            <label th:text="#{workflow.label.imageDownload}"/>
+            <label th:text="#{process.label.imageDownload}"/>
         </a>
         <span class="process-name"></span>
     </div>
-    <div class="alice-workflow-element-palette">
+    <div class="alice-process-element-palette">
         <span class="connector"></span>
         <span class="separator"></span>
         <span class="shape event"></span>
@@ -65,13 +65,13 @@
         <span class="shape group"></span>
         <span class="shape annotation"></span>
     </div>
-    <div class="alice-workflow-drawing-board"></div>
-    <div class="alice-workflow-properties-panel"></div>
+    <div class="alice-process-drawing-board"></div>
+    <div class="alice-process-properties-panel"></div>
 </div>
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        wfEditor.init({processId: '[[${processId}]]'});
+        AliceProcessEditor.init({processId: '[[${processId}]]'});
     }
 </script>
 </html>

@@ -227,7 +227,7 @@
             actionTooltip = actionTooltip.slice(0, 1);
         }
 
-        const tooltipItemContainer = d3.select('.alice-workflow-drawing-board').select('svg').append('g')
+        const tooltipItemContainer = d3.select('.alice-process-drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * 25 + 5,
@@ -372,7 +372,7 @@
      * @param id element ID
      */
     function changePropertiesValue(id) {
-        const container = document.querySelector('.alice-workflow-properties-panel');
+        const container = document.querySelector('.alice-process-properties-panel');
         const propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === AliceProcessEditor.data.process.id) {
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
@@ -400,7 +400,7 @@
      * @param data 데이터속성
      */
     function makePropertiesItem(id, properties, data) {
-        const propertiesContainer = document.querySelector('.alice-workflow-properties-panel');
+        const propertiesContainer = document.querySelector('.alice-process-properties-panel');
         propertiesContainer.innerHTML = '';
 
         for (let i = 0, len = properties.length; i < len; i++) {
