@@ -10,6 +10,7 @@
 <th:block layout:fragment="content">
     <div class="container">
         <form id="faqForm" method="post" onsubmit="return false">
+            <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
             <table>
                 <tr>
                     <th th:text="'*' + #{faq.group}">*그룹</th>
@@ -73,23 +74,35 @@
         }
 
         function restSubmit(method, url, async) {
-            var xmlhttp = createXmlHttpRequestObject(method, url, async);
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    if (xmlhttp.status == 200) {
-                        alert("Success");
-                        window.location = "/faqs/search";
-                    } else if (xmlhttp.status == 400) {
-                        alert('There was an error 400');
-                    } else {
-                        console.log(xmlhttp);
-                        alert('something else other than 200 was returned. ' + xmlhttp.status);
+            var object = {};
+            var formData = new FormData(document.getElementById("faqForm"));
+
+            formData.forEach(function(value, key){
+                object[key] = value;
+            });
+
+            var jsonData = JSON.stringify(object);
+            const opt = {
+                method: method,
+                url: url,
+                params: jsonData,
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    if (response.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                        if (response.status === 200) {
+                            alert("Success");
+                            window.location = "/faqs/search";
+                        } else if (response.status === 400) {
+                            alert('There was an error 400');
+                        } else {
+                            console.log(response);
+                            alert('something else other than 200 was returned. ' + response.status);
+                        }
                     }
                 }
             };
-            xmlhttp.send(new FormData(document.getElementById("faqForm")));
+            aliceJs.sendXhr(opt);
         }
-
         /*]]>*/
     </script>
 </th:block>
