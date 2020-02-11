@@ -16,23 +16,19 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun findNoticeList(): MutableList<NoticeEntity> {
-        return noticeRepository.findAll()
+        return noticeRepository.findAllByOrderByCreateDtDesc()
     }
 
     fun findTopNoticeList(): MutableList<NoticeEntity> {
         return noticeRepository.findTopNoticeList()
     }
 
-    fun findAllByTitle(keyWord: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity> {
-        return noticeRepository.findAllByTitle(keyWord, fromDt, toDt)
+    fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity> {
+        return noticeRepository.findNoticeSearch(searchValue, fromDt, toDt)
     }
 
-    fun findAllByWriter(keyWord: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity> {
-        return noticeRepository.findAllByWriter(keyWord, fromDt, toDt)
-    }
-
-    fun findAllCheck(keyWord: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity> {
-        return noticeRepository.findAllCheck(keyWord, fromDt, toDt)
+    fun findTopNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity> {
+        return noticeRepository.findTopNoticeSearch(searchValue, fromDt, toDt)
     }
 
     fun findNoticeByNoticeNo(noticeNo: String): NoticeEntity {
@@ -84,5 +80,4 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
         noticeRepository.deleteById(noticeNo)
         fileService.delete(noticeNo)
     }
-
 }

@@ -46,13 +46,11 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         /**
-         * 검색창 엔터 입력시 동작
+         * 검색창 입력시 동작
          */
-        document.getElementById('searchValue').addEventListener('keypress', function (e) {
-            if (e.key !== undefined && e.key === 'Enter') {
-                searchUser();
-            }
-        });
+        document.getElementById('searchValue').onkeyup = function() {
+            searchUser();
+        };
 
         /**
          * 사용자를 검색한다.
@@ -60,7 +58,7 @@
         function searchUser() {
             const opt = {
                 method: 'get',
-                url: '/users/list?' + aliceJs.serialize(document.getElementById('searchForm')),
+                url: '/users/list?searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim()),
                 callbackFunc: setUserClickEvent,
             };
             aliceJs.sendXhr(opt);

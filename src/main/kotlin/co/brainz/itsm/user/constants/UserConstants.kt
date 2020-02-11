@@ -26,7 +26,7 @@ enum class UserConstants(val value: String) {
             /**
              * code 로 JPA Entity 이름 가져오기
              */
-            fun getUserCodeToColum(code: String): String {
+            fun getUserCodeToColumn(code: String): String {
                 for (key in values()) {
                     if (code == key.code) {
                         return key.column
@@ -48,6 +48,4 @@ enum class UserConstants(val value: String) {
             }
         }
     }
-
 }
-
