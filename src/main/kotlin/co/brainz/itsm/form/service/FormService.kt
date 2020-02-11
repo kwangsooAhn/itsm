@@ -19,7 +19,7 @@ class FormService(private val providerForm: ProviderForm) {
     fun findFormList(search: String): List<FormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
-        val responseBody = providerForm.wfGetFormList(params)
+        val responseBody = providerForm.getForms(params)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val formList: List<FormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
         for (item in formList) {
@@ -31,7 +31,7 @@ class FormService(private val providerForm: ProviderForm) {
     }
 
     fun findForm(formId: String): FormDto {
-        val responseBody = providerForm.wfGetForm(formId)
+        val responseBody = providerForm.getForm(formId)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val formDto = mapper.readValue(responseBody, FormDto::class.java)
         formDto.createDt = formDto.createDt?.let { ProviderUtilities().toTimezone(it) }
@@ -41,7 +41,7 @@ class FormService(private val providerForm: ProviderForm) {
     }
 
     fun deleteForm(formId: String) {
-        providerForm.wfDeleteForm(formId)
+        providerForm.deleteForm(formId)
     }
 
     fun insertForm(formDto: FormDto): String {
@@ -50,7 +50,7 @@ class FormService(private val providerForm: ProviderForm) {
         formDto.createUserkey = aliceUserDto.userKey
         formDto.createDt =  ProviderUtilities().toGMT(LocalDateTime.now())
         formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
-        val responseBody: String = providerForm.wfPostForm(formDto)
+        val responseBody: String = providerForm.postForm(formDto)
         return when (responseBody.isNotEmpty()) {
             true -> {
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -64,7 +64,7 @@ class FormService(private val providerForm: ProviderForm) {
     fun updateForm(formDto: FormDto) {
         formDto.createDt = formDto.createDt?.let { ProviderUtilities().toGMT(it) }
         formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
-        providerForm.wfPutForm(formDto)
+        providerForm.putForm(formDto)
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.Optional
 class WFFormService(private val formMstRepository: FormMstMstRepository) : Form {
 
     /**
-     * Search FormList.
+     * Search Forms.
      *
      * @param search
      * @return List<FormDto>

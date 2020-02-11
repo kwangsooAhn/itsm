@@ -5,7 +5,7 @@ import co.brainz.workflow.form.dto.FormDto
 interface Form {
 
     /**
-     * Search FormList.
+     * Search Forms.
      *
      * @param search
      * @return List<FormDto>

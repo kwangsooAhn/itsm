@@ -14,13 +14,13 @@ import org.springframework.web.client.RestTemplate
 class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities() {
 
     /**
-     * Search ProcessList.
+     * Search Processes.
      *
      * @param params
      * @return String
      */
-    fun wfGetProcessList(params: LinkedMultiValueMap<String, String>): String {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.GET_PROCESS_LIST.url, parameters = params))
+    fun getProcesses(params: LinkedMultiValueMap<String, String>): String {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.GET_PROCESSES.url, parameters = params))
         return restTemplate.getForObject(url, String::class.java)?:""
     }
 
@@ -30,7 +30,7 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
      * @param processId
      * @return String
      */
-    fun wfGetProcess(processId: String): String {
+    fun getProcess(processId: String): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.GET_PROCESS.url.replace(keyRegex, processId)))
         return restTemplate.getForObject(url, String::class.java)?:""
     }
@@ -41,7 +41,7 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
      * @param processDto
      * @return String
      */
-    fun wfPostProcess(processDto: ProcessDto): String {
+    fun postProcess(processDto: ProcessDto): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.POST_PROCESS.url))
         val responseJson = restTemplate.postForEntity(url, processDto, String::class.java)
         return when (responseJson.statusCode) {
@@ -56,7 +56,7 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
      * @param processDto
      * @return Boolean
      */
-    fun wfPutProcess(processDto: ProcessDto): Boolean {
+    fun putProcess(processDto: ProcessDto): Boolean {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.PUT_PROCESS.url.replace(keyRegex, processDto.processId)))
         val requestEntity = setHttpEntity(processDto)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
@@ -69,7 +69,7 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
      * @param processId
      * @return Boolean
      */
-    fun wfDeleteProcess(processId: String): Boolean {
+    fun deleteProcess(processId: String): Boolean {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.DELETE_PROCESS.url.replace(keyRegex, processId)))
         val requestEntity = HttpEntity(null, null)
         val responseJson = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)

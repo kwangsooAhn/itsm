@@ -48,7 +48,7 @@ class ProcessService(private val providerProcess: ProviderProcess) {
     fun findProcessList(search: String): List<ProcessDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
-        val responseBody = providerProcess.wfGetProcessList(params)
+        val responseBody = providerProcess.getProcesses(params)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val processList: List<ProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, ProcessDto::class.java))
         for (item in processList) {

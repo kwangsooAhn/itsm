@@ -14,13 +14,13 @@ import org.springframework.web.client.RestTemplate
 class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() {
 
     /**
-     * Search FormList.
+     * Search Forms.
      *
      * @param params
      * @return String
      */
-    fun wfGetFormList(params: LinkedMultiValueMap<String, String>): String {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.GET_FORM_LIST.url, parameters = params))
+    fun getForms(params: LinkedMultiValueMap<String, String>): String {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.GET_FORMS.url, parameters = params))
         return restTemplate.getForObject(url, String::class.java)?:""
     }
 
@@ -30,7 +30,7 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
      * @param formId
      * @return String
      */
-    fun wfGetForm(formId: String): String {
+    fun getForm(formId: String): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.GET_FORM.url.replace(keyRegex, formId)))
         return restTemplate.getForObject(url, String::class.java)?:""
     }
@@ -41,7 +41,7 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
      * @param formDto
      * @return String
      */
-    fun wfPostForm(formDto: FormDto): String {
+    fun postForm(formDto: FormDto): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.POST_FORM.url))
         val responseJson = restTemplate.postForEntity(url, formDto, String::class.java)
         return when (responseJson.statusCode) {
@@ -56,7 +56,7 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
      * @param formDto
      * @return Boolean
      */
-    fun wfPutForm(formDto: FormDto): Boolean {
+    fun putForm(formDto: FormDto): Boolean {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.PUT_FORM.url.replace(keyRegex, formDto.formId)))
         val requestEntity = setHttpEntity(formDto)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
@@ -69,7 +69,7 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
      * @param formId
      * @return Boolean
      */
-    fun wfDeleteForm(formId: String): Boolean {
+    fun deleteForm(formId: String): Boolean {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.DELETE_FORM.url.replace(keyRegex, formId)))
         val requestEntity = HttpEntity(null, null)
         val responseJson = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
