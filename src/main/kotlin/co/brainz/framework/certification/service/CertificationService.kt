@@ -94,7 +94,7 @@ class CertificationService(private val certificationRepository: CertificationRep
                         oauthKey = "",
                         timezone = TimeZone.getDefault().id,
                         lang = UserConstants.USER_LOCALE_LANG,
-                        timeformat = UserConstants.USER_TIME_FORMAT
+                        timeFormat = UserConstants.USER_TIME_FORMAT
                 )
                 user = certificationRepository.save(user)
                 getDefaultUserRoleList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach {role ->

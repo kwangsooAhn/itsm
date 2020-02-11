@@ -118,7 +118,7 @@ class TimezoneTest {
         usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
                 aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, userTimezone, aliceUser.lang, aliceUser.timeformat
+                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, userTimezone, aliceUser.lang, aliceUser.timeFormat
         )
         securityContext.authentication = usernamePasswordAuthenticationToken
     }
@@ -171,7 +171,7 @@ class TimezoneTest {
     fun setParameters(): MultiValueMap<String, String> {
         val parameters: MultiValueMap<String, String> = LinkedMultiValueMap()
         parameters.add("noticeTitle", "true")
-        parameters.add("createUserkey", "false")
+        parameters.add("createUserKey", "false")
         parameters.add("keyWord", "JUNIT_TEST")
         parameters.add("fromDt", createDt.minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
         parameters.add("toDt", createDt.plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))

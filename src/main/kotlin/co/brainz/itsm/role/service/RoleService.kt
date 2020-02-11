@@ -107,9 +107,9 @@ class RoleService(
                         roleInfo.roleId,
                         roleInfo.roleName,
                         roleInfo.roleDesc,
-                        roleInfo.createUserkey,
+                        roleInfo.createUserKey,
                         roleInfo.createDt,
-                        roleInfo.updateUserkey,
+                        roleInfo.updateUserKey,
                         roleInfo.updateDt,
                         null,
                         authList

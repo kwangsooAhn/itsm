@@ -12,11 +12,11 @@
         <form id="formSearch" method="get">
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
                 <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
-                <input type="checkbox" id="createUserkey" name="createUserkey" value="check" th:text="#{notice.user}"/>
+                <input type="checkbox" id="createUserKey" name="createUserKey" value="check" th:text="#{notice.user}"/>
                 <input type="text" name="keyWord" id="keyWord" />
-                <input type="text" id="fromDt" name="fromDt" th:with="dateformat=${#strings.substring(#authentication.details.timeformat, 0, 10)}"
+                <input type="text" id="fromDt" name="fromDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                  th:value="${#temporals.format(currentDate, dateformat)}" />
-                <input type="text" id="toDt" name="toDt" th:with="dateformat=${#strings.substring(#authentication.details.timeformat, 0, 10)}"
+                <input type="text" id="toDt" name="toDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                  th:value="${#temporals.format(addCurrentDate, dateformat)}" />
                 <!-- submit -->
                 <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true, true)" th:text="#{notice.search}"></button>
@@ -30,7 +30,7 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        var format = /*[[${#authentication.details.timeformat}]]*/;
+        var format = /*[[${#authentication.details.timeFormat}]]*/;
         var lang = /*[[${#authentication.details.lang}]]*/;
         var formatArray = format.split(' ');
         var dateFormat = '';
@@ -45,7 +45,7 @@
         }
         
         function validation() {
-            if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserkey').checked) {
+            if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserKey').checked) {
                 alert('검색 조건을 선택해 주세요.');
                 return false;
             }
@@ -79,13 +79,13 @@
 
             var data = {
                 noticeTitle: document.getElementById('noticeTitle').checked,
-                createUserkey: document.getElementById('createUserkey').checked,
+                createUserKey: document.getElementById('createUserKey').checked,
                 keyWord: document.getElementById('keyWord').value,
                 fromDt: changeDateFormatYYYYMMDD(document.getElementById('fromDt').value, formatArray[0]),
                 toDt: changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])
             };
 
-            var getUrl = url+'?noticeTitle='+data.noticeTitle+'&createUserkey='+data.createUserkey+'&keyWord='+data.keyWord+'&fromDt='+data.fromDt+'&toDt='+data.toDt+'&btnSearch=';
+            var getUrl = url+'?noticeTitle='+data.noticeTitle+'&createUserKey='+data.createUserKey+'&keyWord='+data.keyWord+'&fromDt='+data.fromDt+'&toDt='+data.toDt+'&btnSearch=';
             var xmlhttp = createXmlHttpRequestObject(method, getUrl, async);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState === XMLHttpRequest.DONE) {

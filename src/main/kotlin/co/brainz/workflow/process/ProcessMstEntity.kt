@@ -44,7 +44,7 @@ data class ProcessMstEntity(
     val procDesc: String?,
 
     @ManyToOne(targetEntity=AliceUserEntity::class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_userkey", insertable=false, updatable=false)
+    @JoinColumn(name = "create_user_key", insertable=false, updatable=false)
     var aliceUserEntity: AliceUserEntity? = null
 
 ) : Serializable, WFMetaEntity()

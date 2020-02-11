@@ -345,7 +345,7 @@
 			<char_semantics>false</char_semantics>
 			<description></description>
 			<logical_name>등록자</logical_name>
-			<physical_name>create_userkey</physical_name>
+			<physical_name>create_user_key</physical_name>
 			<type>varchar(n)</type>
 		</word>
 		<word>
@@ -1081,7 +1081,7 @@
 			<char_semantics>false</char_semantics>
 			<description></description>
 			<logical_name>시간형식</logical_name>
-			<physical_name>timeformat</physical_name>
+			<physical_name>time_format</physical_name>
 			<type>varchar(n)</type>
 		</word>
 		<word>
@@ -1225,7 +1225,7 @@
 			<char_semantics>false</char_semantics>
 			<description></description>
 			<logical_name>수정자</logical_name>
-			<physical_name>update_userkey</physical_name>
+			<physical_name>update_user_key</physical_name>
 			<type>varchar(n)</type>
 		</word>
 		<word>

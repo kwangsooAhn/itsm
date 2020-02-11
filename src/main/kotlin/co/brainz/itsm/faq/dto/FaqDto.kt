@@ -9,8 +9,8 @@ data class FaqDto(
     var faqTitle: String = "",
     var faqContent: String = "",
     var createDt: LocalDateTime = LocalDateTime.now(),
-    var createUserkey: String?,
+    var createUserKey: String?,
     var updateDt: LocalDateTime = LocalDateTime.now(),
-    var updateUserkey: String?,
+    var updateUserKey: String?,
     var fileSeq: List<Long>?
 ) : Serializable

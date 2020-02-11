@@ -59,9 +59,9 @@ class FormService(private val restTemplate: RestTemplate) {
                 formStatus = item["formStatus"] as String,
                 formDesc = item["formDesc"] as String,
                 createDt = ConvertParam().converterLocalDateTime(item["createDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
-                createUserkey = item["createUserkey"] as String,
+                createUserKey = item["createUserKey"] as String,
                 updateDt = item["updateDt"]?.let { ConvertParam().converterLocalDateTime(it.toString(), DateTimeFormatter.ISO_DATE_TIME) },
-                updateUserkey = item["updateUserkey"]?.toString(),
+                updateUserKey = item["updateUserKey"]?.toString(),
                 userName = item["userName"] as String
         )
         when (item["formStatus"] as String) {
