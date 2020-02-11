@@ -26,7 +26,7 @@
         /**
          * context menu on.
          * 
-         * @param {Object} state {1=controls on, 2=components on}
+         * @param {Object} state {1=context-menu-control 메뉴 on, 2=context-menu-componet 메뉴 on}
          */
         const toggleMenuOn = function (state) {
             if (flag !== 1) {
@@ -34,14 +34,14 @@
                 menu.classList.add('on');
             }
             menu.scrollTop = 0;
-            let controlsMenu = menu.querySelector("#controls");
-            let conponetsMenu = menu.querySelector("#conponets");
-            if (state === 1 && !controlsMenu.classList.contains('active')) {
-                controlsMenu.classList.add('active');
-                conponetsMenu.classList.remove('active');
-            } else if (state === 2 && !conponetsMenu.classList.contains('active')) {
-                conponetsMenu.classList.add('active');
-                controlsMenu.classList.remove('active');
+            let controlMenu = menu.querySelector('#context-menu-control');
+            let componentMenu = menu.querySelector('#context-menu-componet');
+            if (state === 1 && !controlMenu.classList.contains('active')) {
+                controlMenu.classList.add('active');
+                componentMenu.classList.remove('active');
+            } else if (state === 2 && !componentMenu.classList.contains('active')) {
+                componentMenu.classList.add('active');
+                controlMenu.classList.remove('active');
             }
         };
         
@@ -55,9 +55,9 @@
                 selectedItem = null;
                 selectedItemIdx = -1;
                 menu.classList.remove('on');
-                let conponetsMenu = menu.querySelector("#conponets");
-                for (let i = 0, len = conponetsMenu.children.length; i < len; i++) {
-                    let item = conponetsMenu.children[i];
+                let componentMenu = menu.querySelector('#context-menu-componet');
+                for (let i = 0, len = componentMenu.children.length; i < len; i++) {
+                    let item = componentMenu.children[i];
                     if (item.style.display === 'none') {
                         item.style.display = 'block';
                     }
@@ -76,11 +76,11 @@
          * @return {Boolean}
          */
         const menuItemSearch = function (searchText) {
-            let conponetsMenu = menu.querySelector('#conponets');
+            let componentMenu = menu.querySelector('#context-menu-componet');
             let rslt = false;
             selectedItems = [];
-            for (let i = 0, len = conponetsMenu.children.length; i < len; i++) {
-                let item = conponetsMenu.children[i];
+            for (let i = 0, len = componentMenu.children.length; i < len; i++) {
+                let item = componentMenu.children[i];
                 if (item.classList.contains('active')) {
                     item.classList.remove('active');
                 }
@@ -129,23 +129,23 @@
          * @return {Object} 마우스, 키보드 클릭 좌표
          */
         const getPosition = function(e) {
-            var posx = 0;
-            var posy = 0;
+            var posX = 0;
+            var posY = 0;
             if (!e) var e = window.event;
             if (e.type === 'keyup') {
                 let rect = e.target.getBoundingClientRect();
-                posx = rect.left + 15;
-                posy = rect.top + 30;
+                posX = rect.left + 15;
+                posY = rect.top + 30;
             } else {
                 if (e.pageX || e.pageY) {
-                    posx = e.pageX;
-                    posy = e.pageY;
+                    posX = e.pageX;
+                    posY = e.pageY;
                 } else if (e.clientX || e.clientY) {
-                    posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                    posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                    posX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                    posY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
                 }
             }
-            return { x: posx, y: posy };
+            return { x: posX, y: posY };
         };
         
         /**
