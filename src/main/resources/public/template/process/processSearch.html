@@ -13,7 +13,7 @@
         <div align="right">
             <button sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.register}"
                     onclick="openProcessEdit();"></button>
-            <input type="text" id="search" th:placeholder="#{common.searchWord}">
+            <input type="text" id="search" style="width: 270px" th:placeholder="#{process.label.searchPlaceholder}">
         </div>
         <hr>
         <div id="processList" style="margin-top: 20px"></div>

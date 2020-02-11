@@ -6,7 +6,6 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.service.UserService
-import co.brainz.itsm.user.dto.UserSearchDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -21,10 +20,9 @@ import javax.servlet.http.HttpServletRequest
  */
 @Controller
 @RequestMapping("/users")
-class UserController(
-        private val codeService: CodeService,
-        private val userService: UserService,
-        private val roleService: RoleService) {
+class UserController(private val codeService: CodeService,
+                     private val userService: UserService,
+                     private val roleService: RoleService) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userPage: String = "user/user"
@@ -37,7 +35,6 @@ class UserController(
      */
     @GetMapping("/search")
     fun getUserSearch(model: Model): String {
-        model.addAttribute("userSearchCode", codeService.selectCodeByParent(UserConstants.PCODE.value))
         return userPage
     }
 
@@ -45,9 +42,8 @@ class UserController(
      * 사용자 조회 목록 화면을 호출한다.
      */
     @GetMapping("/list")
-    fun getUserList(userSearchDto: UserSearchDto, model: Model): String {
-        val users = userService.selectUserList(userSearchDto)
-        model.addAttribute("users", users)
+    fun getUserList(searchValue: String, model: Model): String {
+        model.addAttribute("users", userService.selectUserList(searchValue))
         return userListPage
     }
 
