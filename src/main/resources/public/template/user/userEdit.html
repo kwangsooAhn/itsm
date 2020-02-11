@@ -214,12 +214,11 @@
         }
 
         function editSubmit(method, url, async, data) {
-<<<<<<< HEAD
             const opt = {
                 method: method,
                 url: url,
                 async: async,
-                params: JSON.stringify(data),
+                params: JSON.stringify(dataS),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
                     if (response.readyState === XMLHttpRequest.DONE) {

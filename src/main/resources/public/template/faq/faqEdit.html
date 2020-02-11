@@ -73,18 +73,17 @@
         });
 
         function restSubmit(method, url, async) {
+            const formData = new FormData(document.getElementById("faqForm"));
             var object = {};
-            var formData = new FormData(document.getElementById("faqForm"));
 
             formData.forEach(function(value, key) {
                 object[key] = value;
             });
 
-            var jsonData = JSON.stringify(object);
             const opt = {
                 method: method,
                 url: url,
-                params: jsonData,
+                params: JSON.stringify(object),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
                     if (response.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
