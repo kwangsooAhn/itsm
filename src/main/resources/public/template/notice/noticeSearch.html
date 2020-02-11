@@ -31,15 +31,15 @@
         var format = /*[[${#authentication.details.timeFormat}]]*/;
         var lang = /*[[${#authentication.details.lang}]]*/;
         var formatArray = format.split(' ');
-        var dateFormat = formatArray[0].toUpperCase();
+        var dateFormat = '';
 
-        window.onload = function() {
+        window.addEventListener('load', function() {
+            dateFormat = formatArray[0].toUpperCase();
             restSubmit('get', '/notices/list', false);
             // initialization date picker
             dateTimePicker.initDatePicker('fromDt', dateFormat, lang);
             dateTimePicker.initDatePicker('toDt', dateFormat, lang);
-            hiddenProgressBar();
-        };
+        });
         
         function validation() {
             if (document.getElementById('fromDt').value === '') {
