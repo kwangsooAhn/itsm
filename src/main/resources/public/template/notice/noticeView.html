@@ -61,11 +61,11 @@
                 </tr>
                 <tr>
                     <th th:text="#{notice.strtDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(notice.popStrtDt,dateformat)}" ></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(notice.popStrtDt,dateformat)}" ></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.endDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(notice.popEndDt,dateformat)}"/></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(notice.popEndDt,dateformat)}"/></span></td>
                 </tr>
             </table>
         </div>
@@ -75,11 +75,11 @@
                 <tr>
                     <th rowspan="4" th:text="#{notice.topNoticeSettingsInfo}"></th>
                     <th th:text="#{notice.strtDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}" th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.endDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}" th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span></td>
                 </tr>
             </table>
         </div>
@@ -95,7 +95,7 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        window.onload = function() {
+        window.addEventListener('load', function() {
             // 게시물 삭제 처리 시, validation 체크.
             const noticeNo = /*[[${notice.noticeNo}]]*/;
             if (noticeNo === null) {
@@ -117,8 +117,7 @@
                 document.getElementById('topNoticeTab').style.display = 'none';
             }
             fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
-            hiddenProgressBar();
-        }
+        });
 
         //RESTFUL API
         function restSubmit(method, url, async) {

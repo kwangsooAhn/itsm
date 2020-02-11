@@ -76,7 +76,7 @@ class UserController(
     @GetMapping("/{userKey}/userEdit")
     fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
         val users = userService.selectUserKey(userKey)
-        val timeFormat = users.timeformat.split(' ')
+        val timeFormat = users.timeFormat.split(' ')
         val usersDate = timeFormat[0].toString()
         val usersTime = if (timeFormat.size == 3) { timeFormat[1] + ' ' + timeFormat[2] } else { timeFormat[1] }
 
