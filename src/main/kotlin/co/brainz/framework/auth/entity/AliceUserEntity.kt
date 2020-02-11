@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.io.Serializable
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -19,8 +20,8 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_user")
 data class AliceUserEntity(
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
+        @Id @GeneratedValue(generator = "UUID")
+        @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
         @Column(name = "user_key", length = 128)
         val userKey: String,
 
