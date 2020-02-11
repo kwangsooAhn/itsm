@@ -104,7 +104,7 @@ class UserRestController(
         usernamePasswordAuthenticationToken.details = AliceUserDto(
             aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email,
             aliceUser.useYn, aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey,
-            authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeformat
+            authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
         )
         return usernamePasswordAuthenticationToken
     }

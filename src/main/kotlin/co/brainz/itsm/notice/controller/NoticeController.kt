@@ -54,13 +54,13 @@ class NoticeController(private val userService: UserService,
     @GetMapping("/list")
     fun getNoticeList(request: HttpServletRequest, model: Model): String {
         val isNoticeTitle = request.getParameter("noticeTitle")!!.toBoolean()
-        val isCreateUserkey = request.getParameter("createUserkey")!!.toBoolean()
+        val isCreateUserKey = request.getParameter("createUserKey")!!.toBoolean()
         val keyWord = request.getParameter("keyWord")
         var noticeList = emptyList<NoticeEntity>()
         val fromDt: LocalDateTime = convertParam.convertToSearchLocalDateTime(request.getParameter("fromDt"), "fromDt")
         val toDt: LocalDateTime = convertParam.convertToSearchLocalDateTime(request.getParameter("toDt"), "toDt")
 
-        when (isNoticeTitle && isCreateUserkey) {
+        when (isNoticeTitle && isCreateUserKey) {
             true -> {
                 noticeList = noticeService.findAllCheck(keyWord, fromDt, toDt)
             }
@@ -68,10 +68,10 @@ class NoticeController(private val userService: UserService,
                 if (isNoticeTitle) {
                     noticeList = noticeService.findAllByTitle(keyWord, fromDt, toDt)
                 }
-                if (isCreateUserkey) {
+                if (isCreateUserKey) {
                     noticeList = noticeService.findAllByWriter(keyWord, fromDt, toDt)
                 }
-                if (!isNoticeTitle && !isCreateUserkey) {
+                if (!isNoticeTitle && !isCreateUserKey) {
                     noticeList = noticeService.findNoticeList()
                 }
             }

@@ -61,11 +61,11 @@
                 </tr>
                 <tr>
                     <th th:text="#{notice.strtDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(notice.popStrtDt,dateformat)}" ></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(notice.popStrtDt,dateformat)}" ></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.endDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(notice.popEndDt,dateformat)}"/></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(notice.popEndDt,dateformat)}"/></span></td>
                 </tr>
             </table>
         </div>
@@ -75,11 +75,11 @@
                 <tr>
                     <th rowspan="4" th:text="#{notice.topNoticeSettingsInfo}"></th>
                     <th th:text="#{notice.strtDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}" th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.endDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}" th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span></td>
                 </tr>
             </table>
         </div>

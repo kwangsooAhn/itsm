@@ -23,13 +23,13 @@ import javax.persistence.MappedSuperclass
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 open class AliceMetaEntity(
-        @CreatedBy @Column(name="create_userkey", nullable = false, updatable = false)
-        open var createUserkey: String = "",
+        @CreatedBy @Column(name="create_user_key", nullable = false, updatable = false)
+        open var createUserKey: String = "",
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         @CreatedDate @Column(name="create_dt", nullable = false, updatable = false)
         var createDt: LocalDateTime = LocalDateTime.now(),
-        @LastModifiedBy @Column(name="update_userkey", insertable = false)
-        var updateUserkey: String? = null,
+        @LastModifiedBy @Column(name="update_user_key", insertable = false)
+        var updateUserKey: String? = null,
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         @LastModifiedDate @Column(name="update_dt", insertable = false)
         var updateDt: LocalDateTime? = LocalDateTime.now()

@@ -60,19 +60,19 @@
         </tr>
         <tr>
             <th th:text="#{common.label.createUserName}"></th>
-            <td><span id="spanCreateUserkey" name="spanCreateUserkey" th:text="${roleDetail?.createUserkey}"></span></td>
+            <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${roleDetail?.createUserKey}"></span></td>
         </tr>
         <tr>
             <th th:text="#{common.label.createDate}"></th>
-            <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(roleDetail?.createDt,dateformat)}"></span></td>
+            <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(roleDetail?.createDt,dateformat)}"></span></td>
         </tr>
         <tr>
             <th th:text="#{common.label.updateUserName}"></th>
-            <td><span id="spanUpdateUserkey" name="spanUpdateUserkey" th:text="${roleDetail?.updateUserkey}"></span></td>
+            <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${roleDetail?.updateUserKey}"></span></td>
         </tr>
         <tr>
             <th th:text="#{common.label.updateDate}"></th>
-            <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(roleDetail?.updateDt,dateformat)}"></span></td>
+            <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(roleDetail?.updateDt,dateformat)}"></span></td>
         </tr>
     </table>
     <table>
@@ -164,9 +164,9 @@
                                 }
                             }
                         });
-                        document.getElementById('spanCreateUserkey').innerHTML = responseJson.createUserkey;
+                        document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserKey;
                         document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
-                        document.getElementById('spanUpdateUserkey').innerHTML = responseJson.updateUserkey;
+                        document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
                         document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
                         document.getElementById('txtRoleId').setAttribute('readonly','true');
                     },
@@ -188,9 +188,9 @@
                 roleAuths[i].checked = false;
             }
 
-            document.getElementById('spanCreateUserkey').innerHTML = '';
+            document.getElementById('spanCreateUserKey').innerHTML = '';
             document.getElementById('spanCreateDt').innerHTML = '';
-            document.getElementById('spanUpdateUserkey').innerHTML = '';
+            document.getElementById('spanUpdateUserKey').innerHTML = '';
             document.getElementById('spanUpdateDt').innerHTML = '';
             if (AUTH_UPDATE) {
                 document.getElementById('btnUpdate').style.display = 'none';

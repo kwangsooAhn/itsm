@@ -15,10 +15,10 @@ interface NoticeRepository: JpaRepository<NoticeEntity, String> {
     @Query("select a from NoticeEntity a where (lower(a.noticeTitle) like lower(concat('%', :keyWord, '%')) or upper(a.noticeTitle) like upper(concat('%', :keyWord, '%'))) and a.createDt between :fromDt and :toDt")
     fun findAllByTitle(keyWord: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity>
 
-    @Query("select a from NoticeEntity a where (lower(a.createUserkey) like lower(concat('%', :keyWord, '%')) or upper(a.createUserkey) like upper(concat('%', :keyWord, '%'))) and a.createDt between :fromDt and :toDt" )
+    @Query("select a from NoticeEntity a where (lower(a.createUserKey) like lower(concat('%', :keyWord, '%')) or upper(a.createUserKey) like upper(concat('%', :keyWord, '%'))) and a.createDt between :fromDt and :toDt" )
     fun findAllByWriter(keyWord: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity>
 
-    @Query("select a from NoticeEntity a where (lower(a.noticeTitle) like lower(concat('%', :keyWord, '%')) or lower(a.createUserkey) like lower(concat('%', :keyWord, '%')) or upper(a.noticeTitle) like upper(concat('%', :keyWord, '%')) or upper(a.createUserkey) like lower(concat('%', :keyWord, '%'))) and a.createDt between :fromDt and :toDt")
+    @Query("select a from NoticeEntity a where (lower(a.noticeTitle) like lower(concat('%', :keyWord, '%')) or lower(a.createUserKey) like lower(concat('%', :keyWord, '%')) or upper(a.noticeTitle) like upper(concat('%', :keyWord, '%')) or upper(a.createUserKey) like lower(concat('%', :keyWord, '%'))) and a.createDt between :fromDt and :toDt")
     fun findAllCheck(keyWord: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity>
     
     @Query("select a from NoticeEntity a where (a.popStrtDt < now() and a.popEndDt > now()) and a.popYn = true")
