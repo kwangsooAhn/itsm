@@ -34,9 +34,7 @@
 
         //프로세스 리스트 조회
         function getProcessList(search) {
-            restSubmit('GET', '/processes/list?search=' + encodeURIComponent(search.trim()), function(result) {
-                document.getElementById('processList').innerHTML = result;
-            });
+            restSubmit('GET', '/processes/list?search=' + encodeURIComponent(search.trim()));
         }
 
         //프로세스 삭제
@@ -59,19 +57,22 @@
 
         //REST API
         function restSubmit(method, url, response) {
-            const xmlHttp = createXmlHttpRequestObject(method, url);
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                    if (xmlHttp.status === 200) {
-                        response(xmlHttp.responseText);
-                    } else if (xmlHttp.status === 400) {
-                        alert('There was an error 400');
-                    } else {
-                        alert('something else other than 200 was returned');
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    if (response.readyState === XMLHttpRequest.DONE) {
+                        if (response.status === 200) {
+                            document.getElementById('processList').innerHTML = response.responseText;
+                        } else if (response.status === 400) {
+                            alert('There was an error 400');
+                        } else {
+                            alert('something else other than 200 was returned');
+                        }
                     }
                 }
-            };
-            xmlHttp.send();
+            }
+            aliceJs.sendXhr(opt);
         }
     </script>
 </th:block>

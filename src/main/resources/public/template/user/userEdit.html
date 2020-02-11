@@ -215,45 +215,50 @@
         }
 
         function editSubmit(method, url, async, data) {
-            const xmlHttp = createXmlHttpRequestObject(method, url, async);
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState == XMLHttpRequest.DONE) {
-                    if (xmlHttp.status == 200) {
-                        switch (xmlHttp.responseText) {
-                            case STATUS_SUCCESS:
-                                alert('수정되었습니다.');
-                                hiddenProgressBar();
-                                window.location.reload();
-                                break;
-                            case STATUS_SUCCESS_EDIT_EMAIL:
-                                alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
-                                hiddenProgressBar();
-                                window.location.reload();
-                                break;
-                            case STATUS_ERROR_USER_ID_DUPLICATION:
-                                alert('동일한 아이디가 존재합니다.');
-                                hiddenProgressBar();
-                                break;
-                            case STATUS_ERROR_EMAIL_DUPLICATION:
-                                alert('이미 사용중인 이메일입니다.');
-                                hiddenProgressBar();
-                                break;
-                            default :
-                                alert('수정이 실패되었습니다.');
-                                hiddenProgressBar();
-                                break;
+            const opt = {
+                method: method,
+                url: url,
+                async: async,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    if (response.readyState === XMLHttpRequest.DONE) {
+                        if (response.status === 200) {
+                            switch (response.responseText) {
+                                case STATUS_SUCCESS:
+                                    alert('수정되었습니다.');
+                                    hiddenProgressBar();
+                                    window.location.reload();
+                                    break;
+                                case STATUS_SUCCESS_EDIT_EMAIL:
+                                    alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
+                                    hiddenProgressBar();
+                                    window.location.reload();
+                                    break;
+                                case STATUS_ERROR_USER_ID_DUPLICATION:
+                                    alert('동일한 아이디가 존재합니다.');
+                                    hiddenProgressBar();
+                                    break;
+                                case STATUS_ERROR_EMAIL_DUPLICATION:
+                                    alert('이미 사용중인 이메일입니다.');
+                                    hiddenProgressBar();
+                                    break;
+                                default :
+                                    alert('수정이 실패되었습니다.');
+                                    hiddenProgressBar();
+                                    break;
+                            }
+                        } else if (response.status === 400) {
+                            alert('There was an error 400');
+                            hiddenProgressBar();
+                        } else {
+                            alert('something else other than 200 was returned');
+                            hiddenProgressBar();
                         }
-                    } else if (xmlHttp.status == 400) {
-                        alert('There was an error 400');
-                        hiddenProgressBar();
-                    } else {
-                        alert('something else other than 200 was returned');
-                        hiddenProgressBar();
                     }
                 }
             };
-            xmlHttp.setRequestHeader('Content-Type', 'application/json');
-            xmlHttp.send(JSON.stringify(data));
+            aliceJs.sendXhr(opt);
         }
 
         function validation() {
