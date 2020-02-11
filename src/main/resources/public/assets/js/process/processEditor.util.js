@@ -96,7 +96,7 @@
     /**
      * init workflow util.
      */
-    function initWorkflowUtil() {
+    function initUtil() {
         // add click event listener.
         document.querySelector('#btnSave').addEventListener('click', saveWorkflow);
         document.querySelector('#btnSimulation').addEventListener('click', simulationWorkflow);
@@ -108,6 +108,6 @@
     }
 
     exports.utils = utils;
-    exports.initWorkflowUtil = initWorkflowUtil;
+    exports.initUtil = initUtil;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

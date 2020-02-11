@@ -5,7 +5,7 @@
 }(this, (function (exports) {
     'use strict';
 
-    const workflowProperties = [
+    const processProperties = [
         {'attribute': 'id', 'name': 'ID', 'type': 'text', 'default': ''},
         {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
         {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
@@ -249,9 +249,35 @@
             .attr('width', 20)
             .attr('height', 20)
             //.style('fill', function(d) { return 'url(#alice-tooltip-' + d.title + ')'; })
-            .attr('xlink:href', function(d) { return d.url; })
+            .attr('xlink:href', function(d) {
+                let url = d.url;
+                if (d.title === 'edit' || d.title === 'suggest') {
+                    const selected = d3.select(this).classed('selected');
+                    if (!selected) {
+                        let lastIndex = url.lastIndexOf('.');
+                        url = url.substring(0, lastIndex) + '_focus' + url.substring(lastIndex);
+                    } else {
+                        let lastIndex = url.lastIndexOf('_focus');
+                        url = url.substring(0, lastIndex) + url.substring(lastIndex);
+                    }
+                }
+                return url;
+            })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
+                const selected = d3.select(this).classed('selected');
+                d3.select(this).classed("selected", !selected);
+                /*if (!selected) {
+                    d3.select(this).classed("selected", true);
+                    if (d.title === 'edit' || d.title === 'suggest') {
+                        d3.select(this).attr('xlink:href', function(){
+                            let url = d3.select(this).attr('xlink:href'),
+                                lastIndex = url.lastIndexOf('.');
+                            return url.substring(0, lastIndex) + '_focus' + url.substring(lastIndex);
+                        });
+                    }
+
+                }*/
                 d.action(elem, i);
             });
 
@@ -265,7 +291,7 @@
     }
 
     /**
-     * show favorites elements tooltip.
+     * show suggest elements tooltip.
      *
      * @param elem 선택된 element
      */
@@ -284,12 +310,16 @@
      */
     function setElementTypeItems(elem) {
         let elementTypeItems = [];
+        let type = '';
         if (elem.classed('event')) {
-            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === 'event-tooltip'; });
+            type = 'event';
         } else if (elem.classed('task')) {
-            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === 'task-tooltip'; });
+            type = 'task';
         } else if (elem.classed('gateway')) {
-            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === 'gateway-tooltip'; });
+            type = 'gateway';
+        }
+        if (type) {
+            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === type + '-tooltip'; });
         }
         setElementItems(elementTypeItems, elem);
     }
@@ -335,7 +365,7 @@
             .attr('xlink:href', function(d) { return d.url; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
-                d.action(elem, i);
+                d.action(elem, d, i);
             });
     }
 
@@ -361,8 +391,8 @@
                     break;
                 }
             }
-        } else { // show workflow properties
-            makePropertiesItem(AliceProcessEditor.data.process.id, workflowProperties, AliceProcessEditor.data.process);
+        } else { // show process properties
+            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties, AliceProcessEditor.data.process);
         }
     }
 

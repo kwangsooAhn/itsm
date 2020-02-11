@@ -22,11 +22,11 @@
 }
 
 $alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$workflow-toolbar-height: 2.5rem; // 40px
-$workflow-toolbar-top-bottom-padding: 0.625rem; // 10px
-$workflow-toolbar-real-height: $workflow-toolbar-height - ($workflow-toolbar-top-bottom-padding * 2);
-$workflow-element-palette-width: 3.75rem; // 60px
-$workflow-properties-panel-width: 20rem; // 320px
+$process-toolbar-height: 2.5rem; // 40px
+$process-toolbar-top-bottom-padding: 0.625rem; // 10px
+$process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bottom-padding * 2);
+$process-element-palette-width: 3.75rem; // 60px
+$process-properties-panel-width: 20rem; // 320px
 
 body {
     font-family: $alice-font-family;
@@ -35,11 +35,11 @@ body {
 .alice-process {
     &-toolbar {
         width: 100vw;
-        height: $workflow-toolbar-height;
+        height: $process-toolbar-height;
         background-color: #4c5264;
         color: $white;
-        padding-top: $workflow-toolbar-top-bottom-padding;
-        padding-bottom: $workflow-toolbar-top-bottom-padding;
+        padding-top: $process-toolbar-top-bottom-padding;
+        padding-bottom: $process-toolbar-top-bottom-padding;
         line-height: 1.0rem;
         
         font: {
@@ -48,12 +48,12 @@ body {
 
         .logo {
             display: inline-block;
-            width: $workflow-element-palette-width;
-            height: $workflow-toolbar-real-height;
+            width: $process-element-palette-width;
+            height: $process-toolbar-real-height;
             float: left;
             background: {
                 color: transparent;
-                size: $workflow-toolbar-real-height $workflow-toolbar-real-height;
+                size: $process-toolbar-real-height $process-toolbar-real-height;
                 repeat: no-repeat;
                 position: center center;
                 image: url("../media/icons/logo.png");
@@ -64,8 +64,8 @@ body {
             text-decoration: none;
             margin-left: 1.25rem; // 20px
             display: inline-block;
-            height: $workflow-toolbar-real-height;
-            line-height: $workflow-toolbar-real-height;
+            height: $process-toolbar-real-height;
+            line-height: $process-toolbar-real-height;
             vertical-align: middle;
             float: left;
             color: $white;
@@ -82,8 +82,8 @@ body {
 
         span.process-name {
             display: inline-block;
-            height: $workflow-toolbar-real-height;
-            line-height: $workflow-toolbar-real-height;
+            height: $process-toolbar-real-height;
+            line-height: $process-toolbar-real-height;
             float: right;
             margin-right: 1.25rem; // 20px
         }
@@ -91,7 +91,7 @@ body {
         span.separator {
             display: inline-block;
             width: 0.063rem; // 1px
-            height: $workflow-toolbar-real-height;
+            height: $process-toolbar-real-height;
             background-color: #f6f6f7;
             margin-left: 1.25rem; // 20px
             float: left;
@@ -100,11 +100,11 @@ body {
 
     &-element-palette {
         display: inline-block;
-        width: $workflow-element-palette-width;
-        height: calc(100vh - #{$workflow-toolbar-height});
+        width: $process-element-palette-width;
+        height: calc(100vh - #{$process-toolbar-height});
         background-color: #f6f6f7;
         position: absolute;
-        top: $workflow-toolbar-height;
+        top: $process-toolbar-height;
         border: #bcc5d3 solid 0.063rem;
 
         .connector {
@@ -117,12 +117,12 @@ body {
                 size: initial;
                 repeat: no-repeat;
                 position: center center;
-                image: url("../media/icons/workflow/element/connector-off.png");
+                image: url("../media/icons/process/element/connector-off.png");
             }
         }
 
         .connector.selected {
-            background-image: url("../media/icons/workflow/element/connector-on.png");
+            background-image: url("../media/icons/process/element/connector-on.png");
         }
 
         .shape {
@@ -139,31 +139,31 @@ body {
         }
 
         .event {
-            background-image: url("../media/icons/workflow/element/event.png");
+            background-image: url("../media/icons/process/element/event.png");
         }
 
         .task {
-            background-image: url("../media/icons/workflow/element/task.png");
+            background-image: url("../media/icons/process/element/task.png");
         }
 
         .subprocess {
-            background-image: url("../media/icons/workflow/element/subprocess.png");
+            background-image: url("../media/icons/process/element/subprocess.png");
         }
 
         .gateway {
-            background-image: url("../media/icons/workflow/element/gateway.png");
+            background-image: url("../media/icons/process/element/gateway.png");
         }
 
         .group {
-            background-image: url("../media/icons/workflow/element/group.png");
+            background-image: url("../media/icons/process/element/group.png");
         }
 
         .annotation {
-            background-image: url("../media/icons/workflow/element/annotation.png");
+            background-image: url("../media/icons/process/element/annotation.png");
         }
 
         span.separator {
-            display: inline-block;
+            display: list-item;
             width: 2.5rem;
             height: 0.063rem;
             background: lightgray;
@@ -174,10 +174,10 @@ body {
     &-drawing-board {
         display: inline-block;
         position: absolute;
-        top: $workflow-toolbar-height;
-        left: $workflow-element-palette-width;
-        width: calc(100vw - #{$workflow-element-palette-width + $workflow-properties-panel-width});
-        height: calc(100vh - #{$workflow-toolbar-height});
+        top: $process-toolbar-height;
+        left: $process-element-palette-width;
+        width: calc(100vw - #{$process-element-palette-width + $process-properties-panel-width});
+        height: calc(100vh - #{$process-toolbar-height});
         background: {
             color: #ffffff;
             image:
@@ -221,6 +221,11 @@ body {
             stroke-width: 1;
         }
 
+        .node.selected {
+            stroke: #5887f9;
+            stroke-width: 2;
+        }
+
         .group {
             fill-opacity: 0;
             stroke-dasharray: 5,5;
@@ -235,11 +240,11 @@ body {
     &-properties-panel {
         display: inline-block;
         background-color: #f6f6f7;
-        width: $workflow-properties-panel-width;
-        height: calc(100vh - #{$workflow-toolbar-height});
+        width: $process-properties-panel-width;
+        height: calc(100vh - #{$process-toolbar-height});
         position: absolute;
-        top: $workflow-toolbar-height;
-        left: calc(100vw - #{$workflow-properties-panel-width});
+        top: $process-toolbar-height;
+        left: calc(100vw - #{$process-properties-panel-width});
         border: #bcc5d3 solid 0.063rem;
 
         p {

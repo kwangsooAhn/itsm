@@ -165,8 +165,7 @@
                 return;
             }
             mouseoverElement = elem;
-            elem.style('stroke', 'red')
-                .style('stroke-width', 3)
+            elem.classed('selected', true)
                 .transition()
                 .duration(durationTime);
         },
@@ -177,8 +176,7 @@
                 return;
             }
             mouseoverElement = null;
-            elem.style('stroke', 'black')
-                .style('stroke-width', 1)
+            elem.classed('selected', false)
                 .transition()
                 .duration(durationTime);
         },
@@ -227,8 +225,7 @@
 
                 if (mousedownElement !== mouseoverElement) {
                     mouseoverElement
-                        .style('stroke', 'black')
-                        .style('stroke-width', 1)
+                        .classed('selected', false)
                         .transition()
                         .duration(durationTime);
 
@@ -636,7 +633,7 @@
     /**
      * svg 추가 및 필요한 element 추가.
      */
-    function initWorkflowEdit() {
+    function initProcessEdit() {
         const width = 1405;
         const height = 750;
 
@@ -689,11 +686,11 @@
     }
 
     /**
-     * Draw a dataflow with the loaded information.
+     * Draw a element with the loaded information.
      *
      * @param data
      */
-    function drawWorkflow(data) {
+    function drawProcess(data) {
         console.debug(JSON.parse(data));
         AliceProcessEditor.data = JSON.parse(data);
         document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
@@ -706,20 +703,20 @@
      * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8-d2fa-44cf-962c-9f853c24ea7b'}
      */
     function init(process) {
-        console.info('Workflow editor initialization. [PROCESS ID: ' + process.processId + ']');
+        console.info('process editor initialization. [PROCESS ID: ' + process.processId + ']');
 
         workflowUtil.polyfill();
-        initWorkflowEdit();
+        initProcessEdit();
         addElementsEvent();
         AliceProcessEditor.loadTooltipItems();
-        AliceProcessEditor.initWorkflowUtil();
+        AliceProcessEditor.initUtil();
 
         // load process data.
         const xhr = createXmlHttpRequestObject('GET', '/rest/processes/data/' + process.processId);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    drawWorkflow(xhr.responseText);
+                    drawProcess(xhr.responseText);
                 } else if (xhr.status === 400) {
                     alert('There was an error 400');
                 } else {
