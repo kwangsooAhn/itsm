@@ -51,7 +51,7 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
                 formDesc = formDto.formDesc,
                 formStatus = formDto.formStatus,
                 createDt = formDto.createDt,
-                createUserkey = formDto.createUserkey
+                createUserKey = formDto.createUserKey
         )
         val dataEntity = formMstRepository.save(formMstEntity)
 
@@ -60,7 +60,7 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
                 formName = dataEntity.formName,
                 formDesc = dataEntity.formDesc,
                 formEnabled = true,
-                createUserkey = dataEntity.createUserkey,
+                createUserKey = dataEntity.createUserKey,
                 createDt = dataEntity.createDt,
                 formStatus = dataEntity.formStatus
         )
@@ -102,9 +102,9 @@ class WFFormService(private val formMstRepository: FormMstMstRepository) : Form 
                 formName = formMstEntity.formName,
                 formStatus = formMstEntity.formStatus,
                 formDesc = formMstEntity.formDesc,
-                createUserkey = formMstEntity.createUserkey,
+                createUserKey = formMstEntity.createUserKey,
                 createDt = formMstEntity.createDt,
-                updateUserkey = formMstEntity.updateUserkey,
+                updateUserKey = formMstEntity.updateUserKey,
                 updateDt = formMstEntity.updateDt
         )
         when (formMstEntity.formStatus) {

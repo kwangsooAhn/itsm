@@ -1,4 +1,4 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.entity
 
 import co.brainz.workflow.form.entity.FormMstEntity
 import org.hibernate.annotations.GenericGenerator
@@ -45,12 +45,12 @@ data class ProcessMstEntity(
     var createDt: LocalDateTime? = null,
 
     @Column(name = "create_user_key")
-    var createUserkey: String? = null,
+    var createUserKey: String? = null,
 
     @Column(name = "update_dt")
     var updateDt: LocalDateTime? = null,
 
     @Column(name = "update_user_key")
-    var updateUserkey: String? = null
+    var updateUserKey: String? = null
 
 ) : Serializable

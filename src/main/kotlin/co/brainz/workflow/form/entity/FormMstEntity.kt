@@ -29,13 +29,13 @@ data class FormMstEntity(
         @Column(name = "create_dt")
         var createDt: LocalDateTime? = null,
 
-        @Column(name = "create_userkey")
-        var createUserkey: String? = null,
+        @Column(name = "create_user_key")
+        var createUserKey: String? = null,
 
         @Column(name = "update_dt")
         var updateDt: LocalDateTime? = null,
 
-        @Column(name = "update_userkey")
-        var updateUserkey: String? = null
+        @Column(name = "update_user_key")
+        var updateUserKey: String? = null
 
 ): Serializable

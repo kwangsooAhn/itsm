@@ -1,6 +1,7 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.controller
 
 import co.brainz.workflow.engine.WFEngine
+import co.brainz.workflow.process.dto.ProcessDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

@@ -9,9 +9,9 @@ data class FormDto(
         var formStatus: String = "",
         var formDesc: String? = null,
         var formEnabled: Boolean = false,
-        var createUserkey: String? = null,
+        var createUserKey: String? = null,
         var createDt: LocalDateTime? = null,
-        val updateUserkey: String? = null,
+        val updateUserKey: String? = null,
         var updateDt: LocalDateTime? = null,
         val userName: String? = null
 ) : Serializable

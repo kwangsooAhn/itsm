@@ -1,4 +1,4 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable

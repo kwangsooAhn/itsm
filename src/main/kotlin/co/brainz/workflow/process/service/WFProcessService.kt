@@ -1,10 +1,13 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.service
 
+import co.brainz.workflow.process.constants.ProcessConstants
+import co.brainz.workflow.process.dto.ProcessDto
+import co.brainz.workflow.process.repository.ProcessMstRepository
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
-class ProcessProvider(private val processMstRepository: ProcessMstRepository) {
+class WFProcessService(private val processMstRepository: ProcessMstRepository) {
 
     /**
      * 프로세스 데이터 조회.
@@ -23,20 +26,20 @@ class ProcessProvider(private val processMstRepository: ProcessMstRepository) {
                 else -> false
             }
             processDtoList.add(
-                ProcessDto(
-                    it.procId,
-                    it.procName,
-                    it.procDesc,
-                    it.procStatus,
-                    it.formMstEntity?.formId,
-                    it.formMstEntity?.formName,
-                    it.createDt,
-                    it.createUserKey,
-                    it.updateDt,
-                    it.updateUserKey,
-                    //it.aliceUserEntity!!.userName,
-                    enabled
-                )
+                    ProcessDto(
+                            it.procId,
+                            it.procName,
+                            it.procDesc,
+                            it.procStatus,
+                            it.formMstEntity?.formId,
+                            it.formMstEntity?.formName,
+                            it.createDt,
+                            it.createUserKey,
+                            it.updateDt,
+                            it.updateUserKey,
+                            //it.aliceUserEntity!!.userName,
+                            enabled
+                    )
             )
         }
         return processDtoList

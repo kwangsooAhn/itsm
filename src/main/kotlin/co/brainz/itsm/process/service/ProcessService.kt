@@ -2,45 +2,20 @@ package co.brainz.itsm.process.service
 
 import co.brainz.itsm.provider.ProviderProcess
 import co.brainz.itsm.provider.ProviderUtilities
-import co.brainz.itsm.provider.dto.FormDto
-import co.brainz.workflow.process.ProcessConstants
-import co.brainz.workflow.process.ProcessDto
+import co.brainz.workflow.process.constants.ProcessConstants
+import co.brainz.workflow.process.dto.ProcessDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.util.UriComponentsBuilder
-import java.net.InetAddress
-import java.net.URI
 
 @Service
 class ProcessService(private val providerProcess: ProviderProcess) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-/*    @Value("\${server.protocol}")
-    lateinit var protocol: String
-
-    @Value("\${server.port}")
-    lateinit var port: String
-
-    private val uri = "/rest/wf/processes"*/
-
-/*    fun makeUri(callUrl: String, params: MultiValueMap<String, String>): URI {
-        val formUrl = protocol + "://" + InetAddress.getLocalHost().hostAddress + ":" + port + callUrl
-        val uri = UriComponentsBuilder.fromHttpUrl(formUrl)
-        if (params.isNotEmpty()) {
-            uri.queryParams(params)
-        }
-
-        return uri.build().toUri()
-    }*/
 
     /**
      * 프로세스 데이터 조회.

@@ -47,7 +47,7 @@ class FormService(private val providerForm: ProviderForm) {
     fun insertForm(formDto: FormDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         formDto.formStatus = ProviderConstants.FormStatus.EDIT.value
-        formDto.createUserkey = aliceUserDto.userKey
+        formDto.createUserKey = aliceUserDto.userKey
         formDto.createDt =  ProviderUtilities().toGMT(LocalDateTime.now())
         formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
         val responseBody: String = providerForm.postForm(formDto)
