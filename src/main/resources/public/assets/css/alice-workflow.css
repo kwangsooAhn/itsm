@@ -9970,10 +9970,10 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/workflow/element/connector-off.png");
+  background-image: url("../media/icons/process/element/connector-off.png");
 }
 .alice-workflow-element-palette .connector.selected {
-  background-image: url("../media/icons/workflow/element/connector-on.png");
+  background-image: url("../media/icons/process/element/connector-on.png");
 }
 .alice-workflow-element-palette .shape {
   display: inline-block;
@@ -9986,22 +9986,22 @@ body {
   background-position: center center;
 }
 .alice-workflow-element-palette .event {
-  background-image: url("../media/icons/workflow/element/event.png");
+  background-image: url("../media/icons/process/element/event.png");
 }
 .alice-workflow-element-palette .task {
-  background-image: url("../media/icons/workflow/element/task.png");
+  background-image: url("../media/icons/process/element/task.png");
 }
 .alice-workflow-element-palette .subprocess {
-  background-image: url("../media/icons/workflow/element/subprocess.png");
+  background-image: url("../media/icons/process/element/subprocess.png");
 }
 .alice-workflow-element-palette .gateway {
-  background-image: url("../media/icons/workflow/element/gateway.png");
+  background-image: url("../media/icons/process/element/gateway.png");
 }
 .alice-workflow-element-palette .group {
-  background-image: url("../media/icons/workflow/element/group.png");
+  background-image: url("../media/icons/process/element/group.png");
 }
 .alice-workflow-element-palette .annotation {
-  background-image: url("../media/icons/workflow/element/annotation.png");
+  background-image: url("../media/icons/process/element/annotation.png");
 }
 .alice-workflow-element-palette span.separator {
   display: inline-block;

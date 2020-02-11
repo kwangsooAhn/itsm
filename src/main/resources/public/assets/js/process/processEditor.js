@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.wfEditor = global.wfEditor || {})));
+            (factory((global.AliceProcessEditor = global.AliceProcessEditor || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -68,7 +68,7 @@
                 selectedElement = null;
 
                 setConnectors();
-                wfEditor.setElementMenu(selectedLink);
+                AliceProcessEditor.setElementMenu(selectedLink);
             })
             .merge(path);
 
@@ -103,8 +103,8 @@
      */
     function drawConnectors() {
         const getLinePath = function(d) {
-            const targetBBox = wfEditor.utils.getBoundingBoxCenter(d.target);
-            const sourceBBox = wfEditor.utils.getBoundingBoxCenter(d.source);
+            const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d.target);
+            const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d.source);
 
             let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
             let best = {};
@@ -190,7 +190,7 @@
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
-                const bbox = wfEditor.utils.getBoundingBoxCenter(mousedownElement);
+                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement);
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
@@ -210,7 +210,7 @@
                     }
                 }
                 elem.style('cursor', 'move');
-                wfEditor.setElementMenu(elem);
+                AliceProcessEditor.setElementMenu(elem);
             }
         },
         mouseup: function() {
@@ -245,12 +245,12 @@
             } else {
                 elem.style('cursor', 'pointer');
                 if (svg.selectAll('.alice-tooltip').node() == null) {
-                    wfEditor.setActionTooltipItem(elem);
+                    AliceProcessEditor.setActionTooltipItem(elem);
                 }
             }
         },
         mousedrag: function() {
-            const bbox = wfEditor.utils.getBoundingBoxCenter(mousedownElement);
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement);
             dragLine.attr('d', 'M' + bbox.cx + ',' + bbox.cy + 'L' + d3.event.x + ',' + d3.event.y);
         }
     }
@@ -317,7 +317,7 @@
                     }
                 })
                 .on('end', function() {
-                    wfEditor.setElementMenu(self.nodeElement);
+                    AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
         self.pointElement2 = svg.append('circle')
@@ -338,7 +338,7 @@
                     }
                 })
                 .on('end', function() {
-                    wfEditor.setElementMenu(self.nodeElement);
+                    AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
         self.pointElement3 = svg.append('circle')
@@ -359,7 +359,7 @@
                     }
                 })
                 .on('end', function() {
-                    wfEditor.setElementMenu(self.nodeElement);
+                    AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
         self.pointElement4 = svg.append('circle')
@@ -380,7 +380,7 @@
                     }
                 })
                 .on('end', function() {
-                    wfEditor.setElementMenu(self.nodeElement);
+                    AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
 
@@ -607,7 +607,7 @@
                 // clear
                 removeElementSelected();
                 resetMouseVars();
-                wfEditor.setElementMenu();
+                AliceProcessEditor.setElementMenu();
             });
 
         d3.select('.alice-workflow-element-palette').selectAll('span.shape')
@@ -650,7 +650,7 @@
                     return;
                 }
                 removeElementSelected();
-                wfEditor.setElementMenu();
+                AliceProcessEditor.setElementMenu();
             })
             .on('mouseup', function() {
                 d3.event.stopPropagation();
@@ -695,9 +695,9 @@
      */
     function drawWorkflow(data) {
         console.debug(JSON.parse(data));
-        wfEditor.data = JSON.parse(data);
-        document.querySelector('.process-name').textContent = wfEditor.data.process.name;
-        wfEditor.setElementMenu();
+        AliceProcessEditor.data = JSON.parse(data);
+        document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
+        AliceProcessEditor.setElementMenu();
     }
 
     /**
@@ -711,8 +711,8 @@
         workflowUtil.polyfill();
         initWorkflowEdit();
         addElementsEvent();
-        wfEditor.loadTooltipItems();
-        wfEditor.initWorkflowUtil();
+        AliceProcessEditor.loadTooltipItems();
+        AliceProcessEditor.initWorkflowUtil();
 
         // load process data.
         const xhr = createXmlHttpRequestObject('GET', '/rest/processes/data/' + process.processId);

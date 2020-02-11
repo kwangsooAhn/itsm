@@ -12,44 +12,44 @@
     <link th:href="@{/assets/css/alice-workflow.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflowEditor.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflowEditor.menu.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflowEditor.util.js}"></script>
+    <script th:src="@{/public/assets/js/process/workflow.util.js}"></script>
+    <script th:src="@{/public/assets/js/process/processEditor.js}"></script>
+    <script th:src="@{/public/assets/js/process/processEditor.menu.js}"></script>
+    <script th:src="@{/public/assets/js/process/processEditor.util.js}"></script>
 </head>
 <body>
 <div class="alice-workflow-container">
     <div class="alice-workflow-toolbar">
         <span class="logo"></span>
         <a href="#" id="btnSave">
-            <img th:src="@{/assets/media/icons/workflow/topmenu/save.png}"/>
+            <img th:src="@{/public/assets/media/icons/process/topmenu/save.png}"/>
             <label th:text="#{common.btn.save}"/>
         </a>
         <a href="#" id="btnSimulation">
-            <img th:src="@{/assets/media/icons/workflow/topmenu/simulation.png}"/>
+            <img th:src="@{/public/assets/media/icons/process/topmenu/simulation.png}"/>
             <label th:text="#{workflow.label.simulation}"/>
         </a>
         <span class="separator"></span>
         <a href="#" id="btnUndo">
-            <img th:src="@{/assets/media/icons/workflow/topmenu/undo.png}"/>
+            <img th:src="@{/public/assets/media/icons/process/topmenu/undo.png}"/>
             <label th:text="#{workflow.label.undo}"/>
         </a>
         <a href="#" id="btnRedo">
-            <img th:src="@{/assets/media/icons/workflow/topmenu/redo.png}"/>
+            <img th:src="@{/public/assets/media/icons/process/topmenu/redo.png}"/>
             <label th:text="#{workflow.label.redo}"/>
         </a>
         <span class="separator"></span>
         <a href="#" id="btnImport">
-            <img th:src="@{/assets/media/icons/workflow/topmenu/import.png}"/>
+            <img th:src="@{/public/assets/media/icons/process/topmenu/import.png}"/>
             <label th:text="#{workflow.label.import}"/>
         </a>
         <a href="#" id="btnExport">
-            <img th:src="@{/assets/media/icons/workflow/topmenu/export.png}"/>
+            <img th:src="@{/public/assets/media/icons/process/topmenu/export.png}"/>
             <label th:text="#{workflow.label.export}"/>
         </a>
         <span class="separator"></span>
         <a href="#" id="btnDownload">
-            <img th:src="@{/assets/media/icons/workflow/topmenu/image-download.png}"/>
+            <img th:src="@{/public/assets/media/icons/process/topmenu/image-download.png}"/>
             <label th:text="#{workflow.label.imageDownload}"/>
         </a>
         <span class="process-name"></span>
