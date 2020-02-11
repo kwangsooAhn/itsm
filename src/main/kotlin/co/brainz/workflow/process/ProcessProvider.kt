@@ -31,9 +31,9 @@ class ProcessProvider(private val processMstRepository: ProcessMstRepository) {
                     it.formMstEntity?.formId,
                     it.formMstEntity?.formName,
                     it.createDt,
-                    it.createUserkey,
+                    it.createUserKey,
                     it.updateDt,
-                    it.updateUserkey,
+                    it.updateUserKey,
                     //it.aliceUserEntity!!.userName,
                     enabled
                 )

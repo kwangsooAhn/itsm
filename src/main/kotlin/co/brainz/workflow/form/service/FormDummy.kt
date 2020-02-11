@@ -17,7 +17,7 @@ class FormDummy: Form {
                     formStatus = FormConstants.FormStatus.EDIT.value,
                     formEnabled = true,
                     createDt = LocalDateTime.of(2019, 12, 31, 9, 50, 20, 0),
-                    createUserkey = "f65d114e29664e7bbf1d47075379bbb5"
+                    createUserKey = "f65d114e29664e7bbf1d47075379bbb5"
             )
             list.add(form)
         }
@@ -29,9 +29,9 @@ class FormDummy: Form {
                 formStatus = FormConstants.FormStatus.SIMULATION.value,
                 formEnabled = true,
                 createDt = LocalDateTime.of(2019, 12, 13, 12, 30, 40, 0),
-                createUserkey = "f65d114e29664e7bbf1d47075379bbb5",
+                createUserKey = "f65d114e29664e7bbf1d47075379bbb5",
                 updateDt = LocalDateTime.of(2020, 1, 9, 17, 35, 40, 0),
-                updateUserkey = "b0b3209dbe4042498603df7b216c4598"
+                updateUserKey = "b0b3209dbe4042498603df7b216c4598"
         )
         list.add(form2)
 
@@ -41,9 +41,9 @@ class FormDummy: Form {
                 formDesc = "인프라 변경 관련 사항을 접수하는 문서양식",
                 formStatus = FormConstants.FormStatus.PUBLISH.value,
                 createDt = LocalDateTime.of(2019, 8, 10, 12, 30, 40, 0),
-                createUserkey = "b0b3209dbe4042498603df7b216c4598",
+                createUserKey = "b0b3209dbe4042498603df7b216c4598",
                 updateDt = LocalDateTime.of(2019, 12, 1, 17, 35, 40, 0),
-                updateUserkey = "b0b3209dbe4042498603df7b216c4598"
+                updateUserKey = "b0b3209dbe4042498603df7b216c4598"
         )
         list.add(form3)
 
@@ -53,7 +53,7 @@ class FormDummy: Form {
                 formDesc = "인프라 변경 관련 사항을 접수하는 문서양식22",
                 formStatus = FormConstants.FormStatus.DESTROY.value,
                 createDt = LocalDateTime.of(2019, 8, 10, 12, 30, 40, 0),
-                createUserkey = "529a9128d7e74e13a3e57e3075566c5e"
+                createUserKey = "529a9128d7e74e13a3e57e3075566c5e"
         )
         list.add(form4)
 

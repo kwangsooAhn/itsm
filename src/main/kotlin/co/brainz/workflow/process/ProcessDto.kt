@@ -13,10 +13,10 @@ data class ProcessDto(
     val formName: String? = null,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var createDt: LocalDateTime?,
-    val createUserkey: String?,
+    val createUserKey: String?,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var updateDt: LocalDateTime? = null,
-    val updateUserkey: String? = null,
+    val updateUserKey: String? = null,
     //val userName: String? = null,
     val enabled: Boolean? = false
 ) : Serializable

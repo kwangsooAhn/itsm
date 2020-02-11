@@ -44,13 +44,13 @@ data class ProcessMstEntity(
     @Column(name = "create_dt")
     var createDt: LocalDateTime? = null,
 
-    @Column(name = "create_userkey")
+    @Column(name = "create_user_key")
     var createUserkey: String? = null,
 
     @Column(name = "update_dt")
     var updateDt: LocalDateTime? = null,
 
-    @Column(name = "update_userkey")
+    @Column(name = "update_user_key")
     var updateUserkey: String? = null
 
 ) : Serializable

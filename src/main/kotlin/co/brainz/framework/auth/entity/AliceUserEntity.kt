@@ -19,8 +19,8 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_user")
 data class AliceUserEntity(
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
+        @Id @GeneratedValue(generator = "UUID")
+        @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
         @Column(name = "user_key", length = 128)
         val userKey: String,
 
@@ -54,8 +54,8 @@ data class AliceUserEntity(
         @Column(name = "mobile_number", length = 128)
         var mobileNumber: String? = null,
 
-        @Column(name = "create_userkey", length = 128)
-        override var createUserkey: String = UserConstants.CREATE_USER_ID,
+        @Column(name = "create_user_key", length = 128)
+        override var createUserKey: String = UserConstants.CREATE_USER_ID,
 
         @Column(name = "status", length = 100)
         val status: String = UserConstants.Status.CERTIFIED.code,
@@ -79,8 +79,8 @@ data class AliceUserEntity(
         @Column(name = "lang", length = 100)
         var lang: String,
 
-        @Column(name = "timeformat", length = 100)
-        var timeformat: String
+        @Column(name = "time_format", length = 100)
+        var timeFormat: String
 ): Serializable, AliceMetaEntity() {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
