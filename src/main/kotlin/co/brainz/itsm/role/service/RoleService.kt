@@ -39,7 +39,7 @@ class RoleService(
      */
     fun deleteRole(roleId: String): String {
         val roleInfo = roleRepository.findByRoleId(roleId)[0]
-        val userRoleMapCount = userRoleMapRepository.findByRoleId(roleId).count()
+        val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
         return if (userRoleMapCount == 0) {
             roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
                 roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(roleInfo.roleId, roleAuthMap.auth.authId))
@@ -101,7 +101,7 @@ class RoleService(
         roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
             authList.add(AliceAuthSimpleDto(roleAuthMap.auth.authId, roleAuthMap.auth.authName, roleAuthMap.auth.authDesc))
         }
-        
+
         dto.add(
                 RoleDto(
                         roleInfo.roleId,
