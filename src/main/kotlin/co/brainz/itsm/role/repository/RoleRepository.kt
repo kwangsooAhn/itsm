@@ -6,17 +6,20 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 
 @Repository
-public interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
+interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
     /**
      * 역할별 상세 내용 조회
      */
-    public fun findByRoleId(roleId: String): AliceRoleEntity
+    fun findByRoleId(roleId: String): AliceRoleEntity
 
     /**
      * 상단 역할명 조회
      */
-    public fun findByOrderByRoleNameAsc(): MutableList<AliceRoleEntity>
+    fun findByOrderByRoleNameAsc(): MutableList<AliceRoleEntity>
 
-    public fun findByRoleIdIn(roleId: List<String>): Set<AliceRoleEntity>
+    /*
+     * 로그인 시 사용자 역할리스트 조회
+    */
+    fun findByRoleIdIn(roleId: List<String>): Set<AliceRoleEntity>
 
 }
