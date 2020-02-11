@@ -130,7 +130,7 @@
                 }
             }
             
-            if (/*[[${users.timeformat != null}]]*/) {
+            if (/*[[${users.timeFormat != null}]]*/) {
                 var selectLength = document.getElementById('date').length;
                 for (var i = 0; i < selectLength; i++) {
                     if (document.getElementById('date').options[i].value === /*[[${usersDate}]]*/) {
@@ -209,7 +209,7 @@
                     mobileNumber: document.getElementById('mobileNumber').value,
                     timezone: document.getElementById('timezone').value,
                     lang: document.getElementById('lang').value,
-                    timeformat: document.getElementById('date').value +' '+ document.getElementById('time').value
+                    timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value
             };
             editSubmit('PUT', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]], true, editData);
         }

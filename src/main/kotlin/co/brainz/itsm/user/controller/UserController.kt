@@ -72,12 +72,9 @@ class UserController(private val codeService: CodeService,
     @GetMapping("/{userKey}/userEdit")
     fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
         val users = userService.selectUserKey(userKey)
-        val timeFormat = users.timeformat.split(' ')
-        val usersTime = if (timeFormat.size == 3) {
-            timeFormat[1] + ' ' + timeFormat[2]
-        } else {
-            timeFormat[1]
-        }
+        val timeFormat = users.timeFormat.split(' ')
+        val usersDate = timeFormat[0].toString()
+        val usersTime = if (timeFormat.size == 3) { timeFormat[1] + ' ' + timeFormat[2] } else { timeFormat[1] }
 
         val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
         val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
@@ -86,7 +83,7 @@ class UserController(private val codeService: CodeService,
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         model.addAttribute("users", users)
-        model.addAttribute("usersDate", timeFormat[0])
+        model.addAttribute("usersDate", usersDate)
         model.addAttribute("usersTime", usersTime)
         model.addAttribute("langList", langList)
         model.addAttribute("timezoneList", timezoneList)

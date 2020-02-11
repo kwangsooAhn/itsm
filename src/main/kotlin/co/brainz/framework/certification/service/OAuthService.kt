@@ -68,7 +68,7 @@ class OAuthService(private val userService: UserService,
                 oauthKey = oAuthDto.oauthKey,
                 timezone = TimeZone.getDefault().id,
                 lang = UserConstants.USER_LOCALE_LANG,
-                timeformat = UserConstants.USER_TIME_FORMAT
+                timeFormat = UserConstants.USER_TIME_FORMAT
         )
         certificationRepository.save(userEntity)
     }
@@ -81,7 +81,7 @@ class OAuthService(private val userService: UserService,
         val urlList = aliceAuthProvider.urlList(authList)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey!!, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeformat)
+        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey!!, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat)
 
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }

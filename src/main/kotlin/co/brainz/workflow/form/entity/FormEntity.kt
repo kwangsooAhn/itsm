@@ -23,6 +23,6 @@ data class FormEntity(
         @Column(name = "form_desc") var formDesc: String? = null,
         @Column(name = "form_status") var formStatus: String,
         @ManyToOne(targetEntity = AliceUserEntity::class, fetch = FetchType.LAZY)
-        @JoinColumn(name = "create_userkey", insertable=false, updatable=false)
+        @JoinColumn(name = "create_user_key", insertable=false, updatable=false)
         var aliceUserEntity: AliceUserEntity?
 ): Serializable, WFMetaEntity()
