@@ -22,7 +22,7 @@
                     <ul class="sub-menu">
                         <li th:each="subMenu : ${#authentication.details.menus}"
                             th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
-                            <a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}"></a>
+                            <a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>
                         </li>
                     </ul>
                 </li>
@@ -47,11 +47,9 @@
     </div>
 </body>
 <script type="text/javascript" th:inline="javascript">
-window.onload = function () {
-    document.getElementById("navbarSupportedContent").addEventListener("click", function () {
-       showProgressBar();
-    });
-}
+window.addEventListener('load', function() {
+    hiddenProgressBar();
+});
 
 function logout() {
     document.getElementById('logoutForm').submit();
