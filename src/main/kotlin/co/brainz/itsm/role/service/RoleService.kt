@@ -38,7 +38,7 @@ class RoleService(
      * 역할 삭제 한다.
      */
     fun deleteRole(roleId: String): String {
-        val roleInfo = roleRepository.findByRoleId(roleId)[0]
+        val roleInfo = roleRepository.findByRoleId(roleId)
         val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
         return if (userRoleMapCount == 0) {
             roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
@@ -80,7 +80,7 @@ class RoleService(
         )
         val result = roleRepository.save(role)
 
-        roleRepository.findByRoleId(role.roleId)[0].roleAuthMapEntities.forEach { roleAuthMap ->
+        roleRepository.findByRoleId(role.roleId).roleAuthMapEntities.forEach { roleAuthMap ->
             roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(role.roleId, roleAuthMap.auth.authId))
         }
         authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach { auth ->
@@ -95,7 +95,7 @@ class RoleService(
      */
     fun selectDetailRoles(roleId: String): List<RoleDto> {
         val dto = mutableListOf<RoleDto>()
-        val roleInfo = roleRepository.findByRoleId(roleId)[0]
+        val roleInfo = roleRepository.findByRoleId(roleId)
         val authList = mutableListOf<AliceAuthSimpleDto>()
 
         roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
@@ -141,11 +141,6 @@ class RoleService(
                     dto.add(RoleDetailDto(allRole.roleId, allRole.roleName, false))
                 }
             }
-            /*getRoles.forEach {
-                val rslt = roleEntities.
-                //val rslt = roleEntities?.contains(it) ?: false
-                dto.add(RoleDetailDto(it.roleId, it.roleName, rslt))
-            }*/
         }
         return dto
     }

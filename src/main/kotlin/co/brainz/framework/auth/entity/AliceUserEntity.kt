@@ -19,8 +19,8 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_user")
 data class AliceUserEntity(
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
+        @Id @GeneratedValue(generator = "UUID")
+        @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
         @Column(name = "user_key", length = 128)
         val userKey: String,
 
