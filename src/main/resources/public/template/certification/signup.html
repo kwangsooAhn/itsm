@@ -80,9 +80,9 @@
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        window.onload = function() {
+        window.addEventListener('load', function() {
             hiddenProgressBar();
-        }
+        });
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
         const STATUS_ERROR_EMAIL_DUPLICATION = "3";

@@ -58,9 +58,9 @@
 </body>
 <script type="text/javascript">
     /*<![CDATA[*/
-    window.onload = function() {
+    window.addEventListener('load', function() {
         document.getElementById("btnSend").addEventListener("click", function() { restSubmit("get","[[@{/certification/sendCertifiedMail}]]"); });
-    }
+    });
 
     function restSubmit(method, url) {
         const opt = {

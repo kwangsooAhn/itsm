@@ -67,7 +67,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
-                                                <input type="text" id="popStrtDt" th:with="dateformat=${#authentication.details.timeformat}" 
+                                                <input type="text" id="popStrtDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,dateformat)}:${#dates.format(#dates.createNow(), dateformat)}" 
                                                  name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal" />
                                                 <div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
@@ -90,7 +90,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="popEndDtCal" data-target-input="nearest">
-                                                <input type="text" id="popEndDt" th:with="dateformat=${#authentication.details.timeformat}"
+                                                <input type="text" id="popEndDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,dateformat)}:${addCurrentDate}" 
                                                  name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
                                                 <div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
@@ -119,7 +119,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
-                                                <input type="text" id="topNoticeStrtDt" th:with="dateformat=${#authentication.details.timeformat}" 
+                                                <input type="text" id="topNoticeStrtDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,dateformat)}:${#dates.format(#dates.createNow(),dateformat)}"
                                                  name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
                                                 <div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
@@ -143,7 +143,7 @@
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeEndDtCal"
                                                 data-target-input="nearest">
-                                                <input type="text" id="topNoticeEndDt" th:with="dateformat=${#authentication.details.timeformat}" 
+                                                <input type="text" id="topNoticeEndDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,dateformat)}:${addCurrentDate}" 
                                                  name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
                                                 <div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
@@ -172,12 +172,12 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        var format = /*[[${#authentication.details.timeformat}]]*/;
+        var format = /*[[${#authentication.details.timeFormat}]]*/;
         var lang = /*[[${#authentication.details.lang}]]*/;
         var formatArray = format.split(' ');
         var dateFormat = '';
         var timeFormat = '';
-        window.onload = function() {
+        window.addEventListener('load', function() {
             dateFormat =  formatArray[0].toUpperCase();
             if (formatArray.length === 2) {
                 timeFormat = '24';
@@ -216,22 +216,21 @@
                 setDisplay('popTab', false);
             }
             fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
-            hiddenProgressBar();
-        }
+        });
 
         function setDisplay(name, condition) {
             if (condition) {
                 if (name === 'popTab') {
                     document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
-                    document.getElementById('popStrtDt').value = /*[[${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,#authentication.details.timeformat)}:${#dates.format(#dates.createNow(), #authentication.details.timeformat)}]]*/;
-                    document.getElementById('popEndDt').value = /*[[${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,#authentication.details.timeformat)}:${#temporals.format(addCurrentDate,#authentication.details.timeformat)}]]*/;
+                    document.getElementById('popStrtDt').value = /*[[${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,#authentication.details.timeFormat)}:${#dates.format(#dates.createNow(), #authentication.details.timeFormat)}]]*/;
+                    document.getElementById('popEndDt').value = /*[[${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,#authentication.details.timeFormat)}:${#temporals.format(addCurrentDate,#authentication.details.timeFormat)}]]*/;
                     dateTimePicker.initDateTimePicker('popStrtDt', dateFormat, timeFormat, lang);
                     dateTimePicker.initDateTimePicker('popEndDt', dateFormat, timeFormat, lang);
                     document.getElementsByName('popYn')[0].value = true;
                 } else if (name === 'topNoticeTab') {
-                    document.getElementById('topNoticeStrtDt').value = /*[[${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,#authentication.details.timeformat)}:${#dates.format(#dates.createNow(),#authentication.details.timeformat)}]]*/;
-                    document.getElementById('topNoticeEndDt').value = /*[[${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,#authentication.details.timeformat)}:${#temporals.format(addCurrentDate,#authentication.details.timeformat)}]]*/;
+                    document.getElementById('topNoticeStrtDt').value = /*[[${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,#authentication.details.timeFormat)}:${#dates.format(#dates.createNow(),#authentication.details.timeFormat)}]]*/;
+                    document.getElementById('topNoticeEndDt').value = /*[[${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,#authentication.details.timeFormat)}:${#temporals.format(addCurrentDate,#authentication.details.timeFormat)}]]*/;
                     document.getElementsByName('topNoticeYn')[0].value = true;
                     dateTimePicker.initDateTimePicker('topNoticeStrtDt', dateFormat, timeFormat, lang);
                     dateTimePicker.initDateTimePicker('topNoticeEndDt', dateFormat, timeFormat, lang);

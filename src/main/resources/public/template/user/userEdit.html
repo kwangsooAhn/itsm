@@ -109,7 +109,7 @@
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
      /*<![CDATA[*/
-        window.onload = function() {
+        window.addEventListener('load', function() {
             if (/*[[${!users.platform.equals('user.platform.alice')}]]*/) {
                 document.getElementById('tbody').style.display = 'none';
             }
@@ -130,7 +130,7 @@
                 }
             }
             
-            if (/*[[${users.timeformat != null}]]*/) {
+            if (/*[[${users.timeFormat != null}]]*/) {
                 var selectLength = document.getElementById('date').length;
                 for (var i = 0; i < selectLength; i++) {
                     if (document.getElementById('date').options[i].value === /*[[${usersDate}]]*/) {
@@ -146,8 +146,7 @@
                 }
                 
             }
-            hiddenProgressBar();
-        }
+        });
 
         function onlyNumber(event) {
             event = event || window.event;
@@ -209,12 +208,13 @@
                     mobileNumber: document.getElementById('mobileNumber').value,
                     timezone: document.getElementById('timezone').value,
                     lang: document.getElementById('lang').value,
-                    timeformat: document.getElementById('date').value +' '+ document.getElementById('time').value
+                    timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value
             };
             editSubmit('PUT', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]], true, editData);
         }
 
         function editSubmit(method, url, async, data) {
+<<<<<<< HEAD
             const opt = {
                 method: method,
                 url: url,
@@ -254,7 +254,38 @@
                         } else {
                             alert('something else other than 200 was returned');
                             hiddenProgressBar();
+=======
+            const xmlHttp = createXmlHttpRequestObject(method, url, async);
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == XMLHttpRequest.DONE) {
+                    if (xmlHttp.status == 200) {
+                        switch (xmlHttp.responseText) {
+                            case STATUS_SUCCESS:
+                                alert('수정되었습니다.');
+                                window.location.reload();
+                                break;
+                            case STATUS_SUCCESS_EDIT_EMAIL:
+                                alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
+                                window.location.reload();
+                                break;
+                            case STATUS_ERROR_USER_ID_DUPLICATION:
+                                alert('동일한 아이디가 존재합니다.');
+                                break;
+                            case STATUS_ERROR_EMAIL_DUPLICATION:
+                                alert('이미 사용중인 이메일입니다.');
+                                break;
+                            default :
+                                alert('수정이 실패되었습니다.');
+                                break;
+>>>>>>> refs/heads/develop.as.200207
                         }
+<<<<<<< HEAD
+=======
+                    } else if (xmlHttp.status == 400) {
+                        alert('There was an error 400');
+                    } else {
+                        alert('something else other than 200 was returned');
+>>>>>>> refs/heads/develop.as.200207
                     }
                 }
             };

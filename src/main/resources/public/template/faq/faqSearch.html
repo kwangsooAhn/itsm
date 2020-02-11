@@ -19,10 +19,9 @@
 </body>
 <th:block layout:fragment="pageScript">
 <script type="text/javascript">
-window.onload = function() {
+window.addEventListener('load', function() {
     loadXMLDoc();
-    hiddenProgressBar();
-}
+});
 
 function loadXMLDoc() {
     const opt = {

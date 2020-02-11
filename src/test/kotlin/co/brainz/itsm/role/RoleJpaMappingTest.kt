@@ -1,6 +1,6 @@
 package co.brainz.itsm.role
 
-import co.brainz.framework.auth.entity.AliceAuthEntity
+/*import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 
 import co.brainz.itsm.role.repository.RoleRepository
 
-import java.time.LocalDateTime
+import java.time.LocalDateTime*/
 
 // @RunWith(SpringJUnit4ClassRunner::class)
 // @SpringBootTest
@@ -41,9 +41,9 @@ class RoleJpaMappingTest {
                         roleId = "2",
                         roleName = "서비스데스크담당자",
                         roleDesc = "역할설명",
-                        createUserkey = "ksmcreate",
+                        createUserKey = "ksmcreate",
                         createDt = inputDate,
-                        updateUserkey = "ksmupdate",
+                        updateUserKey = "ksmupdate",
                         updateDt = inputDate,
                         authEntityList = listOf(auth1, auth2)
                 )

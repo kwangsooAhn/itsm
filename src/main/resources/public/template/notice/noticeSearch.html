@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
     <title>공지사항 리스트</title>
 </head>
@@ -11,15 +11,13 @@
     <div class="container">
         <form id="formSearch" method="get">
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
-                <input type="checkbox" id="noticeTitle" name="noticeTitle" value="check" th:text="#{notice.title}"/> 
-                <input type="checkbox" id="createUserkey" name="createUserkey" value="check" th:text="#{notice.user}"/>
-                <input type="text" name="keyWord" id="keyWord" />
-                <input type="text" id="fromDt" name="fromDt" th:with="dateformat=${#strings.substring(#authentication.details.timeformat, 0, 10)}"
+                <input type="text" name="searchValue" id="searchValue" th:placeholder="#{notice.searchPlaceholder}"/>
+                <input type="text" id="fromDt" name="fromDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                  th:value="${#temporals.format(currentDate, dateformat)}" />
-                <input type="text" id="toDt" name="toDt" th:with="dateformat=${#strings.substring(#authentication.details.timeformat, 0, 10)}"
+                <input type="text" id="toDt" name="toDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                  th:value="${#temporals.format(addCurrentDate, dateformat)}" />
                 <!-- submit -->
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true, true)" th:text="#{notice.search}"></button>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true)" th:text="#{notice.search}"></button>
             </div>
         </form>
         <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
@@ -30,25 +28,20 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        var format = /*[[${#authentication.details.timeformat}]]*/;
+        var format = /*[[${#authentication.details.timeFormat}]]*/;
         var lang = /*[[${#authentication.details.lang}]]*/;
         var formatArray = format.split(' ');
         var dateFormat = '';
 
-        window.onload = function() {
-        	dateFormat = formatArray[0].toUpperCase();
-            restSubmit('get', '/notices/list', true, false);
+        window.addEventListener('load', function() {
+            dateFormat = formatArray[0].toUpperCase();
+            restSubmit('get', '/notices/list', false);
             // initialization date picker
             dateTimePicker.initDatePicker('fromDt', dateFormat, lang);
             dateTimePicker.initDatePicker('toDt', dateFormat, lang);
-            hiddenProgressBar();
-        }
+        });
         
         function validation() {
-            if (!document.getElementById('noticeTitle').checked && !document.getElementById('createUserkey').checked) {
-                alert('검색 조건을 선택해 주세요.');
-                return false;
-            }
             if (document.getElementById('fromDt').value === '') {
                 alert('검색 시작 날짜를 입력해주세요');
                 return false;
@@ -57,7 +50,8 @@
                 alert('검색 종료 날짜를 입력해주세요.');
                 return false;
             }
-            if (changeDateFormatYYYYMMDD(document.getElementById('fromDt').value, formatArray[0]) > changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])) {
+            if (changeDateFormatYYYYMMDD(document.getElementById('fromDt').value, formatArray[0]) >
+                    changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])) {
                 alert('검색 시작 날짜가 종료 날짜보다 큽니다.');
                 return false;
             }
@@ -66,25 +60,22 @@
 
         //list 팝업 생성
         function openPopUp(id) {
-            var targetUrl = 'noticePopUp/' + id + '?value=true';
-            window.open(targetUrl, id, 'width = 500, height = 500');
+            window.open(id + '/view-pop?value=true', id, 'width=500, height=500');
         }
 
-        function restSubmit(method, url, async, validate) {
-            if (validate) {
-                if (!validation()) {
-                    return false;
-                }
+        function restSubmit(method, url, isSearch) {
+            if (isSearch && !validation()) {
+                return false;
             }
 
-            var data = {
-                noticeTitle: document.getElementById('noticeTitle').checked,
-                createUserkey: document.getElementById('createUserkey').checked,
-                keyWord: document.getElementById('keyWord').value,
+            const data = {
+                isSearch: isSearch,
+                searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim()),
                 fromDt: changeDateFormatYYYYMMDD(document.getElementById('fromDt').value, formatArray[0]),
                 toDt: changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])
             };
 
+<<<<<<< HEAD
             var getUrl = url+'?noticeTitle='+data.noticeTitle+'&createUserkey='+data.createUserkey+'&keyWord='+data.keyWord+'&fromDt='+data.fromDt+'&toDt='+data.toDt+'&btnSearch=';
 
             const opt = {
@@ -100,10 +91,26 @@
                         } else {
                             alert('something else other than 200 was returned');
                         }
+=======
+            const getUrl = url + '?isSearch=' + data.isSearch + '&searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
+            const xmlHttp = createXmlHttpRequestObject(method, getUrl);
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState === XMLHttpRequest.DONE) {
+                    if (xmlHttp.status === 200) {
+                        document.getElementById('noticeList').innerHTML = xmlHttp.responseText;
+                    } else if (xmlHttp.status === 400) {
+                        alert('There was an error 400');
+                    } else {
+                        alert('something else other than 200 was returned');
+>>>>>>> refs/heads/develop.as.200207
                     }
                 }
             };
+<<<<<<< HEAD
             aliceJs.sendXhr(opt);
+=======
+            xmlHttp.send(null);
+>>>>>>> refs/heads/develop.as.200207
         }
         /* ]]> */
     </script>

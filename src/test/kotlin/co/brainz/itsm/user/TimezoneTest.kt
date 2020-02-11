@@ -1,11 +1,11 @@
 package co.brainz.itsm.user
 
-import co.brainz.framework.auth.dto.AliceUserDto
+/*import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.menu.entity.AliceMenuEntity
+import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.itsm.notice.entity.NoticeEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
@@ -42,10 +42,10 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
-//@RunWith(SpringRunner::class)
-//@SpringBootTest
-//@AutoConfigureMockMvc
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(SpringRunner::class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)*/
 class TimezoneTest {
 /*
 
@@ -118,7 +118,7 @@ class TimezoneTest {
         usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
                 aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, userTimezone, aliceUser.lang, aliceUser.timeformat
+                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, userTimezone, aliceUser.lang, aliceUser.timeFormat
         )
         securityContext.authentication = usernamePasswordAuthenticationToken
     }
@@ -171,7 +171,7 @@ class TimezoneTest {
     fun setParameters(): MultiValueMap<String, String> {
         val parameters: MultiValueMap<String, String> = LinkedMultiValueMap()
         parameters.add("noticeTitle", "true")
-        parameters.add("createUserkey", "false")
+        parameters.add("createUserKey", "false")
         parameters.add("keyWord", "JUNIT_TEST")
         parameters.add("fromDt", createDt.minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
         parameters.add("toDt", createDt.plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
