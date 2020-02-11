@@ -249,35 +249,26 @@
             .attr('width', 20)
             .attr('height', 20)
             //.style('fill', function(d) { return 'url(#alice-tooltip-' + d.title + ')'; })
-            .attr('xlink:href', function(d) {
-                let url = d.url;
-                if (d.title === 'edit' || d.title === 'suggest') {
-                    const selected = d3.select(this).classed('selected');
-                    if (!selected) {
-                        let lastIndex = url.lastIndexOf('.');
-                        url = url.substring(0, lastIndex) + '_focus' + url.substring(lastIndex);
-                    } else {
-                        let lastIndex = url.lastIndexOf('_focus');
-                        url = url.substring(0, lastIndex) + url.substring(lastIndex);
-                    }
-                }
-                return url;
-            })
+            .attr('xlink:href', function(d) { return d.url; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
-                const selected = d3.select(this).classed('selected');
-                d3.select(this).classed("selected", !selected);
-                /*if (!selected) {
-                    d3.select(this).classed("selected", true);
-                    if (d.title === 'edit' || d.title === 'suggest') {
-                        d3.select(this).attr('xlink:href', function(){
-                            let url = d3.select(this).attr('xlink:href'),
-                                lastIndex = url.lastIndexOf('.');
-                            return url.substring(0, lastIndex) + '_focus' + url.substring(lastIndex);
+                d3.selectAll('.action-tooltip-item').nodes().map(function(item) {
+                    const url = d3.select(item).attr('xlink:href');
+                    const focusIndex = url.indexOf('_focus');
+                    if (focusIndex > -1) {
+                        d3.select(item).attr('xlink:href', function() {
+                            return url.substring(0, focusIndex) + url.substring(focusIndex + 6);
                         });
                     }
+                });
 
-                }*/
+                if (d.title === 'edit' || d.title === 'suggest') {
+                    d3.select(this).attr('xlink:href', function() {
+                        let url = d3.select(this).attr('xlink:href'),
+                            lastIndex = url.lastIndexOf('.');
+                        return url.substring(0, lastIndex) + '_focus' + url.substring(lastIndex);
+                    });
+                }
                 d.action(elem, i);
             });
 
