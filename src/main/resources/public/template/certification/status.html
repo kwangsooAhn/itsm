@@ -45,7 +45,7 @@
     </div>
     <div th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
         <div sec:authorize="isAuthenticated()">
-            <form id="" method="get" onsubmit="return false">
+            <form id="sendForm" method="get" onsubmit="return false">
                 <button id="btnSend" th:formaction="@{/certification/sendCertifiedMail}">인증메일 재요청</button>
             </form>
         </div>
