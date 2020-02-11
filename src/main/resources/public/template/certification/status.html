@@ -68,8 +68,8 @@
             url: url,
             params: new FormData(document.getElementById("sendForm")),
             callbackFunc: function(response) {
-                if(response.readyState === XMLHttpRequest.DONE) {
-                    if(response.status === 200) {
+                if (response.readyState === XMLHttpRequest.DONE) {
+                    if (response.status === 200) {
                         alert("인증메일이 재발송되었습니다.");
                     } else if (response.status === 400) {
                         alert("There was an error 400");

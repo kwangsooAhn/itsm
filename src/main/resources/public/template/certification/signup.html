@@ -159,7 +159,7 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    if(response.readyState === XMLHttpRequest.DONE) {
+                    if (response.readyState === XMLHttpRequest.DONE) {
                         if (response.status === 200) {
                             switch (response.responseText) {
                                 case STATUS_SUCCESS:
