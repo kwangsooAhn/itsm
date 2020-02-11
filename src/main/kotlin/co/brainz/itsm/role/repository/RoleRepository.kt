@@ -10,7 +10,7 @@ public interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
     /**
      * 역할별 상세 내용 조회
      */
-    public fun findByRoleId(roleId: String): MutableList<AliceRoleEntity>
+    public fun findByRoleId(roleId: String): AliceRoleEntity
 
     /**
      * 상단 역할명 조회
