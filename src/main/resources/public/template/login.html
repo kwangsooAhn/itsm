@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <th:block th:replace="layout/fragments/commonHead"></th:block>
     <title>Login</title>
 </head>
 <body>
@@ -9,21 +10,34 @@
     <input type="hidden" id="userId" name="userId"/>
     <input type="hidden" id="password" name="password"/>
 </form>
-<div>
-    <label for="uid" th:text="#{login.uid}"></label> : <input type="text" id="uid" name="uid"/>
-    <label for="upasswd" th:text="#{login.upasswd}"></label> : <input type="password" id="upasswd" name="upasswd"/>
-    <button id="sendLogin" th:text="#{login.sendLogin}" type="button" onclick="onLogin();"></button>
-    <button id="userSignUp" th:text="#{login.userSignUp}" type="button" onclick="location.href='/certification/signup'"></button>
+<div class="white-base">
+  <img th:src="@{/assets/media/icons/logo_blue.png}" alt="Alice">
+  <div class="login-base">
+      <p th:text="#{login.sendLogin}"></p>
+      <div class="login-form">
+        <img th:src="@{/assets/media/icons/icon_id.png}" alt="Alice">
+        <input type="text" id="uid" name="uid" th:placeholder="#{login.uid}"/>
+      </div>
+      <div class="login-form">
+        <img th:src="@{/assets/media/icons/icon_pass.png}" alt="Alice">
+        <input type="password" id="upasswd" name="upasswd" th:placeholder="#{login.upasswd}"/>
+      </div>
+      <div class="login-find">
+        <a href="" tabindex="-1" th:text="#{login.findId}"></a>
+        |
+        <a href="" tabindex="-1" th:text="#{login.findPasswd}"></a>
+      </div>
+      <a class="btn btn-primary" href="" id="sendLogin" th:text="#{login.sendLogin}" onclick="onLogin();"></a>
+      <a class="btn btn-danger"  href="/oauth/google/login" th:text="#{login.gooleLogin}"></a>
+      <a class="btn btn-warning" href="/oauth/kakao/login" th:text="#{login.kakaoLogin}"></a>
+  </div>
+  <div class="signup-base">
+    <p th:text="#{login.userSignUpNote}"></p>
+    <a class="btn btn-primary" href="/certification/signup" id="userSignUp" th:text="#{login.userSignUp}"></a>
+  </div>
+  <!--/*@thymesVar id="errorMsg" type=""*/-->
+  <div th:text="${errorMsg}"></div>
 </div>
-<div>
-    <a href="/oauth/google/login" th:text="#{login.gooleLogin}"></a>
-</div>
-<div>
-    <a href="/oauth/kakao/login" th:text="#{login.kakaoLogin}"></a>
-</div>
-<!--/*@thymesVar id="errorMsg" type=""*/-->
-<div th:text="${errorMsg}"></div>
-
 <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
 <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>

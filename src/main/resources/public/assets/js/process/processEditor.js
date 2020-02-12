@@ -712,20 +712,14 @@
         AliceProcessEditor.initUtil();
 
         // load process data.
-        const xhr = createXmlHttpRequestObject('GET', '/rest/processes/data/' + process.processId);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    drawProcess(xhr.responseText);
-                } else if (xhr.status === 400) {
-                    alert('There was an error 400');
-                } else {
-                    console.log(xhr);
-                    alert('something else other than 200 was returned. ' + xhr.status);
-                }
-            }
-        };
-        xhr.send();
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/processes/data/' + process.processId,
+            callbackFunc: function(xhr) {
+                drawProcess(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
     }
 
     exports.init = init;
