@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
@@ -48,7 +49,7 @@ class FaqRestController(private val faqService: FaqService) {
      * 신규 FAQ 등록 처리
      */
     @PostMapping("/", "")
-    fun insertFaq(faqDto: FaqDto) {
+    fun insertFaq(@RequestBody faqDto: FaqDto) {
         faqService.save(faqDto)
     }
 
@@ -56,7 +57,7 @@ class FaqRestController(private val faqService: FaqService) {
      * FAQ 수정 처리
      */
     @PutMapping("/{faqId}")
-    fun updateFaq(faqDto: FaqDto) {
+    fun updateFaq(@RequestBody faqDto: FaqDto) {
         faqService.save(faqDto)
     }
 

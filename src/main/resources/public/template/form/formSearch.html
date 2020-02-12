@@ -58,20 +58,15 @@
     }
 
     //REST API
-    function restSubmit(method, url, response) {
-        const xmlHttp = createXmlHttpRequestObject(method, url);
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                if (xmlHttp.status === 200) {
-                    response(xmlHttp.responseText);
-                } else if (xmlHttp.status === 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
+    function restSubmit(method, url, result) {
+        const opt = {
+            method: method,
+            url: url,
+            callbackFunc: function(response) {
+                result(response.responseText);
             }
         };
-        xmlHttp.send();
+        aliceJs.sendXhr(opt);
     }
     /*]]>*/
 </script>
