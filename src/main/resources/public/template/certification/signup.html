@@ -159,22 +159,20 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    if (response.status) {
-                        switch (response.responseText) {
-                            case STATUS_SUCCESS:
-                                alert("가입되었습니다.");
-                                location.href = "/login";
-                                break;
-                            case STATUS_ERROR_USER_ID_DUPLICATION:
-                                alert("동일한 아이디가 존재합니다.");
-                                break;
-                            case STATUS_ERROR_EMAIL_DUPLICATION:
-                                alert("이미 사용중인 이메일입니다.");
-                                break;
-                            default :
-                                alert("가입이 실패되었습니다.");
-                                break;
-                        }
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            alert("가입되었습니다.");
+                            location.href = "/login";
+                            break;
+                        case STATUS_ERROR_USER_ID_DUPLICATION:
+                            alert("동일한 아이디가 존재합니다.");
+                            break;
+                        case STATUS_ERROR_EMAIL_DUPLICATION:
+                            alert("이미 사용중인 이메일입니다.");
+                            break;
+                        default :
+                            alert("가입이 실패되었습니다.");
+                            break;
                     }
                 }
             };

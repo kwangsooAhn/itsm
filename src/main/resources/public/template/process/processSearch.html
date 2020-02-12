@@ -33,7 +33,9 @@
 
         //프로세스 리스트 조회
         function getProcessList(search) {
-            restSubmit('GET', '/processes/list?search=' + encodeURIComponent(search.trim()));
+            restSubmit('GET', '/processes/list?search=' + encodeURIComponent(search.trim()), function(result) {
+                document.getElementById('processList').innerHTML = result;
+            });
         }
 
         //프로세스 삭제
@@ -55,12 +57,12 @@
         }
 
         //REST API
-        function restSubmit(method, url, response) {
+        function restSubmit(method, url, result) {
             const opt = {
                 method: method,
                 url: url,
                 callbackFunc: function(response) {
-                    document.getElementById('processList').innerHTML = response.responseText;
+                    result(response.responseText);
                 }
             };
             aliceJs.sendXhr(opt);

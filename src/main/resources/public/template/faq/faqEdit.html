@@ -72,7 +72,7 @@
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
         });
 
-        function restSubmit(method, url, async) {
+        function restSubmit(method, url) {
             const formData = new FormData(document.getElementById("faqForm"));
             var object = {};
 

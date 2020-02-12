@@ -87,7 +87,7 @@
             callbackFunc: function(response) {
                 window.close();
                 const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=yes";
-                window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1920,height=1080,' + specs);
+                window.open('/forms/' + response.responseText + '/edit', '_blank', 'width=1920,height=1080,' + specs);
             }
         };
         aliceJs.sendXhr(opt);
