@@ -3,7 +3,7 @@
 <head>
     <title th:text="#{form.label.register}"></title>
     <th:block th:replace="layout/fragments/commonHead"></th:block>
-    <!-- �엫�떆 style -->
+    <!-- 임시 style -->
     <style>
         table th {
             text-align: left;
@@ -54,20 +54,20 @@
         }
     }
 
-    //�뤌 �벑濡�
+    //폼 등록
     function insertForm() {
-        //鍮� 媛� 泥댄겕
+        //빈 값 체크
         if (emptyValidation()) {
             const formInfo = {
                 formName: document.getElementById('form_name').value,
                 formDesc: document.getElementById('form_desc').value
             };
-            //�벑濡�
+            //등록
             restSubmit('POST', '/rest/forms/data', formInfo);
         }
     }
 
-    //鍮� 媛� 泥댄겕
+    //빈 값 체크
     function emptyValidation() {
         if (document.getElementById('form_name').value === '') {
             alert('[[#{form.msg.alert.nameNotExist}]]');
