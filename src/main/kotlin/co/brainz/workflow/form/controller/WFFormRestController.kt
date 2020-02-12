@@ -18,7 +18,7 @@ import javax.transaction.Transactional
 class WFFormRestController(private val wfEngine: WFEngine) {
 
     @GetMapping("")
-    fun getFormList(request: HttpServletRequest): List<FormDto> {
+    fun getForms(request: HttpServletRequest): List<FormDto> {
         return wfEngine.form().formList(request.getParameter("search") ?: "")
     }
 
