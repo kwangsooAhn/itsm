@@ -85,7 +85,7 @@
                 if (xmlHttp.status === 200) {
                     window.close();
                     const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=yes";
-                    window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1920,height=1080,' + specs);
+                    window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500,height=1000,' + specs);
                 } else if (xmlHttp.status === 400) {
                     alert('There was an error 400');
                 } else {
