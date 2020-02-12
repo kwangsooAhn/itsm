@@ -10,6 +10,11 @@ object FormConstants {
         P_CODE("form.lang")
     }
 
+    /**
+     * Form Status.
+     *
+     * @param value
+     */
     enum class FormStatus(val value: String) {
         EDIT("form.status.edit"),
         SIMULATION("form.status.simu"),

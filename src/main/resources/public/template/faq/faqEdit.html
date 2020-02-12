@@ -10,6 +10,7 @@
 <th:block layout:fragment="content">
     <div class="container">
         <form id="faqForm" method="post" onsubmit="return false">
+            <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
             <table>
                 <tr>
                     <th th:text="'*' + #{faq.group}">*그룹</th>
@@ -71,24 +72,26 @@
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
         });
 
-        function restSubmit(method, url, async) {
-            var xmlhttp = createXmlHttpRequestObject(method, url, async);
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    if (xmlhttp.status == 200) {
-                        alert("Success");
-                        window.location = "/faqs/search";
-                    } else if (xmlhttp.status == 400) {
-                        alert('There was an error 400');
-                    } else {
-                        console.log(xmlhttp);
-                        alert('something else other than 200 was returned. ' + xmlhttp.status);
-                    }
+        function restSubmit(method, url) {
+            const formData = new FormData(document.getElementById("faqForm"));
+            var object = {};
+
+            formData.forEach(function(value, key) {
+                object[key] = value;
+            });
+
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(object),
+                contentType: 'application/json',
+                callbackFunc: function() {
+                    alert("Success");
+                    window.location = "/faqs/search";
                 }
             };
-            xmlhttp.send(new FormData(document.getElementById("faqForm")));
+            aliceJs.sendXhr(opt);
         }
-
         /*]]>*/
     </script>
 </th:block>

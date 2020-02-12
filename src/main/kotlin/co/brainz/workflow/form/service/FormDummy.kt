@@ -64,7 +64,7 @@ class FormDummy: Form {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun insertForm(formDto: FormDto) {
+    override fun insertForm(formDto: FormDto): FormDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
