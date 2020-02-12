@@ -218,34 +218,28 @@
                 method: method,
                 url: url,
                 async: async,
-                params: JSON.stringify(dataS),
+                params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    if (response.readyState === XMLHttpRequest.DONE) {
-                        if (response.status === 200) {
-                            switch (response.responseText) {
-                                case STATUS_SUCCESS:
-                                    alert('수정되었습니다.');
-                                    window.location.reload();
-                                    break;
-                                case STATUS_SUCCESS_EDIT_EMAIL:
-                                    alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
-                                    window.location.reload();
-                                    break;
-                                case STATUS_ERROR_USER_ID_DUPLICATION:
-                                    alert('동일한 아이디가 존재합니다.');
-                                    break;
-                                case STATUS_ERROR_EMAIL_DUPLICATION:
-                                    alert('이미 사용중인 이메일입니다.');
-                                    break;
-                                default :
-                                    alert('수정이 실패되었습니다.');
-                                    break;
-                            }
-                        } else if (response.status === 400) {
-                            alert('There was an error 400');
-                        } else {
-                            alert('something else other than 200 was returned');
+                    if (response.status) {
+                        switch (response.responseText) {
+                            case STATUS_SUCCESS:
+                                alert('수정되었습니다.');
+                                window.location.reload();
+                                break;
+                            case STATUS_SUCCESS_EDIT_EMAIL:
+                                alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
+                                window.location.reload();
+                                break;
+                            case STATUS_ERROR_USER_ID_DUPLICATION:
+                                alert('동일한 아이디가 존재합니다.');
+                                break;
+                            case STATUS_ERROR_EMAIL_DUPLICATION:
+                                alert('이미 사용중인 이메일입니다.');
+                                break;
+                            default :
+                                alert('수정이 실패되었습니다.');
+                                break;
                         }
                     }
                 }

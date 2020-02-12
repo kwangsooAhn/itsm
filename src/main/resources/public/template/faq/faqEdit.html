@@ -85,18 +85,9 @@
                 url: url,
                 params: JSON.stringify(object),
                 contentType: 'application/json',
-                callbackFunc: function(response) {
-                    if (response.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                        if (response.status === 200) {
-                            alert("Success");
-                            window.location = "/faqs/search";
-                        } else if (response.status === 400) {
-                            alert('There was an error 400');
-                        } else {
-                            console.log(response);
-                            alert('something else other than 200 was returned. ' + response.status);
-                        }
-                    }
+                callbackFunc: function() {
+                    alert("Success");
+                    window.location = "/faqs/search";
                 }
             };
             aliceJs.sendXhr(opt);

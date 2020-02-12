@@ -80,15 +80,7 @@
                 method: method,
                 url: getUrl,
                 callbackFunc: function(response) {
-                    if (response.readyState === XMLHttpRequest.DONE) {
-                        if (response.status === 200) {
-                            document.getElementById('noticeList').innerHTML = response.responseText;
-                        } else if (response.status === 400) {
-                            alert('There was an error 400');
-                        } else {
-                            alert('something else other than 200 was returned');
-                        }
-                    }
+                    document.getElementById('noticeList').innerHTML = response.responseText;
                 }
             };
             aliceJs.sendXhr(opt);

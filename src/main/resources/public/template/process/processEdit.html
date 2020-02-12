@@ -98,17 +98,8 @@
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(response) {
-                if (response.readyState === XMLHttpRequest.DONE) {
-                    if (response.status === 200) {
-                        window.close();
-                        window.open('/processes/' + response.responseText + '/edit', '_blank', 'width=1500, height=800')
-                    } else if (response.status === 400) {
-                        alert('There was an error 400');
-                    } else {
-                        alert('something else other than 200 was returned');
-                    }
-                    return false;
-                }
+                window.close();
+                window.open('/processes/' + response.responseText + '/edit', '_blank', 'width=1500, height=800')
             }
         };
         aliceJs.sendXhr(opt);
