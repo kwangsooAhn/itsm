@@ -132,9 +132,12 @@ notice:
 # LOGIN
 login:
   uid: "ID"
-  upasswd: "PassWord"
+  upasswd: "Password"
+  findId: "Forgot ID?"
+  findPasswd: "Forgot Password?"
   sendLogin: "Login"
   userSignUp: "Sign Up"
+  userSignUpNote: "Would you like to sign up?"
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
 
