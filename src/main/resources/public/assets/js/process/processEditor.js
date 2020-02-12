@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.wfEditor = global.wfEditor || {})));
+            (factory((global.AliceProcessEditor = global.AliceProcessEditor || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -35,7 +35,7 @@
         selectedElement = null;
         svg.selectAll('.node').style('stroke-width', 1).transition().duration(durationTime);
         svg.selectAll('.pointer').style('opacity', 0);
-        svg.selectAll('.tooltip').remove();
+        svg.selectAll('.alice-tooltip').remove();
         svg.selectAll('.connector').classed('selected', false);
     }
 
@@ -68,7 +68,7 @@
                 selectedElement = null;
 
                 setConnectors();
-                wfEditor.setElementMenu(selectedLink);
+                AliceProcessEditor.setElementMenu(selectedLink);
             })
             .merge(path);
 
@@ -103,8 +103,8 @@
      */
     function drawConnectors() {
         const getLinePath = function(d) {
-            const targetBBox = wfEditor.utils.getBoundingBoxCenter(d.target);
-            const sourceBBox = wfEditor.utils.getBoundingBoxCenter(d.source);
+            const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d.target);
+            const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d.source);
 
             let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
             let best = {};
@@ -165,8 +165,7 @@
                 return;
             }
             mouseoverElement = elem;
-            elem.style('stroke', 'red')
-                .style('stroke-width', 3)
+            elem.classed('selected', true)
                 .transition()
                 .duration(durationTime);
         },
@@ -177,8 +176,7 @@
                 return;
             }
             mouseoverElement = null;
-            elem.style('stroke', 'black')
-                .style('stroke-width', 1)
+            elem.classed('selected', false)
                 .transition()
                 .duration(durationTime);
         },
@@ -190,7 +188,7 @@
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
-                const bbox = wfEditor.utils.getBoundingBoxCenter(mousedownElement);
+                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement);
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
@@ -210,7 +208,7 @@
                     }
                 }
                 elem.style('cursor', 'move');
-                wfEditor.setElementMenu(elem);
+                AliceProcessEditor.setElementMenu(elem);
             }
         },
         mouseup: function() {
@@ -227,8 +225,7 @@
 
                 if (mousedownElement !== mouseoverElement) {
                     mouseoverElement
-                        .style('stroke', 'black')
-                        .style('stroke-width', 1)
+                        .classed('selected', false)
                         .transition()
                         .duration(durationTime);
 
@@ -244,11 +241,13 @@
                 resetMouseVars();
             } else {
                 elem.style('cursor', 'pointer');
-                wfEditor.setActionTooltipItem(elem);
+                if (svg.selectAll('.alice-tooltip').node() == null) {
+                    AliceProcessEditor.setActionTooltipItem(elem);
+                }
             }
         },
         mousedrag: function() {
-            const bbox = wfEditor.utils.getBoundingBoxCenter(mousedownElement);
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement);
             dragLine.attr('d', 'M' + bbox.cx + ',' + bbox.cy + 'L' + d3.event.x + ',' + d3.event.y);
         }
     }
@@ -269,15 +268,11 @@
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
         self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
             .attr('y', self.rectData.y)
-            .style('fill', 'yellow')
-            .style('opacity', 1)
-            .style('stroke', 'black')
-            .style('stroke-width', 1)
             .attr('class', 'node resizable')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -287,7 +282,7 @@
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
-                        svg.selectAll('.tooltip').remove();
+                        svg.selectAll('.alice-tooltip').remove();
                         const rectData = self.rectData;
                         for (let i = 0, len = rectData.length; i < len; i++) {
                             self.nodeElement
@@ -308,7 +303,7 @@
             .on('mouseout', function() { self.pointElement1.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
-                    svg.selectAll('.tooltip').remove();
+                    svg.selectAll('.alice-tooltip').remove();
                 })
                 .on('drag', function() {
                     if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
@@ -319,7 +314,7 @@
                     }
                 })
                 .on('end', function() {
-                    wfEditor.setElementMenu(self.nodeElement);
+                    AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
         self.pointElement2 = svg.append('circle')
@@ -329,7 +324,7 @@
             .on('mouseout', function() { self.pointElement2.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
-                    svg.selectAll('.tooltip').remove();
+                    svg.selectAll('.alice-tooltip').remove();
                 })
                 .on('drag', function() {
                     if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
@@ -340,7 +335,7 @@
                     }
                 })
                 .on('end', function() {
-                    wfEditor.setElementMenu(self.nodeElement);
+                    AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
         self.pointElement3 = svg.append('circle')
@@ -350,7 +345,7 @@
             .on('mouseout', function() { self.pointElement3.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
-                    svg.selectAll('.tooltip').remove();
+                    svg.selectAll('.alice-tooltip').remove();
                 })
                 .on('drag', function() {
                     if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
@@ -361,7 +356,7 @@
                     }
                 })
                 .on('end', function() {
-                    wfEditor.setElementMenu(self.nodeElement);
+                    AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
         self.pointElement4 = svg.append('circle')
@@ -371,7 +366,7 @@
             .on('mouseout', function() { self.pointElement4.style('cursor', 'default'); })
             .call(d3.drag()
                 .on('start', function() {
-                    svg.selectAll('.tooltip').remove();
+                    svg.selectAll('.alice-tooltip').remove();
                 })
                 .on('drag', function() {
                     if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
@@ -382,7 +377,7 @@
                     }
                 })
                 .on('end', function() {
-                    wfEditor.setElementMenu(self.nodeElement);
+                    AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
 
@@ -452,9 +447,7 @@
     function SubprocessElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement
-            .classed('subprocess', true)
-            .style('fill', 'pink');
+        this.nodeElement.classed('subprocess', true);
         return this;
     }
 
@@ -471,14 +464,10 @@
         const radius = 20;
 
         self.nodeElement = svg.append('circle')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
-            .style('fill', 'red')
-            .style('opacity', 1)
-            .style('stroke', 'black')
-            .style('stroke-width', 1)
             .attr('class', 'node event')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -488,7 +477,7 @@
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
-                        svg.selectAll('.tooltip').remove();
+                        svg.selectAll('.alice-tooltip').remove();
                         self.nodeElement
                             .attr('cx', d3.event.x)
                             .attr('cy', d3.event.y);
@@ -515,16 +504,12 @@
         const width = 30, height = 30;
 
         self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
             .attr('transform', 'rotate(45, ' + x + ', ' + y + ')')
-            .style('fill', 'blue')
-            .style('opacity', 1)
-            .style('stroke', 'black')
-            .style('stroke-width', 1)
             .attr('class', 'node gateway')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -534,7 +519,7 @@
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
-                        svg.selectAll('.tooltip').remove();
+                        svg.selectAll('.alice-tooltip').remove();
                         self.nodeElement
                             .attr('x', d3.event.x - (width / 2))
                             .attr('y', d3.event.y - (height / 2))
@@ -561,10 +546,7 @@
     function GroupElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement
-            .classed('group', true)
-            .style('fill-opacity', '0')
-            .style('stroke-dasharray', '5,5');
+        this.nodeElement.classed('group', true);
         return this;
     }
 
@@ -581,15 +563,11 @@
         const width = 35, height = 30;
 
         self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
-            .style('fill-opacity', 0)
-            .style('stroke', 'black')
-            .style('stroke-width', 1)
-            .style('stroke-dasharray', '5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5')
             .attr('class', 'node annotation')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -599,7 +577,7 @@
                     if (isDrawConnector) {
                         elementMouseEventHandler.mousedrag();
                     } else {
-                        svg.selectAll('.tooltip').remove();
+                        svg.selectAll('.alice-tooltip').remove();
                         self.nodeElement
                             .attr('x', d3.event.x - (width / 2))
                             .attr('y', d3.event.y - (height / 2));
@@ -617,19 +595,19 @@
      * element에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.element-palette, .drawing-board').on('dragover', function() {d3.event.preventDefault();});
+        d3.selectAll('.alice-process-element-palette, .alice-process-drawing-board').on('dragover', function() {d3.event.preventDefault();});
 
-        d3.select('.element-palette').select('.connector')
+        d3.select('.alice-process-element-palette').select('.connector')
             .on('click', function() {
                 isDrawConnector = !d3.select(this).classed('selected');
                 d3.select(this).classed('selected', isDrawConnector);
                 // clear
                 removeElementSelected();
                 resetMouseVars();
-                wfEditor.setElementMenu();
+                AliceProcessEditor.setElementMenu();
             });
 
-        d3.select('.element-palette').selectAll('span.shape')
+        d3.select('.alice-process-element-palette').selectAll('span.shape')
             .attr('draggable', 'true')
             .on('dragend', function() {
                 const svgOffset = svg.node().getBoundingClientRect();
@@ -655,12 +633,12 @@
     /**
      * svg 추가 및 필요한 element 추가.
      */
-    function initWorkflowEdit() {
+    function initProcessEdit() {
         const width = 1405;
         const height = 750;
 
         // add svg and svg event
-        svg = d3.select('.drawing-board').append('svg')
+        svg = d3.select('.alice-process-drawing-board').append('svg')
             .attr('width', width)
             .attr('height', height)
             .on('mousedown', function() {
@@ -669,7 +647,7 @@
                     return;
                 }
                 removeElementSelected();
-                wfEditor.setElementMenu();
+                AliceProcessEditor.setElementMenu();
             })
             .on('mouseup', function() {
                 d3.event.stopPropagation();
@@ -686,23 +664,17 @@
             .attr('id', 'end-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 6)
-            .attr('markerWidth', 5)
-            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('path')
-            .attr('d', 'M0,-5L10,0L0,5')
-            .attr('fill', '#000');
+            .attr('d', 'M0,-5L10,0L0,5');
 
         svg.append('defs').append('marker')
             .attr('id', 'start-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 4)
-            .attr('markerWidth', 5)
-            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('path')
-            .attr('d', 'M10,-5L0,0L10,5')
-            .attr('fill', '#000');
+            .attr('d', 'M10,-5L0,0L10,5');
 
         // line displayed when dragging new nodes
         dragLine = svg.append('path')
@@ -714,15 +686,15 @@
     }
 
     /**
-     * Draw a dataflow with the loaded information.
+     * Draw a element with the loaded information.
      *
      * @param data
      */
-    function drawWorkflow(data) {
+    function drawProcess(data) {
         console.debug(JSON.parse(data));
-        wfEditor.data = JSON.parse(data);
-        document.querySelector('.process-name').textContent = wfEditor.data.process.name;
-        wfEditor.setElementMenu();
+        AliceProcessEditor.data = JSON.parse(data);
+        document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
+        AliceProcessEditor.setElementMenu();
     }
 
     /**
@@ -731,19 +703,20 @@
      * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8-d2fa-44cf-962c-9f853c24ea7b'}
      */
     function init(process) {
-        console.info('Workflow editor initialization. [PROCESS ID: ' + process.processId + ']');
+        console.info('process editor initialization. [PROCESS ID: ' + process.processId + ']');
 
         workflowUtil.polyfill();
-        initWorkflowEdit();
+        initProcessEdit();
         addElementsEvent();
-        wfEditor.initWorkflowUtil();
+        AliceProcessEditor.loadTooltipItems();
+        AliceProcessEditor.initUtil();
 
         // load process data.
         const xhr = createXmlHttpRequestObject('GET', '/rest/processes/data/' + process.processId);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    drawWorkflow(xhr.responseText);
+                    drawProcess(xhr.responseText);
                 } else if (xhr.status === 400) {
                     alert('There was an error 400');
                 } else {

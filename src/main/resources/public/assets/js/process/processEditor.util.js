@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.wfEditor = global.wfEditor || {})));
+            (factory((global.AliceProcessEditor = global.AliceProcessEditor || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -42,7 +42,7 @@
             }
         };
         xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-        xhr.send(JSON.stringify(wfEditor.data));
+        xhr.send(JSON.stringify(AliceProcessEditor.data));
     }
 
     /**
@@ -96,7 +96,7 @@
     /**
      * init workflow util.
      */
-    function initWorkflowUtil() {
+    function initUtil() {
         // add click event listener.
         document.querySelector('#btnSave').addEventListener('click', saveWorkflow);
         document.querySelector('#btnSimulation').addEventListener('click', simulationWorkflow);
@@ -108,6 +108,6 @@
     }
 
     exports.utils = utils;
-    exports.initWorkflowUtil = initWorkflowUtil;
+    exports.initUtil = initUtil;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

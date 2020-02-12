@@ -170,6 +170,12 @@ process:
     description: "설명"
     templatesList: "템플릿 목록"
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
+    simulation: "미리보기"
+    undo: "작업취소"
+    redo: "작업재실행"
+    import: "가져오기"
+    export: "내보내기"
+    imageDownload: "이미지로 저장하기"
   status:
     edit: "편집중"
     simu: "시뮬레이션 완료"

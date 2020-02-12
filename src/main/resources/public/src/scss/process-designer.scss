@@ -1,0 +1,272 @@
+@import "bootstrap-4.4.1/bootstrap";
+
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareL.woff) format('woff');
+    font-weight: 300;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareR.woff) format('woff');
+    font-weight: 400;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareB.woff) format('woff');
+    font-weight: 700;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareEB.woff) format('woff');
+    font-weight: 800;
+}
+
+$alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$process-toolbar-height: 2.5rem; // 40px
+$process-toolbar-top-bottom-padding: 0.625rem; // 10px
+$process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bottom-padding * 2);
+$process-element-palette-width: 3.75rem; // 60px
+$process-properties-panel-width: 20rem; // 320px
+
+body {
+    font-family: $alice-font-family;
+}
+
+.alice-process {
+    &-toolbar {
+        width: 100vw;
+        height: $process-toolbar-height;
+        background-color: #4c5264;
+        color: $white;
+        padding-top: $process-toolbar-top-bottom-padding;
+        padding-bottom: $process-toolbar-top-bottom-padding;
+        line-height: 1.0rem;
+        
+        font: {
+            size: 0.938rem; // 15px
+        }
+
+        .logo {
+            display: inline-block;
+            width: $process-element-palette-width;
+            height: $process-toolbar-real-height;
+            float: left;
+            background: {
+                color: transparent;
+                size: $process-toolbar-real-height $process-toolbar-real-height;
+                repeat: no-repeat;
+                position: center center;
+                image: url("../media/icons/logo.png");
+            };
+        }
+
+        a {
+            text-decoration: none;
+            margin-left: 1.25rem; // 20px
+            display: inline-block;
+            height: $process-toolbar-real-height;
+            line-height: $process-toolbar-real-height;
+            vertical-align: middle;
+            float: left;
+            color: $white;
+
+            img {
+                cursor: pointer;
+            }
+
+            label {
+                margin-left: 0.313rem;  // 5px
+                cursor: pointer;
+            }
+        }
+
+        span.process-name {
+            display: inline-block;
+            height: $process-toolbar-real-height;
+            line-height: $process-toolbar-real-height;
+            float: right;
+            margin-right: 1.25rem; // 20px
+        }
+
+        span.separator {
+            display: inline-block;
+            width: 0.063rem; // 1px
+            height: $process-toolbar-real-height;
+            background-color: #f6f6f7;
+            margin-left: 1.25rem; // 20px
+            float: left;
+        }
+    }
+
+    &-element-palette {
+        display: inline-block;
+        width: $process-element-palette-width;
+        height: calc(100vh - #{$process-toolbar-height});
+        background-color: #f6f6f7;
+        position: absolute;
+        top: $process-toolbar-height;
+        border: #bcc5d3 solid 0.063rem;
+
+        .connector {
+            display: inline-block;
+            width: 1.875rem;  // 30px
+            height: 1.875rem;  // 30px
+            margin: 0.625rem 0.938rem;  // 10px 15px
+            background: {
+                color: transparent;
+                size: initial;
+                repeat: no-repeat;
+                position: center center;
+                image: url("../media/icons/process/element/connector-off.png");
+            }
+        }
+
+        .connector.selected {
+            background-image: url("../media/icons/process/element/connector-on.png");
+        }
+
+        .shape {
+            display: inline-block;
+            width: 1.875rem;  // 30px
+            height: 1.875rem;  // 30px
+            margin: 0.625rem 0.938rem;  // 10px 15px
+            background: {
+                color: transparent;
+                size: initial;
+                repeat: no-repeat;
+                position: center center;
+            }
+        }
+
+        .event {
+            background-image: url("../media/icons/process/element/event.png");
+        }
+
+        .task {
+            background-image: url("../media/icons/process/element/task.png");
+        }
+
+        .subprocess {
+            background-image: url("../media/icons/process/element/subprocess.png");
+        }
+
+        .gateway {
+            background-image: url("../media/icons/process/element/gateway.png");
+        }
+
+        .group {
+            background-image: url("../media/icons/process/element/group.png");
+        }
+
+        .annotation {
+            background-image: url("../media/icons/process/element/annotation.png");
+        }
+
+        span.separator {
+            display: list-item;
+            width: 2.5rem;
+            height: 0.063rem;
+            background: lightgray;
+            margin-left: 0.625rem;
+        }
+    }
+
+    &-drawing-board {
+        display: inline-block;
+        position: absolute;
+        top: $process-toolbar-height;
+        left: $process-element-palette-width;
+        width: calc(100vw - #{$process-element-palette-width + $process-properties-panel-width});
+        height: calc(100vh - #{$process-toolbar-height});
+        background: {
+            color: #ffffff;
+            image:
+                linear-gradient(90deg, #cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem),
+                linear-gradient(#cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem),
+                linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0, transparent 6.25rem, transparent 6.25rem),
+                linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0px, transparent 6.25rem, transparent 6.25rem),
+                linear-gradient(transparent 0, transparent 0, #f6f6f6 0, #f6f6f6 6.25rem, transparent 6.188rem, transparent 6.25rem),
+                linear-gradient(#cdcccc, #cdcccc);
+            size:6.25rem 100%, 100% 6.25rem, 100% 0.625rem, 0.625rem 100%, 100% 6.25rem, 6.25rem 100%, 6.25rem 100%, 6.25rem 6.25rem, 6.25rem 6.25rem;
+        }
+
+        path.link { fill: none; stroke: #000; stroke-width: 0.125rem; cursor: default; }
+        svg:not(.active):not(.ctrl) path.link { cursor: pointer; }
+        path.link.selected { stroke-dasharray: 10,2; stroke-width: 0.188rem; }
+        path.link.drag-line { pointer-events: none; }
+        path.link.hidden { stroke-width: 0; }
+        defs {
+            marker {
+                marker-width: 5;
+                marker-height: 8;
+
+                path {
+                    fill: #000000;
+                }
+            }
+        }
+
+        g.alice-tooltip {
+            rect.tooltip-container {
+                fill: #f6f6f7;
+                stroke: #bcc5d3;
+                stroke-width: 0.5;
+            }
+        }
+
+        .node {
+            fill: #ffffff;
+            opacity: 1;
+            stroke: #000000;
+            stroke-width: 1;
+        }
+
+        .node.selected {
+            stroke: #5887f9;
+            stroke-width: 2;
+        }
+
+        .group {
+            fill-opacity: 0;
+            stroke-dasharray: 5,5;
+        }
+
+        .annotation {
+            fill-opacity: 0;
+            stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
+        }
+    }
+
+    &-properties-panel {
+        display: inline-block;
+        background-color: #f6f6f7;
+        width: $process-properties-panel-width;
+        height: calc(100vh - #{$process-toolbar-height});
+        position: absolute;
+        top: $process-toolbar-height;
+        left: calc(100vw - #{$process-properties-panel-width});
+        border: #bcc5d3 solid 0.063rem;
+
+        p {
+            padding-left: 0.938rem; // 15px
+
+            font: {
+                size: 0.813rem; // 13px
+            }
+
+            label {
+                display: inline-block;
+                width: 5.625rem;  // 90px
+                vertical-align: top;
+            }
+
+            input:not([type=checkbox]), select, textarea {
+                width: 11.25rem; // 180px
+            }
+        }
+
+        p:first-of-type {
+            padding-top: 1.875rem; // 30px
+        }
+    }
+}

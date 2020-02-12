@@ -53,7 +53,7 @@
 
         //프로세스 디자이너 편집화면 오픈
         function openProcessDesignerEdit(processId) {
-            window.open('/processes/' + processId + '/edit', '_blank', 'width=1500, height=800');
+            window.open('/processes/' + processId + '/edit', '_blank', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
         }
 
         //REST API
