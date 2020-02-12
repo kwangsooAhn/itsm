@@ -133,8 +133,11 @@ notice:
 login:
   uid: "아이디"
   upasswd: "패스워드"
+  findId: "아이디를 잊으셨나요?"
+  findPasswd: "비밀번호를 잊으셨나요?"
   sendLogin: "로그인"
   userSignUp: "회원가입"
+  userSignUpNote: "처음이신가요?"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
 
