@@ -375,25 +375,19 @@
      * @access public
      */
     function saveForm() {
-        const xhr = createXmlHttpRequestObject('POST', '/rest/forms/data');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
-                        alert('저장되었습니다.');
-                    } else {
-                        alert('저장실패');
-                    }
-                } else if (xhr.status === 400) {
-                    alert('There was an error 400');
+        aliceJs.sendXhr({
+            method: 'POST',
+            url: '/rest/forms/data',
+            callbackFunc: function(xhr) {
+                if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
+                    alert('저장되었습니다.');
                 } else {
-                    console.log(xhr);
-                    alert('something else other than 200 was returned. ' + xhr.status);
+                    alert('저장실패');
                 }
-            }
-        };
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-        xhr.send(JSON.stringify(data));
+            },
+            contentType: 'application/json; charset=utf-8',
+            params: JSON.stringify(data)
+        });
     }
     /**
      * 작업 취소
@@ -469,20 +463,16 @@
         context.init();
         
         // load form data.
-        const xhr = createXmlHttpRequestObject('GET', '/rest/forms/data/' + form.formId);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    drawWorkflow(xhr.responseText);
-                } else if (xhr.status === 400) {
-                    alert('There was an error 400');
-                } else {
-                    console.log(xhr);
-                    alert('something else other than 200 was returned. ' + xhr.status);
-                }
-            }
-        };
-        xhr.send();
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/forms/data/' + form.formId,
+            callbackFunc: function(xhr) {
+                data = JSON.parse(xhr.responseText);
+                drawWorkflow(data);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
     }
     
     exports.init = init;
