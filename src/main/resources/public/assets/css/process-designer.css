@@ -10017,18 +10017,24 @@ body {
   left: 3.75rem;
   width: calc(100vw - 23.75rem);
   height: calc(100vh - 2.5rem);
+  overflow: auto;
   background-color: #ffffff;
-  background-image: linear-gradient(90deg, #cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(#cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0px, transparent 6.25rem, transparent 6.25rem), linear-gradient(transparent 0, transparent 0, #f6f6f6 0, #f6f6f6 6.25rem, transparent 6.188rem, transparent 6.25rem), linear-gradient(#cdcccc, #cdcccc);
-  background-size: 6.25rem 100%, 100% 6.25rem, 100% 0.625rem, 0.625rem 100%, 100% 6.25rem, 6.25rem 100%, 6.25rem 100%, 6.25rem 6.25rem, 6.25rem 6.25rem;
+}
+.alice-process-drawing-board svg {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.alice-process-drawing-board .grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
 }
 .alice-process-drawing-board path.link {
   fill: none;
   stroke: #000;
   stroke-width: 0.125rem;
   cursor: default;
-}
-.alice-process-drawing-board svg:not(.active):not(.ctrl) path.link {
-  cursor: pointer;
 }
 .alice-process-drawing-board path.link.selected {
   stroke-dasharray: 10, 2;
@@ -10039,6 +10045,11 @@ body {
 }
 .alice-process-drawing-board path.link.hidden {
   stroke-width: 0;
+}
+.alice-process-drawing-board path.painted-link {
+  stroke: none;
+  stroke-width: 20;
+  pointer-events: all;
 }
 .alice-process-drawing-board defs marker {
   marker-width: 5;

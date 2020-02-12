@@ -74,9 +74,7 @@
 
         // add new paintedPath links
         paintedPath = paintedPath.enter().append('path')
-            .style('stroke', 'none')
-            .style('stroke-width', 20)
-            .attr('pointer-events', 'all')
+            .attr('class', 'painted-link')
             .on('mouseover', function() {
                 if (isDrawConnector) {
                     return;
@@ -90,7 +88,8 @@
                 }
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                path._groups[0][i].dispatchEvent(event);
+                //path._groups[0][i].dispatchEvent(event);
+                path.nodes()[i].dispatchEvent(event);
             })
             .merge(paintedPath);
 
@@ -261,8 +260,8 @@
      */
     function RectResizableElement(x, y) {
         const self = this;
-        self.width = 80;
-        self.height = 50;
+        self.width = 120;
+        self.height = 60;
         x = x - (self.width / 2);
         y = y - (self.height / 2);
 
@@ -461,7 +460,7 @@
      */
     function EventElement(x, y) {
         const self = this;
-        const radius = 20;
+        const radius = 25;
 
         self.nodeElement = svg.append('circle')
             .attr('id', workflowUtil.generateUUID())
@@ -501,7 +500,7 @@
      */
     function GatewayElement(x, y) {
         const self = this;
-        const width = 30, height = 30;
+        const width = 45, height = 45;
 
         self.nodeElement = svg.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -560,7 +559,7 @@
      */
     function AnnotationElement(x, y) {
         const self = this;
-        const width = 35, height = 30;
+        const width = 30, height = 30;
 
         self.nodeElement = svg.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -634,13 +633,15 @@
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
-        const width = 1405;
-        const height = 750;
+        const width = 1120,
+              height = 879;
 
         // add svg and svg event
         svg = d3.select('.alice-process-drawing-board').append('svg')
-            .attr('width', width)
-            .attr('height', height)
+            .attr('viewBox', '0,0,1120,879')
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+/*            .attr('width', 1120)
+            .attr('height', 879)*/
             .on('mousedown', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
@@ -658,6 +659,25 @@
                     resetMouseVars();
                 }
             });
+
+        // add the X grid lines
+        svg.append('g')
+            .attr('class', 'grid')
+            .attr('transform', 'translate(0,' + height + ')')
+            .call(d3.axisBottom(d3.scaleLinear().range([0, width]))
+                .ticks(width)
+                .tickSize(-height)
+                .tickFormat('')
+            )
+
+        // add the Y grid lines
+        svg.append('g')
+            .attr('class', 'grid')
+            .call(d3.axisLeft(d3.scaleLinear().range([height, 0]))
+                .ticks(height)
+                .tickSize(-width)
+                .tickFormat('')
+            )
 
         // define arrow markers for links
         svg.append('defs').append('marker')

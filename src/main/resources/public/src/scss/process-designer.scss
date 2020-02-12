@@ -178,28 +178,58 @@ body {
         left: $process-element-palette-width;
         width: calc(100vw - #{$process-element-palette-width + $process-properties-panel-width});
         height: calc(100vh - #{$process-toolbar-height});
+        overflow: auto;
         background: {
             color: #ffffff;
-            image:
-                linear-gradient(90deg, #cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem),
-                linear-gradient(#cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem),
-                linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0, transparent 6.25rem, transparent 6.25rem),
-                linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0px, transparent 6.25rem, transparent 6.25rem),
-                linear-gradient(transparent 0, transparent 0, #f6f6f6 0, #f6f6f6 6.25rem, transparent 6.188rem, transparent 6.25rem),
-                linear-gradient(#cdcccc, #cdcccc);
-            size:6.25rem 100%, 100% 6.25rem, 100% 0.625rem, 0.625rem 100%, 100% 6.25rem, 6.25rem 100%, 6.25rem 100%, 6.25rem 6.25rem, 6.25rem 6.25rem;
+            //image:
+            //    linear-gradient(90deg, #cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem),
+            //    linear-gradient(#cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem),
+            //    linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0, transparent 6.25rem, transparent 6.25rem),
+            //    linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0px, transparent 6.25rem, transparent 6.25rem),
+            //    linear-gradient(transparent 0, transparent 0, #f6f6f6 0, #f6f6f6 6.25rem, transparent 6.188rem, transparent 6.25rem),
+            //    linear-gradient(#cdcccc, #cdcccc);
+            //size:6.25rem 100%, 100% 6.25rem, 100% 0.625rem, 0.625rem 100%, 100% 6.25rem, 6.25rem 100%, 6.25rem 100%, 6.25rem 6.25rem, 6.25rem 6.25rem;
         }
 
-        path.link { fill: none; stroke: #000; stroke-width: 0.125rem; cursor: default; }
-        svg:not(.active):not(.ctrl) path.link { cursor: pointer; }
-        path.link.selected { stroke-dasharray: 10,2; stroke-width: 0.188rem; }
-        path.link.drag-line { pointer-events: none; }
-        path.link.hidden { stroke-width: 0; }
+        svg {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .grid line {
+            stroke: lightgrey;
+            stroke-opacity: 0.7;
+        }
+
+        path.link {
+            fill: none;
+            stroke: #000;
+            stroke-width: 0.125rem;
+            cursor: default;
+        }
+        path.link.selected {
+            stroke-dasharray: 10,2;
+            stroke-width: 0.188rem;
+        }
+        path.link.drag-line {
+            pointer-events: none;
+        }
+        path.link.hidden {
+            stroke-width: 0;
+        }
+        path.painted-link {
+            stroke: none;
+            stroke-width: 20;
+            pointer-events: all;
+        }
         defs {
             marker {
-                marker-width: 5;
-                marker-height: 8;
-
+                marker: {
+                    width: 5;
+                    height: 8;
+                }
                 path {
                     fill: #000000;
                 }
