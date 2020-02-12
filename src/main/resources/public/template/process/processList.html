@@ -32,7 +32,8 @@
                     <td th:text="${process.processName}"></td>
                     <td th:text="${process.processDesc}"></td>
                     <td th:text="${process.formName}"></td>
-                    <td th:text="${process.userName}"></td>
+                    <td>이름</td>
+                    <!--<td th:text="${process.userName}"></td>-->
                     <td th:if="${process.updateDt == null && process.updateUserKey == null}"
                         th:with="dateformat=${#authentication.details.timeFormat}"
                         th:text="|${#temporals.format(process.createDt,dateformat)} ${process.createUserKey}|"></td>

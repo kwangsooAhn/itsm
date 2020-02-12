@@ -1,17 +1,15 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.entity
 
-import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.workflow.form.entity.FormEntity
-import co.brainz.workflow.utility.WFMetaEntity
+import co.brainz.workflow.form.entity.FormMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.OneToOne
 import javax.persistence.Table
 
@@ -29,7 +27,7 @@ data class ProcessMstEntity(
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    val formEntity: FormEntity?,
+    val formMstEntity: FormMstEntity?,
 
     @Column(name = "proc_key")
     val procKey: String,
@@ -43,8 +41,16 @@ data class ProcessMstEntity(
     @Column(name = "proc_desc")
     val procDesc: String?,
 
-    @ManyToOne(targetEntity=AliceUserEntity::class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_user_key", insertable=false, updatable=false)
-    var aliceUserEntity: AliceUserEntity? = null
+    @Column(name = "create_dt")
+    var createDt: LocalDateTime? = null,
 
-) : Serializable, WFMetaEntity()
+    @Column(name = "create_user_key")
+    var createUserKey: String? = null,
+
+    @Column(name = "update_dt")
+    var updateDt: LocalDateTime? = null,
+
+    @Column(name = "update_user_key")
+    var updateUserKey: String? = null
+
+) : Serializable

@@ -1,4 +1,4 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.constants
 
 /**
  * 프로세스 관련 상수.

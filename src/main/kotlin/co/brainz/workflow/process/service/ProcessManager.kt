@@ -1,4 +1,4 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.service
 
 public class ProcessManager {
 	

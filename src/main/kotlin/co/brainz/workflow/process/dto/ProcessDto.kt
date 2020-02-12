@@ -1,4 +1,4 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
@@ -17,6 +17,6 @@ data class ProcessDto(
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var updateDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
-    val userName: String? = null,
+    //val userName: String? = null,
     val enabled: Boolean? = false
 ) : Serializable

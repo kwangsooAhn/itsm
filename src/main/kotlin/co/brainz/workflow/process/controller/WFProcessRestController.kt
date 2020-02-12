@@ -1,6 +1,7 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.controller
 
 import co.brainz.workflow.engine.WFEngine
+import co.brainz.workflow.process.dto.ProcessDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/rest/wf/processes")
@@ -18,8 +20,8 @@ class WFProcessRestController(private val wfEngine: WFEngine) {
      * 프로세스 데이터 조회.
      */
     @GetMapping("")
-    fun getProcesses(search: String): MutableList<ProcessDto> {
-        return wfEngine.process().selectProcessList(search)
+    fun getProcesses(request: HttpServletRequest): MutableList<ProcessDto> {
+        return wfEngine.process().selectProcessList(request.getParameter("search") ?: "")
     }
 
     /**

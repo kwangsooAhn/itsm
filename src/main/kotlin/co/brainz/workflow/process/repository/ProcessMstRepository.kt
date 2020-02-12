@@ -1,5 +1,6 @@
-package co.brainz.workflow.process
+package co.brainz.workflow.process.repository
 
+import co.brainz.workflow.process.entity.ProcessMstEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

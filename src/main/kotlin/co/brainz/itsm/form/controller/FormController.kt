@@ -2,8 +2,7 @@ package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.form.service.FormService
-import co.brainz.workflow.form.constants.FormConstants
-import co.brainz.workflow.form.dto.FormDto
+import co.brainz.itsm.provider.dto.FormDto
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -55,8 +54,6 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/new")
     fun getFormNew(request: HttpServletRequest, model: Model): String {
-        //TODO 템플릿 정보 가져오기
-
         return formEditPage
     }
 
@@ -66,7 +63,7 @@ class FormController(private val codeService: CodeService,
     @GetMapping("/{formId}/edit")
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
         //TODO 컴포넌트 상세 정보 가져오기
-        model.addAttribute("form", formService.getForm(formId))
+        model.addAttribute("form", formService.findForm(formId))
         return formDesignerEditPage
     }
 
