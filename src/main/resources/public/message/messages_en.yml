@@ -137,9 +137,10 @@ login:
   findPasswd: "Forgot Password?"
   sendLogin: "Login"
   userSignUp: "Sign Up"
-  userSignUpNote: "Would you like to sign up?"
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
+  loginNote: "Do you have an account?"
+  signupNote: "Would you like to sign up?"
 
 # FORM
 form:
