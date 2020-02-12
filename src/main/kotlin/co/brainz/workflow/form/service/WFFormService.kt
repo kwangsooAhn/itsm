@@ -3,12 +3,12 @@ package co.brainz.workflow.form.service
 import co.brainz.workflow.form.constants.FormConstants
 import co.brainz.workflow.form.dto.FormDto
 import co.brainz.workflow.form.entity.FormMstEntity
-import co.brainz.workflow.form.repository.FormMstMstRepository
+import co.brainz.workflow.form.repository.FormMstRepository
 import org.springframework.stereotype.Service
 import java.util.Optional
 
 @Service
-class WFFormService(private val formMstRepository: FormMstMstRepository) : Form {
+class WFFormService(private val formMstRepository: FormMstRepository) : Form {
 
     /**
      * Search Forms.
