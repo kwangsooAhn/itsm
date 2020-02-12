@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{process.label.edit}"></title>
     <meta charset="utf-8">
@@ -9,91 +9,69 @@
     <meta http-equiv="expire" content="-1"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
+    <link th:href="@{/assets/css/process-designer.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflowEditor.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflowEditor.menu.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflowEditor.util.js}"></script>
-    <style type="text/css">
-        /* 임시 CSS */
-        .toolbar { width: 1465px; height: 40px; background-color: rgba(171, 132, 135, 0.5); }
-        .toolbar a { margin: 10px; }
-        .toolbar .process-name { float: right; font-size: 15px; font-weight: bold; padding-right: 20px; }
-        .element-palette { display: inline-block; width: 60px; height: 750px; background-color: #b1afab; position: absolute; top: 48px; }
-        .element-palette .connector { display: inline-block; width: 36px; height: 5px; background-color: transparent;  border-width: 1px; border-color: black; border-style: solid; margin-left: 10px; margin-top: 20px; margin-bottom: 0;}
-        .element-palette .connector.selected { border-color: red;}
-        .element-palette .shape { display: inline-block; width: 36px; height: 36px; background-color: transparent;  border-width: 2px; border-color: black; border-style: solid; margin: 10px;}
-        .element-palette .shape.event { border-radius: 50%; }
-        .element-palette .shape.task { height: 26px; }
-        .element-palette .shape.subprocess { height: 26px; }
-        .element-palette .shape.gateway { width: 0; height: 0; border: 20px solid transparent; border-bottom-color: red; position: relative; top: -20px; }
-        .element-palette .shape.gateway:after { content: ''; position: absolute; left: -20px; top: 20px; width: 0; height: 0; border: 20px solid transparent; border-top-color: red; }
-        .element-palette .shape.group { width: 36px; height: 26px; border-style: dotted; }
-        .element-palette .shape.annotation { width: 36px; height: 26px; border-style: dotted; }
-        .element-palette .separator { display: inline-block; width: 40px; height: 2px; background: gray; margin-left: 10px; }
-        .drawing-board {
-            display: inline-block;
-            position: absolute;
-            top: 48px;
-            left: 68px;
-            width: 1405px;
-            height: 750px;
-            background-color: #f6f6f6;
-            background-image:
-                    linear-gradient(90deg, #cdcccc 0px, #cdcccc 1px, transparent 1px, transparent 99px,  transparent 100px),
-                    linear-gradient(#cdcccc 0px, #cdcccc 1px, transparent 1px, transparent 99px,  transparent 100px),
-                    linear-gradient(#e0e0e0 0px, #e0e0e0 1px, transparent 1px, transparent 99px,  transparent 100px),
-                    linear-gradient(90deg, #e0e0e0 0px, #e0e0e0 1px, transparent 1px, transparent 99px,  transparent 100px),
-                    linear-gradient(transparent 0px, transparent 5px, #f6f6f6 5px, #f6f6f6 95px, transparent 95px, transparent 100px),
-                    linear-gradient(90deg, #e0e0e0 0px, #e0e0e0 1px, transparent 1px, transparent 99px, #e0e0e0 99px, #e0e0e0 100px),
-                    linear-gradient(90deg, transparent 0px, transparent 5px, #f6f6f6 5px, #f6f6f6 95px, transparent 95px, transparent 100px),
-                    linear-gradient(transparent 0px, transparent 1px, #f6f6f6 1px, #f6f6f6 99px, transparent 99px, transparent 100px),
-                    linear-gradient(#cdcccc, #cdcccc);
-            background-size:100px 100%, 100% 100px, 100% 10px, 10px 100%, 100% 100px, 100px 100%, 100px 100%, 100px 100px, 100px 100px;
-        }
-        .properties-panel { display: inline-block; position: absolute; top: 48px; left: 1173px; width: 300px; height: 500px; background-color: #e2e6ea; }
-        .properties-panel h3 { padding-left: 10px; }
-        .properties-panel p { padding-left: 10px; }
-        .properties-panel p > label { display: inline-block; width: 80px; }
-
-        path.link { fill: none; stroke: #000; stroke-width: 2px; cursor: default; }
-        svg:not(.active):not(.ctrl) path.link { cursor: pointer; }
-        path.link.selected { stroke-dasharray: 10,2; stroke-width: 3px; }
-        path.link.drag-line { pointer-events: none; }
-        path.link.hidden { stroke-width: 0; }
-
-    </style>
+    <script th:src="@{/assets/js/process/workflow.util.js}"></script>
+    <script th:src="@{/assets/js/process/processEditor.js}"></script>
+    <script th:src="@{/assets/js/process/processEditor.menu.js}"></script>
+    <script th:src="@{/assets/js/process/processEditor.util.js}"></script>
 </head>
 <body>
-<div class="container">
-    <div class="toolbar">
-        <a href="#" id="btnSave">Save</a>
-        <a href="#" id="btnSimulation">Simulation</a>
-        <a href="#" id="btnUndo">Undo</a>
-        <a href="#" id="btnRedo">Redo</a>
-        <a href="#" id="btnImport">Import</a>
-        <a href="#" id="btnExport">Export</a>
-        <a href="#" id="btnDownload">Image Download</a>
+<div class="alice-process-container">
+    <div class="alice-process-toolbar">
+        <span class="logo"></span>
+        <a href="#" id="btnSave">
+            <img th:src="@{/assets/media/icons/process/topmenu/save.png}"/>
+            <label th:text="#{common.btn.save}"/>
+        </a>
+        <a href="#" id="btnSimulation">
+            <img th:src="@{/assets/media/icons/process/topmenu/simulation.png}"/>
+            <label th:text="#{process.label.simulation}"/>
+        </a>
+        <span class="separator"></span>
+        <a href="#" id="btnUndo">
+            <img th:src="@{/assets/media/icons/process/topmenu/undo.png}"/>
+            <label th:text="#{process.label.undo}"/>
+        </a>
+        <a href="#" id="btnRedo">
+            <img th:src="@{/assets/media/icons/process/topmenu/redo.png}"/>
+            <label th:text="#{process.label.redo}"/>
+        </a>
+        <span class="separator"></span>
+        <a href="#" id="btnImport">
+            <img th:src="@{/assets/media/icons/process/topmenu/import.png}"/>
+            <label th:text="#{process.label.import}"/>
+        </a>
+        <a href="#" id="btnExport">
+            <img th:src="@{/assets/media/icons/process/topmenu/export.png}"/>
+            <label th:text="#{process.label.export}"/>
+        </a>
+        <span class="separator"></span>
+        <a href="#" id="btnDownload">
+            <img th:src="@{/assets/media/icons/process/topmenu/image-download.png}"/>
+            <label th:text="#{process.label.imageDownload}"/>
+        </a>
         <span class="process-name"></span>
     </div>
-    <div class="element-palette" draggable="true">
+    <div class="alice-process-element-palette">
         <span class="connector"></span>
         <span class="separator"></span>
         <span class="shape event"></span>
         <span class="shape task"></span>
         <span class="shape subprocess"></span>
         <span class="shape gateway"></span>
+        <span class="separator"></span>
         <span class="shape group"></span>
         <span class="shape annotation"></span>
     </div>
-    <div class="drawing-board"></div>
-    <div class="properties-panel"></div>
+    <div class="alice-process-drawing-board"></div>
+    <div class="alice-process-properties-panel"></div>
 </div>
 </body>
 <script type="text/javascript">
-    window.addEventListener('load', function() {
-        wfEditor.init({processId: '[[${processId}]]'});
-    });
+    window.onload = function() {
+        AliceProcessEditor.init({processId: '[[${processId}]]'});
+    }
 </script>
 </html>

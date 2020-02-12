@@ -170,6 +170,12 @@ process:
     description: "Description"
     templatesList: "Templates List"
     searchPlaceholder: "Process Name / Process Description"
+    simulation: "Simulation"
+    undo: "Undo"
+    redo: "Redo"
+    import: "Import"
+    export: "Export"
+    imageDownload: "Image Download"
   status:
     edit: "Editing"
     simu: "Simulation Complete"

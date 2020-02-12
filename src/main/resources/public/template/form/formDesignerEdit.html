@@ -1,96 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{form.label.edit}"></title>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta http-equiv="expire" content="-1"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
     <script th:src="@{/assets/js/form/formEditor.js}"></script>
-    <script th:src="@{/assets/js/form/formComponent.js}"></script>
+    <script th:src="@{/assets/js/form/component.js}"></script>
     <style type="text/css">
-        /* 임시 CSS */
-        html, body {margin: 0; height: 100%; overflow: hidden;}
-        .container { height: 100%;  margin: 0; padding: 0;}
-        .form-designer {display: flex; height: 100%; flex-direction: column;}
-        .toolbar{height: 35px; display: flex; align-items: center; justify-content: space-between; flex-grow: 0; position: relative; background: #4C5264; color: #ffffff;}
-        .menu {height: 100%; display: flex; align-items: center; flex-grow: 0; flex-shrink: 0;  margin-right: 8px;}
-        .logo {display: inline-flex; flex-shrink: 0; align-items: center; color: #ffffff; text-decoration:none; padding-left: 8px; padding-right: 8px;}
-        .nav {flex-grow: 0; flex-shrink: 0; display: flex; align-items: stretch; list-style-type: none; margin: 0; padding: 0;}
-        .nav-item {display: inline-flex; flex-shrink: 0; align-items: center; padding-left: 8px; padding-right: 8px;}
-        .nav-item a {color: #ffffff; text-decoration:none;}
-        .title {flex-grow: 0; flex-shrink: 0; padding-right: 8px;}
-        .panel {width: 100%; height:100%; display: flex; flex: 1 1 0;}
-        .content {
-            width: calc(100% - 300px); 
-            max-width: calc(100% - 300px);
-            height: 100%;
-            display: flex; 
-            flex-direction: column; 
-            flex: 1 1 0;
-            align-items: center;
-            color: #32435F;
-            background: #F6F6F7; 
-            z-index: 1;
-            padding: 30px 50px 0px 50px;
-            overflow: auto;
-        }
-        .sidebar {
-            width: 300px;
-            height: 100%;
-            max-height: 100%;
-            display: flex;
-            flex-direction:  column;
-            flex-grow: 0; /*flex container의 크기가 커져도 flex item의 크기가 커지지 않고 원래 크기로 유지*/
-            flex-shrink: 0; /*flex container의 크기가 flex item의 크기보다 작아져도 flex item의 크기가 줄어들지 않고 원래 크기로 유지*/
-            position: relative;
-            background: #ffffff; 
-            transition: box-shadow 300ms ease-in 0s;
-            overflow: auto;
-            z-index: 99;
-        }
-        .component {width: 100%; max-width: 100%; padding: 10px; cursor: move; border: none;}
-        .component.over { border: 3px dashed #ccc; }
-        .group {display: flex; flex-wrap: wrap; width: 100%; align-items: center; pointer-events: none;}
+        /* 임시 CSS  추후 form-designer.css 로 이동 */
+        .component {display: flex; align-items: center; width: 100%; max-width: 100%; border: none; padding-right: 60px; padding-bottom: 20px;}
+        /* .component.over { border: 3px dashed #ccc; } */
+        .component .move-icon {width:60px; height:80px; content:url("https://placehold.it/60X80"); opacity: 0;}
+        .group {display: flex; flex-wrap: wrap; width: 100%; align-items: center; /* padding: 20px 60px 20px 5px;pointer-events: none; */}
         .field input[type=text] {width: 100%; height: 25px;}
         .field textarea {width: 100%;}
         #property-panel .title{padding: 30px 0px 0px 0px; font-size: 30px; font-weight: bold; text-align: center;}
         
-        [contenteditable=true]:empty:before {content: attr(placeholder); display: block; /* For Firefox */}
-        div[contenteditable=true] {color : #333;font-size: 12px; width: 100%; height:30px; padding: 10px; line-height: 30px;}
-        div:focus { outline: none; border: 3px dashed #ccc;}
+        .group[contenteditable=true]:empty::before {content: attr(placeholder); display: block;}
+        .group[contenteditable=true] {color : #BCC5D3;font-size: 12px; height:80px; line-height: 80px;}
+        .group:focus {outline: none;}
         
-        #context-menu { background: #4C5264; color: #ffffff; position: absolute; display: none; width: 200px; padding: 0; margin: 0; overflow: auto; top: 0; left: 10; z-index:999;}
-        #context-menu li {height: 32px; line-height: 32px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 10px 5px;}
-        #context-menu li:hover {background-color: #ddd;}
-        #context-menu li.active {background-color: #ddd;}
+        .context-menu {
+          display: none;
+          position: absolute;
+          z-index: 10;
+          width: 240px;
+          max-height: 200px;
+          background-color: #fff;
+          border: solid 1px #dfdfdf;
+          box-shadow: 1px 1px 2px #cfcfcf;
+          overflow: auto;
+        }
+        .context-menu.on {
+            display: block;
+        }
+        .context-menu ul{
+            display: none;
+        }
+        .context-menu ul.active{
+            display: block;
+        }
+        .context-menu li.active {
+            background-color: rgba(188, 197, 211, 0.1);
+        }
+        .context-menu li:hover {
+            background-color: rgba(188, 197, 211, 0.1);
+        }
     </style>
 </head>
 <body>
-    <div class="container light-thema">
-        <div class="form-designer" id="form-designer">
-            <nav class="toolbar">
-                <div class="menu">
-                    <a class="logo" href="#">Logo</a>
-                    <ul class="nav">
-                        <li class="nav-item"><a class="link" href="javascript:void(0);" onclick="formEditor.save();">저장</a></li>
-                        <li class="nav-item"><a class="link" href="#">작업취소</a></li>
-                        <li class="nav-item"><a class="link" href="#">작업재실행</a></li>
-                        <li class="nav-item"><a class="link" href="#">미리보기</a></li>
-                        <li class="nav-item"><a class="link" href="#">export</a></li>
-                        <li class="nav-item"><a class="link" href="#">import</a></li>
-                    </ul>
-                </div>
-                <div class="title"><span>단순문의 v1.0</span></div>
-            </nav>
-            <div class="panel">
-                <div class="content" id="form-panel"></div>
-                <div class="sidebar" id="property-panel"></div>
-            </div>
+    <nav class="navbar navbar-expand-lg form-navbar">
+        <a class="navbar-brand" href="#">
+            <img th:src="@{/assets/media/icons/logo.png}" width="32" height="32" alt="Alice">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul id="main-menu" class="mr-auto">
+                <li class="nav-item"><a class="nav-link" href="javascript:void(0);" onclick="formEditor.save();">저장</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">작업취소</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">작업재실행</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">미리보기</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">export</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">import</a></li>
+            </ul>
+            <span class="form-name"></span>
         </div>
-        <ul id="context-menu"></ul>
+    </nav>
+    <div class="form-container light-thema" id="form-designer">
+        <div class="panel">
+            <div class="panel-form" id="panel-form"></div>
+            <div class="panel-property" id="panel-property"></div>
+        </div>
+    </div>
+    <div id="context-menu" class="context-menu">
+        <ul id="context-menu-control" class="active">
+            <li><i class="fa fa-edit"></i><a class="context-item-link" href="#" data-action="copy">복사</a></li>
+            <li><i class="fa fa-times"></i><a class="context-item-link" href="#" data-action="delete">삭제</a></li>
+        </ul>
+        <ul id="context-menu-componet">
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="text">Text</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="textarea">Text Box</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="list">Dropdown</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="radio">Radio Button</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="checkbox">Checkbox</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="label">Label</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="image">Image</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="line">Line</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="date">Date</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="time">Time</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="datetime">Date Time</a></li>
+            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="fileupload">Fileupload</a></li>   
+        </ul>
     </div>
 </body>
 <script type="text/javascript">

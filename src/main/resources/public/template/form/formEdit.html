@@ -3,7 +3,7 @@
 <head>
     <title th:text="#{form.label.register}"></title>
     <th:block th:replace="layout/fragments/commonHead"></th:block>
-    <!-- 임시 style -->
+    <!-- �엫�떆 style -->
     <style>
         table th {
             text-align: left;
@@ -28,16 +28,6 @@
                 </tr>
                 <tr>
                     <td><textarea id="form_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
-                </tr>
-                <tr>
-                    <th th:text="#{form.label.lang}"></th>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="lang" tabindex="3">
-                            <option th:each="lang: ${langList}" th:value="${lang.code}" th:text="#{${lang.code}}"></option>
-                        </select>
-                    </td>
                 </tr>
             </table>
             <div><a th:text="#{common.btn.next}" href="javascript:replaceContent();"></a></div>
@@ -64,21 +54,20 @@
         }
     }
 
-    //폼 등록
+    //�뤌 �벑濡�
     function insertForm() {
-        //빈 값 체크
+        //鍮� 媛� 泥댄겕
         if (emptyValidation()) {
             const formInfo = {
                 formName: document.getElementById('form_name').value,
-                formDesc: document.getElementById('form_desc').value,
-                lang: document.getElementById('lang').value
+                formDesc: document.getElementById('form_desc').value
             };
-            //등록
-            restSubmit('POST', '/forms', formInfo);
+            //�벑濡�
+            restSubmit('POST', '/rest/forms/data', formInfo);
         }
     }
 
-    //빈 값 체크
+    //鍮� 媛� 泥댄겕
     function emptyValidation() {
         if (document.getElementById('form_name').value === '') {
             alert('[[#{form.msg.alert.nameNotExist}]]');
@@ -97,7 +86,8 @@
             contentType: 'application/json',
             callbackFunc: function(response) {
                 window.close();
-                window.open('/forms/' + response.responseText + '/edit', '_blank', 'width=1500, height=800');
+                const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=yes";
+                window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1920,height=1080,' + specs);
             }
         };
         aliceJs.sendXhr(opt);
