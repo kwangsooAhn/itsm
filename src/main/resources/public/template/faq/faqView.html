@@ -36,10 +36,9 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
-        window.onload = function () {
+        window.addEventListener('load', function() {
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]', editor: false}});
-            hiddenProgressBar();
-        }
+        });
     </script>
 </th:block>
 </html>

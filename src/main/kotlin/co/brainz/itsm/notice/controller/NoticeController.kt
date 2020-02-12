@@ -2,6 +2,7 @@ package co.brainz.itsm.notice.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.constants.CodeConstants
+import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.user.service.UserService
@@ -52,34 +53,27 @@ class NoticeController(private val userService: UserService,
      * 공지사항 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("/list")
-    fun getNoticeList(request: HttpServletRequest, model: Model): String {
-        val isNoticeTitle = request.getParameter("noticeTitle")!!.toBoolean()
-        val isCreateUserkey = request.getParameter("createUserkey")!!.toBoolean()
-        val keyWord = request.getParameter("keyWord")
+    fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
         var noticeList = emptyList<NoticeEntity>()
-        val fromDt: LocalDateTime = convertParam.convertToSearchLocalDateTime(request.getParameter("fromDt"), "fromDt")
-        val toDt: LocalDateTime = convertParam.convertToSearchLocalDateTime(request.getParameter("toDt"), "toDt")
+        var topNoticeList = emptyList<NoticeEntity>()
 
-        when (isNoticeTitle && isCreateUserkey) {
+        when (noticeSearchDto.isSearch) {
             true -> {
-                noticeList = noticeService.findAllCheck(keyWord, fromDt, toDt)
+                val searchValue = noticeSearchDto.searchValue
+                val fromDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.fromDt, "fromDt")
+                val toDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.toDt, "toDt")
+                noticeList = noticeService.findNoticeSearch(searchValue, fromDt, toDt)
+                topNoticeList = noticeService.findTopNoticeSearch(searchValue, fromDt, toDt)
             }
             false -> {
-                if (isNoticeTitle) {
-                    noticeList = noticeService.findAllByTitle(keyWord, fromDt, toDt)
-                }
-                if (isCreateUserkey) {
-                    noticeList = noticeService.findAllByWriter(keyWord, fromDt, toDt)
-                }
-                if (!isNoticeTitle && !isCreateUserkey) {
-                    noticeList = noticeService.findNoticeList()
-                }
+                noticeList = noticeService.findNoticeList()
+                topNoticeList = noticeService.findTopNoticeList()
             }
         }
-
         model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("noticeList", noticeList)
-        model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
+        model.addAttribute("topNoticeList", topNoticeList)
+
         return noticeListPage
     }
 

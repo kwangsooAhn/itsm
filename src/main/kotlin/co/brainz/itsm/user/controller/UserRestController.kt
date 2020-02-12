@@ -1,13 +1,17 @@
 package co.brainz.itsm.user.controller
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.certification.service.CertificationService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.user.dto.UserUpdateDto
-import co.brainz.itsm.user.dto.UserSearchDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
@@ -18,11 +22,6 @@ import org.springframework.web.servlet.LocaleResolver
 import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import org.springframework.security.core.Authentication
-import org.springframework.security.core.context.SecurityContextHolder
-import co.brainz.framework.auth.dto.AliceUserDto
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import co.brainz.framework.auth.service.AliceAuthProvider
 
 /**
  * 사용자 관리 데이터 처리 클래스
@@ -42,8 +41,8 @@ class UserRestController(
      * 사용자 전체 목록을 조회한다.
      */
     @GetMapping("/", "")
-    fun getUsers(userSearchDto: UserSearchDto): MutableList<AliceUserEntity> {
-        return userService.selectUserList(userSearchDto)
+    fun getUsers(searchValue: String): MutableList<AliceUserEntity> {
+        return userService.selectUserList(searchValue)
     }
 
     /**
@@ -104,7 +103,7 @@ class UserRestController(
         usernamePasswordAuthenticationToken.details = AliceUserDto(
             aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email,
             aliceUser.useYn, aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey,
-            authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeformat
+            authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
         )
         return usernamePasswordAuthenticationToken
     }

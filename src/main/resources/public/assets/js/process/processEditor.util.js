@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.wfEditor = global.wfEditor || {})));
+            (factory((global.AliceProcessEditor = global.AliceProcessEditor || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -24,19 +24,25 @@
      * save workflow.
      */
     function saveWorkflow() {
-        aliceJs.sendXhr({
-            method: 'POST',
-            url: '/rest/processes/data',
-            callbackFunc: function(xhr) {
-                if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
-                    alert('저장되었습니다.');
+        const xhr = createXmlHttpRequestObject('POST', '/rest/processes/data');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
+                        alert('저장되었습니다.');
+                    } else {
+                        alert('저장실패');
+                    }
+                } else if (xhr.status === 400) {
+                    alert('There was an error 400');
                 } else {
-                    alert('저장실패');
+                    console.log(xhr);
+                    alert('something else other than 200 was returned. ' + xhr.status);
                 }
-            },
-            contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(wfEditor.data)
-        });
+            }
+        };
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        xhr.send(JSON.stringify(AliceProcessEditor.data));
     }
 
     /**
@@ -90,7 +96,7 @@
     /**
      * init workflow util.
      */
-    function initWorkflowUtil() {
+    function initUtil() {
         // add click event listener.
         document.querySelector('#btnSave').addEventListener('click', saveWorkflow);
         document.querySelector('#btnSimulation').addEventListener('click', simulationWorkflow);
@@ -102,6 +108,6 @@
     }
 
     exports.utils = utils;
-    exports.initWorkflowUtil = initWorkflowUtil;
+    exports.initUtil = initUtil;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

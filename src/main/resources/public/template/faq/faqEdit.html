@@ -54,7 +54,7 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        window.onload = function () {
+        window.addEventListener('load', function() {
             if ("[[${faq?.faqId}]]" == "") {
                 document.getElementById("btnRegist").addEventListener("click", function () {
                     restSubmit("post", "[[@{/rest/faqs}]]");
@@ -69,8 +69,7 @@
             }
 
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
-            hiddenProgressBar();
-        }
+        });
 
         function restSubmit(method, url, async) {
             var xmlhttp = createXmlHttpRequestObject(method, url, async);

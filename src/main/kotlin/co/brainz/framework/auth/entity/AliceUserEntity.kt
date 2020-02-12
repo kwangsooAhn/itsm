@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.io.Serializable
 import java.time.LocalDateTime
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
@@ -18,43 +19,74 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_user")
 data class AliceUserEntity(
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
+        @Id @GeneratedValue(generator = "UUID")
+        @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+        @Column(name = "user_key", length = 128)
         val userKey: String,
+
+        @Column(name = "user_id", length = 128)
         var userId: String,
+
+        @Column(name = "user_name", length = 128)
         var userName: String,
+
+        @Column(name = "password", length = 1024)
         var password: String,
+
+        @Column(name = "email", length = 1024)
         var email: String,
+
+        @Column(name = "use_yn")
         val useYn: Boolean = true,
+
+        @Column(name = "try_login_count")
         val tryLoginCount: Int = 0,
+
+        @Column(name = "position", length = 128)
         var position: String? = null,
+
+        @Column(name = "department", length = 128)
         var department: String? = null,
+
+        @Column(name = "office_number", length = 128)
         var officeNumber: String? = null,
+
+        @Column(name = "mobile_number", length = 128)
         var mobileNumber: String? = null,
-        override var createUserkey: String = UserConstants.CREATE_USER_ID,
-        var status: String = UserConstants.Status.CERTIFIED.code,
-        var certificationCode: String? = null,
-        var platform: String = UserConstants.Platform.ALICE.code,
+
+        @Column(name = "create_user_key", length = 128)
+        override var createUserKey: String = UserConstants.CREATE_USER_ID,
+
+        @Column(name = "status", length = 100)
+        val status: String = UserConstants.Status.CERTIFIED.code,
+
+        @Column(name = "certification_code", length = 128)
+        val certificationCode: String? = null,
+
+        @Column(name = "platform", length = 100)
+        val platform: String = UserConstants.Platform.ALICE.code,
+
+        @Column(name = "expired_dt")
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         val expiredDt: LocalDateTime,
 
-        //@ManyToMany(fetch = FetchType.EAGER)
-        //@JoinTable(name = "awfUserRoleMap",
-        //           joinColumns = [JoinColumn(name = "userKey")],
-        //           inverseJoinColumns = [JoinColumn(name = "roleId")])
-        //var roleEntities: Set<AliceRoleEntity>?,
-        var oauthKey: String?,
-        var timezone: String,
-        var lang: String,
-        var timeformat: String
+        @Column(name = "oauth_key", length = 256)
+        val oauthKey: String?,
 
+        @Column(name = "timezone", length = 100)
+        var timezone: String,
+
+        @Column(name = "lang", length = 100)
+        var lang: String,
+
+        @Column(name = "time_format", length = 100)
+        var timeFormat: String
 ): Serializable, AliceMetaEntity() {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()
 
     fun getAuthorities(): MutableSet<GrantedAuthority> {
-
         val authorities = mutableSetOf<GrantedAuthority>()
         val rolePrefix = "ROLE_"
         this.userRoleMapEntities.forEach{userRoleMap ->
@@ -63,7 +95,6 @@ data class AliceUserEntity(
                 authorities.add(SimpleGrantedAuthority(roleAuthMap.auth.authId))
             }
         }
-
         return authorities
     }
 }

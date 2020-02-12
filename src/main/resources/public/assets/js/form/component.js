@@ -1,89 +1,80 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (factory((global.Component = global.Component || {})));
+    (factory((global.component = global.component || {})));
 }(this, (function (exports) {
     'use strict';
     
     const _defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
-          _defaultPlaceholder= 'Typing "/" for add component';
+          _defaultPlaceholder= '+ Typing for add component';
     
     let _formPanel = null,
         _propertyPanel = null,
-        _componentId = 0,
+        _lastComponentId = 0,
         _componentIndex = 0,
         _selectedComponentId = '',
         _dragComponent = null,
         _children = [],
         eventHandler = {
-        onDragStartHandler: function(e) {
-            _dragComponent = e.target;
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', this.innerHTML);
-        },
-        onDragHandler: function(e) {
-        },
-        onDragEndHandler: function(e) {
-            if (_children.length > 0) {
-                for (let i = 0, len = _children.length; i < len; i ++) {
-                   var child = _children[i];
-                   child.classList.remove('over');
-                }
-            }
-        },
-        onDragOverHandler: function(e) {
-            e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
-            e.dataTransfer.dropEffect = 'move';
-        },
-        onDragEnterHandler: function(e) {
-            if (_dragComponent !== e.target) {
-                e.target.classList.add('over');
-            }
-        },
-        onDragLeaveHandler: function(e) {
-            e.target.classList.remove('over');
-        },
-        onDragDropHandler: function(e) {
-            if (e.stopPropagation) {
-                e.stopPropagation(); 
-            }
-            if (_dragComponent !== e.target) {
-                let targetType = e.target.dataset.type;
-                let targetName = e.target.dataset.name;
-                if (targetType !== _dragComponent.dataset.type) {
-                    if (_dragComponent.dataset.type === 'editbox') {
-                        e.target.setAttribute('contenteditable', 'true');
-                        e.target.setAttribute('placeholder', _defaultPlaceholder);
-                        _dragComponent.removeAttribute('contenteditable');
-                        _dragComponent.removeAttribute('placeholder');
+            /*onDragStartHandler: function(e) {
+                _dragComponent = e.target;
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.innerHTML);
+            },
+            onDragHandler: function(e) {
+            },
+            onDragEndHandler: function(e) {
+                if (_children.length > 0) {
+                    for (let i = 0, len = _children.length; i < len; i ++) {
+                       var child = _children[i];
+                       child.classList.remove('over');
                     }
-                    if (targetType === 'editbox') {
-                        _dragComponent.setAttribute('contenteditable', 'true');
-                        _dragComponent.setAttribute('placeholder', _defaultPlaceholder);
-                        e.target.removeAttribute('contenteditable');
-                        e.target.removeAttribute('placeholder');
-                    }
-                    e.target.dataset.type = _dragComponent.dataset.type;
-                    _dragComponent.dataset.type = targetType;
-                    e.target.dataset.name = _dragComponent.dataset.name;
-                    _dragComponent.dataset.name = targetName;
                 }
-                _dragComponent.innerHTML = e.target.innerHTML;
-                e.target.innerHTML = e.dataTransfer.getData('text/html');
-            }
-            return false;
-        }
+            },
+            onDragOverHandler: function(e) {
+                e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
+                e.dataTransfer.dropEffect = 'move';
+            },
+            onDragEnterHandler: function(e) {
+                if (_dragComponent !== e.target) {
+                    e.target.classList.add('over');
+                }
+            },
+            onDragLeaveHandler: function(e) {
+                e.target.classList.remove('over');
+            },
+            onDragDropHandler: function(e) {
+                if (e.stopPropagation) {
+                    e.stopPropagation(); 
+                }
+                if (_dragComponent !== e.target) {
+                    let targetType = e.target.dataset.type;
+                    let targetName = e.target.dataset.name;
+                    if (targetType !== _dragComponent.dataset.type) {
+                        if (_dragComponent.dataset.type === 'editbox') {
+                            e.target.setAttribute('contenteditable', 'true');
+                            e.target.setAttribute('placeholder', _defaultPlaceholder);
+                            _dragComponent.removeAttribute('contenteditable');
+                            _dragComponent.removeAttribute('placeholder');
+                        }
+                        if (targetType === 'editbox') {
+                            _dragComponent.setAttribute('contenteditable', 'true');
+                            _dragComponent.setAttribute('placeholder', _defaultPlaceholder);
+                            e.target.removeAttribute('contenteditable');
+                            e.target.removeAttribute('placeholder');
+                        }
+                        e.target.dataset.type = _dragComponent.dataset.type;
+                        _dragComponent.dataset.type = targetType;
+                        e.target.dataset.name = _dragComponent.dataset.name;
+                        _dragComponent.dataset.name = targetName;
+                    }
+                    _dragComponent.innerHTML = e.target.innerHTML;
+                    e.target.innerHTML = e.dataTransfer.getData('text/html');
+                }
+                return false;
+            }*/
     };
-    /**
-     * 컴포넌트 UUID 생성
-     *
-     * @method generateUUID
-     * @return 유일한 컴포넌트ID
-     * @access private
-     */
-    function generateUUID() {
-        return new Date().getTime();
-    }
+    
     /**
      * element 생성
      *
@@ -125,22 +116,25 @@
      * @access public
      */
     function addComponent(options) {
-        let elem = null;
         options = options || {};
-        if (options.targetElement !== undefined) {
-            elem = options.targetElement;
-            elem.innerHTML = '';
-            elem.removeAttribute('contenteditable');
-            elem.removeAttribute('placeholder');
-            elem.setAttribute('data-name', options.name);
+        
+        let elem = null;
+        if (options.componentId !== undefined) {
+            elem = _formPanel.querySelector('#' + options.componentId);
+            elem.removeChild(elem.childNodes[1]);
             _selectedComponentId = elem.id;
-            showPropertyPanel(elem.id);
+            //TODO: showPropertyPanel(elem.id);
         } else {
             elem = document.createElement('div');
             elem.classList.add('component');
-            elem.setAttribute('id', 'component_' + (++_componentId));
-            elem.setAttribute('tabIndex', (++_componentIndex));
-            elem.setAttribute('draggable', true);
+            let compId = workflowUtil.generateUUID();
+            _lastComponentId = compId;
+            elem.setAttribute('id', 'component_' + compId);
+            elem.setAttribute('data-index', (++_componentIndex));
+            
+            let img = document.createElement('img'); 
+            img.classList.add('move-icon');
+            elem.appendChild(img);
             _formPanel.appendChild(elem);
             _children.push(elem);
         }
@@ -277,22 +271,27 @@
                 elem.appendChild(comp);
                 break;
             case 'editbox':
-                elem.setAttribute('contenteditable', 'true');
-                elem.setAttribute('placeholder', _defaultPlaceholder);
+                comp = document.createElement('div');
+                comp.classList.add('group');
+                comp.setAttribute('contenteditable', 'true');
+                comp.setAttribute('placeholder', _defaultPlaceholder);
+                elem.appendChild(comp);
                 break;
             default:
-                console.log('컴포넌트가 존재하지 않습니다.');
+                console.info('component does not exist.');
         }
-        elem.addEventListener('dragstart', eventHandler.onDragStartHandler, false);
+        comp.setAttribute('tabIndex', elem.getAttribute('data-index'));
+        
+        /*elem.addEventListener('dragstart', eventHandler.onDragStartHandler, false);
         elem.addEventListener('drag', eventHandler.onDragHandler, false);
         elem.addEventListener('dragend', eventHandler.onDragEndHandler, false);
         elem.addEventListener('dragover', eventHandler.onDragOverHandler, false);
         elem.addEventListener('dragenter', eventHandler.onDragEnterHandler, false);
         elem.addEventListener('dragleave', eventHandler.onDragLeaveHandler, false);
         elem.addEventListener('drop', eventHandler.onDragDropHandler, false);
-        
+        */
         if (options.isFocus) {
-            elem.focus();
+            comp.focus();
         }
         return elem;
     }
@@ -322,10 +321,10 @@
      * @access public
      */
     function showPropertyPanel(id) {
-        let component = getComponentById(id);
+       let component = getComponentById(id);
         let title = document.createElement('div');
         title.classList.add('title');
-        title.textContent = component.dataset.name + ' 컴포넌트';
+        title.textContent = component.dataset.name;
         _propertyPanel.appendChild(title);
         
         //TODO:세부속성 출력
@@ -365,7 +364,7 @@
      * @access public
      */
     function getLastComponentId() {
-        return  'component_' + _componentId;
+        return _lastComponentId;
     }
     /**
      * 컴포넌트 초기화
@@ -374,9 +373,10 @@
      * @access public
      */
     function init() {
-        _formPanel = document.getElementById('form-panel');
-        _propertyPanel = document.getElementById('property-panel');
+        _formPanel = document.getElementById('panel-form');
+        _propertyPanel = document.getElementById('panel-property');
     }
+    
     exports.init = init;
     exports.add = addComponent;
     exports.copy = copyComponent;

@@ -91,13 +91,7 @@ user:
   delete: "User delete"
   editUserInfo: "Edit User Information"
   message: "When you change your email, you need to verify"
-  search:
-    id: "ID"
-    name: "Name"
-    position: "Position"
-    department: "Department"
-    officeNumber: "Office number"
-    mobileNumber: "Mobile number"
+  searchPlaceholder: "ID / Name / Position / Department / Office Number / Mobile Number"
     
 # FAQ
 faq:
@@ -133,6 +127,7 @@ notice:
   modify: "Modify"
   modifyCompleted: "Modify Completed"
   delete: "Delete"
+  searchPlaceholder: "Title / User"
 
 # LOGIN
 login:
@@ -157,6 +152,7 @@ form:
     description: "Description"
     lang: "Language"
     templatesList: "Templates List"
+    searchPlaceholder: "Form Name / Form Description"
   status:
     edit: "Editing"
     simu: "Simulation Complete"
@@ -177,6 +173,13 @@ process:
     register: "Process Register"
     description: "Description"
     templatesList: "Templates List"
+    searchPlaceholder: "Process Name / Process Description"
+    simulation: "Simulation"
+    undo: "Undo"
+    redo: "Redo"
+    import: "Import"
+    export: "Export"
+    imageDownload: "Image Download"
   status:
     edit: "Editing"
     simu: "Simulation Complete"

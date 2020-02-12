@@ -5,13 +5,13 @@ import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserUpdateDto
-import co.brainz.itsm.user.dto.UserSearchDto
 import co.brainz.itsm.user.entity.UserSpecification
-import co.brainz.itsm.user.entity.UserTimezoneEntity
+import co.brainz.framework.auth.entity.TimezoneEntity
 import co.brainz.itsm.user.repository.UserRepository
-import co.brainz.itsm.user.repository.UserTimezoneRepository
+import co.brainz.framework.auth.repository.TimezoneRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -30,15 +30,17 @@ class UserService(private val certificationRepository: CertificationRepository,
                   private val cryptoRsa: CryptoRsa,
                   private val roleRepository: RoleRepository,
                   private val userRepository: UserRepository,
-                  private val userTimezoneRepository: UserTimezoneRepository) {
+                  private val userTimezoneRepository: TimezoneRepository,
+                  private val codeService: CodeService) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(userSearchDto: UserSearchDto): MutableList<AliceUserEntity> {
-        return userRepository.findAll(UserSpecification(userSearchDto))
+    fun selectUserList(searchValue: String): MutableList<AliceUserEntity> {
+        val codeList= codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
+        return userRepository.findAll(UserSpecification(codeList, searchValue))
     }
 
     /**
@@ -156,7 +158,7 @@ class UserService(private val certificationRepository: CertificationRepository,
         update.mobileNumber?.let { targetEntity.mobileNumber = update.mobileNumber }
         update.timezone?.let { targetEntity.timezone = update.timezone!! }
         update.lang?.let { targetEntity.lang = update.lang!! }
-        update.timeformat?.let { targetEntity.timeformat = update.timeformat!! }
+        update.timeFormat?.let { targetEntity.timeFormat = update.timeFormat!! }
 
         return targetEntity
     }
@@ -164,7 +166,7 @@ class UserService(private val certificationRepository: CertificationRepository,
     /**
      * 자기정보 수정 시, 타임존의 데이터를 가져온다.
      */
-    fun selectTimezoneList(): MutableList<UserTimezoneEntity> {
+    fun selectTimezoneList(): MutableList<TimezoneEntity> {
         return userTimezoneRepository.findAllByOrderByTimezoneIdAsc()
     }
 }
