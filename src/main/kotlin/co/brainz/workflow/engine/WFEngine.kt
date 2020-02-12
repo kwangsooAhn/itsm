@@ -1,27 +1,27 @@
 package co.brainz.workflow.engine
 
-import co.brainz.workflow.form.repository.FormRepository
+import co.brainz.workflow.form.repository.FormMstRepository
 import co.brainz.workflow.form.service.Form
-import co.brainz.workflow.form.service.FormProvider
-import co.brainz.workflow.process.ProcessMstRepository
-import co.brainz.workflow.process.ProcessProvider
+import co.brainz.workflow.form.service.WFFormService
+import co.brainz.workflow.process.repository.ProcessMstRepository
+import co.brainz.workflow.process.service.WFProcessService
 import org.springframework.stereotype.Service
 
 @Service
-class WFEngine(private val formRepository: FormRepository, private val processMstRepository: ProcessMstRepository) {
+class WFEngine(private val formMstRepository: FormMstRepository, private val processMstRepository: ProcessMstRepository) {
 
     /**
      * Form Engine.
      */
     fun form(): Form {
-        return FormProvider(formRepository)
+        return WFFormService(formMstRepository)
         //return FormDummy()
     }
 
     /**
      * Process Engine.
      */
-    fun process(): ProcessProvider {
-        return ProcessProvider(processMstRepository)
+    fun process(): WFProcessService {
+        return WFProcessService(processMstRepository)
     }
 }

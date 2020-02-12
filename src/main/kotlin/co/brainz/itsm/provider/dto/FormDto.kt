@@ -1,4 +1,4 @@
-package co.brainz.workflow.form.dto
+package co.brainz.itsm.provider.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -6,11 +6,13 @@ import java.time.LocalDateTime
 data class FormDto(
         var formId: String = "",
         val formName: String = "",
-        val formStatus: String = "",
+        var formStatus: String = "",
         var formDesc: String? = null,
         var formEnabled: Boolean = false,
-        val createUserKey: String? = null,
-        val createDt: LocalDateTime? = null,
+        var createUserKey: String? = null,
+        var createDt: LocalDateTime? = null,
         val updateUserKey: String? = null,
-        val updateDt: LocalDateTime? = null
+        var updateDt: LocalDateTime? = null,
+        val userName: String? = null
 ) : Serializable
+

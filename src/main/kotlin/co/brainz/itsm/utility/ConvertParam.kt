@@ -38,24 +38,6 @@ class ConvertParam {
         }
     }
 
-    fun converterLocalDateTime(value: String, dateTimeFormatter: DateTimeFormatter): LocalDateTime {
-        var localDateTime = LocalDateTime.parse(value, dateTimeFormatter)
-        val timezone = timezone()
-        if (timezone.isNotEmpty()) {
-            localDateTime = LocalDateTime.parse(value, dateTimeFormatter).atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(timezone())).toLocalDateTime()
-        }
-        return localDateTime
-    }
-
-    fun converterLocalDateTime(value: LocalDateTime, dateTimeFormatter: DateTimeFormatter): LocalDateTime {
-        var localDateTime = value
-        val timezone = timezone()
-        if (timezone.isNotEmpty()) {
-            localDateTime = localDateTime.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(timezone())).toLocalDateTime()
-        }
-        return localDateTime
-    }
-
     fun timezone(): String {
         val isAnonymous = AuthenticationTrustResolverImpl().isAnonymous(SecurityContextHolder.getContext().authentication)
         var timezone = ""
