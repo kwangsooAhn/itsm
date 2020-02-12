@@ -53,7 +53,8 @@
 
     //폼 디자이너 편집화면 오픈
     function openFormDesignerEdit(formId) {
-        window.open('/forms/' + formId + '/edit', '_blank', 'width=1500, height=800');
+        const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=yes";
+        window.open('/forms/' + formId + '/edit', '_blank', 'width=1920,height=1080,'+ specs);
     }
 
     //REST API

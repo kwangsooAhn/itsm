@@ -1,0 +1,110 @@
+@import "bootstrap-4.4.1/bootstrap";
+//@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareL.woff) format('woff');
+    font-weight: 300;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareR.woff) format('woff');
+    font-weight: 400;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareB.woff) format('woff');
+    font-weight: 700;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareEB.woff) format('woff');
+    font-weight: 800;
+}
+
+$alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$nav-logo-height: 2rem; // 40px
+$nav-top-bottom-margin: 0.625rem; // 10px;
+$property-width: 300px;
+$form-top-margin: 80px;
+$form-left-margin: 140px;
+
+body {
+    font-family: $alice-font-family;
+}
+
+.form {
+    &-navbar {
+        background: #4C5264;
+        color: $white;
+        padding: $nav-top-bottom-margin 1.25rem; // 0px 20px
+        line-height: 1.0rem;
+        
+        font: {
+            size: 1rem; // 20px
+        }
+
+        a {
+            color: $white;
+        }
+    }
+    &-container {
+        height: calc(100vh - #{$nav-logo-height + ($nav-top-bottom-margin * 2)});
+    }
+}
+
+.navbar-brand {
+    height: $nav-logo-height;
+    padding: 0rem;
+    margin-right: 1.25rem; // 20px
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#main-menu > li {
+    float: left;
+    position: relative;
+
+    a {
+        margin: 0rem 1.375rem;
+        text-align: center;
+        text-decoration: none;
+        letter-spacing: 0.05em;
+    }
+}
+
+.panel {
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%; 
+    height:100%;
+    background: #F6F6F7;
+
+    &-form {
+        display: flex; 
+        flex: 1 1 auto;
+        flex-direction: column;
+        align-items: center;
+        width: calc(100% - #{$property-width});
+        max-width: calc(100% - #{$property-width});
+        margin: $form-top-margin $form-left-margin 0px $form-left-margin;
+        border: 1px solid #BCC5D3;
+        background: $white;
+        overflow: auto;
+    }
+
+    &-property { /*추후 분리작업 필요*/
+        display: flex;
+        flex: 0 0 auto;
+        flex-direction: column;
+        width: $property-width;
+        height: 100%;
+        max-height: 100%;
+        border-left: 1px solid #BCC5D3;
+        background: $white;
+        overflow: auto;
+    }
+}
