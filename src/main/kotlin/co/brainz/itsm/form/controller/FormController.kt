@@ -81,8 +81,7 @@ class FormController(private val codeService: CodeService,
      */
     @PostMapping("")
     fun insertForm(@RequestBody formDto: FormDto): String {
-        //formService.insertForm(formDto)
-        println("eeeeeeeeeeeeeeeeeeee")
+        formService.insertForm(formDto)
         return formListPage
     }
 
