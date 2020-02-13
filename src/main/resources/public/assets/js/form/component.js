@@ -103,23 +103,7 @@
         elem.innerHTML = template;
         return elem;
     }
-    /**
-     * 특정 컴포넌트 초회
-     *
-     * @param id 조회할 컴포넌트 id
-     * @return component 컴포넌트 엘리먼트
-     */
-    function getComponentById(id) {
-       /*if (_children.length > 0) {
-            for (let i = 0, len = _children.length; i < len; i ++) {
-               var child = _children[i];
-               if (child.id === id) {
-                   return child;
-               }
-            }
-        }
-        return null;*/
-    }
+    
     /**
      * 컴포넌트 추가
      *
@@ -134,9 +118,14 @@
         }
         if (elem) { //editbox 삭제 후 컴포넌트 추가
             elem.removeChild(elem.childNodes[1]);
-            selectedComponentId = elem.id;
-            console.log(options);
-            //formEdit.data에 신규 추가
+            //TODO: formEdit.data에 신규 추가
+            /*let detailAttr = component.attr[options.type];
+            let obj = {
+                id: options.componentId,
+                type: options.type,
+                //속성
+            };
+            formEditor.changeData(obj); */
         } else {
             elem = document.createElement('div');
             elem.classList.add('component');
@@ -149,10 +138,8 @@
             img.classList.add('move-icon');
             elem.appendChild(img);
             formPanel.appendChild(elem);
-            //_children.push(elem);
         }
         elem.setAttribute('data-type', options.type);
-        //console.log(options.attrs);
         let comp = null;
         switch (options.type) {
             case 'text':
@@ -227,7 +214,7 @@
             case 'image':
                 comp = createElement(`
                     <div class='field' style='flex-basis: 100%;'>
-                        <img src='' alt=''>
+                        <img src='https://placehold.it/800X100' alt=''>
                     </div>`);
                 elem.appendChild(comp);
                 break;
@@ -327,8 +314,11 @@
      * @param id 조회할 컴포넌트 id
      */
     function showPropertyPanel(id) {
-        console.log('selected comp id : ' + selectedComponentId);
+        if (selectedComponentId === id) return;
+        
+        selectedComponentId = id;
         let compAttr = formEditor.getData(id);
+        if (compAttr === null) return;
         let detailAttr = component.attr[compAttr.type];
         //세부 속성 재할당
         Object.keys(compAttr).forEach(function(comp) {
@@ -405,6 +395,7 @@
      */
     function hidePropertyPanel() {
         propertyPanel.innerHTML = '';
+        selectedComponentId = '';
     }
     /**
      * property panel 제목 출력

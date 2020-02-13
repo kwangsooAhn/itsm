@@ -84,11 +84,7 @@
                 if (item.classList.contains('active')) {
                     item.classList.remove('active');
                 }
-                let link = item.querySelector('a');
-                let text = link.textContent || link.innerText;
-                if (text.slice(0, searchText.length).toLowerCase() !== searchText.toLowerCase()) {
-                    item.style.display = 'none';
-                } else {
+                if (searchText === '/') {
                     item.style.display = 'block';
                     if (!rslt) {
                         selectedItem = item;
@@ -97,6 +93,22 @@
                     }
                     selectedItems.push(item);
                     rslt = true;
+                } else {
+                    let link = item.querySelector('a');
+                    let text = link.textContent || link.innerText;
+                    searchText = searchText.replace('/', '');
+                    if (text.slice(0, searchText.length).toLowerCase() !== searchText.toLowerCase()) {
+                        item.style.display = 'none';
+                    } else {
+                        item.style.display = 'block';
+                        if (!rslt) {
+                            selectedItem = item;
+                            selectedItem.classList.add('active');
+                            selectedItemIdx = 0;
+                        }
+                        selectedItems.push(item);
+                        rslt = true;
+                    }
                 }
             }
             return rslt;
@@ -149,6 +161,21 @@
         };
         
         /**
+         * 컨텍스트 메뉴 scroll 
+         */
+        const scrollMenu = function() {
+            let contextHeight = menu.offsetHeight;
+            let contextScrollTop = menu.scrollTop;
+            let viewPort = contextScrollTop + contextHeight;
+            let elem = menu.getElementsByClassName('active')[0];
+            let itemHeight = elem.firstElementChild.offsetHeight;
+            let contextOffset = itemHeight * selectedItemIdx;
+            if (contextOffset < contextScrollTop || (contextOffset + itemHeight) > viewPort) {
+                menu.scrollTop = contextOffset;
+            }
+        };
+        
+        /**
          * 컨텍스트 메뉴 위치 조정.
          * 
          * @param {Object} e 이벤트
@@ -193,6 +220,7 @@
                             selectedItemIdx = len;
                         }
                         selectedItem.classList.add('active');
+                        scrollMenu();
                         break;
                     case KEYCODE.ARROW_DOWN:
                         selectedItem.classList.remove('active');
@@ -204,9 +232,10 @@
                             selectedItemIdx = 0;
                         }
                         selectedItem.classList.add('active');
+                        scrollMenu();
                         break;
                     case KEYCODE.ENTER:
-                        menuItemListener(selectedItem.querySelector('.context-item-link'));
+                        menuItemListener(selectedItem);
                         selectedItems = [];
                         selectedItem = null;
                         selectedItemIdx = -1;
@@ -250,6 +279,7 @@
                 let box = itemInContext.querySelector('[contenteditable=true]');
                 if (box) {
                     let text = box.textContent;
+                    if (text.length > 0 && text.charAt(0) !== '/') return;
                     if (text.length > 0 && menuItemSearch(text)) {
                         toggleMenuOn(2);
                         positionMenu(e);
@@ -311,7 +341,7 @@
                                 toggleMenuOff();
                             }
                         }
-                        if (compType !== 'editbox') {
+                        if (itemInContext !== null && compType !== 'editbox') {
                             component.showPropertyPanel(itemInContext.id);
                         }
                     }
@@ -325,12 +355,17 @@
          */
         const menuItemListener = function(item) {
             let clickedComponent = itemInContext;
-            if (item.getAttribute('data-action') === 'copy') {
-                
-            } else if (item.getAttribute('data-action') === 'delete') {
-                
-            } else {
-                addComponent(item.getAttribute('data-action'), clickedComponent.id);
+            switch (item.getAttribute('data-action')) {
+                case 'copy':
+                    break;
+                case 'delete':
+                    break;
+                case 'addEditboxUp':
+                    break;
+                case 'addEditboxDown':
+                    break;
+                default:
+                    addComponent(item.getAttribute('data-action'), clickedComponent.id);
             }
             toggleMenuOff();
             itemInContext = null;
@@ -368,19 +403,33 @@
      */
     function addComponent(type, componentId, attrs) {
         attrs = attrs || {};
-        let isFocus = true;
         if (Object.keys(attrs).length === 0 && JSON.stringify(attrs) === JSON.stringify({})) {
             attrs.isNew = true; //추가
-            isFocus = true;
         } else {
             attrs.isNew = false; //수정
-            isFocus = false;
         }
-        let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: isFocus});
-        
-        let box = document.querySelectorAll('[contenteditable=true]');
-        if (attrs.isNew && box.length === 0) {
-            component.add({type: 'editbox', isFocus: !isFocus})
+        let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: true});
+        if (type !== 'editbox') {
+            let newElem = component.add({type: 'editbox', isFocus: true});
+            let compIdx = comp.getAttribute('data-index');
+            if (attrs.isNew && (compIdx + 1) !== newElem.getAttribute('data-index')) { //재정렬
+                let elems = document.querySelectorAll('.component');
+                let lastElem = newElem.innerHTML;
+                let lastElemType = newElem.getAttribute('data-type');
+                for (let i = elems.length - 1; i >= compIdx; i--) {
+                    let cur = elems[i];
+                    let prev = elems[i - 1];
+                    if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
+                        cur.innerHTML = prev.innerHTML;
+                        cur.setAttribute('data-type', prev.getAttribute('data-type'));
+                    }
+                    if (i == compIdx) {
+                        cur.innerHTML = lastElem;
+                        cur.setAttribute('data-type', lastElemType);
+                        cur.querySelector('.group').focus();
+                    }
+                }
+            }
         }
     }
     
@@ -438,18 +487,38 @@
         //TODO: import
     }
     
+    /**
+     * 데이터 조회
+     * 
+     * @param id 컴포넌트 id
+     * @return {Object} component 정보
+     */
     function getData(id) {
-        //var idx = 0;
         for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
             let comp = formEditor.data.components[i];
-            if (comp.id === id) {
-                //idx = i; 
-                //break;
-                return comp;
-            }
+            if (comp.id === id) { return comp; }
         }
         return null;
-        //return idx;
+    }
+    
+    /**
+     * 데이터 추가/수정
+     * 
+     * @param obj 컴포넌트 정보
+     */
+    function changeData(obj) {
+        let isExist = false;
+        for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
+            let comp = formEditor.data.components[i];
+            if (comp.id === obj.id) { 
+                //수정
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist) {
+            //추가
+        }
     }
     
     /**
@@ -466,8 +535,9 @@
                 let comp = formEditor.data.components[i];
                 addComponent(comp.type, comp.id, comp);
             }
+        } else {
+            addComponent('editbox');
         }
-        addComponent('editbox');
     }
     
     /**
@@ -500,6 +570,7 @@
     exports.exportform = exportForm;
     exports.importform = exportForm;
     exports.getData = getData;
+    exports.changeData = changeData;
     
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
