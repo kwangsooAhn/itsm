@@ -296,16 +296,22 @@
                     toggleMenuOff();
                 }
                 let button = e.button ? e.button : e.which;
-                if (isCtrlPressed && button === 1) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
+                if (button === 1) { 
                     itemInContext = clickInsideElement(e, 'component');
                     if (itemInContext) {
                         let compType = itemInContext.getAttribute('data-type');
-                        if (compType === 'editbox') {
-                            toggleMenuOn(2);
-                            positionMenu(e);
-                        } else {
-                            itemInContext = null;
-                            toggleMenuOff();
+                        if (isCtrlPressed) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
+                            if (compType === 'editbox') {
+                                toggleMenuOn(2);
+                                positionMenu(e);
+                            } else {
+                                console.log(itemInContext);
+                                itemInContext = null;
+                                toggleMenuOff();
+                            }
+                        }
+                        if (compType !== 'editbox') {
+                            component.showPropertyPanel(itemInContext.id);
                         }
                     }
                 }
@@ -355,24 +361,30 @@
     /**
      * 컴포넌트 신규 추가
      *
-     * @function addComponent.
-     * @param type 컴포넌트 타입.
-     * @param componentId 컴포넌트 Id.
-     * @access private.
+     * @param type 컴포넌트 타입
+     * @param componentId 컴포넌트 Id
+     * @param attrs 컴포넌트 세부 속성
      */
-    function addComponent(type, componentId) {
-        let comp = component.add({type: type, attrs: {}, componentId: componentId, isFocus: true});
+    function addComponent(type, componentId, attrs) {
+        attrs = attrs || {};
+        let isFocus = true;
+        if (Object.keys(attrs).length === 0 && JSON.stringify(attrs) === JSON.stringify({})) {
+            attrs.isNew = true; //추가
+            isFocus = true;
+        } else {
+            attrs.isNew = false; //수정
+            isFocus = false;
+        }
+        let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: isFocus});
+        
         let box = document.querySelectorAll('[contenteditable=true]');
-        if (box.length === 0 || component.getLastComponentId() === comp.id) {
-            component.add({type: 'editbox', isFocus: false})
+        if (attrs.isNew && box.length === 0) {
+            component.add({type: 'editbox', isFocus: !isFocus})
         }
     }
     
     /**
      * 폼 디자이너 저장
-     *
-     * @method saveForm
-     * @access public
      */
     function saveForm() {
         aliceJs.sendXhr({
@@ -389,72 +401,78 @@
             params: JSON.stringify(data)
         });
     }
+    
     /**
      * 작업 취소
-     *
-     * @method undoForm
-     * @access public
      */
     function undoForm() {
         //TODO: 작업 취소
     }
+    
     /**
      * 작업 재실행
-     *
-     * @method redoForm
-     * @access public
      */
     function redoForm() {
         //TODO: 작업 재실행
     }
+    
     /**
      * 미리보기
-     *
-     * @method previewForm
-     * @access public
      */
     function previewForm() {
         //TODO: 미리보기
     }
+    
     /**
      * export
-     *
-     * @method exportForm
-     * @access public
      */
     function exportForm() {
         //TODO: export
     }
+    
     /**
      * import
-     *
-     * @method importForm
-     * @access public
      */
     function importForm() {
         //TODO: import
     }
+    
+    function getData(id) {
+        //var idx = 0;
+        for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
+            let comp = formEditor.data.components[i];
+            if (comp.id === id) {
+                //idx = i; 
+                //break;
+                return comp;
+            }
+        }
+        return null;
+        //return idx;
+    }
+    
     /**
      * 조회된 문서양식 데이터로 component 를 추가한다.
      * 
-     * @method drawWorkflow
      * @param data 문서 정보
-     * @access private
      */
     function drawWorkflow(data) {
         console.debug(JSON.parse(data));
         formEditor.data = JSON.parse(data);
         document.querySelector('.form-name').textContent = formEditor.data.form.name;
-        //TODO: Add Component
-        //마지막에 빈 컴포넌트를 추가할 수 있도록 추가
+        if (formEditor.data.components.length > 0 ) {
+            for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
+                let comp = formEditor.data.components[i];
+                addComponent(comp.type, comp.id, comp);
+            }
+        }
         addComponent('editbox');
     }
+    
     /**
      * 폼 디자이너 편집 화면 초기화
      *
-     * @function init
      * @param form 폼 정보
-     * @access public
      */
     function init(form) {
         console.info('form editor initialization. [FORM ID: ' + form.formId + ']');
@@ -467,12 +485,10 @@
             method: 'GET',
             url: '/rest/forms/data/' + form.formId,
             callbackFunc: function(xhr) {
-                data = JSON.parse(xhr.responseText);
-                drawWorkflow(data);
+                drawWorkflow(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
-
     }
     
     exports.init = init;
@@ -482,6 +498,7 @@
     exports.preview = previewForm;
     exports.exportform = exportForm;
     exports.importform = exportForm;
+    exports.getData = getData;
     
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
