@@ -278,6 +278,7 @@
             } else {
                 itemInContext = null;
                 toggleMenuOff();
+                component.hidePropertyPanel();
             }
         };
         
@@ -294,6 +295,7 @@
                     }
                     flag = 1;
                     toggleMenuOff();
+                    component.hidePropertyPanel();
                 }
                 let button = e.button ? e.button : e.which;
                 if (button === 1) { 
@@ -305,7 +307,6 @@
                                 toggleMenuOn(2);
                                 positionMenu(e);
                             } else {
-                                console.log(itemInContext);
                                 itemInContext = null;
                                 toggleMenuOff();
                             }
