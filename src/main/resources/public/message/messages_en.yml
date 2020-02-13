@@ -136,9 +136,10 @@ login:
   findId: "Forgot ID?"
   findPasswd: "Forgot Password?"
   sendLogin: "Login"
-  userSignUp: "Sign Up"
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
+  userSignUp: "Sign Up"
+  doSignUp: "Create account"
   loginNote: "Do you have an account?"
   signupNote: "Would you like to sign up?"
 

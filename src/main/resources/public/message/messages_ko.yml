@@ -136,9 +136,10 @@ login:
   findId: "아이디를 잊으셨나요?"
   findPasswd: "비밀번호를 잊으셨나요?"
   sendLogin: "로그인"
-  userSignUp: "회원가입"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
+  userSignUp: "회원가입"
+  doSignUp: "가입하기"
   loginNote: "계정이 있으신가요?"
   signupNote: "처음이신가요?"
 
