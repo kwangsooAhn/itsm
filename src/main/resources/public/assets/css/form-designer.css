@@ -10796,7 +10796,7 @@ body {
 .form-navbar {
   background: #4C5264;
   color: #fff;
-  padding: 0.625rem 1.25rem;
+  padding: 0.25rem 1.25rem;
   line-height: 1.0rem;
   font-size: 1rem;
 }
@@ -10806,13 +10806,17 @@ body {
 }
 
 .form-container {
-  height: calc(100vh - 3.25rem);
+  height: calc(100vh - 2rem);
 }
 
 .navbar-brand {
-  height: 2rem;
+  height: 1.5rem;
   padding: 0rem;
   margin-right: 1.25rem;
+}
+
+.nav-link {
+  padding: 0.5rem;
 }
 
 ul, li {
@@ -10827,7 +10831,8 @@ ul, li {
 }
 
 #main-menu > li a {
-  margin: 0rem 1.375rem;
+  display: inline-block;
+  margin: 0rem 1.375rem 0rem 0rem;
   text-align: center;
   text-decoration: none;
   letter-spacing: 0.05em;

@@ -1,0 +1,177 @@
+{
+    "text": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "placeholder", 
+                "name": "Placeholder", 
+                "value": "", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "outline-width", 
+                "name": "Outline Width", 
+                "value": "1", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "outline-color", 
+                "name": "Outline Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "n", 
+                "type": "radio",
+                "option": [ {"id": "y", "name": "Yes"}, {"id": "n", "name": "No"} ],
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "regexp", 
+                "name": "Validate", 
+                "value": "none", 
+                "type": "select", 
+                "option": [ 
+                    {"id": "char", "name": "Char"}, 
+                    {"id": "num", "name": "Number"},
+                    { "id": "numchar", "name": "Char + Number"},
+                    { "id": "phone", "name": "Phone"}, 
+                    { "id": "email", "name": "Email"},
+                    { "id": "pass", "name": "Password"}
+                ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "regexp-msg", 
+                "name": "Error Message", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "length-min", 
+                "name": "Min Length", 
+                "value": "0", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "length-max", 
+                "name": "Max Length", 
+                "value": "30", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+       ]
+    },
+    "select": {
+    }
+}
