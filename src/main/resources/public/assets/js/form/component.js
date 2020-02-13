@@ -6,7 +6,8 @@
     'use strict';
     
     const _defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
-          _defaultPlaceholder= '+ Typing for add component';
+          _defaultPlaceholder= '+ Typing for add component',
+          data = {};
     
     let _formPanel = null,
         _propertyPanel = null,
@@ -14,7 +15,7 @@
         _componentIndex = 0,
         _selectedComponentId = '',
         _dragComponent = null,
-        _children = [],
+        //_children = [],
         eventHandler = {
             /*onDragStartHandler: function(e) {
                 _dragComponent = e.target;
@@ -98,7 +99,7 @@
      * @access private
      */
     function getComponentById(id) {
-       if (_children.length > 0) {
+       /*if (_children.length > 0) {
             for (let i = 0, len = _children.length; i < len; i ++) {
                var child = _children[i];
                if (child.id === id) {
@@ -106,7 +107,7 @@
                }
             }
         }
-        return null;
+        return null;*/
     }
     /**
      * 컴포넌트 추가
@@ -120,25 +121,29 @@
         
         let elem = null;
         if (options.componentId !== undefined) {
-            elem = _formPanel.querySelector('#' + options.componentId);
+            elem = document.getElementById(options.componentId);
+        }
+        if (elem) { //editbox 삭제 후 컴포넌트 추가
             elem.removeChild(elem.childNodes[1]);
             _selectedComponentId = elem.id;
-            //TODO: showPropertyPanel(elem.id);
+            console.log(options);
+            //formEdit.data에 신규 추가
         } else {
             elem = document.createElement('div');
             elem.classList.add('component');
-            let compId = workflowUtil.generateUUID();
+            let compId = (options.componentId !== undefined) ? options.componentId  : workflowUtil.generateUUID();
             _lastComponentId = compId;
-            elem.setAttribute('id', 'component_' + compId);
+            elem.setAttribute('id', compId);
             elem.setAttribute('data-index', (++_componentIndex));
             
             let img = document.createElement('img'); 
             img.classList.add('move-icon');
             elem.appendChild(img);
             _formPanel.appendChild(elem);
-            _children.push(elem);
+            //_children.push(elem);
         }
         elem.setAttribute('data-type', options.type);
+        //console.log(options.attrs);
         let comp = null;
         switch (options.type) {
             case 'text':
@@ -321,14 +326,32 @@
      * @access public
      */
     function showPropertyPanel(id) {
-       let component = getComponentById(id);
-        let title = document.createElement('div');
-        title.classList.add('title');
-        title.textContent = component.dataset.name;
-        _propertyPanel.appendChild(title);
-        
+       /*let component = getComponentById(id);
+       let title = document.createElement('div');
+       title.classList.add('title');
+       title.textContent = component.dataset.name;
+       _propertyPanel.appendChild(title);*/
+    	
+        let compAttr = formEditor.getData(id);
+        let defaultAttr = component.data[compAttr.type];
+        //세부 속성 재할당
+        for (let i in compAttr) {
+            if (compAttr[i] !== null && typeof(compAttr[i]) === 'object') {
+                if (defaultAttr.hasOwnProperty(i)) {
+                    for (let j in compAttr[i]) {
+                        Object.keys(defaultAttr[i]).forEach(function(attr) {
+                            if (j === defaultAttr[i][attr].id) {
+                                defaultAttr[i][attr].value = compAttr[i][j];
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        console.log(defaultAttr);
         //TODO:세부속성 출력
     }
+    
     /**
      * 우측 property panel 삭제
      *
@@ -367,6 +390,14 @@
         return _lastComponentId;
     }
     /**
+     * 컴포넌트 기본 속성 조회
+     *
+     * @method loadAttribute
+     */
+    function loadAttribute(data) {
+        component.data = JSON.parse(data);
+    }
+    /**
      * 컴포넌트 초기화
      *
      * @method init
@@ -375,6 +406,16 @@
     function init() {
         _formPanel = document.getElementById('panel-form');
         _propertyPanel = document.getElementById('panel-property');
+        
+        //load component default data.
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/assets/js/form/componentAttribute.json',
+            callbackFunc: function(xhr) {
+                loadAttribute(xhr.responseText)
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
     }
     
     exports.init = init;
