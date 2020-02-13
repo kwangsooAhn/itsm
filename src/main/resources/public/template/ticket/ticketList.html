@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        table td {
+            border-left: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table>
+        <colgroup>
+            <col width="26%">
+            <col width="70%">
+            <col width="4%">
+        </colgroup>
+        <tbody>
+            <tr th:each="ticket: ${ticketList}">
+                <td th:text="${ticket.ticketName}"></td>
+                <td th:text="${ticket.ticketDesc}"></td>
+                <td>
+                    <button sec:authorize="hasAuthority('ticket.create')"
+                        th:attr="onclick=|openTicketEdit('${ticket.ticketId}')|"
+                        th:text="#{common.btn.write}"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
