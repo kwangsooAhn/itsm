@@ -276,10 +276,11 @@
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              translateX = bbox.cx - containerWidth / 2,
-              translateY = (elem.classed('connector') ? bbox.cy :  bbox.y) - containerHeight - 10;
+            targetX = bbox.cx - containerWidth / 2,
+            targetY = (elem.classed('connector') ? bbox.cy :  bbox.y) - containerHeight - 10;
+
         tooltipItemContainer
-            .attr('transform', 'translate(' + translateX + ',' + translateY + ')')
+            .attr('transform', 'translate(' + targetX + ',' + targetY + ')')
             .style('display', 'block')
             .datum(elem);
     }

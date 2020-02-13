@@ -615,9 +615,10 @@
         d3.select('.alice-process-element-palette').selectAll('span.shape')
             .attr('draggable', 'true')
             .on('dragend', function() {
-                const svgOffset = svg.node().getBoundingClientRect();
-                let x = d3.event.pageX - svgOffset.left - window.pageXOffset,
-                    y = d3.event.pageY - svgOffset.top - window.pageYOffset;
+                const svgOffset = svg.node().getBoundingClientRect(),
+                      gTransform = d3.zoomTransform(d3.select('g.node-container').node());
+                let x = d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x,
+                    y = d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y;
                 let _this = d3.select(this);
                 let node;
                 if (_this.classed('event')) {
@@ -697,15 +698,15 @@
             .call(verticalAxis);
 
         const zoom = d3.zoom()
-            //.scaleExtent([1, 40])
             .translateExtent([[-100, -100], [width + 90, height + 100]])
             .on('zoom', function() {
-                if (d3.event.sourceEvent && d3.event.sourceEvent.type === 'wheel') { return; }
                 gHorizontal
                     .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalLinear)));
                 gVertical
                     .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalLinear)));
-                svg.selectAll('rect, circle, path').attr('transform', d3.event.transform);
+                //svg.selectAll('rect, circle, path').attr('transform', d3.event.transform);
+                svg.selectAll('g.connector-container, g.painted-connector-container, g.node-container')
+                    .attr('transform', d3.event.transform);
             });
 
         svg

@@ -15,9 +15,17 @@
         getBoundingBoxCenter: function(selection) {
             const element = selection.node();
             const bbox = element.getBBox();
-            return {x: bbox.x, y: bbox.y, cx: bbox.x + bbox.width / 2, cy: bbox.y + bbox.height / 2, width: bbox.width, height: bbox.height};
+            let x = bbox.x,
+                y = bbox.y;
+            return {
+                x: x,
+                y: y,
+                cx: x + bbox.width / 2,
+                cy: y + bbox.height / 2,
+                width: bbox.width,
+                height: bbox.height
+            };
         }
-
     };
 
     /**
