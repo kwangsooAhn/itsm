@@ -276,8 +276,9 @@
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-            targetX = bbox.cx - containerWidth / 2,
-            targetY = (elem.classed('connector') ? bbox.cy :  bbox.y) - containerHeight - 10;
+            gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+            targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
+            targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
 
         tooltipItemContainer
             .attr('transform', 'translate(' + targetX + ',' + targetY + ')')
@@ -489,6 +490,9 @@
         setProperties(elem);
     }
 
+    /**
+     * tooltip item 에 사용된 이미지 로딩.
+     */
     function loadTooltipItems() {
         const defs = d3.select('svg').append('defs');
         defs.selectAll('pattern').data(tooltipItems)

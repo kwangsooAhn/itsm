@@ -54,7 +54,7 @@
 
         // add new links
         path = path.enter().append('path')
-            .attr('class', 'link connector')
+            .attr('class', 'connector')
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function() {
                 d3.event.stopPropagation();
@@ -76,7 +76,7 @@
 
         // add new paintedPath links
         paintedPath = paintedPath.enter().append('path')
-            .attr('class', 'painted-link')
+            .attr('class', 'painted-connector')
             .on('mouseover', function() {
                 if (isDrawConnector) {
                     return;
@@ -189,11 +189,14 @@
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
-                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement);
+                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
+                      gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+                      centerX = bbox.cx + gTransform.x,
+                      centerY = bbox.cy + gTransform.y;
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
-                    .attr('d', 'M' + bbox.cx + ',' + bbox.cy + 'L' + bbox.cx + ',' + bbox.cy);
+                    .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
             } else {
                 if (selectedElement === elem) {
                     return;
@@ -248,8 +251,11 @@
             }
         },
         mousedrag: function() {
-            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement);
-            dragLine.attr('d', 'M' + bbox.cx + ',' + bbox.cy + 'L' + d3.event.x + ',' + d3.event.y);
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
+                  gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+                  centerX = bbox.cx + gTransform.x,
+                  centerY = bbox.cy + gTransform.y;
+            dragLine.attr('d', 'M' + centerX + ',' + centerY + 'L' + (d3.event.x + gTransform.x) + ',' + (d3.event.y + gTransform.y));
         }
     }
 
@@ -654,9 +660,7 @@
             .attr('height', height)
             .on('mousedown', function() {
                 d3.event.stopPropagation();
-                if (isDrawConnector) {
-                    return;
-                }
+                if (isDrawConnector) { return; }
                 removeElementSelected();
                 AliceProcessEditor.setElementMenu();
             })
@@ -689,24 +693,24 @@
             .tickSize(width)
             .tickFormat('');
 
-        const gHorizontal = svg.append('g')
-            .attr('class', 'grid horizontal-grid')
-            .call(horizontalAxis);
-
-        const gVertical = svg.append('g')
-            .attr('class', 'grid vertical-grid')
-            .call(verticalAxis);
+        const gHorizontal = svg.append('g').attr('class', 'grid horizontal-grid').call(horizontalAxis),
+              gVertical = svg.append('g').attr('class', 'grid vertical-grid').call(verticalAxis);
 
         const zoom = d3.zoom()
-            .translateExtent([[-100, -100], [width + 90, height + 100]])
+             //.translateExtent([[-100, -100], [width + 90, height + 100]])
+            .on('start', function() {
+                svg.style('cursor', 'grabbing');
+            })
             .on('zoom', function() {
                 gHorizontal
                     .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalLinear)));
                 gVertical
                     .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalLinear)));
-                //svg.selectAll('rect, circle, path').attr('transform', d3.event.transform);
-                svg.selectAll('g.connector-container, g.painted-connector-container, g.node-container')
+                svg.selectAll('g.connector-container, g.node-container')
                     .attr('transform', d3.event.transform);
+            })
+            .on('end', function() {
+                svg.style('cursor', 'default');
             });
 
         svg
@@ -737,11 +741,12 @@
 
         // line displayed when dragging new nodes
         dragLine = svg.append('path')
-            .attr('class', 'link drag-line hidden')
+            .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
-        path = svg.append('g').attr('class', 'connector-container').selectAll('path');
-        paintedPath = svg.append('g').attr('class', 'painted-connector-container').selectAll('path');
+        const gLink = svg.append('g').attr('class', 'connector-container');
+        path = gLink.selectAll('path.connector');
+        paintedPath = gLink.selectAll('path.painted-connector');
         gNode = svg.append('g').attr('class', 'node-container');
     }
 

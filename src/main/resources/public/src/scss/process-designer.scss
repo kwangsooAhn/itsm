@@ -187,23 +187,23 @@ body {
             left: 0;
         }
 
-        path.link {
+        path.connector {
             fill: none;
             stroke: #000;
             stroke-width: 0.125rem;
             cursor: default;
         }
-        path.link.selected {
+        path.connector.selected {
             stroke-dasharray: 10,2;
             stroke-width: 0.188rem;
         }
-        path.link.drag-line {
+        path.connector.drag-line {
             pointer-events: none;
         }
-        path.link.hidden {
+        path.connector.hidden {
             stroke-width: 0;
         }
-        path.painted-link {
+        path.painted-connector {
             stroke: none;
             stroke-width: 20;
             pointer-events: all;
