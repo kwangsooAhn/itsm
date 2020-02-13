@@ -1,7 +1,10 @@
 package co.brainz.workflow.form.service
 
+import co.brainz.workflow.component.dto.ComponentDto
 import co.brainz.workflow.form.constants.FormConstants
+import co.brainz.workflow.form.dto.FormComponentDto
 import co.brainz.workflow.form.dto.FormDto
+import co.brainz.workflow.form.dto.FormViewDto
 import co.brainz.workflow.form.entity.FormMstEntity
 import co.brainz.workflow.form.repository.FormMstRepository
 import org.springframework.stereotype.Service
@@ -16,7 +19,7 @@ class WFFormService(private val formMstRepository: FormMstRepository) : Form {
      * @param search
      * @return List<FormDto>
      */
-    override fun formList(search: String): List<FormDto> {
+    override fun forms(search: String): List<FormDto> {
         //val formEntityList = formRepository.findFormEntityList(search, search)
         val formEntityList = formMstRepository.findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(search, search)
         val formList = mutableListOf<FormDto>()
@@ -88,6 +91,31 @@ class WFFormService(private val formMstRepository: FormMstRepository) : Form {
      */
     override fun deleteForm(formId: String) {
         formMstRepository.removeFormEntityByFormId(formId)
+    }
+
+    override fun formComponents(formId: String): FormComponentDto {
+        val formEntity = formMstRepository.findFormEntityByFormId(formId)
+        val formViewDto = FormViewDto(
+                id = formEntity.get().formId,
+                name = formEntity.get().formName,
+                desc = formEntity.get().formDesc
+        )
+        val components: MutableList<ComponentDto> = mutableListOf()
+        for (component in formEntity.get().components!!) {
+            val componentDto = ComponentDto(
+                    id = component.compId,
+                    type = component.compType,
+                    label = component.displayInfo,
+                    validate = component.compConfig
+            )
+            components.add(componentDto)
+        }
+        val formComponentDto = FormComponentDto(
+                form = formViewDto,
+                components = components
+        )
+
+        return formComponentDto
     }
 
     /**

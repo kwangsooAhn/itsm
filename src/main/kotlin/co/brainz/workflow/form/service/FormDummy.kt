@@ -1,13 +1,14 @@
 package co.brainz.workflow.form.service
 
 import co.brainz.workflow.form.constants.FormConstants
+import co.brainz.workflow.form.dto.FormComponentDto
 import co.brainz.workflow.form.dto.FormDto
 import java.time.LocalDateTime
 import java.util.UUID
 
 class FormDummy: Form {
 
-    override fun formList(search: String): List<FormDto> {
+    override fun forms(search: String): List<FormDto> {
         val list = mutableListOf<FormDto>()
         if (search.isEmpty()) {
             val form = FormDto(
@@ -73,6 +74,10 @@ class FormDummy: Form {
     }
 
     override fun deleteForm(formId: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun formComponents(formId: String): FormComponentDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

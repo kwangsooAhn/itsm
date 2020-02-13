@@ -453,11 +453,11 @@
      * 폼 디자이너 편집 화면 초기화
      *
      * @function init
-     * @param form 폼 정보
+     * @param formId 폼 아이디
      * @access public
      */
-    function init(form) {
-        console.info('form editor initialization. [FORM ID: ' + form.formId + ']');
+    function init(formId) {
+        console.info('form editor initialization. [FORM ID: ' + formId + ']');
         workflowUtil.polyfill();
         component.init();
         context.init();
@@ -465,7 +465,7 @@
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/forms/data/' + form.formId,
+            url: '/rest/forms/data/' + formId,
             callbackFunc: function(xhr) {
                 data = JSON.parse(xhr.responseText);
                 drawWorkflow(data);

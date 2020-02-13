@@ -1,6 +1,7 @@
 package co.brainz.workflow.form.controller
 
 import co.brainz.workflow.engine.WFEngine
+import co.brainz.workflow.form.dto.FormComponentDto
 import co.brainz.workflow.form.dto.FormDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +20,7 @@ class WFFormRestController(private val wfEngine: WFEngine) {
 
     @GetMapping("")
     fun getForms(request: HttpServletRequest): List<FormDto> {
-        return wfEngine.form().formList(request.getParameter("search") ?: "")
+        return wfEngine.form().forms(request.getParameter("search") ?: "")
     }
 
     @GetMapping("/{formId}")
@@ -41,6 +42,11 @@ class WFFormRestController(private val wfEngine: WFEngine) {
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String) {
         return wfEngine.form().deleteForm(formId)
+    }
+
+    @GetMapping("/{formId}/components")
+    fun getFormComponents(@PathVariable formId: String): FormComponentDto {
+        return wfEngine.form().formComponents(formId)
     }
 
 }

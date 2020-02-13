@@ -4,7 +4,10 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.provider.ProviderForm
 import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.constants.ProviderConstants
+import co.brainz.itsm.provider.dto.ComponentDto
+import co.brainz.itsm.provider.dto.FormComponentDto
 import co.brainz.itsm.provider.dto.FormDto
+import co.brainz.itsm.provider.dto.FormViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -16,18 +19,18 @@ import java.time.LocalDateTime
 @Service
 class FormService(private val providerForm: ProviderForm) {
 
-    fun findFormList(search: String): List<FormDto> {
+    fun findForms(search: String): List<FormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
         val responseBody = providerForm.getForms(params)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val formList: List<FormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
-        for (item in formList) {
-            item.createDt = item.createDt?.let { ProviderUtilities().toTimezone(it) }
-            item.updateDt = item.updateDt?.let { ProviderUtilities().toTimezone(it) }
+        val forms: List<FormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
+        for (form in forms) {
+            form.createDt = form.createDt?.let { ProviderUtilities().toTimezone(it) }
+            form.updateDt = form.updateDt?.let { ProviderUtilities().toTimezone(it) }
         }
 
-        return formList
+        return forms
     }
 
     fun findForm(formId: String): FormDto {
@@ -38,6 +41,27 @@ class FormService(private val providerForm: ProviderForm) {
         formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toTimezone(it) }
 
         return formDto
+    }
+
+    fun findFormComponents(formId: String): String {
+        return providerForm.getFormComponents(formId)
+    }
+
+    //Dto를 사용하여 처리할 경우 사용 (예시)
+    fun findFormComponentsObject(formId: String): FormComponentDto {
+        val responseBody = providerForm.getFormComponents(formId)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val dataMap = mapper.readValue(responseBody, Map::class.java)
+        val formComponentDto = FormComponentDto(form = FormViewDto())
+        if (dataMap.containsKey("form")) {
+            formComponentDto.form = mapper.convertValue(dataMap["form"], FormViewDto::class.java)
+            if (dataMap.containsKey("components")) {
+                val components: MutableList<ComponentDto> = mapper.convertValue(dataMap["components"], mapper.typeFactory.constructCollectionType(MutableList::class.java, ComponentDto::class.java))
+                formComponentDto.components = components
+            }
+        }
+
+        return formComponentDto
     }
 
     fun deleteForm(formId: String) {

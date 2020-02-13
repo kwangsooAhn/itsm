@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine
 
+import co.brainz.workflow.component.service.Component
+import co.brainz.workflow.component.service.ComponentDummy
 import co.brainz.workflow.form.repository.FormMstRepository
 import co.brainz.workflow.form.service.Form
 import co.brainz.workflow.form.service.WFFormService
@@ -23,5 +25,12 @@ class WFEngine(private val formMstRepository: FormMstRepository, private val pro
      */
     fun process(): WFProcessService {
         return WFProcessService(processMstRepository)
+    }
+
+    /**
+     * Component Engine.
+     */
+    fun component(): Component {
+        return ComponentDummy()
     }
 }

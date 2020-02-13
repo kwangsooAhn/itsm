@@ -36,6 +36,17 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
     }
 
     /**
+     * Search Form + Components.
+     *
+     * @param formId
+     * @return String
+     */
+    fun getFormComponents(formId: String): String {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.GET_FORM_COMPONENTS.url.replace(keyRegex, formId)))
+        return restTemplate.getForObject(url, String::class.java)?:""
+    }
+
+    /**
      * Insert Form.
      *
      * @param formDto

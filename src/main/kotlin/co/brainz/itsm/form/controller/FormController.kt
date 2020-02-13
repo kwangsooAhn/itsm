@@ -45,7 +45,7 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/list")
     fun getFormList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("formList", formService.findFormList(request.getParameter("search") ?: ""))
+        model.addAttribute("formList", formService.findForms(request.getParameter("search") ?: ""))
         return formListPage
     }
 
@@ -62,8 +62,7 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/{formId}/edit")
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
-        //TODO 컴포넌트 상세 정보 가져오기
-        model.addAttribute("form", formService.findForm(formId))
+        model.addAttribute("formId", formId)
         return formDesignerEditPage
     }
 

@@ -1,12 +1,16 @@
 package co.brainz.workflow.form.entity
 
+import co.brainz.workflow.component.entity.ComponentMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -36,6 +40,10 @@ data class FormMstEntity(
         var updateDt: LocalDateTime? = null,
 
         @Column(name = "update_user_key")
-        var updateUserKey: String? = null
+        var updateUserKey: String? = null,
+
+        @OneToMany(fetch = FetchType.LAZY)
+        @JoinColumn(name = "form_id")
+        val components: List<ComponentMstEntity>? = emptyList()
 
 ): Serializable

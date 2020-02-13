@@ -13,6 +13,7 @@ data class FormDto(
         var createDt: LocalDateTime? = null,
         val updateUserKey: String? = null,
         var updateDt: LocalDateTime? = null,
-        val userName: String? = null
+        val userName: String? = null,
+        val components: List<ComponentDto> = emptyList()
 ) : Serializable
 
