@@ -79,7 +79,6 @@
 
     //REST API
     function restSubmit(method, url, data) {
-<<<<<<< Upstream, based on origin/develop.as.200207
         const opt = {
             method: method,
             url: url,
@@ -88,24 +87,8 @@
             callbackFunc: function(response) {
                 opener.location.reload();
                 window.close();
-                const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=yes";
-                window.open('/forms/' + response.responseText + '/edit', '_blank', 'width=1920,height=1080,' + specs);
-=======
-        const xmlHttp = createXmlHttpRequestObject(method, url);
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                if (xmlHttp.status === 200) {
-                    window.close();
-                    const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no";
-                    window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500,height=920,' + specs);
-                } else if (xmlHttp.status === 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
-                return false;
->>>>>>> 21c13eb 컴포넌트 편집 화면 상단 아이콘 추가 및 텍스트 컴포넌트 상세 속성 load 기능 추가
-            }
+                const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no";
+                window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500,height=920,' + specs);
         };
         aliceJs.sendXhr(opt);
     }
