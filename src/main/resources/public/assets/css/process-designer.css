@@ -10017,7 +10017,6 @@ body {
   left: 3.75rem;
   width: calc(100vw - 23.75rem);
   height: calc(100vh - 2.5rem);
-  overflow: auto;
   background-color: #ffffff;
 }
 .alice-process-drawing-board svg {
@@ -10025,10 +10024,6 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-}
-.alice-process-drawing-board .grid line {
-  stroke: lightgrey;
-  stroke-opacity: 0.7;
 }
 .alice-process-drawing-board path.link {
   fill: none;
@@ -10051,10 +10046,6 @@ body {
   stroke-width: 20;
   pointer-events: all;
 }
-.alice-process-drawing-board defs marker {
-  marker-width: 5;
-  marker-height: 8;
-}
 .alice-process-drawing-board defs marker path {
   fill: #000000;
 }
@@ -10062,6 +10053,18 @@ body {
   fill: #f6f6f7;
   stroke: #bcc5d3;
   stroke-width: 0.5;
+}
+.alice-process-drawing-board .grid path {
+  display: none;
+}
+.alice-process-drawing-board .grid line {
+  stroke: lightgrey;
+  stroke-width: 0.5;
+  stroke-opacity: 1;
+  shape-rendering: crispEdges;
+}
+.alice-process-drawing-board .view {
+  fill: #ffffff;
 }
 .alice-process-drawing-board .node {
   fill: #ffffff;

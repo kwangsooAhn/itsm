@@ -8,10 +8,12 @@
     let data = {};
 
     let svg,
+        gNode,
         path,
         paintedPath,
         dragLine;
-    const links = [];
+    const nodes= [],
+          links = [];
 
     let mousedownElement,
         mouseoverElement,
@@ -261,17 +263,20 @@
     function RectResizableElement(x, y) {
         const self = this;
         self.width = 120;
-        self.height = 60;
+        self.height = 70;
+        self.radius = 10;
         x = x - (self.width / 2);
         y = y - (self.height / 2);
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
-        self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+        self.nodeElement = gNode.append('rect')
+            .attr('id', workflowUtil.generateUUID)
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
             .attr('y', self.rectData.y)
+            .attr('rx', self.radius)
+            .attr('ry', self.radius)
             .attr('class', 'node resizable')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -295,7 +300,7 @@
                 .on('end', elementMouseEventHandler.mouseup)
             );
 
-        self.pointElement1 = svg.append('circle')
+        self.pointElement1 = gNode.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement1.style('cursor', 'nw-resize'); })
@@ -316,7 +321,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement2 = svg.append('circle')
+        self.pointElement2 = gNode.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement2.style('cursor', 'se-resize'); })
@@ -337,7 +342,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement3 = svg.append('circle')
+        self.pointElement3 = gNode.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement3.style('cursor', 'ne-resize'); })
@@ -358,7 +363,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement4 = svg.append('circle')
+        self.pointElement4 = gNode.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement4.style('cursor', 'sw-resize'); })
@@ -462,8 +467,8 @@
         const self = this;
         const radius = 25;
 
-        self.nodeElement = svg.append('circle')
-            .attr('id', workflowUtil.generateUUID())
+        self.nodeElement = gNode.append('circle')
+            .attr('id', workflowUtil.generateUUID)
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
@@ -502,8 +507,8 @@
         const self = this;
         const width = 45, height = 45;
 
-        self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+        self.nodeElement = gNode.append('rect')
+            .attr('id', workflowUtil.generateUUID)
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -561,8 +566,8 @@
         const self = this;
         const width = 30, height = 30;
 
-        self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+        self.nodeElement = gNode.append('rect')
+            .attr('id', workflowUtil.generateUUID)
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -594,7 +599,8 @@
      * element에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.alice-process-element-palette, .alice-process-drawing-board').on('dragover', function() {d3.event.preventDefault();});
+        d3.selectAll('.alice-process-element-palette, .alice-process-drawing-board')
+            .on('dragover', function() {d3.event.preventDefault();});
 
         d3.select('.alice-process-element-palette').select('.connector')
             .on('click', function() {
@@ -613,18 +619,22 @@
                 let x = d3.event.pageX - svgOffset.left - window.pageXOffset,
                     y = d3.event.pageY - svgOffset.top - window.pageYOffset;
                 let _this = d3.select(this);
+                let node;
                 if (_this.classed('event')) {
-                    new EventElement(x, y);
+                    node = new EventElement(x, y);
                 } else if (_this.classed('task')) {
-                    new TaskElement(x, y);
+                    node = new TaskElement(x, y);
                 } else if (_this.classed('subprocess')) {
-                    new SubprocessElement(x, y);
+                    node = new SubprocessElement(x, y);
                 } else if (_this.classed('gateway')) {
-                    new GatewayElement(x, y);
+                    node = new GatewayElement(x, y);
                 } else if (_this.classed('group')) {
-                    new GroupElement(x, y);
+                    node = new GroupElement(x, y);
                 } else if (_this.classed('annotation')) {
-                    new AnnotationElement(x, y);
+                    node = new AnnotationElement(x, y);
+                }
+                if (node) {
+                    nodes.push(node);
                 }
             });
     }
@@ -634,14 +644,13 @@
      */
     function initProcessEdit() {
         const width = 1120,
-              height = 879;
+              height = 879,
+              interval = 10;
 
         // add svg and svg event
         svg = d3.select('.alice-process-drawing-board').append('svg')
-            .attr('viewBox', '0,0,1120,879')
-            .attr('preserveAspectRatio', 'xMidYMid meet')
-/*            .attr('width', 1120)
-            .attr('height', 879)*/
+            .attr('width', width)
+            .attr('height', height)
             .on('mousedown', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
@@ -660,30 +669,57 @@
                 }
             });
 
-        // add the X grid lines
-        svg.append('g')
-            .attr('class', 'grid')
-            .attr('transform', 'translate(0,' + height + ')')
-            .call(d3.axisBottom(d3.scaleLinear().range([0, width]))
-                .ticks(width)
-                .tickSize(-height)
-                .tickFormat('')
-            )
+        // add grid line & zoom
+        const horizontalLinear = d3.scaleLinear()
+            .domain([-1, width + 1])
+            .range([-1, width + 1]);
 
-        // add the Y grid lines
-        svg.append('g')
-            .attr('class', 'grid')
-            .call(d3.axisLeft(d3.scaleLinear().range([height, 0]))
-                .ticks(height)
-                .tickSize(-width)
-                .tickFormat('')
-            )
+        const verticalLinear = d3.scaleLinear()
+            .domain([-1, height + 1])
+            .range([-1, height + 1]);
+
+        const horizontalAxis = d3.axisBottom(horizontalLinear)
+            .ticks(height / interval)
+            .tickSize(height)
+            .tickFormat('');
+
+        const verticalAxis = d3.axisRight(verticalLinear)
+            .ticks(width / interval)
+            .tickSize(width)
+            .tickFormat('');
+
+        const gHorizontal = svg.append('g')
+            .attr('class', 'grid horizontal-grid')
+            .call(horizontalAxis);
+
+        const gVertical = svg.append('g')
+            .attr('class', 'grid vertical-grid')
+            .call(verticalAxis);
+
+        const zoom = d3.zoom()
+            //.scaleExtent([1, 40])
+            .translateExtent([[-100, -100], [width + 90, height + 100]])
+            .on('zoom', function() {
+                if (d3.event.sourceEvent && d3.event.sourceEvent.type === 'wheel') { return; }
+                gHorizontal
+                    .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalLinear)));
+                gVertical
+                    .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalLinear)));
+                svg.selectAll('rect, circle, path').attr('transform', d3.event.transform);
+            });
+
+        svg
+            .call(zoom)
+            .on('wheel.zoom', null)
+            .on('dblclick.zoom', null);
 
         // define arrow markers for links
         svg.append('defs').append('marker')
             .attr('id', 'end-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 6)
+            .attr('markerWidth', 5)
+            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('path')
             .attr('d', 'M0,-5L10,0L0,5');
@@ -692,6 +728,8 @@
             .attr('id', 'start-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 4)
+            .attr('markerWidth', 5)
+            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('path')
             .attr('d', 'M10,-5L0,0L10,5');
@@ -701,8 +739,9 @@
             .attr('class', 'link drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
-        path = svg.append('g').selectAll('path');
-        paintedPath = svg.append('g').selectAll('path');
+        path = svg.append('g').attr('class', 'connector-container').selectAll('path');
+        paintedPath = svg.append('g').attr('class', 'painted-connector-container').selectAll('path');
+        gNode = svg.append('g').attr('class', 'node-container');
     }
 
     /**
