@@ -63,6 +63,9 @@ server:
         key-alias: itsm
         trust-store: classpath:itsm.ts
         trust-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
+    servlet:
+        session:
+            timeout: 60m
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\
     
