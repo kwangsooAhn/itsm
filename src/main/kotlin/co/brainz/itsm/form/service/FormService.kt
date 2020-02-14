@@ -1,105 +1,70 @@
 package co.brainz.itsm.form.service
 
-import co.brainz.itsm.utility.ConvertParam
-import co.brainz.workflow.form.constants.FormConstants
-import co.brainz.workflow.form.dto.FormDto
+import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.itsm.provider.ProviderForm
+import co.brainz.itsm.provider.ProviderUtilities
+import co.brainz.itsm.provider.constants.ProviderConstants
+import co.brainz.itsm.provider.dto.FormDto
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.util.UriComponentsBuilder
-import java.net.InetAddress
-import java.net.URI
-import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 
 @Service
-class FormService(private val restTemplate: RestTemplate) {
-
-    @Value("\${server.protocol}")
-    lateinit var protocol: String
-
-    @Value("\${server.port}")
-    lateinit var port: String
-
-    fun makeUri(callUrl: String, params: MultiValueMap<String, String>): URI {
-        val formUrl = protocol + "://" + InetAddress.getLocalHost().hostAddress + ":" + port + callUrl
-        val uri = UriComponentsBuilder.fromHttpUrl(formUrl)
-        if (params.isNotEmpty()) {
-            uri.queryParams(params)
-        }
-
-        return uri.build().toUri()
-    }
+class FormService(private val providerForm: ProviderForm) {
 
     fun findFormList(search: String): List<FormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
-        val uri = makeUri("/rest/wf/forms", params)
-        val responseBody = restTemplate.getForObject(uri, String::class.java)
-        val mapper = ObjectMapper()
-        val list: List<Map<String, Any>> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, Map::class.java))
-        val formList = mutableListOf<FormDto>()
-        for (item in list) {
-            formList.add(makeFormDto(item))
+        val responseBody = providerForm.getForms(params)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val formList: List<FormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
+        for (item in formList) {
+            item.createDt = item.createDt?.let { ProviderUtilities().toTimezone(it) }
+            item.updateDt = item.updateDt?.let { ProviderUtilities().toTimezone(it) }
         }
 
         return formList
     }
 
-    fun makeFormDto(item: Map<*, *>): FormDto {
-        val dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
-        val formDto = FormDto(
-                formId = item["formId"] as String,
-                formName = item["formName"] as String,
-                formStatus = item["formStatus"] as String,
-                formDesc = item["formDesc"] as String,
-                createDt = ConvertParam().converterLocalDateTime(item["createDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
-                createUserKey = item["createUserKey"] as String,
-                updateDt = item["updateDt"]?.let { ConvertParam().converterLocalDateTime(it.toString(), DateTimeFormatter.ISO_DATE_TIME) },
-                updateUserKey = item["updateUserKey"]?.toString(),
-                userName = item["userName"] as String
-        )
-        when (item["formStatus"] as String) {
-            FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true
-        }
+    fun findForm(formId: String): FormDto {
+        val responseBody = providerForm.getForm(formId)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val formDto = mapper.readValue(responseBody, FormDto::class.java)
+        formDto.createDt = formDto.createDt?.let { ProviderUtilities().toTimezone(it) }
+        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toTimezone(it) }
 
         return formDto
     }
 
-    fun getForm(formId: String): FormDto {
-        val uri = makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>())
-        val responseBody = restTemplate.getForObject(uri, String::class.java)
-        val mapper = ObjectMapper()
-        val item: Map<*, *> = mapper.readValue(responseBody, Map::class.java)
-        return makeFormDto(item)
-    }
-
     fun deleteForm(formId: String) {
-        restTemplate.delete(makeUri("/rest/wf/forms/$formId", LinkedMultiValueMap<String, String>()))
+        providerForm.deleteForm(formId)
     }
 
-    fun insertForm(formDto: FormDto) {
-        val uri = makeUri("/rest/wf/forms", LinkedMultiValueMap<String, String>())
-
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
-        val parameters: MultiValueMap<String, String> = LinkedMultiValueMap()
-
-        //TODO: formDto를 MultiValueMap에 저장
-
-        val requestEntity = HttpEntity(parameters, headers)
-        restTemplate.postForObject(uri, requestEntity, String::class.java)
-
+    fun insertForm(formDto: FormDto): String {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        formDto.formStatus = ProviderConstants.FormStatus.EDIT.value
+        formDto.createUserKey = aliceUserDto.userKey
+        formDto.createDt =  ProviderUtilities().toGMT(LocalDateTime.now())
+        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
+        val responseBody: String = providerForm.postForm(formDto)
+        return when (responseBody.isNotEmpty()) {
+            true -> {
+                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+                val dataDto = mapper.readValue(responseBody, FormDto::class.java)
+                dataDto.formId
+            }
+            false -> ""
+        }
     }
 
     fun updateForm(formDto: FormDto) {
-        val uri = makeUri("/rest/wf/forms/${formDto.formId}", LinkedMultiValueMap<String, String>())
-        restTemplate.put(uri, formDto)
+        formDto.createDt = formDto.createDt?.let { ProviderUtilities().toGMT(it) }
+        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
+        providerForm.putForm(formDto)
     }
 
 }

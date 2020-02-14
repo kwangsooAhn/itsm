@@ -32,7 +32,7 @@ class ProcessController(private val processService: ProcessService,
      */
     @GetMapping("/list")
     fun getProcessList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("processList", processService.selectProcessList(request.getParameter("search")))
+        model.addAttribute("processList", processService.findProcessList(request.getParameter("search")))
         return processListPage
     }
 

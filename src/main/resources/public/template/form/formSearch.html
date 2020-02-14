@@ -53,25 +53,20 @@
 
     //폼 디자이너 편집화면 오픈
     function openFormDesignerEdit(formId) {
-        const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=yes";
-        window.open('/forms/' + formId + '/edit', '_blank', 'width=1920,height=1080,'+ specs);
+        const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no";
+        window.open('/forms/' + formId + '/edit', '_blank', 'width=1500,height=920,'+ specs);
     }
 
     //REST API
-    function restSubmit(method, url, response) {
-        const xmlHttp = createXmlHttpRequestObject(method, url);
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                if (xmlHttp.status === 200) {
-                    response(xmlHttp.responseText);
-                } else if (xmlHttp.status === 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
+    function restSubmit(method, url, result) {
+        const opt = {
+            method: method,
+            url: url,
+            callbackFunc: function(response) {
+                result(response.responseText);
             }
         };
-        xmlHttp.send();
+        aliceJs.sendXhr(opt);
     }
     /*]]>*/
 </script>

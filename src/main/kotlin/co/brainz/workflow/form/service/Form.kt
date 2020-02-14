@@ -5,27 +5,40 @@ import co.brainz.workflow.form.dto.FormDto
 interface Form {
 
     /**
-     * 폼 리스트 조회.
+     * Search Forms.
+     *
+     * @param search
+     * @return List<FormDto>
      */
     fun formList(search: String): List<FormDto>
 
     /**
-     * 폼 데이터 조회.
+     * Search Form.
+     *
+     * @param formId
+     * @return FormDto
      */
     fun form(formId: String): FormDto
 
     /**
-     * 폼 등록.
+     * Insert Form.
+     *
+     * @param formDto
+     * @return FormDto
      */
-    fun insertForm(formDto: FormDto)
+    fun insertForm(formDto: FormDto): FormDto
 
     /**
-     * 폼 수정.
+     * Update Form.
+     *
+     * @param formDto
      */
     fun updateForm(formDto: FormDto)
 
     /**
-     * 폼 삭제.
+     * Delete Form.
+     *
+     * @param formId
      */
     fun deleteForm(formId: String)
 

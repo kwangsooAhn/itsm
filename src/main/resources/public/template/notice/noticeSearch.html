@@ -76,19 +76,14 @@
             };
 
             const getUrl = url + '?isSearch=' + data.isSearch + '&searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
-            const xmlHttp = createXmlHttpRequestObject(method, getUrl);
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                    if (xmlHttp.status === 200) {
-                        document.getElementById('noticeList').innerHTML = xmlHttp.responseText;
-                    } else if (xmlHttp.status === 400) {
-                        alert('There was an error 400');
-                    } else {
-                        alert('something else other than 200 was returned');
-                    }
+            const opt = {
+                method: method,
+                url: getUrl,
+                callbackFunc: function(response) {
+                    document.getElementById('noticeList').innerHTML = response.responseText;
                 }
             };
-            xmlHttp.send(null);
+            aliceJs.sendXhr(opt);
         }
         /* ]]> */
     </script>
