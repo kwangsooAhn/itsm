@@ -654,6 +654,7 @@
     }
 
     /**
+     * get drawing board size.
      *
      * @returns {{width: number, height: number}}
      */
