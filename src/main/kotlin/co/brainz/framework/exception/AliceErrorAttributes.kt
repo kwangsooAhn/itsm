@@ -42,7 +42,7 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                 }
             }
         }
-        logger.error(exception.message)
+        logger.error(exception?.message)
         logger.error("Exception type: {}", errorAttributes["exceptionType"])
         return errorAttributes
     }

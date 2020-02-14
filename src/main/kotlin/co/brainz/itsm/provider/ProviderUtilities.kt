@@ -95,7 +95,7 @@ open class ProviderUtilities {
      * @param dto
      * @return HttpEntity
      */
-    fun setHttpEntity(dto: Any): HttpEntity<LinkedMultiValueMap<*, *>> {
+    fun setHttpEntity(dto: Any): HttpEntity<LinkedMultiValueMap<*, *>?> {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
         val objectMapper = ObjectMapper()

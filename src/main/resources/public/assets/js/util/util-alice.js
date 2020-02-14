@@ -190,6 +190,8 @@ aliceJs.sendXhr = function (option) {
             //console.log('요청 접수, send메서드가 불렸지만 status와 헤더는 아직 도착하지 않음(' + this.status + ')');
         } else if (this.readyState === 3) {
             //console.log('처리 요청, 데이터의 일부를 받은 상태(' + this.status + ')');
+        } else if (this.status === 403) {
+            window.location.href = '/sessionInValid';
         } else if (this.readyState === 4 && this.status === 200) {
             //console.log('요청 완료및 응답 준비, 데이터를 전부 받음(' + this.status + ')');
             aliceJs.xhrErrorResponse('printError');
@@ -235,6 +237,7 @@ aliceJs.sendXhr = function (option) {
     } else {
         params = null;
     }
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.send(params);
 };
 
