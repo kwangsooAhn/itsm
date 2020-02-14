@@ -142,7 +142,7 @@
         const getPosition = function(e) {
             let posX = 0;
             let posY = 0;
-            if (!e) let e = window.event;
+            if (!e) e = window.event;
             if (e.type === 'keyup') {
                 let rect = e.target.getBoundingClientRect();
                 posX = rect.left + 10;
@@ -562,6 +562,8 @@
      */
     function drawWorkflow(data) {
         console.debug(JSON.parse(data));
+        //TODO: 컴포넌트 재정렬
+        
         formEditor.data = JSON.parse(data);
         document.querySelector('.form-name').textContent = formEditor.data.form.name;
         if (formEditor.data.components.length > 0 ) {
