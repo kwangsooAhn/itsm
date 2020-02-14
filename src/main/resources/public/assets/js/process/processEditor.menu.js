@@ -239,7 +239,8 @@
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
             .attr('width', containerWidth)
-            .attr('height', containerHeight);
+            .attr('height', containerHeight)
+            .on('mousedown', function() { d3.event.stopPropagation(); });
 
         tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
@@ -347,7 +348,8 @@
             .attr('x', x)
             .attr('y', y)
             .attr('width', containerWidth)
-            .attr('height', containerHeight);
+            .attr('height', containerHeight)
+            .on('mousedown', function() { d3.event.stopPropagation(); });
 
         tooltipItemContainer.selectAll('element-tooltip-item')
             .data(items)

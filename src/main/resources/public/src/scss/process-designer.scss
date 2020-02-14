@@ -222,6 +222,10 @@ body {
                 stroke: #bcc5d3;
                 stroke-width: 0.5;
             }
+            image.action-tooltip-item:hover,
+            image.element-tooltip-item:hover {
+                cursor: pointer;
+            }
         }
 
         .grid path {
@@ -233,11 +237,6 @@ body {
             stroke-width: 0.5;
             stroke-opacity: 1;
             shape-rendering: crispEdges;
-        }
-
-        .view {
-            fill: #ffffff;
-            //stroke: #000;
         }
 
         .node {

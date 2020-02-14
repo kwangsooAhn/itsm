@@ -702,12 +702,15 @@
                 svg.style('cursor', 'grabbing');
             })
             .on('zoom', function() {
+                //TODO: 일정 거리 이상 넘어갈 경우 return 처리.
+
                 gHorizontal
                     .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalLinear)));
                 gVertical
                     .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalLinear)));
-                svg.selectAll('g.connector-container, g.node-container')
+                svg.select('g.node-container')
                     .attr('transform', d3.event.transform);
+
             })
             .on('end', function() {
                 svg.style('cursor', 'default');
@@ -744,10 +747,9 @@
             .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
-        const gLink = svg.append('g').attr('class', 'connector-container');
-        path = gLink.selectAll('path.connector');
-        paintedPath = gLink.selectAll('path.painted-connector');
         gNode = svg.append('g').attr('class', 'node-container');
+        path = gNode.selectAll('path.connector');
+        paintedPath = gNode.selectAll('path.painted-connector');
     }
 
     /**
