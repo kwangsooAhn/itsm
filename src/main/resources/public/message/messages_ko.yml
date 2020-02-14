@@ -144,6 +144,11 @@ login:
   userSignUpNote: "처음이신가요?"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
+  gotoLoginPage: "로그인 페이지"
+  msg:
+    sessionExpired: "세션이 만료되었습니다."
+    redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
+
 
 # FORM
 form:

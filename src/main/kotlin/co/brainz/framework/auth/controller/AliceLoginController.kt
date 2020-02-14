@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpSession
 
 /**
  * 로그인 처리 클래스
@@ -19,6 +21,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val documentSearchPage: String = "/document/documentSearch"
+    private val invalidSessionPage: String = "sessionInvalid"
 
     /**
      * 로그인 페이지로 이동한다.
@@ -41,7 +44,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
         logger.debug(">>> securityContextObject is null? {} <<<", securityContextObject == null)
 
         if (securityContextObject != null) {
-            logger.debug(">>> Aleady login. <<<")
+            logger.debug(">>> Already login. <<<")
 
             val securityContext = securityContextObject as SecurityContext
             aliceUserEntity = userDetailsService.loadUserByUsername(securityContext.authentication.principal.toString())
@@ -51,6 +54,15 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
         }
 
         return page
+    }
+
+    /**
+     * Invalid Session 상태에서 redirect 되는 페이지.
+     */
+    @GetMapping("/sessionInValid")
+    fun sessionExpired(session: HttpSession, request: HttpServletRequest, model: Model): String {
+        model.addAttribute("counter", 3);
+        return  invalidSessionPage
     }
 }
 
