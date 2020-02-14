@@ -5,5 +5,7 @@ import java.io.Serializable
 
 data class FormComponentDto(
         val form: FormViewDto,
-        val components: MutableList<ComponentDto> = mutableListOf()
+        //val components: MutableList<ComponentDto> = mutableListOf(),
+        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+
 ): Serializable

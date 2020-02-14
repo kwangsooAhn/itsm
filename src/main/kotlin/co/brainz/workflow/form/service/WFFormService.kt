@@ -7,6 +7,7 @@ import co.brainz.workflow.form.dto.FormDto
 import co.brainz.workflow.form.dto.FormViewDto
 import co.brainz.workflow.form.entity.FormMstEntity
 import co.brainz.workflow.form.repository.FormMstRepository
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 import java.util.Optional
 
@@ -93,6 +94,12 @@ class WFFormService(private val formMstRepository: FormMstRepository) : Form {
         formMstRepository.removeFormEntityByFormId(formId)
     }
 
+    /**
+     * Search Form + Components.
+     *
+     * @param formId
+     * @return FormComponentDto
+     */
     override fun formComponents(formId: String): FormComponentDto {
         val formEntity = formMstRepository.findFormEntityByFormId(formId)
         val formViewDto = FormViewDto(
@@ -100,22 +107,30 @@ class WFFormService(private val formMstRepository: FormMstRepository) : Form {
                 name = formEntity.get().formName,
                 desc = formEntity.get().formDesc
         )
-        val components: MutableList<ComponentDto> = mutableListOf()
+        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        val mapper = ObjectMapper()
         for (component in formEntity.get().components!!) {
-            val componentDto = ComponentDto(
-                    id = component.compId,
-                    type = component.compType,
-                    label = component.displayInfo,
-                    validate = component.compConfig
-            )
-            components.add(componentDto)
+            val map = LinkedHashMap<String, Any>()
+            map["id"] = component.compId
+            map["type"] = component.compType
+
+            //make common
+            val common = LinkedHashMap<String, Any>()
+            common["mapping-id"] = component.mappingId?:""
+            map["common"] = common
+
+            //attribute
+            for (attribute in component.attributes!!) {
+                map[attribute.attrId] = mapper.readValue(attribute.attrValue, LinkedHashMap::class.java)
+            }
+            components.add(map)
         }
-        val formComponentDto = FormComponentDto(
+
+        return FormComponentDto(
                 form = formViewDto,
                 components = components
         )
 
-        return formComponentDto
     }
 
     /**

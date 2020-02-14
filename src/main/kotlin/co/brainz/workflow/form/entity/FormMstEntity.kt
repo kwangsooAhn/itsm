@@ -9,7 +9,6 @@ import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
@@ -40,10 +39,9 @@ data class FormMstEntity(
         var updateDt: LocalDateTime? = null,
 
         @Column(name = "update_user_key")
-        var updateUserKey: String? = null,
+        var updateUserKey: String? = null
 
-        @OneToMany(fetch = FetchType.LAZY)
-        @JoinColumn(name = "form_id")
-        val components: List<ComponentMstEntity>? = emptyList()
-
-): Serializable
+): Serializable {
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "components")
+        val components: MutableList<ComponentMstEntity>? = mutableListOf()
+}

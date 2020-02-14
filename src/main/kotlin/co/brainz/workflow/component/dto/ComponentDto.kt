@@ -4,7 +4,5 @@ import java.io.Serializable
 
 data class ComponentDto(
         val id: String = "",
-        val type: String = "",
-        val label: String = "",
-        val validate: String = ""
+        val type: String = ""
 ) : Serializable
