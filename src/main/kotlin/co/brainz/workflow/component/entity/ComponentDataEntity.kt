@@ -14,11 +14,8 @@ import javax.persistence.Table
 @Entity
 @Table(name = "wf_comp_data")
 data class ComponentDataEntity(
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "id")
-        val id: String,
 
+        @Id
         @Column(name = "attr_id")
         val attrId: String,
 
@@ -28,6 +25,7 @@ data class ComponentDataEntity(
         @Column(name = "attr_order")
         val attrOrder: Int,
 
+        @Id
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "comp_id")
         val attributes: ComponentMstEntity
