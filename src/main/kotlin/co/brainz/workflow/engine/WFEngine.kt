@@ -5,6 +5,7 @@ import co.brainz.workflow.form.service.Form
 import co.brainz.workflow.form.service.WFFormService
 import co.brainz.workflow.process.repository.ProcessMstRepository
 import co.brainz.workflow.process.service.WFProcessService
+import co.brainz.workflow.ticket.service.WFTicketService
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,5 +24,12 @@ class WFEngine(private val formMstRepository: FormMstRepository, private val pro
      */
     fun process(): WFProcessService {
         return WFProcessService(processMstRepository)
+    }
+
+    /**
+     * Ticket Engine.
+     */
+    fun ticket(): WFTicketService {
+        return WFTicketService()
     }
 }
