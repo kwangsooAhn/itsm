@@ -134,8 +134,8 @@ ul, li {
     ul {
         display: none;
         li {
-            height: 60px;
-            line-height: 60px;
+            height: 40px;
+            line-height: 40px;
         }
     }
 }
@@ -144,6 +144,7 @@ ul, li {
 .context-menu ul.active { display: block; }
 .context-menu ul li.active { background-color: rgba(188, 197, 211, 0.1); }
 .context-menu ul li:hover { background-color: rgba(188, 197, 211, 0.1); cursor: pointer; }
+.context-menu #context-menu-component li { height: 60px; line-height: 60px; }
 
 .component {
     display: flex; 

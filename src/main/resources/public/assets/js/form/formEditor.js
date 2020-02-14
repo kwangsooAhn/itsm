@@ -26,7 +26,7 @@
         /**
          * context menu on.
          * 
-         * @param {Object} state {1=context-menu-control 메뉴 on, 2=context-menu-componet 메뉴 on}
+         * @param {Object} state {1=context-menu-control 메뉴 on, 2=context-menu-component 메뉴 on}
          */
         const toggleMenuOn = function (state) {
             if (flag !== 1) {
@@ -35,7 +35,7 @@
             }
             menu.scrollTop = 0;
             let controlMenu = menu.querySelector('#context-menu-control');
-            let componentMenu = menu.querySelector('#context-menu-componet');
+            let componentMenu = menu.querySelector('#context-menu-component');
             if (state === 1 && !controlMenu.classList.contains('active')) {
                 controlMenu.classList.add('active');
                 componentMenu.classList.remove('active');
@@ -55,7 +55,7 @@
                 selectedItem = null;
                 selectedItemIdx = -1;
                 menu.classList.remove('on');
-                let componentMenu = menu.querySelector('#context-menu-componet');
+                let componentMenu = menu.querySelector('#context-menu-component');
                 for (let i = 0, len = componentMenu.children.length; i < len; i++) {
                     let item = componentMenu.children[i];
                     if (item.style.display === 'none') {
@@ -76,8 +76,9 @@
          * @return {Boolean}
          */
         const menuItemSearch = function (searchText) {
-            let componentMenu = menu.querySelector('#context-menu-componet');
+            let componentMenu = menu.querySelector('#context-menu-component');
             let rslt = false;
+            let tempText = searchText.replace('/', '');
             selectedItems = [];
             for (let i = 0, len = componentMenu.children.length; i < len; i++) {
                 let item = componentMenu.children[i];
@@ -94,10 +95,8 @@
                     selectedItems.push(item);
                     rslt = true;
                 } else {
-                    let link = item.querySelector('a');
-                    let text = link.textContent || link.innerText;
-                    searchText = searchText.replace('/', '');
-                    if (text.slice(0, searchText.length).toLowerCase() !== searchText.toLowerCase()) {
+                    let text = item.textContent || item.innerText;
+                    if (text.slice(0, tempText.length).toLowerCase() !== tempText.toLowerCase()) {
                         item.style.display = 'none';
                     } else {
                         item.style.display = 'block';
@@ -146,8 +145,8 @@
             if (!e) var e = window.event;
             if (e.type === 'keyup') {
                 let rect = e.target.getBoundingClientRect();
-                posX = rect.left + 15;
-                posY = rect.top + 30;
+                posX = rect.left + 10;
+                posY = rect.top + 50;
             } else {
                 if (e.pageX || e.pageY) {
                     posX = e.pageX;
@@ -361,8 +360,10 @@
                 case 'delete':
                     break;
                 case 'addEditboxUp':
+                    addEditbox(clickedComponent.id, 'up');
                     break;
                 case 'addEditboxDown':
+                    addEditbox(clickedComponent.id, 'down');
                     break;
                 default:
                     addComponent(item.getAttribute('data-action'), clickedComponent.id);
@@ -373,6 +374,7 @@
         
         const init = function() {
             menu = document.querySelector('#context-menu');
+            itemInContext = menu;
             menu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
                 let d = -e.deltaY || e.detail;
                 this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
@@ -410,25 +412,58 @@
         }
         let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: true});
         if (type !== 'editbox') {
-            let newElem = component.add({type: 'editbox', isFocus: true});
-            let compIdx = comp.getAttribute('data-index');
-            if (attrs.isNew && (compIdx + 1) !== newElem.getAttribute('data-index')) { //재정렬
-                let elems = document.querySelectorAll('.component');
-                let lastElem = newElem.innerHTML;
-                let lastElemType = newElem.getAttribute('data-type');
-                for (let i = elems.length - 1; i >= compIdx; i--) {
-                    let cur = elems[i];
-                    let prev = elems[i - 1];
+            addEditbox(comp.id, 'down');
+        }
+    }
+    
+    /**
+     * elemId 선택한 element Id를 기준으로 위, 아래 editbox 추가
+     * 
+     * @param elemId 선택한 element Id
+     * @param direction 방향 (up, down)
+     */
+    function addEditbox(elemId, direction) {
+        let elem = document.getElementById(elemId);
+        if (elem === null) return;
+        
+        let editbox = component.add({type: 'editbox', isFocus: false});
+        let elemIdx = Number(elem.getAttribute('data-index'));
+        if (direction === 'up') {
+            let comps = document.querySelectorAll('.component');
+            let editboxHTML = editbox.innerHTML;
+            for (let i = comps.length - 1; i >= elemIdx; i--) {
+                let cur = comps[i];
+                let prev = comps[i - 1];
+                if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
+                    cur.innerHTML = prev.innerHTML;
+                    cur.setAttribute('data-type', prev.getAttribute('data-type'));
+                }
+                if (i == elemIdx) {
+                    prev.innerHTML = editboxHTML;
+                    prev.setAttribute('data-type', 'editbox');
+                    prev.querySelector('.group').focus();
+                }
+                
+            }
+        } else {
+            if ((elemIdx + 1) !== Number(editbox.getAttribute('data-index'))) {
+                let comps = document.querySelectorAll('.component');
+                let editboxHTML = editbox.innerHTML;
+                for (let i = comps.length - 1; i >= elemIdx; i--) {
+                    let cur = comps[i];
+                    let prev = comps[i - 1];
                     if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
                         cur.innerHTML = prev.innerHTML;
                         cur.setAttribute('data-type', prev.getAttribute('data-type'));
                     }
-                    if (i == compIdx) {
-                        cur.innerHTML = lastElem;
-                        cur.setAttribute('data-type', lastElemType);
+                    if (i == elemIdx) {
+                        cur.innerHTML = editboxHTML;
+                        cur.setAttribute('data-type', 'editbox');
                         cur.querySelector('.group').focus();
                     }
                 }
+            } else {
+                editbox.querySelector('.group').focus();
             }
         }
     }
@@ -549,8 +584,6 @@
         console.info('form editor initialization. [FORM ID: ' + form.formId + ']');
         workflowUtil.polyfill();
         component.init();
-        context.init();
-        
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
@@ -560,6 +593,7 @@
             },
             contentType: 'application/json; charset=utf-8'
         });
+        context.init();
     }
     
     exports.init = init;
