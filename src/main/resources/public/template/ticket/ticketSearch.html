@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{ticket.label.list}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto auto auto;">
+        <h1 th:text="#{ticket.label.list}"></h1>
+        <hr>
+        <div id="ticketList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+<script type="text/javascript">
+    window.addEventListener('load', function() {
+        restSubmit('get', '/tickets/list')
+    });
+
+    //REST API
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            callbackFunc: function(response) {
+                document.getElementById('ticketList').innerHTML = response.responseText;
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    //신청서 작성 화면 오픈.
+    function openTicketEdit(ticketId) {
+        //구현전이라 주석처리 함.
+        //window.open('/tickets/' + ticketId + '/edit', '_blank', 'width=1500, height=800');
+    }
+</script>
+</th:block>
+</html>
