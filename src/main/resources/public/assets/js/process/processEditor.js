@@ -7,7 +7,8 @@
 
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
-        durationTime: 100
+        durationTime: 100,
+        boardInterval: 10
     }
 
     let data = {};
@@ -213,7 +214,8 @@
                 if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
-                        svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
+                        // svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1); <- querySelector 로 첫번째 글자로 숫자가 오면 오류남.
+                        document.getElementById(selectedElementId + '_point' + i).style.opacity = '1';
                     }
                 }
                 elem.style('cursor', 'move');
@@ -652,12 +654,26 @@
     }
 
     /**
+     *
+     * @returns {{width: number, height: number}}
+     */
+    function getDrawingBoardSize() {
+        let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth,
+            windowHeight = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+
+        let toolbarHeight = document.querySelector('.alice-process-toolbar').clientHeight,
+            elementPaletteWidth = document.querySelector('.alice-process-element-palette').clientWidth,
+            propertiesPanelWidth = document.querySelector('.alice-process-properties-panel').clientWidth;
+
+        return {width: windowWidth - elementPaletteWidth - propertiesPanelWidth, height: windowHeight - toolbarHeight};
+    }
+
+    /**
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
         const width = 1120,
-              height = 879,
-              interval = 10;
+              height = 879;
 
         // add svg and svg event
         svg = d3.select('.alice-process-drawing-board').append('svg')
@@ -680,26 +696,21 @@
             });
 
         // add grid line & zoom
-        const horizontalLinear = d3.scaleLinear()
-            .domain([-1, width + 1])
-            .range([-1, width + 1]);
+        let horizontalLinear = d3.scaleLinear().domain([0, width]).range([0, width]);
+        let verticalLinear = d3.scaleLinear().domain([0, height]).range([0, height]);
 
-        const verticalLinear = d3.scaleLinear()
-            .domain([-1, height + 1])
-            .range([-1, height + 1]);
-
-        const horizontalAxis = d3.axisBottom(horizontalLinear)
-            .ticks(height / interval)
+        let horizontalAxis = d3.axisBottom(horizontalLinear)
+            .ticks(height / displayOptions.boardInterval)
             .tickSize(height)
             .tickFormat('');
 
-        const verticalAxis = d3.axisRight(verticalLinear)
-            .ticks(width / interval)
+        let verticalAxis = d3.axisRight(verticalLinear)
+            .ticks(width / displayOptions.boardInterval)
             .tickSize(width)
             .tickFormat('');
 
-        const gHorizontal = svg.append('g').attr('class', 'grid horizontal-grid').call(horizontalAxis),
-              gVertical = svg.append('g').attr('class', 'grid vertical-grid').call(verticalAxis);
+        let gHorizontal = svg.append('g').attr('class', 'grid horizontal-grid').call(horizontalAxis),
+            gVertical = svg.append('g').attr('class', 'grid vertical-grid').call(verticalAxis);
 
         const zoom = d3.zoom()
             .on('start', function() {
@@ -716,9 +727,20 @@
                     nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
                     nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
                 });
+
+                let minLeft = 0,
+                    minTop = 0,
+                    maxRight = 0,
+                    maxBottom = 0;
+                if (nodes.length > 0) {
+                    minLeft = d3.min(nodeLeftArray);
+                    minTop = d3.min(nodeTopArray);
+                    maxRight = d3.max(nodeRightArray);
+                    maxBottom = d3.max(nodeBottomArray);
+                }
                 zoom.translateExtent([
-                    [d3.min(nodeLeftArray) - displayOptions.translateLimit, d3.min(nodeTopArray) - displayOptions.translateLimit],
-                    [d3.max(nodeRightArray) + displayOptions.translateLimit, d3.max(nodeBottomArray) + displayOptions.translateLimit]
+                    [minLeft - displayOptions.translateLimit, minTop - displayOptions.translateLimit],
+                    [maxRight + displayOptions.translateLimit, maxBottom + displayOptions.translateLimit]
                 ]);
             })
             .on('zoom', function() {
@@ -738,6 +760,28 @@
             .on('wheel.zoom', null)
             .on('dblclick.zoom', null);
 
+        window.onresize = function(e) {
+            const drawingBoardSize = getDrawingBoardSize(),
+                  drawingBoardWidth = drawingBoardSize.width,
+                  drawingBoardHeight = drawingBoardSize.height;
+
+            svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
+
+            horizontalLinear = d3.scaleLinear().domain([0, drawingBoardWidth]).range([0, drawingBoardWidth]);
+            verticalLinear = d3.scaleLinear().domain([0, drawingBoardHeight]).range([0, drawingBoardHeight]);
+            horizontalAxis = d3.axisBottom(horizontalLinear)
+                .ticks(drawingBoardHeight / displayOptions.boardInterval)
+                .tickSize(drawingBoardHeight)
+                .tickFormat('');
+            verticalAxis = d3.axisRight(verticalLinear)
+                .ticks(drawingBoardWidth / displayOptions.boardInterval)
+                .tickSize(drawingBoardWidth)
+                .tickFormat('');
+
+            svg.selectAll('g.grid').remove();
+            gHorizontal = svg.append('g').attr('class', 'grid horizontal-grid').call(horizontalAxis);
+            gVertical = svg.append('g').attr('class', 'grid vertical-grid').call(verticalAxis);
+        }
 
         // define arrow markers for links
         svg.append('defs').append('marker')

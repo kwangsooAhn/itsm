@@ -9899,8 +9899,15 @@ body {
   font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+.alice-process-container {
+  width: 100vw;
+  height: 100vh;
+  min-width: 75rem;
+  min-height: 37.5rem;
+}
 .alice-process-toolbar {
   width: 100vw;
+  min-width: 75rem;
   height: 2.5rem;
   background-color: #4c5264;
   color: #fff;
@@ -9956,6 +9963,7 @@ body {
   display: inline-block;
   width: 3.75rem;
   height: calc(100vh - 2.5rem);
+  min-height: 35rem;
   background-color: #f6f6f7;
   position: absolute;
   top: 2.5rem;
@@ -10016,7 +10024,9 @@ body {
   top: 2.5rem;
   left: 3.75rem;
   width: calc(100vw - 23.75rem);
+  min-width: 51.25rem;
   height: calc(100vh - 2.5rem);
+  min-height: 35rem;
   background-color: #ffffff;
 }
 .alice-process-drawing-board svg {
@@ -10090,9 +10100,10 @@ body {
   background-color: #f6f6f7;
   width: 20rem;
   height: calc(100vh - 2.5rem);
+  min-height: 35rem;
   position: absolute;
   top: 2.5rem;
-  left: calc(100vw - 20rem);
+  right: 0;
   border: #bcc5d3 solid 0.063rem;
 }
 .alice-process-properties-panel p {

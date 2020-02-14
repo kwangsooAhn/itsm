@@ -27,14 +27,23 @@ $process-toolbar-top-bottom-padding: 0.625rem; // 10px
 $process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bottom-padding * 2);
 $process-element-palette-width: 3.75rem; // 60px
 $process-properties-panel-width: 20rem; // 320px
+$process-container-min-width: 75rem;  // 1200px
+$process-container-min-height: 37.5rem;  // 600px
 
 body {
     font-family: $alice-font-family;
 }
 
 .alice-process {
+    &-container {
+        width: 100vw;
+        height: 100vh;
+        min-width: $process-container-min-width;
+        min-height: $process-container-min-height;
+    }
     &-toolbar {
         width: 100vw;
+        min-width: $process-container-min-width;
         height: $process-toolbar-height;
         background-color: #4c5264;
         color: $white;
@@ -102,6 +111,7 @@ body {
         display: inline-block;
         width: $process-element-palette-width;
         height: calc(100vh - #{$process-toolbar-height});
+        min-height: #{$process-container-min-height - $process-toolbar-height};
         background-color: #f6f6f7;
         position: absolute;
         top: $process-toolbar-height;
@@ -177,7 +187,9 @@ body {
         top: $process-toolbar-height;
         left: $process-element-palette-width;
         width: calc(100vw - #{$process-element-palette-width + $process-properties-panel-width});
+        min-width: #{$process-container-min-width - ($process-element-palette-width + $process-properties-panel-width)};
         height: calc(100vh - #{$process-toolbar-height});
+        min-height: #{$process-container-min-height - $process-toolbar-height};
         background-color: #ffffff;
 
         svg {
@@ -267,9 +279,10 @@ body {
         background-color: #f6f6f7;
         width: $process-properties-panel-width;
         height: calc(100vh - #{$process-toolbar-height});
+        min-height: #{$process-container-min-height - $process-toolbar-height};
         position: absolute;
         top: $process-toolbar-height;
-        left: calc(100vw - #{$process-properties-panel-width});
+        right: 0;
         border: #bcc5d3 solid 0.063rem;
 
         p {
