@@ -14,47 +14,6 @@
     <script th:src="@{/assets/js/process/workflow.util.js}"></script>
     <script th:src="@{/assets/js/form/formEditor.js}"></script>
     <script th:src="@{/assets/js/form/component.js}"></script>
-    <style type="text/css">
-        /* 임시 CSS  추후 form-designer.css 로 이동 */
-        .component {display: flex; align-items: center; width: 100%; max-width: 100%; border: none; padding-right: 60px; padding-bottom: 20px;}
-        /* .component.over { border: 3px dashed #ccc; } */
-        .component .move-icon {width:60px; height:80px; content:url("https://placehold.it/60X80"); opacity: 0;}
-        .group {display: flex; flex-wrap: wrap; width: 100%; align-items: center; /* padding: 20px 60px 20px 5px;pointer-events: none; */}
-        .field input[type=text] {width: 100%; height: 25px;}
-        .field textarea {width: 100%;}
-        #property-panel .title{padding: 30px 0px 0px 0px; font-size: 30px; font-weight: bold; text-align: center;}
-        
-        .group[contenteditable=true]:empty::before {content: attr(placeholder); display: block;}
-        .group[contenteditable=true] {color : #BCC5D3;font-size: 12px; height:80px; line-height: 80px;}
-        .group:focus {outline: none;}
-        
-        .context-menu {
-          display: none;
-          position: absolute;
-          z-index: 10;
-          width: 240px;
-          max-height: 200px;
-          background-color: #fff;
-          border: solid 1px #dfdfdf;
-          box-shadow: 1px 1px 2px #cfcfcf;
-          overflow: auto;
-        }
-        .context-menu.on {
-            display: block;
-        }
-        .context-menu ul{
-            display: none;
-        }
-        .context-menu ul.active{
-            display: block;
-        }
-        .context-menu li.active {
-            background-color: rgba(188, 197, 211, 0.1);
-        }
-        .context-menu li:hover {
-            background-color: rgba(188, 197, 211, 0.1);
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg form-navbar">
@@ -86,22 +45,24 @@
     </div>
     <div id="context-menu" class="context-menu">
         <ul id="context-menu-control" class="active">
-            <li><i class="fa fa-edit"></i><a class="context-item-link" href="#" data-action="copy">복사</a></li>
-            <li><i class="fa fa-times"></i><a class="context-item-link" href="#" data-action="delete">삭제</a></li>
+            <li class="context-item-link" data-action="copy">복사</li>
+            <li class="context-item-link" data-action="delete">삭제</li>
+            <li class="context-item-link" data-action="addEditboxUp">새로만들기-위</li>
+            <li class="context-item-link" data-action="addEditboxDown">새로만들기-아래</li>
         </ul>
-        <ul id="context-menu-componet">
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="text">Text</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="textarea">Text Box</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="list">Dropdown</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="radio">Radio Button</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="checkbox">Checkbox</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="label">Label</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="image">Image</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="line">Line</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="date">Date</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="time">Time</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="datetime">Date Time</a></li>
-            <li><i class="fa fa-envira"></i><a class="context-item-link" href="#" data-action="fileupload">Fileupload</a></li>   
+        <ul id="context-menu-component">
+            <li class="context-item-link" data-action="text">Text</li>
+            <li class="context-item-link" data-action="textarea">Text Box</li>
+            <li class="context-item-link" data-action="list">Dropdown</li>
+            <li class="context-item-link" data-action="radio">Radio Button</li>
+            <li class="context-item-link" data-action="checkbox">Checkbox</li>
+            <li class="context-item-link" data-action="label">Label</li>
+            <li class="context-item-link" data-action="image">Image</li>
+            <li class="context-item-link" data-action="line">Line</li>
+            <li class="context-item-link" data-action="date">Date</li>
+            <li class="context-item-link" data-action="time">Time</li>
+            <li class="context-item-link" data-action="datetime">Date Time</li>
+            <li class="context-item-link" data-action="fileupload">Fileupload</li>  
         </ul>
     </div>
 </body>

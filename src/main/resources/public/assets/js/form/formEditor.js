@@ -26,7 +26,7 @@
         /**
          * context menu on.
          * 
-         * @param {Object} state {1=context-menu-control 메뉴 on, 2=context-menu-componet 메뉴 on}
+         * @param {Object} state {1=context-menu-control 메뉴 on, 2=context-menu-component 메뉴 on}
          */
         const toggleMenuOn = function (state) {
             if (flag !== 1) {
@@ -35,7 +35,7 @@
             }
             menu.scrollTop = 0;
             let controlMenu = menu.querySelector('#context-menu-control');
-            let componentMenu = menu.querySelector('#context-menu-componet');
+            let componentMenu = menu.querySelector('#context-menu-component');
             if (state === 1 && !controlMenu.classList.contains('active')) {
                 controlMenu.classList.add('active');
                 componentMenu.classList.remove('active');
@@ -55,7 +55,7 @@
                 selectedItem = null;
                 selectedItemIdx = -1;
                 menu.classList.remove('on');
-                let componentMenu = menu.querySelector('#context-menu-componet');
+                let componentMenu = menu.querySelector('#context-menu-component');
                 for (let i = 0, len = componentMenu.children.length; i < len; i++) {
                     let item = componentMenu.children[i];
                     if (item.style.display === 'none') {
@@ -76,19 +76,16 @@
          * @return {Boolean}
          */
         const menuItemSearch = function (searchText) {
-            let componentMenu = menu.querySelector('#context-menu-componet');
+            let componentMenu = menu.querySelector('#context-menu-component');
             let rslt = false;
+            let tempText = searchText.replace('/', '');
             selectedItems = [];
             for (let i = 0, len = componentMenu.children.length; i < len; i++) {
                 let item = componentMenu.children[i];
                 if (item.classList.contains('active')) {
                     item.classList.remove('active');
                 }
-                let link = item.querySelector('a');
-                let text = link.textContent || link.innerText;
-                if (text.slice(0, searchText.length).toLowerCase() !== searchText.toLowerCase()) {
-                    item.style.display = 'none';
-                } else {
+                if (searchText === '/') {
                     item.style.display = 'block';
                     if (!rslt) {
                         selectedItem = item;
@@ -97,6 +94,20 @@
                     }
                     selectedItems.push(item);
                     rslt = true;
+                } else {
+                    let text = item.textContent || item.innerText;
+                    if (text.slice(0, tempText.length).toLowerCase() !== tempText.toLowerCase()) {
+                        item.style.display = 'none';
+                    } else {
+                        item.style.display = 'block';
+                        if (!rslt) {
+                            selectedItem = item;
+                            selectedItem.classList.add('active');
+                            selectedItemIdx = 0;
+                        }
+                        selectedItems.push(item);
+                        rslt = true;
+                    }
                 }
             }
             return rslt;
@@ -129,13 +140,13 @@
          * @return {Object} 마우스, 키보드 클릭 좌표
          */
         const getPosition = function(e) {
-            var posX = 0;
-            var posY = 0;
-            if (!e) var e = window.event;
+            let posX = 0;
+            let posY = 0;
+            if (!e) let e = window.event;
             if (e.type === 'keyup') {
                 let rect = e.target.getBoundingClientRect();
-                posX = rect.left + 15;
-                posY = rect.top + 30;
+                posX = rect.left + 10;
+                posY = rect.top + 50;
             } else {
                 if (e.pageX || e.pageY) {
                     posX = e.pageX;
@@ -146,6 +157,21 @@
                 }
             }
             return { x: posX, y: posY };
+        };
+        
+        /**
+         * 컨텍스트 메뉴 scroll 
+         */
+        const scrollMenu = function() {
+            let contextHeight = menu.offsetHeight;
+            let contextScrollTop = menu.scrollTop;
+            let viewPort = contextScrollTop + contextHeight;
+            let elem = menu.getElementsByClassName('active')[0];
+            let itemHeight = elem.firstElementChild.offsetHeight;
+            let contextOffset = itemHeight * selectedItemIdx;
+            if (contextOffset < contextScrollTop || (contextOffset + itemHeight) > viewPort) {
+                menu.scrollTop = contextOffset;
+            }
         };
         
         /**
@@ -193,6 +219,7 @@
                             selectedItemIdx = len;
                         }
                         selectedItem.classList.add('active');
+                        scrollMenu();
                         break;
                     case KEYCODE.ARROW_DOWN:
                         selectedItem.classList.remove('active');
@@ -204,9 +231,10 @@
                             selectedItemIdx = 0;
                         }
                         selectedItem.classList.add('active');
+                        scrollMenu();
                         break;
                     case KEYCODE.ENTER:
-                        menuItemListener(selectedItem.querySelector('.context-item-link'));
+                        menuItemListener(selectedItem);
                         selectedItems = [];
                         selectedItem = null;
                         selectedItemIdx = -1;
@@ -250,6 +278,7 @@
                 let box = itemInContext.querySelector('[contenteditable=true]');
                 if (box) {
                     let text = box.textContent;
+                    if (text.length > 0 && text.charAt(0) !== '/') return;
                     if (text.length > 0 && menuItemSearch(text)) {
                         toggleMenuOn(2);
                         positionMenu(e);
@@ -278,6 +307,7 @@
             } else {
                 itemInContext = null;
                 toggleMenuOff();
+                component.hidePropertyPanel();
             }
         };
         
@@ -294,6 +324,7 @@
                     }
                     flag = 1;
                     toggleMenuOff();
+                    component.hidePropertyPanel();
                 }
                 let button = e.button ? e.button : e.which;
                 if (button === 1) { 
@@ -305,12 +336,11 @@
                                 toggleMenuOn(2);
                                 positionMenu(e);
                             } else {
-                                console.log(itemInContext);
                                 itemInContext = null;
                                 toggleMenuOff();
                             }
                         }
-                        if (compType !== 'editbox') {
+                        if (itemInContext !== null && compType !== 'editbox') {
                             component.showPropertyPanel(itemInContext.id);
                         }
                     }
@@ -324,12 +354,19 @@
          */
         const menuItemListener = function(item) {
             let clickedComponent = itemInContext;
-            if (item.getAttribute('data-action') === 'copy') {
-                
-            } else if (item.getAttribute('data-action') === 'delete') {
-                
-            } else {
-                addComponent(item.getAttribute('data-action'), clickedComponent.id);
+            switch (item.getAttribute('data-action')) {
+                case 'copy':
+                    break;
+                case 'delete':
+                    break;
+                case 'addEditboxUp':
+                    addEditbox(clickedComponent.id, 'up');
+                    break;
+                case 'addEditboxDown':
+                    addEditbox(clickedComponent.id, 'down');
+                    break;
+                default:
+                    addComponent(item.getAttribute('data-action'), clickedComponent.id);
             }
             toggleMenuOff();
             itemInContext = null;
@@ -337,6 +374,7 @@
         
         const init = function() {
             menu = document.querySelector('#context-menu');
+            itemInContext = menu;
             menu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
                 let d = -e.deltaY || e.detail;
                 this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
@@ -367,19 +405,66 @@
      */
     function addComponent(type, componentId, attrs) {
         attrs = attrs || {};
-        let isFocus = true;
         if (Object.keys(attrs).length === 0 && JSON.stringify(attrs) === JSON.stringify({})) {
             attrs.isNew = true; //추가
-            isFocus = true;
         } else {
             attrs.isNew = false; //수정
-            isFocus = false;
         }
-        let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: isFocus});
+        let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: true});
+        if (type !== 'editbox') {
+            addEditbox(comp.id, 'down');
+        }
+    }
+    
+    /**
+     * elemId 선택한 element Id를 기준으로 위, 아래 editbox 추가
+     * 
+     * @param elemId 선택한 element Id
+     * @param direction 방향 (up, down)
+     */
+    function addEditbox(elemId, direction) {
+        let elem = document.getElementById(elemId);
+        if (elem === null) return;
         
-        let box = document.querySelectorAll('[contenteditable=true]');
-        if (attrs.isNew && box.length === 0) {
-            component.add({type: 'editbox', isFocus: !isFocus})
+        let editbox = component.add({type: 'editbox', isFocus: false});
+        let elemIdx = Number(elem.getAttribute('data-index'));
+        if (direction === 'up') {
+            let comps = document.querySelectorAll('.component');
+            let editboxHTML = editbox.innerHTML;
+            for (let i = comps.length - 1; i >= elemIdx; i--) {
+                let cur = comps[i];
+                let prev = comps[i - 1];
+                if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
+                    cur.innerHTML = prev.innerHTML;
+                    cur.setAttribute('data-type', prev.getAttribute('data-type'));
+                }
+                if (i == elemIdx) {
+                    prev.innerHTML = editboxHTML;
+                    prev.setAttribute('data-type', 'editbox');
+                    prev.querySelector('.group').focus();
+                }
+                
+            }
+        } else {
+            if ((elemIdx + 1) !== Number(editbox.getAttribute('data-index'))) {
+                let comps = document.querySelectorAll('.component');
+                let editboxHTML = editbox.innerHTML;
+                for (let i = comps.length - 1; i >= elemIdx; i--) {
+                    let cur = comps[i];
+                    let prev = comps[i - 1];
+                    if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
+                        cur.innerHTML = prev.innerHTML;
+                        cur.setAttribute('data-type', prev.getAttribute('data-type'));
+                    }
+                    if (i == elemIdx) {
+                        cur.innerHTML = editboxHTML;
+                        cur.setAttribute('data-type', 'editbox');
+                        cur.querySelector('.group').focus();
+                    }
+                }
+            } else {
+                editbox.querySelector('.group').focus();
+            }
         }
     }
     
@@ -437,18 +522,37 @@
         //TODO: import
     }
     
+    /**
+     * 데이터 조회
+     * 
+     * @param id 컴포넌트 id
+     * @return {Object} component 정보
+     */
     function getData(id) {
-        //var idx = 0;
         for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
             let comp = formEditor.data.components[i];
-            if (comp.id === id) {
-                //idx = i; 
-                //break;
-                return comp;
-            }
+            if (comp.id === id) { return comp; }
         }
         return null;
-        //return idx;
+    }
+    
+    /**
+     * 데이터 추가/수정
+     * 
+     * @param compInfo 컴포넌트 정보
+     */
+    function changeData(compInfo) {
+        let isExist = false;
+        for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
+            let comp = formEditor.data.components[i];
+            if (comp.id === compInfo.id) {//수정
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist) {//추가
+            formEditor.data.components.push(compInfo);
+        }
     }
     
     /**
@@ -465,8 +569,9 @@
                 let comp = formEditor.data.components[i];
                 addComponent(comp.type, comp.id, comp);
             }
+        } else {
+            addComponent('editbox');
         }
-        addComponent('editbox');
     }
     
     /**
@@ -478,8 +583,6 @@
         console.info('form editor initialization. [FORM ID: ' + form.formId + ']');
         workflowUtil.polyfill();
         component.init();
-        context.init();
-        
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
@@ -489,6 +592,7 @@
             },
             contentType: 'application/json; charset=utf-8'
         });
+        context.init();
     }
     
     exports.init = init;
@@ -499,6 +603,7 @@
     exports.exportform = exportForm;
     exports.importform = exportForm;
     exports.getData = getData;
+    exports.changeData = changeData;
     
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
