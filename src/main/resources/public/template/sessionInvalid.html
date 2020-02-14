@@ -13,8 +13,8 @@
 <button type="button" id="gotoLoginPage" th:text="#{login.gotoLoginPage}"/>
 <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
     window.onload = function() {
-        /*<![CDATA[*/
         let count = [[${counter}]],
             timer,
             counterMsg = [[#{login.msg.redirectedLoginPage}]];
@@ -49,7 +49,7 @@
                 window.close();
             }
         }
-    }
+    };
     /*]]>*/
 </script>
 </body>
