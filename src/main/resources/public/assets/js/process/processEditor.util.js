@@ -100,13 +100,13 @@
      */
     function initUtil() {
         // add click event listener.
-        document.querySelector('#btnSave').addEventListener('click', saveWorkflow);
-        document.querySelector('#btnSimulation').addEventListener('click', simulationWorkflow);
-        document.querySelector('#btnUndo').addEventListener('click', undoWorkflow);
-        document.querySelector('#btnRedo').addEventListener('click', redoWorkflow);
-        document.querySelector('#btnImport').addEventListener('click', importWorkflow);
-        document.querySelector('#btnExport').addEventListener('click', exportWorkflow);
-        document.querySelector('#btnDownload').addEventListener('click', downloadWorkflowImage);
+        document.getElementById('btnSave').addEventListener('click', saveWorkflow);
+        document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);
+        document.getElementById('btnUndo').addEventListener('click', undoWorkflow);
+        document.getElementById('btnRedo').addEventListener('click', redoWorkflow);
+        document.getElementById('btnImport').addEventListener('click', importWorkflow);
+        document.getElementById('btnExport').addEventListener('click', exportWorkflow);
+        document.getElementById('btnDownload').addEventListener('click', downloadWorkflowImage);
     }
 
     exports.utils = utils;

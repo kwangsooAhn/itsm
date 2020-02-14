@@ -5,6 +5,11 @@
 }(this, (function (exports) {
     'use strict';
 
+    const displayOptions = {
+        translateLimit: 1000, // drawing board limit.
+        durationTime: 100
+    }
+
     let data = {};
 
     let svg,
@@ -12,6 +17,7 @@
         path,
         paintedPath,
         dragLine;
+
     const nodes= [],
           links = [];
 
@@ -20,7 +26,6 @@
         selectedElement;
 
     let isDrawConnector = false;
-    const durationTime = 100;
 
     /**
      * reset mouse variables.
@@ -35,7 +40,7 @@
      */
     function removeElementSelected() {
         selectedElement = null;
-        svg.selectAll('.node').style('stroke-width', 1).transition().duration(durationTime);
+        svg.selectAll('.node').style('stroke-width', 1).transition().duration(displayOptions.durationTime);
         svg.selectAll('.pointer').style('opacity', 0);
         svg.selectAll('.alice-tooltip').remove();
         svg.selectAll('.connector').classed('selected', false);
@@ -168,7 +173,7 @@
             mouseoverElement = elem;
             elem.classed('selected', true)
                 .transition()
-                .duration(durationTime);
+                .duration(displayOptions.durationTime);
         },
         mouseout: function() {
             const elem = d3.select(this);
@@ -179,7 +184,7 @@
             mouseoverElement = null;
             elem.classed('selected', false)
                 .transition()
-                .duration(durationTime);
+                .duration(displayOptions.durationTime);
         },
         mousedown: function () {
             const elem = d3.select(this);
@@ -204,7 +209,7 @@
                 removeElementSelected();
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
-                selectedElement.style('stroke-width', 2).transition().duration(durationTime);
+                selectedElement.style('stroke-width', 2).transition().duration(displayOptions.durationTime);
                 if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
@@ -231,7 +236,7 @@
                     mouseoverElement
                         .classed('selected', false)
                         .transition()
-                        .duration(durationTime);
+                        .duration(displayOptions.durationTime);
 
                     const source = mousedownElement;
                     const target = mouseoverElement;
@@ -245,7 +250,7 @@
                 resetMouseVars();
             } else {
                 elem.style('cursor', 'pointer');
-                if (svg.selectAll('.alice-tooltip').node() == null) {
+                if (svg.select('.alice-tooltip').node() === null) {
                     AliceProcessEditor.setActionTooltipItem(elem);
                 }
             }
@@ -641,7 +646,7 @@
                     node = new AnnotationElement(x, y);
                 }
                 if (node) {
-                    nodes.push(node);
+                    nodes.push(node.nodeElement);
                 }
             });
     }
@@ -697,20 +702,32 @@
               gVertical = svg.append('g').attr('class', 'grid vertical-grid').call(verticalAxis);
 
         const zoom = d3.zoom()
-             //.translateExtent([[-100, -100], [width + 90, height + 100]])
             .on('start', function() {
                 svg.style('cursor', 'grabbing');
+
+                const nodeTopArray = [],
+                      nodeRightArray = [],
+                      nodeBottomArray = [],
+                      nodeLeftArray = [];
+                nodes.forEach(function(node){
+                    let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(node);
+                    nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
+                    nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
+                    nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
+                    nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
+                });
+                zoom.translateExtent([
+                    [d3.min(nodeLeftArray) - displayOptions.translateLimit, d3.min(nodeTopArray) - displayOptions.translateLimit],
+                    [d3.max(nodeRightArray) + displayOptions.translateLimit, d3.max(nodeBottomArray) + displayOptions.translateLimit]
+                ]);
             })
             .on('zoom', function() {
-                //TODO: 일정 거리 이상 넘어갈 경우 return 처리.
-
                 gHorizontal
                     .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalLinear)));
                 gVertical
                     .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalLinear)));
                 svg.select('g.node-container')
                     .attr('transform', d3.event.transform);
-
             })
             .on('end', function() {
                 svg.style('cursor', 'default');
@@ -720,6 +737,7 @@
             .call(zoom)
             .on('wheel.zoom', null)
             .on('dblclick.zoom', null);
+
 
         // define arrow markers for links
         svg.append('defs').append('marker')
