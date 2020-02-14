@@ -140,9 +140,9 @@
          * @return {Object} 마우스, 키보드 클릭 좌표
          */
         const getPosition = function(e) {
-            var posX = 0;
-            var posY = 0;
-            if (!e) var e = window.event;
+            let posX = 0;
+            let posY = 0;
+            if (!e) let e = window.event;
             if (e.type === 'keyup') {
                 let rect = e.target.getBoundingClientRect();
                 posX = rect.left + 10;
@@ -539,20 +539,19 @@
     /**
      * 데이터 추가/수정
      * 
-     * @param obj 컴포넌트 정보
+     * @param compInfo 컴포넌트 정보
      */
-    function changeData(obj) {
+    function changeData(compInfo) {
         let isExist = false;
         for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
             let comp = formEditor.data.components[i];
-            if (comp.id === obj.id) { 
-                //수정
+            if (comp.id === compInfo.id) {//수정
                 isExist = true;
                 break;
             }
         }
-        if (!isExist) {
-            //추가
+        if (!isExist) {//추가
+            formEditor.data.components.push(compInfo);
         }
     }
     

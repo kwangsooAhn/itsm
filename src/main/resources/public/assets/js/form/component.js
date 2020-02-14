@@ -41,7 +41,7 @@
             onDragEndHandler: function(e) {
                 if (_children.length > 0) {
                     for (let i = 0, len = _children.length; i < len; i ++) {
-                       var child = _children[i];
+                       let child = _children[i];
                        child.classList.remove('over');
                     }
                 }
@@ -98,7 +98,7 @@
      * @return elem 생성된 element
      */
     function createElement(template) {
-        var elem = document.createElement('div');
+        let elem = document.createElement('div');
         elem.classList.add('group');
         elem.innerHTML = template;
         return elem;
@@ -118,14 +118,19 @@
         }
         if (elem) { //editbox 삭제 후 컴포넌트 추가
             elem.removeChild(elem.childNodes[1]);
-            //TODO: formEdit.data에 신규 추가
-            /*let detailAttr = component.attr[options.type];
-            let obj = {
+            /*let obj = {
                 id: options.componentId,
                 type: options.type,
-                //속성
             };
-            formEditor.changeData(obj); */
+            let detailAttr = component.attr[options.type];
+            Object.keys(detailAttr).forEach(function(pAttr) {
+                obj[pAttr] = {};
+                Object.keys(detailAttr[pAttr]).forEach(function(attr) {
+                    obj[pAttr][detailAttr[pAttr][attr].id] = detailAttr[pAttr][attr].value;
+                });
+            });
+            obj.display.order = elem.getAttribute('data-index');
+            formEditor.changeData(obj);*/
         } else {
             elem = document.createElement('div');
             elem.classList.add('component');
