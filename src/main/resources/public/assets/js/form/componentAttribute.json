@@ -136,6 +136,7 @@
                 "value": "none", 
                 "type": "select", 
                 "option": [ 
+                    {"id": "none", "name": "None"}, 
                     {"id": "char", "name": "Char"}, 
                     {"id": "num", "name": "Number"},
                     { "id": "numchar", "name": "Char + Number"},
