@@ -142,7 +142,7 @@
         const getPosition = function(e) {
             let posX = 0;
             let posY = 0;
-            if (!e) e = window.event;
+            if (!e) { e = window.event; }
             if (e.type === 'keyup') {
                 let rect = e.target.getBoundingClientRect();
                 posX = rect.left + 10;
@@ -266,7 +266,7 @@
             }
             isCtrlPressed = false;
             
-            if (selectedItem && (keyCode === KEYCODE.ARROW_UP || keyCode === KEYCODE.ARROW_DOWN)) return;
+            if (selectedItem && (keyCode === KEYCODE.ARROW_UP || keyCode === KEYCODE.ARROW_DOWN)) { return; }
             if (selectedItem && keyCode === KEYCODE.ENTER) {
                 selectedItems = [];
                 selectedItem = null;
@@ -278,7 +278,7 @@
                 let box = itemInContext.querySelector('[contenteditable=true]');
                 if (box) {
                     let text = box.textContent;
-                    if (text.length > 0 && text.charAt(0) !== '/') return;
+                    if (text.length > 0 && text.charAt(0) !== '/') { return; }
                     if (text.length > 0 && menuItemSearch(text)) {
                         toggleMenuOn(2);
                         positionMenu(e);
@@ -424,7 +424,7 @@
      */
     function addEditbox(elemId, direction) {
         let elem = document.getElementById(elemId);
-        if (elem === null) return;
+        if (elem === null) { return; }
         
         let editbox = component.add({type: 'editbox', isFocus: false});
         let elemIdx = Number(elem.getAttribute('data-index'));

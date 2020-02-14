@@ -319,11 +319,11 @@
      * @param id 조회할 컴포넌트 id
      */
     function showPropertyPanel(id) {
-        if (selectedComponentId === id) return;
+        if (selectedComponentId === id) { return; }
         
         selectedComponentId = id;
         let compAttr = formEditor.getData(id);
-        if (compAttr === null) return;
+        if (compAttr === null) { return; }
         let detailAttr = component.attr[compAttr.type];
         //세부 속성 재할당
         Object.keys(compAttr).forEach(function(comp) {
