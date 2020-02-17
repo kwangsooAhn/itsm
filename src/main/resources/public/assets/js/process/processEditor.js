@@ -680,23 +680,40 @@
                 }
             });
 
-        // add grid line & zoom
-        let horizontalLinear = d3.scaleLinear().domain([0, width]).range([0, width]);
-        let verticalLinear = d3.scaleLinear().domain([0, height]).range([0, height]);
+        // add grid line
+        let verticalScale = d3.scaleLinear();
+        let horizontalScale = d3.scaleLinear();
+        let verticalAxis = d3.axisBottom().tickFormat('');
+        let horizontalAxis = d3.axisRight().tickFormat('');
+        let verticalGrid = svg.append('g').attr('class', 'grid vertical-grid');
+        let horizontalGrid = svg.append('g').attr('class', 'grid horizontal-grid');
 
-        let horizontalAxis = d3.axisBottom(horizontalLinear)
-            .ticks(height / displayOptions.boardInterval)
-            .tickSize(height)
-            .tickFormat('');
+        const setDrawingBoardGrid = function() {
+            const drawingBoard = document.querySelector('.alice-process-drawing-board'),
+                  drawingBoardWidth = drawingBoard.offsetWidth,
+                  drawingBoardHeight = drawingBoard.offsetHeight;
 
-        let verticalAxis = d3.axisRight(verticalLinear)
-            .ticks(width / displayOptions.boardInterval)
-            .tickSize(width)
-            .tickFormat('');
+            svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
 
-        let gHorizontal = svg.append('g').attr('class', 'grid horizontal-grid').call(horizontalAxis),
-            gVertical = svg.append('g').attr('class', 'grid vertical-grid').call(verticalAxis);
+            verticalScale.domain([0, drawingBoardWidth / displayOptions.boardInterval]).range([0, drawingBoardWidth]);
+            horizontalScale.domain([0, drawingBoardHeight / displayOptions.boardInterval]).range([0, drawingBoardHeight]);
+            verticalAxis
+                .scale(verticalScale)
+                .ticks(drawingBoardWidth / displayOptions.boardInterval)
+                .tickSize(drawingBoardHeight);
+            horizontalAxis
+                .scale(horizontalScale)
+                .ticks(drawingBoardHeight / displayOptions.boardInterval)
+                .tickSize(drawingBoardWidth);
 
+            svg.selectAll('g.grid').selectAll('*').remove();
+            verticalGrid.call(verticalAxis);
+            horizontalGrid.call(horizontalAxis);
+        }
+        window.onresize = setDrawingBoardGrid;
+        setDrawingBoardGrid();
+
+        // add zoom
         const zoom = d3.zoom()
             .on('start', function() {
                 svg.style('cursor', 'grabbing');
@@ -729,10 +746,10 @@
                 ]);
             })
             .on('zoom', function() {
-                gHorizontal
-                    .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalLinear)));
-                gVertical
-                    .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalLinear)));
+                horizontalGrid
+                    .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalScale)));
+                verticalGrid
+                    .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalScale)));
                 svg.select('g.node-container')
                     .attr('transform', d3.event.transform);
             })
@@ -744,29 +761,6 @@
             .call(zoom)
             .on('wheel.zoom', null)
             .on('dblclick.zoom', null);
-
-        window.onresize = function(e) {
-            const drawingBoard = document.querySelector('.alice-process-drawing-board'),
-                  drawingBoardWidth = drawingBoard.offsetWidth,
-                  drawingBoardHeight = drawingBoard.offsetHeight;
-
-            svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
-
-            horizontalLinear.domain([0, drawingBoardWidth]).range([0, drawingBoardWidth]);
-            verticalLinear.domain([0, drawingBoardHeight]).range([0, drawingBoardHeight]);
-            horizontalAxis
-                .scale(horizontalLinear)
-                .ticks(drawingBoardHeight / displayOptions.boardInterval)
-                .tickSize(drawingBoardHeight);
-            verticalAxis
-                .scale(verticalLinear)
-                .ticks(drawingBoardWidth / displayOptions.boardInterval)
-                .tickSize(drawingBoardWidth);
-
-            svg.selectAll('g.grid').remove();
-            gHorizontal = svg.append('g').attr('class', 'grid horizontal-grid').call(horizontalAxis);
-            gVertical = svg.append('g').attr('class', 'grid vertical-grid').call(verticalAxis);
-        }
 
         // define arrow markers for links
         svg.append('defs').append('marker')
