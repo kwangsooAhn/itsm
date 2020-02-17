@@ -11,14 +11,7 @@
 <div sec:authorize="hasAuthority('user.read')">
     <div style="border: 1px solid red">
         <div>- 검색영역 -</div>
-        <form id="searchForm" onsubmit="return false">
-            <div th:each="userSearch : ${userSearchCode}">
-                <input type="checkbox" th:id="|searchKey${userSearchStat.index}|" name="searchKey"
-                       th:value="${userSearch.code}" th:checked="${userSearchStat.index} == 0">
-                <label th:for="|searchKey${userSearchStat.index}|" th:text="#{${userSearch.code}}"></label>
-            </div>
-            <input type="text" id="searchValue" name="searchValue" th:placeholder="#{common.searchWord}"/>
-        </form>
+        <input style="width: 500px;" type="text" id="searchValue" name="searchValue" th:placeholder="#{user.searchPlaceholder}"/>
     </div>
     <div style="border: 1px solid red">
         <div>- 버튼 영역, user.create 권한이 있어야 보임 -</div>

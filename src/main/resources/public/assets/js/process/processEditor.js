@@ -5,20 +5,28 @@
 }(this, (function (exports) {
     'use strict';
 
+    const displayOptions = {
+        translateLimit: 1000, // drawing board limit.
+        durationTime: 100,
+        boardInterval: 10
+    }
+
     let data = {};
 
     let svg,
+        gNode,
         path,
         paintedPath,
         dragLine;
-    const links = [];
+
+    const nodes= [],
+          links = [];
 
     let mousedownElement,
         mouseoverElement,
         selectedElement;
 
     let isDrawConnector = false;
-    const durationTime = 100;
 
     /**
      * reset mouse variables.
@@ -33,7 +41,7 @@
      */
     function removeElementSelected() {
         selectedElement = null;
-        svg.selectAll('.node').style('stroke-width', 1).transition().duration(durationTime);
+        svg.selectAll('.node').style('stroke-width', 1).transition().duration(displayOptions.durationTime);
         svg.selectAll('.pointer').style('opacity', 0);
         svg.selectAll('.alice-tooltip').remove();
         svg.selectAll('.connector').classed('selected', false);
@@ -52,7 +60,7 @@
 
         // add new links
         path = path.enter().append('path')
-            .attr('class', 'link connector')
+            .attr('class', 'connector')
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function() {
                 d3.event.stopPropagation();
@@ -74,9 +82,7 @@
 
         // add new paintedPath links
         paintedPath = paintedPath.enter().append('path')
-            .style('stroke', 'none')
-            .style('stroke-width', 20)
-            .attr('pointer-events', 'all')
+            .attr('class', 'painted-connector')
             .on('mouseover', function() {
                 if (isDrawConnector) {
                     return;
@@ -90,7 +96,8 @@
                 }
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                path._groups[0][i].dispatchEvent(event);
+                //path._groups[0][i].dispatchEvent(event);
+                path.nodes()[i].dispatchEvent(event);
             })
             .merge(paintedPath);
 
@@ -167,7 +174,7 @@
             mouseoverElement = elem;
             elem.classed('selected', true)
                 .transition()
-                .duration(durationTime);
+                .duration(displayOptions.durationTime);
         },
         mouseout: function() {
             const elem = d3.select(this);
@@ -178,7 +185,7 @@
             mouseoverElement = null;
             elem.classed('selected', false)
                 .transition()
-                .duration(durationTime);
+                .duration(displayOptions.durationTime);
         },
         mousedown: function () {
             const elem = d3.select(this);
@@ -188,11 +195,14 @@
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
-                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement);
+                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
+                      gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+                      centerX = bbox.cx + gTransform.x,
+                      centerY = bbox.cy + gTransform.y;
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
-                    .attr('d', 'M' + bbox.cx + ',' + bbox.cy + 'L' + bbox.cx + ',' + bbox.cy);
+                    .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
             } else {
                 if (selectedElement === elem) {
                     return;
@@ -200,11 +210,12 @@
                 removeElementSelected();
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
-                selectedElement.style('stroke-width', 2).transition().duration(durationTime);
+                selectedElement.style('stroke-width', 2).transition().duration(displayOptions.durationTime);
                 if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
-                        svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1);
+                        // svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1); <- querySelector 로 첫번째 글자로 숫자가 오면 오류남.
+                        document.getElementById(selectedElementId + '_point' + i).style.opacity = '1';
                     }
                 }
                 elem.style('cursor', 'move');
@@ -227,7 +238,7 @@
                     mouseoverElement
                         .classed('selected', false)
                         .transition()
-                        .duration(durationTime);
+                        .duration(displayOptions.durationTime);
 
                     const source = mousedownElement;
                     const target = mouseoverElement;
@@ -241,14 +252,17 @@
                 resetMouseVars();
             } else {
                 elem.style('cursor', 'pointer');
-                if (svg.selectAll('.alice-tooltip').node() == null) {
+                if (svg.select('.alice-tooltip').node() === null) {
                     AliceProcessEditor.setActionTooltipItem(elem);
                 }
             }
         },
         mousedrag: function() {
-            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement);
-            dragLine.attr('d', 'M' + bbox.cx + ',' + bbox.cy + 'L' + d3.event.x + ',' + d3.event.y);
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
+                  gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+                  centerX = bbox.cx + gTransform.x,
+                  centerY = bbox.cy + gTransform.y;
+            dragLine.attr('d', 'M' + centerX + ',' + centerY + 'L' + (d3.event.x + gTransform.x) + ',' + (d3.event.y + gTransform.y));
         }
     }
 
@@ -261,18 +275,21 @@
      */
     function RectResizableElement(x, y) {
         const self = this;
-        self.width = 80;
-        self.height = 50;
+        self.width = 120;
+        self.height = 70;
+        self.radius = 10;
         x = x - (self.width / 2);
         y = y - (self.height / 2);
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
-        self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+        self.nodeElement = gNode.append('rect')
+            .attr('id', workflowUtil.generateUUID)
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
             .attr('y', self.rectData.y)
+            .attr('rx', self.radius)
+            .attr('ry', self.radius)
             .attr('class', 'node resizable')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -296,7 +313,7 @@
                 .on('end', elementMouseEventHandler.mouseup)
             );
 
-        self.pointElement1 = svg.append('circle')
+        self.pointElement1 = gNode.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement1.style('cursor', 'nw-resize'); })
@@ -317,7 +334,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement2 = svg.append('circle')
+        self.pointElement2 = gNode.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement2.style('cursor', 'se-resize'); })
@@ -338,7 +355,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement3 = svg.append('circle')
+        self.pointElement3 = gNode.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement3.style('cursor', 'ne-resize'); })
@@ -359,7 +376,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement4 = svg.append('circle')
+        self.pointElement4 = gNode.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement4.style('cursor', 'sw-resize'); })
@@ -461,10 +478,10 @@
      */
     function EventElement(x, y) {
         const self = this;
-        const radius = 20;
+        const radius = 25;
 
-        self.nodeElement = svg.append('circle')
-            .attr('id', workflowUtil.generateUUID())
+        self.nodeElement = gNode.append('circle')
+            .attr('id', workflowUtil.generateUUID)
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
@@ -501,10 +518,10 @@
      */
     function GatewayElement(x, y) {
         const self = this;
-        const width = 30, height = 30;
+        const width = 45, height = 45;
 
-        self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+        self.nodeElement = gNode.append('rect')
+            .attr('id', workflowUtil.generateUUID)
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -560,10 +577,10 @@
      */
     function AnnotationElement(x, y) {
         const self = this;
-        const width = 35, height = 30;
+        const width = 30, height = 30;
 
-        self.nodeElement = svg.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+        self.nodeElement = gNode.append('rect')
+            .attr('id', workflowUtil.generateUUID)
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -595,7 +612,8 @@
      * element에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.alice-process-element-palette, .alice-process-drawing-board').on('dragover', function() {d3.event.preventDefault();});
+        d3.selectAll('.alice-process-element-palette, .alice-process-drawing-board')
+            .on('dragover', function() {d3.event.preventDefault();});
 
         d3.select('.alice-process-element-palette').select('.connector')
             .on('click', function() {
@@ -610,22 +628,27 @@
         d3.select('.alice-process-element-palette').selectAll('span.shape')
             .attr('draggable', 'true')
             .on('dragend', function() {
-                const svgOffset = svg.node().getBoundingClientRect();
-                let x = d3.event.pageX - svgOffset.left - window.pageXOffset,
-                    y = d3.event.pageY - svgOffset.top - window.pageYOffset;
+                const svgOffset = svg.node().getBoundingClientRect(),
+                      gTransform = d3.zoomTransform(d3.select('g.node-container').node());
+                let x = d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x,
+                    y = d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y;
                 let _this = d3.select(this);
+                let node;
                 if (_this.classed('event')) {
-                    new EventElement(x, y);
+                    node = new EventElement(x, y);
                 } else if (_this.classed('task')) {
-                    new TaskElement(x, y);
+                    node = new TaskElement(x, y);
                 } else if (_this.classed('subprocess')) {
-                    new SubprocessElement(x, y);
+                    node = new SubprocessElement(x, y);
                 } else if (_this.classed('gateway')) {
-                    new GatewayElement(x, y);
+                    node = new GatewayElement(x, y);
                 } else if (_this.classed('group')) {
-                    new GroupElement(x, y);
+                    node = new GroupElement(x, y);
                 } else if (_this.classed('annotation')) {
-                    new AnnotationElement(x, y);
+                    node = new AnnotationElement(x, y);
+                }
+                if (node) {
+                    nodes.push(node.nodeElement);
                 }
             });
     }
@@ -634,8 +657,8 @@
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
-        const width = 1405;
-        const height = 750;
+        const width = 1120,
+              height = 879;
 
         // add svg and svg event
         svg = d3.select('.alice-process-drawing-board').append('svg')
@@ -643,9 +666,7 @@
             .attr('height', height)
             .on('mousedown', function() {
                 d3.event.stopPropagation();
-                if (isDrawConnector) {
-                    return;
-                }
+                if (isDrawConnector) { return; }
                 removeElementSelected();
                 AliceProcessEditor.setElementMenu();
             })
@@ -659,11 +680,95 @@
                 }
             });
 
+        // add grid line
+        let verticalScale = d3.scaleLinear();
+        let horizontalScale = d3.scaleLinear();
+        let verticalAxis = d3.axisBottom().tickFormat('');
+        let horizontalAxis = d3.axisRight().tickFormat('');
+        let verticalGrid = svg.append('g').attr('class', 'grid vertical-grid');
+        let horizontalGrid = svg.append('g').attr('class', 'grid horizontal-grid');
+
+        const setDrawingBoardGrid = function() {
+            const drawingBoard = document.querySelector('.alice-process-drawing-board'),
+                  drawingBoardWidth = drawingBoard.offsetWidth,
+                  drawingBoardHeight = drawingBoard.offsetHeight;
+
+            svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
+
+            verticalScale.domain([0, drawingBoardWidth / displayOptions.boardInterval]).range([0, drawingBoardWidth]);
+            horizontalScale.domain([0, drawingBoardHeight / displayOptions.boardInterval]).range([0, drawingBoardHeight]);
+            verticalAxis
+                .scale(verticalScale)
+                .ticks(drawingBoardWidth / displayOptions.boardInterval)
+                .tickSize(drawingBoardHeight);
+            horizontalAxis
+                .scale(horizontalScale)
+                .ticks(drawingBoardHeight / displayOptions.boardInterval)
+                .tickSize(drawingBoardWidth);
+
+            svg.selectAll('g.grid').selectAll('*').remove();
+            verticalGrid.call(verticalAxis);
+            horizontalGrid.call(horizontalAxis);
+        }
+        window.onresize = setDrawingBoardGrid;
+        setDrawingBoardGrid();
+
+        // add zoom
+        const zoom = d3.zoom()
+            .on('start', function() {
+                svg.style('cursor', 'grabbing');
+
+                const nodeTopArray = [],
+                      nodeRightArray = [],
+                      nodeBottomArray = [],
+                      nodeLeftArray = [];
+                nodes.forEach(function(node){
+                    let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(node);
+                    nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
+                    nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
+                    nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
+                    nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
+                });
+
+                let minLeft = 0,
+                    minTop = 0,
+                    maxRight = 0,
+                    maxBottom = 0;
+                if (nodes.length > 0) {
+                    minLeft = d3.min(nodeLeftArray);
+                    minTop = d3.min(nodeTopArray);
+                    maxRight = d3.max(nodeRightArray);
+                    maxBottom = d3.max(nodeBottomArray);
+                }
+                zoom.translateExtent([
+                    [minLeft - displayOptions.translateLimit, minTop - displayOptions.translateLimit],
+                    [maxRight + displayOptions.translateLimit, maxBottom + displayOptions.translateLimit]
+                ]);
+            })
+            .on('zoom', function() {
+                horizontalGrid
+                    .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalScale)));
+                verticalGrid
+                    .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalScale)));
+                svg.select('g.node-container')
+                    .attr('transform', d3.event.transform);
+            })
+            .on('end', function() {
+                svg.style('cursor', 'default');
+            });
+
+        svg
+            .call(zoom)
+            .on('wheel.zoom', null)
+            .on('dblclick.zoom', null);
+
         // define arrow markers for links
         svg.append('defs').append('marker')
             .attr('id', 'end-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 6)
+            .attr('markerWidth', 5)
+            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('path')
             .attr('d', 'M0,-5L10,0L0,5');
@@ -672,17 +777,20 @@
             .attr('id', 'start-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 4)
+            .attr('markerWidth', 5)
+            .attr('markerHeight', 8)
             .attr('orient', 'auto')
             .append('path')
             .attr('d', 'M10,-5L0,0L10,5');
 
         // line displayed when dragging new nodes
         dragLine = svg.append('path')
-            .attr('class', 'link drag-line hidden')
+            .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
-        path = svg.append('g').selectAll('path');
-        paintedPath = svg.append('g').selectAll('path');
+        gNode = svg.append('g').attr('class', 'node-container');
+        path = gNode.selectAll('path.connector');
+        paintedPath = gNode.selectAll('path.painted-connector');
     }
 
     /**
