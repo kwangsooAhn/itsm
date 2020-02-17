@@ -124,9 +124,9 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "n", 
+                "value": "N", 
                 "type": "radio",
-                "option": [ {"id": "y", "name": "Yes"}, {"id": "n", "name": "No"} ],
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 
                 "unit": "px" 
             },

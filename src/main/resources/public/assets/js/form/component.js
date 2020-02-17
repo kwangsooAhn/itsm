@@ -116,12 +116,10 @@
         if (options.componentId !== undefined) {
             elem = document.getElementById(options.componentId);
         }
+        let obj = { type: options.type, display: {} };
         if (elem) { //editbox 삭제 후 컴포넌트 추가
             elem.removeChild(elem.childNodes[1]);
-            /*let obj = {
-                id: options.componentId,
-                type: options.type,
-            };
+            obj.id = options.componentId;
             let detailAttr = component.attr[options.type];
             Object.keys(detailAttr).forEach(function(pAttr) {
                 obj[pAttr] = {};
@@ -129,8 +127,8 @@
                     obj[pAttr][detailAttr[pAttr][attr].id] = detailAttr[pAttr][attr].value;
                 });
             });
-            obj.display.order = elem.getAttribute('data-index');
-            formEditor.changeData(obj);*/
+            obj.display.order = Number(elem.getAttribute('data-index'));
+            formEditor.changeData(obj);
         } else {
             elem = document.createElement('div');
             elem.classList.add('component');
@@ -138,7 +136,11 @@
             lastComponentId = compId;
             elem.setAttribute('id', compId);
             elem.setAttribute('data-index', (++componentIndex));
-            
+            if (options.componentId === undefined) {
+                obj.id = compId;
+                obj.display.order = componentIndex;
+                formEditor.changeData(obj);
+            }
             let img = document.createElement('img'); 
             img.classList.add('move-icon');
             elem.appendChild(img);
@@ -347,49 +349,178 @@
             groupDiv.classList.add('property-group');
             groupDiv.textContent = group;
             propertyPanel.appendChild(groupDiv);
-            
+            let buttonExist = false;
+            let fieldButtonDiv = null;
             if (detailAttr[group] !== null && typeof(detailAttr[group]) === 'object')  { //세부 속성
                 Object.keys(detailAttr[group]).forEach(function(field) {
                     let fieldArr = detailAttr[group][field];
                     
-                    let fieldGroupDiv = document.createElement('div');
-                    fieldGroupDiv.classList.add('property-field');
-                    fieldGroupDiv.setAttribute('id', fieldArr.id);
-                    
-                    let propertyName = document.createElement('span');
-                    propertyName.classList.add('property-field-name');
-                    propertyName.textContent = fieldArr.name;
-                    fieldGroupDiv.appendChild(propertyName);
-                    
-                    let propertyValue = document.createElement('input');
-                    propertyValue.classList.add('property-field-value');
-                    propertyValue.setAttribute('type', 'text');
-                    propertyValue.setAttribute('value', fieldArr.value);
-                    fieldGroupDiv.appendChild(propertyValue);
-                    if (fieldArr.unit !== '') {
-                        let propertyUnit = document.createElement('span');
-                        propertyUnit.classList.add('property-field-unit');
-                        propertyUnit.textContent = fieldArr.unit;
-                        fieldGroupDiv.appendChild(propertyUnit);
+                    let fieldGroupDiv = null,
+                        propertyName = null,
+                        propertyValue = null;
+                    if (fieldArr.type === 'button') {
+                        if (!buttonExist) {
+                            fieldGroupDiv = document.createElement('div');
+                            fieldGroupDiv.classList.add('property-field');
+                            fieldGroupDiv.setAttribute('id', fieldArr.id);
+                            groupDiv.appendChild(fieldGroupDiv);
+                            
+                            fieldGroupDiv.removeAttribute('id');
+                            fieldButtonDiv = document.createElement('div');
+                            fieldButtonDiv.classList.add('property-field-button');
+                            fieldGroupDiv.appendChild(fieldButtonDiv);
+                            buttonExist = true;
+                        }
+                    } else {
+                        fieldGroupDiv = document.createElement('div');
+                        fieldGroupDiv.classList.add('property-field');
+                        fieldGroupDiv.setAttribute('id', fieldArr.id);
+                        groupDiv.appendChild(fieldGroupDiv);
                     }
-                    
-                    /*switch (field.type) {
-                        case "inputbox":
+                    switch (fieldArr.type) {
+                        case 'inputbox':
+                        case 'inputbox-underline':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            
+                            propertyValue = document.createElement('input');
+                            propertyValue.classList.add('property-field-value');
+                            propertyValue.setAttribute('type', 'text');
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            fieldGroupDiv.appendChild(propertyValue);
+                            
+                            if (fieldArr.type === 'inputbox-underline') { propertyValue.classList.add('underline'); }
+                            
+                            if (fieldArr.unit !== '') {
+                                let propertyUnit = document.createElement('span');
+                                propertyUnit.classList.add('property-field-unit');
+                                propertyUnit.textContent = fieldArr.unit;
+                                fieldGroupDiv.appendChild(propertyUnit);
+                            }
                             break;
-                        case "inputbox-underline":
+                        case 'select':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            
+                            propertyValue = document.createElement('select');
+                            propertyValue.classList.add('property-field-value');
+                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                let propertyOption = document.createElement('option');
+                                propertyOption.value = fieldArr.option[i].id;
+                                propertyOption.text = fieldArr.option[i].name;
+                                propertyValue.appendChild(propertyOption);
+                            }
+                            fieldGroupDiv.appendChild(propertyValue);
                             break;
-                        case "select":
+                        case 'slider':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            
+                            propertyValue = document.createElement('input');
+                            propertyValue.setAttribute('id', group + '-' + fieldArr.id);
+                            propertyValue.setAttribute('type', 'range');
+                            propertyValue.setAttribute('min', 0);
+                            propertyValue.setAttribute('max', 12);
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            fieldGroupDiv.appendChild(propertyValue);
+                            propertyValue.addEventListener('change', function() {
+                                let slider = document.getElementById(this.id + '-value');
+                                slider.value = this.value;
+                            });
+                            
+                            let slideValue = document.createElement('input');
+                            slideValue.classList.add('property-field-value', 'underline');
+                            slideValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
+                            slideValue.setAttribute('type', 'text');
+                            slideValue.setAttribute('value', fieldArr.value);
+                            fieldGroupDiv.appendChild(slideValue);
                             break;
-                        case "slider":
+                        case 'rgb':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            //TODO colorpicker 추가 예정
+                            propertyValue = document.createElement('input');
+                            propertyValue.classList.add('property-field-value', 'underline');
+                            propertyValue.setAttribute('type', 'text');
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            fieldGroupDiv.appendChild(propertyValue);
                             break;
-                        case "rgb":
+                        case 'radio':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            
+                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                let propertyOption = document.createElement('input');
+                                propertyOption.setAttribute('type', 'radio');
+                                propertyOption.setAttribute('id', fieldArr.name + '-' + fieldArr.option[i].id);
+                                propertyOption.value = fieldArr.option[i].id;
+                                propertyOption.name = fieldArr.name;
+                                if (fieldArr.value === fieldArr.option[i].id) { 
+                                    propertyOption.setAttribute('checked', 'checked');
+                                }
+                                fieldGroupDiv.appendChild(propertyOption);
+                                let propertyLabel = document.createElement('label');
+                                propertyLabel.setAttribute('for', fieldArr.name + '-' + fieldArr.option[i].id);
+                                propertyLabel.textContent = fieldArr.option[i].name;
+                                fieldGroupDiv.appendChild(propertyLabel);
+                            }
                             break;
-                        case "radio":
+                        case 'button':
+                            if (fieldButtonDiv === null) { break; }
+                            
+                            if (fieldArr.option !== undefined) {
+                                for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                    propertyValue = document.createElement('button');
+                                    propertyValue.classList.add(fieldArr.id);
+                                    propertyValue.setAttribute('id', fieldArr.option[i].id);
+                                    if (fieldArr.value === fieldArr.option[i].id) {
+                                        propertyValue.classList.add('active');
+                                    }
+                                    fieldButtonDiv.appendChild(propertyValue);
+                                    propertyValue.addEventListener('click', function() {
+                                        if (!this.classList.contains('active')) {
+                                            let className = this.classList[0];
+                                            for (let i = 0, len = this.parentNode.childNodes.length ; i< len; i++) {
+                                                let child = this.parentNode.childNodes[i];
+                                                if (child.classList.contains(className)) {
+                                                    child.classList.remove('active');
+                                                }
+                                            }
+                                            this.classList.add('active');
+                                        }
+                                    });
+                                }
+                            } else { //boolean
+                                propertyValue = document.createElement('button');
+                                propertyValue.classList.add(fieldArr.id);
+                                propertyValue.setAttribute('id', fieldArr.id);
+                                propertyValue.setAttribute('data-value', fieldArr.value);
+                                if (fieldArr.value === 'Y') {
+                                    propertyValue.classList.add('active');
+                                }
+                                fieldButtonDiv.appendChild(propertyValue);
+                                propertyValue.addEventListener('click', function() {
+                                    if (this.classList.contains('active')) {
+                                        this.classList.remove('active');
+                                        this.setAttribute('data-value', 'N');
+                                    } else {
+                                        this.classList.add('active');
+                                        this.setAttribute('data-value', 'Y');
+                                    }
+                                });
+                            }
                             break;
-                        case "button":
-                            break;
-                    }*/
-                    groupDiv.appendChild(fieldGroupDiv);
+                    }
                 });
             }
         });
