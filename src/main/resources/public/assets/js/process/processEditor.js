@@ -654,22 +654,6 @@
     }
 
     /**
-     * get drawing board size.
-     *
-     * @returns {{width: number, height: number}}
-     */
-    function getDrawingBoardSize() {
-        let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth,
-            windowHeight = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
-
-        let toolbarHeight = document.querySelector('.alice-process-toolbar').clientHeight,
-            elementPaletteWidth = document.querySelector('.alice-process-element-palette').clientWidth,
-            propertiesPanelWidth = document.querySelector('.alice-process-properties-panel').clientWidth;
-
-        return {width: windowWidth - elementPaletteWidth - propertiesPanelWidth, height: windowHeight - toolbarHeight};
-    }
-
-    /**
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
@@ -762,22 +746,26 @@
             .on('dblclick.zoom', null);
 
         window.onresize = function(e) {
-            const drawingBoardSize = getDrawingBoardSize(),
-                  drawingBoardWidth = drawingBoardSize.width,
-                  drawingBoardHeight = drawingBoardSize.height;
+            const drawingBoard = document.querySelector('.alice-process-drawing-board'),
+                  drawingBoardWidth = drawingBoard.offsetWidth,
+                  drawingBoardHeight = drawingBoard.offsetHeight;
+
+            console.log('drawingBoardWidth: ' + drawingBoardWidth)
+
+            console.log('drawingBoardHeight: ' + drawingBoardHeight)
 
             svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
 
-            horizontalLinear = d3.scaleLinear().domain([0, drawingBoardWidth]).range([0, drawingBoardWidth]);
-            verticalLinear = d3.scaleLinear().domain([0, drawingBoardHeight]).range([0, drawingBoardHeight]);
-            horizontalAxis = d3.axisBottom(horizontalLinear)
+            horizontalLinear.domain([0, drawingBoardWidth]).range([0, drawingBoardWidth]);
+            verticalLinear.domain([0, drawingBoardHeight]).range([0, drawingBoardHeight]);
+            horizontalAxis
+                .scale(horizontalLinear)
                 .ticks(drawingBoardHeight / displayOptions.boardInterval)
-                .tickSize(drawingBoardHeight)
-                .tickFormat('');
-            verticalAxis = d3.axisRight(verticalLinear)
+                .tickSize(drawingBoardHeight);
+            verticalAxis
+                .scale(verticalLinear)
                 .ticks(drawingBoardWidth / displayOptions.boardInterval)
-                .tickSize(drawingBoardWidth)
-                .tickFormat('');
+                .tickSize(drawingBoardWidth);
 
             svg.selectAll('g.grid').remove();
             gHorizontal = svg.append('g').attr('class', 'grid horizontal-grid').call(horizontalAxis);
