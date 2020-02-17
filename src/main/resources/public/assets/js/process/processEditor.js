@@ -802,7 +802,6 @@
         console.debug(JSON.parse(data));
         AliceProcessEditor.data = JSON.parse(data);
         document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
-        AliceProcessEditor.setElementMenu();
     }
 
     /**
@@ -816,7 +815,7 @@
         workflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
-        AliceProcessEditor.loadTooltipItems();
+        AliceProcessEditor.loadItems();
         AliceProcessEditor.initUtil();
 
         // load process data.

@@ -10107,9 +10107,22 @@ body {
   right: 0;
   border: #bcc5d3 solid 0.063rem;
 }
+.alice-process-properties-panel h3 {
+  font-size: 0.938rem;
+  font-weight: bold;
+  margin-top: 1.25rem;
+  margin-left: 0.938rem;
+}
+.alice-process-properties-panel hr {
+  margin-right: 0.938rem;
+  margin-left: 0.938rem;
+  border: 0.125rem solid darkgray;
+}
 .alice-process-properties-panel p {
-  padding-left: 0.938rem;
+  padding-left: 1.5rem;
   font-size: 0.813rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 .alice-process-properties-panel p label {
   display: inline-block;
@@ -10119,8 +10132,8 @@ body {
 .alice-process-properties-panel p input:not([type=checkbox]), .alice-process-properties-panel p select, .alice-process-properties-panel p textarea {
   width: 11.25rem;
 }
-.alice-process-properties-panel p:first-of-type {
-  padding-top: 1.875rem;
+.alice-process-properties-panel p textarea {
+  height: 5.625rem;
 }
 
 /*# sourceMappingURL=process-designer.css.map */

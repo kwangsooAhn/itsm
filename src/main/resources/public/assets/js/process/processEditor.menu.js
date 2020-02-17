@@ -8,43 +8,9 @@
     const itemSize = 20;
     const itemMargin = 8;
 
-    const processProperties = [
-        {'attribute': 'id', 'name': 'ID', 'type': 'text', 'default': ''},
-        {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-        {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
-    ];
-
-    const elementsProperties = {
-        'event': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''}
-        ],
-        'task': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-            {'attribute': 'assignee-type', 'name': '수행자 타입', 'type': 'selectbox', 'default': '', 'sub-list': 'assignee,candidate users, candidate groups'},
-            {'attribute': 'assignee', 'name': '수행자', 'type': 'text', 'default': ''},
-            {'attribute': 'notification', 'name': '메일통보 여부', 'type': 'checkbox', 'default': ''},
-            {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
-        ],
-        'subprocess': [
-            {'attribute': 'sub-process-id', 'name': '서브 프로세스 ID', 'type': 'text', 'default': ''}
-        ],
-        'gateway': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''}
-        ],
-        'group': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-            {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
-        ],
-        'annotation': [
-            {'attribute': 'text', 'name': '텍스트', 'type': 'textarea', 'default': ''},
-        ],
-        'connector': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-            {'attribute': 'condition', 'name': '조건', 'type': 'text', 'textarea': ''},
-            {'attribute': 'start-id', 'name': 'Source Element ID', 'type': 'text', 'text': ''},
-            {'attribute': 'end-id', 'name': 'Target Element ID', 'type': 'text', 'text': ''}
-        ],
-    };
+    let processProperties = {},
+        elementsProperties = {},
+        elementsKeys = [];
 
     const tooltipItems = [
         {
@@ -180,36 +146,35 @@
                 console.log('edit exclusive gateway');
             }
         }
-    ]
-
-    const elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+    ];
 
     /**
      * elements.
      *
      * @param elem 선택된 element
+     * @return Object element Json 정보
      */
     function getElementDataProperty(elem) {
         const elemId = elem.node().id;
         let elements = AliceProcessEditor.data.elements;
         let filterData = elements.filter(function(attr) { return attr.id === elemId; });
         if (filterData.length === 0) {
+            let elemData = {};
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
                     const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
-                    elements.push({
-                        id: elemId,
-                        category: elementsKeys[i],
-                        type: '',
-                        display: {width: bbox.width, height: bbox.height, 'position-x': bbox.x, 'position-y': bbox.y},
-                        data: {}
-                    });
+                    elemData.id = elemId;
+                    elemData.category = elementsKeys[i];
+                    elemData.type = elementsProperties[elementsKeys[i]][0].type;
+                    elemData.display = {width: bbox.width, height: bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+                    elemData.data = {};
+                    elements.push(elemData);
                     break;
                 }
             }
-            return {};
+            return elemData;
         } else {
-            return filterData[0].data;
+            return filterData[0];
         }
     }
 
@@ -384,13 +349,17 @@
         if (typeof elem !== 'undefined') { // show element properties
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
+                    let property = getElementDataProperty(elem);
                     let properties = elementsProperties[elementsKeys[i]];
-                    makePropertiesItem( elem.node().id, properties, getElementDataProperty(elem));
+                    let attributes = properties.filter(function(p){ return p.type === property.type; });
+                    if (attributes.length > 0) {
+                        makePropertiesItem(elem.node().id, attributes[0].attribute, property.data);
+                    }
                     break;
                 }
             }
         } else { // show process properties
-            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties, AliceProcessEditor.data.process);
+            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties.attribute, AliceProcessEditor.data.process);
         }
     }
 
@@ -427,58 +396,66 @@
      * @param properties 속성정보목록
      * @param data 데이터속성
      */
-    function makePropertiesItem(id, properties, data) {
+    function makePropertiesItem(id, propertiesDivision, data) {
         const propertiesContainer = document.querySelector('.alice-process-properties-panel');
         propertiesContainer.innerHTML = '';
 
-        for (let i = 0, len = properties.length; i < len; i++) {
-            let property = properties[i];
-            let propertyContainer = document.createElement('p');
-            let labelObject = document.createElement('label');
-            labelObject.htmlFor =  property.attribute;
-            labelObject.textContent = property.name;
-            propertyContainer.appendChild(labelObject);
+        for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
+            let title = document.createElement('h3');
+            title.textContent = propertiesDivision[idx].title;
+            propertiesContainer.appendChild(title);
+            let divideLine = document.createElement('hr');
+            propertiesContainer.appendChild(divideLine);
 
-            let elementObject;
-            if (property.type === 'text') {
-                elementObject = document.createElement('input');
-            } else if (property.type === 'textarea') {
-                elementObject = document.createElement('textarea');
-                elementObject.rows = 5;
-                elementObject.style.resize = 'none';
-            } else if (property.type === 'checkbox') {
-                elementObject = document.createElement('input');
-                elementObject.type = 'checkbox';
-                if (data[property.attribute] && data[property.attribute] === 'Y') {
-                    elementObject.checked = true;
+            const properties = propertiesDivision[idx].items;
+            for (let i = 0, attrLen = properties.length; i < attrLen; i++) {
+                let property = properties[i];
+                let propertyContainer = document.createElement('p');
+                let labelObject = document.createElement('label');
+                labelObject.htmlFor =  property.id;
+                labelObject.textContent = property.name;
+                propertyContainer.appendChild(labelObject);
+
+                let elementObject;
+                if (property.type === 'inputbox') {
+                    elementObject = document.createElement('input');
+                } else if (property.type === 'textarea') {
+                    elementObject = document.createElement('textarea');
+                    elementObject.style.resize = 'none';
+                } else if (property.type === 'checkbox') {
+                    elementObject = document.createElement('input');
+                    elementObject.type = 'checkbox';
+                    if (data[property.id] && data[property.id] === 'Y') {
+                        elementObject.checked = true;
+                    }
+                } else if (property.type === 'select') {
+                    elementObject = document.createElement('select');
+                    const optionList = property['sub-list'];
+                    for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
+                        let option = document.createElement('option');
+                        option.value = optionList[j].id;
+                        option.text = optionList[j].name;
+                        elementObject.appendChild(option);
+                    }
                 }
-            } else if (property.type === 'selectbox') {
-                elementObject = document.createElement('select');
-                const optionList = property['sub-list'].split(',');
-                for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
-                    let option = document.createElement('option');
-                    option.value = optionList[j];
-                    option.text = optionList[j];
-                    elementObject.appendChild(option);
-                }
-            }
-            if (elementObject) {
-                elementObject.id = property.attribute;
-                elementObject.name = property.attribute;
-                if (data[property.attribute] && property.type !== 'checkbox') {
-                    elementObject.value = data[property.attribute];
-                }
-                if (id === AliceProcessEditor.data.process.id && property.attribute === 'name') {
-                    elementObject.addEventListener('keyup', function(event) {
-                        document.querySelector('.process-name').textContent = this.value;
+                if (elementObject) {
+                    elementObject.id = property.id;
+                    elementObject.name = property.id;
+                    if (data[property.id] && property.type !== 'checkbox') {
+                        elementObject.value = data[property.id];
+                    }
+                    if (id === AliceProcessEditor.data.process.id && property.id === 'name') {
+                        elementObject.addEventListener('keyup', function(event) {
+                            document.querySelector('.process-name').textContent = this.value;
+                        });
+                    }
+                    elementObject.addEventListener('change', function(event) {
+                        changePropertiesValue(id);
                     });
+                    propertyContainer.appendChild(elementObject);
                 }
-                elementObject.addEventListener('change', function(event) {
-                    changePropertiesValue(id);
-                });
-                propertyContainer.appendChild(elementObject);
+                propertiesContainer.appendChild(propertyContainer);
             }
-            propertiesContainer.appendChild(propertyContainer);
         }
     }
 
@@ -495,7 +472,16 @@
     /**
      * tooltip item 에 사용된 이미지 로딩.
      */
-    function loadTooltipItems() {
+    function loadItems() {
+        d3.json('../../assets/js/process/processAttribute.json').then(function(data) {
+            processProperties = data;
+            setElementMenu();
+        });
+        d3.json('../../assets/js/process/elementAttribute.json').then(function(data) {
+            elementsProperties = data;
+            elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+        });
+
         const defs = d3.select('svg').append('defs');
         defs.selectAll('pattern').data(tooltipItems)
             .enter()
@@ -509,10 +495,10 @@
             .attr('y', 0)
             .attr('width', 20)
             .attr('height', 20)
-            .attr('xlink:href', function(d) { return d.url; })
+            .attr('xlink:href', function(d) { return d.url; });
     }
 
-    exports.loadTooltipItems = loadTooltipItems;
+    exports.loadItems = loadItems;
     exports.setElementMenu = setElementMenu;
     exports.setActionTooltipItem = setActionTooltipItem;
     Object.defineProperty(exports, '__esModule', {value: true});
