@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
+    <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
     <title>Login</title>
 </head>
 <body>
@@ -27,12 +27,12 @@
         |
         <a href="" tabindex="-1" th:text="#{login.findPasswd}"></a>
       </div>
-      <a class="btn btn-primary" id="sendLogin" th:text="#{login.sendLogin}" onclick="onLogin();"></a>
+      <a class="btn btn-primary" href="" id="sendLogin" th:text="#{login.sendLogin}" onclick="onLogin();"></a>
       <a class="btn btn-danger"  href="/oauth/google/login" th:text="#{login.gooleLogin}"></a>
       <a class="btn btn-warning" href="/oauth/kakao/login" th:text="#{login.kakaoLogin}"></a>
   </div>
-  <div class="signup-base">
-    <p th:text="#{login.userSignUpNote}"></p>
+  <div class="signup-face">
+    <p th:text="#{login.signupNote}"></p>
     <a class="btn btn-primary" href="/certification/signup" id="userSignUp" th:text="#{login.userSignUp}"></a>
   </div>
   <!--/*@thymesVar id="errorMsg" type=""*/-->
