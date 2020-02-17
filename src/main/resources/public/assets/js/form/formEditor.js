@@ -517,10 +517,10 @@
             collections: collections
         };
 
-        console.log(JSON.stringify(data))
+        console.log(JSON.stringify(data));
 
         aliceJs.sendXhr({
-            method: 'POST',
+            method: 'PUT',
             url: '/rest/forms/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
