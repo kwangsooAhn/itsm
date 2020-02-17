@@ -27,14 +27,24 @@ $process-toolbar-top-bottom-padding: 0.625rem; // 10px
 $process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bottom-padding * 2);
 $process-element-palette-width: 3.75rem; // 60px
 $process-properties-panel-width: 20rem; // 320px
+$process-container-min-width: 75rem;  // 1200px
+$process-container-min-height: 37.5rem;  // 600px
 
 body {
     font-family: $alice-font-family;
 }
 
 .alice-process {
+    &-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        min-width: $process-container-min-width;
+        min-height: $process-container-min-height;
+    }
     &-toolbar {
         width: 100vw;
+        min-width: $process-container-min-width;
         height: $process-toolbar-height;
         background-color: #4c5264;
         color: $white;
@@ -102,6 +112,7 @@ body {
         display: inline-block;
         width: $process-element-palette-width;
         height: calc(100vh - #{$process-toolbar-height});
+        min-height: #{$process-container-min-height - $process-toolbar-height};
         background-color: #f6f6f7;
         position: absolute;
         top: $process-toolbar-height;
@@ -177,29 +188,41 @@ body {
         top: $process-toolbar-height;
         left: $process-element-palette-width;
         width: calc(100vw - #{$process-element-palette-width + $process-properties-panel-width});
+        min-width: #{$process-container-min-width - ($process-element-palette-width + $process-properties-panel-width)};
         height: calc(100vh - #{$process-toolbar-height});
-        background: {
-            color: #ffffff;
-            image:
-                linear-gradient(90deg, #cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem),
-                linear-gradient(#cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem),
-                linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0, transparent 6.25rem, transparent 6.25rem),
-                linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0px, transparent 6.25rem, transparent 6.25rem),
-                linear-gradient(transparent 0, transparent 0, #f6f6f6 0, #f6f6f6 6.25rem, transparent 6.188rem, transparent 6.25rem),
-                linear-gradient(#cdcccc, #cdcccc);
-            size:6.25rem 100%, 100% 6.25rem, 100% 0.625rem, 0.625rem 100%, 100% 6.25rem, 6.25rem 100%, 6.25rem 100%, 6.25rem 6.25rem, 6.25rem 6.25rem;
+        min-height: #{$process-container-min-height - $process-toolbar-height};
+        background-color: #ffffff;
+
+        svg {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        path.link { fill: none; stroke: #000; stroke-width: 0.125rem; cursor: default; }
-        svg:not(.active):not(.ctrl) path.link { cursor: pointer; }
-        path.link.selected { stroke-dasharray: 10,2; stroke-width: 0.188rem; }
-        path.link.drag-line { pointer-events: none; }
-        path.link.hidden { stroke-width: 0; }
+        path.connector {
+            fill: none;
+            stroke: #000;
+            stroke-width: 0.125rem;
+            cursor: default;
+        }
+        path.connector.selected {
+            stroke-dasharray: 10,2;
+            stroke-width: 0.188rem;
+        }
+        path.connector.drag-line {
+            pointer-events: none;
+        }
+        path.connector.hidden {
+            stroke-width: 0;
+        }
+        path.painted-connector {
+            stroke: none;
+            stroke-width: 20;
+            pointer-events: all;
+        }
         defs {
             marker {
-                marker-width: 5;
-                marker-height: 8;
-
                 path {
                     fill: #000000;
                 }
@@ -212,6 +235,21 @@ body {
                 stroke: #bcc5d3;
                 stroke-width: 0.5;
             }
+            image.action-tooltip-item:hover,
+            image.element-tooltip-item:hover {
+                cursor: pointer;
+            }
+        }
+
+        .grid path {
+            display: none;
+        }
+
+        .grid line {
+            stroke: lightgrey;
+            stroke-width: 0.5;
+            stroke-opacity: 1;
+            shape-rendering: crispEdges;
         }
 
         .node {
@@ -242,9 +280,10 @@ body {
         background-color: #f6f6f7;
         width: $process-properties-panel-width;
         height: calc(100vh - #{$process-toolbar-height});
+        min-height: #{$process-container-min-height - $process-toolbar-height};
         position: absolute;
         top: $process-toolbar-height;
-        left: calc(100vw - #{$process-properties-panel-width});
+        right: 0;
         border: #bcc5d3 solid 0.063rem;
 
         p {

@@ -5,6 +5,9 @@
 }(this, (function (exports) {
     'use strict';
 
+    const itemSize = 20;
+    const itemMargin = 8;
+
     const processProperties = [
         {'attribute': 'id', 'name': 'ID', 'type': 'text', 'default': ''},
         {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
@@ -230,13 +233,14 @@
         const tooltipItemContainer = d3.select('.alice-process-drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
-        const containerWidth = actionTooltip.length * 25 + 5,
-              containerHeight = 30;
+        const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
+              containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
             .attr('width', containerWidth)
-            .attr('height', containerHeight);
+            .attr('height', containerHeight)
+            .on('mousedown', function() { d3.event.stopPropagation(); });
 
         tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
@@ -244,10 +248,10 @@
             //.append('rect')
             .append('image')
             .attr('class', 'action-tooltip-item')
-            .attr('x', function(d, i) { return  5 + (i * 25); })
-            .attr('y', 5)
-            .attr('width', 20)
-            .attr('height', 20)
+            .attr('x', function(d, i) { return  itemMargin + (i * (itemSize + itemMargin) ); })
+            .attr('y', itemMargin)
+            .attr('width', itemSize)
+            .attr('height', itemSize)
             //.style('fill', function(d) { return 'url(#alice-tooltip-' + d.title + ')'; })
             .attr('xlink:href', function(d) { return d.url; })
             .on('mousedown', function(d, i) {
@@ -273,10 +277,12 @@
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              translateX = bbox.cx - containerWidth / 2,
-              translateY = (elem.classed('connector') ? bbox.cy :  bbox.y) - containerHeight - 10;
+            gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+            targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
+            targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
+
         tooltipItemContainer
-            .attr('transform', 'translate(' + translateX + ',' + translateY + ')')
+            .attr('transform', 'translate(' + targetX + ',' + targetY + ')')
             .style('display', 'block')
             .datum(elem);
     }
@@ -330,11 +336,11 @@
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
               actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-              containerWidth = 30,
-              containerHeight = items.length * 25 + 5;
+              containerWidth = itemSize + (itemMargin * 2),
+              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-              x = bbox.x + bbox.width + 5,
+              x = bbox.x + bbox.width + itemMargin,
               y = bbox.y;
 
         tooltipItemContainer.append('rect')
@@ -342,17 +348,18 @@
             .attr('x', x)
             .attr('y', y)
             .attr('width', containerWidth)
-            .attr('height', containerHeight);
+            .attr('height', containerHeight)
+            .on('mousedown', function() { d3.event.stopPropagation(); });
 
         tooltipItemContainer.selectAll('element-tooltip-item')
             .data(items)
             .enter()
             .append('image')
             .attr('class', 'element-tooltip-item')
-            .attr('x', x + 5)
-            .attr('y', function(d, i) { return y + 5 + (i * 25); })
-            .attr('width', 20)
-            .attr('height', 20)
+            .attr('x', x + itemMargin)
+            .attr('y', function(d, i) { return y + itemMargin + (i * (itemSize + itemMargin)); })
+            .attr('width', itemSize)
+            .attr('height', itemSize)
             .attr('xlink:href', function(d) { return d.url; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
@@ -485,6 +492,9 @@
         setProperties(elem);
     }
 
+    /**
+     * tooltip item 에 사용된 이미지 로딩.
+     */
     function loadTooltipItems() {
         const defs = d3.select('svg').append('defs');
         defs.selectAll('pattern').data(tooltipItems)
