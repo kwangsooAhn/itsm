@@ -142,6 +142,7 @@ login:
   sendLogin: "로그인"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
+  gotoLoginPage: "로그인 페이지"
   userSignUp: "회원가입"
   doSignUp: "가입하기"
   loginNote: "계정이 있으신가요?"
