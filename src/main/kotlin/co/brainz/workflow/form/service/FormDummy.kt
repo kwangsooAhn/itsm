@@ -1,7 +1,8 @@
 package co.brainz.workflow.form.service
 
 import co.brainz.workflow.form.constants.FormConstants
-import co.brainz.workflow.form.dto.FormComponentDto
+import co.brainz.workflow.form.dto.FormComponentSaveDto
+import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.dto.FormDto
 import java.time.LocalDateTime
 import java.util.UUID
@@ -61,15 +62,11 @@ class FormDummy: Form {
         return list
     }
 
-    override fun form(formId: String): FormDto {
+    override fun form(formId: String): FormComponentViewDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun insertForm(formDto: FormDto): FormDto {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateForm(formDto: FormDto) {
+    override fun createForm(formDto: FormDto): FormDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -77,7 +74,7 @@ class FormDummy: Form {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun formComponents(formId: String): FormComponentDto {
+    override fun saveForm(formComponentSaveDto: FormComponentSaveDto) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

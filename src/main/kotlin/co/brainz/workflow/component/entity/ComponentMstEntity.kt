@@ -3,6 +3,7 @@ package co.brainz.workflow.component.entity
 import co.brainz.workflow.form.entity.FormMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -26,13 +27,14 @@ data class ComponentMstEntity(
         val compType: String,
 
         @Column(name = "mapping_id")
-        val mappingId: String,
+        var mappingId: String,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "form_id")
         val components: FormMstEntity
 
 ) : Serializable {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "attributes")
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "attributes", cascade = [CascadeType.REMOVE])
         val attributes: MutableList<ComponentDataEntity>? = mutableListOf()
 }
+

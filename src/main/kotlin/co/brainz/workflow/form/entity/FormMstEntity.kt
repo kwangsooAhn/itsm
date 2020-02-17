@@ -4,6 +4,7 @@ import co.brainz.workflow.component.entity.ComponentMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -27,7 +28,7 @@ data class FormMstEntity(
         var formDesc: String? = null,
 
         @Column(name = "form_status")
-        var formStatus: String,
+        var formStatus: String? = null,
 
         @Column(name = "create_dt")
         var createDt: LocalDateTime? = null,
@@ -42,6 +43,6 @@ data class FormMstEntity(
         var updateUserKey: String? = null
 
 ): Serializable {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "components")
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "components", cascade = [CascadeType.REMOVE])
         val components: MutableList<ComponentMstEntity>? = mutableListOf()
 }

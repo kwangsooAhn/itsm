@@ -2,12 +2,10 @@ package co.brainz.itsm.provider
 
 import co.brainz.itsm.provider.dto.UrlDto
 import co.brainz.itsm.utility.ConvertParam
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.URI
 import java.time.LocalDateTime
@@ -95,12 +93,10 @@ open class ProviderUtilities {
      * @param dto
      * @return HttpEntity
      */
-    fun setHttpEntity(dto: Any): HttpEntity<LinkedMultiValueMap<*, *>> {
+    fun setHttpEntity(dto: Any): HttpEntity<Any> {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
-        val objectMapper = ObjectMapper()
-        val parameters: LinkedMultiValueMap<*, *>? = objectMapper.convertValue(dto, LinkedMultiValueMap::class.java)
-        return HttpEntity(parameters, headers)
+        return HttpEntity(dto, headers)
     }
 
 }

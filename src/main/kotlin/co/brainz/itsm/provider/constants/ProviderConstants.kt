@@ -11,7 +11,6 @@ object ProviderConstants {
     enum class Form(val url: String, val method: String) {
         GET_FORMS("/rest/wf/forms", "GET"),
         GET_FORM("/rest/wf/forms/{formId}", "GET"),
-        GET_FORM_COMPONENTS("/rest/wf/forms/{formId}/components", "GET"),
         POST_FORM("/rest/wf/forms", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
         DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
@@ -29,19 +28,6 @@ object ProviderConstants {
         POST_PROCESS("/rest/wf/processes", "POST"),
         PUT_PROCESS("/rest/wf/processes/{processId}", "PUT"),
         DELETE_PROCESS("/rest/wf/processes/{processId}", "DELETE")
-    }
-
-    /**
-     * Component Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Component(val url: String, val method: String) {
-        GET_COMPONENTS("/rest/wf/components", "GET"),
-        GET_COMPONENT("/rest/wf/components/{componentId}", "GET"),
-        POST_COMPONENT("/rest/wf/components", "POST"),
-        PUT_COMPONENT("/rest/wf/components/{componentId}", "PUT")
     }
 
     /**

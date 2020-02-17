@@ -387,11 +387,58 @@
      * 폼 디자이너 저장
      */
     function saveForm() {
+
+        //dummy data
+        var formInfo = {
+            id: '40288ab27051cb31017051cfcd9c0002',
+            name: 'test',
+            desc: 'zzzzzz'
+        };
+        var collections = [
+            {
+                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                type: 'text',
+                label: {
+                    position: 'left',
+                    column: 2,
+                    size: 12,
+                    color: '#ffffff',
+                    bold: 'Y'
+                }
+            },
+            {
+                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                type: 'textarea',
+                display: {
+                    column: 10,
+                    order: 3
+                },
+                validate: {
+                    required: 'N'
+                },
+                option: [{
+                    seq: 1,
+                    name: 'ITSM팀',
+                    value: 'itsm'
+                },{
+                    seq: 2,
+                    name: '인프라웹팀',
+                    value: 'infraweb'
+                }]
+            }
+        ];
+        var data = {
+            form: formInfo,
+            collections: collections
+        };
+
+        console.log(JSON.stringify(data))
+
         aliceJs.sendXhr({
             method: 'POST',
             url: '/rest/forms/data',
             callbackFunc: function(xhr) {
-                if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
+                if (xhr.responseText) {
                     alert('저장되었습니다.');
                 } else {
                     alert('저장실패');
@@ -485,6 +532,7 @@
             method: 'GET',
             url: '/rest/forms/data/' + formId,
             callbackFunc: function(xhr) {
+                console.log(xhr.responseText);
                 drawWorkflow(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'

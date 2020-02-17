@@ -1,7 +1,8 @@
 package co.brainz.workflow.form.controller
 
 import co.brainz.workflow.engine.WFEngine
-import co.brainz.workflow.form.dto.FormComponentDto
+import co.brainz.workflow.form.dto.FormComponentSaveDto
+import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.dto.FormDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,29 +25,25 @@ class WFFormRestController(private val wfEngine: WFEngine) {
     }
 
     @GetMapping("/{formId}")
-    fun getForm(@PathVariable formId: String): FormDto {
+    fun getForm(@PathVariable formId: String): FormComponentViewDto {
         return wfEngine.form().form(formId)
     }
 
     @PostMapping("")
-    fun insertForm(@RequestBody formDto: FormDto): FormDto {
-        return wfEngine.form().insertForm(formDto)
+    fun createForm(@RequestBody formDto: FormDto): FormDto {
+        return wfEngine.form().createForm(formDto)
     }
 
+    @Transactional
     @PutMapping("/{formId}")
-    fun updateForm(@RequestBody formDto: FormDto, @PathVariable formId: String) {
-        return wfEngine.form().updateForm(formDto)
+    fun saveFormData(@RequestBody formComponentSaveDto: FormComponentSaveDto, @PathVariable formId: String) {
+        return wfEngine.form().saveForm(formComponentSaveDto)
     }
 
     @Transactional
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String) {
         return wfEngine.form().deleteForm(formId)
-    }
-
-    @GetMapping("/{formId}/components")
-    fun getFormComponents(@PathVariable formId: String): FormComponentDto {
-        return wfEngine.form().formComponents(formId)
     }
 
 }

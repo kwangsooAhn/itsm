@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 data class FormDto(
         var formId: String = "",
-        val formName: String = "",
+        var formName: String = "",
         var formStatus: String = "",
         var formDesc: String? = null,
         var formEnabled: Boolean = false,
@@ -13,7 +13,6 @@ data class FormDto(
         var createDt: LocalDateTime? = null,
         val updateUserKey: String? = null,
         var updateDt: LocalDateTime? = null,
-        val userName: String? = null,
-        val components: List<ComponentDto> = emptyList()
+        val userName: String? = null
 ) : Serializable
 

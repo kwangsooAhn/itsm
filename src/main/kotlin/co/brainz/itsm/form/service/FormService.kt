@@ -4,9 +4,9 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.provider.ProviderForm
 import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.constants.ProviderConstants
-import co.brainz.itsm.provider.dto.ComponentDto
-import co.brainz.itsm.provider.dto.FormComponentDto
+import co.brainz.itsm.provider.dto.FormComponentSaveDto
 import co.brainz.itsm.provider.dto.FormDto
+import co.brainz.itsm.provider.dto.FormSaveDto
 import co.brainz.itsm.provider.dto.FormViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -33,42 +33,11 @@ class FormService(private val providerForm: ProviderForm) {
         return forms
     }
 
-    fun findForm(formId: String): FormDto {
-        val responseBody = providerForm.getForm(formId)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val formDto = mapper.readValue(responseBody, FormDto::class.java)
-        formDto.createDt = formDto.createDt?.let { ProviderUtilities().toTimezone(it) }
-        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toTimezone(it) }
-
-        return formDto
+    fun findForm(formId: String): String {
+        return providerForm.getForm(formId)
     }
 
-    fun findFormComponents(formId: String): String {
-        return providerForm.getFormComponents(formId)
-    }
-
-    //Dto를 사용하여 처리할 경우 사용 (예시)
-    fun findFormComponentsObject(formId: String): FormComponentDto {
-        val responseBody = providerForm.getFormComponents(formId)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val dataMap = mapper.readValue(responseBody, Map::class.java)
-        val formComponentDto = FormComponentDto(form = FormViewDto())
-        if (dataMap.containsKey("form")) {
-            formComponentDto.form = mapper.convertValue(dataMap["form"], FormViewDto::class.java)
-            if (dataMap.containsKey("components")) {
-                val components: MutableList<ComponentDto> = mapper.convertValue(dataMap["components"], mapper.typeFactory.constructCollectionType(MutableList::class.java, ComponentDto::class.java))
-                formComponentDto.components = components
-            }
-        }
-
-        return formComponentDto
-    }
-
-    fun deleteForm(formId: String) {
-        providerForm.deleteForm(formId)
-    }
-
-    fun insertForm(formDto: FormDto): String {
+    fun createForm(formDto: FormDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         formDto.formStatus = ProviderConstants.FormStatus.EDIT.value
         formDto.createUserKey = aliceUserDto.userKey
@@ -85,10 +54,30 @@ class FormService(private val providerForm: ProviderForm) {
         }
     }
 
-    fun updateForm(formDto: FormDto) {
-        formDto.createDt = formDto.createDt?.let { ProviderUtilities().toGMT(it) }
-        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
-        providerForm.putForm(formDto)
+    fun deleteForm(formId: String) {
+        providerForm.deleteForm(formId)
+    }
+
+    fun saveFormData(formData: String): Boolean {
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val map = mapper.readValue(formData, LinkedHashMap::class.java)
+        val forms = mapper.convertValue(map["form"], FormViewDto::class.java)
+        val collections: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(map["collections"], mapper.typeFactory.constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
+
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val formSaveDto = FormSaveDto(
+                formId = forms.id,
+                formName = forms.name,
+                formDesc = forms.desc,
+                updateDt = ProviderUtilities().toGMT(LocalDateTime.now()),
+                updateUserKey = aliceUserDto.userKey
+        )
+        val formComponentSaveDto = FormComponentSaveDto(
+                form = formSaveDto,
+                components = collections
+        )
+
+        return providerForm.putForm(formComponentSaveDto)
     }
 
 }

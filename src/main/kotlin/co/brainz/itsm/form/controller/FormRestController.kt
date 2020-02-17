@@ -13,19 +13,24 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/rest/forms")
 class FormRestController(private val formService: FormService) {
 
+    @PostMapping("")
+    fun createForm(@RequestBody formDto: FormDto): String {
+        return formService.createForm(formDto)
+    }
+
     /**
      * 문서양식 불러오기.
      */
     @GetMapping("/data/{formId}")
     fun getFormData(@PathVariable formId: String): String {
-        return formService.findFormComponents(formId)
+        return formService.findForm(formId)
     }
 
     /**
      * 문서양식 저장.
      */
     @PostMapping("/data")
-    fun saveFormData(@RequestBody formDto: FormDto): String {
-        return formService.insertForm(formDto)
+    fun saveFormData(@RequestBody formData: String): Boolean {
+        return formService.saveFormData(formData)
     }
 }
