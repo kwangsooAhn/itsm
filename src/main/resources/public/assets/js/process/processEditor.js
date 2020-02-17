@@ -750,10 +750,6 @@
                   drawingBoardWidth = drawingBoard.offsetWidth,
                   drawingBoardHeight = drawingBoard.offsetHeight;
 
-            console.log('drawingBoardWidth: ' + drawingBoardWidth)
-
-            console.log('drawingBoardHeight: ' + drawingBoardHeight)
-
             svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
 
             horizontalLinear.domain([0, drawingBoardWidth]).range([0, drawingBoardWidth]);
