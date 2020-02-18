@@ -73,12 +73,12 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
 
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, aliceUser.grantedAuthorises)
-        usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthories ->
+        usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
             aliceUser.urls?.let { urls ->
                 aliceUser.menus?.let { menus ->
                     AliceUserDto(
                             aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthories,
+                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
                             menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
                     )
                 }

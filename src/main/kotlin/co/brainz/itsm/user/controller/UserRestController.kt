@@ -1,14 +1,18 @@
 package co.brainz.itsm.user.controller
 
+import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceAuthProvider
+import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.SignUpDto
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.certification.service.CertificationService
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.user.dto.UserUpdateDto
+import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -35,12 +39,14 @@ import kotlin.random.Random
 class UserRestController(
     private val certificationService: CertificationService,
     private val userService: UserService,
+    private val userDetailsService: AliceUserDetailsService,
     private val localeResolver: LocaleResolver,
     private val aliceAuthProvider: AliceAuthProvider,
     private val cryptoRsa: CryptoRsa
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     /**
      * 사용자 전체 목록을 조회한다.
@@ -100,17 +106,21 @@ class UserRestController(
      * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
      */
     fun createNewAuthentication(User: UserUpdateDto): Authentication {
-        val aliceUser = userService.selectUserKey(User.userKey)
-        val authorities = aliceAuthProvider.authorities(aliceUser)
-        val authList = aliceAuthProvider.authList(aliceUser)
-        val menuList = aliceAuthProvider.menuList(authList)
-        val urlList = aliceAuthProvider.urlList(authList)
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, authorities)
-        usernamePasswordAuthenticationToken.details = AliceUserDto(
-            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email,
-            aliceUser.useYn, aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey,
-            authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
-        )
+        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(User.userKey))
+        aliceUser = userDetailsService.getAuthInfo(aliceUser)
+
+        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
+        usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
+            aliceUser.urls?.let { urls ->
+                aliceUser.menus?.let { menus ->
+                    AliceUserDto(
+                            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
+                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
+                    )
+                }
+            }
+        }
         return usernamePasswordAuthenticationToken
     }
 
