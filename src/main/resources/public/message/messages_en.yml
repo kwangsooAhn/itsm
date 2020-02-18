@@ -50,6 +50,10 @@ menu:
 
 # Auth
 auth:
+  label:
+    authId: "Auth ID"
+    authName: "Auth name"
+    authDesc: "Auth Desc"
   service.read:
     all: "서비스 요청 전체 조회"
     my: "서비스 요청 자신 업무만 조회"
@@ -72,6 +76,10 @@ auth:
   process.delete: "process delete"
   ticket.read: "ticket read"
   ticket.create: "ticket create"
+  auth.read: "auth read"
+  auth.create: "auth create"
+  auth.update: "auth update"
+  auth.delete: "auth delete"
 
 # User
 user:

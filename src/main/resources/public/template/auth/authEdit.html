@@ -1,17 +1,133 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
     <title>권한 정보</title>
 </head>
 <body>
-권한정보 test
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto auto auto;">
+        <h1 th:text="#{menu.setting.auth}"></h1>
+        <div align="right">
+            <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnSearch" name="btnSearch" 
+                    th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
+        </div>
+        <hr>
+        <div style="height: 560px;">
+            <table style="display: inline-block;vertical-align: top;width: 30%;height: inherit;border:1px solid;margin-right: 1rem;">
+                <tr><td><input type="checkbox" />권한리스트 sample</td></tr>
+            </table>
+            <table border="1" style="display: inline-block;width:50%;">
+                <colgroup>
+                    <col width="40%">
+                    <col width="60%">
+                </colgroup>
+                <tr>
+                    <th class="required" th:text="#{auth.label.authId}"></th>
+                    <td><input id="txtAuthId" name="txtAuthId" type="text" th:value="${authDetail?.authId}" maxlength="100"/></td>
+                </tr>
+                <tr>
+                    <th class="required" th:text="#{auth.label.authName}"></th>
+                    <td><input id="txtAuthName" name="txtAuthName" type="text" th:value="${authDetail?.authName}" maxlength="100"/></td>
+                </tr>
+                <tr>
+                    <th th:text="#{auth.label.authDesc}"></th>
+                    <td><textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${authDetail?.authDesc}"></textarea></td>
+                </tr>
+                <tr>
+                    <th class="required" th:text="#{common.label.createUserName}"></th>
+                    <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${authDetail?.createUserKey}"></span></td>
+                </tr>
+                <tr>
+                    <th th:text="#{common.label.createDate}"></th>
+                    <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.createDt,dateformat)}"></span></td>
+                </tr>
+                <tr>
+                    <th th:text="#{common.label.updateUserName}"></th>
+                    <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${authDetail?.updateUserKey}"></span></td>
+                </tr>
+                <tr>
+                    <th th:text="#{common.label.updateDate}"></th>
+                    <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.updateDt,dateformat)}"></span></td>
+                </tr>
+            </table>
+            <!-- buttons -->
+            <table style="float right">
+                <tr>
+                    <td>
+                        <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" 
+                         th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                    </td>
+                    <td>
+                        <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" 
+                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                    </td>
+                    <td>
+                        <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" 
+                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.save}"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</th:block>
 </body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        var AUTH_DELETE = false;
+        var AUTH_CRAETE = false;
+        var AUTH_UPDATE = false;
+
+        window.addEventListener('load', function() {
+            if (document.getElementById('btnUpdate') !== null) {
+                AUTH_UPDATE = true;
+            }
+
+            if (document.getElementById('btnRegist') !== null) {
+                AUTH_CRAETE = true;
+            }
+
+            if (document.getElementById('btnDelete') !== null) {
+                AUTH_DELETE = true;
+            }
+
+            if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
+                document.getElementById('txtAuthId').setAttribute('readonly','true');
+                if (AUTH_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
+                }
+                if (AUTH_CRAETE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
+            } else {
+//                 var first = document.querySelector('a[name=alink]');
+//                 onGetDetail(first.getAttribute('id'));
+//                 if (AUTH_UPDATE) {
+//                     document.getElementById('btnUpdate').style.display = 'block';
+//                 }
+//                 if (AUTH_CRAETE) {
+//                     document.getElementById('btnRegist').style.display = 'none';
+//                 }
+            }
+            
+        
+        });
+
+        /*추가 버튼 */
+        function onCreate() {
+        }
+
+        /*등록, 수정 버튼*/
+        function onSave(flag) {
+        }
+
+        /** 삭제 버튼  */
+        function onDelete() {
+        }
+        
         /*]]>*/
     </script>
 </th:block>
