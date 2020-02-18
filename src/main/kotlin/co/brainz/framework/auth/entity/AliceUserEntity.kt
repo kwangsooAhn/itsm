@@ -54,8 +54,8 @@ data class AliceUserEntity(
         @Column(name = "mobile_number", length = 128)
         var mobileNumber: String? = null,
 
-        @Column(name = "create_user_key", length = 128)
-        override var createUserKey: String = UserConstants.CREATE_USER_ID,
+/*        @Column(name = "create_user_key", length = 128)
+        override var createUserKey: String = UserConstants.CREATE_USER_ID,*/
 
         @Column(name = "status", length = 100)
         val status: String = UserConstants.Status.CERTIFIED.code,

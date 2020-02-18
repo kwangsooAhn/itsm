@@ -1,5 +1,6 @@
 package co.brainz.framework.auth.service
 
+import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -54,7 +55,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         logger.debug(">>> Decrypt password: {}", password)
         logger.debug(">>> password BCryptEncode: {}", passwordEncoder.encode(password))
 
-        val aliceUser: AliceUserEntity
+        var aliceUser: AliceUserAuthDto
         try {
             aliceUser = userDetailsService.loadUserByUsername(userId)
         } catch (e: EmptyResultDataAccessException) {
@@ -73,14 +74,16 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
             throw BadCredentialsException(userId)
         }
 
-        val authorities = authorities(aliceUser)
-        val authList = authList(aliceUser)
-        val menuList = menuList(authList)
-        val urlList = urlList(authList)
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
+        aliceUser = userDetailsService.getAuthInfo(aliceUser)
+        //val authorities = authorities(aliceUser)
+        //val authList = authList(aliceUser)
+        //val menuList = menuList(authList)
+        //val urlList = urlList(authList)
+        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, aliceUser.grantedAuthories)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
                 aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
+                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, aliceUser.grantedAuthories,
+                aliceUser.menus, aliceUser.urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
         )
         return usernamePasswordAuthenticationToken
     }

@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 @Repository
 interface AliceUserRoleMapRepository : JpaRepository<AliceUserRoleMapEntity, String> {
     fun findByRole(roleInfo : AliceRoleEntity): MutableList<AliceUserRoleMapEntity>
+    fun findByUserKey(userKey: String): MutableList<AliceRoleEntity>
 }

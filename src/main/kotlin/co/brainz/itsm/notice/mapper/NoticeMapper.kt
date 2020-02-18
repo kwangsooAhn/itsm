@@ -6,10 +6,9 @@ import co.brainz.itsm.notice.dto.NoticePopupDto
 import co.brainz.itsm.notice.dto.NoticePopupListDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import org.mapstruct.Mapper
-import org.springframework.web.bind.annotation.Mapping
 
 @Mapper
-public interface NoticeMapper {
+interface NoticeMapper {
     fun toNoticePopupDto(noticeEntity: NoticeEntity): NoticePopupDto
 
     fun toNoticePopupListDto(noticeEntity: NoticeEntity): NoticePopupListDto
