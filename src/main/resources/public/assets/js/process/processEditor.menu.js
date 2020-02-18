@@ -5,6 +5,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    const iconDirectory = '../../assets/media/icons/process';
     const itemSize = 20;
     const itemMargin = 8;
 
@@ -15,7 +16,7 @@
     const tooltipItems = [
         {
             title: 'delete', parent: 'action-tooltip',
-            url: '../../assets/media/icons/process/tooltip/delete.png',
+            url: iconDirectory + '/tooltip/delete.png',
             action: function(el, i) {
                 removeElementItems();
                 console.log('remove');
@@ -23,7 +24,7 @@
         },
         {
             title: 'copy', parent: 'action-tooltip',
-            url: '../../assets/media/icons/process/tooltip/copy.png',
+            url: iconDirectory + '/tooltip/copy.png',
             action: function(el, i) {
                 removeElementItems();
                 console.log('copy');
@@ -31,117 +32,117 @@
         },
         {
             title: 'edit', parent: 'action-tooltip',
-            url: '../../assets/media/icons/process/tooltip/edit.png',
+            url: iconDirectory + '/tooltip/edit.png',
             action: function(el, i) {
                 setElementTypeItems(el);
             }
         },
         {
             title: 'suggest', parent: 'action-tooltip',
-            url: '../../assets/media/icons/process/tooltip/suggest.png',
+            url: iconDirectory + '/tooltip/suggest.png',
             action: function(el, i) {
                 setSuggestElementItems(el);
             }
         },
         {
             title: 'userTask', parent: 'suggest-tooltip',
-            url: '../../assets/media/icons/process/suggestion/usertask.png',
+            url: iconDirectory + '/suggestion/usertask.png',
             action: function(el, i) {
                 console.log('add user task');
             }
         }, {
             title: 'manualTask', parent: 'suggest-tooltip',
-            url: '../../assets/media/icons/process/suggestion/manual.png',
+            url: iconDirectory + '/suggestion/manual.png',
             action: function(el, i) {
                 console.log('add manual task');
             }
         }, {
             title: 'exclusiveGateway', parent: 'suggest-tooltip',
-            url: '../../assets/media/icons/process/suggestion/gateways.png',
+            url: iconDirectory + '/suggestion/gateways.png',
             action: function(el, i) {
                 console.log('add exclusive gateway');
             }
         }, {
             title: 'endEvent', parent: 'suggest-tooltip',
-            url: '../../assets/media/icons/process/suggestion/end.png',
+            url: iconDirectory + '/suggestion/end.png',
             action: function(el, i) {
                 console.log('add end event');
             }
         }, {
             title: 'start event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-start.png',
+            url: iconDirectory + '/element-type/event-start.png',
             action: function(el, i) {
                 console.log('edit type start');
             }
         }, {
             title: 'message start event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-start-msg.png',
+            url: iconDirectory + '/element-type/event-start-msg.png',
             action: function(el, i) {
                 console.log('edit type message start');
             }
         }, {
             title: 'timer start event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-start-timer.png',
+            url: iconDirectory + '/element-type/event-start-timer.png',
             action: function(el, i) {
                 console.log('edit type timer start');
             }
         }, {
             title: 'end event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-end.png',
+            url: iconDirectory + '/element-type/event-end.png',
             action: function(el, i) {
                 console.log('edit type end');
             }
         }, {
             title: 'message end event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-end-msg.png',
+            url: iconDirectory + '/element-type/event-end-msg.png',
             action: function(el, i) {
                 console.log('edit type message end');
             }
         }, {
             title: 'user task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-user.png',
+            url: iconDirectory + '/element-type/task-user.png',
             action: function(el, i) {
                 console.log('edit user task');
             }
         }, {
             title: 'manual task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-manual.png',
+            url: iconDirectory + '/element-type/task-manual.png',
             action: function(el, i) {
                 console.log('edit manual task');
             }
         }, {
             title: 'script task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-script.png',
+            url: iconDirectory + '/element-type/task-script.png',
             action: function(el, i) {
                 console.log('edit script task');
             }
         }, {
             title: 'send task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-send.png',
+            url: iconDirectory + '/element-type/task-send.png',
             action: function(el, i) {
                 console.log('edit send task');
             }
         }, {
             title: 'receive task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-receive.png',
+            url: iconDirectory + '/element-type/task-receive.png',
             action: function(el, i) {
                 console.log('edit receive task');
             }
         }, {
             title: 'exclusive gateway', parent: 'gateway-tooltip',
-            url: '../../assets/media/icons/process/element-type/gateway-exclusive.png',
+            url: iconDirectory + '/element-type/gateway-exclusive.png',
             action: function(el, i) {
                 console.log('edit exclusive gateway');
             }
         }, {
             title: 'parallel gateway', parent: 'gateway-tooltip',
-            url: '../../assets/media/icons/process/element-type/gateway-parallel.png',
+            url: iconDirectory + '/element-type/gateway-parallel.png',
             action: function(el, i) {
                 console.log('edit parallel gateway');
             }
         }, {
             title: ' inclusive gateway', parent: 'gateway-tooltip',
-            url: '../../assets/media/icons/process/element-type/gateway-inclusive.png',
+            url: iconDirectory + '/element-type/gateway-inclusive.png',
             action: function(el, i) {
                 console.log('edit exclusive gateway');
             }
@@ -162,11 +163,15 @@
             let elemData = {};
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
+                    let elemType = elementsProperties[elementsKeys[i]][0].type;
+                    if (elementsKeys[i] === 'artifact' && elem.classed('group')) {
+                        elemType = 'group';
+                    }
                     const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
                     elemData.id = elemId;
                     elemData.category = elementsKeys[i];
-                    elemData.type = elementsProperties[elementsKeys[i]][0].type;
-                    elemData.display = {width: bbox.width, height: bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+                    elemData.type = elemType;
+                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
                     elemData.data = {};
                     elements.push(elemData);
                     break;
@@ -409,7 +414,7 @@
 
             const properties = propertiesDivision[idx].items;
             for (let i = 0, attrLen = properties.length; i < attrLen; i++) {
-                let property = properties[i];
+                const property = properties[i];
                 let propertyContainer = document.createElement('p');
                 let labelObject = document.createElement('label');
                 labelObject.htmlFor =  property.id;

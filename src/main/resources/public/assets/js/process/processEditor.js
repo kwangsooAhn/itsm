@@ -563,7 +563,9 @@
     function GroupElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement.classed('group', true);
+        this.nodeElement
+            .classed('artifact', true)
+            .classed('group', true);
         return this;
     }
 
@@ -585,7 +587,7 @@
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
-            .attr('class', 'node annotation')
+            .attr('class', 'node artifact annotation')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(d3.drag()
