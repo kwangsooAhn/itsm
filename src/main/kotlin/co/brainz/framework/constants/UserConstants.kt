@@ -26,6 +26,16 @@ object UserConstants {
     const val USER_TIME_FORMAT: String = "yyyy-MM-dd HH:mm"
 
     /**
+     * 사용자 식별 값
+     */
+    const val USER_ID: String = "user"
+
+    /**
+     * 관리자 식별 값
+     */
+    const val ADMIN_ID: String = "admin"
+
+    /**
      * 사용자 상태.
      */
     enum class Status(val code: String, val value: Int) {
@@ -75,14 +85,14 @@ object UserConstants {
         FACEBOOK("user.platform.facebook", "facebook"),
         KAKAO("user.platform.kakao", "kakao")
     }
+
     /**
      * 사용자 자기정보 메일 관련 수정 상태
      */
     enum class SendMailStatus(val code: String) {
        CREATE_USER("0"),
        UPDATE_USER("1"),
-       UPDATE_USER_EMAIL("2")
- 
+       UPDATE_USER_EMAIL("2"),
+       CREATE_USER_ADMIN("3")
     }
-
 }

@@ -9899,8 +9899,16 @@ body {
   font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+.alice-process-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-width: 75rem;
+  min-height: 37.5rem;
+}
 .alice-process-toolbar {
   width: 100vw;
+  min-width: 75rem;
   height: 2.5rem;
   background-color: #4c5264;
   color: #fff;
@@ -9956,6 +9964,7 @@ body {
   display: inline-block;
   width: 3.75rem;
   height: calc(100vh - 2.5rem);
+  min-height: 35rem;
   background-color: #f6f6f7;
   position: absolute;
   top: 2.5rem;
@@ -10016,33 +10025,37 @@ body {
   top: 2.5rem;
   left: 3.75rem;
   width: calc(100vw - 23.75rem);
+  min-width: 51.25rem;
   height: calc(100vh - 2.5rem);
+  min-height: 35rem;
   background-color: #ffffff;
-  background-image: linear-gradient(90deg, #cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(#cdcccc 0, #cdcccc 0, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(#e0e0e0 0, #e0e0e0 0.063rem, transparent 0, transparent 6.25rem, transparent 6.25rem), linear-gradient(90deg, #e0e0e0 0, #e0e0e0 0.063rem, transparent 0px, transparent 6.25rem, transparent 6.25rem), linear-gradient(transparent 0, transparent 0, #f6f6f6 0, #f6f6f6 6.25rem, transparent 6.188rem, transparent 6.25rem), linear-gradient(#cdcccc, #cdcccc);
-  background-size: 6.25rem 100%, 100% 6.25rem, 100% 0.625rem, 0.625rem 100%, 100% 6.25rem, 6.25rem 100%, 6.25rem 100%, 6.25rem 6.25rem, 6.25rem 6.25rem;
 }
-.alice-process-drawing-board path.link {
+.alice-process-drawing-board svg {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.alice-process-drawing-board path.connector {
   fill: none;
   stroke: #000;
   stroke-width: 0.125rem;
   cursor: default;
 }
-.alice-process-drawing-board svg:not(.active):not(.ctrl) path.link {
-  cursor: pointer;
-}
-.alice-process-drawing-board path.link.selected {
+.alice-process-drawing-board path.connector.selected {
   stroke-dasharray: 10, 2;
   stroke-width: 0.188rem;
 }
-.alice-process-drawing-board path.link.drag-line {
+.alice-process-drawing-board path.connector.drag-line {
   pointer-events: none;
 }
-.alice-process-drawing-board path.link.hidden {
+.alice-process-drawing-board path.connector.hidden {
   stroke-width: 0;
 }
-.alice-process-drawing-board defs marker {
-  marker-width: 5;
-  marker-height: 8;
+.alice-process-drawing-board path.painted-connector {
+  stroke: none;
+  stroke-width: 20;
+  pointer-events: all;
 }
 .alice-process-drawing-board defs marker path {
   fill: #000000;
@@ -10051,6 +10064,19 @@ body {
   fill: #f6f6f7;
   stroke: #bcc5d3;
   stroke-width: 0.5;
+}
+.alice-process-drawing-board g.alice-tooltip image.action-tooltip-item:hover,
+.alice-process-drawing-board g.alice-tooltip image.element-tooltip-item:hover {
+  cursor: pointer;
+}
+.alice-process-drawing-board .grid path {
+  display: none;
+}
+.alice-process-drawing-board .grid line {
+  stroke: lightgrey;
+  stroke-width: 0.5;
+  stroke-opacity: 1;
+  shape-rendering: crispEdges;
 }
 .alice-process-drawing-board .node {
   fill: #ffffff;
@@ -10075,14 +10101,28 @@ body {
   background-color: #f6f6f7;
   width: 20rem;
   height: calc(100vh - 2.5rem);
+  min-height: 35rem;
   position: absolute;
   top: 2.5rem;
-  left: calc(100vw - 20rem);
+  right: 0;
   border: #bcc5d3 solid 0.063rem;
 }
+.alice-process-properties-panel h3 {
+  font-size: 0.938rem;
+  font-weight: bold;
+  margin-top: 1.25rem;
+  margin-left: 0.938rem;
+}
+.alice-process-properties-panel hr {
+  margin-right: 0.938rem;
+  margin-left: 0.938rem;
+  border: 0.125rem solid darkgray;
+}
 .alice-process-properties-panel p {
-  padding-left: 0.938rem;
+  padding-left: 1.5rem;
   font-size: 0.813rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 .alice-process-properties-panel p label {
   display: inline-block;
@@ -10092,8 +10132,8 @@ body {
 .alice-process-properties-panel p input:not([type=checkbox]), .alice-process-properties-panel p select, .alice-process-properties-panel p textarea {
   width: 11.25rem;
 }
-.alice-process-properties-panel p:first-of-type {
-  padding-top: 1.875rem;
+.alice-process-properties-panel p textarea {
+  height: 5.625rem;
 }
 
 /*# sourceMappingURL=process-designer.css.map */

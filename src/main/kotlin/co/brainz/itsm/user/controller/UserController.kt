@@ -29,6 +29,7 @@ class UserController(private val codeService: CodeService,
     private val userListPage: String = "user/userList"
     private val userDetailPage: String = "user/userDetail"
     private val userEditPage: String = "user/userEdit"
+    private val userRegisterPage: String = "user/userRegister"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -90,5 +91,22 @@ class UserController(private val codeService: CodeService,
         model.addAttribute("dateList", dateList)
         model.addAttribute("timeList", timeList)
         return userEditPage
+    }
+
+    /**
+     * 사용자 등록 화면을 호출한다.
+     */
+    @GetMapping("/new")
+    fun getUserRegister(model: Model): String {
+        val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
+        val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
+        val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
+        val timezoneList = userService.selectTimezoneList()
+
+        model.addAttribute("langList", langList)
+        model.addAttribute("timezoneList", timezoneList)
+        model.addAttribute("dateList", dateList)
+        model.addAttribute("timeList", timeList)
+        return userRegisterPage
     }
 }

@@ -5,48 +5,18 @@
 }(this, (function (exports) {
     'use strict';
 
-    const processProperties = [
-        {'attribute': 'id', 'name': 'ID', 'type': 'text', 'default': ''},
-        {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-        {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
-    ];
+    const iconDirectory = '../../assets/media/icons/process';
+    const itemSize = 20;
+    const itemMargin = 8;
 
-    const elementsProperties = {
-        'event': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''}
-        ],
-        'task': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-            {'attribute': 'assignee-type', 'name': '수행자 타입', 'type': 'selectbox', 'default': '', 'sub-list': 'assignee,candidate users, candidate groups'},
-            {'attribute': 'assignee', 'name': '수행자', 'type': 'text', 'default': ''},
-            {'attribute': 'notification', 'name': '메일통보 여부', 'type': 'checkbox', 'default': ''},
-            {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
-        ],
-        'subprocess': [
-            {'attribute': 'sub-process-id', 'name': '서브 프로세스 ID', 'type': 'text', 'default': ''}
-        ],
-        'gateway': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''}
-        ],
-        'group': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-            {'attribute': 'description', 'name': '설명', 'type': 'textarea', 'default': ''}
-        ],
-        'annotation': [
-            {'attribute': 'text', 'name': '텍스트', 'type': 'textarea', 'default': ''},
-        ],
-        'connector': [
-            {'attribute': 'name', 'name': '표시명', 'type': 'text', 'default': ''},
-            {'attribute': 'condition', 'name': '조건', 'type': 'text', 'textarea': ''},
-            {'attribute': 'start-id', 'name': 'Source Element ID', 'type': 'text', 'text': ''},
-            {'attribute': 'end-id', 'name': 'Target Element ID', 'type': 'text', 'text': ''}
-        ],
-    };
+    let processProperties = {},
+        elementsProperties = {},
+        elementsKeys = [];
 
     const tooltipItems = [
         {
             title: 'delete', parent: 'action-tooltip',
-            url: '../../assets/media/icons/process/tooltip/delete.png',
+            url: iconDirectory + '/tooltip/delete.png',
             action: function(el, i) {
                 removeElementItems();
                 console.log('remove');
@@ -54,7 +24,7 @@
         },
         {
             title: 'copy', parent: 'action-tooltip',
-            url: '../../assets/media/icons/process/tooltip/copy.png',
+            url: iconDirectory + '/tooltip/copy.png',
             action: function(el, i) {
                 removeElementItems();
                 console.log('copy');
@@ -62,151 +32,154 @@
         },
         {
             title: 'edit', parent: 'action-tooltip',
-            url: '../../assets/media/icons/process/tooltip/edit.png',
+            url: iconDirectory + '/tooltip/edit.png',
             action: function(el, i) {
                 setElementTypeItems(el);
             }
         },
         {
             title: 'suggest', parent: 'action-tooltip',
-            url: '../../assets/media/icons/process/tooltip/suggest.png',
+            url: iconDirectory + '/tooltip/suggest.png',
             action: function(el, i) {
                 setSuggestElementItems(el);
             }
         },
         {
             title: 'userTask', parent: 'suggest-tooltip',
-            url: '../../assets/media/icons/process/suggestion/usertask.png',
+            url: iconDirectory + '/suggestion/usertask.png',
             action: function(el, i) {
                 console.log('add user task');
             }
         }, {
             title: 'manualTask', parent: 'suggest-tooltip',
-            url: '../../assets/media/icons/process/suggestion/manual.png',
+            url: iconDirectory + '/suggestion/manual.png',
             action: function(el, i) {
                 console.log('add manual task');
             }
         }, {
             title: 'exclusiveGateway', parent: 'suggest-tooltip',
-            url: '../../assets/media/icons/process/suggestion/gateways.png',
+            url: iconDirectory + '/suggestion/gateways.png',
             action: function(el, i) {
                 console.log('add exclusive gateway');
             }
         }, {
             title: 'endEvent', parent: 'suggest-tooltip',
-            url: '../../assets/media/icons/process/suggestion/end.png',
+            url: iconDirectory + '/suggestion/end.png',
             action: function(el, i) {
                 console.log('add end event');
             }
         }, {
             title: 'start event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-start.png',
+            url: iconDirectory + '/element-type/event-start.png',
             action: function(el, i) {
                 console.log('edit type start');
             }
         }, {
             title: 'message start event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-start-msg.png',
+            url: iconDirectory + '/element-type/event-start-msg.png',
             action: function(el, i) {
                 console.log('edit type message start');
             }
         }, {
             title: 'timer start event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-start-timer.png',
+            url: iconDirectory + '/element-type/event-start-timer.png',
             action: function(el, i) {
                 console.log('edit type timer start');
             }
         }, {
             title: 'end event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-end.png',
+            url: iconDirectory + '/element-type/event-end.png',
             action: function(el, i) {
                 console.log('edit type end');
             }
         }, {
             title: 'message end event', parent: 'event-tooltip',
-            url: '../../assets/media/icons/process/element-type/event-end-msg.png',
+            url: iconDirectory + '/element-type/event-end-msg.png',
             action: function(el, i) {
                 console.log('edit type message end');
             }
         }, {
             title: 'user task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-user.png',
+            url: iconDirectory + '/element-type/task-user.png',
             action: function(el, i) {
                 console.log('edit user task');
             }
         }, {
             title: 'manual task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-manual.png',
+            url: iconDirectory + '/element-type/task-manual.png',
             action: function(el, i) {
                 console.log('edit manual task');
             }
         }, {
             title: 'script task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-script.png',
+            url: iconDirectory + '/element-type/task-script.png',
             action: function(el, i) {
                 console.log('edit script task');
             }
         }, {
             title: 'send task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-send.png',
+            url: iconDirectory + '/element-type/task-send.png',
             action: function(el, i) {
                 console.log('edit send task');
             }
         }, {
             title: 'receive task', parent: 'task-tooltip',
-            url: '../../assets/media/icons/process/element-type/task-receive.png',
+            url: iconDirectory + '/element-type/task-receive.png',
             action: function(el, i) {
                 console.log('edit receive task');
             }
         }, {
             title: 'exclusive gateway', parent: 'gateway-tooltip',
-            url: '../../assets/media/icons/process/element-type/gateway-exclusive.png',
+            url: iconDirectory + '/element-type/gateway-exclusive.png',
             action: function(el, i) {
                 console.log('edit exclusive gateway');
             }
         }, {
             title: 'parallel gateway', parent: 'gateway-tooltip',
-            url: '../../assets/media/icons/process/element-type/gateway-parallel.png',
+            url: iconDirectory + '/element-type/gateway-parallel.png',
             action: function(el, i) {
                 console.log('edit parallel gateway');
             }
         }, {
             title: ' inclusive gateway', parent: 'gateway-tooltip',
-            url: '../../assets/media/icons/process/element-type/gateway-inclusive.png',
+            url: iconDirectory + '/element-type/gateway-inclusive.png',
             action: function(el, i) {
                 console.log('edit exclusive gateway');
             }
         }
-    ]
-
-    const elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+    ];
 
     /**
      * elements.
      *
      * @param elem 선택된 element
+     * @return Object element Json 정보
      */
     function getElementDataProperty(elem) {
         const elemId = elem.node().id;
         let elements = AliceProcessEditor.data.elements;
         let filterData = elements.filter(function(attr) { return attr.id === elemId; });
         if (filterData.length === 0) {
+            let elemData = {};
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
+                    let elemType = elementsProperties[elementsKeys[i]][0].type;
+                    if (elementsKeys[i] === 'artifact' && elem.classed('group')) {
+                        elemType = 'group';
+                    }
                     const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
-                    elements.push({
-                        id: elemId,
-                        category: elementsKeys[i],
-                        type: '',
-                        display: {width: bbox.width, height: bbox.height, 'position-x': bbox.x, 'position-y': bbox.y},
-                        data: {}
-                    });
+                    elemData.id = elemId;
+                    elemData.category = elementsKeys[i];
+                    elemData.type = elemType;
+                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+                    elemData.data = {};
+                    elements.push(elemData);
                     break;
                 }
             }
-            return {};
+            return elemData;
         } else {
-            return filterData[0].data;
+            return filterData[0];
         }
     }
 
@@ -230,13 +203,14 @@
         const tooltipItemContainer = d3.select('.alice-process-drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
-        const containerWidth = actionTooltip.length * 25 + 5,
-              containerHeight = 30;
+        const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
+              containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
             .attr('width', containerWidth)
-            .attr('height', containerHeight);
+            .attr('height', containerHeight)
+            .on('mousedown', function() { d3.event.stopPropagation(); });
 
         tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
@@ -244,10 +218,10 @@
             //.append('rect')
             .append('image')
             .attr('class', 'action-tooltip-item')
-            .attr('x', function(d, i) { return  5 + (i * 25); })
-            .attr('y', 5)
-            .attr('width', 20)
-            .attr('height', 20)
+            .attr('x', function(d, i) { return  itemMargin + (i * (itemSize + itemMargin) ); })
+            .attr('y', itemMargin)
+            .attr('width', itemSize)
+            .attr('height', itemSize)
             //.style('fill', function(d) { return 'url(#alice-tooltip-' + d.title + ')'; })
             .attr('xlink:href', function(d) { return d.url; })
             .on('mousedown', function(d, i) {
@@ -273,10 +247,12 @@
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              translateX = bbox.cx - containerWidth / 2,
-              translateY = (elem.classed('connector') ? bbox.cy :  bbox.y) - containerHeight - 10;
+            gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+            targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
+            targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
+
         tooltipItemContainer
-            .attr('transform', 'translate(' + translateX + ',' + translateY + ')')
+            .attr('transform', 'translate(' + targetX + ',' + targetY + ')')
             .style('display', 'block')
             .datum(elem);
     }
@@ -330,11 +306,11 @@
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
               actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-              containerWidth = 30,
-              containerHeight = items.length * 25 + 5;
+              containerWidth = itemSize + (itemMargin * 2),
+              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-              x = bbox.x + bbox.width + 5,
+              x = bbox.x + bbox.width + itemMargin,
               y = bbox.y;
 
         tooltipItemContainer.append('rect')
@@ -342,17 +318,18 @@
             .attr('x', x)
             .attr('y', y)
             .attr('width', containerWidth)
-            .attr('height', containerHeight);
+            .attr('height', containerHeight)
+            .on('mousedown', function() { d3.event.stopPropagation(); });
 
         tooltipItemContainer.selectAll('element-tooltip-item')
             .data(items)
             .enter()
             .append('image')
             .attr('class', 'element-tooltip-item')
-            .attr('x', x + 5)
-            .attr('y', function(d, i) { return y + 5 + (i * 25); })
-            .attr('width', 20)
-            .attr('height', 20)
+            .attr('x', x + itemMargin)
+            .attr('y', function(d, i) { return y + itemMargin + (i * (itemSize + itemMargin)); })
+            .attr('width', itemSize)
+            .attr('height', itemSize)
             .attr('xlink:href', function(d) { return d.url; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
@@ -377,13 +354,17 @@
         if (typeof elem !== 'undefined') { // show element properties
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
+                    let property = getElementDataProperty(elem);
                     let properties = elementsProperties[elementsKeys[i]];
-                    makePropertiesItem( elem.node().id, properties, getElementDataProperty(elem));
+                    let attributes = properties.filter(function(p){ return p.type === property.type; });
+                    if (attributes.length > 0) {
+                        makePropertiesItem(elem.node().id, attributes[0].attribute, property.data);
+                    }
                     break;
                 }
             }
         } else { // show process properties
-            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties, AliceProcessEditor.data.process);
+            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties.attribute, AliceProcessEditor.data.process);
         }
     }
 
@@ -420,58 +401,66 @@
      * @param properties 속성정보목록
      * @param data 데이터속성
      */
-    function makePropertiesItem(id, properties, data) {
+    function makePropertiesItem(id, propertiesDivision, data) {
         const propertiesContainer = document.querySelector('.alice-process-properties-panel');
         propertiesContainer.innerHTML = '';
 
-        for (let i = 0, len = properties.length; i < len; i++) {
-            let property = properties[i];
-            let propertyContainer = document.createElement('p');
-            let labelObject = document.createElement('label');
-            labelObject.htmlFor =  property.attribute;
-            labelObject.textContent = property.name;
-            propertyContainer.appendChild(labelObject);
+        for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
+            let title = document.createElement('h3');
+            title.textContent = propertiesDivision[idx].title;
+            propertiesContainer.appendChild(title);
+            let divideLine = document.createElement('hr');
+            propertiesContainer.appendChild(divideLine);
 
-            let elementObject;
-            if (property.type === 'text') {
-                elementObject = document.createElement('input');
-            } else if (property.type === 'textarea') {
-                elementObject = document.createElement('textarea');
-                elementObject.rows = 5;
-                elementObject.style.resize = 'none';
-            } else if (property.type === 'checkbox') {
-                elementObject = document.createElement('input');
-                elementObject.type = 'checkbox';
-                if (data[property.attribute] && data[property.attribute] === 'Y') {
-                    elementObject.checked = true;
+            const properties = propertiesDivision[idx].items;
+            for (let i = 0, attrLen = properties.length; i < attrLen; i++) {
+                const property = properties[i];
+                let propertyContainer = document.createElement('p');
+                let labelObject = document.createElement('label');
+                labelObject.htmlFor =  property.id;
+                labelObject.textContent = property.name;
+                propertyContainer.appendChild(labelObject);
+
+                let elementObject;
+                if (property.type === 'inputbox') {
+                    elementObject = document.createElement('input');
+                } else if (property.type === 'textarea') {
+                    elementObject = document.createElement('textarea');
+                    elementObject.style.resize = 'none';
+                } else if (property.type === 'checkbox') {
+                    elementObject = document.createElement('input');
+                    elementObject.type = 'checkbox';
+                    if (data[property.id] && data[property.id] === 'Y') {
+                        elementObject.checked = true;
+                    }
+                } else if (property.type === 'select') {
+                    elementObject = document.createElement('select');
+                    const optionList = property['sub-list'];
+                    for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
+                        let option = document.createElement('option');
+                        option.value = optionList[j].id;
+                        option.text = optionList[j].name;
+                        elementObject.appendChild(option);
+                    }
                 }
-            } else if (property.type === 'selectbox') {
-                elementObject = document.createElement('select');
-                const optionList = property['sub-list'].split(',');
-                for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
-                    let option = document.createElement('option');
-                    option.value = optionList[j];
-                    option.text = optionList[j];
-                    elementObject.appendChild(option);
-                }
-            }
-            if (elementObject) {
-                elementObject.id = property.attribute;
-                elementObject.name = property.attribute;
-                if (data[property.attribute] && property.type !== 'checkbox') {
-                    elementObject.value = data[property.attribute];
-                }
-                if (id === AliceProcessEditor.data.process.id && property.attribute === 'name') {
-                    elementObject.addEventListener('keyup', function(event) {
-                        document.querySelector('.process-name').textContent = this.value;
+                if (elementObject) {
+                    elementObject.id = property.id;
+                    elementObject.name = property.id;
+                    if (data[property.id] && property.type !== 'checkbox') {
+                        elementObject.value = data[property.id];
+                    }
+                    if (id === AliceProcessEditor.data.process.id && property.id === 'name') {
+                        elementObject.addEventListener('keyup', function(event) {
+                            document.querySelector('.process-name').textContent = this.value;
+                        });
+                    }
+                    elementObject.addEventListener('change', function(event) {
+                        changePropertiesValue(id);
                     });
+                    propertyContainer.appendChild(elementObject);
                 }
-                elementObject.addEventListener('change', function(event) {
-                    changePropertiesValue(id);
-                });
-                propertyContainer.appendChild(elementObject);
+                propertiesContainer.appendChild(propertyContainer);
             }
-            propertiesContainer.appendChild(propertyContainer);
         }
     }
 
@@ -485,7 +474,19 @@
         setProperties(elem);
     }
 
-    function loadTooltipItems() {
+    /**
+     * tooltip item 에 사용된 이미지 로딩.
+     */
+    function loadItems() {
+        d3.json('../../assets/js/process/processAttribute.json').then(function(data) {
+            processProperties = data;
+            setElementMenu();
+        });
+        d3.json('../../assets/js/process/elementAttribute.json').then(function(data) {
+            elementsProperties = data;
+            elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+        });
+
         const defs = d3.select('svg').append('defs');
         defs.selectAll('pattern').data(tooltipItems)
             .enter()
@@ -499,10 +500,10 @@
             .attr('y', 0)
             .attr('width', 20)
             .attr('height', 20)
-            .attr('xlink:href', function(d) { return d.url; })
+            .attr('xlink:href', function(d) { return d.url; });
     }
 
-    exports.loadTooltipItems = loadTooltipItems;
+    exports.loadItems = loadItems;
     exports.setElementMenu = setElementMenu;
     exports.setActionTooltipItem = setActionTooltipItem;
     Object.defineProperty(exports, '__esModule', {value: true});
