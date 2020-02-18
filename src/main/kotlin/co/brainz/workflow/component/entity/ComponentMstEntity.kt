@@ -20,13 +20,13 @@ data class ComponentMstEntity(
 
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "comp_id")
+        @Column(name = "comp_id", length = 128)
         val compId: String,
 
-        @Column(name = "comp_type")
+        @Column(name = "comp_type", length = 100)
         val compType: String,
 
-        @Column(name = "mapping_id")
+        @Column(name = "mapping_id", length = 128)
         var mappingId: String,
 
         @ManyToOne(fetch = FetchType.LAZY)

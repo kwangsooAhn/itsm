@@ -16,14 +16,14 @@ import javax.persistence.Table
 data class ComponentDataEntity(
 
         @Id
-        @Column(name = "comp_id")
+        @Column(name = "comp_id", length = 128)
         val compId: String,
 
         @Id
-        @Column(name = "attr_id")
+        @Column(name = "attr_id", length = 100)
         val attrId: String,
 
-        @Column(name = "attr_value")
+        @Column(name = "attr_value", length = 512)
         val attrValue: String,
 
         @ManyToOne(fetch = FetchType.LAZY, optional = false)

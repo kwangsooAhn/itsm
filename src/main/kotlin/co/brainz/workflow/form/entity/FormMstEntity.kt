@@ -18,28 +18,28 @@ import javax.persistence.Table
 data class FormMstEntity(
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "form_id")
+        @Column(name = "form_id", length = 128)
         val formId: String,
 
-        @Column(name = "form_name")
+        @Column(name = "form_name", length = 256)
         var formName: String,
 
-        @Column(name = "form_desc")
+        @Column(name = "form_desc", length = 256)
         var formDesc: String? = null,
 
-        @Column(name = "form_status")
+        @Column(name = "form_status", length = 100)
         var formStatus: String? = null,
 
-        @Column(name = "create_dt")
+        @Column(name = "create_dt", nullable = false, updatable = false)
         var createDt: LocalDateTime? = null,
 
-        @Column(name = "create_user_key")
+        @Column(name = "create_user_key", length = 128)
         var createUserKey: String? = null,
 
-        @Column(name = "update_dt")
+        @Column(name = "update_dt", insertable = false)
         var updateDt: LocalDateTime? = null,
 
-        @Column(name = "update_user_key")
+        @Column(name = "update_user_key", length = 128)
         var updateUserKey: String? = null
 
 ): Serializable {
