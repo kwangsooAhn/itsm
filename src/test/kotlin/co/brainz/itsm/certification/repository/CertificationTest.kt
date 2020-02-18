@@ -74,7 +74,7 @@ class CertificationTest {
     fun sendCertifiedMail() {
         userStatusInit()
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        certificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, null)
+        certificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, null, null)
     }
 
     //Valid CertificationCode
