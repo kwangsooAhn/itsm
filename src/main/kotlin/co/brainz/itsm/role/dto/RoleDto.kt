@@ -12,10 +12,10 @@ data class RoleDto(
         var roleId: String?,
         var roleName: String?,
         var roleDesc: String?,
-        var createUserKey: AliceUserEntity?,
+        var createUserName: String?,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         var createDt: LocalDateTime = LocalDateTime.now(),
-        var updateUserKey: AliceUserEntity?,
+        var updateUserName: String?,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         var updateDt: LocalDateTime?,
         var arrAuthId: MutableSet<String>?,

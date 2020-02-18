@@ -31,7 +31,6 @@ open class AliceMetaEntity(
         @JoinColumn(name="create_user_key", nullable = false, updatable = false)
         @ManyToOne(fetch = FetchType.LAZY)
         var createUser: AliceUserEntity? = null,
-        //open var createUserKey: String = "",
 
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         @CreatedDate
@@ -42,7 +41,6 @@ open class AliceMetaEntity(
         @JoinColumn(name="update_user_key", insertable = false)
         @ManyToOne(fetch = FetchType.LAZY)
         var updateUser: AliceUserEntity? = null,
-        //var updateUserKey: String? = null,
 
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         @LastModifiedDate

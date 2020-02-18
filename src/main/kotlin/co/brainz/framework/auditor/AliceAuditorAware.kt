@@ -2,14 +2,14 @@ package co.brainz.framework.auditor
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.AuditorAware
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import java.util.Optional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 /**
  * JPA Auditor @CreatedBy, @LastModifiedBy 자동 설정 클래스
@@ -18,16 +18,16 @@ import java.time.LocalDateTime
 open class AliceAuditorAware: AuditorAware<AliceUserEntity> {
     @Override
     override fun getCurrentAuditor(): Optional<AliceUserEntity> {
+        val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val securityContext = attr.request.getSession(false)?.
                 getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY) as SecurityContext?
 
+        var aliceUserEntity = AliceUserEntity()
+
         if (securityContext != null) {
-            //val aliceUserDto = securityContext.authentication.details as AliceUserDto
-            val aliceUserEntity = securityContext.authentication.details as AliceUserEntity
-            //return Optional.of(aliceUserDto.userKey)
-            return Optional.of(aliceUserEntity)
+            aliceUserEntity = userMapper.toAliceUserEntity(securityContext.authentication.details as AliceUserDto)
         }
-        return Optional.of(AliceUserEntity("","","","","",true,0,null,null,null,null,"",null,"", LocalDateTime.now(),"","","",""))
+        return Optional.of(aliceUserEntity)
     }
 }

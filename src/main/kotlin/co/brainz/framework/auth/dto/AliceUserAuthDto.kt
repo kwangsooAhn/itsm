@@ -10,19 +10,19 @@ import java.time.LocalDateTime
  * 로그인 인증시 인증 상세 정보에 담길 데이터 클래스
  */
 data class AliceUserAuthDto(
-        val userKey: String,
-        val userId: String,
-        val userName: String,
-        val password: String,
-        val email: String,
-        val useYn: Boolean,
-        val tryLoginCount: Int,
-        val expiredDt: LocalDateTime,
-        val oauthKey: String?,
-        val timezone: String,
-        val lang: String,
-        val timeFormat: String,
-        var grantedAuthories: Set<GrantedAuthority>,
-        var menus: Set<AliceMenuEntity>,
-        var urls: Set<AliceUrlEntity>
+        var userKey: String = "",
+        var userId: String = "",
+        var userName: String = "",
+        var password: String = "",
+        var email: String = "",
+        var useYn: Boolean = true,
+        var tryLoginCount: Int = 0,
+        var expiredDt: LocalDateTime = LocalDateTime.now(),
+        var oauthKey: String? = "",
+        var timezone: String = "",
+        var lang: String = "",
+        var timeFormat: String = "",
+        var grantedAuthorises: Set<GrantedAuthority>? = null,
+        var menus: Set<AliceMenuEntity>? = null,
+        var urls: Set<AliceUrlEntity>? = null
 ) : Serializable
