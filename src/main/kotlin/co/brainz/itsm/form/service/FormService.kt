@@ -54,8 +54,8 @@ class FormService(private val providerForm: ProviderForm) {
         }
     }
 
-    fun deleteForm(formId: String) {
-        providerForm.deleteForm(formId)
+    fun deleteForm(formId: String): Boolean {
+        return providerForm.deleteForm(formId)
     }
 
     fun saveFormData(formData: String): Boolean {

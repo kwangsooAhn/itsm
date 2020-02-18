@@ -4,7 +4,6 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.form.service.FormService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -60,15 +59,6 @@ class FormController(private val codeService: CodeService,
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
         model.addAttribute("formId", formId)
         return formDesignerEditPage
-    }
-
-    /**
-     * 폼 삭제.
-     */
-    @DeleteMapping("/{formId}")
-    fun deleteForm(@PathVariable formId: String): String {
-        formService.deleteForm(formId)
-        return formListPage
     }
 
 }

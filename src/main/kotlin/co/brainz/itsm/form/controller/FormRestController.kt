@@ -2,6 +2,7 @@ package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.provider.dto.FormDto
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -33,5 +34,13 @@ class FormRestController(private val formService: FormService) {
     @PutMapping("/data")
     fun saveFormData(@RequestBody formData: String): Boolean {
         return formService.saveFormData(formData)
+    }
+
+    /**
+     * 문서 삭제.
+     */
+    @DeleteMapping("/{formId}")
+    fun deleteForm(@PathVariable formId: String): Boolean {
+        return formService.deleteForm(formId)
     }
 }
