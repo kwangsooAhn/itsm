@@ -43,6 +43,7 @@ menu:
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
+  setting.auth: "Auth management"
   setting.form: "Form"
   setting.process: "Process"
   editMyInfo: "Edit my info"
