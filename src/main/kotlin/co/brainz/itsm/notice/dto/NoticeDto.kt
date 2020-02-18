@@ -1,5 +1,6 @@
 package co.brainz.itsm.notice.dto
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -24,5 +25,6 @@ data class NoticeDto(
     var createUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
-    var fileSeq: List<Long>?
-) : Serializable
+    var aliceUserEntity: AliceUserEntity? = null,
+    var fileSeq: List<Long>? = null
+): Serializable

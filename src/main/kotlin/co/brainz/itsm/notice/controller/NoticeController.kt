@@ -2,8 +2,8 @@ package co.brainz.itsm.notice.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.constants.CodeConstants
+import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeSearchDto
-import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.utility.ConvertParam
@@ -54,8 +54,8 @@ class NoticeController(private val userService: UserService,
      */
     @GetMapping("/list")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
-        var noticeList = emptyList<NoticeEntity>()
-        var topNoticeList = emptyList<NoticeEntity>()
+        var noticeList = mutableListOf<NoticeListDto>()
+        var topNoticeList = mutableListOf<NoticeListDto>()
 
         when (noticeSearchDto.isSearch) {
             true -> {
@@ -115,7 +115,7 @@ class NoticeController(private val userService: UserService,
     @GetMapping("/{noticeId}/view-pop")
     fun getNoticePopUp(@PathVariable noticeId: String, model: Model): String {
 
-        model.addAttribute("noticePopUp", noticeService.findNoticeByNoticeNo(noticeId))
+        model.addAttribute("noticePopUp", noticeService.findPopupNoticeByNoticeNo(noticeId))
         return noticePopUpPage
     }
 }
