@@ -128,7 +128,7 @@
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 
-                "unit": "px" 
+                "unit": "" 
             },
             {
                 "id": "regexp", 
@@ -139,10 +139,9 @@
                     {"id": "none", "name": "None"}, 
                     {"id": "char", "name": "Char"}, 
                     {"id": "num", "name": "Number"},
-                    { "id": "numchar", "name": "Char + Number"},
-                    { "id": "phone", "name": "Phone"}, 
-                    { "id": "email", "name": "Email"},
-                    { "id": "pass", "name": "Password"}
+                    {"id": "numchar", "name": "Char + Number"},
+                    {"id": "phone", "name": "Phone"}, 
+                    {"id": "email", "name": "Email"}
                 ],
                 "code": "", 
                 "unit": "" 
@@ -171,8 +170,1135 @@
                 "code": "", 
                 "unit": "" 
             }
-       ]
+        ]
+    },
+    "textarea": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "rows", 
+                "name": "Rows", 
+                "value": "3", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "placeholder", 
+                "name": "Placeholder", 
+                "value": "", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "outline-width", 
+                "name": "Outline Width", 
+                "value": "1", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "outline-color", 
+                "name": "Outline Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "N", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "length-min", 
+                "name": "Min Length", 
+                "value": "0", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "length-max", 
+                "name": "Max Length", 
+                "value": "30", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ]
     },
     "select": {
-    }
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "option": [
+            {
+                "type": "table",
+                "items": [
+                    { "id": "seq", "name": "Seq", "value": "1"},
+                    { "id": "name", "name": "Name", "value": "option"},
+                    { "id": "value", "name": "Value",  "value": "option"}
+                ],
+                "code": ""
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "N", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "radio": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "direction", 
+                "name": "Direction", 
+                "value": "horizontal", 
+                "type": "select", 
+                "option": [ {"id": "horizontal", "name": "Horizontal"}, {"id": "vertical", "name": "Vertical"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "position", 
+                "name": "Position", 
+                "value": "right", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "option": [
+            {
+                "type": "table",
+                "items": [
+                    { "id": "seq", "name": "Seq", "value": "1"},
+                    { "id": "name", "name": "Name", "value": "option"},
+                    { "id": "value", "name": "Value",  "value": "option"}
+                ],
+                "code": ""
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "N", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "checkbox": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "direction", 
+                "name": "Direction", 
+                "value": "horizontal", 
+                "type": "select", 
+                "option": [ {"id": "horizontal", "name": "Horizontal"}, {"id": "vertical", "name": "Vertical"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "position", 
+                "name": "Position", 
+                "value": "right", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "option": [
+            {
+                "type": "table",
+                "items": [
+                    { "id": "seq", "name": "Seq", "value": "1"},
+                    { "id": "name", "name": "Name", "value": "option"},
+                    { "id": "value", "name": "Value",  "value": "option"}
+                ],
+                "code": ""
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "N", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "label": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "image": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "path", 
+                "name": "Image Path", 
+                "value": "https://placehold.it/800X100", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "width", 
+                "name": "Width", 
+                "value": "800", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "height", 
+                "name": "Height", 
+                "value": "100", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "line": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "width", 
+                "name": "Width", 
+                "value": "1", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "type", 
+                "name": "Type", 
+                "value": "solid", 
+                "type": "select", 
+                "option": [ {"id": "solid", "name": "Line"}, {"id": "dotted", "name": "Dot"}, { "id": "dashed", "name": "Dash"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "date": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "format", 
+                "name": "Format", 
+                "value": "yyyy-MM-dd", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "default", 
+                "name": "Default", 
+                "value": "today", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "Y", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "date-min", 
+                "name": "Min Date", 
+                "value": "1900-01-01", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "date-max", 
+                "name": "Max Date", 
+                "value": "2999-12-31", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "time": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "format", 
+                "name": "Format", 
+                "value": "HH:mm:ss", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "default", 
+                "name": "Default", 
+                "value": "now", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "Y", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "datetime": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Colum", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "format", 
+                "name": "Format", 
+                "value": "yyyy-MM-dd HH:mm:ss", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "default", 
+                "name": "Default", 
+                "value": "now", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "Y", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "date-min", 
+                "name": "Min Date", 
+                "value": "1900-01-01", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "date-max", 
+                "name": "Max Date", 
+                "value": "2999-12-31", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    },
+    "fileupload": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    } 
 }

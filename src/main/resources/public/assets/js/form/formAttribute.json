@@ -1,0 +1,22 @@
+{
+  "form": [
+        {
+            "id": "name", 
+            "name": "Name", 
+            "value": "", 
+            "type": "inputbox"
+        },
+        {
+            "id": "id", 
+            "name": "Id", 
+            "value": "", 
+            "type": "inputbox-readonly"
+        },
+        {
+            "id": "description", 
+            "name": "Description", 
+            "value": "", 
+            "type": "inputbox"
+        }
+    ]
+}

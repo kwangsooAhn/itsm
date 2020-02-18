@@ -10,7 +10,7 @@
           _compProperties = [  //세부속성에서 사용할 제목
               {'type': 'text', 'name': 'Text', 'icon': ''},
               {'type': 'textarea', 'name': 'Text Box', 'icon': ''},
-              {'type': 'list', 'name': 'Dropdown', 'icon': ''},
+              {'type': 'select', 'name': 'Dropdown', 'icon': ''},
               {'type': 'radio', 'name': 'Radio Button', 'icon': ''},
               {'type': 'checkbox', 'name': 'Checkbox', 'icon': ''},
               {'type': 'label', 'name': 'Label', 'icon': ''},
@@ -122,10 +122,23 @@
             obj.id = options.componentId;
             let detailAttr = component.attr[options.type];
             Object.keys(detailAttr).forEach(function(pAttr) {
-                obj[pAttr] = {};
-                Object.keys(detailAttr[pAttr]).forEach(function(attr) {
-                    obj[pAttr][detailAttr[pAttr][attr].id] = detailAttr[pAttr][attr].value;
-                });
+                if (pAttr === 'option') {
+                    let optionArray = [];
+                    for (let i = 0, len = detailAttr[pAttr][0].items.length; i < len; i+=3) {
+                        let optionAttr = {};
+                        for (let j = i; j < i + 3; j++) {
+                            let attr = detailAttr[pAttr][0].items[j];
+                            optionAttr[attr.id] = attr.value;
+                        }
+                        optionArray.push(optionAttr);
+                    }
+                    obj[pAttr] = optionArray;
+                } else {
+                    obj[pAttr] = {};
+                    Object.keys(detailAttr[pAttr]).forEach(function(attr) {
+                        obj[pAttr][detailAttr[pAttr][attr].id] = detailAttr[pAttr][attr].value;
+                    });
+                }
             });
             obj.display.order = Number(elem.getAttribute('data-index'));
             formEditor.changeData(obj);
@@ -141,94 +154,179 @@
                 obj.display.order = componentIndex;
                 formEditor.changeData(obj);
             }
+            if (options.attrs !== undefined) { obj = options.attrs; }
             let img = document.createElement('img'); 
             img.classList.add('move-icon');
             elem.appendChild(img);
             formPanel.appendChild(elem);
         }
         elem.setAttribute('data-type', options.type);
+        if (obj.option !== undefined && obj.option.length > 1) {
+            obj.option.sort(function (a, b) { //현재 객체 배열을 정렬
+                return a.seq < b.seq ? -1 : a.seq > b.seq ? 1 : 0;  
+            });
+        }
         let comp = null;
         switch (options.type) {
             case 'text':
                 comp = createElement(`
                     <div class='field'>
-                        <div class='label'>TEXT</div>
+                        <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
+                        ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.label.text}
+                            <span class='required' style='${obj.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
                     </div>
-                    <div class='field'>
-                        <input type='text' placeholder='' readonly />
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' placeholder='${obj.display.placeholder}' readonly 
+                        style='border-color: ${obj.display["outline-color"]}; border-width: ${obj.display["outline-width"]}px;' 
+                        ${obj.validate.required === "Y" ? "required" : ""} 
+                        max-length=${obj.validate["length-max"]} min-length=${obj.validate["length-min"]} />
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
             case 'textarea':
                 comp = createElement(`
                     <div class='field'>
-                        <div class='label'>TEXT</div>
+                        <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
+                        ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.label.text}
+                            <span class='required' style='${obj.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
                     </div>
-                    <div class='field'>
-                        <textarea placeholder='' rows='4' readonly ></textarea>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <textarea placeholder='${obj.display.placeholder}' rows='${obj.display.rows}' readonly 
+                        style='border-color: ${obj.display["outline-color"]}; border-width: ${obj.display["outline-width"]}px;' 
+                        ${obj.validate.required === "Y" ? "required" : ""}></textarea>
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
-            case 'list':
+            case 'select':
                 comp = createElement(`
                     <div class='field'>
-                        <div class='label'>TEXT</div>
+                        <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
+                        ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.label.text}
+                            <span class='required' style='${obj.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
                     </div>
-                    <div class='field'>
-                        <select>
-                            <option value=''>Option</option>
-                        </select>
-                    </div>`);
-                comp.firstElementChild.style.flexBasis  = '100%';
-                comp.lastElementChild.style.flexBasis = '100%';
+                    <div class='field' style='flex-basis: 100%;'>
+                        <select></select></div>`);
+                let selectbox = comp.querySelector('select');
+                for (let i = 0, len = obj.option.length; i < len; i++) {
+                    let option = document.createElement('option');
+                    option.value = obj.option[i].value + '-' + obj.option[i].seq;
+                    option.text = obj.option[i].name;
+                    selectbox.appendChild(option);
+                }
                 elem.appendChild(comp);
                 break;
             case 'radio':
                 comp = createElement(`
                     <div class='field'>
-                        <div class='label'>TEXT</div>
+                        <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
+                        ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.label.text}
+                            <span class='required' style='${obj.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
                     </div>
-                    <div class='field'>
-                        <input type='radio' name='' value=''/> Option
-                    </div>`);
-                comp.firstElementChild.style.flexBasis  = '100%';
-                comp.lastElementChild.style.flexBasis = '100%';
+                    <div class='field' style='flex-basis: 100%;' id='radio'></div>`);
+                let radio = comp.querySelector('#radio');
+                radio.classList.add(obj.display.direction);
+                for (let i = 0, len = obj.option.length; i < len; i++) {
+                    let option = document.createElement('div');
+                    option.classList.add('field-radio');
+                    if (obj.display.direction === 'horizontal') { option.style.display = 'inline-block'; }
+                    radio.appendChild(option);
+                    
+                    let optionRadio = document.createElement('input');
+                    optionRadio.setAttribute('type', 'radio');
+                    optionRadio.setAttribute('id', obj.option[i].value + '-' + obj.option[i].seq);
+                    optionRadio.value = obj.option[i].value;
+                    optionRadio.name = obj.option[i].name;
+                    
+                    if (i === 0) { optionRadio.setAttribute('checked', 'checked'); }
+                    
+                    let optionLabel = document.createElement('label');
+                    optionLabel.setAttribute('for', obj.option[i].value + '-' + obj.option[i].seq);
+                    optionLabel.textContent = obj.option[i].name;
+                    
+                    if (obj.display.position === 'left') {
+                        option.appendChild(optionLabel);
+                        option.appendChild(optionRadio);
+                    } else {
+                        option.appendChild(optionRadio);
+                        option.appendChild(optionLabel);
+                    }
+                }
                 elem.appendChild(comp);
                 break;
             case 'checkbox':
                 comp = createElement(`
-                        <div class='field'>
-                            <div class='label'>TEXT</div>
+                    <div class='field'>
+                        <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
+                        ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.label.text}
+                            <span class='required' style='${obj.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                         </div>
-                        <div class='field'>
-                            <input type='checkbox' name='' value=''/> Option
-                        </div>`);
-                    comp.firstElementChild.style.flexBasis  = '100%';
-                    comp.lastElementChild.style.flexBasis = '100%';
-                    elem.appendChild(comp);
+                    </div>
+                    <div class='field' style='flex-basis: 100%;' id='chkbox'></div>`);
+                let chkbox = comp.querySelector('#chkbox');
+                chkbox.classList.add(obj.display.direction);
+                for (let i = 0, len = obj.option.length; i < len; i++) {
+                    let option = document.createElement('div');
+                    option.classList.add('field-checkbox');
+                    if (obj.display.direction === 'horizontal') { option.style.display = 'inline-block'; }
+                    chkbox.appendChild(option);
+                    
+                    let optionChk = document.createElement('input');
+                    optionChk.setAttribute('type', 'checkbox');
+                    optionChk.setAttribute('id', obj.option[i].value + '-' + obj.option[i].seq);
+                    optionChk.value = obj.option[i].value;
+                    optionChk.name = obj.option[i].name;
+                    
+                    if (i === 0) { optionChk.setAttribute('checked', 'checked'); }
+                    
+                    let optionLabel = document.createElement('label');
+                    optionLabel.setAttribute('for', obj.option[i].value + '-' + obj.option[i].seq);
+                    optionLabel.textContent = obj.option[i].name;
+                    
+                    if (obj.display.position === 'left') {
+                        option.appendChild(optionLabel);
+                        option.appendChild(optionChk);
+                    } else {
+                        option.appendChild(optionChk);
+                        option.appendChild(optionLabel);
+                    }
+                }
+                elem.appendChild(comp);
                 break;
             case 'label':
                 comp = createElement(`
                     <div class='field' style='flex-basis: 100%;'>
-                        <div class='label'>TEXT</div>
+                        <div class='label'style='color: ${obj.display.color}; font-size: ${obj.display.size}px; text-align: ${obj.display.align}; 
+                        ${obj.display.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.display.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.display.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.display.text}</div>
                     </div>`);
                 elem.appendChild(comp);
                 break;
             case 'image':
                 comp = createElement(`
                     <div class='field' style='flex-basis: 100%;'>
-                        <img src='https://placehold.it/800X100' alt=''>
+                        <img src='${obj.display.path}' alt='' width='${obj.display.width}' height='${obj.display.height}'>
                     </div>`);
                 elem.appendChild(comp);
                 break;
             case 'line':
                 comp = createElement(`
                     <div class='field' style='flex-basis: 100%;'>
-                        <hr>
+                        <hr style='border: '${obj.display.type} ${obj.display.width}px  ${obj.display.color};'>
                     </div>`);
                 elem.appendChild(comp);
                 break;
@@ -236,39 +334,48 @@
                 //TODO: datepicker 추가
                 comp = createElement(`
                     <div class='field'>
-                        <div class='label'>TEXT</div>
+                        <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
+                        ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.label.text}
+                            <span class='required' style='${obj.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
                     </div>
-                    <div class='field'>
+                    <div class='field' style='flex-basis: 100%;'>
                         <input type='text' placeholder='yyyy-MM-dd' readonly />
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
             case 'time':
                 //TODO: datepicker 추가
                 comp = createElement(`
                     <div class='field'>
-                        <div class='label'>TEXT</div>
+                        <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
+                        ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.label.text}
+                            <span class='required' style='${obj.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
                     </div>
-                    <div class='field'>
+                    <div class='field' style='flex-basis: 100%;'>
                         <input type='text' placeholder='HH:mm:ss' readonly />
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
             case 'datetime':
                 //TODO: datepicker 추가
                 comp = createElement(`
                     <div class='field'>
-                        <div class='label'>TEXT</div>
+                        <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
+                        ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${obj.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${obj.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${obj.label.text}
+                            <span class='required' style='${obj.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
                     </div>
-                    <div class='field'>
+                    <div class='field' style='flex-basis: 100%;'>
                         <input type='text' placeholder='yyyy-MM-dd HH:mm:ss' readonly />
                     </div>`);
-                comp.firstElementChild.style.flexBasis  = (_defaultColWidth * 2) + '%';
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * 10) + '%';
                 elem.appendChild(comp);
                 break;
             case 'fileupload':
@@ -287,6 +394,14 @@
                 break;
             default:
                 console.info('Component does not exist.');
+        }
+        if (obj.label !== undefined) {
+            if (obj.label.position === 'hidden') {
+                comp.firstElementChild.style.display = 'none';
+            } else if (obj.label.position === 'left') {
+                comp.firstElementChild.style.flexBasis = (_defaultColWidth * Number(obj.label.column)) + '%';
+                comp.lastElementChild.style.flexBasis = (_defaultColWidth * Number(obj.display.column)) + '%';
+            }
         }
         comp.setAttribute('tabIndex', elem.getAttribute('data-index'));
         
@@ -349,12 +464,43 @@
             groupDiv.classList.add('property-group');
             groupDiv.textContent = group;
             propertyPanel.appendChild(groupDiv);
-            let buttonExist = false;
-            let fieldButtonDiv = null;
+            
+            let buttonExist = false,
+                fieldButtonDiv = null,
+                groupTb = null;
+            if (group === 'option') {
+                let plusButton = document.createElement('button');
+                plusButton.classList.add('plus');
+                plusButton.addEventListener('click', function() { //옵션 추가
+                    let tb = this.parentNode.querySelector('table');
+                    let row = document.createElement('tr');
+                    row.innerHTML = tb.lastElementChild.innerHTML;
+                    tb.appendChild(row);
+                });
+                groupDiv.appendChild(plusButton);
+                let minusButton = document.createElement('button');
+                minusButton.classList.add('minus');
+                minusButton.addEventListener('click', function() { //옵션 삭제
+                    let tb = this.parentNode.querySelector('table');
+                    let rowCount = tb.rows.length;
+                    for (let i = 1; i < rowCount; i++) {
+                        let row = tb.rows[i];
+                        let chkbox = row.cells[0].childNodes[0];
+                        if (chkbox.checked && rowCount > 2) {
+                            tb.deleteRow(i);
+                            rowCount--;
+                            i--;
+                        }
+                    }
+                });
+                groupDiv.appendChild(minusButton);
+                
+                groupTb = document.createElement('table');
+                groupDiv.appendChild(groupTb);
+            }
             if (detailAttr[group] !== null && typeof(detailAttr[group]) === 'object')  { //세부 속성
                 Object.keys(detailAttr[group]).forEach(function(field) {
                     let fieldArr = detailAttr[group][field];
-                    
                     let fieldGroupDiv = null,
                         propertyName = null,
                         propertyValue = null;
@@ -371,7 +517,7 @@
                             fieldGroupDiv.appendChild(fieldButtonDiv);
                             buttonExist = true;
                         }
-                    } else {
+                    } else if (fieldArr.id !== undefined) {
                         fieldGroupDiv = document.createElement('div');
                         fieldGroupDiv.classList.add('property-field');
                         fieldGroupDiv.setAttribute('id', fieldArr.id);
@@ -518,6 +664,40 @@
                                         this.setAttribute('data-value', 'Y');
                                     }
                                 });
+                            }
+                            break;
+                        case 'table':
+                            for (let i = 0, len = fieldArr.items.length; i < len; i+=3) {
+                                if (i === 0) {
+                                    let headerRow = document.createElement('tr');
+                                    groupTb.appendChild(headerRow);
+                                    
+                                    let headerCell = document.createElement('th');
+                                    headerRow.appendChild(headerCell);
+                                    for (let j = i; j < i + 3; j++) {
+                                        headerCell = document.createElement('th');
+                                        headerCell.innerHTML = fieldArr.items[j].name;
+                                        headerRow.appendChild(headerCell);
+                                    }
+                                }
+                                let row = document.createElement('tr');
+                                groupTb.appendChild(row);
+                                
+                                let cell = document.createElement('td');
+                                var chkbox = document.createElement('input');
+                                chkbox.setAttribute('type', 'checkbox');
+                                cell.appendChild(chkbox);
+                                row.appendChild(cell);
+                                
+                                for (let j = i; j < i + 3; j++) {
+                                    cell = document.createElement('td');
+                                    cell.setAttribute('id', fieldArr.items[j].id);
+                                    let inputCell = document.createElement('input');
+                                    inputCell.setAttribute('type', 'text');     
+                                    inputCell.setAttribute('value', fieldArr.items[j].value);
+                                    cell.appendChild(inputCell);
+                                    row.appendChild(cell);
+                                }
                             }
                             break;
                     }

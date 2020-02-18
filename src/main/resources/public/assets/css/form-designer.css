@@ -10974,16 +10974,27 @@ ul, li {
   height: 25px;
 }
 
-.component .group .field textarea {
+.component .group .field textarea, .component .group select {
   width: 100%;
+}
+
+.component .group .field span[class*="required"] {
+  color: #fc5f6b;
+}
+
+.component .group .field.horizontal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .component[data-type]:not([data-type="editbox"]):hover {
   cursor: pointer;
-}
-
-.component[data-type]:not([data-type="editbox"]) .group {
-  pointer-events: none;
 }
 
 .component[data-type="editbox"]:hover {
@@ -11020,6 +11031,46 @@ ul, li {
   border-bottom: 1px solid #707070;
   font-size: 18px;
   font-weight: bold;
+}
+
+.property-group[id*="option"] button {
+  width: 25px;
+  height: 25px;
+  outline: 0;
+  margin-right: 2px;
+  border: 1px solid #4C5264;
+  float: right;
+}
+
+.property-group button[class*="plus"]::before {
+  content: '+';
+}
+
+.property-group button[class*="minus"]::before {
+  content: '-';
+}
+
+.property-group table {
+  border-collapse: collapse;
+  font-size: 14px;
+  width: 100%;
+  margin: 10px 0px;
+  text-align: center;
+}
+
+.property-group th, .property-group td {
+  border: 1px solid #ccc;
+}
+
+.property-group th {
+  font-weight: bold;
+}
+
+.property-group td input[type=text] {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
 }
 
 .property-field {

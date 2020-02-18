@@ -34,8 +34,8 @@
                 menu.classList.add('on');
             }
             menu.scrollTop = 0;
-            let controlMenu = menu.querySelector('#context-menu-control');
-            let componentMenu = menu.querySelector('#context-menu-component');
+            let controlMenu = document.getElementById('context-menu-control');
+            let componentMenu = document.getElementById('context-menu-component');
             if (state === 1 && !controlMenu.classList.contains('active')) {
                 controlMenu.classList.add('active');
                 componentMenu.classList.remove('active');
@@ -55,7 +55,7 @@
                 selectedItem = null;
                 selectedItemIdx = -1;
                 menu.classList.remove('on');
-                let componentMenu = menu.querySelector('#context-menu-component');
+                let componentMenu = document.getElementById('context-menu-component');
                 for (let i = 0, len = componentMenu.children.length; i < len; i++) {
                     let item = componentMenu.children[i];
                     if (item.style.display === 'none') {
@@ -76,7 +76,7 @@
          * @return {Boolean}
          */
         const menuItemSearch = function (searchText) {
-            let componentMenu = menu.querySelector('#context-menu-component');
+            let componentMenu = document.getElementById('context-menu-component');
             let rslt = false;
             let tempText = searchText.replace('/', '');
             selectedItems = [];

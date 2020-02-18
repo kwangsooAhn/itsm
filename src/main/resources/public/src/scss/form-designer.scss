@@ -162,22 +162,22 @@ ul, li {
             width: 100%; 
             height: 25px;
         }
-        .field textarea {
+        .field textarea, select {
             width: 100%;
+        }
+        .field span[class*="required"] { color:#fc5f6b; }
+        .field.horizontal { 
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
     }
 }
 
-.component[data-type]:not([data-type="editbox"]):hover { 
-    cursor: pointer; 
-}
-.component[data-type]:not([data-type="editbox"]) .group { 
-    pointer-events: none;
-}
+.component[data-type]:not([data-type="editbox"]):hover { cursor: pointer; }
+//.component[data-type]:not([data-type="editbox"]) .group { pointer-events: none; }
 
-.component[data-type="editbox"]:hover { 
-    cursor: text; 
-}
+.component[data-type="editbox"]:hover { cursor: text; }
 
 .group[contenteditable=true]:empty::before {
     content: attr(placeholder); 
@@ -208,6 +208,24 @@ ul, li {
     border-bottom: 1px solid #707070;
     font-size: 18px; 
     font-weight: bold;
+    &[id*="option"] button {
+        width: 25px;
+        height: 25px;
+        outline: 0;
+        margin-right: 2px;
+        border: 1px solid #4C5264;
+        float: right;
+    }
+    button[class*="plus"]::before {
+        content: '+';
+    }
+    button[class*="minus"]::before {
+        content: '-';
+    }
+    table { border-collapse: collapse; font-size: 14px; width: 100%; margin: 10px 0px; text-align: center;}
+    th, td { border: 1px solid #ccc; }
+    th { font-weight: bold; }
+    td input[type=text] { width:100%; height:100%; border: none; text-align: center; }
 }
 .property-field {
     display: flex;
