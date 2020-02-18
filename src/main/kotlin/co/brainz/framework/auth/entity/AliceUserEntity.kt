@@ -58,7 +58,7 @@ data class AliceUserEntity(
         override var createUserKey: String = UserConstants.CREATE_USER_ID,
 
         @Column(name = "status", length = 100)
-        val status: String = UserConstants.Status.CERTIFIED.code,
+        var status: String = UserConstants.Status.CERTIFIED.code,
 
         @Column(name = "certification_code", length = 128)
         val certificationCode: String? = null,

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div id="container" align="center">
+        <table style="text-align: left;">
+            <tbody id="tbody">
+            <tr>
+                <th th:text="#{user.id}+'*'"/>
+                <td><input type="text" id="userId" name="userId" maxlength="100" required="required"/>
+            </tr>
+            <tr>
+                <th th:text="#{user.name}+'*'"/>
+                <td><input type="text" id="userName" name="userName" maxlength="100" required="required"/>
+            </tr>
+            <tr>
+                <th th:text="#{user.email}+'*'"/>
+                <td><input type="text" id="email" name="email" maxlength="100" required="required"/>
+            </tr>
+            <tr>
+                <th th:text="#{user.position}"/>
+                <td><input type="text" id="position" name="position" maxlength="100"/>
+            </tr>
+            <tr>
+                <th th:text="#{user.department}"/>
+                <td><input type="text" id="department" name="department" maxlength="100"/>
+            </tr>
+            <tr>
+                <th th:text="#{user.officeNumber}"/>
+                <td><input type="text" id="officeNumber" name="officeNumber" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
+            </tr>
+            <tr>
+                <th th:text="#{user.mobileNumber}"/>
+                <td><input type="text" id="mobileNumber" name="mobileNumber" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
+            </tr>
+            <tr>
+                <th th:text="#{user.timezone}+'*'"/>
+                <td><select name="timezone" id="timezone"><option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}"
+                                                                  th:text="${tzData.timezoneId}"></option></select></td>
+            </tr>
+            <tr>
+                <th th:text="#{user.timeFormat}+'*'"/></th>
+                <td>
+                    <span th:text="#{user.date}"></span>
+                    <select name="date" id="date"><option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}"
+                                                          th:text="${dateData.codeValue}"></option></select>
+                    <span th:text="#{user.time}"></span>
+                    <select name="time" id="time"><option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}"
+                                                          th:text="${timeData.code}"></option></select>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{user.lang}+'*'"/>
+                <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
+                                                          th:text="${itemData.codeValue}"></option></select></td>
+            </tr>
+            </tbody>
+        </table>
+        <button style="margin-top: 25px;" onclick="userRegister()" th:text="#{user.reg}"></button>
+    </div>
+    <br>
+    <br>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        function onlyNumber(event) {
+            event = event || window.event;
+            var keyID = (event.which) ? event.which : event.keyCode;
+            if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
+                || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) {
+                return;
+            } else {
+                return false;
+            }
+        }
+
+        function removeChar(event) {
+            event = event || window.event;
+            var keyID = (event.which) ? event.which : event.keyCode;
+            if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) {
+                return;
+            } else {
+                event.target.value = event.target.value.replace(/[^0-9]/g, "");
+            }
+        }
+
+        const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_USER_ID_DUPLICATION = '1';
+        const STATUS_ERROR_EMAIL_DUPLICATION = '3';
+
+        function userRegister() {
+
+            if (!validation()) {
+                return false;
+            }
+
+            const data = {
+                userId: document.getElementById('userId').value,
+                userName: document.getElementById('userName').value,
+                email: document.getElementById('email').value,
+                position: document.getElementById('position').value,
+                department: document.getElementById('department').value,
+                officeNumber: document.getElementById('officeNumber').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                timezone: document.getElementById('timezone').value,
+                lang: document.getElementById('lang').value,
+                timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value
+            };
+            registSubmit('POST', [[@{/rest/users}]], data);
+        }
+
+        function registSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            alert('사용자가 등록되었습니다.');
+                            window.location.reload();
+                            break;
+                        case STATUS_ERROR_USER_ID_DUPLICATION:
+                            alert('동일한 아이디가 존재합니다.');
+                            break;
+                        case STATUS_ERROR_EMAIL_DUPLICATION:
+                            alert('이미 사용중인 이메일입니다.');
+                            break;
+                        default :
+                            alert('사용자 등록이 실패되었습니다.');
+                            break;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        function validation() {
+            if (document.getElementById('userId').value === '') {
+                alert('아이디를 입력해주세요.');
+                return false;
+            }
+            if (document.getElementById('userName').value === '') {
+                alert('이름을 입력해주세요.');
+                return false;
+            }
+            if (document.getElementById('email').value === '') {
+                alert('이메일을 입력해주세요.');
+                return false;
+            }
+            if (!emailValidation(document.getElementById('email').value)) {
+                return false;
+            }
+            return true;
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

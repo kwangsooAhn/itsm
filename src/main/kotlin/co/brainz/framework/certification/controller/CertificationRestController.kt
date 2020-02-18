@@ -20,9 +20,9 @@ class CertificationRestController(private val certificationService: Certificatio
 
     @PostMapping("/register")
     fun setUser(@RequestBody signUpDto: SignUpDto): String {
-        val result = certificationService.insertUser(signUpDto)
+        val result = certificationService.insertUser(signUpDto, UserConstants.USER_ID)
         if (result == UserConstants.SignUpStatus.STATUS_SUCCESS.code) {
-            certificationService.sendMail(signUpDto.userId, signUpDto.email, UserConstants.SendMailStatus.CREATE_USER.code)
+            certificationService.sendMail(signUpDto.userId, signUpDto.email, UserConstants.SendMailStatus.CREATE_USER.code, null)
         }
         return result
     }
@@ -30,7 +30,7 @@ class CertificationRestController(private val certificationService: Certificatio
     @GetMapping("/sendCertifiedMail")
     fun sendCertifiedMail() {
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        certificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, UserConstants.SendMailStatus.CREATE_USER.code)
+        certificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, UserConstants.SendMailStatus.CREATE_USER.code, null)
     }
 
 }
