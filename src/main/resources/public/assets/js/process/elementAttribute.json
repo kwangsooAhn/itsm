@@ -12,7 +12,7 @@
       ]
     },
     {
-      "type": "startMessage",
+      "type": "messageStart",
       "attribute": [
         {
           "title": "Data",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "type": "startTimer",
+      "type": "timerStart",
       "attribute": [
         {
           "title": "Data",
@@ -55,7 +55,7 @@
       ]
     },
     {
-      "type": "endMessage",
+      "type": "messageEnd",
       "attribute": [
         {
           "title": "Data",
