@@ -563,7 +563,9 @@
     function GroupElement(x, y) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement.classed('group', true);
+        this.nodeElement
+            .classed('artifact', true)
+            .classed('group', true);
         return this;
     }
 
@@ -585,7 +587,7 @@
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
-            .attr('class', 'node annotation')
+            .attr('class', 'node artifact annotation')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(d3.drag()
@@ -802,7 +804,6 @@
         console.debug(JSON.parse(data));
         AliceProcessEditor.data = JSON.parse(data);
         document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
-        AliceProcessEditor.setElementMenu();
     }
 
     /**
@@ -816,7 +817,7 @@
         workflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
-        AliceProcessEditor.loadTooltipItems();
+        AliceProcessEditor.loadItems();
         AliceProcessEditor.initUtil();
 
         // load process data.
