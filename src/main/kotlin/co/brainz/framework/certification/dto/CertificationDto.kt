@@ -6,5 +6,6 @@ data class CertificationDto(
         val userId: String,
         val email: String,
         val certificationCode: String,
-        val status: String
+        val status: String,
+        val password: String?
 ): Serializable

@@ -3,8 +3,10 @@ package co.brainz.itsm.user.controller
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceAuthProvider
+import co.brainz.framework.certification.dto.SignUpDto
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.certification.service.CertificationService
+import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.user.dto.UserUpdateDto
 import org.slf4j.Logger
@@ -14,6 +16,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.LocaleResolver
 import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import kotlin.random.Random
 
 /**
  * 사용자 관리 데이터 처리 클래스
@@ -32,7 +36,8 @@ class UserRestController(
     private val certificationService: CertificationService,
     private val userService: UserService,
     private val localeResolver: LocaleResolver,
-    private val aliceAuthProvider: AliceAuthProvider
+    private val aliceAuthProvider: AliceAuthProvider,
+    private val cryptoRsa: CryptoRsa
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -75,10 +80,11 @@ class UserRestController(
             certificationService.sendMail(
                 user.userId,
                 user.email!!,
-                UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code
+                UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
+                null
             )
         } else {
-            certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code)
+            certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code, null)
         }
         localeResolver.setLocale(request, response, Locale(user.lang))
         if (SecurityContextHolder.getContext().authentication != null) {
@@ -106,5 +112,27 @@ class UserRestController(
             authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
         )
         return usernamePasswordAuthenticationToken
+    }
+
+    /**
+     * 사용자를 등록한다.
+     */
+    @PostMapping("/", "")
+    fun createUser(@RequestBody signUpDto: SignUpDto): String {
+        val fromNum = 1000000000
+        val toNum = 9999999999
+        val random = Random
+        val randomNumber = random.nextLong(toNum - fromNum) + fromNum
+        val password = randomNumber.toString()
+        val publicKey = cryptoRsa.getPublicKey()
+
+        // 패스워드 암호화
+        signUpDto.password = cryptoRsa.encrypt(publicKey, password)
+
+        val result = certificationService.insertUser(signUpDto, UserConstants.ADMIN_ID)
+        if (result == UserConstants.SignUpStatus.STATUS_SUCCESS.code) {
+            certificationService.sendMail(signUpDto.userId, signUpDto.email, UserConstants.SendMailStatus.CREATE_USER_ADMIN.code, password)
+        }
+        return result
     }
 }
