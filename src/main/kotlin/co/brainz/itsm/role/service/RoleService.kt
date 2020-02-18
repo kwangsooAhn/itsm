@@ -93,8 +93,7 @@ class RoleService(
     /**
      * 역할 상세 정보 조회
      */
-    fun selectDetailRoles(roleId: String): List<RoleDto> {
-        val dto = mutableListOf<RoleDto>()
+    fun selectDetailRoles(roleId: String): RoleDto {
         val roleInfo = roleRepository.findByRoleId(roleId)
         val authList = mutableListOf<AliceAuthSimpleDto>()
 
@@ -102,20 +101,17 @@ class RoleService(
             authList.add(AliceAuthSimpleDto(roleAuthMap.auth.authId, roleAuthMap.auth.authName, roleAuthMap.auth.authDesc))
         }
 
-        dto.add(
-                RoleDto(
-                        roleInfo.roleId,
-                        roleInfo.roleName,
-                        roleInfo.roleDesc,
-                        roleInfo.createUser,
-                        roleInfo.createDt,
-                        roleInfo.updateUser,
-                        roleInfo.updateDt,
-                        null,
-                        authList
-                )
+        return RoleDto(
+            roleInfo.roleId,
+            roleInfo.roleName,
+            roleInfo.roleDesc,
+            roleInfo.createUser?.userName,
+            roleInfo.createDt,
+            roleInfo.updateUser?.userName,
+            roleInfo.updateDt,
+            null,
+            authList
         )
-        return dto
     }
 
     /**
