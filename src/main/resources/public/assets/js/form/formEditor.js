@@ -34,8 +34,8 @@
                 menu.classList.add('on');
             }
             menu.scrollTop = 0;
-            let controlMenu = menu.querySelector('#context-menu-control');
-            let componentMenu = menu.querySelector('#context-menu-component');
+            let controlMenu = document.getElementById('context-menu-control');
+            let componentMenu = document.getElementById('context-menu-component');
             if (state === 1 && !controlMenu.classList.contains('active')) {
                 controlMenu.classList.add('active');
                 componentMenu.classList.remove('active');
@@ -55,7 +55,7 @@
                 selectedItem = null;
                 selectedItemIdx = -1;
                 menu.classList.remove('on');
-                let componentMenu = menu.querySelector('#context-menu-component');
+                let componentMenu = document.getElementById('context-menu-component');
                 for (let i = 0, len = componentMenu.children.length; i < len; i++) {
                     let item = componentMenu.children[i];
                     if (item.style.display === 'none') {
@@ -76,7 +76,7 @@
          * @return {Boolean}
          */
         const menuItemSearch = function (searchText) {
-            let componentMenu = menu.querySelector('#context-menu-component');
+            let componentMenu = document.getElementById('context-menu-component');
             let rslt = false;
             let tempText = searchText.replace('/', '');
             selectedItems = [];
@@ -142,7 +142,7 @@
         const getPosition = function(e) {
             let posX = 0;
             let posY = 0;
-            if (!e) e = window.event;
+            if (!e) { e = window.event; }
             if (e.type === 'keyup') {
                 let rect = e.target.getBoundingClientRect();
                 posX = rect.left + 10;
@@ -160,7 +160,7 @@
         };
         
         /**
-         * 컨텍스트 메뉴 scroll 
+         * 컨텍스트 메뉴 scroll
          */
         const scrollMenu = function() {
             let contextHeight = menu.offsetHeight;
@@ -173,7 +173,7 @@
                 menu.scrollTop = contextOffset;
             }
         };
-        
+
         /**
          * 컨텍스트 메뉴 위치 조정.
          * 
@@ -266,7 +266,7 @@
             }
             isCtrlPressed = false;
             
-            if (selectedItem && (keyCode === KEYCODE.ARROW_UP || keyCode === KEYCODE.ARROW_DOWN)) return;
+            if (selectedItem && (keyCode === KEYCODE.ARROW_UP || keyCode === KEYCODE.ARROW_DOWN)) { return; }
             if (selectedItem && keyCode === KEYCODE.ENTER) {
                 selectedItems = [];
                 selectedItem = null;
@@ -278,7 +278,7 @@
                 let box = itemInContext.querySelector('[contenteditable=true]');
                 if (box) {
                     let text = box.textContent;
-                    if (text.length > 0 && text.charAt(0) !== '/') return;
+                    if (text.length > 0 && text.charAt(0) !== '/') { return; }
                     if (text.length > 0 && menuItemSearch(text)) {
                         toggleMenuOn(2);
                         positionMenu(e);
@@ -290,6 +290,7 @@
         };
         
         const onRightClickHandler = function(e) {
+            if (component.getSelectedComponentId !== '' && clickInsideElement(e, 'panel-property')) { return; }
             if (itemInContext) { //기존 eidtbox에서 검색을 시도한 경우 초기화
                 let box = itemInContext.querySelector('[contenteditable=true]');
                 if (box && box.textContent.length > 0) {
@@ -312,6 +313,7 @@
         };
         
         const onLeftClickHandler = function(e) {
+            if (component.getSelectedComponentId !== '' && clickInsideElement(e, 'panel-property')) { return; }
             let clickedElem = clickInsideElement(e, 'context-item-link');
             if (clickedElem) { //contex 메뉴 클릭
                 e.preventDefault();
@@ -327,7 +329,7 @@
                     component.hidePropertyPanel();
                 }
                 let button = e.button ? e.button : e.which;
-                if (button === 1) { 
+                if (button === 1) {
                     itemInContext = clickInsideElement(e, 'component');
                     if (itemInContext) {
                         let compType = itemInContext.getAttribute('data-type');
@@ -373,7 +375,7 @@
         };
         
         const init = function() {
-            menu = document.querySelector('#context-menu');
+            menu = document.getElementById('context-menu');
             itemInContext = menu;
             menu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
                 let d = -e.deltaY || e.detail;
@@ -411,39 +413,44 @@
             attrs.isNew = false; //수정
         }
         let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: true});
-        if (type !== 'editbox') {
+        if (comp !== null && type !== 'editbox') {
             addEditbox(comp.id, 'down');
         }
     }
-    
+
     /**
      * elemId 선택한 element Id를 기준으로 위, 아래 editbox 추가
-     * 
+     *
      * @param elemId 선택한 element Id
      * @param direction 방향 (up, down)
      */
     function addEditbox(elemId, direction) {
         let elem = document.getElementById(elemId);
-        if (elem === null) return;
-        
+        if (elem === null) { return; }
         let editbox = component.add({type: 'editbox', isFocus: false});
         let elemIdx = Number(elem.getAttribute('data-index'));
+        let tempArr = formEditor.data.components.slice();
+        
         if (direction === 'up') {
             let comps = document.querySelectorAll('.component');
             let editboxHTML = editbox.innerHTML;
-            for (let i = comps.length - 1; i >= elemIdx; i--) {
+            for (let i = comps.length - 1; i >= elemIdx - 1; i--) {
                 let cur = comps[i];
                 let prev = comps[i - 1];
-                if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
+                if (cur.getAttribute('data-type') !== prev.getAttribute('data-type') && i > (elemIdx - 1)) {
                     cur.innerHTML = prev.innerHTML;
                     cur.setAttribute('data-type', prev.getAttribute('data-type'));
+                    formEditor.data.components[i] = tempArr[i - 1];
+                    formEditor.data.components[i].id = cur.id;
+                    formEditor.data.components[i].display.order = (i + 1);
                 }
-                if (i == elemIdx) {
-                    prev.innerHTML = editboxHTML;
-                    prev.setAttribute('data-type', 'editbox');
-                    prev.querySelector('.group').focus();
+                if (i == (elemIdx - 1)) {
+                    cur.innerHTML = editboxHTML;
+                    cur.setAttribute('data-type', 'editbox');
+                    formEditor.data.components[i] = { id: cur.id, type: 'editbox', display: { order: (i + 1) } };
+                    cur.querySelector('.group').focus();
                 }
-                
+
             }
         } else {
             if ((elemIdx + 1) !== Number(editbox.getAttribute('data-index'))) {
@@ -452,13 +459,17 @@
                 for (let i = comps.length - 1; i >= elemIdx; i--) {
                     let cur = comps[i];
                     let prev = comps[i - 1];
-                    if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
+                    if (cur.getAttribute('data-type') !== prev.getAttribute('data-type') && i > elemIdx) {
                         cur.innerHTML = prev.innerHTML;
                         cur.setAttribute('data-type', prev.getAttribute('data-type'));
+                        formEditor.data.components[i] = tempArr[i - 1];
+                        formEditor.data.components[i].id = cur.id;
+                        formEditor.data.components[i].display.order = (i + 1);
                     }
-                    if (i == elemIdx) {
+                    if (i === elemIdx) {
                         cur.innerHTML = editboxHTML;
                         cur.setAttribute('data-type', 'editbox');
+                        formEditor.data.components[i] = { id: cur.id, type: 'editbox', display: { order: (i + 1) } };
                         cur.querySelector('.group').focus();
                     }
                 }
@@ -467,16 +478,62 @@
             }
         }
     }
-    
     /**
      * 폼 디자이너 저장
      */
     function saveForm() {
+
+        //dummy data
+        var formInfo = {
+            id: '40288ab27051cb31017051cfcd9c0002',
+            name: 'test',
+            desc: 'zzzzzz'
+        };
+        var collections = [
+            {
+                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                type: 'text',
+                label: {
+                    position: 'left',
+                    column: 2,
+                    size: 12,
+                    color: '#ffffff',
+                    bold: 'Y'
+                }
+            },
+            {
+                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                type: 'textarea',
+                display: {
+                    column: 10,
+                    order: 3
+                },
+                validate: {
+                    required: 'N'
+                },
+                option: [{
+                    seq: 1,
+                    name: 'ITSM팀',
+                    value: 'itsm'
+                },{
+                    seq: 2,
+                    name: '인프라웹팀',
+                    value: 'infraweb'
+                }]
+            }
+        ];
+        var data = {
+            form: formInfo,
+            collections: collections
+        };
+
+        console.log(JSON.stringify(data));
+
         aliceJs.sendXhr({
-            method: 'POST',
+            method: 'PUT',
             url: '/rest/forms/data',
             callbackFunc: function(xhr) {
-                if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
+                if (xhr.responseText) {
                     alert('저장되었습니다.');
                 } else {
                     alert('저장실패');
@@ -486,14 +543,14 @@
             params: JSON.stringify(data)
         });
     }
-    
+
     /**
      * 작업 취소
      */
     function undoForm() {
         //TODO: 작업 취소
     }
-    
+
     /**
      * 작업 재실행
      */
@@ -521,10 +578,10 @@
     function importForm() {
         //TODO: import
     }
-    
+
     /**
      * 데이터 조회
-     * 
+     *
      * @param id 컴포넌트 id
      * @return {Object} component 정보
      */
@@ -535,10 +592,10 @@
         }
         return null;
     }
-    
+
     /**
      * 데이터 추가/수정
-     * 
+     *
      * @param compInfo 컴포넌트 정보
      */
     function changeData(compInfo) {
@@ -546,6 +603,7 @@
         for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
             let comp = formEditor.data.components[i];
             if (comp.id === compInfo.id) {//수정
+                formEditor.data.components[i] = compInfo;
                 isExist = true;
                 break;
             }
@@ -563,7 +621,7 @@
     function drawWorkflow(data) {
         console.debug(JSON.parse(data));
         //TODO: 컴포넌트 재정렬
-        
+
         formEditor.data = JSON.parse(data);
         document.querySelector('.form-name').textContent = formEditor.data.form.name;
         if (formEditor.data.components.length > 0 ) {
@@ -579,16 +637,16 @@
     /**
      * 폼 디자이너 편집 화면 초기화
      *
-     * @param form 폼 정보
+     * @param formId 폼 아이디
      */
-    function init(form) {
-        console.info('form editor initialization. [FORM ID: ' + form.formId + ']');
+    function init(formId) {
+        console.info('form editor initialization. [FORM ID: ' + formId + ']');
         workflowUtil.polyfill();
         component.init();
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/forms/data/' + form.formId,
+            url: '/rest/forms/data/' + formId,
             callbackFunc: function(xhr) {
                 drawWorkflow(xhr.responseText);
             },
@@ -606,6 +664,6 @@
     exports.importform = exportForm;
     exports.getData = getData;
     exports.changeData = changeData;
-    
+
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

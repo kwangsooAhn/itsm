@@ -5,8 +5,8 @@ import java.time.LocalDateTime
 
 data class FormDto(
         var formId: String = "",
-        val formName: String = "",
-        val formStatus: String = "",
+        var formName: String = "",
+        val formStatus: String? = "",
         var formDesc: String? = null,
         var formEnabled: Boolean = false,
         val createUserKey: String? = null,

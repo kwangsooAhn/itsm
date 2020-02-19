@@ -1,6 +1,7 @@
 package co.brainz.itsm.provider
 
 import co.brainz.itsm.provider.constants.ProviderConstants
+import co.brainz.itsm.provider.dto.FormComponentSaveDto
 import co.brainz.itsm.provider.dto.FormDto
 import co.brainz.itsm.provider.dto.UrlDto
 import org.springframework.http.HttpEntity
@@ -51,14 +52,14 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
     }
 
     /**
-     * Update Form.
+     * Insert Form.
      *
-     * @param formDto
+     * @param formComponentSaveDto
      * @return Boolean
      */
-    fun putForm(formDto: FormDto): Boolean {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.PUT_FORM.url.replace(keyRegex, formDto.formId)))
-        val requestEntity = setHttpEntity(formDto)
+    fun putForm(formComponentSaveDto: FormComponentSaveDto): Boolean {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.PUT_FORM.url))
+        val requestEntity = setHttpEntity(formComponentSaveDto)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
         return responseJson.statusCode == HttpStatus.OK
     }
