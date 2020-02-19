@@ -21,54 +21,61 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-<script type="text/javascript">
-    /*<![CDATA[*/
-    window.addEventListener('load', function() {
-        getFormList(document.getElementById('search').value);
-    });
-
-    document.getElementById('search').onkeyup = function() {
-        getFormList(this.value);
-    };
-
-    //폼 리스트 조회
-    function getFormList(search) {
-        restSubmit('GET', '/forms/list?search=' + search.trim(), function(result) {
-            document.getElementById('formList').innerHTML = result;
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.addEventListener('load', function() {
+            getFormList(document.getElementById('search').value);
         });
-    }
-
-    //폼 삭제
-    function deleteForm(formId) {
-        restSubmit('DELETE', '/forms/' + formId, function() {
-            alert('[[#{common.msg.delete.success}]]');
-            location.reload();
-        });
-    }
-
-    //폼 편집화면 오픈
-    function openFormEdit() {
-        window.open('/forms/new', '_blank', 'width=1500, height=800');
-    }
-
-    //폼 디자이너 편집화면 오픈
-    function openFormDesignerEdit(formId) {
-        const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no";
-        window.open('/forms/' + formId + '/edit', '_blank', 'width=1500,height=920,'+ specs);
-    }
-
-    //REST API
-    function restSubmit(method, url, result) {
-        const opt = {
-            method: method,
-            url: url,
-            callbackFunc: function(response) {
-                result(response.responseText);
-            }
+    
+        document.getElementById('search').onkeyup = function() {
+            getFormList(this.value);
         };
-        aliceJs.sendXhr(opt);
-    }
-    /*]]>*/
-</script>
+    
+        //폼 리스트 조회
+        function getFormList(search) {
+            restSubmit('GET', '/forms/list?search=' + search.trim(), function(result) {
+                document.getElementById('formList').innerHTML = result;
+            });
+        }
+    
+        //폼 삭제
+        function deleteForm(formId) {
+            restSubmit('DELETE', '/forms/' + formId, function() {
+                alert('[[#{common.msg.delete.success}]]');
+                location.reload();
+            });
+        }
+    
+        //폼 편집화면 오픈
+        function openFormEdit() {
+            window.open('/forms/new', '_blank', 'width=1500, height=800');
+        }
+    
+        //폼 디자이너 편집화면 오픈
+        function openFormDesignerEdit(formId) {
+            const _width = 1500,
+                  _height = 920;
+            //중앙 배치
+            const _left = Math.ceil((window.screen.width - _width) / 2);
+            const _top = Math.ceil((window.screen.height - _height) / 4);
+            
+            let specs = 'left=' + _left + ',top=' + _top;
+                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+            window.open('/forms/' + formId + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
+        }
+    
+        //REST API
+        function restSubmit(method, url, result) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    result(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
 </th:block>
 </html>
