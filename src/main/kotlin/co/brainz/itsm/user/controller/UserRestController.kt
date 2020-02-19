@@ -41,7 +41,6 @@ class UserRestController(
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
     private val localeResolver: LocaleResolver,
-    private val aliceAuthProvider: AliceAuthProvider,
     private val cryptoRsa: CryptoRsa
 ) {
 

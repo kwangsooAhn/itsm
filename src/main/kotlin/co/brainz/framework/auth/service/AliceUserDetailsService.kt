@@ -23,7 +23,7 @@ class AliceUserDetailsService(
 
     @Throws(EmptyResultDataAccessException::class)
     fun loadUserByUsername(userId: String): AliceUserEntity {
-        return aliceUserRepository.findByUserInfo(userId)
+        return aliceUserRepository.findByUserId(userId)
     }
 
     @Transactional

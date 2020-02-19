@@ -11,12 +11,12 @@ interface AliceAuthRepository: JpaRepository<AliceAuthEntity, String> {
     /**
      * 권한 리스트 조회
      */
-    public fun findByOrderByAuthIdAsc(): MutableList<AliceAuthEntity>
+    fun findByOrderByAuthIdAsc(): MutableList<AliceAuthEntity>
 
     /**
      * 역할별 권한 조회
      */
-    public fun findByAuthIdIn(roleId: MutableSet<String>): MutableSet<AliceAuthEntity>
+    fun findByAuthIdIn(roleId: MutableSet<String>): MutableSet<AliceAuthEntity>
 
     @Query("SELECT u " +
             "FROM AliceUrlEntity u, AliceUrlAuthMapEntity ua, AliceRoleAuthMapEntity ra, AliceUserRoleMapEntity ur " +
