@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
     <title>권한 정보</title>
@@ -11,66 +11,90 @@
     <div style="width: 70%; margin: 50px auto auto auto;">
         <h1 th:text="#{menu.setting.auth}"></h1>
         <div align="right">
-            <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnSearch" name="btnSearch" 
+            <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnCreate" name="btnCreate"
                     th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
         </div>
         <hr>
         <div style="height: 560px;">
-            <table style="display: inline-block;vertical-align: top;width: 30%;height: inherit;border:1px solid;margin-right: 1rem;">
-                <tr><td><input type="checkbox" />권한리스트 sample</td></tr>
-            </table>
-            <table border="1" style="display: inline-block;width:50%;">
+            <div style="display: inline-block;width:30%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">
+                <ul>
+                    <li th:each="auth : ${authList}">
+                        <a name="alink" th:text="${auth.authName}" th:id="${auth.authId}" style="cursor: pointer;"></a>
+                    </li>
+                </ul>
+            </div>
+            <table border="1" style="display: inline-block;">
                 <colgroup>
-                    <col width="40%">
-                    <col width="60%">
+                    <col width="20%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="30%">
                 </colgroup>
                 <tr>
                     <th class="required" th:text="#{auth.label.authId}"></th>
-                    <td><input id="txtAuthId" name="txtAuthId" type="text" th:value="${authDetail?.authId}" maxlength="100"/></td>
+                    <td colspan="3"><input id="txtAuthId" name="txtAuthId" type="text" th:value="${authDetail?.authId}" maxlength="100"/></td>
                 </tr>
                 <tr>
                     <th class="required" th:text="#{auth.label.authName}"></th>
-                    <td><input id="txtAuthName" name="txtAuthName" type="text" th:value="${authDetail?.authName}" maxlength="100"/></td>
+                    <td colspan="3"><input id="txtAuthName" name="txtAuthName" type="text" th:value="${authDetail?.authName}" maxlength="100"/></td>
                 </tr>
                 <tr>
                     <th th:text="#{auth.label.authDesc}"></th>
-                    <td><textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${authDetail?.authDesc}"></textarea></td>
+                    <td colspan="3"><textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${authDetail?.authDesc}"></textarea></td>
                 </tr>
                 <tr>
-                    <th class="required" th:text="#{common.label.createUserName}"></th>
+                    <th th:text="#{common.label.createUserName}"></th>
                     <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${authDetail?.createUserKey}"></span></td>
-                </tr>
-                <tr>
                     <th th:text="#{common.label.createDate}"></th>
                     <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.createDt,dateformat)}"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{common.label.updateUserName}"></th>
                     <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${authDetail?.updateUserKey}"></span></td>
-                </tr>
-                <tr>
                     <th th:text="#{common.label.updateDate}"></th>
                     <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.updateDt,dateformat)}"></span></td>
                 </tr>
-            </table>
-            <!-- buttons -->
-            <table style="float right">
                 <tr>
-                    <td>
-                        <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" 
-                         th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
-                    </td>
-                    <td>
-                        <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" 
-                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                    </td>
-                    <td>
-                        <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" 
-                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.save}"></button>
+                    <td colspan="4">메뉴 목록</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="overflow:overlay;">
+                       <!-- 메뉴 목록 -->
+<!--                         <ul style="overflow:overlay;height: 180px;"> -->
+<!--                             <li th:each="menu : ${menuList}"> -->
+<!--                                 <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuName}"> -->
+<!--                                 <a name="alink" th:text="${menu?.menuName}" th:id="${menu.menuName}" ></a> -->
+<!--                             </li> -->
+<!--                         </ul> -->
+                       <!-- sample data -->
+                        <ul style="overflow:overlay;height: 180px;">
+                            <li th:each="auth : ${authList}">
+                                <input type="checkbox" name="authMenu" th:id="${auth.authId}" th:value="${auth.authName}">
+                                <a name="alink" th:text="${auth.authName}" th:id="${auth.authId}" ></a>
+                            </li>
+                        </ul>
                     </td>
                 </tr>
             </table>
         </div>
+        <hr>
+        <!-- buttons -->
+        <table style="float:right">
+            <tr>
+                <td>
+                    <button sec:authorize="hasAuthority('auth.delete')" type="button" id="btnDelete" name="btnDelete"
+                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                </td>
+                <td>
+                    <button sec:authorize="hasAuthority('auth.update')" type="button" id="btnUpdate" name="btnUpdate"
+                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                </td>
+                <td>
+                    <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnRegist" name="btnRegist"
+                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                </td>
+            </tr>
+        </table>
     </div>
 </th:block>
 </body>
@@ -78,7 +102,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var AUTH_DELETE = false;
-        var AUTH_CRAETE = false;
+        var AUTH_CREATE = false;
         var AUTH_UPDATE = false;
 
         window.addEventListener('load', function() {
@@ -87,7 +111,7 @@
             }
 
             if (document.getElementById('btnRegist') !== null) {
-                AUTH_CRAETE = true;
+                AUTH_CREATE = true;
             }
 
             if (document.getElementById('btnDelete') !== null) {
@@ -99,35 +123,100 @@
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
-                if (AUTH_CRAETE) {
+                if (AUTH_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             } else {
-//                 var first = document.querySelector('a[name=alink]');
-//                 onGetDetail(first.getAttribute('id'));
-//                 if (AUTH_UPDATE) {
-//                     document.getElementById('btnUpdate').style.display = 'block';
-//                 }
-//                 if (AUTH_CRAETE) {
-//                     document.getElementById('btnRegist').style.display = 'none';
-//                 }
+                var first = document.querySelector('a[name=alink]');
+                onGetDetail(first.getAttribute('id'));
+                if (AUTH_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
+                }
+                if (AUTH_CREATE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
             }
-            
-        
+
+            var authList = document.querySelectorAll('a[name=alink]');
+            for(var i = 0; i < authList.length; i++) {
+                authList[i].addEventListener('click', function(){
+                    if (AUTH_UPDATE) {
+                        document.getElementById('btnUpdate').style.display = 'block';
+                    }
+                    if (AUTH_CRAETE) {
+                        document.getElementById('btnRegist').style.display = 'none';
+                    }
+                    onGetDetail(this.id);
+                });
+            }
+
+            function onGetDetail(roldId) {
+                const opt = {
+                    method: 'get',
+                    url: '/rest/auths/' +  roldId,
+                    callbackFunc: function(response) {
+                        var responseJson = JSON.parse(response.responseText)[0];
+                        
+                        console.log(responseJson)
+                        document.getElementById('txtAuthId').value = responseJson.authId;
+                        document.getElementById('txtAuthName').value = responseJson.authName;
+                        document.getElementById('txtAuthDesc').value = responseJson.authDesc;
+                        var arrAuthList = responseJson.arrAuthList;
+
+//                         Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authAuth) {
+//                             authAuth.checked = false;
+//                             for (var i = 0; i<arrAuthList.length; i++) {
+//                                 if (authAuth.id == arrAuthList[i].authId) {
+//                                     authAuth.checked = true;
+//                                 }
+//                             }
+//                         });
+                        document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserKey;
+                        document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
+                        document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
+                        document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
+                        document.getElementById('txtAuthId').setAttribute('readonly','true');
+                    },
+                };
+                aliceJs.sendXhr(opt);
+            }
         });
 
         /*추가 버튼 */
         function onCreate() {
+            document.getElementById('btnDelete').style.display = 'none';
+            document.getElementById('btnUpdate').style.display = 'none';
+            document.getElementById('btnRegist').style.display = 'block';
+            
+            document.getElementById('txtAuthId').value = '';
+            document.getElementById('txtAuthId').removeAttribute('readonly');
+            document.getElementById('txtAuthName').value = '';
+            document.getElementById('txtAuthDesc').value = '';
+            var authMenus = document.getElementsByName('authMenu');
+            for(var i = 0; i < authAuths.length; i++) {
+                authMenus[i].checked = false;
+            }
+
+            document.getElementById('spanCreateUserKey').innerHTML = '';
+            document.getElementById('spanCreateDt').innerHTML = '';
+            document.getElementById('spanUpdateUserKey').innerHTML = '';
+            document.getElementById('spanUpdateDt').innerHTML = '';
+            if (AUTH_UPDATE) {
+                document.getElementById('btnUpdate').style.display = 'none';
+            }
+            if (AUTH_CRAETE) {
+                document.getElementById('btnRegist').style.display = 'block';
+            }
         }
 
         /*등록, 수정 버튼*/
         function onSave(flag) {
         }
 
-        /** 삭제 버튼  */
+        /* 삭제 버튼  */
         function onDelete() {
         }
-        
+
         /*]]>*/
     </script>
 </th:block>
