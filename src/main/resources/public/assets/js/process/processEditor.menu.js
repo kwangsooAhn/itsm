@@ -150,6 +150,45 @@
     ];
 
     /**
+     * 추가된 element properties 를 data 에 추가한다.
+     *
+     * @param elem 추가된 element
+     */
+    function addElementProperty(elem) {
+        const elemId = elem.node().id;
+        let elements = AliceProcessEditor.data.elements;
+        const elemList = elements.filter(function(attr) { return attr.id === elemId; });
+        if (elemList.length > 0) {
+            return;
+        }
+
+        const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
+        let elemData = {};
+        elemData.id = elemId;
+        if (elem.classed('node')) {
+            for (let i = 0, len = elementsKeys.length; i < len; i++) {
+                if (elem.classed(elementsKeys[i])) {
+                    let elemType = elementsProperties[elementsKeys[i]][0].type;
+                    if (elementsKeys[i] === 'artifact' && elem.classed('group')) {
+                        elemType = 'group';
+                    }
+                    elemData.category = elementsKeys[i];
+                    elemData.type = elemType;
+                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+                    elemData.data = {};
+                    break;
+                }
+            }
+        } else {
+            const data = elem.node().__data__;
+            elemData.category = 'connector';
+            elemData.type = 'arrow';
+            elemData.data = {'start-id': data.source.node().id, 'end-id': data.target.node().id};
+        }
+        elements.push(elemData);
+    }
+
+    /**
      * elements.
      *
      * @param elem 선택된 element
@@ -158,29 +197,7 @@
     function getElementDataProperty(elem) {
         const elemId = elem.node().id;
         let elements = AliceProcessEditor.data.elements;
-        let filterData = elements.filter(function(attr) { return attr.id === elemId; });
-        if (filterData.length === 0) {
-            let elemData = {};
-            for (let i = 0, len = elementsKeys.length; i < len; i++) {
-                if (elem.classed(elementsKeys[i])) {
-                    let elemType = elementsProperties[elementsKeys[i]][0].type;
-                    if (elementsKeys[i] === 'artifact' && elem.classed('group')) {
-                        elemType = 'group';
-                    }
-                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
-                    elemData.id = elemId;
-                    elemData.category = elementsKeys[i];
-                    elemData.type = elemType;
-                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
-                    elemData.data = {};
-                    elements.push(elemData);
-                    break;
-                }
-            }
-            return elemData;
-        } else {
-            return filterData[0];
-        }
+        return elements.filter(function(attr) { return attr.id === elemId; })[0];
     }
 
     /**
@@ -504,6 +521,7 @@
     }
 
     exports.loadItems = loadItems;
+    exports.addElementProperty = addElementProperty;
     exports.setElementMenu = setElementMenu;
     exports.setActionTooltipItem = setActionTooltipItem;
     Object.defineProperty(exports, '__esModule', {value: true});

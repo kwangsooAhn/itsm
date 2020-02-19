@@ -61,6 +61,7 @@
         // add new links
         path = path.enter().append('path')
             .attr('class', 'connector')
+            .attr('id', workflowUtil.generateUUID())
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function() {
                 d3.event.stopPropagation();
@@ -77,6 +78,9 @@
 
                 setConnectors();
                 AliceProcessEditor.setElementMenu(selectedLink);
+            })
+            .call(function(d) {
+                AliceProcessEditor.addElementProperty(d);
             })
             .merge(path);
 
@@ -285,7 +289,7 @@
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
         self.nodeElement = gNode.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
@@ -487,7 +491,7 @@
         const radius = 25;
 
         self.nodeElement = gNode.append('circle')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
@@ -527,7 +531,7 @@
         const width = 45, height = 45;
 
         self.nodeElement = gNode.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -590,7 +594,7 @@
         const width = 30, height = 30;
 
         self.nodeElement = gNode.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -659,6 +663,7 @@
                 }
                 if (node) {
                     nodes.push(node.nodeElement);
+                    AliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
     }
@@ -854,13 +859,13 @@
         });
 
         // add connector
-        elements.forEach(function(element){
+        elements.forEach(function(element, i){
             if (element.category !== 'connector') {
                 return;
             }
-            element.id = workflowUtil.generateUUID();
             const source = document.getElementById(element.data['start-id']),
                   target = document.getElementById(element.data['end-id']);
+            elements.splice(i, 1);
             links.push({source: d3.select(source), target: d3.select(target)});
         });
         setConnectors();
