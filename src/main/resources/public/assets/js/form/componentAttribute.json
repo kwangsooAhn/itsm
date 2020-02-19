@@ -1122,7 +1122,7 @@
             {
                 "id": "format", 
                 "name": "Format", 
-                "value": "HH:mm:ss", 
+                "value": "HH:mm", 
                 "type": "inputbox", 
                 "code": "", 
                 "unit": "" 
@@ -1247,7 +1247,7 @@
             {
                 "id": "format", 
                 "name": "Format", 
-                "value": "yyyy-MM-dd HH:mm:ss", 
+                "value": "yyyy-MM-dd HH:mm", 
                 "type": "inputbox", 
                 "code": "", 
                 "unit": "" 

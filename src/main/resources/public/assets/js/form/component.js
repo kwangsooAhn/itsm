@@ -331,7 +331,12 @@
                 elem.appendChild(comp);
                 break;
             case 'date':
-                //TODO: datepicker 추가
+                let defaultDate = obj.display['default'];
+                if (defaultDate === 'today') { 
+                    defaultDate = getTimeStamp(); 
+                    defaultDate = defaultDate.split(' ')[0];
+                }
+                defaultDate = changeDateFormatYYYYMMDD(defaultDate, obj.display.format);
                 comp = createElement(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
@@ -342,12 +347,18 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' placeholder='yyyy-MM-dd' readonly />
+                        <input type='text' id='date-${obj.id}' placeholder='${obj.display.format}' value='${defaultDate}'/>
                     </div>`);
                 elem.appendChild(comp);
+                dateTimePicker.initDatePicker('date-' + obj.id, obj.display.format);
                 break;
-            case 'time':
-                //TODO: datepicker 추가
+            case 'time': 
+                let defaultTime = obj.display['default'];
+                if (defaultTime === 'now') { 
+                    defaultTime = getTimeStamp(); 
+                    defaultTime = changeDateFormatYYYYMMDD(defaultTime, 'yyyy-MM-dd ' + obj.display.format);
+                    defaultTime = defaultTime.split(' ')[1];
+                }
                 comp = createElement(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
@@ -358,12 +369,17 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' placeholder='HH:mm:ss' readonly />
+                        <input type='text' id='time-${obj.id}' placeholder='${obj.display.format}' value='${defaultTime}'/>
                     </div>`);
                 elem.appendChild(comp);
+                dateTimePicker.initTimePicker('time-' + obj.id, obj.display.format);
                 break;
             case 'datetime':
-                //TODO: datepicker 추가
+                let defaultDateTime = obj.display['default'];
+                if (defaultDateTime === 'now') { 
+                    defaultDateTime = getTimeStamp();
+                }
+                defaultDateTime = changeDateFormatYYYYMMDD(defaultDateTime, obj.display.format);
                 comp = createElement(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
@@ -374,9 +390,10 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' placeholder='yyyy-MM-dd HH:mm:ss' readonly />
+                        <input type='text' id='datetime-${obj.id}' placeholder='${obj.display.format}' value='${defaultDateTime}' />
                     </div>`);
                 elem.appendChild(comp);
+                dateTimePicker.initDateTimePicker('datetime-' + obj.id, obj.display.format);
                 break;
             case 'fileupload':
                 comp = createElement(`
@@ -418,6 +435,29 @@
         }
         return elem;
     }
+    /**
+     * 현재 시간 추출 2020-02-19 13:30 형식
+     */
+    function getTimeStamp() {
+        let today = new Date();
+        let s = parseZero(today.getFullYear(), 4) + '-' +
+                parseZero(today.getMonth() + 1, 2) + '-' +
+                parseZero(today.getDate(), 2) + ' ' +
+                parseZero(today.getHours(), 2) + ':' +
+                parseZero(today.getMinutes(), 2);
+        return s;
+    }
+    
+    function parseZero(n, digits) {
+        let zero = '';
+        n = n.toString();
+        if (n.length < digits) {
+          for (let i = 0; i < (digits - n.length); i++)
+            zero += '0';
+        }
+        return zero + n;
+    }
+
     /**
      * 컴포넌트 복사
      */
