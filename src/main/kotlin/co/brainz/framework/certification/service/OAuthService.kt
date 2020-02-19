@@ -1,7 +1,9 @@
 package co.brainz.framework.certification.service
 
+import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.UserConstants
@@ -10,6 +12,7 @@ import co.brainz.framework.certification.repository.CertificationRepository
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.codec.binary.Base64
+import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -42,6 +45,7 @@ class OAuthService(private val userService: UserService,
                    private val aliceAuthProvider: AliceAuthProvider) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     @Transactional
     fun callbackUrl(oAuthDto: OAuthDto) {
@@ -62,7 +66,6 @@ class OAuthService(private val userService: UserService,
                 userName = oAuthDto.userName,
                 email = oAuthDto.email,
                 expiredDt = LocalDateTime.now().plusMonths(UserConstants.USER_EXPIRED_VALUE),
-                //userRoleMapEntities = certificationService.getDefaultUserRoleMapList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code),
                 status = UserConstants.Status.CERTIFIED.code,
                 platform = oAuthDto.platform,
                 oauthKey = oAuthDto.oauthKey,
@@ -74,15 +77,22 @@ class OAuthService(private val userService: UserService,
     }
 
     fun oAuthLogin(oAuthDto: OAuthDto) {
-        val aliceUser: AliceUserEntity = userDetailsService.loadUserByOauthKeyAndPlatform(oAuthDto.oauthKey, oAuthDto.platform)
-        val authorities = aliceAuthProvider.authorities(aliceUser)
-        val authList = aliceAuthProvider.authList(aliceUser)
-        val menuList = aliceAuthProvider.menuList(authList)
-        val urlList = aliceAuthProvider.urlList(authList)
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, authorities)
-        usernamePasswordAuthenticationToken.details = AliceUserDto(aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey!!, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat)
 
+        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userDetailsService.loadUserByOauthKeyAndPlatform(oAuthDto.oauthKey, oAuthDto.platform))
+        aliceUser = userDetailsService.getAuthInfo(aliceUser)
+
+        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, aliceUser.grantedAuthorises)
+        usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
+            aliceUser.urls?.let { urls ->
+                aliceUser.menus?.let { menus ->
+                    AliceUserDto(
+                            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
+                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
+                    )
+                }
+            }
+        }
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }
 

@@ -34,7 +34,7 @@ class RoleRestController(private val roleService: RoleService) {
      * 역할 상세 정보를 조회한다.
      */
     @GetMapping("/{roleId}")
-    fun getRoles(@PathVariable roleId: String): List<RoleDto> {
+    fun getRoles(@PathVariable roleId: String): RoleDto {
         return roleService.selectDetailRoles(roleId)
     }
 

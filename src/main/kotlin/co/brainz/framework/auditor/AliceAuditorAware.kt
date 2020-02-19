@@ -1,6 +1,9 @@
 package co.brainz.framework.auditor
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.AuditorAware
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
@@ -12,17 +15,19 @@ import org.springframework.web.context.request.ServletRequestAttributes
  * JPA Auditor @CreatedBy, @LastModifiedBy 자동 설정 클래스
  *
  */
-open class AliceAuditorAware: AuditorAware<String> {
+open class AliceAuditorAware: AuditorAware<AliceUserEntity> {
     @Override
-    override fun getCurrentAuditor(): Optional<String> {
+    override fun getCurrentAuditor(): Optional<AliceUserEntity> {
+        val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val securityContext = attr.request.getSession(false)?.
                 getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY) as SecurityContext?
 
+        var aliceUserEntity = AliceUserEntity()
+
         if (securityContext != null) {
-            val aliceUserDto = securityContext.authentication.details as AliceUserDto
-            return Optional.of(aliceUserDto.userKey)
+            aliceUserEntity = userMapper.toAliceUserEntity(securityContext.authentication.details as AliceUserDto)
         }
-        return Optional.of("")
+        return Optional.of(aliceUserEntity)
     }
 }

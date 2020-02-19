@@ -1,20 +1,17 @@
 package co.brainz.framework.auth.service
 
-import co.brainz.framework.auth.entity.AliceAuthEntity
-import co.brainz.framework.auth.entity.AliceUrlEntity
+import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
-import co.brainz.framework.auth.entity.AliceMenuEntity
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
@@ -36,6 +33,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
                         private val cryptoRsa: CryptoRsa) : AuthenticationProvider {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     @Transactional
     override fun authenticate(authentication: Authentication): Authentication {
@@ -54,9 +52,9 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         logger.debug(">>> Decrypt password: {}", password)
         logger.debug(">>> password BCryptEncode: {}", passwordEncoder.encode(password))
 
-        val aliceUser: AliceUserEntity
+        var aliceUser: AliceUserAuthDto
         try {
-            aliceUser = userDetailsService.loadUserByUsername(userId)
+            aliceUser = userMapper.toAliceUserAuthDto(userDetailsService.loadUserByUsername(userId))
         } catch (e: EmptyResultDataAccessException) {
             logger.error("{}", e.message)
             throw UsernameNotFoundException("Empty access data")
@@ -73,62 +71,20 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
             throw BadCredentialsException(userId)
         }
 
-        val authorities = authorities(aliceUser)
-        val authList = authList(aliceUser)
-        val menuList = menuList(authList)
-        val urlList = urlList(authList)
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, authorities)
-        usernamePasswordAuthenticationToken.details = AliceUserDto(
-                aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
-        )
+        aliceUser = userDetailsService.getAuthInfo(aliceUser)
+        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, aliceUser.grantedAuthorises)
+        usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
+            aliceUser.urls?.let { urls ->
+                aliceUser.menus?.let { menus ->
+                    AliceUserDto(
+                            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
+                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
+                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
+                    )
+                }
+            }
+        }
         return usernamePasswordAuthenticationToken
-    }
-
-    fun authorities(aliceUser: AliceUserEntity): Set<GrantedAuthority> {
-        val authorities = mutableSetOf<GrantedAuthority>()
-        aliceUser.getAuthorities().forEach {
-            authorities.add(SimpleGrantedAuthority(it.authority))
-        }
-        return authorities
-    }
-
-    fun authList(aliceUser: AliceUserEntity): Set<AliceAuthEntity> {
-        val authId = mutableSetOf<String>()
-        aliceUser.getAuthorities().forEach {
-            authId.add(it.authority)
-        }
-        return userDetailsService.getAuthList(authId)
-    }
-
-    fun menuList(authList: Set<AliceAuthEntity>): Set<AliceMenuEntity> {
-        val menuList = mutableSetOf<AliceMenuEntity>()
-        authList.forEach {auth ->
-            auth.menuAuthMapEntities.forEach {menuAuthMap ->
-                menuList.add(menuAuthMap.menu)
-            }
-        }
-        if (logger.isDebugEnabled) {
-            menuList.forEach {
-                logger.debug(">>> Get menu {} <<<", it.menuId)
-            }
-        }
-        return menuList
-    }
-
-    fun urlList(authList: Set<AliceAuthEntity>): Set<AliceUrlEntity> {
-        val urlList = mutableSetOf<AliceUrlEntity>()
-        authList.forEach {auth ->
-            auth.urlAuthMapEntities.forEach {urlAuthMap ->
-                urlList.add(urlAuthMap.url)
-            }
-        }
-        if (logger.isDebugEnabled) {
-            urlList.forEach {
-                logger.debug(">>> Get url [{}] {} <<<", it.method, it.url)
-            }
-        }
-        return urlList
     }
 
     override fun supports(authentication: Class<*>): Boolean {
