@@ -1,25 +1,25 @@
-package co.brainz.itsm.ticket.service
+package co.brainz.itsm.document.service
 
 import co.brainz.itsm.provider.ProviderWorkflow
-import co.brainz.itsm.provider.dto.TicketDto
+import co.brainz.itsm.provider.dto.DocumentDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.stereotype.Service
 
 @Service
-class TicketService(private val providerWorkflow: ProviderWorkflow) {
+class DocumentService(private val providerWorkflow: ProviderWorkflow) {
 
     /**
      * 신청서 리스트 조회.
      *
-     * @return List<TicketDto>
+     * @return List<DocumentDto>
      */
-    fun findTicketList(): List<TicketDto> {
-        val responseBody = providerWorkflow.getTickets()
+    fun findDocumentList(): List<DocumentDto> {
+        val responseBody = providerWorkflow.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java,
-                TicketDto::class.java))
+                DocumentDto::class.java))
     }
 }
