@@ -1,7 +1,7 @@
 {
   "event": [
     {
-      "type": "start",
+      "type": "commonStart",
       "attribute": [
         {
           "title": "Data",
@@ -44,7 +44,7 @@
       ]
     },
     {
-      "type": "end",
+      "type": "commonEnd",
       "attribute": [
         {
           "title": "Data",
@@ -219,7 +219,7 @@
   ],
   "subprocess": [
     {
-      "type": "normal",
+      "type": "common",
       "attribute": [
         {
           "title": "Data",

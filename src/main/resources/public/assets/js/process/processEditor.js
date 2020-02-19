@@ -271,12 +271,14 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
      * @constructor
      */
-    function RectResizableElement(x, y) {
+    function RectResizableElement(x, y, width, height) {
         const self = this;
-        self.width = 120;
-        self.height = 70;
+        self.width = width ? width : 120;
+        self.height = height ? height : 70;
         self.radius = 10;
         x = x - (self.width / 2);
         y = y - (self.height / 2);
@@ -443,10 +445,12 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
      * @returns {TaskElement}
      * @constructor
      */
-    function TaskElement(x, y) {
+    function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y);
         this.nodeElement.classed('task', true);
@@ -458,10 +462,12 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
      * @returns {SubprocessElement}
      * @constructor
      */
-    function SubprocessElement(x, y) {
+    function SubprocessElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y);
         this.nodeElement.classed('subprocess', true);
@@ -557,10 +563,12 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
      * @returns {GroupElement}
      * @constructor
      */
-    function GroupElement(x, y) {
+    function GroupElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y);
         this.nodeElement
@@ -611,7 +619,7 @@
     }
 
     /**
-     * element에 이벤트를 추가한다.
+     * element 에 이벤트를 추가한다.
      */
     function addElementsEvent() {
         d3.selectAll('.alice-process-element-palette, .alice-process-drawing-board')
@@ -804,6 +812,58 @@
         console.debug(JSON.parse(data));
         AliceProcessEditor.data = JSON.parse(data);
         document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
+
+        const elements = AliceProcessEditor.data.elements;
+        // add element
+        elements.forEach(function(element){
+            if (element.category === 'connector') {
+                return;
+            }
+            let node;
+            const x = element.display['position-x'],
+                  y = element.display['position-y'];
+            if (element.category === 'event') {
+                node = new EventElement(x, y);
+            } else if (element.category === 'task') {
+                node = new TaskElement(x, y, element.display.width, element.display.height);
+            } else if (element.category === 'subprocess') {
+                node = new SubprocessElement(x, y, element.display.width, element.display.height);
+            } else if (element.category === 'gateway') {
+                node = new GatewayElement(x, y);
+            } else if (element.category === 'artifact') {
+                if (element.type === 'group') {
+                    node = new GroupElement(x, y, element.display.width, element.display.height);
+                } else if (element.type === 'annotation') {
+                    node = new AnnotationElement(x, y);
+                }
+            }
+            if (node) {
+                const nodeId = node.nodeElement.attr('id');
+                elements.forEach(function(e){
+                    if (e.category !== 'connector') {
+                        return;
+                    }
+                    if (e.data['start-id'] === element.id) {
+                        e.data['start-id'] = nodeId;
+                    } else if (e.data['end-id'] === element.id) {
+                        e.data['end-id'] = nodeId;
+                    }
+                });
+                element.id = nodeId;
+            }
+        });
+
+        // add connector
+        elements.forEach(function(element){
+            if (element.category !== 'connector') {
+                return;
+            }
+            element.id = workflowUtil.generateUUID();
+            const source = document.getElementById(element.data['start-id']),
+                  target = document.getElementById(element.data['end-id']);
+            links.push({source: d3.select(source), target: d3.select(target)});
+        });
+        setConnectors();
     }
 
     /**
