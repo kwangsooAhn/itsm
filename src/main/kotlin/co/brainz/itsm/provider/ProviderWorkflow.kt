@@ -13,19 +13,19 @@ class ProviderWorkflow(private val restTemplate: RestTemplate): ProviderUtilitie
      *
      * @return String
      */
-    fun getTickets(): String {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Workflow.GET_TICKETS.url))
+    fun getDocuments(): String {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Workflow.GET_DOCUMENTS.url))
         return restTemplate.getForObject(url, String::class.java)?:""
     }
 
     /**
      * 신청서 1건 조회.
      *
-     * @param ticketId
+     * @param documentId
      * @return String
      */
-    fun getTicket(ticketId: String): String {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Workflow.GET_TICKET.url.replace(keyRegex, ticketId)))
+    fun getDocument(documentId: String): String {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Workflow.GET_DOCUMENT.url.replace(keyRegex, documentId)))
         return restTemplate.getForObject(url, String::class.java)?:""
     }
 

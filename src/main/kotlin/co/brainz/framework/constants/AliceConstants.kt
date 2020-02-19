@@ -35,7 +35,7 @@ object AliceConstants {
         PATTEN8("/layout/**"),
         PATTEN9("/layout**"),
         PATTEN10("/index**"),
-        PATTEN11("/document/documentSearch"),
+        PATTEN11("/tickets/ticketSearch"),
         PATTEN12("/exception/**"),
         PATTEN13("/error"),
         PATTEN94("/files"),
