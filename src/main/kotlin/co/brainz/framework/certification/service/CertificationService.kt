@@ -72,13 +72,13 @@ class CertificationService(private val certificationRepository: CertificationRep
         return roleList
     }
 
-    fun insertUser(signUpDto: SignUpDto): String {
+    fun insertUser(signUpDto: SignUpDto, target: String?): String {
         var code: String = signUpValid(signUpDto)
         when (code) {
             UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-                val password = cryptoRsa.decrypt(privateKey, signUpDto.password)
+                val password = signUpDto.password?.let { cryptoRsa.decrypt(privateKey, it) }
                 var user = AliceUserEntity(
                         userKey = "",
                         userId = signUpDto.userId,
@@ -96,6 +96,16 @@ class CertificationService(private val certificationRepository: CertificationRep
                         lang = UserConstants.USER_LOCALE_LANG,
                         timeFormat = UserConstants.USER_TIME_FORMAT
                 )
+
+                when (target) {
+                    UserConstants.ADMIN_ID -> {
+                        user.status = UserConstants.Status.CERTIFIED.code
+                        user.timezone = signUpDto.timezone!!
+                        user.lang = signUpDto.lang!!
+                        user.timeFormat = signUpDto.timeFormat!!
+                    }
+                }
+
                 user = certificationRepository.save(user)
                 getDefaultUserRoleList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach {role ->
                     userRoleMapRepository.save(AliceUserRoleMapEntity(user,role))
@@ -128,7 +138,7 @@ class CertificationService(private val certificationRepository: CertificationRep
     }
 
     @Transactional
-    fun sendMail(userId: String, email: String, target: String?) {
+    fun sendMail(userId: String, email: String, target: String?, password: String?) {
         var certificationKey: String = KeyGeneratorService().getKey(50, false)
         var statusCode = UserConstants.Status.SIGNUP.code
 
@@ -139,16 +149,17 @@ class CertificationService(private val certificationRepository: CertificationRep
             UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> {
                 statusCode = UserConstants.Status.EDIT.code
             }
-            UserConstants.SendMailStatus.UPDATE_USER.code -> {
+            UserConstants.SendMailStatus.UPDATE_USER.code, UserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> {
                 statusCode = UserConstants.Status.CERTIFIED.code
                 certificationKey = ""
             }
         }
 
-        val certificationDto = CertificationDto(userId, email, certificationKey, statusCode)
+        val certificationDto = CertificationDto(userId, email, certificationKey, statusCode, password)
         updateUser(certificationDto)
         when (target) {
-            UserConstants.SendMailStatus.CREATE_USER.code, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> sendCertificationMail(certificationDto)
+            UserConstants.SendMailStatus.CREATE_USER.code, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
+            UserConstants.SendMailStatus.CREATE_USER_ADMIN.code-> sendCertificationMail(certificationDto)
         }
     }
 
@@ -165,7 +176,10 @@ class CertificationService(private val certificationRepository: CertificationRep
     }
 
     fun makeMailInfo(certificationDto: CertificationDto): MailDto {
-        val subject = "[Alice Project] 인증메일"
+        var subject = "[Alice Project] 인증메일"
+        if (certificationDto.password != null) {
+            subject = "[Alice Project] 비밀번호 안내메일"
+        }
         val content: String = mailService.content
         val to: ArrayList<String> = arrayListOf(certificationDto.email)
         return MailDto(subject, content, senderEmail, senderName, to, arrayListOf(), arrayListOf())
@@ -181,9 +195,16 @@ class CertificationService(private val certificationRepository: CertificationRep
 
     fun makeContextValues(certificationDto: CertificationDto): Map<String, Any> {
         val params: MutableMap<String, Any> = HashMap()
-        params["intro"] = "계정을 사용하기 위해 인증 작업이 필요합니다."
-        params["message"] = "아래의 링크를 클릭하여 인증을 진행해주세요."
-        params["link"] = makeLinkUrl(certificationDto)
+        if (certificationDto.password != null) {
+            params["intro"] = "사용자 계정이 생성되었습니다."
+            params["message"] = "비밀번호 :" + certificationDto.password
+        } else {
+            params["intro"] = "계정을 사용하기 위해 인증 작업이 필요합니다."
+            params["message"] = "아래의 링크를 클릭하여 인증을 진행해주세요."
+            params["link"] = makeLinkUrl(certificationDto)
+            params["text"] = "이메일 인증"
+        }
+
         return params
     }
 
@@ -214,7 +235,7 @@ class CertificationService(private val certificationRepository: CertificationRep
             UserConstants.Status.SIGNUP.code, UserConstants.Status.EDIT.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
-                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserConstants.Status.CERTIFIED.code)
+                        val certificationDto = CertificationDto(userDto.userId, userDto.email, "", UserConstants.Status.CERTIFIED.code, null)
                         updateUser(certificationDto)
                         UserConstants.Status.CERTIFIED.value
                     }

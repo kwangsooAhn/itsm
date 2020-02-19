@@ -47,6 +47,10 @@ class CryptoRsa {
         return rsaPublicKeySpec.publicExponent.toString(16)
     }
 
+    fun getPublicKey(): PublicKey {
+        return this.publicKey
+    }
+
     fun getPrivateKey(): PrivateKey {
         return this.privateKey
     }

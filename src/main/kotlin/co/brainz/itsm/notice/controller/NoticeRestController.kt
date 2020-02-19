@@ -1,7 +1,7 @@
 package co.brainz.itsm.notice.controller
 
 import co.brainz.itsm.notice.dto.NoticeDto
-import co.brainz.itsm.notice.entity.NoticeEntity
+import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.service.NoticeService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -39,13 +39,13 @@ class NoticeRestController(private val noticeService: NoticeService) {
 
     //공지사항 세부 조회
     @GetMapping("/{noticeId}")
-    fun getNotice(@PathVariable noticeId: String): NoticeEntity {
+    fun getNotice(@PathVariable noticeId: String): NoticeDto {
         return noticeService.findNoticeByNoticeNo(noticeId)
     }
 
     //공지사항 리스트 데이터 조회
     @GetMapping("/", "")
-    fun getNoticeList(): List<NoticeEntity> {
+    fun getNoticeList(): MutableList<NoticeListDto> {
         return noticeService.findNoticeList()
     }
 }

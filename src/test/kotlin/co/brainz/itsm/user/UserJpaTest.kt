@@ -44,13 +44,13 @@ class UserJpaTest {
 //        )
     }
 
-    @Test
-    fun 사용자_업데이트() {
+//    @Test
+//    fun 사용자_업데이트() {
 //        val targetEntity = userEntity
 //        targetEntity.userName = "beom"
 //
 //        val rsltEntity = userRepository.save(targetEntity)
 //
 //        Assert.assertThat(rsltEntity.userName, CoreMatchers.`is`(CoreMatchers.equalTo("beom")))
-    }
+//    }
 }
