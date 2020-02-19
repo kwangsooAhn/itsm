@@ -160,7 +160,7 @@
         };
         
         /**
-         * 컨텍스트 메뉴 scroll 
+         * 컨텍스트 메뉴 scroll
          */
         const scrollMenu = function() {
             let contextHeight = menu.offsetHeight;
@@ -173,7 +173,7 @@
                 menu.scrollTop = contextOffset;
             }
         };
-        
+
         /**
          * 컨텍스트 메뉴 위치 조정.
          * 
@@ -327,7 +327,7 @@
                     component.hidePropertyPanel();
                 }
                 let button = e.button ? e.button : e.which;
-                if (button === 1) { 
+                if (button === 1) {
                     itemInContext = clickInsideElement(e, 'component');
                     if (itemInContext) {
                         let compType = itemInContext.getAttribute('data-type');
@@ -415,17 +415,17 @@
             addEditbox(comp.id, 'down');
         }
     }
-    
+
     /**
      * elemId 선택한 element Id를 기준으로 위, 아래 editbox 추가
-     * 
+     *
      * @param elemId 선택한 element Id
      * @param direction 방향 (up, down)
      */
     function addEditbox(elemId, direction) {
         let elem = document.getElementById(elemId);
         if (elem === null) return;
-        
+
         let editbox = component.add({type: 'editbox', isFocus: false});
         let elemIdx = Number(elem.getAttribute('data-index'));
         if (direction === 'up') {
@@ -443,7 +443,7 @@
                     prev.setAttribute('data-type', 'editbox');
                     prev.querySelector('.group').focus();
                 }
-                
+
             }
         } else {
             if ((elemIdx + 1) !== Number(editbox.getAttribute('data-index'))) {
@@ -472,11 +472,58 @@
      * 폼 디자이너 저장
      */
     function saveForm() {
+
+        //dummy data
+        var formInfo = {
+            id: '40288ab27051cb31017051cfcd9c0002',
+            name: 'test',
+            desc: 'zzzzzz'
+        };
+        var collections = [
+            {
+                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                type: 'text',
+                label: {
+                    position: 'left',
+                    column: 2,
+                    size: 12,
+                    color: '#ffffff',
+                    bold: 'Y'
+                }
+            },
+            {
+                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                type: 'textarea',
+                display: {
+                    column: 10,
+                    order: 3
+                },
+                validate: {
+                    required: 'N'
+                },
+                option: [{
+                    seq: 1,
+                    name: 'ITSM팀',
+                    value: 'itsm'
+                },{
+                    seq: 2,
+                    name: '인프라웹팀',
+                    value: 'infraweb'
+                }]
+            }
+        ];
+        var data = {
+            form: formInfo,
+            collections: collections
+        };
+
+        console.log(JSON.stringify(data));
+
         aliceJs.sendXhr({
-            method: 'POST',
+            method: 'PUT',
             url: '/rest/forms/data',
             callbackFunc: function(xhr) {
-                if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
+                if (xhr.responseText) {
                     alert('저장되었습니다.');
                 } else {
                     alert('저장실패');
@@ -486,14 +533,14 @@
             params: JSON.stringify(data)
         });
     }
-    
+
     /**
      * 작업 취소
      */
     function undoForm() {
         //TODO: 작업 취소
     }
-    
+
     /**
      * 작업 재실행
      */
@@ -521,10 +568,10 @@
     function importForm() {
         //TODO: import
     }
-    
+
     /**
      * 데이터 조회
-     * 
+     *
      * @param id 컴포넌트 id
      * @return {Object} component 정보
      */
@@ -535,10 +582,10 @@
         }
         return null;
     }
-    
+
     /**
      * 데이터 추가/수정
-     * 
+     *
      * @param compInfo 컴포넌트 정보
      */
     function changeData(compInfo) {
@@ -563,7 +610,7 @@
     function drawWorkflow(data) {
         console.debug(JSON.parse(data));
         //TODO: 컴포넌트 재정렬
-        
+
         formEditor.data = JSON.parse(data);
         document.querySelector('.form-name').textContent = formEditor.data.form.name;
         if (formEditor.data.components.length > 0 ) {
@@ -579,16 +626,16 @@
     /**
      * 폼 디자이너 편집 화면 초기화
      *
-     * @param form 폼 정보
+     * @param formId 폼 아이디
      */
-    function init(form) {
-        console.info('form editor initialization. [FORM ID: ' + form.formId + ']');
+    function init(formId) {
+        console.info('form editor initialization. [FORM ID: ' + formId + ']');
         workflowUtil.polyfill();
         component.init();
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/forms/data/' + form.formId,
+            url: '/rest/forms/data/' + formId,
             callbackFunc: function(xhr) {
                 drawWorkflow(xhr.responseText);
             },
@@ -606,6 +653,6 @@
     exports.importform = exportForm;
     exports.getData = getData;
     exports.changeData = changeData;
-    
+
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

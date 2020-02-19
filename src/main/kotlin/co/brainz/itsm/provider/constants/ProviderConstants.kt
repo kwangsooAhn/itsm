@@ -31,19 +31,6 @@ object ProviderConstants {
     }
 
     /**
-     * Component Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Component(val url: String, val method: String) {
-        GET_COMPONENTS("/rest/wf/components", "GET"),
-        GET_COMPONENT("/rest/wf/components/{componentId}", "GET"),
-        POST_COMPONENT("/rest/wf/components", "POST"),
-        PUT_COMPONENT("/rest/wf/components/{componentId}", "PUT")
-    }
-
-    /**
      * Workflow Url.
      *
      * @param url
