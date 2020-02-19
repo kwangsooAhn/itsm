@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession
 class AliceLoginController(private val userDetailsService: AliceUserDetailsService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val ticketSearchPage: String = "/tickets/ticketSearch"
+    private val ticketSearchPage: String = "/ticket/ticketSearch"
     private val invalidSessionPage: String = "sessionInvalid"
 
     /**
