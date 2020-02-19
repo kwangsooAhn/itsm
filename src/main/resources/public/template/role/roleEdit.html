@@ -150,7 +150,7 @@
                     method: 'get',
                     url: '/rest/roles/' +  roldId,
                     callbackFunc: function(response) {
-                        var responseJson = JSON.parse(response.responseText)[0];
+                        var responseJson = JSON.parse(response.responseText);
                         document.getElementById('txtRoleId').value = responseJson.roleId;
                         document.getElementById('txtRoleName').value = responseJson.roleName;
                         document.getElementById('txtRoleDesc').value = responseJson.roleDesc;
@@ -164,9 +164,9 @@
                                 }
                             }
                         });
-                        document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserKey;
+                        document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserName;
                         document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
-                        document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
+                        document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserName;
                         document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
                         document.getElementById('txtRoleId').setAttribute('readonly','true');
                     },

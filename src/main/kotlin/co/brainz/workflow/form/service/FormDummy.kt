@@ -1,13 +1,15 @@
 package co.brainz.workflow.form.service
 
 import co.brainz.workflow.form.constants.FormConstants
+import co.brainz.workflow.form.dto.FormComponentSaveDto
+import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.dto.FormDto
 import java.time.LocalDateTime
 import java.util.UUID
 
 class FormDummy: Form {
 
-    override fun formList(search: String): List<FormDto> {
+    override fun forms(search: String): List<FormDto> {
         val list = mutableListOf<FormDto>()
         if (search.isEmpty()) {
             val form = FormDto(
@@ -60,19 +62,19 @@ class FormDummy: Form {
         return list
     }
 
-    override fun form(formId: String): FormDto {
+    override fun form(formId: String): FormComponentViewDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun insertForm(formDto: FormDto): FormDto {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateForm(formDto: FormDto) {
+    override fun createForm(formDto: FormDto): FormDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun deleteForm(formId: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveForm(formComponentSaveDto: FormComponentSaveDto) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

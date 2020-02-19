@@ -39,7 +39,7 @@ menu:
   help: "Helpdesk"
   help.notice: "Notice"
   help.faq: "FAQ"
-  help.ticket: "Service Request"
+  help.document: "Service Request"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
@@ -69,8 +69,8 @@ auth:
   process.create: "process create"
   process.update: "process update"
   process.delete: "process delete"
-  ticket.read: "ticket read"
-  ticket.create: "ticket create"
+  document.read: "document read"
+  document.create: "document create"
 
 # User
 user:
@@ -225,7 +225,7 @@ validation:
     pwContainsInnerMobileNumber: "The password contains your mobile."
     checkEmailFormat: "Please enter the correct email format."
 
-# Ticket
-ticket:
+# Document
+document:
   label:
     list: "Service Request List"

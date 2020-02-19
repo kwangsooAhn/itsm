@@ -4,7 +4,10 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.provider.ProviderForm
 import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.constants.ProviderConstants
+import co.brainz.itsm.provider.dto.FormComponentSaveDto
 import co.brainz.itsm.provider.dto.FormDto
+import co.brainz.itsm.provider.dto.FormSaveDto
+import co.brainz.itsm.provider.dto.FormViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -16,35 +19,25 @@ import java.time.LocalDateTime
 @Service
 class FormService(private val providerForm: ProviderForm) {
 
-    fun findFormList(search: String): List<FormDto> {
+    fun findForms(search: String): List<FormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
         val responseBody = providerForm.getForms(params)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val formList: List<FormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
-        for (item in formList) {
-            item.createDt = item.createDt?.let { ProviderUtilities().toTimezone(it) }
-            item.updateDt = item.updateDt?.let { ProviderUtilities().toTimezone(it) }
+        val forms: List<FormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
+        for (form in forms) {
+            form.createDt = form.createDt?.let { ProviderUtilities().toTimezone(it) }
+            form.updateDt = form.updateDt?.let { ProviderUtilities().toTimezone(it) }
         }
 
-        return formList
+        return forms
     }
 
-    fun findForm(formId: String): FormDto {
-        val responseBody = providerForm.getForm(formId)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val formDto = mapper.readValue(responseBody, FormDto::class.java)
-        formDto.createDt = formDto.createDt?.let { ProviderUtilities().toTimezone(it) }
-        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toTimezone(it) }
-
-        return formDto
+    fun findForm(formId: String): String {
+        return providerForm.getForm(formId)
     }
 
-    fun deleteForm(formId: String) {
-        providerForm.deleteForm(formId)
-    }
-
-    fun insertForm(formDto: FormDto): String {
+    fun createForm(formDto: FormDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         formDto.formStatus = ProviderConstants.FormStatus.EDIT.value
         formDto.createUserKey = aliceUserDto.userKey
@@ -61,10 +54,30 @@ class FormService(private val providerForm: ProviderForm) {
         }
     }
 
-    fun updateForm(formDto: FormDto) {
-        formDto.createDt = formDto.createDt?.let { ProviderUtilities().toGMT(it) }
-        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
-        providerForm.putForm(formDto)
+    fun deleteForm(formId: String): Boolean {
+        return providerForm.deleteForm(formId)
+    }
+
+    fun saveFormData(formData: String): Boolean {
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val map = mapper.readValue(formData, LinkedHashMap::class.java)
+        val forms = mapper.convertValue(map["form"], FormViewDto::class.java)
+        val collections: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(map["collections"], mapper.typeFactory.constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
+
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val formSaveDto = FormSaveDto(
+                formId = forms.id,
+                formName = forms.name,
+                formDesc = forms.desc,
+                updateDt = ProviderUtilities().toGMT(LocalDateTime.now()),
+                updateUserKey = aliceUserDto.userKey
+        )
+        val formComponentSaveDto = FormComponentSaveDto(
+                form = formSaveDto,
+                components = collections
+        )
+
+        return providerForm.putForm(formComponentSaveDto)
     }
 
 }
