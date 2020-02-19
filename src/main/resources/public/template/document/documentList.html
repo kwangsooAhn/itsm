@@ -23,12 +23,12 @@
             <col width="4%">
         </colgroup>
         <tbody>
-            <tr th:each="ticket: ${ticketList}">
-                <td th:text="${ticket.ticketName}"></td>
-                <td th:text="${ticket.ticketDesc}"></td>
+            <tr th:each="document: ${documentList}">
+                <td th:text="${document.documentName}"></td>
+                <td th:text="${document.documentDesc}"></td>
                 <td>
-                    <button sec:authorize="hasAuthority('ticket.create')"
-                        th:attr="onclick=|openTicketEdit('${ticket.ticketId}')|"
+                    <button sec:authorize="hasAuthority('document.create')"
+                        th:attr="onclick=|openDocumentEdit('${document.documentId}')|"
                         th:text="#{common.btn.write}"></button>
                 </td>
             </tr>

@@ -37,8 +37,8 @@ object ProviderConstants {
      * @param method
      */
     enum class Workflow(val url: String, val method: String) {
-        GET_TICKETS("/rest/wf/tickets", "GET"),
-        GET_TICKET("/rest/wf/tickets/{ticketsId}", "GET"),
+        GET_DOCUMENTS("/rest/wf/documents", "GET"),
+        GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
         GET_INSTANCES("/rest/wf/instances", "GET"),
         GET_INSTANCE("/rest/wf/instances/{instanceId}", "GET"),
         POST_INSTANCE("/rest/wf/instances", "POST"),
