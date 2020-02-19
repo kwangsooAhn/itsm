@@ -45,7 +45,7 @@ class NoticeController(private val userService: UserService,
     @GetMapping("/search")
     fun getNoticeSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute("currentDate", LocalDateTime.now())
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
+        model.addAttribute("minusCurrentDate", LocalDateTime.now().minusDays(CodeConstants.SEARCH_RANGE_VALUE))
         return noticeSearchPage
     }
 
@@ -70,7 +70,6 @@ class NoticeController(private val userService: UserService,
                 topNoticeList = noticeService.findTopNoticeList()
             }
         }
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("noticeList", noticeList)
         model.addAttribute("topNoticeList", topNoticeList)
 
