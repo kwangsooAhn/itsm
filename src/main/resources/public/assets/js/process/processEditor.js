@@ -271,8 +271,8 @@
      */
     function checkAvailableLink() {
         let availableLink = true;
-        const source = mousedownElement;
-        const target = mouseoverElement;
+        const source = mousedownElement,
+              target = mouseoverElement;
         links.forEach(function(l) {
             // it's not a gateway, but several starts
             if (!l.source.classed('gateway') && l.source.node().id === source.node().id) {
