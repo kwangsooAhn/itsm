@@ -46,6 +46,25 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
     }
 
     /**
+     * Search Process.
+     *
+     * @param procId
+     * @return ProcessDto
+     */
+    fun getProcess(procId: String): ProcessDto {
+        val processMstEntity = processMstRepository.findProcessMstEntityByProcId(procId)
+        return ProcessDto(
+                processId = processMstEntity.procId,
+                processName = processMstEntity.procName,
+                processDesc = processMstEntity.procDesc,
+                processStatus = processMstEntity.procStatus,
+                createUserKey = processMstEntity.createUserKey,
+                createDt = processMstEntity.createDt,
+                formId = processMstEntity.formMstEntity?.formId
+        )
+    }
+
+    /**
      * 프로세스 신규 기본 정보 등록.
      */
     fun insertProcess(processDto: ProcessDto): String {
