@@ -1,6 +1,6 @@
 package co.brainz.itsm.document.service
 
-import co.brainz.itsm.provider.ProviderWorkflow
+import co.brainz.itsm.provider.ProviderDocument
 import co.brainz.itsm.provider.dto.DocumentDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.stereotype.Service
 
 @Service
-class DocumentService(private val providerWorkflow: ProviderWorkflow) {
+class DocumentService(private val providerDocument: ProviderDocument) {
 
     /**
      * 신청서 리스트 조회.
@@ -16,10 +16,9 @@ class DocumentService(private val providerWorkflow: ProviderWorkflow) {
      * @return List<DocumentDto>
      */
     fun findDocumentList(): List<DocumentDto> {
-        val responseBody = providerWorkflow.getDocuments()
+        val responseBody = providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-        return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java,
-                DocumentDto::class.java))
+        return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, DocumentDto::class.java))
     }
 }
