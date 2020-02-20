@@ -1,5 +1,7 @@
 package co.brainz.workflow.form.service
 
+import co.brainz.workflow.form.dto.FormComponentSaveDto
+import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.dto.FormDto
 
 interface Form {
@@ -10,30 +12,15 @@ interface Form {
      * @param search
      * @return List<FormDto>
      */
-    fun formList(search: String): List<FormDto>
+    fun forms(search: String): List<FormDto>
 
     /**
-     * Search Form.
-     *
-     * @param formId
-     * @return FormDto
-     */
-    fun form(formId: String): FormDto
-
-    /**
-     * Insert Form.
+     * Create Form.
      *
      * @param formDto
      * @return FormDto
      */
-    fun insertForm(formDto: FormDto): FormDto
-
-    /**
-     * Update Form.
-     *
-     * @param formDto
-     */
-    fun updateForm(formDto: FormDto)
+    fun createForm(formDto: FormDto): FormDto
 
     /**
      * Delete Form.
@@ -41,5 +28,19 @@ interface Form {
      * @param formId
      */
     fun deleteForm(formId: String)
+
+    /**
+     * Search Form + Components.
+     *
+     * @param formId
+     */
+    fun form(formId: String): FormComponentViewDto
+
+    /**
+     * Insert Form.
+     *
+     * @param formComponentSaveDto
+     */
+    fun saveForm(formComponentSaveDto: FormComponentSaveDto)
 
 }
