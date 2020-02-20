@@ -111,13 +111,6 @@ ul, li {
         border-left: 1px solid #BCC5D3;
         background: $white;
         overflow: auto;
-
-        .title {
-            padding: 30px 0px 0px 0px; 
-            font-size: 30px; 
-            font-weight: bold; 
-            text-align: center;
-        }
     }
 }
 
@@ -169,22 +162,22 @@ ul, li {
             width: 100%; 
             height: 25px;
         }
-        .field textarea {
+        .field textarea, select {
             width: 100%;
+        }
+        .field span[class*="required"] { color:#fc5f6b; }
+        .field.horizontal { 
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
     }
 }
 
-.component[data-type]:not([data-type="editbox"]):hover { 
-    cursor: pointer; 
-}
-.component[data-type]:not([data-type="editbox"]) .group { 
-    pointer-events: none;
-}
+.component[data-type]:not([data-type="editbox"]):hover { cursor: pointer; }
+//.component[data-type]:not([data-type="editbox"]) .group { pointer-events: none; }
 
-.component[data-type="editbox"]:hover { 
-    cursor: text; 
-}
+.component[data-type="editbox"]:hover { cursor: text; }
 
 .group[contenteditable=true]:empty::before {
     content: attr(placeholder); 
@@ -200,4 +193,134 @@ ul, li {
 
 .group:focus {
     outline: none;
+}
+
+.property-title {
+    margin: 40px 0px 0px 20px; 
+    font-size: 28px; 
+    font-weight: bold;
+    height:30px;
+    line-height: 30px;
+}
+.property-group {
+    padding: 20px 10px;
+    margin: 0px 20px; 
+    border-bottom: 1px solid #707070;
+    font-size: 18px; 
+    font-weight: bold;
+    &[id*="option"] button {
+        width: 25px;
+        height: 25px;
+        outline: 0;
+        margin-right: 2px;
+        border: 1px solid #4C5264;
+        float: right;
+    }
+    button[class*="plus"]::before {
+        content: '+';
+    }
+    button[class*="minus"]::before {
+        content: '-';
+    }
+    table { border-collapse: collapse; font-size: 14px; width: 100%; margin: 10px 0px; text-align: center;}
+    th, td { border: 1px solid #ccc; }
+    th { font-weight: bold; }
+    td input[type=text] { width:100%; height:100%; border: none; text-align: center; }
+}
+.property-field {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    width: 100%;
+    min-height: 20px;
+    font-weight: normal;
+    margin: 10px 0px;
+    .property-field-name {
+        flex-shrink: 0;
+        flex-grow: 0;
+        width: 80px;
+    }
+    input[type=text] {
+        flex: 1;
+        border: 1px solid #4C5264;
+        width: 100%;
+        height: 20px;
+        padding-left:2px;
+    }
+    input[type=text].underline {
+        border: none;
+        border-bottom: 1px solid #4C5264;
+        text-align: right; 
+        padding-right:2px;
+        padding-left: 0px;
+    }
+    select {
+        flex: 1;
+    }
+    input[type=range] {
+        -webkit-appearance: none;
+        width: 50%;
+        height: 1px;
+        background: #4C5264;
+        outline: none;
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 10px;
+            height: 10px;
+            border: 1px solid #4C5264;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+          }
+          
+          &::-moz-range-thumb {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #4C5264;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+          }
+    }
+    label {
+        margin: 0px 20px 0px 5px;
+    }
+    .property-field-button {
+        button {
+            width: 25px;
+            height: 25px;
+            background-color: #f8f9fa;
+            outline: 0;
+            margin-right: 2px;
+            border: 1px solid #4C5264;
+        }
+        button.active {
+            background-color: #C1C1C1;
+        }
+        button[class*="bold"]::before {
+            content: 'B';
+        }
+        button[class*="italic"]::before {
+            content: 'I';
+        }
+        button[class*="underline"]::before {
+            content: 'U';
+            text-decoration: underline; 
+        }
+        button[id*="left"] {
+            margin-left: 20px;
+        }
+        button[id*="left"]::before {
+            content: 'L';
+        }
+        button[id*="center"]::before {
+            content: 'C';
+        }
+        button[id*="right"]::before {
+            content: 'R';
+        }
+    }
+
 }
