@@ -17,27 +17,37 @@ import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.framework.auth.entity.AliceMenuEntity
+import co.brainz.framework.auth.repository.AliceMenuRepository
+import co.brainz.framework.auth.entity.AliceUrlEntity
+import java.awt.Window
 
 @Service
 class AuthService(
         private val aliceAuthRepository: AliceAuthRepository,
-        private val authRepository: AuthRepository //,
-        // auth-menu repository
-        //private val authMenuMapRepository: AliceMenuAuthMapRepository
+        private val authRepository: AuthRepository,
+        private val aliceMenuRepository: AliceMenuRepository
 ) {
 
     /**
-     * 전체 권한 정보 조회
+     * 전체 권한 목록 조회
      */
     fun selectAuthList(): MutableList<AliceAuthEntity> {
         return aliceAuthRepository.findByOrderByAuthIdAsc()
     }
 
     /**
-     * 전체 메뉴 정보 조회
+     * 전체 메뉴 목록 조회
      */
-    fun selectMenuList(): MutableList<AliceAuthEntity> {
-        return aliceAuthRepository.findByOrderByAuthIdAsc()
+    fun selectMenuList(): MutableList<AliceMenuEntity> {
+        return authRepository.findByOrderByMenuIdAsc()
+    }
+    
+    /**
+     * 전체 url 목록 조회
+     */
+    fun selectUrlList(): MutableList<AliceUrlEntity> {
+        return authRepository.findByOrderByUrlIdAsc()
     }
     
     /**
@@ -106,7 +116,7 @@ class AuthService(
     fun selectDetailAuths(authId: String): List<AuthDto> {
         val dto = mutableListOf<AuthDto>()
         val authInfo = authRepository.findByAuthId(authId)
-//        val menuList = mutableListOf<AliceAuthSimpleDto>()
+        val menuList = mutableListOf<AliceAuthSimpleDto>()
 
         authInfo.menuAuthMapEntities.forEach { //authAuthMap ->
 //            menuList.add(AliceAuthSimpleDto(authAuthMap.auth.authId, authAuthMap.auth.authName, authAuthMap.auth.authDesc))
@@ -117,8 +127,10 @@ class AuthService(
                         authInfo.authId,
                         authInfo.authName,
                         authInfo.authDesc,
+                        authInfo.createUser?.userName,
                         authInfo.createDt,
-                        authInfo.updateDt//,
+                        authInfo.updateUser?.userName,
+                        authInfo.updateDt
 //                        null,
 //                        menuList
                 )

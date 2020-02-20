@@ -12,8 +12,10 @@ data class AuthDto(
         var authId: String?,
         var authName: String?,
         var authDesc: String?,
+        var createUserKey: String?,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         var createDt: LocalDateTime = LocalDateTime.now(),
+        var updateUserKey: String?,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         var updateDt: LocalDateTime?
     

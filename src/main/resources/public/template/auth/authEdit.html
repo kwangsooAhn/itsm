@@ -15,19 +15,19 @@
                     th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
         </div>
         <hr>
-        <div style="height: 560px;">
-            <div style="display: inline-block;width:20%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">
+        <div style="height: 600px;width: inherit;display: -webkit-inline-box;">
+            <div style="width:20%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">
                 <ul>
                     <li th:each="auth : ${authList}">
                         <a name="alink" th:text="${auth.authName}" th:id="${auth.authId}" style="cursor: pointer;"></a>
                     </li>
                 </ul>
             </div>
-            <table border="1" style="display: inline-block;">
+            <table border="1" style="">
                 <colgroup>
-                    <col width="20%">
-                    <col width="*">
-                    <col width="20%">
+                    <col width="10%">
+                    <col width="40%">
+                    <col width="10%">
                     <col width="*">
                 </colgroup>
                 <tr>
@@ -40,37 +40,43 @@
                 </tr>
                 <tr>
                     <th th:text="#{auth.label.authDesc}"></th>
-                    <td colspan="3"><textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${authDetail?.authDesc}"></textarea></td>
+                    <td colspan="3">
+                        <textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${authDetail?.authDesc}"></textarea>
+                    </td>
                 </tr>
                 <tr>
                     <th th:text="#{common.label.createUserName}"></th>
                     <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${authDetail?.createUserKey}"></span></td>
-                    <th th:text="#{common.label.createDate}"></th>
-                    <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.createDt,dateformat)}"></span></td>
-                </tr>
-                <tr>
                     <th th:text="#{common.label.updateUserName}"></th>
                     <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${authDetail?.updateUserKey}"></span></td>
+                </tr>
+                <tr>
+                    <th th:text="#{common.label.createDate}"></th>
+                    <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.createDt,dateformat)}"></span></td>
                     <th th:text="#{common.label.updateDate}"></th>
                     <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.updateDt,dateformat)}"></span></td>
                 </tr>
                 <tr>
-                    <td colspan="4">메뉴 목록</td>
+                    <th colspan="2"><span>메뉴 목록</span></th>
+                    <th colspan="2"><span>URL 목록</span></th>
                 </tr>
                 <tr>
-                    <td colspan="4" style="overflow:overlay;">
-                       <!-- 메뉴 목록 -->
-<!--                         <ul style="overflow:overlay;height: 180px;"> -->
-<!--                             <li th:each="menu : ${menuList}"> -->
-<!--                                 <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuName}"> -->
-<!--                                 <a name="alink" th:text="${menu?.menuName}" th:id="${menu.menuName}" ></a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-                       <!-- sample data -->
-                        <ul style="overflow:overlay;height: 180px;">
-                            <li th:each="auth : ${authList}">
-                                <input type="checkbox" name="authMenu" th:id="${auth.authId}" th:value="${auth.authName}">
-                                <a name="alink" th:text="${auth.authName}" th:id="${auth.authId}" ></a>
+                    <td colspan="2" style="overflow:overlay;">
+                        <!-- 메뉴 목록 -->
+                        <ul style="overflow:overlay;height: 200px;">
+                            <li th:each="menu : ${menuList}">
+                                <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuId}">
+                                <span th:text="${menu?.menuId}"></span>
+                                <span th:text="#{|menu.${menu?.menuId}|}"></span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td colspan="2" style="overflow:overlay;">
+                        <!-- URL 목록 -->
+                        <ul style="overflow:overlay;height: 200px;">
+                            <li th:each="url : ${urlList}">
+                                <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
+                                <span th:text="${url?.url}"></span>
                             </li>
                         </ul>
                     </td>
