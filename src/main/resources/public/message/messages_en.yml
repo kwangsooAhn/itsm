@@ -162,6 +162,12 @@ form:
     lang: "Language"
     templatesList: "Templates List"
     searchPlaceholder: "Form Name / Form Description"
+    undo: "Undo"
+    redo: "Redo"
+    import: "Import"
+    export: "Export"
+    preview: "Preview"
+    saveExist: "Save and Exist"
   status:
     edit: "Editing"
     simu: "Simulation Complete"

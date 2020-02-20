@@ -163,6 +163,12 @@ form:
     lang: "언어"
     templatesList: "템플릿 목록"
     searchPlaceholder: "문서양식 이름 / 문서양식 설명"
+    undo: "작업취소"
+    redo: "작업재실행"
+    import: "가져오기"
+    export: "내보내기"
+    preview: "미리보기"
+    saveExist: "저장하고 나가기"
   status:
     edit: "편집중"
     simu: "시뮬레이션 완료"
