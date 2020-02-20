@@ -33,13 +33,13 @@
         var formatArray = format.split(' ');
         var dateFormat = '';
 
-        window.addEventListener('load', function() {
+        window.onload = function() {
             dateFormat = formatArray[0].toUpperCase();
             restSubmit('get', '/notices/list', true);
             // initialization date picker
             dateTimePicker.initDatePicker('fromDt', dateFormat, lang);
             dateTimePicker.initDatePicker('toDt', dateFormat, lang);
-        });
+        }
         
         function validation() {
             if (document.getElementById('fromDt').value === '') {
