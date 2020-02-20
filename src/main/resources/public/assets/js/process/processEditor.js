@@ -11,8 +11,6 @@
         boardInterval: 10
     }
 
-    let data = {};
-
     let svg,
         gNode,
         path,
@@ -61,7 +59,7 @@
         // add new links
         path = path.enter().append('path')
             .attr('class', 'connector')
-            .attr('id', workflowUtil.generateUUID())
+            .attr('id', function(d) { return d.id ? d.id : workflowUtil.generateUUID(); })
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function() {
                 d3.event.stopPropagation();
@@ -810,17 +808,12 @@
 
     /**
      * Draw a element with the loaded information.
-     *
-     * @param data
+     * 
+     * @param elements editor 에 추가할 element 목록
      */
-    function drawProcess(data) {
-        console.debug(JSON.parse(data));
-        AliceProcessEditor.data = JSON.parse(data);
-        document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
-
-        const elements = AliceProcessEditor.data.elements;
+    function drawProcess(elements) {
         // add element
-        elements.forEach(function(element){
+        elements.forEach(function(element) {
             if (element.category === 'connector') {
                 return;
             }
@@ -859,14 +852,17 @@
         });
 
         // add connector
-        elements.forEach(function(element, i){
+        elements.forEach(function(element, i) {
             if (element.category !== 'connector') {
                 return;
             }
             const source = document.getElementById(element.data['start-id']),
                   target = document.getElementById(element.data['end-id']);
-            elements.splice(i, 1);
-            links.push({source: d3.select(source), target: d3.select(target)});
+            const nodeId = workflowUtil.generateUUID();
+            element.id = nodeId;
+            element['start-id'] = source.id;
+            element['end-id'] = target.id;
+            links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
         });
         setConnectors();
     }
@@ -874,7 +870,7 @@
     /**
      * process designer 초기화.
      *
-     * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8-d2fa-44cf-962c-9f853c24ea7b'}
+     * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8d2fa44cf962c9f853c24ea7b'}
      */
     function init(process) {
         console.info('process editor initialization. [PROCESS ID: ' + process.processId + ']');
@@ -882,21 +878,11 @@
         workflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
-        AliceProcessEditor.loadItems();
+        AliceProcessEditor.loadItems(process);
         AliceProcessEditor.initUtil();
-
-        // load process data.
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/processes/data/' + process.processId,
-            callbackFunc: function(xhr) {
-                drawProcess(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
-        });
     }
 
     exports.init = init;
-    exports.data = data;
+    exports.drawProcess = drawProcess;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

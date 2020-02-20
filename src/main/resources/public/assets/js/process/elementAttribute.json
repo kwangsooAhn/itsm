@@ -84,7 +84,7 @@
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {
-              "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "",
+              "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee",
               "sub-list": [
                 {"id": "assignee", "name": "Assignee"},
                 {"id": "candidate-users", "name": "Candidate Users"},

@@ -5,6 +5,8 @@
 }(this, (function (exports) {
     'use strict';
 
+    const data = {};
+
     const iconDirectory = '../../assets/media/icons/process';
     const itemSize = 20;
     const itemMargin = 8;
@@ -155,9 +157,10 @@
      * @param elem 추가된 element
      */
     function addElementProperty(elem) {
-        const elemId = elem.node().id;
-        let elements = AliceProcessEditor.data.elements;
-        const elemList = elements.filter(function(attr) { return attr.id === elemId; });
+        const elemId = elem.node().id,
+              elements = AliceProcessEditor.data.elements;
+
+        let elemList = elements.filter(function(attr) { return attr.id === elemId; });
         if (elemList.length > 0) {
             return;
         }
@@ -175,7 +178,7 @@
                     elemData.category = elementsKeys[i];
                     elemData.type = elemType;
                     elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
-                    elemData.data = {};
+                    elemData.data = getAttributeData(elementsKeys[i], elemType);
                     break;
                 }
             }
@@ -183,21 +186,38 @@
             const data = elem.node().__data__;
             elemData.category = 'connector';
             elemData.type = 'arrow';
-            elemData.data = {'start-id': data.source.node().id, 'end-id': data.target.node().id};
+            elemData.data = getAttributeData('connector', 'arrow');
+            elemData.data['start-id'] = data.source.node().id;
+            elemData.data['end-id'] = data.target.node().id;
         }
         elements.push(elemData);
     }
 
     /**
-     * elements.
+     * element 속성 정보에서 data 정보를 추출하여 json 으로 리턴한다.
      *
-     * @param elem 선택된 element
-     * @return Object element Json 정보
+     * @param category element category
+     * @param type element type
+     * @return Object data JSON
      */
-    function getElementDataProperty(elem) {
-        const elemId = elem.node().id;
-        let elements = AliceProcessEditor.data.elements;
-        return elements.filter(function(attr) { return attr.id === elemId; })[0];
+    function getAttributeData(category, type) {
+        const data = {};
+        let elementTypeList = elementsProperties[category];
+        if (!elementTypeList) {
+            console.error('No information found for category(%s), type(%s) in the configuration file.', category, type);
+            return data;
+        }
+        let elementTypeData = elementTypeList.filter(function(elem){ return elem.type === type; });
+        if (elementTypeData.length > 0) {
+            let attributeList = elementTypeData[0].attribute;
+            attributeList.forEach(function(attr){
+                let items = attr.items;
+                items.forEach(function(item){
+                    data[item.id] = item.default;
+                });
+            });
+        }
+        return data;
     }
 
     /**
@@ -369,13 +389,15 @@
      */
     function setProperties(elem) {
         if (typeof elem !== 'undefined') { // show element properties
+            const elemId = elem.node().id;
+            const elements = AliceProcessEditor.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let property = getElementDataProperty(elem);
+                    let property = elements.filter(function(attr) { return attr.id === elemId; })[0];
                     let properties = elementsProperties[elementsKeys[i]];
                     let attributes = properties.filter(function(p){ return p.type === property.type; });
                     if (attributes.length > 0) {
-                        makePropertiesItem(elem.node().id, attributes[0].attribute, property.data);
+                        makePropertiesItem(elemId, attributes[0].attribute, property.data);
                     }
                     break;
                 }
@@ -494,14 +516,30 @@
     /**
      * tooltip item 에 사용된 이미지 로딩.
      */
-    function loadItems() {
+    function loadItems(process) {
         d3.json('../../assets/js/process/processAttribute.json').then(function(data) {
             processProperties = data;
-            setElementMenu();
-        });
-        d3.json('../../assets/js/process/elementAttribute.json').then(function(data) {
-            elementsProperties = data;
-            elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+            d3.json('../../assets/js/process/elementAttribute.json').then(function(data) {
+                console.debug('load attribute');
+                elementsProperties = data;
+                elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+
+                // load process data.
+                aliceJs.sendXhr({
+                    method: 'GET',
+                    url: '/rest/processes/data/' + process.processId,
+                    callbackFunc: function(xhr) {
+                        const data = xhr.responseText;
+                        console.debug(JSON.parse(data));
+                        AliceProcessEditor.data = JSON.parse(data);
+                        document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
+                        const elements = AliceProcessEditor.data.elements;
+                        setElementMenu();
+                        AliceProcessEditor.drawProcess(elements);
+                    },
+                    contentType: 'application/json; charset=utf-8'
+                });
+            });
         });
 
         const defs = d3.select('svg').append('defs');
@@ -520,6 +558,7 @@
             .attr('xlink:href', function(d) { return d.url; });
     }
 
+    exports.data = data;
     exports.loadItems = loadItems;
     exports.addElementProperty = addElementProperty;
     exports.setElementMenu = setElementMenu;
