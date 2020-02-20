@@ -4,7 +4,6 @@ import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.SignUpDto
 import co.brainz.framework.constants.UserConstants
@@ -74,7 +73,7 @@ class UserRestController(
     /**
      * 사용자가 자신의 정보를 업데이트한다.
      */
-    @PutMapping("/{userKey}/userEdit")
+    @PutMapping("/{userKey}/userEditSelf")
     fun updateUserEdit(
         @RequestBody user: UserUpdateDto, request: HttpServletRequest,
         response: HttpServletResponse

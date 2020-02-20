@@ -28,7 +28,7 @@ class UserController(private val codeService: CodeService,
     private val userPage: String = "user/user"
     private val userListPage: String = "user/userList"
     private val userDetailPage: String = "user/userDetail"
-    private val userEditPage: String = "user/userEdit"
+    private val userEditSelfPage: String = "user/userEditSelf"
     private val userRegisterPage: String = "user/userRegister"
 
     /**
@@ -70,8 +70,8 @@ class UserController(private val codeService: CodeService,
     /**
      * 사용자 자기정보 수정화면을 호출한다.
      */
-    @GetMapping("/{userKey}/userEdit")
-    fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
+    @GetMapping("/{userKey}/userEditSelf")
+    fun getUserSelfEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
         val users = userService.selectUserKey(userKey)
         val timeFormat = users.timeFormat.split(' ')
         val usersDate = timeFormat[0].toString()
@@ -90,7 +90,7 @@ class UserController(private val codeService: CodeService,
         model.addAttribute("timezoneList", timezoneList)
         model.addAttribute("dateList", dateList)
         model.addAttribute("timeList", timeList)
-        return userEditPage
+        return userEditSelfPage
     }
 
     /**
