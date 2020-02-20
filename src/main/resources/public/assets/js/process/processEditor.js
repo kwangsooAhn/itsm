@@ -278,7 +278,6 @@
             if (!l.source.classed('gateway') && l.source.node().id === source.node().id) {
                 availableLink = false;
             }
-
             // cannot link to each other
             if ((l.source.node().id === source.node().id && l.target.node().id === target.node().id) ||
                 (l.source.node().id === target.node().id && l.target.node().id === source.node().id)) {
