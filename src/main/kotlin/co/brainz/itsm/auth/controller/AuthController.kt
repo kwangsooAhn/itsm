@@ -1,5 +1,6 @@
 package co.brainz.itsm.auth.controller
 
+import co.brainz.itsm.auth.service.AuthService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RequestMapping("/auths")
 @Controller
-public class AuthController() {
+public class AuthController(private val authService: AuthService) {
 
     private val logger = LoggerFactory.getLogger(AuthController::class.java)
     private val authEditPage: String = "auth/authEdit"
@@ -19,6 +20,11 @@ public class AuthController() {
      */
     @GetMapping("/edit", "")
     public fun getRolelist(request: HttpServletRequest, model: Model): String {
+
+        var authAllList = authService.selectAuthList()
+        var menuAllList = authService.selectMenuList()
+        model.addAttribute("authList", authAllList)
+        model.addAttribute("menuList", menuAllList)
 
         return authEditPage
     }

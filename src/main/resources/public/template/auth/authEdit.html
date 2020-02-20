@@ -16,7 +16,7 @@
         </div>
         <hr>
         <div style="height: 560px;">
-            <div style="display: inline-block;width:30%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">
+            <div style="display: inline-block;width:20%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">
                 <ul>
                     <li th:each="auth : ${authList}">
                         <a name="alink" th:text="${auth.authName}" th:id="${auth.authId}" style="cursor: pointer;"></a>
@@ -26,9 +26,9 @@
             <table border="1" style="display: inline-block;">
                 <colgroup>
                     <col width="20%">
-                    <col width="30%">
+                    <col width="*">
                     <col width="20%">
-                    <col width="30%">
+                    <col width="*">
                 </colgroup>
                 <tr>
                     <th class="required" th:text="#{auth.label.authId}"></th>
@@ -143,7 +143,7 @@
                     if (AUTH_UPDATE) {
                         document.getElementById('btnUpdate').style.display = 'block';
                     }
-                    if (AUTH_CRAETE) {
+                    if (AUTH_CREATE) {
                         document.getElementById('btnRegist').style.display = 'none';
                     }
                     onGetDetail(this.id);
@@ -204,17 +204,37 @@
             if (AUTH_UPDATE) {
                 document.getElementById('btnUpdate').style.display = 'none';
             }
-            if (AUTH_CRAETE) {
+            if (AUTH_CREATE) {
                 document.getElementById('btnRegist').style.display = 'block';
             }
         }
 
         /*등록, 수정 버튼*/
         function onSave(flag) {
+            if (document.getElementById('txtAuthId').value === '' || document.getElementById('txtAuthId').value === '' ) {
+                alert([[#{role.msg.idNotExist}]]);
+                return;
+            }
+
+            if (document.getElementById('txtAuthName').value === '' || document.getElementById('txtAuthName').value === '' ) {
+                alert([[#{role.msg.nameNotExist}]]);
+                return;
+            }
+            
+            //저장 process
         }
 
         /* 삭제 버튼  */
         function onDelete() {
+            const opt = {
+                    method: 'delete',
+                    url: '/rest/auths/' + document.getElementById('txtAuthId').value,
+                    callbackFunc: function() {
+                        alert([[#{common.msg.delete.success}]]);
+                        window.location.href ='/auths/edit';
+                    }
+                  }
+            aliceJs.sendXhr(opt);
         }
 
         /*]]>*/
