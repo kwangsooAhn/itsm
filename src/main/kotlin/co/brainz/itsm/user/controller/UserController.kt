@@ -29,7 +29,7 @@ class UserController(private val codeService: CodeService,
     private val userListPage: String = "user/userList"
     private val userDetailPage: String = "user/userDetail"
     private val userEditSelfPage: String = "user/userEditSelf"
-    private val userRegisterPage: String = "user/userRegister"
+    private val userEditPage: String = "user/userEdit"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -107,6 +107,6 @@ class UserController(private val codeService: CodeService,
         model.addAttribute("timezoneList", timezoneList)
         model.addAttribute("dateList", dateList)
         model.addAttribute("timeList", timeList)
-        return userRegisterPage
+        return userEditPage
     }
 }
