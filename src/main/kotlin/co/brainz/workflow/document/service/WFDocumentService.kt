@@ -1,47 +1,51 @@
 package co.brainz.workflow.document.service
 
 import co.brainz.workflow.document.dto.DocumentDto
+import co.brainz.workflow.form.dto.FormComponentViewDto
+import co.brainz.workflow.form.service.WFFormService
+import co.brainz.workflow.process.constants.ProcessConstants
+import co.brainz.workflow.process.repository.ProcessMstRepository
+import co.brainz.workflow.process.service.WFProcessService
 import org.springframework.stereotype.Service
 
 @Service
-class WFDocumentService {
+class WFDocumentService(private val wfFormService: WFFormService,
+                        private val wfProcessService: WFProcessService,
+                        private val processMstRepository: ProcessMstRepository) {
 
     /**
-     * 신청서 리스트 조회.
+     * Search Documents.
      *
      * @return List<DocumentDto>
      */
-    fun documentList(): List<DocumentDto> {
-        //TODO 프로세스에 매핑된 문서 중 상태가 발행인 문서를 조회한다.
-        val documentList = mutableListOf<DocumentDto>()
-        val document1 = DocumentDto(
-                documentId = "fbf0e2c7175245df9260c7f94ff42bf6",
-                documentName = "인프라 변경",
-                documentDesc = "인프라 변경 관련 사항을 접수하는 문서양식"
-        )
-        val document2 = DocumentDto(
-                documentId = "16cf1961700e4edbbf5251d7b84b3b99",
-                documentName = "단순문의",
-                documentDesc = "단순한 문의사항 접수하는 문서양식"
-        )
-        documentList.add(document1)
-        documentList.add(document2)
+    fun documents(): List<DocumentDto> {
 
-        return documentList
+        val documents = mutableListOf<DocumentDto>()
+        val processMstEntities = processMstRepository.findProcessMstEntityByProcStatus(ProcessConstants.Status.PUBLISH.code)
+        for (processMstEntity in processMstEntities) {
+            val documentDto = DocumentDto(
+                    documentId = processMstEntity.procId,
+                    documentName = processMstEntity.procName,
+                    documentDesc = processMstEntity.procDesc
+            )
+            documents.add(documentDto)
+        }
+
+        return documents
     }
 
     /**
-     * 신청서 1건 조회.
+     * Search Document.
      *
      * @param documentId
-     * @return DocumentDto
+     * @return FormComponentViewDto
      */
-    fun document(documentId: String): DocumentDto {
-        //TODO 프로세스에 매핑된 문서 중 상태가 발행인 문서를 조회한다. 1건.
-        return DocumentDto(
-                documentId = "fbf0e2c7175245df9260c7f94ff42bf6",
-                documentName = "인프라 변경",
-                documentDesc = "인프라 변경 관련 사항을 접수하는 문서양식"
-        )
+    fun document(documentId: String): FormComponentViewDto? {
+        val processDto = wfProcessService.getProcess(documentId)
+        return if (processDto.processStatus == ProcessConstants.Status.PUBLISH.code) {
+            processDto.formId?.let { wfFormService.form(it) }
+        } else {
+            null
+        }
     }
 }
