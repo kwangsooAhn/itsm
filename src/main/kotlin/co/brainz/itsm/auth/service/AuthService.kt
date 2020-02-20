@@ -106,7 +106,7 @@ class AuthService(
     fun selectDetailAuths(authId: String): List<AuthDto> {
         val dto = mutableListOf<AuthDto>()
         val authInfo = authRepository.findByAuthId(authId)
-        val menuList = mutableListOf<AliceAuthSimpleDto>()
+//        val menuList = mutableListOf<AliceAuthSimpleDto>()
 
         authInfo.menuAuthMapEntities.forEach { //authAuthMap ->
 //            menuList.add(AliceAuthSimpleDto(authAuthMap.auth.authId, authAuthMap.auth.authName, authAuthMap.auth.authDesc))
@@ -117,12 +117,10 @@ class AuthService(
                         authInfo.authId,
                         authInfo.authName,
                         authInfo.authDesc,
-                        authInfo.createUserKey,
                         authInfo.createDt,
-                        authInfo.updateUserKey,
-                        authInfo.updateDt,
-                        null,
-                        menuList
+                        authInfo.updateDt//,
+//                        null,
+//                        menuList
                 )
         )
         return dto
