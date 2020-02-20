@@ -43,6 +43,10 @@ class WFDocumentService(private val wfFormService: WFFormService,
      */
     fun document(documentId: String): FormComponentViewDto? {
         val processDto = wfProcessService.getProcess(documentId)
-        return processDto.formId?.let { wfFormService.form(it) }
+        return if (processDto.processStatus == ProcessConstants.Status.PUBLISH.code) {
+            processDto.formId?.let { wfFormService.form(it) }
+        } else {
+            null
+        }
     }
 }
