@@ -63,7 +63,7 @@
                 formDesc: document.getElementById('form_desc').value
             };
             //등록
-            restSubmit('POST', '/rest/forms/data', formInfo);
+            restSubmit('POST', '/rest/forms', formInfo);
         }
     }
 
@@ -88,7 +88,8 @@
                 opener.location.reload();
                 window.close();
                 const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no";
-                window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500,height=920,' + specs);
+                window.open('/forms/' + response.responseText + '/edit', '_blank', 'width=1500,height=920,' + specs);
+            }
         };
         aliceJs.sendXhr(opt);
     }

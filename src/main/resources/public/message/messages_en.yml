@@ -39,7 +39,7 @@ menu:
   help: "Helpdesk"
   help.notice: "Notice"
   help.faq: "FAQ"
-  help.ticket: "Service Request"
+  help.document: "Service Request"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
@@ -74,8 +74,8 @@ auth:
   process.create: "process create"
   process.update: "process update"
   process.delete: "process delete"
-  ticket.read: "ticket read"
-  ticket.create: "ticket create"
+  document.read: "document read"
+  document.create: "document create"
   auth.read: "auth read"
   auth.create: "auth create"
   auth.update: "auth update"
@@ -171,6 +171,12 @@ form:
     lang: "Language"
     templatesList: "Templates List"
     searchPlaceholder: "Form Name / Form Description"
+    undo: "Undo"
+    redo: "Redo"
+    import: "Import"
+    export: "Export"
+    preview: "Preview"
+    saveExist: "Save and Exist"
   status:
     edit: "Editing"
     simu: "Simulation Complete"
@@ -234,7 +240,7 @@ validation:
     pwContainsInnerMobileNumber: "The password contains your mobile."
     checkEmailFormat: "Please enter the correct email format."
 
-# Ticket
-ticket:
+# Document
+document:
   label:
     list: "Service Request List"

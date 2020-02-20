@@ -39,7 +39,7 @@ menu:
   help: "헬프데스크"
   help.notice: "공지사항"
   help.faq: "FAQ"
-  help.ticket: "신청서"
+  help.document: "신청서"
   setting: "설정"
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
@@ -75,8 +75,8 @@ auth:
   process.create: "프로세스 등록"
   process.update: "프로세스 변경"
   process.delete: "프로세스 삭제"
-  ticket.read: "신청서 조회"
-  ticket.create: "신청서 등록"
+  document.read: "신청서 조회"
+  document.create: "신청서 등록"
   auth.read: "권한 조회"
   auth.create: "권한 등록"
   auth.update: "권한 변경"
@@ -173,6 +173,12 @@ form:
     lang: "언어"
     templatesList: "템플릿 목록"
     searchPlaceholder: "문서양식 이름 / 문서양식 설명"
+    undo: "작업취소"
+    redo: "작업재실행"
+    import: "가져오기"
+    export: "내보내기"
+    preview: "미리보기"
+    saveExist: "저장하고 나가기"
   status:
     edit: "편집중"
     simu: "시뮬레이션 완료"
@@ -236,7 +242,7 @@ validation:
     pwContainsInnerMobileNumber: "비밀번호에 사용자의 핸드폰 번호가 포함되어 있습니다."
     checkEmailFormat: "이메일 형식에 맞게 입력해주세요."
 
-# Ticket
-ticket:
+# Document
+document:
   label:
     list: "신청서 목록"
