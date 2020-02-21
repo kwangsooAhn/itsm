@@ -55,6 +55,14 @@ auth:
     authId: "권한 아이디"
     authName: "권한명"
     authDesc: "권한 설명"
+  msg:
+    idNotExist: "권한 아이디를 입력하세요."
+    nameNotExist: "권한명을 입력하세요."
+  auth:
+    read: "권한 조회"
+    create: "권한 등록"
+    update: "권한 변경"
+    delete: "권한 삭제"
   service.read:
     all: "서비스 요청 전체 조회"
     my: "서비스 요청 자신 업무만 조회"
@@ -77,10 +85,6 @@ auth:
   process.delete: "프로세스 삭제"
   document.read: "신청서 조회"
   document.create: "신청서 등록"
-  auth.read: "권한 조회"
-  auth.create: "권한 등록"
-  auth.update: "권한 변경"
-  auth.delete: "권한 삭제"
 
 # 사용자
 user:

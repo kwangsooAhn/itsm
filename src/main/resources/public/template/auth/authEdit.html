@@ -65,8 +65,7 @@
                         <!-- 메뉴 목록 -->
                         <ul style="overflow:overlay;height: 200px;">
                             <li th:each="menu : ${menuList}">
-                                <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuId}">
-                                <span th:text="${menu?.menuId}"></span>
+                                <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuId}" >
                                 <span th:text="#{|menu.${menu?.menuId}|}"></span>
                             </li>
                         </ul>
@@ -162,21 +161,19 @@
                     url: '/rest/auths/' +  roldId,
                     callbackFunc: function(response) {
                         var responseJson = JSON.parse(response.responseText)[0];
-                        
-                        console.log(responseJson)
                         document.getElementById('txtAuthId').value = responseJson.authId;
                         document.getElementById('txtAuthName').value = responseJson.authName;
                         document.getElementById('txtAuthDesc').value = responseJson.authDesc;
-                        var arrAuthList = responseJson.arrAuthList;
+                        var arrMenuList = responseJson.arrMenuList;
 
-//                         Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authAuth) {
-//                             authAuth.checked = false;
-//                             for (var i = 0; i<arrAuthList.length; i++) {
-//                                 if (authAuth.id == arrAuthList[i].authId) {
-//                                     authAuth.checked = true;
-//                                 }
-//                             }
-//                         });
+                        Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authMenu) {
+                            authMenu.checked = false;
+                            for (var i = 0; i<arrMenuList.length; i++) {
+                                if (authMenu.id == arrMenuList[i].menuId) {
+                                    authMenu.checked = true;
+                                }
+                            }
+                        });
                         document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserKey;
                         document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
                         document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
@@ -199,8 +196,8 @@
             document.getElementById('txtAuthName').value = '';
             document.getElementById('txtAuthDesc').value = '';
             var authMenus = document.getElementsByName('authMenu');
-            for(var i = 0; i < authAuths.length; i++) {
-                authMenus[i].checked = false;
+            for(var i = 0; i < authMenu.length; i++) {
+                authMenu[i].checked = false;
             }
 
             document.getElementById('spanCreateUserKey').innerHTML = '';
@@ -218,16 +215,51 @@
         /*등록, 수정 버튼*/
         function onSave(flag) {
             if (document.getElementById('txtAuthId').value === '' || document.getElementById('txtAuthId').value === '' ) {
-                alert([[#{role.msg.idNotExist}]]);
+                alert([[#{auth.msg.idNotExist}]]);
                 return;
             }
 
             if (document.getElementById('txtAuthName').value === '' || document.getElementById('txtAuthName').value === '' ) {
-                alert([[#{role.msg.nameNotExist}]]);
+                alert([[#{auth.msg.nameNotExist}]]);
                 return;
             }
-            
+
             //저장 process
+            var obj = new Object();
+            obj.authId = document.getElementById('txtAuthId').value;    //권한 아이디
+            obj.authName = document.getElementById('txtAuthName').value;//권한명
+            obj.authDesc= document.getElementById('txtAuthDesc').value; //권한 설명
+            
+//             var arrAuthId = new Array();                                //권한-메뉴
+//             Array.prototype.forEach.call(document.querySelectorAll('input[name=authAuth]:checked'), function(item) {
+//                 arrAuthId.push(item.id);
+//             });
+
+//             if (arrAuthId.length === 0) {
+//                 alert([[#{auth.msg.authNotExist}]]);
+//                 return;
+//             }
+
+//             obj.arrAuthId = arrAuthId;
+            if (flag === 'post') {
+                strUrl = '/rest/auths';
+            } else {
+                strUrl = '/rest/auths/'+ document.getElementById('txtAuthId').value;
+            }
+            var authJson = JSON.stringify(obj);
+
+            const opt = {
+                method: flag,
+                url: strUrl,
+                params: authJson,
+                contentType: 'application/json',
+                callbackFunc: function () {
+                    alert([[#{common.msg.save}]]);
+                    window.location.href ='/auths/edit';
+                }
+            };
+            
+            aliceJs.sendXhr(opt);
         }
 
         /* 삭제 버튼  */

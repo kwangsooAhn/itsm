@@ -23,7 +23,7 @@ public class AuthController(private val authService: AuthService) {
 
         var authAllList = authService.selectAuthList()
         var menuAllList = authService.selectMenuList()
-        var urlAllList = authService.selectMenuList()
+        var urlAllList = authService.selectUrlList()
         model.addAttribute("authList", authAllList)
         model.addAttribute("menuList", menuAllList)
         model.addAttribute("urlList", urlAllList)

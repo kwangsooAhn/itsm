@@ -2,8 +2,9 @@ package co.brainz.itsm.auth.service
 
 
 import co.brainz.itsm.auth.repository.AuthRepository
-import co.brainz.itsm.auth.dto.AuthDetailDto
 import co.brainz.itsm.auth.dto.AuthDto
+import co.brainz.itsm.auth.dto.AuthDetailDto
+import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapEntity
 import co.brainz.framework.auth.entity.AliceRoleEntity
@@ -12,7 +13,7 @@ import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import org.springframework.stereotype.Service
 import co.brainz.framework.auth.dto.AliceAuthSimpleDto
 import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
-import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.auth.repository.AliceUrlRepository
 
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
@@ -20,34 +21,34 @@ import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.entity.AliceUrlEntity
-import java.awt.Window
 
 @Service
 class AuthService(
         private val aliceAuthRepository: AliceAuthRepository,
-        private val authRepository: AuthRepository,
-        private val aliceMenuRepository: AliceMenuRepository
+        private val aliceMenuRepository: AliceMenuRepository,
+        private val aliceUrlRepository: AliceUrlRepository,
+        private val authRepository: AuthRepository
 ) {
 
     /**
      * 전체 권한 목록 조회
      */
     fun selectAuthList(): MutableList<AliceAuthEntity> {
-        return aliceAuthRepository.findByOrderByAuthIdAsc()
+        return authRepository.findByOrderByAuthNameAsc()
     }
 
     /**
      * 전체 메뉴 목록 조회
      */
     fun selectMenuList(): MutableList<AliceMenuEntity> {
-        return authRepository.findByOrderByMenuIdAsc()
+        return aliceMenuRepository.findByOrderByMenuIdAsc()
     }
     
     /**
      * 전체 url 목록 조회
      */
     fun selectUrlList(): MutableList<AliceUrlEntity> {
-        return authRepository.findByOrderByUrlIdAsc()
+        return aliceUrlRepository.findByOrderByUrlAsc()
     }
     
     /**
@@ -55,15 +56,17 @@ class AuthService(
      */
     fun deleteAuth(authId: String): String {
         val authInfo = authRepository.findByAuthId(authId)
-//        val userAuthMapCount = userAuthMapRepository.findByAuth(authInfo).count()
-        
-        return "PlaseDeleteMapperUser"
+        // 역할 매핑 정보 확인
+//        val roleAuthMapCount = userAuthMapRepository.findByAuth(authInfo).count()
         
 //        return if (userAuthMapCount == 0) {
+        // 메뉴 매핑 정보 삭제
 //            authInfo.authAuthMapEntities.forEach { authAuthMap ->
 //                authAuthMapRepository.deleteById(AliceAuthAuthMapPk(authInfo.authId, authAuthMap.auth.authId))
 //            }
-//            authRepository.deleteById(authId)
+        // url 매핑 정보 삭제
+            authRepository.deleteById(authId)
+        return "true"
 //            "true"
 //        } else {
 //            "PlaseDeleteMapperUser"
@@ -116,10 +119,11 @@ class AuthService(
     fun selectDetailAuths(authId: String): List<AuthDto> {
         val dto = mutableListOf<AuthDto>()
         val authInfo = authRepository.findByAuthId(authId)
-        val menuList = mutableListOf<AliceAuthSimpleDto>()
+        val menuList = mutableListOf<AuthMenuDto>()
+//        val urlList = mutableListOf<AliceAuthSimpleDto>()
 
-        authInfo.menuAuthMapEntities.forEach { //authAuthMap ->
-//            menuList.add(AliceAuthSimpleDto(authAuthMap.auth.authId, authAuthMap.auth.authName, authAuthMap.auth.authDesc))
+        authInfo.menuAuthMapEntities.forEach { authMenuMap ->
+            menuList.add(AuthMenuDto(authMenuMap.menu.menuId, authMenuMap.auth.authId))
         }
 
         dto.add(
@@ -130,9 +134,9 @@ class AuthService(
                         authInfo.createUser?.userName,
                         authInfo.createDt,
                         authInfo.updateUser?.userName,
-                        authInfo.updateDt
-//                        null,
-//                        menuList
+                        authInfo.updateDt,
+                        null,
+                        menuList
                 )
         )
         return dto

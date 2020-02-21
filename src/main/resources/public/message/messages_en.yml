@@ -54,6 +54,14 @@ auth:
     authId: "Auth ID"
     authName: "Auth name"
     authDesc: "Auth Desc"
+  msg:
+    idNotExist: "Please enter a auth id."
+    nameNotExist: "Please enter a auth name."
+  auth:
+    read: "auth read"
+    create: "auth create"
+    update: "auth update"
+    delete: "auth delete"
   service.read:
     all: "서비스 요청 전체 조회"
     my: "서비스 요청 자신 업무만 조회"
@@ -76,10 +84,6 @@ auth:
   process.delete: "process delete"
   document.read: "document read"
   document.create: "document create"
-  auth.read: "auth read"
-  auth.create: "auth create"
-  auth.update: "auth update"
-  auth.delete: "auth delete"
 
 # User
 user:
