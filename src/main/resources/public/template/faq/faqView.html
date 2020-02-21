@@ -36,9 +36,9 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
-        window.addEventListener('load', function() {
+        window.onload = function() {
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]', editor: false}});
-        });
+        }
     </script>
 </th:block>
 </html>

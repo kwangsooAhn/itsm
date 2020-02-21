@@ -95,7 +95,7 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        window.addEventListener('load', function() {
+        window.onload = function() {
             // 게시물 삭제 처리 시, validation 체크.
             const noticeNo = /*[[${notice.noticeNo}]]*/;
             if (noticeNo === null) {
@@ -117,7 +117,7 @@
                 document.getElementById('topNoticeTab').style.display = 'none';
             }
             fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
-        });
+        }
 
         //RESTFUL API
         function restSubmit(method, url, async) {
