@@ -16,9 +16,9 @@
 </body>
 <th:block layout:fragment="pageScript">
 <script type="text/javascript">
-    window.addEventListener('load', function() {
+    window.onload = function() {
         restSubmit('get', '/documents/list')
-    });
+    }
 
     //REST API
     function restSubmit(method, url) {

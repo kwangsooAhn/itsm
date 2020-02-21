@@ -2,6 +2,7 @@ package co.brainz.workflow.engine
 
 import co.brainz.workflow.component.repository.ComponentDataRepository
 import co.brainz.workflow.component.repository.ComponentMstRepository
+import co.brainz.workflow.document.repository.DocumentRepository
 import co.brainz.workflow.form.repository.FormMstRepository
 import co.brainz.workflow.form.service.Form
 import co.brainz.workflow.form.service.WFFormService
@@ -16,7 +17,7 @@ class WFEngine(private val formMstRepository: FormMstRepository,
                private val componentMstRepository: ComponentMstRepository,
                private val componentDataRepository: ComponentDataRepository,
                private val wfFormService: WFFormService,
-               private val wfProcessService: WFProcessService) {
+               private val documentRepository: DocumentRepository) {
 
     /**
      * Form Engine.
@@ -37,7 +38,7 @@ class WFEngine(private val formMstRepository: FormMstRepository,
      * Document Engine.
      */
     fun document(): WFDocumentService {
-        return WFDocumentService(wfFormService, wfProcessService, processMstRepository)
+        return WFDocumentService(wfFormService, documentRepository)
     }
 
 }
