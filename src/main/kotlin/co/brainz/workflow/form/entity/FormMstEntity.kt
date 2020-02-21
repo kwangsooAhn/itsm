@@ -1,6 +1,7 @@
 package co.brainz.workflow.form.entity
 
 import co.brainz.workflow.component.entity.ComponentMstEntity
+import co.brainz.workflow.document.entity.DocumentEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -45,4 +46,7 @@ data class FormMstEntity(
 ): Serializable {
         @OneToMany(fetch = FetchType.LAZY, mappedBy = "components", cascade = [CascadeType.REMOVE])
         val components: MutableList<ComponentMstEntity>? = mutableListOf()
+
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "forms")
+        val forms: MutableList<DocumentEntity>? = mutableListOf()
 }
