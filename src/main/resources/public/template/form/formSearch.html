@@ -23,9 +23,9 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        window.addEventListener('load', function() {
+        window.onload = function() {
             getFormList(document.getElementById('search').value);
-        });
+        }
         
         document.getElementById('search').onkeyup = function() {
             getFormList(this.value);
