@@ -1,6 +1,7 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.itsm.provider.ProviderDocument
+import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.dto.DocumentDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -19,6 +20,11 @@ class DocumentService(private val providerDocument: ProviderDocument) {
         val responseBody = providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-        return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, DocumentDto::class.java))
+        val documents: List<DocumentDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, DocumentDto::class.java))
+        for (document in documents) {
+            document.createDt = document.createDt?.let { ProviderUtilities().toTimezone(it) }
+            document.updateDt = document.updateDt?.let { ProviderUtilities().toTimezone(it) }
+        }
+        return documents
     }
 }
