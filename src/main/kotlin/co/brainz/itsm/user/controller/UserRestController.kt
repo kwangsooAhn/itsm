@@ -71,10 +71,40 @@ class UserRestController(
     }
 
     /**
+     * 사용자 정보를 업데이트한다.
+     */
+    @PutMapping("/{userKey}/userEdit")
+    fun updateUserEdit(
+            @RequestBody user: UserUpdateDto, request: HttpServletRequest,
+            response: HttpServletResponse
+    ): String {
+        val result = userService.updateUserEdit(user)
+
+        if (result == UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code) {
+            certificationService.sendMail(
+                    user.userId,
+                    user.email!!,
+                    UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
+                    null
+            )
+        } else {
+            certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code, null)
+        }
+        localeResolver.setLocale(request, response, Locale(user.lang))
+        if (SecurityContextHolder.getContext().authentication != null) {
+            val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+            if (user.userKey.equals(aliceUserDto.userKey)) {
+                SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(user));
+            }
+        }
+        return result
+    }
+
+    /**
      * 사용자가 자신의 정보를 업데이트한다.
      */
     @PutMapping("/{userKey}/userEditSelf")
-    fun updateUserEdit(
+    fun updateUserSelfEdit(
         @RequestBody user: UserUpdateDto, request: HttpServletRequest,
         response: HttpServletResponse
     ): String {

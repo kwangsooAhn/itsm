@@ -8,35 +8,36 @@
 <body>
 <th:block layout:fragment="content">
     <div id="container" align="center">
+        <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
         <table style="text-align: left;">
             <tbody id="tbody">
             <tr>
                 <th th:text="#{user.id}+'*'"/>
-                <td><input type="text" id="userId" name="userId" maxlength="100" required="required"/>
+                <td><input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
             </tr>
             <tr>
                 <th th:text="#{user.name}+'*'"/>
-                <td><input type="text" id="userName" name="userName" maxlength="100" required="required"/>
+                <td><input type="text" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
             </tr>
             <tr>
                 <th th:text="#{user.email}+'*'"/>
-                <td><input type="text" id="email" name="email" maxlength="100" required="required"/>
+                <td><input type="text" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required"/>
             </tr>
             <tr>
                 <th th:text="#{user.position}"/>
-                <td><input type="text" id="position" name="position" maxlength="100"/>
+                <td><input type="text" id="position" name="position" th:value="${users?.position}" maxlength="100"/>
             </tr>
             <tr>
                 <th th:text="#{user.department}"/>
-                <td><input type="text" id="department" name="department" maxlength="100"/>
+                <td><input type="text" id="department" name="department" th:value="${users?.department}" maxlength="100"/>
             </tr>
             <tr>
                 <th th:text="#{user.officeNumber}"/>
-                <td><input type="text" id="officeNumber" name="officeNumber" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
+                <td><input type="text" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
             </tr>
             <tr>
                 <th th:text="#{user.mobileNumber}"/>
-                <td><input type="text" id="mobileNumber" name="mobileNumber" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
+                <td><input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
             </tr>
             <tr>
                 <th th:text="#{user.timezone}+'*'"/>
@@ -61,7 +62,8 @@
             </tr>
             </tbody>
         </table>
-        <button style="margin-top: 25px;" onclick="userRegister()" th:text="#{user.reg}"></button>
+        <button style="margin-top: 25px;" th:if="!${users?.userKey}" onclick="restSubmit('POST', '/rest/users')" th:text="#{user.reg}"></button>
+        <button style="margin-top: 25px;" th:if="${users?.userKey}" onclick="restSubmit('PUT', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]])" th:text="#{user.editUserInfo}"></button>
     </div>
     <br>
     <br>
@@ -96,13 +98,14 @@
         const STATUS_ERROR_USER_ID_DUPLICATION = '1';
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
 
-        function userRegister() {
+        function restSubmit(method, url) {
 
             if (!validation()) {
                 return false;
             }
 
             const data = {
+                userKey: document.getElementById('userKey').value,
                 userId: document.getElementById('userId').value,
                 userName: document.getElementById('userName').value,
                 email: document.getElementById('email').value,
@@ -114,10 +117,7 @@
                 lang: document.getElementById('lang').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value
             };
-            registSubmit('POST', [[@{/rest/users}]], data);
-        }
 
-        function registSubmit(method, url, data) {
             const opt = {
                 method: method,
                 url: url,
