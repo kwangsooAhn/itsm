@@ -1,17 +1,14 @@
 package co.brainz.workflow.document.service
 
 import co.brainz.workflow.document.dto.DocumentDto
+import co.brainz.workflow.document.repository.DocumentRepository
 import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.service.WFFormService
-import co.brainz.workflow.process.constants.ProcessConstants
-import co.brainz.workflow.process.repository.ProcessMstRepository
-import co.brainz.workflow.process.service.WFProcessService
 import org.springframework.stereotype.Service
 
 @Service
 class WFDocumentService(private val wfFormService: WFFormService,
-                        private val wfProcessService: WFProcessService,
-                        private val processMstRepository: ProcessMstRepository) {
+                        private val documentRepository: DocumentRepository) {
 
     /**
      * Search Documents.
@@ -21,12 +18,18 @@ class WFDocumentService(private val wfFormService: WFFormService,
     fun documents(): List<DocumentDto> {
 
         val documents = mutableListOf<DocumentDto>()
-        val processMstEntities = processMstRepository.findProcessMstEntityByProcStatus(ProcessConstants.Status.PUBLISH.code)
-        for (processMstEntity in processMstEntities) {
+        val documentEntities = documentRepository.findAll()
+        for (document in documentEntities) {
             val documentDto = DocumentDto(
-                    documentId = processMstEntity.procId,
-                    documentName = processMstEntity.procName,
-                    documentDesc = processMstEntity.procDesc
+                    documentId = document.documentId,
+                    documentName = document.documentName,
+                    documentDesc = document.documentDesc,
+                    procId = document.processes.procId,
+                    formId = document.forms.formId,
+                    createDt = document.createDt,
+                    createUserKey = document.createUserKey,
+                    updateDt = document.updateDt,
+                    updateUserKey = document.updateUserKey
             )
             documents.add(documentDto)
         }
@@ -41,11 +44,7 @@ class WFDocumentService(private val wfFormService: WFFormService,
      * @return FormComponentViewDto
      */
     fun document(documentId: String): FormComponentViewDto? {
-        val processDto = wfProcessService.getProcess(documentId)
-        return if (processDto.processStatus == ProcessConstants.Status.PUBLISH.code) {
-            processDto.formId?.let { wfFormService.form(it) }
-        } else {
-            null
-        }
+        val documentEntity = documentRepository.findDocumentEntityByDocumentId(documentId)
+        return wfFormService.form(documentEntity.forms.formId)
     }
 }

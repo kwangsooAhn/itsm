@@ -29,18 +29,6 @@
                 <tr>
                     <td><textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
                 </tr>
-                <tr>
-                    <th th:text="#{form.label.name}"></th>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="form" tabindex="3">
-                            <option value="" th:text="#{common.label.notSelect}"></option>
-                            <option th:each="form: ${formList}" th:value="${form.formId}" th:text="${form.formName}">
-                            </option>
-                        </select>
-                    </td>
-                </tr>
             </table>
             <div><a th:text="#{common.btn.next}" href="javascript:replaceContent();"></a></div>
         </div>
@@ -72,8 +60,7 @@
         if (emptyValidation()) {
             const processInfo = {
                 processName: document.getElementById('process_name').value,
-                processDesc: document.getElementById('process_desc').value,
-                formId: document.getElementById('form').value
+                processDesc: document.getElementById('process_desc').value
             };
             //등록
             restSubmit('POST', '/rest/processes/data', processInfo);

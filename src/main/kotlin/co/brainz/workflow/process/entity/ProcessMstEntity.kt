@@ -1,5 +1,6 @@
 package co.brainz.workflow.process.entity
 
+import co.brainz.workflow.document.entity.DocumentEntity
 import co.brainz.workflow.form.entity.FormMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
@@ -10,6 +11,7 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.Table
 
@@ -53,4 +55,8 @@ data class ProcessMstEntity(
     @Column(name = "update_user_key")
     var updateUserKey: String? = null
 
-) : Serializable
+) : Serializable {
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "processes")
+    val processes: MutableList<DocumentEntity>? = mutableListOf()
+}

@@ -177,7 +177,7 @@
         var formatArray = format.split(' ');
         var dateFormat = '';
         var timeFormat = '';
-        window.addEventListener('load', function() {
+        window.onload = function() {
             dateFormat =  formatArray[0].toUpperCase();
             if (formatArray.length === 2) {
                 timeFormat = '24';
@@ -216,7 +216,7 @@
                 setDisplay('popTab', false);
             }
             fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
-        });
+        }
 
         function setDisplay(name, condition) {
             if (condition) {
