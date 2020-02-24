@@ -1,18 +1,22 @@
 package co.brainz.itsm.process.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.provider.ProviderProcess
 import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.workflow.process.constants.ProcessConstants
-import co.brainz.workflow.process.dto.ProcessDto
+import co.brainz.itsm.provider.dto.ProcessDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.LinkedMultiValueMap
+import java.time.LocalDateTime
 
 @Service
+@Transactional
 class ProcessService(private val providerProcess: ProviderProcess) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -46,10 +50,25 @@ class ProcessService(private val providerProcess: ProviderProcess) {
         return "test8cbdd784401aaad6d310df85ac2d"
     }
 
+    fun createProcess(processDto: ProcessDto): String {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        processDto.createUserKey = aliceUserDto.userKey
+        processDto.createDt =  ProviderUtilities().toGMT(LocalDateTime.now())
+        val responseBody: String = providerProcess.postProcess(processDto)
+        return when (responseBody.isNotEmpty()) {
+            true -> {
+                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+                val dataDto = mapper.readValue(responseBody, ProcessDto::class.java)
+                dataDto.processId
+            }
+            false -> ""
+        }
+    }
+
     /**
      * 프로세스 1건 데이터 삭제.
      */
-    fun deleteProcess(processId: String) {
-        //TODO DB에서 삭제.
+    fun deleteProcess(processId: String): Boolean {
+        return  providerProcess.deleteProcess(processId)
     }
 }
