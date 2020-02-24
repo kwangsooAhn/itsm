@@ -841,21 +841,30 @@
             let node;
             const x = element.display['position-x'],
                   y = element.display['position-y'];
-            if (element.category === 'event') {
-                node = new EventElement(x, y);
-            } else if (element.category === 'task') {
-                node = new TaskElement(x, y, element.display.width, element.display.height);
-            } else if (element.category === 'subprocess') {
-                node = new SubprocessElement(x, y, element.display.width, element.display.height);
-            } else if (element.category === 'gateway') {
-                node = new GatewayElement(x, y);
-            } else if (element.category === 'artifact') {
-                if (element.type === 'group') {
-                    node = new GroupElement(x, y, element.display.width, element.display.height);
-                } else if (element.type === 'annotation') {
-                    node = new AnnotationElement(x, y);
-                }
+
+            switch (element.category) {
+                case 'event':
+                    node = new EventElement(x, y);
+                    break;
+                case 'task':
+                    node = new TaskElement(x, y, element.display.width, element.display.height);
+                    break;
+                case 'subprocess':
+                    node = new SubprocessElement(x, y, element.display.width, element.display.height);
+                    break;
+                case 'gateway':
+                    node = new GatewayElement(x, y);
+                case 'artifact':
+                    if (element.type === 'group') {
+                        node = new GroupElement(x, y, element.display.width, element.display.height);
+                    } else if (element.type === 'annotation') {
+                        node = new AnnotationElement(x, y);
+                    }
+                    break;
+                default:
+                    break;
             }
+
             if (node) {
                 const nodeId = node.nodeElement.attr('id');
                 elements.forEach(function(e){
@@ -873,7 +882,7 @@
         });
 
         // add connector
-        elements.forEach(function(element, i) {
+        elements.forEach(function(element) {
             if (element.category !== 'connector') {
                 return;
             }
