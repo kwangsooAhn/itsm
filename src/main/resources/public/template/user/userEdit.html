@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
     <meta charset="UTF-8">
@@ -166,6 +167,7 @@
         const STATUS_ERROR_USER_ID_DUPLICATION = '1';
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
+        const STATUS_SUCCESS_EDIT_ADMIN = '5';
 
         function restSubmit(method, url) {
             const oldPassword = document.getElementById('oldPassword').value;
@@ -178,12 +180,12 @@
                 return false;
             }
 
-            keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-            keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-            rsa = new RSAKey();
-            rsa.setPublic(keyModule, keyExponent);
-
             if (method === 'put') {
+                keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+                keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+                rsa = new RSAKey();
+                rsa.setPublic(keyModule, keyExponent);
+
                 if( password === '' ) {
                     password = oldPassword;
                 } else {
@@ -217,6 +219,10 @@
                             alert('사용자가 등록되었습니다.');
                             window.location.reload();
                             break;
+                        case STATUS_SUCCESS_EDIT_ADMIN:
+                            alert('수정되었습니다.');
+                            window.location.reload();
+                            break;
                         case STATUS_SUCCESS_EDIT_EMAIL:
                             alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
                             window.location.reload();
@@ -228,7 +234,7 @@
                             alert('이미 사용중인 이메일입니다.');
                             break;
                         default :
-                            alert('사용자 등록이 실패되었습니다.');
+                            alert('수정 및 등록이 실패되었습니다.');
                             break;
                     }
                 }

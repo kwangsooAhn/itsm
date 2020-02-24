@@ -1,5 +1,6 @@
 package co.brainz.itsm.user.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.certification.repository.CertificationRepository
@@ -19,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.security.core.context.SecurityContextHolder
 import java.security.PrivateKey
 import java.util.Optional
 
@@ -96,6 +98,7 @@ class UserService(private val certificationRepository: CertificationRepository,
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(update)
+                val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
 
                 if (targetEntity.password != update.password) {
                     val password = cryptoRsa.decrypt(privateKey, update.password!!)
@@ -104,8 +107,10 @@ class UserService(private val certificationRepository: CertificationRepository,
                 logger.debug("targetEntity {}, update {}", targetEntity, update)
                 userRepository.save(targetEntity)
 
-                code =  if (targetEntity.email ==  emailConfirmVal) {
+                code =  if (targetEntity.email ==  emailConfirmVal && update.userKey == aliceUserDto.userKey) {
                     UserConstants.UserEditStatus.STATUS_SUCCESS.code
+                } else if (update.userKey != aliceUserDto.userKey) {
+                    UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
                 } else {
                     UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
                 }
