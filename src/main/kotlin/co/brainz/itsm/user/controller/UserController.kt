@@ -1,9 +1,7 @@
 package co.brainz.itsm.user.controller
 
-import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.service.UserService
 import org.slf4j.Logger
@@ -21,13 +19,11 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping("/users")
 class UserController(private val codeService: CodeService,
-                     private val userService: UserService,
-                     private val roleService: RoleService) {
+                     private val userService: UserService) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userPage: String = "user/user"
     private val userListPage: String = "user/userList"
-    private val userDetailPage: String = "user/userDetail"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
 
@@ -46,25 +42,6 @@ class UserController(private val codeService: CodeService,
     fun getUserList(searchValue: String, model: Model): String {
         model.addAttribute("users", userService.selectUserList(searchValue))
         return userListPage
-    }
-
-    /**
-     * 사용자 상세 조회 화면을 호출한다.
-     */
-    @GetMapping("/{userId}/edit")
-    fun getUserDetail(@PathVariable userId: String, model: Model): String {
-        val users = userService.selectUser(userId)
-        val roleEntities = mutableSetOf<AliceRoleEntity>()
-
-        users.userRoleMapEntities.forEach {userRoleMap ->
-            roleEntities.add(userRoleMap.role)
-        }
-
-        val roles = roleService.getRoles(roleEntities)
-        model.addAttribute("users", users)
-        model.addAttribute("roles", roles)
-
-        return userDetailPage
     }
 
     /**
