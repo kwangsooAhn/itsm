@@ -11,8 +11,6 @@
         boardInterval: 10
     }
 
-    let data = {};
-
     let svg,
         gNode,
         path,
@@ -61,6 +59,7 @@
         // add new links
         path = path.enter().append('path')
             .attr('class', 'connector')
+            .attr('id', function(d) { return d.id ? d.id : workflowUtil.generateUUID(); })
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function() {
                 d3.event.stopPropagation();
@@ -77,6 +76,9 @@
 
                 setConnectors();
                 AliceProcessEditor.setElementMenu(selectedLink);
+            })
+            .call(function(d) {
+                AliceProcessEditor.addElementProperty(d);
             })
             .merge(path);
 
@@ -292,19 +294,21 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
      * @constructor
      */
-    function RectResizableElement(x, y) {
+    function RectResizableElement(x, y, width, height) {
         const self = this;
-        self.width = 120;
-        self.height = 70;
+        self.width = width ? width : 120;
+        self.height = height ? height : 70;
         self.radius = 10;
         x = x - (self.width / 2);
         y = y - (self.height / 2);
 
         self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
         self.nodeElement = gNode.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', self.rectData.x)
@@ -464,10 +468,12 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
      * @returns {TaskElement}
      * @constructor
      */
-    function TaskElement(x, y) {
+    function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y);
         this.nodeElement.classed('task', true);
@@ -479,10 +485,12 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
      * @returns {SubprocessElement}
      * @constructor
      */
-    function SubprocessElement(x, y) {
+    function SubprocessElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y);
         this.nodeElement.classed('subprocess', true);
@@ -502,7 +510,7 @@
         const radius = 25;
 
         self.nodeElement = gNode.append('circle')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
@@ -542,7 +550,7 @@
         const width = 45, height = 45;
 
         self.nodeElement = gNode.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -578,10 +586,12 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
      * @returns {GroupElement}
      * @constructor
      */
-    function GroupElement(x, y) {
+    function GroupElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y);
         this.nodeElement
@@ -603,7 +613,7 @@
         const width = 30, height = 30;
 
         self.nodeElement = gNode.append('rect')
-            .attr('id', workflowUtil.generateUUID)
+            .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -632,7 +642,7 @@
     }
 
     /**
-     * element에 이벤트를 추가한다.
+     * element 에 이벤트를 추가한다.
      */
     function addElementsEvent() {
         d3.selectAll('.alice-process-element-palette, .alice-process-drawing-board')
@@ -672,6 +682,7 @@
                 }
                 if (node) {
                     nodes.push(node.nodeElement);
+                    AliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
     }
@@ -818,19 +829,78 @@
 
     /**
      * Draw a element with the loaded information.
-     *
-     * @param data
+     * 
+     * @param elements editor 에 추가할 element 목록
      */
-    function drawProcess(data) {
-        console.debug(JSON.parse(data));
-        AliceProcessEditor.data = JSON.parse(data);
-        document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
+    function drawProcess(elements) {
+        // add element
+        elements.forEach(function(element) {
+            if (element.category === 'connector') {
+                return;
+            }
+            let node;
+            const x = element.display['position-x'],
+                  y = element.display['position-y'];
+
+            switch (element.category) {
+                case 'event':
+                    node = new EventElement(x, y);
+                    break;
+                case 'task':
+                    node = new TaskElement(x, y, element.display.width, element.display.height);
+                    break;
+                case 'subprocess':
+                    node = new SubprocessElement(x, y, element.display.width, element.display.height);
+                    break;
+                case 'gateway':
+                    node = new GatewayElement(x, y);
+                case 'artifact':
+                    if (element.type === 'group') {
+                        node = new GroupElement(x, y, element.display.width, element.display.height);
+                    } else if (element.type === 'annotation') {
+                        node = new AnnotationElement(x, y);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if (node) {
+                const nodeId = node.nodeElement.attr('id');
+                elements.forEach(function(e){
+                    if (e.category !== 'connector') {
+                        return;
+                    }
+                    if (e.data['start-id'] === element.id) {
+                        e.data['start-id'] = nodeId;
+                    } else if (e.data['end-id'] === element.id) {
+                        e.data['end-id'] = nodeId;
+                    }
+                });
+                element.id = nodeId;
+            }
+        });
+
+        // add connector
+        elements.forEach(function(element) {
+            if (element.category !== 'connector') {
+                return;
+            }
+            const source = document.getElementById(element.data['start-id']),
+                  target = document.getElementById(element.data['end-id']);
+            const nodeId = workflowUtil.generateUUID();
+            element.id = nodeId;
+            element['start-id'] = source.id;
+            element['end-id'] = target.id;
+            links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
+        });
+        setConnectors();
     }
 
     /**
      * process designer 초기화.
      *
-     * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8-d2fa-44cf-962c-9f853c24ea7b'}
+     * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8d2fa44cf962c9f853c24ea7b'}
      */
     function init(process) {
         console.info('process editor initialization. [PROCESS ID: ' + process.processId + ']');
@@ -838,21 +908,11 @@
         workflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
-        AliceProcessEditor.loadItems();
+        AliceProcessEditor.loadItems(process);
         AliceProcessEditor.initUtil();
-
-        // load process data.
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/processes/data/' + process.processId,
-            callbackFunc: function(xhr) {
-                drawProcess(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
-        });
     }
 
     exports.init = init;
-    exports.data = data;
+    exports.drawProcess = drawProcess;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

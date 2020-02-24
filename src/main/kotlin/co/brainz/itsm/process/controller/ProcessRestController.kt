@@ -21,12 +21,26 @@ class ProcessRestController(private val wfEngine: WFEngine) {
         return """
                {"process": {"id": "$processId", "name": "서비스데스크", "description": "서비스데스크입니다."},
                 "elements": [{
-                              "id": "4a417b48-be2e-4ebe-82bf-8f80a63622a4",
+                              "id": "4a417b48be2e4ebe82bf8f80a63622a4",
                               "category": "event",
                               "type": "start",
-                              "display": {"width": 38, "height": 50, "position-x": 10, "position-y": 10},
+                              "display": {"width": 38, "height": 50, "position-x": 100, "position-y": 100},
                               "data": {"name": "시작"}
-                             }]
+                             },
+                             {
+                              "id": "4a417b48be2e4ebe82bf8f80a63622a1",
+                              "category": "task",
+                              "type": "user",
+                              "display": {"width": 100, "height": 50, "position-x": 200, "position-y": 100},
+                              "data": {"name": "신청서작성"}
+                             },
+                             {
+                              "id": "4a417b48be2e4ebe82bf8f80a63622a2",
+                              "category": "connector",
+                              "type": "arrow",
+                              "data": {"name": "승인", "condition": "", "start-id": "4a417b48be2e4ebe82bf8f80a63622a4", "end-id": "4a417b48be2e4ebe82bf8f80a63622a1"}
+                             }
+                            ]
                }
                """
     }
