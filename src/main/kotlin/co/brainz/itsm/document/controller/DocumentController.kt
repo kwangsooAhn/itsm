@@ -13,6 +13,7 @@ class DocumentController(private val documentService: DocumentService) {
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
+    private val documentEditPage: String = "document/documentEdit"
 
     /**
      * 신청서 리스트 호출 화면.
@@ -40,9 +41,11 @@ class DocumentController(private val documentService: DocumentService) {
      * 신청서 작성 화면.
      *
      * @param documentId
+     * @return String
      */
     @GetMapping("{documentId}/edit")
-    fun getDocumentEdit(@PathVariable documentId: String) {
-        //TODO return 신청서 작성 화면.
+    fun getDocumentEdit(@PathVariable documentId: String, model: Model): String {
+        model.addAttribute("documentId", documentId)
+        return documentEditPage
     }
 }
