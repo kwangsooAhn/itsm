@@ -1,6 +1,8 @@
 package co.brainz.workflow.process.mapper
 
+import co.brainz.workflow.process.dto.WFElementDto
 import co.brainz.workflow.process.dto.WFProcessDto
+import co.brainz.workflow.process.entity.ElementMstEntity
 import co.brainz.workflow.process.entity.ProcessMstEntity
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
@@ -21,4 +23,11 @@ interface ProcessMstMapper {
         Mapping(source = "updateUserKey", target = "updateUserKey")
     )
     fun toWFProcessDto(processMstEntity: ProcessMstEntity): WFProcessDto
+
+    @Mappings(
+        Mapping(source = "elemId", target = "id"),
+        Mapping(source = "elemType", target = "type"),
+        Mapping(source = "displayInfo", target = "display")
+    )
+    fun toWFElementDto(elementMstEntity: ElementMstEntity): WFElementDto
 }

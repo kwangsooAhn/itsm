@@ -10,6 +10,7 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.Table
 
@@ -51,10 +52,10 @@ data class ProcessMstEntity(
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    val formMstEntity: FormMstEntity?
+    val formMstEntity: FormMstEntity?,
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "proc_id")
-//    val elementMstEntity: MutableList<ElementMstEntity>?
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proc_id")
+    val elementMstEntity: MutableList<ElementMstEntity>?
 
 ) : Serializable

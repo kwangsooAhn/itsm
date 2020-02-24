@@ -37,8 +37,8 @@ class WFProcessRestController(private val wfEngine: WFEngine) {
      * 프로세스 1건 데이터 조회.
      */
     @GetMapping("/{processId}")
-    fun getProcess(@PathVariable processId: String) {
-        //return wfEngine.process().selectProcess(processId)
+    fun getProcess(@PathVariable processId: String): WFProcessRestDto {
+        return wfEngine.process().selectProcess(processId)
     }
 
     /**

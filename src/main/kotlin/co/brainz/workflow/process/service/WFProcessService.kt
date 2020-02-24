@@ -1,6 +1,7 @@
 package co.brainz.workflow.process.service
 
 import co.brainz.workflow.process.constants.ProcessConstants
+import co.brainz.workflow.process.dto.WFElementDto
 import co.brainz.workflow.process.dto.WFProcessDto
 import co.brainz.workflow.process.dto.WFProcessRestDto
 import co.brainz.workflow.process.mapper.ProcessMstMapper
@@ -41,8 +42,17 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
     /**
      * 프로세스 조회
      */
-    fun selectProcess(processId: String) {
-        //return WFProcessDto(processId="", processName = "", processStatus="")
+    fun selectProcess(processId: String): WFProcessRestDto {
+        val processMstEntity = processMstRepository.findByProcId(processId)
+
+        val wfProcessDto = processMstMapper.toWFProcessDto(processMstEntity)
+
+        val wfElementDto = mutableListOf<WFElementDto>()
+        for (elementMstEntity in processMstEntity.elementMstEntity.orEmpty()) {
+            wfElementDto.add(processMstMapper.toWFElementDto(elementMstEntity))
+        }
+
+        return WFProcessRestDto(wfProcessDto, wfElementDto)
     }
 
     /**
