@@ -64,19 +64,20 @@
                     <td>
                         <span th:text="#{user.date}"></span>
                         <select name="date" id="date"><option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}"
-                                th:text="${dateData.codeValue}"></option></select>
+                                                              th:text="${dateData.codeValue}"></option></select>
                         <span th:text="#{user.time}"></span>
                         <select name="time" id="time"><option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}"
-                                th:text="${timeData.code}"></option></select>
+                                                              th:text="${timeData.code}"></option></select>
                     </td>
                 </tr>
                 <tr>
                     <th th:text="#{user.lang}+'*'"/>
-                    <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}" 
-                    th:text="${itemData.codeValue}"></option></select></td>
+                    <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
+                                                              th:text="${itemData.codeValue}"></option></select></td>
             </tbody>
         </table>
-        <button style="margin-top: 25px;" onclick="userEditSelf()" th:text="#{user.editUserInfo}"></button>
+        <button style="margin-top: 25px;" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/userEditSelf(userKey=${users.userKey})}]])"
+                                          th:text="#{user.editUserInfo}"></button>
     </div>
     <br>
     <br>
@@ -114,7 +115,7 @@
                 document.getElementById('tbody').style.display = 'none';
             }
 
-            if(/*[[${users.lang != null}]]*/) {
+            if (/*[[${users.lang != null}]]*/) {
                 var selectLength = document.getElementById('lang').length;
                 for (var i = 0; i < selectLength; i++) {
                    if (document.getElementById('lang').options[i].value === /*[[${users.lang}]]*/) {
@@ -174,8 +175,8 @@
         const STATUS_ERROR_USER_ID_DUPLICATION = '1';
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
-       
-        function userEditSelf() {
+
+        function restSubmit(method, url) {
             const oldPassword = document.getElementById('oldPassword').value;
             var password = document.getElementById('password').value;
             var keyModule;
@@ -192,33 +193,29 @@
             rsa.setPublic(keyModule, keyExponent);
 
             if (password === '') {
-                password = oldPassword; 
+                password = oldPassword;
             } else {
                 password = rsa.encrypt(password);
             }
 
-            const editData = {
-                    userKey: document.getElementById('userKey').value,
-                    userId: document.getElementById('userId').value,
-                    password: password,
-                    userName: document.getElementById('userName').value,
-                    email: document.getElementById('email').value,
-                    position: document.getElementById('position').value,
-                    department: document.getElementById('department').value,
-                    officeNumber: document.getElementById('officeNumber').value,
-                    mobileNumber: document.getElementById('mobileNumber').value,
-                    timezone: document.getElementById('timezone').value,
-                    lang: document.getElementById('lang').value,
-                    timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value
+            const data = {
+                userKey: document.getElementById('userKey').value,
+                userId: document.getElementById('userId').value,
+                password: password,
+                userName: document.getElementById('userName').value,
+                email: document.getElementById('email').value,
+                position: document.getElementById('position').value,
+                department: document.getElementById('department').value,
+                officeNumber: document.getElementById('officeNumber').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                timezone: document.getElementById('timezone').value,
+                lang: document.getElementById('lang').value,
+                timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value
             };
-            editSubmit('PUT', [[@{/rest/users/{userKey}/userEditSelf(userKey=${users.userKey})}]], true, editData);
-        }
 
-        function editSubmit(method, url, async, data) {
             const opt = {
                 method: method,
                 url: url,
-                async: async,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
@@ -279,7 +276,6 @@
             if (!emailValidation(document.getElementById('email').value)) {
                 return false;
             }
-
             return true;
         }
         /*]]>*/

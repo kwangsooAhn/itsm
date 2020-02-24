@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
     <meta charset="UTF-8">
@@ -76,8 +75,9 @@
                 </tr>
             </tbody>
         </table>
-        <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post',[[@{/rest/users}]])" th:text="#{user.reg}"></button>
-        <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]])" th:text="#{user.editUserInfo}"></button>
+        <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]])" th:text="#{user.reg}"></button>
+        <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]])"
+                                                                    th:text="#{user.editUserInfo}"></button>
     </div>
     <br>
     <br>
@@ -100,14 +100,14 @@
             var userDate = /*[[${usersDate}]]*/;
             var userTime = /*[[${usersTime}]]*/;
 
-            if (userKey !== null && userPlatform !== 'user.platform.alice'){
+            if (userKey !== null && userPlatform !== 'user.platform.alice') {
                 document.getElementById('tbody').style.display = 'none';
                 document.getElementById('passwordArea').style.display = 'none';
-            } else if(userKey === null) {
+            } else if (userKey === null) {
                 document.getElementById('passwordArea').style.display = 'none';
             }
 
-            if(userLang !== null) {
+            if (userLang !== null) {
                 var selectLength = document.getElementById('lang').length;
                 for (var i = 0; i < selectLength; i++) {
                     if (document.getElementById('lang').options[i].value === userLang) {
@@ -186,7 +186,7 @@
                 rsa = new RSAKey();
                 rsa.setPublic(keyModule, keyExponent);
 
-                if( password === '' ) {
+                if ( password === '' ) {
                     password = oldPassword;
                 } else {
                     password = rsa.encrypt(password);
