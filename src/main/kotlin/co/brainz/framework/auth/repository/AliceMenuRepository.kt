@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface AliceMenuRepository : JpaRepository<AliceMenuEntity, String> {
     fun findByOrderByMenuIdAsc(): MutableList<AliceMenuEntity>
-    
+
     fun findByMenuIdIn(menuIds: List<String>): List<AliceMenuEntity>
 
     @Query("SELECT m " +

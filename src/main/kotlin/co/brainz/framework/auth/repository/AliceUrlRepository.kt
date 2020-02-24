@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface AliceUrlRepository : JpaRepository<AliceUrlEntity, String> {
     fun findByOrderByUrlAsc(): MutableList<AliceUrlEntity>
+
+    fun findByUrlIn(Urls: List<String>): List<AliceUrlEntity>
 }
