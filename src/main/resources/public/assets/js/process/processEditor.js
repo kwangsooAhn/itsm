@@ -174,7 +174,8 @@
                 return;
             }
             mouseoverElement = elem;
-            elem.classed('selected', true)
+            let availableLink = checkAvailableLink();
+            elem.classed('selected', availableLink)
                 .transition()
                 .duration(displayOptions.durationTime);
         },
@@ -242,11 +243,8 @@
                         .transition()
                         .duration(displayOptions.durationTime);
 
-                    const source = mousedownElement;
-                    const target = mouseoverElement;
-                    const link = links.filter(function(l) {(l.source === source && l.target === target) || (l.source === target && l.target === source)})[0];
-                    if (!link) {
-                        links.push({source: source, target: target});
+                    if (checkAvailableLink()) {
+                        links.push({source: mousedownElement, target: mouseoverElement});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -266,6 +264,29 @@
                   centerY = bbox.cy + gTransform.y;
             dragLine.attr('d', 'M' + centerX + ',' + centerY + 'L' + (d3.event.x + gTransform.x) + ',' + (d3.event.y + gTransform.y));
         }
+    }
+
+    /**
+     * connector 연결 가능여부 체크하여 리턴한다.
+     *
+     * @return {boolean} 연결 가능 여부
+     */
+    function checkAvailableLink() {
+        let availableLink = true;
+        const source = mousedownElement,
+              target = mouseoverElement;
+        links.forEach(function(l) {
+            // it's not a gateway, but several starts
+            if (!l.source.classed('gateway') && l.source.node().id === source.node().id) {
+                availableLink = false;
+            }
+            // cannot link to each other
+            if ((l.source.node().id === source.node().id && l.target.node().id === target.node().id) ||
+                (l.source.node().id === target.node().id && l.target.node().id === source.node().id)) {
+                availableLink = false;
+            }
+        });
+        return availableLink;
     }
 
     /**

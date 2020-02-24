@@ -32,7 +32,7 @@
                         <td th:text="${topNotice?.aliceUserEntity.userName}"></td>
                         <td th:with="dateformat=${#authentication.details.timeFormat}" th:text="${topNotice.createDt} ? ${#temporals.format(topNotice.createDt,dateformat)} : ${topNotice.createDt}"></td>
                     </tr>
-                    <tr th:each="notice : ${noticeList}" th:if="${notice.topNoticeYn} ==  false">
+                    <tr th:each="notice : ${noticeList}">
                         <td id="topNoticeYn"></td>
                         <td style = "text-align:left"><a th:href="@{/notices/{id}/view(id=${notice.noticeNo})}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
                         <td th:if="${notice.popYn}"><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>

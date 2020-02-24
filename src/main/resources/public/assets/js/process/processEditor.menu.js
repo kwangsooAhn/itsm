@@ -35,6 +35,7 @@
         {
             title: 'edit', parent: 'action-tooltip',
             url: iconDirectory + '/tooltip/edit.png',
+            focus_url: iconDirectory + '/tooltip/edit_focus.png',
             action: function(el, i) {
                 setElementTypeItems(el);
             }
@@ -42,6 +43,7 @@
         {
             title: 'suggest', parent: 'action-tooltip',
             url: iconDirectory + '/tooltip/suggest.png',
+            focus_url: iconDirectory + '/tooltip/suggest_focus.png',
             action: function(el, i) {
                 setSuggestElementItems(el);
             }
@@ -71,79 +73,79 @@
                 console.log('add end event');
             }
         }, {
-            title: 'start event', parent: 'event-tooltip',
+            title: 'startEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start.png',
             action: function(el, i) {
                 console.log('edit type start');
             }
         }, {
-            title: 'message start event', parent: 'event-tooltip',
+            title: 'messageStartEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start-msg.png',
             action: function(el, i) {
                 console.log('edit type message start');
             }
         }, {
-            title: 'timer start event', parent: 'event-tooltip',
+            title: 'timerStartEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start-timer.png',
             action: function(el, i) {
                 console.log('edit type timer start');
             }
         }, {
-            title: 'end event', parent: 'event-tooltip',
+            title: 'endEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-end.png',
             action: function(el, i) {
                 console.log('edit type end');
             }
         }, {
-            title: 'message end event', parent: 'event-tooltip',
+            title: 'messageEndEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-end-msg.png',
             action: function(el, i) {
                 console.log('edit type message end');
             }
         }, {
-            title: 'user task', parent: 'task-tooltip',
+            title: 'userTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-user.png',
             action: function(el, i) {
                 console.log('edit user task');
             }
         }, {
-            title: 'manual task', parent: 'task-tooltip',
+            title: 'manualTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-manual.png',
             action: function(el, i) {
                 console.log('edit manual task');
             }
         }, {
-            title: 'script task', parent: 'task-tooltip',
+            title: 'scriptTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-script.png',
             action: function(el, i) {
                 console.log('edit script task');
             }
         }, {
-            title: 'send task', parent: 'task-tooltip',
+            title: 'sendTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-send.png',
             action: function(el, i) {
                 console.log('edit send task');
             }
         }, {
-            title: 'receive task', parent: 'task-tooltip',
+            title: 'receiveTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-receive.png',
             action: function(el, i) {
                 console.log('edit receive task');
             }
         }, {
-            title: 'exclusive gateway', parent: 'gateway-tooltip',
+            title: 'exclusiveGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-exclusive.png',
             action: function(el, i) {
                 console.log('edit exclusive gateway');
             }
         }, {
-            title: 'parallel gateway', parent: 'gateway-tooltip',
+            title: 'parallelGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-parallel.png',
             action: function(el, i) {
                 console.log('edit parallel gateway');
             }
         }, {
-            title: ' inclusive gateway', parent: 'gateway-tooltip',
+            title: 'inclusiveGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-inclusive.png',
             action: function(el, i) {
                 console.log('edit exclusive gateway');
@@ -252,33 +254,24 @@
         tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
             .enter()
-            //.append('rect')
-            .append('image')
+            .append('rect')
             .attr('class', 'action-tooltip-item')
+            .attr('id', function(d) { return 'action-tooltip-item-' + d.title; })
             .attr('x', function(d, i) { return  itemMargin + (i * (itemSize + itemMargin) ); })
             .attr('y', itemMargin)
             .attr('width', itemSize)
             .attr('height', itemSize)
-            //.style('fill', function(d) { return 'url(#alice-tooltip-' + d.title + ')'; })
-            .attr('xlink:href', function(d) { return d.url; })
+            .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.title + ')'; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
-                d3.selectAll('.action-tooltip-item').nodes().map(function(item) {
-                    const url = d3.select(item).attr('xlink:href');
-                    const focusIndex = url.indexOf('_focus');
-                    if (focusIndex > -1) {
-                        d3.select(item).attr('xlink:href', function() {
-                            return url.substring(0, focusIndex) + url.substring(focusIndex + 6);
-                        });
+                actionTooltip.forEach(function(t){
+                    if (t.focus_url) {
+                        let item = document.getElementById('action-tooltip-item-' + t.title);
+                        d3.select(item).style('fill', 'url(#' + t.parent + '-' + t.title + ')');
                     }
                 });
-
-                if (d.title === 'edit' || d.title === 'suggest') {
-                    d3.select(this).attr('xlink:href', function() {
-                        let url = d3.select(this).attr('xlink:href'),
-                            lastIndex = url.lastIndexOf('.');
-                        return url.substring(0, lastIndex) + '_focus' + url.substring(lastIndex);
-                    });
+                if (d.focus_url) {
+                    d3.select(this).style('fill', 'url(#' + d.parent + '-' + d.title + '-focus)');
                 }
                 d.action(elem, i);
             });
@@ -361,13 +354,13 @@
         tooltipItemContainer.selectAll('element-tooltip-item')
             .data(items)
             .enter()
-            .append('image')
+            .append('rect')
             .attr('class', 'element-tooltip-item')
             .attr('x', x + itemMargin)
             .attr('y', function(d, i) { return y + itemMargin + (i * (itemSize + itemMargin)); })
             .attr('width', itemSize)
             .attr('height', itemSize)
-            .attr('xlink:href', function(d) { return d.url; })
+            .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.title + ')'; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
                 d.action(elem, d, i);
@@ -542,11 +535,26 @@
             });
         });
 
+        // add pattern image. for tooltip item image.
+        const imageLoadingList = [];
+        tooltipItems.forEach(function(item){
+            let data = {};
+            data.id = item.parent + '-' + item.title;
+            data.url = item.url;
+            imageLoadingList.push(data);
+            if (item.focus_url) {
+                let focusData = {};
+                focusData.id = item.parent + '-' + item.title + '-focus';
+                focusData.url = item.focus_url;
+                imageLoadingList.push(focusData);
+            }
+        });
+
         const defs = d3.select('svg').append('defs');
-        defs.selectAll('pattern').data(tooltipItems)
+        defs.selectAll('pattern').data(imageLoadingList)
             .enter()
             .append('pattern')
-            .attr('id', function(d) { return d.parent + '-' + d.title; })
+            .attr('id', function(d) { return d.id; })
             .attr('width', 1)
             .attr('height', 1)
             .attr('patternUnits', 'objectBoundingBox')
