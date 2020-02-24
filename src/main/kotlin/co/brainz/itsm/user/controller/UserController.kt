@@ -45,36 +45,11 @@ class UserController(private val codeService: CodeService,
     }
 
     /**
-     * 사용자 정보 수정화면을 호출한다.
-     */
-    @GetMapping("/{userKey}/userEdit")
-    fun getUserEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
-        val users = userService.selectUserKey(userKey)
-        val timeFormat = users.timeFormat.split(' ')
-        val usersDate = timeFormat[0].toString()
-        val usersTime = if (timeFormat.size == 3) { timeFormat[1] + ' ' + timeFormat[2] } else { timeFormat[1] }
-
-        val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
-        val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
-        val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
-        val timezoneList = userService.selectTimezoneList()
-        request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
-
-        model.addAttribute("users", users)
-        model.addAttribute("usersDate", usersDate)
-        model.addAttribute("usersTime", usersTime)
-        model.addAttribute("langList", langList)
-        model.addAttribute("timezoneList", timezoneList)
-        model.addAttribute("dateList", dateList)
-        model.addAttribute("timeList", timeList)
-        return userEditPage
-    }
-
-    /**
      * 사용자 자기정보 수정화면을 호출한다.
      */
-    @GetMapping("/{userKey}/userEditSelf")
-    fun getUserSelfEdit(@PathVariable userKey: String, request: HttpServletRequest, model: Model): String {
+    @GetMapping("/{userKey}/{target}", "/{userKey}/{target}")
+    fun getUserEdit(@PathVariable userKey: String, @PathVariable target: String, request: HttpServletRequest, model: Model): String {
+        var returnUrl = ""
         val users = userService.selectUserKey(userKey)
         val timeFormat = users.timeFormat.split(' ')
         val usersDate = timeFormat[0].toString()
@@ -84,6 +59,7 @@ class UserController(private val codeService: CodeService,
         val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
         val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
+
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         model.addAttribute("users", users)
@@ -93,7 +69,17 @@ class UserController(private val codeService: CodeService,
         model.addAttribute("timezoneList", timezoneList)
         model.addAttribute("dateList", dateList)
         model.addAttribute("timeList", timeList)
-        return userEditSelfPage
+
+        when (target) {
+            "userEditSelf"-> {
+                returnUrl = userEditSelfPage
+            }
+            "userEdit" -> {
+                returnUrl =  userEditPage
+            }
+        }
+
+        return returnUrl
     }
 
     /**
