@@ -25,10 +25,6 @@ data class ProcessMstEntity(
     @Column(name = "proc_id")
     val procId: String,
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "form_id")
-    val formMstEntity: FormMstEntity?,
-
     @Column(name = "proc_key")
     val procKey: String,
 
@@ -51,6 +47,14 @@ data class ProcessMstEntity(
     var updateDt: LocalDateTime? = null,
 
     @Column(name = "update_user_key")
-    var updateUserKey: String? = null
+    var updateUserKey: String? = null,
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "form_id")
+    val formMstEntity: FormMstEntity?
+
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "proc_id")
+//    val elementMstEntity: MutableList<ElementMstEntity>?
 
 ) : Serializable
