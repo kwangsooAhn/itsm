@@ -74,8 +74,8 @@
                         <!-- URL 목록 -->
                         <ul style="overflow:overlay;height: 200px;">
                             <li th:each="url : ${urlList}">
-                                <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
-                                <span th:text="${url?.url}"></span>
+                                <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.method}">
+                                <span th:text="|[${url?.method}] ${url?.url}|"></span>
                             </li>
                         </ul>
                     </td>
@@ -164,8 +164,8 @@
                         document.getElementById('txtAuthId').value = responseJson.authId;
                         document.getElementById('txtAuthName').value = responseJson.authName;
                         document.getElementById('txtAuthDesc').value = responseJson.authDesc;
-                        var arrMenuList = responseJson.arrMenuList;
 
+                        var arrMenuList = responseJson.arrMenuList;
                         Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authMenu) {
                             authMenu.checked = false;
                             for (var i = 0; i<arrMenuList.length; i++) {
@@ -174,6 +174,17 @@
                                 }
                             }
                         });
+
+                        var arrUrlList = responseJson.arrUrlList;
+                        Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function(authUrl) {
+                            authUrl.checked = false;
+                            for (var i = 0; i<arrUrlList.length; i++) {
+                                if (authUrl.id == arrUrlList[i].url) {
+                                    authUrl.checked = true;
+                                }
+                            }
+                        });
+
                         document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserKey;
                         document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
                         document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
@@ -196,8 +207,12 @@
             document.getElementById('txtAuthName').value = '';
             document.getElementById('txtAuthDesc').value = '';
             var authMenus = document.getElementsByName('authMenu');
-            for(var i = 0; i < authMenu.length; i++) {
-                authMenu[i].checked = false;
+            for(var i = 0; i < authMenus.length; i++) {
+                authMenus[i].checked = false;
+            }
+            var authUrls = document.getElementsByName('authUrl');
+            for(var i = 0; i < authUrls.length; i++) {
+                authUrls[i].checked = false;
             }
 
             document.getElementById('spanCreateUserKey').innerHTML = '';
@@ -230,17 +245,20 @@
             obj.authName = document.getElementById('txtAuthName').value;//권한명
             obj.authDesc= document.getElementById('txtAuthDesc').value; //권한 설명
             
-//             var arrAuthId = new Array();                                //권한-메뉴
-//             Array.prototype.forEach.call(document.querySelectorAll('input[name=authAuth]:checked'), function(item) {
-//                 arrAuthId.push(item.id);
-//             });
+            var arrMenuId = new Array();                                //권한-메뉴
+            Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function(item) {
+                arrMenuId.push(item.id);
+            });
 
-//             if (arrAuthId.length === 0) {
-//                 alert([[#{auth.msg.authNotExist}]]);
-//                 return;
-//             }
+            obj.arrMenuId = arrMenuId;
+            
+            var arrUrl = new Array();                               //권한-Url
+            Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function(item) {
+                arrUrl.push(item.id);    // url
+//                 arrUrl.push(item.value); // method
+            });
+            obj.arrUrl = arrUrl;
 
-//             obj.arrAuthId = arrAuthId;
             if (flag === 'post') {
                 strUrl = '/rest/auths';
             } else {

@@ -17,9 +17,8 @@ data class AuthDto(
         var updateUserKey: String?,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         var updateDt: LocalDateTime?,
-        var arrMenuId: MutableSet<String>?,
-        var arrMenuList: MutableList<AuthMenuDto>?
-//         url
-//        var arrUrl: MutableSet<String>?,
-//        var arrUrlList: MutableList<AliceAuthSimpleDto>?
+        var arrMenuId: List<String>?,
+        var arrMenuList: MutableList<AuthMenuDto>?,
+        var arrUrl: List<String>?,
+        var arrUrlList: MutableList<AuthUrlDto>?
 )

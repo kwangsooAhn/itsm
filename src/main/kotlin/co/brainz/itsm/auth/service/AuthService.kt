@@ -1,33 +1,32 @@
 package co.brainz.itsm.auth.service
 
-
-import co.brainz.itsm.auth.repository.AuthRepository
 import co.brainz.itsm.auth.dto.AuthDto
 import co.brainz.itsm.auth.dto.AuthDetailDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
-import co.brainz.framework.auth.entity.AliceAuthEntity
-import co.brainz.framework.auth.entity.AliceRoleAuthMapEntity
-import co.brainz.framework.auth.entity.AliceRoleEntity
-import co.brainz.framework.auth.repository.AliceAuthRepository
-import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
-import org.springframework.stereotype.Service
+import co.brainz.itsm.auth.dto.AuthUrlDto
 import co.brainz.framework.auth.dto.AliceAuthSimpleDto
-import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
-import co.brainz.framework.auth.repository.AliceUrlRepository
-
-import co.brainz.itsm.role.dto.RoleDetailDto
-import co.brainz.itsm.role.dto.RoleDto
-import co.brainz.itsm.role.repository.RoleRepository
-import co.brainz.framework.auth.entity.AliceMenuEntity
+import org.springframework.stereotype.Service
+import co.brainz.itsm.auth.repository.AuthRepository
 import co.brainz.framework.auth.repository.AliceMenuRepository
+import co.brainz.framework.auth.repository.AliceMenuAuthMapRepository
+import co.brainz.framework.auth.repository.AliceUrlRepository
+import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
+import co.brainz.framework.auth.entity.AliceAuthEntity
+import co.brainz.framework.auth.entity.AliceMenuEntity
+import co.brainz.framework.auth.entity.AliceMenuAuthMapEntity
+import co.brainz.framework.auth.entity.AliceMenuAuthMapPk
 import co.brainz.framework.auth.entity.AliceUrlEntity
+import co.brainz.framework.auth.entity.AliceUrlAuthMapEntity
+import co.brainz.framework.auth.entity.AliceUrlAuthMapPk
+import co.brainz.framework.auth.entity.AliceUrlEntityPk
 
 @Service
 class AuthService(
-        private val aliceAuthRepository: AliceAuthRepository,
-        private val aliceMenuRepository: AliceMenuRepository,
-        private val aliceUrlRepository: AliceUrlRepository,
-        private val authRepository: AuthRepository
+        private val authRepository: AuthRepository,
+        private val menuRepository: AliceMenuRepository,
+        private val menuAuthMapRepository: AliceMenuAuthMapRepository,
+        private val urlRepository: AliceUrlRepository,
+        private val urlAuthMapRepository: AliceUrlAuthMapRepository
 ) {
 
     /**
@@ -41,36 +40,37 @@ class AuthService(
      * 전체 메뉴 목록 조회
      */
     fun selectMenuList(): MutableList<AliceMenuEntity> {
-        return aliceMenuRepository.findByOrderByMenuIdAsc()
+        return menuRepository.findByOrderByMenuIdAsc()
     }
     
     /**
      * 전체 url 목록 조회
      */
     fun selectUrlList(): MutableList<AliceUrlEntity> {
-        return aliceUrlRepository.findByOrderByUrlAsc()
+        return urlRepository.findByOrderByUrlAsc()
     }
     
     /**
      * 권한 정보 삭제
      */
     fun deleteAuth(authId: String): String {
-        val authInfo = authRepository.findByAuthId(authId)
-        // 역할 매핑 정보 확인
-//        val roleAuthMapCount = userAuthMapRepository.findByAuth(authInfo).count()
+        val auth = authRepository.findByAuthId(authId)
+        // 매핑 정보 확인
+        val menuAuthMapCount = menuAuthMapRepository.findByAuth(auth).count()
+        val urlAuthMapCount = urlAuthMapRepository.findByAuth(auth).count()
         
-//        return if (userAuthMapCount == 0) {
-        // 메뉴 매핑 정보 삭제
-//            authInfo.authAuthMapEntities.forEach { authAuthMap ->
-//                authAuthMapRepository.deleteById(AliceAuthAuthMapPk(authInfo.authId, authAuthMap.auth.authId))
+        // 매핑 정보 삭제
+        if (menuAuthMapCount > 0 || urlAuthMapCount > 0 ) {
+            auth.menuAuthMapEntities.forEach { menuAuthMap ->
+                menuAuthMapRepository.deleteById(AliceMenuAuthMapPk(menuAuthMap.menu.menuId, auth.authId))
+            }
+//            auth.urlAuthMapEntities.forEach { urlAuthMap ->
+//                urlAuthMapRepository.deleteById(AliceUrlAuthMapPk(AliceUrlEntityPk(urlAuthMap.url.method, urlAuthMap.url.url), auth.authId))
 //            }
-        // url 매핑 정보 삭제
-            authRepository.deleteById(authId)
+        }
+        
+        authRepository.deleteById(authId)
         return "true"
-//            "true"
-//        } else {
-//            "PlaseDeleteMapperUser"
-//        }
     }
 
     /**
@@ -84,10 +84,12 @@ class AuthService(
         )
         val result = authRepository.save(auth)
 
-        // mapping 될 메뉴 정보
-//        authRepository.findByAuthIdIn(authInfo.arrAuthId!!).forEach {auth ->
-//            authAuthMapRepository.save(AliceAuthAuthMapEntity(auth, auth))
-//        }
+        menuRepository.findByMenuIdIn(authInfo.arrMenuId!!).forEach {menu ->
+            menuAuthMapRepository.save(AliceMenuAuthMapEntity(menu, auth))
+        }
+        urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach {url ->
+            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.method, url.url), auth))
+        }
 
         return result.authId
     }
@@ -101,13 +103,22 @@ class AuthService(
             authName = authInfo.authName.toString(),
             authDesc = authInfo.authDesc.toString()
         )
+        
         val result = authRepository.save(auth)
-//
-//        authRepository.findByAuthId(auth.authId).menuAuthMapEntities.forEach { authAuthMap ->
-//            menuAuthMapEntities.deleteById(AliceAuthAuthMapPk(auth.authId, authAuthMap.auth.authId))
+
+        // 메뉴 매핑 정보 수정
+        authRepository.findByAuthId(auth.authId).menuAuthMapEntities.forEach { menuAuthMap ->
+            menuAuthMapRepository.deleteById(AliceMenuAuthMapPk(menuAuthMap.menu.menuId, auth.authId))
+        }
+        menuRepository.findByMenuIdIn(authInfo.arrMenuId!!).forEach { menu ->
+            menuAuthMapRepository.save(AliceMenuAuthMapEntity(menu, auth))
+        }
+        // 메뉴 URL 정보 수정
+//        authRepository.findByAuthId(auth.authId).urlAuthMapEntities.forEach { urlAuthMap ->
+//            urlAuthMapRepository.deleteById(AliceUrlAuthMapPk(AliceUrlEntityPk(urlAuthMap.url.method, urlAuthMap.url.url), auth.authId))
 //        }
-//        authRepository.findByAuthIdIn(authInfo.arrMenuId!!).forEach { auth ->
-//            authAuthMapRepository.save(AliceAuthAuthMapEntity(auth, auth))
+//        urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach {url ->
+//            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.method, url.url), auth))
 //        }
 
         return result.authId
@@ -120,10 +131,13 @@ class AuthService(
         val dto = mutableListOf<AuthDto>()
         val authInfo = authRepository.findByAuthId(authId)
         val menuList = mutableListOf<AuthMenuDto>()
-//        val urlList = mutableListOf<AliceAuthSimpleDto>()
+        val urlList = mutableListOf<AuthUrlDto>()
 
         authInfo.menuAuthMapEntities.forEach { authMenuMap ->
-            menuList.add(AuthMenuDto(authMenuMap.menu.menuId, authMenuMap.auth.authId))
+            menuList.add(AuthMenuDto(authMenuMap.auth.authId, authMenuMap.menu.menuId))
+        }
+        authInfo.urlAuthMapEntities.forEach { authUrlMap ->
+            urlList.add(AuthUrlDto(authUrlMap.url.url, authUrlMap.url.method, authUrlMap.auth.authId))
         }
 
         dto.add(
@@ -136,7 +150,9 @@ class AuthService(
                         authInfo.updateUser?.userName,
                         authInfo.updateDt,
                         null,
-                        menuList
+                        menuList,
+                        null,
+                        urlList
                 )
         )
         return dto
