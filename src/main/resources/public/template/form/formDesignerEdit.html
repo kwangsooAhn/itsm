@@ -15,63 +15,75 @@
     <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
     <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
     <script th:src="@{/assets/js/process/workflow.util.js}"></script>
-    <script th:src="@{/assets/js/form/formEditor.js}"></script>
+    <script th:src="@{/assets/js/form/formEditor.menu.js}"></script>
     <script th:src="@{/assets/js/form/component.js}"></script>
+    <script th:src="@{/assets/js/form/formEditor.js}"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg form-navbar">
-        <a class="navbar-brand" href="#">
-            <img th:src="@{/assets/media/icons/form/topmenu/logo.png}" width="24" height="24" alt="Alice">
+<div class="alice-form-container light-thema" id="form-designer">
+    <div class="alice-form-toolbar">
+        <span class="logo"></span>
+        <a href="javascript:void(0);" onclick="formEditor.save();">
+            <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
+            <label th:text="#{common.btn.save}"></label>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul id="main-menu" class="mr-auto">
-                <li class="nav-item"><img th:src="@{/assets/media/icons/form/topmenu/save.png}"/><a class="nav-link" href="javascript:void(0);" onclick="formEditor.save();">저장</a></li>
-                <li class="nav-item"><img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/><a class="nav-link" href="#">작업취소</a></li>
-                <li class="nav-item"><img th:src="@{/assets/media/icons/form/topmenu/undo.png}"/><a class="nav-link" href="#">작업재실행</a></li>
-                <li class="nav-item"><img th:src="@{/assets/media/icons/form/topmenu/import.png}"/><a class="nav-link" href="#">가져오기</a></li>
-                <li class="nav-item"><img th:src="@{/assets/media/icons/form/topmenu/export.png}"/><a class="nav-link" href="#">내보내기</a></li>
-                <li class="nav-item"><img th:src="@{/assets/media/icons/form/topmenu/save.png}"/><a class="nav-link" href="#">미리보기</a></li>
-                <li class="nav-item"><img th:src="@{/assets/media/icons/form/topmenu/save.png}"/><a class="nav-link" href="#">저장하고 나가기</a></li>
-            </ul>
-            <span class="form-name"></span>
-        </div>
-    </nav>
-    <div class="form-container light-thema" id="form-designer">
-        <div class="panel">
-            <div class="panel-form" id="panel-form"></div>
-            <div class="panel-property" id="panel-property"></div>
-        </div>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/undo.png}"/>
+            <label th:text="#{form.label.undo}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
+            <label th:text="#{form.label.redo}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/import.png}"/>
+            <label th:text="#{form.label.import}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/export.png}"/>
+            <label th:text="#{form.label.export}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/preview.png}"/>
+            <label th:text="#{form.label.preview}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/save_exit.png}"/>
+            <label th:text="#{form.label.saveExist}"></label>
+        </a>
+        <span class="form-name"></span>
     </div>
-    <div id="context-menu" class="context-menu">
-        <ul id="context-menu-control" class="active">
-            <li class="context-item-link" data-action="copy">복사</li>
-            <li class="context-item-link" data-action="delete">삭제</li>
-            <li class="context-item-link" data-action="addEditboxUp">새로만들기-위</li>
-            <li class="context-item-link" data-action="addEditboxDown">새로만들기-아래</li>
-        </ul>
-        <ul id="context-menu-component">
-            <li class="context-item-link" data-action="text">Text</li>
-            <li class="context-item-link" data-action="textarea">Text Box</li>
-            <li class="context-item-link" data-action="select">Dropdown</li>
-            <li class="context-item-link" data-action="radio">Radio Button</li>
-            <li class="context-item-link" data-action="checkbox">Checkbox</li>
-            <li class="context-item-link" data-action="label">Label</li>
-            <li class="context-item-link" data-action="image">Image</li>
-            <li class="context-item-link" data-action="line">Line</li>
-            <li class="context-item-link" data-action="date">Date</li>
-            <li class="context-item-link" data-action="time">Time</li>
-            <li class="context-item-link" data-action="datetime">Date Time</li>
-            <li class="context-item-link" data-action="fileupload">Fileupload</li>  
-        </ul>
+    <div class="alice-form-panel">
+        <div class="drawing-board" id="panel-form"></div>
     </div>
+    <div class="alice-form-properties-panel" id="panel-property"></div>
+</div>
+<div id="context-menu" class="context-menu">
+    <ul id="context-menu-control" class="active">
+        <li class="context-item-link" data-action="copy"><label th:text="#{form.label.copy}"></label></li>
+        <li class="context-item-link" data-action="delete"><label th:text="#{common.btn.delete}"></label></li>
+        <li class="context-item-link" data-action="addEditboxUp"><label th:text="#{form.label.addAbove}"></label></li>
+        <li class="context-item-link" data-action="addEditboxDown"><label th:text="#{form.label.addBelow}"></label></li>
+    </ul>
+    <ul id="context-menu-component">
+        <li class="context-item-link" data-action="text"><label th:text="#{form.component.text}"></label></li>
+        <li class="context-item-link" data-action="textarea"><label th:text="#{form.component.textarea}"></label></li>
+        <li class="context-item-link" data-action="select"><label th:text="#{form.component.select}"></label></li>
+        <li class="context-item-link" data-action="radio"><label th:text="#{form.component.radio}"></label></li>
+        <li class="context-item-link" data-action="checkbox"><label th:text="#{form.component.checkbox}"></label></li>
+        <li class="context-item-link" data-action="label"><label th:text="#{form.component.label}"></label></li>
+        <li class="context-item-link" data-action="image"><label th:text="#{form.component.image}"></label></li>
+        <li class="context-item-link" data-action="line"><label th:text="#{form.component.line}"></label></li>
+        <li class="context-item-link" data-action="date"><label th:text="#{form.component.date}"></label></li>
+        <li class="context-item-link" data-action="time"><label th:text="#{form.component.time}"></label></li>
+        <li class="context-item-link" data-action="datetime"><label th:text="#{form.component.datetime}"></label></li>
+        <li class="context-item-link" data-action="fileupload"><label th:text="#{form.component.fileupload}"></label></li>
+    </ul>
+</div>
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        formEditor.init('[[${formId}]]')
+        formEditor.init('[[${formId}]]');
     }
 </script>
 </html>

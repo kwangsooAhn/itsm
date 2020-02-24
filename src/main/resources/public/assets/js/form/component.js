@@ -5,9 +5,9 @@
 }(this, (function (exports) {
     'use strict';
     
-    const _defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
-          _defaultPlaceholder= '+ Typing for add component',
-          _compProperties = [  //세부속성에서 사용할 제목
+    const defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
+          defaultPlaceholder= '+ Typing for add component',
+          compTitleProperties = [  //세부속성에서 사용할 제목
               {'type': 'text', 'name': 'Text', 'icon': ''},
               {'type': 'textarea', 'name': 'Text Box', 'icon': ''},
               {'type': 'select', 'name': 'Dropdown', 'icon': ''},
@@ -23,81 +23,44 @@
           ];
     
     let formPanel = null,
-        propertyPanel = null,
-        lastComponentId = 0,
-        componentIndex = 0,
-        selectedComponentId = '',
-        attr = {},
-        dragComponent = null,
-        //_children = [],
-        eventHandler = {
-            /*onDragStartHandler: function(e) {
-                dragComponent = e.target;
-                e.dataTransfer.effectAllowed = 'move';
-                e.dataTransfer.setData('text/html', this.innerHTML);
-            },
-            onDragHandler: function(e) {
-            },
-            onDragEndHandler: function(e) {
-                if (_children.length > 0) {
-                    for (let i = 0, len = _children.length; i < len; i ++) {
-                       let child = _children[i];
-                       child.classList.remove('over');
-                    }
-                }
-            },
-            onDragOverHandler: function(e) {
-                e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
-                e.dataTransfer.dropEffect = 'move';
-            },
-            onDragEnterHandler: function(e) {
-                if (dragComponent !== e.target) {
-                    e.target.classList.add('over');
-                }
-            },
-            onDragLeaveHandler: function(e) {
-                e.target.classList.remove('over');
-            },
-            onDragDropHandler: function(e) {
-                if (e.stopPropagation) {
-                    e.stopPropagation(); 
-                }
-                if (dragComponent !== e.target) {
-                    let targetType = e.target.dataset.type;
-                    let targetName = e.target.dataset.name;
-                    if (targetType !== dragComponent.dataset.type) {
-                        if (dragComponent.dataset.type === 'editbox') {
-                            e.target.setAttribute('contenteditable', 'true');
-                            e.target.setAttribute('placeholder', _defaultPlaceholder);
-                            dragComponent.removeAttribute('contenteditable');
-                            dragComponent.removeAttribute('placeholder');
-                        }
-                        if (targetType === 'editbox') {
-                            dragComponent.setAttribute('contenteditable', 'true');
-                            dragComponent.setAttribute('placeholder', _defaultPlaceholder);
-                            e.target.removeAttribute('contenteditable');
-                            e.target.removeAttribute('placeholder');
-                        }
-                        e.target.dataset.type = dragComponent.dataset.type;
-                        dragComponent.dataset.type = targetType;
-                        e.target.dataset.name = dragComponent.dataset.name;
-                        dragComponent.dataset.name = targetName;
-                    }
-                    dragComponent.innerHTML = e.target.innerHTML;
-                    e.target.innerHTML = e.dataTransfer.getData('text/html');
-                }
-                return false;
-            }*/
-    };
+        propertiesPanel = null,
+        lastComponentId = 0,       //마지막으로 추가된 컴포넌트 ID
+        componentIdx = 0,          //컴포넌트 index = 출력 순서 생성시 사용
+        selectedComponentId = '',  //선택된 컴포넌트 ID 
+        defaultAttributes = {};
     
     /**
-     * element 생성
+     * 현재 시간을 2020-02-19 13:30 형식으로 추출 > date, time, datetime 컴포넌트 사용 용도
+     */
+    function getTimeStamp() {
+        let today = new Date();
+        let s = parseZero(today.getFullYear(), 4) + '-' +
+                parseZero(today.getMonth() + 1, 2) + '-' +
+                parseZero(today.getDate(), 2) + ' ' +
+                parseZero(today.getHours(), 2) + ':' +
+                parseZero(today.getMinutes(), 2);
+        return s;
+    }
+    /**
+     * 시분초에 length가 변경될 경우 0 붙이는 함수
+     */
+    function parseZero(n, digits) {
+        let zero = '';
+        n = n.toString();
+        if (n.length < digits) {
+          for (let i = 0; i < (digits - n.length); i++)
+            zero += '0';
+        }
+        return zero + n;
+    }
+    /**
+     * 템플릿 리터럴 문자열을 전달받아서 element 생성
      *
      * @method createElement
      * @param template 템플릿 리터럴
      * @return elem 생성된 element
      */
-    function createElement(template) {
+    function getElementByTemplate(template) {
         let elem = document.createElement('div');
         elem.classList.add('group');
         elem.innerHTML = template;
@@ -107,7 +70,7 @@
     /**
      * 컴포넌트 추가
      *
-     * @param options 옵션
+     * @param options 옵션 {component id, component 세부 속성, component 타입(*)}
      */
     function addComponent(options) {
         options = options || {};
@@ -120,7 +83,7 @@
         if (elem) { //editbox 삭제 후 컴포넌트 추가
             elem.removeChild(elem.childNodes[1]);
             obj.id = options.componentId;
-            let detailAttr = component.attr[options.type];
+            let detailAttr = component.defaultAttributes[options.type];
             Object.keys(detailAttr).forEach(function(pAttr) {
                 if (pAttr === 'option') {
                     let optionArray = [];
@@ -141,18 +104,18 @@
                 }
             });
             obj.display.order = Number(elem.getAttribute('data-index'));
-            formEditor.changeData(obj);
+            formEditor.setComponentData(obj);
         } else {
             elem = document.createElement('div');
             elem.classList.add('component');
             let compId = (options.componentId !== undefined) ? options.componentId  : workflowUtil.generateUUID();
             lastComponentId = compId;
             elem.setAttribute('id', compId);
-            elem.setAttribute('data-index', (++componentIndex));
+            elem.setAttribute('data-index', (++componentIdx));
             if (options.componentId === undefined) {
                 obj.id = compId;
-                obj.display.order = componentIndex;
-                formEditor.changeData(obj);
+                obj.display.order = componentIdx;
+                formEditor.setComponentData(obj);
             }
             if (options.attrs !== undefined) { obj = options.attrs; }
             let img = document.createElement('img'); 
@@ -169,7 +132,7 @@
         let comp = null;
         switch (options.type) {
             case 'text':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
                         ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -187,7 +150,7 @@
                 elem.appendChild(comp);
                 break;
             case 'textarea':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
                         ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -204,7 +167,7 @@
                 elem.appendChild(comp);
                 break;
             case 'select':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
                         ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -225,7 +188,7 @@
                 elem.appendChild(comp);
                 break;
             case 'radio':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
                         ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -266,7 +229,7 @@
                 elem.appendChild(comp);
                 break;
             case 'checkbox':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
                         ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -307,7 +270,7 @@
                 elem.appendChild(comp);
                 break;
             case 'label':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field' style='flex-basis: 100%;'>
                         <div class='label'style='color: ${obj.display.color}; font-size: ${obj.display.size}px; text-align: ${obj.display.align}; 
                         ${obj.display.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -317,14 +280,14 @@
                 elem.appendChild(comp);
                 break;
             case 'image':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field' style='flex-basis: 100%;'>
                         <img src='${obj.display.path}' alt='' width='${obj.display.width}' height='${obj.display.height}'>
                     </div>`);
                 elem.appendChild(comp);
                 break;
             case 'line':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field' style='flex-basis: 100%;'>
                         <hr style='border: '${obj.display.type} ${obj.display.width}px  ${obj.display.color};'>
                     </div>`);
@@ -337,7 +300,7 @@
                     defaultDate = defaultDate.split(' ')[0];
                 }
                 defaultDate = changeDateFormatYYYYMMDD(defaultDate, obj.display.format);
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
                         ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -359,7 +322,7 @@
                     defaultTime = changeDateFormatYYYYMMDD(defaultTime, 'yyyy-MM-dd ' + obj.display.format);
                     defaultTime = defaultTime.split(' ')[1];
                 }
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
                         ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -380,7 +343,7 @@
                     defaultDateTime = getTimeStamp();
                 }
                 defaultDateTime = changeDateFormatYYYYMMDD(defaultDateTime, obj.display.format);
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field'>
                         <div class='label' style='color: ${obj.label.color}; font-size: ${obj.label.size}px; text-align: ${obj.label.align}; 
                         ${obj.label.bold === "Y" ? "font-weight: bold;" : ""} 
@@ -396,7 +359,7 @@
                 dateTimePicker.initDateTimePicker('datetime-' + obj.id, obj.display.format);
                 break;
             case 'fileupload':
-                comp = createElement(`
+                comp = getElementByTemplate(`
                     <div class='field' style='flex-basis: 100%;'>
                         <input type='file' name='files[]' multiple />
                     </div>`);
@@ -406,7 +369,7 @@
                 comp = document.createElement('div');
                 comp.classList.add('group');
                 comp.setAttribute('contenteditable', 'true');
-                comp.setAttribute('placeholder', _defaultPlaceholder);
+                comp.setAttribute('placeholder', defaultPlaceholder);
                 elem.appendChild(comp);
                 break;
             default:
@@ -416,73 +379,29 @@
             if (obj.label.position === 'hidden') {
                 comp.firstElementChild.style.display = 'none';
             } else if (obj.label.position === 'left') {
-                comp.firstElementChild.style.flexBasis = (_defaultColWidth * Number(obj.label.column)) + '%';
-                comp.lastElementChild.style.flexBasis = (_defaultColWidth * Number(obj.display.column)) + '%';
+                comp.firstElementChild.style.flexBasis = (defaultColWidth * Number(obj.label.column)) + '%';
+                comp.lastElementChild.style.flexBasis = (defaultColWidth * Number(obj.display.column)) + '%';
             }
         }
         comp.setAttribute('tabIndex', elem.getAttribute('data-index'));
-        
-        /*elem.addEventListener('dragstart', eventHandler.onDragStartHandler, false);
-        elem.addEventListener('drag', eventHandler.onDragHandler, false);
-        elem.addEventListener('dragend', eventHandler.onDragEndHandler, false);
-        elem.addEventListener('dragover', eventHandler.onDragOverHandler, false);
-        elem.addEventListener('dragenter', eventHandler.onDragEnterHandler, false);
-        elem.addEventListener('dragleave', eventHandler.onDragLeaveHandler, false);
-        elem.addEventListener('drop', eventHandler.onDragDropHandler, false);
-        */
         if (options.isFocus) {
             comp.focus();
         }
         return elem;
     }
     /**
-     * 현재 시간 추출 2020-02-19 13:30 형식
-     */
-    function getTimeStamp() {
-        let today = new Date();
-        let s = parseZero(today.getFullYear(), 4) + '-' +
-                parseZero(today.getMonth() + 1, 2) + '-' +
-                parseZero(today.getDate(), 2) + ' ' +
-                parseZero(today.getHours(), 2) + ':' +
-                parseZero(today.getMinutes(), 2);
-        return s;
-    }
-    
-    function parseZero(n, digits) {
-        let zero = '';
-        n = n.toString();
-        if (n.length < digits) {
-          for (let i = 0; i < (digits - n.length); i++)
-            zero += '0';
-        }
-        return zero + n;
-    }
-
-    /**
-     * 컴포넌트 복사
-     */
-    function copyComponent() {
-        //TODO: 컴포넌트 복사 후 재정렬
-    }
-    /**
-     * 컴포넌트 삭제
-     */
-    function removeComponent() {
-        //TODO: 컴포넌트 삭제 후 재정렬
-    }
-    /**
-     * 우측 property panel 세부 속성 출력
+     * 우측 properties panel 세부 속성 출력
      *
-     * @param id 조회할 컴포넌트 id
+     * @param id 조회할 컴포넌트 ID
      */
-    function showPropertyPanel(id) {
+    function showPropertiesPanel(id) {
         if (selectedComponentId === id) { return; }
         
         selectedComponentId = id;
-        let compAttr = formEditor.getData(id);
+        let compAttr = formEditor.getComponentData(id);
         if (compAttr === null) { return; }
-        let detailAttr = component.attr[compAttr.type];
-        //세부 속성 재할당
+        let detailAttr = component.defaultAttributes[compAttr.type];
+        //세부 속성 재할당 data로 전달된 속성 + 기본속성
         Object.keys(compAttr).forEach(function(comp) {
             if (compAttr[comp] !== null && typeof(compAttr[comp]) === 'object')  {
                 if (detailAttr.hasOwnProperty(comp)) {
@@ -503,7 +422,7 @@
             groupDiv.setAttribute('id', group);
             groupDiv.classList.add('property-group');
             groupDiv.textContent = group;
-            propertyPanel.appendChild(groupDiv);
+            propertiesPanel.appendChild(groupDiv);
             
             let buttonExist = false,
                 fieldButtonDiv = null,
@@ -747,21 +666,21 @@
     }
     
     /**
-     * 우측 property panel 삭제
+     * 우측 properties panel 삭제
      */
-    function hidePropertyPanel() {
-        propertyPanel.innerHTML = '';
+    function hidePropertiesPanel() {
+        propertiesPanel.innerHTML = '';
         selectedComponentId = '';
     }
     /**
-     * property panel 제목 출력
+     * properties panel에 컴포넌트 제목 출력
      * 
      * @param type 컴포넌트 타입
      */
     function setComponentTitle(type) {
         let search = {};
-        for (let i = 0, len = _compProperties.length; i < len; i++) {
-            let prop = _compProperties[i];
+        for (let i = 0, len = compTitleProperties.length; i < len; i++) {
+            let prop = compTitleProperties[i];
             if (prop.type === type) {
                 search = prop;
                 break;
@@ -771,7 +690,7 @@
         compTitle.classList.add('property-title');
         compTitle.textContent = search.name;
         //TODO: 제목 icon 추가
-        propertyPanel.appendChild(compTitle);
+        propertiesPanel.appendChild(compTitle);
     }
     /**
      * 선택된 컴포넌트 ID 조회
@@ -782,7 +701,7 @@
     /**
      * 선택된 컴포넌트 ID 초기화
      *
-     * @param id 변경할 id
+     * @param id 컴포넌트 ID
      */
     function setSelectedComponentId(id) {
         selectedComponentId = id;
@@ -794,17 +713,17 @@
         return lastComponentId;
     }
     /**
-     * 컴포넌트 기본 속성 조회
+     * 컴포넌트 기본 속성 조회 : '/assets/js/form/componentAttribute.json'
      */
     function loadAttribute(data) {
-        component.attr = JSON.parse(data);
+        component.defaultAttributes = JSON.parse(data);
     }
     /**
      * 컴포넌트 초기화
      */
     function init() {
         formPanel = document.getElementById('panel-form');
-        propertyPanel = document.getElementById('panel-property');
+        propertiesPanel = document.getElementById('panel-property');
         
         //load component default data.
         aliceJs.sendXhr({
@@ -819,13 +738,11 @@
     
     exports.init = init;
     exports.add = addComponent;
-    exports.copy = copyComponent;
-    exports.remove = removeComponent;
     exports.setSelectedComponentId = setSelectedComponentId;
     exports.getSelectedComponentId = getSelectedComponentId;
     exports.getLastComponentId = getLastComponentId;
-    exports.showPropertyPanel = showPropertyPanel;
-    exports.hidePropertyPanel = hidePropertyPanel;
+    exports.showPropertiesPanel = showPropertiesPanel;
+    exports.hidePropertiesPanel = hidePropertiesPanel;
     
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
