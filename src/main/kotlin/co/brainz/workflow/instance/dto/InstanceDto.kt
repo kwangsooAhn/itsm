@@ -1,8 +1,8 @@
-package co.brainz.itsm.provider.dto
+package co.brainz.workflow.instance.dto
 
 import java.io.Serializable
 
-class InstanceDto(
+data class InstanceDto(
         val instanceId: String,
         val processId: String,
         val instanceStatus: String? = null
