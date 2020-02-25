@@ -106,56 +106,26 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        var AUTH_DELETE = false;
-        var AUTH_CREATE = false;
-        var AUTH_UPDATE = false;
-
         window.addEventListener('load', function() {
-            if (document.getElementById('btnUpdate') !== null) {
-                AUTH_UPDATE = true;
-            }
-
-            if (document.getElementById('btnRegist') !== null) {
-                AUTH_CREATE = true;
-            }
-
-            if (document.getElementById('btnDelete') !== null) {
-                AUTH_DELETE = true;
-            }
-
             if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
                 document.getElementById('txtAuthId').setAttribute('readonly','true');
-                if (AUTH_UPDATE) {
-                    document.getElementById('btnUpdate').style.display = 'block';
-                }
-                if (AUTH_CREATE) {
-                    document.getElementById('btnRegist').style.display = 'none';
-                }
             } else {
                 var first = document.querySelector('a[name=alink]');
                 onGetDetail(first.getAttribute('id'));
-                if (AUTH_UPDATE) {
-                    document.getElementById('btnUpdate').style.display = 'block';
-                }
-                if (AUTH_CREATE) {
-                    document.getElementById('btnRegist').style.display = 'none';
-                }
             }
 
             var authList = document.querySelectorAll('a[name=alink]');
             for(var i = 0; i < authList.length; i++) {
                 authList[i].addEventListener('click', function(){
-                    if (AUTH_UPDATE) {
-                        document.getElementById('btnUpdate').style.display = 'block';
-                    }
-                    if (AUTH_CREATE) {
-                        document.getElementById('btnRegist').style.display = 'none';
-                    }
                     onGetDetail(this.id);
                 });
             }
 
             function onGetDetail(roldId) {
+                document.getElementById('btnUpdate').style.display = 'block';
+                document.getElementById('btnRegist').style.display = 'none';
+                document.getElementById('btnDelete').style.display = 'block';
+                
                 const opt = {
                     method: 'get',
                     url: '/rest/auths/' +  roldId,
@@ -219,12 +189,6 @@
             document.getElementById('spanCreateDt').innerHTML = '';
             document.getElementById('spanUpdateUserKey').innerHTML = '';
             document.getElementById('spanUpdateDt').innerHTML = '';
-            if (AUTH_UPDATE) {
-                document.getElementById('btnUpdate').style.display = 'none';
-            }
-            if (AUTH_CREATE) {
-                document.getElementById('btnRegist').style.display = 'block';
-            }
         }
 
         /*등록, 수정 버튼*/
@@ -254,8 +218,7 @@
             
             var arrUrl = new Array();                               //권한-Url
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function(item) {
-                arrUrl.push(item.id);    // url
-//                 arrUrl.push(item.value); // method
+                arrUrl.push(item.id);
             });
             obj.arrUrl = arrUrl;
 
