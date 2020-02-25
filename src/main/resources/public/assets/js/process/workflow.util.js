@@ -4,6 +4,11 @@ const workflowUtil = {};
  * generate UUID.
  * Public Domain/MIT
  *
+ * <HISTORY>
+ * UUID 의 첫 번째가 숫자로 시작할 경우,
+ * querySelector 로 id 검색 사용 시 오류 발생하여
+ * 첫 번째 글자를 alice 를 의미하는 'a'로 시작하도록 고정함.
+ *
  * @returns {string} UUID
  */
 workflowUtil.generateUUID = function() {

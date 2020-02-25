@@ -5,6 +5,8 @@
 }(this, (function (exports) {
     'use strict';
 
+    const data = {};
+
     const iconDirectory = '../../assets/media/icons/process';
     const itemSize = 20;
     const itemMargin = 8;
@@ -33,6 +35,7 @@
         {
             title: 'edit', parent: 'action-tooltip',
             url: iconDirectory + '/tooltip/edit.png',
+            focus_url: iconDirectory + '/tooltip/edit_focus.png',
             action: function(el, i) {
                 setElementTypeItems(el);
             }
@@ -40,6 +43,7 @@
         {
             title: 'suggest', parent: 'action-tooltip',
             url: iconDirectory + '/tooltip/suggest.png',
+            focus_url: iconDirectory + '/tooltip/suggest_focus.png',
             action: function(el, i) {
                 setSuggestElementItems(el);
             }
@@ -69,79 +73,79 @@
                 console.log('add end event');
             }
         }, {
-            title: 'start event', parent: 'event-tooltip',
+            title: 'startEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start.png',
             action: function(el, i) {
                 console.log('edit type start');
             }
         }, {
-            title: 'message start event', parent: 'event-tooltip',
+            title: 'messageStartEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start-msg.png',
             action: function(el, i) {
                 console.log('edit type message start');
             }
         }, {
-            title: 'timer start event', parent: 'event-tooltip',
+            title: 'timerStartEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start-timer.png',
             action: function(el, i) {
                 console.log('edit type timer start');
             }
         }, {
-            title: 'end event', parent: 'event-tooltip',
+            title: 'endEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-end.png',
             action: function(el, i) {
                 console.log('edit type end');
             }
         }, {
-            title: 'message end event', parent: 'event-tooltip',
+            title: 'messageEndEvent', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-end-msg.png',
             action: function(el, i) {
                 console.log('edit type message end');
             }
         }, {
-            title: 'user task', parent: 'task-tooltip',
+            title: 'userTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-user.png',
             action: function(el, i) {
                 console.log('edit user task');
             }
         }, {
-            title: 'manual task', parent: 'task-tooltip',
+            title: 'manualTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-manual.png',
             action: function(el, i) {
                 console.log('edit manual task');
             }
         }, {
-            title: 'script task', parent: 'task-tooltip',
+            title: 'scriptTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-script.png',
             action: function(el, i) {
                 console.log('edit script task');
             }
         }, {
-            title: 'send task', parent: 'task-tooltip',
+            title: 'sendTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-send.png',
             action: function(el, i) {
                 console.log('edit send task');
             }
         }, {
-            title: 'receive task', parent: 'task-tooltip',
+            title: 'receiveTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-receive.png',
             action: function(el, i) {
                 console.log('edit receive task');
             }
         }, {
-            title: 'exclusive gateway', parent: 'gateway-tooltip',
+            title: 'exclusiveGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-exclusive.png',
             action: function(el, i) {
                 console.log('edit exclusive gateway');
             }
         }, {
-            title: 'parallel gateway', parent: 'gateway-tooltip',
+            title: 'parallelGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-parallel.png',
             action: function(el, i) {
                 console.log('edit parallel gateway');
             }
         }, {
-            title: ' inclusive gateway', parent: 'gateway-tooltip',
+            title: 'inclusiveGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-inclusive.png',
             action: function(el, i) {
                 console.log('edit exclusive gateway');
@@ -150,37 +154,72 @@
     ];
 
     /**
-     * elements.
+     * 추가된 element properties 를 data 에 추가한다.
      *
-     * @param elem 선택된 element
-     * @return Object element Json 정보
+     * @param elem 추가된 element
      */
-    function getElementDataProperty(elem) {
-        const elemId = elem.node().id;
-        let elements = AliceProcessEditor.data.elements;
-        let filterData = elements.filter(function(attr) { return attr.id === elemId; });
-        if (filterData.length === 0) {
-            let elemData = {};
+    function addElementProperty(elem) {
+        const elemId = elem.node().id,
+              elements = AliceProcessEditor.data.elements;
+
+        let elemList = elements.filter(function(attr) { return attr.id === elemId; });
+        if (elemList.length > 0) {
+            return;
+        }
+
+        const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
+        let elemData = {};
+        elemData.id = elemId;
+        if (elem.classed('node')) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
                     let elemType = elementsProperties[elementsKeys[i]][0].type;
                     if (elementsKeys[i] === 'artifact' && elem.classed('group')) {
                         elemType = 'group';
                     }
-                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
-                    elemData.id = elemId;
                     elemData.category = elementsKeys[i];
                     elemData.type = elemType;
                     elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
-                    elemData.data = {};
-                    elements.push(elemData);
+                    elemData.data = getAttributeData(elementsKeys[i], elemType);
                     break;
                 }
             }
-            return elemData;
         } else {
-            return filterData[0];
+            const data = elem.node().__data__;
+            elemData.category = 'connector';
+            elemData.type = 'arrow';
+            elemData.data = getAttributeData('connector', 'arrow');
+            elemData.data['start-id'] = data.source.node().id;
+            elemData.data['end-id'] = data.target.node().id;
         }
+        elements.push(elemData);
+    }
+
+    /**
+     * element 속성 정보에서 data 정보를 추출하여 json 으로 리턴한다.
+     *
+     * @param category element category
+     * @param type element type
+     * @return Object data JSON
+     */
+    function getAttributeData(category, type) {
+        const data = {};
+        let elementTypeList = elementsProperties[category];
+        if (!elementTypeList) {
+            console.error('No information found for category(%s), type(%s) in the configuration file.', category, type);
+            return data;
+        }
+        let elementTypeData = elementTypeList.filter(function(elem){ return elem.type === type; });
+        if (elementTypeData.length > 0) {
+            let attributeList = elementTypeData[0].attribute;
+            attributeList.forEach(function(attr){
+                let items = attr.items;
+                items.forEach(function(item){
+                    data[item.id] = item.default;
+                });
+            });
+        }
+        return data;
     }
 
     /**
@@ -215,33 +254,24 @@
         tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
             .enter()
-            //.append('rect')
-            .append('image')
+            .append('rect')
             .attr('class', 'action-tooltip-item')
+            .attr('id', function(d) { return 'action-tooltip-item-' + d.title; })
             .attr('x', function(d, i) { return  itemMargin + (i * (itemSize + itemMargin) ); })
             .attr('y', itemMargin)
             .attr('width', itemSize)
             .attr('height', itemSize)
-            //.style('fill', function(d) { return 'url(#alice-tooltip-' + d.title + ')'; })
-            .attr('xlink:href', function(d) { return d.url; })
+            .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.title + ')'; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
-                d3.selectAll('.action-tooltip-item').nodes().map(function(item) {
-                    const url = d3.select(item).attr('xlink:href');
-                    const focusIndex = url.indexOf('_focus');
-                    if (focusIndex > -1) {
-                        d3.select(item).attr('xlink:href', function() {
-                            return url.substring(0, focusIndex) + url.substring(focusIndex + 6);
-                        });
+                actionTooltip.forEach(function(t){
+                    if (t.focus_url) {
+                        let item = document.getElementById('action-tooltip-item-' + t.title);
+                        d3.select(item).style('fill', 'url(#' + t.parent + '-' + t.title + ')');
                     }
                 });
-
-                if (d.title === 'edit' || d.title === 'suggest') {
-                    d3.select(this).attr('xlink:href', function() {
-                        let url = d3.select(this).attr('xlink:href'),
-                            lastIndex = url.lastIndexOf('.');
-                        return url.substring(0, lastIndex) + '_focus' + url.substring(lastIndex);
-                    });
+                if (d.focus_url) {
+                    d3.select(this).style('fill', 'url(#' + d.parent + '-' + d.title + '-focus)');
                 }
                 d.action(elem, i);
             });
@@ -324,13 +354,13 @@
         tooltipItemContainer.selectAll('element-tooltip-item')
             .data(items)
             .enter()
-            .append('image')
+            .append('rect')
             .attr('class', 'element-tooltip-item')
             .attr('x', x + itemMargin)
             .attr('y', function(d, i) { return y + itemMargin + (i * (itemSize + itemMargin)); })
             .attr('width', itemSize)
             .attr('height', itemSize)
-            .attr('xlink:href', function(d) { return d.url; })
+            .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.title + ')'; })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
                 d.action(elem, d, i);
@@ -352,13 +382,15 @@
      */
     function setProperties(elem) {
         if (typeof elem !== 'undefined') { // show element properties
+            const elemId = elem.node().id;
+            const elements = AliceProcessEditor.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let property = getElementDataProperty(elem);
+                    let property = elements.filter(function(attr) { return attr.id === elemId; })[0];
                     let properties = elementsProperties[elementsKeys[i]];
                     let attributes = properties.filter(function(p){ return p.type === property.type; });
                     if (attributes.length > 0) {
-                        makePropertiesItem(elem.node().id, attributes[0].attribute, property.data);
+                        makePropertiesItem(elemId, attributes[0].attribute, property.data);
                     }
                     break;
                 }
@@ -477,21 +509,52 @@
     /**
      * tooltip item 에 사용된 이미지 로딩.
      */
-    function loadItems() {
+    function loadItems(process) {
         d3.json('../../assets/js/process/processAttribute.json').then(function(data) {
             processProperties = data;
-            setElementMenu();
+            d3.json('../../assets/js/process/elementAttribute.json').then(function(data) {
+                console.debug('load attribute');
+                elementsProperties = data;
+                elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+
+                // load process data.
+                aliceJs.sendXhr({
+                    method: 'GET',
+                    url: '/rest/processes/data/' + process.processId,
+                    callbackFunc: function(xhr) {
+                        const data = xhr.responseText;
+                        console.debug(JSON.parse(data));
+                        AliceProcessEditor.data = JSON.parse(data);
+                        document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
+                        const elements = AliceProcessEditor.data.elements;
+                        setElementMenu();
+                        AliceProcessEditor.drawProcess(elements);
+                    },
+                    contentType: 'application/json; charset=utf-8'
+                });
+            });
         });
-        d3.json('../../assets/js/process/elementAttribute.json').then(function(data) {
-            elementsProperties = data;
-            elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+
+        // add pattern image. for tooltip item image.
+        const imageLoadingList = [];
+        tooltipItems.forEach(function(item){
+            let data = {};
+            data.id = item.parent + '-' + item.title;
+            data.url = item.url;
+            imageLoadingList.push(data);
+            if (item.focus_url) {
+                let focusData = {};
+                focusData.id = item.parent + '-' + item.title + '-focus';
+                focusData.url = item.focus_url;
+                imageLoadingList.push(focusData);
+            }
         });
 
         const defs = d3.select('svg').append('defs');
-        defs.selectAll('pattern').data(tooltipItems)
+        defs.selectAll('pattern').data(imageLoadingList)
             .enter()
             .append('pattern')
-            .attr('id', function(d) { return d.parent + '-' + d.title; })
+            .attr('id', function(d) { return d.id; })
             .attr('width', 1)
             .attr('height', 1)
             .attr('patternUnits', 'objectBoundingBox')
@@ -503,7 +566,9 @@
             .attr('xlink:href', function(d) { return d.url; });
     }
 
+    exports.data = data;
     exports.loadItems = loadItems;
+    exports.addElementProperty = addElementProperty;
     exports.setElementMenu = setElementMenu;
     exports.setActionTooltipItem = setActionTooltipItem;
     Object.defineProperty(exports, '__esModule', {value: true});
