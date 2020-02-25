@@ -36,4 +36,3 @@ data class ComponentDataPk(
         val compId: String = "",
         val attrId: String = ""
 ) : Serializable
-

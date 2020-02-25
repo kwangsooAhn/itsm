@@ -36,7 +36,7 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
     }
 
     /**
-     * Insert Process.
+     * Request for new process.
      *
      * @param processDto
      * @return String

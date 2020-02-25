@@ -22,41 +22,39 @@ import javax.persistence.Table
 @GenericGenerator(name = "system-uuid", strategy = "uuid")
 @Table(name = "wf_proc_mst")
 data class ProcessMstEntity(
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @Column(name = "proc_id")
-    val procId: String,
+        @Id @GeneratedValue(generator = "system-uuid")
+        @Column(name = "proc_id", length = 128)
+        var processId: String = "",
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "form_id")
-    val formMstEntity: FormMstEntity?,
+        @OneToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "form_id")
+        var formMstEntity: FormMstEntity? = null,
 
-    @Column(name = "proc_key")
-    val procKey: String,
+        @Column(name = "proc_key", length = 256)
+        var processKey: String = "",
 
-    @Column(name = "proc_name")
-    val procName: String,
+        @Column(name = "proc_name", length = 256)
+        var processName: String = "",
 
-    @Column(name = "proc_status")
-    val procStatus: String,
+        @Column(name = "proc_status", length = 100)
+        var processStatus: String = "",
 
-    @Column(name = "proc_desc")
-    val procDesc: String?,
+        @Column(name = "proc_desc", length = 256)
+        var processDesc: String? = null,
 
-    @Column(name = "create_dt")
-    var createDt: LocalDateTime? = null,
+        @Column(name = "create_dt")
+        var createDt: LocalDateTime? = null,
 
-    @Column(name = "create_user_key")
-    var createUserKey: String? = null,
+        @Column(name = "create_user_key", length = 128)
+        var createUserKey: String? = null,
 
-    @Column(name = "update_dt")
-    var updateDt: LocalDateTime? = null,
+        @Column(name = "update_dt")
+        var updateDt: LocalDateTime? = null,
 
-    @Column(name = "update_user_key")
-    var updateUserKey: String? = null
+        @Column(name = "update_user_key", length = 128)
+        var updateUserKey: String? = null
 
 ) : Serializable {
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "processes")
     val processes: MutableList<DocumentEntity>? = mutableListOf()
 }
