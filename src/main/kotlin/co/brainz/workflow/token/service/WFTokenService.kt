@@ -65,6 +65,9 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
         updateToken(tokenSaveDto.tokenDto)
         deleteTokenData(tokenSaveDto.instanceDto.id, tokenSaveDto.tokenDto.id)
         createTokenData(tokenSaveDto, tokenSaveDto.instanceDto.id, tokenSaveDto.tokenDto.id)
+        if (tokenSaveDto.tokenDto.isComplete) {
+            tokenComplete()
+        }
     }
 
     /**
