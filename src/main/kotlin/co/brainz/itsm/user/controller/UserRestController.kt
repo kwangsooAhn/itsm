@@ -70,7 +70,7 @@ class UserRestController(
      * 사용자가 정보를 업데이트한다.
      */
     @PutMapping("/{userKey}/userEditSelf", "/{userKey}/userEdit")
-    fun updateUserSelfEdit(
+    fun updateUserEdit(
         @RequestBody user: UserUpdateDto, request: HttpServletRequest,
         response: HttpServletResponse
     ): String {
