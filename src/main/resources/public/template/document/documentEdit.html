@@ -18,11 +18,22 @@
         #document-container > .component {
             padding: 15px 60px;
         }
+        #document-container > .component .field .label {
+            display: inline;
+        }
+        #document-container > .component .field textarea {
+            resize: none;
+        }
         #document-container > .component input[type=text], textarea, select, .field > div {
             width: 100%;
         }
         #document-container > .component input[type=text], textarea {
             outline: solid 1px;
+        }
+        #document-container > .component span[class*="required"] {
+            padding-left: 5px;
+            color: #fc5f6b;
+            font-weight: bold;
         }
     </style>
 </head>

@@ -8,6 +8,10 @@
     let documentContainer = null;
     const defaultColWidth = 8.33; //폼 패널을 12등분하였을때, 1개의 너비
 
+    const numIncludeReg = /[0-9]/gi;
+    const numReg = /^[0-9]*$/;
+    const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
     /**
      * 현재 시간 추출 2020-02-19 13:30 형식
      */
@@ -28,6 +32,72 @@
                 zero += '0';
         }
         return zero + n;
+    }
+
+    /**
+     * alert message.
+     *
+     * @param element
+     * @param msg
+     */
+    function alertMsg(element, msg) {
+        alert(msg);
+        setTimeout(function() { element.focus(); }, 10);
+    }
+
+     /**
+     * Validation Check.
+     *
+     * @param element
+     * @param validateData
+     */
+    function validateCheck(element, validateData) {
+        const chkVal = element.value.trim();
+        if (chkVal.length !== 0) {
+            for (let key in validateData) {
+                const value = validateData[key];
+                if (key === 'regexp') {
+                    switch (value) {
+                        case "char":
+                            if (numIncludeReg.test(chkVal)) {
+                                alertMsg(element, validateData['regexp-msg']);
+                                return true;
+                            }
+                            break;
+                        case "num":
+                            if (!numReg.test(chkVal)) {
+                                alertMsg(element, validateData['regexp-msg']);
+                                return true;
+                            }
+                            break;
+                        case "email":
+                            if (!emailReg.test(chkVal)) {
+                                alertMsg(element, validateData['regexp-msg']);
+                                return true;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (key === 'length-min' && value > chkVal.length) {
+                    alertMsg(element, value + "글자 이상 입력해주세요.");
+                    return true;
+                }
+                if (key === 'length-max' && value < chkVal.length) {
+                    alertMsg(element, value + "글자 이하로 입력해주세요.");
+                    return true;
+                }
+                if (key === 'date-min' && value > chkVal) {
+                    alertMsg(element, value + " 날짜 이후로 선택해주세요.");
+                    return true;
+                }
+                if (key === 'date-max' && value < chkVal) {
+                    alertMsg(element, value + " 날짜 이전으로 선택해주세요.");
+                    return true;
+                }
+            }
+        }
     }
 
     /**
@@ -60,24 +130,25 @@
             lblEle.style.textDecoration = (lblData.underline === 'Y') ? 'underline' : '';
             lblEle.style.textAlign = lblData.align;
             lblEle.innerHTML = lblData.text;
+            fieldFirstEle.appendChild(lblEle);
 
+            if (validateData.required === 'Y') {
+                const requiredEle = document.createElement('span');
+                requiredEle.className  = 'required';
+                requiredEle.innerText = '*';
+                fieldFirstEle.append(requiredEle);
+            }
             if (lblData.position === 'left') {
                 comp.style.display = 'flex';
                 fieldFirstEle.style.flexBasis = (defaultColWidth * Number(lblData.column)) + '%';
                 fieldLastEle.style.flexBasis = (defaultColWidth * Number(displayData.column)) + '%';
             }
-            fieldFirstEle.appendChild(lblEle);
             comp.appendChild(fieldFirstEle);
         }
         comp.appendChild(fieldLastEle);
         documentContainer.appendChild(comp);
 
-        //구현 완료 시 삭제.
-        //console.log('=================================================== ' + compData.type + '===================================================');
-        //console.log(JSON.stringify(displayData));
-        //console.log(JSON.stringify(validateData));
         //TODO: common[mapping-id] 구현 필요.
-        //TODO: validate 처리 필요.
         switch (compData.type) {
             case 'text':
                 const textEle = document.createElement('input');
@@ -87,6 +158,10 @@
                 textEle.style.outlineColor = displayData['outline-color'];
                 textEle.minLength = validateData['length-min'];
                 textEle.maxLength = validateData['length-max'];
+                textEle.required = (validateData.required === 'Y');
+                textEle.addEventListener('focusout', function() {
+                    validateCheck(this, validateData);
+                });
                 fieldLastEle.appendChild(textEle);
                 break;
             case 'textarea':
@@ -96,10 +171,15 @@
                 textareaEle.style.outlineColor = displayData['outline-color'];
                 textareaEle.minLength = validateData['length-min'];
                 textareaEle.maxLength = validateData['length-max'];
+                textareaEle.required = (validateData.required === 'Y');
+                textareaEle.addEventListener('focusout', function() {
+                    validateCheck(this, validateData);
+                });
                 fieldLastEle.appendChild(textareaEle);
                 break;
             case 'select':
                 const selectEle = document.createElement('select');
+                selectEle.required = (validateData.required === 'Y');
                 const optData = compData.option;
                 optData.sort(function(a, b) {
                     return a.seq - b.seq;
@@ -126,6 +206,7 @@
                     radioEle.id = radioOptData[i].value;
                     radioEle.value = radioOptData[i].value;
                     radioEle.checked = (i === 0);
+                    radioEle.required = (i === 0 && validateData.required === 'Y');
 
                     const lblEle = document.createElement('label');
                     lblEle.innerText = radioOptData[i].name;
@@ -153,7 +234,7 @@
                     checkEle.name = 'check-' + compData.id;
                     checkEle.id = checkOptData[i].value;
                     checkEle.value = checkOptData[i].value;
-                    checkEle.checked = (i === 0);
+                    checkEle.required = (i === 0 && validateData.required === 'Y');
 
                     const lblEle = document.createElement('label');
                     lblEle.innerText = checkOptData[i].name;
@@ -170,7 +251,6 @@
                 break;
             case 'label':
                 const lblEle = document.createElement('div');
-                lblEle.className = 'label';
                 lblEle.style.fontSize = displayData.size + 'px';
                 lblEle.style.color = displayData.color;
                 lblEle.style.fontWeight = (displayData.bold === 'Y') ? 'bold' : '';
@@ -206,6 +286,11 @@
                 dateEle.type = 'text';
                 dateEle.placeholder = displayData.format;
                 dateEle.value = dateDefault; //TODO: 수정 필요
+                dateEle.required = (validateData.required === 'Y');
+                dateEle.readOnly = true;
+                dateEle.addEventListener('focusout', function() {
+                    validateCheck(this, validateData);
+                });
                 fieldLastEle.appendChild(dateEle);
                 dateTimePicker.initDatePicker('date-' + compData.id, displayData.format.toUpperCase());
                 break;
@@ -220,6 +305,8 @@
                 timeEle.type = 'text';
                 timeEle.placeholder = displayData.format;
                 timeEle.value = timeDefault; //TODO: 수정 필요
+                timeEle.required = (validateData.required === 'Y');
+                timeEle.readOnly = true;
                 fieldLastEle.appendChild(timeEle);
                 dateTimePicker.initTimePicker('time-' + compData.id, displayData.format.toUpperCase());
                 break;
@@ -233,6 +320,11 @@
                 datetimeEle.type = 'text';
                 datetimeEle.placeholder = displayData.format;
                 datetimeEle.value = datetimeDefault; //TODO: 수정 필요
+                datetimeEle.required = (validateData.required === 'Y');
+                datetimeEle.readOnly = true;
+                datetimeEle.addEventListener('focusout', function() {
+                    validateCheck(this, validateData);
+                });
                 fieldLastEle.appendChild(datetimeEle);
                 dateTimePicker.initDateTimePicker('datetime-' + compData.id, displayData.format.toUpperCase());
                 break;
@@ -264,11 +356,47 @@
     }
 
     /**
+     * radio, checkbox 선택 확인.
+     *
+     * @param element
+     */
+    function selectCheck(element) {
+        let elements = document.getElementsByName(element.name);
+        for (let j = 0; j < elements.length; j++) {
+            if (elements[j].checked) return true;
+        }
+        return false;
+    }
+
+    /**
+     * required Check.
+     *
+     */
+    function requiredCheck() {
+        const requiredObjs = document.querySelectorAll(':required');
+        for (let i = 0; i < requiredObjs.length; i++) {
+            let requiredObj = requiredObjs[i];
+            if (requiredObj.type === 'radio' || requiredObj.type === 'checkbox') {
+                if (!selectCheck(requiredObj)) {
+                    alertMsg(requiredObj, "필수 항목을 선택해주세요.");
+                    return true;
+                }
+            } else if (requiredObj.value === '') {
+                alertMsg(requiredObj, "필수 항목을 입력해주세요.");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * save document.
      */
     function save() {
-        //TODO: 구현 필요. TicketRestController 호출해야함.
-        alert("저장되었습니다.");
+        if (!requiredCheck()) {
+            //TODO: 구현 필요.
+            alert("저장되었습니다.");
+        }
     }
 
     /**
@@ -280,7 +408,7 @@
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
         documentContainer = document.getElementById('document-container');
 
-        // 신청서의 문서 데이터 조회.
+        // document data search.
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/documents/data/' + documentId,
