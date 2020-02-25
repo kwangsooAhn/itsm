@@ -41,14 +41,13 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
         result["token"] = tokenMap
 
         val jsonValue = Gson().toJson(result)
-
-        tokenProvider.postToken(jsonValue)
+        tokenProvider.postToken(tokenProvider.makeTokenData(jsonValue))
     }
 
     @GetMapping("/put")
     fun putData() {
         val instanceMap = LinkedHashMap<String, Any>()
-        instanceMap["id"] = "40288ab2707a9ccd01707a9cf6980000"
+        instanceMap["id"] = "40288ab2707b109b01707b11039c0000"
         val processMap = LinkedHashMap<String, Any>()
         processMap["id"] = "abcdedfdddd"
 
@@ -63,7 +62,7 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
         dataList.add(data2)
 
         val tokenMap = LinkedHashMap<String, Any>()
-        tokenMap["id"] = "40288ab2707a9ccd01707a9cf6bc0001"
+        tokenMap["id"] = "40288ab2707b109b01707b1103ca0001"
         tokenMap["isComplete"] = true
         tokenMap["elementId"] = ""
         tokenMap["assigneeId"] = "aaaaa"
@@ -76,6 +75,6 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
         result["token"] = tokenMap
 
         val jsonValue = Gson().toJson(result)
-        tokenProvider.putToken(jsonValue)
+        tokenProvider.putToken(tokenProvider.makeTokenData(jsonValue))
     }
 }
