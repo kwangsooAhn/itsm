@@ -18,8 +18,8 @@ import javax.transaction.Transactional
 @RequestMapping("/rest/wf/tokens")
 class WFTokenRestController(private val wfEngine: WFEngine) {
 
-    //@Transactional
-    //@GetMapping("")
+    @Transactional
+    @GetMapping("")
     fun postToken() {
         val instanceMap = LinkedHashMap<String, Any>()
         instanceMap["id"] = ""
@@ -56,8 +56,8 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
         wfEngine.token().postToken(jsonValue)
     }
 
-    @Transactional
-    @GetMapping("")
+    //@Transactional
+    //@GetMapping("")
     fun putToken() {
         val instanceMap = LinkedHashMap<String, Any>()
         instanceMap["id"] = "40288ab27076642f017076648e5b0000"

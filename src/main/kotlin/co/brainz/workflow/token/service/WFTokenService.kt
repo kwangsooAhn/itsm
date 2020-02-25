@@ -49,7 +49,7 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      */
     fun postToken(jsonValue: String) {
         val tokenSaveDto = makeTokenData(jsonValue)
-        val instanceDto = InstanceDto(instId = "", procId = tokenSaveDto.processDto.id)
+        val instanceDto = InstanceDto(instanceId = "", processId = tokenSaveDto.processDto.id)
         val instance = wfInstanceService.createInstance(instanceDto)
         val token = createToken(instance.instId, tokenSaveDto.tokenDto)
         createTokenData(tokenSaveDto, instance.instId, token.tokenId)
@@ -104,13 +104,19 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      * @param jsonValue
      */
     fun putToken(jsonValue: String) {
-        //기존 데이터 삭제
-        //token update
-        //token data insert
         val tokenSaveDto = makeTokenData(jsonValue)
         println(">>>>>>>")
         println(tokenSaveDto)
         println(">>>>>>>")
+
+
+        deleteTokenData(tokenSaveDto.instanceDto.id, tokenSaveDto.tokenDto.id)
+
+        //token update
+        //delete data
+        //deleteTokenData(tokenSaveDto.tokenDto)
+        //token data insert
+
 
     }
 
@@ -121,10 +127,10 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      * @param tokenDto
      * @return TokenMstEntity
      */
-    fun createToken(instId: String, tokenDto: TokenDto): TokenMstEntity {
+    fun createToken(instanceId: String, tokenDto: TokenDto): TokenMstEntity {
         val tokenMstEntity = TokenMstEntity(
                 tokenId = "",
-                instId = instId,
+                instId = instanceId,
                 elemId = tokenDto.elemId,
                 tokenStatus = TokenConstants.Status.RUNNING.code,
                 tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
@@ -208,14 +214,15 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
             tokenDataRepository.saveAll(tokenDataEntities)
         }
     }
-
-    *//**
+*/
+    /**
      * Token Data Delete.
      *
-     * @param tokenDto
-     *//*
-    fun deleteTokenData(tokenDto: TokenDto) {
-        tokenDataRepository.deleteTokenDataEntityByInstIdAndTokenId(tokenDto.instId, tokenDto.tokenId)
-    }*/
+     * @param instanceId
+     * @param tokenId
+     */
+    fun deleteTokenData(instanceId: String, tokenId: String) {
+        tokenDataRepository.deleteTokenDataEntityByInstIdAndTokenId(instanceId, tokenId)
+    }
 
 }

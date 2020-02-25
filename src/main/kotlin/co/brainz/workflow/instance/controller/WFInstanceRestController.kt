@@ -17,18 +17,18 @@ class WFInstanceRestController(private val wfEngine: WFEngine) {
     fun createInstance() {
 
         val instanceDto = InstanceDto(
-                instId = "",
-                procId = "abcdedfdddd"
+                instanceId = "",
+                processId = "abcdedfdddd"
         )
         println(wfEngine.instance().createInstance(instanceDto))
 
     }
 
-    @GetMapping("/complete/{instId}")
-    fun completeInstance(@PathVariable instId: String) {
+    @GetMapping("/complete/{instanceId}")
+    fun completeInstance(@PathVariable instanceId: String) {
         val instanceDto = InstanceDto(
-                instId = instId,
-                procId = "abcdedfdddd"
+                instanceId = instanceId,
+                processId = "abcdedfdddd"
         )
         wfEngine.instance().completeInstance(instanceDto)
 
