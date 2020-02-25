@@ -2,6 +2,6 @@ package co.brainz.itsm.provider.dto
 
 import java.io.Serializable
 
-data class InstanceDto(
-        val instanceId: String = ""
+data class TokenProcessDto(
+        val id: String
 ) : Serializable

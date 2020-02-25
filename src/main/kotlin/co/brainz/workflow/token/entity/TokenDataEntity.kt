@@ -14,16 +14,16 @@ import javax.persistence.Table
 data class TokenDataEntity(
 
         @Id
-        @JoinColumn(name = "inst_id")
-        val instId: String,
+        @JoinColumn(name = "instance_id")
+        val instanceId: String,
 
         @Id
         @JoinColumn(name = "token_id")
         val tokenId: String,
 
         @Id
-        @JoinColumn(name = "comp_id")
-        val compId: String,
+        @JoinColumn(name = "component_id")
+        val componentId: String,
 
         @Column(name = "value")
         var value: String
@@ -31,7 +31,7 @@ data class TokenDataEntity(
 ) : Serializable
 
 data class TokenDataPk(
-        val instId: String = "",
+        val instanceId: String = "",
         val tokenId: String = "",
-        val compId: String = ""
+        val componentId: String = ""
 ) : Serializable

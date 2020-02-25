@@ -6,5 +6,5 @@ import java.util.Optional
 
 interface InstanceMstRepository: JpaRepository<InstanceMstEntity, String> {
 
-    fun findInstanceMstEntityByInstId(instId: String): Optional<InstanceMstEntity>
+    fun findInstanceMstEntityByInstanceId(instanceId: String): Optional<InstanceMstEntity>
 }

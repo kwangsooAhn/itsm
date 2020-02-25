@@ -21,11 +21,11 @@ data class TokenMstEntity(
         @Column(name = "token_id", length = 128)
         val tokenId: String,
 
-        @JoinColumn(name = "inst_id")
-        val instId: String,
+        @JoinColumn(name = "instance_id")
+        val instanceId: String,
 
-        @JoinColumn(name = "elem_id")
-        val elemId: String,
+        @JoinColumn(name = "element_id")
+        val elementId: String,
 
         @Column(name = "token_status", length = 100)
         var tokenStatus: String,
@@ -37,9 +37,9 @@ data class TokenMstEntity(
         var tokenEndDt: LocalDateTime? = null,
 
         @Column(name = "", length = 128)
-        val assigneeId: String? = null,
+        var assigneeId: String? = null,
 
         @Column(name = "", length = 256)
-        val assigneeType: String? = null
+        var assigneeType: String? = null
 
 ) : Serializable

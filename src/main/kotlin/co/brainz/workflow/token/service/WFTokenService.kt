@@ -4,16 +4,11 @@ import co.brainz.workflow.instance.dto.InstanceDto
 import co.brainz.workflow.instance.service.WFInstanceService
 import co.brainz.workflow.token.constants.TokenConstants
 import co.brainz.workflow.token.dto.TokenDto
-import co.brainz.workflow.token.dto.TokenInstanceDto
-import co.brainz.workflow.token.dto.TokenProcessDto
 import co.brainz.workflow.token.dto.TokenSaveDto
 import co.brainz.workflow.token.entity.TokenDataEntity
 import co.brainz.workflow.token.entity.TokenMstEntity
 import co.brainz.workflow.token.repository.TokenDataRepository
 import co.brainz.workflow.token.repository.TokenMstRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -24,64 +19,34 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
                      private val wfInstanceService: WFInstanceService) {
 
     /**
-     * Token Data Converter (String -> Dto).
-     *
-     * @param jsonValue
-     * @return TokenSaveDto
-     */
-    fun makeTokenData(jsonValue: String): TokenSaveDto {
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val result: MutableMap<*, *>? = mapper.readValue(jsonValue, MutableMap::class.java)
-        val tokenInstanceDto = mapper.convertValue(result?.get("instance"), TokenInstanceDto::class.java)
-        val tokenProcessDto = mapper.convertValue(result?.get("process"), TokenProcessDto::class.java)
-        val tokenDto = mapper.convertValue(result?.get("token"), TokenDto::class.java)
-        return TokenSaveDto(
-                instanceDto = tokenInstanceDto,
-                processDto = tokenProcessDto,
-                tokenDto = tokenDto
-        )
-    }
-
-    /**
      * Token Save.
      *
-     * @param jsonValue
+     * @param tokenSaveDto
      */
-    fun postToken(jsonValue: String) {
-        val tokenSaveDto = makeTokenData(jsonValue)
+    fun postToken(tokenSaveDto: TokenSaveDto) {
         val instanceDto = InstanceDto(instanceId = "", processId = tokenSaveDto.processDto.id)
         val instance = wfInstanceService.createInstance(instanceDto)
-        val token = createToken(instance.instId, tokenSaveDto.tokenDto)
-        createTokenData(tokenSaveDto, instance.instId, token.tokenId)
-
-        /*val tokenDataEntities: MutableList<TokenDataEntity> = mutableListOf()
-        for (tokenDataDto in tokenSaveDto.tokenDto.data!!) {
-            val tokenDataEntity = TokenDataEntity(
-                    instId = instance.instId,
-                    tokenId = token.tokenId,
-                    compId = tokenDataDto.compId,
-                    value = tokenDataDto.value
-            )
-            tokenDataEntities.add(tokenDataEntity)
-        }*/
-
-        /*if (tokenDataEntities.isNotEmpty()) {
-            tokenDataRepository.saveAll(tokenDataEntities)
-        }*/
-
+        val token = createToken(instance.instanceId, tokenSaveDto.tokenDto)
+        createTokenData(tokenSaveDto, instance.instanceId, token.tokenId)
         if (tokenSaveDto.tokenDto.isComplete) {
             tokenComplete()
         }
-
     }
 
-    fun createTokenData(tokenSaveDto: TokenSaveDto, instId: String, tokenId: String) {
+    /**
+     * Token Data Insert.
+     *
+     * @param tokenSaveDto
+     * @param instanceId
+     * @param tokenId
+     */
+    fun createTokenData(tokenSaveDto: TokenSaveDto, instanceId: String, tokenId: String) {
         val tokenDataEntities: MutableList<TokenDataEntity> = mutableListOf()
         for (tokenDataDto in tokenSaveDto.tokenDto.data!!) {
             val tokenDataEntity = TokenDataEntity(
-                    instId = instId,
+                    instanceId = instanceId,
                     tokenId = tokenId,
-                    compId = tokenDataDto.compId,
+                    componentId = tokenDataDto.componentId,
                     value = tokenDataDto.value
             )
             tokenDataEntities.add(tokenDataEntity)
@@ -92,34 +57,15 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
     }
 
     /**
-     * Token Complete.
-     */
-    fun tokenComplete() {
-        //TODO: Token Complete.
-    }
-
-    /**
      * Token Update.
      *
-     * @param jsonValue
+     * @param tokenSaveDto
      */
-    fun putToken(jsonValue: String) {
-        val tokenSaveDto = makeTokenData(jsonValue)
-        println(">>>>>>>")
-        println(tokenSaveDto)
-        println(">>>>>>>")
-
-
+    fun putToken(tokenSaveDto: TokenSaveDto) {
+        updateToken(tokenSaveDto.tokenDto)
         deleteTokenData(tokenSaveDto.instanceDto.id, tokenSaveDto.tokenDto.id)
-
-        //token update
-        //delete data
-        //deleteTokenData(tokenSaveDto.tokenDto)
-        //token data insert
-
-
+        createTokenData(tokenSaveDto, tokenSaveDto.instanceDto.id, tokenSaveDto.tokenDto.id)
     }
-
 
     /**
      * Token Create.
@@ -130,91 +76,23 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
     fun createToken(instanceId: String, tokenDto: TokenDto): TokenMstEntity {
         val tokenMstEntity = TokenMstEntity(
                 tokenId = "",
-                instId = instanceId,
-                elemId = tokenDto.elemId,
+                instanceId = instanceId,
+                elementId = tokenDto.elementId,
                 tokenStatus = TokenConstants.Status.RUNNING.code,
                 tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
         return tokenMstRepository.save(tokenMstEntity)
     }
 
-    fun updateToken() {
-        //val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.tokenId)
-    }
-
-/*
-    *//**
-     * Token Complete.
-     *
-     * @param tokenDto
-     *//*
-    fun completeToken(tokenDto: TokenDto) {
-        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.tokenId)
+    fun updateToken(tokenDto: TokenDto) {
+        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.id)
         if (tokenMstEntity.isPresent) {
-            tokenMstEntity.get().tokenStatus = TokenConstants.Status.FINISH.code
-            tokenMstEntity.get().tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            tokenMstEntity.get().assigneeId = tokenDto.assigneeId
+            tokenMstEntity.get().assigneeType = tokenDto.assigneeType
             tokenMstRepository.save(tokenMstEntity.get())
         }
-    }*/
-
-/*    *//**
-     * Token Execute(Token + Token Data).
-     *
-     * @param tokenSaveDto
-     *//*
-    fun executeToken(tokenSaveDto: TokenSaveDto) {
-        when (tokenSaveDto.tokenDto.isComplete) {
-            true -> {
-                val token =  createToken(tokenSaveDto.tokenDto)
-                for (tokenDataDto in tokenSaveDto.tokenDataDtoList) {
-                    tokenDataDto.tokenId = token.tokenId
-                }
-            }
-            false -> {
-                val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
-                tokenMstEntity.ifPresent {
-                    tokenMstEntity.get().tokenStatus = TokenConstants.Status.WAITING.code //sample
-                    tokenMstRepository.save(tokenMstEntity.get())
-                }
-            }
-        }
-        executeTokenData(tokenSaveDto)
     }
 
-    *//**
-     * Token Data Delete + Insert.
-     *
-     * @param tokenSaveDto
-     *//*
-    fun executeTokenData(tokenSaveDto: TokenSaveDto) {
-        if (!tokenSaveDto.tokenDto.isComplete) {
-            deleteTokenData(tokenSaveDto.tokenDto)
-        }
-
-        insertTokenData(tokenSaveDto.tokenDataDtoList)
-    }
-
-    *//**
-     * Token Data Insert.
-     *
-     * @param tokenDataDtoList
-     *//*
-    fun insertTokenData(tokenDataDtoList: List<TokenDataDto>) {
-        val tokenDataEntities: MutableList<TokenDataEntity> = mutableListOf()
-        for (tokenDataDto in tokenDataDtoList) {
-            val tokenDataEntity = TokenDataEntity(
-                    instId = tokenDataDto.instId,
-                    tokenId = tokenDataDto.tokenId,
-                    compId = tokenDataDto.compId,
-                    value = tokenDataDto.value
-            )
-            tokenDataEntities.add(tokenDataEntity)
-        }
-        if (tokenDataEntities.isNotEmpty()) {
-            tokenDataRepository.saveAll(tokenDataEntities)
-        }
-    }
-*/
     /**
      * Token Data Delete.
      *
@@ -222,7 +100,27 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      * @param tokenId
      */
     fun deleteTokenData(instanceId: String, tokenId: String) {
-        tokenDataRepository.deleteTokenDataEntityByInstIdAndTokenId(instanceId, tokenId)
+        tokenDataRepository.deleteTokenDataEntityByInstanceIdAndTokenId(instanceId, tokenId)
     }
 
+    /**
+     * Token Complete.
+     *
+     * @param tokenDto
+     */
+    fun completeToken(tokenDto: TokenDto) {
+        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.id)
+        if (tokenMstEntity.isPresent) {
+            tokenMstEntity.get().tokenStatus = TokenConstants.Status.FINISH.code
+            tokenMstEntity.get().tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            tokenMstRepository.save(tokenMstEntity.get())
+        }
+    }
+
+    /**
+     * Token Complete.
+     */
+    fun tokenComplete() {
+        //TODO: Token Complete.
+    }
 }

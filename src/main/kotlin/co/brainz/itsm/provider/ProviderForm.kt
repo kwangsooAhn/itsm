@@ -58,7 +58,7 @@ class ProviderForm(private val restTemplate: RestTemplate): ProviderUtilities() 
      * @return Boolean
      */
     fun putForm(formComponentSaveDto: FormComponentSaveDto): Boolean {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.PUT_FORM.url))
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Form.PUT_FORM.url.replace(keyRegex, formComponentSaveDto.form.formId)))
         val requestEntity = setHttpEntity(formComponentSaveDto)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
         return responseJson.statusCode == HttpStatus.OK

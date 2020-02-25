@@ -10,26 +10,25 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.Table
 
-
 @Entity
 @Table(name = "wf_inst_mst")
 data class InstanceMstEntity(
 
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "inst_id", length = 128)
-        val instId: String,
+        @Column(name = "instance_id", length = 128)
+        val instanceId: String,
 
-        @Column(name = "inst_status", length = 100)
-        var instStatus: String,
+        @Column(name = "instance_status", length = 100)
+        var instanceStatus: String,
 
-        @Column(name = "inst_start_dt", nullable = false)
-        val instStartDt: LocalDateTime? = null,
+        @Column(name = "instance_start_dt", nullable = false)
+        val instanceStartDt: LocalDateTime? = null,
 
-        @Column(name = "inst_end_dt", insertable = false)
-        var instEndDt: LocalDateTime? = null,
+        @Column(name = "instance_end_dt", insertable = false)
+        var instanceEndDt: LocalDateTime? = null,
 
-        @JoinColumn(name = "proc_id")
-        val procId: String
+        @JoinColumn(name = "process_id")
+        val processId: String
 
 ) : Serializable

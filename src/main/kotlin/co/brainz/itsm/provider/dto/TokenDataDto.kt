@@ -1,4 +1,4 @@
-package co.brainz.workflow.token.dto
+package co.brainz.itsm.provider.dto
 
 import java.io.Serializable
 
@@ -6,4 +6,3 @@ data class TokenDataDto(
         val componentId: String,
         var value: String
 ) : Serializable
-

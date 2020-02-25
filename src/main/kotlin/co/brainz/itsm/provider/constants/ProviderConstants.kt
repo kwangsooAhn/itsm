@@ -31,6 +31,17 @@ object ProviderConstants {
     }
 
     /**
+     * Token Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class Token(val url: String, val method: String) {
+        POST_TOKEN("/rest/wf/tokens", "POST"),
+        PUT_TOKEN("/rest/wf/tokens/{tokenId}", "PUT")
+    }
+
+    /**
      * Workflow Url.
      *
      * @param url
@@ -39,10 +50,6 @@ object ProviderConstants {
     enum class Workflow(val url: String, val method: String) {
         GET_DOCUMENTS("/rest/wf/documents", "GET"),
         GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
-        GET_INSTANCES("/rest/wf/instances", "GET"),
-        GET_INSTANCE("/rest/wf/instances/{instanceId}", "GET"),
-        POST_INSTANCE("/rest/wf/instances", "POST"),
-        PUT_INSTANCE("/rest/wf/instances/{instanceId}", "PUT"),
         TASK_COMPLETE("/rest/wf/tasks/{instanceId}/complete", "PUT"),
         TASK_GATEWAY("/rest/wf/tasks/{instanceId}/gateway", "PUT")
     }
