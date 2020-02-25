@@ -68,7 +68,7 @@
             for (let i = compElems.length - 1; i >= elemIdx - 1; i--) {
                 let cur = compElems[i];
                 let prev = compElems[i - 1];
-                if (cur.getAttribute('data-type') !== prev.getAttribute('data-type') && i > (elemIdx - 1)) {
+                if (i > (elemIdx - 1) && cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
                     cur.innerHTML = prev.innerHTML;
                     cur.setAttribute('data-type', prev.getAttribute('data-type'));
                     formEditor.data.components[i] = tempCompData[i - 1];

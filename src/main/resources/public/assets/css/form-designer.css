@@ -11087,9 +11087,9 @@ body {
 
 .context-menu {
   display: none;
-  position: absolute;
   width: 314px;
   max-height: 225px;
+  position: absolute;
   background-color: #fff;
   border: solid 1px #BCC5D3;
   -webkit-box-shadow: 1px 1px 2px #707070;
@@ -11101,15 +11101,29 @@ body {
 .context-menu ul {
   display: none;
   padding: 0;
+  margin: 0;
 }
 
 .context-menu ul li {
+  padding-left: 20px;
+}
+
+.context-menu ul li img {
+  margin-right: 20px;
+}
+
+.context-menu ul li label {
+  pointer-events: none;
+}
+
+.context-menu-control li {
   height: 40px;
   line-height: 40px;
 }
 
-.context-menu.on {
-  display: block;
+.context-menu-component li {
+  height: 60px;
+  line-height: 60px;
 }
 
 .context-menu ul.active {
@@ -11125,9 +11139,8 @@ body {
   cursor: pointer;
 }
 
-.context-menu #context-menu-component li {
-  height: 60px;
-  line-height: 60px;
+.context-menu.on {
+  display: block;
 }
 
 .component {

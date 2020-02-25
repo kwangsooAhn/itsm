@@ -394,7 +394,7 @@
                 break;
             case 'delete':
                 break;
-            case 'faddEditboxUp': //위에 editbox 컴포넌트 추가
+            case 'addEditboxUp': //위에 editbox 컴포넌트 추가
                 formEditor.addEditbox(clickedComponent.id, 'up');
                 break;
             case 'addEditboxDown': //아래에 editbox 컴포넌트 추가
