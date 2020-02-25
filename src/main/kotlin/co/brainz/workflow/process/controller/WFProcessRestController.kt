@@ -26,9 +26,11 @@ class WFProcessRestController(private val wfEngine: WFEngine) {
 
     /**
      * 프로세스 신규 기본 정보 등록.
+     * @param processDto ProcessDto
+     * @return String new process key
      */
     @PostMapping("")
-    fun insertProcess(@RequestBody processDto: ProcessDto): String {
+    fun insertProcess(@RequestBody processDto: ProcessDto): ProcessDto {
         return wfEngine.process().insertProcess(processDto)
     }
 
@@ -42,18 +44,22 @@ class WFProcessRestController(private val wfEngine: WFEngine) {
 
     /**
      * 프로세스 1건 데이터 수정.
+     * @param processDto
+     * @return Boolean result
      */
-    @PutMapping("/{processId}")
-    fun updateProcess(@PathVariable processId: String) {
-        TODO("Should be implemented")
+    @PutMapping("")
+    fun updateProcess(@RequestBody processDto: ProcessDto): Boolean {
+        return wfEngine.process().updateProcess(processDto)
     }
 
     /**
      * 프로세스 1건 데이터 삭제.
+     * @param processId
+     * @return Boolean result
      */
     @DeleteMapping("/{processId}")
-    fun deleteProcess(@PathVariable processId: String) {
-        wfEngine.process().deleteProcess(processId)
+    fun deleteProcess(@PathVariable processId: String): Boolean {
+        return wfEngine.process().deleteProcess(processId)
     }
 
 }

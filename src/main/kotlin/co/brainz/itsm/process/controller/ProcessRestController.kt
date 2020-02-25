@@ -1,6 +1,8 @@
 package co.brainz.itsm.process.controller
 
-import co.brainz.workflow.engine.WFEngine
+import co.brainz.itsm.process.service.ProcessService
+import co.brainz.itsm.provider.dto.ProcessDto
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/processes")
-class ProcessRestController(private val wfEngine: WFEngine) {
+class ProcessRestController(private val processService: ProcessService) {
 
     /**
      * 프로세스 불러오기.
@@ -46,12 +48,18 @@ class ProcessRestController(private val wfEngine: WFEngine) {
     }
 
     /**
-     * 프로세스 저장.
+     * 프로세스 신규 등록.
      */
-    @PostMapping("/data")
-    fun saveProcessData(@RequestBody processData: String): String {
-        // 테스트용 데이터
-        println(processData)
-        return "1"
+    @PostMapping("")
+    fun createProcess(@RequestBody processDto: ProcessDto): String {
+        return processService.createProcess(processDto)
+    }
+
+    /**
+     * 프로세스 삭제.
+     */
+    @DeleteMapping("/{processId}")
+    fun deleteForm(@PathVariable processId: String): Boolean {
+        return processService.deleteProcess(processId)
     }
 }
