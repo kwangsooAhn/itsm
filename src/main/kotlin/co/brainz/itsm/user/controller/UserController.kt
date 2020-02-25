@@ -47,7 +47,7 @@ class UserController(private val codeService: CodeService,
     /**
      * 사용자 정보 수정 화면 및 자기정보 수정 화면을 호출한다.
      */
-    @GetMapping("/{userKey}/{target}", "/{userKey}/{target}")
+    @GetMapping("/{userKey}/{target}")
     fun getUserEdit(@PathVariable userKey: String, @PathVariable target: String, request: HttpServletRequest, model: Model): String {
         var returnUrl = ""
         val users = userService.selectUserKey(userKey)
