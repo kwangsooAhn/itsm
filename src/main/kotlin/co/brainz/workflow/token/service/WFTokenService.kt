@@ -24,7 +24,7 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      * @param tokenSaveDto
      */
     fun postToken(tokenSaveDto: TokenSaveDto) {
-        val instanceDto = InstanceDto(instanceId = "", processId = tokenSaveDto.processDto.id)
+        val instanceDto = InstanceDto(instanceId = "", processId = tokenSaveDto.processDto.processId)
         val instance = wfInstanceService.createInstance(instanceDto)
         val token = createToken(instance.instanceId, tokenSaveDto.tokenDto)
         createTokenData(tokenSaveDto, instance.instanceId, token.tokenId)
@@ -63,8 +63,8 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      */
     fun putToken(tokenSaveDto: TokenSaveDto) {
         updateToken(tokenSaveDto.tokenDto)
-        deleteTokenData(tokenSaveDto.instanceDto.id, tokenSaveDto.tokenDto.id)
-        createTokenData(tokenSaveDto, tokenSaveDto.instanceDto.id, tokenSaveDto.tokenDto.id)
+        deleteTokenData(tokenSaveDto.instanceDto.instanceId, tokenSaveDto.tokenDto.tokenId)
+        createTokenData(tokenSaveDto, tokenSaveDto.instanceDto.instanceId, tokenSaveDto.tokenDto.tokenId)
         if (tokenSaveDto.tokenDto.isComplete) {
             tokenComplete()
         }
@@ -88,7 +88,7 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
     }
 
     fun updateToken(tokenDto: TokenDto) {
-        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.id)
+        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.tokenId)
         if (tokenMstEntity.isPresent) {
             tokenMstEntity.get().assigneeId = tokenDto.assigneeId
             tokenMstEntity.get().assigneeType = tokenDto.assigneeType
@@ -112,7 +112,7 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      * @param tokenDto
      */
     fun completeToken(tokenDto: TokenDto) {
-        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.id)
+        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.tokenId)
         if (tokenMstEntity.isPresent) {
             tokenMstEntity.get().tokenStatus = TokenConstants.Status.FINISH.code
             tokenMstEntity.get().tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))

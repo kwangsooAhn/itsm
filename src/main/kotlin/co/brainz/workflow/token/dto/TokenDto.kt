@@ -3,7 +3,7 @@ package co.brainz.workflow.token.dto
 import java.io.Serializable
 
 data class TokenDto(
-        var id: String = "",
+        var tokenId: String = "",
         val isComplete: Boolean = true,
         val elementId: String,
         var assigneeId: String? = null,
