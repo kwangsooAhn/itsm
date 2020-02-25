@@ -54,18 +54,19 @@ class AuthService(
      * 권한 정보 삭제
      */
     fun deleteAuth(authId: String): String {
-        val auth = authRepository.findByAuthId(authId)
+        val authInfo = authRepository.findByAuthId(authId)
         // 매핑 정보 확인
-        val menuAuthMapCount = menuAuthMapRepository.findByAuth(auth).count()
-        val urlAuthMapCount = urlAuthMapRepository.findByAuth(auth).count()
+        val menuAuthMapCount = menuAuthMapRepository.findByAuth(authInfo).count()
+        val urlAuthMapCount = urlAuthMapRepository.findByAuth(authInfo).count()
         
         // 매핑 정보 삭제
         if (menuAuthMapCount > 0 || urlAuthMapCount > 0 ) {
-            auth.menuAuthMapEntities.forEach { menuAuthMap ->
-                menuAuthMapRepository.deleteById(AliceMenuAuthMapPk(menuAuthMap.menu.menuId, auth.authId))
+            authInfo.menuAuthMapEntities.forEach { menuAuthMap ->
+                menuAuthMapRepository.deleteById(AliceMenuAuthMapPk(menuAuthMap.menu.menuId, authId))
             }
-//            auth.urlAuthMapEntities.forEach { urlAuthMap ->
-//                urlAuthMapRepository.deleteById(AliceUrlAuthMapPk(AliceUrlEntityPk(urlAuthMap.url.method, urlAuthMap.url.url), auth.authId))
+            //url
+//            authInfo.urlAuthMapEntities.forEach { urlAuthMap ->
+//                urlAuthMapRepository.deleteById(AliceUrlAuthMapPk(AliceUrlEntityPk(urlAuthMap.url.url,urlAuthMap.url.method), authId))
 //            }
         }
         
@@ -87,9 +88,9 @@ class AuthService(
         menuRepository.findByMenuIdIn(authInfo.arrMenuId!!).forEach {menu ->
             menuAuthMapRepository.save(AliceMenuAuthMapEntity(menu, auth))
         }
-        urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach {url ->
-            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.method, url.url), auth))
-        }
+//        urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach {url ->
+//            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.method, url.url), auth))
+//        }
 
         return result.authId
     }

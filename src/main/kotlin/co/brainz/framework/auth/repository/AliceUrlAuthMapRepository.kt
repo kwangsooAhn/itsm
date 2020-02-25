@@ -8,6 +8,4 @@ import co.brainz.framework.auth.entity.AliceAuthEntity
 
 interface AliceUrlAuthMapRepository: JpaRepository<AliceUrlAuthMapEntity, AliceUrlAuthMapPk> {
     fun findByAuth(AuthInfo : AliceAuthEntity): MutableList<AliceUrlAuthMapEntity>
-    
-    fun findByUrlAndMethod(UrlInfo : MutableList<AliceUrlEntity>):  MutableList<AliceUrlAuthMapEntity>
 }
