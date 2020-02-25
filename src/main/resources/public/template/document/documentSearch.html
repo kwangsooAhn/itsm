@@ -16,9 +16,9 @@
 </body>
 <th:block layout:fragment="pageScript">
 <script type="text/javascript">
-    window.addEventListener('load', function() {
+    window.onload = function() {
         restSubmit('get', '/documents/list')
-    });
+    }
 
     //REST API
     function restSubmit(method, url) {
@@ -34,8 +34,8 @@
 
     //신청서 작성 화면 오픈.
     function openDocumentEdit(documentId) {
-        //구현전이라 주석처리 함.
-        //window.open('/documents/' + documentId + '/edit', '_blank', 'width=1500, height=800');
+        //TODO: 임시 size. 추후 변경 필요.
+        window.open('/documents/' + documentId + '/edit', '_blank', 'width=900, height=805');
     }
 </script>
 </th:block>

@@ -5,15 +5,23 @@ import co.brainz.workflow.process.dto.WFElementDto
 import co.brainz.workflow.process.dto.WFProcessDto
 import co.brainz.workflow.process.dto.WFProcessRestDto
 import co.brainz.workflow.process.mapper.ProcessMstMapper
+import co.brainz.workflow.process.dto.ProcessDto
+import co.brainz.workflow.process.entity.ProcessMstEntity
+import co.brainz.workflow.process.mapper.ProcessMstMapper
 import co.brainz.workflow.process.repository.ProcessMstRepository
 import org.mapstruct.factory.Mappers
 import org.springframework.security.core.context.SecurityContextHolder
+import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class WFProcessService(private val processMstRepository: ProcessMstRepository) {
 
     private val processMstMapper = Mappers.getMapper(ProcessMstMapper::class.java)
+
+    private val processMstMapper: ProcessMstMapper = Mappers.getMapper(ProcessMstMapper::class.java)
 
     /**
      * 프로세스 목록 조회
@@ -24,11 +32,11 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
             processMstRepository.findAll()
         } else {
             val word = "%$search%"
-            processMstRepository.findByProcNameLikeOrProcDescLike(word, word)
+            processMstRepository.findByProcessNameLikeOrProcessDescLike(word, word)
         }
 
         procMstList.forEach {
-            val enabled = when (it.procStatus) {
+            val enabled = when (it.processStatus) {
                 ProcessConstants.Status.EDIT.code, ProcessConstants.Status.SIMULATION.code -> true
                 else -> false
             }
@@ -62,28 +70,49 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
         //TODO DB에 저장.
         val userName: String = SecurityContextHolder.getContext().authentication.name //사용자 이름
         val status = ProcessConstants.Status.EDIT.code // 등록 시 프로세스 상태
+    fun insertProcess(processDto: ProcessDto): ProcessDto {
+        processDto.processStatus = ProcessConstants.Status.EDIT.code // 등록 시 프로세스 상태
+        var processMstEntity: ProcessMstEntity = processMstRepository.save(processMstMapper.toProcessMstEntity(processDto))
 
-        //등록된 process_id return
-        return "test8cbdd784401aaad6d310df85ac2d"
+        return ProcessDto(
+                processMstEntity.processId,
+                processMstEntity.processName,
+                processMstEntity.processDesc,
+                processMstEntity.processStatus,
+                "",
+                "",
+                processMstEntity.createDt,
+                "",
+                processMstEntity.updateDt,
+                "",
+                false)
     }
 
     /**
-     * 프로세스 수정
+     * 프로세스 1건 데이터 삭제.
      */
-    fun updateProcess(wfProcessRestDto: WFProcessRestDto): String {
-
-        val processId = wfProcessRestDto.process?.id ?: ""
-        val processMstEntity = processMstRepository.findByProcId(processId)
-
-        TODO("업데이트 구문 추가")
-
-        return ""
+    fun deleteProcess(processId: String): Boolean {
+        val processMstEntity = processMstRepository.findProcessMstEntityByProcessId(processId)
+        if (processMstEntity.processStatus.equals(ProcessConstants.Status.PUBLISH)
+                || processMstEntity.processStatus.equals(ProcessConstants.Status.DESTROY)) {
+            return false
+        } else {
+            processMstRepository.deleteById(processMstEntity.processId)
+        }
+        return true
     }
 
     /**
-     * 프로세스 삭제
+     * 프로세스 정보 변경.
      */
-    fun deleteProcess(processId: String) {
-        //TODO DB에서 삭제.
+    fun updateProcess(processDto: ProcessDto): Boolean {
+        if (processDto.processStatus.equals(ProcessConstants.Status.PUBLISH)
+                || processDto.processStatus.equals(ProcessConstants.Status.DESTROY)) {
+            return false
+        } else {
+            var processMstEntity: ProcessMstEntity = processMstMapper.toProcessMstEntity(processDto)
+            processMstRepository.save(processMstEntity)
+        }
+        return true
     }
 }

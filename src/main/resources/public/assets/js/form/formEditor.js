@@ -34,8 +34,8 @@
                 menu.classList.add('on');
             }
             menu.scrollTop = 0;
-            let controlMenu = menu.querySelector('#context-menu-control');
-            let componentMenu = menu.querySelector('#context-menu-component');
+            let controlMenu = document.getElementById('context-menu-control');
+            let componentMenu = document.getElementById('context-menu-component');
             if (state === 1 && !controlMenu.classList.contains('active')) {
                 controlMenu.classList.add('active');
                 componentMenu.classList.remove('active');
@@ -55,7 +55,7 @@
                 selectedItem = null;
                 selectedItemIdx = -1;
                 menu.classList.remove('on');
-                let componentMenu = menu.querySelector('#context-menu-component');
+                let componentMenu = document.getElementById('context-menu-component');
                 for (let i = 0, len = componentMenu.children.length; i < len; i++) {
                     let item = componentMenu.children[i];
                     if (item.style.display === 'none') {
@@ -76,7 +76,7 @@
          * @return {Boolean}
          */
         const menuItemSearch = function (searchText) {
-            let componentMenu = menu.querySelector('#context-menu-component');
+            let componentMenu = document.getElementById('context-menu-component');
             let rslt = false;
             let tempText = searchText.replace('/', '');
             selectedItems = [];
@@ -142,7 +142,7 @@
         const getPosition = function(e) {
             let posX = 0;
             let posY = 0;
-            if (!e) e = window.event;
+            if (!e) { e = window.event; }
             if (e.type === 'keyup') {
                 let rect = e.target.getBoundingClientRect();
                 posX = rect.left + 10;
@@ -266,7 +266,7 @@
             }
             isCtrlPressed = false;
             
-            if (selectedItem && (keyCode === KEYCODE.ARROW_UP || keyCode === KEYCODE.ARROW_DOWN)) return;
+            if (selectedItem && (keyCode === KEYCODE.ARROW_UP || keyCode === KEYCODE.ARROW_DOWN)) { return; }
             if (selectedItem && keyCode === KEYCODE.ENTER) {
                 selectedItems = [];
                 selectedItem = null;
@@ -278,7 +278,7 @@
                 let box = itemInContext.querySelector('[contenteditable=true]');
                 if (box) {
                     let text = box.textContent;
-                    if (text.length > 0 && text.charAt(0) !== '/') return;
+                    if (text.length > 0 && text.charAt(0) !== '/') { return; }
                     if (text.length > 0 && menuItemSearch(text)) {
                         toggleMenuOn(2);
                         positionMenu(e);
@@ -290,6 +290,7 @@
         };
         
         const onRightClickHandler = function(e) {
+            if (component.getSelectedComponentId !== '' && clickInsideElement(e, 'panel-property')) { return; }
             if (itemInContext) { //기존 eidtbox에서 검색을 시도한 경우 초기화
                 let box = itemInContext.querySelector('[contenteditable=true]');
                 if (box && box.textContent.length > 0) {
@@ -312,6 +313,7 @@
         };
         
         const onLeftClickHandler = function(e) {
+            if (component.getSelectedComponentId !== '' && clickInsideElement(e, 'panel-property')) { return; }
             let clickedElem = clickInsideElement(e, 'context-item-link');
             if (clickedElem) { //contex 메뉴 클릭
                 e.preventDefault();
@@ -373,7 +375,7 @@
         };
         
         const init = function() {
-            menu = document.querySelector('#context-menu');
+            menu = document.getElementById('context-menu');
             itemInContext = menu;
             menu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
                 let d = -e.deltaY || e.detail;
@@ -411,7 +413,7 @@
             attrs.isNew = false; //수정
         }
         let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: true});
-        if (type !== 'editbox') {
+        if (comp !== null && type !== 'editbox') {
             addEditbox(comp.id, 'down');
         }
     }
@@ -424,24 +426,29 @@
      */
     function addEditbox(elemId, direction) {
         let elem = document.getElementById(elemId);
-        if (elem === null) return;
-
+        if (elem === null) { return; }
         let editbox = component.add({type: 'editbox', isFocus: false});
         let elemIdx = Number(elem.getAttribute('data-index'));
+        let tempArr = formEditor.data.components.slice();
+        
         if (direction === 'up') {
             let comps = document.querySelectorAll('.component');
             let editboxHTML = editbox.innerHTML;
-            for (let i = comps.length - 1; i >= elemIdx; i--) {
+            for (let i = comps.length - 1; i >= elemIdx - 1; i--) {
                 let cur = comps[i];
                 let prev = comps[i - 1];
-                if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
+                if (cur.getAttribute('data-type') !== prev.getAttribute('data-type') && i > (elemIdx - 1)) {
                     cur.innerHTML = prev.innerHTML;
                     cur.setAttribute('data-type', prev.getAttribute('data-type'));
+                    formEditor.data.components[i] = tempArr[i - 1];
+                    formEditor.data.components[i].id = cur.id;
+                    formEditor.data.components[i].display.order = (i + 1);
                 }
-                if (i == elemIdx) {
-                    prev.innerHTML = editboxHTML;
-                    prev.setAttribute('data-type', 'editbox');
-                    prev.querySelector('.group').focus();
+                if (i == (elemIdx - 1)) {
+                    cur.innerHTML = editboxHTML;
+                    cur.setAttribute('data-type', 'editbox');
+                    formEditor.data.components[i] = { id: cur.id, type: 'editbox', display: { order: (i + 1) } };
+                    cur.querySelector('.group').focus();
                 }
 
             }
@@ -452,13 +459,17 @@
                 for (let i = comps.length - 1; i >= elemIdx; i--) {
                     let cur = comps[i];
                     let prev = comps[i - 1];
-                    if (cur.getAttribute('data-type') !== prev.getAttribute('data-type')) {
+                    if (cur.getAttribute('data-type') !== prev.getAttribute('data-type') && i > elemIdx) {
                         cur.innerHTML = prev.innerHTML;
                         cur.setAttribute('data-type', prev.getAttribute('data-type'));
+                        formEditor.data.components[i] = tempArr[i - 1];
+                        formEditor.data.components[i].id = cur.id;
+                        formEditor.data.components[i].display.order = (i + 1);
                     }
-                    if (i == elemIdx) {
+                    if (i === elemIdx) {
                         cur.innerHTML = editboxHTML;
                         cur.setAttribute('data-type', 'editbox');
+                        formEditor.data.components[i] = { id: cur.id, type: 'editbox', display: { order: (i + 1) } };
                         cur.querySelector('.group').focus();
                     }
                 }
@@ -467,7 +478,6 @@
             }
         }
     }
-    
     /**
      * 폼 디자이너 저장
      */
@@ -593,6 +603,7 @@
         for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
             let comp = formEditor.data.components[i];
             if (comp.id === compInfo.id) {//수정
+                formEditor.data.components[i] = compInfo;
                 isExist = true;
                 break;
             }

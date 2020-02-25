@@ -4,12 +4,17 @@ const workflowUtil = {};
  * generate UUID.
  * Public Domain/MIT
  *
+ * <HISTORY>
+ * UUID 의 첫 번째가 숫자로 시작할 경우,
+ * querySelector 로 id 검색 사용 시 오류 발생하여
+ * 첫 번째 글자를 alice 를 의미하는 'a'로 시작하도록 고정함.
+ *
  * @returns {string} UUID
  */
 workflowUtil.generateUUID = function() {
     let d = new Date().getTime(); //Timestamp
     let d2 = (performance && performance.now && (performance.now() * 1000)) || 0; //Time in microseconds since page-load or 0 if unsupported
-    return 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[x]/g, function(c) {
+    return 'axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function(c) {
         let r = Math.random() * 16;//random number between 0 and 16
         if(d > 0){ //Use timestamp until depleted
             r = (d + r) % 16 | 0;

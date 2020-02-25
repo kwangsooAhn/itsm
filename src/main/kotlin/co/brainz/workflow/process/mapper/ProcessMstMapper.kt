@@ -1,5 +1,6 @@
 package co.brainz.workflow.process.mapper
 
+import co.brainz.workflow.process.dto.ProcessDto
 import co.brainz.workflow.process.dto.WFElementDto
 import co.brainz.workflow.process.dto.WFProcessDto
 import co.brainz.workflow.process.entity.ElementMstEntity
@@ -30,4 +31,6 @@ interface ProcessMstMapper {
         Mapping(source = "displayInfo", target = "display")
     )
     fun toWFElementDto(elementMstEntity: ElementMstEntity): WFElementDto
+
+    fun toProcessMstEntity(processDto: ProcessDto): ProcessMstEntity
 }

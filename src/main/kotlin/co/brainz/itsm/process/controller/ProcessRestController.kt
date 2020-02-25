@@ -2,6 +2,9 @@ package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.provider.ProviderProcess
 import org.slf4j.LoggerFactory
+import co.brainz.itsm.process.service.ProcessService
+import co.brainz.itsm.provider.dto.ProcessDto
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -36,16 +39,46 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
 //                             }]
 //               }
 //               """
+        return """
+               {"process": {"id": "$processId", "name": "서비스데스크", "description": "서비스데스크입니다."},
+                "elements": [{
+                              "id": "4a417b48be2e4ebe82bf8f80a63622a4",
+                              "category": "event",
+                              "type": "start",
+                              "display": {"width": 38, "height": 50, "position-x": 100, "position-y": 100},
+                              "data": {"name": "시작"}
+                             },
+                             {
+                              "id": "4a417b48be2e4ebe82bf8f80a63622a1",
+                              "category": "task",
+                              "type": "user",
+                              "display": {"width": 100, "height": 50, "position-x": 200, "position-y": 100},
+                              "data": {"name": "신청서작성"}
+                             },
+                             {
+                              "id": "4a417b48be2e4ebe82bf8f80a63622a2",
+                              "category": "connector",
+                              "type": "arrow",
+                              "data": {"name": "승인", "condition": "", "start-id": "4a417b48be2e4ebe82bf8f80a63622a4", "end-id": "4a417b48be2e4ebe82bf8f80a63622a1"}
+                             }
+                            ]
+               }
+               """
     }
 
     /**
-     * 프로세스 저장.
+     * 프로세스 신규 등록.
      */
-    @PostMapping("/data")
-    fun saveProcessData(@RequestBody processData: String): String {
-        // 테스트용 데이터
-        println(processData)
-        logger.debug("saveProcessData {}", processData)
-        return "1"
+    @PostMapping("")
+    fun createProcess(@RequestBody processDto: ProcessDto): String {
+        return processService.createProcess(processDto)
+    }
+
+    /**
+     * 프로세스 삭제.
+     */
+    @DeleteMapping("/{processId}")
+    fun deleteForm(@PathVariable processId: String): Boolean {
+        return processService.deleteProcess(processId)
     }
 }

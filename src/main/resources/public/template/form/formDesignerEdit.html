@@ -10,7 +10,10 @@
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
     <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
+    <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
     <script th:src="@{/assets/js/process/workflow.util.js}"></script>
     <script th:src="@{/assets/js/form/formEditor.js}"></script>
     <script th:src="@{/assets/js/form/component.js}"></script>
@@ -53,7 +56,7 @@
         <ul id="context-menu-component">
             <li class="context-item-link" data-action="text">Text</li>
             <li class="context-item-link" data-action="textarea">Text Box</li>
-            <li class="context-item-link" data-action="list">Dropdown</li>
+            <li class="context-item-link" data-action="select">Dropdown</li>
             <li class="context-item-link" data-action="radio">Radio Button</li>
             <li class="context-item-link" data-action="checkbox">Checkbox</li>
             <li class="context-item-link" data-action="label">Label</li>
@@ -67,8 +70,8 @@
     </div>
 </body>
 <script type="text/javascript">
-    window.addEventListener('load', function() {
+    window.onload = function() {
         formEditor.init('[[${formId}]]')
-    });
+    }
 </script>
 </html>

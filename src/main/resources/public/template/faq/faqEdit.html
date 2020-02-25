@@ -55,7 +55,7 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        window.addEventListener('load', function() {
+        window.onload = function() {
             if ("[[${faq?.faqId}]]" == "") {
                 document.getElementById("btnRegist").addEventListener("click", function () {
                     restSubmit("post", "[[@{/rest/faqs}]]");
@@ -70,7 +70,7 @@
             }
 
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
-        });
+        }
 
         function restSubmit(method, url) {
             const formData = new FormData(document.getElementById("faqForm"));
