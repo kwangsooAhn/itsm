@@ -59,7 +59,6 @@ body {
         }
 
         .logo {
-            display: inline-block;
             width: $form-logo-width;
             height: $form-toolbar-real-height;
             float: left;
@@ -75,7 +74,6 @@ body {
         a {
             text-decoration: none;
             margin-left: 1.25rem; // 20px
-            display: inline-block;
             height: $form-toolbar-real-height;
             line-height: $form-toolbar-real-height;
             vertical-align: middle;
@@ -90,6 +88,14 @@ body {
                 margin-left: 0.313rem;  // 5px
                 cursor: pointer;
             }
+        }
+
+        span.separator {
+            width: 0.063rem; // 1px
+            height: $form-toolbar-real-height;
+            background-color: #f6f6f7;
+            margin-left: 1.25rem; // 20px
+            float: left;
         }
 
         span.form-name {
@@ -354,6 +360,7 @@ body {
     font-size: 12px; 
     height:80px; 
     line-height: 80px;
+    cursor: text; 
 }
 
 .group:focus { outline: none }

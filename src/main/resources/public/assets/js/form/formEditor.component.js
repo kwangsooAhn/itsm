@@ -643,7 +643,7 @@
                                 groupTb.appendChild(row);
                                 
                                 let cell = document.createElement('td');
-                                var chkbox = document.createElement('input');
+                                let chkbox = document.createElement('input');
                                 chkbox.setAttribute('type', 'checkbox');
                                 cell.appendChild(chkbox);
                                 row.appendChild(cell);

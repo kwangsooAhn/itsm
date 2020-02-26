@@ -72,7 +72,6 @@
     /**
      * 검색어와 일치하는 component 메뉴 on.
      * 
-     * @param {Object} e 이벤트
      * @param {String} searchText 검색어
      * @return {Boolean} 검색어와 일치하는 component 메뉴가 존재하면 true 아니면 false
      */

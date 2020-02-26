@@ -16,7 +16,7 @@
     <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
     <script th:src="@{/assets/js/process/workflow.util.js}"></script>
     <script th:src="@{/assets/js/form/formEditor.menu.js}"></script>
-    <script th:src="@{/assets/js/form/component.js}"></script>
+    <script th:src="@{/assets/js/form/formEditor.component.js}"></script>
     <script th:src="@{/assets/js/form/formEditor.js}"></script>
 </head>
 <body>
@@ -35,6 +35,7 @@
             <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
             <label th:text="#{form.label.redo}"></label>
         </a>
+        <span class="separator"></span>
         <a href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/import.png}"/>
             <label th:text="#{form.label.import}"></label>
@@ -43,6 +44,7 @@
             <img th:src="@{/assets/media/icons/form/topmenu/export.png}"/>
             <label th:text="#{form.label.export}"></label>
         </a>
+        <span class="separator"></span>
         <a href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/preview.png}"/>
             <label th:text="#{form.label.preview}"></label>
