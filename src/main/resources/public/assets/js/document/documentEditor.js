@@ -56,45 +56,47 @@
         if (chkVal.length !== 0) {
             for (let key in validateData) {
                 const value = validateData[key];
-                if (key === 'regexp') {
-                    switch (value) {
-                        case "char":
-                            if (numIncludeReg.test(chkVal)) {
-                                alertMsg(element, validateData['regexp-msg']);
-                                return true;
-                            }
-                            break;
-                        case "num":
-                            if (!numReg.test(chkVal)) {
-                                alertMsg(element, validateData['regexp-msg']);
-                                return true;
-                            }
-                            break;
-                        case "email":
-                            if (!emailReg.test(chkVal)) {
-                                alertMsg(element, validateData['regexp-msg']);
-                                return true;
-                            }
-                            break;
-                        default:
-                            break;
+                if (value !== '') {
+                    if (key === 'regexp') {
+                        switch (value) {
+                            case 'char':
+                                if (numIncludeReg.test(chkVal)) {
+                                    alertMsg(element, validateData['regexp-msg']);
+                                    return true;
+                                }
+                                break;
+                            case 'num':
+                                if (!numReg.test(chkVal)) {
+                                    alertMsg(element, validateData['regexp-msg']);
+                                    return true;
+                                }
+                                break;
+                            case 'email':
+                                if (!emailReg.test(chkVal)) {
+                                    alertMsg(element, validateData['regexp-msg']);
+                                    return true;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
-                }
-                if (key === 'length-min' && value > chkVal.length) {
-                    alertMsg(element, value + "글자 이상 입력해주세요.");
-                    return true;
-                }
-                if (key === 'length-max' && value < chkVal.length) {
-                    alertMsg(element, value + "글자 이하로 입력해주세요.");
-                    return true;
-                }
-                if (key === 'date-min' && value > chkVal) {
-                    alertMsg(element, value + " 날짜 이후로 선택해주세요.");
-                    return true;
-                }
-                if (key === 'date-max' && value < chkVal) {
-                    alertMsg(element, value + " 날짜 이전으로 선택해주세요.");
-                    return true;
+                    if (key === 'length-min' && value > chkVal.length) {
+                        alertMsg(element, value + '글자 이상 입력해주세요.');
+                        return true;
+                    }
+                    if (key === 'length-max' && value < chkVal.length) {
+                        alertMsg(element, value + '글자 이하로 입력해주세요.');
+                        return true;
+                    }
+                    if (key === 'date-min' && value > chkVal) {
+                        alertMsg(element, value + ' 날짜 이후로 선택해주세요.');
+                        return true;
+                    }
+                    if (key === 'date-max' && value < chkVal) {
+                        alertMsg(element, value + ' 날짜 이전으로 선택해주세요.');
+                        return true;
+                    }
                 }
             }
         }
@@ -128,8 +130,8 @@
             lblEle.style.fontWeight = (lblData.bold === 'Y') ? 'bold' : '';
             lblEle.style.fontStyle = (lblData.italic === 'Y') ? 'italic' : '';
             lblEle.style.textDecoration = (lblData.underline === 'Y') ? 'underline' : '';
-            lblEle.style.textAlign = lblData.align;
             lblEle.innerHTML = lblData.text;
+            fieldFirstEle.style.textAlign = lblData.align;
             fieldFirstEle.appendChild(lblEle);
 
             if (validateData.required === 'Y') {
@@ -308,7 +310,7 @@
                 timeEle.required = (validateData.required === 'Y');
                 timeEle.readOnly = true;
                 fieldLastEle.appendChild(timeEle);
-                dateTimePicker.initTimePicker('time-' + compData.id, displayData.format.toUpperCase());
+                dateTimePicker.initTimePicker('time-' + compData.id);
                 break;
             case 'datetime':
                 let datetimeDefault = displayData.default;
@@ -378,11 +380,11 @@
             let requiredObj = requiredObjs[i];
             if (requiredObj.type === 'radio' || requiredObj.type === 'checkbox') {
                 if (!selectCheck(requiredObj)) {
-                    alertMsg(requiredObj, "필수 항목을 선택해주세요.");
+                    alertMsg(requiredObj, '필수 항목을 선택해주세요.');
                     return true;
                 }
             } else if (requiredObj.value === '') {
-                alertMsg(requiredObj, "필수 항목을 입력해주세요.");
+                alertMsg(requiredObj, '필수 항목을 입력해주세요.');
                 return true;
             }
         }
@@ -395,7 +397,7 @@
     function save() {
         if (!requiredCheck()) {
             //TODO: 구현 필요.
-            alert("저장되었습니다.");
+            alert('저장되었습니다.');
         }
     }
 

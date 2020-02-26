@@ -17,8 +17,10 @@ class DocumentRestController(private val documentService: DocumentService) {
      * */
     @GetMapping("/data/{documentId}")
     fun getTicket(@PathVariable documentId: String): String {
-        //return documentService.findDocument(documentId)
-        return dummyData(documentId)
+        if (documentId != "32ds1261420w7edbcd5251d7b24a6c23") {
+            return dummyData(documentId)
+        }
+        return documentService.findDocument(documentId)
     }
 
     /**
@@ -53,7 +55,7 @@ class DocumentRestController(private val documentService: DocumentService) {
                         "placeholder": "아이디를 입력하세요.", "column": 10, "outline-width": 1, "outline-color": "#000000", 
                         "order": 3},
                     "validate": {
-                        "required": "Y", "regexp": "char", "regexp-msg": "문자를 입력해주세요.", "length-min": 5, 
+                        "required": "Y", "regexp": "char", "regexp-msg": "문자를 입력해주세요.", "length-min": 0, 
                         "length-max": 30}
                 },
                 {
@@ -61,7 +63,7 @@ class DocumentRestController(private val documentService: DocumentService) {
                     "type": "text",
                     "label": {
                         "position": "left", "column": 2, "size": 16, "color": "#000000", "bold": "Y", "italic": "N", 
-                        "underline": "Y", "text": "이름", "align": "left"},
+                        "underline": "Y", "text": "이름", "align": "center"},
                     "display": {
                         "placeholder": "이름을 입력하세요.", "column": 10, "outline-width": 1, "outline-color": "#000000", 
                         "order": 4},
@@ -74,7 +76,7 @@ class DocumentRestController(private val documentService: DocumentService) {
                     "type": "text",
                     "label": {
                         "position": "left", "column": 2, "size": 16, "color": "#000000", "bold": "Y", "italic": "N", 
-                        "underline": "Y", "text": "이메일", "align": "left"},
+                        "underline": "Y", "text": "이메일", "align": "right"},
                     "display": {
                         "placeholder": "이메일을 입력하세요.", "column": 10, "outline-width": 1, "outline-color": "#000000", 
                         "order": 4},
@@ -166,7 +168,7 @@ class DocumentRestController(private val documentService: DocumentService) {
                     "common": {"mapping-id": ""},
                     "label": {"position": "left", "column": 5, "size": 16, "color": "#ff3399", "bold": "Y",
                     "italic": "N", "underline": "N", "text": "시간(HH:mm)", "align": "center"},
-                    "display": {"column": 7, "format": "HH:mm", "default": "17:16", "order": 10},
+                    "display": {"column": 7, "format": "HH:mm", "default": "", "order": 10},
                     "validate": {"required": "Y"}
                 },
                 {
@@ -176,7 +178,7 @@ class DocumentRestController(private val documentService: DocumentService) {
                     "label": {"position": "left", "column": 5, "size": 16, "color": "#009933", "bold": "Y",
                     "italic": "N", "underline": "Y", "text": "날짜시간(yyyy-MM-dd HH:mm)", "align": "center"},
                     "display": {"column": 7, "format": "yyyy-MM-dd HH:mm", "default": "now", "order": 11},
-                    "validate": {"required": "Y", "date-min": "2020-01-31", "date-max": "2020-03-01"}
+                    "validate": {"required": "Y", "date-min": "", "date-max": ""}
                 },
                 {
                     "id": "a3f7b7f9-c7de-4ffc-a819-0be1d3703212",

@@ -27,6 +27,12 @@
         #document-container > .component input[type=text], textarea, select, .field > div {
             width: 100%;
         }
+        #document-container > .component input[type=radio], input[type=checkbox], input[type=file] {
+            cursor: pointer;
+        }
+        #document-container > .component input[type=radio]:focus, input[type=checkbox]:focus {
+            outline: 1px #3c3cff solid; /*임시. radio, checkbox focus 시 안보여서 설정함.*/
+        }
         #document-container > .component input[type=text], textarea {
             outline: solid 1px;
         }
