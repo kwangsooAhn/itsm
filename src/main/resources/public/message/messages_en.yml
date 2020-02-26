@@ -168,11 +168,27 @@ form:
     export: "Export"
     preview: "Preview"
     saveExist: "Save and Exist"
+    copy: "Copy"
+    addAbove: "Add above"
+    addBelow: "Add below"
   status:
     edit: "Editing"
     simu: "Simulation Complete"
     publish: "Publish"
     destroy: "Destroy"
+  component:
+    text: "Text"
+    textarea: "Text Box"
+    select: "Dropdown"
+    radio: "Radio Button"
+    checkbox: "Checkbox"
+    label: "Label"
+    image: "Image"
+    line: "Line"
+    date: "Date"
+    time: "Time"
+    datetime: "Date Time"
+    fileupload: "Fileupload"
   lang:
     ko: "Korean"
   msg:
