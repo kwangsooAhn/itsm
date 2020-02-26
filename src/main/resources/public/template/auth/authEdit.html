@@ -62,7 +62,6 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="overflow:overlay;">
-                        <!-- 메뉴 목록 -->
                         <ul style="overflow:overlay;height: 200px;">
                             <li th:each="menu : ${menuList}">
                                 <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuId}" >
@@ -71,10 +70,9 @@
                         </ul>
                     </td>
                     <td colspan="2" style="overflow:overlay;">
-                        <!-- URL 목록 -->
                         <ul style="overflow:overlay;height: 200px;">
                             <li th:each="url : ${urlList}">
-                                <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.method}">
+                                <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
                                 <span th:text="|[${url?.method}] ${url?.url}|"></span>
                             </li>
                         </ul>
@@ -166,7 +164,7 @@
             }
         });
 
-        /*추가 버튼 */
+        /* 추가 버튼 */
         function onCreate() {
             document.getElementById('btnDelete').style.display = 'none';
             document.getElementById('btnUpdate').style.display = 'none';
@@ -191,7 +189,7 @@
             document.getElementById('spanUpdateDt').innerHTML = '';
         }
 
-        /*등록, 수정 버튼*/
+        /* 등록, 수정 버튼 */
         function onSave(flag) {
             if (document.getElementById('txtAuthId').value === '' || document.getElementById('txtAuthId').value === '' ) {
                 alert([[#{auth.msg.idNotExist}]]);
@@ -213,10 +211,9 @@
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function(item) {
                 arrMenuId.push(item.id);
             });
-
             obj.arrMenuId = arrMenuId;
             
-            var arrUrl = new Array();                               //권한-Url
+            var arrUrl = new Array();                                   //권한-Url
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function(item) {
                 arrUrl.push(item.id);
             });
