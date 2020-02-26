@@ -1,5 +1,6 @@
 package co.brainz.framework.fileTransaction.controller
 
+import co.brainz.framework.fileTransaction.dto.FileOwnMapDto
 import co.brainz.framework.fileTransaction.entity.FileOwnMapEntity
 import co.brainz.framework.fileTransaction.service.FileService
 import org.slf4j.LoggerFactory
@@ -56,7 +57,9 @@ class FileController(private val fileService: FileService) {
      * @param ownId 파일 목록을 가져오기 위한 값.
      */
     @GetMapping("/filelist")
-    fun getFileList(ownId: String): List<FileOwnMapEntity> {
+    fun getFileList(ownId: String): List<FileOwnMapDto> {
+        println(">>>>>>1111")
+    //fun getFileList(ownId: String): List<FileOwnMapEntity> {
         return fileService.getList(ownId)
     }
 

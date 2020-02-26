@@ -4,6 +4,8 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.FileDto
+import co.brainz.framework.fileTransaction.dto.FileLocDto
+import co.brainz.framework.fileTransaction.dto.FileOwnMapDto
 import co.brainz.framework.fileTransaction.entity.FileLocEntity
 import co.brainz.framework.fileTransaction.entity.FileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.FileLocRepository
@@ -142,8 +144,28 @@ class FileService(
     /**
      * 파일 목록을 가져온다.
      */
-    fun getList(ownId: String): List<FileOwnMapEntity> {
-        return fileOwnMapRepository.findAllByOwnIdAndFileLocEntityUploaded(ownId, true)
+    fun getList(ownId: String): List<FileOwnMapDto> {
+        val fileOwnMapEntities = fileOwnMapRepository.findAllByOwnIdAndFileLocEntityUploaded(ownId, true)
+        val fileOwnMapList: MutableList<FileOwnMapDto> = mutableListOf()
+        for (fileOwnMapEntity in fileOwnMapEntities) {
+            val fileLocEntity = fileOwnMapEntity.fileLocEntity
+            val fileLocDto = FileLocDto(
+                    fileSeq = fileLocEntity.fileSeq,
+                    fileOwner = fileLocEntity.fileOwner,
+                    fileSize = fileLocEntity.fileSize,
+                    originName = fileLocEntity.originName,
+                    randomName = fileLocEntity.randomName,
+                    sort = fileLocEntity.sort,
+                    uploaded = fileLocEntity.uploaded,
+                    uploadedLocation = fileLocEntity.uploadedLocation
+            )
+            val fileOwnMapDto = FileOwnMapDto(
+                    ownId = fileOwnMapEntity.ownId,
+                    fileLocDto = fileLocDto
+            )
+            fileOwnMapList.add(fileOwnMapDto)
+        }
+        return fileOwnMapList
     }
 
     /**

@@ -127,7 +127,7 @@ const fileUploader = (function () {
                         const files = JSON.parse(response.responseText);
 
                         files.forEach(function (fileMap) {
-                            let file = fileMap.fileLocEntity;
+                            let file = fileMap.fileLocDto;
 
                             const fileBytes = file.fileSize;
                             const logValueDigit = 1024;
