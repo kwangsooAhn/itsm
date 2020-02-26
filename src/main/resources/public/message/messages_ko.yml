@@ -169,11 +169,27 @@ form:
     export: "내보내기"
     preview: "미리보기"
     saveExist: "저장하고 나가기"
+    copy: "복사"
+    addAbove: "새로만들기-위"
+    addBelow: "새로만들기-아래"
   status:
     edit: "편집중"
     simu: "시뮬레이션 완료"
     publish: "발행"
     destroy: "폐기"
+  component:
+    text: "Text"
+    textarea: "Text Box"
+    select: "Dropdown"
+    radio: "Radio Button"
+    checkbox: "Checkbox"
+    label: "Label"
+    image: "Image"
+    line: "Line"
+    date: "Date"
+    time: "Time"
+    datetime: "Date Time"
+    fileupload: "Fileupload"
   lang:
     ko: "한국어"
   msg:
