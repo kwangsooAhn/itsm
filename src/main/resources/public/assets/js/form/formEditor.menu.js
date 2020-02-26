@@ -17,7 +17,8 @@
         selectedItem = null,   //컨텍스트 메뉴 오픈 시 선택된  item
         selectedItemIdx = -1,  //컨텍스트 메뉴 오픈 시 선택된 item 순서
         isCtrlPressed = false,
-        flag = 0;              //0:menu off, 1:menu on
+        flag = 0,              //0:menu off, 1:menu on
+        dragComponent = null;
 
     /**
      * context menu on
@@ -268,7 +269,7 @@
 
                 if (e.target.isContentEditable) {
                     if (e.target.textContent.length === 0 && itemInContext !== null) { 
-                        formEditor.addComponent('editbox'); 
+                        formEditor.addComponent(); 
                     }
                     e.target.innerHTML = '';
                 }
@@ -311,7 +312,7 @@
     }
     
     function onRightClickHandler(e) {
-        if (component.getSelectedComponentId !== '' && clickInsideElement(e, 'panel-property')) { return; }
+        if (clickInsideElement(e, 'alice-form-properties-panel')) { return; }
 
         if (itemInContext) { //기존 eidtbox에서 검색을 시도한 경우 초기화
             let box = itemInContext.querySelector('[contenteditable=true]');
@@ -324,7 +325,6 @@
         }
         
         itemInContext = clickInsideElement(e, 'component');
-
         if (itemInContext) {
             e.preventDefault();
             menuOn(1);
@@ -332,12 +332,12 @@
         } else {
             itemInContext = null;
             menuOff();
-            component.hidePropertiesPanel();
+            formEditor.hideProperties();
         }
     }
     
     function onLeftClickHandler(e) {
-        if (component.getSelectedComponentId !== '' && clickInsideElement(e, 'panel-property')) { return; }
+        if (clickInsideElement(e, 'alice-form-properties-panel')) { return; }
 
         let clickedElem = clickInsideElement(e, 'context-item-link');
 
@@ -353,13 +353,12 @@
                 }
                 flag = 1;
                 menuOff();
-                component.hidePropertiesPanel();
+                formEditor.hideProperties();
             }
             let button = e.button ? e.button : e.which;
 
             if (button === 1) {
                 itemInContext = clickInsideElement(e, 'component');
-
                 if (itemInContext) {
                     let compType = itemInContext.getAttribute('data-type');
 
@@ -372,13 +371,68 @@
                             menuOff();
                         }
                     }
-
+                    
                     if (itemInContext !== null && compType !== 'editbox') {
-                        component.showPropertiesPanel(itemInContext.id);
+                        formEditor.showProperties(itemInContext.id);
                     }
                 }
             }
         }
+    }
+    
+    function onMouseDownHandler(e) {
+        console.log('mouse down')
+        if (e.target.classList.contains('move-icon')) {
+            e.target.parentNode.setAttribute('draggable', 'true');
+        }
+    }
+
+    function onDragStartHandler(e) {
+        console.log('drag start');
+        dragComponent = e.target.parentNode;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', e.target.parentNode.outerHTML);
+    }
+
+    function onDragOverHandler(e) {
+        e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
+        e.dataTransfer.dropEffect = 'move';
+    }
+
+    function onDragEnterHandler(e) {
+        if (dragComponent !== e.target) {
+            e.target.parentNode.classList.add('over');
+        }
+    }
+
+    function onDragHandler(e) {}
+
+    function onDragDropHandler(e) {
+        console.log('drop');
+        if (e.stopPropagation) {
+            e.stopPropagation(); 
+        }
+        
+        if (dragComponent !== e.target.parentNode) {
+            console.log(e.target.parentNode);
+            return false;
+        }
+
+    }
+
+    function onDragLeaveHandler(e) {
+        e.target.parentNode.classList.remove('over');
+    }
+
+    function onDragEndHandler(e) {
+        let compElems = document.querySelectorAll('.component');
+        for (let i = 0, len = compElems.length; i < len; i++) {
+            let comp = compElems[i];
+            if (comp.classList.contains('over')) {
+                comp.classList.remove('over');
+            }
+        }
+        e.target.parentNode.removeAttribute('draggable');
     }
     /**
      * context menu item 클릭시 이벤트 호출
@@ -394,10 +448,10 @@
             case 'delete':
                 break;
             case 'addEditboxUp': //위에 editbox 컴포넌트 추가
-                formEditor.addEditbox(clickedComponent.id, 'up');
+                formEditor.addEditboxUp(clickedComponent.id);
                 break;
             case 'addEditboxDown': //아래에 editbox 컴포넌트 추가
-                formEditor.addEditbox(clickedComponent.id, 'down');
+                formEditor.addEditboxDown(clickedComponent.id);
                 break;
             default:
                 formEditor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
@@ -422,6 +476,17 @@
         document.addEventListener('keyup', onKeyUpHandler, false);
         document.addEventListener('contextmenu', onRightClickHandler, false);
         document.addEventListener('click', onLeftClickHandler, false);
+        
+        //컴포넌트 drag & drop 이벤트
+        document.addEventListener('mousedown', onMouseDownHandler, false);
+        document.addEventListener('dragstart', onDragStartHandler, false);
+        document.addEventListener('dragover', onDragOverHandler, false);
+        document.addEventListener('dragenter', onDragEnterHandler, false);
+        document.addEventListener('drag', onDragHandler, false);
+        document.addEventListener('drop', onDragDropHandler, false);
+        document.addEventListener('dragleave', onDragLeaveHandler, false);
+        document.addEventListener('dragend', onDragEndHandler, false);
+        
         window.onresize = function(e) { menuOff(); };
     }
     

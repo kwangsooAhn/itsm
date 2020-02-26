@@ -11163,10 +11163,13 @@ body {
 }
 
 .component .move-icon {
-  width: 60px;
-  height: 80px;
-  content: url("https://placehold.it/60X80");
-  opacity: 0;
+  width: 30px;
+  height: 30px;
+  margin: 25px 15px;
+  text-align: center;
+  content: '';
+  cursor: move;
+  font-size: 1.25rem;
 }
 
 .component .group {
@@ -11190,6 +11193,10 @@ body {
   width: 100%;
 }
 
+.component:hover .move-icon:after {
+  content: '::';
+}
+
 .component[data-type]:not([data-type="editbox"]):hover {
   cursor: pointer;
 }
@@ -11200,6 +11207,14 @@ body {
 
 .component[data-type="editbox"]:hover {
   cursor: text;
+}
+
+.component:focus {
+  outline: none;
+}
+
+.component:over {
+  border-top: 2px dashed #BCC5D3;
 }
 
 .group[contenteditable=true]:empty::before {
