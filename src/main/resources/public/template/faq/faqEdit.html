@@ -81,7 +81,7 @@
             });
 
             const fileSeq = [];
-            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
+            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(Number(elm.value)));
             object['fileSeq'] = fileSeq;
 
             const opt = {
