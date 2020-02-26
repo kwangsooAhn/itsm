@@ -11,6 +11,7 @@ data class SignUpDto(
         var department: String?,
         var officeNumber: String?,
         var mobileNumber: String?,
+        var roles: Set<String>?,
         var timezone: String?,
         var lang: String?,
         var timeFormat: String?

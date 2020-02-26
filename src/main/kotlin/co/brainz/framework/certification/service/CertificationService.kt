@@ -107,9 +107,20 @@ class CertificationService(private val certificationRepository: CertificationRep
                 }
 
                 user = certificationRepository.save(user)
-                getDefaultUserRoleList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach {role ->
-                    userRoleMapRepository.save(AliceUserRoleMapEntity(user,role))
+
+                when (target) {
+                    UserConstants.USER_ID -> {
+                        getDefaultUserRoleList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach {role ->
+                            userRoleMapRepository.save(AliceUserRoleMapEntity(user,role))
+                        }
+                    }
+                    UserConstants.ADMIN_ID -> {
+                        signUpDto.roles!!.forEach {
+                            userRoleMapRepository.save(AliceUserRoleMapEntity(user, roleRepository.findByRoleId(it)))
+                        }
+                    }
                 }
+
                 code = UserConstants.SignUpStatus.STATUS_SUCCESS.code
                 logger.info("New user created : $1", user.userName)
             }

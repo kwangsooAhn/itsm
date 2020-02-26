@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
     <meta charset="UTF-8">
@@ -75,6 +76,17 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- 역할 -->
+        <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
+            <div>역할</div>
+            <div th:each="role : ${roles}">
+                <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}"
+                       th:checked="*{role.checked}">
+                <label th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
+            </div>
+        </div>
+
         <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]])" th:text="#{user.reg}"></button>
         <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]])"
                                                                     th:text="#{user.editUserInfo}"></button>
@@ -193,6 +205,13 @@
                 }
             }
 
+            //역할 관련 function
+            var arrRoleValue = new Array();
+
+            document.querySelectorAll('input[name=roles]:checked').forEach(function(item) {
+                arrRoleValue.push(item.value);
+            });
+
             const data = {
                 userKey: document.getElementById('userKey').value,
                 userId: document.getElementById('userId').value,
@@ -205,7 +224,8 @@
                 mobileNumber: document.getElementById('mobileNumber').value,
                 timezone: document.getElementById('timezone').value,
                 lang: document.getElementById('lang').value,
-                timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value
+                timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
+                roles: arrRoleValue
             };
 
             const opt = {
