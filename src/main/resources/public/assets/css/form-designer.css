@@ -10813,7 +10813,6 @@ body {
 }
 
 .alice-form-toolbar .logo {
-  display: inline-block;
   width: 3.75rem;
   height: 1.25rem;
   float: left;
@@ -10827,7 +10826,6 @@ body {
 .alice-form-toolbar a {
   text-decoration: none;
   margin-left: 1.25rem;
-  display: inline-block;
   height: 1.25rem;
   line-height: 1.25rem;
   vertical-align: middle;
@@ -10842,6 +10840,14 @@ body {
 .alice-form-toolbar a label {
   margin-left: 0.313rem;
   cursor: pointer;
+}
+
+.alice-form-toolbar span.separator {
+  width: 0.063rem;
+  height: 1.25rem;
+  background-color: #f6f6f7;
+  margin-left: 1.25rem;
+  float: left;
 }
 
 .alice-form-toolbar span.form-name {
@@ -11206,6 +11212,7 @@ body {
   font-size: 12px;
   height: 80px;
   line-height: 80px;
+  cursor: text;
 }
 
 .group:focus {
