@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/rest/auths")
 class AuthRestController(private val authService: AuthService) {
 
-    private val logger = LoggerFactory.getLogger(AuthRestController::class.java)
+    val logger = LoggerFactory.getLogger(AuthRestController::class.java)
 
     /**
      * 권한 전체 목록 조회

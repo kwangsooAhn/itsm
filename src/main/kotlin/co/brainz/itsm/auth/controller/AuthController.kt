@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 public class AuthController(private val authService: AuthService) {
 
-    private val logger = LoggerFactory.getLogger(AuthController::class.java)
+    val logger = LoggerFactory.getLogger(AuthController::class.java)
     private val authEditPage: String = "auth/authEdit"
 
     /**
