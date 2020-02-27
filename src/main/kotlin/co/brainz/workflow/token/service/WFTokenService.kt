@@ -1,5 +1,8 @@
 package co.brainz.workflow.token.service
 
+import co.brainz.workflow.element.constants.ElementConstants
+import co.brainz.workflow.element.entity.ElementMstEntity
+import co.brainz.workflow.element.service.WFElementService
 import co.brainz.workflow.instance.dto.InstanceDto
 import co.brainz.workflow.instance.service.WFInstanceService
 import co.brainz.workflow.token.constants.TokenConstants
@@ -10,13 +13,16 @@ import co.brainz.workflow.token.entity.TokenMstEntity
 import co.brainz.workflow.token.repository.TokenDataRepository
 import co.brainz.workflow.token.repository.TokenMstRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Service
+@Transactional
 class WFTokenService(private val tokenMstRepository: TokenMstRepository,
                      private val tokenDataRepository: TokenDataRepository,
-                     private val wfInstanceService: WFInstanceService) {
+                     private val wfInstanceService: WFInstanceService,
+                     private val wfElementService: WFElementService) {
 
     /**
      * Token Save.
@@ -29,7 +35,7 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
         val token = createToken(instance.instanceId, tokenSaveDto.tokenDto)
         createTokenData(tokenSaveDto, instance.instanceId, token.tokenId)
         if (tokenSaveDto.tokenDto.isComplete) {
-            tokenComplete()
+            completeToken(tokenSaveDto)
         }
     }
 
@@ -66,7 +72,7 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
         deleteTokenData(tokenSaveDto.instanceDto.instanceId, tokenSaveDto.tokenDto.tokenId)
         createTokenData(tokenSaveDto, tokenSaveDto.instanceDto.instanceId, tokenSaveDto.tokenDto.tokenId)
         if (tokenSaveDto.tokenDto.isComplete) {
-            tokenComplete()
+            completeToken(tokenSaveDto)
         }
     }
 
@@ -109,21 +115,57 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
     /**
      * Token Complete.
      *
-     * @param tokenDto
+     * @param tokenSaveDto
      */
-    fun completeToken(tokenDto: TokenDto) {
-        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.tokenId)
-        if (tokenMstEntity.isPresent) {
-            tokenMstEntity.get().tokenStatus = TokenConstants.Status.FINISH.code
-            tokenMstEntity.get().tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-            tokenMstRepository.save(tokenMstEntity.get())
+    fun completeToken(tokenSaveDto: TokenSaveDto) {
+        // Optional -> 안쓰면 좋을 것 같은데...
+        val completedTokenOptional = tokenMstRepository.findTokenMstEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
+
+        if (completedTokenOptional.isPresent) {
+            var completedToken = completedTokenOptional.get()
+
+            // 토큰 완료 처리
+            completedToken.tokenStatus = TokenConstants.Status.FINISH.code
+            completedToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            tokenMstRepository.save(completedToken)
+
+            //  다음 Element 가져오기
+            val nextElement: ElementMstEntity? = wfElementService.getNextElement(completedToken.elementId, tokenSaveDto)
+            nextElement?.let {nextElement ->
+                var assigneeValueInNextElement: String? = nextElement.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE.value)
+                var assigneeTypeValueInNextElement: String? = nextElement.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE_TYPE.value)
+
+                var nextToken = TokenDto("",false, nextElement.elementId,
+                        getAssigneeForToken(assigneeValueInNextElement), assigneeTypeValueInNextElement,null)
+
+                when (nextElement.elementType) {
+                    ElementConstants.ElementType.USER_TASK.value -> {
+                        val createdToken = createToken(completedToken.instanceId, nextToken)
+                        createTokenData(tokenSaveDto, completedToken.instanceId, createdToken.tokenId)
+                    }
+                    ElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
+                        val createdToken = createToken(completedToken.instanceId, nextToken)
+                        createTokenData(tokenSaveDto, completedToken.instanceId, createdToken.tokenId)
+                        completeToken(TokenSaveDto(tokenSaveDto.instanceDto, tokenSaveDto.processDto,  nextToken))
+                    }
+                    ElementConstants.ElementType.COMMON_END_EVENT.value -> {
+                        wfInstanceService.completeInstance(tokenSaveDto.instanceDto)
+                    }
+                    else -> {}
+                }
+            }
         }
     }
 
-    /**
-     * Token Complete.
-     */
-    fun tokenComplete() {
-        //TODO: Token Complete.
+    private fun getAssigneeForToken(assigneeData: String?): String {
+        // 데이터가 만약 mappingExpresion('${xxxx}'와 같은) 이라면 문서에서 해당 코드로 매핑된 데이터를 찾아서 사용.
+        // 데이터가 단순히 문자열이라면 그대로 사용.
+        var assigneeForToken: String = ""
+
+        val mappingExpr = TokenConstants.mappingExpression.toRegex()
+        assigneeData?.let {
+            assigneeForToken = if (mappingExpr.matches(assigneeData)) it.substring (2, assigneeData.length-1) else assigneeData
+        }
+        return assigneeForToken
     }
 }

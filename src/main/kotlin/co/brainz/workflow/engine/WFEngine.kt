@@ -4,6 +4,7 @@ import co.brainz.workflow.component.repository.ComponentDataRepository
 import co.brainz.workflow.component.repository.ComponentMstRepository
 import co.brainz.workflow.document.repository.DocumentRepository
 import co.brainz.workflow.document.service.WFDocumentService
+import co.brainz.workflow.element.service.WFElementService
 import co.brainz.workflow.form.repository.FormMstRepository
 import co.brainz.workflow.form.service.Form
 import co.brainz.workflow.form.service.WFFormService
@@ -26,7 +27,8 @@ class WFEngine(private val formMstRepository: FormMstRepository,
                private val instanceMstRepository: InstanceMstRepository,
                private val tokenMstRepository: TokenMstRepository,
                private val tokenDataRepository: TokenDataRepository,
-               private val wfInstanceService: WFInstanceService) {
+               private val wfInstanceService: WFInstanceService,
+               private val wfElementService: WFElementService) {
 
     /**
      * Form Engine.
@@ -61,7 +63,7 @@ class WFEngine(private val formMstRepository: FormMstRepository,
      * Token Engine.
      */
     fun token(): WFTokenService {
-        return WFTokenService(tokenMstRepository, tokenDataRepository, wfInstanceService)
+        return WFTokenService(tokenMstRepository, tokenDataRepository, wfInstanceService, wfElementService)
     }
 
 }

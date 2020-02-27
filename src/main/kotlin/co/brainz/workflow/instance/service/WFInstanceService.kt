@@ -40,5 +40,4 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
             instanceMstRepository.save(instanceMstEntity.get())
         }
     }
-
 }
