@@ -85,19 +85,19 @@
                         }
                     }
                     if (key === 'length-min' && value > chkVal.length) {
-                        alertMsg(element, value + '글자 이상 입력해주세요.');
+                        alertMsg(element, i18n('document.msg.lengthMin').replace('{0}', value));
                         return true;
                     }
                     if (key === 'length-max' && value < chkVal.length) {
-                        alertMsg(element, value + '글자 이하로 입력해주세요.');
+                        alertMsg(element, i18n('document.msg.lengthMax').replace('{0}', value));
                         return true;
                     }
                     if (key === 'date-min' && value > chkVal) {
-                        alertMsg(element, value + ' 날짜 이후로 선택해주세요.');
+                        alertMsg(element, i18n('document.msg.dateMin').replace('{0}', value));
                         return true;
                     }
                     if (key === 'date-max' && value < chkVal) {
-                        alertMsg(element, value + ' 날짜 이전으로 선택해주세요.');
+                        alertMsg(element, i18n('document.msg.dateMax').replace('{0}', value));
                         return true;
                     }
                 }
@@ -382,11 +382,11 @@
             let requiredObj = requiredObjs[i];
             if (requiredObj.type === 'radio' || requiredObj.type === 'checkbox') {
                 if (!selectCheck(requiredObj)) {
-                    alertMsg(requiredObj, '필수 항목을 선택해주세요.');
+                    alertMsg(requiredObj, i18n('document.msg.requiredSelect'));
                     return true;
                 }
             } else if (requiredObj.value === '') {
-                alertMsg(requiredObj, '필수 항목을 입력해주세요.');
+                alertMsg(requiredObj, i18n('document.msg.requiredEnter'));
                 return true;
             }
         }
@@ -399,7 +399,7 @@
     function save() {
         if (!requiredCheck()) {
             //TODO: 구현 필요.
-            alert('저장되었습니다.');
+            alert(i18n('common.msg.save'));
         }
     }
 
