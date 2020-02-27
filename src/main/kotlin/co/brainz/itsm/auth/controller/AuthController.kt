@@ -21,9 +21,9 @@ public class AuthController(private val authService: AuthService) {
     @GetMapping("/edit", "")
     public fun getRolelist(request: HttpServletRequest, model: Model): String {
 
-        var authAllList = authService.selectAuthList()
-        var menuAllList = authService.selectMenuList()
-        var urlAllList = authService.selectUrlList()
+        var authAllList = authService.getAuthList()
+        var menuAllList = authService.getMenuList()
+        var urlAllList = authService.getUrlList()
         model.addAttribute("authList", authAllList)
         model.addAttribute("menuList", menuAllList)
         model.addAttribute("urlList", urlAllList)

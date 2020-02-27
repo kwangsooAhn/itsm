@@ -31,21 +31,21 @@ class AuthService(
     /**
      * 전체 권한 목록 조회
      */
-    fun selectAuthList(): MutableList<AliceAuthEntity> {
+    fun getAuthList(): MutableList<AliceAuthEntity> {
         return authRepository.findByOrderByAuthNameAsc()
     }
 
     /**
      * 전체 메뉴 목록 조회
      */
-    fun selectMenuList(): MutableList<AliceMenuEntity> {
+    fun getMenuList(): MutableList<AliceMenuEntity> {
         return menuRepository.findByOrderByMenuIdAsc()
     }
     
     /**
      * 전체 url 목록 조회
      */
-    fun selectUrlList(): MutableList<AliceUrlEntity> {
+    fun getUrlList(): MutableList<AliceUrlEntity> {
         return urlRepository.findByOrderByUrlAsc()
     }
     
@@ -75,7 +75,7 @@ class AuthService(
     /**
      * 권한 정보 등록
      */
-    fun insertAuth(authInfo: AuthDto): String {
+    fun createAuth(authInfo: AuthDto): String {
         val auth = AliceAuthEntity(
                 authId = authInfo.authId.toString(),
                 authName = authInfo.authName.toString(),
@@ -126,7 +126,7 @@ class AuthService(
     /**
      * 권한 상세 정보 조회
      */
-    fun selectDetailAuths(authId: String): List<AuthDto> {
+    fun getDetailAuths(authId: String): List<AuthDto> {
         val dto = mutableListOf<AuthDto>()
         val authInfo = authRepository.findByAuthId(authId)
         val menuList = mutableListOf<AuthMenuDto>()

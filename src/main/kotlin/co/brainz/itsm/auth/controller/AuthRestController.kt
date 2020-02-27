@@ -27,7 +27,7 @@ class AuthRestController(private val authService: AuthService) {
      */
     @GetMapping("/", "")
     fun getAuths(): MutableList<AliceAuthEntity> {
-        return authService.selectAuthList()
+        return authService.getAuthList()
     }
 
     /**
@@ -35,15 +35,15 @@ class AuthRestController(private val authService: AuthService) {
      */
     @GetMapping("/{authId}")
     fun getAuths(@PathVariable authId: String): List<AuthDto> {
-        return authService.selectDetailAuths(authId)
+        return authService.getDetailAuths(authId)
     }
 
     /**
      * 권한 등록
      */
     @PostMapping("/", "")
-    fun insertAuth(@RequestBody auth: AuthDto): String {
-        return authService.insertAuth(auth)
+    fun createAuth(@RequestBody auth: AuthDto): String {
+        return authService.createAuth(auth)
     }
 
     /**
