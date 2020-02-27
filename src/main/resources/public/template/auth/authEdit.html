@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title>권한 정보</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto auto auto;">
+        <h1 th:text="#{menu.setting.auth}"></h1>
+        <div align="right">
+            <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnCreate" name="btnCreate"
+                    th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
+        </div>
+        <hr>
+        <div style="height: 600px;width: inherit;display: -webkit-inline-box;">
+            <div style="width:20%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">
+                <ul>
+                    <li th:each="auth : ${authList}">
+                        <a name="alink" th:text="${auth.authName}" th:id="${auth.authId}" style="cursor: pointer;"></a>
+                    </li>
+                </ul>
+            </div>
+            <table border="1" style="">
+                <colgroup>
+                    <col width="10%">
+                    <col width="40%">
+                    <col width="10%">
+                    <col width="*">
+                </colgroup>
+                <tr>
+                    <th class="required" th:text="#{auth.label.authId}"></th>
+                    <td colspan="3"><input id="txtAuthId" name="txtAuthId" type="text" th:value="${authDetail?.authId}" maxlength="100"/></td>
+                </tr>
+                <tr>
+                    <th class="required" th:text="#{auth.label.authName}"></th>
+                    <td colspan="3">
+                        <input id="txtAuthName" name="txtAuthName" type="text" th:value="${authDetail?.authName}" maxlength="100"/>
+                        <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th th:text="#{auth.label.authDesc}"></th>
+                    <td colspan="3">
+                        <textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${authDetail?.authDesc}"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th th:text="#{common.label.createUserName}"></th>
+                    <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${authDetail?.createUserKey}"></span></td>
+                    <th th:text="#{common.label.updateUserName}"></th>
+                    <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${authDetail?.updateUserKey}"></span></td>
+                </tr>
+                <tr>
+                    <th th:text="#{common.label.createDate}"></th>
+                    <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.createDt,dateformat)}"></span></td>
+                    <th th:text="#{common.label.updateDate}"></th>
+                    <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.updateDt,dateformat)}"></span></td>
+                </tr>
+                <tr>
+                    <th colspan="2"><span>메뉴 목록</span></th>
+                    <th colspan="2"><span>URL 목록</span></th>
+                </tr>
+                <tr>
+                    <td colspan="2" style="overflow:overlay;">
+                        <ul style="overflow:overlay;height: 200px;">
+                            <li th:each="menu : ${menuList}">
+                                <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuId}" >
+                                <span th:text="#{|menu.${menu?.menuId}|}"></span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td colspan="2" style="overflow:overlay;">
+                        <ul style="overflow:overlay;height: 200px;">
+                            <li th:each="url : ${urlList}">
+                                <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
+                                <span th:text="|[${url?.method}] ${url?.url}|"></span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+        <!-- buttons -->
+        <table style="float:right">
+            <tr>
+                <td>
+                    <button sec:authorize="hasAuthority('auth.delete')" type="button" id="btnDelete" name="btnDelete"
+                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                </td>
+                <td>
+                    <button sec:authorize="hasAuthority('auth.update')" type="button" id="btnUpdate" name="btnUpdate"
+                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                </td>
+                <td>
+                    <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnRegist" name="btnRegist"
+                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.addEventListener('load', function() {
+            if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
+                document.getElementById('txtAuthId').setAttribute('readonly','true');
+            } else {
+                var first = document.querySelector('a[name=alink]');
+                onGetDetail(first.getAttribute('id'));
+            }
+
+            var authList = document.querySelectorAll('a[name=alink]');
+            for(var i = 0; i < authList.length; i++) {
+                authList[i].addEventListener('click', function(){
+                    onGetDetail(this.id);
+                });
+            }
+
+            function onGetDetail(roldId) {
+                document.getElementById('btnUpdate').style.display = 'block';
+                document.getElementById('btnRegist').style.display = 'none';
+                document.getElementById('btnDelete').style.display = 'block';
+                
+                const opt = {
+                    method: 'get',
+                    url: '/rest/auths/' +  roldId,
+                    callbackFunc: function(response) {
+                        var responseJson = JSON.parse(response.responseText)[0];
+                        document.getElementById('txtAuthId').value = responseJson.authId;
+                        document.getElementById('txtAuthName').value = responseJson.authName;
+                        document.getElementById('txtAuthNameOrg').value = responseJson.authName;
+                        document.getElementById('txtAuthDesc').value = responseJson.authDesc;
+
+                        var arrMenuList = responseJson.arrMenuList;
+                        Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authMenu) {
+                            authMenu.checked = false;
+                            for (var i = 0; i<arrMenuList.length; i++) {
+                                if (authMenu.id == arrMenuList[i].menuId) {
+                                    authMenu.checked = true;
+                                }
+                            }
+                        });
+
+                        var arrUrlList = responseJson.arrUrlList;
+                        Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function(authUrl) {
+                            authUrl.checked = false;
+                            for (var i = 0; i<arrUrlList.length; i++) {
+                                if (authUrl.id == arrUrlList[i].url) {
+                                    authUrl.checked = true;
+                                }
+                            }
+                        });
+
+                        document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserKey;
+                        document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
+                        document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
+                        document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
+                        document.getElementById('txtAuthId').setAttribute('readonly','true');
+                    },
+                };
+                aliceJs.sendXhr(opt);
+            }
+        });
+
+        /* 추가 버튼 */
+        function onCreate() {
+            document.getElementById('btnDelete').style.display = 'none';
+            document.getElementById('btnUpdate').style.display = 'none';
+            document.getElementById('btnRegist').style.display = 'block';
+            document.getElementById('txtAuthId').value = '';
+            document.getElementById('txtAuthId').removeAttribute('readonly');
+            document.getElementById('txtAuthName').value = '';
+            document.getElementById('txtAuthDesc').value = '';
+
+            var authMenus = document.getElementsByName('authMenu');
+            for(var i = 0; i < authMenus.length; i++) {
+                authMenus[i].checked = false;
+            }
+            var authUrls = document.getElementsByName('authUrl');
+            for(var i = 0; i < authUrls.length; i++) {
+                authUrls[i].checked = false;
+            }
+
+            document.getElementById('spanCreateUserKey').innerHTML = '';
+            document.getElementById('spanCreateDt').innerHTML = '';
+            document.getElementById('spanUpdateUserKey').innerHTML = '';
+            document.getElementById('spanUpdateDt').innerHTML = '';
+        }
+
+        /* 등록, 수정 버튼 */
+        function onSave(flag) {
+            // validation
+            if (document.getElementById('txtAuthId').value === null || document.getElementById('txtAuthId').value === '' ) {
+                alert([[#{auth.msg.idNotExist}]]);
+                return;
+            }
+            if (document.getElementById('txtAuthName').value === null || document.getElementById('txtAuthName').value === '' ) {
+                alert([[#{auth.msg.nameNotExist}]]);
+                return;
+            }
+
+            var authIds = new Array();
+            var authNames = new Array();
+            var validList = document.querySelectorAll('a[name=alink]')
+            for(var i = 0; i < validList.length; i++) {
+                authIds.push(validList[i].id);
+                authNames.push(validList[i].text);
+            }
+            if (flag === 'post') {
+                for(var i = 0; i < authIds.length; i++) {
+                    if (document.getElementById('txtAuthId').value === authIds[i]) {
+                        alert([[#{auth.msg.idDuplecate}]]);
+                        return;
+                    }
+                }
+                for(var i = 0; i < authNames.length; i++) {
+                    if (document.getElementById('txtAuthName').value === authNames[i]) {
+                        alert([[#{auth.msg.nameDuplecate}]]);
+                        return;
+                    }
+                }
+            } else {
+                if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
+                    for(var i = 0; i < authNames.length; i++) {
+                        if (document.getElementById('txtAuthName').value === authNames[i]) {
+                            alert([[#{auth.msg.nameDuplecate}]]);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            //저장 process
+            var obj = new Object();
+            obj.authId = document.getElementById('txtAuthId').value;    //권한 아이디
+            obj.authName = document.getElementById('txtAuthName').value;//권한명
+            obj.authDesc= document.getElementById('txtAuthDesc').value; //권한 설명
+            
+            var arrMenuId = new Array();                                //권한-메뉴
+            Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function(item) {
+                arrMenuId.push(item.id);
+            });
+            obj.arrMenuId = arrMenuId;
+            
+            var arrUrl = new Array();                                   //권한-Url
+            Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function(item) {
+                arrUrl.push(item.id);
+            });
+            obj.arrUrl = arrUrl;
+
+            if (flag === 'post') {
+                strUrl = '/rest/auths';
+            } else {
+                strUrl = '/rest/auths/'+ document.getElementById('txtAuthId').value;
+            }
+            var authJson = JSON.stringify(obj);
+
+            const opt = {
+                method: flag,
+                url: strUrl,
+                params: authJson,
+                contentType: 'application/json',
+                callbackFunc: function() {
+                    alert([[#{common.msg.save}]]);
+                    window.location.href ='/auths/edit';
+                }
+            };
+            
+            aliceJs.sendXhr(opt);
+        }
+
+        /* 삭제 버튼  */
+        function onDelete() {
+            const opt = {
+                    method: 'delete',
+                    url: '/rest/auths/' + document.getElementById('txtAuthId').value,
+                    callbackFunc: function() {
+                        alert([[#{common.msg.delete.success}]]);
+                        window.location.href ='/auths/edit';
+                    }
+                  }
+            aliceJs.sendXhr(opt);
+        }
+
+        /*]]>*/
+    </script>
+</th:block>
+</html>
