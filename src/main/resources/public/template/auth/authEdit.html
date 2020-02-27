@@ -196,7 +196,6 @@
         /* 등록, 수정 버튼 */
         function onSave(flag) {
             // validation
-            // 공란 체크
             if (document.getElementById('txtAuthId').value === null || document.getElementById('txtAuthId').value === '' ) {
                 alert([[#{auth.msg.idNotExist}]]);
                 return;
@@ -205,7 +204,7 @@
                 alert([[#{auth.msg.nameNotExist}]]);
                 return;
             }
-            // 중복 값 체크
+
             var authIds = new Array();
             var authNames = new Array();
             var validList = document.querySelectorAll('a[name=alink]')
@@ -213,7 +212,6 @@
                 authIds.push(validList[i].id);
                 authNames.push(validList[i].text);
             }
-            
             if (flag === 'post') {
                 for(var i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
