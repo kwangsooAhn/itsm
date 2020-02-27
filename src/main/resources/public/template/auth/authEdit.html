@@ -196,6 +196,16 @@
         /* 등록, 수정 버튼 */
         function onSave(flag) {
             // validation
+            // 공란 체크
+            if (document.getElementById('txtAuthId').value === null || document.getElementById('txtAuthId').value === '' ) {
+                alert([[#{auth.msg.idNotExist}]]);
+                return;
+            }
+            if (document.getElementById('txtAuthName').value === null || document.getElementById('txtAuthName').value === '' ) {
+                alert([[#{auth.msg.nameNotExist}]]);
+                return;
+            }
+            // 중복 값 체크
             var authIds = new Array();
             var authNames = new Array();
             var validList = document.querySelectorAll('a[name=alink]')
@@ -203,25 +213,27 @@
                 authIds.push(validList[i].id);
                 authNames.push(validList[i].text);
             }
-            if (document.getElementById('txtAuthId').value === null || document.getElementById('txtAuthId').value === '' ) {
-                alert([[#{auth.msg.idNotExist}]]);
-                return;
-            } else if (flag === 'post') {
+            
+            if (flag === 'post') {
                 for(var i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
                         alert([[#{auth.msg.idDuplecate}]]);
                         return;
                     }
                 }
-            }
-            if (document.getElementById('txtAuthName').value === null || document.getElementById('txtAuthName').value === '' ) {
-                alert([[#{auth.msg.nameNotExist}]]);
-                return;
-            } else if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
                 for(var i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
                         alert([[#{auth.msg.nameDuplecate}]]);
                         return;
+                    }
+                }
+            } else {
+                if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
+                    for(var i = 0; i < authNames.length; i++) {
+                        if (document.getElementById('txtAuthName').value === authNames[i]) {
+                            alert([[#{auth.msg.nameDuplecate}]]);
+                            return;
+                        }
                     }
                 }
             }
