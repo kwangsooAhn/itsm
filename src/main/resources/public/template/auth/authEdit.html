@@ -36,7 +36,10 @@
                 </tr>
                 <tr>
                     <th class="required" th:text="#{auth.label.authName}"></th>
-                    <td colspan="3"><input id="txtAuthName" name="txtAuthName" type="text" th:value="${authDetail?.authName}" maxlength="100"/></td>
+                    <td colspan="3">
+                        <input id="txtAuthName" name="txtAuthName" type="text" th:value="${authDetail?.authName}" maxlength="100"/>
+                        <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
+                    </td>
                 </tr>
                 <tr>
                     <th th:text="#{auth.label.authDesc}"></th>
@@ -131,6 +134,7 @@
                         var responseJson = JSON.parse(response.responseText)[0];
                         document.getElementById('txtAuthId').value = responseJson.authId;
                         document.getElementById('txtAuthName').value = responseJson.authName;
+                        document.getElementById('txtAuthNameOrg').value = responseJson.authName;
                         document.getElementById('txtAuthDesc').value = responseJson.authDesc;
 
                         var arrMenuList = responseJson.arrMenuList;
@@ -169,11 +173,11 @@
             document.getElementById('btnDelete').style.display = 'none';
             document.getElementById('btnUpdate').style.display = 'none';
             document.getElementById('btnRegist').style.display = 'block';
-            
             document.getElementById('txtAuthId').value = '';
             document.getElementById('txtAuthId').removeAttribute('readonly');
             document.getElementById('txtAuthName').value = '';
             document.getElementById('txtAuthDesc').value = '';
+
             var authMenus = document.getElementsByName('authMenu');
             for(var i = 0; i < authMenus.length; i++) {
                 authMenus[i].checked = false;
@@ -191,14 +195,35 @@
 
         /* 등록, 수정 버튼 */
         function onSave(flag) {
-            if (document.getElementById('txtAuthId').value === '' || document.getElementById('txtAuthId').value === '' ) {
+            // validation
+            var authIds = new Array();
+            var authNames = new Array();
+            var validList = document.querySelectorAll('a[name=alink]')
+            for(var i = 0; i < validList.length; i++) {
+                authIds.push(validList[i].id);
+                authNames.push(validList[i].text);
+            }
+            if (document.getElementById('txtAuthId').value === null || document.getElementById('txtAuthId').value === '' ) {
                 alert([[#{auth.msg.idNotExist}]]);
                 return;
+            } else if (flag === 'post') {
+                for(var i = 0; i < authIds.length; i++) {
+                    if (document.getElementById('txtAuthId').value === authIds[i]) {
+                        alert([[#{auth.msg.idDuplecate}]]);
+                        return;
+                    }
+                }
             }
-
-            if (document.getElementById('txtAuthName').value === '' || document.getElementById('txtAuthName').value === '' ) {
+            if (document.getElementById('txtAuthName').value === null || document.getElementById('txtAuthName').value === '' ) {
                 alert([[#{auth.msg.nameNotExist}]]);
                 return;
+            } else if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
+                for(var i = 0; i < authNames.length; i++) {
+                    if (document.getElementById('txtAuthName').value === authNames[i]) {
+                        alert([[#{auth.msg.nameDuplecate}]]);
+                        return;
+                    }
+                }
             }
 
             //저장 process

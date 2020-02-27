@@ -57,6 +57,8 @@ auth:
   msg:
     idNotExist: "Please enter a auth id."
     nameNotExist: "Please enter a auth name."
+    idDuplecate: "duplicate auth id! Please enter other auth id."
+    nameDuplecate: "duplicate auth name! Please enter other auth name."
   auth:
     read: "auth read"
     create: "auth create"

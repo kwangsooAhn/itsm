@@ -58,6 +58,8 @@ auth:
   msg:
     idNotExist: "권한 아이디를 입력하세요."
     nameNotExist: "권한명을 입력하세요."
+    idDuplecate: "중복되는 아이디가 있습니다. 다른 권한 아이디를 입력하세요."
+    nameDuplecate: "중복된 권한명이 있습니다. 다른 권한명을 입력하세요."
   auth:
     read: "권한 조회"
     create: "권한 등록"
