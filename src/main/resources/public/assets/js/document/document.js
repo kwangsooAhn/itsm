@@ -1,16 +1,16 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.document = global.document || {})));
+            (factory((global.aliceDocument = global.aliceDocument || {})));
 }(this, (function (exports) {
     'use strict';
 
     let documentContainer = null;
     const defaultColWidth = 8.33; //폼 패널을 12등분하였을때, 1개의 너비
 
-    const numIncludeReg = /[0-9]/gi;
-    const numReg = /^[0-9]*$/;
-    const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    const numIncludeRegular = /[0-9]/gi;
+    const numRegular = /^[0-9]*$/;
+    const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
     /**
      * 현재 시간 format 형식에 따라 반환.
@@ -63,19 +63,19 @@
                     if (key === 'regexp') {
                         switch (value) {
                             case 'char':
-                                if (numIncludeReg.test(chkVal)) {
+                                if (numIncludeRegular.test(chkVal)) {
                                     alertMsg(element, validateData['regexp-msg']);
                                     return true;
                                 }
                                 break;
                             case 'num':
-                                if (!numReg.test(chkVal)) {
+                                if (!numRegular.test(chkVal)) {
                                     alertMsg(element, validateData['regexp-msg']);
                                     return true;
                                 }
                                 break;
                             case 'email':
-                                if (!emailReg.test(chkVal)) {
+                                if (!emailRegular.test(chkVal)) {
                                     alertMsg(element, validateData['regexp-msg']);
                                     return true;
                                 }
