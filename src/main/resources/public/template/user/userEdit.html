@@ -28,7 +28,11 @@
                     <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/>
                 </tr>
             </tbody>
-            <tbody>
+            <tbody border="1">
+                <colgroup>
+                    <col width="120px">
+                    <col width="480px">
+                </colgroup>
                 <tr>
                     <th th:text="#{user.name}+'*'"/>
                     <td><input type="text" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
@@ -74,19 +78,18 @@
                     <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
                                                               th:text="${itemData.codeValue}"></option></select></td>
                 </tr>
+                <tr sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
+                    <th th:text="#{user.role}"></th>
+                    <td>
+                        <ui th:each="role : ${roles}">
+                            <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}"
+                                                                                                 th:checked="*{role.checked}">
+                            <label th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
+                        </ui>
+                    </td>
+                </tr>
             </tbody>
         </table>
-
-        <!-- 역할 -->
-        <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
-            <div>역할</div>
-            <div th:each="role : ${roles}">
-                <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}"
-                       th:checked="*{role.checked}">
-                <label th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
-            </div>
-        </div>
-
         <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]])" th:text="#{user.reg}"></button>
         <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/userEdit(userKey=${users.userKey})}]])"
                                                                     th:text="#{user.editUserInfo}"></button>

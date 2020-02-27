@@ -90,6 +90,7 @@ user:
   lang: "언어"
   reg: "사용자 등록"
   read: "사용자 조회"
+  role: "사용자 역할"
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
