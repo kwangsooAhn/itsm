@@ -4,7 +4,6 @@ import co.brainz.itsm.auth.dto.AuthDto
 import co.brainz.itsm.auth.dto.AuthDetailDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthUrlDto
-import co.brainz.framework.auth.dto.AliceAuthSimpleDto
 import org.springframework.stereotype.Service
 import co.brainz.itsm.auth.repository.AuthRepository
 import co.brainz.framework.auth.repository.AliceMenuRepository

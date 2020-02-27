@@ -1,6 +1,5 @@
 package co.brainz.itsm.auth.dto
 
-import co.brainz.framework.auth.entity.AliceAuthEntity
 import java.time.LocalDateTime
 import com.fasterxml.jackson.annotation.JsonFormat
 
