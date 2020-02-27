@@ -30,6 +30,7 @@ common:
     notSelect: "Not Select"
   msg:
     save: "Saved"
+    save.fail: "Fail"
     delete.success: "Deleted."
 
 # Menu
@@ -44,12 +45,27 @@ menu:
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
+  setting.auth: "Auth management"
   setting.form: "Form"
   setting.process: "Process"
   editMyInfo: "Edit my info"
 
 # Auth
 auth:
+  label:
+    authId: "Auth ID"
+    authName: "Auth name"
+    authDesc: "Auth Desc"
+  msg:
+    idNotExist: "Please enter a auth id."
+    nameNotExist: "Please enter a auth name."
+    idDuplecate: "duplicate auth id! Please enter other auth id."
+    nameDuplecate: "duplicate auth name! Please enter other auth name."
+  auth:
+    read: "auth read"
+    create: "auth create"
+    update: "auth update"
+    delete: "auth delete"
   service.read:
     all: "서비스 요청 전체 조회"
     my: "서비스 요청 자신 업무만 조회"

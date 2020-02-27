@@ -2,14 +2,16 @@ package co.brainz.itsm.document.service
 
 import co.brainz.itsm.provider.ProviderDocument
 import co.brainz.itsm.provider.ProviderUtilities
+import co.brainz.itsm.provider.TokenProvider
 import co.brainz.itsm.provider.dto.DocumentDto
+import co.brainz.itsm.provider.dto.TokenSaveDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.stereotype.Service
 
 @Service
-class DocumentService(private val providerDocument: ProviderDocument) {
+class DocumentService(private val providerDocument: ProviderDocument, private val tokenProvider: TokenProvider) {
 
     /**
      * 신청서 리스트 조회.
@@ -35,5 +37,23 @@ class DocumentService(private val providerDocument: ProviderDocument) {
      */
     fun findDocument(documentId: String): String {
         return providerDocument.getDocument(documentId)
+    }
+    
+    /**
+     * 문서 신규 등록 / 처리
+     * isComplete : false일경우에는 저장, true일경우에 처리
+     * @return
+     */
+    fun createTicket(tokenSaveDto: TokenSaveDto): Boolean {
+        return tokenProvider.postToken(tokenSaveDto)
+    }
+
+    /**
+     * 문서 수정 / 처리
+     * isComplete : false일경우에는 수정, true일경우에 처리
+     * @return Boolean
+     */
+    fun saveTicket(tokenSaveDto: TokenSaveDto): Boolean {
+        return tokenProvider.putToken(tokenSaveDto)
     }
 }

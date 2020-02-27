@@ -1,10 +1,14 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.itsm.provider.dto.TokenSaveDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 
 @RestController
 @RequestMapping("/rest/documents")
@@ -28,7 +32,8 @@ class DocumentRestController(private val documentService: DocumentService) {
      *
      * */
     fun dummyData(documentId: String): String {
-        return """
+        return documentService.findDocument(documentId)
+        /*return """
                {
                 "document": {"id": "$documentId", "name": "회원가입~", "description": "회원가입 문서양식입니다."},
                 "components": [{
@@ -187,6 +192,22 @@ class DocumentRestController(private val documentService: DocumentService) {
                     "display": {"order": 12}
                 }]
                 }
-                """
+                """ */
+    }
+    
+        /**
+     * 문서 신규 등록 / 처리
+     */
+    @PostMapping("/data")
+    fun createTicket(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
+        return documentService.createTicket(tokenSaveDto)
+    }
+
+    /**
+     * 문서 수정 / 처리
+     */
+    @PutMapping("/data/{instanceId}")
+    fun saveTicket(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
+        return documentService.saveTicket(tokenSaveDto)
     }
 }
