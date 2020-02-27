@@ -4,10 +4,10 @@
     <title>신청서 작성</title>
     <meta charset="utf-8">
     <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
-    <script th:src="@{/assets/js/document/documentEditor.js}"></script>
+    <script th:src="@{/assets/js/document/document.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
     <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
+    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
     <style>
         /*임시 css*/
         #document-container {
@@ -22,7 +22,7 @@
             display: inline;
         }
         #document-container > .component .field textarea {
-            resize: none;
+            resize: vertical;
         }
         #document-container > .component input[type=text], textarea, select, .field > div {
             width: 100%;
@@ -46,12 +46,12 @@
 <body>
 <div id="document-container"></div>
 <div style="margin-top: 10px; text-align: center;">
-    <button onclick="documentEditor.save()">저장</button> <button onclick="window.close();">취소</button>
+    <button onclick="document.save()">저장</button> <button onclick="window.close();">취소</button>
 </div>
 </body>
 <script type="text/javascript">
     window.addEventListener('load', function() {
-        documentEditor.init('[[${documentId}]]');
+        document.init('[[${documentId}]]');
     });
 </script>
 </html>

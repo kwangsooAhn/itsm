@@ -141,7 +141,7 @@
                     placeholder: '텍스트를 입력하세요.',
                     column: 10,
                     'outline-width': 1,
-                    'outline-color': "#000000",
+                    'outline-color': '#000000',
                     order: 2
                 },
                 validate: {

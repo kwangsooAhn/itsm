@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.documentEditor = global.documentEditor || {})));
+            (factory((global.document = global.document || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -13,15 +13,18 @@
     const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
     /**
-     * 현재 시간 추출 2020-02-19 13:30 형식
+     * 현재 시간 format 형식에 따라 반환.
+     *
+     * @param format format
      */
-    function getTimeStamp() {
-        let today = new Date();
-        return parseZero(today.getFullYear(), 4) + '-' +
-               parseZero(today.getMonth() + 1, 2) + '-' +
-               parseZero(today.getDate(), 2) + ' ' +
-               parseZero(today.getHours(), 2) + ':' +
-               parseZero(today.getMinutes(), 2);
+    //TODO: 임시 메소드. 추후 수정 필요.
+    function getTimeStamp(format) {
+        const today = new Date();
+        return format.replace(/yyyy/gi, parseZero(today.getFullYear(), 4))
+                     .replace(/MM/gi, parseZero(today.getMonth() + 1, 2))
+                     .replace(/dd/gi, parseZero(today.getDate(), 2))
+                     .replace(/HH/gi, parseZero(today.getHours(), 2))
+                     .replace(/mm/gi, parseZero(today.getMinutes(), 2));
     }
 
     function parseZero(n, digits) {
@@ -37,8 +40,8 @@
     /**
      * alert message.
      *
-     * @param element
-     * @param msg
+     * @param element element
+     * @param msg 메시지
      */
     function alertMsg(element, msg) {
         alert(msg);
@@ -48,8 +51,8 @@
      /**
      * Validation Check.
      *
-     * @param element
-     * @param validateData
+     * @param element element
+     * @param validateData validate 데이터
      */
     function validateCheck(element, validateData) {
         const chkVal = element.value.trim();
@@ -105,7 +108,7 @@
     /**
      * add Component.
      *
-     * @param compData 컴포넌트.
+     * @param compData 컴포넌트 데이터
      */
     function addComponent(compData) {
         const comp = document.createElement('div');
@@ -150,7 +153,6 @@
         comp.appendChild(fieldLastEle);
         documentContainer.appendChild(comp);
 
-        //TODO: common[mapping-id] 구현 필요.
         switch (compData.type) {
             case 'text':
                 const textEle = document.createElement('input');
@@ -280,14 +282,14 @@
             case 'date':
                 let dateDefault = displayData.default;
                 if (dateDefault === 'today') {
-                    dateDefault = getTimeStamp();
+                    dateDefault = getTimeStamp(displayData.format);
                     dateDefault = dateDefault.split(' ')[0];
                 }
                 const dateEle = document.createElement('input');
                 dateEle.id = 'date-' + compData.id;
                 dateEle.type = 'text';
                 dateEle.placeholder = displayData.format;
-                dateEle.value = dateDefault; //TODO: 수정 필요
+                dateEle.value = dateDefault;
                 dateEle.required = (validateData.required === 'Y');
                 dateEle.readOnly = true;
                 dateEle.addEventListener('focusout', function() {
@@ -299,14 +301,14 @@
             case 'time':
                 let timeDefault = displayData.default;
                 if (timeDefault === 'now') {
-                    timeDefault = getTimeStamp();
+                    timeDefault = getTimeStamp(displayData.format);
                     timeDefault = timeDefault.split(' ')[1];
                 }
                 const timeEle = document.createElement('input');
                 timeEle.id = 'time-' + compData.id;
                 timeEle.type = 'text';
                 timeEle.placeholder = displayData.format;
-                timeEle.value = timeDefault; //TODO: 수정 필요
+                timeEle.value = timeDefault;
                 timeEle.required = (validateData.required === 'Y');
                 timeEle.readOnly = true;
                 fieldLastEle.appendChild(timeEle);
@@ -315,13 +317,13 @@
             case 'datetime':
                 let datetimeDefault = displayData.default;
                 if (datetimeDefault === 'now') {
-                    datetimeDefault = getTimeStamp();
+                    datetimeDefault = getTimeStamp(displayData.format);
                 }
                 const datetimeEle = document.createElement('input');
                 datetimeEle.id = 'datetime-' + compData.id;
                 datetimeEle.type = 'text';
                 datetimeEle.placeholder = displayData.format;
-                datetimeEle.value = datetimeDefault; //TODO: 수정 필요
+                datetimeEle.value = datetimeDefault;
                 datetimeEle.required = (validateData.required === 'Y');
                 datetimeEle.readOnly = true;
                 datetimeEle.addEventListener('focusout', function() {
@@ -360,12 +362,12 @@
     /**
      * radio, checkbox 선택 확인.
      *
-     * @param element
+     * @param element element
      */
     function selectCheck(element) {
         let elements = document.getElementsByName(element.name);
         for (let j = 0; j < elements.length; j++) {
-            if (elements[j].checked) return true;
+            if (elements[j].checked) { return true; }
         }
         return false;
     }
