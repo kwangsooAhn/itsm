@@ -20,7 +20,7 @@ class CertificationRestController(private val certificationService: Certificatio
 
     @PostMapping("/register")
     fun setUser(@RequestBody signUpDto: SignUpDto): String {
-        val result = certificationService.insertUser(signUpDto, UserConstants.USER_ID)
+        val result = certificationService.createUser(signUpDto, UserConstants.USER_ID)
         if (result == UserConstants.SignUpStatus.STATUS_SUCCESS.code) {
             certificationService.sendMail(signUpDto.userId, signUpDto.email, UserConstants.SendMailStatus.CREATE_USER.code, null)
         }

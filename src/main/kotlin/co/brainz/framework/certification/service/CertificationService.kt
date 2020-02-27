@@ -72,7 +72,7 @@ class CertificationService(private val certificationRepository: CertificationRep
         return roleList
     }
 
-    fun insertUser(signUpDto: SignUpDto, target: String?): String {
+    fun createUser(signUpDto: SignUpDto, target: String?): String {
         var code: String = signUpValid(signUpDto)
         when (code) {
             UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {

@@ -59,7 +59,7 @@ class UserRestController(
         // 패스워드 암호화
         signUpDto.password = cryptoRsa.encrypt(publicKey, password)
 
-        val result = certificationService.insertUser(signUpDto, UserConstants.ADMIN_ID)
+        val result = certificationService.createUser(signUpDto, UserConstants.ADMIN_ID)
         if (result == UserConstants.SignUpStatus.STATUS_SUCCESS.code) {
             certificationService.sendMail(signUpDto.userId, signUpDto.email, UserConstants.SendMailStatus.CREATE_USER_ADMIN.code, password)
         }
