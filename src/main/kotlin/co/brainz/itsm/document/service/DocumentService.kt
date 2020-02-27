@@ -44,7 +44,7 @@ class DocumentService(private val providerDocument: ProviderDocument, private va
      * isComplete : false일경우에는 저장, true일경우에 처리
      * @return
      */
-    fun createTicket(tokenSaveDto: TokenSaveDto): Boolean {
+    fun createDocument(tokenSaveDto: TokenSaveDto): Boolean {
         return tokenProvider.postToken(tokenSaveDto)
     }
 
@@ -53,7 +53,7 @@ class DocumentService(private val providerDocument: ProviderDocument, private va
      * isComplete : false일경우에는 수정, true일경우에 처리
      * @return Boolean
      */
-    fun saveTicket(tokenSaveDto: TokenSaveDto): Boolean {
+    fun saveDocument(tokenSaveDto: TokenSaveDto): Boolean {
         return tokenProvider.putToken(tokenSaveDto)
     }
 }

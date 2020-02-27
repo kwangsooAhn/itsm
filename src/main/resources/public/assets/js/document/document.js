@@ -357,7 +357,7 @@
                 addComponent(data.components[i]);
             }
         }
-        
+
         if (data.documentId !== undefined) {
             addIdComponent('documentId', data.documentId);
         }
@@ -402,7 +402,7 @@
     }
 
     /**
-     * id Component를 만든다. (document, instance, token)
+     * id Component를 만든다. (document, token)
      *
      * @param v_kind 분류, data : id 값
      */
@@ -420,7 +420,6 @@
         if (!requiredCheck()) {
             let documentObject = {};
             let tokenObject = {};
-            let compoentObject = {};
             let compoentArrayList = new Array();
 
             //documentId 값을 구한다.
@@ -435,45 +434,50 @@
             const compoentElements = document.getElementById('document-container').getElementsByClassName('component');
             for (let eIndex = 0; eIndex < compoentElements.length; eIndex++) {
                 let componentDataType = compoentElements[eIndex].getAttribute('data-type');
-                let compoentId = compoentElements[eIndex].getAttribute('id');
-                let compoentValue = '';
-                let childObject = '';
-                if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') {
-                    childObject = compoentElements[eIndex].getElementsByTagName('input');
-                    compoentValue = childObject.item(0).value;
-                } else if (componentDataType === 'textarea') {
-                    childObject = compoentElements[eIndex].getElementsByTagName('textarea');
-                    compoentValue = childObject.item(0).value;
-                } else if (componentDataType === 'select') {
-                    childObject = compoentElements[eIndex].getElementsByTagName('select');
-                    compoentValue = childObject.item(0).options[childObject.item(0).selectedIndex].value;
-                } else if (componentDataType === 'radio') {
-                    childObject = compoentElements[eIndex].getElementsByTagName('input');
-                    for (let radioIndex = 0; radioIndex < childObject.length; radioIndex++) {
-                        if (childObject[radioIndex].checked) {
-                            compoentValue = childObject[radioIndex].value;
-                        }
-                    }
-                } else if (componentDataType === 'checkbox') {
-                    childObject = compoentElements[eIndex].getElementsByTagName('input');
-                    for (let checkBoxIndex = 0; checkBoxIndex < childObject.length; checkBoxIndex++) {
-                        if (childObject[checkBoxIndex].checked) {
-                            if (checkBoxIndex === 0) {
-                                compoentValue = childObject[checkBoxIndex].value;
-                            } else {
-                                compoentValue = compoentValue +','+childObject[checkBoxIndex].value;
+
+                if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
+                    componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox') {
+                    let compoentId = compoentElements[eIndex].getAttribute('id');
+                    let compoentValue = '';
+                    let componentChildObject = {};
+                    let componentChild = '';
+
+                    if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') {
+                        componentChild = compoentElements[eIndex].getElementsByTagName('input');
+                        compoentValue = componentChild.item(0).value;
+                    } else if (componentDataType === 'textarea') {
+                        componentChild = compoentElements[eIndex].getElementsByTagName('textarea');
+                        compoentValue = componentChild.item(0).value;
+                    } else if (componentDataType === 'select') {
+                        componentChild = compoentElements[eIndex].getElementsByTagName('select');
+                        compoentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
+                    } else if (componentDataType === 'radio') {
+                        componentChild = compoentElements[eIndex].getElementsByTagName('input');
+                        for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
+                            if (componentChild[radioIndex].checked) {
+                                compoentValue = componentChild[radioIndex].value;
                             }
                         }
+                    } else if (componentDataType === 'checkbox') {
+                        componentChild = compoentElements[eIndex].getElementsByTagName('input');
+                        for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
+                            if (componentChild[checkBoxIndex].checked) {
+                                if (checkBoxIndex === 0) {
+                                    compoentValue = componentChild[checkBoxIndex].value;
+                                } else {
+                                    compoentValue = compoentValue +','+componentChild[checkBoxIndex].value;
+                                }
+                            }
+                        }
+                    } else if (componentDataType === 'fileupload') {
+                        componentChild = compoentElements[eIndex].getElementsByTagName('input');
+                        compoentValue = componentChild.item(0).value;
                     }
-                } else if (componentDataType === 'fileupload') {
-                    childObject = compoentElements[eIndex].getElementsByTagName('input');
-                    compoentValue = childObject.item(0).value;
-                }
 
-                let componentChildObject = {};
-                componentChildObject.componentId = compoentId;
-                componentChildObject.value = compoentValue;
-                compoentArrayList.push(componentChildObject);
+                    componentChildObject.componentId = compoentId;
+                    componentChildObject.value = compoentValue;
+                    compoentArrayList.push(componentChildObject);
+                }
             }
 
             //tokenObject를 초기화
@@ -492,14 +496,12 @@
             }
 
             let method = '';
-            let url = '';
             if (tokenObject.tokenId === '') {
                 method = 'post';
-                url = '/rest/documents/data';
             } else {
                 method = 'put';
-                url = '/rest/documents/data/'+tokenObject.tokenId;
             }
+            let url = '/rest/documents/data';
 
             const object = {
                 documentDto : documentObject,
@@ -541,7 +543,7 @@
                 let jsonData = JSON.parse(xhr.responseText);
                 jsonData.documentId = documentId;
                 //진행중 저장을 위해서 테스트 데이터
-                //jsonData.tokenId = '40288ab77085c099017085c142850001';
+                //jsonData.tokenId = '40288ab77086519e017086521c8f0001';
                 drawDocument(jsonData);
             },
             contentType: 'application/json; charset=utf-8'

@@ -32,8 +32,7 @@ class DocumentRestController(private val documentService: DocumentService) {
      *
      * */
     fun dummyData(documentId: String): String {
-        return documentService.findDocument(documentId)
-        /*return """
+        return """
                {
                 "document": {"id": "$documentId", "name": "회원가입~", "description": "회원가입 문서양식입니다."},
                 "components": [{
@@ -192,22 +191,22 @@ class DocumentRestController(private val documentService: DocumentService) {
                     "display": {"order": 12}
                 }]
                 }
-                """ */
+                """
     }
-    
-        /**
+
+    /**
      * 문서 신규 등록 / 처리
      */
     @PostMapping("/data")
-    fun createTicket(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return documentService.createTicket(tokenSaveDto)
+    fun createDocument(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
+        return documentService.createDocument(tokenSaveDto)
     }
 
     /**
      * 문서 수정 / 처리
      */
-    @PutMapping("/data/{instanceId}")
-    fun saveTicket(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return documentService.saveTicket(tokenSaveDto)
+    @PutMapping("/data")
+    fun saveDocument(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
+        return documentService.saveDocument(tokenSaveDto)
     }
 }
