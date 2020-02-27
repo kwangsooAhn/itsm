@@ -406,10 +406,10 @@
      *
      * @param v_kind 분류, data : id 값
      */
-    function addIdComponent(v_kind, data) {
+    function addIdComponent(v_kind, v_data) {
         const comp = document.createElement('div');
         comp.id = v_kind;
-        comp.setAttribute('data-id', data);
+        comp.setAttribute('data-id', v_data);
         documentContainer.appendChild(comp);
     }
     
@@ -542,7 +542,7 @@
                 jsonData.documentId = documentId;
                 //진행중 저장을 위해서 테스트 데이터
                 //jsonData.tokenId = '40288ab77085c099017085c142850001';
-                drawDocument(JSON.parse(xhr.responseText))
+                drawDocument(jsonData);
             },
             contentType: 'application/json; charset=utf-8'
         });
