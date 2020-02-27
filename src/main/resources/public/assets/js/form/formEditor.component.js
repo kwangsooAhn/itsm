@@ -33,7 +33,6 @@
          */
         createComponentByTemplate: function(template) {
             let elem = document.createElement('component');
-            //elem.setAttribute('draggable', 'true');
             elem.classList.add('component');
             elem.innerHTML = template;
             return elem;

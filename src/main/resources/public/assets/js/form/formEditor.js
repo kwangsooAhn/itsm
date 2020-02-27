@@ -191,7 +191,7 @@
                     break;
                 }
             }
-            lastCompIndex--
+            lastCompIndex--;
         }
     }
 
@@ -244,17 +244,17 @@
     }
     
     /**
-     * 컴포넌트 ID를 전달 받아서 상세 데이터 조회
+     * 컴포넌트 ID를 전달 받아서 일치하는 컴포넌트의 index 반환
      *
      * @param id 컴포넌트 id
-     * @return {Object} component 상세 데이터
+     * @return {Integer} component index
      */
-    function getComponentData(id) {
+    function getComponentIndex(id) {
         for (let i = 0, len = formEditor.data.components.length; i < len; i++) {
             let comp = formEditor.data.components[i];
-            if (comp.id === id) { return comp; }
+            if (comp.id === id) { return i; }
         }
-        return null;
+        return -1;
     }
 
     /**
@@ -286,10 +286,11 @@
         if (selectedComponentId === id) { return; }
         
         selectedComponentId = id;
-
-        let compAttr = getComponentData(id);
-        if (compAttr === null) { return; }
-
+        
+        let compIdx = getComponentIndex(id);
+        if (compIdx === -1) { return; }
+        
+        let compAttr = formEditor.data.components[compIdx];
         let detailAttr = component.getDefaultAttribute(compAttr.type);
 
         //세부 속성 재할당 data로 전달된 속성 + 기본속성
@@ -638,7 +639,7 @@
     exports.removeComponent = removeComponent;
     exports.addEditboxUp = addEditboxUp;
     exports.addEditboxDown = addEditboxDown;
-    exports.getComponentData = getComponentData;
+    exports.getComponentIndex = getComponentIndex;
     exports.setComponentData = setComponentData;
     exports.showProperties = showProperties;
     exports.hideProperties = hideProperties;

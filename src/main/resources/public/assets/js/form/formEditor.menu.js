@@ -18,7 +18,8 @@
         selectedItemIdx = -1,  //컨텍스트 메뉴 오픈 시 선택된 item 순서
         isCtrlPressed = false,
         flag = 0,              //0:menu off, 1:menu on
-        dragComponent = null;
+        dragComponent = null,
+        lastComponent = null;  // 드래그시, 마지막 번째에 drag 되기 위해 추가된 컴포넌트 > drop 이후 삭제 됨
 
     /**
      * context menu on
@@ -210,6 +211,32 @@
             menu.style.top = clickCoordsY + 'px';
         }
     }
+    
+    /**
+     * 컴포넌트 drag on
+     */
+    function componentDragOn() {
+        let comps = document.querySelectorAll('.component');
+        for (let i = 0, len = comps.length; i < len; i++) {
+            let comp = comps[i];
+            comp.setAttribute('draggable', 'true');
+        }
+    }
+    
+    /**
+    * 컴포넌트 drag off
+    */
+    function componentDragOff() {
+        let comps = document.querySelectorAll('.component');
+        for (let i = 0, len = comps.length; i < len; i++) {
+            let comp = comps[i];
+            comp.removeAttribute('draggable');
+            
+            if (comp.classList.contains('over')) {
+                comp.classList.remove('over');
+            }
+        }
+    }
         
     /**
      * 이벤트 핸들러
@@ -381,58 +408,97 @@
     }
     
     function onMouseDownHandler(e) {
-        console.log('mouse down')
         if (e.target.classList.contains('move-icon')) {
             e.target.parentNode.setAttribute('draggable', 'true');
         }
     }
 
     function onDragStartHandler(e) {
-        console.log('drag start');
-        dragComponent = e.target.parentNode;
+        dragComponent = e.target;
+        if (dragComponent) {
+            //맨 마지막에 추가되길 원할 경우 필요한 drag 영역
+            lastComponent = document.createElement('component');
+            lastComponent.classList.add('component');
+            lastComponent.style.height = '2px';
+            dragComponent.parentNode.appendChild(lastComponent);
+            
+            componentDragOn();
+        }
         e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', e.target.parentNode.outerHTML);
+        e.dataTransfer.setData('text/html', e.target.outerHTML);
     }
 
     function onDragOverHandler(e) {
-        e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
-        e.dataTransfer.dropEffect = 'move';
-    }
-
-    function onDragEnterHandler(e) {
-        if (dragComponent !== e.target) {
-            e.target.parentNode.classList.add('over');
+        if (e.preventDefault) {
+            e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
+        }
+        let targetComponent = clickInsideElement(e, 'component');
+        if (targetComponent && dragComponent !== targetComponent) {
+            targetComponent.classList.add('over');
+            e.dataTransfer.dropEffect = 'move';
         }
     }
+
+    function onDragEnterHandler(e) {}
 
     function onDragHandler(e) {}
 
     function onDragDropHandler(e) {
-        console.log('drop');
         if (e.stopPropagation) {
             e.stopPropagation(); 
         }
-        
-        if (dragComponent !== e.target.parentNode) {
-            console.log(e.target.parentNode);
-            return false;
+        let targetComponent = clickInsideElement(e, 'component');
+        if (targetComponent && dragComponent !== targetComponent) {
+            //같은 위치에 drag 하고자하는 경우 
+            let dragIdx = Number(dragComponent.getAttribute('data-index'));
+            if (targetComponent !== lastComponent && Number(targetComponent.getAttribute('data-index')) === (dragIdx + 1)) { return; }
+            
+            let targetIdx = Number(targetComponent.getAttribute('data-index'));
+            let lastCompIndex = component.getLastIndex();
+            let dragComponentHTML = e.dataTransfer.getData('text/html');
+            targetComponent.parentNode.removeChild(dragComponent);
+            targetComponent.insertAdjacentHTML('beforebegin', dragComponentHTML);
+            
+            dragComponent = targetComponent.previousSibling;
+            let sortIdx = (dragIdx >= targetIdx) ? targetIdx - 1 : dragIdx - 1;
+            if (targetComponent === lastComponent) { sortIdx = dragIdx - 1; } //마지막 추가시
+            
+            dragComponent.parentNode.removeChild(lastComponent);
+            lastComponent = null;
+            //데이터 display 순서 재정렬
+            for (let i = dragComponent.parentNode.children.length - 1; i >= sortIdx; i--) {
+                let childNode = dragComponent.parentNode.children[i];
+                childNode.setAttribute('data-index', lastCompIndex);
+                childNode.setAttribute('tabIndex', lastCompIndex);
+                
+                for (let j = 0, len = formEditor.data.components.length; j < len; j++) {
+                    let comp = formEditor.data.components[j];
+                    if (comp.id === childNode.id) { 
+                        comp.display.order = lastCompIndex;
+                        break;
+                    }
+                }
+                lastCompIndex--;
+            }
+            componentDragOff();
         }
-
     }
 
     function onDragLeaveHandler(e) {
-        e.target.parentNode.classList.remove('over');
+        let targetComponent = clickInsideElement(e, 'component');
+        if (targetComponent && dragComponent !== targetComponent) {
+            targetComponent.classList.remove('over');
+        }
     }
 
     function onDragEndHandler(e) {
-        let compElems = document.querySelectorAll('.component');
-        for (let i = 0, len = compElems.length; i < len; i++) {
-            let comp = compElems[i];
-            if (comp.classList.contains('over')) {
-                comp.classList.remove('over');
-            }
+        componentDragOff();
+        
+        if (lastComponent !== null) { 
+            lastComponent.remove();
+            lastComponent = null;
         }
-        e.target.parentNode.removeAttribute('draggable');
+        dragComponent = null;
     }
     /**
      * context menu item 클릭시 이벤트 호출

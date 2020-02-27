@@ -341,13 +341,17 @@ body {
         .field textarea { width: 100%; }
     }
 }
+
 .component:hover {
     .move-icon:after { content: '::'; }
 }
 
+.component:focus { outline: none }
+
 .component[data-type]:not([data-type="editbox"]):hover { 
     cursor: pointer; 
 }
+
 .component[data-type]:not([data-type="editbox"]) .group { 
     pointer-events: none;
 }
@@ -355,8 +359,6 @@ body {
 .component[data-type="editbox"]:hover { 
     cursor: text; 
 }
-.component:focus { outline: none }
-.component:over { border-top: 2px dashed #BCC5D3; }
 
 .group[contenteditable=true]:empty::before {
     content: attr(placeholder); 
@@ -372,3 +374,10 @@ body {
 }
 
 .group:focus { outline: none }
+
+.component.over { 
+    border-top: 2px dashed #BCC5D3; 
+    * {
+        pointer-events: none;
+    }
+}
