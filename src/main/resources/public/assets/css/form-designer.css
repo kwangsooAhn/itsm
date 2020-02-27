@@ -9899,85 +9899,246 @@ body {
   font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-.form-navbar {
-  background: #4C5264;
-  color: #fff;
-  padding: 0.5rem 1.25rem;
-  line-height: 1rem;
-  font-size: 1rem;
-}
-.form-navbar a {
-  color: #fff;
-}
-.form-container {
-  height: calc(100vh - 2.5rem);
-}
-
-.navbar-brand {
-  height: 1.5rem;
-  padding: 0rem;
-  margin-right: 1.25rem;
-}
-
-.nav-link {
-  padding: 0.25rem 0.5rem;
-}
-
-ul, li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-#main-menu > li {
-  float: left;
+.alice-form-container {
   position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-width: 75rem;
+  min-height: 37.5rem;
 }
-#main-menu > li a {
-  display: inline-block;
-  margin: 0rem 1.375rem 0rem 0rem;
-  text-align: center;
+.alice-form-toolbar {
+  width: 100vw;
+  min-width: 75rem;
+  height: 2.5rem;
+  background-color: #4c5264;
+  color: #fff;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  line-height: 1rem;
+  font-size: 0.938rem;
+}
+.alice-form-toolbar .logo {
+  width: 3.75rem;
+  height: 1.25rem;
+  float: left;
+  background-color: transparent;
+  background-size: 1.25rem 1.25rem;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("../media/icons/logo.png");
+}
+.alice-form-toolbar a {
   text-decoration: none;
-  letter-spacing: 0.05em;
+  margin-left: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  vertical-align: middle;
+  float: left;
+  color: #fff;
 }
-
-.panel {
-  display: flex;
-  flex: 1 1 auto;
-  width: 100%;
-  height: 100%;
-  background: #F6F6F7;
+.alice-form-toolbar a img {
+  cursor: pointer;
 }
-.panel-form {
+.alice-form-toolbar a label {
+  margin-left: 0.313rem;
+  cursor: pointer;
+}
+.alice-form-toolbar span.separator {
+  width: 0.063rem;
+  height: 1.25rem;
+  background-color: #BCC5D3;
+  margin-left: 1.25rem;
+  float: left;
+}
+.alice-form-toolbar span.form-name {
+  height: 1.25rem;
+  line-height: 1.25rem;
+  margin-right: 1.25rem;
+  float: right;
+}
+.alice-form-panel {
+  display: inline-block;
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  width: calc(100vw - 20rem);
+  min-width: 55rem;
+  height: calc(100vh - 2.5rem);
+  min-height: 35rem;
+  background: #f6f6f7;
+}
+.alice-form-panel .drawing-board {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   align-items: center;
-  width: calc(100% - 300px);
-  max-width: calc(100% - 300px);
-  margin: 80px 140px 0px 140px;
+  width: calc(100% - 20rem);
+  max-width: calc(100% - 20rem);
+  height: calc(100% - 5rem);
+  margin: 5rem 8.75rem 0 8.75rem;
   border: 1px solid #BCC5D3;
   background: #fff;
   overflow: auto;
 }
-.panel-property {
-  /*추후 분리작업 필요*/
+.alice-form-properties-panel {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  width: 300px;
-  height: 100%;
-  max-height: 100%;
-  border-left: 1px solid #BCC5D3;
-  background: #fff;
+  background-color: #fff;
+  width: 20rem;
+  height: calc(100vh - 2.5rem);
+  min-height: 35rem;
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  border: #bcc5d3 solid 0.063rem;
   overflow: auto;
+}
+.alice-form-properties-panel .property-title {
+  margin: 40px 0px 0px 20px;
+  font-size: 28px;
+  font-weight: bold;
+  height: 30px;
+  line-height: 30px;
+}
+.alice-form-properties-panel .property-group {
+  padding: 20px 10px;
+  margin: 0px 20px;
+  border-bottom: 1px solid #707070;
+  font-size: 18px;
+  font-weight: bold;
+}
+.alice-form-properties-panel .property-group[id*=option] button {
+  width: 25px;
+  height: 25px;
+  outline: 0;
+  margin-right: 2px;
+  border: 1px solid #4C5264;
+  float: right;
+}
+.alice-form-properties-panel .property-group button[class*=plus]::before {
+  content: "+";
+}
+.alice-form-properties-panel .property-group button[class*=minus]::before {
+  content: "-";
+}
+.alice-form-properties-panel .property-group table {
+  border-collapse: collapse;
+  font-size: 14px;
+  width: 100%;
+  margin: 10px 0px;
+  text-align: center;
+}
+.alice-form-properties-panel .property-group th, .alice-form-properties-panel .property-group td {
+  border: 1px solid #ccc;
+}
+.alice-form-properties-panel .property-group th {
+  font-weight: bold;
+}
+.alice-form-properties-panel .property-group td input[type=text] {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+}
+.alice-form-properties-panel .property-field {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  width: 100%;
+  min-height: 20px;
+  font-weight: normal;
+  margin: 10px 0px;
+}
+.alice-form-properties-panel .property-field .property-field-name {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 80px;
+}
+.alice-form-properties-panel .property-field input[type=text] {
+  flex: 1;
+  border: 1px solid #4C5264;
+  width: 100%;
+  height: 20px;
+  padding-left: 2px;
+}
+.alice-form-properties-panel .property-field input[type=text].underline {
+  border: none;
+  border-bottom: 1px solid #4C5264;
+  text-align: right;
+  padding-right: 2px;
+  padding-left: 0px;
+}
+.alice-form-properties-panel .property-field select {
+  flex: 1;
+}
+.alice-form-properties-panel .property-field input[type=range] {
+  -webkit-appearance: none;
+  width: 50%;
+  height: 1px;
+  background: #4C5264;
+  outline: none;
+}
+.alice-form-properties-panel .property-field input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #4C5264;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+.alice-form-properties-panel .property-field input[type=range]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #4C5264;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+.alice-form-properties-panel .property-field label {
+  margin: 0px 20px 0px 5px;
+}
+.alice-form-properties-panel .property-field .property-field-button button {
+  width: 25px;
+  height: 25px;
+  background-color: #f8f9fa;
+  outline: 0;
+  margin-right: 2px;
+  border: 1px solid #4C5264;
+}
+.alice-form-properties-panel .property-field .property-field-button button.active {
+  background-color: #C1C1C1;
+}
+.alice-form-properties-panel .property-field .property-field-button button[class*=bold]::before {
+  content: "B";
+}
+.alice-form-properties-panel .property-field .property-field-button button[class*=italic]::before {
+  content: "I";
+}
+.alice-form-properties-panel .property-field .property-field-button button[class*=underline]::before {
+  content: "U";
+  text-decoration: underline;
+}
+.alice-form-properties-panel .property-field .property-field-button button[id*=left] {
+  margin-left: 20px;
+}
+.alice-form-properties-panel .property-field .property-field-button button[id*=left]::before {
+  content: "L";
+}
+.alice-form-properties-panel .property-field .property-field-button button[id*=center]::before {
+  content: "C";
+}
+.alice-form-properties-panel .property-field .property-field-button button[id*=right]::before {
+  content: "R";
 }
 
 .context-menu {
   display: none;
-  position: absolute;
   width: 314px;
   max-height: 225px;
+  position: absolute;
   background-color: #fff;
   border: solid 1px #BCC5D3;
   box-shadow: 1px 1px 2px #707070;
@@ -9986,32 +10147,39 @@ ul, li {
 }
 .context-menu ul {
   display: none;
+  padding: 0;
+  margin: 0;
 }
 .context-menu ul li {
+  padding-left: 20px;
+}
+.context-menu ul li img {
+  margin-right: 20px;
+}
+.context-menu ul li label {
+  pointer-events: none;
+}
+.context-menu-control li {
   height: 40px;
   line-height: 40px;
 }
-
-.context-menu.on {
-  display: block;
+.context-menu-component li {
+  height: 60px;
+  line-height: 60px;
 }
-
 .context-menu ul.active {
   display: block;
 }
-
 .context-menu ul li.active {
   background-color: rgba(188, 197, 211, 0.1);
 }
-
 .context-menu ul li:hover {
   background-color: rgba(188, 197, 211, 0.1);
   cursor: pointer;
 }
 
-.context-menu #context-menu-component li {
-  height: 60px;
-  line-height: 60px;
+.context-menu.on {
+  display: block;
 }
 
 .component {
@@ -10020,8 +10188,7 @@ ul, li {
   width: 100%;
   max-width: 100%;
   border: none;
-  padding-right: 60px;
-  padding-bottom: 20px;
+  padding: 10px 60px 10px 0px;
 }
 .component .move-icon {
   width: 60px;
@@ -10039,20 +10206,16 @@ ul, li {
   width: 100%;
   height: 25px;
 }
-.component .group .field textarea, .component .group select {
+.component .group .field textarea {
   width: 100%;
-}
-.component .group .field span[class*=required] {
-  color: #fc5f6b;
-}
-.component .group .field.horizontal {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .component[data-type]:not([data-type=editbox]):hover {
   cursor: pointer;
+}
+
+.component[data-type]:not([data-type=editbox]) .group {
+  pointer-events: none;
 }
 
 .component[data-type=editbox]:hover {
@@ -10069,152 +10232,11 @@ ul, li {
   font-size: 12px;
   height: 80px;
   line-height: 80px;
+  cursor: text;
 }
 
 .group:focus {
   outline: none;
-}
-
-.property-title {
-  margin: 40px 0px 0px 20px;
-  font-size: 28px;
-  font-weight: bold;
-  height: 30px;
-  line-height: 30px;
-}
-
-.property-group {
-  padding: 20px 10px;
-  margin: 0px 20px;
-  border-bottom: 1px solid #707070;
-  font-size: 18px;
-  font-weight: bold;
-}
-.property-group[id*=option] button {
-  width: 25px;
-  height: 25px;
-  outline: 0;
-  margin-right: 2px;
-  border: 1px solid #4C5264;
-  float: right;
-}
-.property-group button[class*=plus]::before {
-  content: "+";
-}
-.property-group button[class*=minus]::before {
-  content: "-";
-}
-.property-group table {
-  border-collapse: collapse;
-  font-size: 14px;
-  width: 100%;
-  margin: 10px 0px;
-  text-align: center;
-}
-.property-group th, .property-group td {
-  border: 1px solid #ccc;
-}
-.property-group th {
-  font-weight: bold;
-}
-.property-group td input[type=text] {
-  width: 100%;
-  height: 100%;
-  border: none;
-  text-align: center;
-}
-
-.property-field {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  width: 100%;
-  min-height: 20px;
-  font-weight: normal;
-  margin: 10px 0px;
-}
-.property-field .property-field-name {
-  flex-shrink: 0;
-  flex-grow: 0;
-  width: 80px;
-}
-.property-field input[type=text] {
-  flex: 1;
-  border: 1px solid #4C5264;
-  width: 100%;
-  height: 20px;
-  padding-left: 2px;
-}
-.property-field input[type=text].underline {
-  border: none;
-  border-bottom: 1px solid #4C5264;
-  text-align: right;
-  padding-right: 2px;
-  padding-left: 0px;
-}
-.property-field select {
-  flex: 1;
-}
-.property-field input[type=range] {
-  -webkit-appearance: none;
-  width: 50%;
-  height: 1px;
-  background: #4C5264;
-  outline: none;
-}
-.property-field input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 10px;
-  height: 10px;
-  border: 1px solid #4C5264;
-  border-radius: 50%;
-  background: #fff;
-  cursor: pointer;
-}
-.property-field input[type=range]::-moz-range-thumb {
-  width: 10px;
-  height: 10px;
-  border: 1px solid #4C5264;
-  border-radius: 50%;
-  background: #fff;
-  cursor: pointer;
-}
-.property-field label {
-  margin: 0px 20px 0px 5px;
-}
-.property-field .property-field-button button {
-  width: 25px;
-  height: 25px;
-  background-color: #f8f9fa;
-  outline: 0;
-  margin-right: 2px;
-  border: 1px solid #4C5264;
-}
-.property-field .property-field-button button.active {
-  background-color: #C1C1C1;
-}
-.property-field .property-field-button button[class*=bold]::before {
-  content: "B";
-}
-.property-field .property-field-button button[class*=italic]::before {
-  content: "I";
-}
-.property-field .property-field-button button[class*=underline]::before {
-  content: "U";
-  text-decoration: underline;
-}
-.property-field .property-field-button button[id*=left] {
-  margin-left: 20px;
-}
-.property-field .property-field-button button[id*=left]::before {
-  content: "L";
-}
-.property-field .property-field-button button[id*=center]::before {
-  content: "C";
-}
-.property-field .property-field-button button[id*=right]::before {
-  content: "R";
 }
 
 /*# sourceMappingURL=form-designer.css.map */
