@@ -12,6 +12,7 @@ common:
     next: "다음"
     add: "추가"
     write: "작성"
+    cancel: "취소"
   label:
     title: "제목"
     message: "메시지"
@@ -151,7 +152,6 @@ login:
     sessionExpired: "세션이 만료되었습니다."
     redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
 
-
 # FORM
 form:
   label:
@@ -252,3 +252,4 @@ validation:
 document:
   label:
     list: "신청서 목록"
+    write: "신청서 작성"

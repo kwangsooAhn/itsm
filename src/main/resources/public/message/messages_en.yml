@@ -12,6 +12,7 @@ common:
     next: "NEXT"
     add: "ADD"
     write: "WRITE"
+    cancel: "CANCEL"
   label:
     title: "Title"
     message: "Message"
@@ -251,3 +252,4 @@ validation:
 document:
   label:
     list: "Service Request List"
+    write: "Service Request Write"

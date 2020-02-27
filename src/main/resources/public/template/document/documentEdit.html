@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>신청서 작성</title>
+    <title th:text="#{document.label.write}"></title>
     <meta charset="utf-8">
     <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
     <script th:src="@{/assets/js/document/document.js}"></script>
@@ -46,7 +46,8 @@
 <body>
 <div id="document-container"></div>
 <div style="margin-top: 10px; text-align: center;">
-    <button onclick="aliceDocument.save()">저장</button> <button onclick="window.close();">취소</button>
+    <button th:text="#{common.btn.save}" onclick="aliceDocument.save()"></button>
+    <button th:text="#{common.btn.cancel}" onclick="window.close();"></button>
 </div>
 </body>
 <script type="text/javascript">
