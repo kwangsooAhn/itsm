@@ -37,29 +37,53 @@
                     position: 'left',
                     column: 2,
                     size: 12,
-                    color: '#ffffff',
-                    bold: 'Y'
+                    color: '#000000',
+                    bold: 'Y',
+                    italic: 'N',
+                    underline: 'Y',
+                    align: 'left',
+                    text: '텍스트'
+                },
+                display: {
+                    placeholder: '텍스트를 입력하세요.',
+                    column: 10,
+                    'outline-width': 1,
+                    'outline-color': '#000000',
+                    order: 2
+                },
+                validate: {
+                    required: 'Y',
+                    regexp: 'none',
+                    'regexp-msg': '',
+                    'length-min': 0,
+                    'length-max': 10
                 }
             },
             {
                 id: '4a417b48be2e4ebe82bf8f80a63622a4',
-                type: 'textarea',
+                type: 'select',
+                label: {
+                    position: 'top',
+                    column: 2,
+                    size: 14,
+                    color: '#150dff',
+                    bold: 'N',
+                    italic: 'Y',
+                    underline: 'N',
+                    align: 'left',
+                    text: 'Select Box'
+                },
                 display: {
                     column: 10,
-                    order: 3
+                    order: 1
                 },
+                option: [
+                    { seq: 1, name: 'ITSM팀', value: 'itsm' },
+                    { seq: 2, name: '인프라웹팀', value: 'infraweb' }
+                ],
                 validate: {
                     required: 'N'
-                },
-                option: [{
-                    seq: 1,
-                    name: 'ITSM팀',
-                    value: 'itsm'
-                },{
-                    seq: 2,
-                    name: '인프라웹팀',
-                    value: 'infraweb'
-                }]
+                }
             }
         ];
         var data = {

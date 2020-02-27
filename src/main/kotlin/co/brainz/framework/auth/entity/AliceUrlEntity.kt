@@ -21,6 +21,6 @@ data class AliceUrlEntity(
 ): Serializable
 
 data class AliceUrlEntityPk(
-        val url: String = "",
-        val method: String = ""
+        var url: String = "",
+        var method: String = ""
 ) : Serializable

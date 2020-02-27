@@ -76,7 +76,7 @@
   ],
   "task": [
     {
-      "type": "user",
+      "type": "userTask",
       "attribute": [
         {
           "title": "Data",
@@ -98,7 +98,7 @@
       ]
     },
     {
-      "type": "manual",
+      "type": "manualTask",
       "attribute": [
         {
           "title": "Data",
@@ -112,7 +112,7 @@
       ]
     },
     {
-      "type": "send",
+      "type": "sendTask",
       "attribute": [
         {
           "title": "Data",
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "type": "receive",
+      "type": "receiveTask",
       "attribute": [
         {
           "title": "Data",
@@ -147,7 +147,7 @@
       ]
     },
     {
-      "type": "script",
+      "type": "scriptTask",
       "attribute": [
         {
           "title": "Data",
@@ -163,7 +163,7 @@
   ],
   "gateway": [
     {
-      "type": "exclusive",
+      "type": "exclusiveGateway",
       "attribute": [
         {
           "title": "Data",
@@ -174,7 +174,7 @@
       ]
     },
     {
-      "type": "parallel",
+      "type": "parallelGateway",
       "attribute": [
         {
           "title": "Data",
@@ -185,7 +185,7 @@
       ]
     },
     {
-      "type": "inclusive",
+      "type": "inclusiveGateway",
       "attribute": [
         {
           "title": "Data",
@@ -198,7 +198,7 @@
   ],
   "connector": [
     {
-      "type": "arrow",
+      "type": "arrowConnector",
       "attribute": [
         {
           "title": "Data",
@@ -219,7 +219,7 @@
   ],
   "subprocess": [
     {
-      "type": "common",
+      "type": "subprocess",
       "attribute": [
         {
           "title": "Data",
@@ -233,7 +233,7 @@
   ],
   "artifact": [
     {
-      "type": "annotation",
+      "type": "annotationArtifact",
       "attribute": [
         {
           "title": "Data",
@@ -244,7 +244,7 @@
       ]
     },
     {
-      "type": "group",
+      "type": "groupArtifact",
       "attribute": [
         {
           "title": "Data",
