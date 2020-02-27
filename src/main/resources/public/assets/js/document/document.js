@@ -1,23 +1,30 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.documentEditor = global.documentEditor || {})));
+            (factory((global.aliceDocument = global.aliceDocument || {})));
 }(this, (function (exports) {
     'use strict';
 
     let documentContainer = null;
     const defaultColWidth = 8.33; //폼 패널을 12등분하였을때, 1개의 너비
 
+    const numIncludeRegular = /[0-9]/gi;
+    const numRegular = /^[0-9]*$/;
+    const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
     /**
-     * 현재 시간 추출 2020-02-19 13:30 형식
+     * 현재 시간 format 형식에 따라 반환.
+     *
+     * @param format format
      */
-    function getTimeStamp() {
-        let today = new Date();
-        return parseZero(today.getFullYear(), 4) + '-' +
-               parseZero(today.getMonth() + 1, 2) + '-' +
-               parseZero(today.getDate(), 2) + ' ' +
-               parseZero(today.getHours(), 2) + ':' +
-               parseZero(today.getMinutes(), 2);
+    //TODO: 임시 메소드. 추후 수정 필요.
+    function getTimeStamp(format) {
+        const today = new Date();
+        return format.replace(/yyyy/gi, parseZero(today.getFullYear(), 4))
+                     .replace(/MM/gi, parseZero(today.getMonth() + 1, 2))
+                     .replace(/dd/gi, parseZero(today.getDate(), 2))
+                     .replace(/HH/gi, parseZero(today.getHours(), 2))
+                     .replace(/mm/gi, parseZero(today.getMinutes(), 2));
     }
 
     function parseZero(n, digits) {
@@ -31,9 +38,77 @@
     }
 
     /**
+     * alert message.
+     *
+     * @param element element
+     * @param msg 메시지
+     */
+    function alertMsg(element, msg) {
+        alert(msg);
+        setTimeout(function() { element.focus(); }, 10);
+    }
+
+     /**
+     * Validation Check.
+     *
+     * @param element element
+     * @param validateData validate 데이터
+     */
+    function validateCheck(element, validateData) {
+        const chkVal = element.value.trim();
+        if (chkVal.length !== 0) {
+            for (let key in validateData) {
+                const value = validateData[key];
+                if (value !== '') {
+                    if (key === 'regexp') {
+                        switch (value) {
+                            case 'char':
+                                if (numIncludeRegular.test(chkVal)) {
+                                    alertMsg(element, validateData['regexp-msg']);
+                                    return true;
+                                }
+                                break;
+                            case 'num':
+                                if (!numRegular.test(chkVal)) {
+                                    alertMsg(element, validateData['regexp-msg']);
+                                    return true;
+                                }
+                                break;
+                            case 'email':
+                                if (!emailRegular.test(chkVal)) {
+                                    alertMsg(element, validateData['regexp-msg']);
+                                    return true;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (key === 'length-min' && value > chkVal.length) {
+                        alertMsg(element, i18n('document.msg.lengthMin').replace('{0}', value));
+                        return true;
+                    }
+                    if (key === 'length-max' && value < chkVal.length) {
+                        alertMsg(element, i18n('document.msg.lengthMax').replace('{0}', value));
+                        return true;
+                    }
+                    if (key === 'date-min' && value > chkVal) {
+                        alertMsg(element, i18n('document.msg.dateMin').replace('{0}', value));
+                        return true;
+                    }
+                    if (key === 'date-max' && value < chkVal) {
+                        alertMsg(element, i18n('document.msg.dateMax').replace('{0}', value));
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * add Component.
      *
-     * @param compData 컴포넌트.
+     * @param compData 컴포넌트 데이터
      */
     function addComponent(compData) {
         const comp = document.createElement('div');
@@ -58,26 +133,26 @@
             lblEle.style.fontWeight = (lblData.bold === 'Y') ? 'bold' : '';
             lblEle.style.fontStyle = (lblData.italic === 'Y') ? 'italic' : '';
             lblEle.style.textDecoration = (lblData.underline === 'Y') ? 'underline' : '';
-            lblEle.style.textAlign = lblData.align;
             lblEle.innerHTML = lblData.text;
+            fieldFirstEle.style.textAlign = lblData.align;
+            fieldFirstEle.appendChild(lblEle);
 
+            if (validateData.required === 'Y') {
+                const requiredEle = document.createElement('span');
+                requiredEle.className  = 'required';
+                requiredEle.innerText = '*';
+                fieldFirstEle.append(requiredEle);
+            }
             if (lblData.position === 'left') {
                 comp.style.display = 'flex';
                 fieldFirstEle.style.flexBasis = (defaultColWidth * Number(lblData.column)) + '%';
                 fieldLastEle.style.flexBasis = (defaultColWidth * Number(displayData.column)) + '%';
             }
-            fieldFirstEle.appendChild(lblEle);
             comp.appendChild(fieldFirstEle);
         }
         comp.appendChild(fieldLastEle);
         documentContainer.appendChild(comp);
 
-        //구현 완료 시 삭제.
-        //console.log('=================================================== ' + compData.type + '===================================================');
-        //console.log(JSON.stringify(displayData));
-        //console.log(JSON.stringify(validateData));
-        //TODO: common[mapping-id] 구현 필요.
-        //TODO: validate 처리 필요.
         switch (compData.type) {
             case 'text':
                 const textEle = document.createElement('input');
@@ -87,6 +162,10 @@
                 textEle.style.outlineColor = displayData['outline-color'];
                 textEle.minLength = validateData['length-min'];
                 textEle.maxLength = validateData['length-max'];
+                textEle.required = (validateData.required === 'Y');
+                textEle.addEventListener('focusout', function() {
+                    validateCheck(this, validateData);
+                });
                 fieldLastEle.appendChild(textEle);
                 break;
             case 'textarea':
@@ -96,10 +175,15 @@
                 textareaEle.style.outlineColor = displayData['outline-color'];
                 textareaEle.minLength = validateData['length-min'];
                 textareaEle.maxLength = validateData['length-max'];
+                textareaEle.required = (validateData.required === 'Y');
+                textareaEle.addEventListener('focusout', function() {
+                    validateCheck(this, validateData);
+                });
                 fieldLastEle.appendChild(textareaEle);
                 break;
             case 'select':
                 const selectEle = document.createElement('select');
+                selectEle.required = (validateData.required === 'Y');
                 const optData = compData.option;
                 optData.sort(function(a, b) {
                     return a.seq - b.seq;
@@ -126,6 +210,7 @@
                     radioEle.id = radioOptData[i].value;
                     radioEle.value = radioOptData[i].value;
                     radioEle.checked = (i === 0);
+                    radioEle.required = (i === 0 && validateData.required === 'Y');
 
                     const lblEle = document.createElement('label');
                     lblEle.innerText = radioOptData[i].name;
@@ -153,7 +238,7 @@
                     checkEle.name = 'check-' + compData.id;
                     checkEle.id = checkOptData[i].value;
                     checkEle.value = checkOptData[i].value;
-                    checkEle.checked = (i === 0);
+                    checkEle.required = (i === 0 && validateData.required === 'Y');
 
                     const lblEle = document.createElement('label');
                     lblEle.innerText = checkOptData[i].name;
@@ -170,7 +255,6 @@
                 break;
             case 'label':
                 const lblEle = document.createElement('div');
-                lblEle.className = 'label';
                 lblEle.style.fontSize = displayData.size + 'px';
                 lblEle.style.color = displayData.color;
                 lblEle.style.fontWeight = (displayData.bold === 'Y') ? 'bold' : '';
@@ -198,41 +282,53 @@
             case 'date':
                 let dateDefault = displayData.default;
                 if (dateDefault === 'today') {
-                    dateDefault = getTimeStamp();
+                    dateDefault = getTimeStamp(displayData.format);
                     dateDefault = dateDefault.split(' ')[0];
                 }
                 const dateEle = document.createElement('input');
                 dateEle.id = 'date-' + compData.id;
                 dateEle.type = 'text';
                 dateEle.placeholder = displayData.format;
-                dateEle.value = dateDefault; //TODO: 수정 필요
+                dateEle.value = dateDefault;
+                dateEle.required = (validateData.required === 'Y');
+                dateEle.readOnly = true;
+                dateEle.addEventListener('focusout', function() {
+                    validateCheck(this, validateData);
+                });
                 fieldLastEle.appendChild(dateEle);
                 dateTimePicker.initDatePicker('date-' + compData.id, displayData.format.toUpperCase());
                 break;
             case 'time':
                 let timeDefault = displayData.default;
                 if (timeDefault === 'now') {
-                    timeDefault = getTimeStamp();
+                    timeDefault = getTimeStamp(displayData.format);
                     timeDefault = timeDefault.split(' ')[1];
                 }
                 const timeEle = document.createElement('input');
                 timeEle.id = 'time-' + compData.id;
                 timeEle.type = 'text';
                 timeEle.placeholder = displayData.format;
-                timeEle.value = timeDefault; //TODO: 수정 필요
+                timeEle.value = timeDefault;
+                timeEle.required = (validateData.required === 'Y');
+                timeEle.readOnly = true;
                 fieldLastEle.appendChild(timeEle);
-                dateTimePicker.initTimePicker('time-' + compData.id, displayData.format.toUpperCase());
+                dateTimePicker.initTimePicker('time-' + compData.id);
                 break;
             case 'datetime':
                 let datetimeDefault = displayData.default;
                 if (datetimeDefault === 'now') {
-                    datetimeDefault = getTimeStamp();
+                    datetimeDefault = getTimeStamp(displayData.format);
                 }
                 const datetimeEle = document.createElement('input');
                 datetimeEle.id = 'datetime-' + compData.id;
                 datetimeEle.type = 'text';
                 datetimeEle.placeholder = displayData.format;
-                datetimeEle.value = datetimeDefault; //TODO: 수정 필요
+                datetimeEle.value = datetimeDefault;
+                datetimeEle.required = (validateData.required === 'Y');
+                datetimeEle.readOnly = true;
+                datetimeEle.addEventListener('focusout', function() {
+                    validateCheck(this, validateData);
+                });
                 fieldLastEle.appendChild(datetimeEle);
                 dateTimePicker.initDateTimePicker('datetime-' + compData.id, displayData.format.toUpperCase());
                 break;
@@ -264,11 +360,47 @@
     }
 
     /**
+     * radio, checkbox 선택 확인.
+     *
+     * @param element element
+     */
+    function selectCheck(element) {
+        let elements = document.getElementsByName(element.name);
+        for (let j = 0; j < elements.length; j++) {
+            if (elements[j].checked) { return true; }
+        }
+        return false;
+    }
+
+    /**
+     * required Check.
+     *
+     */
+    function requiredCheck() {
+        const requiredObjs = document.querySelectorAll(':required');
+        for (let i = 0; i < requiredObjs.length; i++) {
+            let requiredObj = requiredObjs[i];
+            if (requiredObj.type === 'radio' || requiredObj.type === 'checkbox') {
+                if (!selectCheck(requiredObj)) {
+                    alertMsg(requiredObj, i18n('document.msg.requiredSelect'));
+                    return true;
+                }
+            } else if (requiredObj.value === '') {
+                alertMsg(requiredObj, i18n('document.msg.requiredEnter'));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * save document.
      */
     function save() {
-        //TODO: 구현 필요. TicketRestController 호출해야함.
-        alert("저장되었습니다.");
+        if (!requiredCheck()) {
+            //TODO: 구현 필요.
+            alert(i18n('common.msg.save'));
+        }
     }
 
     /**
@@ -280,7 +412,7 @@
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
         documentContainer = document.getElementById('document-container');
 
-        // 신청서의 문서 데이터 조회.
+        // document data search.
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/documents/data/' + documentId,

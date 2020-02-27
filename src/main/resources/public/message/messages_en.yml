@@ -12,6 +12,7 @@ common:
     next: "NEXT"
     add: "ADD"
     write: "WRITE"
+    cancel: "CANCEL"
   label:
     title: "Title"
     message: "Message"
@@ -251,3 +252,11 @@ validation:
 document:
   label:
     list: "Service Request List"
+    write: "Service Request Write"
+  msg:
+    lengthMin: "Please enter at least {0} characters."
+    lengthMax: "Please enter less than {0} characters."
+    dateMin: "Please select after {0} date."
+    dateMax: "Please select before {0} date."
+    requiredEnter: "Please enter the required item."
+    requiredSelect: "Please select a required item."
