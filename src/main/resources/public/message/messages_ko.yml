@@ -44,12 +44,28 @@ menu:
   setting: "설정"
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
+  setting.auth: "권한 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
   editMyInfo: "자기 정보 수정"
 
 # auth
 auth:
+  label:
+    manage: "권한 관리"
+    authId: "권한 아이디"
+    authName: "권한명"
+    authDesc: "권한 설명"
+  msg:
+    idNotExist: "권한 아이디를 입력하세요."
+    nameNotExist: "권한명을 입력하세요."
+    idDuplecate: "중복되는 아이디가 있습니다. 다른 권한 아이디를 입력하세요."
+    nameDuplecate: "중복된 권한명이 있습니다. 다른 권한명을 입력하세요."
+  auth:
+    read: "권한 조회"
+    create: "권한 등록"
+    update: "권한 변경"
+    delete: "권한 삭제"
   service.read:
     all: "서비스 요청 전체 조회"
     my: "서비스 요청 자신 업무만 조회"
