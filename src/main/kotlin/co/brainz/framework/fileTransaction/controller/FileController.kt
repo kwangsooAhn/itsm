@@ -58,8 +58,6 @@ class FileController(private val fileService: FileService) {
      */
     @GetMapping("/filelist")
     fun getFileList(ownId: String): List<FileOwnMapDto> {
-        println(">>>>>>1111")
-    //fun getFileList(ownId: String): List<FileOwnMapEntity> {
         return fileService.getList(ownId)
     }
 
