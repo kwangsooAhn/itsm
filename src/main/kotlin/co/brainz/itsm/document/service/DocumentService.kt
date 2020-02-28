@@ -2,7 +2,6 @@ package co.brainz.itsm.document.service
 
 import co.brainz.itsm.provider.ProviderDocument
 import co.brainz.itsm.provider.ProviderUtilities
-import co.brainz.itsm.provider.TokenProvider
 import co.brainz.itsm.provider.dto.DocumentDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -10,7 +9,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.stereotype.Service
 
 @Service
-class DocumentService(private val providerDocument: ProviderDocument, private val tokenProvider: TokenProvider) {
+class DocumentService(private val providerDocument: ProviderDocument) {
 
     /**
      * 신청서 리스트 조회.
