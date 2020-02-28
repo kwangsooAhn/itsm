@@ -9,12 +9,14 @@ import co.brainz.workflow.token.entity.TokenDataEntity
 import co.brainz.workflow.token.entity.TokenMstEntity
 import co.brainz.workflow.token.repository.TokenDataRepository
 import co.brainz.workflow.token.repository.TokenMstRepository
+import co.brainz.workflow.document.repository.DocumentRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Service
-class WFTokenService(private val tokenMstRepository: TokenMstRepository,
+class WFTokenService(private val documentRepository: DocumentRepository,
+                     private val tokenMstRepository: TokenMstRepository,
                      private val tokenDataRepository: TokenDataRepository,
                      private val wfInstanceService: WFInstanceService) {
 
@@ -24,7 +26,9 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      * @param tokenSaveDto
      */
     fun postToken(tokenSaveDto: TokenSaveDto) {
-        val instanceDto = InstanceDto(instanceId = "", processId = tokenSaveDto.processDto.processId)
+        val documentDto = documentRepository.findDocumentEntityByDocumentId(tokenSaveDto.documentDto.documentId)
+        val processId = documentDto.processes.processId;
+        val instanceDto = InstanceDto(instanceId = "", processId = processId)
         val instance = wfInstanceService.createInstance(instanceDto)
         val token = createToken(instance.instanceId, tokenSaveDto.tokenDto)
         createTokenData(tokenSaveDto, instance.instanceId, token.tokenId)
@@ -62,11 +66,15 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
      * @param tokenSaveDto
      */
     fun putToken(tokenSaveDto: TokenSaveDto) {
-        updateToken(tokenSaveDto.tokenDto)
-        deleteTokenData(tokenSaveDto.instanceDto.instanceId, tokenSaveDto.tokenDto.tokenId)
-        createTokenData(tokenSaveDto, tokenSaveDto.instanceDto.instanceId, tokenSaveDto.tokenDto.tokenId)
-        if (tokenSaveDto.tokenDto.isComplete) {
-            tokenComplete()
+        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
+        if (tokenMstEntity.isPresent) {
+            val instanceId = tokenMstEntity.get().instanceId
+            updateToken(tokenSaveDto.tokenDto)
+            deleteTokenData(instanceId, tokenSaveDto.tokenDto.tokenId)
+            createTokenData(tokenSaveDto, instanceId, tokenSaveDto.tokenDto.tokenId)
+            if (tokenSaveDto.tokenDto.isComplete) {
+                tokenComplete()
+            }
         }
     }
 

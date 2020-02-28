@@ -1,11 +1,9 @@
 package co.brainz.workflow.token.dto
 
-import co.brainz.workflow.instance.dto.InstanceDto
-import co.brainz.workflow.process.dto.ProcessDto
+import co.brainz.workflow.document.dto.DocumentDto
 import java.io.Serializable
 
 data class TokenSaveDto(
-        val instanceDto: InstanceDto,
-        val processDto: ProcessDto,
+        val documentDto: DocumentDto,
         val tokenDto: TokenDto
 ) : Serializable
