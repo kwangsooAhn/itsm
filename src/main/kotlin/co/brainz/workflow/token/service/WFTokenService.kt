@@ -122,7 +122,7 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
         val completedTokenOptional = tokenMstRepository.findTokenMstEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
 
         if (completedTokenOptional.isPresent) {
-            var completedToken = completedTokenOptional.get()
+            val completedToken = completedTokenOptional.get()
 
             // 토큰 완료 처리
             completedToken.tokenStatus = TokenConstants.Status.FINISH.code
@@ -131,12 +131,15 @@ class WFTokenService(private val tokenMstRepository: TokenMstRepository,
 
             //  다음 Element 가져오기
             val nextElement: ElementMstEntity? = wfElementService.getNextElement(completedToken.elementId, tokenSaveDto)
-            nextElement?.let {nextElement ->
-                var assigneeValueInNextElement: String? = nextElement.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE.value)
-                var assigneeTypeValueInNextElement: String? = nextElement.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE_TYPE.value)
+            nextElement?.let { nextElement ->
+                val assigneeValueInNextElement: String? = nextElement.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE.value)
+                val assigneeTypeValueInNextElement: String? = nextElement.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE_TYPE.value)
 
-                var nextToken = TokenDto("",false, nextElement.elementId,
-                        getAssigneeForToken(assigneeValueInNextElement), assigneeTypeValueInNextElement,null)
+                val nextToken = TokenDto(tokenId = "",
+                        isComplete = false,
+                        elementId = nextElement.elementId,
+                        assigneeId = getAssigneeForToken(assigneeValueInNextElement),
+                        assigneeType = assigneeTypeValueInNextElement, data = null)
 
                 when (nextElement.elementType) {
                     ElementConstants.ElementType.USER_TASK.value -> {
