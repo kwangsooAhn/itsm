@@ -21,7 +21,7 @@
               {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
               {'type': 'fileupload', 'name': 'Fileupload', 'icon': ''}
           ];
-    
+
     let formPanel = null,
         propertiesPanel = null,
         lastComponentId = 0,       //마지막으로 추가된 컴포넌트 ID
@@ -462,7 +462,8 @@
                     let fieldArr = detailAttr[group][field];
                     let fieldGroupDiv = null,
                         propertyName = null,
-                        propertyValue = null;
+                        propertyValue = null,
+                        colorPaletteDiv = null;
                     if (fieldArr.type === 'button') {
                         if (!buttonExist) {
                             fieldGroupDiv = document.createElement('div');
@@ -547,16 +548,23 @@
                             fieldGroupDiv.appendChild(slideValue);
                             break;
                         case 'rgb':
+                            //TODO colorpicker 추가 예정
+                            propertyName
                             propertyName = document.createElement('span');
                             propertyName.classList.add('property-field-name');
                             propertyName.textContent = fieldArr.name;
                             fieldGroupDiv.appendChild(propertyName);
-                            //TODO colorpicker 추가 예정
+
                             propertyValue = document.createElement('input');
                             propertyValue.classList.add('property-field-value', 'underline');
+                            propertyValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
                             fieldGroupDiv.appendChild(propertyValue);
+                            colorPaletteDiv = document.createElement('span');
+                            colorPaletteDiv.setAttribute('id', group + '-' + fieldArr.id + '-colorPalette')
+                            fieldGroupDiv.appendChild(colorPaletteDiv);
+                            colorPalette.initPalette(colorPaletteDiv.getAttribute('id'))
                             break;
                         case 'radio':
                             propertyName = document.createElement('span');
