@@ -321,10 +321,13 @@ body {
     border: none; 
     padding: 10px 60px 10px 0px;
     .move-icon { 
-        width:60px; 
-        height:80px; 
-        content:url("https://placehold.it/60X80"); 
-        opacity: 0;
+        width: 30px; 
+        height: 30px;
+        margin: 25px 15px;
+        text-align: center;
+        content: '';
+        cursor: move;
+        font-size: 1.25rem;
     }
     .group {
         display: flex; 
@@ -339,9 +342,16 @@ body {
     }
 }
 
+.component:hover {
+    .move-icon:after { content: '::'; }
+}
+
+.component:focus { outline: none }
+
 .component[data-type]:not([data-type="editbox"]):hover { 
     cursor: pointer; 
 }
+
 .component[data-type]:not([data-type="editbox"]) .group { 
     pointer-events: none;
 }
@@ -364,3 +374,20 @@ body {
 }
 
 .group:focus { outline: none }
+
+.component.over { 
+    border-top: 2px dashed #BCC5D3; 
+    * {
+        pointer-events: none;
+    }
+}
+
+.color-palette {
+    background: #d3d3d3;
+    div {
+        width: 20px;
+        display: inline-block;
+        height: 20px;
+        margin: 5px;
+    }
+}

@@ -27,49 +27,21 @@ const colorPalette = (function() {
     /**
      * Color Palette 사용을 위한 컨테이너 생성 및 초기화 처리.
      *
-     * @param targetId Target element id
-     * @param options color palette options
+     * @param eventTriggerElem 컬러 팔레트를 출력하기 위한 클릭 이벤트를 걸 엘리먼트
+     * @param colorPaletteElem 보여줄 컬러 팔레트 엘리먼트
      */
-    function initPalette(targetId) {
-        let targetElement = document.getElementById(targetId);
-
-        let pk = new Piklor("#label-color-colorPalette", paletteColors, {
-                    open: "#label-color-value"
+    function initPalette(eventTriggerElem, colorPaletteElem) {
+        let pk = new Piklor(colorPaletteElem, paletteColors, {
+                    open: eventTriggerElem
                 });
 
-        let wrapperEl = pk.getElm("#label-color-value");
+        let wrapperEl = pk.getElm(eventTriggerElem);
 
             pk.colorChosen(function (col) {
                 wrapperEl.style.backgroundColor = col;
+                wrapperEl.value = col;
             });
         };
-
-
-        // // set options
-        // const colorPaletteId = 'picker-' + targetId;
-        // options.value = targetElement.value;
-        // options.el = '#' + pickerId;
-        // options.inputEl = targetElement;
-        //
-        // // create target element container
-        // let targetContainer = document.createElement('div');
-        // targetContainer.style.display = 'inline-block';
-        // targetElement.parentElement.insertBefore(targetContainer, targetElement.nextSibling);
-        // targetElement.parentElement.removeChild(targetElement);
-        // targetContainer.appendChild(targetElement);
-        //
-        // // create picker container
-        // let pickerContainer = document.createElement('div');
-        // pickerContainer.id = pickerId;
-        // pickerContainer.className = 'picker';
-        // targetContainer.appendChild(pickerContainer);
-        //
-        // // color palette initiation
-        // let colorPalette = new Piklor(".color-picker", paletteColors,
-        //     {open: ".picker-wrapper .btn"})
-        // // let picker = new WindowDatePicker(options);
-        // return colorPalette;
-
 
     return {
         initPalette: initPalette
