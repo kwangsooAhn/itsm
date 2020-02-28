@@ -250,7 +250,6 @@ function showProgressBar() {
     if (divCheck === null) {
         var divProgressBar = document.createElement('div');
         divProgressBar.id = 'divProgressBar';
-        divProgressBar.style.zIndex = 1000;
         divProgressBar.style.position = 'fixed';
         divProgressBar.style.display = 'block';
         divProgressBar.style.width = '100%';
