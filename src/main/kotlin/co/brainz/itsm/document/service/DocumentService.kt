@@ -38,11 +38,12 @@ class DocumentService(private val providerDocument: ProviderDocument, private va
     fun findDocument(documentId: String): String {
         return providerDocument.getDocument(documentId)
     }
-    
+
     /**
      * 문서 신규 등록 / 처리
      * isComplete : false일경우에는 저장, true일경우에 처리
-     * @return
+     *
+     * @return : Boolean
      */
     fun createDocument(tokenSaveDto: TokenSaveDto): Boolean {
         return tokenProvider.postToken(tokenSaveDto)
@@ -51,9 +52,10 @@ class DocumentService(private val providerDocument: ProviderDocument, private va
     /**
      * 문서 수정 / 처리
      * isComplete : false일경우에는 수정, true일경우에 처리
+     *
      * @return Boolean
      */
-    fun saveDocument(tokenSaveDto: TokenSaveDto): Boolean {
+    fun updateDocument(tokenSaveDto: TokenSaveDto): Boolean {
         return tokenProvider.putToken(tokenSaveDto)
     }
 }

@@ -206,7 +206,7 @@ class DocumentRestController(private val documentService: DocumentService) {
      * 문서 수정 / 처리
      */
     @PutMapping("/data")
-    fun saveDocument(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return documentService.saveDocument(tokenSaveDto)
+    fun updateDocument(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
+        return documentService.updateDocument(tokenSaveDto)
     }
 }

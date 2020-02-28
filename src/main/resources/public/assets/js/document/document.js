@@ -21,10 +21,10 @@
     function getTimeStamp(format) {
         const today = new Date();
         return format.replace(/yyyy/gi, parseZero(today.getFullYear(), 4))
-                     .replace(/MM/gi, parseZero(today.getMonth() + 1, 2))
-                     .replace(/dd/gi, parseZero(today.getDate(), 2))
-                     .replace(/HH/gi, parseZero(today.getHours(), 2))
-                     .replace(/mm/gi, parseZero(today.getMinutes(), 2));
+            .replace(/MM/gi, parseZero(today.getMonth() + 1, 2))
+            .replace(/dd/gi, parseZero(today.getDate(), 2))
+            .replace(/HH/gi, parseZero(today.getHours(), 2))
+            .replace(/mm/gi, parseZero(today.getMinutes(), 2));
     }
 
     function parseZero(n, digits) {
@@ -48,7 +48,7 @@
         setTimeout(function() { element.focus(); }, 10);
     }
 
-     /**
+    /**
      * Validation Check.
      *
      * @param element element
@@ -412,7 +412,7 @@
         comp.setAttribute('data-id', v_data);
         documentContainer.appendChild(comp);
     }
-    
+
     /**
      * save document.
      */
@@ -420,7 +420,7 @@
         if (!requiredCheck()) {
             let documentObject = {};
             let tokenObject = {};
-            let compoentArrayList = new Array();
+            let componentArrayList = [];
 
             //documentId 값을 구한다.
             const documentElements = document.getElementById('documentId');
@@ -430,53 +430,53 @@
                 documentObject.documentId = '';
             }
 
-            //CompoentsInfo
-            const compoentElements = document.getElementById('document-container').getElementsByClassName('component');
-            for (let eIndex = 0; eIndex < compoentElements.length; eIndex++) {
-                let componentDataType = compoentElements[eIndex].getAttribute('data-type');
+            //ComponentsInfo
+            const componentElements = documentContainer.getElementsByClassName('component');
+            for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
+                let componentDataType = componentElements[eIndex].getAttribute('data-type');
 
                 if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                     componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox') {
-                    let compoentId = compoentElements[eIndex].getAttribute('id');
-                    let compoentValue = '';
+                    let componentId = componentElements[eIndex].getAttribute('id');
+                    let componentValue = '';
                     let componentChildObject = {};
                     let componentChild = '';
 
                     if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') {
-                        componentChild = compoentElements[eIndex].getElementsByTagName('input');
-                        compoentValue = componentChild.item(0).value;
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).value;
                     } else if (componentDataType === 'textarea') {
-                        componentChild = compoentElements[eIndex].getElementsByTagName('textarea');
-                        compoentValue = componentChild.item(0).value;
+                        componentChild = componentElements[eIndex].getElementsByTagName('textarea');
+                        componentValue = componentChild.item(0).value;
                     } else if (componentDataType === 'select') {
-                        componentChild = compoentElements[eIndex].getElementsByTagName('select');
-                        compoentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
+                        componentChild = componentElements[eIndex].getElementsByTagName('select');
+                        componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
                     } else if (componentDataType === 'radio') {
-                        componentChild = compoentElements[eIndex].getElementsByTagName('input');
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
                             if (componentChild[radioIndex].checked) {
-                                compoentValue = componentChild[radioIndex].value;
+                                componentValue = componentChild[radioIndex].value;
                             }
                         }
                     } else if (componentDataType === 'checkbox') {
-                        componentChild = compoentElements[eIndex].getElementsByTagName('input');
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
                             if (componentChild[checkBoxIndex].checked) {
                                 if (checkBoxIndex === 0) {
-                                    compoentValue = componentChild[checkBoxIndex].value;
+                                    componentValue = componentChild[checkBoxIndex].value;
                                 } else {
-                                    compoentValue = compoentValue +','+componentChild[checkBoxIndex].value;
+                                    componentValue = componentValue +','+componentChild[checkBoxIndex].value;
                                 }
                             }
                         }
                     } else if (componentDataType === 'fileupload') {
-                        componentChild = compoentElements[eIndex].getElementsByTagName('input');
-                        compoentValue = componentChild.item(0).value;
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).value;
                     }
 
-                    componentChildObject.componentId = compoentId;
-                    componentChildObject.value = compoentValue;
-                    compoentArrayList.push(componentChildObject);
+                    componentChildObject.componentId = componentId;
+                    componentChildObject.value = componentValue;
+                    componentArrayList.push(componentChildObject);
                 }
             }
 
@@ -489,8 +489,8 @@
             }
             tokenObject.isComplete = false; //해당 값이 true라면 처리이다.
             tokenObject.elementId = '';
-            if (compoentArrayList.length > 0) {
-                tokenObject.data = compoentArrayList;
+            if (componentArrayList.length > 0) {
+                tokenObject.data = componentArrayList;
             } else {
                 tokenObject.data = '';
             }
@@ -501,7 +501,6 @@
             } else {
                 method = 'put';
             }
-            let url = '/rest/documents/data';
 
             const object = {
                 documentDto : documentObject,
@@ -510,16 +509,12 @@
 
             const opt = {
                 method: method,
-                url: url,
+                url: '/rest/documents/data',
                 params: JSON.stringify(object),
                 contentType: 'application/json',
-                callbackFunc: function(response) {
-                    if (response.readyState === 4) {
-                        alert(i18n('common.msg.save'));
-                        window.close();
-                    } else {
-                        alert(i18n('common.msg.save.fail'));
-                    }
+                callbackFunc: function() {
+                    alert(i18n('common.msg.save'));
+                    window.close();
                 }
             };
             aliceJs.sendXhr(opt);
