@@ -293,7 +293,7 @@ function hiddenProgressBar() {
  * 메시지를 받아서 다국어를 반환한다.
  * @param messageId 다국어 yaml id를 받는다.
  */
-function i18n(messageId) {
+/*function i18n(messageId) {
     var result = '';
     if (messageId !== '' && messageId !== null && messageId !== undefined) {
         const strUrl = '/i18n/'+ messageId;
@@ -308,7 +308,7 @@ function i18n(messageId) {
         aliceJs.sendXhr(opt);
     }
     return result;
-}
+}*/
 
 /**
  * 파라미터로 받은 날짜 데이터 기준으로 4가지 date 포맷을 받아서 yyyy-mm-dd HH:MM로 반환한다.
@@ -317,7 +317,7 @@ function i18n(messageId) {
  */
 function changeDateFormatYYYYMMDD(p_date, p_format) {
     var v_date = '';
-    var arrayDate = new Array();
+    var arrayDate = [];
     var arrayResultDate = '';
     var arrayFormat = '';
     var index = 0;

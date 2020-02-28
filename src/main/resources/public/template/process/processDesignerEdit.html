@@ -10,6 +10,7 @@
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
     <link th:href="@{/assets/css/process-designer.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/i18njs/i18n.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
     <script th:src="@{/assets/js/process/workflow.util.js}"></script>
@@ -71,7 +72,16 @@
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        AliceProcessEditor.init({processId: '[[${processId}]]'});
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/i18n/messages/data',
+            callbackFunc: function(xhr) {
+                const data = JSON.parse(xhr.responseText);
+                i18n.translator.add({'values': data});
+                AliceProcessEditor.init({processId: '[[${processId}]]'});
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
     }
 </script>
 </html>
