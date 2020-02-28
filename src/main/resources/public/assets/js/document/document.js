@@ -85,19 +85,19 @@
                         }
                     }
                     if (key === 'length-min' && value > chkVal.length) {
-                        alertMsg(element, i18n('document.msg.lengthMin').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.lengthMin', value));
                         return true;
                     }
                     if (key === 'length-max' && value < chkVal.length) {
-                        alertMsg(element, i18n('document.msg.lengthMax').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.lengthMax', value));
                         return true;
                     }
                     if (key === 'date-min' && value > chkVal) {
-                        alertMsg(element, i18n('document.msg.dateMin').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.dateMin', value));
                         return true;
                     }
                     if (key === 'date-max' && value < chkVal) {
-                        alertMsg(element, i18n('document.msg.dateMax').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.dateMax', value));
                         return true;
                     }
                 }
@@ -382,11 +382,11 @@
             let requiredObj = requiredObjs[i];
             if (requiredObj.type === 'radio' || requiredObj.type === 'checkbox') {
                 if (!selectCheck(requiredObj)) {
-                    alertMsg(requiredObj, i18n('document.msg.requiredSelect'));
+                    alertMsg(requiredObj, i18n.get('document.msg.requiredSelect'));
                     return true;
                 }
             } else if (requiredObj.value === '') {
-                alertMsg(requiredObj, i18n('document.msg.requiredEnter'));
+                alertMsg(requiredObj, i18n.get('document.msg.requiredEnter'));
                 return true;
             }
         }
@@ -399,7 +399,7 @@
     function save() {
         if (!requiredCheck()) {
             //TODO: 구현 필요.
-            alert(i18n('common.msg.save'));
+            alert(i18n.get('common.msg.save'));
         }
     }
 

@@ -290,27 +290,6 @@ function hiddenProgressBar() {
 }
 
 /**
- * 메시지를 받아서 다국어를 반환한다.
- * @param messageId 다국어 yaml id를 받는다.
- */
-/*function i18n(messageId) {
-    var result = '';
-    if (messageId !== '' && messageId !== null && messageId !== undefined) {
-        const strUrl = '/i18n/'+ messageId;
-        const opt = {
-                 method: 'GET',
-                 url: strUrl,
-                 async: false,
-                 callbackFunc: function(response) {
-                     result = response.responseText;
-                 }
-        };
-        aliceJs.sendXhr(opt);
-    }
-    return result;
-}*/
-
-/**
  * 파라미터로 받은 날짜 데이터 기준으로 4가지 date 포맷을 받아서 yyyy-mm-dd HH:MM로 반환한다.
  * @param p_date 입력받는 날짜 2020-02-03 or 2020-02-03 14:30 or 2020-02-03 14:30 오전
  *  @param p_format 입력받는 날짜 형식
