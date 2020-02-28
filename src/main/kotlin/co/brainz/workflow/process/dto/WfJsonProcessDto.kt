@@ -3,7 +3,7 @@ package co.brainz.workflow.process.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class WFProcessDto(
+data class WfJsonProcessDto(
     var id: String = "",
     var name: String? = null,
     var description: String? = null,

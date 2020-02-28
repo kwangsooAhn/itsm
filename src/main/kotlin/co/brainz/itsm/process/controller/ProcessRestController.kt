@@ -1,13 +1,14 @@
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.provider.ProviderProcess
-import org.slf4j.LoggerFactory
-import co.brainz.itsm.process.service.ProcessService
 import co.brainz.itsm.provider.dto.ProcessDto
+import co.brainz.workflow.process.dto.WfJsonMainDto
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -25,8 +26,7 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
     fun getProcessData(@PathVariable processId: String): String {
         val processData = providerProcess.getProcess(processId)
         logger.debug("get process data. {}", processData)
-        return processData
-
+//        return processData
         // 테스트용 프로세스 데이터
 //        return """
 //               {"process": {"id": "$processId", "name": "서비스데스크", "description": "서비스데스크입니다."},
@@ -40,13 +40,13 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
 //               }
 //               """
         return """
-               {"process": {"id": "$processId", "name": "서비스데스크", "description": "서비스데스크입니다."},
+               {"process": {"id": "$processId", "name": "서비스데스크", "description": "서비스데스크입니다.", "xxx":"xxx"},
                 "elements": [{
                               "id": "4a417b48be2e4ebe82bf8f80a63622a4",
                               "category": "event",
                               "type": "start",
                               "display": {"width": 38, "height": 50, "position-x": 100, "position-y": 100},
-                              "data": {"name": "시작"}
+                              "data": {"end1": "시작"}
                              },
                              {
                               "id": "4a417b48be2e4ebe82bf8f80a63622a1",
@@ -71,7 +71,15 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
      */
     @PostMapping("")
     fun createProcess(@RequestBody processDto: ProcessDto): String {
-        return processService.createProcess(processDto)
+        return providerProcess.createProcess(processDto)
+    }
+
+    /**
+     * 프로세스 업데이트.
+     */
+    @PutMapping("/{processId}")
+    fun updateProcess(@RequestBody wfJsonMainDto: WfJsonMainDto): Boolean {
+        return providerProcess.updateProcess(wfJsonMainDto)
     }
 
     /**
@@ -79,6 +87,6 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
      */
     @DeleteMapping("/{processId}")
     fun deleteForm(@PathVariable processId: String): Boolean {
-        return processService.deleteProcess(processId)
+        return providerProcess.deleteProcess(processId)
     }
 }

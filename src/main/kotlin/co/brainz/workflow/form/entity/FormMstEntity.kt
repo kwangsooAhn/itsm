@@ -20,10 +20,10 @@ data class FormMstEntity(
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
         @Column(name = "form_id", length = 128)
-        val formId: String,
+        var formId: String = "",
 
         @Column(name = "form_name", length = 256)
-        var formName: String,
+        var formName: String = "",
 
         @Column(name = "form_desc", length = 256)
         var formDesc: String? = null,

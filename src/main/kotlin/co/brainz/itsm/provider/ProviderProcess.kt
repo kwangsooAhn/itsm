@@ -3,6 +3,7 @@ package co.brainz.itsm.provider
 import co.brainz.itsm.provider.constants.ProviderConstants
 import co.brainz.itsm.provider.dto.ProcessDto
 import co.brainz.itsm.provider.dto.UrlDto
+import co.brainz.workflow.process.dto.WfJsonMainDto
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -41,7 +42,7 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
      * @param processDto
      * @return String
      */
-    fun postProcess(processDto: ProcessDto): String {
+    fun createProcess(processDto: ProcessDto): String {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.POST_PROCESS.url))
         val responseJson = restTemplate.postForEntity(url, processDto, String::class.java)
         return when (responseJson.statusCode) {
@@ -56,9 +57,11 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
      * @param processDto
      * @return Boolean
      */
-    fun putProcess(processDto: ProcessDto): Boolean {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.PUT_PROCESS.url.replace(keyRegex, processDto.processId)))
-        val requestEntity = setHttpEntity(processDto)
+    fun updateProcess(wfJsonMainDto: WfJsonMainDto): Boolean {
+        val processId = wfJsonMainDto.process?.id?:""
+
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.PUT_PROCESS.url.replace(keyRegex, processId)))
+        val requestEntity = setHttpEntity(wfJsonMainDto)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
         return responseJson.statusCode == HttpStatus.OK
     }

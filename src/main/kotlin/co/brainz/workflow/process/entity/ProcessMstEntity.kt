@@ -5,6 +5,7 @@ import co.brainz.workflow.form.entity.FormMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -22,47 +23,44 @@ import javax.persistence.Table
 @GenericGenerator(name = "system-uuid", strategy = "uuid")
 @Table(name = "wf_proc_mst")
 data class ProcessMstEntity(
-        @Id @GeneratedValue(generator = "system-uuid")
-        @Column(name = "proc_id", length = 128)
-        var processId: String = "",
+    @Id @GeneratedValue(generator = "system-uuid")
+    @Column(name = "proc_id", length = 128)
+    var processId: String = "",
 
-        @OneToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "form_id")
-        var formMstEntity: FormMstEntity? = null,
+    @Column(name = "proc_key", length = 256)
+    var processKey: String = "",
 
-        @Column(name = "proc_key", length = 256)
-        var processKey: String = "",
+    @Column(name = "proc_name", length = 256)
+    var processName: String = "",
 
-        @Column(name = "proc_name", length = 256)
-        var processName: String = "",
+    @Column(name = "proc_status", length = 100)
+    var processStatus: String = "",
 
-        @Column(name = "proc_status", length = 100)
-        var processStatus: String = "",
+    @Column(name = "proc_desc", length = 256)
+    var processDesc: String? = null,
 
-        @Column(name = "proc_desc", length = 256)
-        var processDesc: String? = null,
+    @Column(name = "create_dt")
+    var createDt: LocalDateTime? = null,
 
-        @Column(name = "create_dt")
-        var createDt: LocalDateTime? = null,
+    @Column(name = "create_user_key", length = 128)
+    var createUserKey: String? = null,
 
-        @Column(name = "create_user_key", length = 128)
-        var createUserKey: String? = null,
-
-        @Column(name = "update_dt")
-        var updateDt: LocalDateTime? = null,
+    @Column(name = "update_dt")
+    var updateDt: LocalDateTime? = null,
 
     @Column(name = "update_user_key", length = 128)
     var updateUserKey: String? = null,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    val formMstEntity: FormMstEntity?,
+    var formMstEntity: FormMstEntity? = null,
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "proc_id")
-    val elementMstEntity: MutableList<ElementMstEntity>?
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @JoinColumn(name="proc_id")
+    var elementMstEntity: MutableList<ElementMstEntity>? = null
 
 ) : Serializable {
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "processes")
-    val processes: MutableList<DocumentEntity>? = mutableListOf()
+    var processes: MutableList<DocumentEntity>? = mutableListOf()
 }

@@ -2,10 +2,9 @@ package co.brainz.workflow.process.dto
 
 import java.io.Serializable
 
-data class WFElementDto(
+data class WfJsonElementDto(
     var id: String = "",
-    var category: String = "",
     var type: String = "",
-    var display: String? = null,
-    var data: String? = null
+    var display: MutableMap<String, Any>? = null,
+    var data: MutableMap<String, Any>? = null
 ) : Serializable

@@ -5,8 +5,8 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class ProcessDto(
-        val processId: String,
-        val processName: String,
+        val processId: String= "",
+        val processName: String= "",
         val processDesc: String? = null,
         var processStatus: String,
         val formId: String? = null,

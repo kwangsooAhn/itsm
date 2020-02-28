@@ -3,9 +3,8 @@ package co.brainz.itsm.process.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.provider.ProviderProcess
 import co.brainz.itsm.provider.ProviderUtilities
-import co.brainz.workflow.process.constants.ProcessConstants
-import co.brainz.workflow.process.dto.WFProcessDto
 import co.brainz.itsm.provider.dto.ProcessDto
+import co.brainz.workflow.process.dto.WfJsonProcessDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -25,37 +24,28 @@ class ProcessService(private val providerProcess: ProviderProcess) {
     /**
      * 프로세스 데이터 조회.
      */
-    fun findProcessList(search: String): List<WFProcessDto> {
+    fun findProcessList(search: String): List<WfJsonProcessDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
         val responseBody = providerProcess.getProcesses(params)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val WFProcessList: List<WFProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WFProcessDto::class.java))
-        for (item in WFProcessList) {
+        val WfJsonProcessList: List<WfJsonProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfJsonProcessDto::class.java))
+        for (item in WfJsonProcessList) {
             item.createDt = item.createDt?.let { ProviderUtilities().toTimezone(it) }
             item.updateDt = item.updateDt?.let { ProviderUtilities().toTimezone(it) }
         }
 
-        return WFProcessList
+        return WfJsonProcessList
     }
 
     /**
-     * 프로세스 신규 기본 정보 등록.
+     * 프로세스 신규 등록
      */
-    fun insertProcess(WFProcessDto: WFProcessDto): String {
-        //TODO DB에 저장.
-        val userName: String = SecurityContextHolder.getContext().authentication.name //사용자 이름
-        val status = ProcessConstants.Status.EDIT.code // 등록 시 프로세스 상태
-
-        //등록된 process_id return
-        return "test8cbdd784401aaad6d310df85ac2d"
-    }
-
     fun createProcess(processDto: ProcessDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         processDto.createUserKey = aliceUserDto.userKey
         processDto.createDt =  ProviderUtilities().toGMT(LocalDateTime.now())
-        val responseBody: String = providerProcess.postProcess(processDto)
+        val responseBody: String = providerProcess.createProcess(processDto)
         return when (responseBody.isNotEmpty()) {
             true -> {
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())

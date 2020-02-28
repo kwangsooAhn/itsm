@@ -32,10 +32,10 @@
      * save workflow.
      */
     function saveWorkflow() {
-        console.debug(AliceProcessEditor.data);
+        console.log(AliceProcessEditor.data);
         aliceJs.sendXhr({
-            method: 'POST',
-            url: '/rest/processes/data',
+            method: 'PUT',
+            url: '/rest/processes/' + AliceProcessEditor.data.process.id,
             callbackFunc: function(xhr) {
                 if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
                     alert('저장되었습니다.');
