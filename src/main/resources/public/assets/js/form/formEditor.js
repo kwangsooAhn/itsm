@@ -487,9 +487,8 @@
                             colorPaletteDiv = document.createElement('div');
                             colorPaletteDiv.setAttribute('id', group + '-' + fieldArr.id + '-colorPalette');
                             colorPaletteDiv.classList.add('color-palette');
-                            //fieldGroupDiv.appendChild(colorPaletteDiv);
                             groupDiv.appendChild(colorPaletteDiv);
-                            colorPalette.initPalette(propertyValue, colorPaletteDiv)
+                            colorPalette.initColorPalette(propertyValue, colorPaletteDiv)
                             break;
                         case 'radio':
                             propertyName = document.createElement('span');
