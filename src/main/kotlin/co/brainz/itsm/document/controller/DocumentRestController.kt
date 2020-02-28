@@ -193,20 +193,4 @@ class DocumentRestController(private val documentService: DocumentService) {
                 }
                 """
     }
-
-    /**
-     * 문서 신규 등록 / 처리
-     */
-    @PostMapping("/data")
-    fun createDocument(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return documentService.createDocument(tokenSaveDto)
-    }
-
-    /**
-     * 문서 수정 / 처리
-     */
-    @PutMapping("/data")
-    fun updateDocument(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return documentService.updateDocument(tokenSaveDto)
-    }
 }

@@ -509,7 +509,7 @@
 
             const opt = {
                 method: method,
-                url: '/rest/documents/data',
+                url: '/rest/tickets/data',
                 params: JSON.stringify(object),
                 contentType: 'application/json',
                 callbackFunc: function() {
