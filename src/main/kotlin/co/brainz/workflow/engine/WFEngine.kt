@@ -63,7 +63,7 @@ class WFEngine(private val formMstRepository: FormMstRepository,
      * Token Engine.
      */
     fun token(): WFTokenService {
-        return WFTokenService(tokenMstRepository, tokenDataRepository, wfInstanceService, wfElementService)
+        return WFTokenService(documentRepository, tokenMstRepository, tokenDataRepository, wfInstanceService, wfElementService)
     }
 
 }

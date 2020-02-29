@@ -1,9 +1,8 @@
 package co.brainz.itsm.provider
 
 import co.brainz.itsm.provider.constants.ProviderConstants
+import co.brainz.itsm.provider.dto.DocumentDto
 import co.brainz.itsm.provider.dto.TokenDto
-import co.brainz.itsm.provider.dto.InstanceDto
-import co.brainz.itsm.provider.dto.ProcessDto
 import co.brainz.itsm.provider.dto.TokenDataDto
 import co.brainz.itsm.provider.dto.TokenSaveDto
 import co.brainz.itsm.provider.dto.UrlDto
@@ -27,11 +26,9 @@ class TokenProvider(private val restTemplate: RestTemplate): ProviderUtilities()
     fun makeTokenData(jsonValue: String): TokenSaveDto {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val result: MutableMap<*, *>? = mapper.readValue(jsonValue, MutableMap::class.java)
-        val instanceMap = mapper.convertValue(result?.get("instance"), Map::class.java)
-        val processMap = mapper.convertValue(result?.get("process"), Map::class.java)
+        val documentMap = mapper.convertValue(result?.get("document"), Map::class.java)
         val tokenMap = mapper.convertValue(result?.get("token"), Map::class.java)
-        val instanceDto = InstanceDto(instanceId = instanceMap["id"] as String, processId = "")
-        val processDto = ProcessDto(processId = processMap["id"] as String)
+        val documentDto = DocumentDto(documentId = documentMap["id"] as String)
         val tokenDataList: MutableList<TokenDataDto> = mapper.convertValue(tokenMap["data"], mapper.typeFactory.constructCollectionType(MutableList::class.java, TokenDataDto::class.java))
         val tokenDto = TokenDto(
                 tokenId = tokenMap["id"] as String,
@@ -42,8 +39,7 @@ class TokenProvider(private val restTemplate: RestTemplate): ProviderUtilities()
                 data = tokenDataList
         )
         return TokenSaveDto(
-                instanceDto = instanceDto,
-                processDto = processDto,
+                documentDto = documentDto,
                 tokenDto = tokenDto
         )
     }

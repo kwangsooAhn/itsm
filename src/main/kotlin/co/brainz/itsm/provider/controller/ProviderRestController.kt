@@ -12,10 +12,8 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
 
     @GetMapping("/post")
     fun postData() {
-        val instanceMap = LinkedHashMap<String, Any>()
-        instanceMap["id"] = ""
-        val processMap = LinkedHashMap<String, Any>()
-        processMap["id"] = "abcdedfdddd"
+        val documentMap = LinkedHashMap<String, Any>()
+        documentMap["id"] = "32ds1261420w7edbcd5251d7b24a6c23"
 
         val dataList = mutableListOf<LinkedHashMap<String, Any>>()
         val data1 = LinkedHashMap<String, Any>()
@@ -36,8 +34,7 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
         tokenMap["data"] = dataList
 
         val result = LinkedHashMap<String, Any>()
-        result["instance"] = instanceMap
-        result["process"] = processMap
+        result["document"] = documentMap
         result["token"] = tokenMap
 
         val jsonValue = Gson().toJson(result)
@@ -46,10 +43,8 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
 
     @GetMapping("/put")
     fun putData() {
-        val instanceMap = LinkedHashMap<String, Any>()
-        instanceMap["id"] = "40288ab2707b109b01707b11039c0000"
-        val processMap = LinkedHashMap<String, Any>()
-        processMap["id"] = "abcdedfdddd"
+        val documentMap = LinkedHashMap<String, Any>()
+        documentMap["id"] = ""
 
         val dataList = mutableListOf<LinkedHashMap<String, Any>>()
         val data1 = LinkedHashMap<String, Any>()
@@ -70,8 +65,7 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
         tokenMap["data"] = dataList
 
         val result = LinkedHashMap<String, Any>()
-        result["instance"] = instanceMap
-        result["process"] = processMap
+        result["document"] = documentMap
         result["token"] = tokenMap
 
         val jsonValue = Gson().toJson(result)

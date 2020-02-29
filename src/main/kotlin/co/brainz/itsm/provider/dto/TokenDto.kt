@@ -5,7 +5,7 @@ import java.io.Serializable
 data class TokenDto(
         var tokenId: String = "",
         val isComplete: Boolean = true,
-        val elementId: String,
+        val elementId: String = "",
         var assigneeId: String? = null,
         var assigneeType: String? = null,
         var data: List<TokenDataDto>? = null
