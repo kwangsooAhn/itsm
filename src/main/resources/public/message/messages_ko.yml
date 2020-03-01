@@ -30,6 +30,7 @@ common:
     notSelect: "선택 안 함"
   msg:
     save: "저장되었습니다"
+    save.fail: "실패되었습니다."
     delete.success: "삭제되었습니다."
 
 # Menu

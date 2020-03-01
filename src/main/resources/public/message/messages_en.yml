@@ -30,6 +30,7 @@ common:
     notSelect: "Not Select"
   msg:
     save: "Saved"
+    save.fail: "Fail"
     delete.success: "Deleted."
 
 # Menu
