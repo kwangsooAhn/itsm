@@ -1,7 +1,5 @@
 package co.brainz.workflow.token.entity
 
-import co.brainz.workflow.instance.entity.InstanceMstEntity
-import co.brainz.workflow.process.entity.ProcessMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime

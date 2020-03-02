@@ -10,4 +10,9 @@ object TokenConstants {
         WAITING("waiting"),
         FINISH("finish")
     }
+
+    /**
+     * Mapping id expression.
+     */
+    const val mappingExpression: String = """[$][{][a-zA-Z0-9]+[}]"""
 }
