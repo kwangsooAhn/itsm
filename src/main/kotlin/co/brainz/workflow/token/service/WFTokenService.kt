@@ -101,6 +101,11 @@ class WFTokenService(private val documentRepository: DocumentRepository,
         return tokenMstRepository.save(tokenMstEntity)
     }
 
+    /**
+     * Token Update.
+     *
+     * @param tokenDto
+     */
     fun updateToken(tokenDto: TokenDto) {
         val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.tokenId)
         if (tokenMstEntity.isPresent) {
