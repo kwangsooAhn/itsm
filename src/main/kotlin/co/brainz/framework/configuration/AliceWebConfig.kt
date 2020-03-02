@@ -17,9 +17,7 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
-import java.util.Locale
-import java.util.MissingResourceException
-import java.util.ResourceBundle
+import java.util.*
 import javax.net.ssl.SSLContext
 
 
@@ -50,7 +48,10 @@ class AliceWebConfig{
     }
 
     @Bean("messageSource")
-    fun messageSource() : MessageSource {
+    fun messageSource(
+            @Value("\${spring.messages.basename}") basename: String,
+            @Value("\${spring.messages.encoding}") encoding: String
+    ) : MessageSource {
         class YamlMessageSource : ResourceBundleMessageSource() {
             @Throws(MissingResourceException::class)
             override fun doGetBundle(basename: String, locale: Locale) : ResourceBundle {
@@ -59,8 +60,8 @@ class AliceWebConfig{
         }
 
         val ms = YamlMessageSource()
-        ms.setBasename("public/message/messages")
-        ms.setDefaultEncoding("UTF-8")
+        ms.setBasename(basename)
+        ms.setDefaultEncoding(encoding)
         ms.setAlwaysUseMessageFormat(true)
         ms.setUseCodeAsDefaultMessage(true)
         ms.setFallbackToSystemLocale(true)

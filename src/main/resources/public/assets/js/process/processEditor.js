@@ -901,15 +901,15 @@
     /**
      * process designer 초기화.
      *
-     * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8d2fa44cf962c9f853c24ea7b'}
+     * @param processId 프로세스 ID
      */
-    function init(process) {
-        console.info('process editor initialization. [PROCESS ID: ' + process.processId + ']');
+    function init(processId) {
+        console.info('process editor initialization. [PROCESS ID: ' + processId + ']');
 
         workflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
-        AliceProcessEditor.loadItems(process);
+        AliceProcessEditor.loadItems(processId);
         AliceProcessEditor.initUtil();
     }
 

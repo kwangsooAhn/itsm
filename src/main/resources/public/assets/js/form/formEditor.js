@@ -98,9 +98,9 @@
             url: '/rest/forms/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    alert('저장되었습니다.');
+                    alert(i18n.get('common.msg.save'));
                 } else {
-                    alert('저장실패');
+                    alert(i18n.get('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',
