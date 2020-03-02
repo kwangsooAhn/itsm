@@ -2,6 +2,7 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.workflow.instance.constants.InstanceConstants
 import co.brainz.workflow.instance.dto.InstanceDto
+import co.brainz.workflow.instance.dto.TicketDto
 import co.brainz.workflow.instance.entity.InstanceMstEntity
 import co.brainz.workflow.instance.repository.InstanceMstRepository
 import org.springframework.stereotype.Service
@@ -10,6 +11,28 @@ import java.time.ZoneId
 
 @Service
 class WFInstanceService(private val instanceMstRepository: InstanceMstRepository) {
+
+    /**
+     * Search Instances.
+     */
+    fun instances(): List<TicketDto> {
+
+        val a = instanceMstRepository.findInstances()
+
+
+        val instanceList = mutableListOf<TicketDto>()
+
+        return instanceList
+    }
+
+    /**
+     * Search Instance.
+     *
+     * @param instanceId
+     */
+    fun instance(instanceId: String) {
+
+    }
 
     /**
      * Instance Create.
@@ -30,7 +53,7 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
     /**
      * Instance Complete.
      *
-     * @param instanceDto
+     * @param instanceId
      */
     fun completeInstance(instanceId: String) {
         val instanceMstEntity = instanceMstRepository.findInstanceMstEntityByInstanceId(instanceId)
