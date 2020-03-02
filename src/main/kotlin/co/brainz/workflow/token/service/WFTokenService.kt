@@ -157,10 +157,10 @@ class WFTokenService(private val documentRepository: DocumentRepository,
                     ElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                         val createdToken = createToken(completedToken.instanceId, nextToken)
                         createTokenData(tokenSaveDto, completedToken.instanceId, createdToken.tokenId)
-                        completeToken(TokenSaveDto(tokenSaveDto.instanceDto, tokenSaveDto.processDto,  nextToken))
+                        completeToken(TokenSaveDto(tokenSaveDto.documentDto,  nextToken))
                     }
                     ElementConstants.ElementType.COMMON_END_EVENT.value -> {
-                        wfInstanceService.completeInstance(tokenSaveDto.instanceDto)
+                        wfInstanceService.completeInstance(completedToken.instanceId)
                     }
                     else -> {}
                 }
