@@ -134,26 +134,11 @@
         }
         // 빈 값 체크
         function emptyValidation() {
-            if (document.getElementById("userId").value == '') {
-                alert("아이디를 입력해주세요.");
-                return false;
-            }
-            if (document.getElementById("password").value == '') {
-                alert("비밀번호를 입력해주세요.");
-                return false;
-            }
-            if (document.getElementById("rePassword").value == '') {
-                alert("비밀번호 재확인을 입력해주세요.");
-                return false;
-            }
-            if (document.getElementById("userName").value == '') {
-                alert("이름을 입력해주세요.");
-                return false;
-            }
-            if (document.getElementById("email").value == '') {
-                alert("이메일을 입력해주세요.");
-                return false;
-            }
+            if (validNull('userId', 'user.msg.checkUserId')) return false;
+            if (validNull('password', 'user.msg.checkPassword')) return false;
+            if (validNull('rePassword', 'user.msg.checkRePassword')) return false;
+            if (validNull('userName', 'user.msg.checkUserName')) return false;
+            if (validNull('email', 'user.msg.checkEmail')) return false;
             return true;
         }
 

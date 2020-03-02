@@ -69,11 +69,7 @@
 
     //빈 값 체크
     function emptyValidation() {
-        if (document.getElementById('form_name').value === '') {
-            alert('[[#{form.msg.alert.nameNotExist}]]');
-            replaceContent();
-            return false;
-        }
+        if (validNull('form_name', 'form.msg.alert.nameNotExist')) { replaceContent(); return false;}
         return true;
     }
 

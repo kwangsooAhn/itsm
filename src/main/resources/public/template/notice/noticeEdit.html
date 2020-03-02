@@ -170,6 +170,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[ */
         var format = /*[[${#authentication.details.timeFormat}]]*/;
@@ -254,39 +255,15 @@
 
         // validation check
         function validation() {
-            if (document.getElementById('noticeTitle').value === '') {
-                alert('제목을 입력하세요.');
-                return false;
-            }
-            if (document.getElementById('noticeContents').value === '') {
-                alert('내용을 입력하세요.');
-                return false;
-            }
+            if (validNull('noticeTitle', 'notice.msg.checkTitle')) return false;
+            if (validNull('noticeContents', 'notice.msg.checkContents')) return false;
             if (document.getElementById('popRadioBtUp').checked) {
-                if (document.getElementById('popHeight').value === '') {
-                    alert('높이를 입력하세요.');
-                    return false;
-                }
-                if (document.getElementById('popHeight').value > 1000 || document.getElementById('popHeight').value < 500 ) {
-                    alert('높이는 500px부터 1000px 사이의 값만 입력 가능합니다.');
-                    return false;
-                }
-                if (document.getElementById('popWidth').value === '') {
-                    alert('넓이를 입력하세요');
-                    return false;
-                }
-                if (document.getElementById('popWidth').value > 1000 || document.getElementById('popWidth').value < 500 ) {
-                    alert('넓이는 500px부터 1000px 사이의 값만 입력 가능합니다.');
-                    return false;
-                }
-                if (document.getElementById('popStrtDt').value === '') {
-                    alert('팝업 시작일을 입력하세요.');
-                    return false;
-                }
-                if (document.getElementById('popEndDt').value === '') {
-                    alert('팝업 종료일을 입력하세요.');
-                    return false;
-                }
+                if (validNull('popHeight', 'notice.msg.checkPopHeight')) return false;
+                if (validRange('popHeight', 500, 1000, 'notice.msg.checkPopHeightRange')) return false;
+                if (validNull('popWidth', 'notice.msg.checkPopWidth')) return false;
+                if (validRange('popWidth', 500, 1000, 'notice.msg.checkPopWidthRange')) return false;
+                if (validNull('popStrtDt', 'notice.msg.checkPopStrtDt')) return false;
+                if (validNull('popEndDt', 'notice.msg.checkPopEndDt')) return false;
                 if ((changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value,format) > changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value,format)) 
                         || (changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value,format) === changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value,format))) {
                     alert('팝업 알림 시작일이 종료일보다 크거나 같습니다.');
@@ -295,14 +272,8 @@
             }
 
             if (document.getElementById('topRadioBtUp').checked) {
-                if (document.getElementById('topNoticeStrtDt').value === '') {
-                    alert('상단 공지 시작일을 입력하세요.');
-                    return false;
-                }
-                if (document.getElementById('topNoticeEndDt').value === '') {
-                    alert('상단 공지 종료일을 입력하세요.');
-                    return false;
-                }
+                if (validNull('topNoticeStrtDt', 'notice.msg.checkTopNoticeStrtDt')) return false;
+                if (validNull('topNoticeEndDt', 'notice.msg.checkTopNoticeEndDt')) return false;
                 if ((changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value,format) > changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value,format)) 
                         || (changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value,format) === changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value,format))) {
                     alert('상단 공지 시작일이 종료일보다 크거나 같습니다.');

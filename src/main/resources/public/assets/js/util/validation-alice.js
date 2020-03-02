@@ -121,3 +121,45 @@ function emailValidation(email) {
     }
     return true;
 }
+
+/*
+ * element 요소의 null validation을 검사한다.
+ *
+ */
+function validNull(id, message) {
+    if (document.getElementById(id).value === '') {
+        if (message != null) {
+            alert(i18n.get(message));
+            return true;
+        } else {
+            alert(i18n.get('validation.msg.checkNull'));
+            return true;
+        }
+    }
+    return false;
+}
+/*
+ * element 요소의 value가 min과 max 사이 범위에 있는지 검사한다.
+ *
+ */
+function validRange(id, min, max, message) {
+    if (document.getElementById(id).value < min || document.getElementById(id).value > max) {
+        alert(i18n.get(message));
+        return true;
+    }
+    return false;
+}
+
+/*
+ * 두 element 요소의 value가 일치여부 검사.
+ *
+ */
+function validEquals(id, anotherId, message) {
+    if (document.getElementById(id).value === document.getElementById(anotherId).value) {
+        alert(i18n.get(message));
+        return true;
+    }
+    return false;
+}
+
+
