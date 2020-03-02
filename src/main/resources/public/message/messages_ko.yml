@@ -13,6 +13,7 @@ common:
     add: "추가"
     write: "작성"
     cancel: "취소"
+    check: "확인"
   label:
     title: "제목"
     message: "메시지"
@@ -42,6 +43,7 @@ menu:
   help.notice: "공지사항"
   help.faq: "FAQ"
   help.document: "신청서"
+  help.ticket: "처리할 문서"
   setting: "설정"
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
@@ -89,6 +91,8 @@ auth:
   process.delete: "프로세스 삭제"
   document.read: "신청서 조회"
   document.create: "신청서 등록"
+  ticket.read: "처리할 문서 조회"
+  ticket.create: "처리할 문서 등록"
 
 # 사용자
 user:
@@ -277,3 +281,8 @@ document:
     dateMax: "{0} 날짜 이전으로 선택해주세요."
     requiredEnter: "필수 항목을 입력해주세요."
     requiredSelect: "필수 항목을 선택해주세요."
+
+# Ticket
+ticket:
+  label:
+    list: "처리할 문서 목록"

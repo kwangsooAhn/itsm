@@ -13,6 +13,7 @@ common:
     add: "ADD"
     write: "WRITE"
     cancel: "CANCEL"
+    check: "CHECK"
   label:
     title: "Title"
     message: "Message"
@@ -42,6 +43,7 @@ menu:
   help.notice: "Notice"
   help.faq: "FAQ"
   help.document: "Service Request"
+  help.ticket: "Process Document"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
@@ -88,6 +90,8 @@ auth:
   process.delete: "process delete"
   document.read: "document read"
   document.create: "document create"
+  ticket.read: "ticket read"
+  ticket.create: "ticket create"
 
 # User
 user:
@@ -276,3 +280,8 @@ document:
     dateMax: "Please select before {0} date."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
+
+# Ticket
+ticket:
+  label:
+    list: "Process Document List"
