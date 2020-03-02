@@ -534,8 +534,10 @@
 
     /**
      * tooltip item 에 사용된 이미지 로딩.
+     *
+     * @param processId 프로세스 ID
      */
-    function loadItems(process) {
+    function loadItems(processId) {
         d3.json('../../assets/js/process/processAttribute.json').then(function(data) {
             processProperties = data;
             d3.json('../../assets/js/process/elementAttribute.json').then(function(data) {
@@ -545,7 +547,7 @@
                 // load process data.
                 aliceJs.sendXhr({
                     method: 'GET',
-                    url: '/rest/processes/data/' + process.processId,
+                    url: '/rest/processes/data/' + processId,
                     callbackFunc: function(xhr) {
                         const data = xhr.responseText;
                         console.debug(JSON.parse(data));

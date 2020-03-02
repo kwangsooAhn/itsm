@@ -33,8 +33,8 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
      *
      * @param instanceDto
      */
-    fun completeInstance(instanceDto: InstanceDto) {
-        val instanceMstEntity = instanceMstRepository.findInstanceMstEntityByInstanceId(instanceDto.instanceId)
+    fun completeInstance(instanceId: String) {
+        val instanceMstEntity = instanceMstRepository.findInstanceMstEntityByInstanceId(instanceId)
         if (instanceMstEntity.isPresent) {
             instanceMstEntity.get().instanceStatus = InstanceConstants.Status.FINISH.code
             instanceMstEntity.get().instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))

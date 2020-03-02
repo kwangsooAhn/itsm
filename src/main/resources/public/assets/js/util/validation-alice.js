@@ -25,7 +25,7 @@ function passwordValidation(password) {
      * 비밀번호에 공백을 포함하지 않는다.
      */
     if (blankReg.test(password)) {
-        alert(i18n('validation.msg.pwNotContainSpace'));
+        alert(i18n.get('validation.msg.pwNotContainSpace'));
         return false;
     }
 
@@ -37,7 +37,7 @@ function passwordValidation(password) {
      */
     if (lowerCaseReg.test(password) || upperCaseReg.test(password) || specialCharReg.test(password) || numberReg.test(password)) {
         if (password.length < 10 || password.length > 20) {
-            alert(i18n('validation.msg.pwOneBetween10And20'));
+            alert(i18n.get('validation.msg.pwOneBetween10And20'));
             return false;
         }
     }
@@ -51,7 +51,7 @@ function passwordValidation(password) {
     if ((searchUpperCase < 0 && searchLowerCase < 0) || (searchLowerCase < 0 && searchSpecialChar < 0) ||
         (searchSpecialChar < 0 && searchNumber < 0) || (searchNumber < 0 && searchUpperCase < 0)) {
         if (password.length < 8 || password.length > 20) {
-            alert(i18n('validation.msg.pwTwoBetween8And20'));
+            alert(i18n.get('validation.msg.pwTwoBetween8And20'));
             return false;
         }
     }
@@ -62,7 +62,7 @@ function passwordValidation(password) {
      * 비밀번호에 사용자의 ID를 포함하지 않는다. 
      */
     if (password.search(userId) > -1) {
-        alert(i18n('validation.msg.pwContainsId'));
+        alert(i18n.get('validation.msg.pwContainsId'));
         return false;
     }
     
@@ -72,7 +72,7 @@ function passwordValidation(password) {
      * 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
      */
     if (password.search(emailId[0]) > -1) {
-        alert(i18n('validation.msg.pwContainsEmail'));
+        alert(i18n.get('validation.msg.pwContainsEmail'));
         return false;
     }
     
@@ -91,7 +91,7 @@ function passwordValidation(password) {
                 lastNum = mobileNumber.substring(6, 10);
 
                 if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    alert(i18n('validation.msg.pwContainsInnerMobileNumber'));
+                    alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
                     return false;
                 }
             } else {
@@ -99,13 +99,13 @@ function passwordValidation(password) {
                 lastNum = mobileNumber.substring(7, 11);
 
                 if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    alert(i18n('validation.msg.pwContainsInnerMobileNumber'));
+                    alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
                     return false;
                 }
             }
         } else {
             if (password.search(mobileNumber) > -1) {
-                alert(i18n('validation.msg.pwContainsInnerMobileNumber'));
+                alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
                 return false;
             }
         }
@@ -116,7 +116,7 @@ function passwordValidation(password) {
 // 이메일 validation check
 function emailValidation(email) {
     if (!emailReg.test(email)) {
-        alert(i18n('validation.msg.checkEmailFormat'));
+        alert(i18n.get('validation.msg.checkEmailFormat'));
         return false;
     }
     return true;
