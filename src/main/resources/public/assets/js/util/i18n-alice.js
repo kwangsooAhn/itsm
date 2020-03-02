@@ -22,6 +22,7 @@
                     callbackFunc();
                 }
             },
+            showProgressbar: false,
             contentType: 'application/json; charset=utf-8'
         });
     }
