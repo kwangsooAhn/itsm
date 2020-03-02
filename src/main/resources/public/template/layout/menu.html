@@ -48,7 +48,8 @@
 </body>
 <script type="text/javascript" th:inline="javascript">
 window.addEventListener('load', function() {
-    hiddenProgressBar();
+// 	hiddenProgressBar();
+    setTimeout(hiddenProgressBar, 10000);
 });
 
 function logout() {
