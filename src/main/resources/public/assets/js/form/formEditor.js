@@ -387,7 +387,7 @@
                     let fieldArr = detailAttr[group][field];
                     let fieldGroupDiv = null,
                         propertyName = null,
-                        propertyValue = null;
+                        propertyValue = null
                     if (fieldArr.type === 'button') {
                         if (!buttonExist) {
                             fieldGroupDiv = document.createElement('div');
@@ -476,12 +476,21 @@
                             propertyName.classList.add('property-field-name');
                             propertyName.textContent = fieldArr.name;
                             fieldGroupDiv.appendChild(propertyName);
-                            //TODO colorpicker 추가 예정
+                            let selectedColorBox = document.createElement('span');
+                            selectedColorBox.classList.add('selected-color');
+                            fieldGroupDiv.appendChild(selectedColorBox);
                             propertyValue = document.createElement('input');
                             propertyValue.classList.add('property-field-value', 'underline');
+                            propertyValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
+                            propertyValue.setAttribute('readonly', 'true');
                             fieldGroupDiv.appendChild(propertyValue);
+                            let colorPaletteDiv = document.createElement('div');
+                            colorPaletteDiv.setAttribute('id', group + '-' + fieldArr.id + '-colorPalette');
+                            colorPaletteDiv.classList.add('color-palette');
+                            groupDiv.appendChild(colorPaletteDiv);
+                            colorPalette.initColorPalette(selectedColorBox, propertyValue, colorPaletteDiv)
                             break;
                         case 'radio':
                             propertyName = document.createElement('span');
