@@ -17,7 +17,7 @@ class AliceInvalidSessionStrategy : InvalidSessionStrategy {
         httpSessionRequestCache.saveRequest(request, response)
         val requestURI = request.requestURI
 
-        if (!AliceUtil(). urlExcludePatternCheck(requestURI)) {
+        if (!AliceUtil().urlExcludePatternCheck(requestURI)) {
             if ("XMLHttpRequest" == request.getHeader("X-Requested-With")) {
                 response.status = HttpServletResponse.SC_FORBIDDEN
             } else {
