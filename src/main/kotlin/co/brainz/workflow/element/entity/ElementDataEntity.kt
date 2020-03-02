@@ -31,7 +31,7 @@ data class ElementDataEntity(
 ) : Serializable
 
 data class ElementDataPk(
-        val elementId: String = "",
+        val element: String = "",
         val attributeId: String = "",
         val attributeValue: String = ""
 ) : Serializable
