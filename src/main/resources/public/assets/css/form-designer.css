@@ -11248,3 +11248,11 @@ body {
   height: 20px;
   margin: 5px;
 }
+
+.selected-color {
+  width: 20px;
+  display: inline-block;
+  height: 20px;
+  margin-right: 5px;
+  border: 1px solid #000000;
+}
