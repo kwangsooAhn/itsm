@@ -5,7 +5,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.LocaleResolver
 import java.util.Locale
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse
  * 로그인 성공시 default url ("/") 로 리다이렉트한다.
  */
 @Component
-class AliceAuthSuccessHandler(private val localeResolver: LocaleResolver) : SavedRequestAwareAuthenticationSuccessHandler() {
+class AliceAuthSuccessHandler(private val localeResolver: LocaleResolver) : SimpleUrlAuthenticationSuccessHandler() {
 
     private val thisLogger: Logger = LoggerFactory.getLogger(this::class.java)
 

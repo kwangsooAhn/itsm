@@ -37,6 +37,8 @@ object AliceConstants {
         PATTEN10("/index**"),
         PATTEN11("/exception/**"),
         PATTEN12("/error"),
+        PATTEN13("/login"),
+        PATTEN14("/sessionInValid"),
         PATTEN94("/files"),
         PATTEN95("/fileupload"),
         PATTEN96("/filedownload"),
