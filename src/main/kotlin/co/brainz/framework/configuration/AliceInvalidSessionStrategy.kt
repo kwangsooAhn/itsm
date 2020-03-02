@@ -1,5 +1,6 @@
 package co.brainz.framework.configuration
 
+import co.brainz.framework.util.AliceUtil
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.security.web.session.InvalidSessionStrategy
 import org.springframework.stereotype.Component
@@ -16,8 +17,7 @@ class AliceInvalidSessionStrategy : InvalidSessionStrategy {
         httpSessionRequestCache.saveRequest(request, response)
         val requestURI = request.requestURI
 
-        if (requestURI != "/" && requestURI != "/login"
-                && requestURI != "/certification/signup" && requestURI != "/portal/portalMain") {
+        if (!AliceUtil().urlExcludePatternCheck(requestURI)) {
             if ("XMLHttpRequest" == request.getHeader("X-Requested-With")) {
                 response.status = HttpServletResponse.SC_FORBIDDEN
             } else {
@@ -32,4 +32,5 @@ class AliceInvalidSessionStrategy : InvalidSessionStrategy {
             response.sendRedirect(requestURL.toString())
         }
     }
+
 }
