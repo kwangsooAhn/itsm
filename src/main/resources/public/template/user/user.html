@@ -63,18 +63,6 @@
          */
         function setUserClickEvent(response) {
             document.getElementById('userList').innerHTML = response.responseText;
-
-            Array.prototype.forEach.call(document.getElementsByClassName('userRows'), function (user) {
-                user.addEventListener('click', function () {
-                    document.getElementById('userDetailModal').style.display = '';
-                    const opt = {
-                        url: '/users/' + this.querySelector('input[type=hidden][name=userId]').value + '/edit',
-                        method: 'get',
-                        callbackFunc: openUserEditor
-                    };
-                    aliceJs.sendXhr(opt);
-                })
-            });
         }
 
         /**

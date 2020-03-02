@@ -107,6 +107,7 @@ user:
   lang: "Language"
   reg: "Sign up"
   read: "User read"
+  role: "User Role"
   create: "User create"
   update: "User update"
   delete: "User delete"

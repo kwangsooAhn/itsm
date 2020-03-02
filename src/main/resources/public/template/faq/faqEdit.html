@@ -80,6 +80,10 @@
                 object[key] = value;
             });
 
+            const fileSeq = [];
+            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(Number(elm.value)));
+            object['fileSeq'] = fileSeq;
+
             const opt = {
                 method: method,
                 url: url,
