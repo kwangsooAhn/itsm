@@ -200,8 +200,7 @@ aliceJs.sendXhr = function (option) {
             } else {
                 console.info('No callback function');
             }
-//            hiddenProgressBar();
-            setTimeout(hiddenProgressBar, 10000);
+            hiddenProgressBar();
         } else {
             if (this.responseType === '') {
                 try {
@@ -212,8 +211,7 @@ aliceJs.sendXhr = function (option) {
             } else {
                 aliceJs.xhrErrorResponse('printError', this.responseText);
             }
-//            hiddenProgressBar();
-            setTimeout(hiddenProgressBar, 10000);
+            hiddenProgressBar();
         }
     };
 
@@ -282,8 +280,7 @@ function showProgressBar() {
  * ProgressBar 숨길
  */
 function hiddenProgressBar() {
-    //divProgressBar 적용이 되지 않을 때는 그냥 넘어가도록 조치
-	console.log('hiddenProgressBar');
+    //divProgressBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
     var divCheck = document.getElementById('divProgressBar');
     if (divCheck === null) {
         return false;
