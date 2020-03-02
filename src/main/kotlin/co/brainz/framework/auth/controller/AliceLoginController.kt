@@ -20,8 +20,9 @@ import javax.servlet.http.HttpSession
 class AliceLoginController(private val userDetailsService: AliceUserDetailsService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val ticketSearchPage: String = "/ticket/ticketSearch"
-    private val invalidSessionPage: String = "sessionInvalid"
+    private val loginPage: String = "/login"
+    private val ticketSearchPage: String = "/tickets/ticketSearch"
+    private val invalidSessionPage: String = "/sessionInvalid"
 
     /**
      * 로그인 페이지로 이동한다.
@@ -33,7 +34,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
     fun login(request: HttpServletRequest): String {
         logger.debug("=> Request move login.")
 
-        var page = "login"
+        var page = loginPage
         val aliceUserEntity: AliceUserEntity?
 
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
@@ -62,7 +63,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
     @GetMapping("/sessionInValid")
     fun sessionExpired(session: HttpSession, request: HttpServletRequest, model: Model): String {
         model.addAttribute("counter", 3);
-        return  invalidSessionPage
+        return invalidSessionPage
     }
 }
 
