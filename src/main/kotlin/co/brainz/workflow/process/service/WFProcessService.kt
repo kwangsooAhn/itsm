@@ -6,9 +6,9 @@ import co.brainz.workflow.process.dto.WfJsonElementDto
 import co.brainz.workflow.process.dto.WfJsonMainDto
 import co.brainz.workflow.process.dto.WfJsonProcessDto
 import co.brainz.workflow.process.entity.ElementDataEntity
+import co.brainz.workflow.process.entity.ElementMstEntity
 import co.brainz.workflow.process.entity.ProcessMstEntity
 import co.brainz.workflow.process.mapper.ProcessMstMapper
-import co.brainz.workflow.process.repository.ElementDataRepository
 import co.brainz.workflow.process.repository.ElementMstRepository
 import co.brainz.workflow.process.repository.ProcessMstRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -22,10 +22,10 @@ import org.springframework.transaction.annotation.Transactional
 
 
 @Service
+@Transactional
 class WFProcessService(
     private val processMstRepository: ProcessMstRepository,
-    private val elementMstRepository: ElementMstRepository,
-    private val elementDataRepository: ElementDataRepository
+    private val elementMstRepository: ElementMstRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -65,10 +65,10 @@ class WFProcessService(
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val convertMap = mutableMapOf<String, Any>()
 
-        for (elementMstEntity in processMstEntity.elementMstEntity.orEmpty()) {
+        for (elementMstEntity in processMstEntity.elementMstEntity) {
             val elDto = processMstMapper.toWfJsonElementDto(elementMstEntity)
             elDto.display = elementMstEntity.displayInfo?.let { mapper.readValue(it) }
-            elDto.data = elementMstEntity.elementDataEntity?.associateByTo(convertMap, { it.attrId }, { it.atrrValue })
+            elDto.data = elementMstEntity.elementDataEntity.associateByTo(convertMap, { it.attrId }, { it.attrValue })
             wfElementDto.add(elDto)
         }
         return WfJsonMainDto(wfProcessDto, wfElementDto)
@@ -115,7 +115,6 @@ class WFProcessService(
     /**
      * 프로세스 정보 변경.
      */
-    @Transactional
     fun updateProcess(wfJsonMainDto: WfJsonMainDto): Boolean {
 
         // 클라이언트에서 요청한 프로세스 정보.
@@ -125,43 +124,56 @@ class WFProcessService(
         // DB에 저장된 프로세스 정보를 가져와서 클라이언트에서 요청한 정보로 치환후 DB에 저장한다.
         if (wfJsonProcessDto != null) {
 
-            val toSaveProcessMstEntity = processMstRepository.findProcessMstEntityByProcessId(wfJsonProcessDto.id)
-            // element master, element data 삭제
+            // process master 조회한다.
+            val processMstEntity = processMstRepository.findProcessMstEntityByProcessId(wfJsonProcessDto.id)
 
-            toSaveProcessMstEntity.elementMstEntity?.forEach {
-                elementMstRepository.delete(it)
+            // element data 삭제한다.
+            processMstEntity.elementMstEntity.forEach {
+                it.elementDataEntity.clear()
             }
-//            val elementMstEntities = elementMstRepository.deleteByProcId(wfJsonProcessDto.id)
 
+            // element master 삭제한다.
+            processMstEntity.elementMstEntity.clear()
 
+            // process data entity 생성.
+            val elementMstEntities = mutableListOf<ElementMstEntity>()
             if (wfJsonElementsDto != null) {
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-                wfJsonElementsDto.forEach {
-                    // element master 저장
-                    val toSaveElementMstEntity = processMstMapper.toElementMstEntity(it, wfJsonProcessDto)
-                    toSaveElementMstEntity.displayInfo = mapper.writeValueAsString(it.display)
-                    val savedElementMstEntity = elementMstRepository.save(toSaveElementMstEntity)
 
-                    // element data 저장
+                wfJsonElementsDto.forEach {
+
+                    // element master entity 생성
+                    var elementMstEntity = ElementMstEntity(
+                        procId = wfJsonProcessDto.id,
+                        displayInfo = mapper.writeValueAsString(it.display)
+                    )
+
+                    // 시스템이 만들어내는 element id 획득을 위해 save 를 실행한다.
+                    elementMstEntity = elementMstRepository.save(elementMstEntity)
+
+                    // element data entity 생성
+                    val elementDataEntities = mutableListOf<ElementDataEntity>()
                     it.data?.entries?.forEachIndexed { idx, data ->
-                        elementDataRepository.save(
+                        elementDataEntities.add(
                             ElementDataEntity(
-                                savedElementMstEntity.elemId,
-                                data.key,
-                                data.value as String,
-                                idx
+                                elemId = elementMstEntity.elemId,
+                                attrId = data.key,
+                                attrValue = data.value as String,
+                                attrOrder = idx
                             )
                         )
                     }
+                    elementMstEntity.elementDataEntity.addAll(elementDataEntities)
+                    elementMstEntities.add(elementMstEntity)
                 }
             }
 
-            // process master 업데이트
-            toSaveProcessMstEntity.processName = wfJsonProcessDto.name.toString()
-            toSaveProcessMstEntity.processDesc = wfJsonProcessDto.description
-            processMstRepository.save(toSaveProcessMstEntity)
-            val rslt = processMstRepository.save(toSaveProcessMstEntity)
-            logger.debug("Saved data: {}", rslt)
+            // 프로세스 정보를 저장한다.
+            processMstEntity.processName = wfJsonProcessDto.name.toString()
+            processMstEntity.processDesc = wfJsonProcessDto.description
+            processMstEntity.elementMstEntity.addAll(elementMstEntities)
+            processMstRepository.save(processMstEntity)
+
         }
         return true
     }

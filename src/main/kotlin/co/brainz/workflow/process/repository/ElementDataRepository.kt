@@ -6,7 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ElementDataRepository : JpaRepository<ElementDataEntity, ElementDataPk> {
-    fun findByElemId(elementId: String): ElementDataEntity
-    fun deleteByElemId(elementId: String): ElementDataEntity
-}
+interface ElementDataRepository : JpaRepository<ElementDataEntity, ElementDataPk>

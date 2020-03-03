@@ -9,6 +9,7 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
@@ -42,8 +43,16 @@ data class ElementMstEntity(
     @Column(name = "display_info")
     var displayInfo: String? = null,
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
-    @JoinColumn(name = "elem_id")
-    var elementDataEntity: MutableList<ElementDataEntity>? = null
+    @OneToMany(
+        mappedBy = "elementMstEntity",
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
+        orphanRemoval = true
+    )
+    var elementDataEntity: MutableList<ElementDataEntity> = mutableListOf(),
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proc_id", insertable = false, updatable = false)
+    var processMstEntity: ProcessMstEntity? = null
 
 ) : Serializable

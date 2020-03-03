@@ -55,12 +55,18 @@ data class ProcessMstEntity(
     @JoinColumn(name = "form_id")
     var formMstEntity: FormMstEntity? = null,
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
-    @JoinColumn(name="proc_id")
-    var elementMstEntity: MutableList<ElementMstEntity>? = null
+    @OneToMany(
+        mappedBy = "processMstEntity",
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
+        orphanRemoval = true
+    )
+    var elementMstEntity: MutableList<ElementMstEntity> = mutableListOf()
 
 ) : Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "processes")
     var processes: MutableList<DocumentEntity>? = mutableListOf()
+
+
 }

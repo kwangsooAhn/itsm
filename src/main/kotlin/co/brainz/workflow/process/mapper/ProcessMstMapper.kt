@@ -49,7 +49,6 @@ interface ProcessMstMapper {
 
 
     @Mappings(
-        Mapping(source = "wfJsonElementDto.id", target = "elemId"),
         Mapping(source = "wfJsonProcessDto.id", target = "procId"),
         Mapping(source = "wfJsonElementDto.type", target = "elemType")
     )

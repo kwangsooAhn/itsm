@@ -37,7 +37,7 @@ class WFEngine(
      * Process Engine.
      */
     fun process(): WFProcessService {
-        return WFProcessService(processMstRepository, elementMstRepository, elementDataRepository)
+        return WFProcessService(processMstRepository, elementMstRepository)
     }
 
     /**
