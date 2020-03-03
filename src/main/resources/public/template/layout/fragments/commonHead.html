@@ -8,7 +8,7 @@
 <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
 
 <!-- user info의 theme을 읽어와서 변수로 던진다. -->
-<!-- <link th:href="@{/assets/theme/{theme}/{theme}.css(theme=${#authentication.details.userKey})}" rel="stylesheet"/> -->
+<link th:href="@{/assets/theme/{theme}/{theme}.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
 
 <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
 <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
