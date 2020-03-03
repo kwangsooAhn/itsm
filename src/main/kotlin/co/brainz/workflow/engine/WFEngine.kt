@@ -10,7 +10,6 @@ import co.brainz.workflow.form.service.Form
 import co.brainz.workflow.form.service.WFFormService
 import co.brainz.workflow.instance.repository.InstanceMstRepository
 import co.brainz.workflow.instance.service.WFInstanceService
-import co.brainz.workflow.process.repository.ElementDataRepository
 import co.brainz.workflow.process.repository.ElementMstRepository
 import co.brainz.workflow.process.repository.ProcessMstRepository
 import co.brainz.workflow.process.service.WFProcessService
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service
 @Service
 class WFEngine(private val formMstRepository: FormMstRepository,
                private val processMstRepository: ProcessMstRepository,
+               private val elementMstRepository: ElementMstRepository,
                private val componentMstRepository: ComponentMstRepository,
                private val componentDataRepository: ComponentDataRepository,
                private val wfFormService: WFFormService,
