@@ -434,6 +434,12 @@
         }
         let targetComponent = clickInsideElement(e, 'component');
         if (targetComponent && dragComponent !== targetComponent) {
+            let lastCompIndex = component.getLastIndex();
+            if (lastCompIndex === Number(dragComponent.getAttribute('data-index')) 
+                && targetComponent === lastComponent) { //맨 마지막에 컴포넌트를 옮길 때 맨 아래 가이드 라인 미출력
+                return false; 
+            }
+            
             targetComponent.classList.add('over');
             e.dataTransfer.dropEffect = 'move';
         }

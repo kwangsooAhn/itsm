@@ -17,7 +17,8 @@
     
     let propertiesPanel = null,
         selectedComponentId = '', //선택된 컴포넌트 ID 
-        data = {};
+        data = {}, //저장용 데이터
+        formProperties = {}; //좌측 properties panel에 출력되는 폼 정보
     /**
      * 폼 저장
      */
@@ -29,10 +30,13 @@
             name: 'test',
             desc: 'zzzzzz'
         };
-        var collections = [
+        var components = [
             {
-                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                id: '40288ab2709f1a9101709f1b070f0000',
                 type: 'text',
+                common: {
+                    'mapping-id': ''
+                },
                 label: {
                     position: 'left',
                     column: 2,
@@ -60,8 +64,11 @@
                 }
             },
             {
-                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                id: '40288ab2709f1a9101709f1b072d0001',
                 type: 'select',
+                common: {
+                    'mapping-id': 'test123'
+                },
                 label: {
                     position: 'top',
                     column: 2,
@@ -86,11 +93,13 @@
                 }
             }
         ];
+
         var data = {
             form: formInfo,
-            collections: collections
+            components: components
         };
 
+        //console.log(data);
         console.log(JSON.stringify(data));
 
         aliceJs.sendXhr({
@@ -307,12 +316,12 @@
      * @param id 조회할 컴포넌트 ID
      */
     function showProperties(id) {
-        if (selectedComponentId === id) { return; }
+        if (selectedComponentId === id) { return false; }
         
         selectedComponentId = id;
         
         let compIdx = getComponentIndex(id);
-        if (compIdx === -1) { return; }
+        if (compIdx === -1) { return false; }
         
         let compAttr = formEditor.data.components[compIdx];
         let detailAttr = component.getDefaultAttribute(compAttr.type);
@@ -605,7 +614,6 @@
     function hideProperties() {
         propertiesPanel.innerHTML = '';
         selectedComponentId = '';
-        
     }
     /**
      * 조회된 데이터로 form designer draw 
@@ -617,6 +625,14 @@
         formEditor.data = JSON.parse(data);
         
         //TODO. 폼 상세 정보 출력
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/assets/js/form/formAttribute.json',
+            callbackFunc: function(xhr) {
+                formProperties = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
         
         if (formEditor.data.components.length > 0 ) {
             formEditor.data.components.sort(function (a, b) { //컴포넌트 재정렬
