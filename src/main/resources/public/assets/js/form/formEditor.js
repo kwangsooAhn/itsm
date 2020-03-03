@@ -1,5 +1,5 @@
 /**
-* @projectDescription Form Desigener Library
+* @projectDescription Form Designer Library
 *
 * @author woodajung
 * @version 1.0
@@ -16,84 +16,13 @@
     const defaultComponent = 'editbox';
     
     let propertiesPanel = null,
-        selectedComponentId = '', //선택된 컴포넌트 ID 
-        data = {}, //저장용 데이터
+        selectedComponentId = '', //선택된 컴포넌트 ID
         formProperties = {}; //좌측 properties panel에 출력되는 폼 정보
     /**
      * 폼 저장
      */
     function saveForm() {
-
-        //dummy data
-        var formInfo = {
-            id: '40288ab27051cb31017051cfcd9c0002',
-            name: 'test',
-            desc: 'zzzzzz'
-        };
-        var collections = [
-            {
-                id: '4a417b48be2e4ebe82bf8f80a63622a4',
-                type: 'text',
-                label: {
-                    position: 'left',
-                    column: 2,
-                    size: 12,
-                    color: '#000000',
-                    bold: 'Y',
-                    italic: 'N',
-                    underline: 'Y',
-                    align: 'left',
-                    text: '텍스트'
-                },
-                display: {
-                    placeholder: '텍스트를 입력하세요.',
-                    column: 10,
-                    'outline-width': 1,
-                    'outline-color': '#000000',
-                    order: 2
-                },
-                validate: {
-                    required: 'Y',
-                    regexp: 'none',
-                    'regexp-msg': '',
-                    'length-min': 0,
-                    'length-max': 10
-                }
-            },
-            {
-                id: '4a417b48be2e4ebe82bf8f80a63622a4',
-                type: 'select',
-                label: {
-                    position: 'top',
-                    column: 2,
-                    size: 14,
-                    color: '#150dff',
-                    bold: 'N',
-                    italic: 'Y',
-                    underline: 'N',
-                    align: 'left',
-                    text: 'Select Box'
-                },
-                display: {
-                    column: 10,
-                    order: 1
-                },
-                option: [
-                    { seq: 1, name: 'ITSM팀', value: 'itsm' },
-                    { seq: 2, name: '인프라웹팀', value: 'infraweb' }
-                ],
-                validate: {
-                    required: 'N'
-                }
-            }
-        ];
-        var data = {
-            form: formInfo,
-            collections: collections
-        };
-
-        console.log(JSON.stringify(data));
-
+        console.debug(formEditor.data);
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/data',
@@ -105,7 +34,7 @@
                 }
             },
             contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(data)
+            params: JSON.stringify(formEditor.data)
         });
     }
 
@@ -297,7 +226,7 @@
                 break;
             }
         }
-        if (!isExist) {//추가
+        if (compData.type !== defaultComponent && !isExist) {//추가
             formEditor.data.components.push(compData);
         }
     }
@@ -317,6 +246,37 @@
         
         let compAttr = formEditor.data.components[compIdx];
         let detailAttr = component.getDefaultAttribute(compAttr.type);
+
+        /**
+         * 컴포넌트를 다시 그린다.
+         */
+        const redrawComponent = function() {
+            let element = component.draw(compAttr.type, compAttr);
+            if (element) {
+                let elementHTML = element.domElem.innerHTML;
+                const panelForm = document.getElementById('panel-form');
+                let targetElement = panelForm.querySelectorAll('.component')[compIdx];
+                targetElement.innerHTML = elementHTML;
+                panelForm.removeChild(element.domElem);
+            }
+        }
+
+        /**
+         * 변경된 값을 컴포넌트 속성 정보에 반영하고, 컴포넌트를 다시 그린다.
+         *
+         * @param {String} value 변경된 값
+         * @param {String} group 변경된 그룹 key
+         * @param {String} field 변경된 field key
+         * @param {Number} index 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
+         */
+        const changePropertiesValue = function(value, group, field, index) {
+            if (typeof index === 'undefined') {
+                compAttr[group][field] = value;
+            } else {
+                compAttr[group][index][field] = value;
+            }
+            redrawComponent();
+        };
 
         //세부 속성 재할당 data로 전달된 속성 + 기본속성
         Object.keys(compAttr).forEach(function(comp) {
@@ -358,14 +318,28 @@
                 plusButton.addEventListener('click', function() { //옵션 추가 버튼
                     let tb = this.parentNode.querySelector('table');
                     let row = document.createElement('tr');
-                    row.innerHTML = tb.lastElementChild.innerHTML;
+                    let cell = document.createElement('td');
+                    cell.innerHTML = tb.lastElementChild.children[0].innerHTML;
+                    row.appendChild(cell);
+
+                    const rowData = {};
+                    detailAttr.option[0].items.forEach(function(option, i) {
+                        cell = document.createElement('td');
+                        cell.innerHTML = tb.lastElementChild.children[i + 1].innerHTML;
+                        cell.querySelector('input').value = option.value;
+                        rowData[option.id] = option.value;
+                        row.appendChild(cell);
+                    });
+                    compAttr[group].push(rowData);
                     tb.appendChild(row);
+                    redrawComponent();
                 });
                 groupDiv.appendChild(plusButton);
 
                 let minusButton = document.createElement('button');
                 minusButton.classList.add('minus');
                 minusButton.addEventListener('click', function() { //옵션 삭제 버튼
+                    let minusCnt = 0;
                     let tb = this.parentNode.querySelector('table');
                     let rowCount = tb.rows.length;
                     for (let i = 1; i < rowCount; i++) {
@@ -373,9 +347,14 @@
                         let chkbox = row.cells[0].childNodes[0];
                         if (chkbox.checked && rowCount > 2) {
                             tb.deleteRow(i);
+                            compAttr[group].splice(i - 1, 1);
                             rowCount--;
                             i--;
+                            minusCnt++;
                         }
+                    }
+                    if (minusCnt > 0) {
+                        redrawComponent();
                     }
                 });
                 groupDiv.appendChild(minusButton);
@@ -388,7 +367,7 @@
                     let fieldArr = detailAttr[group][field];
                     let fieldGroupDiv = null,
                         propertyName = null,
-                        propertyValue = null
+                        propertyValue = null;
                     if (fieldArr.type === 'button') {
                         if (!buttonExist) {
                             fieldGroupDiv = document.createElement('div');
@@ -420,6 +399,9 @@
                             propertyValue.classList.add('property-field-value');
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
+                            propertyValue.addEventListener('change', function() {
+                                changePropertiesValue(this.value, group, fieldArr.id);
+                            }, false);
                             fieldGroupDiv.appendChild(propertyValue);
                             
                             if (fieldArr.type === 'inputbox-underline') { propertyValue.classList.add('underline'); }
@@ -445,6 +427,9 @@
                                 propertyOption.text = fieldArr.option[i].name;
                                 propertyValue.appendChild(propertyOption);
                             }
+                            propertyValue.addEventListener('change', function() {
+                                changePropertiesValue(this.value, group, fieldArr.id);
+                            }, false);
                             fieldGroupDiv.appendChild(propertyValue);
                             break;
                         case 'slider':
@@ -459,10 +444,12 @@
                             propertyValue.setAttribute('min', 0);
                             propertyValue.setAttribute('max', 12);
                             propertyValue.setAttribute('value', fieldArr.value);
+                            propertyValue.setAttribute('readonly', 'true');
                             fieldGroupDiv.appendChild(propertyValue);
                             propertyValue.addEventListener('change', function() {
                                 let slider = document.getElementById(this.id + '-value');
                                 slider.value = this.value;
+                                changePropertiesValue(this.value, group, fieldArr.id);
                             });
                             
                             let slideValue = document.createElement('input');
@@ -479,6 +466,7 @@
                             fieldGroupDiv.appendChild(propertyName);
                             let selectedColorBox = document.createElement('span');
                             selectedColorBox.classList.add('selected-color');
+                            selectedColorBox.style.backgroundColor = fieldArr.value;
                             fieldGroupDiv.appendChild(selectedColorBox);
                             propertyValue = document.createElement('input');
                             propertyValue.classList.add('property-field-value', 'underline');
@@ -486,12 +474,15 @@
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
                             propertyValue.setAttribute('readonly', 'true');
+                            propertyValue.addEventListener('change', function() {
+                                changePropertiesValue(this.value, group, fieldArr.id);
+                            }, false);
                             fieldGroupDiv.appendChild(propertyValue);
                             let colorPaletteDiv = document.createElement('div');
                             colorPaletteDiv.setAttribute('id', group + '-' + fieldArr.id + '-colorPalette');
                             colorPaletteDiv.classList.add('color-palette');
                             groupDiv.appendChild(colorPaletteDiv);
-                            colorPalette.initColorPalette(selectedColorBox, propertyValue, colorPaletteDiv)
+                            colorPalette.initColorPalette(selectedColorBox, propertyValue, colorPaletteDiv);
                             break;
                         case 'radio':
                             propertyName = document.createElement('span');
@@ -508,6 +499,9 @@
                                 if (fieldArr.value === fieldArr.option[i].id) { 
                                     propertyOption.setAttribute('checked', 'checked');
                                 }
+                                propertyOption.addEventListener('change', function() {
+                                    changePropertiesValue(this.value, group, fieldArr.id);
+                                }, false);
                                 fieldGroupDiv.appendChild(propertyOption);
                                 let propertyLabel = document.createElement('label');
                                 propertyLabel.setAttribute('for', fieldArr.name + '-' + fieldArr.option[i].id);
@@ -537,6 +531,7 @@
                                                 }
                                             }
                                             this.classList.add('active');
+                                            changePropertiesValue(this.id, group, fieldArr.id);
                                         }
                                     });
                                 }
@@ -550,45 +545,49 @@
                                 }
                                 fieldButtonDiv.appendChild(propertyValue);
                                 propertyValue.addEventListener('click', function() {
-                                    if (this.classList.contains('active')) {
+                                    let isActive = this.classList.contains('active');
+                                    if (isActive) {
                                         this.classList.remove('active');
                                         this.setAttribute('data-value', 'N');
                                     } else {
                                         this.classList.add('active');
                                         this.setAttribute('data-value', 'Y');
                                     }
+                                    changePropertiesValue(isActive ? 'N' : 'Y', group, fieldArr.id);
                                 });
                             }
                             break;
                         case 'table':
-                            for (let i = 0, len = fieldArr.items.length; i < len; i+=3) {
-                                if (i === 0) {
-                                    let headerRow = document.createElement('tr');
-                                    groupTb.appendChild(headerRow);
-                                    
-                                    let headerCell = document.createElement('th');
-                                    headerRow.appendChild(headerCell);
-                                    for (let j = i; j < i + 3; j++) {
-                                        headerCell = document.createElement('th');
-                                        headerCell.innerHTML = fieldArr.items[j].name;
-                                        headerRow.appendChild(headerCell);
-                                    }
-                                }
+                            let headerRow = document.createElement('tr');
+                            groupTb.appendChild(headerRow);
+
+                            let headerCell = document.createElement('th');
+                            headerRow.appendChild(headerCell);
+                            for (let i = 0, len = fieldArr.items.length; i < len; i++) {
+                                headerCell = document.createElement('th');
+                                headerCell.innerHTML = fieldArr.items[i].name;
+                                headerRow.appendChild(headerCell);
+                            }
+
+                            for (let i = 0, len = compAttr.option.length; i < len; i++) {
                                 let row = document.createElement('tr');
                                 groupTb.appendChild(row);
-                                
+
                                 let cell = document.createElement('td');
                                 let chkbox = document.createElement('input');
                                 chkbox.setAttribute('type', 'checkbox');
                                 cell.appendChild(chkbox);
                                 row.appendChild(cell);
-                                
-                                for (let j = i; j < i + 3; j++) {
+
+                                for (let j = 0, len = fieldArr.items.length; j < len; j++) {
                                     cell = document.createElement('td');
                                     cell.setAttribute('id', fieldArr.items[j].id);
                                     let inputCell = document.createElement('input');
-                                    inputCell.setAttribute('type', 'text');     
-                                    inputCell.setAttribute('value', fieldArr.items[j].value);
+                                    inputCell.setAttribute('type', 'text');
+                                    inputCell.setAttribute('value', compAttr.option[i][fieldArr.items[j].id]);
+                                    inputCell.addEventListener('change', function() {
+                                        changePropertiesValue(this.value, group, fieldArr.items[j].id, i);
+                                    }, false);
                                     cell.appendChild(inputCell);
                                     row.appendChild(cell);
                                 }
@@ -631,9 +630,11 @@
                 return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;  
             });
             //데이터로 전달된 컴포넌트 draw
+            const formPanel = document.getElementById('panel-form');
             for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
                 let compData = formEditor.data.components[i];
-                component.draw(compData.type, compData);
+                let element = component.draw(compData.type, compData);
+                formPanel.appendChild(element.domElem);
             }
         }
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
