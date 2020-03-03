@@ -60,19 +60,6 @@ function isNotEmpty(elementId, message) {
     return false;
 }
 
-/** @brief 해당 엘리먼트 아이디의 값이 ''이면서 null 경우를 판별한다.
- *  @date 2020-03-03
- */
-function isNullAndEmpty(elementId, message) {
-    if (document.getElementById(elementId).value === null && document.getElementById(elementId).value === '') {
-        if(message != null) {
-            alert(i18n.get(message));
-        }
-        return true;
-    }
-    return false;
-}
-
 /** @brief 서로 다른 엘리먼트의 값이 동일한지 판별한다.
  *  @date 2020-03-03
  */
