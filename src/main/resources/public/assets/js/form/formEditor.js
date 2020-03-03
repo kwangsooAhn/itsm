@@ -17,7 +17,7 @@
     
     let propertiesPanel = null,
         selectedComponentId = '', //선택된 컴포넌트 ID
-        data = {},
+        data = {}, //저장용 데이터
         formProperties = {}; //좌측 properties panel에 출력되는 폼 정보
     /**
      * 폼 저장
@@ -254,12 +254,14 @@
          * 컴포넌트를 다시 그린다.
          */
         const redrawComponent = function() {
+            const originDisplayOrder = compAttr.display.order;
             let element = component.draw(compAttr.type, compAttr);
             if (element) {
                 let elementHTML = element.domElem.innerHTML;
                 const panelForm = document.getElementById('panel-form');
                 let targetElement = document.getElementById(id);
                 targetElement.innerHTML = elementHTML;
+                compAttr.display.order = originDisplayOrder;
                 panelForm.removeChild(element.domElem);
                 let compIdx = component.getLastIndex();
                 component.setLastIndex(compIdx - 1);
@@ -324,6 +326,7 @@
                     let tb = this.parentNode.querySelector('table');
                     let row = document.createElement('tr');
                     let cell = document.createElement('td');
+                    const rowCount = tb.rows.length;
                     cell.innerHTML = tb.lastElementChild.children[0].innerHTML;
                     row.appendChild(cell);
 
@@ -332,7 +335,11 @@
                         cell = document.createElement('td');
                         cell.id = option.id;
                         cell.innerHTML = tb.lastElementChild.children[i + 1].innerHTML;
-                        cell.querySelector('input').value = option.value;
+                        let inputCell = cell.querySelector('input');
+                        inputCell.value = option.value;
+                        inputCell.addEventListener('change', function() {
+                            changePropertiesValue(this.value, group, option.id, rowCount - 1);
+                        }, false);
                         rowData[option.id] = option.value;
                         row.appendChild(cell);
                     });
