@@ -89,7 +89,7 @@
                 if (isDrawConnector) {
                     return;
                 }
-                d3.select(this).style('cursor', 'pointer')
+                d3.select(this).style('cursor', 'pointer');
             })
             .on('mousedown', function(d, i) {
                 d3.event.stopPropagation();
@@ -835,14 +835,15 @@
     function drawProcess(elements) {
         // add element
         elements.forEach(function(element) {
-            if (element.category === 'connector') {
+            if (element.type === 'arrowConnector') {
                 return;
             }
             let node;
             const x = element.display['position-x'],
                   y = element.display['position-y'];
 
-            switch (element.category) {
+            let category = AliceProcessEditor.getElementCategory(element.type);
+            switch (category) {
                 case 'event':
                     node = new EventElement(x, y);
                     break;
@@ -868,7 +869,7 @@
             if (node) {
                 const nodeId = node.nodeElement.attr('id');
                 elements.forEach(function(e){
-                    if (e.category !== 'connector') {
+                    if (e.type !== 'arrowConnector') {
                         return;
                     }
                     if (e.data['start-id'] === element.id) {
@@ -883,7 +884,7 @@
 
         // add connector
         elements.forEach(function(element) {
-            if (element.category !== 'connector') {
+            if (element.type !== 'arrowConnector') {
                 return;
             }
             const source = document.getElementById(element.data['start-id']),
@@ -900,15 +901,15 @@
     /**
      * process designer 초기화.
      *
-     * @param process 프로세스 정보  예시) {processId: 'c0ee5ee8d2fa44cf962c9f853c24ea7b'}
+     * @param processId 프로세스 ID
      */
-    function init(process) {
-        console.info('process editor initialization. [PROCESS ID: ' + process.processId + ']');
+    function init(processId) {
+        console.info('process editor initialization. [PROCESS ID: ' + processId + ']');
 
         workflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
-        AliceProcessEditor.loadItems(process);
+        AliceProcessEditor.loadItems(processId);
         AliceProcessEditor.initUtil();
     }
 

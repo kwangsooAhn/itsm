@@ -12,6 +12,8 @@ common:
     next: "다음"
     add: "추가"
     write: "작성"
+    cancel: "취소"
+    check: "확인"
   label:
     title: "제목"
     message: "메시지"
@@ -29,6 +31,7 @@ common:
     notSelect: "선택 안 함"
   msg:
     save: "저장되었습니다"
+    save.fail: "실패되었습니다."
     delete.success: "삭제되었습니다."
 
 # Menu
@@ -40,15 +43,32 @@ menu:
   help.notice: "공지사항"
   help.faq: "FAQ"
   help.document: "신청서"
+  help.ticket: "처리할 문서"
   setting: "설정"
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
+  setting.auth: "권한 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
   editMyInfo: "자기 정보 수정"
 
 # auth
 auth:
+  label:
+    manage: "권한 관리"
+    authId: "권한 아이디"
+    authName: "권한명"
+    authDesc: "권한 설명"
+  msg:
+    idNotExist: "권한 아이디를 입력하세요."
+    nameNotExist: "권한명을 입력하세요."
+    idDuplecate: "중복되는 아이디가 있습니다. 다른 권한 아이디를 입력하세요."
+    nameDuplecate: "중복된 권한명이 있습니다. 다른 권한명을 입력하세요."
+  auth:
+    read: "권한 조회"
+    create: "권한 등록"
+    update: "권한 변경"
+    delete: "권한 삭제"
   service.read:
     all: "서비스 요청 전체 조회"
     my: "서비스 요청 자신 업무만 조회"
@@ -71,6 +91,8 @@ auth:
   process.delete: "프로세스 삭제"
   document.read: "신청서 조회"
   document.create: "신청서 등록"
+  ticket.read: "처리할 문서 조회"
+  ticket.create: "처리할 문서 등록"
 
 # 사용자
 user:
@@ -90,6 +112,7 @@ user:
   lang: "언어"
   reg: "사용자 등록"
   read: "사용자 조회"
+  role: "사용자 역할"
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
@@ -151,7 +174,6 @@ login:
     sessionExpired: "세션이 만료되었습니다."
     redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
 
-
 # FORM
 form:
   label:
@@ -169,11 +191,27 @@ form:
     export: "내보내기"
     preview: "미리보기"
     saveExist: "저장하고 나가기"
+    copy: "복사"
+    addAbove: "새로만들기-위"
+    addBelow: "새로만들기-아래"
   status:
     edit: "편집중"
     simu: "시뮬레이션 완료"
     publish: "발행"
     destroy: "폐기"
+  component:
+    text: "Text"
+    textarea: "Text Box"
+    select: "Dropdown"
+    radio: "Radio Button"
+    checkbox: "Checkbox"
+    label: "Label"
+    image: "Image"
+    line: "Line"
+    date: "Date"
+    time: "Time"
+    datetime: "Date Time"
+    fileupload: "Fileupload"
   lang:
     ko: "한국어"
   msg:
@@ -236,3 +274,16 @@ validation:
 document:
   label:
     list: "신청서 목록"
+    write: "신청서 작성"
+  msg:
+    lengthMin: "{0}글자 이상 입력해주세요."
+    lengthMax: "{0}글자 이하로 입력해주세요."
+    dateMin: "{0} 날짜 이후로 선택해주세요."
+    dateMax: "{0} 날짜 이전으로 선택해주세요."
+    requiredEnter: "필수 항목을 입력해주세요."
+    requiredSelect: "필수 항목을 선택해주세요."
+
+# Ticket
+ticket:
+  label:
+    list: "처리할 문서 목록"

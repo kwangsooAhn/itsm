@@ -3,7 +3,8 @@
 *
 * @author woodajung
 * @version 1.0
-* @sdoc js/form/FormComponent.js
+* @sdoc js/form/formEditor.menu.js
+* @sdoc js/form/component.js
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -12,474 +13,14 @@
 }(this, (function (exports) {
     'use strict';
     
-    const context = (function () {
-        const KEYCODE = { ARROW_UP: 38, ARROW_DOWN: 40, ENTER: 13, CTRL: 17 };
-        
-        let menu = null,
-            itemInContext = null,
-            selectedItems = [],
-            selectedItem = null,
-            selectedItemIdx = -1,
-            isCtrlPressed = false,
-            flag = 0;  //0:menu off, 1:menu on
-        
-        /**
-         * context menu on.
-         * 
-         * @param {Object} state {1=context-menu-control 메뉴 on, 2=context-menu-component 메뉴 on}
-         */
-        const toggleMenuOn = function (state) {
-            if (flag !== 1) {
-                flag = 1;
-                menu.classList.add('on');
-            }
-            menu.scrollTop = 0;
-            let controlMenu = document.getElementById('context-menu-control');
-            let componentMenu = document.getElementById('context-menu-component');
-            if (state === 1 && !controlMenu.classList.contains('active')) {
-                controlMenu.classList.add('active');
-                componentMenu.classList.remove('active');
-            } else if (state === 2 && !componentMenu.classList.contains('active')) {
-                componentMenu.classList.add('active');
-                controlMenu.classList.remove('active');
-            }
-        };
-        
-        /**
-         * context menu off.
-         */
-        const toggleMenuOff = function () {
-            if (flag !== 0) {
-                flag = 0;
-                selectedItems = [];
-                selectedItem = null;
-                selectedItemIdx = -1;
-                menu.classList.remove('on');
-                let componentMenu = document.getElementById('context-menu-component');
-                for (let i = 0, len = componentMenu.children.length; i < len; i++) {
-                    let item = componentMenu.children[i];
-                    if (item.style.display === 'none') {
-                        item.style.display = 'block';
-                    }
-                    if (item.classList.contains('active')) {
-                        item.classList.remove('active');
-                    }
-                }
-            }
-        };
-        
-        /**
-         * 검색어와 일치하는 context menu item on.
-         * 
-         * @param {Object} e 이벤트
-         * @param {String} searchText 검색어
-         * @return {Boolean}
-         */
-        const menuItemSearch = function (searchText) {
-            let componentMenu = document.getElementById('context-menu-component');
-            let rslt = false;
-            let tempText = searchText.replace('/', '');
-            selectedItems = [];
-            for (let i = 0, len = componentMenu.children.length; i < len; i++) {
-                let item = componentMenu.children[i];
-                if (item.classList.contains('active')) {
-                    item.classList.remove('active');
-                }
-                if (searchText === '/') {
-                    item.style.display = 'block';
-                    if (!rslt) {
-                        selectedItem = item;
-                        selectedItem.classList.add('active');
-                        selectedItemIdx = 0;
-                    }
-                    selectedItems.push(item);
-                    rslt = true;
-                } else {
-                    let text = item.textContent || item.innerText;
-                    if (text.slice(0, tempText.length).toLowerCase() !== tempText.toLowerCase()) {
-                        item.style.display = 'none';
-                    } else {
-                        item.style.display = 'block';
-                        if (!rslt) {
-                            selectedItem = item;
-                            selectedItem.classList.add('active');
-                            selectedItemIdx = 0;
-                        }
-                        selectedItems.push(item);
-                        rslt = true;
-                    }
-                }
-            }
-            return rslt;
-        };
-        /**
-         * 특정 클래스 이름을 가진 요소 내부를 클릭했는지 확인.
-         * 
-         * @param {Object} e 이벤트
-         * @param {String} className 클래스명
-         * @return {Boolean}
-         */
-        const clickInsideElement = function(e, className) {
-            let el = e.srcElement || e.target;
-            if (el.classList.contains(className)) {
-                return el;
-            } else {
-                while (el = el.parentNode) {
-                    if (el.classList && el.classList.contains(className)) {
-                        return el;
-                    }
-                }
-            }
-            return false;
-        };
-        
-        /**
-         * 마우스, 키보드 클릭 위치.
-         * 
-         * @param {Object} e 이벤트
-         * @return {Object} 마우스, 키보드 클릭 좌표
-         */
-        const getPosition = function(e) {
-            let posX = 0;
-            let posY = 0;
-            if (!e) { e = window.event; }
-            if (e.type === 'keyup') {
-                let rect = e.target.getBoundingClientRect();
-                posX = rect.left + 10;
-                posY = rect.top + 50;
-            } else {
-                if (e.pageX || e.pageY) {
-                    posX = e.pageX;
-                    posY = e.pageY;
-                } else if (e.clientX || e.clientY) {
-                    posX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                    posY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-                }
-            }
-            return { x: posX, y: posY };
-        };
-        
-        /**
-         * 컨텍스트 메뉴 scroll
-         */
-        const scrollMenu = function() {
-            let contextHeight = menu.offsetHeight;
-            let contextScrollTop = menu.scrollTop;
-            let viewPort = contextScrollTop + contextHeight;
-            let elem = menu.getElementsByClassName('active')[0];
-            let itemHeight = elem.firstElementChild.offsetHeight;
-            let contextOffset = itemHeight * selectedItemIdx;
-            if (contextOffset < contextScrollTop || (contextOffset + itemHeight) > viewPort) {
-                menu.scrollTop = contextOffset;
-            }
-        };
-
-        /**
-         * 컨텍스트 메뉴 위치 조정.
-         * 
-         * @param {Object} e 이벤트
-         */
-        const positionMenu = function(e) {
-            let clickCoords = getPosition(e);
-            let clickCoordsX = clickCoords.x;
-            let clickCoordsY = clickCoords.y;
-            
-            let menuWidth = menu.offsetWidth + 4;
-            let menuHeight = menu.offsetHeight + 4;
-            
-            let windowWidth = window.innerWidth;
-            let windowHeight = window.innerHeight;
-            
-            if ( (windowWidth - clickCoordsX) < menuWidth ) {
-                menu.style.left = windowWidth - menuWidth + 'px';
-            } else {
-                menu.style.left = clickCoordsX + 'px';
-            }
-            
-            if ( (windowHeight - clickCoordsY) < menuHeight ) {
-                menu.style.top = windowHeight - menuHeight + 'px';
-            } else {
-                menu.style.top = clickCoordsY + 'px';
-            }
-        };
-        
-        const onKeyDownHandler = function(e) {
-            let keyCode = e.keyCode ? e.keyCode : e.which;
-            if (keyCode === KEYCODE.CTRL) { isCtrlPressed = true;}
-            if (flag === 1 && selectedItem) {
-                let len = selectedItems.length - 1;
-                switch (keyCode) {
-                    case KEYCODE.ARROW_UP:
-                        selectedItem.classList.remove('active');
-                        if (selectedItemIdx > 0) {
-                            selectedItem = selectedItems[selectedItemIdx - 1];
-                            selectedItemIdx--;
-                        } else {
-                            selectedItem = selectedItems[len];
-                            selectedItemIdx = len;
-                        }
-                        selectedItem.classList.add('active');
-                        scrollMenu();
-                        break;
-                    case KEYCODE.ARROW_DOWN:
-                        selectedItem.classList.remove('active');
-                        if (selectedItemIdx < len) {
-                            selectedItem = selectedItems[selectedItemIdx + 1];
-                            selectedItemIdx++;
-                        } else {
-                            selectedItem = selectedItems[0];
-                            selectedItemIdx = 0;
-                        }
-                        selectedItem.classList.add('active');
-                        scrollMenu();
-                        break;
-                    case KEYCODE.ENTER:
-                        menuItemListener(selectedItem);
-                        selectedItems = [];
-                        selectedItem = null;
-                        selectedItemIdx = -1;
-                        break;
-                }
-            }
-        };
-        
-        const onKeyPressHandler = function(e) {
-            let keyCode = e.keyCode ? e.keyCode : e.which;
-            if (keyCode === KEYCODE.ENTER) {
-                if (flag === 0) {
-                    e.preventDefault();
-                    if (e.target.isContentEditable) {
-                        if (e.target.textContent.length === 0 && itemInContext !== null) { 
-                            addComponent('editbox'); 
-                        }
-                        e.target.innerHTML = '';
-                    }
-                }
-            }
-        };
-        
-        const onKeyUpHandler = function(e) {
-            let keyCode = e.keyCode ? e.keyCode : e.which;
-            if (isCtrlPressed && flag === 1 && itemInContext) { 
-                toggleMenuOff();
-                itemInContext = null;
-            }
-            isCtrlPressed = false;
-            
-            if (selectedItem && (keyCode === KEYCODE.ARROW_UP || keyCode === KEYCODE.ARROW_DOWN)) { return; }
-            if (selectedItem && keyCode === KEYCODE.ENTER) {
-                selectedItems = [];
-                selectedItem = null;
-                selectedItemIdx = 0;
-                return;
-            }
-            itemInContext = clickInsideElement(e, 'component');
-            if (itemInContext) {
-                let box = itemInContext.querySelector('[contenteditable=true]');
-                if (box) {
-                    let text = box.textContent;
-                    if (text.length > 0 && text.charAt(0) !== '/') { return; }
-                    if (text.length > 0 && menuItemSearch(text)) {
-                        toggleMenuOn(2);
-                        positionMenu(e);
-                    } else {
-                        toggleMenuOff();
-                    }
-                }
-            }
-        };
-        
-        const onRightClickHandler = function(e) {
-            if (component.getSelectedComponentId !== '' && clickInsideElement(e, 'panel-property')) { return; }
-            if (itemInContext) { //기존 eidtbox에서 검색을 시도한 경우 초기화
-                let box = itemInContext.querySelector('[contenteditable=true]');
-                if (box && box.textContent.length > 0) {
-                    box.innerHTML = '';
-                }
-                flag = 1;
-                toggleMenuOff();
-            }
-            
-            itemInContext = clickInsideElement(e, 'component');
-            if (itemInContext) {
-                e.preventDefault();
-                toggleMenuOn(1);
-                positionMenu(e);
-            } else {
-                itemInContext = null;
-                toggleMenuOff();
-                component.hidePropertyPanel();
-            }
-        };
-        
-        const onLeftClickHandler = function(e) {
-            if (component.getSelectedComponentId !== '' && clickInsideElement(e, 'panel-property')) { return; }
-            let clickedElem = clickInsideElement(e, 'context-item-link');
-            if (clickedElem) { //contex 메뉴 클릭
-                e.preventDefault();
-                menuItemListener(clickedElem);
-            } else {
-                if (itemInContext) { //기존 eidtbox에서 검색을 시도한 경우 초기화
-                    let box = itemInContext.querySelector('[contenteditable=true]');
-                    if (box && box.textContent.length > 0) {
-                        box.innerHTML = '';
-                    }
-                    flag = 1;
-                    toggleMenuOff();
-                    component.hidePropertyPanel();
-                }
-                let button = e.button ? e.button : e.which;
-                if (button === 1) {
-                    itemInContext = clickInsideElement(e, 'component');
-                    if (itemInContext) {
-                        let compType = itemInContext.getAttribute('data-type');
-                        if (isCtrlPressed) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
-                            if (compType === 'editbox') {
-                                toggleMenuOn(2);
-                                positionMenu(e);
-                            } else {
-                                itemInContext = null;
-                                toggleMenuOff();
-                            }
-                        }
-                        if (itemInContext !== null && compType !== 'editbox') {
-                            component.showPropertyPanel(itemInContext.id);
-                        }
-                    }
-                }
-            }
-        };
-        /**
-         * context menu item 클릭 이벤트.
-         * 
-         * @param {HTMLElement} item 선택된 element
-         */
-        const menuItemListener = function(item) {
-            let clickedComponent = itemInContext;
-            switch (item.getAttribute('data-action')) {
-                case 'copy':
-                    break;
-                case 'delete':
-                    break;
-                case 'addEditboxUp':
-                    addEditbox(clickedComponent.id, 'up');
-                    break;
-                case 'addEditboxDown':
-                    addEditbox(clickedComponent.id, 'down');
-                    break;
-                default:
-                    addComponent(item.getAttribute('data-action'), clickedComponent.id);
-            }
-            toggleMenuOff();
-            itemInContext = null;
-        };
-        
-        const init = function() {
-            menu = document.getElementById('context-menu');
-            itemInContext = menu;
-            menu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
-                let d = -e.deltaY || e.detail;
-                this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
-                e.preventDefault();
-            }, false);
-            document.addEventListener('keydown', onKeyDownHandler, false);
-            document.addEventListener('keypress', onKeyPressHandler, false);
-            document.addEventListener('keyup', onKeyUpHandler, false);
-            document.addEventListener('contextmenu', onRightClickHandler, false);
-            document.addEventListener('click', onLeftClickHandler, false);
-            window.onresize = function(e) { toggleMenuOff(); };
-        };
-        
-        return {
-            init: init
-        };
-        
-    }());
+    const defaultComponent = 'editbox';
     
-    let data = {};
-    
+    let propertiesPanel = null,
+        selectedComponentId = '', //선택된 컴포넌트 ID 
+        data = {}, //저장용 데이터
+        formProperties = {}; //좌측 properties panel에 출력되는 폼 정보
     /**
-     * 컴포넌트 신규 추가
-     *
-     * @param type 컴포넌트 타입
-     * @param componentId 컴포넌트 Id
-     * @param attrs 컴포넌트 세부 속성
-     */
-    function addComponent(type, componentId, attrs) {
-        attrs = attrs || {};
-        if (Object.keys(attrs).length === 0 && JSON.stringify(attrs) === JSON.stringify({})) {
-            attrs.isNew = true; //추가
-        } else {
-            attrs.isNew = false; //수정
-        }
-        let comp = component.add({type: type, attrs: attrs, componentId: componentId, isFocus: true});
-        if (comp !== null && type !== 'editbox') {
-            addEditbox(comp.id, 'down');
-        }
-    }
-
-    /**
-     * elemId 선택한 element Id를 기준으로 위, 아래 editbox 추가
-     *
-     * @param elemId 선택한 element Id
-     * @param direction 방향 (up, down)
-     */
-    function addEditbox(elemId, direction) {
-        let elem = document.getElementById(elemId);
-        if (elem === null) { return; }
-        let editbox = component.add({type: 'editbox', isFocus: false});
-        let elemIdx = Number(elem.getAttribute('data-index'));
-        let tempArr = formEditor.data.components.slice();
-        
-        if (direction === 'up') {
-            let comps = document.querySelectorAll('.component');
-            let editboxHTML = editbox.innerHTML;
-            for (let i = comps.length - 1; i >= elemIdx - 1; i--) {
-                let cur = comps[i];
-                let prev = comps[i - 1];
-                if (cur.getAttribute('data-type') !== prev.getAttribute('data-type') && i > (elemIdx - 1)) {
-                    cur.innerHTML = prev.innerHTML;
-                    cur.setAttribute('data-type', prev.getAttribute('data-type'));
-                    formEditor.data.components[i] = tempArr[i - 1];
-                    formEditor.data.components[i].id = cur.id;
-                    formEditor.data.components[i].display.order = (i + 1);
-                }
-                if (i == (elemIdx - 1)) {
-                    cur.innerHTML = editboxHTML;
-                    cur.setAttribute('data-type', 'editbox');
-                    formEditor.data.components[i] = { id: cur.id, type: 'editbox', display: { order: (i + 1) } };
-                    cur.querySelector('.group').focus();
-                }
-
-            }
-        } else {
-            if ((elemIdx + 1) !== Number(editbox.getAttribute('data-index'))) {
-                let comps = document.querySelectorAll('.component');
-                let editboxHTML = editbox.innerHTML;
-                for (let i = comps.length - 1; i >= elemIdx; i--) {
-                    let cur = comps[i];
-                    let prev = comps[i - 1];
-                    if (cur.getAttribute('data-type') !== prev.getAttribute('data-type') && i > elemIdx) {
-                        cur.innerHTML = prev.innerHTML;
-                        cur.setAttribute('data-type', prev.getAttribute('data-type'));
-                        formEditor.data.components[i] = tempArr[i - 1];
-                        formEditor.data.components[i].id = cur.id;
-                        formEditor.data.components[i].display.order = (i + 1);
-                    }
-                    if (i === elemIdx) {
-                        cur.innerHTML = editboxHTML;
-                        cur.setAttribute('data-type', 'editbox');
-                        formEditor.data.components[i] = { id: cur.id, type: 'editbox', display: { order: (i + 1) } };
-                        cur.querySelector('.group').focus();
-                    }
-                }
-            } else {
-                editbox.querySelector('.group').focus();
-            }
-        }
-    }
-    /**
-     * 폼 디자이너 저장
+     * 폼 저장
      */
     function saveForm() {
 
@@ -489,44 +30,76 @@
             name: 'test',
             desc: 'zzzzzz'
         };
-        var collections = [
+        var components = [
             {
-                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                id: '40288ab2709f1a9101709f1b070f0000',
                 type: 'text',
+                common: {
+                    'mapping-id': ''
+                },
                 label: {
                     position: 'left',
                     column: 2,
                     size: 12,
-                    color: '#ffffff',
-                    bold: 'Y'
+                    color: '#000000',
+                    bold: 'Y',
+                    italic: 'N',
+                    underline: 'Y',
+                    align: 'left',
+                    text: '텍스트'
+                },
+                display: {
+                    placeholder: '텍스트를 입력하세요.',
+                    column: 10,
+                    'outline-width': 1,
+                    'outline-color': '#000000',
+                    order: 2
+                },
+                validate: {
+                    required: 'Y',
+                    regexp: 'none',
+                    'regexp-msg': '',
+                    'length-min': 0,
+                    'length-max': 10
                 }
             },
             {
-                id: '4a417b48be2e4ebe82bf8f80a63622a4',
-                type: 'textarea',
+                id: '40288ab2709f1a9101709f1b072d0001',
+                type: 'select',
+                common: {
+                    'mapping-id': 'test123'
+                },
+                label: {
+                    position: 'top',
+                    column: 2,
+                    size: 14,
+                    color: '#150dff',
+                    bold: 'N',
+                    italic: 'Y',
+                    underline: 'N',
+                    align: 'left',
+                    text: 'Select Box'
+                },
                 display: {
                     column: 10,
-                    order: 3
+                    order: 1
                 },
+                option: [
+                    { seq: 1, name: 'ITSM팀', value: 'itsm' },
+                    { seq: 2, name: '인프라웹팀', value: 'infraweb' }
+                ],
                 validate: {
                     required: 'N'
-                },
-                option: [{
-                    seq: 1,
-                    name: 'ITSM팀',
-                    value: 'itsm'
-                },{
-                    seq: 2,
-                    name: '인프라웹팀',
-                    value: 'infraweb'
-                }]
+                }
             }
         ];
+
         var data = {
             form: formInfo,
-            collections: collections
+            components: components
         };
 
+        //console.log(data);
         console.log(JSON.stringify(data));
 
         aliceJs.sendXhr({
@@ -534,9 +107,9 @@
             url: '/rest/forms/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    alert('저장되었습니다.');
+                    alert(i18n.get('common.msg.save'));
                 } else {
-                    alert('저장실패');
+                    alert(i18n.get('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -580,79 +153,527 @@
     }
 
     /**
-     * 데이터 조회
+     * 컴포넌트 신규 추가
      *
-     * @param id 컴포넌트 id
-     * @return {Object} component 정보
+     * @param type 컴포넌트 타입
+     * @param componentId 컴포넌트 Id
      */
-    function getData(id) {
-        for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
-            let comp = formEditor.data.components[i];
-            if (comp.id === id) { return comp; }
+    function addComponent(type, componentId) {
+        if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
+            let elem = document.getElementById(componentId);
+            let removeComp = component.draw(type);
+            let compAttr = removeComp.attr;
+            compAttr.id = componentId;
+            compAttr.display.order = Number(elem.getAttribute('data-index'));
+            setComponentData(compAttr);
+            elem.innerHTML = removeComp.domElem.innerHTML;
+            removeComp.domElem.remove();
+            
+            let compIdx = component.getLastIndex();
+            component.setLastIndex(compIdx - 1);
+            addEditboxDown(componentId);
+        } else {
+            let editbox = component.draw(defaultComponent);
+            setComponentData(editbox.attr);
+            editbox.domElem.querySelector('[contenteditable=true]').focus();
         }
-        return null;
+    }
+    
+    /**
+     * 컴포넌트 복사
+     */
+    function copyComponent() {
+        //TODO: 컴포넌트 복사 후 재정렬
+    }
+    /**
+     * 컴포넌트 삭제
+     */
+    function removeComponent() {
+        //TODO: 컴포넌트 삭제 후 재정렬
     }
 
     /**
-     * 데이터 추가/수정
+     * elemId 선택한 element Id를 기준으로 위에 editbox 추가 후 data의 display order 변경
      *
-     * @param compInfo 컴포넌트 정보
+     * @param elemId 선택한 element Id
      */
-    function changeData(compInfo) {
-        let isExist = false;
-        for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
+    function addEditboxUp(elemId) {
+        let elem = document.getElementById(elemId);
+        if (elem === null) { return; }
+        
+        let elemIdx = Number(elem.getAttribute('data-index'));
+        let editbox = component.draw(defaultComponent);
+        setComponentData(editbox.attr);
+        elem.parentNode.insertBefore(editbox.domElem, elem);
+        editbox.domElem.setAttribute('data-index', elemIdx);
+        editbox.domElem.setAttribute('tabIndex', elemIdx);
+        
+        //신규 추가된 editbox 컴포넌트 아래에 존재하는 컴포넌트들 순서 재정렬
+        let lastCompIndex = component.getLastIndex();
+        formEditor.data.components[lastCompIndex - 1].display.order = elemIdx;
+        for (let i = elem.parentNode.children.length - 1; i >= elemIdx; i--) {
+            let childNode = elem.parentNode.children[i];
+            childNode.setAttribute('data-index', lastCompIndex);
+            childNode.setAttribute('tabIndex', lastCompIndex);
+            
+            //데이터 display 순서 변경
+            for (let j = 0, len = formEditor.data.components.length; j < len; j++) {
+                let comp = formEditor.data.components[j];
+                if (comp.id === childNode.id) { 
+                    comp.display.order = lastCompIndex;
+                    break;
+                }
+            }
+            lastCompIndex--;
+        }
+    }
+
+    /**
+     * elemId 선택한 element Id를 기준으로 아래에 editbox 추가 후 data의 display order 변경
+     *
+     * @param elemId 선택한 element Id
+     */
+    function addEditboxDown(elemId) {
+        let elem = document.getElementById(elemId);
+        if (elem === null) { return; }
+        
+        let elemIdx = Number(elem.getAttribute('data-index'));
+        let editbox = null;
+        if (elem.nextSibling !== null) {
+            editbox = component.draw(defaultComponent);
+            setComponentData(editbox.attr);
+            elem.parentNode.insertBefore(editbox.domElem, elem.nextSibling);
+            editbox.domElem.setAttribute('data-index', elemIdx + 1);
+            editbox.domElem.setAttribute('tabIndex', elemIdx + 1);
+            
+            //신규 추가된 editbox 컴포넌트 아래에 존재하는 컴포넌트들 순서 재정렬
+            let lastCompIndex = component.getLastIndex();
+            formEditor.data.components[lastCompIndex - 1].display.order = elemIdx + 1;
+            
+            for (let i = elem.parentNode.children.length - 1; i > elemIdx; i--) {
+                let childNode = elem.parentNode.children[i];
+                childNode.setAttribute('data-index', lastCompIndex);
+                childNode.setAttribute('tabIndex', lastCompIndex);
+                
+                //데이터 display 순서 변경
+                for (let j = 0, len = formEditor.data.components.length; j < len; j++) {
+                    let comp = formEditor.data.components[j];
+                    if (comp.id === childNode.id) { 
+                        comp.display.order = lastCompIndex;
+                        break;
+                    }
+                }
+                lastCompIndex--
+            }
+        } else { //마지막에 추가된 경우 
+            editbox = component.draw(defaultComponent);
+            setComponentData(editbox.attr);
+            elem.parentNode.appendChild(editbox.domElem);
+        }
+        
+        if(editbox !== null) {
+            editbox.domElem.querySelector('[contenteditable=true]').focus();
+        }
+    }
+    
+    /**
+     * 컴포넌트 ID를 전달 받아서 일치하는 컴포넌트의 index 반환
+     *
+     * @param id 컴포넌트 id
+     * @return {Integer} component index
+     */
+    function getComponentIndex(id) {
+        for (let i = 0, len = formEditor.data.components.length; i < len; i++) {
             let comp = formEditor.data.components[i];
-            if (comp.id === compInfo.id) {//수정
-                formEditor.data.components[i] = compInfo;
+            if (comp.id === id) { return i; }
+        }
+        return -1;
+    }
+
+    /**
+     * 컴포넌트 데이터 추가/수정
+     *
+     * @param compData 컴포넌트 데이터
+     */
+    function setComponentData(compData) {
+        let isExist = false;
+        for (let i = 0, len = formEditor.data.components.length; i < len; i++) {
+            let comp = formEditor.data.components[i];
+            if (comp.id === compData.id) {//수정
+                formEditor.data.components[i] = compData;
                 isExist = true;
                 break;
             }
         }
         if (!isExist) {//추가
-            formEditor.data.components.push(compInfo);
+            formEditor.data.components.push(compData);
         }
     }
     
     /**
-     * 조회된 문서양식 데이터로 component 를 추가한다.
+     * 우측 properties panel 세부 속성 출력
+     *
+     * @param id 조회할 컴포넌트 ID
+     */
+    function showProperties(id) {
+        if (selectedComponentId === id) { return false; }
+        
+        selectedComponentId = id;
+        
+        let compIdx = getComponentIndex(id);
+        if (compIdx === -1) { return false; }
+        
+        let compAttr = formEditor.data.components[compIdx];
+        let detailAttr = component.getDefaultAttribute(compAttr.type);
+
+        //세부 속성 재할당 data로 전달된 속성 + 기본속성
+        Object.keys(compAttr).forEach(function(comp) {
+            if (compAttr[comp] !== null && typeof(compAttr[comp]) === 'object')  {
+                if (detailAttr.hasOwnProperty(comp)) {
+                    Object.keys(compAttr[comp]).forEach(function(attr) {
+                        Object.keys(detailAttr[comp]).forEach(function(d) {
+                            if (attr === detailAttr[comp][d].id) {
+                                detailAttr[comp][d].value = compAttr[comp][attr];
+                            }
+                        });
+                    });
+                }
+            }
+        });
+
+        //제목 출력
+        let compTitleAttr = component.getTitle(compAttr.type);
+        let compTitleElem = document.createElement('div');
+        compTitleElem.classList.add('property-title');
+        compTitleElem.textContent = compTitleAttr.name;
+        //TODO: 제목 icon 추가
+        propertiesPanel.appendChild(compTitleElem);
+
+        //TODO: 세부 속성 출력 코드 리팩토링
+        Object.keys(detailAttr).forEach(function(group) {
+            let groupDiv = document.createElement('div');
+            groupDiv.setAttribute('id', group);
+            groupDiv.classList.add('property-group');
+            groupDiv.textContent = group;
+            propertiesPanel.appendChild(groupDiv);
+            
+            let buttonExist = false,
+                fieldButtonDiv = null,
+                groupTb = null;
+            if (group === 'option') { //세부 속성에 옵션이 존재할 경우 table 구조로 출력
+                let plusButton = document.createElement('button');
+                plusButton.classList.add('plus');
+                plusButton.addEventListener('click', function() { //옵션 추가 버튼
+                    let tb = this.parentNode.querySelector('table');
+                    let row = document.createElement('tr');
+                    row.innerHTML = tb.lastElementChild.innerHTML;
+                    tb.appendChild(row);
+                });
+                groupDiv.appendChild(plusButton);
+
+                let minusButton = document.createElement('button');
+                minusButton.classList.add('minus');
+                minusButton.addEventListener('click', function() { //옵션 삭제 버튼
+                    let tb = this.parentNode.querySelector('table');
+                    let rowCount = tb.rows.length;
+                    for (let i = 1; i < rowCount; i++) {
+                        let row = tb.rows[i];
+                        let chkbox = row.cells[0].childNodes[0];
+                        if (chkbox.checked && rowCount > 2) {
+                            tb.deleteRow(i);
+                            rowCount--;
+                            i--;
+                        }
+                    }
+                });
+                groupDiv.appendChild(minusButton);
+                
+                groupTb = document.createElement('table');
+                groupDiv.appendChild(groupTb);
+            }
+            if (detailAttr[group] !== null && typeof(detailAttr[group]) === 'object')  { //세부 속성
+                Object.keys(detailAttr[group]).forEach(function(field) {
+                    let fieldArr = detailAttr[group][field];
+                    let fieldGroupDiv = null,
+                        propertyName = null,
+                        propertyValue = null
+                    if (fieldArr.type === 'button') {
+                        if (!buttonExist) {
+                            fieldGroupDiv = document.createElement('div');
+                            fieldGroupDiv.classList.add('property-field');
+                            fieldGroupDiv.setAttribute('id', fieldArr.id);
+                            groupDiv.appendChild(fieldGroupDiv);
+                            
+                            fieldGroupDiv.removeAttribute('id');
+                            fieldButtonDiv = document.createElement('div');
+                            fieldButtonDiv.classList.add('property-field-button');
+                            fieldGroupDiv.appendChild(fieldButtonDiv);
+                            buttonExist = true;
+                        }
+                    } else if (fieldArr.id !== undefined) {
+                        fieldGroupDiv = document.createElement('div');
+                        fieldGroupDiv.classList.add('property-field');
+                        fieldGroupDiv.setAttribute('id', fieldArr.id);
+                        groupDiv.appendChild(fieldGroupDiv);
+                    }
+                    switch (fieldArr.type) {
+                        case 'inputbox':
+                        case 'inputbox-underline':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            
+                            propertyValue = document.createElement('input');
+                            propertyValue.classList.add('property-field-value');
+                            propertyValue.setAttribute('type', 'text');
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            fieldGroupDiv.appendChild(propertyValue);
+                            
+                            if (fieldArr.type === 'inputbox-underline') { propertyValue.classList.add('underline'); }
+                            
+                            if (fieldArr.unit !== '') {
+                                let propertyUnit = document.createElement('span');
+                                propertyUnit.classList.add('property-field-unit');
+                                propertyUnit.textContent = fieldArr.unit;
+                                fieldGroupDiv.appendChild(propertyUnit);
+                            }
+                            break;
+                        case 'select':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            
+                            propertyValue = document.createElement('select');
+                            propertyValue.classList.add('property-field-value');
+                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                let propertyOption = document.createElement('option');
+                                propertyOption.value = fieldArr.option[i].id;
+                                propertyOption.text = fieldArr.option[i].name;
+                                propertyValue.appendChild(propertyOption);
+                            }
+                            fieldGroupDiv.appendChild(propertyValue);
+                            break;
+                        case 'slider':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            
+                            propertyValue = document.createElement('input');
+                            propertyValue.setAttribute('id', group + '-' + fieldArr.id);
+                            propertyValue.setAttribute('type', 'range');
+                            propertyValue.setAttribute('min', 0);
+                            propertyValue.setAttribute('max', 12);
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            fieldGroupDiv.appendChild(propertyValue);
+                            propertyValue.addEventListener('change', function() {
+                                let slider = document.getElementById(this.id + '-value');
+                                slider.value = this.value;
+                            });
+                            
+                            let slideValue = document.createElement('input');
+                            slideValue.classList.add('property-field-value', 'underline');
+                            slideValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
+                            slideValue.setAttribute('type', 'text');
+                            slideValue.setAttribute('value', fieldArr.value);
+                            fieldGroupDiv.appendChild(slideValue);
+                            break;
+                        case 'rgb':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            let selectedColorBox = document.createElement('span');
+                            selectedColorBox.classList.add('selected-color');
+                            fieldGroupDiv.appendChild(selectedColorBox);
+                            propertyValue = document.createElement('input');
+                            propertyValue.classList.add('property-field-value', 'underline');
+                            propertyValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
+                            propertyValue.setAttribute('type', 'text');
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            propertyValue.setAttribute('readonly', 'true');
+                            fieldGroupDiv.appendChild(propertyValue);
+                            let colorPaletteDiv = document.createElement('div');
+                            colorPaletteDiv.setAttribute('id', group + '-' + fieldArr.id + '-colorPalette');
+                            colorPaletteDiv.classList.add('color-palette');
+                            groupDiv.appendChild(colorPaletteDiv);
+                            colorPalette.initColorPalette(selectedColorBox, propertyValue, colorPaletteDiv)
+                            break;
+                        case 'radio':
+                            propertyName = document.createElement('span');
+                            propertyName.classList.add('property-field-name');
+                            propertyName.textContent = fieldArr.name;
+                            fieldGroupDiv.appendChild(propertyName);
+                            
+                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                let propertyOption = document.createElement('input');
+                                propertyOption.setAttribute('type', 'radio');
+                                propertyOption.setAttribute('id', fieldArr.name + '-' + fieldArr.option[i].id);
+                                propertyOption.value = fieldArr.option[i].id;
+                                propertyOption.name = fieldArr.name;
+                                if (fieldArr.value === fieldArr.option[i].id) { 
+                                    propertyOption.setAttribute('checked', 'checked');
+                                }
+                                fieldGroupDiv.appendChild(propertyOption);
+                                let propertyLabel = document.createElement('label');
+                                propertyLabel.setAttribute('for', fieldArr.name + '-' + fieldArr.option[i].id);
+                                propertyLabel.textContent = fieldArr.option[i].name;
+                                fieldGroupDiv.appendChild(propertyLabel);
+                            }
+                            break;
+                        case 'button':
+                            if (fieldButtonDiv === null) { break; }
+                            
+                            if (fieldArr.option !== undefined) {
+                                for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                    propertyValue = document.createElement('button');
+                                    propertyValue.classList.add(fieldArr.id);
+                                    propertyValue.setAttribute('id', fieldArr.option[i].id);
+                                    if (fieldArr.value === fieldArr.option[i].id) {
+                                        propertyValue.classList.add('active');
+                                    }
+                                    fieldButtonDiv.appendChild(propertyValue);
+                                    propertyValue.addEventListener('click', function() {
+                                        if (!this.classList.contains('active')) {
+                                            let className = this.classList[0];
+                                            for (let i = 0, len = this.parentNode.childNodes.length ; i< len; i++) {
+                                                let child = this.parentNode.childNodes[i];
+                                                if (child.classList.contains(className)) {
+                                                    child.classList.remove('active');
+                                                }
+                                            }
+                                            this.classList.add('active');
+                                        }
+                                    });
+                                }
+                            } else { //boolean
+                                propertyValue = document.createElement('button');
+                                propertyValue.classList.add(fieldArr.id);
+                                propertyValue.setAttribute('id', fieldArr.id);
+                                propertyValue.setAttribute('data-value', fieldArr.value);
+                                if (fieldArr.value === 'Y') {
+                                    propertyValue.classList.add('active');
+                                }
+                                fieldButtonDiv.appendChild(propertyValue);
+                                propertyValue.addEventListener('click', function() {
+                                    if (this.classList.contains('active')) {
+                                        this.classList.remove('active');
+                                        this.setAttribute('data-value', 'N');
+                                    } else {
+                                        this.classList.add('active');
+                                        this.setAttribute('data-value', 'Y');
+                                    }
+                                });
+                            }
+                            break;
+                        case 'table':
+                            for (let i = 0, len = fieldArr.items.length; i < len; i+=3) {
+                                if (i === 0) {
+                                    let headerRow = document.createElement('tr');
+                                    groupTb.appendChild(headerRow);
+                                    
+                                    let headerCell = document.createElement('th');
+                                    headerRow.appendChild(headerCell);
+                                    for (let j = i; j < i + 3; j++) {
+                                        headerCell = document.createElement('th');
+                                        headerCell.innerHTML = fieldArr.items[j].name;
+                                        headerRow.appendChild(headerCell);
+                                    }
+                                }
+                                let row = document.createElement('tr');
+                                groupTb.appendChild(row);
+                                
+                                let cell = document.createElement('td');
+                                let chkbox = document.createElement('input');
+                                chkbox.setAttribute('type', 'checkbox');
+                                cell.appendChild(chkbox);
+                                row.appendChild(cell);
+                                
+                                for (let j = i; j < i + 3; j++) {
+                                    cell = document.createElement('td');
+                                    cell.setAttribute('id', fieldArr.items[j].id);
+                                    let inputCell = document.createElement('input');
+                                    inputCell.setAttribute('type', 'text');     
+                                    inputCell.setAttribute('value', fieldArr.items[j].value);
+                                    cell.appendChild(inputCell);
+                                    row.appendChild(cell);
+                                }
+                            }
+                            break;
+                    }
+                });
+            }
+        });
+    }
+    
+    /**
+     * 우측 properties panel 삭제
+     */
+    function hideProperties() {
+        propertiesPanel.innerHTML = '';
+        selectedComponentId = '';
+    }
+    /**
+     * 조회된 데이터로 form designer draw 
      * 
      * @param data 문서 정보
      */
-    function drawWorkflow(data) {
+    function drawForm(data) {
         console.debug(JSON.parse(data));
-        //TODO: 컴포넌트 재정렬
-
         formEditor.data = JSON.parse(data);
-        document.querySelector('.form-name').textContent = formEditor.data.form.name;
+        
+        //TODO. 폼 상세 정보 출력
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/assets/js/form/formAttribute.json',
+            callbackFunc: function(xhr) {
+                formProperties = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+        
         if (formEditor.data.components.length > 0 ) {
+            formEditor.data.components.sort(function (a, b) { //컴포넌트 재정렬
+                return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;  
+            });
+            //데이터로 전달된 컴포넌트 draw
             for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
-                let comp = formEditor.data.components[i];
-                addComponent(comp.type, comp.id, comp);
+                let compData = formEditor.data.components[i];
+                component.draw(compData.type, compData);
             }
-        } else {
-            addComponent('editbox');
         }
+        //모든 컴포넌트를 그린 후 마지막에 editbox 추가
+        let editbox = component.draw(defaultComponent);
+        setComponentData(editbox.attr);
+        editbox.domElem.querySelector('[contenteditable=true]').focus();
+
+        document.querySelector('.form-name').textContent = formEditor.data.form.name;
     }
     
     /**
-     * 폼 디자이너 편집 화면 초기화
+     * form designer 초기화
      *
      * @param formId 폼 아이디
      */
     function init(formId) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
+        propertiesPanel = document.getElementById('panel-properties');
+        
         workflowUtil.polyfill();
         component.init();
+        context.init();
+        
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/forms/data/' + formId,
             callbackFunc: function(xhr) {
-                drawWorkflow(xhr.responseText);
+                drawForm(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
-        context.init();
     }
     
     exports.init = init;
@@ -662,8 +683,15 @@
     exports.preview = previewForm;
     exports.exportform = exportForm;
     exports.importform = exportForm;
-    exports.getData = getData;
-    exports.changeData = changeData;
+    exports.addComponent = addComponent;
+    exports.copyComponent = copyComponent;
+    exports.removeComponent = removeComponent;
+    exports.addEditboxUp = addEditboxUp;
+    exports.addEditboxDown = addEditboxDown;
+    exports.getComponentIndex = getComponentIndex;
+    exports.setComponentData = setComponentData;
+    exports.showProperties = showProperties;
+    exports.hideProperties = hideProperties;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

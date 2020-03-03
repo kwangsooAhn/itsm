@@ -43,27 +43,34 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
                {"process": {"id": "$processId", "name": "서비스데스크", "description": "서비스데스크입니다.", "xxx":"xxx"},
                 "elements": [{
                               "id": "4a417b48be2e4ebe82bf8f80a63622a4",
-                              "category": "event",
-                              "type": "start",
+                              "type": "commonStart",
                               "display": {"width": 38, "height": 50, "position-x": 100, "position-y": 100},
                               "data": {"end1": "시작"}
                              },
                              {
                               "id": "4a417b48be2e4ebe82bf8f80a63622a1",
-                              "category": "task",
-                              "type": "user",
+                              "type": "userTask",
                               "display": {"width": 100, "height": 50, "position-x": 200, "position-y": 100},
                               "data": {"name": "신청서작성"}
                              },
                              {
                               "id": "4a417b48be2e4ebe82bf8f80a63622a2",
-                              "category": "connector",
-                              "type": "arrow",
+                              "type": "arrowConnector",
                               "data": {"name": "승인", "condition": "", "start-id": "4a417b48be2e4ebe82bf8f80a63622a4", "end-id": "4a417b48be2e4ebe82bf8f80a63622a1"}
                              }
                             ]
                }
                """
+    }
+
+    /**
+     * 프로세스 저장.
+     */
+    @PostMapping("/data")
+    fun saveProcessData(@RequestBody processData: String): String {
+        // 테스트용 데이터
+        println(processData)
+        return "1"
     }
 
     /**
@@ -89,4 +96,5 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
     fun deleteForm(@PathVariable processId: String): Boolean {
         return providerProcess.deleteProcess(processId)
     }
+
 }

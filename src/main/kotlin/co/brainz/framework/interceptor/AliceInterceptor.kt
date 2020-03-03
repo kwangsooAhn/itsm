@@ -5,6 +5,7 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AliceUtil
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
@@ -41,7 +42,7 @@ class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdap
         val requestMethod = request.method.toLowerCase()
         logger.debug(">>> Url [{}] {} <<<", requestMethod, requestUrl)
 
-        if (securityContextObject != null && requestUrl != "" && !urlExcludePatternCheck(requestUrl)) {
+        if (securityContextObject != null && requestUrl != "" && !AliceUtil().urlExcludePatternCheck(requestUrl)) {
             val securityContext = securityContextObject as SecurityContext
             val aliceUserDto = securityContext.authentication.details as AliceUserDto
             val regex = "\\{([a-zA-Z]*)}".toRegex()
@@ -66,20 +67,6 @@ class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdap
                 throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.detail)
             }
         }
-    }
-    
-    /**
-     * URL 제외 패턴 확인.
-     */
-    fun urlExcludePatternCheck(requestUrl: String): Boolean {
-        val result = AliceConstants.AccessAllowUrlPatten.getAccessAllowUrlPatten().find {
-            if ("\\*\\*$".toRegex().containsMatchIn(it)) {
-                requestUrl.startsWith(it.replace("**", ""))
-            } else {
-                requestUrl.contentEquals(it)
-            }
-        }.isNullOrBlank()
-        return !result
     }
 
     @Throws(Exception::class)

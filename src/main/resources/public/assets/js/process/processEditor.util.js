@@ -38,9 +38,9 @@
             url: '/rest/processes/' + AliceProcessEditor.data.process.id,
             callbackFunc: function(xhr) {
                 if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
-                    alert('저장되었습니다.');
+                    alert(i18n.get('common.msg.save'));
                 } else {
-                    alert('저장실패');
+                    alert(i18n.get('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',

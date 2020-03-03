@@ -27,7 +27,7 @@
         |
         <a href="" tabindex="-1" th:text="#{login.findPasswd}"></a>
       </div>
-      <a class="btn btn-primary" tabindex="0" id="sendLogin" th:text="#{login.sendLogin}" onclick="onLogin();"></a>
+      <button class="btn btn-primary" id="sendLogin" th:text="#{login.sendLogin}" onclick="onLogin();"></button>
       <a class="btn btn-danger"  href="/oauth/google/login" th:text="#{login.gooleLogin}"></a>
       <a class="btn btn-warning" href="/oauth/kakao/login" th:text="#{login.kakaoLogin}"></a>
   </div>

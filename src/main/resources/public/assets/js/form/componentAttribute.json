@@ -1,4 +1,5 @@
 {
+    "editbox": {},
     "text": {
         "common": [
             {
@@ -22,7 +23,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "2", 
                 "type": "slider",
                 "code": "", 
@@ -97,7 +98,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
@@ -195,7 +196,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "2", 
                 "type": "slider",
                 "code": "", 
@@ -278,7 +279,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
@@ -352,7 +353,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "2", 
                 "type": "slider",
                 "code": "", 
@@ -419,7 +420,7 @@
         "display": [
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
@@ -472,7 +473,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "2", 
                 "type": "slider",
                 "code": "", 
@@ -539,7 +540,7 @@
         "display": [
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
@@ -610,7 +611,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "2", 
                 "type": "slider",
                 "code": "", 
@@ -677,7 +678,7 @@
         "display": [
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
@@ -905,7 +906,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "2", 
                 "type": "slider",
                 "code": "", 
@@ -972,7 +973,7 @@
         "display": [
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
@@ -1046,7 +1047,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "2", 
                 "type": "slider",
                 "code": "", 
@@ -1113,7 +1114,7 @@
         "display": [
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
@@ -1171,7 +1172,7 @@
             },
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "2", 
                 "type": "slider",
                 "code": "", 
@@ -1238,7 +1239,7 @@
         "display": [
             {
                 "id": "column", 
-                "name": "Colum", 
+                "name": "Column", 
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 

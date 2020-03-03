@@ -127,7 +127,7 @@ const fileUploader = (function () {
                         const files = JSON.parse(response.responseText);
 
                         files.forEach(function (fileMap) {
-                            let file = fileMap.fileLocEntity;
+                            let file = fileMap.fileLocDto;
 
                             const fileBytes = file.fileSize;
                             const logValueDigit = 1024;
@@ -195,7 +195,7 @@ const fileUploader = (function () {
                                     method: 'delete',
                                     url: '/filedel?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
-                                        alert(i18n('common.msg.delete.success'));
+                                        alert(i18n.get('common.msg.delete.success'));
                                         thisEvent.parentElement.remove();
                                     },
                                     params: '',

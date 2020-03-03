@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>신청서 작성</title>
+    <title th:text="#{document.label.write}"></title>
     <meta charset="utf-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
-    <script th:src="@{/assets/js/document/documentEditor.js}"></script>
+    <script th:src="@{/assets/js/document/document.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
+    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
     <style>
         /*임시 css*/
         #document-container {
@@ -18,23 +21,43 @@
         #document-container > .component {
             padding: 15px 60px;
         }
+        #document-container > .component .field .label {
+            display: inline;
+        }
+        #document-container > .component .field textarea {
+            resize: vertical;
+        }
         #document-container > .component input[type=text], textarea, select, .field > div {
             width: 100%;
         }
+        #document-container > .component input[type=radio], input[type=checkbox], input[type=file] {
+            cursor: pointer;
+        }
+        #document-container > .component input[type=radio]:focus, input[type=checkbox]:focus {
+            outline: 1px #3c3cff solid; /*임시. radio, checkbox focus 시 안보여서 설정함.*/
+        }
         #document-container > .component input[type=text], textarea {
             outline: solid 1px;
+        }
+        #document-container > .component span[class*="required"] {
+            padding-left: 5px;
+            color: #fc5f6b;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 <div id="document-container"></div>
 <div style="margin-top: 10px; text-align: center;">
-    <button onclick="documentEditor.save()">저장</button> <button onclick="window.close();">취소</button>
+    <button th:text="#{common.btn.save}" onclick="aliceDocument.save()"></button>
+    <button th:text="#{common.btn.cancel}" onclick="window.close();"></button>
 </div>
 </body>
 <script type="text/javascript">
     window.addEventListener('load', function() {
-        documentEditor.init('[[${documentId}]]');
+        i18n.add(function(){
+            aliceDocument.init('[[${documentId}]]');
+        });
     });
 </script>
 </html>

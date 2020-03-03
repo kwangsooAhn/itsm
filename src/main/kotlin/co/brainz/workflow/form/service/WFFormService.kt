@@ -152,11 +152,12 @@ class WFFormService(private val formMstRepository: FormMstRepository,
             val componentDataEntities: MutableList<ComponentDataEntity> = mutableListOf()
             for (component in formComponentSaveDto.components) {
                 var mappingId = ""
-                val jsonValue: String = component["common"]?.toString() ?: ""
-                if (jsonValue.isNotEmpty()) {
-                    val common = mapper.convertValue(jsonValue, LinkedHashMap::class.java)
-                    if (common.containsKey("mapping-id")) {
-                        mappingId = common["mapping-id"] as String
+                if (component["common"] != null) {
+                    val common: java.util.LinkedHashMap<*, *>? = mapper.convertValue(component["common"], LinkedHashMap::class.java)
+                    if (common != null) {
+                        if (common.containsKey("mapping-id")) {
+                            mappingId = common["mapping-id"] as String
+                        }
                     }
                 }
                 val componentMstEntity = ComponentMstEntity(
