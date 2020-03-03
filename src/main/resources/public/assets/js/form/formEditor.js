@@ -17,12 +17,15 @@
     
     let propertiesPanel = null,
         selectedComponentId = '', //선택된 컴포넌트 ID
+        data = {},
         formProperties = {}; //좌측 properties panel에 출력되는 폼 정보
     /**
      * 폼 저장
      */
     function saveForm() {
-        console.debug(formEditor.data);
+        data = JSON.parse(JSON.stringify(formEditor.data));
+        data.components = data.components.filter(function(comp) { return comp.type !== defaultComponent; });
+        console.debug(data);
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/data',
@@ -34,7 +37,7 @@
                 }
             },
             contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(formEditor.data)
+            params: JSON.stringify(data)
         });
     }
 
@@ -89,7 +92,7 @@
             setComponentData(compAttr);
             elem.innerHTML = removeComp.domElem.innerHTML;
             removeComp.domElem.remove();
-            
+
             let compIdx = component.getLastIndex();
             component.setLastIndex(compIdx - 1);
             addEditboxDown(componentId);
@@ -184,7 +187,7 @@
                         break;
                     }
                 }
-                lastCompIndex--
+                lastCompIndex--;
             }
         } else { //마지막에 추가된 경우 
             editbox = component.draw(defaultComponent);
@@ -226,7 +229,7 @@
                 break;
             }
         }
-        if (compData.type !== defaultComponent && !isExist) {//추가
+        if (!isExist) {//추가
             formEditor.data.components.push(compData);
         }
     }
@@ -258,8 +261,8 @@
                 let targetElement = document.getElementById(id);
                 targetElement.innerHTML = elementHTML;
                 panelForm.removeChild(element.domElem);
-                let lastCompIndex = component.getLastIndex();
-                component.setLastIndex(lastCompIndex - 1);
+                let compIdx = component.getLastIndex();
+                component.setLastIndex(compIdx - 1);
             }
         }
 
@@ -327,6 +330,7 @@
                     const rowData = {};
                     detailAttr.option[0].items.forEach(function(option, i) {
                         cell = document.createElement('td');
+                        cell.id = option.id;
                         cell.innerHTML = tb.lastElementChild.children[i + 1].innerHTML;
                         cell.querySelector('input').value = option.value;
                         rowData[option.id] = option.value;

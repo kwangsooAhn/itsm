@@ -22,8 +22,8 @@
               {'type': 'fileupload', 'name': 'Fileupload', 'icon': ''}
           ];
     let formPanel = null,
-        componentIdx = 0,          //컴포넌트 index = 출력 순서 생성시 사용
-        data = {};
+        componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
+
     const utils = {
         /**
          * 템플릿 리터럴 문자열을 전달받아서 컴포넌트 생성
@@ -516,7 +516,7 @@
     }
 
     /**
-     * 컴포넌트 draw
+     * 컴포넌트 draw.
      * 
      * @param {String} compType 컴포넌트 타입
      * @param {Object} compData 컴포넌트 데이터
@@ -604,8 +604,8 @@
              componentConstructor.type = compType;
              componentConstructor.attr = compAttr;
              componentConstructor.domElem.setAttribute('id', compId);
-             componentConstructor.domElem.setAttribute('data-index', compAttr.display.order);
-             componentConstructor.domElem.setAttribute('tabIndex', compAttr.display.order);
+             componentConstructor.domElem.setAttribute('data-index', getLastIndex());
+             componentConstructor.domElem.setAttribute('tabIndex', getLastIndex());
          }
          return componentConstructor;
     }
