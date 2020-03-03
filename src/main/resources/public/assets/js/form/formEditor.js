@@ -255,9 +255,11 @@
             if (element) {
                 let elementHTML = element.domElem.innerHTML;
                 const panelForm = document.getElementById('panel-form');
-                let targetElement = panelForm.querySelectorAll('.component')[compIdx];
+                let targetElement = document.getElementById(id);
                 targetElement.innerHTML = elementHTML;
                 panelForm.removeChild(element.domElem);
+                let lastCompIndex = component.getLastIndex();
+                component.setLastIndex(lastCompIndex - 1);
             }
         }
 
@@ -579,7 +581,7 @@
                                 cell.appendChild(chkbox);
                                 row.appendChild(cell);
 
-                                for (let j = 0, len = fieldArr.items.length; j < len; j++) {
+                                for (let j = 0, itemLen = fieldArr.items.length; j < itemLen; j++) {
                                     cell = document.createElement('td');
                                     cell.setAttribute('id', fieldArr.items[j].id);
                                     let inputCell = document.createElement('input');
@@ -630,11 +632,9 @@
                 return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;  
             });
             //데이터로 전달된 컴포넌트 draw
-            const formPanel = document.getElementById('panel-form');
             for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
                 let compData = formEditor.data.components[i];
-                let element = component.draw(compData.type, compData);
-                formPanel.appendChild(element.domElem);
+                component.draw(compData.type, compData);
             }
         }
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
