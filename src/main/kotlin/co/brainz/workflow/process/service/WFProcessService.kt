@@ -1,15 +1,15 @@
 package co.brainz.workflow.process.service
 
+import co.brainz.workflow.element.entity.ElementDataEntity
+import co.brainz.workflow.element.entity.ElementMstEntity
+import co.brainz.workflow.element.repository.ElementMstRepository
 import co.brainz.workflow.process.constants.ProcessConstants
 import co.brainz.workflow.process.dto.ProcessDto
 import co.brainz.workflow.process.dto.WfJsonElementDto
 import co.brainz.workflow.process.dto.WfJsonMainDto
 import co.brainz.workflow.process.dto.WfJsonProcessDto
-import co.brainz.workflow.process.entity.ElementDataEntity
-import co.brainz.workflow.process.entity.ElementMstEntity
 import co.brainz.workflow.process.entity.ProcessMstEntity
 import co.brainz.workflow.process.mapper.ProcessMstMapper
-import co.brainz.workflow.process.repository.ElementMstRepository
 import co.brainz.workflow.process.repository.ProcessMstRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -65,10 +65,10 @@ class WFProcessService(
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val convertMap = mutableMapOf<String, Any>()
 
-        for (elementMstEntity in processMstEntity.elementMstEntity) {
+        for (elementMstEntity in processMstEntity.elementMstEntities) {
             val elDto = processMstMapper.toWfJsonElementDto(elementMstEntity)
-            elDto.display = elementMstEntity.displayInfo?.let { mapper.readValue(it) }
-            elDto.data = elementMstEntity.elementDataEntity.associateByTo(convertMap, { it.attrId }, { it.attrValue })
+            elDto.display = elementMstEntity.displayInfo.let { mapper.readValue(it) }
+            elDto.data = elementMstEntity.elementDataEntities.associateByTo(convertMap, { it.attributeId }, { it.attributeValue })
             wfElementDto.add(elDto)
         }
         return WfJsonMainDto(wfProcessDto, wfElementDto)
@@ -128,12 +128,12 @@ class WFProcessService(
             val processMstEntity = processMstRepository.findProcessMstEntityByProcessId(wfJsonProcessDto.id)
 
             // element data 삭제한다.
-            processMstEntity.elementMstEntity.forEach {
-                it.elementDataEntity.clear()
+            processMstEntity.elementMstEntities.forEach {
+                it.elementDataEntities.clear()
             }
 
             // element master 삭제한다.
-            processMstEntity.elementMstEntity.clear()
+            processMstEntity.elementMstEntities.clear()
 
             // process data entity 생성.
             val elementMstEntities = mutableListOf<ElementMstEntity>()
@@ -144,7 +144,7 @@ class WFProcessService(
 
                     // element master entity 생성
                     var elementMstEntity = ElementMstEntity(
-                        procId = wfJsonProcessDto.id,
+                        processId = wfJsonProcessDto.id,
                         displayInfo = mapper.writeValueAsString(it.display)
                     )
 
@@ -156,14 +156,14 @@ class WFProcessService(
                     it.data?.entries?.forEachIndexed { idx, data ->
                         elementDataEntities.add(
                             ElementDataEntity(
-                                elemId = elementMstEntity.elemId,
-                                attrId = data.key,
-                                attrValue = data.value as String,
-                                attrOrder = idx
+                                element = elementMstEntity,
+                                attributeId = data.key,
+                                attributeValue = data.value as String,
+                                attributeOrder = idx
                             )
                         )
                     }
-                    elementMstEntity.elementDataEntity.addAll(elementDataEntities)
+                    elementMstEntity.elementDataEntities.addAll(elementDataEntities)
                     elementMstEntities.add(elementMstEntity)
                 }
             }
@@ -171,7 +171,7 @@ class WFProcessService(
             // 프로세스 정보를 저장한다.
             processMstEntity.processName = wfJsonProcessDto.name.toString()
             processMstEntity.processDesc = wfJsonProcessDto.description
-            processMstEntity.elementMstEntity.addAll(elementMstEntities)
+            processMstEntity.elementMstEntities.addAll(elementMstEntities)
             processMstRepository.save(processMstEntity)
 
         }

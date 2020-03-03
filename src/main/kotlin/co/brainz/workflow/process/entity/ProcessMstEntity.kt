@@ -1,6 +1,7 @@
 package co.brainz.workflow.process.entity
 
 import co.brainz.workflow.document.entity.DocumentEntity
+import co.brainz.workflow.element.entity.ElementMstEntity
 import co.brainz.workflow.form.entity.FormMstEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
@@ -49,11 +50,13 @@ data class ProcessMstEntity(
     var updateDt: LocalDateTime? = null,
 
     @Column(name = "update_user_key", length = 128)
-    var updateUserKey: String? = null,
+    var updateUserKey: String? = null
+
+) : Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    var formMstEntity: FormMstEntity? = null,
+    var formMstEntity: FormMstEntity = FormMstEntity()
 
     @OneToMany(
         mappedBy = "processMstEntity",
@@ -61,12 +64,8 @@ data class ProcessMstEntity(
         cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
         orphanRemoval = true
     )
-    var elementMstEntity: MutableList<ElementMstEntity> = mutableListOf()
-
-) : Serializable {
+    var elementMstEntities: MutableList<ElementMstEntity> = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "processes")
-    var processes: MutableList<DocumentEntity>? = mutableListOf()
-
-
+    var processes: MutableList<DocumentEntity> = mutableListOf()
 }
