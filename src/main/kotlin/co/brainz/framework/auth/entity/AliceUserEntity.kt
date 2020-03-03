@@ -75,7 +75,10 @@ data class AliceUserEntity(
         var lang: String = "",
 
         @Column(name = "time_format", length = 100)
-        var timeFormat: String = ""
+        var timeFormat: String = "",
+        
+        @Column(name = "theme", length = 100)
+        var theme: String = ""
 ): Serializable, AliceMetaEntity() {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()

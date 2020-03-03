@@ -94,7 +94,8 @@ class CertificationService(private val certificationRepository: CertificationRep
                         oauthKey = "",
                         timezone = TimeZone.getDefault().id,
                         lang = UserConstants.USER_LOCALE_LANG,
-                        timeFormat = UserConstants.USER_TIME_FORMAT
+                        timeFormat = UserConstants.USER_TIME_FORMAT,
+                        theme = UserConstants.USER_THEME
                 )
 
                 when (target) {

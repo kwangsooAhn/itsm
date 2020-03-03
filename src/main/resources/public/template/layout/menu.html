@@ -37,6 +37,7 @@
                     <ul>
                         <li><a href="javascript:logout()" th:text="#{common.btn.logout}">로그아웃1</a></li>
                         <li><a th:href="@{/users/{userKey}/userEditSelf(userKey=${#authentication.details.userKey})}" th:text="#{menu.editMyInfo}">내 정보 수정1</a></li>
+                        <li><a th:text="${#authentication.details.theme}" ">test</a></li>
                     </ul>
                 </div>
             </div>

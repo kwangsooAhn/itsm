@@ -71,7 +71,8 @@ class OAuthService(private val userService: UserService,
                 oauthKey = oAuthDto.oauthKey,
                 timezone = TimeZone.getDefault().id,
                 lang = UserConstants.USER_LOCALE_LANG,
-                timeFormat = UserConstants.USER_TIME_FORMAT
+                timeFormat = UserConstants.USER_TIME_FORMAT,
+                theme = UserConstants.USER_THEME
         )
         certificationRepository.save(userEntity)
     }
@@ -88,7 +89,7 @@ class OAuthService(private val userService: UserService,
                     AliceUserDto(
                             aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
                             aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
-                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat
+                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
                     )
                 }
             }
