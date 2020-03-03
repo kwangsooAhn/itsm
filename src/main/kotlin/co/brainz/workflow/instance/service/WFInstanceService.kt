@@ -2,7 +2,6 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.workflow.instance.constants.InstanceConstants
 import co.brainz.workflow.instance.dto.InstanceDto
-import co.brainz.workflow.instance.dto.TicketViewDto
 import co.brainz.workflow.instance.dto.TicketDto
 import co.brainz.workflow.instance.entity.InstanceMstEntity
 import co.brainz.workflow.instance.repository.InstanceMstRepository
@@ -16,23 +15,25 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
     /**
      * Search Instances.
      */
-    fun instances(): List<TicketDto> {
-
-        val a = instanceMstRepository.findInstances()
-
-
-        val instanceList = mutableListOf<TicketDto>()
-
-        return instanceList
+    fun instances(parameters: LinkedHashMap<String, Any>): List<TicketDto> {
+        var status = ""
+        var userKey = ""
+        if (parameters["status"] != null) {
+            status = parameters["status"].toString()
+        }
+        if (parameters["userKey"] != null) {
+            userKey = parameters["userKey"].toString()
+        }
+        return instanceMstRepository.findInstances(status, userKey)
     }
 
     /**
      * Search Instance.
      *
-     * @param instanceId
+     * @param tokenId
      */
-    fun instance(instanceId: String) {
-
+    fun instance(tokenId: String): TicketDto {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     /**
@@ -65,38 +66,4 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
         }
     }
 
-    /**
-     * Process Instance List.
-     *
-     * @param userKey userKey
-     * @param status token status
-     * @return List<InstanceViewDto>
-     */
-    fun getInstances(userKey: String, status: String): List<TicketViewDto> {
-        //TODO: (assignee_id === userKey && token_status === status) 리스트 조회
-        //임시 데이터.
-        val instanceList = mutableListOf<TicketViewDto>()
-        instanceList.add(TicketViewDto(
-                ticketId = "40288a9170896b10017089902c560006",
-                ticketName = "장애신고 문서",
-                ticketDesc = "임시로 작성된 문서입니다.",
-                userKey = "이소현", // 임시. userKey return 해야함.
-                createDt = LocalDateTime.now()
-        ))
-        instanceList.add(TicketViewDto(
-                ticketId = "40288a9170896b10017089902c560011",
-                ticketName = "단순문의 문서",
-                ticketDesc = "테스트111.",
-                userKey = "이소현", // 임시. userKey return 해야함.
-                createDt = LocalDateTime.now().minusDays(10)
-        ))
-        instanceList.add(TicketViewDto(
-                ticketId = "40288ab770999f6b017099a066140000",
-                ticketName = "장애신고 문서",
-                ticketDesc = "임시로 작성된 문서입니다.",
-                userKey = "관리자", // 임시. userKey return 해야함.
-                createDt = LocalDateTime.now().minusMonths(5)
-        ))
-        return instanceList
-    }
 }

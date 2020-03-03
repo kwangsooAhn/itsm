@@ -4,6 +4,7 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class TicketDto(
+        val tokenId: String,
         val ticketId: String,
         val ticketName: String,
         val ticketDesc: String?,
