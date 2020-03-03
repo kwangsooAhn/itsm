@@ -19,7 +19,6 @@ data class ElementMstEntity(
         @Column(name = "elem_id", length = 256)
         val elementId: String,
 
-        @JoinColumn(name = "proc_id")
         @Column(name="proc_id", length = 128)
         val processId: String,
 
