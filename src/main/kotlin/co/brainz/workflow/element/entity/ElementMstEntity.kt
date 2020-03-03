@@ -2,15 +2,17 @@ package co.brainz.workflow.element.entity
 
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
-import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
+import javax.persistence.Table
 import javax.persistence.Id
+import javax.persistence.GeneratedValue
+import javax.persistence.Column
 import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
+import javax.persistence.FetchType
 
 @Entity
+@Table(name = "wf_elem_mst")
 data class ElementMstEntity(
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -18,6 +20,7 @@ data class ElementMstEntity(
         val elementId: String,
 
         @JoinColumn(name = "proc_id")
+        @Column(name="proc_id", length = 128)
         val processId: String,
 
         @Column(name = "elem_type", length = 100)

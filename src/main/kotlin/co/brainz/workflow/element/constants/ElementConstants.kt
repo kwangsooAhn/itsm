@@ -34,4 +34,13 @@ object ElementConstants {
         TARGET_ID("end-id"),
         CONDITION("condition")
     }
+
+    /**
+     * Element mst elemType data id.
+     */
+    enum class ElementStatusType(val value: String) {
+        START("start"),
+        USER("user"),
+        END("end")
+    }
 }

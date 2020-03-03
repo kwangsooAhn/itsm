@@ -1,7 +1,5 @@
 package co.brainz.workflow.token.service
 
-import co.brainz.workflow.element.constants.ElementConstants
-import co.brainz.workflow.element.entity.ElementMstEntity
 import co.brainz.workflow.element.service.WFElementService
 import co.brainz.workflow.instance.dto.InstanceDto
 import co.brainz.workflow.instance.service.WFInstanceService
@@ -13,6 +11,8 @@ import co.brainz.workflow.token.entity.TokenMstEntity
 import co.brainz.workflow.token.repository.TokenDataRepository
 import co.brainz.workflow.token.repository.TokenMstRepository
 import co.brainz.workflow.document.repository.DocumentRepository
+import co.brainz.workflow.element.constants.ElementConstants
+import co.brainz.workflow.element.entity.ElementMstEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -33,11 +33,14 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      */
     fun postToken(tokenSaveDto: TokenSaveDto) {
         val documentDto = documentRepository.findDocumentEntityByDocumentId(tokenSaveDto.documentDto.documentId)
-        val processId = documentDto.processes.processId;
+        val processId = documentDto.processes.processId
         val instanceDto = InstanceDto(instanceId = "", processId = processId)
         val instance = wfInstanceService.createInstance(instanceDto)
+        //postToken에서는 문서를 새롭게 만드는 메소드이기 때문에 elementId를 강제로 얻어와야 한다.
+        tokenSaveDto.tokenDto.elementId =  wfElementService.getElementId(processId, ElementConstants.ElementStatusType.START.value).elementId
         val token = createToken(instance.instanceId, tokenSaveDto.tokenDto)
         createTokenData(tokenSaveDto, instance.instanceId, token.tokenId)
+        tokenSaveDto.tokenDto.tokenId = token.tokenId
         if (tokenSaveDto.tokenDto.isComplete) {
             completeToken(tokenSaveDto)
         }
@@ -149,10 +152,12 @@ class WFTokenService(private val documentRepository: DocumentRepository,
                 val assigneeTypeValueInNextElement: String? = nextElement.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE_TYPE.value)
 
                 val nextToken = TokenDto(tokenId = "",
-                        isComplete = false,
-                        elementId = nextElement.elementId,
-                        assigneeId = getAssigneeForToken(assigneeValueInNextElement),
-                        assigneeType = assigneeTypeValueInNextElement, data = null)
+                          isComplete = false,
+                          elementId = nextElement.elementId,
+                          assigneeId = getAssigneeForToken(assigneeValueInNextElement),
+                          assigneeType = assigneeTypeValueInNextElement,
+                          data = null
+                )
 
                 when (nextElement.elementType) {
                     ElementConstants.ElementType.USER_TASK.value -> {
