@@ -650,25 +650,18 @@
     function setLastIndex(idx) {
         componentIdx = idx;
     }
-    /**
-     * 컴포넌트 기본 속성 조회 : '/assets/js/form/componentAttribute.json'
-     */
-    function loadDefaultAttribute(data) {
-        component.data = JSON.parse(data);
-    }
-
      /**
      * 컴포넌트 초기화
      */
     function init() {
         formPanel = document.getElementById('panel-form');
         
-        //load component default data.
+        //컴포넌트 기본 속성 조회 : '/assets/js/form/componentAttribute.json'
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/form/componentAttribute.json',
             callbackFunc: function(xhr) {
-                loadDefaultAttribute(xhr.responseText)
+                component.data = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
