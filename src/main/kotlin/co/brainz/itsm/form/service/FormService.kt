@@ -9,6 +9,7 @@ import co.brainz.itsm.provider.dto.FormDto
 import co.brainz.itsm.provider.dto.FormSaveDto
 import co.brainz.itsm.provider.dto.FormViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.security.core.context.SecurityContextHolder
@@ -62,7 +63,7 @@ class FormService(private val providerForm: ProviderForm) {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
         val forms = mapper.convertValue(map["form"], FormViewDto::class.java)
-        val collections: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(map["collections"], mapper.typeFactory.constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
+        val components:MutableList<LinkedHashMap<String, Any>>  = mapper.convertValue(map["components"], TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
 
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val formSaveDto = FormSaveDto(
@@ -74,7 +75,7 @@ class FormService(private val providerForm: ProviderForm) {
         )
         val formComponentSaveDto = FormComponentSaveDto(
                 form = formSaveDto,
-                components = collections
+                components = components
         )
 
         return providerForm.putForm(formComponentSaveDto)
