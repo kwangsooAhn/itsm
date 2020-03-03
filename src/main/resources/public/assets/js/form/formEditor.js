@@ -30,10 +30,13 @@
             name: 'test',
             desc: 'zzzzzz'
         };
-        var collections = [
+        var components = [
             {
-                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                id: '40288ab2709f1a9101709f1b070f0000',
                 type: 'text',
+                common: {
+                    'mapping-id': ''
+                },
                 label: {
                     position: 'left',
                     column: 2,
@@ -61,8 +64,11 @@
                 }
             },
             {
-                id: '4a417b48be2e4ebe82bf8f80a63622a4',
+                id: '40288ab2709f1a9101709f1b072d0001',
                 type: 'select',
+                common: {
+                    'mapping-id': 'test123'
+                },
                 label: {
                     position: 'top',
                     column: 2,
@@ -87,11 +93,13 @@
                 }
             }
         ];
+
         var data = {
             form: formInfo,
-            collections: collections
+            components: components
         };
 
+        //console.log(data);
         console.log(JSON.stringify(data));
 
         aliceJs.sendXhr({
