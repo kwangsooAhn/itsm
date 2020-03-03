@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -69,12 +70,12 @@ class UserRestController(
     /**
      * 사용자가 정보를 업데이트한다.
      */
-    @PutMapping("/{userKey}/userEditSelf", "/{userKey}/userEdit")
+    @PutMapping("/{userKey}/{target}")
     fun updateUserEdit(
-        @RequestBody user: UserUpdateDto, request: HttpServletRequest,
-        response: HttpServletResponse
+        @RequestBody user: UserUpdateDto, @PathVariable target: String
+        ,request: HttpServletRequest, response: HttpServletResponse
     ): String {
-        val result = userService.updateUserEdit(user)
+        val result = userService.updateUserEdit(user, target)
 
         if (result == UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code) {
             certificationService.sendMail(
