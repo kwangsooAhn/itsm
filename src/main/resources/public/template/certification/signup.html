@@ -83,11 +83,13 @@
     <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
     <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
     <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
+            i18n.add();
             hiddenProgressBar();
         }
         const STATUS_SUCCESS = "0";
@@ -97,15 +99,11 @@
         // 사용자 등록
         function userRegister() {
             if (emptyValidation()) {
-                if (document.getElementById("password").value != document.getElementById("rePassword").value) {
-                    alert("비밀번호가 일치하지 않습니다.");
+                if (isNotEquals('password', 'rePassword', 'msg.user.passwordNotEquals')) {
                     return false;
                 } else {
                     // 비밀번호 validation Check
-                    const password = document.getElementById("password").value;
-                    if (!passwordValidation(password)) {
-                        return false;
-                    }
+                    if (!validPassword("password")) return false;
                     // 비밀번호 RSA 암호화
                     const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
                     const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
@@ -113,10 +111,9 @@
                     rsa.setPublic(keyModule, keyExponent);
 
                     // 이메일 validation Check
-                    if (!emailValidation(document.getElementById("email").value)) {
-                        return false;
-                    }
+                    if (!validEmail("email")) return false;
 
+                    const password = document.getElementById("password").value;
                     const registerInfo = {
                         userId: document.getElementById("userId").value,
                         password: rsa.encrypt(password),
@@ -134,11 +131,11 @@
         }
         // 빈 값 체크
         function emptyValidation() {
-            if (validNull('userId', 'user.msg.checkUserId')) return false;
-            if (validNull('password', 'user.msg.checkPassword')) return false;
-            if (validNull('rePassword', 'user.msg.checkRePassword')) return false;
-            if (validNull('userName', 'user.msg.checkUserName')) return false;
-            if (validNull('email', 'user.msg.checkEmail')) return false;
+            if (isEmpty('userId', 'user.msg.idNotExist')) return false;
+            if (isEmpty('password', 'user.msg.passwordNotExist')) return false;
+            if (isEmpty('rePassword', 'user.msg.rePasswordNotExist')) return false;
+            if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
+            if (isEmpty('email', 'user.msg.emailNotExist')) return false;
             return true;
         }
 

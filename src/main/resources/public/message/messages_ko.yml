@@ -116,12 +116,12 @@ user:
   message: "이메일 변경 시, 인증 절차가 필요합니다."
   searchPlaceholder: "아이디 / 이름 / 직책 / 부서 / 사무실 번호 / 핸드폰 번호"
   msg:
-    checkUserId: "아이디를 입력해주세요."
-    checkPassword: "비밀번호를 입력해주세요."
-    checkRePassword: "재확인 비밀번호를 입력해주세요."
-    checkUserName: "이름을 입력해주세요."
-    checkEmail: "이메일을 입력해주세요."
-    checkPasswordEquals: "비밀번호가 일치하지 않습니다."
+    idNotExist: "아이디를 입력해주세요."
+    passwordNotExist: "비밀번호를 입력해주세요."
+    rePasswordNotExist: "재확인 비밀번호를 입력해주세요."
+    passwordNotEquals: "비밀번호가 일치하지 않습니다."
+    nameNotExist: "이름을 입력해주세요."
+    emailNotExist: "이메일을 입력해주세요."
 
 # FAQ
 faq:
@@ -159,18 +159,18 @@ notice:
   delete: "삭제"
   searchPlaceholder: "제목 / 작성자"
   msg:
-    checkTitle: "제목을 입력하세요."
-    checkContents: "내용을 입력하세요."
-    checkPopHeight: "높이를 입력하세요."
+    titleNotExist: "제목을 입력하세요."
+    contentsNotExist: "내용을 입력하세요."
+    popHeightNotExist: "높이를 입력하세요."
     checkPopHeightRange: "높이는 500px부터 1000px 사이의 값만 입력 가능합니다."
-    checkPopWidth: "넓이를 입력하세요."
+    popWidthNotExist: "넓이를 입력하세요."
     checkPopWidthRange: "넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."
-    checkPopStrtDt: "팝업 시작일을 입력하세요."
-    checkPopEndDt: "팝업 종료일을 입력하세요."
-    checkTopNoticeStrtDt: "상단 공지 시작일을 입력하세요."
-    checkTopNoticeEndDt: "상단 공지 종료일을 입력하세요."
-    checkSearchFromDt: "검색 시작 날짜를 입력해주세요."
-    checkSearchToDt: "검색 종료 날짜를 입력해주세요."
+    popStrtDtNotExist: "팝업 시작일을 입력하세요."
+    popEndDtNotExist: "팝업 종료일을 입력하세요."
+    topNoticeStrtDtNotExist: "상단 공지 시작일을 입력하세요."
+    topNoticeEndDtNotExist: "상단 공지 종료일을 입력하세요."
+    fromDtNotExist: "검색 시작 날짜를 입력해주세요."
+    toDtNotExist: "검색 종료 날짜를 입력해주세요."
     checkSearchRange: "검색 시작 날짜가 종료 날짜보다 큽니다."
 
 # LOGIN
@@ -286,7 +286,6 @@ validation:
     pwContainsEmail: "비밀번호에 이메일 아이디가 포함되어 있습니다."
     pwContainsInnerMobileNumber: "비밀번호에 사용자의 핸드폰 번호가 포함되어 있습니다."
     checkEmailFormat: "이메일 형식에 맞게 입력해주세요."
-    checkNull: "필수 값을 입력해주세요."
 
 # Document
 document:
