@@ -438,6 +438,9 @@
                                 let propertyOption = document.createElement('option');
                                 propertyOption.value = fieldArr.option[i].id;
                                 propertyOption.text = fieldArr.option[i].name;
+                                if (fieldArr.value === fieldArr.option[i].id) {
+                                    propertyOption.setAttribute('selected', 'selected');
+                                }
                                 propertyValue.appendChild(propertyOption);
                             }
                             propertyValue.addEventListener('change', function() {
