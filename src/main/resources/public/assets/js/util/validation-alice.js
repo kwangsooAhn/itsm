@@ -156,7 +156,7 @@ function isOrOperator(condition1, condition2, messageId) {
 /** @brief 패스워드 관련 유효성 검사(공백, 문자 구성, 개인정보 포함 여부)
  *  @date 2020-03-03
  */
-function validPassword(elementId) {
+function isValidPassword(elementId) {
 
     let userId = document.getElementById("userId").value;
     let emailId = document.getElementById("email").value.split('@');
@@ -264,7 +264,7 @@ function validPassword(elementId) {
 /** @brief 이메일 관련 유효성 검사(이메일 형식)
  *  @date 2020-03-03
  */
-function validEmail(elementId) {
+function isValidEmail(elementId) {
     var email = document.getElementById(elementId).value;
 
     if (!emailReg.test(email)) {

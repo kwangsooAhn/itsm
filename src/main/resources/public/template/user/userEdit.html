@@ -271,11 +271,11 @@
             if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.rePasswordNotExist')) return false;
             if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
             if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
-                if (!validPassword('password')) return false;
+                if (!isValidPassword('password')) return false;
             }
             if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
             if (isEmpty('email', 'user.msg.emailNotExist')) return false;
-            if (!validEmail('email')) return false;
+            if (!isValidEmail('email')) return false;
             return true;
         }
         /*]]>*/
