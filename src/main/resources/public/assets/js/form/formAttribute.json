@@ -13,10 +13,10 @@
             "type": "inputbox-readonly"
         },
         {
-            "id": "description", 
+            "id": "desc", 
             "name": "Description", 
             "value": "", 
-            "type": "inputbox"
+            "type": "textarea"
         }
     ]
 }

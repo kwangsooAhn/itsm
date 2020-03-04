@@ -201,6 +201,16 @@ body {
                 padding-right:2px;
                 padding-left: 0px;
             }
+            input[type=text].readonly {
+                border: none;
+                text-align: right; 
+                padding-right:2px;
+                padding-left: 0px;
+            }
+            textarea {
+                border: 1px solid #4C5264;
+                width: 100%;
+            }
             select {
                 flex: 1;
             }

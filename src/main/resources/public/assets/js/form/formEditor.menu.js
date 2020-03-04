@@ -313,12 +313,12 @@
         }
         isCtrlPressed = false;
         
-        if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return; }
+        if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return false; }
         if (selectedItem && userKeyCode === keycode.enter) {
             searchItems = [];
             selectedItem = null;
             selectedItemIdx = 0;
-            return;
+            return false;
         }
         itemInContext = clickInsideElement(e, 'component');
 
@@ -327,7 +327,7 @@
             if (box) {
                 let text = box.textContent;
 
-                if (text.length > 0 && text.charAt(0) !== '/') { return; }
+                if (text.length > 0 && text.charAt(0) !== '/') { return false; }
                 if (text.length > 0 && menuItemSearch(text)) {
                     menuOn(2);
                     setPositionMenu(e);
@@ -339,7 +339,7 @@
     }
     
     function onRightClickHandler(e) {
-        if (clickInsideElement(e, 'alice-form-properties-panel')) { return; }
+        if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) { return false; }
 
         if (itemInContext) { //기존 eidtbox에서 검색을 시도한 경우 초기화
             let box = itemInContext.querySelector('[contenteditable=true]');
@@ -359,12 +359,11 @@
         } else {
             itemInContext = null;
             menuOff();
-            formEditor.hideProperties();
         }
     }
     
     function onLeftClickHandler(e) {
-        if (clickInsideElement(e, 'alice-form-properties-panel')) { return; }
+        if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) { return false; }
 
         let clickedElem = clickInsideElement(e, 'context-item-link');
 
@@ -380,17 +379,18 @@
                 }
                 flag = 1;
                 menuOff();
-                formEditor.hideProperties();
+                
+                if (e.target.classList.contains('alice-form-panel')) { formEditor.showFormProperties(); }
+                itemInContext = null;
             }
             let button = e.button ? e.button : e.which;
 
             if (button === 1) {
                 itemInContext = clickInsideElement(e, 'component');
                 if (itemInContext) {
-                    let compType = itemInContext.getAttribute('data-type');
-
+                    let box = itemInContext.querySelector('[contenteditable=true]');
                     if (isCtrlPressed) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
-                        if (compType === 'editbox') {
+                        if (box) {
                             menuOn(2);
                             setPositionMenu(e);
                         } else {
@@ -399,8 +399,8 @@
                         }
                     }
                     
-                    if (itemInContext !== null && compType !== 'editbox') {
-                        formEditor.showProperties(itemInContext.id);
+                    if (itemInContext !== null) {
+                        formEditor.showComponentProperties(itemInContext.id);
                     }
                 }
             }
@@ -457,7 +457,7 @@
         if (targetComponent && dragComponent !== targetComponent) {
             //같은 위치에 drag 하고자하는 경우 
             let dragIdx = Number(dragComponent.getAttribute('data-index'));
-            if (targetComponent !== lastComponent && Number(targetComponent.getAttribute('data-index')) === (dragIdx + 1)) { return; }
+            if (targetComponent !== lastComponent && Number(targetComponent.getAttribute('data-index')) === (dragIdx + 1)) { return false; }
             
             let targetIdx = Number(targetComponent.getAttribute('data-index'));
             let lastCompIndex = component.getLastIndex();
@@ -528,7 +528,7 @@
                 formEditor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
         }
         menuOff();
-        formEditor.hideProperties();
+        formEditor.hideComponentProperties();
         itemInContext = null;
     }
 
