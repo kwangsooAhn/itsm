@@ -82,7 +82,7 @@
         let rslt = false;
         let tempText = searchText.replace('/', '');
         searchItems = [];
-
+        
         for (let i = 0, len = componentMenu.children.length; i < len; i++) {
             let item = componentMenu.children[i];
 
@@ -98,7 +98,7 @@
                 searchItems.push(item);
                 rslt = true;
             } else {
-                let text = item.textContent || item.innerText;
+                let text = item.querySelector('label').textContent || item.querySelector('label').innerText;
                 
                 if (text.slice(0, tempText.length).toLowerCase() !== tempText.toLowerCase()) {
                     item.style.display = 'none';
@@ -513,7 +513,6 @@
      */
     function menuItemListener(elem) {
         let clickedComponent = itemInContext;
-        
         switch (elem.getAttribute('data-action')) {
             case 'copy':
                 break;
@@ -529,6 +528,7 @@
                 formEditor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
         }
         menuOff();
+        formEditor.hideProperties();
         itemInContext = null;
     }
 

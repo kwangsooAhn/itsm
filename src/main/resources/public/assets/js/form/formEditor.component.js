@@ -22,6 +22,7 @@
               {'type': 'fileupload', 'name': 'Fileupload', 'icon': ''}
           ];
     let formPanel = null,
+        defaultData = {},                 //컴포넌트 기본 세부 속성
         componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
 
     const utils = {
@@ -532,7 +533,7 @@
             compAttr.id = compId;
             compAttr.type = compType;
             
-            let defaultAttr = component.data[compType];
+            let defaultAttr = defaultData[compType];
             Object.keys(defaultAttr).forEach(function(group) {
                 if (group === 'option') { //옵션 json 구조 변경
                     let options = [];
@@ -554,7 +555,7 @@
             });
         }
         compAttr.display.order = ++componentIdx;
-
+        
         let componentConstructor;
         switch(compType) {
             case 'editbox':
@@ -615,7 +616,7 @@
      * @param type 컴포넌트 타입
      */
     function getDefaultAttribute(type) {
-        return component.data[type];
+        return JSON.stringify(defaultData[type]);
     }
     /**
      * 좌측 세부 속성창에 출력될 컴포넌트 제목 객체 조회
@@ -658,7 +659,7 @@
             method: 'GET',
             url: '/assets/js/form/componentAttribute.json',
             callbackFunc: function(xhr) {
-                component.data = JSON.parse(xhr.responseText);
+                defaultData = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
