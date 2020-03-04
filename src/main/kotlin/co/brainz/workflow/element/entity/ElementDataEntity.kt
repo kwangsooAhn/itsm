@@ -21,7 +21,7 @@ data class ElementDataEntity(
 
     @Id
     @Column(name = "attr_id", length = 100)
-    val attributeId: String ="",
+    val attributeId: String = "",
 
     @Id
     @Column(name = "attr_value", length = 512)
