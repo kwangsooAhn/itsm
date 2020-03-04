@@ -14,14 +14,14 @@ const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/;
 function isNull(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value === null) {
-            if (messageId != undefined) {
+            if (messageId !== undefined) {
                 alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId)
+    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -31,14 +31,14 @@ function isNull(elementId, messageId) {
 function isNotNull(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value !== null) {
-            if (messageId != undefined) {
+            if (messageId !== undefined) {
                 alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId)
+    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -48,14 +48,14 @@ function isNotNull(elementId, messageId) {
 function isEmpty(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value === '') {
-            if (messageId != undefined) {
+            if (messageId !== undefined) {
                 alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId)
+    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -65,14 +65,14 @@ function isEmpty(elementId, messageId) {
 function isNotEmpty(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value !== '') {
-            if (messageId != undefined) {
+            if (messageId !== undefined) {
                 alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId)
+    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -82,14 +82,14 @@ function isNotEmpty(elementId, messageId) {
 function isEquals(elementId1, elementId2, messageId) {
     if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value === document.getElementById(elementId2).value) {
-            if (messageId != undefined) {
+            if (messageId !== undefined) {
                 alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2)
+    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -99,14 +99,14 @@ function isEquals(elementId1, elementId2, messageId) {
 function isNotEquals(elementId1, elementId2, messageId) {
     if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value !== document.getElementById(elementId2).value) {
-            if (messageId != undefined) {
+            if (messageId !== undefined) {
                 alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2)
+    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -116,14 +116,14 @@ function isNotEquals(elementId1, elementId2, messageId) {
 function isExistInScope(elementId, minValue, maxValue, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value < minValue || document.getElementById(elementId).value > maxValue) {
-            if (messageId != undefined) {
+            if (messageId !== undefined) {
                 alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId)
+    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -132,7 +132,7 @@ function isExistInScope(elementId, minValue, maxValue, messageId) {
  */
 function isAndOperator(condition1, condition2, messageId) {
     if (condition1 && condition2) {
-        if (messageId != undefined) {
+        if (messageId !== undefined) {
             alert(i18n.get(messageId));
         }
         return true;
@@ -145,7 +145,7 @@ function isAndOperator(condition1, condition2, messageId) {
  */
 function isOrOperator(condition1, condition2, messageId) {
     if (condition1 || condition2) {
-        if (messageId != undefined) {
+        if (messageId !== undefined) {
             alert(i18n.get(messageId));
         }
         return true;
@@ -229,7 +229,7 @@ function isValidPassword(elementId) {
      * [ 설명 ]
      * 비밀번호에 사용자의 핸드폰 번호를 포함하지 않는다.
      */
-    if (mobileNumber != "") {
+    if (mobileNumber !== "") {
         if (mobileNumber.length >= 10) {
             var middleNum = "";
             var lastNum = "";
