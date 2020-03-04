@@ -85,8 +85,9 @@
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(response) {
+                let responseObj = JSON.parse(response.responseText)
                 window.close();
-                window.open('/processes/' + response.responseText + '/edit', '_blank', 'width=1500, height=800')
+                window.open('/processes/' + responseObj.processId + '/edit', '_blank', 'width=1500, height=800')
             }
         };
         aliceJs.sendXhr(opt);
