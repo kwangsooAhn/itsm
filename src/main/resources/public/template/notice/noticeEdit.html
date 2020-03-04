@@ -259,26 +259,23 @@
             if (isEmpty('noticeContents', 'notice.msg.contentsNotExist')) return false;
             if (document.getElementById('popRadioBtUp').checked) {
                 if (isEmpty('popHeight', 'notice.msg.popHeightNotExist')) return false;
-                if (isWithinScope('popHeight', 500, 1000, 'notice.msg.checkPopHeightRange')) return false;
+                if (isExistInScope('popHeight', 500, 1000, 'notice.msg.checkPopHeightRange')) return false;
                 if (isEmpty('popWidth', 'notice.msg.popWidthNotExist')) return false;
-                if (isWithinScope('popWidth', 500, 1000, 'notice.msg.checkPopWidthRange')) return false;
+                if (isExistInScope('popWidth', 500, 1000, 'notice.msg.checkPopWidthRange')) return false;
                 if (isEmpty('popStrtDt', 'notice.msg.popStrtDtNotExist')) return false;
                 if (isEmpty('popEndDt', 'notice.msg.popEndDtNotExist')) return false;
-                if ((changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value,format) > changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value,format)) 
-                        || (changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value,format) === changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value,format))) {
-                    alert('팝업 알림 시작일이 종료일보다 크거나 같습니다.');
-                    return false;
-                }
+                if (isOrOperator((changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value, format) > changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value, format))
+                    , (changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value, format) === changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value, format))
+                    , 'notice.msg.compareWithPopUpValue')) return false;
             }
+
 
             if (document.getElementById('topRadioBtUp').checked) {
                 if (isEmpty('topNoticeStrtDt', 'notice.msg.topNoticeStrtDtNotExist')) return false;
                 if (isEmpty('topNoticeEndDt', 'notice.msg.topNoticeEndDtNotExist')) return false;
-                if ((changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value,format) > changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value,format)) 
-                        || (changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value,format) === changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value,format))) {
-                    alert('상단 공지 시작일이 종료일보다 크거나 같습니다.');
-                    return false;
-                }
+                if (isOrOperator((changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value, format) > changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value, format))
+                    , (changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value, format) === changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value, format))
+                    , 'notice.msg.compareWithTopNoticeValue')) return false;
             }
             return true;
         }

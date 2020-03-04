@@ -245,13 +245,13 @@
 
         function validation() {
             if (isEmpty('userId', 'user.msg.idNotExist')) return false;
-            if (isAndOperator(isEmpty('password', null), isNotEmpty('rePassword', null), 'user.msg.passwordNotExist')) return false;
-            if (isAndOperator(isNotEmpty('password', null), isEmpty('rePassword', null), 'user.msg.rePasswordNotExist')) return false;
+            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.passwordNotExist')) return false;
+            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.rePasswordNotExist')) return false;
             if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
-            if (isAndOperator(isNotEmpty('password', null), isNotEmpty('rePassword', null), null)) {
+            if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
                 if (!validPassword('password')) return false;
             }
-            if (isEmpty('userName', 'user.msg.idNotExist')) return false;
+            if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
             if (isEmpty('email', 'user.msg.emailNotExist')) return false;
             if (!validEmail('email')) return false;
             return true;

@@ -166,8 +166,10 @@ notice:
     checkPopWidthRange: "The width can only be a value between 500px and 1000px"
     popStrtDtNotExist: "Please enter popup start date"
     popEndDtNotExist: "Please enter popup end date"
+    compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
     topNoticeStrtDtNotExist: "Please enter a top notice start date"
     topNoticeEndDtNotExist: "Please enter a top notice end date"
+    compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
     fromDtNotExist: "Please enter a search start date"
     toDtNotExist: "Please enter a search end date"
     checkSearchRange: "Search start date is greater than end date"
@@ -278,6 +280,7 @@ role:
 # Validation
 validation:
   msg:
+    isNotExistElement: "The element does not exist."
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."

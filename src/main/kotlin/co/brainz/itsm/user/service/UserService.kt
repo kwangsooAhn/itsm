@@ -80,8 +80,9 @@ class UserService(private val certificationRepository: CertificationRepository,
 
     /**
      * 사용자의 KEY로 정보를 수정한다.
+     * @param target : userEdit
      */
-    fun updateUserEdit(userUpdateDto: UserUpdateDto, target: String): String {
+    fun updateUserEdit(userUpdateDto: UserUpdateDto, target: String?): String {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
             UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
@@ -110,7 +111,7 @@ class UserService(private val certificationRepository: CertificationRepository,
                     }
                 }
 
-                code =  if (targetEntity.email ==  emailConfirmVal && userUpdateDto.userKey == aliceUserDto.userKey) {
+                code = if (targetEntity.email == emailConfirmVal && userUpdateDto.userKey == aliceUserDto.userKey) {
                     UserConstants.UserEditStatus.STATUS_SUCCESS.code
                 } else if (userUpdateDto.userKey != aliceUserDto.userKey) {
                     UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
