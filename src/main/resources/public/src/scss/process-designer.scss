@@ -213,6 +213,7 @@ body {
             stroke-width: 0;
         }
         path.painted-connector {
+            fill: none;
             stroke: none;
             stroke-width: 20;
             pointer-events: all;
