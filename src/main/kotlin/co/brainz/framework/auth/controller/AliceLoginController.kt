@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession
 class AliceLoginController(private val userDetailsService: AliceUserDetailsService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val loginPage: String = "/login"
     private val ticketSearchPage: String = "/tickets/ticketSearch"
     private val invalidSessionPage: String = "/sessionInvalid"
 
@@ -34,7 +33,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
     fun login(request: HttpServletRequest): String {
         logger.debug("=> Request move login.")
 
-        var page = loginPage
+        var page = "login"
         val aliceUserEntity: AliceUserEntity?
 
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)

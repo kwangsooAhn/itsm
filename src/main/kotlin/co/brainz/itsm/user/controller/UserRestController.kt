@@ -67,30 +67,32 @@ class UserRestController(
     }
 
     /**
-     * 사용자가 정보를 업데이트한다.
+     * 사용자가 다른 사용자의 정보를 업데이트한다.
      */
-    @PutMapping("/{userKey}/userEditSelf", "/{userKey}/userEdit")
-    fun updateUserEdit(
-        @RequestBody user: UserUpdateDto, request: HttpServletRequest,
-        response: HttpServletResponse
-    ): String {
-        val result = userService.updateUserEdit(user)
+    @PutMapping("/{userKey}/userEdit")
+    fun updateUserEdit(@RequestBody user: UserUpdateDto): String {
+        return userService.updateUserEdit(user, UserConstants.UserEditType.ADMIN_USER_EDIT.code)
+    }
 
-        if (result == UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code) {
-            certificationService.sendMail(
-                user.userId,
-                user.email!!,
-                UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
-                null
-            )
-        } else {
-            certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code, null)
+    /**
+     * 사용자가 자신의 정보를 업데이트한다.
+     */
+    @PutMapping("/{userKey}/userEditSelf")
+    fun updateUserEditSelf(@RequestBody user: UserUpdateDto,
+                           request: HttpServletRequest,
+                           response: HttpServletResponse): String {
+        val result = userService.updateUserEdit(user, UserConstants.UserEditType.SELF_USER_EDIT.code)
+        when (result) {
+            UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {
+                certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code, null)
+            }
+            else -> certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code, null)
         }
         localeResolver.setLocale(request, response, Locale(user.lang))
         if (SecurityContextHolder.getContext().authentication != null) {
             val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-            if (user.userKey.equals(aliceUserDto.userKey)) {
-                SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(user));
+            if (user.userKey == aliceUserDto.userKey) {
+                SecurityContextHolder.getContext().authentication = createNewAuthentication(user)
             }
         }
         return result

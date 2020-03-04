@@ -6,13 +6,15 @@ import java.io.Serializable
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
+import javax.persistence.Table
 import javax.persistence.Id
+import javax.persistence.GeneratedValue
+import javax.persistence.Column
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
+import javax.persistence.FetchType
 
 @Entity
 @Table(name = "wf_elem_mst")
@@ -21,6 +23,7 @@ data class ElementMstEntity(
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "elem_id", length = 256)
     val elementId: String = "",
+
 
     @Column(name = "proc_id")
     val processId: String = "",
@@ -64,5 +67,4 @@ data class ElementMstEntity(
         }
         return elementAttributeValue
     }
-
 }

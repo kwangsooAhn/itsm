@@ -49,7 +49,8 @@
 <body>
 <div id="document-container"></div>
 <div style="margin-top: 10px; text-align: center;">
-    <button th:text="#{common.btn.save}" onclick="aliceDocument.save()"></button>
+    <button th:text="#{common.btn.save}" onclick="aliceDocument.save('save')"></button>
+    <button th:text="#{common.btn.register}" onclick="aliceDocument.save('process')"></button>
     <button th:text="#{common.btn.cancel}" onclick="window.close();"></button>
 </div>
 </body>

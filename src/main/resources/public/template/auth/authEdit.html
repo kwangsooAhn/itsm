@@ -105,6 +105,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.addEventListener('load', function() {
@@ -196,17 +197,11 @@
         /* 등록, 수정 버튼 */
         function onSave(flag) {
             // validation
-            if (document.getElementById('txtAuthId').value === null || document.getElementById('txtAuthId').value === '' ) {
-                alert([[#{auth.msg.idNotExist}]]);
-                return;
-            }
-            if (document.getElementById('txtAuthName').value === null || document.getElementById('txtAuthName').value === '' ) {
-                alert([[#{auth.msg.nameNotExist}]]);
-                return;
-            }
+            if (isOrOperator(isNull('txtAuthId', null), isEmpty('txtAuthId', null), 'auth.msg.idNotExist')) return;
+            if (isOrOperator(isNull('txtAuthName', null), isEmpty('txtAuthName', null), 'auth.msg.nameNotExist')) return;
 
-            var authIds = new Array();
-            var authNames = new Array();
+            var authIds = [];
+            var authNames = [];
             var validList = document.querySelectorAll('a[name=alink]')
             for(var i = 0; i < validList.length; i++) {
                 authIds.push(validList[i].id);
@@ -242,13 +237,13 @@
             obj.authName = document.getElementById('txtAuthName').value;//권한명
             obj.authDesc= document.getElementById('txtAuthDesc').value; //권한 설명
             
-            var arrMenuId = new Array();                                //권한-메뉴
+            var arrMenuId = [];                                         //권한-메뉴
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function(item) {
                 arrMenuId.push(item.id);
             });
             obj.arrMenuId = arrMenuId;
             
-            var arrUrl = new Array();                                   //권한-Url
+            var arrUrl = [];                                             //권한-Url
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function(item) {
                 arrUrl.push(item.id);
             });

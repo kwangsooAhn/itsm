@@ -266,38 +266,16 @@
         }
 
         function validation() {
-            if (document.getElementById('userId').value === '') {
-                alert('아이디를 입력해주세요.');
-                return false;
+            if (isEmpty('userId', 'user.msg.idNotExist')) return false;
+            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.passwordNotExist')) return false;
+            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.rePasswordNotExist')) return false;
+            if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
+            if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
+                if (!isValidPassword('password')) return false;
             }
-            if (document.getElementById('password').value === '' && document.getElementById('rePassword').value !== '') {
-                alert('비밀번호를 입력해주세요.');
-                return false;
-            }
-            if (document.getElementById('password').value !== '' && document.getElementById('rePassword').value === '') {
-                alert('비밀번호 재확인을 입력해주세요.');
-                return false;
-            }
-            if (!(document.getElementById('password').value === document.getElementById('rePassword').value)) {
-                alert('비밀번호가 일치하지 않습니다.');
-                return false;
-            }
-            if (document.getElementById('password').value !== '' && document.getElementById('rePassword').value !== '') {
-                if (!passwordValidation(document.getElementById('password').value)) {
-                    return false;
-                }
-            }
-            if (document.getElementById('userName').value === '') {
-                alert('이름을 입력해주세요.');
-                return false;
-            }
-            if (document.getElementById('email').value === '') {
-                alert('이메일을 입력해주세요.');
-                return false;
-            }
-            if (!emailValidation(document.getElementById('email').value)) {
-                return false;
-            }
+            if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
+            if (isEmpty('email', 'user.msg.emailNotExist')) return false;
+            if (!isValidEmail('email')) return false;
             return true;
         }
         /*]]>*/

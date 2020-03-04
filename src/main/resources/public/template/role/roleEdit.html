@@ -94,10 +94,11 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var AUTH_DELETE = false;
-        var AUTH_CRAETE = false;
+        var AUTH_CREATE = false;
         var AUTH_UPDATE = false;
 
         window.onload = function() {
@@ -106,7 +107,7 @@
             }
 
             if (document.getElementById('btnRegist') !== null) {
-                AUTH_CRAETE = true;
+                AUTH_CREATE = true;
             }
 
             if (document.getElementById('btnDelete') !== null) {
@@ -118,7 +119,7 @@
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
-                if (AUTH_CRAETE) {
+                if (AUTH_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             } else {
@@ -127,7 +128,7 @@
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
-                if (AUTH_CRAETE) {
+                if (AUTH_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             }
@@ -138,7 +139,7 @@
                     if (AUTH_UPDATE) {
                         document.getElementById('btnUpdate').style.display = 'block';
                     }
-                    if (AUTH_CRAETE) {
+                    if (AUTH_CREATE) {
                         document.getElementById('btnRegist').style.display = 'none';
                     }
                     onGetDetail(this.id);
@@ -193,22 +194,15 @@
             if (AUTH_UPDATE) {
                 document.getElementById('btnUpdate').style.display = 'none';
             }
-            if (AUTH_CRAETE) {
+            if (AUTH_CREATE) {
                 document.getElementById('btnRegist').style.display = 'block';
             }
         }
 
         /*등록, 수정 버튼*/
         function onSave(flag) {
-            if (document.getElementById('txtRoleId').value === '' || document.getElementById('txtRoleId').value === '' ) {
-                alert([[#{role.msg.idNotExist}]]);
-                return;
-            }
-
-            if (document.getElementById('txtRoleName').value === '' || document.getElementById('txtRoleName').value === '' ) {
-                alert([[#{role.msg.nameNotExist}]]);
-                return;
-            }
+            if (isEmpty('txtRoleId', 'role.msg.idNotExist')) return;
+            if (isEmpty('txtRoleName', 'role.msg.nameNotExist')) return;
 
             //저장 데이터 수집
             var obj = new Object();

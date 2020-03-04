@@ -85,19 +85,19 @@
                         }
                     }
                     if (key === 'length-min' && value > chkVal.length) {
-                        alertMsg(element, i18n('document.msg.lengthMin').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.lengthMin').replace('{0}', value));
                         return true;
                     }
                     if (key === 'length-max' && value < chkVal.length) {
-                        alertMsg(element, i18n('document.msg.lengthMax').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.lengthMax').replace('{0}', value));
                         return true;
                     }
                     if (key === 'date-min' && value > chkVal) {
-                        alertMsg(element, i18n('document.msg.dateMin').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.dateMin').replace('{0}', value));
                         return true;
                     }
                     if (key === 'date-max' && value < chkVal) {
-                        alertMsg(element, i18n('document.msg.dateMax').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.dateMax').replace('{0}', value));
                         return true;
                     }
                 }
@@ -137,16 +137,20 @@
             fieldFirstEle.style.textAlign = lblData.align;
             fieldFirstEle.appendChild(lblEle);
 
-            if (validateData.required === 'Y') {
-                const requiredEle = document.createElement('span');
-                requiredEle.className  = 'required';
-                requiredEle.innerText = '*';
-                fieldFirstEle.append(requiredEle);
+            if (validateData !== undefined) {
+                if (validateData.required === 'Y') {
+                    const requiredEle = document.createElement('span');
+                    requiredEle.className = 'required';
+                    requiredEle.innerText = '*';
+                    fieldFirstEle.append(requiredEle);
+                }
             }
-            if (lblData.position === 'left') {
-                comp.style.display = 'flex';
-                fieldFirstEle.style.flexBasis = (defaultColWidth * Number(lblData.column)) + '%';
-                fieldLastEle.style.flexBasis = (defaultColWidth * Number(displayData.column)) + '%';
+            if (lblData !== undefined && displayData !== undefined) {
+                if (lblData.position === 'left') {
+                    comp.style.display = 'flex';
+                    fieldFirstEle.style.flexBasis = (defaultColWidth * Number(lblData.column)) + '%';
+                    fieldLastEle.style.flexBasis = (defaultColWidth * Number(displayData.column)) + '%';
+                }
             }
             comp.appendChild(fieldFirstEle);
         }
@@ -350,9 +354,11 @@
      */
     function drawDocument(data) {
         if (data.components.length > 0) {
-            data.components.sort(function(a, b) {
-                return a.display.order - b.display.order;
-            });
+            if (data.components.length > 2) {
+                data.components.sort(function (a, b) {
+                    return a.display.order - b.display.order;
+                });
+            }
             for (let i = 0; i < data.components.length; i++) {
                 addComponent(data.components[i]);
             }
@@ -390,11 +396,11 @@
             let requiredObj = requiredObjs[i];
             if (requiredObj.type === 'radio' || requiredObj.type === 'checkbox') {
                 if (!selectCheck(requiredObj)) {
-                    alertMsg(requiredObj, i18n('document.msg.requiredSelect'));
+                    alertMsg(requiredObj, i18n.get('document.msg.requiredSelect'));
                     return true;
                 }
             } else if (requiredObj.value === '') {
-                alertMsg(requiredObj, i18n('document.msg.requiredEnter'));
+                alertMsg(requiredObj, i18n.get('document.msg.requiredEnter'));
                 return true;
             }
         }
@@ -416,7 +422,7 @@
     /**
      * save document.
      */
-    function save() {
+    function save(v_kind) {
         if (!requiredCheck()) {
             let documentObject = {};
             let tokenObject = {};
@@ -487,7 +493,12 @@
             } else {
                 tokenObject.tokenId = '';
             }
-            tokenObject.isComplete = false; //해당 값이 true라면 처리이다.
+            if (v_kind === 'save') {
+                tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
+            } else if (v_kind === 'process') {
+                tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
+            }
+
             tokenObject.elementId = '';
             if (componentArrayList.length > 0) {
                 tokenObject.data = componentArrayList;
@@ -513,7 +524,7 @@
                 params: JSON.stringify(object),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    alert(i18n('common.msg.save'));
+                    alert(i18n.get('common.msg.save'));
                     window.close();
                 }
             };
@@ -538,7 +549,7 @@
                 let jsonData = JSON.parse(xhr.responseText);
                 jsonData.documentId = documentId;
                 //진행중 저장을 위해서 테스트 데이터
-                //jsonData.tokenId = '40288ab77086519e017086521c8f0001';
+                //jsonData.tokenId = '40288ab770a01cd30170a01d69e40003';
                 drawDocument(jsonData);
             },
             contentType: 'application/json; charset=utf-8'
