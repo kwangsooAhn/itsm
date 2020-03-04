@@ -94,6 +94,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var AUTH_DELETE = false;
@@ -200,15 +201,8 @@
 
         /*등록, 수정 버튼*/
         function onSave(flag) {
-            if (document.getElementById('txtRoleId').value === '' || document.getElementById('txtRoleId').value === '' ) {
-                alert([[#{role.msg.idNotExist}]]);
-                return;
-            }
-
-            if (document.getElementById('txtRoleName').value === '' || document.getElementById('txtRoleName').value === '' ) {
-                alert([[#{role.msg.nameNotExist}]]);
-                return;
-            }
+            if (isEmpty('txtRoleId', 'role.msg.idNotExist')) return;
+            if (isEmpty('txtRoleName', 'role.msg.nameNotExist')) return;
 
             //저장 데이터 수집
             var obj = new Object();

@@ -79,9 +79,11 @@ class UserService(private val certificationRepository: CertificationRepository,
     }
 
     /**
-     * 사용자의 KEY로 정보를 수정한다.
+     * 사용자의 정보를 수정한다.
+     *
+     * @param userEditType
      */
-    fun updateUserEdit(userUpdateDto: UserUpdateDto): String {
+    fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): String {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
             UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
@@ -100,15 +102,17 @@ class UserService(private val certificationRepository: CertificationRepository,
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
 
-                userEntity.userRoleMapEntities.forEach {
-                    userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
+                if (userEditType == UserConstants.UserEditType.ADMIN_USER_EDIT.code) {
+                    userEntity.userRoleMapEntities.forEach {
+                        userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
+                    }
+
+                    userUpdateDto.roles!!.forEach {
+                        userRoleMapRepository.save(AliceUserRoleMapEntity(targetEntity, roleRepository.findByRoleId(it)))
+                    }
                 }
 
-                userUpdateDto.roles!!.forEach {
-                    userRoleMapRepository.save(AliceUserRoleMapEntity(targetEntity, roleRepository.findByRoleId(it)))
-                }
-
-                code =  if (targetEntity.email ==  emailConfirmVal && userUpdateDto.userKey == aliceUserDto.userKey) {
+                code = if (targetEntity.email == emailConfirmVal && userUpdateDto.userKey == aliceUserDto.userKey) {
                     UserConstants.UserEditStatus.STATUS_SUCCESS.code
                 } else if (userUpdateDto.userKey != aliceUserDto.userKey) {
                     UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code

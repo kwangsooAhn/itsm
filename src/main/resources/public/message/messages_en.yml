@@ -118,6 +118,13 @@ user:
   editUserInfo: "Edit User Information"
   message: "When you change your email, you need to verify"
   searchPlaceholder: "ID / Name / Position / Department / Office Number / Mobile Number"
+  msg:
+    idNotExist: "Please enter your UserId"
+    passwordNotExist: "Please enter your password"
+    rePasswordNotExist: "Please enter your Reconfirm Password"
+    passwordNotEquals: "Passwords do not match"
+    nameNotExist: "Please enter your UserName"
+    emailNotExist: "Please enter your Email"
     
 # FAQ
 faq:
@@ -154,6 +161,22 @@ notice:
   modifyCompleted: "Modify Completed"
   delete: "Delete"
   searchPlaceholder: "Title / User"
+  msg:
+    titleNotExist: "Please enter a title"
+    contentsNotExist: "Please enter contents"
+    popHeightNotExist: "Please enter a height"
+    checkPopHeightRange: "The height can only be a value between 500px and 1000px."
+    popWidthNotExist: "Please enter a Width"
+    checkPopWidthRange: "The width can only be a value between 500px and 1000px"
+    popStrtDtNotExist: "Please enter popup start date"
+    popEndDtNotExist: "Please enter popup end date"
+    compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
+    topNoticeStrtDtNotExist: "Please enter a top notice start date"
+    topNoticeEndDtNotExist: "Please enter a top notice end date"
+    compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
+    fromDtNotExist: "Please enter a search start date"
+    toDtNotExist: "Please enter a search end date"
+    checkSearchRange: "Search start date is greater than end date"
 
 # LOGIN
 login:
@@ -261,6 +284,7 @@ role:
 # Validation
 validation:
   msg:
+    isNotExistElement: "The element does not exist."
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
