@@ -72,7 +72,10 @@ class WFProcessService(
         for (elementMstEntity in processMstEntity.elementMstEntities) {
             val elDto = processMstMapper.toWfJsonElementDto(elementMstEntity)
             elDto.display = elementMstEntity.displayInfo.let { mapper.readValue(it) }
-            elDto.data = elementMstEntity.elementDataEntities.associateByTo(convertMap, { it.attributeId }, { it.attributeValue })
+            elDto.data = elementMstEntity.elementDataEntities.associateByTo(
+                convertMap,
+                { it.attributeId },
+                { it.attributeValue })
             wfElementDto.add(elDto)
         }
         return WfJsonMainDto(wfProcessDto, wfElementDto)
@@ -106,8 +109,8 @@ class WFProcessService(
      */
     fun deleteProcess(processId: String): Boolean {
         val processMstEntity = processMstRepository.findProcessMstEntityByProcessId(processId)
-        if (processMstEntity.processStatus.equals(ProcessConstants.Status.PUBLISH)
-            || processMstEntity.processStatus.equals(ProcessConstants.Status.DESTROY)
+        if (processMstEntity.processStatus == ProcessConstants.Status.PUBLISH.code
+            || processMstEntity.processStatus == ProcessConstants.Status.DESTROY.code
         ) {
             return false
         } else {
