@@ -242,9 +242,9 @@
      *
      * @param id 조회할 컴포넌트 ID
      */
-    function showProperties(id) {
+    function showComponentProperties(id) {
         if (selectedComponentId === id) { return false; }
-        
+        propertiesPanel.innerHTML = '';
         selectedComponentId = id;
         
         let compIdx = getComponentIndex(id);
@@ -252,7 +252,6 @@
         
         let compAttr = formEditor.data.components[compIdx];
         let detailAttr = JSON.parse(component.getDefaultAttribute(compAttr.type));
-        
         /**
          * 컴포넌트를 다시 그린다.
          */
@@ -621,11 +620,73 @@
     /**
      * 우측 properties panel 삭제
      */
-    function hideProperties() {
-        propertiesPanel.innerHTML = '';
-        selectedComponentId = '';
+    function hideComponentProperties() {
+        if (selectedComponentId !== '') {
+            propertiesPanel.innerHTML = '';
+            selectedComponentId = '';
+        }
     }
     /**
+     * 우측 properties panel에 폼 세부 속성 출력
+     */
+    function showFormProperties() {
+    	if (selectedComponentId === '') { return false; }
+        propertiesPanel.innerHTML = '';
+        selectedComponentId = '';
+        
+        let formAttr = formEditor.data.form;
+        let detailAttr = formProperties.form;
+        
+        //data + 기본 속성 = 세부 속성 재할당 
+        Object.keys(formAttr).forEach(function(form) {
+            Object.keys(detailAttr).forEach(function(idx) {
+                if (form === detailAttr[idx].id) {
+                    detailAttr[idx].value = formAttr[form];
+                }
+            });
+        });
+        
+        //폼 속성 출력
+        let groupDiv = document.createElement('div');
+        groupDiv.setAttribute('id', 'form');
+        groupDiv.classList.add('property-group');
+        groupDiv.textContent = 'form';
+        propertiesPanel.appendChild(groupDiv);
+        
+        Object.keys(detailAttr).forEach(function(idx) {
+            let fieldArr = detailAttr[idx];
+            let fieldGroupDiv = document.createElement('div');
+            fieldGroupDiv.classList.add('property-field');
+            fieldGroupDiv.setAttribute('id', fieldArr.id);
+            groupDiv.appendChild(fieldGroupDiv);
+            
+            let propertyName = document.createElement('span');
+            propertyName.classList.add('property-field-name');
+            propertyName.textContent = fieldArr.name;
+            fieldGroupDiv.appendChild(propertyName);
+            
+            let propertyValue = null;
+            if (fieldArr.type === 'textarea') {
+                propertyValue = document.createElement('textarea');
+                propertyValue.value = fieldArr.value;
+            } else {
+                propertyValue = document.createElement('input');
+                propertyValue.setAttribute('type', 'text');
+                propertyValue.setAttribute('value', fieldArr.value);
+            }
+            propertyValue.classList.add('property-field-value');
+            propertyValue.addEventListener('change', function() {
+                formEditor.data.form[fieldArr.id] = this.value;
+            }, false);
+            fieldGroupDiv.appendChild(propertyValue);
+            
+            if (fieldArr.type === 'inputbox-readonly') { 
+                propertyValue.classList.add('readonly'); 
+                propertyValue.setAttribute('readonly', 'true');
+            }
+        });
+    }
+     /**
      * 조회된 데이터로 form designer draw 
      * 
      * @param data 문서 정보
@@ -633,16 +694,6 @@
     function drawForm(data) {
         console.debug(JSON.parse(data));
         formEditor.data = JSON.parse(data);
-        
-        //TODO. 폼 상세 정보 출력
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/assets/js/form/formAttribute.json',
-            callbackFunc: function(xhr) {
-                formProperties = JSON.parse(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
-        });
         
         if (formEditor.data.components.length > 0 ) {
             formEditor.data.components.sort(function (a, b) { //컴포넌트 재정렬
@@ -657,7 +708,19 @@
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editbox = component.draw(defaultComponent);
         setComponentData(editbox.attr);
+        selectedComponentId = editbox.id;
         editbox.domElem.querySelector('[contenteditable=true]').focus();
+        
+        //TODO. 폼 상세 정보 출력
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/assets/js/form/formAttribute.json',
+            callbackFunc: function(xhr) {
+                formProperties = JSON.parse(xhr.responseText);
+                showFormProperties();
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
 
         document.querySelector('.form-name').textContent = formEditor.data.form.name;
     }
@@ -700,8 +763,9 @@
     exports.addEditboxDown = addEditboxDown;
     exports.getComponentIndex = getComponentIndex;
     exports.setComponentData = setComponentData;
-    exports.showProperties = showProperties;
-    exports.hideProperties = hideProperties;
+    exports.showFormProperties = showFormProperties;
+    exports.showComponentProperties = showComponentProperties;
+    exports.hideComponentProperties = hideComponentProperties;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

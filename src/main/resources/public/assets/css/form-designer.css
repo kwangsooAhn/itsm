@@ -11011,6 +11011,18 @@ body {
   padding-left: 0px;
 }
 
+.alice-form-properties-panel .property-field input[type=text].readonly {
+  border: none;
+  text-align: right;
+  padding-right: 2px;
+  padding-left: 0px;
+}
+
+.alice-form-properties-panel .property-field textarea {
+  border: 1px solid #4C5264;
+  width: 100%;
+}
+
 .alice-form-properties-panel .property-field select {
   -webkit-box-flex: 1;
       -ms-flex: 1;
