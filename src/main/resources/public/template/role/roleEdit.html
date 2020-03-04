@@ -97,7 +97,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var AUTH_DELETE = false;
-        var AUTH_CRAETE = false;
+        var AUTH_CREATE = false;
         var AUTH_UPDATE = false;
 
         window.onload = function() {
@@ -106,7 +106,7 @@
             }
 
             if (document.getElementById('btnRegist') !== null) {
-                AUTH_CRAETE = true;
+                AUTH_CREATE = true;
             }
 
             if (document.getElementById('btnDelete') !== null) {
@@ -118,7 +118,7 @@
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
-                if (AUTH_CRAETE) {
+                if (AUTH_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             } else {
@@ -127,7 +127,7 @@
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
-                if (AUTH_CRAETE) {
+                if (AUTH_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             }
@@ -138,7 +138,7 @@
                     if (AUTH_UPDATE) {
                         document.getElementById('btnUpdate').style.display = 'block';
                     }
-                    if (AUTH_CRAETE) {
+                    if (AUTH_CREATE) {
                         document.getElementById('btnRegist').style.display = 'none';
                     }
                     onGetDetail(this.id);
@@ -193,7 +193,7 @@
             if (AUTH_UPDATE) {
                 document.getElementById('btnUpdate').style.display = 'none';
             }
-            if (AUTH_CRAETE) {
+            if (AUTH_CREATE) {
                 document.getElementById('btnRegist').style.display = 'block';
             }
         }

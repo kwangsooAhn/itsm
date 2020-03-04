@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
-    <title>처리할 문서</title>
+    <title th:text="#{ticket.label.list}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    처리할 문서를 찾을 수 있는 화면을 만들어 볼까 합니다.
+    <div style="width: 70%; margin: 50px auto auto auto;">
+        <h1 th:text="#{ticket.label.list}"></h1>
+        <hr>
+        <div id="ticketList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        window.onload = function() {
+            restSubmit('get', '/tickets/list');
+        };
+
+        //REST API
+        function restSubmit(method, url) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    document.getElementById('ticketList').innerHTML = response.responseText;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+    </script>
 </th:block>
 </body>
 </html>

@@ -82,7 +82,7 @@
         let rslt = false;
         let tempText = searchText.replace('/', '');
         searchItems = [];
-
+        
         for (let i = 0, len = componentMenu.children.length; i < len; i++) {
             let item = componentMenu.children[i];
 
@@ -98,7 +98,7 @@
                 searchItems.push(item);
                 rslt = true;
             } else {
-                let text = item.textContent || item.innerText;
+                let text = item.querySelector('label').textContent || item.querySelector('label').innerText;
                 
                 if (text.slice(0, tempText.length).toLowerCase() !== tempText.toLowerCase()) {
                     item.style.display = 'none';
@@ -434,6 +434,12 @@
         }
         let targetComponent = clickInsideElement(e, 'component');
         if (targetComponent && dragComponent !== targetComponent) {
+            let lastCompIndex = component.getLastIndex();
+            if (lastCompIndex === Number(dragComponent.getAttribute('data-index')) 
+                && targetComponent === lastComponent) { //맨 마지막에 컴포넌트를 옮길 때 맨 아래 가이드 라인 미출력
+                return false; 
+            }
+            
             targetComponent.classList.add('over');
             e.dataTransfer.dropEffect = 'move';
         }
@@ -507,7 +513,6 @@
      */
     function menuItemListener(elem) {
         let clickedComponent = itemInContext;
-        
         switch (elem.getAttribute('data-action')) {
             case 'copy':
                 break;
@@ -523,6 +528,7 @@
                 formEditor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
         }
         menuOff();
+        formEditor.hideProperties();
         itemInContext = null;
     }
 

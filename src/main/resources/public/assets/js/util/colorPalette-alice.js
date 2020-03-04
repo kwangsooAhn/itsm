@@ -40,11 +40,15 @@ const colorPalette = (function() {
         pk.colorChosen(function (col) {
             wrapperEl.style.backgroundColor = col;
             colorCodeElem.value = col;
+
+            const evt = document.createEvent('HTMLEvents');
+            evt.initEvent('change', false, true);
+            colorCodeElem.dispatchEvent(evt);
         });
 
         eventTriggerElem.addEventListener('blur', e => {
 
-        })
+        });
     };
 
     return {

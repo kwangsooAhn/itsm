@@ -22,8 +22,9 @@
               {'type': 'fileupload', 'name': 'Fileupload', 'icon': ''}
           ];
     let formPanel = null,
-        componentIdx = 0,          //컴포넌트 index = 출력 순서 생성시 사용
-        data = {};
+        defaultData = {},                 //컴포넌트 기본 세부 속성
+        componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
+
     const utils = {
         /**
          * 템플릿 리터럴 문자열을 전달받아서 컴포넌트 생성
@@ -63,28 +64,27 @@
         }
     };
 
-    function Editbox(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Editbox. 컴포넌트를 추가하기 위해서..
+     *
+     * @constructor
+     */
+    function Editbox() {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group' contenteditable='true' placeholder='${editboxPlaceholder}'></div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
         formPanel.appendChild(comp);
-
         this.domElem = comp;
     }
 
-    function Text(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Text.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Text(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -104,10 +104,6 @@
                 </div>
             </div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
-        formPanel.appendChild(comp);
 
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
@@ -115,15 +111,17 @@
             comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
             comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
         }
-
+        formPanel.appendChild(comp);
         this.domElem = comp;
     }
 
-    function Textarea(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Text Box.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Textarea(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -142,10 +140,6 @@
                 </div>
             </div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
-        formPanel.appendChild(comp);
 
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
@@ -153,15 +147,17 @@
             comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
             comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
         }
-
+        formPanel.appendChild(comp);
         this.domElem = comp;
     }
 
-    function Selectbox(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Dropdown.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Selectbox(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -185,10 +181,6 @@
             option.text = attr.option[i].name;
             selectbox.appendChild(option);
         }
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
-        formPanel.appendChild(comp);
 
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
@@ -196,15 +188,17 @@
             comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
             comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
         }
-
+        formPanel.appendChild(comp);
         this.domElem = comp;
     }
 
-    function Radiobox(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Radio Button.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Radiobox(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -247,10 +241,6 @@
                 option.appendChild(optionLabel);
             }
         }
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
-        formPanel.appendChild(comp);
 
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
@@ -258,15 +248,17 @@
             comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
             comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
         }
-
+        formPanel.appendChild(comp);
         this.domElem = comp;
     }
 
-    function Checkbox(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Checkbox.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Checkbox(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -309,10 +301,6 @@
                 option.appendChild(optionLabel);
             }
         }
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
-        formPanel.appendChild(comp);
 
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
@@ -320,15 +308,17 @@
             comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
             comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
         }
-
+        formPanel.appendChild(comp);
         this.domElem = comp;
     }
 
-    function Label(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Label.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Label(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -340,19 +330,17 @@
                 </div>
             </div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
         formPanel.appendChild(comp);
-
         this.domElem = comp;
     }
 
-    function Imagebox(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Image.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Imagebox(attr) {
         let comp = utils.createComponentByTemplate(`
             <img class='move-icon' src=''>
             <div class='group'>
@@ -361,19 +349,17 @@
                 </div>
             </div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
         formPanel.appendChild(comp);
-
         this.domElem = comp;
     }
 
-    function Line(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Line.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Line(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -382,19 +368,17 @@
                 </div>
             </div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
         formPanel.appendChild(comp);
-
         this.domElem = comp;
     }
 
-    function Datebox(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Date.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Datebox(attr) {
         let defaultDate = attr.display['default'];
         if (defaultDate === 'today') { 
             defaultDate = utils.getTimeStamp(); 
@@ -418,10 +402,6 @@
                 </div>
             </div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
-        formPanel.appendChild(comp);
 
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
@@ -429,16 +409,18 @@
             comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
             comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
         }
-
+        formPanel.appendChild(comp);
         this.domElem = comp;
         dateTimePicker.initDatePicker('date-' + attr.id, attr.display.format);
     }
 
-    function Timebox(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Time.
+     *
+     * @param {Object} attr 컴포넌트 속성성
+    * @constructor
+     */
+    function Timebox(attr) {
         let defaultTime = attr.display['default'];
         if (defaultTime === 'now') { 
             defaultTime = utils.getTimeStamp(); 
@@ -462,10 +444,6 @@
                 </div>
             </div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
-        formPanel.appendChild(comp);
 
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
@@ -473,17 +451,18 @@
             comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
             comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
         }
-        
+        formPanel.appendChild(comp);
         this.domElem = comp;
-
         dateTimePicker.initTimePicker('time-' + attr.id, attr.display.format);
     }
 
-    function DateTimebox(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Date Time.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function DateTimebox(attr) {
         let defaultDateTime = attr.display['default'];
         if (defaultDateTime === 'now') { 
             defaultDateTime = utils.getTimeStamp();
@@ -506,11 +485,6 @@
                 </div>
             </div>
         `);
-        
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
-        formPanel.appendChild(comp);
 
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
@@ -518,16 +492,18 @@
             comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
             comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
         }
-
+        formPanel.appendChild(comp);
         this.domElem = comp;
         dateTimePicker.initDateTimePicker('datetime-' + attr.id, attr.display.format);
     }
 
-    function Fileupload(id, type, attr) {
-        this.attr = attr;
-        this.id = id;
-        this.type = type;
-
+    /**
+     * Fileupload.
+     *
+     * @param {Object} attr 컴포넌트 속성
+     * @constructor
+     */
+    function Fileupload(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -536,16 +512,13 @@
                 </div>
             </div>
         `);
-        comp.setAttribute('id', id);
-        comp.setAttribute('data-index', attr.display.order);
-        comp.setAttribute('tabIndex', attr.display.order);
         formPanel.appendChild(comp);
-
         this.domElem = comp;
     }
 
     /**
-     * 컴포넌트 draw
+     * 컴포넌트 draw.
+     * 
      * @param {String} compType 컴포넌트 타입
      * @param {Object} compData 컴포넌트 데이터
      */
@@ -560,7 +533,7 @@
             compAttr.id = compId;
             compAttr.type = compType;
             
-            let defaultAttr = component.data[compType];
+            let defaultAttr = defaultData[compType];
             Object.keys(defaultAttr).forEach(function(group) {
                 if (group === 'option') { //옵션 json 구조 변경
                     let options = [];
@@ -583,34 +556,59 @@
         }
         compAttr.display.order = ++componentIdx;
         
+        let componentConstructor;
         switch(compType) {
             case 'editbox':
-              return new Editbox(compId, compType, compAttr);
+                componentConstructor = new Editbox();
+                break;
             case 'text':
-              return new Text(compId, compType, compAttr);
+                componentConstructor =  new Text(compAttr);
+                break;
             case 'textarea':
-                return new Textarea(compId, compType, compAttr);
+                componentConstructor =  new Textarea(compAttr);
+                break;
             case 'select':
-                return new Selectbox(compId, compType, compAttr);
+                componentConstructor =  new Selectbox(compAttr);
+                break;
             case 'radio':
-                return new Radiobox(compId, compType, compAttr);
+                componentConstructor =  new Radiobox(compAttr);
+                break;
             case 'checkbox':
-                return new Checkbox(compId, compType, compAttr);
+                componentConstructor =  new Checkbox(compAttr);
+                break;
             case 'label':
-                return new Label(compId, compType, compAttr);
+                componentConstructor =  new Label(compAttr);
+                break;
             case 'image':
-                return new Imagebox(compId, compType, compAttr);
+                componentConstructor =  new Imagebox(compAttr);
+                break;
             case 'line':
-                return new Line(compId, compType, compAttr);
+                componentConstructor =  new Line(compAttr);
+                break;
             case 'date':
-                return new Datebox(compId, compType, compAttr);
+                componentConstructor =  new Datebox(compAttr);
+                break;
             case 'time':
-                return new Timebox(compId, compType, compAttr);
+                componentConstructor =  new Timebox(compAttr);
+                break;
             case 'datetime':
-                return new DateTimebox(compId, compType, compAttr);
+                componentConstructor =  new DateTimebox(compAttr);
+                break;
             case 'fileupload':
-                return new Fileupload(compId, compType, compAttr);
+                componentConstructor =  new Fileupload(compAttr);
+                break;
+            default:
+                break;
          }
+         if (componentConstructor) {
+             componentConstructor.id = compId;
+             componentConstructor.type = compType;
+             componentConstructor.attr = compAttr;
+             componentConstructor.domElem.setAttribute('id', compId);
+             componentConstructor.domElem.setAttribute('data-index', getLastIndex());
+             componentConstructor.domElem.setAttribute('tabIndex', getLastIndex());
+         }
+         return componentConstructor;
     }
     /**
      * 컴포넌트 기본 속성 조회
@@ -618,7 +616,7 @@
      * @param type 컴포넌트 타입
      */
     function getDefaultAttribute(type) {
-        return component.data[type];
+        return JSON.stringify(defaultData[type]);
     }
     /**
      * 좌측 세부 속성창에 출력될 컴포넌트 제목 객체 조회
@@ -650,25 +648,18 @@
     function setLastIndex(idx) {
         componentIdx = idx;
     }
-    /**
-     * 컴포넌트 기본 속성 조회 : '/assets/js/form/componentAttribute.json'
-     */
-    function loadDefaultAttribute(data) {
-        component.data = JSON.parse(data);
-    }
-
      /**
      * 컴포넌트 초기화
      */
     function init() {
         formPanel = document.getElementById('panel-form');
-        
-        //load component default data.
+
+        //컴포넌트 기본 속성 조회 : '/assets/js/form/componentAttribute.json'
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/form/componentAttribute.json',
             callbackFunc: function(xhr) {
-                loadDefaultAttribute(xhr.responseText)
+                defaultData = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
