@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository
 interface ProcessMstRepository : JpaRepository<ProcessMstEntity, String> {
     fun findByProcessNameLikeOrProcessDescLike(processName: String, processDesc: String): List<ProcessMstEntity>
     fun findProcessMstEntityByProcessId(processId: String): ProcessMstEntity
-    fun findProcessMstEntityByProcessStatus(processStatus: String): List<ProcessMstEntity>
 }

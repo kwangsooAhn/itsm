@@ -4,6 +4,7 @@ import co.brainz.workflow.component.repository.ComponentDataRepository
 import co.brainz.workflow.component.repository.ComponentMstRepository
 import co.brainz.workflow.document.repository.DocumentRepository
 import co.brainz.workflow.document.service.WFDocumentService
+import co.brainz.workflow.element.repository.ElementMstRepository
 import co.brainz.workflow.element.service.WFElementService
 import co.brainz.workflow.form.repository.FormMstRepository
 import co.brainz.workflow.form.service.Form
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service
 @Service
 class WFEngine(private val formMstRepository: FormMstRepository,
                private val processMstRepository: ProcessMstRepository,
+               private val elementMstRepository: ElementMstRepository,
                private val componentMstRepository: ComponentMstRepository,
                private val componentDataRepository: ComponentDataRepository,
                private val wfFormService: WFFormService,
@@ -42,7 +44,7 @@ class WFEngine(private val formMstRepository: FormMstRepository,
      * Process Engine.
      */
     fun process(): WFProcessService {
-        return WFProcessService(processMstRepository)
+        return WFProcessService(processMstRepository, elementMstRepository)
     }
 
     /**

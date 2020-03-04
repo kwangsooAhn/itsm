@@ -32,12 +32,12 @@
      * save workflow.
      */
     function saveWorkflow() {
-        console.debug(AliceProcessEditor.data);
+        // TODO 2020-03-03 kbh - 등록일때 수정일 떄가 있어서 method, url 셋팅해줘야함.
         aliceJs.sendXhr({
-            method: 'POST',
-            url: '/rest/processes/data',
+            method: 'PUT',
+            url: '/rest/processes/' + AliceProcessEditor.data.process.id,
             callbackFunc: function(xhr) {
-                if (xhr.responseText === '1') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
+                if (xhr.responseText === 'true') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
                     alert(i18n.get('common.msg.save'));
                 } else {
                     alert(i18n.get('common.label.fail'));
