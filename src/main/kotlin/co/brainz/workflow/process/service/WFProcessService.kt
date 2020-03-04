@@ -172,7 +172,6 @@ class WFProcessService(
                 }
             }
 
-
             // 프로세스 정보를 저장한다.
             processMstEntity.processName = wfJsonProcessDto.name.toString()
             processMstEntity.processDesc = wfJsonProcessDto.description

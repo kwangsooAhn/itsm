@@ -29,13 +29,13 @@ class ProcessService(private val providerProcess: ProviderProcess) {
         params.add("search", search)
         val responseBody = providerProcess.getProcesses(params)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val WfJsonProcessList: List<WfJsonProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfJsonProcessDto::class.java))
-        for (item in WfJsonProcessList) {
+        val wfJsonProcessList: List<WfJsonProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfJsonProcessDto::class.java))
+        for (item in wfJsonProcessList) {
             item.createDt = item.createDt?.let { ProviderUtilities().toTimezone(it) }
             item.updateDt = item.updateDt?.let { ProviderUtilities().toTimezone(it) }
         }
 
-        return WfJsonProcessList
+        return wfJsonProcessList
     }
 
     /**
