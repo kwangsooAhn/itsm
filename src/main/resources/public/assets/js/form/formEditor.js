@@ -150,6 +150,9 @@
             }
             lastCompIndex--;
         }
+        if(editbox !== null) {
+            editbox.domElem.querySelector('[contenteditable=true]').focus();
+        }
     }
 
     /**
@@ -248,8 +251,8 @@
         if (compIdx === -1) { return false; }
         
         let compAttr = formEditor.data.components[compIdx];
-        let detailAttr = component.getDefaultAttribute(compAttr.type);
-
+        let detailAttr = JSON.parse(component.getDefaultAttribute(compAttr.type));
+        
         /**
          * 컴포넌트를 다시 그린다.
          */
