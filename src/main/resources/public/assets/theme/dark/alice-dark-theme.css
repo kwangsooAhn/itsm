@@ -4,11 +4,11 @@
  */
  
 .bg-primary {
-  background-color: #60C3FF !important;
+  background-color: #43425D !important;
 }
 
 .alice-navbar {
-  background: linear-gradient(to right, #5574F7 30%, #60C3FF);
+  background: #43425D;
   color: #fff;
   padding: 0.625rem 1.25rem;
   line-height: 1rem;

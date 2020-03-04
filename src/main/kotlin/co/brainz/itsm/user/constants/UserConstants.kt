@@ -5,6 +5,7 @@ package co.brainz.itsm.user.constants
  */
 enum class UserConstants(val value: String) {
     PCODE("user.search"),     /** 검색 selectbox 에 사용할 부모 코드 */
+    PTHEMECODE("user.theme"),   /** 사용자 테마 사용할 부모 코드 */
     PLANGCODE("user.lang"),   /** 사용자 언어 사용할 부모 코드 */
     PDATECODE("user.date"),   /** 사용자 날짜 형식 사용할 부모 코드 */
     PTIMECODE("user.time")    /** 사용자 시간 형식 사용할 부모 코드 */

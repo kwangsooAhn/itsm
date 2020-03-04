@@ -74,6 +74,10 @@
                     <th th:text="#{user.lang}+'*'"/>
                     <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
                                                               th:text="${itemData.codeValue}"></option></select></td>
+                <tr>
+                    <th th:text="#{user.theme}+'*'"/>
+                    <td><select name="theme" id="theme"><option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}"
+                                                              th:text="${themeData.codeValue}"></option></select></td>
             </tbody>
         </table>
         <button style="margin-top: 25px;" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/userEditSelf(userKey=${users.userKey})}]])"
@@ -113,6 +117,15 @@
         window.onload = function() {
             if (/*[[${!users.platform.equals('user.platform.alice')}]]*/) {
                 document.getElementById('tbody').style.display = 'none';
+            }
+
+            if (/*[[${users.theme != null}]]*/) {
+                var selectLength = document.getElementById('theme').length;
+                for (var i = 0; i < selectLength; i++) {
+                   if (document.getElementById('theme').options[i].value === /*[[${users.theme}]]*/) {
+                       document.getElementById('theme').options[i].selected = true;
+                   }
+                }
             }
 
             if (/*[[${users.lang != null}]]*/) {
@@ -210,6 +223,7 @@
                 mobileNumber: document.getElementById('mobileNumber').value,
                 timezone: document.getElementById('timezone').value,
                 lang: document.getElementById('lang').value,
+                theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value
             };
 

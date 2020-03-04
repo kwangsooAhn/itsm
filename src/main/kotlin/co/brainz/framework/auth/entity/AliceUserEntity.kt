@@ -76,7 +76,7 @@ data class AliceUserEntity(
 
         @Column(name = "time_format", length = 100)
         var timeFormat: String = "",
-        
+
         @Column(name = "theme", length = 100)
         var theme: String = ""
 ): Serializable, AliceMetaEntity() {

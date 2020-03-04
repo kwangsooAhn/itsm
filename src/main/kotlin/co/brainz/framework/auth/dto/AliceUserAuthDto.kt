@@ -22,7 +22,7 @@ data class AliceUserAuthDto(
         var timezone: String = "",
         var lang: String = "",
         var timeFormat: String = "",
-        var theme: String = "default",
+        var theme: String = "",
         var grantedAuthorises: Set<GrantedAuthority>? = null,
         var menus: Set<AliceMenuEntity>? = null,
         var urls: Set<AliceUrlEntity>? = null

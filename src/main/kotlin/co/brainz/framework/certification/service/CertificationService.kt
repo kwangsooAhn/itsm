@@ -103,6 +103,7 @@ class CertificationService(private val certificationRepository: CertificationRep
                         user.status = UserConstants.Status.CERTIFIED.code
                         user.timezone = signUpDto.timezone!!
                         user.lang = signUpDto.lang!!
+                        user.theme = signUpDto.theme!!
                         user.timeFormat = signUpDto.timeFormat!!
                     }
                 }

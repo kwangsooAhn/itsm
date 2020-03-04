@@ -9899,6 +9899,10 @@ body {
   font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+input[type=password] {
+  font-family: Arial;
+}
+
 .white-base {
   position: absolute;
   top: 50%;

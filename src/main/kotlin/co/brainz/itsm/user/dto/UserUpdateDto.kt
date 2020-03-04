@@ -17,5 +17,6 @@ data class UserUpdateDto(
         var status: String?,
         var timezone: String?,
         var lang: String?,
-        var timeFormat: String?
+        var timeFormat: String?,
+        var theme: String?
 ) : Serializable

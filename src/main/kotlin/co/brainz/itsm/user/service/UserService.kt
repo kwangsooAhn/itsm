@@ -165,6 +165,7 @@ class UserService(private val certificationRepository: CertificationRepository,
         userUpdateDto.timezone?.let { targetEntity.timezone = userUpdateDto.timezone!! }
         userUpdateDto.lang?.let { targetEntity.lang = userUpdateDto.lang!! }
         userUpdateDto.timeFormat?.let { targetEntity.timeFormat = userUpdateDto.timeFormat!! }
+        userUpdateDto.theme?.let { targetEntity.theme = userUpdateDto.theme!! }
 
         return targetEntity
     }
