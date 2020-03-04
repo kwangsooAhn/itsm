@@ -1,7 +1,5 @@
 package co.brainz.workflow.process.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.workflow.element.entity.ElementDataEntity
 import co.brainz.workflow.element.entity.ElementMstEntity
 import co.brainz.workflow.element.repository.ElementMstRepository
@@ -19,10 +17,8 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 
 @Service
@@ -174,9 +170,6 @@ class WFProcessService(
             // 프로세스 정보를 저장한다.
             processMstEntity.processName = wfJsonProcessDto.name.toString()
             processMstEntity.processDesc = wfJsonProcessDto.description
-            processMstEntity.updateDt = ProviderUtilities().toGMT(LocalDateTime.now())
-            val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-            processMstEntity.updateUserKey = userDetails.userKey
             processMstEntity.elementMstEntities.addAll(elementMstEntities)
             processMstRepository.save(processMstEntity)
 

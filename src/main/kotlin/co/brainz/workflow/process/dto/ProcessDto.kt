@@ -5,17 +5,17 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class ProcessDto(
-    val processId: String = "",
-    val processName: String = "",
-    val processDesc: String? = null,
+    var processId: String = "",
+    var processName: String = "",
+    var processDesc: String? = null,
     var processStatus: String,
-    val formId: String? = null,
-    val formName: String? = null,
+    var formId: String? = null,
+    var formName: String? = null,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var createDt: LocalDateTime? = null,
-    val createUserKey: String? = null,
+    var createUserKey: String? = null,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var updateDt: LocalDateTime? = null,
-    val updateUserKey: String? = null,
-    val enabled: Boolean? = false
+    var updateUserKey: String? = null,
+    var enabled: Boolean? = false
 ) : Serializable
