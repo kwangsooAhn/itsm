@@ -9,7 +9,7 @@
         translateLimit: 1000, // drawing board limit.
         durationTime: 100,
         boardInterval: 10
-    }
+    };
 
     let svg,
         gNode,
@@ -751,7 +751,6 @@
         const zoom = d3.zoom()
             .on('start', function() {
                 svg.style('cursor', 'grabbing');
-
                 const nodeTopArray = [],
                       nodeRightArray = [],
                       nodeBottomArray = [],
@@ -763,11 +762,11 @@
                     nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
                     nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
                 });
-
-                let minLeft = 0,
-                    minTop = 0,
-                    maxRight = 0,
-                    maxBottom = 0;
+                const svgBBox = AliceProcessEditor.utils.getBoundingBoxCenter(svg);
+                let minLeft = svgBBox.cx,
+                    minTop = svgBBox.cy,
+                    maxRight = svgBBox.cx,
+                    maxBottom = svgBBox.cy;
                 if (nodes.length > 0) {
                     minLeft = d3.min(nodeLeftArray);
                     minTop = d3.min(nodeTopArray);
@@ -855,6 +854,7 @@
                     break;
                 case 'gateway':
                     node = new GatewayElement(x, y);
+                    break;
                 case 'artifact':
                     if (element.type === 'group') {
                         node = new GroupElement(x, y, element.display.width, element.display.height);
@@ -867,6 +867,7 @@
             }
 
             if (node) {
+                nodes.push(node.nodeElement);
                 const nodeId = node.nodeElement.attr('id');
                 elements.forEach(function(e){
                     if (e.type !== 'arrowConnector') {

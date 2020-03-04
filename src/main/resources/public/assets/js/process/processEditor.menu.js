@@ -538,28 +538,49 @@
      * @param processId 프로세스 ID
      */
     function loadItems(processId) {
-        d3.json('../../assets/js/process/processAttribute.json').then(function(data) {
-            processProperties = data;
-            d3.json('../../assets/js/process/elementAttribute.json').then(function(data) {
-                elementsProperties = data;
-                elementsKeys = Object.getOwnPropertyNames(elementsProperties);
-
-                // load process data.
-                aliceJs.sendXhr({
-                    method: 'GET',
-                    url: '/rest/processes/data/' + processId,
-                    callbackFunc: function(xhr) {
-                        const data = xhr.responseText;
-                        console.debug(JSON.parse(data));
-                        AliceProcessEditor.data = JSON.parse(data);
-                        document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
-                        const elements = AliceProcessEditor.data.elements;
-                        setElementMenu();
-                        AliceProcessEditor.drawProcess(elements);
-                    },
-                    contentType: 'application/json; charset=utf-8'
-                });
+        /**
+         * load process data.
+         */
+        const loadProcessData = function() {
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: '/rest/processes/data/' + processId,
+                callbackFunc: function (xhr) {
+                    const data = xhr.responseText;
+                    console.debug(JSON.parse(data));
+                    AliceProcessEditor.data = JSON.parse(data);
+                    document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
+                    const elements = AliceProcessEditor.data.elements;
+                    setElementMenu();
+                    AliceProcessEditor.drawProcess(elements);
+                },
+                contentType: 'application/json; charset=utf-8'
             });
+        };
+        /**
+         * load element attribute data.
+         */
+        const loadElementData = function() {
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: '/assets/js/process/elementAttribute.json',
+                callbackFunc: function (xhr) {
+                    elementsProperties = JSON.parse(xhr.responseText);
+                    elementsKeys = Object.getOwnPropertyNames(elementsProperties);
+                    loadProcessData();
+                },
+                contentType: 'application/json; charset=utf-8'
+            });
+        };
+        // load process attribute data.
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/assets/js/process/processAttribute.json',
+            callbackFunc: function (xhr) {
+                processProperties = JSON.parse(xhr.responseText);
+                loadElementData();
+            },
+            contentType: 'application/json; charset=utf-8'
         });
 
         // add pattern image. for tooltip item image.
