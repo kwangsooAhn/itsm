@@ -56,7 +56,7 @@ data class ProcessMstEntity(
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    var formMstEntity: FormMstEntity = FormMstEntity()
+    var formMstEntity: FormMstEntity? = null
 
     @OneToMany(
         mappedBy = "processMstEntity",
