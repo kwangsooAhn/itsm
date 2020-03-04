@@ -9,18 +9,19 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ElementMstRepository: JpaRepository<ElementMstEntity, String> {
 
-    @Query("SELECT elem " +
-            "FROM wf_elem_data elem " +
-            "WHERE attr_id = :startId " +
-            "AND sub.attr_value = :elementId")
+    @Query("SELECT elem.element, elem.attributeId, elem.attributeValue " +
+            "FROM ElementDataEntity elem " +
+            "WHERE elem.attributeId = :startId " +
+            "AND elem.attributeValue = :elementId")
     fun findAllArrowConnectorElement(elementId: String,
-                        startId: String = ElementConstants.AttributeId.SOURCE_ID.value): MutableList<ElementMstEntity>
+                                     startId: String = ElementConstants.AttributeId.SOURCE_ID.value): MutableList<ElementMstEntity>
 
-    @Query("SELECT elem " +
-            "FROM wf_elem_data elem " +
-            "WHERE attr_id = :endId " +
-            "AND sub.attr_value = :elementId")
+    @Query("SELECT elem.element, elem.attributeId, elem.attributeValue " +
+            "FROM ElementDataEntity elem " +
+            "WHERE elem.attributeId = :endId " +
+            "AND elem.attributeValue = :elementId")
     fun findTargetElement(elementId: String,
-                                     endId: String = ElementConstants.AttributeId.TARGET_ID.value): ElementMstEntity
+                          endId: String = ElementConstants.AttributeId.TARGET_ID.value): ElementMstEntity
 
+    fun findByProcessIdAndElementType(processId : String, elementType : String) : ElementMstEntity
 }

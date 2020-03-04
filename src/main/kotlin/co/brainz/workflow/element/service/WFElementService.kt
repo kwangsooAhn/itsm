@@ -1,6 +1,5 @@
 package co.brainz.workflow.element.service
 
-import co.brainz.workflow.element.constants.ElementConstants
 import co.brainz.workflow.element.entity.ElementMstEntity
 import co.brainz.workflow.element.repository.ElementMstRepository
 import co.brainz.workflow.token.dto.TokenSaveDto
@@ -8,6 +7,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class WFElementService(private val elementMstRepository: ElementMstRepository) {
+
+    /**
+     * get element by ProcessId, ElementType
+     *
+     * @param processId, elementType
+     * @return ElementMstEntity
+     */
+    fun getElementId (processId : String, elementType : String) : ElementMstEntity {
+        return elementMstRepository.findByProcessIdAndElementType(processId, elementType)
+    }
+
     /**
      * get next element in process.
      *
@@ -21,7 +31,7 @@ class WFElementService(private val elementMstRepository: ElementMstRepository) {
             selectedElement = elementMstRepository.findTargetElement(element.elementId)
             //element.getElementDataValue(ElementConstants.AttributeId.CONDITION.value)
         }
-        return selectedElement;
+        return selectedElement
     }
 
 
