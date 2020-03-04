@@ -90,17 +90,13 @@ class WFProcessService(
             processMstRepository.save(processMstMapper.toProcessMstEntity(processDto))
 
         return ProcessDto(
-            processMstEntity.processId,
-            processMstEntity.processName,
-            processMstEntity.processDesc,
-            processMstEntity.processStatus,
-            "",
-            "",
-            processMstEntity.createDt,
-            "",
-            processMstEntity.updateDt,
-            "",
-            false
+            processId = processMstEntity.processId,
+            processName = processMstEntity.processName,
+            processDesc = processMstEntity.processDesc,
+            processStatus = processMstEntity.processStatus,
+            createDt = processMstEntity.createDt,
+            updateDt = processMstEntity.updateDt,
+            enabled = false
         )
     }
 
