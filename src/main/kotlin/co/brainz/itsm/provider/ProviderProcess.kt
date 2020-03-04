@@ -54,7 +54,7 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
     /**
      * Update Process.
      *
-     * @param processDto
+     * @param wfJsonMainDto
      * @return Boolean
      */
     fun updateProcess(wfJsonMainDto: WfJsonMainDto): Boolean {
