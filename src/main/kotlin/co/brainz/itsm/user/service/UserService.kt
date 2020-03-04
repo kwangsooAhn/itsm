@@ -79,10 +79,11 @@ class UserService(private val certificationRepository: CertificationRepository,
     }
 
     /**
-     * 사용자의 KEY로 정보를 수정한다.
-     * @param target : userEdit
+     * 사용자의 정보를 수정한다.
+     *
+     * @param userEditType
      */
-    fun updateUserEdit(userUpdateDto: UserUpdateDto, target: String?): String {
+    fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): String {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
             UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
@@ -101,7 +102,7 @@ class UserService(private val certificationRepository: CertificationRepository,
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
 
-                if (target == "userEdit") {
+                if (userEditType == UserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     userEntity.userRoleMapEntities.forEach {
                         userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
                     }

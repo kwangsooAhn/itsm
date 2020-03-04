@@ -71,10 +71,7 @@ class UserRestController(
      */
     @PutMapping("/{userKey}/userEdit")
     fun updateUserEdit(@RequestBody user: UserUpdateDto): String {
-        val target = "userEdit"
-        val result = userService.updateUserEdit(user, target)
-
-        return result
+        return userService.updateUserEdit(user, UserConstants.UserEditType.ADMIN_USER_EDIT.code)
     }
 
     /**
@@ -83,19 +80,13 @@ class UserRestController(
     @PutMapping("/{userKey}/userEditSelf")
     fun updateUserEditSelf(@RequestBody user: UserUpdateDto,
                            request: HttpServletRequest,
-                           response: HttpServletResponse
-    ): String {
-        val result = userService.updateUserEdit(user, null)
-
-        if (result == UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code) {
-            certificationService.sendMail(
-                user.userId,
-                user.email!!,
-                UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
-                null
-            )
-        } else {
-            certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code, null)
+                           response: HttpServletResponse): String {
+        val result = userService.updateUserEdit(user, UserConstants.UserEditType.SELF_USER_EDIT.code)
+        when (result) {
+            UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {
+                certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code, null)
+            }
+            else -> certificationService.sendMail(user.userId, user.email!!, UserConstants.SendMailStatus.UPDATE_USER.code, null)
         }
         localeResolver.setLocale(request, response, Locale(user.lang))
         if (SecurityContextHolder.getContext().authentication != null) {

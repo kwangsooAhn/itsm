@@ -71,6 +71,14 @@ object UserConstants {
     }
 
     /**
+     * 사용자 수정 구분.
+     */
+    enum class UserEditType(val code: String) {
+        ADMIN_USER_EDIT("userEdit"),
+        SELF_USER_EDIT("selfEdit")
+    }
+
+    /**
      * 사용자 기본 권한.
      */
     enum class DefaultRole(val code: String) {
