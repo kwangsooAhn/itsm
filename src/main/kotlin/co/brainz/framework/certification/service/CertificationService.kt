@@ -94,7 +94,8 @@ class CertificationService(private val certificationRepository: CertificationRep
                         oauthKey = "",
                         timezone = TimeZone.getDefault().id,
                         lang = UserConstants.USER_LOCALE_LANG,
-                        timeFormat = UserConstants.USER_TIME_FORMAT
+                        timeFormat = UserConstants.USER_TIME_FORMAT,
+                        theme = UserConstants.USER_THEME
                 )
 
                 when (target) {
@@ -102,6 +103,7 @@ class CertificationService(private val certificationRepository: CertificationRep
                         user.status = UserConstants.Status.CERTIFIED.code
                         user.timezone = signUpDto.timezone!!
                         user.lang = signUpDto.lang!!
+                        user.theme = signUpDto.theme!!
                         user.timeFormat = signUpDto.timeFormat!!
                     }
                 }

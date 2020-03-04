@@ -24,6 +24,11 @@ object UserConstants {
      * 사용자 기본 날짜 포맷
      */
     const val USER_TIME_FORMAT: String = "yyyy-MM-dd HH:mm"
+    
+    /**
+     * 사용자 기본 테마
+     */
+    const val USER_THEME: String = "default"
 
     /**
      * 사용자 식별 값

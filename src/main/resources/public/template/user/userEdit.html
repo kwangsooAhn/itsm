@@ -78,6 +78,11 @@
                     <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
                                                               th:text="${itemData.codeValue}"></option></select></td>
                 </tr>
+                <tr>
+                    <th th:text="#{user.theme}+'*'"/>
+                    <td><select name="theme" id="theme"><option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}"
+                                                              th:text="${themeData.codeValue}"></option></select></td>
+                </tr>
                 <tr sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
                     <th th:text="#{user.role}"></th>
                     <td>
@@ -109,6 +114,7 @@
         window.onload = function() {
             var userKey = /*[[${users?.userKey} ? ${users.userKey} : null]]*/;
             var userPlatform = /*[[${users?.platform} ? ${users.platform} : null]]*/;
+            var userTheme = /*[[${users?.theme} ? ${users.theme} : null]]*/;
             var userLang = /*[[${users?.lang} ? ${users.lang} : null]]*/;
             var userTimezone = /*[[${users?.timezone} ? ${users.timezone} : null]]*/;
             var userTimeFormat = /*[[${users?.timeFormat} ? ${users.timeFormat} : null]]*/;
@@ -120,6 +126,16 @@
                 document.getElementById('passwordArea').style.display = 'none';
             } else if (userKey === null) {
                 document.getElementById('passwordArea').style.display = 'none';
+            }
+
+            if (userTheme !== null) {
+                var selectLength = document.getElementById('theme').length;
+                console.log(selectLength)
+                for (var i = 0; i < selectLength; i++) {
+                    if (document.getElementById('theme').options[i].value === userTheme) {
+                        document.getElementById('theme').options[i].selected = true;
+                    }
+                }
             }
 
             if (userLang !== null) {
@@ -227,6 +243,7 @@
                 mobileNumber: document.getElementById('mobileNumber').value,
                 timezone: document.getElementById('timezone').value,
                 lang: document.getElementById('lang').value,
+                theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 roles: arrRoleValue
             };

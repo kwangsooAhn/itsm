@@ -59,6 +59,7 @@ class UserController(private val codeService: CodeService,
         val usersDate = timeFormat[0].toString()
         val usersTime = if (timeFormat.size == 3) { timeFormat[1] + ' ' + timeFormat[2] } else { timeFormat[1] }
 
+        val themeList = codeService.selectCodeByParent(UserConstants.PTHEMECODE.value)
         val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
         val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
         val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
@@ -76,6 +77,7 @@ class UserController(private val codeService: CodeService,
         model.addAttribute("roles", roles)
         model.addAttribute("usersDate", usersDate)
         model.addAttribute("usersTime", usersTime)
+        model.addAttribute("themeList", themeList)
         model.addAttribute("langList", langList)
         model.addAttribute("timezoneList", timezoneList)
         model.addAttribute("dateList", dateList)

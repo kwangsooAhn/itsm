@@ -109,6 +109,7 @@ user:
   date: "Date Format"
   time: "Time Format"
   lang: "Language"
+  theme: "Theme"
   reg: "Sign up"
   read: "User read"
   role: "User Role"

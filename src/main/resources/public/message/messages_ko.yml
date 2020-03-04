@@ -110,6 +110,7 @@ user:
   date: "날짜 유형"
   time: "시간 유형"
   lang: "언어"
+  theme: "테마"
   reg: "사용자 등록"
   read: "사용자 조회"
   role: "사용자 역할"
