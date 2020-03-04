@@ -135,7 +135,7 @@
                             d: {x: targetBBox.x + d[0], y: targetBBox.y + d[1]}
                         };
                     }
-                })
+                });
             });
 
             let lineFunction = d3.line().x(function(d) {return  d.x;}).y(function(d){return d.y;}).curve(d3.curveLinear);
@@ -150,7 +150,7 @@
             lineGenerator.curve(d3.curveLinear);
             return lineGenerator([[sourceBBox.cx, sourceBBox.cy], [targetBBox.cx, targetBBox.cy]]);
             */
-        }
+        };
 
         path.attr('d', function(d) {return getLinePath(d);});
         paintedPath.attr('d', function(d) {return getLinePath(d);});
@@ -264,7 +264,7 @@
                   centerY = bbox.cy + gTransform.y;
             dragLine.attr('d', 'M' + centerX + ',' + centerY + 'L' + (d3.event.x + gTransform.x) + ',' + (d3.event.y + gTransform.y));
         }
-    }
+    };
 
     /**
      * connector 연결 가능여부 체크하여 리턴한다.
