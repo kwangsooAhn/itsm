@@ -12,8 +12,8 @@ data class ProcessDto(
     val formId: String? = null,
     val formName: String? = null,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    var createDt: LocalDateTime?,
-    val createUserKey: String?,
+    var createDt: LocalDateTime? = null,
+    val createUserKey: String? = null,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var updateDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
