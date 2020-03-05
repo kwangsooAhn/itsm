@@ -70,6 +70,7 @@ class FormService(private val providerForm: ProviderForm) {
                 formId = forms.id,
                 formName = forms.name,
                 formDesc = forms.desc,
+                formStatus = forms.status,
                 updateDt = ProviderUtilities().toGMT(LocalDateTime.now()),
                 updateUserKey = aliceUserDto.userKey
         )
