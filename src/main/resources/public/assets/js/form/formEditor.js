@@ -24,8 +24,10 @@
      */
     function saveForm() {
         data = JSON.parse(JSON.stringify(formEditor.data));
-        data.components = data.components.filter(function(comp) { return comp.type !== defaultComponent; });
-        console.debug(data);
+        let lastCompIndex = component.getLastIndex();
+        data.components = data.components.filter(function(comp) { 
+            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent); 
+        });
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/data',
@@ -669,6 +671,17 @@
             if (fieldArr.type === 'textarea') {
                 propertyValue = document.createElement('textarea');
                 propertyValue.value = fieldArr.value;
+            } else if (fieldArr.type === 'select') { //상태값 출력
+                propertyValue = document.createElement('select');
+                for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                    let propertyOption = document.createElement('option');
+                    propertyOption.value = fieldArr.option[i].id;
+                    propertyOption.text = fieldArr.option[i].name;
+                    if (fieldArr.value === fieldArr.option[i].id) {
+                        propertyOption.setAttribute('selected', 'selected');
+                    }
+                    propertyValue.appendChild(propertyOption);
+                }
             } else {
                 propertyValue = document.createElement('input');
                 propertyValue.setAttribute('type', 'text');
