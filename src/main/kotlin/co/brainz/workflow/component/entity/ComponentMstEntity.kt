@@ -18,8 +18,7 @@ import javax.persistence.Table
 @Table(name = "wf_comp_mst")
 data class ComponentMstEntity(
 
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
+        @Id
         @Column(name = "comp_id", length = 128)
         val compId: String,
 
