@@ -32,6 +32,7 @@
      * save workflow.
      */
     function saveWorkflow() {
+        console.debug(AliceProcessEditor.data)
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/processes/' + AliceProcessEditor.data.process.id,
