@@ -100,6 +100,7 @@ class UserController(private val codeService: CodeService,
      */
     @GetMapping("/new")
     fun getUserRegister(model: Model): String {
+        val themeList = codeService.selectCodeByParent(UserConstants.PTHEMECODE.value)
         val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
         val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
         val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
@@ -107,6 +108,7 @@ class UserController(private val codeService: CodeService,
         val roleEntities = mutableSetOf<AliceRoleEntity>()
         val roles = roleService.getRoles(roleEntities)
 
+        model.addAttribute("themeList", themeList)
         model.addAttribute("langList", langList)
         model.addAttribute("timezoneList", timezoneList)
         model.addAttribute("dateList", dateList)

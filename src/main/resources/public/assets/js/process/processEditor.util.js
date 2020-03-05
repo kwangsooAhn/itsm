@@ -29,15 +29,15 @@
     };
 
     /**
-     * save workflow.
+     * save process.
      */
-    function saveWorkflow() {
-        console.debug(AliceProcessEditor.data)
+    function saveProcess() {
+        console.debug(AliceProcessEditor.data);
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/processes/' + AliceProcessEditor.data.process.id,
             callbackFunc: function(xhr) {
-                if (xhr.responseText === 'true') { //TODO: return 값은 engine 쪽 개발자와 추후 협의 필요!! 현재는 임시로..
+                if (xhr.responseText === 'true') {
                     alert(i18n.get('common.msg.save'));
                 } else {
                     alert(i18n.get('common.label.fail'));
@@ -59,7 +59,7 @@
     /**
      * undo.
      */
-    function undoWorkflow() {
+    function undoProcess() {
         //TODO: 처리로직
         console.log('clicked undo button.');
     }
@@ -67,31 +67,31 @@
     /**
      * redo.
      */
-    function redoWorkflow() {
+    function redoProcess() {
         //TODO: 처리로직
         console.log('clicked redo button.');
     }
 
     /**
-     * import workflow.
+     * import process.
      */
-    function importWorkflow() {
+    function importProcess() {
         //TODO: 처리로직
         console.log('clicked import button.');
     }
 
     /**
-     * export workflow.
+     * export process.
      */
-    function exportWorkflow() {
+    function exportProcess() {
         //TODO: 처리로직
         console.log('clicked export button.');
     }
 
     /**
-     * download workflow image.
+     * download process image.
      */
-    function downloadWorkflowImage() {
+    function downloadProcessImage() {
         //TODO: 처리로직
         console.log('clicked image download button.');
     }
@@ -101,13 +101,13 @@
      */
     function initUtil() {
         // add click event listener.
-        document.getElementById('btnSave').addEventListener('click', saveWorkflow);
+        document.getElementById('btnSave').addEventListener('click', saveProcess);
         document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);
-        document.getElementById('btnUndo').addEventListener('click', undoWorkflow);
-        document.getElementById('btnRedo').addEventListener('click', redoWorkflow);
-        document.getElementById('btnImport').addEventListener('click', importWorkflow);
-        document.getElementById('btnExport').addEventListener('click', exportWorkflow);
-        document.getElementById('btnDownload').addEventListener('click', downloadWorkflowImage);
+        document.getElementById('btnUndo').addEventListener('click', undoProcess);
+        document.getElementById('btnRedo').addEventListener('click', redoProcess);
+        document.getElementById('btnImport').addEventListener('click', importProcess);
+        document.getElementById('btnExport').addEventListener('click', exportProcess);
+        document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
     }
 
     exports.utils = utils;
