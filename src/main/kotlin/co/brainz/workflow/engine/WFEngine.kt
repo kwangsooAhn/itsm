@@ -44,7 +44,7 @@ class WFEngine(private val formMstRepository: FormMstRepository,
      * Process Engine.
      */
     fun process(): WFProcessService {
-        return WFProcessService(processMstRepository, elementMstRepository)
+        return WFProcessService(processMstRepository)
     }
 
     /**

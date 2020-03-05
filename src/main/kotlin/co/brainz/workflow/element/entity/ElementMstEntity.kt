@@ -1,13 +1,11 @@
 package co.brainz.workflow.element.entity
 
 import co.brainz.workflow.process.entity.ProcessMstEntity
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -17,8 +15,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "wf_elem_mst")
 data class ElementMstEntity(
-    @Id @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Id
     @Column(name = "elem_id", length = 256)
     val elementId: String = "",
 
