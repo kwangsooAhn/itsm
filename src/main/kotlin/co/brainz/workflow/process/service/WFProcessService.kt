@@ -63,13 +63,12 @@ class WFProcessService(
         val wfProcessDto = processMstMapper.toWfJsonProcessDto(processMstEntity)
         val wfElementDto = mutableListOf<WfJsonElementDto>()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val convertMap = mutableMapOf<String, Any>()
 
         for (elementMstEntity in processMstEntity.elementMstEntities) {
             val elDto = processMstMapper.toWfJsonElementDto(elementMstEntity)
             elDto.display = elementMstEntity.displayInfo.let { mapper.readValue(it) }
             elDto.data = elementMstEntity.elementDataEntities.associateByTo(
-                convertMap,
+                mutableMapOf<String, Any>(),
                 { it.attributeId },
                 { it.attributeValue })
             wfElementDto.add(elDto)
@@ -144,6 +143,7 @@ class WFProcessService(
                     // element master entity 생성
                     var elementMstEntity = ElementMstEntity(
                         processId = wfJsonProcessDto.id,
+                        elementType = it.type,
                         displayInfo = mapper.writeValueAsString(it.display)
                     )
 

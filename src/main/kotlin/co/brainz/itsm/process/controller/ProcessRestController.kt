@@ -26,31 +26,7 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
     fun getProcessData(@PathVariable processId: String): String {
         val processData = providerProcess.getProcess(processId)
         logger.debug("get process data. {}", processData)
-//        return processData
-        // TODO 2019-03-03 kbh - js가 작업중이라 테스트 데이터를 사용한다. 작업 완료시  return processData로 사용하기
-        // 테스트용 프로세스 데이터
-        return """
-               {"process": {"id": "$processId", "name": "서비스데스크", "description": "서비스데스크입니다.", "xxx":"xxx"},
-                "elements": [{
-                              "id": "4a417b48be2e4ebe82bf8f80a63622a4",
-                              "type": "commonStart",
-                              "display": {"width": 38, "height": 50, "position-x": 100, "position-y": 100},
-                              "data": {"end1": "시작"}
-                             },
-                             {
-                              "id": "4a417b48be2e4ebe82bf8f80a63622a1",
-                              "type": "userTask",
-                              "display": {"width": 100, "height": 50, "position-x": 200, "position-y": 100},
-                              "data": {"name": "신청서작성"}
-                             },
-                             {
-                              "id": "4a417b48be2e4ebe82bf8f80a63622a2",
-                              "type": "arrowConnector",
-                              "data": {"name": "승인", "condition": "", "start-id": "4a417b48be2e4ebe82bf8f80a63622a4", "end-id": "4a417b48be2e4ebe82bf8f80a63622a1"}
-                             }
-                            ]
-               }
-               """
+        return processData
     }
 
     /**
