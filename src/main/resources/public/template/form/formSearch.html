@@ -13,7 +13,7 @@
         <div align="right">
             <button type="button" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"
                     th:text="#{common.btn.register}"></button>
-            <input type="text" id="search" th:placeholder="#{common.searchWord}">
+            <input type="text" id="search" style="width: 270px" th:placeholder="#{form.label.searchPlaceholder}">
         </div>
         <hr>
         <div id="formList" style="margin-top: 20px"></div>
@@ -21,59 +21,61 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-<script type="text/javascript">
-    /*<![CDATA[*/
-    window.onload = function() {
-        getFormList(document.getElementById('search').value);
-        hiddenProgressBar();
-    };
-
-    document.getElementById('search').onkeyup = function() {
-        getFormList(this.value);
-    };
-
-    //폼 리스트 조회
-    function getFormList(search) {
-        restSubmit('GET', '/forms/list?search=' + search.trim(), function(result) {
-            document.getElementById('formList').innerHTML = result;
-        });
-    }
-
-    //폼 삭제
-    function deleteForm(formId) {
-        restSubmit('DELETE', '/forms/' + formId, function() {
-            alert('[[#{common.msg.delete.success}]]');
-            location.reload();
-        });
-    }
-
-    //폼 편집화면 오픈
-    function openFormEdit() {
-        window.open('/forms/new', '_blank', 'width=1500, height=800');
-    }
-
-    //폼 디자이너 편집화면 오픈
-    function openFormDesignerEdit(formId) {
-        window.open('/forms/' + formId + '/edit', '_blank', 'width=1500, height=800');
-    }
-
-    //REST API
-    function restSubmit(method, url, response) {
-        const xmlHttp = createXmlHttpRequestObject(method, url);
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                if (xmlHttp.status === 200) {
-                    response(xmlHttp.responseText);
-                } else if (xmlHttp.status === 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
-            }
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            getFormList(document.getElementById('search').value);
+        }
+        
+        document.getElementById('search').onkeyup = function() {
+            getFormList(this.value);
         };
-        xmlHttp.send();
-    }
-    /*]]>*/
-</script>
+    
+        //폼 리스트 조회
+        function getFormList(search) {
+            restSubmit('GET', '/forms/list?search=' + search.trim(), function(result) {
+                document.getElementById('formList').innerHTML = result;
+            });
+        }
+    
+        //폼 삭제
+        function deleteForm(formId) {
+            restSubmit('DELETE', '/rest/forms/' + formId, function() {
+                alert('[[#{common.msg.delete.success}]]');
+                location.reload();
+            });
+        }
+    
+        //폼 편집화면 오픈
+        function openFormEdit() {
+            window.open('/forms/new', '_blank', 'width=1500, height=800');
+        }
+    
+        //폼 디자이너 편집화면 오픈
+        function openFormDesignerEdit(formId) {
+            const _width = 1500,
+                  _height = 920;
+            //중앙 배치
+            const _left = Math.ceil((window.screen.width - _width) / 2);
+            const _top = Math.ceil((window.screen.height - _height) / 4);
+            
+            let specs = 'left=' + _left + ',top=' + _top;
+            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+            window.open('/forms/' + formId + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
+        }
+    
+        //REST API
+        function restSubmit(method, url, result) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    result(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
 </th:block>
 </html>

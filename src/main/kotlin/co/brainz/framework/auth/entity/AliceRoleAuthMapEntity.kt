@@ -1,7 +1,6 @@
 package co.brainz.framework.auth.entity
 
 import java.io.Serializable
-import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
@@ -26,8 +25,6 @@ data class AliceRoleAuthMapEntity(
 ) : Serializable
 
 data class AliceRoleAuthMapPk(
-        val role: String,
-        val auth: String
-) : Serializable {
-        constructor() : this("","")
-}
+        val role: String = "",
+        val auth: String = ""
+) : Serializable

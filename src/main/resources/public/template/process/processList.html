@@ -20,35 +20,36 @@
             <colgroup>
                 <col width="18%">
                 <col width="20%">
-                <col width="13%">
+                <col width="12%">
                 <col width="10%">
                 <col width="20%">
-                <col width="11%">
-                <col width="4%">
-                <col width="4%">
+                <col width="10%">
+                <col width="5%">
+                <col width="5%">
             </colgroup>
             <tbody>
                 <tr th:each="process: ${processList}">
-                    <td th:text="${process.processName}"></td>
-                    <td th:text="${process.processDesc}"></td>
+                    <td th:text="${process.name}"></td>
+                    <td th:text="${process.description}"></td>
                     <td th:text="${process.formName}"></td>
-                    <td th:text="${process.userName}"></td>
-                    <td th:if="${process.updateDt == null && process.updateUserkey == null}"
-                        th:with="dateformat=${#authentication.details.timeformat}" 
-                        th:text="|${#temporals.format(process.createDt,dateformat)} ${process.createUserkey}|"></td>
-                    <td th:unless="${process.updateDt == null && process.updateUserkey == null}"
-                        th:with="dateformat=${#authentication.details.timeformat}" 
-                        th:text="|${#temporals.format(process.updateDt,dateformat)} ${process.updateUserkey}|"></td>
-                    <td th:text="#{${process.processStatus}}"></td>
+                    <td>이름</td>
+                    <!--<td th:text="${process.userName}"></td>-->
+                    <td th:if="${process.updateDt == null && process.updateUserKey == null}"
+                        th:with="dateformat=${#authentication.details.timeFormat}"
+                        th:text="|${#temporals.format(process.createDt,dateformat)} ${process.createUserKey}|"></td>
+                    <td th:unless="${process.updateDt == null && process.updateUserKey == null}"
+                        th:with="dateformat=${#authentication.details.timeFormat}"
+                        th:text="|${#temporals.format(process.updateDt,dateformat)} ${process.updateUserKey}|"></td>
+                    <td th:text="#{${process.status}}"></td>
                     <td>
                         <button sec:authorize="hasAuthority('process.update')"
                                 th:text="#{common.btn.modify}" th:disabled="${!process.enabled}"
-                                th:attr="onclick=|openProcessDesignerEdit('${process.processId}')|"></button>
+                                th:attr="onclick=|openProcessDesignerEdit('${process.id}')|"></button>
                     </td>
                     <td>
                         <button sec:authorize="hasAuthority('process.delete')"
                                 th:text="#{common.btn.delete}" th:disabled="${!process.enabled}"
-                                th:attr="onclick=|deleteProcess('${process.processId}')|"></button>
+                                th:attr="onclick=|deleteProcess('${process.id}')|"></button>
                     </td>
                 </tr>
             </tbody>

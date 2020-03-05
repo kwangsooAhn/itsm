@@ -24,6 +24,21 @@ object UserConstants {
      * 사용자 기본 날짜 포맷
      */
     const val USER_TIME_FORMAT: String = "yyyy-MM-dd HH:mm"
+    
+    /**
+     * 사용자 기본 테마
+     */
+    const val USER_THEME: String = "default"
+
+    /**
+     * 사용자 식별 값
+     */
+    const val USER_ID: String = "user"
+
+    /**
+     * 관리자 식별 값
+     */
+    const val ADMIN_ID: String = "admin"
 
     /**
      * 사용자 상태.
@@ -56,7 +71,16 @@ object UserConstants {
         STATUS_ERROR_USER_ID_DUPLICATION("1"),
         STATUS_ERROR("2"),
         STATUS_ERROR_EMAIL_DUPLICATION("3"),
-        STATUS_SUCCESS_EDIT_EMAIL("4")
+        STATUS_SUCCESS_EDIT_EMAIL("4"),
+        STATUS_SUCCESS_EDIT_ADMIN("5")
+    }
+
+    /**
+     * 사용자 수정 구분.
+     */
+    enum class UserEditType(val code: String) {
+        ADMIN_USER_EDIT("userEdit"),
+        SELF_USER_EDIT("selfEdit")
     }
 
     /**
@@ -75,14 +99,14 @@ object UserConstants {
         FACEBOOK("user.platform.facebook", "facebook"),
         KAKAO("user.platform.kakao", "kakao")
     }
+
     /**
      * 사용자 자기정보 메일 관련 수정 상태
      */
     enum class SendMailStatus(val code: String) {
        CREATE_USER("0"),
        UPDATE_USER("1"),
-       UPDATE_USER_EMAIL("2")
- 
+       UPDATE_USER_EMAIL("2"),
+       CREATE_USER_ADMIN("3")
     }
-
 }

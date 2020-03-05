@@ -2,7 +2,8 @@ package co.brainz.itsm.notice.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.constants.CodeConstants
-import co.brainz.itsm.notice.entity.NoticeEntity
+import co.brainz.itsm.notice.dto.NoticeListDto
+import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.utility.ConvertParam
@@ -44,7 +45,7 @@ class NoticeController(private val userService: UserService,
     @GetMapping("/search")
     fun getNoticeSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute("currentDate", LocalDateTime.now())
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
+        model.addAttribute("minusCurrentDate", LocalDateTime.now().minusDays(CodeConstants.SEARCH_RANGE_VALUE))
         return noticeSearchPage
     }
 
@@ -52,34 +53,26 @@ class NoticeController(private val userService: UserService,
      * 공지사항 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("/list")
-    fun getNoticeList(request: HttpServletRequest, model: Model): String {
-        val isNoticeTitle = request.getParameter("noticeTitle")!!.toBoolean()
-        val isCreateUserkey = request.getParameter("createUserkey")!!.toBoolean()
-        val keyWord = request.getParameter("keyWord")
-        var noticeList = emptyList<NoticeEntity>()
-        val fromDt: LocalDateTime = convertParam.convertToSearchLocalDateTime(request.getParameter("fromDt"), "fromDt")
-        val toDt: LocalDateTime = convertParam.convertToSearchLocalDateTime(request.getParameter("toDt"), "toDt")
+    fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
+        var noticeList = mutableListOf<NoticeListDto>()
+        var topNoticeList = mutableListOf<NoticeListDto>()
 
-        when (isNoticeTitle && isCreateUserkey) {
+        when (noticeSearchDto.isSearch) {
             true -> {
-                noticeList = noticeService.findAllCheck(keyWord, fromDt, toDt)
+                val searchValue = noticeSearchDto.searchValue
+                val fromDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.fromDt, "fromDt")
+                val toDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.toDt, "toDt")
+                noticeList = noticeService.findNoticeSearch(searchValue, fromDt, toDt)
+                topNoticeList = noticeService.findTopNoticeSearch(searchValue, fromDt, toDt)
             }
             false -> {
-                if (isNoticeTitle) {
-                    noticeList = noticeService.findAllByTitle(keyWord, fromDt, toDt)
-                }
-                if (isCreateUserkey) {
-                    noticeList = noticeService.findAllByWriter(keyWord, fromDt, toDt)
-                }
-                if (!isNoticeTitle && !isCreateUserkey) {
-                    noticeList = noticeService.findNoticeList()
-                }
+                noticeList = noticeService.findNoticeList()
+                topNoticeList = noticeService.findTopNoticeList()
             }
         }
-
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("noticeList", noticeList)
-        model.addAttribute("topNoticeList", noticeService.findTopNoticeList())
+        model.addAttribute("topNoticeList", topNoticeList)
+
         return noticeListPage
     }
 
@@ -121,7 +114,7 @@ class NoticeController(private val userService: UserService,
     @GetMapping("/{noticeId}/view-pop")
     fun getNoticePopUp(@PathVariable noticeId: String, model: Model): String {
 
-        model.addAttribute("noticePopUp", noticeService.findNoticeByNoticeNo(noticeId))
+        model.addAttribute("noticePopUp", noticeService.findPopupNoticeByNoticeNo(noticeId))
         return noticePopUpPage
     }
 }

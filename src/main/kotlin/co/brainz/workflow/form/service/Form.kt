@@ -1,32 +1,46 @@
 package co.brainz.workflow.form.service
 
+import co.brainz.workflow.form.dto.FormComponentSaveDto
+import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.dto.FormDto
 
 interface Form {
 
     /**
-     * 폼 리스트 조회.
+     * Search Forms.
+     *
+     * @param search
+     * @return List<FormDto>
      */
-    fun formList(search: String): List<FormDto>
+    fun forms(search: String): List<FormDto>
 
     /**
-     * 폼 데이터 조회.
+     * Create Form.
+     *
+     * @param formDto
+     * @return FormDto
      */
-    fun form(formId: String): FormDto
+    fun createForm(formDto: FormDto): FormDto
 
     /**
-     * 폼 등록.
-     */
-    fun insertForm(formDto: FormDto)
-
-    /**
-     * 폼 수정.
-     */
-    fun updateForm(formDto: FormDto)
-
-    /**
-     * 폼 삭제.
+     * Delete Form.
+     *
+     * @param formId
      */
     fun deleteForm(formId: String)
+
+    /**
+     * Search Form + Components.
+     *
+     * @param formId
+     */
+    fun form(formId: String): FormComponentViewDto
+
+    /**
+     * Insert Form.
+     *
+     * @param formComponentSaveDto
+     */
+    fun saveForm(formComponentSaveDto: FormComponentSaveDto)
 
 }

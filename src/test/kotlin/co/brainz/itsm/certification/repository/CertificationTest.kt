@@ -19,7 +19,8 @@ import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDateTime
@@ -45,7 +46,7 @@ class CertificationTest {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
         securityContext = SecurityContextHolder.getContext()
         val userDto: AliceUserEntity = certificationService.findByUserId(userId)
-        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userKey, userDto.userId, userDto.userName, userDto.email, userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), userDto.oauthKey, emptySet(), emptySet(), emptySet(), TimeZone.getDefault().id, "en","YYYY-MM-DD HH:MM")
+        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userKey, userDto.userId, userDto.userName, userDto.email, userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), userDto.oauthKey, emptySet(), emptySet(), emptySet(), TimeZone.getDefault().id, "en","YYYY-MM-DD HH:MM", "defualt")
         val usernamePasswordAuthenticationToken: UsernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
         usernamePasswordAuthenticationToken.details = aliceUserDto
         securityContext.authentication = usernamePasswordAuthenticationToken
@@ -73,7 +74,7 @@ class CertificationTest {
     fun sendCertifiedMail() {
         userStatusInit()
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        certificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, null)
+        certificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, null, null)
     }
 
     //Valid CertificationCode

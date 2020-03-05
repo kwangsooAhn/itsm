@@ -1,7 +1,7 @@
 package co.brainz.framework.auth.dto
 
 import co.brainz.framework.auth.entity.AliceUrlEntity
-import co.brainz.framework.menu.entity.AliceMenuEntity
+import co.brainz.framework.auth.entity.AliceMenuEntity
 import org.springframework.security.core.GrantedAuthority
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -18,10 +18,11 @@ data class AliceUserDto(
         val tryLoginCount: Int,
         val expiredDt: LocalDateTime,
         val oauthKey: String?,
-        val grantedAuthories: Set<GrantedAuthority>,
+        val grantedAuthorises: Set<GrantedAuthority>,
         val menus: Set<AliceMenuEntity>,
         val urls: Set<AliceUrlEntity>,
         val timezone: String,
         val lang: String,
-        val timeformat: String
+        val timeFormat: String,
+        val theme: String
 ) : Serializable

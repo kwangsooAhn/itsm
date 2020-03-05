@@ -32,7 +32,7 @@ class ProcessController(private val processService: ProcessService,
      */
     @GetMapping("/list")
     fun getProcessList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("processList", processService.selectProcessList(request.getParameter("search")))
+        model.addAttribute("processList", processService.findProcessList(request.getParameter("search")))
         return processListPage
     }
 
@@ -41,8 +41,6 @@ class ProcessController(private val processService: ProcessService,
      */
     @GetMapping("/new")
     fun getProcessNew(request: HttpServletRequest, model: Model): String {
-        //폼 리스트 정보 가져오기
-        model.addAttribute("formList", formService.findFormList(""))
         //TODO 템플릿 정보 가져오기
 
         return processEditPage

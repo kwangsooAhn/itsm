@@ -62,9 +62,14 @@ dependencies {
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
     implementation("org.apache.httpcomponents:httpcore:4.4.13")
     implementation("org.apache.httpcomponents:httpclient:4.5.11")
+    implementation("com.google.code.gson:gson:2.8.2")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
     compile("com.querydsl:querydsl-jpa:4.2.1")
     kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
+
+    implementation("org.mapstruct:mapstruct:1.3.0.Final")
+    kapt("org.mapstruct:mapstruct-processor:1.3.0.Final")
+    kaptTest("org.mapstruct:mapstruct-processor:1.3.0.Final")
 }
 
 // KTLINT

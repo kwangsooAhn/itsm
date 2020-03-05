@@ -67,7 +67,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
-                                                <input type="text" id="popStrtDt" th:with="dateformat=${#authentication.details.timeformat}" 
+                                                <input type="text" id="popStrtDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,dateformat)}:${#dates.format(#dates.createNow(), dateformat)}" 
                                                  name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal" />
                                                 <div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
@@ -90,7 +90,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="popEndDtCal" data-target-input="nearest">
-                                                <input type="text" id="popEndDt" th:with="dateformat=${#authentication.details.timeformat}"
+                                                <input type="text" id="popEndDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,dateformat)}:${addCurrentDate}" 
                                                  name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
                                                 <div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
@@ -119,7 +119,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
-                                                <input type="text" id="topNoticeStrtDt" th:with="dateformat=${#authentication.details.timeformat}" 
+                                                <input type="text" id="topNoticeStrtDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,dateformat)}:${#dates.format(#dates.createNow(),dateformat)}"
                                                  name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
                                                 <div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
@@ -143,7 +143,7 @@
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeEndDtCal"
                                                 data-target-input="nearest">
-                                                <input type="text" id="topNoticeEndDt" th:with="dateformat=${#authentication.details.timeformat}" 
+                                                <input type="text" id="topNoticeEndDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,dateformat)}:${addCurrentDate}" 
                                                  name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
                                                 <div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
@@ -170,9 +170,10 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[ */
-        var format = /*[[${#authentication.details.timeformat}]]*/;
+        var format = /*[[${#authentication.details.timeFormat}]]*/;
         var lang = /*[[${#authentication.details.lang}]]*/;
         var formatArray = format.split(' ');
         var dateFormat = '';
@@ -216,7 +217,6 @@
                 setDisplay('popTab', false);
             }
             fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
-            hiddenProgressBar();
         }
 
         function setDisplay(name, condition) {
@@ -224,14 +224,14 @@
                 if (name === 'popTab') {
                     document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
-                    document.getElementById('popStrtDt').value = /*[[${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,#authentication.details.timeformat)}:${#dates.format(#dates.createNow(), #authentication.details.timeformat)}]]*/;
-                    document.getElementById('popEndDt').value = /*[[${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,#authentication.details.timeformat)}:${#temporals.format(addCurrentDate,#authentication.details.timeformat)}]]*/;
+                    document.getElementById('popStrtDt').value = /*[[${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,#authentication.details.timeFormat)}:${#dates.format(#dates.createNow(), #authentication.details.timeFormat)}]]*/;
+                    document.getElementById('popEndDt').value = /*[[${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,#authentication.details.timeFormat)}:${#temporals.format(addCurrentDate,#authentication.details.timeFormat)}]]*/;
                     dateTimePicker.initDateTimePicker('popStrtDt', dateFormat, timeFormat, lang);
                     dateTimePicker.initDateTimePicker('popEndDt', dateFormat, timeFormat, lang);
                     document.getElementsByName('popYn')[0].value = true;
                 } else if (name === 'topNoticeTab') {
-                    document.getElementById('topNoticeStrtDt').value = /*[[${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,#authentication.details.timeformat)}:${#dates.format(#dates.createNow(),#authentication.details.timeformat)}]]*/;
-                    document.getElementById('topNoticeEndDt').value = /*[[${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,#authentication.details.timeformat)}:${#temporals.format(addCurrentDate,#authentication.details.timeformat)}]]*/;
+                    document.getElementById('topNoticeStrtDt').value = /*[[${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,#authentication.details.timeFormat)}:${#dates.format(#dates.createNow(),#authentication.details.timeFormat)}]]*/;
+                    document.getElementById('topNoticeEndDt').value = /*[[${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,#authentication.details.timeFormat)}:${#temporals.format(addCurrentDate,#authentication.details.timeFormat)}]]*/;
                     document.getElementsByName('topNoticeYn')[0].value = true;
                     dateTimePicker.initDateTimePicker('topNoticeStrtDt', dateFormat, timeFormat, lang);
                     dateTimePicker.initDateTimePicker('topNoticeEndDt', dateFormat, timeFormat, lang);
@@ -255,60 +255,27 @@
 
         // validation check
         function validation() {
-            if (document.getElementById('noticeTitle').value === '') {
-                alert('제목을 입력하세요.');
-                return false;
-            }
-            if (document.getElementById('noticeContents').value === '') {
-                alert('내용을 입력하세요.');
-                return false;
-            }
+            if (isEmpty('noticeTitle', 'notice.msg.titleNotExist')) return false;
+            if (isEmpty('noticeContents', 'notice.msg.contentsNotExist')) return false;
             if (document.getElementById('popRadioBtUp').checked) {
-                if (document.getElementById('popHeight').value === '') {
-                    alert('높이를 입력하세요.');
-                    return false;
-                }
-                if (document.getElementById('popHeight').value > 1000 || document.getElementById('popHeight').value < 500 ) {
-                    alert('높이는 500px부터 1000px 사이의 값만 입력 가능합니다.');
-                    return false;
-                }
-                if (document.getElementById('popWidth').value === '') {
-                    alert('넓이를 입력하세요');
-                    return false;
-                }
-                if (document.getElementById('popWidth').value > 1000 || document.getElementById('popWidth').value < 500 ) {
-                    alert('넓이는 500px부터 1000px 사이의 값만 입력 가능합니다.');
-                    return false;
-                }
-                if (document.getElementById('popStrtDt').value === '') {
-                    alert('팝업 시작일을 입력하세요.');
-                    return false;
-                }
-                if (document.getElementById('popEndDt').value === '') {
-                    alert('팝업 종료일을 입력하세요.');
-                    return false;
-                }
-                if ((changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value,format) > changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value,format)) 
-                        || (changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value,format) === changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value,format))) {
-                    alert('팝업 알림 시작일이 종료일보다 크거나 같습니다.');
-                    return false;
-                }
+                if (isEmpty('popHeight', 'notice.msg.popHeightNotExist')) return false;
+                if (isExistInScope('popHeight', 500, 1000, 'notice.msg.checkPopHeightRange')) return false;
+                if (isEmpty('popWidth', 'notice.msg.popWidthNotExist')) return false;
+                if (isExistInScope('popWidth', 500, 1000, 'notice.msg.checkPopWidthRange')) return false;
+                if (isEmpty('popStrtDt', 'notice.msg.popStrtDtNotExist')) return false;
+                if (isEmpty('popEndDt', 'notice.msg.popEndDtNotExist')) return false;
+                if (isOrOperator((changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value, format) > changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value, format))
+                    , (changeDateFormatYYYYMMDD(document.getElementById('popStrtDt').value, format) === changeDateFormatYYYYMMDD(document.getElementById('popEndDt').value, format))
+                    , 'notice.msg.compareWithPopUpValue')) return false;
             }
 
+
             if (document.getElementById('topRadioBtUp').checked) {
-                if (document.getElementById('topNoticeStrtDt').value === '') {
-                    alert('상단 공지 시작일을 입력하세요.');
-                    return false;
-                }
-                if (document.getElementById('topNoticeEndDt').value === '') {
-                    alert('상단 공지 종료일을 입력하세요.');
-                    return false;
-                }
-                if ((changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value,format) > changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value,format)) 
-                        || (changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value,format) === changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value,format))) {
-                    alert('상단 공지 시작일이 종료일보다 크거나 같습니다.');
-                    return false;
-                }
+                if (isEmpty('topNoticeStrtDt', 'notice.msg.topNoticeStrtDtNotExist')) return false;
+                if (isEmpty('topNoticeEndDt', 'notice.msg.topNoticeEndDtNotExist')) return false;
+                if (isOrOperator((changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value, format) > changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value, format))
+                    , (changeDateFormatYYYYMMDD(document.getElementById('topNoticeStrtDt').value, format) === changeDateFormatYYYYMMDD(document.getElementById('topNoticeEndDt').value, format))
+                    , 'notice.msg.compareWithTopNoticeValue')) return false;
             }
             return true;
         }
@@ -345,21 +312,18 @@
                 fileSeq: fileSeq
             });
 
-            const xmlhttp = createXmlHttpRequestObject(method, url, async);
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-                    if (xmlhttp.status === 200) {
-                        alert('글이 등록되었습니다.');
-                        window.location = '/notices/search';
-                    } else if (xmlhttp.status === 400) {
-                        alert('There was an error 400');
-                    } else {
-                        alert('something else other than 200 was returned');
-                    }
+            const opt = {
+                method: method,
+                url: url,
+                async: async,
+                params: jsonData,
+                contentType: 'application/json',
+                callbackFunc: function() {
+                    alert('글이 등록되었습니다.');
+                    window.location = '/notices/search';
                 }
             };
-            xmlhttp.setRequestHeader('Content-Type', 'application/json');
-            xmlhttp.send(jsonData);
+            aliceJs.sendXhr(opt)
         }
         /* ]]> */
     </script>
@@ -390,21 +354,18 @@
                 fileSeq: fileSeq
             });
 
-            const xmlhttp = createXmlHttpRequestObject(method, url, async);
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-                    if (xmlhttp.status === 200) {
-                        alert('글이 수정되었습니다.');
-                        window.location = '/notices/search';
-                    } else if (xmlhttp.status === 400) {
-                        alert('There was an error 400');
-                    } else {
-                        alert('something else other than 200 was returned');
-                    }
+            const opt = {
+                method: method,
+                url: url,
+                async: async,
+                params: jsonData,
+                contentType: 'application/json',
+                callbackFunc: function() {
+                    alert('글이 수정되었습니다.');
+                    window.location = '/notices/search';
                 }
             };
-            xmlhttp.setRequestHeader('Content-Type', 'application/json');
-            xmlhttp.send(jsonData);
+            aliceJs.sendXhr(opt)
         }
         /* ]]> */
     </script>

@@ -1,101 +1,144 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{form.label.edit}"></title>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta http-equiv="expire" content="-1"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
+    <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
+    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
+    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/js/process/workflow.util.js}"></script>
+    <script th:src="@{/assets/js/form/formEditor.menu.js}"></script>
+    <script th:src="@{/assets/js/form/formEditor.component.js}"></script>
     <script th:src="@{/assets/js/form/formEditor.js}"></script>
-    <script th:src="@{/assets/js/form/formComponent.js}"></script>
-    <style type="text/css">
-        /* 임시 CSS */
-        html, body {margin: 0; height: 100%; overflow: hidden;}
-        .container { height: 100%;  margin: 0; padding: 0;}
-        .form-designer {display: flex; height: 100%; flex-direction: column;}
-        .toolbar{height: 35px; display: flex; align-items: center; justify-content: space-between; flex-grow: 0; position: relative; background: #4C5264; color: #ffffff;}
-        .menu {height: 100%; display: flex; align-items: center; flex-grow: 0; flex-shrink: 0;  margin-right: 8px;}
-        .logo {display: inline-flex; flex-shrink: 0; align-items: center; color: #ffffff; text-decoration:none; padding-left: 8px; padding-right: 8px;}
-        .nav {flex-grow: 0; flex-shrink: 0; display: flex; align-items: stretch; list-style-type: none; margin: 0; padding: 0;}
-        .nav-item {display: inline-flex; flex-shrink: 0; align-items: center; padding-left: 8px; padding-right: 8px;}
-        .nav-item a {color: #ffffff; text-decoration:none;}
-        .title {flex-grow: 0; flex-shrink: 0; padding-right: 8px;}
-        .panel {width: 100%; height:100%; display: flex; flex: 1 1 0;}
-        .content {
-            width: calc(100% - 300px); 
-            max-width: calc(100% - 300px);
-            height: 100%;
-            display: flex; 
-            flex-direction: column; 
-            flex: 1 1 0;
-            align-items: center;
-            color: #32435F;
-            background: #F6F6F7; 
-            z-index: 1;
-            padding: 30px 50px 0px 50px;
-            overflow: auto;
-        }
-        .sidebar {
-            width: 300px;
-            height: 100%;
-            max-height: 100%;
-            display: flex;
-            flex-direction:  column;
-            flex-grow: 0; /*flex container의 크기가 커져도 flex item의 크기가 커지지 않고 원래 크기로 유지*/
-            flex-shrink: 0; /*flex container의 크기가 flex item의 크기보다 작아져도 flex item의 크기가 줄어들지 않고 원래 크기로 유지*/
-            position: relative;
-            background: #ffffff; 
-            transition: box-shadow 300ms ease-in 0s;
-            overflow: auto;
-            z-index: 99;
-        }
-        .component {width: 100%; max-width: 100%; padding: 10px; cursor: move; border: none;}
-        .component.over { border: 3px dashed #ccc; }
-        .group {display: flex; flex-wrap: wrap; width: 100%; align-items: center; pointer-events: none;}
-        .field input[type=text] {width: 100%; height: 25px;}
-        .field textarea {width: 100%;}
-        #property-panel .title{padding: 30px 0px 0px 0px; font-size: 30px; font-weight: bold; text-align: center;}
-        
-        [contenteditable=true]:empty:before {content: attr(placeholder); display: block; /* For Firefox */}
-        div[contenteditable=true] {color : #333;font-size: 12px; width: 100%; height:30px; padding: 10px; line-height: 30px;}
-        div:focus { outline: none; border: 3px dashed #ccc;}
-        
-        #context-menu { background: #4C5264; color: #ffffff; position: absolute; display: none; width: 200px; padding: 0; margin: 0; overflow: auto; top: 0; left: 10; z-index:999;}
-        #context-menu li {height: 32px; line-height: 32px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 10px 5px;}
-        #context-menu li:hover {background-color: #ddd;}
-        #context-menu li.active {background-color: #ddd;}
-    </style>
 </head>
 <body>
-    <div class="container light-thema">
-        <div class="form-designer" id="form-designer">
-            <nav class="toolbar">
-                <div class="menu">
-                    <a class="logo" href="#">Logo</a>
-                    <ul class="nav">
-                        <li class="nav-item"><a class="link" href="javascript:void(0);" onclick="formEditor.save();">저장</a></li>
-                        <li class="nav-item"><a class="link" href="#">작업취소</a></li>
-                        <li class="nav-item"><a class="link" href="#">작업재실행</a></li>
-                        <li class="nav-item"><a class="link" href="#">미리보기</a></li>
-                        <li class="nav-item"><a class="link" href="#">export</a></li>
-                        <li class="nav-item"><a class="link" href="#">import</a></li>
-                    </ul>
-                </div>
-                <div class="title"><span>단순문의 v1.0</span></div>
-            </nav>
-            <div class="panel">
-                <div class="content" id="form-panel"></div>
-                <div class="sidebar" id="property-panel"></div>
-            </div>
-        </div>
-        <ul id="context-menu"></ul>
+<div class="alice-form-container light-thema" id="form-designer">
+    <div class="alice-form-toolbar">
+        <span class="logo"></span>
+        <a href="javascript:void(0);" onclick="formEditor.save();">
+            <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
+            <label th:text="#{common.btn.save}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/undo.png}"/>
+            <label th:text="#{form.label.undo}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
+            <label th:text="#{form.label.redo}"></label>
+        </a>
+        <span class="separator"></span>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/import.png}"/>
+            <label th:text="#{form.label.import}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/export.png}"/>
+            <label th:text="#{form.label.export}"></label>
+        </a>
+        <span class="separator"></span>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/preview.png}"/>
+            <label th:text="#{form.label.preview}"></label>
+        </a>
+        <a href="#">
+            <img th:src="@{/assets/media/icons/form/topmenu/save_exit.png}"/>
+            <label th:text="#{form.label.saveExist}"></label>
+        </a>
+        <span class="form-name"></span>
     </div>
+    <div class="alice-form-panel">
+        <div class="drawing-board" id="panel-form"></div>
+    </div>
+    <div class="alice-form-properties-panel" id="panel-properties"></div>
+</div>
+<div id="context-menu" class="context-menu">
+    <ul id="context-menu-control" class="context-menu-control active">
+        <li class="context-item-link" data-action="copy">
+            <img th:src="@{/assets/media/icons/form/context-menu/copy.png}"/>
+            <label th:text="#{form.label.copy}"></label>
+        </li>
+        <li class="context-item-link" data-action="delete">
+            <img th:src="@{/assets/media/icons/form/context-menu/delete.png}"/>
+            <label th:text="#{common.btn.delete}"></label>
+        </li>
+        <li class="context-item-link" data-action="addEditboxUp">
+            <!-- TODO 위에 editbox 추가 아이콘 필요 -->
+            <label th:text="#{form.label.addAbove}"></label>
+        </li>
+        <li class="context-item-link" data-action="addEditboxDown">
+            <!-- TODO 위에 editbox 추가 아이콘 필요 -->
+            <label th:text="#{form.label.addBelow}"></label>
+        </li>
+    </ul>
+    <ul id="context-menu-component" class="context-menu-component">
+        <li class="context-item-link" data-action="text">
+            <img th:src="@{/assets/media/icons/form/context-component/text.png}"/>
+            <label th:text="#{form.component.text}"></label>
+        </li>
+        <li class="context-item-link" data-action="textarea">
+            <img th:src="@{/assets/media/icons/form/context-component/sentence.png}"/>
+            <label th:text="#{form.component.textarea}"></label>
+        </li>
+        <li class="context-item-link" data-action="select">
+            <img th:src="@{/assets/media/icons/form/context-component/dropdown.png}"/>
+            <label th:text="#{form.component.select}"></label>
+        </li>
+        <li class="context-item-link" data-action="radio">
+            <img th:src="@{/assets/media/icons/form/context-component/radiobutton.png}"/>
+            <label th:text="#{form.component.radio}"></label>
+        </li>
+        <li class="context-item-link" data-action="checkbox">
+            <img th:src="@{/assets/media/icons/form/context-component/checkbox.png}"/>
+            <label th:text="#{form.component.checkbox}"></label>
+        </li>
+        <li class="context-item-link" data-action="label">
+            <img th:src="@{/assets/media/icons/form/context-component/label.png}"/>
+            <label th:text="#{form.component.label}"></label>
+        </li>
+        <li class="context-item-link" data-action="image">
+            <img th:src="@{/assets/media/icons/form/context-component/image.png}"/>
+            <label th:text="#{form.component.image}"></label>
+        </li>
+        <li class="context-item-link" data-action="line">
+            <img th:src="@{/assets/media/icons/form/context-component/line.png}"/>
+            <label th:text="#{form.component.line}"></label>
+        </li>
+        <li class="context-item-link" data-action="date">
+            <img th:src="@{/assets/media/icons/form/context-component/calendar.png}"/>
+            <label th:text="#{form.component.date}"></label>
+        </li>
+        <li class="context-item-link" data-action="time">
+            <img th:src="@{/assets/media/icons/form/context-component/time.png}"/>
+            <label th:text="#{form.component.time}"></label>
+        </li>
+        <li class="context-item-link" data-action="datetime">
+            <img th:src="@{/assets/media/icons/form/context-component/date-time.png}"/>
+            <label th:text="#{form.component.datetime}"></label>
+        </li>
+        <li class="context-item-link" data-action="fileupload">
+            <img th:src="@{/assets/media/icons/form/context-component/upload.png}"/>
+            <label th:text="#{form.component.fileupload}"></label>
+        </li>
+    </ul>
+</div>
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        formEditor.init({formId: '[[${form.formId}]]'});
-    }
+        i18n.add(function(){
+            formEditor.init('[[${formId}]]');
+        });
+    };
 </script>
 </html>

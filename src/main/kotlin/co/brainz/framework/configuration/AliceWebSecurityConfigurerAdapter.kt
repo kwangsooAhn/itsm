@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+
 
 /**
  * spring security 적용을 위한 설정 클래스
@@ -16,7 +18,7 @@ abstract class AliceWebSecurityConfigurerAdapter(private val authProvider: Alice
                                                  private val authSuccessHandler: AliceAuthSuccessHandler,
                                                  private val authFailureHandler: AliceAuthFailureHandler)
     : WebSecurityConfigurerAdapter() {
-    
+
     override fun configure(web: WebSecurity) {
         ignoreConfigure(web)
     }
@@ -58,6 +60,14 @@ abstract class AliceWebSecurityConfigurerAdapter(private val authProvider: Alice
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
+                .and()
+                .csrf()
+                .requireCsrfProtectionMatcher(AntPathRequestMatcher("**/login"))
+                .and()
+                .sessionManagement()
+                .invalidSessionStrategy(AliceInvalidSessionStrategy())
+
         //TODO csrf, 세션만료등 에러 핸들러 구현 요망 .and().exceptionHandling().accessDeniedHandler(AliceAccessDeniedHandler())
     }
+
 }

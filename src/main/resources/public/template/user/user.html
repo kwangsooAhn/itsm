@@ -11,19 +11,12 @@
 <div sec:authorize="hasAuthority('user.read')">
     <div style="border: 1px solid red">
         <div>- 검색영역 -</div>
-        <form id="searchForm" onsubmit="return false">
-            <div th:each="userSearch : ${userSearchCode}">
-                <input type="checkbox" th:id="|searchKey${userSearchStat.index}|" name="searchKey"
-                       th:value="${userSearch.code}" th:checked="${userSearchStat.index} == 0">
-                <label th:for="|searchKey${userSearchStat.index}|" th:text="#{${userSearch.code}}"></label>
-            </div>
-            <input type="text" id="searchValue" name="searchValue" th:placeholder="#{common.searchWord}"/>
-        </form>
+        <input style="width: 500px;" type="text" id="searchValue" name="searchValue" th:placeholder="#{user.searchPlaceholder}"/>
     </div>
     <div style="border: 1px solid red">
         <div>- 버튼 영역, user.create 권한이 있어야 보임 -</div>
         <div sec:authorize="hasAuthority('user.create')">
-            <button type="button" id="userReg" class="btn btn-default" th:text="#{user.reg}">사용자 등록</button>
+            <button type="button" id="userReg" class="btn btn-default" onclick="location.href='/users/new'" th:text="#{user.reg}">사용자 등록</button>
         </div>
     </div>
     <div style="border: 1px solid red">
@@ -46,16 +39,11 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         /**
-         * 검색창 엔터 입력시 동작
+         * 검색창 입력시 동작
          */
-        window.onload = function() {
-            hiddenProgressBar();
-        }
-        document.getElementById('searchValue').addEventListener('keypress', function (e) {
-            if (e.key !== undefined && e.key === 'Enter') {
-                searchUser();
-            }
-        });
+        document.getElementById('searchValue').onkeyup = function() {
+            searchUser();
+        };
 
         /**
          * 사용자를 검색한다.
@@ -63,7 +51,7 @@
         function searchUser() {
             const opt = {
                 method: 'get',
-                url: '/users/list?' + aliceJs.serialize(document.getElementById('searchForm')),
+                url: '/users/list?searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim()),
                 callbackFunc: setUserClickEvent,
             };
             aliceJs.sendXhr(opt);
@@ -75,18 +63,6 @@
          */
         function setUserClickEvent(response) {
             document.getElementById('userList').innerHTML = response.responseText;
-
-            Array.prototype.forEach.call(document.getElementsByClassName('userRows'), function (user) {
-                user.addEventListener('click', function () {
-                    document.getElementById('userDetailModal').style.display = '';
-                    const opt = {
-                        url: '/users/' + this.querySelector('input[type=hidden][name=userId]').value + '/edit',
-                        method: 'get',
-                        callbackFunc: openUserEditor
-                    };
-                    aliceJs.sendXhr(opt);
-                })
-            });
         }
 
         /**

@@ -1,5 +1,6 @@
 package co.brainz.itsm.notice.dto
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -21,8 +22,9 @@ data class NoticeDto(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     var topNoticeEndDt: LocalDateTime? = null,
     var createDt: LocalDateTime = LocalDateTime.now(),
-    var createUserkey: String? = null,
+    var createUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
-    var updateUserkey: String? = null,
-    var fileSeq: List<Long>?
-) : Serializable
+    var updateUserKey: String? = null,
+    var aliceUserEntity: AliceUserEntity? = null,
+    var fileSeq: List<Long>? = null
+): Serializable

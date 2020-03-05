@@ -1,6 +1,5 @@
 package co.brainz.framework.auth.entity
 
-import org.springframework.data.annotation.Reference
 import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -26,9 +25,6 @@ data class AliceUserRoleMapEntity(
 ) : Serializable
 
 data class AliceUserRoleMapPk(
-        val user: String,
-        val role: String
-) : Serializable {
-        constructor() : this("","")
-}
-
+        val user: String = "",
+        val role: String = ""
+) : Serializable

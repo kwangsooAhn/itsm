@@ -61,11 +61,11 @@
                 </tr>
                 <tr>
                     <th th:text="#{notice.strtDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(notice.popStrtDt,dateformat)}" ></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(notice.popStrtDt,dateformat)}" ></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.endDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}"  th:text="${#temporals.format(notice.popEndDt,dateformat)}"/></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(notice.popEndDt,dateformat)}"/></span></td>
                 </tr>
             </table>
         </div>
@@ -75,11 +75,11 @@
                 <tr>
                     <th rowspan="4" th:text="#{notice.topNoticeSettingsInfo}"></th>
                     <th th:text="#{notice.strtDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}" th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.endDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeformat}" th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span></td>
+                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span></td>
                 </tr>
             </table>
         </div>
@@ -117,25 +117,20 @@
                 document.getElementById('topNoticeTab').style.display = 'none';
             }
             fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
-            hiddenProgressBar();
         }
 
         //RESTFUL API
         function restSubmit(method, url, async) {
-            var xmlhttp = createXmlHttpRequestObject(method, url, async);
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-                    if (xmlhttp.status === 200) {
-                        alert('삭제 처리되었습니다.');
-                        window.location = '/notices/search';
-                    } else if (xmlhttp.status === 400) {
-                        alert('There was an error 400');
-                    } else {
-                        alert('something else other than 200 was returned');
-                    }
+            const opt = {
+                method: method,
+                url: url,
+                async: async,
+                callbackFunc: function() {
+                    alert('삭제 처리되었습니다.');
+                    window.location = '/notices/search';
                 }
             };
-            xmlhttp.send(null);
+            aliceJs.sendXhr(opt);
         }
         /* ]]> */
     </script>

@@ -1,0 +1,259 @@
+{
+  "event": [
+    {
+      "type": "commonStart",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "messageStart",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "" },
+            {
+              "id": "message-type", "name": "Message Type", "type": "select", "default": "",
+              "sub-list": [
+                {"id": "document", "name": "Document"},
+                {"id": "mail", "name": "Mail"},
+                {"id": "sms", "name": "SMS"}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "timerStart",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "timer-date", "name": "Timer Date", "type": "inputbox", "default": ""},
+            {"id": "timer-cycle", "name": "Timer Cycle", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "commonEnd",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "messageEnd",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {
+              "id": "message-type", "name": "Message Type", "type": "select", "default": "",
+              "sub-list": [
+                {"id": "document", "name": "Document"},
+                {"id": "mail", "name": "Mail"},
+                {"id": "sms", "name": "SMS"}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "task": [
+    {
+      "type": "userTask",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
+            {
+              "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee",
+              "sub-list": [
+                {"id": "assignee", "name": "Assignee"},
+                {"id": "candidate-users", "name": "Candidate Users"},
+                {"id": "candidate-groups", "name": "Candidate Groups"}
+              ]
+            },
+            {"id": "assignee", "name": "Assignee", "type": "inputbox", "default": ""},
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "manualTask",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
+            {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": ""},
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sendTask",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
+            {
+              "id": "message-type", "name": "Message Type", "type": "select", "default": "",
+              "sub-list": [
+                {"id": "document", "name": "Document"},
+                {"id": "mail", "name": "Mail"},
+                {"id": "sms", "name": "SMS"}
+              ]
+            },
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "receiveTask",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
+            {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": ""},
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "scriptTask",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
+            {"id": "script", "name": "Script", "type": "inputbox", "default": ""},
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+          ]
+        }
+      ]
+    }
+  ],
+  "gateway": [
+    {
+      "type": "exclusiveGateway",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "parallelGateway",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "inclusiveGateway",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    }
+  ],
+  "connector": [
+    {
+      "type": "arrowConnector",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "condition", "name": "Condition", "type": "inputbox", "default": ""}
+          ]
+        },
+        {
+          "title": "Connect",
+          "items": [
+            {"id": "start-id", "name": "Source Element ID", "type": "inputbox", "default": ""},
+            {"id": "end-id", "name": "Target Element ID", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    }
+  ],
+  "subprocess": [
+    {
+      "type": "subprocess",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "sub-process-id", "name": "Sub Process ID", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    }
+  ],
+  "artifact": [
+    {
+      "type": "annotationArtifact",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "text", "name": "Annotation", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "groupArtifact",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "description", "name": "Description", "type": "textarea", "default": ""}
+          ]
+        }
+      ]
+    }
+  ]
+}

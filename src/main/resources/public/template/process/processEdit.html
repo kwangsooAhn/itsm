@@ -29,17 +29,6 @@
                 <tr>
                     <td><textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
                 </tr>
-                <tr>
-                    <th th:text="#{form.label.name}"></th>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="form" tabindex="3">
-                            <option th:each="form: ${formList}" th:value="${form.form_id}" th:text="${form.form_name}">
-                            </option>
-                        </select>
-                    </td>
-                </tr>
             </table>
             <div><a th:text="#{common.btn.next}" href="javascript:replaceContent();"></a></div>
         </div>
@@ -52,6 +41,7 @@
         </div>
     </div>
 </body>
+<script th:src="@{/assets/js/util/validation-alice.js}"></script>
 <script type="text/javascript">
     function replaceContent() {
         const prev = document.getElementById('prevContainer');
@@ -71,8 +61,7 @@
         if (emptyValidation()) {
             const processInfo = {
                 processName: document.getElementById('process_name').value,
-                processDesc: document.getElementById('process_desc').value,
-                formId: document.getElementById('form').value
+                processDesc: document.getElementById('process_desc').value
             };
             //등록
             restSubmit('POST', '/rest/processes', processInfo);
@@ -81,32 +70,24 @@
 
     //빈 값 체크
     function emptyValidation() {
-        if (document.getElementById('process_name').value === '') {
-            alert('[[#{process.msg.alert.nameNotExist}]]');
-            replaceContent();
-            return false;
-        }
+        if (isEmpty('process_name', 'process.msg.alert.nameNotExist')) { replaceContent(); return false; }
         return true;
     }
 
     //REST API
     function restSubmit(method, url, data) {
-        const xmlHttp = createXmlHttpRequestObject(method, url);
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                if (xmlHttp.status === 200) {
-                    window.close();
-                    window.open('/processes/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500, height=800');
-                } else if (xmlHttp.status === 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
-                return false;
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(response) {
+                let responseObj = JSON.parse(response.responseText)
+                window.close();
+                window.open('/processes/' + responseObj.processId + '/edit', '_blank', 'width=1500, height=800')
             }
         };
-        xmlHttp.setRequestHeader('Content-Type', 'application/json');
-        xmlHttp.send(JSON.stringify(data));
+        aliceJs.sendXhr(opt);
     }
 </script>
 </html>

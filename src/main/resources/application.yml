@@ -52,6 +52,9 @@ spring:
                 redirectUri: https://localhost/oauth/kakao/callback
                 accessTokenUri: https://kauth.kakao.com/oauth/token
                 profileUri: https://kapi.kakao.com/v2/user/me
+    messages:
+        basename: public/message/messages
+        encoding: UTF-8
 server: 
     port: 443
     protocol: https
@@ -63,6 +66,9 @@ server:
         key-alias: itsm
         trust-store: classpath:itsm.ts
         trust-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
+    servlet:
+        session:
+            timeout: 60m
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\
     

@@ -162,6 +162,7 @@ aliceJs.sendXhr = function (option) {
     let callbackFunc = option.callbackFunc;
     let params = option.params;
     let async = (option.async === undefined || option.async === null) ? true : option.async;
+    let showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? true : option.showProgressbar;
 
     let xhr;
     try {
@@ -185,11 +186,15 @@ aliceJs.sendXhr = function (option) {
             //console.log('요청이 초기화되지 않음, 객체만 생성되고 아직 초기화되지 않은 상태(' + this.status + ')');
         } else if (this.readyState === 1) {
             //console.log('서버연결설정, OPEN 메서드가 호출되고 아직 send 메서드가 불리지 않은 상태(' + this.status + ')');
-            showProgressBar();
+            if (showProgressbar) {
+                showProgressBar();
+            }
         } else if (this.readyState === 2) {
             //console.log('요청 접수, send메서드가 불렸지만 status와 헤더는 아직 도착하지 않음(' + this.status + ')');
         } else if (this.readyState === 3) {
             //console.log('처리 요청, 데이터의 일부를 받은 상태(' + this.status + ')');
+        } else if (this.status === 403) {
+            window.location.href = '/sessionInValid';
         } else if (this.readyState === 4 && this.status === 200) {
             //console.log('요청 완료및 응답 준비, 데이터를 전부 받음(' + this.status + ')');
             aliceJs.xhrErrorResponse('printError');
@@ -198,7 +203,9 @@ aliceJs.sendXhr = function (option) {
             } else {
                 console.info('No callback function');
             }
-            hiddenProgressBar();
+            if (showProgressbar) {
+                hiddenProgressBar();
+            }
         } else {
             if (this.responseType === '') {
                 try {
@@ -209,7 +216,9 @@ aliceJs.sendXhr = function (option) {
             } else {
                 aliceJs.xhrErrorResponse('printError', this.responseText);
             }
-            hiddenProgressBar();
+            if (showProgressbar) {
+                hiddenProgressBar();
+            }
         }
     };
 
@@ -235,55 +244,9 @@ aliceJs.sendXhr = function (option) {
     } else {
         params = null;
     }
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.send(params);
 };
-
-function createXmlHttpRequestObject(method, url, async) {
-    showProgressBar();
-    // will store the reference to the XMLHttpRequest object
-    var xmlHttp;
-    var token;
-    var metas = document.getElementsByTagName('meta');
-
-    if (typeof async === "undefined") {
-        async = true;
-    }
-
-    // if running Internet Explorer
-    if (window.ActiveXObject) {
-        try {
-            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-        } catch (e) {
-            xmlHttp = false;
-        }
-    }
-    // if running Mozilla or other browsers
-    else {
-        try {
-            xmlHttp = new XMLHttpRequest();
-        } catch (e) {
-            xmlHttp = false;
-        }
-    }
-    // return the created object or display an error message
-    if (!xmlHttp) {
-        alert("Error creating the XMLHttpRequest object.");
-    } else {
-        if (method.toUpperCase() != "GET") {
-            for (var i = 0; i < metas.length; i++) {
-                if (metas[i].getAttribute('name') === '_csrf') {
-                    token = metas[i].getAttribute('content');
-                }
-            }
-            xmlHttp.open(method, url, async);
-            xmlHttp.setRequestHeader('X-CSRF-TOKEN', token);
-        } else {
-            xmlHttp.open(method, url, async);
-        }
-        hiddenProgressBar();
-        return xmlHttp;
-    }
-}
 
 /*
  * ProgressBar 보여줌
@@ -294,7 +257,6 @@ function showProgressBar() {
     if (divCheck === null) {
         var divProgressBar = document.createElement('div');
         divProgressBar.id = 'divProgressBar';
-        divProgressBar.style.zIndex = 1000;
         divProgressBar.style.position = 'fixed';
         divProgressBar.style.display = 'block';
         divProgressBar.style.width = '100%';
@@ -314,8 +276,10 @@ function showProgressBar() {
         imgProgressBar.style.top = '0';
         imgProgressBar.style.bottom = '0';
         imgProgressBar.style.margin = 'auto';
-        divProgressBar.appendChild(imgProgressBar);
-        document.body.appendChild(divProgressBar);
+        if (divProgressBar) {
+            divProgressBar.appendChild(imgProgressBar);
+            document.body.appendChild(divProgressBar);
+        }
     } else {
         return false;
     }
@@ -334,34 +298,13 @@ function hiddenProgressBar() {
 }
 
 /**
- * 메시지를 받아서 다국어를 반환한다.
- * @param messageId 다국어 yaml id를 받는다.
- */
-function i18n(messageId) {
-    var result = '';
-    if (messageId !== '' && messageId !== null && messageId !== undefined) {
-        const strUrl = '/i18n/'+ messageId;
-        const opt = {
-                 method: 'GET',
-                 url: strUrl,
-                 async: false,
-                 callbackFunc: function(response) {
-                     result = response.responseText;
-                 }
-        };
-        aliceJs.sendXhr(opt);
-    }
-    return result;
-}
-
-/**
  * 파라미터로 받은 날짜 데이터 기준으로 4가지 date 포맷을 받아서 yyyy-mm-dd HH:MM로 반환한다.
  * @param p_date 입력받는 날짜 2020-02-03 or 2020-02-03 14:30 or 2020-02-03 14:30 오전
  *  @param p_format 입력받는 날짜 형식
  */
 function changeDateFormatYYYYMMDD(p_date, p_format) {
     var v_date = '';
-    var arrayDate = new Array();
+    var arrayDate = [];
     var arrayResultDate = '';
     var arrayFormat = '';
     var index = 0;

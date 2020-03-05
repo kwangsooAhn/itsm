@@ -22,7 +22,7 @@
                     <ul class="sub-menu">
                         <li th:each="subMenu : ${#authentication.details.menus}"
                             th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
-                            <a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}"></a>
+                            <a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>
                         </li>
                     </ul>
                 </li>
@@ -36,7 +36,7 @@
                 <div id="profile-menu">
                     <ul>
                         <li><a href="javascript:logout()" th:text="#{common.btn.logout}">로그아웃1</a></li>
-                        <li><a th:href="@{/users/{userKey}/userEdit(userKey=${#authentication.details.userKey})}" th:text="#{menu.editMyInfo}">내 정보 수정1</a></li>
+                        <li><a th:href="@{/users/{userKey}/userEditSelf(userKey=${#authentication.details.userKey})}" th:text="#{menu.editMyInfo}">내 정보 수정1</a></li>
                     </ul>
                 </div>
             </div>
@@ -47,11 +47,9 @@
     </div>
 </body>
 <script type="text/javascript" th:inline="javascript">
-window.onload = function () {
-    document.getElementById("navbarSupportedContent").addEventListener("click", function () {
-       showProgressBar();
-    });
-}
+window.addEventListener('load', function() {
+    hiddenProgressBar();
+});
 
 function logout() {
     document.getElementById('logoutForm').submit();

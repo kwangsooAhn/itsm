@@ -2,16 +2,10 @@ package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.form.service.FormService
-import co.brainz.workflow.form.constants.FormConstants
-import co.brainz.workflow.form.dto.FormDto
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletRequest
 
@@ -46,7 +40,7 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/list")
     fun getFormList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("formList", formService.findFormList(request.getParameter("search") ?: ""))
+        model.addAttribute("formList", formService.findForms(request.getParameter("search") ?: ""))
         return formListPage
     }
 
@@ -55,10 +49,6 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/new")
     fun getFormNew(request: HttpServletRequest, model: Model): String {
-        //언어 목록
-        model.addAttribute("langList", codeService.selectCodeByParent(FormConstants.FormLang.P_CODE.value))
-        //TODO 템플릿 정보 가져오기
-
         return formEditPage
     }
 
@@ -67,35 +57,8 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/{formId}/edit")
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
-        //TODO 컴포넌트 상세 정보 가져오기
-        model.addAttribute("form", formService.getForm(formId))
+        model.addAttribute("formId", formId)
         return formDesignerEditPage
     }
 
-    /**
-     * 폼 삭제.
-     */
-    @DeleteMapping("/{formId}")
-    fun deleteForm(@PathVariable formId: String): String {
-        formService.deleteForm(formId)
-        return formListPage
-    }
-
-    /**
-     * 폼 신규 기본 정보 등록.
-     */
-    @PostMapping("")
-    fun insertForm(@RequestBody formDto: FormDto): String {
-        formService.insertForm(formDto)
-        return formListPage
-    }
-
-    /**
-     * 폼 업데이트.
-     */
-    @PutMapping("/{formId}")
-    fun updateForm(@RequestBody formDto: FormDto): String {
-        formService.updateForm(formDto)
-        return formListPage
-    }
 }

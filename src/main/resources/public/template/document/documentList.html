@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        table td {
+            border-left: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table>
+        <colgroup>
+            <col width="25%">
+            <col width="70%">
+            <col width="5%">
+        </colgroup>
+        <tbody>
+            <tr th:each="document: ${documentList}">
+                <td th:text="${document.documentName}"></td>
+                <td th:text="${document.documentDesc}"></td>
+                <td>
+                    <button sec:authorize="hasAuthority('document.create')"
+                        th:attr="onclick=|openDocumentEdit('${document.documentId}')|"
+                        th:text="#{common.btn.write}"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

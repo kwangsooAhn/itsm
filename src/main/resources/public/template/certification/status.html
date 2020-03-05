@@ -23,7 +23,7 @@
             </form>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a href="/document/documentSearch">메인화면으로 이동</a>
+            <a href="/tickets/search">메인화면으로 이동</a>
         </div>
     </div>
     <div th:if="${validCode == 2}">
@@ -37,7 +37,7 @@
             </form>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a href="/document/documentSearch">메인화면으로 이동</a>
+            <a href="/tickets/search">메인화면으로 이동</a>
         </div>
     </div>
     <div th:if="${validCode == 3}">
@@ -58,25 +58,20 @@
 </body>
 <script type="text/javascript">
     /*<![CDATA[*/
-    window.onload = function() {
+    window.addEventListener('load', function() {
         document.getElementById("btnSend").addEventListener("click", function() { restSubmit("get","[[@{/certification/sendCertifiedMail}]]"); });
-    }
+    });
 
     function restSubmit(method, url) {
-        var xmlhttp = createXmlHttpRequestObject(method, url);
-        xmlhttp.open(method,url);
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                if (xmlhttp.status == 200) {
-                    alert("인증메일이 재발송되었습니다.");
-                } else if (xmlhttp.status == 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
+        const opt = {
+            method: method,
+            url: url,
+            params: new FormData(document.getElementById("sendForm")),
+            callbackFunc: function() {
+                alert("인증메일이 재발송되었습니다.");
             }
         };
-        xmlhttp.send(new FormData(document.getElementById("sendForm")));
+        aliceJs.sendXhr(opt)
     }
     /*]]>*/
 </script>

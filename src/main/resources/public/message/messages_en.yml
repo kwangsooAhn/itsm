@@ -11,6 +11,9 @@ common:
     before: "BEFORE"
     next: "NEXT"
     add: "ADD"
+    write: "WRITE"
+    cancel: "CANCEL"
+    check: "CHECK"
   label:
     title: "Title"
     message: "Message"
@@ -25,27 +28,46 @@ common:
     createDate: "Create Date"
     updateDate: "Update Date"
     attachFile: "Attach file"
+    notSelect: "Not Select"
   msg:
     save: "Saved"
+    save.fail: "Fail"
     delete.success: "Deleted."
 
 # Menu
 menu:
   service: "Service"
   service.request: "Service Request"
-  service.list: "Servie History"
+  service.list: "Service History"
   help: "Helpdesk"
   help.notice: "Notice"
   help.faq: "FAQ"
+  help.document: "Service Request"
+  help.ticket: "Process Document"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
+  setting.auth: "Auth management"
   setting.form: "Form"
   setting.process: "Process"
   editMyInfo: "Edit my info"
 
 # Auth
 auth:
+  label:
+    authId: "Auth ID"
+    authName: "Auth name"
+    authDesc: "Auth Desc"
+  msg:
+    idNotExist: "Please enter a auth id."
+    nameNotExist: "Please enter a auth name."
+    idDuplecate: "duplicate auth id! Please enter other auth id."
+    nameDuplecate: "duplicate auth name! Please enter other auth name."
+  auth:
+    read: "auth read"
+    create: "auth create"
+    update: "auth update"
+    delete: "auth delete"
   service.read:
     all: "서비스 요청 전체 조회"
     my: "서비스 요청 자신 업무만 조회"
@@ -66,6 +88,10 @@ auth:
   process.create: "process create"
   process.update: "process update"
   process.delete: "process delete"
+  document.read: "document read"
+  document.create: "document create"
+  ticket.read: "ticket read"
+  ticket.create: "ticket create"
 
 # User
 user:
@@ -74,7 +100,7 @@ user:
   rePassword: "rePassword"
   name: "Name"
   email: "Email"
-  position: "Postion"
+  position: "Position"
   department: "Department"
   officeNumber: "officeNumber"
   mobileNumber: "mobileNumber"
@@ -83,20 +109,23 @@ user:
   date: "Date Format"
   time: "Time Format"
   lang: "Language"
+  theme: "Theme"
   reg: "Sign up"
   read: "User read"
+  role: "User Role"
   create: "User create"
   update: "User update"
   delete: "User delete"
-  editUserInfo: "Eidt User Information"
+  editUserInfo: "Edit User Information"
   message: "When you change your email, you need to verify"
-  search:
-    id: "ID"
-    name: "Name"
-    position: "Position"
-    department: "Department"
-    officeNumber: "Office number"
-    mobileNumber: "Mobile number"
+  searchPlaceholder: "ID / Name / Position / Department / Office Number / Mobile Number"
+  msg:
+    idNotExist: "Please enter your UserId"
+    passwordNotExist: "Please enter your password"
+    rePasswordNotExist: "Please enter your Reconfirm Password"
+    passwordNotEquals: "Passwords do not match"
+    nameNotExist: "Please enter your UserName"
+    emailNotExist: "Please enter your Email"
     
 # FAQ
 faq:
@@ -132,15 +161,41 @@ notice:
   modify: "Modify"
   modifyCompleted: "Modify Completed"
   delete: "Delete"
+  searchPlaceholder: "Title / User"
+  msg:
+    titleNotExist: "Please enter a title"
+    contentsNotExist: "Please enter contents"
+    popHeightNotExist: "Please enter a height"
+    checkPopHeightRange: "The height can only be a value between 500px and 1000px."
+    popWidthNotExist: "Please enter a Width"
+    checkPopWidthRange: "The width can only be a value between 500px and 1000px"
+    popStrtDtNotExist: "Please enter popup start date"
+    popEndDtNotExist: "Please enter popup end date"
+    compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
+    topNoticeStrtDtNotExist: "Please enter a top notice start date"
+    topNoticeEndDtNotExist: "Please enter a top notice end date"
+    compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
+    fromDtNotExist: "Please enter a search start date"
+    toDtNotExist: "Please enter a search end date"
+    checkSearchRange: "Search start date is greater than end date"
 
 # LOGIN
 login:
   uid: "ID"
-  upasswd: "PassWord"
+  upasswd: "Password"
+  findId: "Forgot ID?"
+  findPasswd: "Forgot Password?"
   sendLogin: "Login"
-  userSignUp: "Sign Up"
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
+  gotoLoginPage: "Go to the login page"
+  userSignUp: "Sign Up"
+  doSignUp: "Create account"
+  loginNote: "Do you have an account?"
+  signupNote: "Would you like to sign up?"
+  msg:
+    sessionExpired: "Your session has expired."
+    redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
 
 # FORM
 form:
@@ -152,11 +207,34 @@ form:
     description: "Description"
     lang: "Language"
     templatesList: "Templates List"
+    searchPlaceholder: "Form Name / Form Description"
+    undo: "Undo"
+    redo: "Redo"
+    import: "Import"
+    export: "Export"
+    preview: "Preview"
+    saveExist: "Save and Exist"
+    copy: "Copy"
+    addAbove: "Add above"
+    addBelow: "Add below"
   status:
     edit: "Editing"
     simu: "Simulation Complete"
     publish: "Publish"
     destroy: "Destroy"
+  component:
+    text: "Text"
+    textarea: "Text Box"
+    select: "Dropdown"
+    radio: "Radio Button"
+    checkbox: "Checkbox"
+    label: "Label"
+    image: "Image"
+    line: "Line"
+    date: "Date"
+    time: "Time"
+    datetime: "Date Time"
+    fileupload: "Fileupload"
   lang:
     ko: "Korean"
   msg:
@@ -172,6 +250,13 @@ process:
     register: "Process Register"
     description: "Description"
     templatesList: "Templates List"
+    searchPlaceholder: "Process Name / Process Description"
+    simulation: "Simulation"
+    undo: "Undo"
+    redo: "Redo"
+    import: "Import"
+    export: "Export"
+    imageDownload: "Image Download"
   status:
     edit: "Editing"
     simu: "Simulation Complete"
@@ -196,9 +281,11 @@ role:
     idNotExist: "Please enter a role id."
     nameNotExist: "Please enter a role name."
     authNotExist: "Please enter a auth name."
+
 # Validation
 validation:
   msg:
+    isNotExistElement: "The element does not exist."
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
@@ -206,3 +293,21 @@ validation:
     pwContainsEmail: "Password contains an email ID."
     pwContainsInnerMobileNumber: "The password contains your mobile."
     checkEmailFormat: "Please enter the correct email format."
+
+# Document
+document:
+  label:
+    list: "Service Request List"
+    write: "Service Request Write"
+  msg:
+    lengthMin: "Please enter at least {0} characters."
+    lengthMax: "Please enter less than {0} characters."
+    dateMin: "Please select after {0} date."
+    dateMax: "Please select before {0} date."
+    requiredEnter: "Please enter the required item."
+    requiredSelect: "Please select a required item."
+
+# Ticket
+ticket:
+  label:
+    list: "Process Document List"

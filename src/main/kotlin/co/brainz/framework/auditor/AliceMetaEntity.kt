@@ -1,5 +1,6 @@
 package co.brainz.framework.auditor
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.utility.LocalDateTimeAttributeConverter
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -11,6 +12,9 @@ import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Convert
 import javax.persistence.EntityListeners
+import javax.persistence.FetchType
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.MappedSuperclass
 
 /**
@@ -23,15 +27,24 @@ import javax.persistence.MappedSuperclass
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 open class AliceMetaEntity(
-        @CreatedBy @Column(name="create_userkey", nullable = false, updatable = false)
-        open var createUserkey: String = "",
-        @Convert(converter = LocalDateTimeAttributeConverter::class)
-        @CreatedDate @Column(name="create_dt", nullable = false, updatable = false)
-        var createDt: LocalDateTime = LocalDateTime.now(),
-        @LastModifiedBy @Column(name="update_userkey", insertable = false)
-        var updateUserkey: String? = null,
-        @Convert(converter = LocalDateTimeAttributeConverter::class)
-        @LastModifiedDate @Column(name="update_dt", insertable = false)
-        var updateDt: LocalDateTime? = LocalDateTime.now()
+        @CreatedBy
+        @JoinColumn(name="create_user_key", nullable = false, updatable = false)
+        @ManyToOne(fetch = FetchType.LAZY)
+        var createUser: AliceUserEntity? = null,
 
+        @Convert(converter = LocalDateTimeAttributeConverter::class)
+        @CreatedDate
+        @Column(name="create_dt", nullable = false, updatable = false)
+        var createDt: LocalDateTime = LocalDateTime.now(),
+
+        @LastModifiedBy
+        @JoinColumn(name="update_user_key", insertable = false)
+        @ManyToOne(fetch = FetchType.LAZY)
+        var updateUser: AliceUserEntity? = null,
+
+        @Convert(converter = LocalDateTimeAttributeConverter::class)
+        @LastModifiedDate
+        @Column(name="update_dt", insertable = false)
+        var updateDt: LocalDateTime? = LocalDateTime.now()
 ): Serializable
+

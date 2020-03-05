@@ -1,8 +1,6 @@
 package co.brainz.framework.auth.entity
 
-import co.brainz.framework.menu.entity.AliceMenuEntity
 import java.io.Serializable
-import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
@@ -27,8 +25,6 @@ data class AliceMenuAuthMapEntity (
 ) : Serializable
 
 data class AliceMenuAuthMapPk(
-        val menu: String,
-        val auth: String
-) : Serializable {
-        constructor() : this("","")
-}
+        val menu: String = "",
+        val auth: String = ""
+) : Serializable

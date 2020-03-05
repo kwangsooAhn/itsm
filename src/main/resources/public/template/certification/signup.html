@@ -3,83 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
     <title>회원가입 페이지</title>
 </head>
 <body>
     <div id="divProgressBar" style="z-index: 1000; position: fixed; display: block; width: 100%; height: 100%; top: 50;  left: 0;  right: 0;  bottom: 0;  background-color: grey; opacity: 0.5; pointer-events: all;">
         <img id="aProgressBar" name="aProgressBar" th:src="@{/assets/media/image/loading_w_dark.gif}" style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
     </div>
-    <div id="container" align="center">
-        <table style="text-align: left; width: 360px;">
-            <tr>
-                <th>아이디 *</th>
-                <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
-            </tr>
-            <tr>
-                <th>비밀번호 *</th>
-                <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
-            </tr>
-            <tr>
-                <th>비밀번호 재확인 *</th>
-                <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
-            </tr>
-            <tr>
-                <th>이름 *</th>
-                <td><input type="text" id="userName" name="userName" maxlength="100" required="required"></td>
-            </tr>
-            <tr>
-                <th>이메일 *</th>
-                <td><input type="text" id="email" name="email" maxlength="100" required="required"></td>
-            </tr>
-            <tr>
-                <th>직책</th>
-                <td><input type="text" id="position" name="position" maxlength="100"></td>
-            </tr>
-            <tr>
-                <th>부서</th>
-                <td><input type="text" id="department" name="department" maxlength="100"></td>
-            </tr>
-            <tr>
-                <th>사무실 번호</th>
-                <td><input type="text" id="officeNumber" name="officeNumber" maxlength="100"></td>
-            </tr>
-            <tr>
-                <th>핸드폰 번호</th>
-                <td><input type="text" id="mobileNumber" name="mobileNumber" maxlength="100"></td>
-            </tr>
-        </table>
-        <button style="margin-top: 25px;" onclick="userRegister()">회원가입</button>
-    </div>
-    <br>
-    <br>
-    <div id="container" align="left">
-        <pre>
+    <div class="white-base" id="signUp">
+        <div class="login-face">
+            <p th:text="#{login.loginNote}"></p>
+            <a class="btn btn-primary" href="/login" id="sendLogin" th:text="#{login.sendLogin}"></a>
+        </div>
+        <img th:src="@{/assets/media/icons/logo.png}" alt="Alice">
+        <div class="signup-base">
+            <p th:text="#{login.userSignUp}"></p>
+            <table class="signup-form">
+                <tr>
+                    <th><a class="required" th:text="#{user.id}"></a></th>
+                    <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
+                </tr>
+                <tr>
+                    <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.password}"></a></th>
+                    <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
+                </tr>
+                <tr>
+                    <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.rePassword}"></a></th>
+                    <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
+                </tr>
+                <tr>
+                    <th><a class="required" th:text="#{user.name}"></a></th>
+                    <td><input type="text" id="userName" name="userName" maxlength="100" required="required"></td>
+                </tr>
+                <tr>
+                    <th><a class="required" th:text="#{user.email}"></a></th>
+                    <td><input type="text" id="email" name="email" maxlength="100" required="required"></td>
+                </tr>
+                <tr>
+                    <th><a th:text="#{user.position}"></a></th>
+                    <td><input type="text" id="position" name="position" maxlength="100"></td>
+                </tr>
+                <tr>
+                    <th><a th:text="#{user.department}"></a></th>
+                    <td><input type="text" id="department" name="department" maxlength="100"></td>
+                </tr>
+                <tr>
+                    <th><a th:text="#{user.officeNumber}"></a></th>
+                    <td><input type="text" id="officeNumber" name="officeNumber" maxlength="100"></td>
+                </tr>
+                <tr>
+                    <th><a th:text="#{user.mobileNumber}"></a></th>
+                    <td><input type="text" id="mobileNumber" name="mobileNumber" maxlength="100"></td>
+                </tr>
+            </table>
+            <button class="btn btn-primary" id="userSignUp" th:text="#{login.doSignUp}" onclick="userRegister()"></button>
+        </div>
+        <div id="password-guide">
+            <pre>
             [ 비밀번호 생성 가이드 ]
-    
+
             1. 2가지 이상의 문자 구성(대문자, 소문자, 특수문자, 숫자)인 경우, 8자 이상 20자 미만, 1가지 종류의 문자 구성인 경우 10자 이상 20자 미만의 비밀번호 입력 제한 범위를 가진다.
-     
+
             2. 사용자의 ID를 포함하지 않는다.
-               예) ID가 ITSM인 경우, ITS는 포함 가능, ITSM은 포함 불가.
-     
+                   예) ID가 ITSM인 경우, ITS는 포함 가능, ITSM은 포함 불가.
+
             3. 사용자의 이메일 ID를 포함하지 않는다.
-               예) 이메일 ID가 ITSM인 경우, ITS는 포함 가능, ITSM은 포함 불가
-     
+                   예) 이메일 ID가 ITSM인 경우, ITS는 포함 가능, ITSM은 포함 불가
+
             4. 사용자의 내선 번호를 포함하지 않는다.
-               예) 내선 번호가 010-1234-5678인 경우, 123 포함 가능, 1234 포함 불가, 567 포함 가능, 5678 포함 불가
-                    내선 번호가 010-123-4567인 경우, 12 포함 가능,123 포함 불가, 456 포함 가능, 4567 포함 불가
-     
+                   예) 내선 번호가 010-1234-5678인 경우, 123 포함 가능, 1234 포함 불가, 567 포함 가능, 5678 포함 불가
+                        내선 번호가 010-123-4567인 경우, 12 포함 가능,123 포함 불가, 456 포함 가능, 4567 포함 불가
+
             5. 공백을 허용하지 않는다.
-        </pre>
+            </pre>
+        </div>
     </div>
     <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
     <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
     <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
     <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
+            i18n.add();
             hiddenProgressBar();
         }
         const STATUS_SUCCESS = "0";
@@ -89,15 +99,11 @@
         // 사용자 등록
         function userRegister() {
             if (emptyValidation()) {
-                if (document.getElementById("password").value != document.getElementById("rePassword").value) {
-                    alert("비밀번호가 일치하지 않습니다.");
+                if (isNotEquals('password', 'rePassword', 'msg.user.passwordNotEquals')) {
                     return false;
                 } else {
                     // 비밀번호 validation Check
-                    const password = document.getElementById("password").value;
-                    if (!passwordValidation(password)) {
-                        return false;
-                    }
+                    if (!isValidPassword("password")) return false;
                     // 비밀번호 RSA 암호화
                     const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
                     const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
@@ -105,10 +111,9 @@
                     rsa.setPublic(keyModule, keyExponent);
 
                     // 이메일 validation Check
-                    if (!emailValidation(document.getElementById("email").value)) {
-                        return false;
-                    }
+                    if (!isValidEmail("email")) return false;
 
+                    const password = document.getElementById("password").value;
                     const registerInfo = {
                         userId: document.getElementById("userId").value,
                         password: rsa.encrypt(password),
@@ -126,59 +131,41 @@
         }
         // 빈 값 체크
         function emptyValidation() {
-            if (document.getElementById("userId").value == '') {
-                alert("아이디를 입력해주세요.");
-                return false;
-            }
-            if (document.getElementById("password").value == '') {
-                alert("비밀번호를 입력해주세요.");
-                return false;
-            }
-            if (document.getElementById("rePassword").value == '') {
-                alert("비밀번호 재확인을 입력해주세요.");
-                return false;
-            }
-            if (document.getElementById("userName").value == '') {
-                alert("이름을 입력해주세요.");
-                return false;
-            }
-            if (document.getElementById("email").value == '') {
-                alert("이메일을 입력해주세요.");
-                return false;
-            }
+            if (isEmpty('userId', 'user.msg.idNotExist')) return false;
+            if (isEmpty('password', 'user.msg.passwordNotExist')) return false;
+            if (isEmpty('rePassword', 'user.msg.rePasswordNotExist')) return false;
+            if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
+            if (isEmpty('email', 'user.msg.emailNotExist')) return false;
             return true;
         }
 
         // 데이터 전송
         function restSubmit(method, url, async, data) {
-            const xmlHttp = createXmlHttpRequestObject(method, url, async);
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState == XMLHttpRequest.DONE) {
-                    if (xmlHttp.status == 200) {
-                        switch (xmlHttp.responseText) {
-                            case STATUS_SUCCESS:
-                                alert("가입되었습니다.");
-                                location.href="/login";
-                                break;
-                            case STATUS_ERROR_USER_ID_DUPLICATION:
-                                alert("동일한 아이디가 존재합니다.");
-                                break;
-                            case STATUS_ERROR_EMAIL_DUPLICATION:
-                                alert("이미 사용중인 이메일입니다.")
-                                break;
-                            default :
-                                alert("가입이 실패되었습니다.");
-                                break;
-                        }
-                    } else if (xmlHttp.status == 400) {
-                        alert('There was an error 400');
-                    } else {
-                        alert('something else other than 200 was returned');
+            const opt = {
+                method: method,
+                url: url,
+                async: async,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            alert("가입되었습니다.");
+                            location.href = "/login";
+                            break;
+                        case STATUS_ERROR_USER_ID_DUPLICATION:
+                            alert("동일한 아이디가 존재합니다.");
+                            break;
+                        case STATUS_ERROR_EMAIL_DUPLICATION:
+                            alert("이미 사용중인 이메일입니다.");
+                            break;
+                        default :
+                            alert("가입이 실패되었습니다.");
+                            break;
                     }
                 }
             };
-            xmlHttp.setRequestHeader('Content-Type', 'application/json');
-            xmlHttp.send(JSON.stringify(data));
+            aliceJs.sendXhr(opt);
         }
         /*]]>*/
     </script>

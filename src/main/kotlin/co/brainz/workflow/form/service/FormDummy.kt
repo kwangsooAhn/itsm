@@ -1,13 +1,15 @@
 package co.brainz.workflow.form.service
 
 import co.brainz.workflow.form.constants.FormConstants
+import co.brainz.workflow.form.dto.FormComponentSaveDto
+import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.dto.FormDto
 import java.time.LocalDateTime
 import java.util.UUID
 
 class FormDummy: Form {
 
-    override fun formList(search: String): List<FormDto> {
+    override fun forms(search: String): List<FormDto> {
         val list = mutableListOf<FormDto>()
         if (search.isEmpty()) {
             val form = FormDto(
@@ -17,7 +19,7 @@ class FormDummy: Form {
                     formStatus = FormConstants.FormStatus.EDIT.value,
                     formEnabled = true,
                     createDt = LocalDateTime.of(2019, 12, 31, 9, 50, 20, 0),
-                    createUserkey = "f65d114e29664e7bbf1d47075379bbb5"
+                    createUserKey = "f65d114e29664e7bbf1d47075379bbb5"
             )
             list.add(form)
         }
@@ -29,9 +31,9 @@ class FormDummy: Form {
                 formStatus = FormConstants.FormStatus.SIMULATION.value,
                 formEnabled = true,
                 createDt = LocalDateTime.of(2019, 12, 13, 12, 30, 40, 0),
-                createUserkey = "f65d114e29664e7bbf1d47075379bbb5",
+                createUserKey = "f65d114e29664e7bbf1d47075379bbb5",
                 updateDt = LocalDateTime.of(2020, 1, 9, 17, 35, 40, 0),
-                updateUserkey = "b0b3209dbe4042498603df7b216c4598"
+                updateUserKey = "b0b3209dbe4042498603df7b216c4598"
         )
         list.add(form2)
 
@@ -41,9 +43,9 @@ class FormDummy: Form {
                 formDesc = "인프라 변경 관련 사항을 접수하는 문서양식",
                 formStatus = FormConstants.FormStatus.PUBLISH.value,
                 createDt = LocalDateTime.of(2019, 8, 10, 12, 30, 40, 0),
-                createUserkey = "b0b3209dbe4042498603df7b216c4598",
+                createUserKey = "b0b3209dbe4042498603df7b216c4598",
                 updateDt = LocalDateTime.of(2019, 12, 1, 17, 35, 40, 0),
-                updateUserkey = "b0b3209dbe4042498603df7b216c4598"
+                updateUserKey = "b0b3209dbe4042498603df7b216c4598"
         )
         list.add(form3)
 
@@ -53,26 +55,26 @@ class FormDummy: Form {
                 formDesc = "인프라 변경 관련 사항을 접수하는 문서양식22",
                 formStatus = FormConstants.FormStatus.DESTROY.value,
                 createDt = LocalDateTime.of(2019, 8, 10, 12, 30, 40, 0),
-                createUserkey = "529a9128d7e74e13a3e57e3075566c5e"
+                createUserKey = "529a9128d7e74e13a3e57e3075566c5e"
         )
         list.add(form4)
 
         return list
     }
 
-    override fun form(formId: String): FormDto {
+    override fun form(formId: String): FormComponentViewDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun insertForm(formDto: FormDto) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateForm(formDto: FormDto) {
+    override fun createForm(formDto: FormDto): FormDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun deleteForm(formId: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveForm(formComponentSaveDto: FormComponentSaveDto) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

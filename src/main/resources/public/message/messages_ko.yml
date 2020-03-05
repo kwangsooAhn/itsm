@@ -11,6 +11,9 @@ common:
     before: "이전"
     next: "다음"
     add: "추가"
+    write: "작성"
+    cancel: "취소"
+    check: "확인"
   label:
     title: "제목"
     message: "메시지"
@@ -25,8 +28,10 @@ common:
     createDate: "등록일시"
     updateDate: "수정일시"
     attachFile: "첨부파일"
+    notSelect: "선택 안 함"
   msg:
     save: "저장되었습니다"
+    save.fail: "실패되었습니다."
     delete.success: "삭제되었습니다."
 
 # Menu
@@ -37,15 +42,33 @@ menu:
   help: "헬프데스크"
   help.notice: "공지사항"
   help.faq: "FAQ"
+  help.document: "신청서"
+  help.ticket: "처리할 문서"
   setting: "설정"
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
+  setting.auth: "권한 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
   editMyInfo: "자기 정보 수정"
 
 # auth
 auth:
+  label:
+    manage: "권한 관리"
+    authId: "권한 아이디"
+    authName: "권한명"
+    authDesc: "권한 설명"
+  msg:
+    idNotExist: "권한 아이디를 입력하세요."
+    nameNotExist: "권한명을 입력하세요."
+    idDuplecate: "중복되는 아이디가 있습니다. 다른 권한 아이디를 입력하세요."
+    nameDuplecate: "중복된 권한명이 있습니다. 다른 권한명을 입력하세요."
+  auth:
+    read: "권한 조회"
+    create: "권한 등록"
+    update: "권한 변경"
+    delete: "권한 삭제"
   service.read:
     all: "서비스 요청 전체 조회"
     my: "서비스 요청 자신 업무만 조회"
@@ -66,6 +89,10 @@ auth:
   process.create: "프로세스 등록"
   process.update: "프로세스 변경"
   process.delete: "프로세스 삭제"
+  document.read: "신청서 조회"
+  document.create: "신청서 등록"
+  ticket.read: "처리할 문서 조회"
+  ticket.create: "처리할 문서 등록"
 
 # 사용자
 user:
@@ -83,20 +110,23 @@ user:
   date: "날짜 유형"
   time: "시간 유형"
   lang: "언어"
+  theme: "테마"
   reg: "사용자 등록"
   read: "사용자 조회"
+  role: "사용자 역할"
   create: "사용자 생성"
   update: "사용자 변경"
   delete: "사용자 삭제"
   editUserInfo: "회원 정보 수정"
   message: "이메일 변경 시, 인증 절차가 필요합니다."
-  search:
-    id: "아이디"
-    name: "이름"
-    position: "직책"
-    department: "부서"
-    officeNumber: "사무실 번호"
-    mobileNumber: "핸드폰 번호"
+  searchPlaceholder: "아이디 / 이름 / 직책 / 부서 / 사무실 번호 / 핸드폰 번호"
+  msg:
+    idNotExist: "아이디를 입력해주세요."
+    passwordNotExist: "비밀번호를 입력해주세요."
+    rePasswordNotExist: "재확인 비밀번호를 입력해주세요."
+    passwordNotEquals: "비밀번호가 일치하지 않습니다."
+    nameNotExist: "이름을 입력해주세요."
+    emailNotExist: "이메일을 입력해주세요."
 
 # FAQ
 faq:
@@ -132,15 +162,41 @@ notice:
   modify: "수정"
   modifyCompleted: "수정 완료"
   delete: "삭제"
+  searchPlaceholder: "제목 / 작성자"
+  msg:
+    titleNotExist: "제목을 입력하세요."
+    contentsNotExist: "내용을 입력하세요."
+    popHeightNotExist: "높이를 입력하세요."
+    checkPopHeightRange: "높이는 500px부터 1000px 사이의 값만 입력 가능합니다."
+    popWidthNotExist: "넓이를 입력하세요."
+    checkPopWidthRange: "넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."
+    popStrtDtNotExist: "팝업 시작일을 입력하세요."
+    popEndDtNotExist: "팝업 종료일을 입력하세요."
+    compareWithPopUpValue: "팝업 알림 시작일이 종료일보다 크거나 같습니다."
+    topNoticeStrtDtNotExist: "상단 공지 시작일을 입력하세요."
+    topNoticeEndDtNotExist: "상단 공지 종료일을 입력하세요."
+    compareWithTopNoticeValue: "상단 공지 시작일이 종료일보다 크거나 같습니다."
+    fromDtNotExist: "검색 시작 날짜를 입력해주세요."
+    toDtNotExist: "검색 종료 날짜를 입력해주세요."
+    checkSearchRange: "검색 시작 날짜가 종료 날짜보다 큽니다."
 
 # LOGIN
 login:
   uid: "아이디"
   upasswd: "패스워드"
+  findId: "아이디를 잊으셨나요?"
+  findPasswd: "비밀번호를 잊으셨나요?"
   sendLogin: "로그인"
-  userSignUp: "회원가입"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
+  gotoLoginPage: "로그인 페이지"
+  userSignUp: "회원가입"
+  doSignUp: "가입하기"
+  loginNote: "계정이 있으신가요?"
+  signupNote: "처음이신가요?"
+  msg:
+    sessionExpired: "세션이 만료되었습니다."
+    redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
 
 # FORM
 form:
@@ -152,11 +208,34 @@ form:
     description: "설명"
     lang: "언어"
     templatesList: "템플릿 목록"
+    searchPlaceholder: "문서양식 이름 / 문서양식 설명"
+    undo: "작업취소"
+    redo: "작업재실행"
+    import: "가져오기"
+    export: "내보내기"
+    preview: "미리보기"
+    saveExist: "저장하고 나가기"
+    copy: "복사"
+    addAbove: "새로만들기-위"
+    addBelow: "새로만들기-아래"
   status:
     edit: "편집중"
     simu: "시뮬레이션 완료"
     publish: "발행"
     destroy: "폐기"
+  component:
+    text: "Text"
+    textarea: "Text Box"
+    select: "Dropdown"
+    radio: "Radio Button"
+    checkbox: "Checkbox"
+    label: "Label"
+    image: "Image"
+    line: "Line"
+    date: "Date"
+    time: "Time"
+    datetime: "Date Time"
+    fileupload: "Fileupload"
   lang:
     ko: "한국어"
   msg:
@@ -172,6 +251,13 @@ process:
     register: "프로세스 등록"
     description: "설명"
     templatesList: "템플릿 목록"
+    searchPlaceholder: "프로세스 이름 / 프로세스 설명"
+    simulation: "미리보기"
+    undo: "작업취소"
+    redo: "작업재실행"
+    import: "가져오기"
+    export: "내보내기"
+    imageDownload: "이미지로 저장하기"
   status:
     edit: "편집중"
     simu: "시뮬레이션 완료"
@@ -200,6 +286,7 @@ role:
 # Validation
 validation:
   msg:
+    isNotExistElement: "해당 엘리먼트 요소는 존재하지 않습니다."
     pwNotContainSpace: "비밀번호에 공백을 포함할 수 없습니다."
     pwOneBetween10And20: "1가지 문자 구성의 경우 10자~20자의 비밀번호를 설정해야 합니다."
     pwTwoBetween8And20: "2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다."
@@ -207,3 +294,21 @@ validation:
     pwContainsEmail: "비밀번호에 이메일 아이디가 포함되어 있습니다."
     pwContainsInnerMobileNumber: "비밀번호에 사용자의 핸드폰 번호가 포함되어 있습니다."
     checkEmailFormat: "이메일 형식에 맞게 입력해주세요."
+
+# Document
+document:
+  label:
+    list: "신청서 목록"
+    write: "신청서 작성"
+  msg:
+    lengthMin: "{0}글자 이상 입력해주세요."
+    lengthMax: "{0}글자 이하로 입력해주세요."
+    dateMin: "{0} 날짜 이후로 선택해주세요."
+    dateMax: "{0} 날짜 이전으로 선택해주세요."
+    requiredEnter: "필수 항목을 입력해주세요."
+    requiredSelect: "필수 항목을 선택해주세요."
+
+# Ticket
+ticket:
+  label:
+    list: "처리할 문서 목록"

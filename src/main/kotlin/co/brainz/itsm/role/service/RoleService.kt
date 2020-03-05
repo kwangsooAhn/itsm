@@ -9,50 +9,52 @@ import org.springframework.stereotype.Service
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.repository.RoleRepository
-import co.brainz.itsm.user.repository.UserRoleMapRepository
+import co.brainz.framework.auth.dto.AliceAuthSimpleDto
+import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 
 @Service
-public class RoleService(
+class RoleService(
         private val roleRepository: RoleRepository,
         private val authRepository: AliceAuthRepository,
-        private val userRoleMapRepository: UserRoleMapRepository,
-        private val roleAuthMapRepository: AliceRoleAuthMapRepository
+        private val roleAuthMapRepository: AliceRoleAuthMapRepository,
+        private val userRoleMapRepository: AliceUserRoleMapRepository
 ) {
     /**
      * 상단 전체 역할정보를 가져온다.
      */
-    public fun selectRoleList(): MutableList<AliceRoleEntity> {
+    fun selectRoleList(): MutableList<AliceRoleEntity> {
         return roleRepository.findByOrderByRoleNameAsc()
     }
 
     /**
      * 전체 권한정보를 가져온다.
      */
-    public fun selectAuthList(): MutableList<AliceAuthEntity> {
+    fun selectAuthList(): MutableList<AliceAuthEntity> {
         return authRepository.findByOrderByAuthIdAsc()
     }
 
     /**
      * 역할 삭제 한다.
      */
-    public fun deleteRole(roleId: String): String {
-        var result = ""
-
-        val userRoleMapCount = userRoleMapRepository.findByRoleId(roleId).count()
-        if (userRoleMapCount == 0) {
+    fun deleteRole(roleId: String): String {
+        val roleInfo = roleRepository.findByRoleId(roleId)
+        val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
+        return if (userRoleMapCount == 0) {
+            roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
+                roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(roleInfo.roleId, roleAuthMap.auth.authId))
+            }
             roleRepository.deleteById(roleId)
-            result = "true"
+            "true"
         } else {
-            result = "PlaseDeleteMapperUser"
+            "PlaseDeleteMapperUser"
         }
-
-        return result
     }
 
     /**
      * 역할 정보 등록 한다.
      */
-    public fun insertRole(roleInfo: RoleDto): String {
+    fun insertRole(roleInfo: RoleDto): String {
         val role = AliceRoleEntity(
                 roleId = roleInfo.roleId.toString(),
                 roleName = roleInfo.roleName.toString(),
@@ -61,7 +63,7 @@ public class RoleService(
         val result = roleRepository.save(role)
 
         authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach {auth ->
-            roleAuthMapRepository.save(AliceRoleAuthMapEntity(role,auth))
+            roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
 
         return result.roleId
@@ -70,16 +72,19 @@ public class RoleService(
     /**
      * 역할 정보 수정 한다.
      */
-    public fun updateRole(roleInfo: RoleDto): String {
+    fun updateRole(roleInfo: RoleDto): String {
         val role = AliceRoleEntity(
-                roleId = roleInfo.roleId.toString(),
-                roleName = roleInfo.roleName.toString(),
-                roleDesc = roleInfo.roleDesc.toString()
+            roleId = roleInfo.roleId.toString(),
+            roleName = roleInfo.roleName.toString(),
+            roleDesc = roleInfo.roleDesc.toString()
         )
         val result = roleRepository.save(role)
 
-        authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach {auth ->
-            roleAuthMapRepository.save(AliceRoleAuthMapEntity(role,auth))
+        roleRepository.findByRoleId(role.roleId).roleAuthMapEntities.forEach { roleAuthMap ->
+            roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(role.roleId, roleAuthMap.auth.authId))
+        }
+        authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach { auth ->
+            roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
 
         return result.roleId
@@ -88,29 +93,25 @@ public class RoleService(
     /**
      * 역할 상세 정보 조회
      */
-    fun selectDetailRoles(roleId: String): List<RoleDto> {
-        val dto = mutableListOf<RoleDto>()
-        val roleInfo = roleRepository.findByRoleId(roleId)[0]
-        val authList = mutableListOf<AliceAuthEntity>()
+    fun selectDetailRoles(roleId: String): RoleDto {
+        val roleInfo = roleRepository.findByRoleId(roleId)
+        val authList = mutableListOf<AliceAuthSimpleDto>()
 
-        roleInfo.roleAuthMapEntities.forEach {roleAuthMap ->
-            authList.add(roleAuthMap.auth)
+        roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
+            authList.add(AliceAuthSimpleDto(roleAuthMap.auth.authId, roleAuthMap.auth.authName, roleAuthMap.auth.authDesc))
         }
 
-        dto.add(
-                RoleDto(
-                        roleInfo.roleId,
-                        roleInfo.roleName,
-                        roleInfo.roleDesc,
-                        roleInfo.createUserkey,
-                        roleInfo.createDt,
-                        roleInfo.updateUserkey,
-                        roleInfo.updateDt,
-                        null,
-                        authList
-                )
+        return RoleDto(
+            roleInfo.roleId,
+            roleInfo.roleName,
+            roleInfo.roleDesc,
+            roleInfo.createUser?.userName,
+            roleInfo.createDt,
+            roleInfo.updateUser?.userName,
+            roleInfo.updateDt,
+            null,
+            authList
         )
-        return dto
     }
 
     /**
@@ -136,11 +137,6 @@ public class RoleService(
                     dto.add(RoleDetailDto(allRole.roleId, allRole.roleName, false))
                 }
             }
-            /*getRoles.forEach {
-                val rslt = roleEntities.
-                //val rslt = roleEntities?.contains(it) ?: false
-                dto.add(RoleDetailDto(it.roleId, it.roleName, rslt))
-            }*/
         }
         return dto
     }

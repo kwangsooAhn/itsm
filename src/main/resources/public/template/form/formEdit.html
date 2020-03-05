@@ -27,17 +27,7 @@
                     <th th:text="#{form.label.description}"></th>
                 </tr>
                 <tr>
-                    <td><textarea id="form_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
-                </tr>
-                <tr>
-                    <th th:text="#{form.label.lang}"></th>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="lang" tabindex="3">
-                            <option th:each="lang: ${langList}" th:value="${lang.code}" th:text="#{${lang.code}}"></option>
-                        </select>
-                    </td>
+                    <td><textarea id="form_desc" style="height:100px;" maxlength="128" tabindex="2"></textarea></td>
                 </tr>
             </table>
             <div><a th:text="#{common.btn.next}" href="javascript:replaceContent();"></a></div>
@@ -51,6 +41,7 @@
         </div>
     </div>
 </body>
+<script th:src="@{/assets/js/util/validation-alice.js}"></script>
 <script type="text/javascript">
     function replaceContent() {
         const prev = document.getElementById('prevContainer');
@@ -70,42 +61,34 @@
         if (emptyValidation()) {
             const formInfo = {
                 formName: document.getElementById('form_name').value,
-                formDesc: document.getElementById('form_desc').value,
-                lang: document.getElementById('lang').value
+                formDesc: document.getElementById('form_desc').value
             };
             //등록
-            restSubmit('POST', '/forms', formInfo);
+            restSubmit('POST', '/rest/forms', formInfo);
         }
     }
 
     //빈 값 체크
     function emptyValidation() {
-        if (document.getElementById('form_name').value === '') {
-            alert('[[#{form.msg.alert.nameNotExist}]]');
-            replaceContent();
-            return false;
-        }
+        if (isEmpty('form_name', 'form.msg.alert.nameNotExist')) { replaceContent(); return false; }
         return true;
     }
 
     //REST API
     function restSubmit(method, url, data) {
-        const xmlHttp = createXmlHttpRequestObject(method, url);
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState === XMLHttpRequest.DONE) {
-                if (xmlHttp.status === 200) {
-                    window.close();
-                    window.open('/forms/' + xmlHttp.responseText + '/edit', '_blank', 'width=1500, height=800');
-                } else if (xmlHttp.status === 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
-                return false;
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(response) {
+                opener.location.reload();
+                window.close();
+                const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no";
+                window.open('/forms/' + response.responseText + '/edit', '_blank', 'width=1500,height=920,' + specs);
             }
         };
-        xmlHttp.setRequestHeader('Content-Type', 'application/json');
-        xmlHttp.send(JSON.stringify(data));
+        aliceJs.sendXhr(opt);
     }
 </script>
 </html>
