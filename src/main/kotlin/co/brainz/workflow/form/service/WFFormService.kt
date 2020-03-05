@@ -89,7 +89,8 @@ class WFFormService(private val formMstRepository: FormMstRepository,
         val formViewDto = FormViewDto(
                 id = formEntity.get().formId,
                 name = formEntity.get().formName,
-                desc = formEntity.get().formDesc
+                desc = formEntity.get().formDesc,
+                status = formEntity.get().formStatus
         )
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -144,6 +145,7 @@ class WFFormService(private val formMstRepository: FormMstRepository,
         formData.ifPresent {
             formData.get().formName = formComponentSaveDto.form.formName
             formData.get().formDesc = formComponentSaveDto.form.formDesc
+            formData.get().formStatus = formComponentSaveDto.form.formStatus
             formData.get().updateDt = formComponentSaveDto.form.updateDt
             formData.get().updateUserKey = formComponentSaveDto.form.updateUserKey
             val resultFormMstEntity = formMstRepository.save(formData.get())
