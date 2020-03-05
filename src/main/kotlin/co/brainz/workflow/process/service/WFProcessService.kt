@@ -2,7 +2,6 @@ package co.brainz.workflow.process.service
 
 import co.brainz.workflow.element.entity.ElementDataEntity
 import co.brainz.workflow.element.entity.ElementMstEntity
-import co.brainz.workflow.element.repository.ElementMstRepository
 import co.brainz.workflow.process.constants.ProcessConstants
 import co.brainz.workflow.process.dto.ProcessDto
 import co.brainz.workflow.process.dto.WfJsonElementDto
@@ -20,13 +19,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-
 @Service
 @Transactional
-class WFProcessService(
-    private val processMstRepository: ProcessMstRepository,
-    private val elementMstRepository: ElementMstRepository
-) {
+class WFProcessService(private val processMstRepository: ProcessMstRepository) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val processMstMapper = Mappers.getMapper(ProcessMstMapper::class.java)
@@ -68,7 +63,7 @@ class WFProcessService(
             val elDto = processMstMapper.toWfJsonElementDto(elementMstEntity)
             elDto.display = elementMstEntity.displayInfo.let { mapper.readValue(it) }
             elDto.data = elementMstEntity.elementDataEntities.associateByTo(
-                mutableMapOf<String, Any>(),
+                mutableMapOf(),
                 { it.attributeId },
                 { it.attributeValue })
             wfElementDto.add(elDto)
@@ -141,14 +136,12 @@ class WFProcessService(
                 wfJsonElementsDto.forEach {
 
                     // element master entity 생성
-                    var elementMstEntity = ElementMstEntity(
+                    val elementMstEntity = ElementMstEntity(
+                        elementId = it.id,
                         processId = wfJsonProcessDto.id,
                         elementType = it.type,
                         displayInfo = mapper.writeValueAsString(it.display)
                     )
-
-                    // 시스템이 만들어내는 element id 획득을 위해 save 를 실행한다.
-                    elementMstEntity = elementMstRepository.save(elementMstEntity)
 
                     // element data entity 생성
                     val elementDataEntities = mutableListOf<ElementDataEntity>()
