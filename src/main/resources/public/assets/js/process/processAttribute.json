@@ -5,6 +5,13 @@
       "items": [
         {"id": "id", "name": "ID", "type": "inputbox", "default": ""},
         {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+        {"id": "status", "name": "Status", "type": "select", "default": "",
+          "sub-list": [
+            {"id": "process.status.edit", "name": "Editing"},
+            {"id": "process.status.publish", "name": "Publish"},
+            {"id": "process.status.destroy", "name": "Destroy"}
+          ]
+        },
         {"id": "description", "name": "Description", "type": "textarea", "default": ""}
       ]
     }
