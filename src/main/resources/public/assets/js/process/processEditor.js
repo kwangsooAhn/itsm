@@ -432,6 +432,7 @@
                 .attr('y', rectData[1].y - rectData[0].y > 0 ? rectData[0].y :  rectData[1].y)
                 .attr('width', Math.abs(rectData[1].x - rectData[0].x))
                 .attr('height', Math.abs(rectData[1].y - rectData[0].y));
+            AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
 
             self.pointElement1
                 .data(rectData)
@@ -528,6 +529,7 @@
                             .attr('cx', d3.event.x)
                             .attr('cy', d3.event.y);
                         self.nodeElement.style('cursor', 'move');
+                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                         drawConnectors();
                     }
                 })
@@ -572,6 +574,7 @@
                             .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
 
                         self.nodeElement.style('cursor', 'move');
+                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                         drawConnectors();
                     }
                 })
@@ -633,6 +636,7 @@
                             .attr('y', d3.event.y - (height / 2));
 
                         self.nodeElement.style('cursor', 'move');
+                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     }
                 })
                 .on('end', elementMouseEventHandler.mouseup)
@@ -780,9 +784,9 @@
             })
             .on('zoom', function() {
                 horizontalGrid
-                    .call(horizontalAxis.scale(d3.event.transform.rescaleX(horizontalScale)));
+                    .call(horizontalAxis.scale(d3.event.transform.rescaleY(horizontalScale)));
                 verticalGrid
-                    .call(verticalAxis.scale(d3.event.transform.rescaleY(verticalScale)));
+                    .call(verticalAxis.scale(d3.event.transform.rescaleX(verticalScale)));
                 svg.select('g.node-container')
                     .attr('transform', d3.event.transform);
             })

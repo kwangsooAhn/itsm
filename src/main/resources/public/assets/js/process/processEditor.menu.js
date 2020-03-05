@@ -427,11 +427,24 @@
     }
 
     /**
-     * 변경된 element 속성 값을 저장한다.
+     * 변경된 element display 속성 값을 저장한다.
      *
      * @param id element ID
      */
-    function changePropertiesValue(id) {
+    function changeDisplayValue(id) {
+        let elementData = AliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
+        if (elementData.length > 0) {
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(d3.select(document.getElementById(id)));
+            elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+        }
+    }
+
+    /**
+     * 변경된 element data 속성 값을 저장한다.
+     *
+     * @param id element ID
+     */
+    function changePropertiesDataValue(id) {
         const container = document.querySelector('.alice-process-properties-panel');
         const propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === AliceProcessEditor.data.process.id) {
@@ -513,7 +526,7 @@
                         });
                     }
                     elementObject.addEventListener('change', function(event) {
-                        changePropertiesValue(id);
+                        changePropertiesDataValue(id);
                     });
                     propertyContainer.appendChild(elementObject);
                 }
@@ -620,5 +633,6 @@
     exports.setElementMenu = setElementMenu;
     exports.setActionTooltipItem = setActionTooltipItem;
     exports.getElementCategory = getElementCategory;
+    exports.changeDisplayValue = changeDisplayValue;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
