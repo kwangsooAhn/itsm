@@ -32,7 +32,6 @@
      * save workflow.
      */
     function saveWorkflow() {
-        // TODO 2020-03-03 kbh - 등록일때 수정일 떄가 있어서 method, url 셋팅해줘야함.
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/processes/' + AliceProcessEditor.data.process.id,

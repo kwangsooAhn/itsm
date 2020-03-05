@@ -28,9 +28,6 @@ data class ProcessMstEntity(
     @Column(name = "proc_id", length = 128)
     var processId: String = "",
 
-    @Column(name = "proc_key", length = 256)
-    var processKey: String = "",
-
     @Column(name = "proc_name", length = 256)
     var processName: String = "",
 
