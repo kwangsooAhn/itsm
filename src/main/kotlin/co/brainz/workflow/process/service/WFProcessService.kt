@@ -162,6 +162,7 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
 
             // 프로세스 정보를 저장한다.
             processMstEntity.processName = wfJsonProcessDto.name.toString()
+            processMstEntity.processStatus = wfJsonProcessDto.status.toString()
             processMstEntity.processDesc = wfJsonProcessDto.description
             processMstEntity.elementMstEntities.addAll(elementMstEntities)
             processMstRepository.save(processMstEntity)
