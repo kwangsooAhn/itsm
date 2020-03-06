@@ -5,6 +5,10 @@ import co.brainz.workflow.instance.dto.InstanceDto
 import co.brainz.workflow.instance.dto.TicketDto
 import co.brainz.workflow.instance.entity.InstanceMstEntity
 import co.brainz.workflow.instance.repository.InstanceMstRepository
+import co.brainz.workflow.token.constants.TokenConstants
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -14,17 +18,32 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
 
     /**
      * Search Instances.
+     *
+     * @param parameters
+     * @return List<TicketDto>
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<TicketDto> {
         var status = ""
         var userKey = ""
+        //TODO: assigneeType 추가시 수정
+        var type = TokenConstants.AssigneeType.USER.code
         if (parameters["status"] != null) {
             status = parameters["status"].toString()
         }
         if (parameters["userKey"] != null) {
             userKey = parameters["userKey"].toString()
         }
-        return instanceMstRepository.findInstances(status, userKey)
+        if (parameters["type"] != null) {
+            type = parameters["type"].toString()
+        }
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val ticketDataList = instanceMstRepository.findInstances(status, type, userKey)
+        val tickets = mutableListOf<TicketDto>()
+        for (ticketData in ticketDataList) {
+            tickets.add(mapper.convertValue(ticketData, TicketDto::class.java))
+        }
+
+        return tickets
     }
 
     /**
