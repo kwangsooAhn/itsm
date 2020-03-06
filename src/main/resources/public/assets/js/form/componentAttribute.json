@@ -812,7 +812,7 @@
             {
                 "id": "path", 
                 "name": "Image Path", 
-                "value": "https://placehold.it/800X100", 
+                "value": "https://placehold.it/750X100", 
                 "type": "inputbox", 
                 "code": "", 
                 "unit": "" 
@@ -820,7 +820,7 @@
             {
                 "id": "width", 
                 "name": "Width", 
-                "value": "800", 
+                "value": "750", 
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px" 
@@ -1297,6 +1297,103 @@
                 "name": "Mapping Id", 
                 "value": "", 
                 "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Column", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px" 
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Column", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "Y", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 
                 "unit": "" 
             }
