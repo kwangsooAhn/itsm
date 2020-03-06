@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto auto auto;">
+    <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{form.label.list}"></h1>
         <div align="right">
             <button type="button" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"

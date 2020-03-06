@@ -844,7 +844,7 @@
             }
         ]
     },
-    "line": {
+    "divider": {
         "common": [
             {
                 "id": "mapping-id", 
