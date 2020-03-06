@@ -234,6 +234,10 @@
             elemData.data = getAttributeData('connector', 'arrowConnector');
             elemData.data['start-id'] = data.source.node().id;
             elemData.data['end-id'] = data.target.node().id;
+            let source = elements.filter(function(attr) { return attr.id === data.source.node().id; })[0];
+            let target = elements.filter(function(attr) { return attr.id === data.target.node().id; })[0];
+            elemData.data['start-name'] = source.data.name;
+            elemData.data['end-name'] = target.data.name;
         }
         elements.push(elemData);
     }
@@ -550,6 +554,17 @@
                     }
                     elementObject.addEventListener('change', function(event) {
                         changePropertiesDataValue(id);
+                        let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+                        if (connectors.length > 0) {
+                            connectors.forEach(function(attr){
+                                if (attr.data['start-id'] === id) {
+                                    attr.data['start-name'] = elementObject.value;
+                                }
+                                if (attr.data['end-id'] === id) {
+                                    attr.data['end-name'] = elementObject.value;
+                                }
+                            });
+                        }
                     });
                     propertyContainer.appendChild(elementObject);
                 }

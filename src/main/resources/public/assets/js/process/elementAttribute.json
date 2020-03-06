@@ -239,7 +239,9 @@
           "title": "Connect",
           "items": [
             {"id": "start-id", "name": "Source Element ID", "type": "inputbox", "default": ""},
-            {"id": "end-id", "name": "Target Element ID", "type": "inputbox", "default": ""}
+            {"id": "start-name", "name": "Source Element Name", "type": "inputbox", "defalut": ""},
+            {"id": "end-id", "name": "Target Element ID", "type": "inputbox", "default": ""},
+            {"id": "end-name", "name": "Target Element Name", "type": "inputbox", "defalut": ""}
           ]
         }
       ]
