@@ -19,7 +19,7 @@
               {'type': 'date', 'name': 'Date', 'icon': ''},
               {'type': 'time', 'name': 'Time', 'icon': ''},
               {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
-              {'type': 'fileupload', 'name': 'Fileupload', 'icon': ''}
+              {'type': 'fileupload', 'name': 'File Upload', 'icon': ''}
           ];
     let formPanel = null,
         defaultData = {},                 //컴포넌트 기본 세부 속성
@@ -342,7 +342,7 @@
      */
     function Imagebox(attr) {
         let comp = utils.createComponentByTemplate(`
-            <img class='move-icon' src=''>
+            <div class='move-icon'></div>
             <div class='group'>
                 <div class='field' style='flex-basis: 100%;'>
                     <img src='${attr.display.path}' alt='' width='${attr.display.width}' height='${attr.display.height}'>
@@ -507,11 +507,26 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='file' name='files[]' multiple />
+                <div class='field'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                    </div>
+                </div>
+                <div class='field dropbox' style='flex-basis: 100%;'>
+                    <p> drag and drop files or click to select </p>
                 </div>
             </div>
         `);
+
+        if (attr.label.position === 'hidden') {
+            comp.querySelector('.group').firstElementChild.style.display = 'none';
+        } else if (attr.label.position === 'left') {
+            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
+            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
+        }
         formPanel.appendChild(comp);
         this.domElem = comp;
     }
