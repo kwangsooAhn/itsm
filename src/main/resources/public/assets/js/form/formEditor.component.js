@@ -6,7 +6,7 @@
     'use strict';
 
     const defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
-          editboxPlaceholder= "+ Typing '/' for add component",
+          editboxPlaceholder= '+ Typing \'/\' for add component',
           componentTitles = [  //세부속성에서 사용할 제목
               {'type': 'text', 'name': 'Text', 'icon': ''},
               {'type': 'textarea', 'name': 'Text Box', 'icon': ''},
@@ -72,7 +72,7 @@
     function Editbox() {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
-            <div class='group' contenteditable='true' placeholder='${editboxPlaceholder}'></div>
+            <div class='group' contenteditable='true' placeholder="${editboxPlaceholder}"></div>
         `);
         formPanel.appendChild(comp);
         this.domElem = comp;
