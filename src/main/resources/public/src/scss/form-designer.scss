@@ -350,6 +350,15 @@ body {
             height: 25px;
         }
         .field textarea { width: 100%; }
+        .field.dropbox { 
+            height: 150px; 
+            line-height: 150px; 
+            background-color: #CCCCCC; 
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: #969696;
+         }
     }
 }
 

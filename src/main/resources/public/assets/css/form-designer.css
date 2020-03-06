@@ -11206,6 +11206,16 @@ body {
   width: 100%;
 }
 
+.component .group .field.dropbox {
+  height: 150px;
+  line-height: 150px;
+  background-color: #CCCCCC;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #969696;
+}
+
 .component:hover .move-icon:after {
   content: '::';
 }
