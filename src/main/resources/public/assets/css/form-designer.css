@@ -11011,7 +11011,7 @@ body {
   padding-left: 0px;
 }
 
-.alice-form-properties-panel .property-field input[type=text].readonly {
+.alice-form-properties-panel .property-field input[type=text].noline {
   border: none;
   text-align: right;
   padding-right: 2px;
@@ -11172,6 +11172,7 @@ body {
   max-width: 100%;
   border: none;
   padding: 10px 60px 10px 0px;
+  background-color: #ffffff;
 }
 
 .component .move-icon {
@@ -11213,6 +11214,14 @@ body {
   outline: none;
 }
 
+.component *:focus {
+  outline: none;
+}
+
+.component.selected {
+  background-color: #f4f7f7;
+}
+
 .component[data-type]:not([data-type="editbox"]):hover {
   cursor: pointer;
 }
@@ -11236,10 +11245,6 @@ body {
   height: 80px;
   line-height: 80px;
   cursor: text;
-}
-
-.group:focus {
-  outline: none;
 }
 
 .component.over {

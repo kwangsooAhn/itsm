@@ -87,14 +87,18 @@
     function addComponent(type, componentId) {
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
             let elem = document.getElementById(componentId);
-            let removeComp = component.draw(type);
-            let compAttr = removeComp.attr;
+            let replaceComp = component.draw(type);
+            let compAttr = replaceComp.attr;
             compAttr.id = componentId;
             compAttr.display.order = Number(elem.getAttribute('data-index'));
             setComponentData(compAttr);
-            elem.innerHTML = removeComp.domElem.innerHTML;
-            removeComp.domElem.remove();
-
+            
+            replaceComp.domElem.id = componentId;
+            replaceComp.domElem.setAttribute('data-index', compAttr.display.order);
+            replaceComp.domElem.setAttribute('tabIndex', compAttr.display.order);
+            elem.parentNode.insertBefore(replaceComp.domElem, elem);
+            elem.remove();
+            
             let compIdx = component.getLastIndex();
             component.setLastIndex(compIdx - 1);
             addEditboxDown(componentId);
@@ -102,6 +106,7 @@
             let editbox = component.draw(defaultComponent);
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
     
@@ -154,6 +159,7 @@
         }
         if(editbox !== null) {
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
 
@@ -202,6 +208,7 @@
         
         if(editbox !== null) {
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
     
@@ -247,7 +254,14 @@
     function showComponentProperties(id) {
         if (selectedComponentId === id) { return false; }
         propertiesPanel.innerHTML = '';
+        //기존 선택된 컴포넌트 css 삭제
+        if (selectedComponentId !== '') {
+            document.getElementById(selectedComponentId).classList.remove('selected');
+        }
+        
         selectedComponentId = id;
+        //현재 선택된 컴포넌트 css 추가
+        document.getElementById(id).classList.add('selected');
         
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
@@ -625,6 +639,8 @@
     function hideComponentProperties() {
         if (selectedComponentId !== '') {
             propertiesPanel.innerHTML = '';
+            //기존 선택된 컴포넌트 css 삭제
+            document.getElementById(selectedComponentId).classList.remove('selected');
             selectedComponentId = '';
         }
     }
@@ -632,8 +648,10 @@
      * 우측 properties panel에 폼 세부 속성 출력
      */
     function showFormProperties() {
-    	if (selectedComponentId === '') { return false; }
+        if (selectedComponentId === '') { return false; }
         propertiesPanel.innerHTML = '';
+        //기존 선택된 컴포넌트 css 삭제
+        document.getElementById(selectedComponentId).classList.remove('selected');
         selectedComponentId = '';
         
         let formAttr = formEditor.data.form;
@@ -694,7 +712,7 @@
             fieldGroupDiv.appendChild(propertyValue);
             
             if (fieldArr.type === 'inputbox-readonly') { 
-                propertyValue.classList.add('readonly'); 
+                propertyValue.classList.add('noline'); 
                 propertyValue.setAttribute('readonly', 'true');
             }
         });
@@ -721,7 +739,6 @@
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editbox = component.draw(defaultComponent);
         setComponentData(editbox.attr);
-        selectedComponentId = editbox.id;
         editbox.domElem.querySelector('[contenteditable=true]').focus();
         
         //TODO. 폼 상세 정보 출력
@@ -730,7 +747,7 @@
             url: '/assets/js/form/formAttribute.json',
             callbackFunc: function(xhr) {
                 formProperties = JSON.parse(xhr.responseText);
-                showFormProperties();
+                showComponentProperties(editbox.id);
             },
             contentType: 'application/json; charset=utf-8'
         });

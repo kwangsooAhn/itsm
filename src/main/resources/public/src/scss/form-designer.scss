@@ -201,7 +201,7 @@ body {
                 padding-right:2px;
                 padding-left: 0px;
             }
-            input[type=text].readonly {
+            input[type=text].noline {
                 border: none;
                 text-align: right; 
                 padding-right:2px;
@@ -330,6 +330,7 @@ body {
     max-width: 100%; 
     border: none; 
     padding: 10px 60px 10px 0px;
+    background-color: #ffffff;
     .move-icon { 
         width: 30px; 
         height: 30px;
@@ -356,7 +357,10 @@ body {
     .move-icon:after { content: '::'; }
 }
 
-.component:focus { outline: none }
+.component:focus { outline: none; }
+.component *:focus { outline: none; }
+
+.component.selected { background-color: #f4f7f7; }
 
 .component[data-type]:not([data-type="editbox"]):hover { 
     cursor: pointer; 
@@ -382,8 +386,6 @@ body {
     line-height: 80px;
     cursor: text; 
 }
-
-.group:focus { outline: none }
 
 .component.over { 
     border-top: 2px dashed #BCC5D3; 
