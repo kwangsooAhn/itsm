@@ -263,6 +263,10 @@
             elemData.data = getAttributeData('connector', 'arrowConnector');
             elemData.data['start-id'] = data.source.node().id;
             elemData.data['end-id'] = data.target.node().id;
+            let source = elements.filter(function(attr) { return attr.id === data.source.node().id; })[0];
+            let target = elements.filter(function(attr) { return attr.id === data.target.node().id; })[0];
+            elemData.data['start-name'] = source.data.name;
+            elemData.data['end-name'] = target.data.name;
         }
         elements.push(elemData);
     }
@@ -506,6 +510,16 @@
                     propertyValue = propertyObject.checked ? 'Y' : 'N';
                 }
                 elementData[0].data[propertyObject.name] = propertyValue;
+            }
+
+            let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+            for (let i = 0, len = connectors.length; i < len; i++) {
+                if (connectors[i].data['start-id'] === id) {
+                    connectors[i].data['start-name'] = elementData[0].data.name;
+                }
+                if (connectors[i].data['end-id'] === id) {
+                    connectors[i].data['end-name'] = elementData[0].data.name;
+                }
             }
         }
     }
