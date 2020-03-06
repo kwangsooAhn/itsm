@@ -283,6 +283,17 @@ body {
         right: 0;
         border: #bcc5d3 solid 0.063rem;
 
+        h2 {
+            font: {
+                size: 1.25rem; // 20px
+                weight: bold;
+            }
+            margin: {
+                top: 1.25rem; // 20px
+                left: 0.938rem; // 15px
+            }
+        }
+
         h3 {
             font: {
                 size: 0.938rem; // 15px
