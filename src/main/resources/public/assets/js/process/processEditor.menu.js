@@ -483,6 +483,16 @@
                 }
                 elementData[0].data[propertyObject.name] = propertyValue;
             }
+
+            let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+            for (let i = 0, len = connectors.length; i < len; i++) {
+                if (connectors[i].data['start-id'] === id) {
+                    connectors[i].data['start-name'] = elementData[0].data.name;
+                }
+                if (connectors[i].data['end-id'] === id) {
+                    connectors[i].data['end-name'] = elementData[0].data.name;
+                }
+            }
         }
     }
 
@@ -554,17 +564,6 @@
                     }
                     elementObject.addEventListener('change', function(event) {
                         changePropertiesDataValue(id);
-                        let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
-                        if (connectors.length > 0) {
-                            connectors.forEach(function(attr){
-                                if (attr.data['start-id'] === id) {
-                                    attr.data['start-name'] = elementObject.value;
-                                }
-                                if (attr.data['end-id'] === id) {
-                                    attr.data['end-name'] = elementObject.value;
-                                }
-                            });
-                        }
                     });
                     propertyContainer.appendChild(elementObject);
                 }
