@@ -385,7 +385,7 @@
             defaultDate = defaultDate.split(' ')[0];
         }
         defaultDate = changeDateFormatYYYYMMDD(defaultDate, attr.display.format);
-
+        
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -424,7 +424,7 @@
         let defaultTime = attr.display['default'];
         if (defaultTime === 'now') { 
             defaultTime = utils.getTimeStamp(); 
-            defaultTime = changeDateFormatYYYYMMDD(defaultTime, 'yyyy-MM-dd ' + attr.display.format);
+            defaultTime = changeDateFormatYYYYMMDD(defaultTime, 'YYYY-MM-DD ' + attr.display.format);
             defaultTime = defaultTime.split(' ')[1];
         }
 
