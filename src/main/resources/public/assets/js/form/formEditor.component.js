@@ -15,7 +15,7 @@
               {'type': 'checkbox', 'name': 'Checkbox', 'icon': ''},
               {'type': 'label', 'name': 'Label', 'icon': ''},
               {'type': 'image', 'name': 'Image', 'icon': ''},
-              {'type': 'line', 'name': 'Line', 'icon': ''},
+              {'type': 'divider', 'name': 'Divider', 'icon': ''},
               {'type': 'date', 'name': 'Date', 'icon': ''},
               {'type': 'time', 'name': 'Time', 'icon': ''},
               {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
@@ -354,17 +354,17 @@
     }
 
     /**
-     * Line.
+     * Divider.
      *
      * @param {Object} attr 컴포넌트 속성
      * @constructor
      */
-    function Line(attr) {
+    function Divider(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
                 <div class='field' style='flex-basis: 100%;'>
-                    <hr style='border: '${attr.display.type} ${attr.display.width}px  ${attr.display.color};'>
+                    <hr style='border: ${attr.display.type} ${attr.display.width}px ${attr.display.color};'>
                 </div>
             </div>
         `);
@@ -582,8 +582,8 @@
             case 'image':
                 componentConstructor =  new Imagebox(compAttr);
                 break;
-            case 'line':
-                componentConstructor =  new Line(compAttr);
+            case 'divider':
+                componentConstructor =  new Divider(compAttr);
                 break;
             case 'date':
                 componentConstructor =  new Datebox(compAttr);

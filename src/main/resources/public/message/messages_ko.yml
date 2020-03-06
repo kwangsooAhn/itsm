@@ -231,7 +231,7 @@ form:
     checkbox: "Checkbox"
     label: "Label"
     image: "Image"
-    line: "Line"
+    divider: "Divider"
     date: "Date"
     time: "Time"
     datetime: "Date Time"
