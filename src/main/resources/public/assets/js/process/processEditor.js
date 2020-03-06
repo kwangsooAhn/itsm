@@ -18,7 +18,7 @@
         dragLine;
 
     const nodes= [],
-          links = [];
+        links = [];
 
     let mousedownElement,
         mouseoverElement,
@@ -199,9 +199,9 @@
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
                 const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
-                      gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
-                      centerX = bbox.cx + gTransform.x,
-                      centerY = bbox.cy + gTransform.y;
+                    gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+                    centerX = bbox.cx + gTransform.x,
+                    centerY = bbox.cy + gTransform.y;
                 dragLine
                     .style('marker-end', 'url(#end-arrow)')
                     .classed('hidden', false)
@@ -259,9 +259,9 @@
         },
         mousedrag: function() {
             const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
-                  gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
-                  centerX = bbox.cx + gTransform.x,
-                  centerY = bbox.cy + gTransform.y;
+                gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+                centerX = bbox.cx + gTransform.x,
+                centerY = bbox.cy + gTransform.y;
             dragLine.attr('d', 'M' + centerX + ',' + centerY + 'L' + (d3.event.x + gTransform.x) + ',' + (d3.event.y + gTransform.y));
         }
     };
@@ -274,7 +274,7 @@
     function checkAvailableLink() {
         let availableLink = true;
         const source = mousedownElement,
-              target = mouseoverElement;
+            target = mouseoverElement;
         links.forEach(function(l) {
             // it's not a gateway, but several starts
             if (!l.source.classed('gateway') && l.source.node().id === source.node().id) {
@@ -477,7 +477,9 @@
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement.classed('task', true);
+        this.nodeElement
+            .classed('task', true)
+            .style('fill', 'url(#task-tooltip-userTask) #fff');
         return this;
     }
 
@@ -666,25 +668,33 @@
             .attr('draggable', 'true')
             .on('dragend', function() {
                 const svgOffset = svg.node().getBoundingClientRect(),
-                      gTransform = d3.zoomTransform(d3.select('g.node-container').node());
+                    gTransform = d3.zoomTransform(d3.select('g.node-container').node());
                 let x = d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x,
                     y = d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y;
                 let _this = d3.select(this);
                 let node;
+                let type = '';
                 if (_this.classed('event')) {
                     node = new EventElement(x, y);
+                    type = AliceProcessEditor.getElementDefaultType('event');
                 } else if (_this.classed('task')) {
                     node = new TaskElement(x, y);
+                    type = AliceProcessEditor.getElementDefaultType('task');
                 } else if (_this.classed('subprocess')) {
                     node = new SubprocessElement(x, y);
+                    type = AliceProcessEditor.getElementDefaultType('subprocess');
                 } else if (_this.classed('gateway')) {
                     node = new GatewayElement(x, y);
+                    type = AliceProcessEditor.getElementDefaultType('gateway');
                 } else if (_this.classed('group')) {
                     node = new GroupElement(x, y);
+                    type = 'groupArtifact';
                 } else if (_this.classed('annotation')) {
                     node = new AnnotationElement(x, y);
+                    type = 'annotationArtifact';
                 }
                 if (node) {
+                    _this.classed(type, true);
                     nodes.push(node.nodeElement);
                     AliceProcessEditor.addElementProperty(node.nodeElement);
                 }
@@ -696,7 +706,7 @@
      */
     function initProcessEdit() {
         const width = 1120,
-              height = 879;
+            height = 879;
 
         // add svg and svg event
         svg = d3.select('.alice-process-drawing-board').append('svg')
@@ -728,8 +738,8 @@
 
         const setDrawingBoardGrid = function() {
             const drawingBoard = document.querySelector('.alice-process-drawing-board'),
-                  drawingBoardWidth = drawingBoard.offsetWidth,
-                  drawingBoardHeight = drawingBoard.offsetHeight;
+                drawingBoardWidth = drawingBoard.offsetWidth,
+                drawingBoardHeight = drawingBoard.offsetHeight;
 
             svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
 
@@ -756,9 +766,9 @@
             .on('start', function() {
                 svg.style('cursor', 'grabbing');
                 const nodeTopArray = [],
-                      nodeRightArray = [],
-                      nodeBottomArray = [],
-                      nodeLeftArray = [];
+                    nodeRightArray = [],
+                    nodeBottomArray = [],
+                    nodeLeftArray = [];
                 nodes.forEach(function(node){
                     let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(node);
                     nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
@@ -832,7 +842,7 @@
 
     /**
      * Draw a element with the loaded information.
-     * 
+     *
      * @param elements editor 에 추가할 element 목록
      */
     function drawProcess(elements) {
@@ -843,7 +853,7 @@
             }
             let node;
             const x = element.display['position-x'],
-                  y = element.display['position-y'];
+                y = element.display['position-y'];
 
             let category = AliceProcessEditor.getElementCategory(element.type);
             switch (category) {
@@ -873,7 +883,7 @@
             if (node) {
                 nodes.push(node.nodeElement);
                 const nodeId = node.nodeElement.attr('id');
-                elements.forEach(function(e){
+                elements.forEach(function(e) {
                     if (e.type !== 'arrowConnector') {
                         return;
                     }
@@ -893,7 +903,7 @@
                 return;
             }
             const source = document.getElementById(element.data['start-id']),
-                  target = document.getElementById(element.data['end-id']);
+                target = document.getElementById(element.data['end-id']);
             const nodeId = workflowUtil.generateUUID();
             element.id = nodeId;
             element['start-id'] = source.id;

@@ -19,7 +19,7 @@
         {
             type: 'delete', parent: 'action-tooltip',
             url: iconDirectory + '/tooltip/delete.png',
-            action: function(el, i) {
+            action: function(el) {
                 removeElementItems();
                 console.log('remove');
             }
@@ -27,7 +27,7 @@
         {
             type: 'copy', parent: 'action-tooltip',
             url: iconDirectory + '/tooltip/copy.png',
-            action: function(el, i) {
+            action: function(el) {
                 removeElementItems();
                 console.log('copy');
             }
@@ -36,7 +36,7 @@
             type: 'edit', parent: 'action-tooltip',
             url: iconDirectory + '/tooltip/edit.png',
             focus_url: iconDirectory + '/tooltip/edit_focus.png',
-            action: function(el, i) {
+            action: function(el) {
                 setElementTypeItems(el);
             }
         },
@@ -44,111 +44,111 @@
             type: 'suggest', parent: 'action-tooltip',
             url: iconDirectory + '/tooltip/suggest.png',
             focus_url: iconDirectory + '/tooltip/suggest_focus.png',
-            action: function(el, i) {
+            action: function(el) {
                 setSuggestElementItems(el);
             }
         },
         {
             type: 'userTask', parent: 'suggest-tooltip',
             url: iconDirectory + '/suggestion/usertask.png',
-            action: function(el, i) {
+            action: function(el) {
                 console.log('add user task');
             }
         }, {
             type: 'manualTask', parent: 'suggest-tooltip',
             url: iconDirectory + '/suggestion/manual.png',
-            action: function(el, i) {
+            action: function(el) {
                 console.log('add manual task');
             }
         }, {
             type: 'exclusiveGateway', parent: 'suggest-tooltip',
             url: iconDirectory + '/suggestion/gateways.png',
-            action: function(el, i) {
+            action: function(el) {
                 console.log('add exclusive gateway');
             }
         }, {
             type: 'commonEnd', parent: 'suggest-tooltip',
             url: iconDirectory + '/suggestion/end.png',
-            action: function(el, i) {
+            action: function(el) {
                 console.log('add end event');
             }
         }, {
             type: 'commonStart', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start.png',
-            action: function(el, i) {
-                console.log('edit type start');
+            action: function(el) {
+                editElementType(el,'commonStart');
             }
         }, {
             type: 'messageStart', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start-msg.png',
-            action: function(el, i) {
-                console.log('edit type message start');
+            action: function(el) {
+                editElementType(el,'messageStart');
             }
         }, {
             type: 'timerStart', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-start-timer.png',
-            action: function(el, i) {
-                console.log('edit type timer start');
+            action: function(el) {
+                editElementType(el,'timerStart');
             }
         }, {
             type: 'commonEnd', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-end.png',
-            action: function(el, i) {
-                console.log('edit type end');
+            action: function(el) {
+                editElementType(el,'commonEnd');
             }
         }, {
             type: 'messageEnd', parent: 'event-tooltip',
             url: iconDirectory + '/element-type/event-end-msg.png',
-            action: function(el, i) {
-                console.log('edit type message end');
+            action: function(el) {
+                editElementType(el,'messageEnd');
             }
         }, {
             type: 'userTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-user.png',
-            action: function(el, i) {
-                console.log('edit user task');
+            action: function(el) {
+                editElementType(el,'userTask');
             }
         }, {
             type: 'manualTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-manual.png',
-            action: function(el, i) {
-                console.log('edit manual task');
+            action: function(el) {
+                editElementType(el,'manualTask');
             }
         }, {
             type: 'scriptTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-script.png',
-            action: function(el, i) {
-                console.log('edit script task');
+            action: function(el) {
+                editElementType(el,'scriptTask');
             }
         }, {
             type: 'sendTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-send.png',
-            action: function(el, i) {
-                console.log('edit send task');
+            action: function(el) {
+                editElementType(el,'sendTask');
             }
         }, {
             type: 'receiveTask', parent: 'task-tooltip',
             url: iconDirectory + '/element-type/task-receive.png',
-            action: function(el, i) {
-                console.log('edit receive task');
+            action: function(el) {
+                editElementType(el,'receiveTask');
             }
         }, {
             type: 'exclusiveGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-exclusive.png',
-            action: function(el, i) {
-                console.log('edit exclusive gateway');
+            action: function(el) {
+                editElementType(el,'exclusiveGateway');
             }
         }, {
             type: 'parallelGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-parallel.png',
-            action: function(el, i) {
-                console.log('edit parallel gateway');
+            action: function(el) {
+                editElementType(el,'parallelGateway');
             }
         }, {
             type: 'inclusiveGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-inclusive.png',
-            action: function(el, i) {
-                console.log('edit exclusive gateway');
+            action: function(el) {
+                editElementType(el,'inclusiveGateway');
             }
         }
     ];
@@ -193,6 +193,35 @@
     }
 
     /**
+     * element 타입을 변경한다.
+     *
+     * @param element 변경할 대상 element
+     * @param type 변경타입
+     */
+    function editElementType(element, type) {
+        const elementId = element.node().id,
+            elements = AliceProcessEditor.data.elements;
+        const elementData = elements.filter(function(elem) { return elem.id === elementId; })[0];
+        console.debug('current element type: %s, edit element type: %s', elementData.type, type);
+        if (elementData.type === type) {
+            return;
+        }
+        const category = getElementCategory(type);
+        let typeData = getAttributeData(category, type);
+        Object.keys(typeData).forEach(function(newKey) {
+            Object.keys(elementData.data).forEach(function(oldKey) {
+                if (newKey === oldKey) {
+                    typeData[newKey] = elementData.data[oldKey];
+                }
+            });
+        });
+        elementData.type = type;
+        elementData.data = typeData;
+        setProperties(element);
+        console.debug('edited element [%s]!!', type);
+    }
+
+    /**
      * 추가된 element properties 를 data 에 추가한다.
      *
      * @param elem 추가된 element
@@ -203,7 +232,7 @@
         }
 
         const elemId = elem.node().id,
-              elements = AliceProcessEditor.data.elements;
+            elements = AliceProcessEditor.data.elements;
 
         let elemList = elements.filter(function(attr) { return attr.id === elemId; });
         if (elemList.length > 0) {
@@ -286,7 +315,7 @@
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
-              containerHeight = itemSize + (itemMargin * 2);
+            containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
@@ -316,7 +345,7 @@
                 if (d.focus_url) {
                     d3.select(this).style('fill', 'url(#' + d.parent + '-' + d.type + '-focus)');
                 }
-                d.action(elem, i);
+                d.action(elem);
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
@@ -372,19 +401,18 @@
      */
     function setElementItems(items, elem) {
         removeElementItems();
-
         if (items.length === 0) {
             return;
         }
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
-              actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-              containerWidth = itemSize + (itemMargin * 2),
-              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
+            actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+            containerWidth = itemSize + (itemMargin * 2),
+            containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-              x = bbox.x + bbox.width + itemMargin,
-              y = bbox.y;
+            x = bbox.x + bbox.width + itemMargin,
+            y = bbox.y;
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container element-tooltip')
@@ -404,9 +432,9 @@
             .attr('width', itemSize)
             .attr('height', itemSize)
             .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
-            .on('mousedown', function(d, i) {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
-                d.action(elem, d, i);
+                d.action(elem);
             });
     }
 
@@ -647,6 +675,7 @@
             .attr('y', 0)
             .attr('width', 20)
             .attr('height', 20)
+            .attr('preserveaspectratio', 'none')
             .attr('xlink:href', function(d) { return d.url; });
     }
 
