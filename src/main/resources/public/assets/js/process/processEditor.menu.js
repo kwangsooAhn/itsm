@@ -217,6 +217,7 @@
         });
         elementData.type = type;
         elementData.data = typeData;
+        element.style('fill', 'url(#' + category + '-tooltip-' + type + ')');
         setProperties(element);
         console.debug('edited element [%s]!!', type);
     }
@@ -558,27 +559,37 @@
                 propertyContainer.appendChild(labelObject);
 
                 let elementObject;
-                if (property.type === 'inputbox') {
-                    elementObject = document.createElement('input');
-                } else if (property.type === 'textarea') {
-                    elementObject = document.createElement('textarea');
-                    elementObject.style.resize = 'none';
-                } else if (property.type === 'checkbox') {
-                    elementObject = document.createElement('input');
-                    elementObject.type = 'checkbox';
-                    if (data[property.id] && data[property.id] === 'Y') {
-                        elementObject.checked = true;
-                    }
-                } else if (property.type === 'select') {
-                    elementObject = document.createElement('select');
-                    const optionList = property['sub-list'];
-                    for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
-                        let option = document.createElement('option');
-                        option.value = optionList[j].id;
-                        option.text = optionList[j].name;
-                        elementObject.appendChild(option);
-                    }
+                switch (property.type) {
+                    case 'inputbox':
+                        elementObject = document.createElement('input');
+                        break;
+                    case 'inputbox-readonly':
+                        elementObject = document.createElement('input');
+                        elementObject.readOnly = true;
+                        break;
+                    case 'textarea':
+                        elementObject = document.createElement('textarea');
+                        elementObject.style.resize = 'none';
+                        break;
+                    case 'checkbox':
+                        elementObject = document.createElement('input');
+                        elementObject.type = 'checkbox';
+                        if (data[property.id] && data[property.id] === 'Y') {
+                            elementObject.checked = true;
+                        }
+                        break;
+                    case 'select':
+                        elementObject = document.createElement('select');
+                        const optionList = property['sub-list'];
+                        for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
+                            let option = document.createElement('option');
+                            option.value = optionList[j].id;
+                            option.text = optionList[j].name;
+                            elementObject.appendChild(option);
+                        }
+
                 }
+
                 if (elementObject) {
                     elementObject.id = property.id;
                     elementObject.name = property.id;
@@ -623,7 +634,7 @@
             aliceJs.sendXhr({
                 method: 'GET',
                 url: '/rest/processes/data/' + processId,
-                callbackFunc: function (xhr) {
+                callbackFunc: function(xhr) {
                     const data = xhr.responseText;
                     console.debug(JSON.parse(data));
                     AliceProcessEditor.data = JSON.parse(data);
@@ -642,7 +653,7 @@
             aliceJs.sendXhr({
                 method: 'GET',
                 url: '/assets/js/process/elementAttribute.json',
-                callbackFunc: function (xhr) {
+                callbackFunc: function(xhr) {
                     elementsProperties = JSON.parse(xhr.responseText);
                     elementsKeys = Object.getOwnPropertyNames(elementsProperties);
                     loadProcessData();
@@ -654,7 +665,7 @@
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/process/processAttribute.json',
-            callbackFunc: function (xhr) {
+            callbackFunc: function(xhr) {
                 processProperties = JSON.parse(xhr.responseText);
                 loadElementData();
             },
@@ -663,7 +674,7 @@
 
         // add pattern image. for tooltip item image.
         const imageLoadingList = [];
-        tooltipItems.forEach(function(item){
+        tooltipItems.forEach(function(item) {
             let data = {};
             data.id = item.parent + '-' + item.type;
             data.url = item.url;
@@ -685,10 +696,10 @@
             .attr('height', 1)
             .attr('patternUnits', 'objectBoundingBox')
             .append('image')
-            .attr('x', 0)
+            /*.attr('x', 0)
             .attr('y', 0)
             .attr('width', 20)
-            .attr('height', 20)
+            .attr('height', 20)*/
             .attr('preserveaspectratio', 'none')
             .attr('xlink:href', function(d) { return d.url; });
     }

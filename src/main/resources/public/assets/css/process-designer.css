@@ -10135,6 +10135,12 @@ body {
 .alice-process-properties-panel p input:not([type=checkbox]), .alice-process-properties-panel p select, .alice-process-properties-panel p textarea {
   width: 11.25rem;
 }
+.alice-process-properties-panel p input:read-only {
+  border-width: 0;
+}
+.alice-process-properties-panel p input:read-only background {
+  color: #f6f6f7;
+}
 .alice-process-properties-panel p textarea {
   height: 5.625rem;
 }

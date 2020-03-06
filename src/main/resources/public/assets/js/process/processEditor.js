@@ -477,9 +477,7 @@
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y);
-        this.nodeElement
-            .classed('task', true)
-            .style('fill', 'url(#task-tooltip-userTask) #fff');
+        this.nodeElement.classed('task', true);
         return this;
     }
 
@@ -820,16 +818,6 @@
             .append('path')
             .attr('d', 'M0,-5L10,0L0,5');
 
-        svg.append('defs').append('marker')
-            .attr('id', 'start-arrow')
-            .attr('viewBox', '0 -5 10 10')
-            .attr('refX', 4)
-            .attr('markerWidth', 5)
-            .attr('markerHeight', 8)
-            .attr('orient', 'auto')
-            .append('path')
-            .attr('d', 'M10,-5L0,0L10,5');
-
         // line displayed when dragging new nodes
         dragLine = svg.append('path')
             .attr('class', 'connector drag-line hidden')
@@ -903,7 +891,7 @@
                 return;
             }
             const source = document.getElementById(element.data['start-id']),
-                target = document.getElementById(element.data['end-id']);
+                  target = document.getElementById(element.data['end-id']);
             const nodeId = workflowUtil.generateUUID();
             element.id = nodeId;
             element['start-id'] = source.id;

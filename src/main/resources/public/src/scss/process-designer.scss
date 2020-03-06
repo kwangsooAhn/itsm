@@ -335,6 +335,15 @@ body {
                 width: 11.25rem; // 180px
             }
 
+            input:read-only {
+                background {
+                    color: #f6f6f7;
+                }
+                border: {
+                    width: 0;
+                }
+            }
+
             textarea {
                 height: 5.625rem;  // 90px
             }
