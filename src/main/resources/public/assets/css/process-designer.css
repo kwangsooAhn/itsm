@@ -10104,6 +10104,12 @@ body {
   right: 0;
   border: #bcc5d3 solid 0.063rem;
 }
+.alice-process-properties-panel h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 1.25rem;
+  margin-left: 0.938rem;
+}
 .alice-process-properties-panel h3 {
   font-size: 0.938rem;
   font-weight: bold;

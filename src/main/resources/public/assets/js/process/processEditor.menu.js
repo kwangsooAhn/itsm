@@ -178,6 +178,21 @@
     }
 
     /**
+     * element 기본 타입을 조회하여 리턴한다.
+     *
+     * @param category element category
+     * @return {String} 기본 타입
+     */
+    function getElementDefaultType(category) {
+        let type = elementsProperties[category][0].type;
+        let defaultTypeProperties = elementsProperties[category].filter(function(prop) { return prop.default === 'true'; });
+        if (defaultTypeProperties.length > 0) {
+            type = defaultTypeProperties[0].type;
+        }
+        return type;
+    }
+
+    /**
      * 추가된 element properties 를 data 에 추가한다.
      *
      * @param elem 추가된 element
@@ -201,9 +216,11 @@
         if (elem.classed('node')) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let elemType = elementsProperties[elementsKeys[i]][0].type;
+                    let elemType = '';
                     if (elementsKeys[i] === 'artifact' && elem.classed('group')) {
                         elemType = 'groupArtifact';
+                    } else {
+                        elemType = getElementDefaultType(elementsKeys[i]);
                     }
                     elemData.type = elemType;
                     elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
@@ -416,13 +433,13 @@
                     let properties = elementsProperties[elementsKeys[i]];
                     let attributes = properties.filter(function(p){ return p.type === property.type; });
                     if (attributes.length > 0) {
-                        makePropertiesItem(elemId, attributes[0].attribute, property.data);
+                        makePropertiesItem(elemId, attributes[0], property.data);
                     }
                     break;
                 }
             }
         } else { // show process properties
-            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties.attribute, AliceProcessEditor.data.process);
+            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties, AliceProcessEditor.data.process);
         }
     }
 
@@ -469,12 +486,18 @@
      * 속성 항목을 생성한다.
      *
      * @param id ID
-     * @param properties 속성정보목록
+     * @param properties 속성정보
      * @param data 데이터속성
      */
-    function makePropertiesItem(id, propertiesDivision, data) {
+    function makePropertiesItem(id, properties, data) {
         const propertiesContainer = document.querySelector('.alice-process-properties-panel');
         propertiesContainer.innerHTML = '';
+        const propertiesDivision = properties.attribute;
+        if (id !== AliceProcessEditor.data.process.id) {
+            let elementName = document.createElement('h2');
+            elementName.textContent = properties.name;
+            propertiesContainer.appendChild(elementName);
+        }
 
         for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
             let title = document.createElement('h3');
@@ -633,6 +656,7 @@
     exports.setElementMenu = setElementMenu;
     exports.setActionTooltipItem = setActionTooltipItem;
     exports.getElementCategory = getElementCategory;
+    exports.getElementDefaultType = getElementDefaultType;
     exports.changeDisplayValue = changeDisplayValue;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
