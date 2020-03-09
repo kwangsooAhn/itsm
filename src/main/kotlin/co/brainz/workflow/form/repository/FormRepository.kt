@@ -4,7 +4,7 @@ import co.brainz.workflow.form.entity.FormEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.Optional
 
-interface FormMstRepository: JpaRepository<FormEntity, String>, FormMstRepositoryCustom {
+interface FormRepository: JpaRepository<FormEntity, String>, FormRepositoryCustom {
 
     fun findFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(formName: String, formDesc: String): List<FormEntity>
     fun findFormEntityByFormId(formId: String): Optional<FormEntity>

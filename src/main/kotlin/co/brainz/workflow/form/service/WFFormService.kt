@@ -3,14 +3,14 @@ package co.brainz.workflow.form.service
 import co.brainz.workflow.component.entity.ComponentDataEntity
 import co.brainz.workflow.component.entity.ComponentEntity
 import co.brainz.workflow.component.repository.ComponentDataRepository
-import co.brainz.workflow.component.repository.ComponentMstRepository
+import co.brainz.workflow.component.repository.ComponentRepository
 import co.brainz.workflow.form.constants.FormConstants
 import co.brainz.workflow.form.dto.FormComponentSaveDto
 import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.dto.FormDto
 import co.brainz.workflow.form.dto.FormViewDto
 import co.brainz.workflow.form.entity.FormEntity
-import co.brainz.workflow.form.repository.FormMstRepository
+import co.brainz.workflow.form.repository.FormRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -20,8 +20,8 @@ import java.util.Optional
 import kotlin.collections.set
 
 @Service
-class WFFormService(private val formMstRepository: FormMstRepository,
-                    private val componentMstRepository: ComponentMstRepository,
+class WFFormService(private val formMstRepository: FormRepository,
+                    private val componentRepository: ComponentRepository,
                     private val componentDataRepository: ComponentDataRepository) : Form {
 
     /**
@@ -129,13 +129,13 @@ class WFFormService(private val formMstRepository: FormMstRepository,
     override fun saveForm(formComponentSaveDto: FormComponentSaveDto) {
 
         //Delete component, attribute
-        val componentMstEntities = componentMstRepository.findByFormId(formComponentSaveDto.form.formId)
+        val componentMstEntities = componentRepository.findByFormId(formComponentSaveDto.form.formId)
         val componentIds: MutableList<String> = mutableListOf()
         for (componentMst in componentMstEntities) {
             componentIds.add(componentMst.componentId)
         }
         if (componentIds.isNotEmpty()) {
-            componentMstRepository.deleteComponentMstEntityByComponentIdIn(componentIds)
+            componentRepository.deleteComponentMstEntityByComponentIdIn(componentIds)
         }
 
         //Update Form
@@ -166,7 +166,7 @@ class WFFormService(private val formMstRepository: FormMstRepository,
                         mappingId = mappingId,
                         components = resultFormMstEntity
                 )
-                val resultComponentMstEntity = componentMstRepository.save(componentMstEntity)
+                val resultComponentMstEntity = componentRepository.save(componentMstEntity)
 
                 //wf_comp_data 저장
                 for ((key, value) in component) {

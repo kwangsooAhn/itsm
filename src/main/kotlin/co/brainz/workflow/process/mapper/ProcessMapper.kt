@@ -11,7 +11,7 @@ import org.mapstruct.Mappings
 
 
 @Mapper
-interface ProcessMstMapper {
+interface ProcessMapper {
     @Mappings(
         Mapping(source = "processId", target = "id"),
         Mapping(source = "processName", target = "name"),

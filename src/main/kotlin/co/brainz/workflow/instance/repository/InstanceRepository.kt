@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import java.util.Optional
 
-interface InstanceMstRepository: JpaRepository<InstanceEntity, String> {
+interface InstanceRepository: JpaRepository<InstanceEntity, String> {
 
-    fun findInstanceMstEntityByInstanceId(instanceId: String): Optional<InstanceEntity>
+    fun findInstanceEntityByInstanceId(instanceId: String): Optional<InstanceEntity>
 
     @Query(nativeQuery = true, name = "findInstances")
     fun findInstances(status: String, userKey: String): List<TicketDto>

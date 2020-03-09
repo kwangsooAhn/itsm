@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ElementMstRepository: JpaRepository<ElementEntity, String> {
+interface ElementRepository: JpaRepository<ElementEntity, String> {
 
     @Query("SELECT elem.element, elem.attributeId, elem.attributeValue " +
             "FROM ElementDataEntity elem " +

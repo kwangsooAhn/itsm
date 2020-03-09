@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import java.util.Optional
 
 @Repository
-interface TokenMstRepository: JpaRepository<TokenEntity, String> {
+interface TokenRepository : JpaRepository<TokenEntity, String> {
 
-    fun findTokenMstEntityByTokenId(tokenId: String): Optional<TokenEntity>
+    fun findTokenEntityByTokenId(tokenId: String): Optional<TokenEntity>
 }

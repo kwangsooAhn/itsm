@@ -12,7 +12,7 @@ import co.brainz.workflow.token.dto.TokenSaveDto
 import co.brainz.workflow.token.entity.TokenDataEntity
 import co.brainz.workflow.token.entity.TokenEntity
 import co.brainz.workflow.token.repository.TokenDataRepository
-import co.brainz.workflow.token.repository.TokenMstRepository
+import co.brainz.workflow.token.repository.TokenRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -21,7 +21,7 @@ import java.time.ZoneId
 @Service
 @Transactional
 class WFTokenService(private val documentRepository: DocumentRepository,
-                     private val tokenMstRepository: TokenMstRepository,
+                     private val tokenRepository: TokenRepository,
                      private val tokenDataRepository: TokenDataRepository,
                      private val wfInstanceService: WFInstanceService,
                      private val wfElementService: WFElementService) {
@@ -75,7 +75,7 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      * @param tokenSaveDto
      */
     fun putToken(tokenSaveDto: TokenSaveDto) {
-        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
+        val tokenMstEntity = tokenRepository.findTokenEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
         if (tokenMstEntity.isPresent) {
             val instanceId = tokenMstEntity.get().instanceId
             updateToken(tokenSaveDto.tokenDto)
@@ -101,7 +101,7 @@ class WFTokenService(private val documentRepository: DocumentRepository,
                 tokenStatus = TokenConstants.Status.RUNNING.code,
                 tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
-        return tokenMstRepository.save(tokenMstEntity)
+        return tokenRepository.save(tokenMstEntity)
     }
 
     /**
@@ -110,11 +110,11 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      * @param tokenDto
      */
     fun updateToken(tokenDto: TokenDto) {
-        val tokenMstEntity = tokenMstRepository.findTokenMstEntityByTokenId(tokenDto.tokenId)
+        val tokenMstEntity = tokenRepository.findTokenEntityByTokenId(tokenDto.tokenId)
         if (tokenMstEntity.isPresent) {
             tokenMstEntity.get().assigneeId = tokenDto.assigneeId
             tokenMstEntity.get().assigneeType = tokenDto.assigneeType
-            tokenMstRepository.save(tokenMstEntity.get())
+            tokenRepository.save(tokenMstEntity.get())
         }
     }
 
@@ -135,7 +135,7 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      */
     fun completeToken(tokenSaveDto: TokenSaveDto) {
         // Optional -> 안쓰면 좋을 것 같은데...
-        val completedTokenOptional = tokenMstRepository.findTokenMstEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
+        val completedTokenOptional = tokenRepository.findTokenEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
 
         if (completedTokenOptional.isPresent) {
             val completedToken = completedTokenOptional.get()
@@ -143,7 +143,7 @@ class WFTokenService(private val documentRepository: DocumentRepository,
             // 토큰 완료 처리
             completedToken.tokenStatus = TokenConstants.Status.FINISH.code
             completedToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-            tokenMstRepository.save(completedToken)
+            tokenRepository.save(completedToken)
 
             //  다음 Element 가져오기
             val nextElement: ElementEntity? = wfElementService.getNextElement(completedToken.elementId, tokenSaveDto)
