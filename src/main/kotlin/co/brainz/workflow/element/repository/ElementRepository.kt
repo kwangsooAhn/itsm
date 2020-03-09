@@ -24,4 +24,5 @@ interface ElementRepository: JpaRepository<ElementEntity, String> {
                           endId: String = ElementConstants.AttributeId.TARGET_ID.value): ElementEntity
 
     fun findByProcessIdAndElementType(processId : String, elementType : String) : ElementEntity
+
 }

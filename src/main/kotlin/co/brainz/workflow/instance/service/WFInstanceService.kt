@@ -40,16 +40,16 @@ class WFInstanceService(private val instanceRepository: InstanceRepository) {
      * Instance Create.
      *
      * @param instanceDto
-     * @return InstanceMstEntity
+     * @return InstanceEntity
      */
     fun createInstance(instanceDto: InstanceDto): InstanceEntity {
-        val instanceMstEntity = InstanceEntity(
+        val instanceEntity = InstanceEntity(
                 instanceId = "",
                 instanceStatus = instanceDto.instanceStatus?:InstanceConstants.Status.RUNNING.code,
                 processId = instanceDto.processId,
                 instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
-        return instanceRepository.save(instanceMstEntity)
+        return instanceRepository.save(instanceEntity)
     }
 
     /**
@@ -58,11 +58,11 @@ class WFInstanceService(private val instanceRepository: InstanceRepository) {
      * @param instanceId
      */
     fun completeInstance(instanceId: String) {
-        val instanceMstEntity = instanceRepository.findInstanceEntityByInstanceId(instanceId)
-        if (instanceMstEntity.isPresent) {
-            instanceMstEntity.get().instanceStatus = InstanceConstants.Status.FINISH.code
-            instanceMstEntity.get().instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-            instanceRepository.save(instanceMstEntity.get())
+        val instanceEntity = instanceRepository.findInstanceEntityByInstanceId(instanceId)
+        if (instanceEntity.isPresent) {
+            instanceEntity.get().instanceStatus = InstanceConstants.Status.FINISH.code
+            instanceEntity.get().instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            instanceRepository.save(instanceEntity.get())
         }
     }
 

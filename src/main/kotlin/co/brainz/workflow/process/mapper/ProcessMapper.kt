@@ -17,8 +17,8 @@ interface ProcessMapper {
         Mapping(source = "processName", target = "name"),
         Mapping(source = "processDesc", target = "description"),
         Mapping(source = "processStatus", target = "status"),
-        Mapping(source = "formMstEntity.formId", target = "formId"),
-        Mapping(source = "formMstEntity.formName", target = "formName"),
+        Mapping(source = "formEntity.formId", target = "formId"),
+        Mapping(source = "formEntity.formName", target = "formName"),
         Mapping(source = "createDt", target = "createDt"),
         Mapping(source = "createUserKey", target = "createUserKey"),
         Mapping(source = "updateDt", target = "updateDt"),
@@ -26,7 +26,7 @@ interface ProcessMapper {
     )
     fun toWfJsonProcessDto(processEntity: ProcessEntity): WfJsonProcessDto
 
-    fun toProcessMstEntity(processDto: ProcessDto): ProcessEntity
+    fun toProcessEntity(processDto: ProcessDto): ProcessEntity
 
     @Mappings(
         Mapping(source = "elementId", target = "id"),

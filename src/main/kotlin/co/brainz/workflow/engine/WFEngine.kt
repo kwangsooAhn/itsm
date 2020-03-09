@@ -19,7 +19,7 @@ import co.brainz.workflow.token.service.WFTokenService
 import org.springframework.stereotype.Service
 
 @Service
-class WFEngine(private val formMstRepository: FormRepository,
+class WFEngine(private val formRepository: FormRepository,
                private val processRepository: ProcessRepository,
                private val elementRepository: ElementRepository,
                private val componentRepository: ComponentRepository,
@@ -36,7 +36,7 @@ class WFEngine(private val formMstRepository: FormRepository,
      * Form Engine.
      */
     fun form(): Form {
-        return WFFormService(formMstRepository, componentRepository, componentDataRepository)
+        return WFFormService(formRepository, componentRepository, componentDataRepository)
         //return FormDummy()
     }
 

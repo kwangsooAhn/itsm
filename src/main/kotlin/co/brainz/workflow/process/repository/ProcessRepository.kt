@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ProcessRepository : JpaRepository<ProcessEntity, String> {
     fun findByProcessNameLikeOrProcessDescLike(processName: String, processDesc: String): List<ProcessEntity>
-    fun findProcessMstEntityByProcessId(processId: String): ProcessEntity
+    fun findProcessEntityByProcessId(processId: String): ProcessEntity
 }

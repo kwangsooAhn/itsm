@@ -6,15 +6,12 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ComponentRepository: JpaRepository<ComponentEntity, String> {
+interface ComponentRepository : JpaRepository<ComponentEntity, String> {
 
     @Query("select f from ComponentEntity f where f.components.formId = :formId")
     fun findByFormId(formId: String): List<ComponentEntity>
 
-    fun deleteComponentMstEntityByComponentIdIn(componentIds: MutableList<String>)
-
-
-
+    fun deleteComponentEntityByComponentIdIn(componentIds: MutableList<String>)
 
 }
 

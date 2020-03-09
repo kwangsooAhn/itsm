@@ -75,9 +75,9 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      * @param tokenSaveDto
      */
     fun putToken(tokenSaveDto: TokenSaveDto) {
-        val tokenMstEntity = tokenRepository.findTokenEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
-        if (tokenMstEntity.isPresent) {
-            val instanceId = tokenMstEntity.get().instanceId
+        val tokenEntity = tokenRepository.findTokenEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
+        if (tokenEntity.isPresent) {
+            val instanceId = tokenEntity.get().instanceId
             updateToken(tokenSaveDto.tokenDto)
             deleteTokenData(instanceId, tokenSaveDto.tokenDto.tokenId)
             createTokenData(tokenSaveDto, instanceId, tokenSaveDto.tokenDto.tokenId)
@@ -91,17 +91,17 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      * Token Create.
      *
      * @param tokenDto
-     * @return TokenMstEntity
+     * @return TokenEntity
      */
     fun createToken(instanceId: String, tokenDto: TokenDto): TokenEntity {
-        val tokenMstEntity = TokenEntity(
+        val tokenEntity = TokenEntity(
                 tokenId = "",
                 instanceId = instanceId,
                 elementId = tokenDto.elementId,
                 tokenStatus = TokenConstants.Status.RUNNING.code,
                 tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
-        return tokenRepository.save(tokenMstEntity)
+        return tokenRepository.save(tokenEntity)
     }
 
     /**
@@ -110,11 +110,11 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      * @param tokenDto
      */
     fun updateToken(tokenDto: TokenDto) {
-        val tokenMstEntity = tokenRepository.findTokenEntityByTokenId(tokenDto.tokenId)
-        if (tokenMstEntity.isPresent) {
-            tokenMstEntity.get().assigneeId = tokenDto.assigneeId
-            tokenMstEntity.get().assigneeType = tokenDto.assigneeType
-            tokenRepository.save(tokenMstEntity.get())
+        val tokenEntity = tokenRepository.findTokenEntityByTokenId(tokenDto.tokenId)
+        if (tokenEntity.isPresent) {
+            tokenEntity.get().assigneeId = tokenDto.assigneeId
+            tokenEntity.get().assigneeType = tokenDto.assigneeType
+            tokenRepository.save(tokenEntity.get())
         }
     }
 
