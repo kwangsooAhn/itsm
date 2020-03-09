@@ -62,7 +62,7 @@
      */
     function previewForm() {
         let url = '/forms/' + formEditor.data.form.id + '/preview';
-        const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no";
+        const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
         window.open(url, 'result', 'width=1500,height=920,' + specs);
 
         let form = document.createElement("form");
