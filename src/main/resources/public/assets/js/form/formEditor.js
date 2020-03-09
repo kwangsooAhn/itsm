@@ -65,11 +65,11 @@
         const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
         window.open(url, 'result', 'width=1500,height=920,' + specs);
 
-        let form = document.createElement("form");
+        let form = document.createElement('form');
         form.action = url;
         form.method = 'POST';
         form.target = 'result';
-        let input = document.createElement("textarea");
+        let input = document.createElement('textarea');
         input.name = 'data';
         input.value = JSON.stringify(formEditor.data);
         form.appendChild(input);
