@@ -69,7 +69,7 @@
                                             <div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
                                                 <input type="text" id="popStrtDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.popStrtDt} ?  ${#temporals.format(notice.popStrtDt,dateformat)}:${#dates.format(#dates.createNow(), dateformat)}" 
-                                                 name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal" />
+                                                 name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal" oncontextmenu="return false"/>
                                                 <div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -92,7 +92,7 @@
                                             <div class="input-group date" id="popEndDtCal" data-target-input="nearest">
                                                 <input type="text" id="popEndDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.popEndDt} ?  ${#temporals.format(notice.popEndDt,dateformat)}:${addCurrentDate}" 
-                                                 name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" />
+                                                 name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal" oncontextmenu="return false"/>
                                                 <div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -121,7 +121,7 @@
                                             <div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
                                                 <input type="text" id="topNoticeStrtDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.topNoticeStrtDt} ?  ${#temporals.format(notice.topNoticeStrtDt,dateformat)}:${#dates.format(#dates.createNow(),dateformat)}"
-                                                 name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" />
+                                                 name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal" oncontextmenu="return false"/>
                                                 <div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -145,7 +145,7 @@
                                                 data-target-input="nearest">
                                                 <input type="text" id="topNoticeEndDt" th:with="dateformat=${#authentication.details.timeFormat}"
                                                  th:value="${notice?.topNoticeEndDt} ?  ${#temporals.format(notice.topNoticeEndDt,dateformat)}:${addCurrentDate}" 
-                                                 name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" />
+                                                 name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal" oncontextmenu="return false"/>
                                                 <div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -335,6 +335,17 @@
 
             if (!validation()) {
                 return false;
+            }
+
+            const delFileCheck = document.getElementsByName('delFileSeq').length;
+            if (delFileCheck > 0) {
+                document.getElementsByName('delFileSeq').forEach(function(elm) {
+                    const delOpt = {
+                        method: 'delete',
+                        url: '/filedel?seq=' + Number(elm.value)
+                    };
+                    aliceJs.sendXhr(delOpt);
+                });
             }
 
             const fileSeq = [];
