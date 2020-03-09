@@ -16,6 +16,8 @@
         /*임시 css*/
         #document-container {
             overflow-y: auto;
+            height: 750px;
+            border: 1px solid #BCC5D3;
         }
         #document-container > .component {
             padding: 15px 60px;
@@ -47,6 +49,9 @@
 </head>
 <body>
 <div id="document-container"></div>
+<div style="margin-top: 10px; text-align: center;">
+    <button th:text="#{common.btn.close}" onclick="window.close();"></button>
+</div>
 </body>
 <script type="text/javascript">
     window.onload = function() {
