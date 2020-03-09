@@ -10062,8 +10062,8 @@ body {
   stroke: #bcc5d3;
   stroke-width: 0.5;
 }
-.alice-process-drawing-board g.alice-tooltip image.action-tooltip-item:hover,
-.alice-process-drawing-board g.alice-tooltip image.element-tooltip-item:hover {
+.alice-process-drawing-board g.alice-tooltip rect.action-tooltip-item:hover,
+.alice-process-drawing-board g.alice-tooltip rect.element-tooltip-item:hover {
   cursor: pointer;
 }
 .alice-process-drawing-board .grid path {

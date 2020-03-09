@@ -163,13 +163,14 @@
      */
     const elementMouseEventHandler = {
         mouseover: function() {
-            const elem = d3.select(this);
+            const elemContainer = d3.select(this.parentNode);
+            const elem = elemContainer.select('.node');
             mouseoverElement = null;
             let cursor = 'pointer';
             if (isDrawConnector) {
                 cursor = 'crosshair';
             }
-            elem.style('cursor', cursor);
+            elemContainer.style('cursor', cursor);
             if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
                 return;
             }
@@ -180,9 +181,10 @@
                 .duration(displayOptions.durationTime);
         },
         mouseout: function() {
-            const elem = d3.select(this);
+            const elemContainer = d3.select(this.parentNode);
+            const elem = elemContainer.select('.node');
             if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
-                elem.style('cursor', 'default');
+                elemContainer.style('cursor', 'default');
                 return;
             }
             mouseoverElement = null;
@@ -191,7 +193,8 @@
                 .duration(displayOptions.durationTime);
         },
         mousedown: function () {
-            const elem = d3.select(this);
+            const elemContainer = d3.select(this.parentNode);
+            const elem = elemContainer.select('.node');
             if (isDrawConnector) {
                 resetMouseVars();
                 removeElementSelected();
@@ -221,14 +224,15 @@
                         document.getElementById(selectedElementId + '_point' + i).style.opacity = '1';
                     }
                 }
-                elem.style('cursor', 'move');
+                elemContainer.style('cursor', 'move');
                 AliceProcessEditor.setElementMenu(elem);
             }
         },
         mouseup: function() {
-            const elem = d3.select(this);
+            const elemContainer = d3.select(this.parentNode);
+            const elem = elemContainer.select('.node');
             if (isDrawConnector) {
-                elem.style('cursor', 'default');
+                elemContainer.style('cursor', 'default');
                 dragLine
                     .classed('hidden', true)
                     .style('marker-end', '');
@@ -251,7 +255,7 @@
                 }
                 resetMouseVars();
             } else {
-                elem.style('cursor', 'pointer');
+                elemContainer.style('cursor', 'pointer');
                 if (svg.select('.alice-tooltip').node() === null) {
                     AliceProcessEditor.setActionTooltipItem(elem);
                 }
@@ -491,7 +495,7 @@
      */
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, width, height);
+        this.base(x, y, width ? width : 135, height ? height : 60);
         this.nodeElement.classed('task', true);
         const defaultType = AliceProcessEditor.getElementDefaultType('task');
         const taskContainer = d3.select(this.nodeElement.node().parentNode);
@@ -501,7 +505,7 @@
             .attr('y', this.rectData[0].y + 10)
             .attr('width', 20)
             .attr('height', 20)
-            .style('fill', 'url(#task-tooltip-' + defaultType + ')');
+            .style('fill', 'url(#task-' + defaultType + '-element)');
         return this;
     }
 
@@ -527,7 +531,7 @@
             .attr('y', (this.rectData[0].y + this.height - 18 - 5))
             .attr('width', 18)
             .attr('height', 18)
-            .style('fill', 'url(#subprocess-tooltip-' + defaultType + ')');
+            .style('fill', 'url(#subprocess-' + defaultType + '-element)');
         return this;
     }
 
@@ -543,6 +547,26 @@
         const self = this;
         const radius = 25;
 
+        const drag = d3.drag()
+            .on('start', elementMouseEventHandler.mousedown)
+            .on('drag', function() {
+                if (isDrawConnector) {
+                    elementMouseEventHandler.mousedrag();
+                } else {
+                    svg.selectAll('.alice-tooltip').remove();
+                    self.nodeElement
+                        .attr('cx', d3.event.x)
+                        .attr('cy', d3.event.y);
+                    self.typeElement
+                        .attr('cx', d3.event.x)
+                        .attr('cy', d3.event.y);
+                    self.nodeElement.style('cursor', 'move');
+                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
+                    drawConnectors();
+                }
+            })
+            .on('end', elementMouseEventHandler.mouseup);
+
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.nodeElement = elementContainer.append('circle')
             .attr('id', workflowUtil.generateUUID())
@@ -552,26 +576,7 @@
             .attr('class', 'node event')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(d3.drag()
-                .on('start', elementMouseEventHandler.mousedown)
-                .on('drag', function() {
-                    if (isDrawConnector) {
-                        elementMouseEventHandler.mousedrag();
-                    } else {
-                        svg.selectAll('.alice-tooltip').remove();
-                        self.nodeElement
-                            .attr('cx', d3.event.x)
-                            .attr('cy', d3.event.y);
-                        self.typeElement
-                            .attr('cx', d3.event.x)
-                            .attr('cy', d3.event.y);
-                        self.nodeElement.style('cursor', 'move');
-                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
-                        drawConnectors();
-                    }
-                })
-                .on('end', elementMouseEventHandler.mouseup)
-            );
+            .call(drag);
 
         const defaultType = AliceProcessEditor.getElementDefaultType('event');
         self.typeElement = elementContainer.append('circle')
@@ -579,7 +584,10 @@
             .attr('r', radius - 5)
             .attr('cx', x)
             .attr('cy', y)
-            .style('fill', 'url(#event-tooltip-' + defaultType + ')');
+            .style('fill', 'url(#event-' + defaultType + '-element)')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
 
         return self;
     }
@@ -596,6 +604,29 @@
         const self = this;
         const width = 45, height = 45;
 
+        const drag = d3.drag()
+            .on('start', elementMouseEventHandler.mousedown)
+            .on('drag', function() {
+                if (isDrawConnector) {
+                    elementMouseEventHandler.mousedrag();
+                } else {
+                    svg.selectAll('.alice-tooltip').remove();
+                    self.nodeElement
+                        .attr('x', d3.event.x - (width / 2))
+                        .attr('y', d3.event.y - (height / 2))
+                        .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
+                    self.typeElement
+                        .attr('x', d3.event.x - (width / 2))
+                        .attr('y', d3.event.y - (height / 2))
+                        .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
+
+                    self.nodeElement.style('cursor', 'move');
+                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
+                    drawConnectors();
+                }
+            })
+            .on('end', elementMouseEventHandler.mouseup);
+
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -607,29 +638,7 @@
             .attr('class', 'node gateway')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(d3.drag()
-                .on('start', elementMouseEventHandler.mousedown)
-                .on('drag', function() {
-                    if (isDrawConnector) {
-                        elementMouseEventHandler.mousedrag();
-                    } else {
-                        svg.selectAll('.alice-tooltip').remove();
-                        self.nodeElement
-                            .attr('x', d3.event.x - (width / 2))
-                            .attr('y', d3.event.y - (height / 2))
-                            .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
-                        self.typeElement
-                            .attr('x', d3.event.x - (width / 2))
-                            .attr('y', d3.event.y - (height / 2))
-                            .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
-
-                        self.nodeElement.style('cursor', 'move');
-                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
-                        drawConnectors();
-                    }
-                })
-                .on('end', elementMouseEventHandler.mouseup)
-            );
+            .call(drag);
 
         const defaultType = AliceProcessEditor.getElementDefaultType('gateway');
         self.typeElement = elementContainer.append('rect')
@@ -638,7 +647,10 @@
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
-            .style('fill', 'url(#gateway-tooltip-' + defaultType + ')');
+            .style('fill', 'url(#gateway-' + defaultType + '-element)')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
 
         return self;
     }

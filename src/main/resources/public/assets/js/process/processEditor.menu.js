@@ -17,7 +17,7 @@
 
     const tooltipItems = [
         {
-            type: 'delete', parent: 'action-tooltip',
+            type: 'delete', parent: 'action',
             url: iconDirectory + '/tooltip/delete.png',
             action: function(el) {
                 removeElementItems();
@@ -25,7 +25,7 @@
             }
         },
         {
-            type: 'copy', parent: 'action-tooltip',
+            type: 'copy', parent: 'action',
             url: iconDirectory + '/tooltip/copy.png',
             action: function(el) {
                 removeElementItems();
@@ -33,7 +33,7 @@
             }
         },
         {
-            type: 'edit', parent: 'action-tooltip',
+            type: 'edit', parent: 'action',
             url: iconDirectory + '/tooltip/edit.png',
             focus_url: iconDirectory + '/tooltip/edit_focus.png',
             action: function(el) {
@@ -41,7 +41,7 @@
             }
         },
         {
-            type: 'suggest', parent: 'action-tooltip',
+            type: 'suggest', parent: 'action',
             url: iconDirectory + '/tooltip/suggest.png',
             focus_url: iconDirectory + '/tooltip/suggest_focus.png',
             action: function(el) {
@@ -49,108 +49,120 @@
             }
         },
         {
-            type: 'userTask', parent: 'suggest-tooltip',
+            type: 'userTask', parent: 'suggest',
             url: iconDirectory + '/suggestion/usertask.png',
             action: function(el) {
                 console.log('add user task');
             }
         }, {
-            type: 'manualTask', parent: 'suggest-tooltip',
+            type: 'manualTask', parent: 'suggest',
             url: iconDirectory + '/suggestion/manual.png',
             action: function(el) {
                 console.log('add manual task');
             }
         }, {
-            type: 'exclusiveGateway', parent: 'suggest-tooltip',
+            type: 'exclusiveGateway', parent: 'suggest',
             url: iconDirectory + '/suggestion/gateways.png',
             action: function(el) {
                 console.log('add exclusive gateway');
             }
         }, {
-            type: 'commonEnd', parent: 'suggest-tooltip',
+            type: 'commonEnd', parent: 'suggest',
             url: iconDirectory + '/suggestion/end.png',
             action: function(el) {
                 console.log('add end event');
             }
         }, {
-            type: 'commonStart', parent: 'event-tooltip',
+            type: 'commonStart', parent: 'event',
             url: iconDirectory + '/element-type/event-start.png',
             action: function(el) {
                 editElementType(el,'commonStart');
             }
         }, {
-            type: 'messageStart', parent: 'event-tooltip',
+            type: 'messageStart', parent: 'event',
             url: iconDirectory + '/element-type/event-start-msg.png',
+            element_url: iconDirectory + '/element-type/task-receive.png',
             action: function(el) {
                 editElementType(el,'messageStart');
             }
         }, {
-            type: 'timerStart', parent: 'event-tooltip',
+            type: 'timerStart', parent: 'event',
             url: iconDirectory + '/element-type/event-start-timer.png',
+            element_url: iconDirectory + '/element-type/event-start-timer.png',
             action: function(el) {
                 editElementType(el,'timerStart');
             }
         }, {
-            type: 'commonEnd', parent: 'event-tooltip',
+            type: 'commonEnd', parent: 'event',
             url: iconDirectory + '/element-type/event-end.png',
             action: function(el) {
                 editElementType(el,'commonEnd');
             }
         }, {
-            type: 'messageEnd', parent: 'event-tooltip',
+            type: 'messageEnd', parent: 'event',
             url: iconDirectory + '/element-type/event-end-msg.png',
+            element_url: iconDirectory + '/element-type/task-send.png',
             action: function(el) {
                 editElementType(el,'messageEnd');
             }
         }, {
-            type: 'userTask', parent: 'task-tooltip',
+            type: 'userTask', parent: 'task',
             url: iconDirectory + '/element-type/task-user.png',
+            element_url: iconDirectory + '/element-type/task-user.png',
             action: function(el) {
                 editElementType(el,'userTask');
             }
         }, {
-            type: 'manualTask', parent: 'task-tooltip',
+            type: 'manualTask', parent: 'task',
             url: iconDirectory + '/element-type/task-manual.png',
+            element_url: iconDirectory + '/element-type/task-manual.png',
             action: function(el) {
                 editElementType(el,'manualTask');
             }
         }, {
-            type: 'scriptTask', parent: 'task-tooltip',
+            type: 'scriptTask', parent: 'task',
             url: iconDirectory + '/element-type/task-script.png',
+            element_url: iconDirectory + '/element-type/task-script.png',
             action: function(el) {
                 editElementType(el,'scriptTask');
             }
         }, {
-            type: 'sendTask', parent: 'task-tooltip',
+            type: 'sendTask', parent: 'task',
             url: iconDirectory + '/element-type/task-send.png',
+            element_url: iconDirectory + '/element-type/task-send.png',
             action: function(el) {
                 editElementType(el,'sendTask');
             }
         }, {
-            type: 'receiveTask', parent: 'task-tooltip',
+            type: 'receiveTask', parent: 'task',
             url: iconDirectory + '/element-type/task-receive.png',
+            element_url: iconDirectory + '/element-type/task-receive.png',
             action: function(el) {
                 editElementType(el,'receiveTask');
             }
         }, {
-            type: 'subprocess', parent: 'subprocess-tooltip',
+            type: 'subprocess', parent: 'subprocess',
             url: iconDirectory + '/element-type/subprocess.png',
+            element_url: iconDirectory + '/element-type/subprocess.png',
             action: function(el) {}
         }, {
-            type: 'exclusiveGateway', parent: 'gateway-tooltip',
+            type: 'exclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/element-type/gateway-exclusive.png',
+            element_url: iconDirectory + '/element-type/gateway-exclusive.png',
             action: function(el) {
                 editElementType(el,'exclusiveGateway');
             }
         }, {
-            type: 'parallelGateway', parent: 'gateway-tooltip',
+            type: 'parallelGateway', parent: 'gateway',
             url: iconDirectory + '/element-type/gateway-parallel.png',
+            element_url: iconDirectory + '/element-type/gateway-parallel.png',
             action: function(el) {
                 editElementType(el,'parallelGateway');
             }
         }, {
-            type: 'inclusiveGateway', parent: 'gateway-tooltip',
+            type: 'inclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/element-type/gateway-inclusive.png',
+            element_url: iconDirectory + '/element-type/event-end.png',
             action: function(el) {
                 editElementType(el,'inclusiveGateway');
             }
@@ -221,7 +233,7 @@
         });
         elementData.type = type;
         elementData.data = typeData;
-        d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-tooltip-' + type + ')');
+        d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-' + type + '-element)');
         setProperties(element);
         console.debug('edited element [%s]!!', type);
     }
@@ -313,7 +325,7 @@
             return;
         }
 
-        let actionTooltip = tooltipItems.filter(function(item) { return item.parent === 'action-tooltip'; });
+        let actionTooltip = tooltipItems.filter(function(item) { return item.parent === 'action'; });
         if (elem.classed('subprocess')) {
             actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });
         } else if (elem.classed('artifact')) {
@@ -379,7 +391,7 @@
         if (elem.classed('group') || elem.classed('annotation') || elem.classed('connector')) {
             return;
         }
-        let suggestTooltip = tooltipItems.filter(function(item) { return item.parent === 'suggest-tooltip'; });
+        let suggestTooltip = tooltipItems.filter(function(item) { return item.parent === 'suggest'; });
         setElementItems(suggestTooltip, elem);
     }
 
@@ -399,7 +411,7 @@
             category = 'gateway';
         }
         if (category) {
-            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === category + '-tooltip'; });
+            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === category; });
         }
         setElementItems(elementTypeItems, elem);
     }
@@ -685,6 +697,12 @@
             data.id = item.parent + '-' + item.type;
             data.url = item.url;
             imageLoadingList.push(data);
+            if (item.element_url) {
+                let elemData = {};
+                elemData.id = item.parent + '-' + item.type + '-element';
+                elemData.url = item.element_url;
+                imageLoadingList.push(elemData);
+            }
             if (item.focus_url) {
                 let focusData = {};
                 focusData.id = item.parent + '-' + item.type + '-focus';
