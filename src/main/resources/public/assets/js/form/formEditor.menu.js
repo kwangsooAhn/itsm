@@ -460,7 +460,7 @@
             if (targetComponent !== lastComponent && Number(targetComponent.getAttribute('data-index')) === (dragIdx + 1)) { return false; }
             
             let targetIdx = Number(targetComponent.getAttribute('data-index'));
-            let lastCompIndex = component.getLastIndex();
+            let lastCompIdx = component.getLastIndex();
             let dragComponentHTML = e.dataTransfer.getData('text/html');
             targetComponent.parentNode.removeChild(dragComponent);
             targetComponent.insertAdjacentHTML('beforebegin', dragComponentHTML);
@@ -471,21 +471,8 @@
             
             dragComponent.parentNode.removeChild(lastComponent);
             lastComponent = null;
-            //데이터 display 순서 재정렬
-            for (let i = dragComponent.parentNode.children.length - 1; i >= sortIdx; i--) {
-                let childNode = dragComponent.parentNode.children[i];
-                childNode.setAttribute('data-index', lastCompIndex);
-                childNode.setAttribute('tabIndex', lastCompIndex);
-                
-                for (let j = 0, len = formEditor.data.components.length; j < len; j++) {
-                    let comp = formEditor.data.components[j];
-                    if (comp.id === childNode.id) { 
-                        comp.display.order = lastCompIndex;
-                        break;
-                    }
-                }
-                lastCompIndex--;
-            }
+            //재정렬
+            formEditor.reorderComponent(dragComponent, sortIdx, lastCompIdx);
             componentDragOff();
         }
     }
