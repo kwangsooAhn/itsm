@@ -191,7 +191,7 @@ const fileUploader = (function () {
                             // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
                             delBtn.addEventListener('click', function (e) {
                                 const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]'); 
-                                delFile.setAttribute('name', 'delFileSeq')
+                                delFile.setAttribute('name', 'delFileSeq');
                                 delFile.parentElement.style.display = 'none';
                             });
                         });
