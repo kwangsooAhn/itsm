@@ -193,7 +193,6 @@ const fileUploader = (function () {
                                 const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]'); 
                                 delFile.setAttribute('name', 'delFileSeq')
                                 delFile.parentElement.style.display = 'none';
-                                console.log('delete test!');
                             });
                         });
 
