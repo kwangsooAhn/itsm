@@ -337,6 +337,17 @@
                 return false;
             }
 
+            const delFileCheck = document.getElementsByName('delFileSeq').length;
+            if (delFileCheck > 0) {
+                document.getElementsByName('delFileSeq').forEach(function(elm) {
+                    const delOpt = {
+                        method: 'delete',
+                        url: '/filedel?seq=' + Number(elm.value)
+                    };
+                    aliceJs.sendXhr(delOpt);
+                });
+            }
+
             const fileSeq = [];
             document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
             const jsonData = JSON.stringify({

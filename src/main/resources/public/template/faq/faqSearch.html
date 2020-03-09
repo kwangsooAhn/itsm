@@ -9,10 +9,10 @@
 <body>
 <th:block layout:fragment="content">
 <div class="container">
-    <div id="faqList">
-    </div>
-    <div sec:authorize="hasAuthority('faq.create')" class="button">
+    <div sec:authorize="hasAuthority('faq.create')" class="button" style="float:right">
         <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
+    </div>
+    <div id="faqList">
     </div>
 </div>
 </th:block>
