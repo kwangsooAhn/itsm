@@ -179,6 +179,7 @@
             let option = document.createElement('option');
             option.value = attr.option[i].value + '-' + attr.option[i].seq;
             option.text = attr.option[i].name;
+            option.setAttribute('seq', attr.option[i].seq);
             selectbox.appendChild(option);
         }
 
@@ -224,10 +225,19 @@
             let optionRadio = document.createElement('input');
             optionRadio.setAttribute('type', 'radio');
             optionRadio.setAttribute('id', attr.option[i].value + '-' + attr.option[i].seq);
+            optionRadio.setAttribute('seq', attr.option[i].seq);
             optionRadio.value = attr.option[i].value;
             optionRadio.name = attr.option[i].name;
             
-            if (i === 0) { optionRadio.setAttribute('checked', 'checked'); }
+            if (i === 0) { optionRadio.checked = true; }
+            
+            optionRadio.addEventListener('click', function() {
+                let checkedRadio = comp.querySelectorAll('input[type=radio]:checked');
+                for (let i = 0; i < checkedRadio.length; i++) {
+                	checkedRadio[i].checked = false;
+                }
+                this.checked = true;
+            });
             
             let optionLabel = document.createElement('label');
             optionLabel.setAttribute('for', attr.option[i].value + '-' + attr.option[i].seq);
@@ -284,6 +294,7 @@
             let optionChk = document.createElement('input');
             optionChk.setAttribute('type', 'checkbox');
             optionChk.setAttribute('id', attr.option[i].value + '-' + attr.option[i].seq);
+            optionChk.setAttribute('seq', attr.option[i].seq);
             optionChk.value = attr.option[i].value;
             optionChk.name = attr.option[i].name;
             
@@ -344,7 +355,7 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field' style='flex-basis: 100%;'>
+                <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
                     <img src='${attr.display.path}' alt='' width='${attr.display.width}' height='${attr.display.height}'>
                 </div>
             </div>
@@ -411,7 +422,6 @@
         }
         formPanel.appendChild(comp);
         this.domElem = comp;
-        dateTimePicker.initDatePicker('date-' + attr.id, attr.display.format);
     }
 
     /**
@@ -453,7 +463,6 @@
         }
         formPanel.appendChild(comp);
         this.domElem = comp;
-        dateTimePicker.initTimePicker('time-' + attr.id, attr.display.format);
     }
 
     /**
@@ -494,7 +503,6 @@
         }
         formPanel.appendChild(comp);
         this.domElem = comp;
-        dateTimePicker.initDateTimePicker('datetime-' + attr.id, attr.display.format);
     }
 
     /**
@@ -570,6 +578,13 @@
             });
         }
         compAttr.display.order = ++componentIdx;
+        
+        //옵션 재정렬
+        /*if (typeof compAttr.option !== 'undefined' && compAttr.option.length > 1) {
+            compAttr.option.sort(function (a, b) { //컴포넌트 재정렬
+                return a.seq < b.seq ? -1 : a.seq > b.seq ? 1 : 0;  
+            });
+        }*/
         
         let componentConstructor;
         switch(compType) {
