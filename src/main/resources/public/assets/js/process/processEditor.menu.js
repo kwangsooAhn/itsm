@@ -234,11 +234,22 @@
         elementData.type = type;
         elementData.data = typeData;
 
-        let typeList = elementsProperties[category];
-        typeList.forEach(function(t){ element.classed(t.type, t.type === type); });
-        d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-' + type + '-element)');
+        changeElementType(element, type);
         setProperties(element);
         console.debug('edited element [%s]!!', type);
+    }
+
+    /**
+     * element 의 타입에 따라 이미지를 변경한다.
+     *
+     * @param element target element
+     * @param type 변경될 타입
+     */
+    function changeElementType(element, type) {
+        const category = getElementCategory(type);
+        const typeList = elementsProperties[category];
+        typeList.forEach(function(t) { element.classed(t.type, t.type === type); });
+        d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-' + type + '-element)');
     }
 
     /**
@@ -505,8 +516,15 @@
     function changeDisplayValue(id) {
         let elementData = AliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
         if (elementData.length > 0) {
-            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(d3.select(document.getElementById(id)));
-            elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+            const nodeElement = d3.select(document.getElementById(id));
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
+            let positionX = bbox.x,
+                positionY = bbox.y;
+            if (nodeElement.classed('resizable')) {
+                positionX = bbox.cx;
+                positionY = bbox.cy;
+            }
+            elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': positionX, 'position-y': positionY};
         }
     }
 
@@ -736,5 +754,6 @@
     exports.getElementCategory = getElementCategory;
     exports.getElementDefaultType = getElementDefaultType;
     exports.changeDisplayValue = changeDisplayValue;
+    exports.changeElementType = changeElementType;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

@@ -920,15 +920,18 @@
             switch (category) {
                 case 'event':
                     node = new EventElement(x, y);
+                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
                     break;
                 case 'task':
                     node = new TaskElement(x, y, element.display.width, element.display.height);
+                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
                     break;
                 case 'subprocess':
                     node = new SubprocessElement(x, y, element.display.width, element.display.height);
                     break;
                 case 'gateway':
                     node = new GatewayElement(x, y);
+                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
                     break;
                 case 'artifact':
                     if (element.type === 'group') {
