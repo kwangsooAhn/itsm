@@ -59,7 +59,6 @@ class AuthRestController(private val authService: AuthService) {
      */
     @DeleteMapping("/{authId}")
     fun deleteAuth(@PathVariable authId: String): String {
-        var result = authService.deleteAuth(authId)
-        return result
+        return authService.deleteAuth(authId)
     }
 }
