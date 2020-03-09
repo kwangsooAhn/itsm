@@ -6,7 +6,7 @@
     'use strict';
 
     function init(data) {
-        let editorData = JSON.parse(data.replace(/&quot;/g, '"'));
+        let editorData = JSON.parse(data);
         console.info('formEditor preview initialization. [FORM ID: ' + editorData.form.id + ']');
         aliceDocument.initContainer('document-container');
         aliceDocument.drawDocument(editorData);
