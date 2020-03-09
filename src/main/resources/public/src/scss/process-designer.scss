@@ -256,9 +256,19 @@ body {
             stroke-width: 1;
         }
 
+        .node.event.commonEnd,
+        .node.event.messageEnd {
+            stroke-width: 3;
+        }
+
         .node.selected {
             stroke: #5887f9;
             stroke-width: 2;
+        }
+
+        .node.selected.event.commonEnd,
+        .node.selected.event.messageEnd {
+            stroke-width: 4;
         }
 
         .group {

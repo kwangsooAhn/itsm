@@ -233,6 +233,9 @@
         });
         elementData.type = type;
         elementData.data = typeData;
+
+        let typeList = elementsProperties[category];
+        typeList.forEach(function(t){ element.classed(t.type, t.type === type); });
         d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-' + type + '-element)');
         setProperties(element);
         console.debug('edited element [%s]!!', type);
@@ -722,7 +725,6 @@
             .append('image')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('preserveaspectratio', 'xMinYMin slice')
             .attr('xlink:href', function(d) { return d.url; });
     }
 

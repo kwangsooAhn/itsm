@@ -10081,9 +10081,17 @@ body {
   stroke: #000000;
   stroke-width: 1;
 }
+.alice-process-drawing-board .node.event.commonEnd,
+.alice-process-drawing-board .node.event.messageEnd {
+  stroke-width: 3;
+}
 .alice-process-drawing-board .node.selected {
   stroke: #5887f9;
   stroke-width: 2;
+}
+.alice-process-drawing-board .node.selected.event.commonEnd,
+.alice-process-drawing-board .node.selected.event.messageEnd {
+  stroke-width: 4;
 }
 .alice-process-drawing-board .group {
   fill-opacity: 0;
