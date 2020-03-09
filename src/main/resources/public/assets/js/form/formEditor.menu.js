@@ -513,6 +513,8 @@
      */
     function menuItemListener(elem) {
         let clickedComponent = itemInContext;
+        formEditor.hideComponentProperties();
+        
         switch (elem.getAttribute('data-action')) {
             case 'copy':
                 break;
@@ -528,7 +530,6 @@
                 formEditor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
         }
         menuOff();
-        formEditor.hideComponentProperties();
         itemInContext = null;
     }
 

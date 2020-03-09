@@ -47,7 +47,7 @@ class RoleService(
             roleRepository.deleteById(roleId)
             "true"
         } else {
-            "PlaseDeleteMapperUser"
+            "false"
         }
     }
 
@@ -96,6 +96,7 @@ class RoleService(
     fun selectDetailRoles(roleId: String): RoleDto {
         val roleInfo = roleRepository.findByRoleId(roleId)
         val authList = mutableListOf<AliceAuthSimpleDto>()
+        val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
 
         roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
             authList.add(AliceAuthSimpleDto(roleAuthMap.auth.authId, roleAuthMap.auth.authName, roleAuthMap.auth.authDesc))
@@ -110,7 +111,8 @@ class RoleService(
             roleInfo.updateUser?.userName,
             roleInfo.updateDt,
             null,
-            authList
+            authList,
+            userRoleMapCount
         )
     }
 

@@ -466,7 +466,7 @@
           this.allowEmpty = o.allowEmpty;
           this.showArrowButtons = o.showArrowButtons;
           this.orientation = o.showArrowButtons ? true : o.orientation;
-
+          
           if ((o.value == null || o.value == '') && o.allowEmpty) {
             this.setEmptyValue();
           } else {

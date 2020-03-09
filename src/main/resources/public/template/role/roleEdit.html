@@ -74,6 +74,10 @@
             <th th:text="#{common.label.updateDate}"></th>
             <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(roleDetail?.updateDt,dateformat)}"></span></td>
         </tr>
+        <tr>
+            <th th:text="#{role.label.referenceCount}"></th>
+            <td><span id="userRoleMapCount" name="userRoleMapCount"></span></td>
+        </tr>
     </table>
     <table>
         <tr>
@@ -170,6 +174,8 @@
                         document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserName;
                         document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
                         document.getElementById('txtRoleId').setAttribute('readonly','true');
+                        document.getElementById('userRoleMapCount').innerHTML = responseJson.userRoleMapCount;
+                        disabledButton(responseJson.userRoleMapCount);
                     },
                 };
                 aliceJs.sendXhr(opt);
@@ -197,6 +203,8 @@
             if (AUTH_CREATE) {
                 document.getElementById('btnRegist').style.display = 'block';
             }
+            document.getElementById('btnDelete').style.display = 'none';
+            document.getElementById('userRoleMapCount').innerHTML = '';
         }
 
         /*등록, 수정 버튼*/
@@ -245,12 +253,33 @@
             const opt = {
                     method: 'delete',
                     url: '/rest/roles/' + document.getElementById('txtRoleId').value,
-                    callbackFunc: function() {
-                        alert([[#{common.msg.delete.success}]]);
-                        window.location.href ='/roles/edit';
+                    callbackFunc: function(response) {
+                        switch (response.responseText) {
+                            case "true":
+                                alert([[#{common.msg.delete.success}]]);
+                                window.location.href ='/roles/edit';
+                                break;
+                            case "false":
+                                alert([[#{common.msg.delete.fail}]]);
+                                break;
+                            default :
+                                alert([[#{common.msg.save.fail}]]);
+                                break;
+                        }
                     }
-                  }
+            };
             aliceJs.sendXhr(opt);
+        }
+
+        /** 삭제 버튼 활성, 비활성화 */
+        function disabledButton(count) {
+            var btn = document.getElementById('btnDelete');
+
+            if (count !== 0) {
+                btn.disabled = 'disabled';
+            } else {
+                btn.disabled = false;
+            }
         }
         /*]]>*/
     </script>

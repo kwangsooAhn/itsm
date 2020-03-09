@@ -6,7 +6,7 @@
     'use strict';
 
     const defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
-          editboxPlaceholder= '+ Typing for add component',
+          editboxPlaceholder= '+ Typing \'/\' for add component',
           componentTitles = [  //세부속성에서 사용할 제목
               {'type': 'text', 'name': 'Text', 'icon': ''},
               {'type': 'textarea', 'name': 'Text Box', 'icon': ''},
@@ -15,11 +15,11 @@
               {'type': 'checkbox', 'name': 'Checkbox', 'icon': ''},
               {'type': 'label', 'name': 'Label', 'icon': ''},
               {'type': 'image', 'name': 'Image', 'icon': ''},
-              {'type': 'line', 'name': 'Line', 'icon': ''},
+              {'type': 'divider', 'name': 'Divider', 'icon': ''},
               {'type': 'date', 'name': 'Date', 'icon': ''},
               {'type': 'time', 'name': 'Time', 'icon': ''},
               {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
-              {'type': 'fileupload', 'name': 'Fileupload', 'icon': ''}
+              {'type': 'fileupload', 'name': 'File Upload', 'icon': ''}
           ];
     let formPanel = null,
         defaultData = {},                 //컴포넌트 기본 세부 속성
@@ -72,7 +72,7 @@
     function Editbox() {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
-            <div class='group' contenteditable='true' placeholder='${editboxPlaceholder}'></div>
+            <div class='group' contenteditable='true' placeholder="${editboxPlaceholder}"></div>
         `);
         formPanel.appendChild(comp);
         this.domElem = comp;
@@ -179,6 +179,7 @@
             let option = document.createElement('option');
             option.value = attr.option[i].value + '-' + attr.option[i].seq;
             option.text = attr.option[i].name;
+            option.setAttribute('seq', attr.option[i].seq);
             selectbox.appendChild(option);
         }
 
@@ -224,10 +225,19 @@
             let optionRadio = document.createElement('input');
             optionRadio.setAttribute('type', 'radio');
             optionRadio.setAttribute('id', attr.option[i].value + '-' + attr.option[i].seq);
+            optionRadio.setAttribute('seq', attr.option[i].seq);
             optionRadio.value = attr.option[i].value;
             optionRadio.name = attr.option[i].name;
             
-            if (i === 0) { optionRadio.setAttribute('checked', 'checked'); }
+            if (i === 0) { optionRadio.checked = true; }
+            
+            optionRadio.addEventListener('click', function() {
+                let checkedRadio = comp.querySelectorAll('input[type=radio]:checked');
+                for (let i = 0; i < checkedRadio.length; i++) {
+                	checkedRadio[i].checked = false;
+                }
+                this.checked = true;
+            });
             
             let optionLabel = document.createElement('label');
             optionLabel.setAttribute('for', attr.option[i].value + '-' + attr.option[i].seq);
@@ -284,6 +294,7 @@
             let optionChk = document.createElement('input');
             optionChk.setAttribute('type', 'checkbox');
             optionChk.setAttribute('id', attr.option[i].value + '-' + attr.option[i].seq);
+            optionChk.setAttribute('seq', attr.option[i].seq);
             optionChk.value = attr.option[i].value;
             optionChk.name = attr.option[i].name;
             
@@ -342,9 +353,9 @@
      */
     function Imagebox(attr) {
         let comp = utils.createComponentByTemplate(`
-            <img class='move-icon' src=''>
+            <div class='move-icon'></div>
             <div class='group'>
-                <div class='field' style='flex-basis: 100%;'>
+                <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
                     <img src='${attr.display.path}' alt='' width='${attr.display.width}' height='${attr.display.height}'>
                 </div>
             </div>
@@ -354,17 +365,17 @@
     }
 
     /**
-     * Line.
+     * Divider.
      *
      * @param {Object} attr 컴포넌트 속성
      * @constructor
      */
-    function Line(attr) {
+    function Divider(attr) {
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
                 <div class='field' style='flex-basis: 100%;'>
-                    <hr style='border: '${attr.display.type} ${attr.display.width}px  ${attr.display.color};'>
+                    <hr style='border: ${attr.display.type} ${attr.display.width}px ${attr.display.color};'>
                 </div>
             </div>
         `);
@@ -385,7 +396,7 @@
             defaultDate = defaultDate.split(' ')[0];
         }
         defaultDate = changeDateFormatYYYYMMDD(defaultDate, attr.display.format);
-
+        
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -411,7 +422,6 @@
         }
         formPanel.appendChild(comp);
         this.domElem = comp;
-        dateTimePicker.initDatePicker('date-' + attr.id, attr.display.format);
     }
 
     /**
@@ -424,7 +434,7 @@
         let defaultTime = attr.display['default'];
         if (defaultTime === 'now') { 
             defaultTime = utils.getTimeStamp(); 
-            defaultTime = changeDateFormatYYYYMMDD(defaultTime, 'yyyy-MM-dd ' + attr.display.format);
+            defaultTime = changeDateFormatYYYYMMDD(defaultTime, 'YYYY-MM-DD ' + attr.display.format);
             defaultTime = defaultTime.split(' ')[1];
         }
 
@@ -453,7 +463,6 @@
         }
         formPanel.appendChild(comp);
         this.domElem = comp;
-        dateTimePicker.initTimePicker('time-' + attr.id, attr.display.format);
     }
 
     /**
@@ -494,7 +503,6 @@
         }
         formPanel.appendChild(comp);
         this.domElem = comp;
-        dateTimePicker.initDateTimePicker('datetime-' + attr.id, attr.display.format);
     }
 
     /**
@@ -507,11 +515,26 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='file' name='files[]' multiple />
+                <div class='field'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                    </div>
+                </div>
+                <div class='field dropbox' style='flex-basis: 100%;'>
+                    <p> drag and drop files or click to select </p>
                 </div>
             </div>
         `);
+
+        if (attr.label.position === 'hidden') {
+            comp.querySelector('.group').firstElementChild.style.display = 'none';
+        } else if (attr.label.position === 'left') {
+            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
+            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
+        }
         formPanel.appendChild(comp);
         this.domElem = comp;
     }
@@ -556,6 +579,13 @@
         }
         compAttr.display.order = ++componentIdx;
         
+        //옵션 재정렬
+        /*if (typeof compAttr.option !== 'undefined' && compAttr.option.length > 1) {
+            compAttr.option.sort(function (a, b) { //컴포넌트 재정렬
+                return a.seq < b.seq ? -1 : a.seq > b.seq ? 1 : 0;  
+            });
+        }*/
+        
         let componentConstructor;
         switch(compType) {
             case 'editbox':
@@ -582,8 +612,8 @@
             case 'image':
                 componentConstructor =  new Imagebox(compAttr);
                 break;
-            case 'line':
-                componentConstructor =  new Line(compAttr);
+            case 'divider':
+                componentConstructor =  new Divider(compAttr);
                 break;
             case 'date':
                 componentConstructor =  new Datebox(compAttr);

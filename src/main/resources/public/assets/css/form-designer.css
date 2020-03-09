@@ -10887,7 +10887,7 @@ body {
   max-width: calc(100% - 20rem);
   height: calc(100% - 5rem);
   margin: 5rem 8.75rem 0 8.75rem;
-  border: 1px solid #BCC5D3;
+  border: 0.0625rem solid #BCC5D3;
   background: #fff;
   overflow: auto;
 }
@@ -10915,27 +10915,27 @@ body {
 }
 
 .alice-form-properties-panel .property-title {
-  margin: 40px 0px 0px 20px;
-  font-size: 28px;
+  margin: 2.5rem 0 0 1.25rem;
+  font-size: 1.75rem;
   font-weight: bold;
-  height: 30px;
-  line-height: 30px;
+  height: 1.875rem;
+  line-height: 1.875rem;
 }
 
 .alice-form-properties-panel .property-group {
-  padding: 20px 10px;
-  margin: 0px 20px;
-  border-bottom: 1px solid #707070;
-  font-size: 18px;
+  padding: 1.25rem 0.625rem;
+  margin: 0 1.25rem;
+  border-bottom: 0.0625rem solid #707070;
+  font-size: 1.125rem;
   font-weight: bold;
 }
 
 .alice-form-properties-panel .property-group[id*="option"] button {
-  width: 25px;
-  height: 25px;
+  width: 1.563rem;
+  height: 1.563rem;
   outline: 0;
-  margin-right: 2px;
-  border: 1px solid #4C5264;
+  margin-right: 0.125rem;
+  border: 0.0625rem solid #4C5264;
   float: right;
 }
 
@@ -10949,18 +10949,24 @@ body {
 
 .alice-form-properties-panel .property-group table {
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 0.875rem;
   width: 100%;
-  margin: 10px 0px;
+  margin: 0.625rem 0;
   text-align: center;
-}
-
-.alice-form-properties-panel .property-group th, .alice-form-properties-panel .property-group td {
-  border: 1px solid #ccc;
 }
 
 .alice-form-properties-panel .property-group th {
   font-weight: bold;
+}
+
+.alice-form-properties-panel .property-group th, .alice-form-properties-panel .property-group td {
+  border: 0.0625rem solid #ccc;
+  vertical-align: middle;
+  height: 1.25rem;
+}
+
+.alice-form-properties-panel .property-group td input[type=checkbox] {
+  vertical-align: middle;
 }
 
 .alice-form-properties-panel .property-group td input[type=text] {
@@ -10970,6 +10976,10 @@ body {
   text-align: center;
 }
 
+.alice-form-properties-panel .property-group input[readonly] {
+  pointer-events: none;
+}
+
 .alice-form-properties-panel .property-field {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -10977,11 +10987,11 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   width: 100%;
-  min-height: 20px;
+  min-height: 1.25rem;
   font-weight: normal;
-  margin: 10px 0px;
+  margin: 0.625rem 0;
 }
 
 .alice-form-properties-panel .property-field .property-field-name {
@@ -10990,36 +11000,36 @@ body {
   -webkit-box-flex: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
-  width: 80px;
+  width: 5rem;
 }
 
 .alice-form-properties-panel .property-field input[type=text] {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  border: 1px solid #4C5264;
+  border: 0.0625rem solid #4C5264;
   width: 100%;
-  height: 20px;
-  padding-left: 2px;
+  height: 1.25rem;
+  padding-left: 0.125rem;
 }
 
 .alice-form-properties-panel .property-field input[type=text].underline {
   border: none;
-  border-bottom: 1px solid #4C5264;
+  border-bottom: 0.0625rem solid #4C5264;
   text-align: right;
-  padding-right: 2px;
-  padding-left: 0px;
+  padding-right: 0.125rem;
+  padding-left: 0;
 }
 
-.alice-form-properties-panel .property-field input[type=text].readonly {
+.alice-form-properties-panel .property-field input[type=text].noline {
   border: none;
   text-align: right;
-  padding-right: 2px;
-  padding-left: 0px;
+  padding-right: 0.125rem;
+  padding-left: 0;
 }
 
 .alice-form-properties-panel .property-field textarea {
-  border: 1px solid #4C5264;
+  border: 0.0625rem solid #4C5264;
   width: 100%;
 }
 
@@ -11032,7 +11042,7 @@ body {
 .alice-form-properties-panel .property-field input[type=range] {
   -webkit-appearance: none;
   width: 50%;
-  height: 1px;
+  height: 0.0625rem;
   background: #4C5264;
   outline: none;
 }
@@ -11040,34 +11050,34 @@ body {
 .alice-form-properties-panel .property-field input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 10px;
-  height: 10px;
-  border: 1px solid #4C5264;
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 0.0625rem solid #4C5264;
   border-radius: 50%;
   background: #fff;
   cursor: pointer;
 }
 
 .alice-form-properties-panel .property-field input[type=range]::-moz-range-thumb {
-  width: 10px;
-  height: 10px;
-  border: 1px solid #4C5264;
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 0.0625rem solid #4C5264;
   border-radius: 50%;
   background: #fff;
   cursor: pointer;
 }
 
 .alice-form-properties-panel .property-field label {
-  margin: 0px 20px 0px 5px;
+  margin: 0 1.25rem 0 0.3125rem;
 }
 
 .alice-form-properties-panel .property-field .property-field-button button {
-  width: 25px;
-  height: 25px;
+  width: 1.563rem;
+  height: 1.563rem;
   background-color: #f8f9fa;
   outline: 0;
-  margin-right: 2px;
-  border: 1px solid #4C5264;
+  margin-right: 0.125rem;
+  border: 0.0625rem solid #4C5264;
 }
 
 .alice-form-properties-panel .property-field .property-field-button button.active {
@@ -11088,7 +11098,7 @@ body {
 }
 
 .alice-form-properties-panel .property-field .property-field-button button[id*="left"] {
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
 
 .alice-form-properties-panel .property-field .property-field-button button[id*="left"]::before {
@@ -11105,13 +11115,13 @@ body {
 
 .context-menu {
   display: none;
-  width: 314px;
-  max-height: 225px;
+  width: 19.63rem;
+  max-height: 14.06rem;
   position: absolute;
   background-color: #fff;
-  border: solid 1px #BCC5D3;
-  -webkit-box-shadow: 1px 1px 2px #707070;
-          box-shadow: 1px 1px 2px #707070;
+  border: solid 0.0625rem #BCC5D3;
+  -webkit-box-shadow: 0.0625rem 0.0625rem 0.125rem #707070;
+          box-shadow: 0.0625rem 0.0625rem 0.125rem #707070;
   overflow: auto;
   z-index: 10;
 }
@@ -11123,11 +11133,11 @@ body {
 }
 
 .context-menu ul li {
-  padding-left: 20px;
+  padding-left: 1.25rem;
 }
 
 .context-menu ul li img {
-  margin-right: 20px;
+  margin-right: 1.25rem;
 }
 
 .context-menu ul li label {
@@ -11135,13 +11145,13 @@ body {
 }
 
 .context-menu-control li {
-  height: 40px;
-  line-height: 40px;
+  height: 2.5rem;
+  line-height: 2.5rem;
 }
 
 .context-menu-component li {
-  height: 60px;
-  line-height: 60px;
+  height: 3.75rem;
+  line-height: 3.75rem;
 }
 
 .context-menu ul.active {
@@ -11171,13 +11181,14 @@ body {
   width: 100%;
   max-width: 100%;
   border: none;
-  padding: 10px 60px 10px 0px;
+  padding: 0.625rem 3.75rem 0.625rem 0;
+  background-color: #ffffff;
 }
 
 .component .move-icon {
-  width: 30px;
-  height: 30px;
-  margin: 25px 15px;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin: 1.563rem 0.9375rem;
   text-align: center;
   content: '';
   cursor: move;
@@ -11198,11 +11209,21 @@ body {
 
 .component .group .field input[type=text] {
   width: 100%;
-  height: 25px;
+  height: 1.563rem;
 }
 
 .component .group .field textarea {
   width: 100%;
+}
+
+.component .group .field.dropbox {
+  height: 9.375rem;
+  line-height: 9.375rem;
+  background-color: #CCCCCC;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #969696;
 }
 
 .component:hover .move-icon:after {
@@ -11211,6 +11232,14 @@ body {
 
 .component:focus {
   outline: none;
+}
+
+.component *:focus {
+  outline: none;
+}
+
+.component.selected {
+  background-color: #f4f7f7;
 }
 
 .component[data-type]:not([data-type="editbox"]):hover {
@@ -11232,18 +11261,14 @@ body {
 
 .group[contenteditable=true] {
   color: #BCC5D3;
-  font-size: 12px;
-  height: 80px;
-  line-height: 80px;
+  font-size: 0.75rem;
+  height: 5rem;
+  line-height: 5rem;
   cursor: text;
 }
 
-.group:focus {
-  outline: none;
-}
-
 .component.over {
-  border-top: 2px dashed #BCC5D3;
+  border-top: 0.125rem dashed #BCC5D3;
 }
 
 .component.over * {
@@ -11255,16 +11280,16 @@ body {
 }
 
 .color-palette div {
-  width: 20px;
+  width: 1.25rem;
   display: inline-block;
-  height: 20px;
-  margin: 5px;
+  height: 1.25rem;
+  margin: 0.3125rem;
 }
 
 .selected-color {
-  width: 20px;
+  width: 1.25rem;
   display: inline-block;
-  height: 20px;
-  margin-right: 5px;
-  border: 1px solid #000000;
+  height: 1.25rem;
+  margin-right: 0.3125rem;
+  border: 0.0625rem solid #000000;
 }

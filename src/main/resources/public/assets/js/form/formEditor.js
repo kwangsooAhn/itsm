@@ -24,8 +24,10 @@
      */
     function saveForm() {
         data = JSON.parse(JSON.stringify(formEditor.data));
-        data.components = data.components.filter(function(comp) { return comp.type !== defaultComponent; });
-        console.debug(data);
+        let lastCompIndex = component.getLastIndex();
+        data.components = data.components.filter(function(comp) { 
+            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent); 
+        });
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/data',
@@ -59,7 +61,21 @@
      * 미리보기
      */
     function previewForm() {
-        //TODO: 미리보기
+        let url = '/forms/' + formEditor.data.form.id + '/preview';
+        const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+        window.open(url, 'result', 'width=1500,height=920,' + specs);
+
+        let form = document.createElement('form');
+        form.action = url;
+        form.method = 'POST';
+        form.target = 'result';
+        let input = document.createElement('textarea');
+        input.name = 'data';
+        input.value = JSON.stringify(formEditor.data);
+        form.appendChild(input);
+        form.style.display = 'none';
+        document.body.appendChild(form);
+        form.submit();
     }
     
     /**
@@ -85,14 +101,18 @@
     function addComponent(type, componentId) {
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
             let elem = document.getElementById(componentId);
-            let removeComp = component.draw(type);
-            let compAttr = removeComp.attr;
+            let replaceComp = component.draw(type);
+            let compAttr = replaceComp.attr;
             compAttr.id = componentId;
             compAttr.display.order = Number(elem.getAttribute('data-index'));
             setComponentData(compAttr);
-            elem.innerHTML = removeComp.domElem.innerHTML;
-            removeComp.domElem.remove();
-
+            
+            replaceComp.domElem.id = componentId;
+            replaceComp.domElem.setAttribute('data-index', compAttr.display.order);
+            replaceComp.domElem.setAttribute('tabIndex', compAttr.display.order);
+            elem.parentNode.insertBefore(replaceComp.domElem, elem);
+            elem.remove();
+            
             let compIdx = component.getLastIndex();
             component.setLastIndex(compIdx - 1);
             addEditboxDown(componentId);
@@ -100,6 +120,7 @@
             let editbox = component.draw(defaultComponent);
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
     
@@ -152,6 +173,7 @@
         }
         if(editbox !== null) {
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
 
@@ -200,6 +222,7 @@
         
         if(editbox !== null) {
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
     
@@ -245,7 +268,14 @@
     function showComponentProperties(id) {
         if (selectedComponentId === id) { return false; }
         propertiesPanel.innerHTML = '';
+        //기존 선택된 컴포넌트 css 삭제
+        if (selectedComponentId !== '') {
+            document.getElementById(selectedComponentId).classList.remove('selected');
+        }
+        
         selectedComponentId = id;
+        //현재 선택된 컴포넌트 css 추가
+        document.getElementById(id).classList.add('selected');
         
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
@@ -259,12 +289,19 @@
             const originDisplayOrder = compAttr.display.order;
             let element = component.draw(compAttr.type, compAttr);
             if (element) {
-                let elementHTML = element.domElem.innerHTML;
-                const panelForm = document.getElementById('panel-form');
-                let targetElement = document.getElementById(id);
-                targetElement.innerHTML = elementHTML;
+                let compAttr = element.attr;
+                compAttr.id = id;
                 compAttr.display.order = originDisplayOrder;
-                panelForm.removeChild(element.domElem);
+                setComponentData(compAttr);
+                
+                let targetElement = document.getElementById(id);
+                element.domElem.id = id;
+                element.domElem.setAttribute('data-index', originDisplayOrder);
+                element.domElem.setAttribute('tabIndex', originDisplayOrder);
+                
+                targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                targetElement.remove();
+                
                 let compIdx = component.getLastIndex();
                 component.setLastIndex(compIdx - 1);
             }
@@ -338,11 +375,17 @@
                         cell.id = option.id;
                         cell.innerHTML = tb.lastElementChild.children[i + 1].innerHTML;
                         let inputCell = cell.querySelector('input');
-                        inputCell.value = option.value;
                         inputCell.addEventListener('change', function() {
                             changePropertiesValue(this.value, group, option.id, rowCount - 1);
                         }, false);
-                        rowData[option.id] = option.value;
+                        if (option.id === 'seq') {
+                            inputCell.value = rowCount;
+                            inputCell.setAttribute('readonly', 'true');
+                            rowData[option.id] = rowCount;
+                        } else {
+                            inputCell.value = option.value;
+                            rowData[option.id] = option.value;
+                        }
                         row.appendChild(cell);
                     });
                     compAttr[group].push(rowData);
@@ -360,12 +403,16 @@
                     for (let i = 1; i < rowCount; i++) {
                         let row = tb.rows[i];
                         let chkbox = row.cells[0].childNodes[0];
+                        let seqCell = row.cells[1].childNodes[0];
                         if (chkbox.checked && rowCount > 2) {
                             tb.deleteRow(i);
                             compAttr[group].splice(i - 1, 1);
                             rowCount--;
                             i--;
                             minusCnt++;
+                        } else if (seqCell.value !== i) {
+                            seqCell.value = i;
+                            compAttr[group][i - 1].seq = i;
                         }
                     }
                     if (minusCnt > 0) {
@@ -462,7 +509,6 @@
                             propertyValue.setAttribute('min', 0);
                             propertyValue.setAttribute('max', 12);
                             propertyValue.setAttribute('value', fieldArr.value);
-                            propertyValue.setAttribute('readonly', 'true');
                             fieldGroupDiv.appendChild(propertyValue);
                             propertyValue.addEventListener('change', function() {
                                 let slider = document.getElementById(this.id + '-value');
@@ -603,8 +649,12 @@
                                     let inputCell = document.createElement('input');
                                     inputCell.setAttribute('type', 'text');
                                     inputCell.setAttribute('value', compAttr.option[i][fieldArr.items[j].id]);
+                                    if (fieldArr.items[j].id === 'seq') {
+                                        inputCell.setAttribute('readonly', 'true');
+                                    }
                                     inputCell.addEventListener('change', function() {
-                                        changePropertiesValue(this.value, group, fieldArr.items[j].id, i);
+                                        let seqCell = this.parentNode.parentNode.cells[1].childNodes[0];
+                                        changePropertiesValue(this.value, group, fieldArr.items[j].id, Number(seqCell.value) - 1);
                                     }, false);
                                     cell.appendChild(inputCell);
                                     row.appendChild(cell);
@@ -623,6 +673,8 @@
     function hideComponentProperties() {
         if (selectedComponentId !== '') {
             propertiesPanel.innerHTML = '';
+            //기존 선택된 컴포넌트 css 삭제
+            document.getElementById(selectedComponentId).classList.remove('selected');
             selectedComponentId = '';
         }
     }
@@ -630,8 +682,10 @@
      * 우측 properties panel에 폼 세부 속성 출력
      */
     function showFormProperties() {
-    	if (selectedComponentId === '') { return false; }
+        if (selectedComponentId === '') { return false; }
         propertiesPanel.innerHTML = '';
+        //기존 선택된 컴포넌트 css 삭제
+        document.getElementById(selectedComponentId).classList.remove('selected');
         selectedComponentId = '';
         
         let formAttr = formEditor.data.form;
@@ -669,19 +723,37 @@
             if (fieldArr.type === 'textarea') {
                 propertyValue = document.createElement('textarea');
                 propertyValue.value = fieldArr.value;
+            } else if (fieldArr.type === 'select') { //상태값 출력
+                propertyValue = document.createElement('select');
+                for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                    let propertyOption = document.createElement('option');
+                    propertyOption.value = fieldArr.option[i].id;
+                    propertyOption.text = fieldArr.option[i].name;
+                    if (fieldArr.value === fieldArr.option[i].id) {
+                        propertyOption.setAttribute('selected', 'selected');
+                    }
+                    propertyValue.appendChild(propertyOption);
+                }
             } else {
                 propertyValue = document.createElement('input');
                 propertyValue.setAttribute('type', 'text');
                 propertyValue.setAttribute('value', fieldArr.value);
             }
             propertyValue.classList.add('property-field-value');
-            propertyValue.addEventListener('change', function() {
-                formEditor.data.form[fieldArr.id] = this.value;
-            }, false);
+            if (fieldArr.id === 'name') {
+                propertyValue.addEventListener('keyup', function(e) {
+                    formEditor.data.form.name = this.value;
+                    document.querySelector('.form-name').textContent = this.value;
+                });
+            } else {
+                propertyValue.addEventListener('change', function(e) {
+                    formEditor.data.form[fieldArr.id] = this.value;
+                }, false);
+            }
             fieldGroupDiv.appendChild(propertyValue);
             
             if (fieldArr.type === 'inputbox-readonly') { 
-                propertyValue.classList.add('readonly'); 
+                propertyValue.classList.add('noline'); 
                 propertyValue.setAttribute('readonly', 'true');
             }
         });
@@ -708,7 +780,6 @@
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editbox = component.draw(defaultComponent);
         setComponentData(editbox.attr);
-        selectedComponentId = editbox.id;
         editbox.domElem.querySelector('[contenteditable=true]').focus();
         
         //TODO. 폼 상세 정보 출력
@@ -717,7 +788,7 @@
             url: '/assets/js/form/formAttribute.json',
             callbackFunc: function(xhr) {
                 formProperties = JSON.parse(xhr.responseText);
-                showFormProperties();
+                showComponentProperties(editbox.id);
             },
             contentType: 'application/json; charset=utf-8'
         });

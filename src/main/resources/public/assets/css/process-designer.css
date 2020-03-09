@@ -10062,8 +10062,8 @@ body {
   stroke: #bcc5d3;
   stroke-width: 0.5;
 }
-.alice-process-drawing-board g.alice-tooltip image.action-tooltip-item:hover,
-.alice-process-drawing-board g.alice-tooltip image.element-tooltip-item:hover {
+.alice-process-drawing-board g.alice-tooltip rect.action-tooltip-item:hover,
+.alice-process-drawing-board g.alice-tooltip rect.element-tooltip-item:hover {
   cursor: pointer;
 }
 .alice-process-drawing-board .grid path {
@@ -10081,9 +10081,17 @@ body {
   stroke: #000000;
   stroke-width: 1;
 }
+.alice-process-drawing-board .node.event.commonEnd,
+.alice-process-drawing-board .node.event.messageEnd {
+  stroke-width: 3;
+}
 .alice-process-drawing-board .node.selected {
   stroke: #5887f9;
   stroke-width: 2;
+}
+.alice-process-drawing-board .node.selected.event.commonEnd,
+.alice-process-drawing-board .node.selected.event.messageEnd {
+  stroke-width: 4;
 }
 .alice-process-drawing-board .group {
   fill-opacity: 0;
@@ -10103,6 +10111,12 @@ body {
   top: 2.5rem;
   right: 0;
   border: #bcc5d3 solid 0.063rem;
+}
+.alice-process-properties-panel h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 1.25rem;
+  margin-left: 0.938rem;
 }
 .alice-process-properties-panel h3 {
   font-size: 0.938rem;
@@ -10128,6 +10142,12 @@ body {
 }
 .alice-process-properties-panel p input:not([type=checkbox]), .alice-process-properties-panel p select, .alice-process-properties-panel p textarea {
   width: 11.25rem;
+}
+.alice-process-properties-panel p input:read-only {
+  border-width: 0;
+}
+.alice-process-properties-panel p input:read-only background {
+  color: #f6f6f7;
 }
 .alice-process-properties-panel p textarea {
   height: 5.625rem;
