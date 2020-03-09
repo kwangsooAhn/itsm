@@ -552,8 +552,19 @@
         });
     }
 
+    /**
+     * Init Container.
+     *
+     * @param elementId
+     */
+    function initContainer(elementId) {
+        documentContainer = document.getElementById(elementId);
+    }
+
     exports.init = init;
     exports.save = save;
+    exports.initContainer = initContainer;
+    exports.drawDocument = drawDocument;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

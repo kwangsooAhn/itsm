@@ -243,6 +243,8 @@ form:
   msg:
     alert:
       nameNotExist: "문서양식 이름을 입력해주세요."
+  preview:
+    name: 문서양식 미리보기
 
 # Process
 process:
