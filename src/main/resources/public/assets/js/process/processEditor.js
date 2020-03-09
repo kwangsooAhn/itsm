@@ -7,7 +7,7 @@
 
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
-        gridInterval: 10     // value of grid interval.
+        gridInterval: 10      // value of grid interval.
     };
 
     let svg,
@@ -17,7 +17,7 @@
         dragLine;
 
     const nodes= [],
-        links = [];
+          links = [];
 
     let mousedownElement,
         mouseoverElement,
@@ -447,7 +447,7 @@
      */
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, true,width ? width : 135, height ? height : 60);
+        this.base(x, y, true,width, height);
         const defaultType = AliceProcessEditor.getElementDefaultType('task');
         this.nodeElement
             .classed('task', true)
@@ -881,9 +881,9 @@
                     AliceProcessEditor.changeElementType(node.nodeElement, element.type);
                     break;
                 case 'artifact':
-                    if (element.type === 'group') {
+                    if (element.type === 'groupArtifact') {
                         node = new GroupElement(x, y, element.display.width, element.display.height);
-                    } else if (element.type === 'annotation') {
+                    } else if (element.type === 'annotationArtifact') {
                         node = new AnnotationElement(x, y);
                     }
                     break;

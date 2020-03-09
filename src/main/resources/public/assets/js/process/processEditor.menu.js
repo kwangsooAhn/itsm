@@ -518,8 +518,8 @@
         if (elementData.length > 0) {
             const nodeElement = d3.select(document.getElementById(id));
             const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
-            let positionX = bbox.x,
-                positionY = bbox.y;
+            let positionX = bbox.cx,
+                positionY = bbox.cy;
             if (nodeElement.classed('resizable')) {
                 positionX = bbox.cx;
                 positionY = bbox.cy;
