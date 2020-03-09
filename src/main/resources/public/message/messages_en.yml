@@ -33,6 +33,7 @@ common:
     save: "Saved"
     save.fail: "Fail"
     delete.success: "Deleted."
+    delete.fail: "Deletion failed."
 
 # Menu
 menu:
@@ -279,6 +280,7 @@ role:
     roleName: "Role Name"
     roleDesc: "Role Desc"
     roleAuth: "Role Auth"
+    referenceCount: "Reference Count"
   msg:
     idNotExist: "Please enter a role id."
     nameNotExist: "Please enter a role name."

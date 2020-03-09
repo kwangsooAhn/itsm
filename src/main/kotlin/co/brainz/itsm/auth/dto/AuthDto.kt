@@ -19,5 +19,6 @@ data class AuthDto(
         var arrMenuId: List<String>?,
         var arrMenuList: MutableList<AuthMenuDto>?,
         var arrUrl: List<String>?,
-        var arrUrlList: MutableList<AuthUrlDto>?
+        var arrUrlList: MutableList<AuthUrlDto>?,
+        var roleAuthMapCount: Int
 )
