@@ -33,6 +33,7 @@ common:
     save: "저장되었습니다"
     save.fail: "실패되었습니다."
     delete.success: "삭제되었습니다."
+    delete.fail: "삭제를 실패했습니다."
 
 # Menu
 menu:
@@ -59,6 +60,7 @@ auth:
     authId: "권한 아이디"
     authName: "권한명"
     authDesc: "권한 설명"
+    referenceCount: "역할 참조 개수"
   msg:
     idNotExist: "권한 아이디를 입력하세요."
     nameNotExist: "권한명을 입력하세요."
@@ -278,6 +280,7 @@ role:
     roleName: "역할 명"
     roleDesc: "역할 설명"
     roleAuth: "권한"
+    referenceCount: "사용자 참조 개수"
   msg:
     idNotExist: "역할 아이디를 입력하세요."
     nameNotExist: "역할 명을 입력하세요."
