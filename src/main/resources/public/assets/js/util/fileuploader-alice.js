@@ -262,8 +262,6 @@ const fileUploader = (function () {
 
                 this.on("canceled", function () {
                 });
-                
-                
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
                 if (file.name == "justinbieber.jpg") {
