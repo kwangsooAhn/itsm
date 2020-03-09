@@ -342,10 +342,7 @@
                 document.getElementsByName('delFileSeq').forEach(function(elm) {
                     const delOpt = {
                         method: 'delete',
-                        url: '/filedel?seq=' + Number(elm.value),
-                        callbackFunc: function(response) {
-                            result(response.responseText);
-                        }
+                        url: '/filedel?seq=' + Number(elm.value)
                     };
                     aliceJs.sendXhr(delOpt);
                 });
