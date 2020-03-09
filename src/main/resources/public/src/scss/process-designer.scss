@@ -51,7 +51,7 @@ body {
         padding-top: $process-toolbar-top-bottom-padding;
         padding-bottom: $process-toolbar-top-bottom-padding;
         line-height: 1.0rem;
-        
+
         font: {
             size: 0.938rem; // 15px
         }
@@ -232,8 +232,8 @@ body {
                 stroke: #bcc5d3;
                 stroke-width: 0.5;
             }
-            image.action-tooltip-item:hover,
-            image.element-tooltip-item:hover {
+            rect.action-tooltip-item:hover,
+            rect.element-tooltip-item:hover {
                 cursor: pointer;
             }
         }
@@ -256,9 +256,19 @@ body {
             stroke-width: 1;
         }
 
+        .node.event.commonEnd,
+        .node.event.messageEnd {
+            stroke-width: 3;
+        }
+
         .node.selected {
             stroke: #5887f9;
             stroke-width: 2;
+        }
+
+        .node.selected.event.commonEnd,
+        .node.selected.event.messageEnd {
+            stroke-width: 4;
         }
 
         .group {
@@ -333,6 +343,15 @@ body {
 
             input:not([type=checkbox]), select, textarea {
                 width: 11.25rem; // 180px
+            }
+
+            input:read-only {
+                background {
+                    color: #f6f6f7;
+                }
+                border: {
+                    width: 0;
+                }
             }
 
             textarea {
