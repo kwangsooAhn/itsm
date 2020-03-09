@@ -240,6 +240,8 @@ form:
   msg:
     alert:
       nameNotExist: "Please enter a form name."
+  preview:
+    name: "Form Edit Preview"
 
 # Process
 process:
