@@ -4,12 +4,7 @@ import co.brainz.itsm.auth.dto.AuthDto
 import co.brainz.itsm.auth.dto.AuthDetailDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthUrlDto
-import org.springframework.stereotype.Service
 import co.brainz.itsm.auth.repository.AuthRepository
-import co.brainz.framework.auth.repository.AliceMenuRepository
-import co.brainz.framework.auth.repository.AliceMenuAuthMapRepository
-import co.brainz.framework.auth.repository.AliceUrlRepository
-import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.framework.auth.entity.AliceMenuAuthMapEntity
@@ -18,10 +13,17 @@ import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.entity.AliceUrlAuthMapEntity
 import co.brainz.framework.auth.entity.AliceUrlAuthMapPk
 import co.brainz.framework.auth.entity.AliceUrlEntityPk
+import co.brainz.framework.auth.repository.AliceMenuAuthMapRepository
+import co.brainz.framework.auth.repository.AliceMenuRepository
+import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
+import co.brainz.framework.auth.repository.AliceUrlRepository
+import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
+import org.springframework.stereotype.Service
 
 @Service
 class AuthService(
         private val authRepository: AuthRepository,
+        private val roleAuthMapRepository: AliceRoleAuthMapRepository,
         private val menuRepository: AliceMenuRepository,
         private val menuAuthMapRepository: AliceMenuAuthMapRepository,
         private val urlRepository: AliceUrlRepository,
@@ -131,6 +133,7 @@ class AuthService(
         val authInfo = authRepository.findByAuthId(authId)
         val menuList = mutableListOf<AuthMenuDto>()
         val urlList = mutableListOf<AuthUrlDto>()
+        val roleAuthMapCount = roleAuthMapRepository.findByAuth(authInfo).count()
 
         authInfo.menuAuthMapEntities.forEach { authMenuMap ->
             menuList.add(AuthMenuDto(authMenuMap.auth.authId, authMenuMap.menu.menuId))
@@ -151,7 +154,8 @@ class AuthService(
                         null,
                         menuList,
                         null,
-                        urlList
+                        urlList,
+                        roleAuthMapCount
                 )
         )
         return dto
