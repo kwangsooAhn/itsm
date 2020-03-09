@@ -3,7 +3,7 @@
     {
       "title": "Data",
       "items": [
-        {"id": "id", "name": "ID", "type": "inputbox", "default": ""},
+        {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
         {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
         {"id": "status", "name": "Status", "type": "select", "default": "",
           "sub-list": [
