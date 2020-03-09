@@ -1,7 +1,7 @@
 package co.brainz.workflow.form.service
 
 import co.brainz.workflow.component.entity.ComponentDataEntity
-import co.brainz.workflow.component.entity.ComponentMstEntity
+import co.brainz.workflow.component.entity.ComponentEntity
 import co.brainz.workflow.component.repository.ComponentDataRepository
 import co.brainz.workflow.component.repository.ComponentMstRepository
 import co.brainz.workflow.form.constants.FormConstants
@@ -9,7 +9,7 @@ import co.brainz.workflow.form.dto.FormComponentSaveDto
 import co.brainz.workflow.form.dto.FormComponentViewDto
 import co.brainz.workflow.form.dto.FormDto
 import co.brainz.workflow.form.dto.FormViewDto
-import co.brainz.workflow.form.entity.FormMstEntity
+import co.brainz.workflow.form.entity.FormEntity
 import co.brainz.workflow.form.repository.FormMstRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -48,7 +48,7 @@ class WFFormService(private val formMstRepository: FormMstRepository,
      * @return FormDto
      */
     override fun createForm(formDto: FormDto): FormDto {
-        val formMstEntity = FormMstEntity(
+        val formMstEntity = FormEntity(
                 formId = formDto.formId,
                 formName = formDto.formName,
                 formDesc = formDto.formDesc,
@@ -95,20 +95,20 @@ class WFFormService(private val formMstRepository: FormMstRepository,
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         for (component in formEntity.get().components!!) {
             val map = LinkedHashMap<String, Any>()
-            map["id"] = component.compId
-            map["type"] = component.compType
+            map["id"] = component.componentId
+            map["type"] = component.componentType
 
             //make common
             val common = LinkedHashMap<String, Any>()
-            common["mapping-id"] = component.mappingId?:""
+            common["mapping-id"] = component.mappingId
             map["common"] = common
 
             //attribute
             for (attribute in component.attributes!!) {
-                val jsonElement = JsonParser().parse(attribute.attrValue)
+                val jsonElement = JsonParser().parse(attribute.attributeValue)
                 when (jsonElement.isJsonArray) {
-                    true -> map[attribute.attrId] = mapper.readValue(attribute.attrValue, mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java))
-                    false -> map[attribute.attrId] = mapper.readValue(attribute.attrValue, LinkedHashMap::class.java)
+                    true -> map[attribute.attributeId] = mapper.readValue(attribute.attributeValue, mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java))
+                    false -> map[attribute.attributeId] = mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
                 }
             }
             components.add(map)
@@ -132,15 +132,15 @@ class WFFormService(private val formMstRepository: FormMstRepository,
         val componentMstEntities = componentMstRepository.findByFormId(formComponentSaveDto.form.formId)
         val componentIds: MutableList<String> = mutableListOf()
         for (componentMst in componentMstEntities) {
-            componentIds.add(componentMst.compId)
+            componentIds.add(componentMst.componentId)
         }
         if (componentIds.isNotEmpty()) {
-            componentMstRepository.deleteComponentMstEntityByCompIdIn(componentIds)
+            componentMstRepository.deleteComponentMstEntityByComponentIdIn(componentIds)
         }
 
         //Update Form
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val formData: Optional<FormMstEntity> = formMstRepository.findFormEntityByFormId(formComponentSaveDto.form.formId)
+        val formData: Optional<FormEntity> = formMstRepository.findFormEntityByFormId(formComponentSaveDto.form.formId)
         formData.ifPresent {
             formData.get().formName = formComponentSaveDto.form.formName
             formData.get().formDesc = formComponentSaveDto.form.formDesc
@@ -160,9 +160,9 @@ class WFFormService(private val formMstRepository: FormMstRepository,
                         }
                     }
                 }
-                val componentMstEntity = ComponentMstEntity(
-                        compId = component["id"] as String,
-                        compType = component["type"] as String,
+                val componentMstEntity = ComponentEntity(
+                        componentId = component["id"] as String,
+                        componentType = component["type"] as String,
                         mappingId = mappingId,
                         components = resultFormMstEntity
                 )
@@ -172,9 +172,9 @@ class WFFormService(private val formMstRepository: FormMstRepository,
                 for ((key, value) in component) {
                     if (key != "id" && key != "type" && key != "common") {
                         val componentDataEntity = ComponentDataEntity(
-                                compId = resultComponentMstEntity.compId,
-                                attrId = key,
-                                attrValue = mapper.writeValueAsString(value),
+                                componentId = resultComponentMstEntity.componentId,
+                                attributeId = key,
+                                attributeValue = mapper.writeValueAsString(value),
                                 attributes = resultComponentMstEntity
                         )
                         componentDataEntities.add(componentDataEntity)
@@ -191,21 +191,21 @@ class WFFormService(private val formMstRepository: FormMstRepository,
     /**
      * Entity -> Dto.
      *
-     * @param formMstEntity
+     * @param formEntity
      * @return FormDto
      */
-    fun formEntityToDto(formMstEntity: FormMstEntity): FormDto {
+    fun formEntityToDto(formEntity: FormEntity): FormDto {
         val formDto = FormDto(
-                formId = formMstEntity.formId,
-                formName = formMstEntity.formName,
-                formStatus = formMstEntity.formStatus,
-                formDesc = formMstEntity.formDesc,
-                createUserKey = formMstEntity.createUserKey,
-                createDt = formMstEntity.createDt,
-                updateUserKey = formMstEntity.updateUserKey,
-                updateDt = formMstEntity.updateDt
+                formId = formEntity.formId,
+                formName = formEntity.formName,
+                formStatus = formEntity.formStatus,
+                formDesc = formEntity.formDesc,
+                createUserKey = formEntity.createUserKey,
+                createDt = formEntity.createDt,
+                updateUserKey = formEntity.updateUserKey,
+                updateDt = formEntity.updateDt
         )
-        when (formMstEntity.formStatus) {
+        when (formEntity.formStatus) {
             FormConstants.FormStatus.EDIT.value, FormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true
         }
         return formDto

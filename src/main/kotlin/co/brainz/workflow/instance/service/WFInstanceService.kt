@@ -3,7 +3,7 @@ package co.brainz.workflow.instance.service
 import co.brainz.workflow.instance.constants.InstanceConstants
 import co.brainz.workflow.instance.dto.InstanceDto
 import co.brainz.workflow.instance.dto.TicketDto
-import co.brainz.workflow.instance.entity.InstanceMstEntity
+import co.brainz.workflow.instance.entity.InstanceEntity
 import co.brainz.workflow.instance.repository.InstanceMstRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -42,8 +42,8 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
      * @param instanceDto
      * @return InstanceMstEntity
      */
-    fun createInstance(instanceDto: InstanceDto): InstanceMstEntity {
-        val instanceMstEntity = InstanceMstEntity(
+    fun createInstance(instanceDto: InstanceDto): InstanceEntity {
+        val instanceMstEntity = InstanceEntity(
                 instanceId = "",
                 instanceStatus = instanceDto.instanceStatus?:InstanceConstants.Status.RUNNING.code,
                 processId = instanceDto.processId,

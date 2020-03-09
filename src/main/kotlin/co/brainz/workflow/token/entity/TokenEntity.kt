@@ -49,8 +49,8 @@ import javax.persistence.Table
 )
 
 @Entity
-@Table(name = "wf_token_mst")
-data class TokenMstEntity(
+@Table(name = "wf_token")
+data class TokenEntity(
 
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")

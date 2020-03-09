@@ -11,8 +11,8 @@ import javax.persistence.JoinColumn
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_inst_mst")
-data class InstanceMstEntity(
+@Table(name = "wf_instance")
+data class InstanceEntity(
 
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")

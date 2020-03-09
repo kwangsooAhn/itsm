@@ -1,13 +1,13 @@
 package co.brainz.workflow.process.service
 
 import co.brainz.workflow.element.entity.ElementDataEntity
-import co.brainz.workflow.element.entity.ElementMstEntity
+import co.brainz.workflow.element.entity.ElementEntity
 import co.brainz.workflow.process.constants.ProcessConstants
 import co.brainz.workflow.process.dto.ProcessDto
 import co.brainz.workflow.process.dto.WfJsonElementDto
 import co.brainz.workflow.process.dto.WfJsonMainDto
 import co.brainz.workflow.process.dto.WfJsonProcessDto
-import co.brainz.workflow.process.entity.ProcessMstEntity
+import co.brainz.workflow.process.entity.ProcessEntity
 import co.brainz.workflow.process.mapper.ProcessMstMapper
 import co.brainz.workflow.process.repository.ProcessMstRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -59,7 +59,7 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
         val wfElementDto = mutableListOf<WfJsonElementDto>()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-        for (elementMstEntity in processMstEntity.elementMstEntities) {
+        for (elementMstEntity in processMstEntity.elementEntities) {
             val elDto = processMstMapper.toWfJsonElementDto(elementMstEntity)
             elDto.display = elementMstEntity.displayInfo.let { mapper.readValue(it) }
             elDto.data = elementMstEntity.elementDataEntities.associateByTo(
@@ -76,16 +76,16 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
      */
     fun insertProcess(processDto: ProcessDto): ProcessDto {
         processDto.processStatus = ProcessConstants.Status.EDIT.code // 등록 시 프로세스 상태
-        val processMstEntity: ProcessMstEntity =
+        val processEntity: ProcessEntity =
             processMstRepository.save(processMstMapper.toProcessMstEntity(processDto))
 
         return ProcessDto(
-            processId = processMstEntity.processId,
-            processName = processMstEntity.processName,
-            processDesc = processMstEntity.processDesc,
-            processStatus = processMstEntity.processStatus,
-            createDt = processMstEntity.createDt,
-            updateDt = processMstEntity.updateDt,
+            processId = processEntity.processId,
+            processName = processEntity.processName,
+            processDesc = processEntity.processDesc,
+            processStatus = processEntity.processStatus,
+            createDt = processEntity.createDt,
+            updateDt = processEntity.updateDt,
             enabled = false
         )
     }
@@ -121,22 +121,22 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
             val processMstEntity = processMstRepository.findProcessMstEntityByProcessId(wfJsonProcessDto.id)
 
             // element data 삭제한다.
-            processMstEntity.elementMstEntities.forEach {
+            processMstEntity.elementEntities.forEach {
                 it.elementDataEntities.clear()
             }
 
             // element master 삭제한다.
-            processMstEntity.elementMstEntities.clear()
+            processMstEntity.elementEntities.clear()
 
             // process data entity 생성.
-            val elementMstEntities = mutableListOf<ElementMstEntity>()
+            val elementMstEntities = mutableListOf<ElementEntity>()
             if (wfJsonElementsDto != null) {
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
                 wfJsonElementsDto.forEach {
 
                     // element master entity 생성
-                    val elementMstEntity = ElementMstEntity(
+                    val elementMstEntity = ElementEntity(
                         elementId = it.id,
                         processId = wfJsonProcessDto.id,
                         elementType = it.type,
@@ -164,7 +164,7 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
             processMstEntity.processName = wfJsonProcessDto.name.toString()
             processMstEntity.processStatus = wfJsonProcessDto.status.toString()
             processMstEntity.processDesc = wfJsonProcessDto.description
-            processMstEntity.elementMstEntities.addAll(elementMstEntities)
+            processMstEntity.elementEntities.addAll(elementMstEntities)
             processMstRepository.save(processMstEntity)
 
         }

@@ -1,17 +1,17 @@
 package co.brainz.workflow.component.repository
 
-import co.brainz.workflow.component.entity.ComponentMstEntity
+import co.brainz.workflow.component.entity.ComponentEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ComponentMstRepository: JpaRepository<ComponentMstEntity, String> {
+interface ComponentMstRepository: JpaRepository<ComponentEntity, String> {
 
-    @Query("select f from ComponentMstEntity f where f.components.formId = :formId")
-    fun findByFormId(formId: String): List<ComponentMstEntity>
+    @Query("select f from ComponentEntity f where f.components.formId = :formId")
+    fun findByFormId(formId: String): List<ComponentEntity>
 
-    fun deleteComponentMstEntityByCompIdIn(componentIds: MutableList<String>)
+    fun deleteComponentMstEntityByComponentIdIn(componentIds: MutableList<String>)
 
 
 
