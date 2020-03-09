@@ -291,11 +291,12 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
+     * @param isShowType 타입표시여부
      * @param width element width
      * @param height element height
      * @constructor
      */
-    function RectResizableElement(x, y, width, height) {
+    function RectResizableElement(x, y, isShowType, width, height) {
         const self = this;
         self.width = width ? width : 120;
         self.height = height ? height : 70;
@@ -337,13 +338,15 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.typeElement = elementContainer.append('rect')
-            .attr('class', 'element-type')
-            .attr('width', typeImageSize)
-            .attr('height', typeImageSize)
-            .on('mouseover', elementMouseEventHandler.mouseover)
-            .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(drag);
+        if (isShowType) {
+            self.typeElement = elementContainer.append('rect')
+                .attr('class', 'element-type')
+                .attr('width', typeImageSize)
+                .attr('height', typeImageSize)
+                .on('mouseover', elementMouseEventHandler.mouseover)
+                .on('mouseout', elementMouseEventHandler.mouseout)
+                .call(drag);
+        }
 
         self.pointElement1 = elementContainer.append('circle')
             .attr('class', 'pointer')
@@ -445,11 +448,11 @@
                 .attr('height', updateHeight);
             AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
 
-            if (self.nodeElement.classed('task')) {
+            if (isShowType && self.nodeElement.classed('task')) {
                 self.typeElement
                     .attr('x', updateX + (typeImageSize / 2))
                     .attr('y', updateY + (typeImageSize / 2));
-            } else if (self.nodeElement.classed('subprocess')) {
+            } else if (isShowType && self.nodeElement.classed('subprocess')) {
                 self.typeElement
                     .attr('x', updateX + (updateWidth / 2) - (typeImageSize / 2))
                     .attr('y', updateY + updateHeight - typeImageSize - 5);
@@ -497,7 +500,7 @@
      */
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, width ? width : 135, height ? height : 60);
+        this.base(x, y, true,width ? width : 135, height ? height : 60);
         const defaultType = AliceProcessEditor.getElementDefaultType('task');
         this.nodeElement
             .classed('task', true)
@@ -521,7 +524,7 @@
      */
     function SubprocessElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, width, height);
+        this.base(x, y, true, width, height);
         this.nodeElement.classed('subprocess', true);
         const defaultType = AliceProcessEditor.getElementDefaultType('subprocess');
         this.typeElement
@@ -662,7 +665,7 @@
      */
     function GroupElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, width, height);
+        this.base(x, y, false, width, height);
         this.nodeElement
             .classed('artifact', true)
             .classed('group', true);
