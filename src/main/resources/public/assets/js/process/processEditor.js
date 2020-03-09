@@ -12,7 +12,7 @@
     };
 
     let svg,
-        gNode,
+        elementsContainer,
         path,
         paintedPath,
         dragLine;
@@ -199,7 +199,7 @@
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
                 const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
-                    gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+                    gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
                     centerX = bbox.cx + gTransform.x,
                     centerY = bbox.cy + gTransform.y;
                 dragLine
@@ -259,7 +259,7 @@
         },
         mousedrag: function() {
             const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
-                gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+                gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
                 centerX = bbox.cx + gTransform.x,
                 centerY = bbox.cy + gTransform.y;
             dragLine.attr('d', 'M' + centerX + ',' + centerY + 'L' + (d3.event.x + gTransform.x) + ',' + (d3.event.y + gTransform.y));
@@ -303,16 +303,17 @@
         self.width = width ? width : 120;
         self.height = height ? height : 70;
         self.radius = 10;
-        x = x - (self.width / 2);
-        y = y - (self.height / 2);
+        const calcX = x - (self.width / 2),
+              calcY = y - (self.height / 2);
 
-        self.rectData = [{ x: x, y: y }, { x: x + self.width, y: y + self.height }];
-        self.nodeElement = gNode.append('rect')
+        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.rectData = [{ x: calcX, y: calcY }, { x: calcX + self.width, y: calcY + self.height }];
+        self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
             .attr('width', self.width)
             .attr('height', self.height)
-            .attr('x', self.rectData.x)
-            .attr('y', self.rectData.y)
+            .attr('x', self.rectData[0].x)
+            .attr('y', self.rectData[0].y)
             .attr('rx', self.radius)
             .attr('ry', self.radius)
             .attr('class', 'node resizable')
@@ -338,7 +339,7 @@
                 .on('end', elementMouseEventHandler.mouseup)
             );
 
-        self.pointElement1 = gNode.append('circle')
+        self.pointElement1 = elementContainer.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement1.style('cursor', 'nw-resize'); })
@@ -359,7 +360,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement2 = gNode.append('circle')
+        self.pointElement2 = elementContainer.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement2.style('cursor', 'se-resize'); })
@@ -380,7 +381,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement3 = gNode.append('circle')
+        self.pointElement3 = elementContainer.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement3.style('cursor', 'ne-resize'); })
@@ -401,7 +402,7 @@
                     AliceProcessEditor.setElementMenu(self.nodeElement);
                 })
             );
-        self.pointElement4 = gNode.append('circle')
+        self.pointElement4 = elementContainer.append('circle')
             .attr('class', 'pointer')
             .style('opacity', 0)
             .on('mouseover', function() { self.pointElement4.style('cursor', 'sw-resize'); })
@@ -427,12 +428,26 @@
             const pointerRadius = 4;
             const rectData = self.rectData;
 
+            let updateX = (rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x),
+                updateY = (rectData[1].y - rectData[0].y > 0 ? rectData[0].y :  rectData[1].y),
+                updateWidth = Math.abs(rectData[1].x - rectData[0].x),
+                updateHeight = Math.abs(rectData[1].y - rectData[0].y);
             self.nodeElement
-                .attr('x', rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x)
-                .attr('y', rectData[1].y - rectData[0].y > 0 ? rectData[0].y :  rectData[1].y)
-                .attr('width', Math.abs(rectData[1].x - rectData[0].x))
-                .attr('height', Math.abs(rectData[1].y - rectData[0].y));
+                .attr('x', updateX)
+                .attr('y', updateY)
+                .attr('width', updateWidth)
+                .attr('height', updateHeight);
             AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
+
+            if (self.nodeElement.classed('task')) {
+                elementContainer.select('.element-type')
+                    .attr('x', updateX + 10)
+                    .attr('y', updateY + 10);
+            } else if (self.nodeElement.classed('subprocess')) {
+                elementContainer.select('.element-type')
+                    .attr('x', updateX + (updateWidth / 2) - 9)
+                    .attr('y', updateY + updateHeight - 18 - 5);
+            }
 
             self.pointElement1
                 .data(rectData)
@@ -476,8 +491,17 @@
      */
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y);
+        this.base(x, y, width, height);
         this.nodeElement.classed('task', true);
+        const defaultType = AliceProcessEditor.getElementDefaultType('task');
+        const taskContainer = d3.select(this.nodeElement.node().parentNode);
+        taskContainer.append('rect')
+            .attr('class', 'element-type')
+            .attr('x', this.rectData[0].x + 10)
+            .attr('y', this.rectData[0].y + 10)
+            .attr('width', 20)
+            .attr('height', 20)
+            .style('fill', 'url(#task-tooltip-' + defaultType + ')');
         return this;
     }
 
@@ -493,8 +517,17 @@
      */
     function SubprocessElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y);
+        this.base(x, y, width, height);
         this.nodeElement.classed('subprocess', true);
+        const defaultType = AliceProcessEditor.getElementDefaultType('subprocess');
+        const subProcessContainer = d3.select(this.nodeElement.node().parentNode);
+        subProcessContainer.append('rect')
+            .attr('class', 'element-type')
+            .attr('x', (this.rectData[0].x + (this.width / 2) - 9))
+            .attr('y', (this.rectData[0].y + this.height - 18 - 5))
+            .attr('width', 18)
+            .attr('height', 18)
+            .style('fill', 'url(#subprocess-tooltip-' + defaultType + ')');
         return this;
     }
 
@@ -510,7 +543,8 @@
         const self = this;
         const radius = 25;
 
-        self.nodeElement = gNode.append('circle')
+        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.nodeElement = elementContainer.append('circle')
             .attr('id', workflowUtil.generateUUID())
             .attr('r', radius)
             .attr('cx', x)
@@ -528,6 +562,9 @@
                         self.nodeElement
                             .attr('cx', d3.event.x)
                             .attr('cy', d3.event.y);
+                        self.typeElement
+                            .attr('cx', d3.event.x)
+                            .attr('cy', d3.event.y);
                         self.nodeElement.style('cursor', 'move');
                         AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                         drawConnectors();
@@ -535,6 +572,14 @@
                 })
                 .on('end', elementMouseEventHandler.mouseup)
             );
+
+        const defaultType = AliceProcessEditor.getElementDefaultType('event');
+        self.typeElement = elementContainer.append('circle')
+            .attr('class', 'element-type')
+            .attr('r', radius - 5)
+            .attr('cx', x)
+            .attr('cy', y)
+            .style('fill', 'url(#event-tooltip-' + defaultType + ')');
 
         return self;
     }
@@ -551,7 +596,8 @@
         const self = this;
         const width = 45, height = 45;
 
-        self.nodeElement = gNode.append('rect')
+        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
@@ -572,6 +618,10 @@
                             .attr('x', d3.event.x - (width / 2))
                             .attr('y', d3.event.y - (height / 2))
                             .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
+                        self.typeElement
+                            .attr('x', d3.event.x - (width / 2))
+                            .attr('y', d3.event.y - (height / 2))
+                            .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
 
                         self.nodeElement.style('cursor', 'move');
                         AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
@@ -580,6 +630,15 @@
                 })
                 .on('end', elementMouseEventHandler.mouseup)
             );
+
+        const defaultType = AliceProcessEditor.getElementDefaultType('gateway');
+        self.typeElement = elementContainer.append('rect')
+            .attr('class', 'element-type')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
+            .style('fill', 'url(#gateway-tooltip-' + defaultType + ')');
 
         return self;
     }
@@ -596,7 +655,7 @@
      */
     function GroupElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y);
+        this.base(x, y, width, height);
         this.nodeElement
             .classed('artifact', true)
             .classed('group', true);
@@ -615,7 +674,8 @@
         const self = this;
         const width = 30, height = 30;
 
-        self.nodeElement = gNode.append('rect')
+        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
@@ -666,7 +726,7 @@
             .attr('draggable', 'true')
             .on('dragend', function() {
                 const svgOffset = svg.node().getBoundingClientRect(),
-                    gTransform = d3.zoomTransform(d3.select('g.node-container').node());
+                    gTransform = d3.zoomTransform(d3.select('g.element-container').node());
                 let x = d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x,
                     y = d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y;
                 let _this = d3.select(this);
@@ -795,7 +855,9 @@
                     .call(horizontalAxis.scale(d3.event.transform.rescaleY(horizontalScale)));
                 verticalGrid
                     .call(verticalAxis.scale(d3.event.transform.rescaleX(verticalScale)));
-                svg.select('g.node-container')
+                svg.select('g.element-container')
+                    .attr('transform', d3.event.transform);
+                svg.select('g.connector-container')
                     .attr('transform', d3.event.transform);
             })
             .on('end', function() {
@@ -823,9 +885,10 @@
             .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
-        gNode = svg.append('g').attr('class', 'node-container');
-        path = gNode.selectAll('path.connector');
-        paintedPath = gNode.selectAll('path.painted-connector');
+        elementsContainer = svg.append('g').attr('class', 'element-container');
+        const connectorContainer = svg.append('g').attr('class', 'connector-container');
+        path = connectorContainer.selectAll('path.connector');
+        paintedPath = connectorContainer.selectAll('path.painted-connector');
     }
 
     /**

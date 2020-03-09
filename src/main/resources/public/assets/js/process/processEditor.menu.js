@@ -37,7 +37,7 @@
             url: iconDirectory + '/tooltip/edit.png',
             focus_url: iconDirectory + '/tooltip/edit_focus.png',
             action: function(el) {
-                setElementTypeItems(el);
+                setElementCategoryItems(el);
             }
         },
         {
@@ -133,6 +133,10 @@
                 editElementType(el,'receiveTask');
             }
         }, {
+            type: 'subprocess', parent: 'subprocess-tooltip',
+            url: iconDirectory + '/element-type/subprocess.png',
+            action: function(el) {}
+        }, {
             type: 'exclusiveGateway', parent: 'gateway-tooltip',
             url: iconDirectory + '/element-type/gateway-exclusive.png',
             action: function(el) {
@@ -217,7 +221,7 @@
         });
         elementData.type = type;
         elementData.data = typeData;
-        element.style('fill', 'url(#' + category + '-tooltip-' + type + ')');
+        d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-tooltip-' + type + ')');
         setProperties(element);
         console.debug('edited element [%s]!!', type);
     }
@@ -310,10 +314,12 @@
         }
 
         let actionTooltip = tooltipItems.filter(function(item) { return item.parent === 'action-tooltip'; });
-        if (elem.classed('artifact')) {
-            actionTooltip = actionTooltip.slice(0, 2);
+        if (elem.classed('subprocess')) {
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });
+        } else if (elem.classed('artifact')) {
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete' || tooltip.type === 'copy'; });
         } else if (elem.classed('connector')) {
-            actionTooltip = actionTooltip.slice(0, 1);
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete'; });
         }
 
         const tooltipItemContainer = d3.select('.alice-process-drawing-board').select('svg').append('g')
@@ -354,7 +360,7 @@
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-            gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
+            gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
             targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
             targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
 
@@ -378,22 +384,22 @@
     }
 
     /**
-     * show elements type tooltip.
+     * show elements category tooltip.
      *
      * @param elem 선택된 element
      */
-    function setElementTypeItems(elem) {
+    function setElementCategoryItems(elem) {
         let elementTypeItems = [];
-        let type = '';
+        let category = '';
         if (elem.classed('event')) {
-            type = 'event';
+            category = 'event';
         } else if (elem.classed('task')) {
-            type = 'task';
+            category = 'task';
         } else if (elem.classed('gateway')) {
-            type = 'gateway';
+            category = 'gateway';
         }
-        if (type) {
-            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === type + '-tooltip'; });
+        if (category) {
+            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === category + '-tooltip'; });
         }
         setElementItems(elementTypeItems, elem);
     }
@@ -696,11 +702,9 @@
             .attr('height', 1)
             .attr('patternUnits', 'objectBoundingBox')
             .append('image')
-            /*.attr('x', 0)
+            .attr('x', 0)
             .attr('y', 0)
-            .attr('width', 20)
-            .attr('height', 20)*/
-            .attr('preserveaspectratio', 'none')
+            .attr('preserveaspectratio', 'xMinYMin slice')
             .attr('xlink:href', function(d) { return d.url; });
     }
 
