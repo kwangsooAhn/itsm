@@ -812,7 +812,7 @@
             {
                 "id": "path", 
                 "name": "Image Path", 
-                "value": "https://placehold.it/750X100", 
+                "value": "https://placehold.it/720X100", 
                 "type": "inputbox", 
                 "code": "", 
                 "unit": "" 
@@ -820,7 +820,7 @@
             {
                 "id": "width", 
                 "name": "Width", 
-                "value": "750", 
+                "value": "720", 
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px" 
@@ -1391,7 +1391,7 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "Y", 
+                "value": "N", 
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 

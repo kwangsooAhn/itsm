@@ -275,12 +275,19 @@
             const originDisplayOrder = compAttr.display.order;
             let element = component.draw(compAttr.type, compAttr);
             if (element) {
-                let elementHTML = element.domElem.innerHTML;
-                const panelForm = document.getElementById('panel-form');
-                let targetElement = document.getElementById(id);
-                targetElement.innerHTML = elementHTML;
+                let compAttr = element.attr;
+                compAttr.id = id;
                 compAttr.display.order = originDisplayOrder;
-                panelForm.removeChild(element.domElem);
+                setComponentData(compAttr);
+                
+                let targetElement = document.getElementById(id);
+                element.domElem.id = id;
+                element.domElem.setAttribute('data-index', originDisplayOrder);
+                element.domElem.setAttribute('tabIndex', originDisplayOrder);
+                
+                targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                targetElement.remove();
+                
                 let compIdx = component.getLastIndex();
                 component.setLastIndex(compIdx - 1);
             }
@@ -354,11 +361,17 @@
                         cell.id = option.id;
                         cell.innerHTML = tb.lastElementChild.children[i + 1].innerHTML;
                         let inputCell = cell.querySelector('input');
-                        inputCell.value = option.value;
                         inputCell.addEventListener('change', function() {
                             changePropertiesValue(this.value, group, option.id, rowCount - 1);
                         }, false);
-                        rowData[option.id] = option.value;
+                        if (option.id === 'seq') {
+                            inputCell.value = rowCount;
+                            inputCell.setAttribute('readonly', 'true');
+                            rowData[option.id] = rowCount;
+                        } else {
+                            inputCell.value = option.value;
+                            rowData[option.id] = option.value;
+                        }
                         row.appendChild(cell);
                     });
                     compAttr[group].push(rowData);
@@ -376,12 +389,16 @@
                     for (let i = 1; i < rowCount; i++) {
                         let row = tb.rows[i];
                         let chkbox = row.cells[0].childNodes[0];
+                        let seqCell = row.cells[1].childNodes[0];
                         if (chkbox.checked && rowCount > 2) {
                             tb.deleteRow(i);
                             compAttr[group].splice(i - 1, 1);
                             rowCount--;
                             i--;
                             minusCnt++;
+                        } else if (seqCell.value !== i) {
+                            seqCell.value = i;
+                            compAttr[group][i - 1].seq = i;
                         }
                     }
                     if (minusCnt > 0) {
@@ -478,7 +495,6 @@
                             propertyValue.setAttribute('min', 0);
                             propertyValue.setAttribute('max', 12);
                             propertyValue.setAttribute('value', fieldArr.value);
-                            propertyValue.setAttribute('readonly', 'true');
                             fieldGroupDiv.appendChild(propertyValue);
                             propertyValue.addEventListener('change', function() {
                                 let slider = document.getElementById(this.id + '-value');
@@ -619,8 +635,12 @@
                                     let inputCell = document.createElement('input');
                                     inputCell.setAttribute('type', 'text');
                                     inputCell.setAttribute('value', compAttr.option[i][fieldArr.items[j].id]);
+                                    if (fieldArr.items[j].id === 'seq') {
+                                        inputCell.setAttribute('readonly', 'true');
+                                    }
                                     inputCell.addEventListener('change', function() {
-                                        changePropertiesValue(this.value, group, fieldArr.items[j].id, i);
+                                        let seqCell = this.parentNode.parentNode.cells[1].childNodes[0];
+                                        changePropertiesValue(this.value, group, fieldArr.items[j].id, Number(seqCell.value) - 1);
                                     }, false);
                                     cell.appendChild(inputCell);
                                     row.appendChild(cell);
@@ -706,9 +726,16 @@
                 propertyValue.setAttribute('value', fieldArr.value);
             }
             propertyValue.classList.add('property-field-value');
-            propertyValue.addEventListener('change', function() {
-                formEditor.data.form[fieldArr.id] = this.value;
-            }, false);
+            if (fieldArr.id === 'name') {
+                propertyValue.addEventListener('keyup', function(e) {
+                    formEditor.data.form.name = this.value;
+                    document.querySelector('.form-name').textContent = this.value;
+                });
+            } else {
+                propertyValue.addEventListener('change', function(e) {
+                    formEditor.data.form[fieldArr.id] = this.value;
+                }, false);
+            }
             fieldGroupDiv.appendChild(propertyValue);
             
             if (fieldArr.type === 'inputbox-readonly') { 
