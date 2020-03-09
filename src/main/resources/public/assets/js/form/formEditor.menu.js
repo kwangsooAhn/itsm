@@ -516,9 +516,11 @@
         formEditor.hideComponentProperties();
         
         switch (elem.getAttribute('data-action')) {
-            case 'copy':
+            case 'copy': //컴포넌트 복사
+                formEditor.copyComponent(clickedComponent.id);
                 break;
-            case 'delete':
+            case 'delete': //컴포넌트 삭제
+                formEditor.deleteComponent(clickedComponent.id);
                 break;
             case 'addEditboxUp': //위에 editbox 컴포넌트 추가
                 formEditor.addEditboxUp(clickedComponent.id);
