@@ -25,7 +25,7 @@
             </div>
             <table border="1" style="">
                 <colgroup>
-                    <col width="10%">
+                    <col width="15%">
                     <col width="40%">
                     <col width="10%">
                     <col width="*">
@@ -46,6 +46,10 @@
                     <td colspan="3">
                         <textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${authDetail?.authDesc}"></textarea>
                     </td>
+                </tr>
+                <tr>
+                    <th th:text="#{auth.label.referenceCount}"></th>
+                    <td colspan="3"><span id="roleAuthMapCount" name="roleAuthMapCount"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{common.label.createUserName}"></th>
@@ -163,6 +167,9 @@
                         document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
                         document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
                         document.getElementById('txtAuthId').setAttribute('readonly','true');
+                        document.getElementById('roleAuthMapCount').innerHTML = responseJson.roleAuthMapCount;
+                        disabledButton(responseJson.roleAuthMapCount);
+
                     },
                 };
                 aliceJs.sendXhr(opt);
@@ -192,6 +199,7 @@
             document.getElementById('spanCreateDt').innerHTML = '';
             document.getElementById('spanUpdateUserKey').innerHTML = '';
             document.getElementById('spanUpdateDt').innerHTML = '';
+            document.getElementById('roleAuthMapCount').innerHTML = '';
         }
 
         /* 등록, 수정 버튼 */
@@ -283,6 +291,16 @@
             aliceJs.sendXhr(opt);
         }
 
+        /** 삭제 버튼 활성, 비활성화 */
+        function disabledButton(count) {
+            var btn = document.getElementById('btnDelete');
+
+            if (count !== 0) {
+                btn.disabled = 'disabled';
+            } else {
+                btn.disabled = false;
+            }
+        }
         /*]]>*/
     </script>
 </th:block>
