@@ -13,9 +13,9 @@
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
                 <input type="text" name="searchValue" id="searchValue" th:placeholder="#{notice.searchPlaceholder}"/>
                 <input type="text" id="fromDt" name="fromDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                 th:value="${#temporals.format(minusCurrentDate, dateformat)}" oncontextmenu="return false"/>
+                 th:value="${#temporals.format(minusCurrentDate, dateformat)}"/>
                 <input type="text" id="toDt" name="toDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                 th:value="${#temporals.format(currentDate, dateformat)}" oncontextmenu="return false"/>
+                 th:value="${#temporals.format(currentDate, dateformat)}"/>
                 <!-- submit -->
                 <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true)" th:text="#{notice.search}"></button>
             </div>
