@@ -1,6 +1,6 @@
 package co.brainz.workflow.element.entity
 
-import co.brainz.workflow.process.entity.ProcessMstEntity
+import co.brainz.workflow.process.entity.ProcessEntity
 import java.io.Serializable
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -13,28 +13,28 @@ import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_elem_mst")
-data class ElementMstEntity(
+@Table(name = "wf_element")
+data class ElementEntity(
     @Id
-    @Column(name = "elem_id", length = 256)
+    @Column(name = "element_id", length = 256)
     val elementId: String = "",
 
-    @Column(name = "proc_id", length = 128)
+    @Column(name = "process_id", length = 128)
     val processId: String = "",
 
-    @Column(name = "elem_type", length = 100)
+    @Column(name = "element_type", length = 100)
     val elementType: String = "",
 
-    @Column(name = "elem_name", length = 256)
+    @Column(name = "element_name", length = 256)
     val elementName: String = "",
 
-    @Column(name = "elem_desc", length = 1024)
+    @Column(name = "element_desc", length = 1024)
     val elementDesc: String = "",
 
-    @Column(name = "noti_email")
+    @Column(name = "notify_email")
     val notificationEmail: Boolean = false,
 
-    @Column(name = "elem_config")
+    @Column(name = "element_config")
     val elementConfig: String = "",
 
     @Column(name = "display_info")
@@ -51,8 +51,8 @@ data class ElementMstEntity(
     val elementDataEntities: MutableList<ElementDataEntity> = mutableListOf()
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "proc_id", insertable = false, updatable = false)
-    var processMstEntity: ProcessMstEntity? = null
+    @JoinColumn(name = "process_id", insertable = false, updatable = false)
+    var processEntity: ProcessEntity? = null
 
     fun getElementDataValue(elementAttributeId: String): String? {
         var elementAttributeValue: String? = null

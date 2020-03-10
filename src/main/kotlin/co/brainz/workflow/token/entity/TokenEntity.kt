@@ -42,15 +42,15 @@ import javax.persistence.Table
                 "     , wim.instance_start_dt as createDt\n" +
                 "     , wtm.assignee_id as userKey\n" +
                 "from wf_doc wd \n" +
-                "inner join wf_inst_mst wim on wd.proc_id = wim.process_id\n" +
-                "inner join wf_token_mst wtm on wim.instance_id = wtm.instance_id\n" +
+                "inner join wf_instance wim on wd.proc_id = wim.process_id\n" +
+                "inner join wf_token wtm on wim.instance_id = wtm.instance_id\n" +
                 "and wtm.token_status = :status\n" +
                 "and assignee_id = :userKey"
 )
 
 @Entity
-@Table(name = "wf_token_mst")
-data class TokenMstEntity(
+@Table(name = "wf_token")
+data class TokenEntity(
 
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
