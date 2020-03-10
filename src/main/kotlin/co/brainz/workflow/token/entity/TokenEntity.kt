@@ -37,12 +37,12 @@ import javax.persistence.Table
         resultClass = TicketDto::class,
         query = "select wtm.token_id as tokenId\n" +
                 "     , wim.instance_id as ticketId\n" +
-                "     , wd.doc_name as ticketName\n" +
-                "     , wd.doc_desc as ticketDesc\n" +
+                "     , wd.document_name as ticketName\n" +
+                "     , wd.document_desc as ticketDesc\n" +
                 "     , wim.instance_start_dt as createDt\n" +
                 "     , wtm.assignee_id as userKey\n" +
-                "from wf_doc wd \n" +
-                "inner join wf_instance wim on wd.proc_id = wim.process_id\n" +
+                "from wf_document wd \n" +
+                "inner join wf_instance wim on wd.process_id = wim.process_id\n" +
                 "inner join wf_token wtm on wim.instance_id = wtm.instance_id\n" +
                 "and wtm.token_status = :status\n" +
                 "and assignee_id = :userKey"
