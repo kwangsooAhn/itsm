@@ -394,3 +394,17 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
     }
     return v_date;
 }
+
+function delFileCheck() {
+    const f_length = document.getElementsByName('delFileSeq').length;
+    if (f_length > 0) {
+        document.getElementsByName('delFileSeq').forEach(function(elm) {
+            const delOpt = {
+                method: 'delete',
+                url: '/filedel?seq=' + Number(elm.value)
+            };
+            aliceJs.sendXhr(delOpt);
+        });
+    }
+    return true;
+}
