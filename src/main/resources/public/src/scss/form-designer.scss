@@ -22,15 +22,15 @@
 }
 
 $alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$form-toolbar-height: 2.5rem; // 40px
-$form-toolbar-top-bottom-padding: 0.625rem; // 10px
+$form-toolbar-height: 2.5rem;    // 40px
+$form-toolbar-top-bottom-padding: 0.625rem;    // 10px
 $form-toolbar-real-height: $form-toolbar-height - ($form-toolbar-top-bottom-padding * 2);
-$form-logo-width: 3.75rem; // 60px
-$form-properties-panel-width: 20rem; // 320px
-$form-container-min-width: 75rem;  // 1200px
-$form-container-min-height: 37.5rem;  // 600px
-$form-container-top-margin: 5rem; //80px
-$form-container-left-margin: 8.75rem; //140px
+$form-logo-width: 3.75rem;    // 60px
+$form-properties-panel-width: 20rem;    // 320px
+$form-container-min-width: 75rem;    // 1200px
+$form-container-min-height: 37.5rem;    // 600px
+$form-container-top-margin: 5rem;    //80px
+$form-container-left-margin: 8.75rem;    //140px
 
 body {
     font-family: $alice-font-family;
@@ -124,7 +124,7 @@ body {
             max-width: calc(100% - #{$form-properties-panel-width});
             height: calc(100% - #{$form-container-top-margin});
             margin: $form-container-top-margin $form-container-left-margin 0 $form-container-left-margin;
-            border: 1px solid #BCC5D3;
+            border: 0.0625rem solid #BCC5D3;
             background: $white;
             overflow: auto;
         }
@@ -143,24 +143,24 @@ body {
         border: #bcc5d3 solid 0.063rem;
         overflow: auto;
         .property-title {
-            margin: 40px 0px 0px 20px; 
-            font-size: 28px; 
+            margin: 2.5rem 0 0 1.25rem; //40px 0px 0px 20px 
+            font-size: 1.75rem;         //28px 
             font-weight: bold;
-            height:30px;
-            line-height: 30px;
+            height: 1.875rem;           //30px
+            line-height: 1.875rem;      //30px
         }
         .property-group {
-            padding: 20px 10px;
-            margin: 0px 20px; 
-            border-bottom: 1px solid #707070;
-            font-size: 18px; 
+            padding: 1.25rem 0.625rem;  //20px 10px
+            margin: 0 1.25rem;          // 0 20px 
+            border-bottom: 0.0625rem solid #707070;
+            font-size: 1.125rem;            //18px
             font-weight: bold;
             &[id*="option"] button {
-                width: 25px;
-                height: 25px;
+                width: 1.563rem;          //25px
+                height: 1.563rem;         //25px
                 outline: 0;
-                margin-right: 2px;
-                border: 1px solid #4C5264;
+                margin-right: 0.125rem;   //2px;
+                border: 0.0625rem solid #4C5264;
                 float: right;
             }
             button[class*="plus"]::before {
@@ -169,46 +169,48 @@ body {
             button[class*="minus"]::before {
                 content: '-';
             }
-            table { border-collapse: collapse; font-size: 14px; width: 100%; margin: 10px 0px; text-align: center;}
-            th, td { border: 1px solid #ccc; }
+            table { border-collapse: collapse; font-size: 0.875rem; width: 100%; margin: 0.625rem 0; text-align: center;}
             th { font-weight: bold; }
+            th, td { border: 0.0625rem solid #ccc; vertical-align: middle; height: 1.25rem; }
+            td input[type=checkbox] { vertical-align: middle; }
             td input[type=text] { width:100%; height:100%; border: none; text-align: center; }
+            input[readonly] { pointer-events: none; }
         }
         .property-field {
             display: flex;
             align-items: center;
-            font-size: 14px;
+            font-size: 0.875rem;      //14px
             width: 100%;
-            min-height: 20px;
+            min-height: 1.25rem;      //20px
             font-weight: normal;
-            margin: 10px 0px;
+            margin: 0.625rem 0;       //10px 0
             .property-field-name {
                 flex-shrink: 0;
                 flex-grow: 0;
-                width: 80px;
+                width: 5rem;          //80px
             }
             input[type=text] {
                 flex: 1;
-                border: 1px solid #4C5264;
+                border: 0.0625rem solid #4C5264;
                 width: 100%;
-                height: 20px;
-                padding-left:2px;
+                height: 1.25rem;     //20px
+                padding-left: 0.125rem; //2px
             }
             input[type=text].underline {
                 border: none;
-                border-bottom: 1px solid #4C5264;
+                border-bottom: 0.0625rem solid #4C5264;
                 text-align: right; 
-                padding-right:2px;
-                padding-left: 0px;
+                padding-right: 0.125rem;  //2px
+                padding-left: 0;
             }
-            input[type=text].readonly {
+            input[type=text].noline {
                 border: none;
                 text-align: right; 
-                padding-right:2px;
-                padding-left: 0px;
+                padding-right: 0.125rem;   //2px
+                padding-left: 0;
             }
             textarea {
-                border: 1px solid #4C5264;
+                border: 0.0625rem solid #4C5264;
                 width: 100%;
             }
             select {
@@ -217,41 +219,41 @@ body {
             input[type=range] {
                 -webkit-appearance: none;
                 width: 50%;
-                height: 1px;
+                height: 0.0625rem; // 1px
                 background: #4C5264;
                 outline: none;
         
                 &::-webkit-slider-thumb {
                     -webkit-appearance: none;
                     appearance: none;
-                    width: 10px;
-                    height: 10px;
-                    border: 1px solid #4C5264;
+                    width:  0.625rem;    //10px
+                    height: 0.625rem;
+                    border: 0.0625rem solid #4C5264;
                     border-radius: 50%;
                     background: #fff;
                     cursor: pointer;
                   }
                   
                   &::-moz-range-thumb {
-                    width: 10px;
-                    height: 10px;
-                    border: 1px solid #4C5264;
+                    width: 0.625rem;     //10px
+                    height:  0.625rem;
+                    border: 0.0625rem solid #4C5264;
                     border-radius: 50%;
                     background: #fff;
                     cursor: pointer;
                   }
             }
             label {
-                margin: 0px 20px 0px 5px;
+                margin: 0 1.25rem 0 0.3125rem;    //0px 20px 0px 5px
             }
             .property-field-button {
                 button {
-                    width: 25px;
-                    height: 25px;
+                    width: 1.563rem;    //25px
+                    height: 1.563rem;
                     background-color: #f8f9fa;
                     outline: 0;
-                    margin-right: 2px;
-                    border: 1px solid #4C5264;
+                    margin-right: 0.125rem;    //2px
+                    border: 0.0625rem solid #4C5264;
                 }
                 button.active {
                     background-color: #C1C1C1;
@@ -267,7 +269,7 @@ body {
                     text-decoration: underline; 
                 }
                 button[id*="left"] {
-                    margin-left: 20px;
+                    margin-left: 1.25rem; //20px
                 }
                 button[id*="left"]::before {
                     content: 'L';
@@ -285,12 +287,12 @@ body {
 
 .context-menu {
     display: none;
-    width: 314px;
-    max-height: 225px;
+    width: 19.63rem;       // 314px
+    max-height: 14.06rem;  // 225px
     position: absolute;
     background-color: #fff;
-    border: solid 1px #BCC5D3;
-    box-shadow: 1px 1px 2px #707070;
+    border: solid 0.0625rem #BCC5D3;
+    box-shadow: 0.0625rem 0.0625rem 0.125rem #707070;
     overflow: auto;
     z-index: 10;
     ul {
@@ -298,23 +300,23 @@ body {
         padding: 0;
         margin: 0;
         li {
-            padding-left: 20px;
+            padding-left: 1.25rem;   // 20px
             img {
-                margin-right: 20px;
+                margin-right: 1.25rem;
             }
             label { pointer-events: none; }
         }
     }
     &-control {
         li {
-            height: 40px;
-            line-height: 40px;
+            height: 2.5rem;  // 40px
+            line-height: 2.5rem;
         }
     }
     &-component {
         li {
-            height: 60px; 
-            line-height: 60px;
+            height: 3.75rem;    //60px; 
+            line-height: 3.75rem;
         }
     }
     ul.active { display: block; }
@@ -329,11 +331,12 @@ body {
     width: 100%; 
     max-width: 100%; 
     border: none; 
-    padding: 10px 60px 10px 0px;
+    padding: 0.625rem 3.75rem 0.625rem 0;    //10px 60px 10px 0px
+    background-color: #ffffff;
     .move-icon { 
-        width: 30px; 
-        height: 30px;
-        margin: 25px 15px;
+        width:  1.875rem;    // 30px
+        height: 1.875rem;
+        margin: 1.563rem 0.9375rem;    //25px 15px
         text-align: center;
         content: '';
         cursor: move;
@@ -346,9 +349,18 @@ body {
         align-items: center; 
         .field input[type=text] {
             width: 100%; 
-            height: 25px;
+            height: 1.563rem;    //25px
         }
         .field textarea { width: 100%; }
+        .field.dropbox { 
+            height: 9.375rem;    //150px
+            line-height: 9.375rem;
+            background-color: #CCCCCC; 
+            text-align: center;
+            font-weight: bold;
+            font-size:  1.25rem;    //20px
+            color: #969696;
+         }
     }
 }
 
@@ -356,7 +368,10 @@ body {
     .move-icon:after { content: '::'; }
 }
 
-.component:focus { outline: none }
+.component:focus { outline: none; }
+.component *:focus { outline: none; }
+
+.component.selected { background-color: #f4f7f7; }
 
 .component[data-type]:not([data-type="editbox"]):hover { 
     cursor: pointer; 
@@ -377,16 +392,14 @@ body {
 
 .group[contenteditable=true] {
     color : #BCC5D3;
-    font-size: 12px; 
-    height:80px; 
-    line-height: 80px;
+    font-size: 0.75rem;    //12px
+    height: 5rem;          //80px
+    line-height: 5rem;
     cursor: text; 
 }
 
-.group:focus { outline: none }
-
 .component.over { 
-    border-top: 2px dashed #BCC5D3; 
+    border-top: 0.125rem dashed #BCC5D3; 
     * {
         pointer-events: none;
     }
@@ -395,19 +408,19 @@ body {
 .color-palette {
     background: #d3d3d3;
     div {
-        width: 20px;
+        width: 1.25rem;    //20px
         display: inline-block;
-        height: 20px;
-        margin: 5px;
+        height: 1.25rem;
+        margin: 0.3125rem; //5px
     }
 }
 
 .selected-color {
-    width: 20px;
+    width: 1.25rem;    //20px
     display: inline-block;
-    height: 20px;
-    margin-right: 5px;
-    border: 1px solid #000000;
+    height: 1.25rem;
+    margin-right: 0.3125rem; //5px
+    border: 0.0625rem solid #000000;
 } 
 
 

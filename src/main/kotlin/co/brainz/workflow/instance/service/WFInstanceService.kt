@@ -3,6 +3,8 @@ package co.brainz.workflow.instance.service
 import co.brainz.workflow.instance.constants.InstanceConstants
 import co.brainz.workflow.instance.dto.InstanceDto
 import co.brainz.workflow.instance.dto.TicketDto
+import co.brainz.workflow.instance.entity.InstanceEntity
+import co.brainz.workflow.instance.repository.InstanceRepository
 import co.brainz.workflow.instance.entity.InstanceMstEntity
 import co.brainz.workflow.instance.repository.InstanceMstRepository
 import co.brainz.workflow.token.constants.TokenConstants
@@ -14,7 +16,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Service
-class WFInstanceService(private val instanceMstRepository: InstanceMstRepository) {
+class WFInstanceService(private val instanceRepository: InstanceRepository) {
 
     /**
      * Search Instances.
@@ -59,16 +61,16 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
      * Instance Create.
      *
      * @param instanceDto
-     * @return InstanceMstEntity
+     * @return InstanceEntity
      */
-    fun createInstance(instanceDto: InstanceDto): InstanceMstEntity {
-        val instanceMstEntity = InstanceMstEntity(
+    fun createInstance(instanceDto: InstanceDto): InstanceEntity {
+        val instanceEntity = InstanceEntity(
                 instanceId = "",
                 instanceStatus = instanceDto.instanceStatus?:InstanceConstants.Status.RUNNING.code,
                 processId = instanceDto.processId,
                 instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
-        return instanceMstRepository.save(instanceMstEntity)
+        return instanceRepository.save(instanceEntity)
     }
 
     /**
@@ -77,11 +79,11 @@ class WFInstanceService(private val instanceMstRepository: InstanceMstRepository
      * @param instanceId
      */
     fun completeInstance(instanceId: String) {
-        val instanceMstEntity = instanceMstRepository.findInstanceMstEntityByInstanceId(instanceId)
-        if (instanceMstEntity.isPresent) {
-            instanceMstEntity.get().instanceStatus = InstanceConstants.Status.FINISH.code
-            instanceMstEntity.get().instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-            instanceMstRepository.save(instanceMstEntity.get())
+        val instanceEntity = instanceRepository.findInstanceEntityByInstanceId(instanceId)
+        if (instanceEntity.isPresent) {
+            instanceEntity.get().instanceStatus = InstanceConstants.Status.FINISH.code
+            instanceEntity.get().instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            instanceRepository.save(instanceEntity.get())
         }
     }
 

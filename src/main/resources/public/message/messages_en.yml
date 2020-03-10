@@ -33,6 +33,7 @@ common:
     save: "Saved"
     save.fail: "Fail"
     delete.success: "Deleted."
+    delete.fail: "Deletion failed."
 
 # Menu
 menu:
@@ -230,7 +231,7 @@ form:
     checkbox: "Checkbox"
     label: "Label"
     image: "Image"
-    line: "Line"
+    divider: "Divider"
     date: "Date"
     time: "Time"
     datetime: "Date Time"
@@ -240,6 +241,8 @@ form:
   msg:
     alert:
       nameNotExist: "Please enter a form name."
+  preview:
+    name: "Form Edit Preview"
 
 # Process
 process:
@@ -277,6 +280,7 @@ role:
     roleName: "Role Name"
     roleDesc: "Role Desc"
     roleAuth: "Role Auth"
+    referenceCount: "Reference Count"
   msg:
     idNotExist: "Please enter a role id."
     nameNotExist: "Please enter a role name."

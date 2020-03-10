@@ -11,28 +11,28 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_comp_data")
+@Table(name = "wf_component_data")
 @IdClass(ComponentDataPk::class)
 data class ComponentDataEntity(
 
         @Id
-        @Column(name = "comp_id", length = 128)
-        val compId: String,
+        @Column(name = "component_id", length = 128)
+        val componentId: String,
 
         @Id
-        @Column(name = "attr_id", length = 100)
-        val attrId: String,
+        @Column(name = "attribute_id", length = 100)
+        val attributeId: String,
 
-        @Column(name = "attr_value", length = 512)
-        val attrValue: String,
+        @Column(name = "attribute_value", length = 512)
+        val attributeValue: String,
 
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
-        @JoinColumn(name = "comp_id", nullable = false, insertable = false, updatable = false)
-        val attributes: ComponentMstEntity
+        @JoinColumn(name = "component_id", nullable = false, insertable = false, updatable = false)
+        val attributes: ComponentEntity
 
 ) : Serializable
 
 data class ComponentDataPk(
-        val compId: String = "",
-        val attrId: String = ""
+        val componentId: String = "",
+        val attributeId: String = ""
 ) : Serializable

@@ -188,20 +188,11 @@ const fileUploader = (function () {
                                 aliceJs.sendXhr(fileDownOpt);
                             });
 
-                            // 파일삭제
+                            // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
                             delBtn.addEventListener('click', function (e) {
-                                const thisEvent = e.target;
-                                const delBtnOpt = {
-                                    method: 'delete',
-                                    url: '/filedel?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
-                                    callbackFunc: function (xhr) {
-                                        alert(i18n.get('common.msg.delete.success'));
-                                        thisEvent.parentElement.remove();
-                                    },
-                                    params: '',
-                                    async: true
-                                };
-                                aliceJs.sendXhr(delBtnOpt);
+                                const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]'); 
+                                delFile.setAttribute('name', 'delFileSeq');
+                                delFile.parentElement.style.display = 'none';
                             });
                         });
 

@@ -2,6 +2,8 @@
   "event": [
     {
       "type": "commonStart",
+      "name": "Start Event",
+      "default": "true",
       "attribute": [
         {
           "title": "Data",
@@ -13,6 +15,8 @@
     },
     {
       "type": "messageStart",
+      "name": "Message Start Event",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
@@ -32,6 +36,8 @@
     },
     {
       "type": "timerStart",
+      "name": "Timer Start Event",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
@@ -45,6 +51,8 @@
     },
     {
       "type": "commonEnd",
+      "name": "End Event",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
@@ -56,6 +64,8 @@
     },
     {
       "type": "messageEnd",
+      "name": "Message End Event",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
@@ -77,11 +87,13 @@
   "task": [
     {
       "type": "userTask",
+      "name": "User Task",
+      "default": "true",
       "attribute": [
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {
               "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee",
@@ -99,11 +111,13 @@
     },
     {
       "type": "manualTask",
+      "name": "Manual Task",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": ""},
             {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
@@ -113,11 +127,13 @@
     },
     {
       "type": "sendTask",
+      "name": "Send Task",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {
               "id": "message-type", "name": "Message Type", "type": "select", "default": "",
@@ -134,11 +150,13 @@
     },
     {
       "type": "receiveTask",
+      "name": "Receive Task",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": ""},
             {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
@@ -148,11 +166,13 @@
     },
     {
       "type": "scriptTask",
+      "name": "Script Task",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {"id": "script", "name": "Script", "type": "inputbox", "default": ""},
             {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
@@ -164,6 +184,8 @@
   "gateway": [
     {
       "type": "exclusiveGateway",
+      "name": "Exclusive Gateway",
+      "default": "true",
       "attribute": [
         {
           "title": "Data",
@@ -175,6 +197,8 @@
     },
     {
       "type": "parallelGateway",
+      "name": "Parallel Gateway",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
@@ -186,6 +210,8 @@
     },
     {
       "type": "inclusiveGateway",
+      "name": "Inclusive Gateway",
+      "default": "false",
       "attribute": [
         {
           "title": "Data",
@@ -199,6 +225,8 @@
   "connector": [
     {
       "type": "arrowConnector",
+      "name": "Connector",
+      "default": "true",
       "attribute": [
         {
           "title": "Data",
@@ -208,10 +236,12 @@
           ]
         },
         {
-          "title": "Connect",
+          "title": "Connection information",
           "items": [
-            {"id": "start-id", "name": "Source Element ID", "type": "inputbox", "default": ""},
-            {"id": "end-id", "name": "Target Element ID", "type": "inputbox", "default": ""}
+            {"id": "start-id", "name": "Source Element ID", "type": "inputbox-readonly", "default": ""},
+            {"id": "start-name", "name": "Source Element Name", "type": "inputbox-readonly", "default": ""},
+            {"id": "end-id", "name": "Target Element ID", "type": "inputbox-readonly", "default": ""},
+            {"id": "end-name", "name": "Target Element Name", "type": "inputbox-readonly", "default": ""}
           ]
         }
       ]
@@ -220,6 +250,8 @@
   "subprocess": [
     {
       "type": "subprocess",
+      "name": "Subprocess",
+      "default": "true",
       "attribute": [
         {
           "title": "Data",
@@ -234,22 +266,26 @@
   "artifact": [
     {
       "type": "annotationArtifact",
+      "name": "Annotation",
+      "default": "true",
       "attribute": [
         {
           "title": "Data",
           "items": [
-            {"id": "text", "name": "Annotation", "type": "inputbox", "default": ""}
+            {"id": "text", "name": "Annotation", "type": "inputbox", "default": "Annotation"}
           ]
         }
       ]
     },
     {
       "type": "groupArtifact",
+      "name": "Group",
+      "default": "true",
       "attribute": [
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Group"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""}
           ]
         }

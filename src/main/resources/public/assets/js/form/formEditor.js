@@ -24,8 +24,10 @@
      */
     function saveForm() {
         data = JSON.parse(JSON.stringify(formEditor.data));
-        data.components = data.components.filter(function(comp) { return comp.type !== defaultComponent; });
-        console.debug(data);
+        let lastCompIndex = component.getLastIndex();
+        data.components = data.components.filter(function(comp) { 
+            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent); 
+        });
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/data',
@@ -59,7 +61,21 @@
      * 미리보기
      */
     function previewForm() {
-        //TODO: 미리보기
+        let url = '/forms/' + formEditor.data.form.id + '/preview';
+        const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+        window.open(url, 'result', 'width=1500,height=920,' + specs);
+
+        let form = document.createElement('form');
+        form.action = url;
+        form.method = 'POST';
+        form.target = 'result';
+        let input = document.createElement('textarea');
+        input.name = 'data';
+        input.value = JSON.stringify(formEditor.data);
+        form.appendChild(input);
+        form.style.display = 'none';
+        document.body.appendChild(form);
+        form.submit();
     }
     
     /**
@@ -85,14 +101,18 @@
     function addComponent(type, componentId) {
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
             let elem = document.getElementById(componentId);
-            let removeComp = component.draw(type);
-            let compAttr = removeComp.attr;
+            let replaceComp = component.draw(type);
+            let compAttr = replaceComp.attr;
             compAttr.id = componentId;
             compAttr.display.order = Number(elem.getAttribute('data-index'));
             setComponentData(compAttr);
-            elem.innerHTML = removeComp.domElem.innerHTML;
-            removeComp.domElem.remove();
-
+            
+            replaceComp.domElem.id = componentId;
+            replaceComp.domElem.setAttribute('data-index', compAttr.display.order);
+            replaceComp.domElem.setAttribute('tabIndex', compAttr.display.order);
+            elem.parentNode.insertBefore(replaceComp.domElem, elem);
+            elem.remove();
+            
             let compIdx = component.getLastIndex();
             component.setLastIndex(compIdx - 1);
             addEditboxDown(componentId);
@@ -100,20 +120,72 @@
             let editbox = component.draw(defaultComponent);
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
-    
+
     /**
      * 컴포넌트 복사
+     *
+     * @param elemId 선택한 element Id
      */
-    function copyComponent() {
-        //TODO: 컴포넌트 복사 후 재정렬
+    function copyComponent(elemId) {
+        let elem = document.getElementById(elemId);
+        if (elem === null) { return; }
+
+        //복사
+        let elemIdx = Number(elem.getAttribute('data-index')) + 1;
+        for (let i = 0; i < formEditor.data.components.length; i++) {
+            if (elemId === formEditor.data.components[i].id) {
+                let copyData = JSON.parse(JSON.stringify(formEditor.data.components[i]));
+                copyData.id = workflowUtil.generateUUID();
+                let comp = component.draw(copyData.type, copyData);
+                setComponentData(comp.attr);
+                elem.parentNode.insertBefore(comp.domElem, elem.nextSibling);
+                comp.domElem.setAttribute('data-index', elemIdx);
+                comp.domElem.setAttribute('tabIndex', elemIdx);
+                if (copyData.type === 'editbox') {
+                    comp.domElem.querySelector('[contenteditable=true]').focus();
+                }
+                showComponentProperties(comp.id);
+                break;
+            }
+        }
+        //재정렬
+        let lastCompIdx = component.getLastIndex();
+        formEditor.data.components[lastCompIdx - 1].display.order = elemIdx;
+        reorderComponent(elem, elemIdx, lastCompIdx);
     }
+
     /**
      * 컴포넌트 삭제
+     *
+     * @param elemId 선택한 element Id
      */
-    function removeComponent() {
-        //TODO: 컴포넌트 삭제 후 재정렬
+    function deleteComponent(elemId) {
+        let elem = document.getElementById(elemId);
+        if (elem === null) { return; }
+
+        //재정렬
+        let elemIdx = Number(elem.getAttribute('data-index'));
+        let lastCompIdx = component.getLastIndex() - 1;
+        component.setLastIndex(lastCompIdx);
+        reorderComponent(elem, elemIdx, lastCompIdx);
+        //삭제
+        elem.remove();
+        for (let i = 0; i < formEditor.data.components.length; i++) {
+            if (elemId === formEditor.data.components[i].id) {
+                formEditor.data.components.splice(i, 1);
+                break;
+            }
+        }
+        //컴포넌트 없을 경우 editbox 컴포넌트 신규 추가.
+        if (document.querySelectorAll('.component').length === 0) {
+            let editbox = component.draw(defaultComponent);
+            setComponentData(editbox.attr);
+            editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
+        }
     }
 
     /**
@@ -124,34 +196,22 @@
     function addEditboxUp(elemId) {
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
-        
+
         let elemIdx = Number(elem.getAttribute('data-index'));
         let editbox = component.draw(defaultComponent);
         setComponentData(editbox.attr);
         elem.parentNode.insertBefore(editbox.domElem, elem);
         editbox.domElem.setAttribute('data-index', elemIdx);
         editbox.domElem.setAttribute('tabIndex', elemIdx);
-        
+
         //신규 추가된 editbox 컴포넌트 아래에 존재하는 컴포넌트들 순서 재정렬
-        let lastCompIndex = component.getLastIndex();
-        formEditor.data.components[lastCompIndex - 1].display.order = elemIdx;
-        for (let i = elem.parentNode.children.length - 1; i >= elemIdx; i--) {
-            let childNode = elem.parentNode.children[i];
-            childNode.setAttribute('data-index', lastCompIndex);
-            childNode.setAttribute('tabIndex', lastCompIndex);
-            
-            //데이터 display 순서 변경
-            for (let j = 0, len = formEditor.data.components.length; j < len; j++) {
-                let comp = formEditor.data.components[j];
-                if (comp.id === childNode.id) { 
-                    comp.display.order = lastCompIndex;
-                    break;
-                }
-            }
-            lastCompIndex--;
-        }
+        let lastCompIdx = component.getLastIndex();
+        formEditor.data.components[lastCompIdx - 1].display.order = elemIdx;
+        reorderComponent(elem, elemIdx, lastCompIdx);
+
         if(editbox !== null) {
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
 
@@ -163,46 +223,56 @@
     function addEditboxDown(elemId) {
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
-        
-        let elemIdx = Number(elem.getAttribute('data-index'));
+
+        let elemIdx = Number(elem.getAttribute('data-index')) + 1;
         let editbox = null;
         if (elem.nextSibling !== null) {
             editbox = component.draw(defaultComponent);
             setComponentData(editbox.attr);
             elem.parentNode.insertBefore(editbox.domElem, elem.nextSibling);
-            editbox.domElem.setAttribute('data-index', elemIdx + 1);
-            editbox.domElem.setAttribute('tabIndex', elemIdx + 1);
-            
+            editbox.domElem.setAttribute('data-index', elemIdx);
+            editbox.domElem.setAttribute('tabIndex', elemIdx);
+
             //신규 추가된 editbox 컴포넌트 아래에 존재하는 컴포넌트들 순서 재정렬
-            let lastCompIndex = component.getLastIndex();
-            formEditor.data.components[lastCompIndex - 1].display.order = elemIdx + 1;
-            
-            for (let i = elem.parentNode.children.length - 1; i > elemIdx; i--) {
-                let childNode = elem.parentNode.children[i];
-                childNode.setAttribute('data-index', lastCompIndex);
-                childNode.setAttribute('tabIndex', lastCompIndex);
-                
-                //데이터 display 순서 변경
-                for (let j = 0, len = formEditor.data.components.length; j < len; j++) {
-                    let comp = formEditor.data.components[j];
-                    if (comp.id === childNode.id) { 
-                        comp.display.order = lastCompIndex;
-                        break;
-                    }
-                }
-                lastCompIndex--;
-            }
-        } else { //마지막에 추가된 경우 
+            let lastCompIdx = component.getLastIndex();
+            formEditor.data.components[lastCompIdx - 1].display.order = elemIdx;
+            reorderComponent(elem, elemIdx, lastCompIdx);
+        } else { //마지막에 추가된 경우
             editbox = component.draw(defaultComponent);
             setComponentData(editbox.attr);
             elem.parentNode.appendChild(editbox.domElem);
         }
-        
+
         if(editbox !== null) {
             editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
         }
     }
-    
+
+    /**
+     * 컴포넌트 재정렬
+     *
+     * @param elem 선택한 element
+     * @param elemIdx 선택한 element data index
+     * @param lastCompIdx 컴포넌트 last index
+     */
+    function reorderComponent(elem, elemIdx, lastCompIdx) {
+        for (let i = elem.parentNode.children.length - 1; i >= elemIdx; i--) {
+            let childNode = elem.parentNode.children[i];
+            childNode.setAttribute('data-index', lastCompIdx);
+            childNode.setAttribute('tabIndex', lastCompIdx);
+            //데이터 display 순서 변경
+            for (let j = 0, len = formEditor.data.components.length; j < len; j++) {
+                let comp = formEditor.data.components[j];
+                if (comp.id === childNode.id) {
+                    comp.display.order = lastCompIdx;
+                    break;
+                }
+            }
+            lastCompIdx--;
+        }
+    }
+
     /**
      * 컴포넌트 ID를 전달 받아서 일치하는 컴포넌트의 index 반환
      *
@@ -245,7 +315,14 @@
     function showComponentProperties(id) {
         if (selectedComponentId === id) { return false; }
         propertiesPanel.innerHTML = '';
+        //기존 선택된 컴포넌트 css 삭제
+        if (selectedComponentId !== '') {
+            document.getElementById(selectedComponentId).classList.remove('selected');
+        }
+        
         selectedComponentId = id;
+        //현재 선택된 컴포넌트 css 추가
+        document.getElementById(id).classList.add('selected');
         
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
@@ -259,12 +336,19 @@
             const originDisplayOrder = compAttr.display.order;
             let element = component.draw(compAttr.type, compAttr);
             if (element) {
-                let elementHTML = element.domElem.innerHTML;
-                const panelForm = document.getElementById('panel-form');
-                let targetElement = document.getElementById(id);
-                targetElement.innerHTML = elementHTML;
+                let compAttr = element.attr;
+                compAttr.id = id;
                 compAttr.display.order = originDisplayOrder;
-                panelForm.removeChild(element.domElem);
+                setComponentData(compAttr);
+                
+                let targetElement = document.getElementById(id);
+                element.domElem.id = id;
+                element.domElem.setAttribute('data-index', originDisplayOrder);
+                element.domElem.setAttribute('tabIndex', originDisplayOrder);
+                
+                targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                targetElement.remove();
+                
                 let compIdx = component.getLastIndex();
                 component.setLastIndex(compIdx - 1);
             }
@@ -338,11 +422,17 @@
                         cell.id = option.id;
                         cell.innerHTML = tb.lastElementChild.children[i + 1].innerHTML;
                         let inputCell = cell.querySelector('input');
-                        inputCell.value = option.value;
                         inputCell.addEventListener('change', function() {
                             changePropertiesValue(this.value, group, option.id, rowCount - 1);
                         }, false);
-                        rowData[option.id] = option.value;
+                        if (option.id === 'seq') {
+                            inputCell.value = rowCount;
+                            inputCell.setAttribute('readonly', 'true');
+                            rowData[option.id] = rowCount;
+                        } else {
+                            inputCell.value = option.value;
+                            rowData[option.id] = option.value;
+                        }
                         row.appendChild(cell);
                     });
                     compAttr[group].push(rowData);
@@ -360,12 +450,16 @@
                     for (let i = 1; i < rowCount; i++) {
                         let row = tb.rows[i];
                         let chkbox = row.cells[0].childNodes[0];
+                        let seqCell = row.cells[1].childNodes[0];
                         if (chkbox.checked && rowCount > 2) {
                             tb.deleteRow(i);
                             compAttr[group].splice(i - 1, 1);
                             rowCount--;
                             i--;
                             minusCnt++;
+                        } else if (seqCell.value !== i) {
+                            seqCell.value = i;
+                            compAttr[group][i - 1].seq = i;
                         }
                     }
                     if (minusCnt > 0) {
@@ -462,7 +556,6 @@
                             propertyValue.setAttribute('min', 0);
                             propertyValue.setAttribute('max', 12);
                             propertyValue.setAttribute('value', fieldArr.value);
-                            propertyValue.setAttribute('readonly', 'true');
                             fieldGroupDiv.appendChild(propertyValue);
                             propertyValue.addEventListener('change', function() {
                                 let slider = document.getElementById(this.id + '-value');
@@ -603,8 +696,12 @@
                                     let inputCell = document.createElement('input');
                                     inputCell.setAttribute('type', 'text');
                                     inputCell.setAttribute('value', compAttr.option[i][fieldArr.items[j].id]);
+                                    if (fieldArr.items[j].id === 'seq') {
+                                        inputCell.setAttribute('readonly', 'true');
+                                    }
                                     inputCell.addEventListener('change', function() {
-                                        changePropertiesValue(this.value, group, fieldArr.items[j].id, i);
+                                        let seqCell = this.parentNode.parentNode.cells[1].childNodes[0];
+                                        changePropertiesValue(this.value, group, fieldArr.items[j].id, Number(seqCell.value) - 1);
                                     }, false);
                                     cell.appendChild(inputCell);
                                     row.appendChild(cell);
@@ -623,6 +720,8 @@
     function hideComponentProperties() {
         if (selectedComponentId !== '') {
             propertiesPanel.innerHTML = '';
+            //기존 선택된 컴포넌트 css 삭제
+            document.getElementById(selectedComponentId).classList.remove('selected');
             selectedComponentId = '';
         }
     }
@@ -630,8 +729,10 @@
      * 우측 properties panel에 폼 세부 속성 출력
      */
     function showFormProperties() {
-    	if (selectedComponentId === '') { return false; }
+        if (selectedComponentId === '') { return false; }
         propertiesPanel.innerHTML = '';
+        //기존 선택된 컴포넌트 css 삭제
+        document.getElementById(selectedComponentId).classList.remove('selected');
         selectedComponentId = '';
         
         let formAttr = formEditor.data.form;
@@ -669,19 +770,37 @@
             if (fieldArr.type === 'textarea') {
                 propertyValue = document.createElement('textarea');
                 propertyValue.value = fieldArr.value;
+            } else if (fieldArr.type === 'select') { //상태값 출력
+                propertyValue = document.createElement('select');
+                for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                    let propertyOption = document.createElement('option');
+                    propertyOption.value = fieldArr.option[i].id;
+                    propertyOption.text = fieldArr.option[i].name;
+                    if (fieldArr.value === fieldArr.option[i].id) {
+                        propertyOption.setAttribute('selected', 'selected');
+                    }
+                    propertyValue.appendChild(propertyOption);
+                }
             } else {
                 propertyValue = document.createElement('input');
                 propertyValue.setAttribute('type', 'text');
                 propertyValue.setAttribute('value', fieldArr.value);
             }
             propertyValue.classList.add('property-field-value');
-            propertyValue.addEventListener('change', function() {
-                formEditor.data.form[fieldArr.id] = this.value;
-            }, false);
+            if (fieldArr.id === 'name') {
+                propertyValue.addEventListener('keyup', function(e) {
+                    formEditor.data.form.name = this.value;
+                    document.querySelector('.form-name').textContent = this.value;
+                });
+            } else {
+                propertyValue.addEventListener('change', function(e) {
+                    formEditor.data.form[fieldArr.id] = this.value;
+                }, false);
+            }
             fieldGroupDiv.appendChild(propertyValue);
             
             if (fieldArr.type === 'inputbox-readonly') { 
-                propertyValue.classList.add('readonly'); 
+                propertyValue.classList.add('noline'); 
                 propertyValue.setAttribute('readonly', 'true');
             }
         });
@@ -708,7 +827,6 @@
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editbox = component.draw(defaultComponent);
         setComponentData(editbox.attr);
-        selectedComponentId = editbox.id;
         editbox.domElem.querySelector('[contenteditable=true]').focus();
         
         //TODO. 폼 상세 정보 출력
@@ -717,7 +835,7 @@
             url: '/assets/js/form/formAttribute.json',
             callbackFunc: function(xhr) {
                 formProperties = JSON.parse(xhr.responseText);
-                showFormProperties();
+                showComponentProperties(editbox.id);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -758,7 +876,7 @@
     exports.importform = exportForm;
     exports.addComponent = addComponent;
     exports.copyComponent = copyComponent;
-    exports.removeComponent = removeComponent;
+    exports.deleteComponent = deleteComponent;
     exports.addEditboxUp = addEditboxUp;
     exports.addEditboxDown = addEditboxDown;
     exports.getComponentIndex = getComponentIndex;
@@ -766,6 +884,7 @@
     exports.showFormProperties = showFormProperties;
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
+    exports.reorderComponent = reorderComponent;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

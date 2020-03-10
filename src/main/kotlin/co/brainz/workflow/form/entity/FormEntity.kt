@@ -1,6 +1,6 @@
 package co.brainz.workflow.form.entity
 
-import co.brainz.workflow.component.entity.ComponentMstEntity
+import co.brainz.workflow.component.entity.ComponentEntity
 import co.brainz.workflow.document.entity.DocumentEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
@@ -15,8 +15,8 @@ import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_form_mst")
-data class FormMstEntity(
+@Table(name = "wf_form")
+data class FormEntity(
 
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -46,7 +46,7 @@ data class FormMstEntity(
 
 ): Serializable {
         @OneToMany(fetch = FetchType.LAZY, mappedBy = "components", cascade = [CascadeType.REMOVE])
-        val components: MutableList<ComponentMstEntity>? = mutableListOf()
+        val components: MutableList<ComponentEntity>? = mutableListOf()
 
         @OneToMany(fetch = FetchType.LAZY, mappedBy = "forms")
         val forms: MutableList<DocumentEntity>? = mutableListOf()

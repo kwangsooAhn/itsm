@@ -137,20 +137,16 @@
             fieldFirstEle.style.textAlign = lblData.align;
             fieldFirstEle.appendChild(lblEle);
 
-            if (validateData !== undefined) {
-                if (validateData.required === 'Y') {
-                    const requiredEle = document.createElement('span');
-                    requiredEle.className = 'required';
-                    requiredEle.innerText = '*';
-                    fieldFirstEle.append(requiredEle);
-                }
+            if (typeof validateData !== 'undefined' && validateData.required === 'Y') {
+                const requiredEle = document.createElement('span');
+                requiredEle.className = 'required';
+                requiredEle.innerText = '*';
+                fieldFirstEle.append(requiredEle);
             }
-            if (lblData !== undefined && displayData !== undefined) {
-                if (lblData.position === 'left') {
-                    comp.style.display = 'flex';
-                    fieldFirstEle.style.flexBasis = (defaultColWidth * Number(lblData.column)) + '%';
-                    fieldLastEle.style.flexBasis = (defaultColWidth * Number(displayData.column)) + '%';
-                }
+            if (lblData.position === 'left') {
+                comp.style.display = 'flex';
+                fieldFirstEle.style.flexBasis = (defaultColWidth * Number(lblData.column)) + '%';
+                fieldLastEle.style.flexBasis = (defaultColWidth * Number(displayData.column)) + '%';
             }
             comp.appendChild(fieldFirstEle);
         }
@@ -276,7 +272,7 @@
                 fieldLastEle.style.textAlign = displayData.align;
                 fieldLastEle.appendChild(imgEle);
                 break;
-            case 'line':
+            case 'divider':
                 const lineEle = document.createElement('hr');
                 lineEle.style.borderWidth = displayData.width + 'px';
                 lineEle.style.borderStyle = displayData.type;
@@ -556,8 +552,19 @@
         });
     }
 
+    /**
+     * Init Container.
+     *
+     * @param elementId
+     */
+    function initContainer(elementId) {
+        documentContainer = document.getElementById(elementId);
+    }
+
     exports.init = init;
     exports.save = save;
+    exports.initContainer = initContainer;
+    exports.drawDocument = drawDocument;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

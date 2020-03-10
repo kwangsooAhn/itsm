@@ -41,7 +41,7 @@ class DocumentRestController(private val documentService: DocumentService) {
                 },
                 {
                     "id": "a3f7b7f9-c7de-4ffc-a819-0be1d3703202",
-                    "type": "line",
+                    "type": "divider",
                     "common": {"mapping-id": ""},
                     "display": {"width": 2, "color": "#0066ff", "type": "dashed", "order": 2}
                 },

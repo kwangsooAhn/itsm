@@ -1,15 +1,15 @@
 package co.brainz.workflow.process.service
 
 import co.brainz.workflow.element.entity.ElementDataEntity
-import co.brainz.workflow.element.entity.ElementMstEntity
+import co.brainz.workflow.element.entity.ElementEntity
 import co.brainz.workflow.process.constants.ProcessConstants
 import co.brainz.workflow.process.dto.ProcessDto
 import co.brainz.workflow.process.dto.WfJsonElementDto
 import co.brainz.workflow.process.dto.WfJsonMainDto
 import co.brainz.workflow.process.dto.WfJsonProcessDto
-import co.brainz.workflow.process.entity.ProcessMstEntity
-import co.brainz.workflow.process.mapper.ProcessMstMapper
-import co.brainz.workflow.process.repository.ProcessMstRepository
+import co.brainz.workflow.process.entity.ProcessEntity
+import co.brainz.workflow.process.mapper.ProcessMapper
+import co.brainz.workflow.process.repository.ProcessRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -21,29 +21,29 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class WFProcessService(private val processMstRepository: ProcessMstRepository) {
+class WFProcessService(private val processRepository: ProcessRepository) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val processMstMapper = Mappers.getMapper(ProcessMstMapper::class.java)
+    private val processMapper = Mappers.getMapper(ProcessMapper::class.java)
 
     /**
      * 프로세스 목록 조회
      */
     fun selectProcessList(search: String): MutableList<WfJsonProcessDto> {
         val processDtoList = mutableListOf<WfJsonProcessDto>()
-        val procMstList = if (search.isEmpty()) {
-            processMstRepository.findAll()
+        val processList = if (search.isEmpty()) {
+            processRepository.findAll()
         } else {
             val word = "%$search%"
-            processMstRepository.findByProcessNameLikeOrProcessDescLike(word, word)
+            processRepository.findByProcessNameLikeOrProcessDescLike(word, word)
         }
 
-        procMstList.forEach {
+        processList.forEach {
             val enabled = when (it.processStatus) {
                 ProcessConstants.Status.EDIT.code, ProcessConstants.Status.SIMULATION.code -> true
                 else -> false
             }
-            val wfProcessDto = processMstMapper.toWfJsonProcessDto(it)
+            val wfProcessDto = processMapper.toWfJsonProcessDto(it)
             wfProcessDto.enabled = enabled
             processDtoList.add(wfProcessDto)
         }
@@ -54,15 +54,15 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
      * 프로세스 조회
      */
     fun getProcess(processId: String): WfJsonMainDto {
-        val processMstEntity = processMstRepository.findProcessMstEntityByProcessId(processId)
-        val wfProcessDto = processMstMapper.toWfJsonProcessDto(processMstEntity)
+        val processEntity = processRepository.findProcessEntityByProcessId(processId)
+        val wfProcessDto = processMapper.toWfJsonProcessDto(processEntity)
         val wfElementDto = mutableListOf<WfJsonElementDto>()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-        for (elementMstEntity in processMstEntity.elementMstEntities) {
-            val elDto = processMstMapper.toWfJsonElementDto(elementMstEntity)
-            elDto.display = elementMstEntity.displayInfo.let { mapper.readValue(it) }
-            elDto.data = elementMstEntity.elementDataEntities.associateByTo(
+        for (elementEntity in processEntity.elementEntities) {
+            val elDto = processMapper.toWfJsonElementDto(elementEntity)
+            elDto.display = elementEntity.displayInfo.let { mapper.readValue(it) }
+            elDto.data = elementEntity.elementDataEntities.associateByTo(
                 mutableMapOf(),
                 { it.attributeId },
                 { it.attributeValue })
@@ -76,16 +76,16 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
      */
     fun insertProcess(processDto: ProcessDto): ProcessDto {
         processDto.processStatus = ProcessConstants.Status.EDIT.code // 등록 시 프로세스 상태
-        val processMstEntity: ProcessMstEntity =
-            processMstRepository.save(processMstMapper.toProcessMstEntity(processDto))
+        val processEntity: ProcessEntity =
+            processRepository.save(processMapper.toProcessEntity(processDto))
 
         return ProcessDto(
-            processId = processMstEntity.processId,
-            processName = processMstEntity.processName,
-            processDesc = processMstEntity.processDesc,
-            processStatus = processMstEntity.processStatus,
-            createDt = processMstEntity.createDt,
-            updateDt = processMstEntity.updateDt,
+            processId = processEntity.processId,
+            processName = processEntity.processName,
+            processDesc = processEntity.processDesc,
+            processStatus = processEntity.processStatus,
+            createDt = processEntity.createDt,
+            updateDt = processEntity.updateDt,
             enabled = false
         )
     }
@@ -94,13 +94,13 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
      * 프로세스 1건 데이터 삭제.
      */
     fun deleteProcess(processId: String): Boolean {
-        val processMstEntity = processMstRepository.findProcessMstEntityByProcessId(processId)
-        if (processMstEntity.processStatus == ProcessConstants.Status.PUBLISH.code
-            || processMstEntity.processStatus == ProcessConstants.Status.DESTROY.code
+        val processEntity = processRepository.findProcessEntityByProcessId(processId)
+        if (processEntity.processStatus == ProcessConstants.Status.PUBLISH.code
+            || processEntity.processStatus == ProcessConstants.Status.DESTROY.code
         ) {
             return false
         } else {
-            processMstRepository.deleteById(processMstEntity.processId)
+            processRepository.deleteById(processEntity.processId)
         }
         return true
     }
@@ -118,25 +118,25 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
         if (wfJsonProcessDto != null) {
 
             // process master 조회한다.
-            val processMstEntity = processMstRepository.findProcessMstEntityByProcessId(wfJsonProcessDto.id)
+            val processEntity = processRepository.findProcessEntityByProcessId(wfJsonProcessDto.id)
 
             // element data 삭제한다.
-            processMstEntity.elementMstEntities.forEach {
+            processEntity.elementEntities.forEach {
                 it.elementDataEntities.clear()
             }
 
             // element master 삭제한다.
-            processMstEntity.elementMstEntities.clear()
+            processEntity.elementEntities.clear()
 
             // process data entity 생성.
-            val elementMstEntities = mutableListOf<ElementMstEntity>()
+            val elementEntities = mutableListOf<ElementEntity>()
             if (wfJsonElementsDto != null) {
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
                 wfJsonElementsDto.forEach {
 
                     // element master entity 생성
-                    val elementMstEntity = ElementMstEntity(
+                    val elementEntity = ElementEntity(
                         elementId = it.id,
                         processId = wfJsonProcessDto.id,
                         elementType = it.type,
@@ -148,24 +148,24 @@ class WFProcessService(private val processMstRepository: ProcessMstRepository) {
                     it.data?.entries?.forEachIndexed { idx, data ->
                         elementDataEntities.add(
                             ElementDataEntity(
-                                element = elementMstEntity,
+                                element = elementEntity,
                                 attributeId = data.key,
                                 attributeValue = data.value as String,
                                 attributeOrder = idx
                             )
                         )
                     }
-                    elementMstEntity.elementDataEntities.addAll(elementDataEntities)
-                    elementMstEntities.add(elementMstEntity)
+                    elementEntity.elementDataEntities.addAll(elementDataEntities)
+                    elementEntities.add(elementEntity)
                 }
             }
 
             // 프로세스 정보를 저장한다.
-            processMstEntity.processName = wfJsonProcessDto.name.toString()
-            processMstEntity.processStatus = wfJsonProcessDto.status.toString()
-            processMstEntity.processDesc = wfJsonProcessDto.description
-            processMstEntity.elementMstEntities.addAll(elementMstEntities)
-            processMstRepository.save(processMstEntity)
+            processEntity.processName = wfJsonProcessDto.name.toString()
+            processEntity.processStatus = wfJsonProcessDto.status.toString()
+            processEntity.processDesc = wfJsonProcessDto.description
+            processEntity.elementEntities.addAll(elementEntities)
+            processRepository.save(processEntity)
 
         }
         return true

@@ -5,7 +5,7 @@ package co.brainz.workflow.form.repository
 
 //@Repository
 //class FormRepositoryImpl: QuerydslRepositorySupport(FormEntity::class.java), FormRepositoryCustom {
-class FormMstRepositoryImpl {
+class FormRepositoryImpl {
 
     /*override fun findFormEntityList(formName: String, formDesc: String): List<FormEntity> {
         val table = QFormEntity.formEntity
