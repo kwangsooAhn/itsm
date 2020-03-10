@@ -45,9 +45,9 @@ data class FormEntity(
         var updateUserKey: String? = null
 
 ): Serializable {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "components", cascade = [CascadeType.REMOVE])
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "form", cascade = [CascadeType.REMOVE])
         val components: MutableList<ComponentEntity>? = mutableListOf()
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "forms")
-        val forms: MutableList<DocumentEntity>? = mutableListOf()
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "form")
+        val document: MutableList<DocumentEntity>? = mutableListOf()
 }

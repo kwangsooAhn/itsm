@@ -11,7 +11,7 @@ interface InstanceRepository: JpaRepository<InstanceEntity, String> {
 
     @Query("select t.tokenId as tokenId, i.instanceId as ticketId, d.documentName as ticketName, d.documentDesc as ticketDesc, i.instanceStartDt as createDt, t.assigneeId as userKey " +
             "from DocumentEntity d, InstanceEntity i, TokenEntity t " +
-            "where d.processes.processId = i.processId " +
+            "where d.documentId = i.document.documentId " +
             "and i.instanceId = t.instanceId " +
             "and t.tokenStatus = :status " +
             "and t.assigneeType = :type " +

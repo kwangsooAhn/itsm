@@ -28,7 +28,7 @@ data class ComponentEntity(
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "form_id")
-        val components: FormEntity
+        val form: FormEntity
 
 ) : Serializable {
         @OneToMany(fetch = FetchType.LAZY, mappedBy = "attributes", cascade = [CascadeType.REMOVE])
