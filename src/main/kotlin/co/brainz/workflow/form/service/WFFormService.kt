@@ -166,7 +166,7 @@ class WFFormService(private val formRepository: FormRepository,
                         componentId = component["id"] as String,
                         componentType = component["type"] as String,
                         mappingId = mappingId,
-                        components = resultFormEntity
+                        form = resultFormEntity
                 )
                 val resultComponentEntity = componentRepository.save(componentEntity)
 

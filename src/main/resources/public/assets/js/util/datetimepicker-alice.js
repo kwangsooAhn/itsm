@@ -17,6 +17,7 @@ const dateTimePicker = (function() {
      */
     function initPicker(targetId, options) {
         let targetElement = document.getElementById(targetId);
+        targetElement.setAttribute('oncontextmenu','return false');
 
         // set options
         const pickerId = 'picker-' + targetId;
