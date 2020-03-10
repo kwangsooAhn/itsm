@@ -7,7 +7,7 @@
 
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
-        gridInterval: 10     // value of grid interval.
+        gridInterval: 10      // value of grid interval.
     };
 
     let svg,
@@ -17,7 +17,7 @@
         dragLine;
 
     const nodes= [],
-        links = [];
+          links = [];
 
     let mousedownElement,
         mouseoverElement,
@@ -97,7 +97,6 @@
                 }
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                //path._groups[0][i].dispatchEvent(event);
                 path.nodes()[i].dispatchEvent(event);
             })
             .merge(paintedPath);
@@ -348,91 +347,52 @@
                 .call(drag);
         }
 
-        self.pointElement1 = elementContainer.append('circle')
-            .attr('class', 'pointer')
-            .style('opacity', 0)
-            .on('mouseover', function() { self.pointElement1.style('cursor', 'nw-resize'); })
-            .on('mouseout', function() { self.pointElement1.style('cursor', 'default'); })
-            .call(d3.drag()
-                .on('start', function() {
-                    svg.selectAll('.alice-tooltip').remove();
-                })
-                .on('drag', function() {
-                    if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-                        self.pointElement1
-                            .attr('cx', function(d) { return d.x += d3.event.dx; })
-                            .attr('cy', function(d) { return d.y += d3.event.dy; });
-                        updateRect();
-                    }
-                })
-                .on('end', function() {
-                    AliceProcessEditor.setElementMenu(self.nodeElement);
-                })
-            );
-        self.pointElement2 = elementContainer.append('circle')
-            .attr('class', 'pointer')
-            .style('opacity', 0)
-            .on('mouseover', function() { self.pointElement2.style('cursor', 'se-resize'); })
-            .on('mouseout', function() { self.pointElement2.style('cursor', 'default'); })
-            .call(d3.drag()
-                .on('start', function() {
-                    svg.selectAll('.alice-tooltip').remove();
-                })
-                .on('drag', function() {
-                    if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-                        self.pointElement2
-                            .attr('cx', self.rectData[1].x += d3.event.dx)
-                            .attr('cy', self.rectData[1].y += d3.event.dy);
-                        updateRect();
-                    }
-                })
-                .on('end', function() {
-                    AliceProcessEditor.setElementMenu(self.nodeElement);
-                })
-            );
-        self.pointElement3 = elementContainer.append('circle')
-            .attr('class', 'pointer')
-            .style('opacity', 0)
-            .on('mouseover', function() { self.pointElement3.style('cursor', 'ne-resize'); })
-            .on('mouseout', function() { self.pointElement3.style('cursor', 'default'); })
-            .call(d3.drag()
-                .on('start', function() {
-                    svg.selectAll('.alice-tooltip').remove();
-                })
-                .on('drag', function() {
-                    if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-                        self.pointElement3
-                            .attr('cx', self.rectData[1].x += d3.event.dx)
-                            .attr('cy', self.rectData[0].y += d3.event.dy);
-                        updateRect();
-                    }
-                })
-                .on('end', function() {
-                    AliceProcessEditor.setElementMenu(self.nodeElement);
-                })
-            );
-        self.pointElement4 = elementContainer.append('circle')
-            .attr('class', 'pointer')
-            .style('opacity', 0)
-            .on('mouseover', function() { self.pointElement4.style('cursor', 'sw-resize'); })
-            .on('mouseout', function() { self.pointElement4.style('cursor', 'default'); })
-            .call(d3.drag()
-                .on('start', function() {
-                    svg.selectAll('.alice-tooltip').remove();
-                })
-                .on('drag', function() {
-                    if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-                        self.pointElement4
-                            .attr('cx', self.rectData[0].x += d3.event.dx)
-                            .attr('cy', self.rectData[1].y += d3.event.dy);
-                        updateRect();
-                    }
-                })
-                .on('end', function() {
-                    AliceProcessEditor.setElementMenu(self.nodeElement);
-                })
-            );
+        ['nw-resize', 'se-resize', 'ne-resize', 'sw-resize'].forEach(function(cursor, i) {
+            self['pointElement' + (i + 1)] = elementContainer.append('circle')
+                .attr('class', 'pointer')
+                .style('opacity', 0)
+                .on('mouseover', function() { self['pointElement' + (i + 1)].style('cursor', cursor); })
+                .on('mouseout', function() { self['pointElement' + (i + 1)].style('cursor', 'default'); })
+                .call(d3.drag()
+                    .on('start', function() {
+                        svg.selectAll('.alice-tooltip').remove();
+                    })
+                    .on('drag', function() {
+                        if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
+                            switch (i + 1) {
+                                case 1:
+                                    self.pointElement1
+                                        .attr('cx', self.rectData[0].x += d3.event.dx)
+                                        .attr('cy', self.rectData[0].y += d3.event.dy);
+                                    break;
+                                case 2:
+                                    self.pointElement2
+                                        .attr('cx', self.rectData[1].x += d3.event.dx)
+                                        .attr('cy', self.rectData[1].y += d3.event.dy);
+                                    break;
+                                case 3:
+                                    self.pointElement3
+                                        .attr('cx', self.rectData[1].x += d3.event.dx)
+                                        .attr('cy', self.rectData[0].y += d3.event.dy);
+                                    break;
+                                case 4:
+                                    self.pointElement4
+                                        .attr('cx', self.rectData[0].x += d3.event.dx)
+                                        .attr('cy', self.rectData[1].y += d3.event.dy);
+                                    break;
+                            }
+                            updateRect();
+                        }
+                    })
+                    .on('end', function() {
+                        AliceProcessEditor.setElementMenu(self.nodeElement);
+                    })
+                );
+        });
 
+        /**
+         * element 위치, 크기 등 update.
+         */
         function updateRect() {
             const pointerRadius = 4;
             const rectData = self.rectData;
@@ -458,31 +418,17 @@
                     .attr('y', updateY + updateHeight - typeImageSize - 5);
             }
 
-            self.pointElement1
-                .data(rectData)
-                .attr('id', self.nodeElement.node().id + '_point1')
-                .attr('r', pointerRadius)
-                .attr('cx', rectData[0].x)
-                .attr('cy', rectData[0].y);
-            self.pointElement2
-                .data(rectData)
-                .attr('id', self.nodeElement.node().id + '_point2')
-                .attr('r', pointerRadius)
-                .attr('cx', rectData[1].x)
-                .attr('cy', rectData[1].y);
-            self.pointElement3
-                .data(rectData)
-                .attr('id', self.nodeElement.node().id + '_point3')
-                .attr('r', pointerRadius)
-                .attr('cx', rectData[1].x)
-                .attr('cy', rectData[0].y);
-            self.pointElement4
-                .data(rectData)
-                .attr('id', self.nodeElement.node().id + '_point4')
-                .attr('r', pointerRadius)
-                .attr('cx', rectData[0].x)
-                .attr('cy', rectData[1].y);
-
+            let pointArray =
+                [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
+                [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
+            pointArray.forEach(function(point, i) {
+                self['pointElement' + (i + 1)]
+                    .data(rectData)
+                    .attr('id', self.nodeElement.node().id + '_point' + (i + 1))
+                    .attr('r', pointerRadius)
+                    .attr('cx', point[0])
+                    .attr('cy', point[1]);
+            });
             drawConnectors();
         }
         updateRect();
@@ -500,7 +446,7 @@
      */
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, true,width ? width : 135, height ? height : 60);
+        this.base(x, y, true,width, height);
         const defaultType = AliceProcessEditor.getElementDefaultType('task');
         this.nodeElement
             .classed('task', true)
@@ -934,9 +880,9 @@
                     AliceProcessEditor.changeElementType(node.nodeElement, element.type);
                     break;
                 case 'artifact':
-                    if (element.type === 'group') {
+                    if (element.type === 'groupArtifact') {
                         node = new GroupElement(x, y, element.display.width, element.display.height);
-                    } else if (element.type === 'annotation') {
+                    } else if (element.type === 'annotationArtifact') {
                         node = new AnnotationElement(x, y);
                     }
                     break;
