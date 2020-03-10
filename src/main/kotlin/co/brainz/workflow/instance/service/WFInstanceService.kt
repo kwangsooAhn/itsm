@@ -65,7 +65,7 @@ class WFInstanceService(private val instanceRepository: InstanceRepository) {
         val instanceEntity = InstanceEntity(
                 instanceId = "",
                 instanceStatus = instanceDto.instanceStatus?:InstanceConstants.Status.RUNNING.code,
-                processId = instanceDto.processId,
+                document = instanceDto.document,
                 instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
         return instanceRepository.save(instanceEntity)

@@ -1,6 +1,7 @@
 package co.brainz.workflow.document.entity
 
 import co.brainz.workflow.form.entity.FormEntity
+import co.brainz.workflow.instance.entity.InstanceEntity
 import co.brainz.workflow.process.entity.ProcessEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -49,5 +51,9 @@ data class DocumentEntity(
     @JoinColumn(name = "form_id")
     val forms: FormEntity
 
-) : Serializable
+) : Serializable {
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
+    val document: MutableList<InstanceEntity>? = mutableListOf()
+}
 
