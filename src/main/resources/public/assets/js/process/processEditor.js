@@ -85,6 +85,9 @@
         paintedPath = paintedPath.enter().append('path')
             .attr('class', 'painted-connector')
             .attr('id', function(d, i) { return path.nodes()[i].id + '_painted'; })
+            .on('mouseout', function() {
+                d3.select(this).style('cursor', 'default');
+            })
             .on('mouseover', function() {
                 if (isDrawConnector) {
                     return;
