@@ -45,11 +45,11 @@ data class DocumentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_id")
-    val processes: ProcessEntity,
+    val process: ProcessEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    val forms: FormEntity
+    val form: FormEntity
 
 ) : Serializable {
 
