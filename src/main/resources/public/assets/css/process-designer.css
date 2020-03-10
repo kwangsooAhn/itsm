@@ -10075,31 +10075,36 @@ body {
   stroke-opacity: 1;
   shape-rendering: crispEdges;
 }
-.alice-process-drawing-board .node {
+.alice-process-drawing-board .element .node {
   fill: #ffffff;
   opacity: 1;
   stroke: #000000;
   stroke-width: 1;
 }
-.alice-process-drawing-board .node.event.commonEnd,
-.alice-process-drawing-board .node.event.messageEnd {
+.alice-process-drawing-board .element .node.event.commonEnd,
+.alice-process-drawing-board .element .node.event.messageEnd {
   stroke-width: 3;
 }
-.alice-process-drawing-board .node.selected {
+.alice-process-drawing-board .element .node.selected {
   stroke: #5887f9;
   stroke-width: 2;
 }
-.alice-process-drawing-board .node.selected.event.commonEnd,
-.alice-process-drawing-board .node.selected.event.messageEnd {
+.alice-process-drawing-board .element .node.selected.event.commonEnd,
+.alice-process-drawing-board .element .node.selected.event.messageEnd {
   stroke-width: 4;
 }
-.alice-process-drawing-board .group {
-  fill-opacity: 0;
+.alice-process-drawing-board .element .group {
+  fill: none;
   stroke-dasharray: 5, 5;
 }
-.alice-process-drawing-board .annotation {
+.alice-process-drawing-board .element .annotation {
   fill-opacity: 0;
   stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
+}
+.alice-process-drawing-board .element text {
+  fill: #000000;
+  font-weight: bold;
+  font-size: 0.813rem;
 }
 .alice-process-properties-panel {
   display: inline-block;

@@ -84,6 +84,7 @@
         // add new paintedPath links
         paintedPath = paintedPath.enter().append('path')
             .attr('class', 'painted-connector')
+            .attr('id', function(d, i) { return path.nodes()[i].id + '_painted'; })
             .on('mouseover', function() {
                 if (isDrawConnector) {
                     return;
@@ -347,6 +348,15 @@
                 .call(drag);
         }
 
+        self.textElement = elementContainer.append('text')
+            .attr('x', x)
+            .attr('y', y)
+            .style('text-anchor', 'middle')
+            .style('dominant-baseline', 'middle')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
         ['nw-resize', 'se-resize', 'ne-resize', 'sw-resize'].forEach(function(cursor, i) {
             self['pointElement' + (i + 1)] = elementContainer.append('circle')
                 .attr('class', 'pointer')
@@ -415,7 +425,13 @@
             } else if (isShowType && self.nodeElement.classed('subprocess')) {
                 self.typeElement
                     .attr('x', updateX + (updateWidth / 2) - (typeImageSize / 2))
-                    .attr('y', updateY + updateHeight - typeImageSize - 5);
+                    .attr('y', updateY + updateHeight - typeImageSize - 3);
+            }
+            self.textElement.attr('x', updateX + (updateWidth / 2));
+            if (self.nodeElement.classed('group')) {
+                self.textElement.attr('y', updateY + 10);
+            } else {
+                self.textElement.attr('y', updateY + (updateHeight / 2));
             }
 
             let pointArray =
@@ -475,7 +491,7 @@
         const defaultType = AliceProcessEditor.getElementDefaultType('subprocess');
         this.typeElement
             .attr('x', (this.rectData[0].x + (this.width / 2) - 10))
-            .attr('y', (this.rectData[0].y + this.height - 20 - 5))
+            .attr('y', (this.rectData[0].y + this.height - 20 - 3))
             .style('fill', 'url(#subprocess-' + defaultType + '-element)');
         return this;
     }
@@ -615,6 +631,7 @@
         this.nodeElement
             .classed('artifact', true)
             .classed('group', true);
+        this.textElement.attr('y', this.rectData[0].y + 10);
         return this;
     }
 
@@ -630,6 +647,25 @@
         const self = this;
         const width = 30, height = 30;
 
+        const drag = d3.drag()
+            .on('start', elementMouseEventHandler.mousedown)
+            .on('drag', function() {
+                if (isDrawConnector) {
+                    elementMouseEventHandler.mousedrag();
+                } else {
+                    svg.selectAll('.alice-tooltip').remove();
+                    self.nodeElement
+                        .attr('x', d3.event.x - (width / 2))
+                        .attr('y', d3.event.y - (height / 2));
+                    self.textElement
+                        .attr('x', d3.event.x)
+                        .attr('y', d3.event.y);
+                    self.nodeElement.style('cursor', 'move');
+                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
+                }
+            })
+            .on('end', elementMouseEventHandler.mouseup);
+
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -640,23 +676,15 @@
             .attr('class', 'node artifact annotation')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(d3.drag()
-                .on('start', elementMouseEventHandler.mousedown)
-                .on('drag', function() {
-                    if (isDrawConnector) {
-                        elementMouseEventHandler.mousedrag();
-                    } else {
-                        svg.selectAll('.alice-tooltip').remove();
-                        self.nodeElement
-                            .attr('x', d3.event.x - (width / 2))
-                            .attr('y', d3.event.y - (height / 2));
+            .call(drag);
 
-                        self.nodeElement.style('cursor', 'move');
-                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
-                    }
-                })
-                .on('end', elementMouseEventHandler.mouseup)
-            );
+        self.textElement = elementContainer.append('text')
+            .attr('x', x).attr('y', y)
+            .style('text-anchor', 'start')
+            .style('dominant-baseline', 'middle')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
 
         return self;
     }
@@ -713,6 +741,23 @@
                     AliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
+    }
+
+    /**
+     * element 에 Text 를 추가한다.
+     *
+     * @param elemId element ID
+     * @param text 추가할 text
+     */
+    function changeTextToElement(elemId, text) {
+        const element = d3.select(document.getElementById(elemId));
+        let textNode;
+        if (element.classed('connector')) {
+            textNode = d3.select(document.getElementById(elemId + '_text'));
+        } else {
+            textNode = d3.select(element.node().parentNode).select('text');
+        }
+        textNode.text(text);
     }
 
     /**
@@ -904,6 +949,9 @@
                     }
                 });
                 element.id = nodeId;
+                if (category !== 'event' && category !== 'gateway') {
+                    changeTextToElement(nodeId, element.data.name);
+                }
             }
         });
 
@@ -940,5 +988,6 @@
 
     exports.init = init;
     exports.drawProcess = drawProcess;
+    exports.changeTextToElement = changeTextToElement;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

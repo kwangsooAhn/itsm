@@ -301,6 +301,9 @@
             elemData.data['start-name'] = source.data.name;
             elemData.data['end-name'] = target.data.name;
         }
+        if (elemData.data.name) {
+            AliceProcessEditor.changeTextToElement(elemId, elemData.data.name);
+        }
         elements.push(elemData);
     }
 
@@ -663,10 +666,16 @@
                     if (data[property.id] && property.type !== 'checkbox') {
                         elementObject.value = data[property.id];
                     }
-                    if (id === AliceProcessEditor.data.process.id && property.id === 'name') {
-                        elementObject.addEventListener('keyup', function(event) {
-                            document.querySelector('.process-name').textContent = this.value;
-                        });
+                    if (property.id === 'name') {
+                        let keyupHandler = function(event) {
+                            AliceProcessEditor.changeTextToElement(id, this.value);
+                        };
+                        if (id === AliceProcessEditor.data.process.id) {
+                            keyupHandler = function(event) {
+                                document.querySelector('.process-name').textContent = this.value;
+                            };
+                        }
+                        elementObject.addEventListener('keyup', keyupHandler);
                     }
                     elementObject.addEventListener('change', function(event) {
                         changePropertiesDataValue(id);
