@@ -11,23 +11,23 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_elem_data")
+@Table(name = "wf_element_data")
 @IdClass(ElementDataPk::class)
 data class ElementDataEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "elem_id", insertable = false, updatable = false)
-    val element: ElementMstEntity,
+    @JoinColumn(name = "element_id", insertable = false, updatable = false)
+    val element: ElementEntity,
 
     @Id
-    @Column(name = "attr_id", length = 100)
+    @Column(name = "attribute_id", length = 100)
     val attributeId: String = "",
 
     @Id
-    @Column(name = "attr_value", length = 512)
+    @Column(name = "attribute_value", length = 512)
     var attributeValue: String = "",
 
-    @Column(name = "attr_order")
+    @Column(name = "attribute_order")
     var attributeOrder: Int? = 0
 
 ) : Serializable
