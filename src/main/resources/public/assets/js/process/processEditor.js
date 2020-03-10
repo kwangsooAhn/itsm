@@ -97,7 +97,6 @@
                 }
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                //path._groups[0][i].dispatchEvent(event);
                 path.nodes()[i].dispatchEvent(event);
             })
             .merge(paintedPath);
