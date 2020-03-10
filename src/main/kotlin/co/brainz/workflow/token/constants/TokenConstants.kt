@@ -12,6 +12,14 @@ object TokenConstants {
     }
 
     /**
+     * Assignee Type.
+     */
+    enum class AssigneeType(val code: String) {
+        USER("user"),
+        GROUP("group")
+    }
+
+    /**
      * Mapping id expression.
      */
     const val mappingExpression: String = """[$][{][a-zA-Z0-9]+[}]"""
