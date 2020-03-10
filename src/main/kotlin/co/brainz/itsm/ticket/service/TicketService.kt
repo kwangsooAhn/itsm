@@ -24,7 +24,7 @@ class TicketService(private val tokenProvider: TokenProvider, private val provid
      * @return Boolean
      */
     fun createTicket(tokenSaveDto: TokenSaveDto): Boolean {
-        return tokenProvider.postToken(tokenSaveDto)
+        return tokenProvider.postTokenData(tokenSaveDto)
     }
 
     /**
@@ -34,7 +34,7 @@ class TicketService(private val tokenProvider: TokenProvider, private val provid
      * @return Boolean
      */
     fun updateTicket(tokenSaveDto: TokenSaveDto): Boolean {
-        return tokenProvider.putToken(tokenSaveDto)
+        return tokenProvider.putTokenData(tokenSaveDto)
     }
 
     /**

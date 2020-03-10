@@ -50,8 +50,8 @@ class TokenProvider(private val restTemplate: RestTemplate): ProviderUtilities()
      * @param tokenSaveDto
      * @return Boolean
      */
-    fun postToken(tokenSaveDto: TokenSaveDto): Boolean {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.POST_TOKEN.url))
+    fun postTokenData(tokenSaveDto: TokenSaveDto): Boolean {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.POST_TOKEN_DATA.url))
         val responseJson = restTemplate.postForEntity(url, tokenSaveDto, String::class.java)
         return responseJson.statusCode == HttpStatus.OK
     }
@@ -62,8 +62,8 @@ class TokenProvider(private val restTemplate: RestTemplate): ProviderUtilities()
      * @param tokenSaveDto
      * @return Boolean
      */
-    fun putToken(tokenSaveDto: TokenSaveDto): Boolean {
-        val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.PUT_TOKEN.url.replace(keyRegex, tokenSaveDto.tokenDto.tokenId)))
+    fun putTokenData(tokenSaveDto: TokenSaveDto): Boolean {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.PUT_TOKEN_DATA.url.replace(keyRegex, tokenSaveDto.tokenDto.tokenId)))
         val requestEntity = setHttpEntity(tokenSaveDto)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
         return responseJson.statusCode == HttpStatus.OK

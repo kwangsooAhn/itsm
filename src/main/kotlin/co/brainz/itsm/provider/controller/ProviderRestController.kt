@@ -38,7 +38,7 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
         result["token"] = tokenMap
 
         val jsonValue = Gson().toJson(result)
-        tokenProvider.postToken(tokenProvider.makeTokenData(jsonValue))
+        tokenProvider.postTokenData(tokenProvider.makeTokenData(jsonValue))
     }
 
     @GetMapping("/put")
@@ -69,6 +69,6 @@ class ProviderRestController(private val tokenProvider: TokenProvider) {
         result["token"] = tokenMap
 
         val jsonValue = Gson().toJson(result)
-        tokenProvider.putToken(tokenProvider.makeTokenData(jsonValue))
+        tokenProvider.putTokenData(tokenProvider.makeTokenData(jsonValue))
     }
 }

@@ -27,16 +27,42 @@ class WFTokenService(private val documentRepository: DocumentRepository,
                      private val wfElementService: WFElementService) {
 
     /**
-     * Token Save.
+     * Search Tokens.
+     *
+     * @param assignee
+     * @param assigneeType
+     * @param tokenStatus
+     * @return List<TokenDto>
+     */
+    fun getTokens(assignee: String, assigneeType: String, tokenStatus: String): List<TokenDto> {
+
+        val tokenMstEntities = tokenRepository.findTokenMstEntityByAssigneeIdAndAssigneeTypeAndTokenStatus(assignee, assigneeType, tokenStatus)
+        val tokenDtoList: MutableList<TokenDto> = mutableListOf()
+        for (tokenMstEntity in tokenMstEntities) {
+            val tokenDto = TokenDto(
+                    tokenId = tokenMstEntity.tokenId,
+                    elementId = tokenMstEntity.elementId,
+                    tokenStatus = tokenMstEntity.tokenStatus,
+                    assigneeId = tokenMstEntity.assigneeId,
+                    assigneeType = tokenMstEntity.assigneeType
+            )
+            tokenDtoList.add(tokenDto)
+        }
+
+        return tokenDtoList
+    }
+
+    /**
+     * Token + Instance Save.
      *
      * @param tokenSaveDto
+     * @return Boolean
      */
-    fun postToken(tokenSaveDto: TokenSaveDto) {
+    fun postTokenData(tokenSaveDto: TokenSaveDto): Boolean {
         val documentDto = documentRepository.findDocumentEntityByDocumentId(tokenSaveDto.documentDto.documentId)
         val processId = documentDto.processes.processId
         val instanceDto = InstanceDto(instanceId = "", processId = processId)
         val instance = wfInstanceService.createInstance(instanceDto)
-        //postToken에서는 문서를 새롭게 만드는 메소드이기 때문에 elementId를 강제로 얻어와야 한다.
         tokenSaveDto.tokenDto.elementId =  wfElementService.getElementId(processId, ElementConstants.ElementStatusType.START.value).elementId
         val token = createToken(instance.instanceId, tokenSaveDto.tokenDto)
         createTokenData(tokenSaveDto, instance.instanceId, token.tokenId)
@@ -44,6 +70,85 @@ class WFTokenService(private val documentRepository: DocumentRepository,
         if (tokenSaveDto.tokenDto.isComplete) {
             completeToken(tokenSaveDto)
         }
+        return true
+    }
+
+    /**
+     * Token View.
+     *
+     * @param tokenId
+     * @return TokenDto
+     */
+    fun getToken(tokenId: String): TokenDto {
+        val tokenMstEntity = tokenRepository.findTokenEntityByTokenId(tokenId)
+        return TokenDto(
+                tokenId = tokenMstEntity.get().tokenId,
+                elementId = tokenMstEntity.get().elementId,
+                assigneeType = tokenMstEntity.get().assigneeType,
+                assigneeId = tokenMstEntity.get().assigneeId,
+                tokenStatus = tokenMstEntity.get().tokenStatus,
+                isComplete = tokenMstEntity.get().tokenStatus == TokenConstants.Status.FINISH.code
+                //TODO: data?
+        )
+    }
+
+    /**
+     * Token Update.
+     *
+     * @param tokenDto
+     */
+    fun putToken(tokenDto: TokenDto): Boolean {
+        updateToken(tokenDto)
+        //tokenData?
+
+        return true
+    }
+
+    /**
+     * Token + Instance View.
+     *
+     * @param tokenId
+     * @return TokenSaveDto
+     */
+    fun getTokenData(tokenId: String): TokenSaveDto {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /**
+     * Token + Instance Update.
+     *
+     * @param tokenSaveDto
+     * @return Boolean
+     */
+    fun putTokenData(tokenSaveDto: TokenSaveDto): Boolean {
+        val tokenMstEntity = tokenRepository.findTokenEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
+        if (tokenMstEntity.isPresent) {
+            val instanceId = tokenMstEntity.get().instanceId
+            updateToken(tokenSaveDto.tokenDto)
+            deleteTokenData(instanceId, tokenSaveDto.tokenDto.tokenId)
+            createTokenData(tokenSaveDto, instanceId, tokenSaveDto.tokenDto.tokenId)
+            if (tokenSaveDto.tokenDto.isComplete) {
+                completeToken(tokenSaveDto)
+            }
+        }
+        return true
+    }
+
+    /**
+     * Token Create.
+     *
+     * @param tokenDto
+     * @return TokenEntity
+     */
+    fun createToken(instanceId: String, tokenDto: TokenDto): TokenEntity {
+        val tokenEntity = TokenEntity(
+                tokenId = "",
+                instanceId = instanceId,
+                elementId = tokenDto.elementId,
+                tokenStatus = TokenConstants.Status.RUNNING.code,
+                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
+        )
+        return tokenRepository.save(tokenEntity)
     }
 
     /**
@@ -67,41 +172,6 @@ class WFTokenService(private val documentRepository: DocumentRepository,
         if (tokenDataEntities.isNotEmpty()) {
             tokenDataRepository.saveAll(tokenDataEntities)
         }
-    }
-
-    /**
-     * Token Update.
-     *
-     * @param tokenSaveDto
-     */
-    fun putToken(tokenSaveDto: TokenSaveDto) {
-        val tokenEntity = tokenRepository.findTokenEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
-        if (tokenEntity.isPresent) {
-            val instanceId = tokenEntity.get().instanceId
-            updateToken(tokenSaveDto.tokenDto)
-            deleteTokenData(instanceId, tokenSaveDto.tokenDto.tokenId)
-            createTokenData(tokenSaveDto, instanceId, tokenSaveDto.tokenDto.tokenId)
-            if (tokenSaveDto.tokenDto.isComplete) {
-                completeToken(tokenSaveDto)
-            }
-        }
-    }
-
-    /**
-     * Token Create.
-     *
-     * @param tokenDto
-     * @return TokenEntity
-     */
-    fun createToken(instanceId: String, tokenDto: TokenDto): TokenEntity {
-        val tokenEntity = TokenEntity(
-                tokenId = "",
-                instanceId = instanceId,
-                elementId = tokenDto.elementId,
-                tokenStatus = TokenConstants.Status.RUNNING.code,
-                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
-        )
-        return tokenRepository.save(tokenEntity)
     }
 
     /**
@@ -181,7 +251,7 @@ class WFTokenService(private val documentRepository: DocumentRepository,
     private fun getAssigneeForToken(assigneeData: String?): String {
         // 데이터가 만약 mappingExpresion('${xxxx}'와 같은) 이라면 문서에서 해당 코드로 매핑된 데이터를 찾아서 사용.
         // 데이터가 단순히 문자열이라면 그대로 사용.
-        var assigneeForToken = ""
+        var assigneeForToken: String = ""
 
         val mappingExpr = TokenConstants.mappingExpression.toRegex()
         assigneeData?.let {
@@ -189,4 +259,5 @@ class WFTokenService(private val documentRepository: DocumentRepository,
         }
         return assigneeForToken
     }
+
 }
