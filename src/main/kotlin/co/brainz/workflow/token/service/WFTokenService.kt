@@ -33,8 +33,8 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      */
     fun postToken(tokenSaveDto: TokenSaveDto) {
         val documentDto = documentRepository.findDocumentEntityByDocumentId(tokenSaveDto.documentDto.documentId)
-        val processId = documentDto.processes.processId
-        val instanceDto = InstanceDto(instanceId = "", processId = processId)
+        val processId = documentDto.process.processId
+        val instanceDto = InstanceDto(instanceId = "", document = documentDto)
         val instance = wfInstanceService.createInstance(instanceDto)
         //postToken에서는 문서를 새롭게 만드는 메소드이기 때문에 elementId를 강제로 얻어와야 한다.
         tokenSaveDto.tokenDto.elementId =  wfElementService.getElementId(processId, ElementConstants.ElementStatusType.START.value).elementId

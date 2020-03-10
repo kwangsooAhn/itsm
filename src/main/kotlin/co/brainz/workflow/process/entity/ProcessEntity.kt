@@ -63,6 +63,6 @@ data class ProcessEntity(
     )
     var elementEntities: MutableList<ElementEntity> = mutableListOf()
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "processes")
-    var processes: MutableList<DocumentEntity> = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "process")
+    var process: MutableList<DocumentEntity> = mutableListOf()
 }

@@ -24,8 +24,8 @@ class WFDocumentService(private val wfFormService: WFFormService,
                     documentId = document.documentId,
                     documentName = document.documentName,
                     documentDesc = document.documentDesc,
-                    procId = document.processes.processId,
-                    formId = document.forms.formId,
+                    procId = document.process.processId,
+                    formId = document.form.formId,
                     createDt = document.createDt,
                     createUserKey = document.createUserKey,
                     updateDt = document.updateDt,
@@ -45,6 +45,6 @@ class WFDocumentService(private val wfFormService: WFFormService,
      */
     fun document(documentId: String): FormComponentViewDto? {
         val documentEntity = documentRepository.findDocumentEntityByDocumentId(documentId)
-        return wfFormService.form(documentEntity.forms.formId)
+        return wfFormService.form(documentEntity.form.formId)
     }
 }
