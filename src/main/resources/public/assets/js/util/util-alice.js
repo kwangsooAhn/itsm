@@ -395,6 +395,9 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
     return v_date;
 }
 
+/*
+ * 첨부파일 삭제
+ */
 function delFileCheck() {
     const f_length = document.getElementsByName('delFileSeq').length;
     if (f_length > 0) {
