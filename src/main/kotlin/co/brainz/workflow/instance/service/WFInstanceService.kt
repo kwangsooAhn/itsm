@@ -5,8 +5,6 @@ import co.brainz.workflow.instance.dto.InstanceDto
 import co.brainz.workflow.instance.dto.TicketDto
 import co.brainz.workflow.instance.entity.InstanceEntity
 import co.brainz.workflow.instance.repository.InstanceRepository
-import co.brainz.workflow.instance.entity.InstanceMstEntity
-import co.brainz.workflow.instance.repository.InstanceMstRepository
 import co.brainz.workflow.token.constants.TokenConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -39,7 +37,7 @@ class WFInstanceService(private val instanceRepository: InstanceRepository) {
             type = parameters["type"].toString()
         }
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val ticketDataList = instanceMstRepository.findInstances(status, type, userKey)
+        val ticketDataList = instanceRepository.findInstances(status, type, userKey)
         val tickets = mutableListOf<TicketDto>()
         for (ticketData in ticketDataList) {
             tickets.add(mapper.convertValue(ticketData, TicketDto::class.java))
