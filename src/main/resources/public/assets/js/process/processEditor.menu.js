@@ -322,7 +322,7 @@
         let elementTypeData = elementTypeList.filter(function(elem){ return elem.type === type; });
         if (elementTypeData.length > 0) {
             let attributeList = elementTypeData[0].attribute;
-            attributeList.forEach(function(attr){
+            attributeList.forEach(function(attr) {
                 let items = attr.items;
                 items.forEach(function(item){
                     data[item.id] = item.default;

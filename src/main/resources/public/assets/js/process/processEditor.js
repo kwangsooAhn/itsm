@@ -771,7 +771,7 @@
         }
 
         if (d3.select(elementNode).classed('connector')) {
-            d3.select(elementNode.parentNode).select('textPath').text(text);
+            d3.select(elementNode.parentNode).select('tspan').text(text);
         } else {
             const textElement = d3.select(elementNode.parentNode).select('text')
             if (textElement.node()) {
