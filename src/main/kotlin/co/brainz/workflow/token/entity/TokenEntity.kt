@@ -1,13 +1,17 @@
 package co.brainz.workflow.token.entity
 
+import co.brainz.workflow.instance.entity.InstanceEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -19,8 +23,8 @@ data class TokenEntity(
         @Column(name = "token_id", length = 128)
         val tokenId: String,
 
-        @JoinColumn(name = "instance_id")
-        val instanceId: String,
+        /*@JoinColumn(name = "instance_id")
+        val instanceId: String,*/
 
         @JoinColumn(name = "element_id")
         val elementId: String,
@@ -38,6 +42,10 @@ data class TokenEntity(
         var assigneeId: String? = null,
 
         @Column(name = "", length = 256)
-        var assigneeType: String? = null
+        var assigneeType: String? = null,
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "instance_id")
+        val instance: InstanceEntity
 
 ) : Serializable

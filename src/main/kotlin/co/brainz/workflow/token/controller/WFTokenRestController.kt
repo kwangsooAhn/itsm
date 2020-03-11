@@ -3,12 +3,14 @@ package co.brainz.workflow.token.controller
 import co.brainz.workflow.engine.WFEngine
 import co.brainz.workflow.token.dto.TokenDto
 import co.brainz.workflow.token.dto.TokenSaveDto
+import co.brainz.workflow.token.dto.TokenViewDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.transaction.Transactional
 
@@ -19,16 +21,12 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
     /**
      * 토큰 목록 조회.
      *
-     * @param assignee
-     * @param assigneeType
-     * @param tokenStatus
+     * @param parameters
      * @return List<TokenDto>
      */
     @GetMapping("")
-    fun getTokens(@PathVariable assignee: String,
-                  @PathVariable assigneeType: String,
-                  @PathVariable tokenStatus: String): List<TokenDto> {
-        return wfEngine.token().getTokens(assignee, assigneeType, tokenStatus)
+    fun getTokens(@RequestParam parameters: LinkedHashMap<String, Any>): List<TokenDto> {
+        return wfEngine.token().getTokens(parameters)
     }
 
     /**
@@ -70,10 +68,10 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
      * 토큰 상세정보 조회.
      *
      * @param tokenId
-     * @return TokenSaveDto
+     * @return TokenViewDto
      */
     @GetMapping("/{tokenId}/data")
-    fun getTokenData(@PathVariable tokenId: String): TokenSaveDto {
+    fun getTokenData(@PathVariable tokenId: String): TokenViewDto {
         return wfEngine.token().getTokenData(tokenId)
     }
 
