@@ -8,6 +8,7 @@
     const defaultColWidth = 8.33,  //폼 패널을 12등분하였을때, 1개의 너비
           editboxPlaceholder= '+ Typing \'/\' for add component',
           componentTitles = [  //세부속성에서 사용할 제목
+              {'type': 'editbox', 'name': 'Edit Box', 'icon': ''},
               {'type': 'text', 'name': 'Text', 'icon': ''},
               {'type': 'textarea', 'name': 'Text Box', 'icon': ''},
               {'type': 'select', 'name': 'Dropdown', 'icon': ''},
@@ -22,7 +23,7 @@
               {'type': 'fileupload', 'name': 'File Upload', 'icon': ''}
           ];
     let formPanel = null,
-        defaultData = {},                 //컴포넌트 기본 세부 속성
+        defaultData = {},          //컴포넌트 기본 세부 속성
         componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
 
     const utils = {
@@ -234,7 +235,7 @@
             optionRadio.addEventListener('click', function() {
                 let checkedRadio = comp.querySelectorAll('input[type=radio]:checked');
                 for (let i = 0; i < checkedRadio.length; i++) {
-                	checkedRadio[i].checked = false;
+                    checkedRadio[i].checked = false;
                 }
                 this.checked = true;
             });
@@ -390,12 +391,16 @@
      * @constructor
      */
     function Datebox(attr) {
-        let defaultDate = attr.display['default'];
+        //console.log(sessionData.timeFormat);
+        //let formate = sessionData.timeFormat;
+        //let defaultDate = attr.display['default'];
+        //console.log(defaultDate);
+        /*let defaultDate = attr.display['default'];
         if (defaultDate === 'today') { 
             defaultDate = utils.getTimeStamp(); 
             defaultDate = defaultDate.split(' ')[0];
         }
-        defaultDate = changeDateFormatYYYYMMDD(defaultDate, attr.display.format);
+        defaultDate = changeDateFormatYYYYMMDD(defaultDate, attr.display.format);*/
         
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
@@ -409,11 +414,12 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='date-${attr.id}' placeholder='${attr.display.format}' value='${defaultDate}'/>
+                    <input type='text' id='date-${attr.id}' placeholder='' value=''/>
                 </div>
             </div>
         `);
-
+//${defaultDate}
+//${attr.display.format}
         if (attr.label.position === 'hidden') {
             comp.querySelector('.group').firstElementChild.style.display = 'none';
         } else if (attr.label.position === 'left') {
@@ -432,11 +438,12 @@
      */
     function Timebox(attr) {
         let defaultTime = attr.display['default'];
-        if (defaultTime === 'now') { 
+        /*if (defaultTime === 'now') { 
             defaultTime = utils.getTimeStamp(); 
             defaultTime = changeDateFormatYYYYMMDD(defaultTime, 'YYYY-MM-DD ' + attr.display.format);
             defaultTime = defaultTime.split(' ')[1];
-        }
+            //${defaultTime}
+        }*/
 
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
@@ -450,7 +457,7 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='time-${attr.id}' placeholder='${attr.display.format}' value='${defaultTime}'/>
+                    <input type='text' id='time-${attr.id}' placeholder='' value=''/>
                 </div>
             </div>
         `);
@@ -473,11 +480,11 @@
      */
     function DateTimebox(attr) {
         let defaultDateTime = attr.display['default'];
-        if (defaultDateTime === 'now') { 
+        /*if (defaultDateTime === 'now') { 
             defaultDateTime = utils.getTimeStamp();
         }
         defaultDateTime = changeDateFormatYYYYMMDD(defaultDateTime, attr.display.format);
-
+        */
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -490,7 +497,7 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='datetime-${attr.id}' placeholder='${attr.display.format}' value='${defaultDateTime}' />
+                    <input type='text' id='datetime-${attr.id}' placeholder='' value='' />
                 </div>
             </div>
         `);
@@ -579,13 +586,6 @@
         }
         compAttr.display.order = ++componentIdx;
         
-        //옵션 재정렬
-        /*if (typeof compAttr.option !== 'undefined' && compAttr.option.length > 1) {
-            compAttr.option.sort(function (a, b) { //컴포넌트 재정렬
-                return a.seq < b.seq ? -1 : a.seq > b.seq ? 1 : 0;  
-            });
-        }*/
-        
         let componentConstructor;
         switch(compType) {
             case 'editbox':
@@ -630,6 +630,7 @@
             default:
                 break;
          }
+        
          if (componentConstructor) {
              componentConstructor.id = compId;
              componentConstructor.type = compType;
@@ -683,7 +684,7 @@
      */
     function init() {
         formPanel = document.getElementById('panel-form');
-
+        
         //컴포넌트 기본 속성 조회 : '/assets/js/form/componentAttribute.json'
         aliceJs.sendXhr({
             method: 'GET',

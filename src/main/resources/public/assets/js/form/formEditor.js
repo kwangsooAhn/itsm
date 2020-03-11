@@ -18,7 +18,11 @@
     let propertiesPanel = null,
         selectedComponentId = '', //선택된 컴포넌트 ID
         data = {}, //저장용 데이터
-        formProperties = {}; //좌측 properties panel에 출력되는 폼 정보
+        formProperties = {}, //좌측 properties panel에 출력되는 폼 정보
+        userData= {},  //사용자 정보
+        defaultLang = 'en',
+        defaultDateFormat = 'YYYY-MM-DD',
+        defaultTimeFormat = '24';
     /**
      * 폼 저장
      */
@@ -370,19 +374,47 @@
             }
             redrawComponent();
         };
+        /**
+         * date, time, datetime default 포멧 변경시,
+         * default 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
+         */
+        const changeDateFormat = function(e) {
+            let el = e.target || e;
+            let parentEl = e.target ? el.parentNode : el.parentNode.parentNode;
+            let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
+            
+            if (parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
+            
+            let checkedPropertiesArr = checkedRadio.name.split('-');
+            let changeValue = checkedRadio.value;
+            
+            if (checkedRadio.value === 'none' || checkedRadio.value === 'now') {
+                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+            } else {
+                let inputCells = parentEl.querySelectorAll('input[type="text"]');
+                
+                if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
+                    changeValue += ('|' + inputCells[0].value);
+                } else {
+                    for (let i = 0, len = inputCells.length; i < len; i++ ) {
+                        changeValue += ('|' + inputCells[i].value);
+                    }
+                }
+                
+                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+            }
+        };
 
         //세부 속성 재할당 data로 전달된 속성 + 기본속성
         Object.keys(compAttr).forEach(function(comp) {
-            if (compAttr[comp] !== null && typeof(compAttr[comp]) === 'object')  {
-                if (detailAttr.hasOwnProperty(comp)) {
-                    Object.keys(compAttr[comp]).forEach(function(attr) {
-                        Object.keys(detailAttr[comp]).forEach(function(d) {
-                            if (attr === detailAttr[comp][d].id) {
-                                detailAttr[comp][d].value = compAttr[comp][attr];
-                            }
-                        });
+            if (compAttr[comp] !== null && typeof(compAttr[comp]) === 'object' && detailAttr.hasOwnProperty(comp))  {
+                Object.keys(compAttr[comp]).forEach(function(attr) {
+                    Object.keys(detailAttr[comp]).forEach(function(d) {
+                        if (attr === detailAttr[comp][d].id) {
+                            detailAttr[comp][d].value = compAttr[comp][attr];
+                        }
                     });
-                }
+                });
             }
         });
 
@@ -496,14 +528,15 @@
                         fieldGroupDiv.setAttribute('id', fieldArr.id);
                         groupDiv.appendChild(fieldGroupDiv);
                     }
+                    if (fieldArr.type !== 'button' && fieldArr.type !== 'table') { //속성명 출력
+                        propertyName = document.createElement('span');
+                        propertyName.classList.add('property-field-name');
+                        propertyName.textContent = fieldArr.name;
+                        fieldGroupDiv.appendChild(propertyName);
+                    }
                     switch (fieldArr.type) {
                         case 'inputbox':
                         case 'inputbox-underline':
-                            propertyName = document.createElement('span');
-                            propertyName.classList.add('property-field-name');
-                            propertyName.textContent = fieldArr.name;
-                            fieldGroupDiv.appendChild(propertyName);
-                            
                             propertyValue = document.createElement('input');
                             propertyValue.classList.add('property-field-value');
                             propertyValue.setAttribute('type', 'text');
@@ -523,11 +556,6 @@
                             }
                             break;
                         case 'select':
-                            propertyName = document.createElement('span');
-                            propertyName.classList.add('property-field-name');
-                            propertyName.textContent = fieldArr.name;
-                            fieldGroupDiv.appendChild(propertyName);
-                            
                             propertyValue = document.createElement('select');
                             propertyValue.classList.add('property-field-value');
                             for (let i = 0, len = fieldArr.option.length; i < len; i++) {
@@ -545,11 +573,6 @@
                             fieldGroupDiv.appendChild(propertyValue);
                             break;
                         case 'slider':
-                            propertyName = document.createElement('span');
-                            propertyName.classList.add('property-field-name');
-                            propertyName.textContent = fieldArr.name;
-                            fieldGroupDiv.appendChild(propertyName);
-                            
                             propertyValue = document.createElement('input');
                             propertyValue.setAttribute('id', group + '-' + fieldArr.id);
                             propertyValue.setAttribute('type', 'range');
@@ -571,10 +594,6 @@
                             fieldGroupDiv.appendChild(slideValue);
                             break;
                         case 'rgb':
-                            propertyName = document.createElement('span');
-                            propertyName.classList.add('property-field-name');
-                            propertyName.textContent = fieldArr.name;
-                            fieldGroupDiv.appendChild(propertyName);
                             let selectedColorBox = document.createElement('span');
                             selectedColorBox.classList.add('selected-color');
                             selectedColorBox.style.backgroundColor = fieldArr.value;
@@ -596,11 +615,6 @@
                             colorPalette.initColorPalette(selectedColorBox, propertyValue, colorPaletteDiv);
                             break;
                         case 'radio':
-                            propertyName = document.createElement('span');
-                            propertyName.classList.add('property-field-name');
-                            propertyName.textContent = fieldArr.name;
-                            fieldGroupDiv.appendChild(propertyName);
-                            
                             for (let i = 0, len = fieldArr.option.length; i < len; i++) {
                                 let propertyOption = document.createElement('input');
                                 propertyOption.setAttribute('type', 'radio');
@@ -618,6 +632,51 @@
                                 propertyLabel.setAttribute('for', fieldArr.name + '-' + fieldArr.option[i].id);
                                 propertyLabel.textContent = fieldArr.option[i].name;
                                 fieldGroupDiv.appendChild(propertyLabel);
+                            }
+                            break;
+                        case 'radio-datetime':
+                            fieldGroupDiv.classList.add('vertical');
+                            let optionDefaultArr;
+                            let defaultFormatArr = fieldArr.value !== '' ? fieldArr.value.split('|') : ''; //none, now, date|-3, time|2, datetime|7|0 등 
+                            let propertyTemplate = ``;
+                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                let option = fieldArr.option[i];
+                                optionDefaultArr = ['', '', ''];
+                                if (defaultFormatArr[0] === option.id) {
+                                    optionDefaultArr = defaultFormatArr;
+                                }
+                                let labelName = option.name.split('{0}');
+                                propertyTemplate += `
+                                    <div class='vertical-group'>
+                                    <input type='radio' id='${option.id}' name='${group}-${fieldArr.id}' value='${option.id}'
+                                    ${defaultFormatArr[0] === option.id ? "checked='true'" : ""} />
+                                    
+                                    ${option.id === 'date' || option.id === 'time' ? "<input type='text' id='" + option.id +"' value='" + optionDefaultArr[1] + "'/><label for='" + option.id + "'>" + labelName[1] + "</label>" : ""}
+                                    
+                                    ${option.id === 'datetime'? 
+                                    "<input type='text' id='" + option.id +"-0' value='" + optionDefaultArr[1] + "' /><label for='" + option.id + "-0'>" + labelName[1] + "</label>" +
+                                    "<input type='text' id='" + option.id +"-1' value='" + optionDefaultArr[2] + "' /><label for='" + option.id + "-1'>" + labelName[2] + "</label>" : ""}
+                                    
+                                    ${option.id === 'datepicker' || option.id === 'timepicker' || option.id === 'datetimepicker' ? "<input type='text' id='" + option.id + "-" + compAttr.id + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
+
+                                    ${option.id === 'now' || option.id === 'none' ? "<label for='" + option.id + "'>" + labelName[0] + "</label>" : ""}
+                                    </div>
+                                `;
+                            }
+                            fieldGroupDiv.innerHTML = propertyTemplate;
+                            
+                            //이벤트 등록
+                            let changeOptions = fieldGroupDiv.querySelectorAll('input[type="radio"], input[type="text"]');
+                            for (let i = 0, len = changeOptions.length; i < len; i++ ) {
+                                changeOptions[i].addEventListener('change', changeDateFormat, false);
+                            }
+                            
+                            if (compAttr.type === 'date') {
+                                dateTimePicker.initDatePicker('datepicker-' + compAttr.id, defaultDateFormat, defaultLang, changeDateFormat);
+                            } else if (compAttr.type === 'time') {
+                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, defaultTimeFormat, changeDateFormat);
+                            } else if (compAttr.type === 'datetime') {
+                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, defaultDateFormat, defaultTimeFormat, defaultLang, changeDateFormat);
                             }
                             break;
                         case 'button':
@@ -707,6 +766,10 @@
                                     row.appendChild(cell);
                                 }
                             }
+                            break;
+                        case 'datepicker':
+                            break;
+                        case 'datetimepicker':
                             break;
                     }
                 });
@@ -805,6 +868,52 @@
             }
         });
     }
+    
+    /**
+     * 데이터로 전달받은 속성과 기본 속성 merge
+     *
+     * @param compData 컴포넌트 데이터
+     */
+    function mergeComponentData(compData) {
+        let compAttr = {};
+        let defaultAttr = JSON.parse(component.getDefaultAttribute(compData.type));
+        Object.keys(defaultAttr).forEach(function(group) {
+            if (group === 'option') { //옵션 json 구조 변경
+                let options = [];
+                for (let i = 0, len = defaultAttr[group][0].items.length; i < len; i+=3) {
+                   let option = {};
+                   for (let j = i; j < i + 3; j++) {
+                       let child = defaultAttr[group][0].items[j];
+                       option[child.id] = child.value;
+                   }
+                   options.push(option);
+                }
+                compAttr[group] = options;
+            } else {
+                compAttr[group] = {};
+                Object.keys(defaultAttr[group]).forEach(function(child) {
+                    compAttr[group][defaultAttr[group][child].id] = defaultAttr[group][child].value;
+                });
+            }
+        });
+        compAttr.id = compData.id;
+        compAttr.type = compData.type;
+        Object.keys(compData).forEach(function(comp) {
+            if (compData[comp] !== null && typeof(compData[comp]) === 'object' && compAttr.hasOwnProperty(comp))  {
+                Object.keys(compData[comp]).forEach(function(attr) {
+                    Object.keys(compAttr[comp]).forEach(function(d) {
+                        if (attr === compAttr[comp][d].id) {
+                            compAttr[comp][d].value = compData[comp][attr];
+                        }
+                    });
+                });
+            }
+        });
+        compAttr.display.order = compData.display.order;
+        setComponentData(compAttr);
+        return compAttr;
+    }
+    
      /**
      * 조회된 데이터로 form designer draw 
      * 
@@ -821,7 +930,9 @@
             //데이터로 전달된 컴포넌트 draw
             for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
                 let compData = formEditor.data.components[i];
-                component.draw(compData.type, compData);
+                //기본속성과 merge 작업
+                let mergeData = mergeComponentData(compData);
+                component.draw(mergeData.type, mergeData);
             }
         }
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
@@ -847,10 +958,21 @@
      * form designer 초기화
      *
      * @param formId 폼 아이디
+     * @param authInfo 사용자 세션 정보
      */
-    function init(formId) {
+    function init(formId, authInfo) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         propertiesPanel = document.getElementById('panel-properties');
+        userData = JSON.parse(authInfo);
+        //편집화면에서 사용할 dateformat 설정
+        if (userData) {
+            defaultLang  = userData.lang;
+            let format = userData.timeFormat;
+            let formatArray = format.split(' ');
+            
+            defaultDateFormat =  formatArray[0].toUpperCase();
+            if (formatArray.length === 3) { defaultTimeFormat = '12'; }
+        }
         
         workflowUtil.polyfill();
         component.init();
