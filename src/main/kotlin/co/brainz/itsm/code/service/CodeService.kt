@@ -11,7 +11,7 @@ class CodeService {
     @Autowired
     lateinit var codeRepository: CodeRepository
 
-    fun selectCodeByParent(pCode: String): MutableList<CodeEntity> {
-        return codeRepository.findByPCode(pCode)
+    fun selectCodeByParent(code: String): MutableList<CodeEntity> {
+        return codeRepository.findByPCode(codeRepository.findById(code).orElse(CodeEntity(code = code)))
     }
 }
