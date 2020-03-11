@@ -283,7 +283,7 @@
                         elemType = getElementDefaultType(elementsKeys[i]);
                     }
                     elemData.type = elemType;
-                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
                     elemData.data = getAttributeData(elementsKeys[i], elemType);
                     break;
                 }
