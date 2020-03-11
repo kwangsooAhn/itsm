@@ -218,6 +218,15 @@ body {
             stroke-width: 20;
             pointer-events: all;
         }
+
+        .connector text {
+            fill: #000000;
+            font: {
+                weight: bold;
+                size: 0.813rem; // 13px
+            }
+        }
+
         defs {
             marker {
                 path {
@@ -249,37 +258,52 @@ body {
             shape-rendering: crispEdges;
         }
 
-        .node {
-            fill: #ffffff;
-            opacity: 1;
-            stroke: #000000;
-            stroke-width: 1;
+        .element {
+            .node {
+                fill: #ffffff;
+                opacity: 1;
+                stroke: #000000;
+                stroke-width: 1;
+
+            }
+
+            .node.event.commonEnd,
+            .node.event.messageEnd {
+                stroke-width: 3;
+            }
+
+            .node.selected {
+                stroke: #5887f9;
+                stroke-width: 2;
+            }
+
+            .node.selected.event.commonEnd,
+            .node.selected.event.messageEnd {
+                stroke-width: 4;
+            }
+
+            .group {
+                fill: none;
+                //fill-opacity: 0;
+                stroke-dasharray: 5,5;
+            }
+
+            .annotation {
+                fill-opacity: 0;
+                stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
+            }
+
+            text {
+                fill: #000000;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                text-anchor: middle;
+                dominant-baseline: middle;
+            }
         }
 
-        .node.event.commonEnd,
-        .node.event.messageEnd {
-            stroke-width: 3;
-        }
-
-        .node.selected {
-            stroke: #5887f9;
-            stroke-width: 2;
-        }
-
-        .node.selected.event.commonEnd,
-        .node.selected.event.messageEnd {
-            stroke-width: 4;
-        }
-
-        .group {
-            fill-opacity: 0;
-            stroke-dasharray: 5,5;
-        }
-
-        .annotation {
-            fill-opacity: 0;
-            stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
-        }
     }
 
     &-properties-panel {
