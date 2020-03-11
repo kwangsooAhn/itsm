@@ -125,8 +125,16 @@
      */
     function drawConnectors() {
         const getLinePath = function(d) {
-            const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d.target);
-            const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d.source);
+            let target = d.target,
+                source = d.source;
+            if (target.classed('gateway')) {
+                target = d3.select(d.target.node().parentNode);
+            }
+            if (source.classed('gateway')) {
+                source = d3.select(d.source.node().parentNode);
+            }
+            const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
+            const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
 
             let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
             let best = {};
