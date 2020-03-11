@@ -20,9 +20,7 @@
             type: 'delete', parent: 'action',
             url: iconDirectory + '/tooltip/delete.png',
             action: function(el) {
-                removeElementTooltipItems();
-                console.log('delete');
-                //deleteElement(el);
+                deleteElement(el);
             }
         },
         {
@@ -450,11 +448,7 @@
                 elements.splice(i, 1);
             }
         });
-        if (elem.classed('connector')) {
-            d3.select(elem).remove();
-        } else {
-            d3.select(elem.node().parentNode).remove();
-        }
+        d3.select(elem.node().parentNode).remove();
     }
 
     /**
@@ -667,11 +661,11 @@
                         elementObject.value = data[property.id];
                     }
                     if (property.id === 'name') {
-                        let keyupHandler = function(event) {
+                        let keyupHandler = function(e) {
                             AliceProcessEditor.changeTextToElement(id, this.value);
                         };
                         if (id === AliceProcessEditor.data.process.id) {
-                            keyupHandler = function(event) {
+                            keyupHandler = function(e) {
                                 document.querySelector('.process-name').textContent = this.value;
                             };
                         }
@@ -769,7 +763,7 @@
             }
         });
 
-        const defs = d3.select('svg').append('defs');
+        const defs = d3.select('svg').select('defs');
         defs.selectAll('pattern').data(imageLoadingList)
             .enter()
             .append('pattern')

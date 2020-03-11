@@ -12,8 +12,7 @@
 
     let svg,
         elementsContainer,
-        path,
-        paintedPath,
+        connectors,
         dragLine;
 
     const nodes= [],
@@ -48,17 +47,16 @@
      * set connector.
      */
     function setConnectors() {
-        path = path.data(links);
-        paintedPath = paintedPath.data(links);
-
+        connectors = connectors.data(links);
         // remove old links
-        path.exit().remove();
-        paintedPath.exit().remove();
+        connectors.exit().remove();
+
+        let enter = connectors.enter().append('g').attr('class', 'connector');
 
         // add new links
-        path = path.enter().append('path')
+        enter.append('path')
             .attr('class', 'connector')
-            .attr('id', function(d) { return d.id ? d.id : workflowUtil.generateUUID(); })
+            .attr('id', function(d) { return d.id; })
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function() {
                 d3.event.stopPropagation();
@@ -78,13 +76,11 @@
             })
             .call(function(d) {
                 AliceProcessEditor.addElementProperty(d);
-            })
-            .merge(path);
+            });
 
         // add new paintedPath links
-        paintedPath = paintedPath.enter().append('path')
+        enter.append('path')
             .attr('class', 'painted-connector')
-            .attr('id', function(d, i) { return path.nodes()[i].id + '_painted'; })
             .on('mouseout', function() {
                 d3.select(this).style('cursor', 'default');
             })
@@ -94,16 +90,31 @@
                 }
                 d3.select(this).style('cursor', 'pointer');
             })
-            .on('mousedown', function(d, i) {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
                 }
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                path.nodes()[i].dispatchEvent(event);
-            })
-            .merge(paintedPath);
+                d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
+            });
+
+        enter.append('text').append('textPath')
+            .attr('xlink:href', function(d) { return '#' + d.id; })
+            .attr('startOffset', '10%')
+            .append('tspan')
+            .attr('dy', '-10')
+            .text(function(d) {
+                let name = '';
+                const elements = AliceProcessEditor.data.elements;
+                elements.forEach(function(elem) {
+                    if (elem.id === d.id) { name = elem.data.name; }
+                });
+                return name;
+            });
+
+        connectors = connectors.merge(enter);
 
         // draw links
         drawConnectors();
@@ -154,8 +165,8 @@
             */
         };
 
-        path.attr('d', function(d) {return getLinePath(d);});
-        paintedPath.attr('d', function(d) {return getLinePath(d);});
+        connectors.select('path.connector').attr('d', function(d) {return getLinePath(d);});
+        connectors.select('path.painted-connector').attr('d', function(d) {return getLinePath(d);});
     }
 
     /**
@@ -244,7 +255,7 @@
                         .classed('selected', false);
 
                     if (checkAvailableLink()) {
-                        links.push({source: mousedownElement, target: mouseoverElement});
+                        links.push({id: workflowUtil.generateUUID(), source: mousedownElement, target: mouseoverElement});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -354,8 +365,6 @@
         self.textElement = elementContainer.append('text')
             .attr('x', x)
             .attr('y', y)
-            .style('text-anchor', 'middle')
-            .style('dominant-baseline', 'middle')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
@@ -394,6 +403,7 @@
                                         .attr('cy', self.rectData[1].y += d3.event.dy);
                                     break;
                             }
+                            changeTextToElement(self.nodeElement.node().id);
                             updateRect();
                         }
                     })
@@ -683,10 +693,9 @@
 
         self.textElement = elementContainer.append('text')
             .attr('x', x).attr('y', y)
-            .style('text-anchor', 'start')
-            .style('dominant-baseline', 'middle')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
+            .style('text-anchor', 'start')
             .call(drag);
 
         return self;
@@ -753,14 +762,35 @@
      * @param text 추가할 text
      */
     function changeTextToElement(elemId, text) {
-        const element = d3.select(document.getElementById(elemId));
-        let textNode;
-        if (element.classed('connector')) {
-            textNode = d3.select(document.getElementById(elemId + '_text'));
-        } else {
-            textNode = d3.select(element.node().parentNode).select('text');
+        const elementNode = document.getElementById(elemId);
+        if (typeof text === 'undefined') {
+            const elements = AliceProcessEditor.data.elements;
+            elements.forEach(function(elem) {
+                if (elem.id === elemId) { text = elem.data.name; }
+            });
         }
-        textNode.text(text);
+
+        if (d3.select(elementNode).classed('connector')) {
+            d3.select(elementNode.parentNode).select('textPath').text(text);
+        } else {
+            const textElement = d3.select(elementNode.parentNode).select('text')
+            if (textElement.node()) {
+                textElement.text(text);
+
+                // wrap text
+                const element = d3.select(elementNode);
+                if (text.length > 0 && !element.classed('annotation')) {
+                    let textLength = textElement.node().getComputedTextLength(),
+                        displayText = textElement.text();
+                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(element);
+                    while (textLength > bbox.width && displayText.length > 0) {
+                        displayText = displayText.slice(0, -1);
+                        textElement.text(displayText + '...');
+                        textLength = textElement.node().getComputedTextLength();
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -891,8 +921,7 @@
 
         elementsContainer = svg.append('g').attr('class', 'element-container');
         const connectorContainer = svg.append('g').attr('class', 'connector-container');
-        path = connectorContainer.selectAll('path.connector');
-        paintedPath = connectorContainer.selectAll('path.painted-connector');
+        connectors = connectorContainer.selectAll('g.connector');
     }
 
     /**
