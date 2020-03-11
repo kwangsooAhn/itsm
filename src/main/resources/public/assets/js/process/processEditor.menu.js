@@ -20,15 +20,16 @@
             type: 'delete', parent: 'action',
             url: iconDirectory + '/tooltip/delete.png',
             action: function(el) {
-                removeElementItems();
-                console.log('remove');
+                removeElementTooltipItems();
+                console.log('delete');
+                //deleteElement(el);
             }
         },
         {
             type: 'copy', parent: 'action',
             url: iconDirectory + '/tooltip/copy.png',
             action: function(el) {
-                removeElementItems();
+                removeElementTooltipItems();
                 console.log('copy');
             }
         },
@@ -216,7 +217,7 @@
      */
     function editElementType(element, type) {
         const elementId = element.node().id,
-            elements = AliceProcessEditor.data.elements;
+              elements = AliceProcessEditor.data.elements;
         const elementData = elements.filter(function(elem) { return elem.id === elementId; })[0];
         console.debug('current element type: %s, edit element type: %s', elementData.type, type);
         if (elementData.type === type) {
@@ -236,6 +237,7 @@
 
         changeElementType(element, type);
         setProperties(element);
+        removeElementTooltipItems();
         console.debug('edited element [%s]!!', type);
     }
 
@@ -263,7 +265,7 @@
         }
 
         const elemId = elem.node().id,
-            elements = AliceProcessEditor.data.elements;
+              elements = AliceProcessEditor.data.elements;
 
         let elemList = elements.filter(function(attr) { return attr.id === elemId; });
         if (elemList.length > 0) {
@@ -431,13 +433,36 @@
     }
 
     /**
+     * element 를 저장 데이터 및 화면에서 제거한다.
+     *
+     * @param elem 대상 element
+     */
+    function deleteElement(elem) {
+        removeElementTooltipItems();
+        removeActionTooltipItems();
+        const elementId = elem.node().id,
+              elements = AliceProcessEditor.data.elements;
+        elements.forEach(function(e, i) {
+            if (elementId === e.id) {
+                elements.splice(i, 1);
+            }
+        });
+        if (elem.classed('connector')) {
+            d3.select(elem).remove();
+        } else {
+            d3.select(elem.node().parentNode).remove();
+        }
+    }
+
+    /**
      * show elements type tooltip.
      *
-     * @param items tooltip에 표시할 항목목록
+     * @param items tooltip 에 표시할 항목목록
      * @param elem 선택된 element
      */
     function setElementItems(items, elem) {
-        removeElementItems();
+        d3.selectAll('.element-tooltip-item').remove();
+        d3.selectAll('.element-tooltip').remove();
         if (items.length === 0) {
             return;
         }
@@ -478,9 +503,18 @@
     /**
      * remove element tooltip items.
      */
-    function removeElementItems() {
+    function removeElementTooltipItems() {
         d3.selectAll('.element-tooltip-item').remove();
         d3.selectAll('.element-tooltip').remove();
+        d3.select(document.getElementById('action-tooltip-item-edit')).style('fill', 'url(#action-edit)');
+    }
+
+    /**
+     * remove action tooltip items.
+     */
+    function removeActionTooltipItems() {
+        d3.selectAll('.action-tooltip-item').remove();
+        d3.selectAll('.action-tooltip').remove();
     }
 
     /**
@@ -518,13 +552,7 @@
         if (elementData.length > 0) {
             const nodeElement = d3.select(document.getElementById(id));
             const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
-            let positionX = bbox.x,
-                positionY = bbox.y;
-            if (nodeElement.classed('resizable')) {
-                positionX = bbox.cx;
-                positionY = bbox.cy;
-            }
-            elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': positionX, 'position-y': positionY};
+            elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
         }
     }
 

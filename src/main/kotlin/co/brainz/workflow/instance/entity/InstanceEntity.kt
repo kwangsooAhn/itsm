@@ -1,13 +1,16 @@
 package co.brainz.workflow.instance.entity
 
+import co.brainz.workflow.document.entity.DocumentEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
@@ -28,7 +31,8 @@ data class InstanceEntity(
         @Column(name = "instance_end_dt", insertable = false)
         var instanceEndDt: LocalDateTime? = null,
 
-        @JoinColumn(name = "process_id")
-        val processId: String
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "document_id")
+        val document: DocumentEntity
 
 ) : Serializable
