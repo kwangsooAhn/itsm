@@ -12,7 +12,7 @@ import co.brainz.framework.certification.dto.CertificationDto
 import co.brainz.framework.certification.dto.MailDto
 import co.brainz.framework.certification.dto.SignUpDto
 import co.brainz.framework.certification.repository.CertificationRepository
-import co.brainz.itsm.code.repository.CodeRepository
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -35,11 +35,11 @@ import java.util.TimeZone
  */
 @Service
 class CertificationService(private val certificationRepository: CertificationRepository,
-                                       private val roleRepository: RoleRepository,
-                                       private val codeRepository: CodeRepository,
-                                       private val userRoleMapRepository: AliceUserRoleMapRepository,
-                                       private val mailService: MailService,
-                                       private val cryptoRsa: CryptoRsa) {
+                           private val roleRepository: RoleRepository,
+                           private val codeService: CodeService,
+                           private val userRoleMapRepository: AliceUserRoleMapRepository,
+                           private val mailService: MailService,
+                           private val cryptoRsa: CryptoRsa) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -59,7 +59,7 @@ class CertificationService(private val certificationRepository: CertificationRep
 
     fun getDefaultUserRoleList(pRole: String): List<AliceRoleEntity> {
         val roleList = mutableListOf<AliceRoleEntity>()
-        val codeEntityList = codeRepository.findByPCode(pRole)
+        val codeEntityList = codeService.selectCodeByParent(pRole)
         val roleIdList = mutableListOf<String>()
         codeEntityList.forEach {codeEntity ->
             codeEntity.codeValue?.let { codeValue -> roleIdList.add(codeValue) }
