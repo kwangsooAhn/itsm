@@ -4,26 +4,26 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
-import co.brainz.framework.auth.entity.TimezoneEntity
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
-import co.brainz.framework.constants.UserConstants
-import co.brainz.framework.certification.repository.CertificationRepository
+import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.encryption.CryptoRsa
+import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.timezone.AliceTimezoneEntity
+import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.entity.UserSpecification
 import co.brainz.itsm.user.repository.UserRepository
-import co.brainz.framework.auth.repository.TimezoneRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
-import org.springframework.web.context.request.ServletRequestAttributes
-import org.springframework.web.context.request.RequestContextHolder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.stereotype.Service
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 import java.security.PrivateKey
 import java.util.Optional
 
@@ -31,11 +31,11 @@ import java.util.Optional
  * 사용자 관리 서비스
  */
 @Service
-class UserService(private val certificationRepository: CertificationRepository,
-                  private val cryptoRsa: CryptoRsa,
+class UserService(private val aliceCertificationRepository: AliceCertificationRepository,
+                  private val aliceCryptoRsa: AliceCryptoRsa,
                   private val roleRepository: RoleRepository,
                   private val userRepository: UserRepository,
-                  private val userTimezoneRepository: TimezoneRepository,
+                  private val userAliceTimezoneRepository: AliceTimezoneRepository,
                   private val codeService: CodeService,
                   private val userRoleMapRepository: AliceUserRoleMapRepository) {
 
@@ -86,7 +86,7 @@ class UserService(private val certificationRepository: CertificationRepository,
     fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): String {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
-            UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
+            AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
                 val userEntity = userRepository.findByUserKey(userUpdateDto.userKey)
                 val emailConfirmVal = userEntity.email
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
@@ -95,14 +95,14 @@ class UserService(private val certificationRepository: CertificationRepository,
                 val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
 
                 if (targetEntity.password != userUpdateDto.password) {
-                    val password = cryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
+                    val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
                     userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
                 }
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
 
-                if (userEditType == UserConstants.UserEditType.ADMIN_USER_EDIT.code) {
+                if (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     userEntity.userRoleMapEntities.forEach {
                         userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
                     }
@@ -113,11 +113,11 @@ class UserService(private val certificationRepository: CertificationRepository,
                 }
 
                 code = if (targetEntity.email == emailConfirmVal && userUpdateDto.userKey == aliceUserDto.userKey) {
-                    UserConstants.UserEditStatus.STATUS_SUCCESS.code
+                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
                 } else if (userUpdateDto.userKey != aliceUserDto.userKey) {
-                    UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
+                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
                 } else {
-                    UserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
+                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
                 }
             }
         }
@@ -130,11 +130,11 @@ class UserService(private val certificationRepository: CertificationRepository,
     fun userEditValid(userUpdateDto: UserUpdateDto): String {
         var isContinue = true
         val targetEntity = userRepository.findByUserKey(userUpdateDto.userKey)
-        var code: String = UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
+        var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
         if (targetEntity.userId != userUpdateDto.userId) {
             if (userRepository.countByUserId(userUpdateDto.userId) > 0) {
-                code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+                code = AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
                 isContinue = false
             }
         }
@@ -143,8 +143,8 @@ class UserService(private val certificationRepository: CertificationRepository,
             true -> {
                 try {
                     if (targetEntity.email != userUpdateDto.email) {
-                        if (certificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
-                            code = UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
+                        if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
+                            code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                         }
                     }
                 } catch (e: EmptyResultDataAccessException) {
@@ -177,7 +177,7 @@ class UserService(private val certificationRepository: CertificationRepository,
     /**
      * 자기정보 수정 시, 타임존의 데이터를 가져온다.
      */
-    fun selectTimezoneList(): MutableList<TimezoneEntity> {
-        return userTimezoneRepository.findAllByOrderByTimezoneIdAsc()
+    fun selectTimezoneList(): MutableList<AliceTimezoneEntity> {
+        return userAliceTimezoneRepository.findAllByOrderByTimezoneIdAsc()
     }
 }

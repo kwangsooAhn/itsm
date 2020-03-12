@@ -2,7 +2,7 @@ package co.brainz.itsm.ticket.controller
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.constants.UserConstants
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.ticket.service.TicketService
 import co.brainz.itsm.user.service.UserService
 import org.springframework.security.core.context.SecurityContextHolder
@@ -33,7 +33,7 @@ class TicketController(private val userService: UserService, private val ticketS
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userKey = aliceUserDto.userKey
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
-        if (userDto.status == UserConstants.Status.SIGNUP.code || userDto.status == UserConstants.Status.EDIT.code) {
+        if (userDto.status == AliceUserConstants.Status.SIGNUP.code || userDto.status == AliceUserConstants.Status.EDIT.code) {
             return statusPage
         }
         return ticketSearchPage

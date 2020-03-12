@@ -1,7 +1,7 @@
 package co.brainz.itsm.notice.service
 
-import co.brainz.framework.fileTransaction.dto.FileDto
-import co.brainz.framework.fileTransaction.service.FileService
+import co.brainz.framework.fileTransaction.dto.AliceFileDto
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.notice.dto.NoticeDto
 import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticePopupDto
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
-class NoticeService(private val noticeRepository: NoticeRepository, private val fileService: FileService) {
+class NoticeService(private val noticeRepository: NoticeRepository, private val aliceFileService: AliceFileService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeMapper: NoticeMapper = Mappers.getMapper(NoticeMapper::class.java)
@@ -88,7 +88,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
             noticeDto.topNoticeEndDt
         )
         val resltNoticeEntity = noticeRepository.save(noticeEntity)
-        fileService.upload(FileDto(resltNoticeEntity.noticeNo, noticeDto.fileSeq))
+        aliceFileService.upload(AliceFileDto(resltNoticeEntity.noticeNo, noticeDto.fileSeq))
     }
 
     @Transactional
@@ -105,12 +105,12 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
         noticeEntity.topNoticeEndDt = noticeDto.topNoticeEndDt
         noticeEntity.topNoticeYn = noticeDto.topNoticeYn
         noticeRepository.save(noticeEntity)
-        fileService.upload(FileDto(noticeEntity.noticeNo, noticeDto.fileSeq))
+        aliceFileService.upload(AliceFileDto(noticeEntity.noticeNo, noticeDto.fileSeq))
     }
 
     @Transactional
     fun delete(noticeNo: String) {
         noticeRepository.deleteById(noticeNo)
-        fileService.delete(noticeNo)
+        aliceFileService.delete(noticeNo)
     }
 }

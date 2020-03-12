@@ -2,9 +2,9 @@ package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.encryption.CryptoRsa
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.encryption.AliceCryptoRsa
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
@@ -30,7 +30,7 @@ import java.security.PrivateKey
  */
 @Component
 class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
-                        private val cryptoRsa: CryptoRsa) : AuthenticationProvider {
+                        private val aliceCryptoRsa: AliceCryptoRsa) : AuthenticationProvider {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
@@ -44,8 +44,8 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         logger.debug(">>> Login id: {} <<<", authentication.principal.toString())
         logger.debug(">>> Login password: {} <<<", authentication.credentials.toString())
 
-        val userId = cryptoRsa.decrypt(privateKey, authentication.principal.toString())
-        val password = cryptoRsa.decrypt(privateKey, authentication.credentials.toString())
+        val userId = aliceCryptoRsa.decrypt(privateKey, authentication.principal.toString())
+        val password = aliceCryptoRsa.decrypt(privateKey, authentication.credentials.toString())
         val passwordEncoder = BCryptPasswordEncoder()
 
         logger.debug(">>> Decrypt id: {}", userId)
