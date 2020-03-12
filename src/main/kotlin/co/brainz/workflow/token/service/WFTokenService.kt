@@ -11,7 +11,6 @@ import co.brainz.workflow.token.constants.TokenConstants
 import co.brainz.workflow.token.dto.ActionDto
 import co.brainz.workflow.token.dto.TokenDataDto
 import co.brainz.workflow.token.dto.TokenDto
-import co.brainz.workflow.token.dto.TokenSaveDto
 import co.brainz.workflow.token.dto.TokenViewDto
 import co.brainz.workflow.token.entity.TokenDataEntity
 import co.brainz.workflow.token.entity.TokenEntity
@@ -74,20 +73,22 @@ class WFTokenService(private val documentRepository: DocumentRepository,
     /**
      * Token + Instance Save.
      *
-     * @param tokenSaveDto
+     * @param tokenDto
      * @return Boolean
      */
-    fun postTokenData(tokenSaveDto: TokenSaveDto): Boolean {
-        val documentDto = documentRepository.findDocumentEntityByDocumentId(tokenSaveDto.documentDto.documentId)
-        val processId = documentDto.process.processId
-        val instanceDto = InstanceDto(instanceId = "", document = documentDto)
-        val instance = wfInstanceService.createInstance(instanceDto)
-        tokenSaveDto.tokenDto.elementId =  wfElementService.getElementId(processId, ElementConstants.ElementStatusType.START.value).elementId
-        val token = createToken(instance, tokenSaveDto.tokenDto)
-        createTokenData(tokenSaveDto.tokenDto, instance.instanceId, token.tokenId)
-        tokenSaveDto.tokenDto.tokenId = token.tokenId
-        if (tokenSaveDto.tokenDto.isComplete) {
-            completeToken(tokenSaveDto)
+    fun postTokenData(tokenDto: TokenDto): Boolean {
+        val documentDto = tokenDto.documentId?.let { documentRepository.findDocumentEntityByDocumentId(it) }
+        val processId = documentDto?.process?.processId
+        val instanceDto = documentDto?.let { InstanceDto(instanceId = "", document = it) }
+        val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
+        tokenDto.elementId = processId?.let { wfElementService.getElementId(it, ElementConstants.ElementStatusType.START.value).elementId }.toString()
+        val token = instance?.let { createToken(it, tokenDto) }
+        if (instance != null && token != null) {
+            createTokenData(tokenDto, instance.instanceId, token.tokenId)
+            tokenDto.tokenId = token.tokenId
+        }
+        if (tokenDto.isComplete) {
+            completeToken(tokenDto)
         }
         return true
     }
@@ -191,35 +192,38 @@ class WFTokenService(private val documentRepository: DocumentRepository,
         componentsMap["components"] = componentList
 
         //action
+        val actionList: MutableList<ActionDto> = mutableListOf()
         val actionDto = ActionDto(
                 name = "",
                 value = ""
         )
+        actionList.add(actionDto)
 
         return TokenViewDto(
                 tokenId = tokenMstEntity.get().tokenId,
                 components = componentList,
-                action = actionDto
+                action = actionList
         )
     }
 
     /**
      * Token + Instance Update.
      *
-     * @param tokenSaveDto
+     * @param tokenDto
      * @return Boolean
      */
-    fun putTokenData(tokenSaveDto: TokenSaveDto): Boolean {
-        val tokenEntity = tokenRepository.findTokenEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
+    fun putTokenData(tokenDto: TokenDto): Boolean {
+        val tokenEntity = tokenRepository.findTokenEntityByTokenId(tokenDto.tokenId)
         if (tokenEntity.isPresent) {
             val instanceId = tokenEntity.get().instance.instanceId
-            updateToken(tokenEntity.get(), tokenSaveDto.tokenDto)
-            deleteTokenData(instanceId, tokenSaveDto.tokenDto.tokenId)
-            createTokenData(tokenSaveDto.tokenDto, instanceId, tokenSaveDto.tokenDto.tokenId)
-            if (tokenSaveDto.tokenDto.isComplete) {
-                completeToken(tokenSaveDto)
+            updateToken(tokenEntity.get(), tokenDto)
+            deleteTokenData(instanceId, tokenDto.tokenId)
+            createTokenData(tokenDto, instanceId, tokenDto.tokenId)
+            if (tokenDto.isComplete) {
+                completeToken(tokenDto)
             }
         }
+
         return true
     }
 
@@ -243,7 +247,7 @@ class WFTokenService(private val documentRepository: DocumentRepository,
     /**
      * Token Data Insert.
      *
-     * @param tokenSaveDto
+     * @param tokenDto
      * @param instanceId
      * @param tokenId
      */
@@ -287,11 +291,11 @@ class WFTokenService(private val documentRepository: DocumentRepository,
     /**
      * Token Complete.
      *
-     * @param tokenSaveDto
+     * @param tokenDto
      */
-    fun completeToken(tokenSaveDto: TokenSaveDto) {
+    fun completeToken(tokenDto: TokenDto) {
         // Optional -> 안쓰면 좋을 것 같은데...
-        val completedTokenOptional = tokenRepository.findTokenEntityByTokenId(tokenSaveDto.tokenDto.tokenId)
+        val completedTokenOptional = tokenRepository.findTokenEntityByTokenId(tokenDto.tokenId)
 
         if (completedTokenOptional.isPresent) {
             val completedToken = completedTokenOptional.get()
@@ -302,7 +306,7 @@ class WFTokenService(private val documentRepository: DocumentRepository,
             tokenRepository.save(completedToken)
 
             //  다음 Element 가져오기
-            val nextElement: ElementEntity? = wfElementService.getNextElement(completedToken.elementId, tokenSaveDto)
+            val nextElement: ElementEntity? = wfElementService.getNextElement(completedToken.elementId, tokenDto)
             nextElement?.let { it ->
                 val assigneeValueInNextElement: String? = it.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE.value)
                 val assigneeTypeValueInNextElement: String? = it.getElementDataValue(ElementConstants.AttributeId.ASSIGNEE_TYPE.value)
@@ -320,12 +324,12 @@ class WFTokenService(private val documentRepository: DocumentRepository,
                 when (it.elementType) {
                     ElementConstants.ElementType.USER_TASK.value -> {
                         val createdToken = createToken(completedToken.instance, nextToken)
-                        createTokenData(tokenSaveDto.tokenDto, completedToken.instance.instanceId, createdToken.tokenId)
+                        createTokenData(tokenDto, completedToken.instance.instanceId, createdToken.tokenId)
                     }
                     ElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                         val createdToken = createToken(completedToken.instance, nextToken)
-                        createTokenData(tokenSaveDto.tokenDto, completedToken.instance.instanceId, createdToken.tokenId)
-                        completeToken(TokenSaveDto(tokenSaveDto.documentDto,  nextToken))
+                        createTokenData(tokenDto, completedToken.instance.instanceId, createdToken.tokenId)
+                        completeToken(nextToken)
                     }
                     ElementConstants.ElementType.COMMON_END_EVENT.value -> {
                         wfInstanceService.completeInstance(completedToken.instance.instanceId)

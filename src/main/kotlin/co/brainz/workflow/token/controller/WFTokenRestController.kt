@@ -2,7 +2,6 @@ package co.brainz.workflow.token.controller
 
 import co.brainz.workflow.engine.WFEngine
 import co.brainz.workflow.token.dto.TokenDto
-import co.brainz.workflow.token.dto.TokenSaveDto
 import co.brainz.workflow.token.dto.TokenViewDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -32,14 +31,16 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
     /**
      * 토큰 신규 등록.
      *
-     * @param tokenSaveDto
+     * @param tokenDto
      * @return Boolean
      */
     @Transactional
     @PostMapping("")
-    fun postTokenData(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return wfEngine.token().postTokenData(tokenSaveDto)
+    fun postTokenData(@RequestBody tokenDto: TokenDto): Boolean {
+        return wfEngine.token().postTokenData(tokenDto)
     }
+
+
 
     /**
      * 토큰 일반정보 조회.
@@ -79,13 +80,13 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
      * 토큰 상세정보 업데이트.
      *
      * @param tokenId
-     * @param tokenSaveDto
+     * @param tokenDto
      * @return Boolean
      */
     @Transactional
     @PutMapping("/{tokenId}/data")
-    fun putTokenData(@PathVariable tokenId: String, @RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return wfEngine.token().putTokenData(tokenSaveDto)
+    fun putTokenData(@PathVariable tokenId: String, @RequestBody tokenDto: TokenDto): Boolean {
+        return wfEngine.token().putTokenData(tokenDto)
     }
 
 }
