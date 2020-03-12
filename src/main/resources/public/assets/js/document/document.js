@@ -423,14 +423,18 @@
             let documentObject = {};
             let tokenObject = {};
             let componentArrayList = [];
+            let actionArrayList = [];
 
             //documentId 값을 구한다.
             const documentElements = document.getElementById('documentId');
             if (documentElements !== null && documentElements !== undefined) {
-                documentObject.documentId = documentElements.getAttribute('data-id');
+                //documentObject.documentId = documentElements.getAttribute('data-id');
+                tokenObject.documentId = documentElements.getAttribute('data-id');
             } else {
-                documentObject.documentId = '';
+                //documentObject.documentId = '';
+                tokenObject.documentId = "";
             }
+            //tokenObject.documentName = "";
 
             //ComponentsInfo
             const componentElements = documentContainer.getElementsByClassName('component');
@@ -502,6 +506,8 @@
                 tokenObject.data = '';
             }
 
+            tokenObject.actions = actionArrayList;
+
             let method = '';
             if (tokenObject.tokenId === '') {
                 method = 'post';
@@ -509,15 +515,18 @@
                 method = 'put';
             }
 
-            const object = {
-                documentDto : documentObject,
+            /*const object = {
+                //documentDto : documentObject,
                 tokenDto: tokenObject
-            };
+            };*/
+
+            console.log(tokenObject);
+            //return false;
 
             const opt = {
                 method: method,
                 url: '/rest/tickets/data',
-                params: JSON.stringify(object),
+                params: JSON.stringify(tokenObject),
                 contentType: 'application/json',
                 callbackFunc: function() {
                     alert(i18n.get('common.msg.save'));
