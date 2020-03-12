@@ -1,6 +1,6 @@
 package co.brainz.itsm.ticket.controller
 
-import co.brainz.itsm.provider.dto.TokenSaveDto
+import co.brainz.itsm.provider.dto.TokenDto
 import co.brainz.itsm.ticket.service.TicketService
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -16,15 +16,15 @@ class TicketRestController(private val ticketService: TicketService) {
      * Ticket 신규 등록 / 처리
      */
     @PostMapping("/data")
-    fun createTicket(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return ticketService.createTicket(tokenSaveDto)
+    fun createTicket(@RequestBody tokenDto: TokenDto): Boolean {
+        return ticketService.createTicket(tokenDto)
     }
 
     /**
      * Ticket 수정 / 처리
      */
     @PutMapping("/data")
-    fun updateTicket(@RequestBody tokenSaveDto: TokenSaveDto): Boolean {
-        return ticketService.updateTicket(tokenSaveDto)
+    fun updateTicket(@RequestBody tokenDto: TokenDto): Boolean {
+        return ticketService.updateTicket(tokenDto)
     }
 }

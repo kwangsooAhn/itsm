@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository
 interface TokenDataRepository: JpaRepository<TokenDataEntity, String> {
 
     fun deleteTokenDataEntityByInstanceIdAndTokenId(instanceId: String, tokenId: String)
+
+    fun findTokenDataEntityByTokenId(tokenId: String): List<TokenDataEntity>
 }
 

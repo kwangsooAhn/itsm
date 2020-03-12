@@ -9,4 +9,6 @@ import java.util.Optional
 interface TokenRepository : JpaRepository<TokenEntity, String> {
 
     fun findTokenEntityByTokenId(tokenId: String): Optional<TokenEntity>
+
+    fun findTokenMstEntityByAssigneeIdAndAssigneeTypeAndTokenStatus(assignee: String, assigneeType: String, tokenStatus: String): List<TokenEntity>
 }

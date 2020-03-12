@@ -1,6 +1,7 @@
 package co.brainz.workflow.instance.entity
 
 import co.brainz.workflow.document.entity.DocumentEntity
+import co.brainz.workflow.token.entity.TokenEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -35,4 +37,8 @@ data class InstanceEntity(
         @JoinColumn(name = "document_id")
         val document: DocumentEntity
 
-) : Serializable
+) : Serializable {
+
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
+        val tokens: MutableList<TokenEntity>? = mutableListOf()
+}

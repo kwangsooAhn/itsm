@@ -5,8 +5,8 @@ import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.ProviderWorkflow
 import co.brainz.itsm.provider.TokenProvider
 import co.brainz.itsm.provider.constants.ProviderConstants
-import co.brainz.itsm.provider.dto.TokenSaveDto
 import co.brainz.itsm.provider.dto.TicketDto
+import co.brainz.itsm.provider.dto.TokenDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -23,8 +23,8 @@ class TicketService(private val tokenProvider: TokenProvider, private val provid
      *
      * @return Boolean
      */
-    fun createTicket(tokenSaveDto: TokenSaveDto): Boolean {
-        return tokenProvider.postToken(tokenSaveDto)
+    fun createTicket(tokenDto: TokenDto): Boolean {
+        return tokenProvider.postTokenData(tokenDto)
     }
 
     /**
@@ -33,8 +33,8 @@ class TicketService(private val tokenProvider: TokenProvider, private val provid
      *
      * @return Boolean
      */
-    fun updateTicket(tokenSaveDto: TokenSaveDto): Boolean {
-        return tokenProvider.putToken(tokenSaveDto)
+    fun updateTicket(tokenDto: TokenDto): Boolean {
+        return tokenProvider.putTokenData(tokenDto)
     }
 
     /**
