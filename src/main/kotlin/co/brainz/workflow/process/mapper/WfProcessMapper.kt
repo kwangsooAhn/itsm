@@ -24,7 +24,7 @@ interface WfProcessMapper {
         Mapping(source = "updateDt", target = "updateDt"),
         Mapping(source = "updateUserKey", target = "updateUserKey")
     )
-    fun toWfJsonProcessDto(processEntity: WfProcessEntity): WfProcessDto
+    fun toWfProcessDto(processEntity: WfProcessEntity): WfProcessDto
 
     fun toProcessEntity(processDto: ProcessDto): WfProcessEntity
 
@@ -32,7 +32,7 @@ interface WfProcessMapper {
         Mapping(source = "elementId", target = "id"),
         Mapping(source = "elementType", target = "type")
     )
-    fun toWfJsonElementDto(elementEntity: WfElementEntity): WfElementDto
+    fun toWfElementDto(elementEntity: WfElementEntity): WfElementDto
 
 
 

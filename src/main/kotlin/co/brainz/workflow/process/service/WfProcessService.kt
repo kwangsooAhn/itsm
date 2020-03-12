@@ -5,8 +5,8 @@ import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.dto.ProcessDto
 import co.brainz.workflow.process.dto.WfElementDto
-import co.brainz.workflow.process.dto.WfProcessElementDto
 import co.brainz.workflow.process.dto.WfProcessDto
+import co.brainz.workflow.process.dto.WfProcessElementDto
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.mapper.WfProcessMapper
 import co.brainz.workflow.process.repository.WfProcessRepository
@@ -43,7 +43,7 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.SIMULATION.code -> true
                 else -> false
             }
-            val wfProcessDto = processMapper.toWfJsonProcessDto(it)
+            val wfProcessDto = processMapper.toWfProcessDto(it)
             wfProcessDto.enabled = enabled
             processDtoList.add(wfProcessDto)
         }
@@ -55,12 +55,12 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      */
     fun getProcess(processId: String): WfProcessElementDto {
         val processEntity = wfProcessRepository.findByProcessId(processId)
-        val wfProcessDto = processMapper.toWfJsonProcessDto(processEntity)
+        val wfProcessDto = processMapper.toWfProcessDto(processEntity)
         val wfElementDto = mutableListOf<WfElementDto>()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         for (elementEntity in processEntity.elementEntities) {
-            val elDto = processMapper.toWfJsonElementDto(elementEntity)
+            val elDto = processMapper.toWfElementDto(elementEntity)
             elDto.display = elementEntity.displayInfo.let { mapper.readValue(it) }
             elDto.data = elementEntity.elementDataEntities.associateByTo(
                 mutableMapOf(),
@@ -76,8 +76,7 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      */
     fun insertProcess(processDto: ProcessDto): ProcessDto {
         processDto.processStatus = WfProcessConstants.Status.EDIT.code // 등록 시 프로세스 상태
-        val wfProcessEntity: WfProcessEntity =
-            wfProcessRepository.save(processMapper.toProcessEntity(processDto))
+        val wfProcessEntity: WfProcessEntity = wfProcessRepository.save(processMapper.toProcessEntity(processDto))
 
         return ProcessDto(
             processId = wfProcessEntity.processId,
