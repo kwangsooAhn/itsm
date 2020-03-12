@@ -42,8 +42,14 @@
         /**
          * 현재 시간을 2020-02-19 13:30 형식으로 추출 > date, time, datetime 컴포넌트 사용 용도
          */
-        getTimeStamp: function() {
-            let today = new Date();
+        getTimeStamp: function(day, time) {
+            const today = new Date();
+            if (day !== undefined && day !== null && day !== '') {
+                today.setDate(today.getDate() + Number(day));
+            }
+            if (time !== undefined && time !== null && time !== '') {
+            	today.setHours(today.getHours() + Number(time));
+            }
             let s = utils.parseZero(today.getFullYear(), 4) + '-' +
                     utils.parseZero(today.getMonth() + 1, 2) + '-' +
                     utils.parseZero(today.getDate(), 2) + ' ' +
@@ -391,16 +397,66 @@
      * @constructor
      */
     function Datebox(attr) {
-        //console.log(sessionData.timeFormat);
-        //let formate = sessionData.timeFormat;
-        //let defaultDate = attr.display['default'];
-        //console.log(defaultDate);
-        /*let defaultDate = attr.display['default'];
-        if (defaultDate === 'today') { 
-            defaultDate = utils.getTimeStamp(); 
-            defaultDate = defaultDate.split(' ')[0];
+        //날짜 포멧 변경
+        let defaultFormatArr = attr.display['default'].split('|');
+        let defaultInputVal = '';
+        if (defaultFormatArr[0] === 'now') { 
+            defaultInputVal = utils.getTimeStamp();
+            defaultInputVal = defaultInputVal.split(' ')[0];
+        } else if (defaultFormatArr[0] === 'datepicker') { 
+            defaultInputVal = defaultFormatArr[1];
+        } else if (defaultFormatArr[0] === 'date') { 
+            defaultInputVal = utils.getTimeStamp(defaultFormatArr[1]); 
+            defaultInputVal = defaultInputVal.split(' ')[0];
         }
-        defaultDate = changeDateFormatYYYYMMDD(defaultDate, attr.display.format);*/
+        let comp = utils.createComponentByTemplate(`
+            <div class='move-icon'></div>
+            <div class='group'>
+                <div class='field'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                    </div>
+                </div>
+                <div class='field' style='flex-basis: 100%;'>
+                    <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${defaultInputVal}' readonly/>
+                </div>
+            </div>
+        `);
+        
+        if (attr.label.position === 'hidden') {
+            comp.querySelector('.group').firstElementChild.style.display = 'none';
+        } else if (attr.label.position === 'left') {
+            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
+            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
+        }
+        formPanel.appendChild(comp);
+        this.domElem = comp;
+        //TODO: 데이터 포멧 변환
+        dateTimePicker.initDatePicker('date-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultLang);
+    }
+
+    /**
+     * Time.
+     *
+     * @param {Object} attr 컴포넌트 속성성
+    * @constructor
+     */
+    function Timebox(attr) {
+        //시간 포멧 변경
+        let defaultFormatArr = attr.display['default'].split('|');
+        let defaultInputVal = '';
+        if (defaultFormatArr[0] === 'now') { 
+            defaultInputVal = utils.getTimeStamp();
+            defaultInputVal = defaultInputVal.split(' ')[1];
+        } else if (defaultFormatArr[0] === 'timepicker') { 
+            defaultInputVal = defaultFormatArr[1];
+        } else if (defaultFormatArr[0] === 'time') { 
+            defaultInputVal = utils.getTimeStamp('', defaultFormatArr[1]); 
+            defaultInputVal = defaultInputVal.split(' ')[1];
+        }
         
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
@@ -414,50 +470,7 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='date-${attr.id}' placeholder='' value=''/>
-                </div>
-            </div>
-        `);
-//${defaultDate}
-//${attr.display.format}
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
-        formPanel.appendChild(comp);
-        this.domElem = comp;
-    }
-
-    /**
-     * Time.
-     *
-     * @param {Object} attr 컴포넌트 속성성
-    * @constructor
-     */
-    function Timebox(attr) {
-        let defaultTime = attr.display['default'];
-        /*if (defaultTime === 'now') { 
-            defaultTime = utils.getTimeStamp(); 
-            defaultTime = changeDateFormatYYYYMMDD(defaultTime, 'YYYY-MM-DD ' + attr.display.format);
-            defaultTime = defaultTime.split(' ')[1];
-            //${defaultTime}
-        }*/
-
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
-                    </div>
-                </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='time-${attr.id}' placeholder='' value=''/>
+                    <input type='text' id='time-${attr.id}' placeholder='hh:mm' value='${defaultInputVal}' readonly/>
                 </div>
             </div>
         `);
@@ -470,6 +483,8 @@
         }
         formPanel.appendChild(comp);
         this.domElem = comp;
+        
+        dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultDateFormat);
     }
 
     /**
@@ -479,12 +494,17 @@
      * @constructor
      */
     function DateTimebox(attr) {
-        let defaultDateTime = attr.display['default'];
-        /*if (defaultDateTime === 'now') { 
-            defaultDateTime = utils.getTimeStamp();
+        //날짜 시간 포멧 변경
+        let defaultFormatArr = attr.display['default'].split('|');
+        let defaultInputVal = '';
+        if (defaultFormatArr[0] === 'now') { 
+            defaultInputVal = utils.getTimeStamp();
+        } else if (defaultFormatArr[0] === 'datetimepicker') { 
+            defaultInputVal = defaultFormatArr[1];
+        } else if (defaultFormatArr[0] === 'datetime') { 
+            defaultInputVal = utils.getTimeStamp(defaultFormatArr[1], defaultFormatArr[2]);
         }
-        defaultDateTime = changeDateFormatYYYYMMDD(defaultDateTime, attr.display.format);
-        */
+        
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -497,7 +517,7 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='datetime-${attr.id}' placeholder='' value='' />
+                    <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + " hh:mm"}' value='${defaultInputVal}' readonly />
                 </div>
             </div>
         `);
@@ -510,6 +530,8 @@
         }
         formPanel.appendChild(comp);
         this.domElem = comp;
+        
+        dateTimePicker.initDateTimePicker('datetime-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultLang);
     }
 
     /**

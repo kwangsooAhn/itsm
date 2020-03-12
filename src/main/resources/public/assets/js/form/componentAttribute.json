@@ -993,7 +993,7 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "Y", 
+                "value": "N", 
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 
@@ -1127,9 +1127,25 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "Y", 
+                "value": "N", 
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "time-min", 
+                "name": "Min Time", 
+                "value": "", 
+                "type": "timepicker", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "time-max", 
+                "name": "Max Time", 
+                "value": "", 
+                "type": "timepicker", 
                 "code": "", 
                 "unit": "" 
             }
@@ -1245,7 +1261,7 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "Y", 
+                "value": "N", 
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 
@@ -1254,7 +1270,7 @@
             {
                 "id": "date-min", 
                 "name": "Min Datetime", 
-                "value": "1900-01-01", 
+                "value": "1900-01-01 00:00", 
                 "type": "datetimepicker", 
                 "code": "", 
                 "unit": "" 
@@ -1262,7 +1278,7 @@
             {
                 "id": "date-max", 
                 "name": "Max Datetime", 
-                "value": "2999-12-31", 
+                "value": "2999-12-31 23:59", 
                 "type": "datetimepicker", 
                 "code": "", 
                 "unit": "" 

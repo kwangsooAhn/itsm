@@ -11230,6 +11230,10 @@ body {
           align-items: center;
 }
 
+.component .group input[readonly] {
+  pointer-events: none;
+}
+
 .component .group .field input[type=text] {
   width: 100%;
   height: 1.563rem;

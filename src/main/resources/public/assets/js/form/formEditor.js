@@ -19,10 +19,11 @@
         selectedComponentId = '', //선택된 컴포넌트 ID
         data = {}, //저장용 데이터
         formProperties = {}, //좌측 properties panel에 출력되는 폼 정보
-        userData= {},  //사용자 정보
-        defaultLang = 'en',
-        defaultDateFormat = 'YYYY-MM-DD',
-        defaultTimeFormat = '24';
+        userData = { //사용자 정보
+            defaultLang: 'en',
+            defaultDateFormat: 'YYYY-MM-DD',
+            defaultTimeFormat: '24'
+        };
     /**
      * 폼 저장
      */
@@ -381,27 +382,30 @@
         const changeDateFormat = function(e) {
             let el = e.target || e;
             let parentEl = e.target ? el.parentNode : el.parentNode.parentNode;
-            let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
-            
-            if (parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
-            
-            let checkedPropertiesArr = checkedRadio.name.split('-');
-            let changeValue = checkedRadio.value;
-            
-            if (checkedRadio.value === 'none' || checkedRadio.value === 'now') {
-                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+            if (parentEl.classList.contains('property-field')) {
+                let changePropertiesArr = el.name.split('.');
+                changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
             } else {
-                let inputCells = parentEl.querySelectorAll('input[type="text"]');
+                let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
+                if (parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
                 
-                if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
-                    changeValue += ('|' + inputCells[0].value);
+                let checkedPropertiesArr = checkedRadio.name.split('.');
+                let changeValue = checkedRadio.value;
+                
+                if (checkedRadio.value === 'none' || checkedRadio.value === 'now') {
+                    changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 } else {
-                    for (let i = 0, len = inputCells.length; i < len; i++ ) {
-                        changeValue += ('|' + inputCells[i].value);
+                    let inputCells = parentEl.querySelectorAll('input[type="text"]');
+                    
+                    if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
+                        changeValue += ('|' + inputCells[0].value);
+                    } else {
+                        for (let i = 0, len = inputCells.length; i < len; i++ ) {
+                            changeValue += ('|' + inputCells[i].value);
+                        }
                     }
+                    changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 }
-                
-                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
             }
         };
 
@@ -648,7 +652,7 @@
                                 let labelName = option.name.split('{0}');
                                 propertyTemplate += `
                                     <div class='vertical-group'>
-                                    <input type='radio' id='${option.id}' name='${group}-${fieldArr.id}' value='${option.id}'
+                                    <input type='radio' id='${option.id}' name='${group}.${fieldArr.id}' value='${option.id}'
                                     ${defaultFormatArr[0] === option.id ? "checked='true'" : ""} />
                                     
                                     ${option.id === 'date' || option.id === 'time' ? "<input type='text' id='" + option.id +"' value='" + optionDefaultArr[1] + "'/><label for='" + option.id + "'>" + labelName[1] + "</label>" : ""}
@@ -672,11 +676,11 @@
                             }
                             
                             if (compAttr.type === 'date') {
-                                dateTimePicker.initDatePicker('datepicker-' + compAttr.id, defaultDateFormat, defaultLang, changeDateFormat);
+                                dateTimePicker.initDatePicker('datepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, changeDateFormat);
                             } else if (compAttr.type === 'time') {
-                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, defaultTimeFormat, changeDateFormat);
+                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTimeFormat, changeDateFormat);
                             } else if (compAttr.type === 'datetime') {
-                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, defaultDateFormat, defaultTimeFormat, defaultLang, changeDateFormat);
+                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, changeDateFormat);
                             }
                             break;
                         case 'button':
@@ -768,8 +772,23 @@
                             }
                             break;
                         case 'datepicker':
-                            break;
+                        case 'timepicker':
                         case 'datetimepicker':
+                            propertyValue = document.createElement('input');
+                            propertyValue.setAttribute('type', 'text');
+                            propertyValue.classList.add('property-field-value');
+                            propertyValue.setAttribute('id', fieldArr.id + '-' + compAttr.id);
+                            propertyValue.setAttribute('name', group + '.' + fieldArr.id);
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            fieldGroupDiv.appendChild(propertyValue);
+                            
+                            if (fieldArr.type === 'datepicker') {
+                                dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, changeDateFormat);
+                            } else if (fieldArr.type === 'timepicker') {
+                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTimeFormat, changeDateFormat);
+                            } else if (fieldArr.type === 'datetimepicker') {
+                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, changeDateFormat);
+                            }
                             break;
                     }
                 });
@@ -898,12 +917,13 @@
         });
         compAttr.id = compData.id;
         compAttr.type = compData.type;
+        
         Object.keys(compData).forEach(function(comp) {
             if (compData[comp] !== null && typeof(compData[comp]) === 'object' && compAttr.hasOwnProperty(comp))  {
                 Object.keys(compData[comp]).forEach(function(attr) {
                     Object.keys(compAttr[comp]).forEach(function(d) {
-                        if (attr === compAttr[comp][d].id) {
-                            compAttr[comp][d].value = compData[comp][attr];
+                        if (attr === d) {
+                            compAttr[comp][d] = compData[comp][attr];
                         }
                     });
                 });
@@ -963,15 +983,16 @@
     function init(formId, authInfo) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         propertiesPanel = document.getElementById('panel-properties');
-        userData = JSON.parse(authInfo);
+        let authData = JSON.parse(authInfo);
+        
         //편집화면에서 사용할 dateformat 설정
-        if (userData) {
-            defaultLang  = userData.lang;
-            let format = userData.timeFormat;
+        if (authData) {
+            userData.defaultLang  = authData.lang;
+            let format = authData.timeFormat;
             let formatArray = format.split(' ');
             
-            defaultDateFormat =  formatArray[0].toUpperCase();
-            if (formatArray.length === 3) { defaultTimeFormat = '12'; }
+            userData.defaultDateFormat =  formatArray[0].toUpperCase();
+            if (formatArray.length === 3) { userData.defaultTimeFormat = '12'; }
         }
         
         workflowUtil.polyfill();
@@ -1007,6 +1028,7 @@
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
     exports.reorderComponent = reorderComponent;
+    exports.userData = userData;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
