@@ -435,7 +435,7 @@
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        //dateTimePicker.initDatePicker('date-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultLang);
+        dateTimePicker.initDatePicker('date-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultLang);
     }
 
     /**
@@ -484,7 +484,7 @@
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        //dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultDateFormat);
+        dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultTimeFormat);
     }
 
     /**
@@ -531,7 +531,7 @@
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        //dateTimePicker.initDateTimePicker('datetime-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultTimeFormat, formEditor.userData.defaultLang); 
+        dateTimePicker.initDateTimePicker('datetime-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultTimeFormat, formEditor.userData.defaultLang); 
     }
 
     /**

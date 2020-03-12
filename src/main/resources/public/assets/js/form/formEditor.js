@@ -381,7 +381,7 @@
          * date, time, datetime default 포멧 변경시,
          * default 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
          */
-        const changeDateFormat = function(e) {
+        const setDateFormat = function(e) {
             let el = e.target || e;
             let parentEl = e.target ? el.parentNode : el.parentNode.parentNode;
             if (parentEl.classList.contains('property-field')) {
@@ -393,8 +393,7 @@
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
-                
-                if (checkedRadio.value === 'none' || checkedRadio.value === 'now') {
+                if (changeValue === 'none' || changeValue === 'now') {
                     changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 } else {
                     let inputCells = parentEl.querySelectorAll('input[type="text"]');
@@ -674,15 +673,15 @@
                             //이벤트 등록
                             let changeOptions = fieldGroupDiv.querySelectorAll('input[type="radio"], input[type="text"]');
                             for (let i = 0, len = changeOptions.length; i < len; i++ ) {
-                                changeOptions[i].addEventListener('change', changeDateFormat, false);
+                                changeOptions[i].addEventListener('change', setDateFormat, false);
                             }
                             
                             if (compAttr.type === 'date') {
-                                dateTimePicker.initDatePicker('datepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, changeDateFormat);
+                                dateTimePicker.initDatePicker('datepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (compAttr.type === 'time') {
-                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTimeFormat, changeDateFormat);
+                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTimeFormat, setDateFormat);
                             } else if (compAttr.type === 'datetime') {
-                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, changeDateFormat);
+                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, setDateFormat);
                             }
                             break;
                         case 'button':
@@ -785,11 +784,11 @@
                             fieldGroupDiv.appendChild(propertyValue);
                             
                             if (fieldArr.type === 'datepicker') {
-                                dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, changeDateFormat);
+                                dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (fieldArr.type === 'timepicker') {
-                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTimeFormat, changeDateFormat);
+                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTimeFormat, setDateFormat);
                             } else if (fieldArr.type === 'datetimepicker') {
-                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, changeDateFormat);
+                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, setDateFormat);
                             }
                             break;
                     }
