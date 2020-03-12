@@ -10,6 +10,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.RestTemplate
 
 @Service
@@ -50,13 +51,59 @@ class TokenProvider(private val restTemplate: RestTemplate): ProviderUtilities()
     }
 
     /**
-     * Token Update.
+     * Token Update (Detail).
      *
      * @param tokenDto
      * @return Boolean
      */
     fun putTokenData(tokenDto: TokenDto): Boolean {
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.PUT_TOKEN_DATA.url.replace(keyRegex, tokenDto.tokenId)))
+        val requestEntity = setHttpEntity(tokenDto)
+        val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
+        return responseJson.statusCode == HttpStatus.OK
+    }
+
+    /**
+     * Search Tokens.
+     *
+     * @param params
+     * @return String
+     */
+    fun getTokens(params: LinkedMultiValueMap<String, String>): String {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.GET_TOKENS.url, parameters = params))
+        return restTemplate.getForObject(url, String::class.java)?:""
+    }
+
+    /**
+     * Search Token.
+     *
+     * @param tokenId
+     * @return String
+     */
+    fun getToken(tokenId: String): String {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.GET_TOKEN.url.replace(keyRegex, tokenId)))
+        return restTemplate.getForObject(url, String::class.java)?:""
+    }
+
+    /**
+     * Search Token Data.
+     *
+     * @param  tokenId
+     * @return String
+     */
+    fun getTokenData(tokenId: String): String {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.GET_TOKEN_DATA.url.replace(keyRegex, tokenId)))
+        return restTemplate.getForObject(url, String::class.java)?:""
+    }
+
+    /**
+     * Token Update.
+     *
+     * @param tokenDto
+     * @return Boolean
+     */
+    fun putToken(tokenDto: TokenDto): Boolean {
+        val url = makeUri(UrlDto(callUrl = ProviderConstants.Token.PUT_TOKEN.url.replace(keyRegex, tokenDto.tokenId)))
         val requestEntity = setHttpEntity(tokenDto)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
         return responseJson.statusCode == HttpStatus.OK

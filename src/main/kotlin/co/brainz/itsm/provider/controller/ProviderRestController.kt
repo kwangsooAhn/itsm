@@ -5,13 +5,34 @@ import co.brainz.itsm.provider.dto.ActionDto
 import co.brainz.itsm.provider.dto.TokenDataDto
 import co.brainz.itsm.provider.dto.TokenDto
 import com.google.gson.Gson
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/wf/provider")
 class ProviderRestController(private val tokenProvider: TokenProvider) {
+
+    @GetMapping("/tokens/{tokenId}")
+    fun getToken(@PathVariable tokenId: String): String {
+        return tokenProvider.getToken(tokenId)
+    }
+
+    @GetMapping("/tokens/{tokenId}/data")
+    fun getTokenData(@PathVariable tokenId: String): String {
+        return tokenProvider.getTokenData(tokenId)
+    }
+
+    @GetMapping("/tokens")
+    fun getTokens(): String {
+        val params = LinkedMultiValueMap<String, String>()
+        params["assignee"] = "40288ab26fa3219e016fa32231230000"
+        params["tokenStatus"] = "running"
+        params["assigneeType"] = "user"
+        return tokenProvider.getTokens(params)
+    }
 
     @GetMapping("/post")
     fun postData() {
