@@ -24,7 +24,7 @@ data class ElementDataEntity(
     val attributeId: String = "",
 
     @Id
-    @Column(name = "attribute_value", length = 512)
+    @Column(name = "attribute_value", length = 1024)
     var attributeValue: String = "",
 
     @Column(name = "attribute_order")
