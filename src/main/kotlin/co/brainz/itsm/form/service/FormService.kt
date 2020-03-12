@@ -1,8 +1,8 @@
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.provider.ProviderForm
-import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.constants.ProviderConstants
 import co.brainz.itsm.provider.dto.FormComponentSaveDto
 import co.brainz.itsm.provider.dto.FormDto
@@ -27,8 +27,8 @@ class FormService(private val providerForm: ProviderForm) {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val forms: List<FormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
         for (form in forms) {
-            form.createDt = form.createDt?.let { ProviderUtilities().toTimezone(it) }
-            form.updateDt = form.updateDt?.let { ProviderUtilities().toTimezone(it) }
+            form.createDt = form.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
+            form.updateDt = form.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
         }
 
         return forms
@@ -42,8 +42,8 @@ class FormService(private val providerForm: ProviderForm) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         formDto.formStatus = ProviderConstants.FormStatus.EDIT.value
         formDto.createUserKey = aliceUserDto.userKey
-        formDto.createDt =  ProviderUtilities().toGMT(LocalDateTime.now())
-        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
+        formDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        formDto.updateDt = formDto.updateDt?.let { AliceTimezoneUtils().toGMT(it) }
         val responseBody: String = providerForm.postForm(formDto)
         return when (responseBody.isNotEmpty()) {
             true -> {
@@ -71,7 +71,7 @@ class FormService(private val providerForm: ProviderForm) {
                 formName = forms.name,
                 formDesc = forms.desc,
                 formStatus = forms.status,
-                updateDt = ProviderUtilities().toGMT(LocalDateTime.now()),
+                updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now()),
                 updateUserKey = aliceUserDto.userKey
         )
         val formComponentSaveDto = FormComponentSaveDto(
