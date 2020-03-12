@@ -4,7 +4,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.provider.constants.ProviderConstants
 import co.brainz.itsm.provider.dto.ProcessDto
 import co.brainz.itsm.provider.dto.UrlDto
-import co.brainz.workflow.process.dto.WfJsonMainDto
+import co.brainz.workflow.process.dto.WfProcessElementDto
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -60,16 +60,16 @@ class ProviderProcess(private val restTemplate: RestTemplate): ProviderUtilities
     /**
      * Update Process.
      *
-     * @param wfJsonMainDto
+     * @param wfProcessElementDto
      * @return Boolean
      */
-    fun updateProcess(wfJsonMainDto: WfJsonMainDto): Boolean {
+    fun updateProcess(wfProcessElementDto: WfProcessElementDto): Boolean {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val processId = wfJsonMainDto.process?.id?:""
-        wfJsonMainDto.process?.updateDt = ProviderUtilities().toGMT(LocalDateTime.now())
-        wfJsonMainDto.process?.updateUserKey = userDetails.userKey
+        val processId = wfProcessElementDto.process?.id?:""
+        wfProcessElementDto.process?.updateDt = ProviderUtilities().toGMT(LocalDateTime.now())
+        wfProcessElementDto.process?.updateUserKey = userDetails.userKey
         val url = makeUri(UrlDto(callUrl = ProviderConstants.Process.PUT_PROCESS.url.replace(keyRegex, processId)))
-        val requestEntity = setHttpEntity(wfJsonMainDto)
+        val requestEntity = setHttpEntity(wfProcessElementDto)
         val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
         return responseJson.statusCode == HttpStatus.OK
     }
