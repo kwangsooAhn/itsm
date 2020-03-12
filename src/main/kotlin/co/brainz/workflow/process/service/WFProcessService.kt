@@ -164,6 +164,8 @@ class WFProcessService(private val processRepository: ProcessRepository) {
             processEntity.processName = wfJsonProcessDto.name.toString()
             processEntity.processStatus = wfJsonProcessDto.status.toString()
             processEntity.processDesc = wfJsonProcessDto.description
+            processEntity.updateUserKey = wfJsonProcessDto.updateUserKey
+            processEntity.updateDt = wfJsonProcessDto.updateDt
             processEntity.elementEntities.addAll(elementEntities)
             processRepository.save(processEntity)
 
