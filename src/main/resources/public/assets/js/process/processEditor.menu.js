@@ -20,9 +20,7 @@
             type: 'delete', parent: 'action',
             url: iconDirectory + '/tooltip/delete.png',
             action: function(el) {
-                removeElementTooltipItems();
-                console.log('delete');
-                //deleteElement(el);
+                deleteElement(el);
             }
         },
         {
@@ -285,7 +283,7 @@
                         elemType = getElementDefaultType(elementsKeys[i]);
                     }
                     elemData.type = elemType;
-                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
                     elemData.data = getAttributeData(elementsKeys[i], elemType);
                     break;
                 }
@@ -300,6 +298,9 @@
             let target = elements.filter(function(attr) { return attr.id === data.target.node().id; })[0];
             elemData.data['start-name'] = source.data.name;
             elemData.data['end-name'] = target.data.name;
+        }
+        if (elemData.data.name) {
+            AliceProcessEditor.changeTextToElement(elemId, elemData.data.name);
         }
         elements.push(elemData);
     }
@@ -321,7 +322,7 @@
         let elementTypeData = elementTypeList.filter(function(elem){ return elem.type === type; });
         if (elementTypeData.length > 0) {
             let attributeList = elementTypeData[0].attribute;
-            attributeList.forEach(function(attr){
+            attributeList.forEach(function(attr) {
                 let items = attr.items;
                 items.forEach(function(item){
                     data[item.id] = item.default;
@@ -447,11 +448,7 @@
                 elements.splice(i, 1);
             }
         });
-        if (elem.classed('connector')) {
-            d3.select(elem).remove();
-        } else {
-            d3.select(elem.node().parentNode).remove();
-        }
+        d3.select(elem.node().parentNode).remove();
     }
 
     /**
@@ -663,10 +660,16 @@
                     if (data[property.id] && property.type !== 'checkbox') {
                         elementObject.value = data[property.id];
                     }
-                    if (id === AliceProcessEditor.data.process.id && property.id === 'name') {
-                        elementObject.addEventListener('keyup', function(event) {
-                            document.querySelector('.process-name').textContent = this.value;
-                        });
+                    if (property.id === 'name') {
+                        let keyupHandler = function(e) {
+                            AliceProcessEditor.changeTextToElement(id, this.value);
+                        };
+                        if (id === AliceProcessEditor.data.process.id) {
+                            keyupHandler = function(e) {
+                                document.querySelector('.process-name').textContent = this.value;
+                            };
+                        }
+                        elementObject.addEventListener('keyup', keyupHandler);
                     }
                     elementObject.addEventListener('change', function(event) {
                         changePropertiesDataValue(id);
@@ -760,7 +763,7 @@
             }
         });
 
-        const defs = d3.select('svg').append('defs');
+        const defs = d3.select('svg').select('defs');
         defs.selectAll('pattern').data(imageLoadingList)
             .enter()
             .append('pattern')

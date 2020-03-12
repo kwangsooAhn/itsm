@@ -12,8 +12,7 @@
 
     let svg,
         elementsContainer,
-        path,
-        paintedPath,
+        connectors,
         dragLine;
 
     const nodes= [],
@@ -48,17 +47,16 @@
      * set connector.
      */
     function setConnectors() {
-        path = path.data(links);
-        paintedPath = paintedPath.data(links);
-
+        connectors = connectors.data(links);
         // remove old links
-        path.exit().remove();
-        paintedPath.exit().remove();
+        connectors.exit().remove();
+
+        let enter = connectors.enter().append('g').attr('class', 'connector');
 
         // add new links
-        path = path.enter().append('path')
+        enter.append('path')
             .attr('class', 'connector')
-            .attr('id', function(d) { return d.id ? d.id : workflowUtil.generateUUID(); })
+            .attr('id', function(d) { return d.id; })
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function() {
                 d3.event.stopPropagation();
@@ -78,28 +76,45 @@
             })
             .call(function(d) {
                 AliceProcessEditor.addElementProperty(d);
-            })
-            .merge(path);
+            });
 
         // add new paintedPath links
-        paintedPath = paintedPath.enter().append('path')
+        enter.append('path')
             .attr('class', 'painted-connector')
+            .on('mouseout', function() {
+                d3.select(this).style('cursor', 'default');
+            })
             .on('mouseover', function() {
                 if (isDrawConnector) {
                     return;
                 }
                 d3.select(this).style('cursor', 'pointer');
             })
-            .on('mousedown', function(d, i) {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
                 }
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                path.nodes()[i].dispatchEvent(event);
-            })
-            .merge(paintedPath);
+                d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
+            });
+
+        enter.append('text').append('textPath')
+            .attr('xlink:href', function(d) { return '#' + d.id; })
+            .attr('startOffset', '10%')
+            .append('tspan')
+            .attr('dy', '-10')
+            .text(function(d) {
+                let name = '';
+                const elements = AliceProcessEditor.data.elements;
+                elements.forEach(function(elem) {
+                    if (elem.id === d.id) { name = elem.data.name; }
+                });
+                return name;
+            });
+
+        connectors = connectors.merge(enter);
 
         // draw links
         drawConnectors();
@@ -110,8 +125,16 @@
      */
     function drawConnectors() {
         const getLinePath = function(d) {
-            const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d.target);
-            const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d.source);
+            let target = d.target,
+                source = d.source;
+            if (target.classed('gateway')) {
+                target = d3.select(d.target.node().parentNode);
+            }
+            if (source.classed('gateway')) {
+                source = d3.select(d.source.node().parentNode);
+            }
+            const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
+            const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
 
             let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
             let best = {};
@@ -150,8 +173,8 @@
             */
         };
 
-        path.attr('d', function(d) {return getLinePath(d);});
-        paintedPath.attr('d', function(d) {return getLinePath(d);});
+        connectors.select('path.connector').attr('d', function(d) {return getLinePath(d);});
+        connectors.select('path.painted-connector').attr('d', function(d) {return getLinePath(d);});
     }
 
     /**
@@ -240,7 +263,7 @@
                         .classed('selected', false);
 
                     if (checkAvailableLink()) {
-                        links.push({source: mousedownElement, target: mouseoverElement});
+                        links.push({id: workflowUtil.generateUUID(), source: mousedownElement, target: mouseoverElement});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -347,6 +370,13 @@
                 .call(drag);
         }
 
+        self.textElement = elementContainer.append('text')
+            .attr('x', x)
+            .attr('y', y)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
         ['nw-resize', 'se-resize', 'ne-resize', 'sw-resize'].forEach(function(cursor, i) {
             self['pointElement' + (i + 1)] = elementContainer.append('circle')
                 .attr('class', 'pointer')
@@ -381,6 +411,7 @@
                                         .attr('cy', self.rectData[1].y += d3.event.dy);
                                     break;
                             }
+                            changeTextToElement(self.nodeElement.node().id);
                             updateRect();
                         }
                     })
@@ -415,7 +446,13 @@
             } else if (isShowType && self.nodeElement.classed('subprocess')) {
                 self.typeElement
                     .attr('x', updateX + (updateWidth / 2) - (typeImageSize / 2))
-                    .attr('y', updateY + updateHeight - typeImageSize - 5);
+                    .attr('y', updateY + updateHeight - typeImageSize - 3);
+            }
+            self.textElement.attr('x', updateX + (updateWidth / 2));
+            if (self.nodeElement.classed('group')) {
+                self.textElement.attr('y', updateY + 10);
+            } else {
+                self.textElement.attr('y', updateY + (updateHeight / 2));
             }
 
             let pointArray =
@@ -475,7 +512,7 @@
         const defaultType = AliceProcessEditor.getElementDefaultType('subprocess');
         this.typeElement
             .attr('x', (this.rectData[0].x + (this.width / 2) - 10))
-            .attr('y', (this.rectData[0].y + this.height - 20 - 5))
+            .attr('y', (this.rectData[0].y + this.height - 20 - 3))
             .style('fill', 'url(#subprocess-' + defaultType + '-element)');
         return this;
     }
@@ -615,6 +652,7 @@
         this.nodeElement
             .classed('artifact', true)
             .classed('group', true);
+        this.textElement.attr('y', this.rectData[0].y + 10);
         return this;
     }
 
@@ -630,6 +668,25 @@
         const self = this;
         const width = 30, height = 30;
 
+        const drag = d3.drag()
+            .on('start', elementMouseEventHandler.mousedown)
+            .on('drag', function() {
+                if (isDrawConnector) {
+                    elementMouseEventHandler.mousedrag();
+                } else {
+                    svg.selectAll('.alice-tooltip').remove();
+                    self.nodeElement
+                        .attr('x', d3.event.x - (width / 2))
+                        .attr('y', d3.event.y - (height / 2));
+                    self.textElement
+                        .attr('x', d3.event.x)
+                        .attr('y', d3.event.y);
+                    self.nodeElement.style('cursor', 'move');
+                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
+                }
+            })
+            .on('end', elementMouseEventHandler.mouseup);
+
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -640,23 +697,14 @@
             .attr('class', 'node artifact annotation')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(d3.drag()
-                .on('start', elementMouseEventHandler.mousedown)
-                .on('drag', function() {
-                    if (isDrawConnector) {
-                        elementMouseEventHandler.mousedrag();
-                    } else {
-                        svg.selectAll('.alice-tooltip').remove();
-                        self.nodeElement
-                            .attr('x', d3.event.x - (width / 2))
-                            .attr('y', d3.event.y - (height / 2));
+            .call(drag);
 
-                        self.nodeElement.style('cursor', 'move');
-                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
-                    }
-                })
-                .on('end', elementMouseEventHandler.mouseup)
-            );
+        self.textElement = elementContainer.append('text')
+            .attr('x', x).attr('y', y)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .style('text-anchor', 'start')
+            .call(drag);
 
         return self;
     }
@@ -713,6 +761,44 @@
                     AliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
+    }
+
+    /**
+     * element 에 Text 를 추가한다.
+     *
+     * @param elemId element ID
+     * @param text 추가할 text
+     */
+    function changeTextToElement(elemId, text) {
+        const elementNode = document.getElementById(elemId);
+        if (typeof text === 'undefined') {
+            const elements = AliceProcessEditor.data.elements;
+            elements.forEach(function(elem) {
+                if (elem.id === elemId) { text = elem.data.name; }
+            });
+        }
+
+        if (d3.select(elementNode).classed('connector')) {
+            d3.select(elementNode.parentNode).select('tspan').text(text);
+        } else {
+            const textElement = d3.select(elementNode.parentNode).select('text')
+            if (textElement.node()) {
+                textElement.text(text);
+
+                // wrap text
+                const element = d3.select(elementNode);
+                if (text.length > 0 && !element.classed('annotation')) {
+                    let textLength = textElement.node().getComputedTextLength(),
+                        displayText = textElement.text();
+                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(element);
+                    while (textLength > bbox.width && displayText.length > 0) {
+                        displayText = displayText.slice(0, -1);
+                        textElement.text(displayText + '...');
+                        textLength = textElement.node().getComputedTextLength();
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -843,8 +929,7 @@
 
         elementsContainer = svg.append('g').attr('class', 'element-container');
         const connectorContainer = svg.append('g').attr('class', 'connector-container');
-        path = connectorContainer.selectAll('path.connector');
-        paintedPath = connectorContainer.selectAll('path.painted-connector');
+        connectors = connectorContainer.selectAll('g.connector');
     }
 
     /**
@@ -904,6 +989,9 @@
                     }
                 });
                 element.id = nodeId;
+                if (category !== 'event' && category !== 'gateway') {
+                    changeTextToElement(nodeId, element.data.name);
+                }
             }
         });
 
@@ -940,5 +1028,6 @@
 
     exports.init = init;
     exports.drawProcess = drawProcess;
+    exports.changeTextToElement = changeTextToElement;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

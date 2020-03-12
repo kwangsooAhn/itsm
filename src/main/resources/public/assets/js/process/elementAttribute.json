@@ -136,7 +136,7 @@
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {
-              "id": "message-type", "name": "Message Type", "type": "select", "default": "",
+              "id": "message-type", "name": "Message Type", "type": "select", "default": "document",
               "sub-list": [
                 {"id": "document", "name": "Document"},
                 {"id": "mail", "name": "Mail"},
@@ -272,7 +272,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "text", "name": "Annotation", "type": "inputbox", "default": "Annotation"}
+            {"id": "name", "name": "Annotation", "type": "inputbox", "default": "Annotation"}
           ]
         }
       ]
