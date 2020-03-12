@@ -36,8 +36,11 @@ class WFTokenService(private val documentRepository: DocumentRepository,
         val processId = documentDto.process.processId
         val instanceDto = InstanceDto(instanceId = "", document = documentDto)
         val instance = wfInstanceService.createInstance(instanceDto)
-        //postToken에서는 문서를 새롭게 만드는 메소드이기 때문에 elementId를 강제로 얻어와야 한다.
-        tokenSaveDto.tokenDto.elementId =  wfElementService.getElementId(processId, ElementConstants.ElementStatusType.START.value).elementId
+        // postToken에서는 문서를 새롭게 만드는 메소드이기 때문에 elementId를 강제로 얻어와야 한다.
+        // TODO
+        // start element는 몇 종류가 있는데 1개의 프로세스에 commonStart는 1개만 존재하지만 다른 종류의 start는 복수개가 존재가능.
+        // 이에 대한 처리를 위해 getStartElement에 파라미터가 추가될 필요가 있다.
+        tokenSaveDto.tokenDto.elementId =  wfElementService.getStartElement(processId).elementId
         val token = createToken(instance.instanceId, tokenSaveDto.tokenDto)
         createTokenData(tokenSaveDto, instance.instanceId, token.tokenId)
         tokenSaveDto.tokenDto.tokenId = token.tokenId
