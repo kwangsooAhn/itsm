@@ -37,7 +37,7 @@ const dateTimePicker = (function() {
         pickerContainer.id = pickerId;
         pickerContainer.className = 'picker';
         targetContainer.appendChild(pickerContainer);
-
+        
         // initialization picker
         let picker = new WindowDatePicker(options);
         picker.setPosition();
@@ -50,8 +50,9 @@ const dateTimePicker = (function() {
      * @param targetId Target element id
      * @param dateType date format (optional) - YYYY-MM-DD(default), YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
      * @param lang lang format (optional) - en, ko, ja
+     * @param callback 콜백 함수
      */
-    function initDatePicker(targetId, dateType, lang) {
+    function initDatePicker(targetId, dateType, lang, callback) {
         let options = JSON.parse(JSON.stringify(defaultOptions));
         if (typeof dateType !== 'undefined') {
             options.dateType = dateType;
@@ -61,6 +62,9 @@ const dateTimePicker = (function() {
         }
         let picker = initPicker(targetId, options);
         picker.el.addEventListener('wdp.change', () => {
+            if (typeof callback === 'function') { 
+                callback(picker.inputEl); 
+            }
             picker.closeDateContainer();
         });
     }
@@ -72,8 +76,9 @@ const dateTimePicker = (function() {
      * @param dateType date format (optional) - YYYY-MM-DD(default), YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
      * @param hourType hour format (optional) - 24(default), 12
      * @param lang lang format (optional) - en, ko, ja
+     * @param callback 콜백 함수
      */
-    function initDateTimePicker(targetId, dateType, hourType, lang) {
+    function initDateTimePicker(targetId, dateType, hourType, lang, callback) {
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'DATEHOUR';
         if (typeof dateType !== 'undefined') {
@@ -95,6 +100,9 @@ const dateTimePicker = (function() {
             if (picker.page === 'HOUR') {
                 picker.changePage();
             }
+            if (typeof callback === 'function') { 
+                callback(picker.inputEl); 
+            }
         });
     }
 
@@ -103,14 +111,20 @@ const dateTimePicker = (function() {
      *
      * @param targetId Target element id
      * @param hourType hour format (optional) - 24(default), 12
+     * @param callback 콜백 함수
      */
-    function initTimePicker(targetId, hourType) {
+    function initTimePicker(targetId, hourType, callback) {
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'HOUR';
         if (typeof hourType !== 'undefined') {
             options.hourType = hourType;
         }
-        initPicker(targetId, options);
+        let picker = initPicker(targetId, options);
+        picker.el.addEventListener('wdp.close', () => {
+            if (typeof callback === 'function') { 
+                callback(picker.inputEl); 
+            }
+        });
     }
 
     return {

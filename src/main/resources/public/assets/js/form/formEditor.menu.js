@@ -380,7 +380,9 @@
                 flag = 1;
                 menuOff();
                 
-                if (e.target.classList.contains('alice-form-panel')) { formEditor.showFormProperties(); }
+                if (e.target.classList.contains('alice-form-panel') || e.target.classList.contains('drawing-board')) { 
+                    formEditor.showFormProperties(); 
+                }
                 itemInContext = null;
             }
             let button = e.button ? e.button : e.which;

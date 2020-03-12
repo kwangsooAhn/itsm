@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title th:text="#{form.label.edit}"></title>
     <meta charset="utf-8">
@@ -137,8 +139,12 @@
 </body>
 <script type="text/javascript">
     window.onload = function() {
+        const authInfo = {
+            timeFormat : '[[${#authentication.details.timeFormat}]]',
+            lang: '[[${#authentication.details.lang}]]'
+        };
         i18n.add(function(){
-            formEditor.init('[[${formId}]]');
+            formEditor.init('[[${formId}]]', JSON.stringify(authInfo));
         });
     };
 </script>
