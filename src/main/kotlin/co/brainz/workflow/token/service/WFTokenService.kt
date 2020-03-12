@@ -37,9 +37,9 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      * Search Tokens.
      *
      * @param parameters
-     * @return List<TokenDto>
+     * @return List<LinkedHashMap<String, Any>>
      */
-    fun getTokens(parameters: LinkedHashMap<String, Any>): List<TokenDto> {
+    fun getTokens(parameters: LinkedHashMap<String, Any>): List<LinkedHashMap<String, Any>> {
         var assignee = ""
         var assigneeType = ""
         var tokenStatus = ""
@@ -53,7 +53,8 @@ class WFTokenService(private val documentRepository: DocumentRepository,
             tokenStatus = parameters["tokenStatus"].toString()
         }
         val tokenEntities = tokenRepository.findTokenMstEntityByAssigneeIdAndAssigneeTypeAndTokenStatus(assignee, assigneeType, tokenStatus)
-        val tokenDtoList: MutableList<TokenDto> = mutableListOf()
+        val returnValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+
         for (tokenEntity in tokenEntities) {
             val tokenDto = TokenDto(
                     tokenId = tokenEntity.tokenId,
@@ -64,10 +65,13 @@ class WFTokenService(private val documentRepository: DocumentRepository,
                     documentId = tokenEntity.instance.document.documentId,
                     documentName = tokenEntity.instance.document.documentName
             )
-            tokenDtoList.add(tokenDto)
+
+            val tokenMap = LinkedHashMap<String, Any>()
+            tokenMap["token"] = tokenDto
+            returnValue.add(tokenMap)
         }
 
-        return tokenDtoList
+        return returnValue
     }
 
     /**
@@ -97,9 +101,9 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      * Token View.
      *
      * @param tokenId
-     * @return TokenDto
+     * @return LinkedHashMap<String, Any>
      */
-    fun getToken(tokenId: String): TokenDto {
+    fun getToken(tokenId: String): LinkedHashMap<String, Any> {
         val tokenEntity = tokenRepository.findTokenEntityByTokenId(tokenId)
         val tokenDataEntities = tokenDataRepository.findTokenDataEntityByTokenId(tokenId)
         val componentList: MutableList<TokenDataDto> = mutableListOf()
@@ -111,7 +115,7 @@ class WFTokenService(private val documentRepository: DocumentRepository,
             componentList.add(tokenDataDto)
         }
 
-        return TokenDto(
+        val tokenDto = TokenDto(
                 tokenId = tokenEntity.get().tokenId,
                 elementId = tokenEntity.get().elementId,
                 assigneeType = tokenEntity.get().assigneeType,
@@ -122,6 +126,11 @@ class WFTokenService(private val documentRepository: DocumentRepository,
                 documentName = tokenEntity.get().instance.document.documentName,
                 data = componentList
         )
+
+        val returnValue = LinkedHashMap<String, Any>()
+        returnValue["token"] = tokenDto
+
+        return returnValue
     }
 
     /**
@@ -142,9 +151,9 @@ class WFTokenService(private val documentRepository: DocumentRepository,
      * Token + Instance View.
      *
      * @param tokenId
-     * @return TokenViewDto
+     * @return LinkedHashMap<String, Any>
      */
-    fun getTokenData(tokenId: String): TokenViewDto {
+    fun getTokenData(tokenId: String): LinkedHashMap<String, Any> {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         val tokenMstEntity = tokenRepository.findTokenEntityByTokenId(tokenId)
@@ -199,11 +208,16 @@ class WFTokenService(private val documentRepository: DocumentRepository,
         )
         actionList.add(actionDto)
 
-        return TokenViewDto(
+        val tokenViewDto = TokenViewDto(
                 tokenId = tokenMstEntity.get().tokenId,
                 components = componentList,
                 action = actionList
         )
+
+        val returnValue = LinkedHashMap<String, Any>()
+        returnValue["token"] = tokenViewDto
+
+        return returnValue
     }
 
     /**

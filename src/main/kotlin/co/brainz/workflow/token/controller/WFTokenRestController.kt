@@ -2,7 +2,6 @@ package co.brainz.workflow.token.controller
 
 import co.brainz.workflow.engine.WFEngine
 import co.brainz.workflow.token.dto.TokenDto
-import co.brainz.workflow.token.dto.TokenViewDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -24,7 +23,7 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
      * @return List<TokenDto>
      */
     @GetMapping("")
-    fun getTokens(@RequestParam parameters: LinkedHashMap<String, Any>): List<TokenDto> {
+    fun getTokens(@RequestParam parameters: LinkedHashMap<String, Any>): List<LinkedHashMap<String, Any>> {
         return wfEngine.token().getTokens(parameters)
     }
 
@@ -40,8 +39,6 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
         return wfEngine.token().postTokenData(tokenDto)
     }
 
-
-
     /**
      * 토큰 일반정보 조회.
      *
@@ -49,7 +46,7 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
      * @return TokenDto
      */
     @GetMapping("/{tokenId}")
-    fun getToken(@PathVariable tokenId: String): TokenDto {
+    fun getToken(@PathVariable tokenId: String): LinkedHashMap<String, Any> {
         return wfEngine.token().getToken(tokenId)
     }
 
@@ -72,7 +69,7 @@ class WFTokenRestController(private val wfEngine: WFEngine) {
      * @return TokenViewDto
      */
     @GetMapping("/{tokenId}/data")
-    fun getTokenData(@PathVariable tokenId: String): TokenViewDto {
+    fun getTokenData(@PathVariable tokenId: String): LinkedHashMap<String, Any> {
         return wfEngine.token().getTokenData(tokenId)
     }
 
