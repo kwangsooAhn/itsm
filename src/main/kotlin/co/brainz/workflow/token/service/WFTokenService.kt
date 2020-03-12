@@ -85,7 +85,10 @@ class WFTokenService(private val documentRepository: DocumentRepository,
         val processId = documentDto?.process?.processId
         val instanceDto = documentDto?.let { InstanceDto(instanceId = "", document = it) }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
-        tokenDto.elementId = processId?.let { wfElementService.getElementId(it, ElementConstants.ElementStatusType.START.value).elementId }.toString()
+        // TODO
+        // start element는 몇 종류가 있는데 1개의 프로세스에 commonStart는 1개만 존재하지만 다른 종류의 start는 복수개가 존재가능.
+        // 이에 대한 처리를 위해 getStartElement에 파라미터가 추가될 필요가 있다.
+        tokenDto.elementId = processId?.let { wfElementService.getStartElement(it).elementId }.toString()
         val token = instance?.let { createToken(it, tokenDto) }
         if (instance != null && token != null) {
             createTokenData(tokenDto, instance.instanceId, token.tokenId)
