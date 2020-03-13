@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/wf/provider")
-class ProviderRestController(private val restTemplateProvider: RestTemplateProvider) {
+class ProviderRestController(private val restTemplate: RestTemplateProvider) {
 
     @GetMapping("/tokens/{tokenId}")
     fun getToken(@PathVariable tokenId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN.url.replace(restTemplateProvider.getKeyRegex(), tokenId))
-        return restTemplateProvider.get(url)
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN.url.replace(restTemplate.getKeyRegex(), tokenId))
+        return restTemplate.get(url)
     }
 
     @GetMapping("/tokens/{tokenId}/data")
     fun getTokenData(@PathVariable tokenId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(restTemplateProvider.getKeyRegex(), tokenId))
-        return restTemplateProvider.get(url)
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), tokenId))
+        return restTemplate.get(url)
     }
 
     @GetMapping("/tokens")
@@ -37,7 +37,7 @@ class ProviderRestController(private val restTemplateProvider: RestTemplateProvi
         params["assigneeType"] = "user"
 
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKENS.url, parameters = params)
-        return restTemplateProvider.get(url)
+        return restTemplate.get(url)
 
     }
 
@@ -70,9 +70,9 @@ class ProviderRestController(private val restTemplateProvider: RestTemplateProvi
 
         val jsonValue = Gson().toJson(result)
 
-        val restTemplateTokenDto = restTemplateProvider.makeTokenData(jsonValue)
+        val restTemplateTokenDto = restTemplate.makeTokenData(jsonValue)
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
-        restTemplateProvider.create(url, restTemplateTokenDto)
+        restTemplate.create(url, restTemplateTokenDto)
     }
 
     @GetMapping("/put")
@@ -105,8 +105,8 @@ class ProviderRestController(private val restTemplateProvider: RestTemplateProvi
 
         val jsonValue = Gson().toJson(result)
 
-        val restTemplateTokenDto = restTemplateProvider.makeTokenData(jsonValue)
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplateProvider.getKeyRegex(), restTemplateTokenDto.tokenId))
-        restTemplateProvider.update(url, restTemplateTokenDto)
+        val restTemplateTokenDto = restTemplate.makeTokenData(jsonValue)
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
+        restTemplate.update(url, restTemplateTokenDto)
     }
 }
