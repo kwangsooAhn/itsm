@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{custom.code.label.title}"></title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{custom.code.label.title}"></h1>
+            <div align="right">
+                <button type="button" onclick="location.href='/custom-codes/new'"
+                    sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.register}"></button>
+            </div>
+        </div>
+        <hr>
+        <div id="customCodeList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        window.onload = function() {
+            restSubmit('get', '/custom-codes/list', function(result) {
+                document.getElementById('customCodeList').innerHTML = result;
+            });
+        };
+
+        //Delete Custom Code
+        function deleteCustomCode(customCodeId) {
+            restSubmit('delete', '/rest/custom-codes/' + customCodeId, function () {
+                alert('[[#{common.msg.delete.success}]]');
+                window.location.reload();
+            });
+        }
+
+        //REST API
+        function restSubmit(method, url, result) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    result(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+    </script>
+</th:block>
+</html>

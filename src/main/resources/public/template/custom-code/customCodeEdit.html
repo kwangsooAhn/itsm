@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{custom.code.label.title}"></title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table label {
+            margin: 0;
+        }
+        table td {
+            border: 1px solid;
+            height: 50px;
+        }
+        table input {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{custom.code.label.title}"></h1>
+        </div>
+        <hr>
+        <table>
+            <colgroup>
+                <col width="35%">
+                <col width="65%">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td><label th:text="#{custom.code.label.customCodeName}"></label><span class="required"></span></td>
+                    <td><input type="text" id="custom_code_name" required="required" maxlength="100"
+                               th:value="${customCode?.customCodeName}"></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{custom.code.label.targetTable}"></label><span class="required"></span></td>
+                    <td><input type="text" id="target_table" required="required" maxlength="100"
+                               th:value="${customCode?.targetTable}"></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{custom.code.label.keyColumn}"></label><span class="required"></span></td>
+                    <td><input type="text" id="key_column" required="required" maxlength="100"
+                               th:value="${customCode?.keyColumn}"></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{custom.code.label.valueColumn}"></label><span class="required"></span></td>
+                    <td><input type="text" id="value_column" required="required" maxlength="100"
+                               th:value="${customCode?.valueColumn}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div align="right">
+            <button style="margin-right: 5px;" onclick="location.href='/custom-codes/search'"
+                    th:text="#{common.btn.list}"></button>
+            <button th:if="!${customCode?.customCodeId}" onclick="saveCustomCode('post')"
+                    th:text="#{common.btn.save}"></button>
+            <button th:unless="!${customCode?.customCodeId}" onclick="saveCustomCode('put')"
+                    th:text="#{common.btn.modify}"></button>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION = '1';
+        const STATUS_ERROR_TARGET_TABLE_NOT_EXIST = '2';
+        const STATUS_ERROR_KEY_COLUMN_NOT_EXIST = '3';
+        const STATUS_ERROR_VALUE_COLUMN_NOT_EXIST = '4';
+
+        //Blank Remove
+        function blankRemove(elements) {
+            for (let i = 0; i < elements.length; i++) {
+                document.getElementById(elements[i]).value = document.getElementById(elements[i]).value.trim();
+            }
+        }
+
+        //Empty Check
+        function emptyCheck() {
+            if (isEmpty('custom_code_name', 'custom.code.msg.inputCustomCodeName')) { return false; }
+            if (isEmpty('target_table', 'custom.code.msg.inputTableTarget')) { return false; }
+            if (isEmpty('key_column', 'custom.code.msg.inputKeyColumn')) { return false; }
+            return !isEmpty('value_column', 'custom.code.msg.inputValueColumn');
+        }
+
+        //Insert/Update Custom Code
+        function saveCustomCode(method) {
+            blankRemove(['custom_code_name', 'target_table', 'key_column', 'value_column']);
+            if (emptyCheck()) {
+                const data = {
+                    customCodeName: document.getElementById('custom_code_name').value,
+                    targetTable: document.getElementById('target_table').value,
+                    keyColumn: document.getElementById('key_column').value,
+                    valueColumn: document.getElementById('value_column').value,
+                };
+                if (method === 'put') {
+                    data.customCodeId = '[[${customCode?.customCodeId}]]';
+                }
+                restSubmit(method, '/rest/custom-codes', data);
+            }
+        }
+
+        //REST API
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            alert('[[#{common.msg.save}]]');
+                            location.href = '/custom-codes/search';
+                            break;
+                        case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
+                            alert('[[#{custom.code.msg.customCodeNameDuplication}]]');
+                            break;
+                        case STATUS_ERROR_TARGET_TABLE_NOT_EXIST:
+                            alert('[[#{custom.code.msg.tableTargetNotExist}]]');
+                            break;
+                        case STATUS_ERROR_KEY_COLUMN_NOT_EXIST:
+                            alert('[[#{custom.code.msg.keyColumnNotExist}]]');
+                            break;
+                        case STATUS_ERROR_VALUE_COLUMN_NOT_EXIST:
+                            alert('[[#{custom.code.msg.valueColumnNotExist}]]');
+                            break;
+                        default :
+                            alert('[[#{common.msg.save.fail}]]');
+                            break;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

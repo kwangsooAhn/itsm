@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+   layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{custom.code.label.title}"></title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table label {
+            margin: 0;
+        }
+        table td {
+            border: 1px solid;
+            height: 50px;
+        }
+        table input {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{custom.code.label.title}"></h1>
+        </div>
+        <hr>
+        <table>
+            <colgroup>
+                <col width="35%">
+                <col width="65%">
+            </colgroup>
+            <tbody>
+            <tr>
+                <td><label th:text="#{custom.code.label.customCodeName}"></label><span class="required"></span></td>
+                <td th:text="${customCode.customCodeName}"></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{custom.code.label.targetTable}"></label><span class="required"></span></td>
+                <td th:text="${customCode.targetTable}"></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{custom.code.label.keyColumn}"></label><span class="required"></span></td>
+                <td th:text="${customCode.keyColumn}"></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{custom.code.label.valueColumn}"></label><span class="required"></span></td>
+                <td th:text="${customCode.valueColumn}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div align="right">
+            <button onclick="location.href='/custom-codes/search'" th:text="#{common.btn.list}"></button>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

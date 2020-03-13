@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        table th {
+            border-bottom: 1px solid;
+        }
+        table th, td {
+            border-left: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table>
+        <colgroup>
+            <col width="35%">
+            <col width="20%">
+            <col width="15%">
+            <col width="20%">
+            <col width="5%">
+            <col width="5%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th th:text="#{custom.code.label.customCodeName}"></th>
+                <th th:text="#{custom.code.label.targetTable}"></th>
+                <th th:text="#{common.label.createUserName}"></th>
+                <th th:text="#{common.label.lastUpdateDateAndUpdateUserName}"></th>
+                <th th:text="#{common.btn.modify}"></th>
+                <th th:text="#{common.btn.delete}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="customCode: ${customCodeList}">
+                <td><a th:text="${customCode.customCodeName}"
+                       th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a></td>
+                <td th:text="${customCode.targetTable}"></td>
+                <td th:text="${customCode.createUserName}"></td>
+                <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}"
+                    th:with="dateformat=${#authentication.details.timeFormat}"
+                    th:text="|${#temporals.format(customCode.createDt, dateformat)} ${customCode.createUserName}|"></td>
+                <td th:unless="${customCode.updateDt == null && customCode.updateUserName == null}"
+                    th:with="dateformat=${#authentication.details.timeFormat}"
+                    th:text="|${#temporals.format(customCode.updateDt, dateformat)} ${customCode.updateUserName}|"></td>
+                <td><button th:disabled="${!customCode.enabled}" th:text="#{common.btn.modify}"
+                            th:onclick="'location.href=\'' + @{/custom-codes/{id}/edit(id=${customCode.customCodeId})} + '\''"
+                            sec:authorize="hasAuthority('custom.code.update')"></button></td>
+                <td><button th:disabled="${!customCode.enabled}" th:text="#{common.btn.delete}"
+                            th:attr="onclick=|deleteCustomCode('${customCode.customCodeId}')|"
+                            sec:authorize="hasAuthority('custom.code.delete')"></button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
