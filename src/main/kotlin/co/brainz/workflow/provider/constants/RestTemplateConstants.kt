@@ -1,6 +1,6 @@
-package co.brainz.itsm.provider.constants
+package co.brainz.workflow.provider.constants
 
-object ProviderConstants {
+object RestTemplateConstants {
 
     /**
      * Form Url.

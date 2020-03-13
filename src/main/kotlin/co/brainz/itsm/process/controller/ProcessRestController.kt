@@ -1,8 +1,8 @@
 package co.brainz.itsm.process.controller
 
-import co.brainz.itsm.provider.ProviderProcess
-import co.brainz.itsm.provider.dto.ProcessDto
+import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.engine.process.dto.WfProcessElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/processes")
-class ProcessRestController(private val providerProcess: ProviderProcess) {
+class ProcessRestController(private val processService: ProcessService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -24,27 +24,17 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
      */
     @GetMapping("/data/{processId}")
     fun getProcessData(@PathVariable processId: String): String {
-        val processData = providerProcess.getProcess(processId)
+        val processData = processService.getProcess(processId)
         logger.debug("get process data. {}", processData)
         return processData
-    }
-
-    /**
-     * 프로세스 저장.
-     */
-    @PostMapping("/data")
-    fun saveProcessData(@RequestBody processData: String): String {
-        // 테스트용 데이터
-        println(processData)
-        return "1"
     }
 
     /**
      * 프로세스 신규 등록.
      */
     @PostMapping("")
-    fun createProcess(@RequestBody processDto: ProcessDto): String {
-        return providerProcess.createProcess(processDto)
+    fun createProcess(@RequestBody restTemplateProcessDto: RestTemplateProcessDto): String {
+        return processService.createProcess(restTemplateProcessDto)
     }
 
     /**
@@ -52,7 +42,7 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
      */
     @PutMapping("/{processId}")
     fun updateProcess(@RequestBody wfProcessElementDto: WfProcessElementDto): Boolean {
-        return providerProcess.updateProcess(wfProcessElementDto)
+        return processService.updateProcess(wfProcessElementDto)
     }
 
     /**
@@ -60,7 +50,7 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
      */
     @DeleteMapping("/{processId}")
     fun deleteForm(@PathVariable processId: String): Boolean {
-        return providerProcess.deleteProcess(processId)
+        return processService.deleteProcess(processId)
     }
 
 }

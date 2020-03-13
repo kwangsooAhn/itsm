@@ -3,7 +3,7 @@ package co.brainz.itsm.provider.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class FormDto(
+data class RestTemplateFormDto(
         var formId: String = "",
         var formName: String = "",
         var formStatus: String = "",

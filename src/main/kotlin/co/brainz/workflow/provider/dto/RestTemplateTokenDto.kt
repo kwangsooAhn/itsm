@@ -1,8 +1,8 @@
-package co.brainz.itsm.provider.dto
+package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
 
-data class TokenDto(
+data class RestTemplateTokenDto(
         var tokenId: String = "",
         var documentId: String? = null,
         var documentName: String? = null,
@@ -11,6 +11,6 @@ data class TokenDto(
         var tokenStatus: String? = null,
         var assigneeId: String? = null,
         var assigneeType: String? = null,
-        var data: List<TokenDataDto>? = null,
-        val action: List<ActionDto>? = emptyList()
+        var data: List<RestTemplateTokenDataDto>? = null,
+        val action: List<RestTemplateActionDto>? = emptyList()
 ) : Serializable

@@ -1,8 +1,8 @@
-package co.brainz.itsm.provider.dto
+package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
 
-data class FormViewDto(
+data class RestTemplateFormViewDto(
         val id: String = "",
         val name: String = "",
         val desc: String? = null,

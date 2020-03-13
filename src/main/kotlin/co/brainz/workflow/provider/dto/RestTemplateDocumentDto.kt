@@ -1,9 +1,9 @@
-package co.brainz.itsm.provider.dto
+package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class DocumentDto(
+data class RestTemplateDocumentDto(
         val documentId: String? = "",
         val documentName: String? = "",
         val documentDesc: String? = null,

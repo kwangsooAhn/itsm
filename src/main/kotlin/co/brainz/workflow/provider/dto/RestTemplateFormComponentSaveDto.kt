@@ -1,8 +1,8 @@
-package co.brainz.itsm.provider.dto
+package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
 
-data class FormComponentSaveDto(
-        val form: FormSaveDto,
+data class RestTemplateFormComponentSaveDto(
+        val form: RestTemplateFormSaveDto,
         var components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
 ) : Serializable

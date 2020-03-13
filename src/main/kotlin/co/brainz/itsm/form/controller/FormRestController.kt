@@ -1,7 +1,7 @@
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormService
-import co.brainz.itsm.provider.dto.FormDto
+import co.brainz.itsm.provider.dto.RestTemplateFormDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController
 class FormRestController(private val formService: FormService) {
 
     @PostMapping("")
-    fun createForm(@RequestBody formDto: FormDto): String {
-        return formService.createForm(formDto)
+    fun createForm(@RequestBody restTemplateFormDto: RestTemplateFormDto): String {
+        return formService.createForm(restTemplateFormDto)
     }
 
     /**

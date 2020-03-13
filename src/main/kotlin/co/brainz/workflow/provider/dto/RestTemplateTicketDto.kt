@@ -1,9 +1,9 @@
-package co.brainz.itsm.provider.dto
+package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class TicketDto(
+data class RestTemplateTicketDto(
         val tokenId: String,
         val ticketId: String,
         val ticketName: String,

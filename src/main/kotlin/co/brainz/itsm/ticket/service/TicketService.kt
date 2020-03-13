@@ -2,11 +2,11 @@ package co.brainz.itsm.ticket.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
-import co.brainz.itsm.provider.ProviderWorkflow
-import co.brainz.itsm.provider.TokenProvider
-import co.brainz.itsm.provider.constants.ProviderConstants
-import co.brainz.itsm.provider.dto.TicketDto
-import co.brainz.itsm.provider.dto.TokenDto
+import co.brainz.workflow.provider.RestTemplateProvider
+import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateTicketDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class TicketService(private val tokenProvider: TokenProvider, private val providerWorkflow: ProviderWorkflow) {
+class TicketService(private val restTemplate: RestTemplateProvider) {
 
     /**
      * Ticket 신규 등록 / 처리
@@ -23,8 +23,9 @@ class TicketService(private val tokenProvider: TokenProvider, private val provid
      *
      * @return Boolean
      */
-    fun createTicket(tokenDto: TokenDto): Boolean {
-        return tokenProvider.postTokenData(tokenDto)
+    fun createTicket(restTemplateTokenDto: RestTemplateTokenDto): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
+        return restTemplate.create(url, restTemplateTokenDto)
     }
 
     /**
@@ -33,8 +34,9 @@ class TicketService(private val tokenProvider: TokenProvider, private val provid
      *
      * @return Boolean
      */
-    fun updateTicket(tokenDto: TokenDto): Boolean {
-        return tokenProvider.putTokenData(tokenDto)
+    fun updateTicket(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
+        return restTemplate.update(url, restTemplateTokenDto)
     }
 
     /**
@@ -42,18 +44,38 @@ class TicketService(private val tokenProvider: TokenProvider, private val provid
      *
      * @return List<TicketDto>
      */
-    fun getTicketList(): List<TicketDto> {
+    fun getTicketList(): List<RestTemplateTicketDto> {
         val params = LinkedMultiValueMap<String, String>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         params.add("userKey", aliceUserDto.userKey)
-        params.add("status", ProviderConstants.TokenStatus.RUNNING.value)
+        params.add("status", RestTemplateConstants.TokenStatus.RUNNING.value)
 
-        val responseBody = providerWorkflow.getProcessInstances(params)
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES.url, parameters = params)
+        val responseBody = restTemplate.get(url)
+
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tickets: List<TicketDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, TicketDto::class.java))
+        val tickets: List<RestTemplateTicketDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateTicketDto::class.java))
         for (ticket in tickets) {
             ticket.createDt = ticket.createDt.let { AliceTimezoneUtils().toTimezone(it) }
         }
         return tickets
     }
+
+    // 아래는 샘플입니다.
+    // get token list
+    // url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKENS.url, parameters = params)
+    // restTemplate.get(url)
+
+    // get token
+    // url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN.url.replace(keyRegex, tokenId))
+    // restTemplate.get(url)
+
+    // get token data
+    // url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(keyRegex, tokenId))
+    // restTemplate.get(url)
+
+    // update token
+    // url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN.url.replace(keyRegex, restTemplateTokenDto.tokenId))
+    // restTemplate.update(url, 업데이트할 dto)
+
 }

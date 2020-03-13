@@ -1,11 +1,11 @@
-package co.brainz.itsm.provider.dto
+package co.brainz.workflow.provider.dto
 
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import java.io.Serializable
 import java.net.InetAddress
 
-data class UrlDto(
+data class RestTemplateUrlDto(
         val callUrl: String = "",
         val port: String = "",
         val protocol: String = "",

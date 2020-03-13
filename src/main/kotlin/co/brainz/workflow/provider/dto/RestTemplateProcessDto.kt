@@ -1,10 +1,10 @@
-package co.brainz.itsm.provider.dto
+package co.brainz.workflow.provider.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class ProcessDto(
+data class RestTemplateProcessDto(
         var processId: String = "",
         var processName: String = "",
         var processDesc: String? = null,
