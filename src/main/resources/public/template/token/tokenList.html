@@ -24,12 +24,12 @@
             <col width="5%">
         </colgroup>
         <tbody>
-            <tr th:each="ticket: ${ticketList}">
-                <td th:text="${ticket.ticketName}"></td>
-                <td th:text="${ticket.ticketDesc}"></td>
+            <tr th:each="token: ${tokenList}">
+                <td th:text="${token.documentName}"></td>
+                <td th:text="${token.documentDesc}"></td>
                 <td th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="|${#temporals.format(ticket.createDt, dateformat)} ${ticket.userKey}|"></td>
-                <td><button sec:authorize="hasAuthority('ticket.create')" th:text="#{common.btn.check}"></button></td>
+                    th:text="|${#temporals.format(token.createDt, dateformat)} ${token.userKey}|"></td>
+                <td><button sec:authorize="hasAuthority('token.create')" th:text="#{common.btn.check}"></button></td>
             </tr>
         </tbody>
     </table>

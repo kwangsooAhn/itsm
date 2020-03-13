@@ -520,12 +520,12 @@
                 tokenDto: tokenObject
             };*/
 
-            console.log(tokenObject);
+            //console.log(tokenObject);
             //return false;
 
             const opt = {
                 method: method,
-                url: '/rest/tickets/data',
+                url: '/rest/tokens/data',
                 params: JSON.stringify(tokenObject),
                 contentType: 'application/json',
                 callbackFunc: function() {

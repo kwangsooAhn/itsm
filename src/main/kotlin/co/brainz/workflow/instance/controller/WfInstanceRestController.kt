@@ -1,7 +1,7 @@
 package co.brainz.workflow.instance.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.instance.dto.WfTicketDto
+import co.brainz.workflow.instance.dto.WfInstanceViewDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,7 +19,7 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
      * @return List<InstanceViewDto>
      */
     @GetMapping("")
-    fun getProcessInstances(@RequestParam parameters: LinkedHashMap<String, Any>): List<WfTicketDto> {
+    fun getProcessInstances(@RequestParam parameters: LinkedHashMap<String, Any>): List<WfInstanceViewDto> {
         return wfEngine.instance().instances(parameters)
     }
 
@@ -27,10 +27,10 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
      * Process Instance.
      *
      * @param tokenId
-     * @return TicketDto
+     * @return WfInstanceViewDto
      */
     @GetMapping("/{tokenId}")
-    fun getProcessInstance(@PathVariable tokenId: String): WfTicketDto {
+    fun getProcessInstance(@PathVariable tokenId: String): WfInstanceViewDto {
         return wfEngine.instance().instance(tokenId)
     }
 
