@@ -27,7 +27,7 @@
             type: 'copy', parent: 'action',
             url: iconDirectory + '/tooltip/copy.png',
             action: function(el) {
-                copyElement();
+                copyElement(el);
             }
         },
         {
@@ -465,10 +465,30 @@
         }
     }
 
+    /**
+     * element 를 복사하고 데이터에 추가한다.
+     *
+     * @param elem 복제 대상 element
+     */
     function copyElement(elem) {
         removeElementTooltipItems();
         removeActionTooltipItems();
-        AliceProcessEditor.addElement();
+
+        const elemId = elem.node().id,
+              elements = AliceProcessEditor.data.elements;
+        const targetElementData = elements.filter(function(e) { return e.id === elemId; })[0];
+
+        let elemData = JSON.parse(JSON.stringify(targetElementData));
+        elemData.display['position-x'] = elemData.display['position-x'] + 10;
+        elemData.display['position-y'] = elemData.display['position-y'] + 10;
+        let node = AliceProcessEditor.addElement(elemData);
+        if (node) {
+            const nodeId = node.nodeElement.attr('id');
+            elemData.id = nodeId;
+            AliceProcessEditor.data.elements.push(elemData);
+
+            AliceProcessEditor.removeElementSelected();
+        }
     }
 
     /**

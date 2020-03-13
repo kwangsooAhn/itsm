@@ -1045,5 +1045,6 @@
     exports.drawProcess = drawProcess;
     exports.addElement = addElement;
     exports.changeTextToElement = changeTextToElement;
+    exports.removeElementSelected = removeElementSelected;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
