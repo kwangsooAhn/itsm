@@ -50,25 +50,25 @@
             type: 'userTask', parent: 'suggest',
             url: iconDirectory + '/suggestion/usertask.png',
             action: function(el) {
-                console.log('add user task');
+                suggestElement(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'suggest',
             url: iconDirectory + '/suggestion/manual.png',
             action: function(el) {
-                console.log('add manual task');
+                suggestElement(el, 'manualTask');
             }
         }, {
             type: 'exclusiveGateway', parent: 'suggest',
             url: iconDirectory + '/suggestion/gateways.png',
             action: function(el) {
-                console.log('add exclusive gateway');
+                suggestElement(el, 'exclusiveGateway');
             }
         }, {
             type: 'commonEnd', parent: 'suggest',
             url: iconDirectory + '/suggestion/end.png',
             action: function(el) {
-                console.log('add end event');
+                suggestElement(el, 'commonEnd');
             }
         }, {
             type: 'commonStart', parent: 'event',
@@ -293,10 +293,10 @@
             elemData.data = getAttributeData('connector', 'arrowConnector');
             elemData.data['start-id'] = data.source.node().id;
             elemData.data['end-id'] = data.target.node().id;
-            let source = elements.filter(function(attr) { return attr.id === data.source.node().id; })[0];
-            let target = elements.filter(function(attr) { return attr.id === data.target.node().id; })[0];
-            elemData.data['start-name'] = source.data.name;
-            elemData.data['end-name'] = target.data.name;
+            elements.forEach(function(e) {
+                if (e.id === data.source.node().id) { elemData.data['start-name'] = e.data.name; }
+                if (e.id === data.target.node().id) { elemData.data['end-name'] = e.data.name; }
+            });
         }
         if (elemData.data.name) {
             AliceProcessEditor.changeTextToElement(elemId, elemData.data.name);
@@ -433,6 +433,18 @@
     }
 
     /**
+     * element 정보를 조회하여 리턴한다.
+     *
+     * @param elem element
+     * @return {*}
+     */
+    function getElementData(elem) {
+        const elemId = elem.node().id,
+            elements = AliceProcessEditor.data.elements;
+        return elements.filter(function(e) { return e.id === elemId; })[0];
+    }
+
+    /**
      * element 를 저장 데이터 및 화면에서 제거한다.
      *
      * @param elem 대상 element
@@ -441,19 +453,17 @@
         removeElementTooltipItems();
         removeActionTooltipItems();
         const elementId = elem.node().id,
-            elements = AliceProcessEditor.data.elements;
+              elements = AliceProcessEditor.data.elements;
         elements.forEach(function(e, i) {
-            if (elementId === e.id) {
-                elements.splice(i, 1);
-            }
+            if (elementId === e.id) { elements.splice(i, 1); }
         });
         d3.select(elem.node().parentNode).remove();
 
         // Also delete the connector connected to the target element.
         if (!elem.classed('connector')) {
             let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
-            connectors.forEach(function(e, i) {
-                let connectorNode = document.getElementById(e.id);
+            for (let i = connectors.length - 1; i >= 0; i--) {
+                let connectorNode = document.getElementById(connectors[i].id);
                 if (connectorNode) {
                     const data = connectorNode.__data__;
                     if (data.source.node().id === elementId || data.target.node().id === elementId) {
@@ -461,7 +471,7 @@
                         d3.select(connectorNode.parentNode).remove();
                     }
                 }
-            });
+            }
         }
     }
 
@@ -473,11 +483,7 @@
     function copyElement(elem) {
         removeElementTooltipItems();
         removeActionTooltipItems();
-
-        const elemId = elem.node().id,
-              elements = AliceProcessEditor.data.elements;
-        const targetElementData = elements.filter(function(e) { return e.id === elemId; })[0];
-
+        const targetElementData = getElementData(elem);
         let elemData = JSON.parse(JSON.stringify(targetElementData));
         elemData.display['position-x'] = elemData.display['position-x'] + 10;
         elemData.display['position-y'] = elemData.display['position-y'] + 10;
@@ -488,6 +494,41 @@
             AliceProcessEditor.data.elements.push(elemData);
 
             AliceProcessEditor.removeElementSelected();
+        }
+    }
+
+    /**
+     * suggest element를 connector와 함께 추가한다.
+     *
+     * @param elem source element
+     * @param type 추가할 element 타입
+     */
+    function suggestElement(elem, type) {
+        removeElementTooltipItems();
+        removeActionTooltipItems();
+
+        const targetElementData = getElementData(elem);
+        const targetBbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
+        const elemData = {};
+        elemData.type = type;
+        elemData.display = {
+            'position-x': targetBbox.cx + (targetBbox.width / 2) + 120,
+            'position-y': targetElementData.display['position-y']
+        };
+        let category = getElementCategory(type);
+        elemData.data = getAttributeData(category, type);
+
+        let node = AliceProcessEditor.addElement(elemData);
+        if (node) {
+            const nodeId = node.nodeElement.attr('id'),
+                  bbox = AliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
+            elemData.id = nodeId;
+            elemData.display.width = bbox.width;
+            elemData.display.height = bbox.height;
+            AliceProcessEditor.data.elements.push(elemData);
+
+            AliceProcessEditor.removeElementSelected();
+            AliceProcessEditor.connectElement(elem, node.nodeElement);
         }
     }
 
