@@ -347,7 +347,7 @@
                 
                 let compIdx = component.getLastIndex();
                 component.setLastIndex(compIdx - 1);
-                
+
                 element.domElem.classList.add('selected');
             }
         }

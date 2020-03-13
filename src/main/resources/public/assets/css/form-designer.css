@@ -11321,6 +11321,7 @@ body {
   display: inline-block;
   height: 1.25rem;
   margin: 0.3125rem;
+  cursor: pointer;
 }
 
 .selected-color {
@@ -11329,4 +11330,5 @@ body {
   height: 1.25rem;
   margin-right: 0.3125rem;
   border: 0.0625rem solid #000000;
+  cursor: pointer;
 }

@@ -308,6 +308,7 @@
      * @param {Object} e 이벤트객체
      */
     function onKeyUpHandler(e) {
+        if (clickInsideElement(e, 'alice-form-properties-panel')) { return false; }
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
 
         if (isCtrlPressed && flag === 1 && itemInContext) { 
@@ -323,6 +324,7 @@
             selectedItemIdx = 0;
             return false;
         }
+
         itemInContext = clickInsideElement(e, 'component');
 
         if (itemInContext) { //editbox에 컴포넌트명을 입력하면 컨텍스트 메뉴 출력
