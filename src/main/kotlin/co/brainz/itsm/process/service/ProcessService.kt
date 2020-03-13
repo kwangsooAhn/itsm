@@ -45,7 +45,7 @@ class ProcessService(private val restTemplateProvider: RestTemplateProvider) {
      * 프로세스 데이터 조회.
      */
     fun getProcess(processId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url.replace(restTemplateProvider.getKeyRegex(), processId))
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESS.url.replace(restTemplateProvider.getKeyRegex(), processId))
         return restTemplateProvider.get(url)
     }
 
