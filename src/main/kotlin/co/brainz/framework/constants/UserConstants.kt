@@ -114,10 +114,10 @@ object UserConstants {
      * 사용자 파일업로드 관련 제한 확장자 목록
      */
     enum class InAcceptableExtension() {
-        HEX,
+      /*HEX,
         PDF,
         PS,
         MOT,
-        SQL,
+        SQL*/
     }
 }
