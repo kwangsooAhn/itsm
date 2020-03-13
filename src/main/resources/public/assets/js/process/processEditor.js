@@ -16,7 +16,7 @@
         dragLine;
 
     const nodes= [],
-          links = [];
+        links = [];
 
     let mousedownElement,
         mouseoverElement,
@@ -324,8 +324,8 @@
         self.height = height ? height : 70;
         self.radius = 10;
         const calcX = x - (self.width / 2),
-              calcY = y - (self.height / 2),
-              typeImageSize = 20;
+            calcY = y - (self.height / 2),
+            typeImageSize = 20;
 
         const drag = d3.drag()
             .on('start', elementMouseEventHandler.mousedown)
@@ -457,7 +457,7 @@
 
             let pointArray =
                 [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
-                [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
+                    [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
             pointArray.forEach(function(point, i) {
                 self['pointElement' + (i + 1)]
                     .data(rectData)
@@ -812,7 +812,7 @@
         svg = d3.select('.alice-process-drawing-board').append('svg')
             .attr('width', width)
             .attr('height', height)
-             .on('mousedown', function() {
+            .on('mousedown', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector) { return; }
                 removeElementSelected();
@@ -933,6 +933,56 @@
     }
 
     /**
+     * drawing board 에 element 를 추가하고, element 생성자를 리턴한다.
+     *
+     * @param element element 정보
+     * @return {EventElement|TaskElement|SubprocessElement|GatewayElement|GroupElement|AnnotationElement}
+     */
+    function addElement(element) {
+        let node;
+        const x = element.display['position-x'],
+            y = element.display['position-y'];
+
+        let category = AliceProcessEditor.getElementCategory(element.type);
+        switch (category) {
+            case 'event':
+                node = new EventElement(x, y);
+                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'task':
+                node = new TaskElement(x, y, element.display.width, element.display.height);
+                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'subprocess':
+                node = new SubprocessElement(x, y, element.display.width, element.display.height);
+                break;
+            case 'gateway':
+                node = new GatewayElement(x, y);
+                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'artifact':
+                if (element.type === 'groupArtifact') {
+                    node = new GroupElement(x, y, element.display.width, element.display.height);
+                } else if (element.type === 'annotationArtifact') {
+                    node = new AnnotationElement(x, y);
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (node) {
+            nodes.push(node.nodeElement);
+            const nodeId = node.nodeElement.attr('id');
+            if (category !== 'event' && category !== 'gateway') {
+                changeTextToElement(nodeId, element.data.name);
+            }
+        }
+
+        return node;
+    }
+
+    /**
      * Draw a element with the loaded information.
      *
      * @param elements editor 에 추가할 element 목록
@@ -943,40 +993,8 @@
             if (element.type === 'arrowConnector') {
                 return;
             }
-            let node;
-            const x = element.display['position-x'],
-                y = element.display['position-y'];
-
-            let category = AliceProcessEditor.getElementCategory(element.type);
-            switch (category) {
-                case 'event':
-                    node = new EventElement(x, y);
-                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                    break;
-                case 'task':
-                    node = new TaskElement(x, y, element.display.width, element.display.height);
-                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                    break;
-                case 'subprocess':
-                    node = new SubprocessElement(x, y, element.display.width, element.display.height);
-                    break;
-                case 'gateway':
-                    node = new GatewayElement(x, y);
-                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                    break;
-                case 'artifact':
-                    if (element.type === 'groupArtifact') {
-                        node = new GroupElement(x, y, element.display.width, element.display.height);
-                    } else if (element.type === 'annotationArtifact') {
-                        node = new AnnotationElement(x, y);
-                    }
-                    break;
-                default:
-                    break;
-            }
-
+            let node = addElement(element);
             if (node) {
-                nodes.push(node.nodeElement);
                 const nodeId = node.nodeElement.attr('id');
                 elements.forEach(function(e) {
                     if (e.type !== 'arrowConnector') {
@@ -989,9 +1007,6 @@
                     }
                 });
                 element.id = nodeId;
-                if (category !== 'event' && category !== 'gateway') {
-                    changeTextToElement(nodeId, element.data.name);
-                }
             }
         });
 
@@ -1001,7 +1016,7 @@
                 return;
             }
             const source = document.getElementById(element.data['start-id']),
-                  target = document.getElementById(element.data['end-id']);
+                target = document.getElementById(element.data['end-id']);
             const nodeId = workflowUtil.generateUUID();
             element.id = nodeId;
             element['start-id'] = source.id;
@@ -1028,6 +1043,7 @@
 
     exports.init = init;
     exports.drawProcess = drawProcess;
+    exports.addElement = addElement;
     exports.changeTextToElement = changeTextToElement;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

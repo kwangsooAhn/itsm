@@ -27,8 +27,7 @@
             type: 'copy', parent: 'action',
             url: iconDirectory + '/tooltip/copy.png',
             action: function(el) {
-                removeElementTooltipItems();
-                console.log('copy');
+                copyElement();
             }
         },
         {
@@ -215,7 +214,7 @@
      */
     function editElementType(element, type) {
         const elementId = element.node().id,
-              elements = AliceProcessEditor.data.elements;
+            elements = AliceProcessEditor.data.elements;
         const elementData = elements.filter(function(elem) { return elem.id === elementId; })[0];
         console.debug('current element type: %s, edit element type: %s', elementData.type, type);
         if (elementData.type === type) {
@@ -263,7 +262,7 @@
         }
 
         const elemId = elem.node().id,
-              elements = AliceProcessEditor.data.elements;
+            elements = AliceProcessEditor.data.elements;
 
         let elemList = elements.filter(function(attr) { return attr.id === elemId; });
         if (elemList.length > 0) {
@@ -301,7 +300,7 @@
         }
         if (elemData.data.name) {
             AliceProcessEditor.changeTextToElement(elemId, elemData.data.name);
-        }
+        }9
         elements.push(elemData);
     }
 
@@ -442,13 +441,34 @@
         removeElementTooltipItems();
         removeActionTooltipItems();
         const elementId = elem.node().id,
-              elements = AliceProcessEditor.data.elements;
+            elements = AliceProcessEditor.data.elements;
         elements.forEach(function(e, i) {
             if (elementId === e.id) {
                 elements.splice(i, 1);
             }
         });
         d3.select(elem.node().parentNode).remove();
+
+        // Also delete the connector connected to the target element.
+        if (!elem.classed('connector')) {
+            let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+            connectors.forEach(function(e, i) {
+                let connectorNode = document.getElementById(e.id);
+                if (connectorNode) {
+                    const data = connectorNode.__data__;
+                    if (data.source.node().id === elementId || data.target.node().id === elementId) {
+                        connectors.splice(i, 1);
+                        d3.select(connectorNode.parentNode).remove();
+                    }
+                }
+            });
+        }
+    }
+
+    function copyElement(elem) {
+        removeElementTooltipItems();
+        removeActionTooltipItems();
+        AliceProcessEditor.addElement();
     }
 
     /**
