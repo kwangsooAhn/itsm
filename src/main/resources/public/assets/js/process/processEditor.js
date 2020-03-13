@@ -389,53 +389,37 @@
                     })
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-
-                            const elemWidth = Math.abs(self.rectData[1].x - self.rectData[0].x),
-                                  elemHeight = Math.abs(self.rectData[1].y - self.rectData[0].y);
-
-                            let resizableX = true,
-                                resizableY = true;
-                            if (elemWidth + d3.event.dx < 80) {
-                                resizableX = false;
-                            }
-                            if (elemHeight + d3.event.dy < 60) {
-                                resizableY = false;
-                            }
-                            if (!resizableX && !resizableY) {
-                                console.debug('This is the smallest resizable size. (width: %s, height: %s)', elemWidth, elemHeight);
-                                return false;
-                            }
-
+                            const minWidth = 80, minHeight = 60;
                             switch (i + 1) {
                                 case 1:
-                                    if (resizableX) {
+                                    if (self.rectData[1].x - (self.rectData[0].x + d3.event.dx) >= minWidth) {
                                         self.pointElement1.attr('cx', self.rectData[0].x += d3.event.dx);
                                     }
-                                    if (resizableY) {
+                                    if (self.rectData[1].y - (self.rectData[0].y + d3.event.dy) >= minHeight) {
                                         self.pointElement1.attr('cy', self.rectData[0].y += d3.event.dy);
                                     }
                                     break;
                                 case 2:
-                                    if (resizableX) {
+                                    if ((self.rectData[1].x + d3.event.dx) - self.rectData[0].x >= minWidth) {
                                         self.pointElement2.attr('cx', self.rectData[1].x += d3.event.dx);
                                     }
-                                    if (resizableY) {
+                                    if ((self.rectData[1].y + d3.event.dy) - self.rectData[0].y >= minHeight) {
                                         self.pointElement2.attr('cy', self.rectData[1].y += d3.event.dy);
                                     }
                                     break;
                                 case 3:
-                                    if (resizableX) {
+                                    if ((self.rectData[1].x + d3.event.dx) - self.rectData[0].x >= minWidth) {
                                         self.pointElement3.attr('cx', self.rectData[1].x += d3.event.dx);
                                     }
-                                    if (resizableY) {
+                                    if (self.rectData[1].y - (self.rectData[0].y + d3.event.dy) >= minHeight) {
                                         self.pointElement3.attr('cy', self.rectData[0].y += d3.event.dy);
                                     }
                                     break;
                                 case 4:
-                                    if (resizableX) {
+                                    if (self.rectData[1].x - (self.rectData[0].x + d3.event.dx) >= minWidth) {
                                         self.pointElement4.attr('cx', self.rectData[0].x += d3.event.dx);
                                     }
-                                    if (resizableY) {
+                                    if ((self.rectData[1].y + d3.event.dy) - self.rectData[0].y >= minHeight) {
                                         self.pointElement4.attr('cy', self.rectData[1].y += d3.event.dy);
                                     }
                                     break;
