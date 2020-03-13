@@ -3,11 +3,11 @@ package co.brainz.workflow.engine.instance.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class WfTicketDto(
+data class WfInstanceViewDto(
         val tokenId: String,
-        val ticketId: String,
-        val ticketName: String,
-        val ticketDesc: String?,
+        val instanceId: String,
+        val documentName: String,
+        val documentDesc: String?,
         val createDt: LocalDateTime,
         val userKey: String
 ) : Serializable

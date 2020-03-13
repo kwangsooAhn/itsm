@@ -16,7 +16,7 @@ class DocumentRestController(private val documentService: DocumentService) {
      * @param documentId
      * */
     @GetMapping("/data/{documentId}")
-    fun getTicket(@PathVariable documentId: String): String {
+    fun getDocument(@PathVariable documentId: String): String {
         return documentService.findDocument(documentId)
     }
 }
