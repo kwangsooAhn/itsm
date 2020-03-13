@@ -2,7 +2,7 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceDto
-import co.brainz.workflow.instance.dto.WfTicketDto
+import co.brainz.workflow.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.token.constants.WfTokenConstants
@@ -20,9 +20,9 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      * Search Instances.
      *
      * @param parameters
-     * @return List<TicketDto>
+     * @return List<WfInstanceViewDto>
      */
-    fun instances(parameters: LinkedHashMap<String, Any>): List<WfTicketDto> {
+    fun instances(parameters: LinkedHashMap<String, Any>): List<WfInstanceViewDto> {
         var status = ""
         var userKey = ""
         //TODO: assigneeType 추가시 수정
@@ -37,13 +37,13 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
             type = parameters["type"].toString()
         }
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val ticketDataList = wfInstanceRepository.findInstances(status, type, userKey)
-        val tickets = mutableListOf<WfTicketDto>()
-        for (ticketData in ticketDataList) {
-            tickets.add(mapper.convertValue(ticketData, WfTicketDto::class.java))
+        val tokenDataList = wfInstanceRepository.findInstances(status, type, userKey)
+        val tokens = mutableListOf<WfInstanceViewDto>()
+        for (tokenData in tokenDataList) {
+            tokens.add(mapper.convertValue(tokenData, WfInstanceViewDto::class.java))
         }
 
-        return tickets
+        return tokens
     }
 
     /**
@@ -51,7 +51,7 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      *
      * @param tokenId
      */
-    fun instance(tokenId: String): WfTicketDto {
+    fun instance(tokenId: String): WfInstanceViewDto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

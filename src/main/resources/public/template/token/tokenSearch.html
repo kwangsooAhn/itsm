@@ -3,20 +3,20 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{ticket.label.list}"></title>
+    <title th:text="#{token.label.list}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
-        <h1 th:text="#{ticket.label.list}"></h1>
+        <h1 th:text="#{token.label.list}"></h1>
         <hr>
-        <div id="ticketList" style="margin-top: 20px"></div>
+        <div id="tokenList" style="margin-top: 20px"></div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         window.onload = function() {
-            restSubmit('get', '/tickets/list');
+            restSubmit('get', '/tokens/list');
         };
 
         //REST API
@@ -25,7 +25,7 @@
                 method: method,
                 url: url,
                 callbackFunc: function(response) {
-                    document.getElementById('ticketList').innerHTML = response.responseText;
+                    document.getElementById('tokenList').innerHTML = response.responseText;
                 }
             };
             aliceJs.sendXhr(opt);
