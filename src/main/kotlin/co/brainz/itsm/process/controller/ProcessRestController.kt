@@ -2,7 +2,7 @@ package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.provider.ProviderProcess
 import co.brainz.itsm.provider.dto.ProcessDto
-import co.brainz.workflow.process.dto.WfProcessElementDto
+import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping

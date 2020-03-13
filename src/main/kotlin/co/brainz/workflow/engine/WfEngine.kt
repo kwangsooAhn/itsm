@@ -1,21 +1,21 @@
 package co.brainz.workflow.engine
 
-import co.brainz.workflow.component.repository.WfComponentDataRepository
-import co.brainz.workflow.component.repository.WfComponentRepository
-import co.brainz.workflow.document.repository.WfDocumentRepository
-import co.brainz.workflow.document.service.WfDocumentService
-import co.brainz.workflow.element.repository.WfElementRepository
-import co.brainz.workflow.element.service.WfElementService
-import co.brainz.workflow.form.repository.WfFormRepository
-import co.brainz.workflow.form.service.WfForm
-import co.brainz.workflow.form.service.WfFormService
-import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.process.repository.WfProcessRepository
-import co.brainz.workflow.process.service.WfProcessService
-import co.brainz.workflow.token.repository.WfTokenDataRepository
-import co.brainz.workflow.token.repository.WfTokenRepository
-import co.brainz.workflow.token.service.WfTokenService
+import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
+import co.brainz.workflow.engine.component.repository.WfComponentRepository
+import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.document.service.WfDocumentService
+import co.brainz.workflow.engine.element.repository.WfElementRepository
+import co.brainz.workflow.engine.element.service.WfElementService
+import co.brainz.workflow.engine.form.repository.WfFormRepository
+import co.brainz.workflow.engine.form.service.WfForm
+import co.brainz.workflow.engine.form.service.WfFormService
+import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
+import co.brainz.workflow.engine.instance.service.WfInstanceService
+import co.brainz.workflow.engine.process.repository.WfProcessRepository
+import co.brainz.workflow.engine.process.service.WfProcessService
+import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
+import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import co.brainz.workflow.engine.token.service.WfTokenService
 import org.springframework.stereotype.Service
 
 @Service

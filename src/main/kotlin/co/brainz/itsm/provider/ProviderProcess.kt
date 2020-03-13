@@ -5,7 +5,7 @@ import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.provider.constants.ProviderConstants
 import co.brainz.itsm.provider.dto.ProcessDto
 import co.brainz.itsm.provider.dto.UrlDto
-import co.brainz.workflow.process.dto.WfProcessElementDto
+import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus

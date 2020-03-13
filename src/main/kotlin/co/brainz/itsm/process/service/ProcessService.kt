@@ -4,7 +4,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.provider.ProviderProcess
 import co.brainz.itsm.provider.dto.ProcessDto
-import co.brainz.workflow.process.dto.WfProcessDto
+import co.brainz.workflow.engine.process.dto.WfProcessDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
