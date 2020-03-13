@@ -109,4 +109,15 @@ object UserConstants {
        UPDATE_USER_EMAIL("2"),
        CREATE_USER_ADMIN("3")
     }
+
+    /**
+     * 사용자 파일업로드 관련 제한 확장자 목록
+     */
+    enum class InAcceptableExtension() {
+        HEX,
+        PDF,
+        PS,
+        MOT,
+        SQL,
+    }
 }

@@ -1,6 +1,7 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.constants.UserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.FileDto
@@ -92,6 +93,17 @@ class FileService(
 
         if (Files.notExists(tempPath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
+        }
+
+        for (it in UserConstants.InAcceptableExtension.values()) {
+            try {
+                val extension = it.toString()
+                if (File(multipartFile.originalFilename).extension.toUpperCase() == extension) {
+                    throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+                }
+            } catch (e: AliceException) {
+                e.printStackTrace()
+            }
         }
 
         multipartFile.transferTo(tempPath.toFile())
