@@ -389,26 +389,39 @@
                     })
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
+                            const minWidth = 80, minHeight = 60;
                             switch (i + 1) {
                                 case 1:
-                                    self.pointElement1
-                                        .attr('cx', self.rectData[0].x += d3.event.dx)
-                                        .attr('cy', self.rectData[0].y += d3.event.dy);
+                                    if (self.rectData[1].x - (self.rectData[0].x + d3.event.dx) >= minWidth) {
+                                        self.pointElement1.attr('cx', self.rectData[0].x += d3.event.dx);
+                                    }
+                                    if (self.rectData[1].y - (self.rectData[0].y + d3.event.dy) >= minHeight) {
+                                        self.pointElement1.attr('cy', self.rectData[0].y += d3.event.dy);
+                                    }
                                     break;
                                 case 2:
-                                    self.pointElement2
-                                        .attr('cx', self.rectData[1].x += d3.event.dx)
-                                        .attr('cy', self.rectData[1].y += d3.event.dy);
+                                    if ((self.rectData[1].x + d3.event.dx) - self.rectData[0].x >= minWidth) {
+                                        self.pointElement2.attr('cx', self.rectData[1].x += d3.event.dx);
+                                    }
+                                    if ((self.rectData[1].y + d3.event.dy) - self.rectData[0].y >= minHeight) {
+                                        self.pointElement2.attr('cy', self.rectData[1].y += d3.event.dy);
+                                    }
                                     break;
                                 case 3:
-                                    self.pointElement3
-                                        .attr('cx', self.rectData[1].x += d3.event.dx)
-                                        .attr('cy', self.rectData[0].y += d3.event.dy);
+                                    if ((self.rectData[1].x + d3.event.dx) - self.rectData[0].x >= minWidth) {
+                                        self.pointElement3.attr('cx', self.rectData[1].x += d3.event.dx);
+                                    }
+                                    if (self.rectData[1].y - (self.rectData[0].y + d3.event.dy) >= minHeight) {
+                                        self.pointElement3.attr('cy', self.rectData[0].y += d3.event.dy);
+                                    }
                                     break;
                                 case 4:
-                                    self.pointElement4
-                                        .attr('cx', self.rectData[0].x += d3.event.dx)
-                                        .attr('cy', self.rectData[1].y += d3.event.dy);
+                                    if (self.rectData[1].x - (self.rectData[0].x + d3.event.dx) >= minWidth) {
+                                        self.pointElement4.attr('cx', self.rectData[0].x += d3.event.dx);
+                                    }
+                                    if ((self.rectData[1].y + d3.event.dy) - self.rectData[0].y >= minHeight) {
+                                        self.pointElement4.attr('cy', self.rectData[1].y += d3.event.dy);
+                                    }
                                     break;
                             }
                             changeTextToElement(self.nodeElement.node().id);
@@ -429,7 +442,7 @@
             const rectData = self.rectData;
 
             let updateX = (rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x),
-                updateY = (rectData[1].y - rectData[0].y > 0 ? rectData[0].y :  rectData[1].y),
+                updateY = (rectData[1].y - rectData[0].y > 0 ? rectData[0].y : rectData[1].y),
                 updateWidth = Math.abs(rectData[1].x - rectData[0].x),
                 updateHeight = Math.abs(rectData[1].y - rectData[0].y);
             self.nodeElement
