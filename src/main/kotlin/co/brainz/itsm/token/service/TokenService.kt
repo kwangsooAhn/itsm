@@ -2,11 +2,11 @@ package co.brainz.itsm.token.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
-import co.brainz.itsm.provider.ProviderWorkflow
-import co.brainz.itsm.provider.TokenProvider
-import co.brainz.itsm.provider.constants.ProviderConstants
-import co.brainz.itsm.provider.dto.InstanceViewDto
-import co.brainz.itsm.provider.dto.TokenDto
+import co.brainz.workflow.provider.RestTemplateProvider
+import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class TokenService(private val tokenProvider: TokenProvider, private val providerWorkflow: ProviderWorkflow) {
+class TokenService(private val restTemplate: RestTemplateProvider) {
 
     /**
      * Token 신규 등록 / 처리
@@ -23,8 +23,9 @@ class TokenService(private val tokenProvider: TokenProvider, private val provide
      *
      * @return Boolean
      */
-    fun createToken(tokenDto: TokenDto): Boolean {
-        return tokenProvider.postTokenData(tokenDto)
+    fun createToken(restTemplateTokenDto: RestTemplateTokenDto): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
+        return restTemplate.create(url, restTemplateTokenDto)
     }
 
     /**
@@ -33,8 +34,9 @@ class TokenService(private val tokenProvider: TokenProvider, private val provide
      *
      * @return Boolean
      */
-    fun updateToken(tokenDto: TokenDto): Boolean {
-        return tokenProvider.putTokenData(tokenDto)
+    fun updateToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
+        return restTemplate.update(url, restTemplateTokenDto)
     }
 
     /**
@@ -42,15 +44,17 @@ class TokenService(private val tokenProvider: TokenProvider, private val provide
      *
      * @return List<tokenDto>
      */
-    fun getTokenList(): List<InstanceViewDto> {
+    fun getTokenList(): List<RestTemplateInstanceViewDto> {
         val params = LinkedMultiValueMap<String, String>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         params.add("userKey", aliceUserDto.userKey)
-        params.add("status", ProviderConstants.TokenStatus.RUNNING.value)
+        params.add("status", RestTemplateConstants.TokenStatus.RUNNING.value)
 
-        val responseBody = providerWorkflow.getProcessInstances(params)
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES.url, parameters = params)
+        val responseBody = restTemplate.get(url)
+
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tokens: List<InstanceViewDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, InstanceViewDto::class.java))
+        val tokens: List<RestTemplateInstanceViewDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceViewDto::class.java))
         for (token in tokens) {
             token.createDt = token.createDt.let { AliceTimezoneUtils().toTimezone(it) }
         }
