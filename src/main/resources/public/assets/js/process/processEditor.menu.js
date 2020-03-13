@@ -262,7 +262,7 @@
         }
 
         const elemId = elem.node().id,
-            elements = AliceProcessEditor.data.elements;
+              elements = AliceProcessEditor.data.elements;
 
         let elemList = elements.filter(function(attr) { return attr.id === elemId; });
         if (elemList.length > 0) {
@@ -300,7 +300,7 @@
         }
         if (elemData.data.name) {
             AliceProcessEditor.changeTextToElement(elemId, elemData.data.name);
-        }9
+        }
         elements.push(elemData);
     }
 
@@ -348,6 +348,24 @@
             actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete' || tooltip.type === 'copy'; });
         } else if (elem.classed('connector')) {
             actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete'; });
+        }
+
+        if (!elem.classed('gateway')) {
+            let isSuggest = true;
+            let elementId = elem.node().id;
+            let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+            connectors.forEach(function(c) {
+                let connectorNode = document.getElementById(c.id);
+                if (connectorNode) {
+                    const data = connectorNode.__data__;
+                    if (data.source.node().id === elementId) {
+                        isSuggest = false;
+                    }
+                }
+            });
+            if (!isSuggest) {
+                actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'suggest'; });
+            }
         }
 
         const tooltipItemContainer = d3.select('.alice-process-drawing-board').select('svg').append('g')
@@ -407,6 +425,7 @@
         if (elem.classed('group') || elem.classed('annotation') || elem.classed('connector')) {
             return;
         }
+
         let suggestTooltip = tooltipItems.filter(function(item) { return item.parent === 'suggest'; });
         setElementItems(suggestTooltip, elem);
     }
@@ -461,14 +480,15 @@
 
         // Also delete the connector connected to the target element.
         if (!elem.classed('connector')) {
-            let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
-            for (let i = connectors.length - 1; i >= 0; i--) {
-                let connectorNode = document.getElementById(connectors[i].id);
-                if (connectorNode) {
-                    const data = connectorNode.__data__;
-                    if (data.source.node().id === elementId || data.target.node().id === elementId) {
-                        connectors.splice(i, 1);
-                        d3.select(connectorNode.parentNode).remove();
+            for (let i = elements.length - 1; i >= 0; i--) {
+                if (elements[i].type === 'arrowConnector') {
+                    let connectorNode = document.getElementById(elements[i].id);
+                    if (connectorNode) {
+                        const data = connectorNode.__data__;
+                        if (data.source.node().id === elementId || data.target.node().id === elementId) {
+                            elements.splice(i, 1);
+                            d3.select(connectorNode.parentNode).remove();
+                        }
                     }
                 }
             }
@@ -498,7 +518,7 @@
     }
 
     /**
-     * suggest element를 connector와 함께 추가한다.
+     * suggest element 를 connector 와 함께 추가한다.
      *
      * @param elem source element
      * @param type 추가할 element 타입

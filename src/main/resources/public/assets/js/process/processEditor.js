@@ -970,7 +970,7 @@
     function addElement(element) {
         let node;
         const x = element.display['position-x'],
-            y = element.display['position-y'];
+              y = element.display['position-y'];
 
         let category = AliceProcessEditor.getElementCategory(element.type);
         switch (category) {
@@ -1051,7 +1051,7 @@
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                links.push({id:  workflowUtil.generateUUID(), source: d3.select(source), target: d3.select(target)});
+                links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
             }
         });
         setConnectors();
