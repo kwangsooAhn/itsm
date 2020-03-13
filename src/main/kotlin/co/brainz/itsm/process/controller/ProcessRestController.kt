@@ -2,7 +2,7 @@ package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.provider.ProviderProcess
 import co.brainz.itsm.provider.dto.ProcessDto
-import co.brainz.workflow.process.dto.WfJsonMainDto
+import co.brainz.workflow.process.dto.WfProcessElementDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -51,8 +51,8 @@ class ProcessRestController(private val providerProcess: ProviderProcess) {
      * 프로세스 업데이트.
      */
     @PutMapping("/{processId}")
-    fun updateProcess(@RequestBody wfJsonMainDto: WfJsonMainDto): Boolean {
-        return providerProcess.updateProcess(wfJsonMainDto)
+    fun updateProcess(@RequestBody wfProcessElementDto: WfProcessElementDto): Boolean {
+        return providerProcess.updateProcess(wfProcessElementDto)
     }
 
     /**

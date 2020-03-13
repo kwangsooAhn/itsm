@@ -2,7 +2,7 @@ package co.brainz.framework.interceptor
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.encryption.CryptoRsa
+import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceUtil
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse
  * 인터셉터 구현 클래스
  */
 @Component
-class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdapter() {
+class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInterceptorAdapter() {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -75,12 +75,12 @@ class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdap
         val useRsa = request.getAttribute(AliceConstants.RsaKey.USE_RSA.value)
         if (useRsa != null) {
             logger.debug(">>> create RSA key <<< {}", request.requestURL)
-            cryptoRsa.resetKeyPair()
+            aliceCryptoRsa.resetKeyPair()
             val session = request.getSession(true)
             session.removeAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value)
-            session.setAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value, cryptoRsa.getPrivateKey())
-            request.setAttribute(AliceConstants.RsaKey.PUBLIC_MODULE.value, cryptoRsa.getPublicKeyModulus())
-            request.setAttribute(AliceConstants.RsaKey.PUBLIC_EXPONENT.value, cryptoRsa.getPublicKeyExponent())
+            session.setAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value, aliceCryptoRsa.getPrivateKey())
+            request.setAttribute(AliceConstants.RsaKey.PUBLIC_MODULE.value, aliceCryptoRsa.getPublicKeyModulus())
+            request.setAttribute(AliceConstants.RsaKey.PUBLIC_EXPONENT.value, aliceCryptoRsa.getPublicKeyExponent())
         }
 
 

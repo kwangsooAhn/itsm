@@ -1,10 +1,10 @@
 package co.brainz.itsm.process.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.provider.ProviderProcess
-import co.brainz.itsm.provider.ProviderUtilities
 import co.brainz.itsm.provider.dto.ProcessDto
-import co.brainz.workflow.process.dto.WfJsonProcessDto
+import co.brainz.workflow.process.dto.WfProcessDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -24,18 +24,18 @@ class ProcessService(private val providerProcess: ProviderProcess) {
     /**
      * 프로세스 데이터 조회.
      */
-    fun findProcessList(search: String): List<WfJsonProcessDto> {
+    fun findProcessList(search: String): List<WfProcessDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
         val responseBody = providerProcess.getProcesses(params)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val wfJsonProcessList: List<WfJsonProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfJsonProcessDto::class.java))
-        for (item in wfJsonProcessList) {
-            item.createDt = item.createDt?.let { ProviderUtilities().toTimezone(it) }
-            item.updateDt = item.updateDt?.let { ProviderUtilities().toTimezone(it) }
+        val wfProcessList: List<WfProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfProcessDto::class.java))
+        for (item in wfProcessList) {
+            item.createDt = item.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
+            item.updateDt = item.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
         }
 
-        return wfJsonProcessList
+        return wfProcessList
     }
 
     /**
@@ -44,7 +44,7 @@ class ProcessService(private val providerProcess: ProviderProcess) {
     fun createProcess(processDto: ProcessDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         processDto.createUserKey = aliceUserDto.userKey
-        processDto.createDt =  ProviderUtilities().toGMT(LocalDateTime.now())
+        processDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
         val responseBody: String = providerProcess.createProcess(processDto)
         return when (responseBody.isNotEmpty()) {
             true -> {

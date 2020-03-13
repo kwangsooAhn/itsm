@@ -1,7 +1,7 @@
 package co.brainz.itsm.ticket.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.itsm.provider.ProviderUtilities
+import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.provider.ProviderWorkflow
 import co.brainz.itsm.provider.TokenProvider
 import co.brainz.itsm.provider.constants.ProviderConstants
@@ -52,7 +52,7 @@ class TicketService(private val tokenProvider: TokenProvider, private val provid
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val tickets: List<TicketDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, TicketDto::class.java))
         for (ticket in tickets) {
-            ticket.createDt = ticket.createDt.let { ProviderUtilities().toTimezone(it) }
+            ticket.createDt = ticket.createDt.let { AliceTimezoneUtils().toTimezone(it) }
         }
         return tickets
     }
