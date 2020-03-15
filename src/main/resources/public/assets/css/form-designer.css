@@ -11239,6 +11239,16 @@ body {
   height: 1.563rem;
 }
 
+.component .group .field button {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  height: 1.563rem;
+  line-height: 1rem;
+  padding: 0 0.625rem;
+  white-space: nowrap;
+}
+
 .component .group .field textarea {
   width: 100%;
 }
@@ -11311,6 +11321,7 @@ body {
   display: inline-block;
   height: 1.25rem;
   margin: 0.3125rem;
+  cursor: pointer;
 }
 
 .selected-color {
@@ -11319,4 +11330,5 @@ body {
   height: 1.25rem;
   margin-right: 0.3125rem;
   border: 0.0625rem solid #000000;
+  cursor: pointer;
 }

@@ -236,6 +236,7 @@ form:
     time: "Time"
     datetime: "Date Time"
     fileupload: "Fileupload"
+    customCode: "Custom Code"
   lang:
     ko: "Korean"
   msg:
