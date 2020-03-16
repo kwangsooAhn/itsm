@@ -1,13 +1,14 @@
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.itsm.provider.ProviderForm
-import co.brainz.itsm.provider.ProviderUtilities
-import co.brainz.itsm.provider.constants.ProviderConstants
-import co.brainz.itsm.provider.dto.FormComponentSaveDto
-import co.brainz.itsm.provider.dto.FormDto
-import co.brainz.itsm.provider.dto.FormSaveDto
-import co.brainz.itsm.provider.dto.FormViewDto
+import co.brainz.framework.util.AliceTimezoneUtils
+import co.brainz.itsm.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.RestTemplateProvider
+import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
+import co.brainz.workflow.provider.dto.RestTemplateFormSaveDto
+import co.brainz.workflow.provider.dto.RestTemplateFormViewDto
+import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -18,37 +19,39 @@ import org.springframework.util.LinkedMultiValueMap
 import java.time.LocalDateTime
 
 @Service
-class FormService(private val providerForm: ProviderForm) {
+class FormService(private val restTemplate: RestTemplateProvider) {
 
-    fun findForms(search: String): List<FormDto> {
+    fun findForms(search: String): List<RestTemplateFormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
-        val responseBody = providerForm.getForms(params)
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORMS.url, parameters = params)
+        val responseBody = restTemplate.get(urlDto)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val forms: List<FormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormDto::class.java))
+        val forms: List<RestTemplateFormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateFormDto::class.java))
         for (form in forms) {
-            form.createDt = form.createDt?.let { ProviderUtilities().toTimezone(it) }
-            form.updateDt = form.updateDt?.let { ProviderUtilities().toTimezone(it) }
+            form.createDt = form.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
+            form.updateDt = form.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
         }
-
         return forms
     }
 
     fun findForm(formId: String): String {
-        return providerForm.getForm(formId)
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM.url.replace(restTemplate.getKeyRegex(), formId))
+        return restTemplate.get(urlDto)
     }
 
-    fun createForm(formDto: FormDto): String {
+    fun createForm(restTemplateFormDto: RestTemplateFormDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        formDto.formStatus = ProviderConstants.FormStatus.EDIT.value
-        formDto.createUserKey = aliceUserDto.userKey
-        formDto.createDt =  ProviderUtilities().toGMT(LocalDateTime.now())
-        formDto.updateDt = formDto.updateDt?.let { ProviderUtilities().toGMT(it) }
-        val responseBody: String = providerForm.postForm(formDto)
+        restTemplateFormDto.formStatus = RestTemplateConstants.FormStatus.EDIT.value
+        restTemplateFormDto.createUserKey = aliceUserDto.userKey
+        restTemplateFormDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateFormDto.updateDt = restTemplateFormDto.updateDt?.let { AliceTimezoneUtils().toGMT(it) }
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM.url)
+        val responseBody = restTemplate.create(url, restTemplateFormDto)
         return when (responseBody.isNotEmpty()) {
             true -> {
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-                val dataDto = mapper.readValue(responseBody, FormDto::class.java)
+                val dataDto = mapper.readValue(responseBody, RestTemplateFormDto::class.java)
                 dataDto.formId
             }
             false -> ""
@@ -56,30 +59,31 @@ class FormService(private val providerForm: ProviderForm) {
     }
 
     fun deleteForm(formId: String): Boolean {
-        return providerForm.deleteForm(formId)
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.DELETE_FORM.url.replace(restTemplate.getKeyRegex(), formId))
+        return restTemplate.delete(urlDto)
     }
 
     fun saveFormData(formData: String): Boolean {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
-        val forms = mapper.convertValue(map["form"], FormViewDto::class.java)
+        val forms = mapper.convertValue(map["form"], RestTemplateFormViewDto::class.java)
         val components:MutableList<LinkedHashMap<String, Any>>  = mapper.convertValue(map["components"], TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
 
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val formSaveDto = FormSaveDto(
+        val formSaveDto = RestTemplateFormSaveDto(
                 formId = forms.id,
                 formName = forms.name,
                 formDesc = forms.desc,
                 formStatus = forms.status,
-                updateDt = ProviderUtilities().toGMT(LocalDateTime.now()),
+                updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now()),
                 updateUserKey = aliceUserDto.userKey
         )
-        val formComponentSaveDto = FormComponentSaveDto(
+        val formComponentSaveDto = RestTemplateFormComponentSaveDto(
                 form = formSaveDto,
                 components = components
         )
-
-        return providerForm.putForm(formComponentSaveDto)
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
+        return restTemplate.update(urlDto, formComponentSaveDto)
     }
 
 }

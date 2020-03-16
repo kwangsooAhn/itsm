@@ -27,8 +27,7 @@
             type: 'copy', parent: 'action',
             url: iconDirectory + '/tooltip/copy.png',
             action: function(el) {
-                removeElementTooltipItems();
-                console.log('copy');
+                copyElement(el);
             }
         },
         {
@@ -51,25 +50,25 @@
             type: 'userTask', parent: 'suggest',
             url: iconDirectory + '/suggestion/usertask.png',
             action: function(el) {
-                console.log('add user task');
+                suggestElement(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'suggest',
             url: iconDirectory + '/suggestion/manual.png',
             action: function(el) {
-                console.log('add manual task');
+                suggestElement(el, 'manualTask');
             }
         }, {
             type: 'exclusiveGateway', parent: 'suggest',
             url: iconDirectory + '/suggestion/gateways.png',
             action: function(el) {
-                console.log('add exclusive gateway');
+                suggestElement(el, 'exclusiveGateway');
             }
         }, {
             type: 'commonEnd', parent: 'suggest',
             url: iconDirectory + '/suggestion/end.png',
             action: function(el) {
-                console.log('add end event');
+                suggestElement(el, 'commonEnd');
             }
         }, {
             type: 'commonStart', parent: 'event',
@@ -262,17 +261,17 @@
             return;
         }
 
-        const elemId = elem.node().id,
+        const elementId = elem.node().id,
               elements = AliceProcessEditor.data.elements;
 
-        let elemList = elements.filter(function(attr) { return attr.id === elemId; });
+        let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;
         }
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
         let elemData = {};
-        elemData.id = elemId;
+        elemData.id = elementId;
         if (elem.classed('node')) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
@@ -294,13 +293,13 @@
             elemData.data = getAttributeData('connector', 'arrowConnector');
             elemData.data['start-id'] = data.source.node().id;
             elemData.data['end-id'] = data.target.node().id;
-            let source = elements.filter(function(attr) { return attr.id === data.source.node().id; })[0];
-            let target = elements.filter(function(attr) { return attr.id === data.target.node().id; })[0];
-            elemData.data['start-name'] = source.data.name;
-            elemData.data['end-name'] = target.data.name;
+            elements.forEach(function(e) {
+                if (e.id === data.source.node().id) { elemData.data['start-name'] = e.data.name; }
+                if (e.id === data.target.node().id) { elemData.data['end-name'] = e.data.name; }
+            });
         }
         if (elemData.data.name) {
-            AliceProcessEditor.changeTextToElement(elemId, elemData.data.name);
+            AliceProcessEditor.changeTextToElement(elementId, elemData.data.name);
         }
         elements.push(elemData);
     }
@@ -351,11 +350,29 @@
             actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete'; });
         }
 
+        if (!elem.classed('gateway')) {
+            let isSuggest = true;
+            let elementId = elem.node().id;
+            let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+            connectors.forEach(function(c) {
+                let connectorNode = document.getElementById(c.id);
+                if (connectorNode) {
+                    const data = connectorNode.__data__;
+                    if (data.source.node().id === elementId) {
+                        isSuggest = false;
+                    }
+                }
+            });
+            if (!isSuggest) {
+                actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'suggest'; });
+            }
+        }
+
         const tooltipItemContainer = d3.select('.alice-process-drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
-            containerHeight = itemSize + (itemMargin * 2);
+              containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
@@ -389,9 +406,9 @@
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-            gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
-            targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
-            targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
+              gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
+              targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
+              targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
 
         tooltipItemContainer
             .attr('transform', 'translate(' + targetX + ',' + targetY + ')')
@@ -408,6 +425,7 @@
         if (elem.classed('group') || elem.classed('annotation') || elem.classed('connector')) {
             return;
         }
+
         let suggestTooltip = tooltipItems.filter(function(item) { return item.parent === 'suggest'; });
         setElementItems(suggestTooltip, elem);
     }
@@ -434,6 +452,18 @@
     }
 
     /**
+     * element 정보를 조회하여 리턴한다.
+     *
+     * @param elem element
+     * @return {*}
+     */
+    function getElementData(elem) {
+        const elementId = elem.node().id,
+              elements = AliceProcessEditor.data.elements;
+        return elements.filter(function(e) { return e.id === elementId; })[0];
+    }
+
+    /**
      * element 를 저장 데이터 및 화면에서 제거한다.
      *
      * @param elem 대상 element
@@ -444,11 +474,82 @@
         const elementId = elem.node().id,
               elements = AliceProcessEditor.data.elements;
         elements.forEach(function(e, i) {
-            if (elementId === e.id) {
-                elements.splice(i, 1);
-            }
+            if (elementId === e.id) { elements.splice(i, 1); }
         });
         d3.select(elem.node().parentNode).remove();
+
+        // Also delete the connector connected to the target element.
+        if (!elem.classed('connector')) {
+            for (let i = elements.length - 1; i >= 0; i--) {
+                if (elements[i].type === 'arrowConnector') {
+                    let connectorNode = document.getElementById(elements[i].id);
+                    if (connectorNode) {
+                        const data = connectorNode.__data__;
+                        if (data.source.node().id === elementId || data.target.node().id === elementId) {
+                            elements.splice(i, 1);
+                            d3.select(connectorNode.parentNode).remove();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * element 를 복사하고 데이터에 추가한다.
+     *
+     * @param elem 복제 대상 element
+     */
+    function copyElement(elem) {
+        removeElementTooltipItems();
+        removeActionTooltipItems();
+        const targetElementData = getElementData(elem);
+        let elemData = JSON.parse(JSON.stringify(targetElementData));
+        elemData.display['position-x'] = elemData.display['position-x'] + 10;
+        elemData.display['position-y'] = elemData.display['position-y'] + 10;
+        let node = AliceProcessEditor.addElement(elemData);
+        if (node) {
+            const nodeId = node.nodeElement.attr('id');
+            elemData.id = nodeId;
+            AliceProcessEditor.data.elements.push(elemData);
+
+            AliceProcessEditor.removeElementSelected();
+        }
+    }
+
+    /**
+     * suggest element 를 connector 와 함께 추가한다.
+     *
+     * @param elem source element
+     * @param type 추가할 element 타입
+     */
+    function suggestElement(elem, type) {
+        removeElementTooltipItems();
+        removeActionTooltipItems();
+
+        const targetElementData = getElementData(elem);
+        const targetBbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
+        const elemData = {};
+        elemData.type = type;
+        elemData.display = {
+            'position-x': targetBbox.cx + (targetBbox.width / 2) + 120,
+            'position-y': targetElementData.display['position-y']
+        };
+        let category = getElementCategory(type);
+        elemData.data = getAttributeData(category, type);
+
+        let node = AliceProcessEditor.addElement(elemData);
+        if (node) {
+            const nodeId = node.nodeElement.attr('id'),
+                  bbox = AliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
+            elemData.id = nodeId;
+            elemData.display.width = bbox.width;
+            elemData.display.height = bbox.height;
+            AliceProcessEditor.data.elements.push(elemData);
+
+            AliceProcessEditor.removeElementSelected();
+            AliceProcessEditor.connectElement(elem, node.nodeElement);
+        }
     }
 
     /**
@@ -465,13 +566,13 @@
         }
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
-            actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-            containerWidth = itemSize + (itemMargin * 2),
-            containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
+              actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+              containerWidth = itemSize + (itemMargin * 2),
+              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-            x = bbox.x + bbox.width + itemMargin,
-            y = bbox.y;
+              x = bbox.x + bbox.width + itemMargin,
+              y = bbox.y;
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container element-tooltip')
@@ -521,15 +622,15 @@
      */
     function setProperties(elem) {
         if (typeof elem !== 'undefined') { // show element properties
-            const elemId = elem.node().id;
+            const elementId = elem.node().id;
             const elements = AliceProcessEditor.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let property = elements.filter(function(attr) { return attr.id === elemId; })[0];
+                    let property = elements.filter(function(attr) { return attr.id === elementId; })[0];
                     let properties = elementsProperties[elementsKeys[i]];
                     let attributes = properties.filter(function(p){ return p.type === property.type; });
                     if (attributes.length > 0) {
-                        makePropertiesItem(elemId, attributes[0], property.data);
+                        makePropertiesItem(elementId, attributes[0], property.data);
                     }
                     break;
                 }

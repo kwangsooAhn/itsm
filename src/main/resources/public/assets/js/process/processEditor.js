@@ -16,7 +16,7 @@
         dragLine;
 
     const nodes= [],
-          links = [];
+        links = [];
 
     let mousedownElement,
         mouseoverElement,
@@ -178,6 +178,18 @@
     }
 
     /**
+     * connector 를 추가한다.
+     *
+     * @param source source element
+     * @param target target element
+     */
+    function connectElement(source, target) {
+        links.push({id: workflowUtil.generateUUID(), source: source, target: target});
+        setConnectors();
+    }
+
+
+    /**
      * element 마우스 이벤트.
      *
      * @type {{mouseover: mouseover, mouseout: mouseout, mouseup: mouseup, mousedown: mousedown}}
@@ -324,8 +336,8 @@
         self.height = height ? height : 70;
         self.radius = 10;
         const calcX = x - (self.width / 2),
-              calcY = y - (self.height / 2),
-              typeImageSize = 20;
+            calcY = y - (self.height / 2),
+            typeImageSize = 20;
 
         const drag = d3.drag()
             .on('start', elementMouseEventHandler.mousedown)
@@ -334,6 +346,7 @@
                     elementMouseEventHandler.mousedrag();
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
+                    d3.select(self.nodeElement.node().parentNode).raise();
                     const rectData = self.rectData;
                     for (let i = 0, len = rectData.length; i < len; i++) {
                         self.nodeElement
@@ -389,26 +402,39 @@
                     })
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
+                            const minWidth = 80, minHeight = 60;
                             switch (i + 1) {
                                 case 1:
-                                    self.pointElement1
-                                        .attr('cx', self.rectData[0].x += d3.event.dx)
-                                        .attr('cy', self.rectData[0].y += d3.event.dy);
+                                    if (self.rectData[1].x - (self.rectData[0].x + d3.event.dx) >= minWidth) {
+                                        self.pointElement1.attr('cx', self.rectData[0].x += d3.event.dx);
+                                    }
+                                    if (self.rectData[1].y - (self.rectData[0].y + d3.event.dy) >= minHeight) {
+                                        self.pointElement1.attr('cy', self.rectData[0].y += d3.event.dy);
+                                    }
                                     break;
                                 case 2:
-                                    self.pointElement2
-                                        .attr('cx', self.rectData[1].x += d3.event.dx)
-                                        .attr('cy', self.rectData[1].y += d3.event.dy);
+                                    if ((self.rectData[1].x + d3.event.dx) - self.rectData[0].x >= minWidth) {
+                                        self.pointElement2.attr('cx', self.rectData[1].x += d3.event.dx);
+                                    }
+                                    if ((self.rectData[1].y + d3.event.dy) - self.rectData[0].y >= minHeight) {
+                                        self.pointElement2.attr('cy', self.rectData[1].y += d3.event.dy);
+                                    }
                                     break;
                                 case 3:
-                                    self.pointElement3
-                                        .attr('cx', self.rectData[1].x += d3.event.dx)
-                                        .attr('cy', self.rectData[0].y += d3.event.dy);
+                                    if ((self.rectData[1].x + d3.event.dx) - self.rectData[0].x >= minWidth) {
+                                        self.pointElement3.attr('cx', self.rectData[1].x += d3.event.dx);
+                                    }
+                                    if (self.rectData[1].y - (self.rectData[0].y + d3.event.dy) >= minHeight) {
+                                        self.pointElement3.attr('cy', self.rectData[0].y += d3.event.dy);
+                                    }
                                     break;
                                 case 4:
-                                    self.pointElement4
-                                        .attr('cx', self.rectData[0].x += d3.event.dx)
-                                        .attr('cy', self.rectData[1].y += d3.event.dy);
+                                    if (self.rectData[1].x - (self.rectData[0].x + d3.event.dx) >= minWidth) {
+                                        self.pointElement4.attr('cx', self.rectData[0].x += d3.event.dx);
+                                    }
+                                    if ((self.rectData[1].y + d3.event.dy) - self.rectData[0].y >= minHeight) {
+                                        self.pointElement4.attr('cy', self.rectData[1].y += d3.event.dy);
+                                    }
                                     break;
                             }
                             changeTextToElement(self.nodeElement.node().id);
@@ -429,7 +455,7 @@
             const rectData = self.rectData;
 
             let updateX = (rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x),
-                updateY = (rectData[1].y - rectData[0].y > 0 ? rectData[0].y :  rectData[1].y),
+                updateY = (rectData[1].y - rectData[0].y > 0 ? rectData[0].y : rectData[1].y),
                 updateWidth = Math.abs(rectData[1].x - rectData[0].x),
                 updateHeight = Math.abs(rectData[1].y - rectData[0].y);
             self.nodeElement
@@ -457,7 +483,7 @@
 
             let pointArray =
                 [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
-                [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
+                    [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
             pointArray.forEach(function(point, i) {
                 self['pointElement' + (i + 1)]
                     .data(rectData)
@@ -483,7 +509,7 @@
      */
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, true,width, height);
+        this.base(x, y, true, width, height);
         const defaultType = AliceProcessEditor.getElementDefaultType('task');
         this.nodeElement
             .classed('task', true)
@@ -536,6 +562,7 @@
                     elementMouseEventHandler.mousedrag();
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
+                    d3.select(self.nodeElement.node().parentNode).raise();
                     self.nodeElement
                         .attr('cx', d3.event.x)
                         .attr('cy', d3.event.y);
@@ -594,6 +621,7 @@
                     elementMouseEventHandler.mousedrag();
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
+                    d3.select(self.nodeElement.node().parentNode).raise();
                     self.nodeElement
                         .attr('x', d3.event.x - (width / 2))
                         .attr('y', d3.event.y - (height / 2))
@@ -675,6 +703,7 @@
                     elementMouseEventHandler.mousedrag();
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
+                    d3.select(self.nodeElement.node().parentNode).raise();
                     self.nodeElement
                         .attr('x', d3.event.x - (width / 2))
                         .attr('y', d3.event.y - (height / 2));
@@ -766,15 +795,15 @@
     /**
      * element 에 Text 를 추가한다.
      *
-     * @param elemId element ID
+     * @param elementId element ID
      * @param text 추가할 text
      */
-    function changeTextToElement(elemId, text) {
-        const elementNode = document.getElementById(elemId);
+    function changeTextToElement(elementId, text) {
+        const elementNode = document.getElementById(elementId);
         if (typeof text === 'undefined') {
             const elements = AliceProcessEditor.data.elements;
             elements.forEach(function(elem) {
-                if (elem.id === elemId) { text = elem.data.name; }
+                if (elem.id === elementId) { text = elem.data.name; }
             });
         }
 
@@ -812,7 +841,7 @@
         svg = d3.select('.alice-process-drawing-board').append('svg')
             .attr('width', width)
             .attr('height', height)
-             .on('mousedown', function() {
+            .on('mousedown', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector) { return; }
                 removeElementSelected();
@@ -927,9 +956,59 @@
             .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
-        elementsContainer = svg.append('g').attr('class', 'element-container');
         const connectorContainer = svg.append('g').attr('class', 'connector-container');
         connectors = connectorContainer.selectAll('g.connector');
+        elementsContainer = svg.append('g').attr('class', 'element-container');
+    }
+
+    /**
+     * drawing board 에 element 를 추가하고, element 생성자를 리턴한다.
+     *
+     * @param element element 정보
+     * @return {EventElement|TaskElement|SubprocessElement|GatewayElement|GroupElement|AnnotationElement}
+     */
+    function addElement(element) {
+        let node;
+        const x = element.display['position-x'],
+              y = element.display['position-y'];
+
+        let category = AliceProcessEditor.getElementCategory(element.type);
+        switch (category) {
+            case 'event':
+                node = new EventElement(x, y);
+                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'task':
+                node = new TaskElement(x, y, element.display.width, element.display.height);
+                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'subprocess':
+                node = new SubprocessElement(x, y, element.display.width, element.display.height);
+                break;
+            case 'gateway':
+                node = new GatewayElement(x, y);
+                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'artifact':
+                if (element.type === 'groupArtifact') {
+                    node = new GroupElement(x, y, element.display.width, element.display.height);
+                } else if (element.type === 'annotationArtifact') {
+                    node = new AnnotationElement(x, y);
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (node) {
+            nodes.push(node.nodeElement);
+            const nodeId = node.nodeElement.attr('id');
+            if (category !== 'event' && category !== 'gateway') {
+                changeTextToElement(nodeId, element.data.name);
+            }
+        }
+
+        return node;
     }
 
     /**
@@ -943,40 +1022,8 @@
             if (element.type === 'arrowConnector') {
                 return;
             }
-            let node;
-            const x = element.display['position-x'],
-                y = element.display['position-y'];
-
-            let category = AliceProcessEditor.getElementCategory(element.type);
-            switch (category) {
-                case 'event':
-                    node = new EventElement(x, y);
-                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                    break;
-                case 'task':
-                    node = new TaskElement(x, y, element.display.width, element.display.height);
-                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                    break;
-                case 'subprocess':
-                    node = new SubprocessElement(x, y, element.display.width, element.display.height);
-                    break;
-                case 'gateway':
-                    node = new GatewayElement(x, y);
-                    AliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                    break;
-                case 'artifact':
-                    if (element.type === 'groupArtifact') {
-                        node = new GroupElement(x, y, element.display.width, element.display.height);
-                    } else if (element.type === 'annotationArtifact') {
-                        node = new AnnotationElement(x, y);
-                    }
-                    break;
-                default:
-                    break;
-            }
-
+            let node = addElement(element);
             if (node) {
-                nodes.push(node.nodeElement);
                 const nodeId = node.nodeElement.attr('id');
                 elements.forEach(function(e) {
                     if (e.type !== 'arrowConnector') {
@@ -989,9 +1036,6 @@
                     }
                 });
                 element.id = nodeId;
-                if (category !== 'event' && category !== 'gateway') {
-                    changeTextToElement(nodeId, element.data.name);
-                }
             }
         });
 
@@ -1004,9 +1048,11 @@
                   target = document.getElementById(element.data['end-id']);
             const nodeId = workflowUtil.generateUUID();
             element.id = nodeId;
-            element['start-id'] = source.id;
-            element['end-id'] = target.id;
-            links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
+            if (source && target) {
+                element['start-id'] = source.id;
+                element['end-id'] = target.id;
+                links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
+            }
         });
         setConnectors();
     }
@@ -1028,6 +1074,9 @@
 
     exports.init = init;
     exports.drawProcess = drawProcess;
+    exports.addElement = addElement;
     exports.changeTextToElement = changeTextToElement;
+    exports.removeElementSelected = removeElementSelected;
+    exports.connectElement = connectElement;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

@@ -1,14 +1,10 @@
 package co.brainz.itsm.utility
 
-import co.brainz.framework.auth.dto.AliceUserDto
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoField
-import java.time.format.DateTimeFormatterBuilder
 import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.temporal.ChronoField
 
 @Component
 class ConvertParam {
@@ -38,17 +34,4 @@ class ConvertParam {
         }
     }
 
-    fun timezone(): String {
-        val isAnonymous = AuthenticationTrustResolverImpl().isAnonymous(SecurityContextHolder.getContext().authentication)
-        var timezone = ""
-        when (isAnonymous) {
-            false -> {
-                if (SecurityContextHolder.getContext().authentication != null) {
-                    val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-                    timezone = aliceUserDto.timezone
-                }
-            }
-        }
-        return timezone
-    }
 }
