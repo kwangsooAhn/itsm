@@ -795,15 +795,15 @@
     /**
      * element 에 Text 를 추가한다.
      *
-     * @param elemId element ID
+     * @param elementId element ID
      * @param text 추가할 text
      */
-    function changeTextToElement(elemId, text) {
-        const elementNode = document.getElementById(elemId);
+    function changeTextToElement(elementId, text) {
+        const elementNode = document.getElementById(elementId);
         if (typeof text === 'undefined') {
             const elements = AliceProcessEditor.data.elements;
             elements.forEach(function(elem) {
-                if (elem.id === elemId) { text = elem.data.name; }
+                if (elem.id === elementId) { text = elem.data.name; }
             });
         }
 

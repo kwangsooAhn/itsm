@@ -214,7 +214,7 @@
      */
     function editElementType(element, type) {
         const elementId = element.node().id,
-            elements = AliceProcessEditor.data.elements;
+              elements = AliceProcessEditor.data.elements;
         const elementData = elements.filter(function(elem) { return elem.id === elementId; })[0];
         console.debug('current element type: %s, edit element type: %s', elementData.type, type);
         if (elementData.type === type) {
@@ -261,7 +261,7 @@
             return;
         }
 
-        const elemId = elem.node().id,
+        const elementId = elem.node().id,
               elements = AliceProcessEditor.data.elements;
 
         let elemList = elements.filter(function(attr) { return attr.id === elemId; });
@@ -271,7 +271,7 @@
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
         let elemData = {};
-        elemData.id = elemId;
+        elemData.id = elementId;
         if (elem.classed('node')) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
@@ -299,7 +299,7 @@
             });
         }
         if (elemData.data.name) {
-            AliceProcessEditor.changeTextToElement(elemId, elemData.data.name);
+            AliceProcessEditor.changeTextToElement(elementId, elemData.data.name);
         }
         elements.push(elemData);
     }
@@ -372,7 +372,7 @@
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
-            containerHeight = itemSize + (itemMargin * 2);
+              containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
@@ -406,9 +406,9 @@
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-            gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
-            targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
-            targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
+              gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
+              targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
+              targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
 
         tooltipItemContainer
             .attr('transform', 'translate(' + targetX + ',' + targetY + ')')
@@ -458,9 +458,9 @@
      * @return {*}
      */
     function getElementData(elem) {
-        const elemId = elem.node().id,
-            elements = AliceProcessEditor.data.elements;
-        return elements.filter(function(e) { return e.id === elemId; })[0];
+        const elementId = elem.node().id,
+              elements = AliceProcessEditor.data.elements;
+        return elements.filter(function(e) { return e.id === elementId; })[0];
     }
 
     /**
@@ -566,13 +566,13 @@
         }
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
-            actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-            containerWidth = itemSize + (itemMargin * 2),
-            containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
+              actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+              containerWidth = itemSize + (itemMargin * 2),
+              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-            x = bbox.x + bbox.width + itemMargin,
-            y = bbox.y;
+              x = bbox.x + bbox.width + itemMargin,
+              y = bbox.y;
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container element-tooltip')
@@ -622,15 +622,15 @@
      */
     function setProperties(elem) {
         if (typeof elem !== 'undefined') { // show element properties
-            const elemId = elem.node().id;
+            const elementId = elem.node().id;
             const elements = AliceProcessEditor.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let property = elements.filter(function(attr) { return attr.id === elemId; })[0];
+                    let property = elements.filter(function(attr) { return attr.id === elementId; })[0];
                     let properties = elementsProperties[elementsKeys[i]];
                     let attributes = properties.filter(function(p){ return p.type === property.type; });
                     if (attributes.length > 0) {
-                        makePropertiesItem(elemId, attributes[0], property.data);
+                        makePropertiesItem(elementId, attributes[0], property.data);
                     }
                     break;
                 }
