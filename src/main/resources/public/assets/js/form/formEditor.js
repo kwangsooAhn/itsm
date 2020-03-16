@@ -544,7 +544,6 @@
                         case 'session':
                             propertyValue = document.createElement('select');
                             propertyValue.classList.add('property-field-value');
-                            console.log(fieldArr); //none|''
                             let propertyValueArr = fieldArr.value.split('|');
                             /**
                              * 사용자 입력을 받는 inputbox를 생성하고 이벤트를 등록한다.
@@ -554,9 +553,9 @@
                                 let defaultInputCell = document.createElement('input');
                                 defaultInputCell.setAttribute('type', 'text');
                                 defaultInputCell.setAttribute('id', group + '-' + fieldArr.id + '-none');
+                                defaultInputCell.classList.add('default-none');
                                 defaultInputCell.setAttribute('value', defaultValue);
                                 defaultInputCell.addEventListener('change', function() {
-                                    console.log(this.value, group, fieldArr.id);
                                     changePropertiesValue('none|' + this.value, group, fieldArr.id);
                                 }, false);
                                 fieldGroupDiv.appendChild(defaultInputCell);
@@ -578,7 +577,6 @@
                                         changeValue += '|';
                                     } else {
                                         let userInputCell = fieldGroupDiv.querySelector('#' + group + '-' + fieldArr.id + '-none');
-                                        console.log(userInputCell);
                                         if (userInputCell) {
                                             userInputCell.remove();
                                         }
@@ -592,7 +590,6 @@
                             if (fieldArr.type === 'session' && propertyValueArr[0] === 'none') {
                                 setUserInputCell(propertyValueArr[1]);
                             }
-
                             break;
                         case 'slider':
                             propertyValue = document.createElement('input');
@@ -1002,9 +999,9 @@
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         propertiesPanel = document.getElementById('panel-properties');
         let authData = JSON.parse(authInfo);
-        
         //편집화면에서 사용할 사용자 dateformat 설정
         if (authData) {
+            Object.assign(userData, authData);
             userData.defaultLang  = authData.lang;
             let format = authData.timeFormat;
             let formatArray = format.split(' ');
