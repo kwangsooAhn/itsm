@@ -51,10 +51,6 @@ data class WfProcessEntity(
 
 ) : Serializable {
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "form_id")
-    var formEntity: WfFormEntity? = null
-
     @OneToMany(
         mappedBy = "processEntity",
         fetch = FetchType.LAZY,

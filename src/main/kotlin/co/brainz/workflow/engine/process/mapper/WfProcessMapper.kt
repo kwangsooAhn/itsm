@@ -17,8 +17,6 @@ interface WfProcessMapper {
         Mapping(source = "processName", target = "name"),
         Mapping(source = "processDesc", target = "description"),
         Mapping(source = "processStatus", target = "status"),
-        Mapping(source = "formEntity.formId", target = "formId"),
-        Mapping(source = "formEntity.formName", target = "formName"),
         Mapping(source = "createDt", target = "createDt"),
         Mapping(source = "createUserKey", target = "createUserKey"),
         Mapping(source = "updateDt", target = "updateDt"),
