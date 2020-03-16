@@ -85,7 +85,7 @@ class FileService(
      */
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): FileLocEntity {
-        val fileLocEntity: FileLocEntity
+        lateinit var fileLocEntity: FileLocEntity
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = getRandomFilename()
         val tempPath = getDir("temp", fileName)
@@ -95,33 +95,33 @@ class FileService(
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
-        for (it in UserConstants.InAcceptableExtension.values()) {
-            try {
+        try {
+            for (it in UserConstants.InAcceptableExtension.values()) {
                 val extension = it.toString()
                 if (File(multipartFile.originalFilename).extension.toUpperCase() == extension) {
                     throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
                 }
-            } catch (e: AliceException) {
-                e.printStackTrace()
             }
+
+            multipartFile.transferTo(tempPath.toFile())
+
+            fileLocEntity = FileLocEntity(
+                    0,
+                    aliceUserDto.userKey,
+                    false,
+                    filePath.parent.toString(),
+                    fileName,
+                    multipartFile.originalFilename,
+                    multipartFile.size,
+                    0
+            )
+            logger.debug("{}", fileLocEntity)
+            fileLocRepository.save(fileLocEntity)
+            logger.debug(">> 임시업로드파일 {}", tempPath.toAbsolutePath())
+
+        } catch (e: AliceException) {
+            e.printStackTrace()
         }
-
-        multipartFile.transferTo(tempPath.toFile())
-
-        fileLocEntity = FileLocEntity(
-            0,
-            aliceUserDto.userKey,
-            false,
-            filePath.parent.toString(),
-            fileName,
-            multipartFile.originalFilename,
-            multipartFile.size,
-            0
-        )
-        logger.debug("{}", fileLocEntity)
-        fileLocRepository.save(fileLocEntity)
-        logger.debug(">> 임시업로드파일 {}", tempPath.toAbsolutePath())
-
         return fileLocEntity
     }
 
