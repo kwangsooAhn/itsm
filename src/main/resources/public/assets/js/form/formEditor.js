@@ -541,21 +541,58 @@
                             }
                             break;
                         case 'select':
+                        case 'session':
                             propertyValue = document.createElement('select');
                             propertyValue.classList.add('property-field-value');
+                            console.log(fieldArr); //none|''
+                            let propertyValueArr = fieldArr.value.split('|');
+                            /**
+                             * 사용자 입력을 받는 inputbox를 생성하고 이벤트를 등록한다.
+                             * @param {String} defaultValue 기본 값
+                             */
+                            const setUserInputCell = function(defaultValue) {
+                                let defaultInputCell = document.createElement('input');
+                                defaultInputCell.setAttribute('type', 'text');
+                                defaultInputCell.setAttribute('id', group + '-' + fieldArr.id + '-none');
+                                defaultInputCell.setAttribute('value', defaultValue);
+                                defaultInputCell.addEventListener('change', function() {
+                                    console.log(this.value, group, fieldArr.id);
+                                    changePropertiesValue('none|' + this.value, group, fieldArr.id);
+                                }, false);
+                                fieldGroupDiv.appendChild(defaultInputCell);
+                            };
                             for (let i = 0, len = fieldArr.option.length; i < len; i++) {
                                 let propertyOption = document.createElement('option');
                                 propertyOption.value = fieldArr.option[i].id;
                                 propertyOption.text = fieldArr.option[i].name;
-                                if (fieldArr.value === fieldArr.option[i].id) {
+                                if (propertyValueArr[0] === fieldArr.option[i].id) {
                                     propertyOption.setAttribute('selected', 'selected');
                                 }
                                 propertyValue.appendChild(propertyOption);
                             }
                             propertyValue.addEventListener('change', function() {
-                                changePropertiesValue(this.value, group, fieldArr.id);
+                                let changeValue = this.value;
+                                if (fieldArr.type === 'session') {
+                                    if (changeValue === 'none') {
+                                        setUserInputCell('');
+                                        changeValue += '|';
+                                    } else {
+                                        let userInputCell = fieldGroupDiv.querySelector('#' + group + '-' + fieldArr.id + '-none');
+                                        console.log(userInputCell);
+                                        if (userInputCell) {
+                                            userInputCell.remove();
+                                        }
+                                    }
+                                }
+                                changePropertiesValue(changeValue, group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
+
+                            //사용자 입력 input 생성
+                            if (fieldArr.type === 'session' && propertyValueArr[0] === 'none') {
+                                setUserInputCell(propertyValueArr[1]);
+                            }
+
                             break;
                         case 'slider':
                             propertyValue = document.createElement('input');
