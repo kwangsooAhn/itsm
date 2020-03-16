@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/popupmodal/css/popupmodal.css}" rel="stylesheet"/>
     <title>Login</title>
 </head>
 <body>
@@ -42,20 +43,47 @@
 <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
 <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+<script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
+<script th:src="@{/assets/js/util/util-alice.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    var keyModule = "";
-    var keyExponent = "";
-    
     /*<![CDATA[*/
+    let keyModule = '';
+    let keyExponent = '';
+
     window.onload = function() {
-        keyModule = [[ ${#request.getAttribute('_publicKeyModulus')}]];
-        keyExponent = [[ ${#request.getAttribute('_publicKeyExponent')}]];
-        document.getElementById('uid').focus();
+        keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+        keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+        const authFailedCode = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
+        if (authFailedCode !== null) {
+            let messageId = '';
+            switch (authFailedCode) {
+                case '1':
+                    messageId = 'login.msg.invalidPassword';
+                    break;
+                case '2':
+                    messageId = 'login.msg.invalidUser';
+                    break;
+                case '3':
+                    messageId = 'login.msg.enterId';
+                    break;
+                default:
+                    messageId = 'common.msg.unknownError';
+                    break;
+            }
+            i18n.add(function(){
+                aliceJs.alert(messageId, function() {
+                    document.getElementById('uid').focus();
+                });
+            });
+        } else {
+            document.getElementById('uid').focus();
+        }
     }
     
     window.onkeydown = function() {
-        if (event.keyCode == 13) {
+        if (event.keyCode === 13) {
             onLogin();
         }
     };
@@ -63,8 +91,8 @@
     function onLogin() {
         const rsa = new RSAKey();
         rsa.setPublic(keyModule, keyExponent);
-        document.getElementById('userId').value = rsa.encrypt(document.getElementById("uid").value.trim());
-        document.getElementById('password').value = rsa.encrypt(document.getElementById("upasswd").value.trim());
+        document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
+        document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
         document.loginForm.submit();
     }
     /*]]>*/

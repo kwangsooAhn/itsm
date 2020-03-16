@@ -45,7 +45,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     });
     elmNode.appendChild(table);
 
-    alert('Error !!')
+    aliceJs.alert('Error !!')
 };
 
 /*!
@@ -173,7 +173,7 @@ aliceJs.sendXhr = function (option) {
         }
 
     } catch (e) {
-        alert("Error creating the XMLHttpRequest object.");
+        aliceJs.alert("Error creating the XMLHttpRequest object.");
         return;
     }
 
@@ -411,3 +411,32 @@ function delFileCheck() {
     }
     return true;
 }
+
+aliceJs.alert = function(messageId, callableFunc) {
+    popup.alert({
+            content: i18n.get(messageId),
+            keyboard: true,
+            btn_align: 'right',
+            default_btns: {
+                ok: i18n.get('common.btn.check')
+            }
+        },
+        function() {
+            if (typeof callableFunc === 'function') {
+                callableFunc();
+            }
+        }
+    );
+};
+
+aliceJs.confirm = function(messageId, callableFunc) {
+    popup.confirm({
+            content : i18n.get(messageId)
+        },
+        function(param) {
+            if (param.proceed && typeof callableFunc === 'function') {
+                callableFunc();
+            }
+        }
+    );
+};
