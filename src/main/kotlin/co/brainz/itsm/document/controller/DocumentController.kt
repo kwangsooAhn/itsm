@@ -13,6 +13,7 @@ class DocumentController(private val documentService: DocumentService) {
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
+    private val documentCreatePage: String = "document/documentNew"
     private val documentEditPage: String = "document/documentEdit"
 
     /**
@@ -35,6 +36,19 @@ class DocumentController(private val documentService: DocumentService) {
     fun getDocumentList(model: Model): String {
         model.addAttribute("documentList", documentService.findDocumentList())
         return documentListPage
+    }
+
+    /**
+     * 신청서 생성 화면.
+     *
+     * @param documentId
+     * @return String
+     */
+    @GetMapping("/new")
+    fun getDocumentNew(model: Model): String {
+        model.addAttribute("formList", documentService.findFormList())
+        model.addAttribute("processList", documentService.findProcessList())
+        return documentCreatePage
     }
 
     /**

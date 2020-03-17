@@ -54,6 +54,8 @@ object RestTemplateConstants {
     enum class Workflow(val url: String, val method: String) {
         GET_DOCUMENTS("/rest/wf/documents", "GET"),
         GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
+        POST_DOCUMENT("/rest/wf/documents", "POST"),
+        DELETE_DOCUMENT("/rest/wf/documents/{documentId}", "DELETE"),
         GET_INSTANCES("/rest/wf/instances", "GET"),
         TASK_COMPLETE("/rest/wf/tasks/{instanceId}/complete", "PUT"),
         TASK_GATEWAY("/rest/wf/tasks/{instanceId}/gateway", "PUT")
@@ -77,8 +79,32 @@ object RestTemplateConstants {
     enum class FormStatus(val value: String) {
         EDIT("form.status.edit"),
         SIMULATION("form.status.simu"),
-        PUBLISH("publish"),
+        PUBLISH("form.status.publish"),
         DESTROY("destroy")
+    }
+
+    /**
+     * Process Status.
+     *
+     * @param value
+     */
+    enum class ProcessStatus(val value: String) {
+        EDIT("process.status.edit"),
+        SIMULATION("process.status.simu"),
+        PUBLISH("process.status.publish"),
+        DESTROY("destroy")
+    }
+
+    /**
+     * Document Status.
+     *
+     * @param value
+     */
+    enum class DocumentStatus(val value: String) {
+        EDIT("document.status.edit"),
+        SIMULATION("document.status.simu"),
+        PUBLISH("document.status.publish"),
+        DESTROY("document.status.destroy")
     }
 
     /**

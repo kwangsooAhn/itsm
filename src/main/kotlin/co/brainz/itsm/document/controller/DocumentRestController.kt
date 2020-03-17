@@ -1,10 +1,8 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/rest/documents")
@@ -18,5 +16,25 @@ class DocumentRestController(private val documentService: DocumentService) {
     @GetMapping("/data/{documentId}")
     fun getDocument(@PathVariable documentId: String): String {
         return documentService.findDocument(documentId)
+    }
+
+    /**
+     * 신청서 생성
+     *
+     * @param restTemplateDocumentDto
+     * */
+    @PostMapping("")
+    fun createDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
+        return documentService.createDocument(restTemplateDocumentDto)
+    }
+
+    /**
+     * 신청서 삭제
+     *
+     * @param documentId
+     * */
+    @DeleteMapping("/{documentId}")
+    fun deleteDocument(@PathVariable documentId: String): Boolean {
+        return documentService.deleteDocument(documentId)
     }
 }

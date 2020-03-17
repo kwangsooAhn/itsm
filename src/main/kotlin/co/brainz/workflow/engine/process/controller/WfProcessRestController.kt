@@ -4,14 +4,7 @@ import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.process.dto.ProcessDto
 import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.engine.process.dto.WfProcessElementDto
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -22,8 +15,8 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * 프로세스 목록 조회.
      */
     @GetMapping("")
-    fun getProcesses(request: HttpServletRequest): MutableList<WfProcessDto> {
-        return wfEngine.process().selectProcessList(request.getParameter("search") ?: "")
+    fun getProcesses(@RequestParam parameters: LinkedHashMap<String, Any>): MutableList<WfProcessDto> {
+        return wfEngine.process().selectProcessList(parameters)
     }
 
     /**

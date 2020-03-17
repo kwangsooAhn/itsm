@@ -9,9 +9,9 @@ import java.util.UUID
 
 class WfFormDummy: WfForm {
 
-    override fun forms(search: String): List<WfFormDto> {
+    override fun forms(parameters: LinkedHashMap<String, Any>): List<WfFormDto> {
         val list = mutableListOf<WfFormDto>()
-        if (search.isEmpty()) {
+        if (parameters["search"].toString().isEmpty()) {
             val form = WfFormDto(
                     formId = UUID.randomUUID().toString(),
                     formName = "단순문의",
