@@ -43,15 +43,11 @@
 <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
 <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
-<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
 <script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
-<script th:src="@{/assets/js/util/validation-alice.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    i18n.add();
-
     let keyModule = '';
     let keyExponent = '';
 
@@ -60,40 +56,42 @@
         keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
         const authFailedCode = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
         if (authFailedCode !== null) {
-            let messageId = '';
+            let message = '';
             switch (authFailedCode) {
                 case '1':
-                    messageId = 'login.msg.invalidPassword';
+                    message = [[#{login.msg.invalidPassword}]];
                     break;
                 case '2':
-                    messageId = 'login.msg.disabledUser';
+                    message = [[#{login.msg.disabledUser}]];
                     break;
                 case '3':
-                    messageId = 'login.msg.invalidUser';
+                    message = [[#{login.msg.invalidUser}]];
                     break;
                 default:
-                    messageId = 'common.msg.unknownError';
+                    message = [[#{common.msg.unknownError}]];
                     break;
             }
-            aliceJs.alert(i18n.get(messageId), function() {
+            aliceJs.alert(message, function() {
                 document.getElementById('uid').focus();
             });
         } else {
             document.getElementById('uid').focus();
         }
     }
-    
+
     window.onkeydown = function() {
         if (event.keyCode === 13) {
             onLogin();
         }
     };
-    
+
     function onLogin() {
-        if (isEmpty('uid', 'login.msg.enterId')) {
+        if (document.getElementById('uid').value.trim() === '') {
+            aliceJs.alert([[#{login.msg.enterId}]]);
             return false;
         }
-        if (isEmpty('upasswd', 'login.msg.enterPassword')) {
+        if (document.getElementById('upasswd').value.trim() === '') {
+            aliceJs.alert([[#{login.msg.enterPassword}]]);
             return false;
         }
         const rsa = new RSAKey();

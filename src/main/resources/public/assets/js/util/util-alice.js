@@ -424,7 +424,7 @@ aliceJs.alert = function(message, callbackFunc) {
             keyboard: true,
             btn_align: 'right',
             default_btns: {
-                ok: i18n.get('common.btn.check')
+                ok: 'OK'
             }
         },
         function() {
@@ -447,8 +447,8 @@ aliceJs.confirm = function(message, callbackFunc) {
             keyboard: true,
             btn_align: 'right',
             default_btns: {
-                ok: i18n.get('common.btn.check'),
-                cancel: i18n.get('common.btn.cancel')
+                ok: 'OK',
+                cancel: 'CANCEL'
             }
         },
         function(param) {
