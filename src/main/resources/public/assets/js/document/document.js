@@ -421,8 +421,10 @@
      */
     function save(v_kind) {
         // validation check
-        if (v_kind === 'process' && !requiredCheck()) {
-            return true;
+        if (v_kind == 'process') {
+            if (requiredCheck()) {
+                return false;
+            }
         }
 
         let documentObject = {};
