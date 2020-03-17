@@ -107,6 +107,13 @@
      * @constructor
      */
     function Text(attr) {
+        let defaultInputValueArr = attr.display['default'].split('|');
+        let defaultInputVal = '';
+        if (defaultInputValueArr[0] === 'none') {
+            defaultInputVal = defaultInputValueArr[1];
+        } else {
+            defaultInputVal = formEditor.userData[defaultInputValueArr[0]];
+        }
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -119,7 +126,7 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' placeholder='${attr.display.placeholder}' readonly 
+                    <input type='text' placeholder='${attr.display.placeholder}' value='${defaultInputVal}' readonly 
                     style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' 
                     ${attr.validate.required === "Y" ? "required" : ""} 
                     max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]} />
