@@ -2,16 +2,16 @@ package co.brainz.itsm.layout.controller
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.constants.UserConstants
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.notice.service.NoticeService
+import co.brainz.itsm.user.service.UserService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import co.brainz.itsm.user.service.UserService
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.ui.Model
 
 @Controller
 @RequestMapping("/layout")
@@ -31,7 +31,7 @@ class LayoutController(private val noticeService: NoticeService, private val use
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userKey = aliceUserDto.userKey
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
-        if (userDto.status == UserConstants.Status.SIGNUP.code || userDto.status == UserConstants.Status.EDIT.code) {
+        if (userDto.status == AliceUserConstants.Status.SIGNUP.code || userDto.status == AliceUserConstants.Status.EDIT.code) {
             return statusPage
         }
 

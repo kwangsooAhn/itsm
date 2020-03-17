@@ -1,6 +1,5 @@
 package co.brainz.itsm.process.controller
 
-import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.service.ProcessService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -11,8 +10,7 @@ import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/processes")
-class ProcessController(private val processService: ProcessService,
-                        private val formService: FormService) {
+class ProcessController(private val processService: ProcessService) {
 
     private val processSearchPage: String = "process/processSearch"
     private val processListPage: String = "process/processList"
@@ -32,7 +30,7 @@ class ProcessController(private val processService: ProcessService,
      */
     @GetMapping("/list")
     fun getProcessList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("processList", processService.findProcessList(request.getParameter("search")))
+        model.addAttribute("processList", processService.getProcesses(request.getParameter("search")))
         return processListPage
     }
 

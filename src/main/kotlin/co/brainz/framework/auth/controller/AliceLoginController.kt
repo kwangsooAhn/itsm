@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession
 class AliceLoginController(private val userDetailsService: AliceUserDetailsService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val ticketSearchPage: String = "/tickets/ticketSearch"
+    private val tokenSearchPage: String = "/tokens/tokenSearch"
     private val invalidSessionPage: String = "/sessionInvalid"
 
     /**
@@ -50,7 +50,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
             aliceUserEntity = userDetailsService.loadUserByUsername(securityContext.authentication.principal.toString())
             logger.debug("login info {}", aliceUserEntity)
             request.removeAttribute(AliceConstants.RsaKey.USE_RSA.value)
-            page = "redirect:$ticketSearchPage"
+            page = "redirect:$tokenSearchPage"
         }
 
         return page
@@ -61,7 +61,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
      */
     @GetMapping("/sessionInValid")
     fun sessionExpired(session: HttpSession, request: HttpServletRequest, model: Model): String {
-        model.addAttribute("counter", 3);
+        model.addAttribute("counter", 3)
         return invalidSessionPage
     }
 }

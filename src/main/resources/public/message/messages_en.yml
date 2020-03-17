@@ -44,7 +44,7 @@ menu:
   help.notice: "Notice"
   help.faq: "FAQ"
   help.document: "Service Request"
-  help.ticket: "Process Document"
+  help.token: "Process Document"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
@@ -70,17 +70,17 @@ auth:
     update: "auth update"
     delete: "auth delete"
   service.read:
-    all: "서비스 요청 전체 조회"
-    my: "서비스 요청 자신 업무만 조회"
-  service.create: "서비스 요청 작성"
-  notice.read: "공지사항 조회"
-  notice.create: "공지사항 등록"
-  notice.update: "공지사항 변경"
-  notice.delete: "공지사항 삭제"
-  faq.read: "공지사항 조회"
-  faq.create: "공지사항 등록"
-  faq.update: "공지사항 변경"
-  faq.delete: "공지사항 삭제"
+    all: "Full service request inquiry"
+    my: "Service request Inquiry only for work"
+  service.create: "Create service request"
+  notice.read: "Notice inquiry"
+  notice.create: "Notice registration"
+  notice.update: "Notice change"
+  notice.delete: "Notice delete"
+  faq.read: "FAQ inquiry"
+  faq.create: "FAQ registration"
+  faq.update: "FAQ change"
+  faq.delete: "FAQ delete"
   form.read: "form read"
   form.create: "form create"
   form.update: "form update"
@@ -91,8 +91,8 @@ auth:
   process.delete: "process delete"
   document.read: "document read"
   document.create: "document create"
-  ticket.read: "ticket read"
-  ticket.create: "ticket create"
+  token.read: "token read"
+  token.create: "token create"
 
 # User
 user:
@@ -236,6 +236,7 @@ form:
     time: "Time"
     datetime: "Date Time"
     fileupload: "Fileupload"
+    customCode: "Custom Code"
   lang:
     ko: "Korean"
   msg:
@@ -311,7 +312,7 @@ document:
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
 
-# Ticket
-ticket:
+# token
+token:
   label:
     list: "Process Document List"

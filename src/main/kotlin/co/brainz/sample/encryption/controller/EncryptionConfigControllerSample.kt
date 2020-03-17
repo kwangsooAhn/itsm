@@ -1,18 +1,18 @@
 package co.brainz.sample.encryption.controller
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.KeyException;
-import java.security.NoSuchAlgorithmException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import org.apache.commons.codec.EncoderException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import co.brainz.framework.util.EncryptionUtil
+import co.brainz.framework.util.AliceEncryptionUtil
+import org.apache.commons.codec.EncoderException
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.PropertySource
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
+import java.io.UnsupportedEncodingException
+import java.security.InvalidAlgorithmParameterException
+import java.security.KeyException
+import java.security.NoSuchAlgorithmException
+import javax.crypto.BadPaddingException
+import javax.crypto.IllegalBlockSizeException
+import javax.crypto.NoSuchPaddingException
 
 @PropertySource("classpath:/public/template/sample/jasypt.sample.properties")
 @RestController
@@ -44,7 +44,7 @@ public class EncryptionConfigControllerSample {
 		var plainText = "김!@#$%^&*()_+Abc1"
 
 		try {
-			val encryption = EncryptionUtil()
+			val encryption = AliceEncryptionUtil()
 			enCodeValue = encryption.twoWayEnCode(plainText)
 			deCodeValue = encryption.twoWayDeCode(enCodeValue)
 		} catch (e: UnsupportedEncodingException) {
@@ -69,7 +69,7 @@ public class EncryptionConfigControllerSample {
 		var plainText = "김!@#$%^&*()_+Abc1"
 
 		try {
-			val encryption = EncryptionUtil()
+			val encryption = AliceEncryptionUtil()
 			enCodeValue = encryption.oneWayEnCode(plainText)
 		} catch (e: UnsupportedEncodingException) {
 			e.printStackTrace()

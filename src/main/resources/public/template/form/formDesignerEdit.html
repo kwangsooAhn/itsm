@@ -134,17 +134,29 @@
             <img th:src="@{/assets/media/icons/form/context-component/upload.png}"/>
             <label th:text="#{form.component.fileupload}"></label>
         </li>
+        <li class="context-item-link" data-action="custom-code">
+        <!-- TODO: 커스텀 코드 컴포넌트 아이콘 변경 -->
+            <img th:src="@{/assets/media/icons/form/context-component/text.png}"/>
+            <label th:text="#{form.component.customCode}"></label>
+        </li>
     </ul>
 </div>
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        const authInfo = {
+        const userAuthInfo = {
+            userId : '[[${#authentication.details.userId}]]',
+            userName: '[[${#authentication.details.userName}]]',
+            email: '[[${#authentication.details.email}]]',
+            position: '[[${#authentication.details.position}]]',
+            department: '[[${#authentication.details.department}]]',
+            officeNumber: '[[${#authentication.details.officeNumber}]]',
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]',
             timeFormat : '[[${#authentication.details.timeFormat}]]',
             lang: '[[${#authentication.details.lang}]]'
         };
         i18n.add(function(){
-            formEditor.init('[[${formId}]]', JSON.stringify(authInfo));
+            formEditor.init('[[${formId}]]', JSON.stringify(userAuthInfo));
         });
     };
 </script>

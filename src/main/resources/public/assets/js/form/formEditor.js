@@ -4,7 +4,8 @@
 * @author woodajung
 * @version 1.0
 * @sdoc js/form/formEditor.menu.js
-* @sdoc js/form/component.js
+* @sdoc js/form/formEditor.component.js
+* @sdoc js/form/formEditor.preview.js
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -17,13 +18,14 @@
     
     let propertiesPanel = null,
         selectedComponentId = '', //선택된 컴포넌트 ID
-        data = {}, //저장용 데이터
-        formProperties = {}, //좌측 properties panel에 출력되는 폼 정보
-        userData = { //사용자 정보
+        data = {},                //저장용 데이터
+        formProperties = {},      //좌측 properties panel에 출력되는 폼 정보
+        userData = {              //사용자 세션 정보
             defaultLang: 'en',
             defaultDateFormat: 'YYYY-MM-DD',
             defaultTimeFormat: '24'
-        };
+        },
+        customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
     /**
      * 폼 저장
      */
@@ -99,9 +101,8 @@
 
     /**
      * 컴포넌트 신규 추가
-     *
-     * @param type 컴포넌트 타입
-     * @param componentId 컴포넌트 Id
+     * @param {String} type 컴포넌트 타입
+     * @param {String} componentId 컴포넌트 Id
      */
     function addComponent(type, componentId) {
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
@@ -131,8 +132,7 @@
 
     /**
      * 컴포넌트 복사
-     *
-     * @param elemId 선택한 element Id
+     * @param {String} elemId 선택한 element Id
      */
     function copyComponent(elemId) {
         let elem = document.getElementById(elemId);
@@ -164,8 +164,7 @@
 
     /**
      * 컴포넌트 삭제
-     *
-     * @param elemId 선택한 element Id
+     * @param {String} elemId 선택한 element Id
      */
     function deleteComponent(elemId) {
         let elem = document.getElementById(elemId);
@@ -195,8 +194,7 @@
 
     /**
      * elemId 선택한 element Id를 기준으로 위에 editbox 추가 후 data의 display order 변경
-     *
-     * @param elemId 선택한 element Id
+     * @param {String} elemId 선택한 element Id
      */
     function addEditboxUp(elemId) {
         let elem = document.getElementById(elemId);
@@ -222,8 +220,7 @@
 
     /**
      * elemId 선택한 element Id를 기준으로 아래에 editbox 추가 후 data의 display order 변경
-     *
-     * @param elemId 선택한 element Id
+     * @param {String} elemId 선택한 element Id
      */
     function addEditboxDown(elemId) {
         let elem = document.getElementById(elemId);
@@ -256,10 +253,9 @@
 
     /**
      * 컴포넌트 재정렬
-     *
-     * @param elem 선택한 element
-     * @param elemIdx 선택한 element data index
-     * @param lastCompIdx 컴포넌트 last index
+     * @param {Object} elem 선택한 element
+     * @param {Number} elemIdx 선택한 element data index
+     * @param {Number} lastCompIdx 컴포넌트 last index
      */
     function reorderComponent(elem, elemIdx, lastCompIdx) {
         for (let i = elem.parentNode.children.length - 1; i >= elemIdx; i--) {
@@ -279,10 +275,9 @@
     }
 
     /**
-     * 컴포넌트 ID를 전달 받아서 일치하는 컴포넌트의 index 반환
-     *
-     * @param id 컴포넌트 id
-     * @return {Integer} component index
+     * 컴포넌트 ID를 전달 받아서 일치하는 컴포넌트의 index 반환한다
+     * @param {String} id 조회할 컴포넌트 id
+     * @return {Number} component index 조회한 컴포넌트 index
      */
     function getComponentIndex(id) {
         for (let i = 0, len = formEditor.data.components.length; i < len; i++) {
@@ -294,8 +289,7 @@
 
     /**
      * 컴포넌트 데이터 추가/수정
-     *
-     * @param compData 컴포넌트 데이터
+     * @param {Object} compData 컴포넌트 데이터
      */
     function setComponentData(compData) {
         let isExist = false;
@@ -314,26 +308,23 @@
     
     /**
      * 우측 properties panel 세부 속성 출력
-     *
-     * @param id 조회할 컴포넌트 ID
+     * @param {String} id 조회할 컴포넌트 ID
      */
     function showComponentProperties(id) {
         if (selectedComponentId === id) { return false; }
         propertiesPanel.innerHTML = '';
-        //기존 선택된 컴포넌트 css 삭제
-        if (selectedComponentId !== '') {
+        
+        if (selectedComponentId !== '') { //기존 선택된 컴포넌트 css 삭제
             document.getElementById(selectedComponentId).classList.remove('selected');
         }
         
-        selectedComponentId = id;
-        //현재 선택된 컴포넌트 css 추가
-        document.getElementById(id).classList.add('selected');
+        selectedComponentId = id; 
+        document.getElementById(id).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
         
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
         
         let compAttr = formEditor.data.components[compIdx];
-        let detailAttr = JSON.parse(component.getDefaultAttribute(compAttr.type));
         /**
          * 컴포넌트를 다시 그린다.
          */
@@ -356,14 +347,13 @@
                 
                 let compIdx = component.getLastIndex();
                 component.setLastIndex(compIdx - 1);
-                
+
                 element.domElem.classList.add('selected');
             }
         }
 
         /**
          * 변경된 값을 컴포넌트 속성 정보에 반영하고, 컴포넌트를 다시 그린다.
-         *
          * @param {String} value 변경된 값
          * @param {String} group 변경된 그룹 key
          * @param {String} field 변경된 field key
@@ -380,6 +370,7 @@
         /**
          * date, time, datetime default 포멧 변경시,
          * default 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
+         * @param {Object} e 이벤트 대상
          */
         const setDateFormat = function(e) {
             let el = e.target || e;
@@ -410,18 +401,7 @@
             }
         };
 
-        //세부 속성 재할당 data로 전달된 속성 + 기본속성
-        Object.keys(compAttr).forEach(function(comp) {
-            if (compAttr[comp] !== null && typeof(compAttr[comp]) === 'object' && detailAttr.hasOwnProperty(comp))  {
-                Object.keys(compAttr[comp]).forEach(function(attr) {
-                    Object.keys(detailAttr[comp]).forEach(function(d) {
-                        if (attr === detailAttr[comp][d].id) {
-                            detailAttr[comp][d].value = compAttr[comp][attr];
-                        }
-                    });
-                });
-            }
-        });
+        let detailAttr = JSON.parse(component.getDefaultAttribute(compAttr));
 
         //제목 출력
         let compTitleAttr = component.getTitle(compAttr.type);
@@ -561,21 +541,55 @@
                             }
                             break;
                         case 'select':
+                        case 'session':
                             propertyValue = document.createElement('select');
                             propertyValue.classList.add('property-field-value');
+                            let propertyValueArr = fieldArr.value.split('|');
+                            /**
+                             * 사용자 입력을 받는 inputbox를 생성하고 이벤트를 등록한다.
+                             * @param {String} defaultValue 기본 값
+                             */
+                            const setUserInputCell = function(defaultValue) {
+                                let defaultInputCell = document.createElement('input');
+                                defaultInputCell.setAttribute('type', 'text');
+                                defaultInputCell.setAttribute('id', group + '-' + fieldArr.id + '-none');
+                                defaultInputCell.classList.add('default-none');
+                                defaultInputCell.setAttribute('value', defaultValue);
+                                defaultInputCell.addEventListener('change', function() {
+                                    changePropertiesValue('none|' + this.value, group, fieldArr.id);
+                                }, false);
+                                fieldGroupDiv.appendChild(defaultInputCell);
+                            };
                             for (let i = 0, len = fieldArr.option.length; i < len; i++) {
                                 let propertyOption = document.createElement('option');
                                 propertyOption.value = fieldArr.option[i].id;
                                 propertyOption.text = fieldArr.option[i].name;
-                                if (fieldArr.value === fieldArr.option[i].id) {
+                                if (propertyValueArr[0] === fieldArr.option[i].id) {
                                     propertyOption.setAttribute('selected', 'selected');
                                 }
                                 propertyValue.appendChild(propertyOption);
                             }
                             propertyValue.addEventListener('change', function() {
-                                changePropertiesValue(this.value, group, fieldArr.id);
+                                let changeValue = this.value;
+                                if (fieldArr.type === 'session') {
+                                    if (changeValue === 'none') {
+                                        setUserInputCell('');
+                                        changeValue += '|';
+                                    } else {
+                                        let userInputCell = fieldGroupDiv.querySelector('#' + group + '-' + fieldArr.id + '-none');
+                                        if (userInputCell) {
+                                            userInputCell.remove();
+                                        }
+                                    }
+                                }
+                                changePropertiesValue(changeValue, group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
+
+                            //사용자 입력 input 생성
+                            if (fieldArr.type === 'session' && propertyValueArr[0] === 'none') {
+                                setUserInputCell(propertyValueArr[1]);
+                            }
                             break;
                         case 'slider':
                             propertyValue = document.createElement('input');
@@ -668,7 +682,7 @@
                                     </div>
                                 `;
                             }
-                            fieldGroupDiv.innerHTML = propertyTemplate;
+                            fieldGroupDiv.innerHTML += propertyTemplate;
                             
                             //이벤트 등록
                             let changeOptions = fieldGroupDiv.querySelectorAll('input[type="radio"], input[type="text"]');
@@ -791,6 +805,29 @@
                                 dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, setDateFormat);
                             }
                             break;
+                        case 'customcode':
+                            propertyValue = document.createElement('select');
+                            propertyValue.classList.add('property-field-value');
+                            for (let i = 0, len = customCodeList.length; i < len; i++) {
+                                let customCode = customCodeList[i];
+                                let propertyOption = document.createElement('option');
+                                propertyOption.value = customCode.customCodeId;
+                                propertyOption.text = customCode.customCodeName;
+                                if (fieldArr.value === customCode.customCodeId) {
+                                    propertyOption.setAttribute('selected', 'selected');
+                                }
+                                propertyValue.appendChild(propertyOption);
+                            }
+                            //첫번째 커스텀 코드를 저장
+                            if (fieldArr.value === '' && customCodeList.length > 0) {
+                                changePropertiesValue(customCodeList[0].customCodeId, group, fieldArr.id);
+                            }
+                            
+                            propertyValue.addEventListener('change', function() {
+                                changePropertiesValue(this.value, group, fieldArr.id);
+                            }, false);
+                            fieldGroupDiv.appendChild(propertyValue);
+                            break;
                     }
                 });
             }
@@ -798,7 +835,7 @@
     }
     
     /**
-     * 우측 properties panel 삭제
+     * 우측 properties panel 삭제한다.
      */
     function hideComponentProperties() {
         if (selectedComponentId !== '') {
@@ -809,10 +846,11 @@
         }
     }
     /**
-     * 우측 properties panel에 폼 세부 속성 출력
+     * 우측 properties panel에 폼 세부 속성 출력한다.
      */
     function showFormProperties() {
         if (selectedComponentId === '') { return false; }
+        
         propertiesPanel.innerHTML = '';
         //기존 선택된 컴포넌트 css 삭제
         document.getElementById(selectedComponentId).classList.remove('selected');
@@ -890,55 +928,35 @@
     }
     
     /**
-     * 데이터로 전달받은 속성과 기본 속성 merge
-     *
-     * @param compData 컴포넌트 데이터
+     * 데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한다.
+     * @param {Object} compData 컴포넌트 데이터
+     * @return {Object} mergeAttr merge가 완료된 컴포넌트 데이터
      */
     function mergeComponentData(compData) {
-        let compAttr = {};
-        let defaultAttr = JSON.parse(component.getDefaultAttribute(compData.type));
-        Object.keys(defaultAttr).forEach(function(group) {
-            if (group === 'option') { //옵션 json 구조 변경
-                let options = [];
-                for (let i = 0, len = defaultAttr[group][0].items.length; i < len; i+=3) {
-                   let option = {};
-                   for (let j = i; j < i + 3; j++) {
-                       let child = defaultAttr[group][0].items[j];
-                       option[child.id] = child.value;
-                   }
-                   options.push(option);
-                }
-                compAttr[group] = options;
-            } else {
-                compAttr[group] = {};
-                Object.keys(defaultAttr[group]).forEach(function(child) {
-                    compAttr[group][defaultAttr[group][child].id] = defaultAttr[group][child].value;
-                });
-            }
-        });
-        compAttr.id = compData.id;
-        compAttr.type = compData.type;
+        let mergeAttr = component.getData(compData.type);
+        mergeAttr.id = compData.id;
+        mergeAttr.type = compData.type;
         
         Object.keys(compData).forEach(function(comp) {
-            if (compData[comp] !== null && typeof(compData[comp]) === 'object' && compAttr.hasOwnProperty(comp))  {
+            if (compData[comp] !== null && typeof(compData[comp]) === 'object' && compData.hasOwnProperty(comp))  {
                 Object.keys(compData[comp]).forEach(function(attr) {
-                    Object.keys(compAttr[comp]).forEach(function(d) {
+                    Object.keys(mergeAttr[comp]).forEach(function(d) {
                         if (attr === d) {
-                            compAttr[comp][d] = compData[comp][attr];
+                        	mergeAttr[comp][d] = compData[comp][attr];
                         }
                     });
                 });
             }
         });
-        compAttr.display.order = compData.display.order;
-        setComponentData(compAttr);
-        return compAttr;
+        mergeAttr.display.order = compData.display.order;
+        //데이터 재저장
+        setComponentData(mergeAttr);
+        return mergeAttr;
     }
     
      /**
-     * 조회된 데이터로 form designer draw 
-     * 
-     * @param data 문서 정보
+     * 조회된 데이터로 form designer draw
+     * @param {Object} data 조회한 폼 및 컴포넌트 정보
      */
     function drawForm(data) {
         console.debug(JSON.parse(data));
@@ -950,9 +968,7 @@
             });
             //데이터로 전달된 컴포넌트 draw
             for (let i = 0, len = formEditor.data.components.length; i < len; i ++) {
-                let compData = formEditor.data.components[i];
-                //기본속성과 merge 작업
-                let mergeData = mergeComponentData(compData);
+                let mergeData = mergeComponentData(formEditor.data.components[i]);
                 component.draw(mergeData.type, mergeData);
             }
         }
@@ -960,8 +976,7 @@
         let editbox = component.draw(defaultComponent);
         setComponentData(editbox.attr);
         editbox.domElem.querySelector('[contenteditable=true]').focus();
-        
-        //TODO. 폼 상세 정보 출력
+        //폼 상세 정보 출력
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/form/formAttribute.json',
@@ -977,17 +992,16 @@
     
     /**
      * form designer 초기화
-     *
-     * @param formId 폼 아이디
-     * @param authInfo 사용자 세션 정보
+     * @param {String} formId 폼 아이디
+     * @param {Object} authInfo 사용자 세션 정보
      */
     function init(formId, authInfo) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         propertiesPanel = document.getElementById('panel-properties');
         let authData = JSON.parse(authInfo);
-        
-        //편집화면에서 사용할 dateformat 설정
+        //편집화면에서 사용할 사용자 dateformat 설정
         if (authData) {
+            Object.assign(userData, authData);
             userData.defaultLang  = authData.lang;
             let format = authData.timeFormat;
             let formatArray = format.split(' ');
@@ -999,6 +1013,21 @@
         workflowUtil.polyfill();
         component.init();
         context.init();
+        
+        //TODO: custom 컴포넌트에서 사용하기 위해 awf_custom_code (사용자 정의 코드) 테이블 데이터를 조회하려 저장한다.
+        customCodeList = [ //가데이터 사용
+            {customCodeId: '1', customCodeName:'사용자 이름 검색', targetTable: 'awf_user', keyColumn:'user_name', valueColumn: 'user_key'},
+            {customCodeId: '2', customCodeName:'사용자 부서 검색', targetTable: 'awf_user', keyColumn:'department', valueColumn: 'user_key'}
+        ];
+        /*aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/custom-codes/list',
+            callbackFunc: function(xhr) {
+                customCodeList = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+        */
         
         // load form data.
         aliceJs.sendXhr({

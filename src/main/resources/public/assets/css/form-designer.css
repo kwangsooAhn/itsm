@@ -10984,6 +10984,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -11113,6 +11115,11 @@ body {
   content: 'R';
 }
 
+.alice-form-properties-panel .property-field .default-none {
+  width: auto;
+  margin: 0.625rem 0 0 5rem;
+}
+
 .alice-form-properties-panel .property-field.vertical {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -11239,6 +11246,16 @@ body {
   height: 1.563rem;
 }
 
+.component .group .field button {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  height: 1.563rem;
+  line-height: 1rem;
+  padding: 0 0.625rem;
+  white-space: nowrap;
+}
+
 .component .group .field textarea {
   width: 100%;
 }
@@ -11311,6 +11328,7 @@ body {
   display: inline-block;
   height: 1.25rem;
   margin: 0.3125rem;
+  cursor: pointer;
 }
 
 .selected-color {
@@ -11319,4 +11337,5 @@ body {
   height: 1.25rem;
   margin-right: 0.3125rem;
   border: 0.0625rem solid #000000;
+  cursor: pointer;
 }
