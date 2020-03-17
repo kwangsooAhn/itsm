@@ -44,8 +44,9 @@
      * @param msg 메시지
      */
     function alertMsg(element, msg) {
-        alert(msg);
-        setTimeout(function() { element.focus(); }, 10);
+        aliceJs.alert(msg, function() {
+            element.focus();
+        });
     }
 
     /**
@@ -529,8 +530,9 @@
                 params: JSON.stringify(tokenObject),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    alert(i18n.get('common.msg.save'));
-                    window.close();
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        window.close();
+                    });
                 }
             };
             aliceJs.sendXhr(opt);

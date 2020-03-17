@@ -15,13 +15,13 @@ function isNull(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value === null) {
             if (messageId !== undefined) {
-                alert(i18n.get(messageId));
+                aliceJs.alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -32,13 +32,13 @@ function isNotNull(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value !== null) {
             if (messageId !== undefined) {
-                alert(i18n.get(messageId));
+                aliceJs.alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -49,13 +49,13 @@ function isEmpty(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value === '') {
             if (messageId !== undefined) {
-                alert(i18n.get(messageId));
+                aliceJs.alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -66,13 +66,13 @@ function isNotEmpty(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value !== '') {
             if (messageId !== undefined) {
-                alert(i18n.get(messageId));
+                aliceJs.alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -83,13 +83,13 @@ function isEquals(elementId1, elementId2, messageId) {
     if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value === document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
-                alert(i18n.get(messageId));
+                aliceJs.alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -100,13 +100,13 @@ function isNotEquals(elementId1, elementId2, messageId) {
     if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value !== document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
-                alert(i18n.get(messageId));
+                aliceJs.alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -117,13 +117,13 @@ function isExistInScope(elementId, minValue, maxValue, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value < minValue || document.getElementById(elementId).value > maxValue) {
             if (messageId !== undefined) {
-                alert(i18n.get(messageId));
+                aliceJs.alert(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -133,7 +133,7 @@ function isExistInScope(elementId, minValue, maxValue, messageId) {
 function isAndOperator(condition1, condition2, messageId) {
     if (condition1 && condition2) {
         if (messageId !== undefined) {
-            alert(i18n.get(messageId));
+            aliceJs.alert(i18n.get(messageId));
         }
         return true;
     }
@@ -146,7 +146,7 @@ function isAndOperator(condition1, condition2, messageId) {
 function isOrOperator(condition1, condition2, messageId) {
     if (condition1 || condition2) {
         if (messageId !== undefined) {
-            alert(i18n.get(messageId));
+            aliceJs.alert(i18n.get(messageId));
         }
         return true;
     }
@@ -173,7 +173,7 @@ function isValidPassword(elementId) {
      * 비밀번호에 공백을 포함하지 않는다.
      */
     if (blankReg.test(password)) {
-        alert(i18n.get('validation.msg.pwNotContainSpace'));
+        aliceJs.alert(i18n.get('validation.msg.pwNotContainSpace'));
         return false;
     }
 
@@ -185,7 +185,7 @@ function isValidPassword(elementId) {
      */
     if (lowerCaseReg.test(password) || upperCaseReg.test(password) || specialCharReg.test(password) || numberReg.test(password)) {
         if (password.length < 10 || password.length > 20) {
-            alert(i18n.get('validation.msg.pwOneBetween10And20'));
+            aliceJs.alert(i18n.get('validation.msg.pwOneBetween10And20'));
             return false;
         }
     }
@@ -199,7 +199,7 @@ function isValidPassword(elementId) {
     if ((searchUpperCase < 0 && searchLowerCase < 0) || (searchLowerCase < 0 && searchSpecialChar < 0) ||
         (searchSpecialChar < 0 && searchNumber < 0) || (searchNumber < 0 && searchUpperCase < 0)) {
         if (password.length < 8 || password.length > 20) {
-            alert(i18n.get('validation.msg.pwTwoBetween8And20'));
+            aliceJs.alert(i18n.get('validation.msg.pwTwoBetween8And20'));
             return false;
         }
     }
@@ -210,7 +210,7 @@ function isValidPassword(elementId) {
      * 비밀번호에 사용자의 ID를 포함하지 않는다.
      */
     if (password.search(userId) > -1) {
-        alert(i18n.get('validation.msg.pwContainsId'));
+        aliceJs.alert(i18n.get('validation.msg.pwContainsId'));
         return false;
     }
 
@@ -220,7 +220,7 @@ function isValidPassword(elementId) {
      * 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
      */
     if (password.search(emailId[0]) > -1) {
-        alert(i18n.get('validation.msg.pwContainsEmail'));
+        aliceJs.alert(i18n.get('validation.msg.pwContainsEmail'));
         return false;
     }
 
@@ -229,17 +229,17 @@ function isValidPassword(elementId) {
      * [ 설명 ]
      * 비밀번호에 사용자의 핸드폰 번호를 포함하지 않는다.
      */
-    if (mobileNumber !== "") {
+    if (mobileNumber !== '') {
         if (mobileNumber.length >= 10) {
-            var middleNum = "";
-            var lastNum = "";
+            let middleNum = '',
+                lastNum = '';
 
             if (mobileNumber.length === 10) {
                 middleNum = mobileNumber.substring(3, 6);
                 lastNum = mobileNumber.substring(6, 10);
 
                 if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
+                    aliceJs.alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
                     return false;
                 }
             } else {
@@ -247,13 +247,13 @@ function isValidPassword(elementId) {
                 lastNum = mobileNumber.substring(7, 11);
 
                 if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
+                    aliceJs.alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
                     return false;
                 }
             }
         } else {
             if (password.search(mobileNumber) > -1) {
-                alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
+                aliceJs.alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
                 return false;
             }
         }
@@ -265,10 +265,10 @@ function isValidPassword(elementId) {
  *  @date 2020-03-03
  */
 function isValidEmail(elementId) {
-    var email = document.getElementById(elementId).value;
+    let email = document.getElementById(elementId).value;
 
     if (!emailReg.test(email)) {
-        alert(i18n.get('validation.msg.checkEmailFormat'));
+        aliceJs.alert(i18n.get('validation.msg.checkEmailFormat'));
         return false;
     }
     return true;
