@@ -452,36 +452,42 @@
                 let componentChildObject = {};
                 let componentChild = '';
 
-                if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') {
-                    componentChild = componentElements[eIndex].getElementsByTagName('input');
-                    componentValue = componentChild.item(0).value;
-                } else if (componentDataType === 'textarea') {
-                    componentChild = componentElements[eIndex].getElementsByTagName('textarea');
-                    componentValue = componentChild.item(0).value;
-                } else if (componentDataType === 'select') {
-                    componentChild = componentElements[eIndex].getElementsByTagName('select');
-                    componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
-                } else if (componentDataType === 'radio') {
-                    componentChild = componentElements[eIndex].getElementsByTagName('input');
-                    for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
-                        if (componentChild[radioIndex].checked) {
-                            componentValue = componentChild[radioIndex].value;
-                        }
-                    }
-                } else if (componentDataType === 'checkbox') {
-                    componentChild = componentElements[eIndex].getElementsByTagName('input');
-                    for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
-                        if (componentChild[checkBoxIndex].checked) {
-                            if (checkBoxIndex === 0) {
-                                componentValue = componentChild[checkBoxIndex].value;
-                            } else {
-                                componentValue = componentValue +','+componentChild[checkBoxIndex].value;
+                switch (componentDataType) {
+                    case 'text':
+                    case 'date':
+                    case 'time':
+                    case 'datetime':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).value;
+                        break;
+                    case 'textarea':
+                        componentChild = componentElements[eIndex].getElementsByTagName('textarea');
+                        componentValue = componentChild.item(0).value;
+                        break;
+                    case 'select':
+                        componentChild = componentElements[eIndex].getElementsByTagName('select');
+                        componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
+                        break;
+                    case 'radio':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
+                            if (componentChild[radioIndex].checked) {
+                                componentValue = componentChild[radioIndex].value;
                             }
                         }
-                    }
-                } else if (componentDataType === 'fileupload') {
-                    componentChild = componentElements[eIndex].getElementsByTagName('input');
-                    componentValue = componentChild.item(0).value;
+                        break;
+                    case 'checkbox':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
+                            if (componentChild[checkBoxIndex].checked) {
+                                if (checkBoxIndex === 0) {
+                                    componentValue = componentChild[checkBoxIndex].value;
+                                } else {
+                                    componentValue = componentValue + ',' + componentChild[checkBoxIndex].value;
+                                }
+                            }
+                        }
+                        break;
                 }
 
                 componentChildObject.componentId = componentId;
