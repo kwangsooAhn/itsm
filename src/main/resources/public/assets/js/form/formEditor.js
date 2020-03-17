@@ -40,9 +40,9 @@
             url: '/rest/forms/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    alert(i18n.get('common.msg.save'));
+                    aliceJs.alert(i18n.get('common.msg.save'));
                 } else {
-                    alert(i18n.get('common.label.fail'));
+                    aliceJs.alert(i18n.get('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',

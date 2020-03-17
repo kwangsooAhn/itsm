@@ -412,9 +412,15 @@ function delFileCheck() {
     return true;
 }
 
-aliceJs.alert = function(messageId, callableFunc) {
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.alert = function(message, callbackFunc) {
     popup.alert({
-            content: i18n.get(messageId),
+            content: message,
             keyboard: true,
             btn_align: 'right',
             default_btns: {
@@ -422,20 +428,32 @@ aliceJs.alert = function(messageId, callableFunc) {
             }
         },
         function() {
-            if (typeof callableFunc === 'function') {
-                callableFunc();
+            if (typeof callbackFunc === 'function') {
+                callbackFunc();
             }
         }
     );
 };
 
-aliceJs.confirm = function(messageId, callableFunc) {
+/**
+ * open confirm dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.confirm = function(message, callbackFunc) {
     popup.confirm({
-            content : i18n.get(messageId)
+            content : message,
+            keyboard: true,
+            btn_align: 'right',
+            default_btns: {
+                ok: i18n.get('common.btn.check'),
+                cancel: i18n.get('common.btn.cancel')
+            }
         },
         function(param) {
-            if (param.proceed && typeof callableFunc === 'function') {
-                callableFunc();
+            if (param.proceed && typeof callbackFunc === 'function') {
+                callbackFunc();
             }
         }
     );

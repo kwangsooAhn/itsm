@@ -73,7 +73,7 @@
                     break;
             }
             i18n.add(function(){
-                aliceJs.alert(messageId, function() {
+                aliceJs.alert(i18n.get(messageId), function() {
                     document.getElementById('uid').focus();
                 });
             });

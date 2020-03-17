@@ -68,7 +68,7 @@
             url: url,
             params: new FormData(document.getElementById("sendForm")),
             callbackFunc: function() {
-                alert("인증메일이 재발송되었습니다.");
+                aliceJs.alert("인증메일이 재발송되었습니다.");
             }
         };
         aliceJs.sendXhr(opt)

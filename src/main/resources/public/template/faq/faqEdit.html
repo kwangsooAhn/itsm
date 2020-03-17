@@ -92,8 +92,9 @@
                 params: JSON.stringify(object),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    alert("Success");
-                    window.location = "/faqs/search";
+                    aliceJs.alert("Success", function() {
+                        window.location.href = "/faqs/search";
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
