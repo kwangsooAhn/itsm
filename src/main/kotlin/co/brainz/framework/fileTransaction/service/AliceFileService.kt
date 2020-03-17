@@ -1,6 +1,7 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -84,7 +85,6 @@ class AliceFileService(
      */
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): AliceFileLocEntity {
-        val aliceFileLocEntity: AliceFileLocEntity
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = getRandomFilename()
         val tempPath = getDir("temp", fileName)
@@ -94,9 +94,16 @@ class AliceFileService(
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
+        for (it in AliceUserConstants.ProhibitExtension.values()) {
+            val extension = it.toString()
+            if (File(multipartFile.originalFilename).extension.toUpperCase() == extension) {
+                throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+            }
+        }
+
         multipartFile.transferTo(tempPath.toFile())
 
-        aliceFileLocEntity = AliceFileLocEntity(
+        val aliceFileLocEntity = AliceFileLocEntity(
             0,
             aliceUserDto.userKey,
             false,

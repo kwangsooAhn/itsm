@@ -41,8 +41,9 @@
         //프로세스 삭제
         function deleteProcess(processId) {
             restSubmit('DELETE', '/rest/processes/' + processId, function() {
-                alert('[[#{common.msg.delete.success}]]');
-                location.reload();
+                aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
+                    location.reload();
+                });
             });
         }
 

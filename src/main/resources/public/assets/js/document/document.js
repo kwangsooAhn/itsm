@@ -44,8 +44,9 @@
      * @param msg 메시지
      */
     function alertMsg(element, msg) {
-        alert(msg);
-        setTimeout(function() { element.focus(); }, 10);
+        aliceJs.alert(msg, function() {
+            element.focus();
+        });
     }
 
     /**
@@ -523,6 +524,27 @@
             method = 'post';
         } else {
             method = 'put';
+
+            /*const object = {
+                //documentDto : documentObject,
+                tokenDto: tokenObject
+            };*/
+
+            //console.log(tokenObject);
+            //return false;
+
+            const opt = {
+                method: method,
+                url: '/rest/tokens/data',
+                params: JSON.stringify(tokenObject),
+                contentType: 'application/json',
+                callbackFunc: function() {
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        window.close();
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
 
         /*const object = {
