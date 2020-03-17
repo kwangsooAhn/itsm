@@ -199,8 +199,10 @@ login:
   signupNote: "처음이신가요?"
   msg:
     invalidPassword: "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요."
-    invalidUser: "계정이 비활성화되었습니다. 관리자에게 문의해주세요."
+    disabledUser: "계정이 비활성화되었습니다. 관리자에게 문의해주세요."
+    invalidUser: "등록되지 않은 계정입니다. 다시 확인해주세요."
     enterId: "아이디를 입력해주세요."
+    enterPassword: "패스워드를 입력해주세요."
     sessionExpired: "세션이 만료되었습니다."
     redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
 

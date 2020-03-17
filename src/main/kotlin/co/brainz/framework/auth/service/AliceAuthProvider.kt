@@ -51,7 +51,7 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
             aliceUser = userMapper.toAliceUserAuthDto(userDetailsService.loadUserByUsername(userId))
         } catch (e: EmptyResultDataAccessException) {
             logger.error("{}", e.message)
-            throw UsernameNotFoundException("Empty User Id.")
+            throw UsernameNotFoundException("Not registered User Data.")
         }
 
         if (!passwordEncoder.matches(password, aliceUser.password)) {

@@ -197,8 +197,10 @@ login:
   signupNote: "Would you like to sign up?"
   msg:
     invalidPassword: "The ID or password are not correct. Please check again."
-    invalidUser: "Your account has been disabled. Please contact the administrator."
+    disabledUser: "Your account has been disabled. Please contact the administrator."
+    invalidUser: "This account is not registered. Please check again."
     enterId: "Please enter your ID."
+    enterPassword: "Please enter your password."
     sessionExpired: "Your session has expired."
     redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
 

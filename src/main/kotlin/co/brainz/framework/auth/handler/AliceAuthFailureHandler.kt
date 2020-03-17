@@ -28,7 +28,7 @@ class AliceAuthFailureHandler : AuthenticationFailureHandler {
         val errorCode = when (e) {
             is BadCredentialsException -> 1        //"아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요."
             is DisabledException -> 2              //"계정이 비활성화되었습니다. 관리자에게 문의해주세요"
-            is UsernameNotFoundException -> 3      //"아이디를 입력해주세요."
+            is UsernameNotFoundException -> 3      //"등록되지 않은 계정입니다. 다시 확인해주세요."
             else -> 99                             //"알 수 없는 에러가 발생하였습니다. 관리자에게 문의해주세요."
         }
 

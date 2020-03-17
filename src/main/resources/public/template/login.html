@@ -46,6 +46,7 @@
 <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
 <script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
+<script th:src="@{/assets/js/util/validation-alice.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
@@ -63,16 +64,16 @@
                     messageId = 'login.msg.invalidPassword';
                     break;
                 case '2':
-                    messageId = 'login.msg.invalidUser';
+                    messageId = 'login.msg.disabledUser';
                     break;
                 case '3':
-                    messageId = 'login.msg.enterId';
+                    messageId = 'login.msg.invalidUser';
                     break;
                 default:
                     messageId = 'common.msg.unknownError';
                     break;
             }
-            i18n.add(function(){
+            i18n.add(function() {
                 aliceJs.alert(i18n.get(messageId), function() {
                     document.getElementById('uid').focus();
                 });
@@ -89,6 +90,12 @@
     };
     
     function onLogin() {
+        if (isEmpty('uid', 'login.msg.enterId')) {
+            return false;
+        }
+        if (isEmpty('upasswd', 'login.msg.enterPassword')) {
+            return false;
+        }
         const rsa = new RSAKey();
         rsa.setPublic(keyModule, keyExponent);
         document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
