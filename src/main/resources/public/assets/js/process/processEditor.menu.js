@@ -451,6 +451,24 @@
         if (category) {
             elementTypeItems = tooltipItems.filter(function(item) { return item.parent === category; });
         }
+
+        if (elem.classed('event')) {
+            const elementId = elem.node().id;
+            let isConnected = false;
+            let connectors = AliceProcessEditor.data.elements.filter(function(e) { return e.type === 'arrowConnector'; });
+            connectors.forEach(function(c) {
+                if (c.data['start-id'] === elementId || c.data['end-id'] === elementId) {
+                    isConnected = true;
+                }
+            });
+            if (isConnected) {
+                if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type === 'commonEnd' || item.type === 'messageEnd'; });
+                } else {
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonEnd' && item.type !== 'messageEnd'; });
+                }
+            }
+        }
         setElementItems(elementTypeItems, elem);
     }
 
