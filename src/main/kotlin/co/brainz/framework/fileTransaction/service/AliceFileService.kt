@@ -95,38 +95,29 @@ class AliceFileService(
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
-        try {
-            for (it in AliceUserConstants.ProhibitExtension.values()) {
-                val extension = it.toString()
-                if (File(multipartFile.originalFilename).extension.toUpperCase() == extension) {
-                    throw AliceException(AliceErrorConstants.ERR_00004, null)
-                }
+        for (it in AliceUserConstants.ProhibitExtension.values()) {
+            val extension = it.toString()
+            if (File(multipartFile.originalFilename).extension.toUpperCase() == extension) {
+                throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
             }
-
-            multipartFile.transferTo(tempPath.toFile())
-
-            aliceFileLocEntity = AliceFileLocEntity(
-                0,
-                aliceUserDto.userKey,
-                false,
-                filePath.parent.toString(),
-                fileName,
-                multipartFile.originalFilename,
-                multipartFile.size,
-                0
-            )
-            logger.debug("{}", aliceFileLocEntity)
-            aliceFileLocRepository.save(aliceFileLocEntity)
-            logger.debug(">> 임시업로드파일 {}", tempPath.toAbsolutePath())
-
-        } catch (e: AliceException) {
-            e.printStackTrace()
-            logger.error("{}", e.message)
-            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
-        } catch (e: Exception) {
-            e.printStackTrace()
-            logger.error("{}", e.message)
         }
+
+        multipartFile.transferTo(tempPath.toFile())
+
+        aliceFileLocEntity = AliceFileLocEntity(
+            0,
+            aliceUserDto.userKey,
+            false,
+            filePath.parent.toString(),
+            fileName,
+            multipartFile.originalFilename,
+            multipartFile.size,
+            0
+        )
+        logger.debug("{}", aliceFileLocEntity)
+        aliceFileLocRepository.save(aliceFileLocEntity)
+        logger.debug(">> 임시업로드파일 {}", tempPath.toAbsolutePath())
+
         return aliceFileLocEntity
     }
 
