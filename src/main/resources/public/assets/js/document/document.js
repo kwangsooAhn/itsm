@@ -419,122 +419,125 @@
      * save document.
      */
     function save(v_kind) {
-        if (!requiredCheck()) {
-            let documentObject = {};
-            let tokenObject = {};
-            let componentArrayList = [];
-            let actionArrayList = [];
-
-            //documentId 값을 구한다.
-            const documentElements = document.getElementById('documentId');
-            if (documentElements !== null && documentElements !== undefined) {
-                //documentObject.documentId = documentElements.getAttribute('data-id');
-                tokenObject.documentId = documentElements.getAttribute('data-id');
-            } else {
-                //documentObject.documentId = '';
-                tokenObject.documentId = "";
-            }
-            //tokenObject.documentName = "";
-
-            //ComponentsInfo
-            const componentElements = documentContainer.getElementsByClassName('component');
-            for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
-                let componentDataType = componentElements[eIndex].getAttribute('data-type');
-
-                if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
-                    componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox') {
-                    let componentId = componentElements[eIndex].getAttribute('id');
-                    let componentValue = '';
-                    let componentChildObject = {};
-                    let componentChild = '';
-
-                    if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') {
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        componentValue = componentChild.item(0).value;
-                    } else if (componentDataType === 'textarea') {
-                        componentChild = componentElements[eIndex].getElementsByTagName('textarea');
-                        componentValue = componentChild.item(0).value;
-                    } else if (componentDataType === 'select') {
-                        componentChild = componentElements[eIndex].getElementsByTagName('select');
-                        componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
-                    } else if (componentDataType === 'radio') {
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
-                            if (componentChild[radioIndex].checked) {
-                                componentValue = componentChild[radioIndex].value;
-                            }
-                        }
-                    } else if (componentDataType === 'checkbox') {
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
-                            if (componentChild[checkBoxIndex].checked) {
-                                if (checkBoxIndex === 0) {
-                                    componentValue = componentChild[checkBoxIndex].value;
-                                } else {
-                                    componentValue = componentValue +','+componentChild[checkBoxIndex].value;
-                                }
-                            }
-                        }
-                    } else if (componentDataType === 'fileupload') {
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        componentValue = componentChild.item(0).value;
-                    }
-
-                    componentChildObject.componentId = componentId;
-                    componentChildObject.value = componentValue;
-                    componentArrayList.push(componentChildObject);
-                }
-            }
-
-            //tokenObject를 초기화
-            const tokenElements = document.getElementById('tokenId');
-            if (tokenElements !== null && tokenElements !== undefined) {
-                tokenObject.tokenId = tokenElements.getAttribute('data-id');
-            } else {
-                tokenObject.tokenId = '';
-            }
-            if (v_kind === 'save') {
-                tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
-            } else if (v_kind === 'process') {
-                tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
-            }
-
-            tokenObject.elementId = '';
-            if (componentArrayList.length > 0) {
-                tokenObject.data = componentArrayList;
-            } else {
-                tokenObject.data = '';
-            }
-
-            tokenObject.actions = actionArrayList;
-
-            let method = '';
-            if (tokenObject.tokenId === '') {
-                method = 'post';
-            } else {
-                method = 'put';
-            }
-
-            /*const object = {
-                //documentDto : documentObject,
-                tokenDto: tokenObject
-            };*/
-
-            //console.log(tokenObject);
-            //return false;
-
-            const opt = {
-                method: method,
-                url: '/rest/tokens/data',
-                params: JSON.stringify(tokenObject),
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    alert(i18n.get('common.msg.save'));
-                    window.close();
-                }
-            };
-            aliceJs.sendXhr(opt);
+        // validation check
+        if (v_kind === 'process' && !requiredCheck()) {
+            return true;
         }
+
+        let documentObject = {};
+        let tokenObject = {};
+        let componentArrayList = [];
+        let actionArrayList = [];
+
+        //documentId 값을 구한다.
+        const documentElements = document.getElementById('documentId');
+        if (documentElements !== null && documentElements !== undefined) {
+            //documentObject.documentId = documentElements.getAttribute('data-id');
+            tokenObject.documentId = documentElements.getAttribute('data-id');
+        } else {
+            //documentObject.documentId = '';
+            tokenObject.documentId = "";
+        }
+        //tokenObject.documentName = "";
+
+        //ComponentsInfo
+        const componentElements = documentContainer.getElementsByClassName('component');
+        for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
+            let componentDataType = componentElements[eIndex].getAttribute('data-type');
+
+            if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
+                componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox') {
+                let componentId = componentElements[eIndex].getAttribute('id');
+                let componentValue = '';
+                let componentChildObject = {};
+                let componentChild = '';
+
+                if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') {
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    componentValue = componentChild.item(0).value;
+                } else if (componentDataType === 'textarea') {
+                    componentChild = componentElements[eIndex].getElementsByTagName('textarea');
+                    componentValue = componentChild.item(0).value;
+                } else if (componentDataType === 'select') {
+                    componentChild = componentElements[eIndex].getElementsByTagName('select');
+                    componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
+                } else if (componentDataType === 'radio') {
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
+                        if (componentChild[radioIndex].checked) {
+                            componentValue = componentChild[radioIndex].value;
+                        }
+                    }
+                } else if (componentDataType === 'checkbox') {
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
+                        if (componentChild[checkBoxIndex].checked) {
+                            if (checkBoxIndex === 0) {
+                                componentValue = componentChild[checkBoxIndex].value;
+                            } else {
+                                componentValue = componentValue +','+componentChild[checkBoxIndex].value;
+                            }
+                        }
+                    }
+                } else if (componentDataType === 'fileupload') {
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    componentValue = componentChild.item(0).value;
+                }
+
+                componentChildObject.componentId = componentId;
+                componentChildObject.value = componentValue;
+                componentArrayList.push(componentChildObject);
+            }
+        }
+
+        //tokenObject를 초기화
+        const tokenElements = document.getElementById('tokenId');
+        if (tokenElements !== null && tokenElements !== undefined) {
+            tokenObject.tokenId = tokenElements.getAttribute('data-id');
+        } else {
+            tokenObject.tokenId = '';
+        }
+        if (v_kind === 'save') {
+            tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
+        } else if (v_kind === 'process') {
+            tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
+        }
+
+        tokenObject.elementId = '';
+        if (componentArrayList.length > 0) {
+            tokenObject.data = componentArrayList;
+        } else {
+            tokenObject.data = '';
+        }
+
+        tokenObject.actions = actionArrayList;
+
+        let method = '';
+        if (tokenObject.tokenId === '') {
+            method = 'post';
+        } else {
+            method = 'put';
+        }
+
+        /*const object = {
+            //documentDto : documentObject,
+            tokenDto: tokenObject
+        };*/
+
+        //console.log(tokenObject);
+        //return false;
+
+        const opt = {
+            method: method,
+            url: '/rest/tokens/data',
+            params: JSON.stringify(tokenObject),
+            contentType: 'application/json',
+            callbackFunc: function() {
+                alert(i18n.get('common.msg.save'));
+                window.close();
+            }
+        };
+        aliceJs.sendXhr(opt);
     }
 
     /**
