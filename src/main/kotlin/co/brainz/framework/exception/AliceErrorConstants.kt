@@ -4,5 +4,6 @@ enum class AliceErrorConstants(val code: String, val detail: String) {
     ERR("ERR", "Default error"),
     ERR_00001("ERR-00001", "Wrong id or passwd"),
     ERR_00002("ERR-00002", "Session expired"),
-    ERR_00003("ERR-00003", "Unauthorized page.")
+    ERR_00003("ERR-00003", "Unauthorized page."),
+    ERR_00004("ERR-00004", "The file extension is not allowed")
 }
