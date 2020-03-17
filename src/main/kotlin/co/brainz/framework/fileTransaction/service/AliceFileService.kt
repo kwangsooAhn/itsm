@@ -85,7 +85,7 @@ class AliceFileService(
      */
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): AliceFileLocEntity {
-        lateinit var aliceFileLocEntity: AliceFileLocEntity
+        val aliceFileLocEntity: AliceFileLocEntity
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = getRandomFilename()
         val tempPath = getDir("temp", fileName)
