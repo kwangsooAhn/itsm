@@ -289,6 +289,9 @@
             }
         },
         mousedrag: function() {
+            if (mousedownElement.classed('commonEnd') || mousedownElement.classed('messageEnd')) {
+                return false;
+            }
             const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
                 gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
                 centerX = bbox.cx + gTransform.x,
@@ -317,6 +320,17 @@
                 availableLink = false;
             }
         });
+
+        // common start cannot be a target.
+        if (target.classed('commonStart')) {
+            availableLink = false;
+        }
+
+        // common end/message end cannot be a source.
+        if (source.classed('commonEnd') || source.classed('messageEnd')) {
+            availableLink = false;
+        }
+
         return availableLink;
     }
 
@@ -353,7 +367,7 @@
                             .attr('x', rectData[i].x += d3.event.dx)
                             .attr('y', rectData[i].y += d3.event.dy);
                     }
-                    self.nodeElement.style('cursor', 'move');
+                    //self.nodeElement.style('cursor', 'move');
                     updateRect();
                 }
             })
@@ -569,7 +583,7 @@
                     self.typeElement
                         .attr('x', d3.event.x - (typeImageSize / 2))
                         .attr('y', d3.event.y - (typeImageSize / 2));
-                    self.nodeElement.style('cursor', 'move');
+                    //self.nodeElement.style('cursor', 'move');
                     AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     drawConnectors();
                 }
@@ -629,7 +643,7 @@
                     self.typeElement
                         .attr('x', d3.event.x - (typeImageSize / 2))
                         .attr('y', d3.event.y - (typeImageSize / 2));
-                    self.nodeElement.style('cursor', 'move');
+                    //self.nodeElement.style('cursor', 'move');
                     AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     drawConnectors();
                 }
@@ -710,7 +724,7 @@
                     self.textElement
                         .attr('x', d3.event.x)
                         .attr('y', d3.event.y);
-                    self.nodeElement.style('cursor', 'move');
+                    //self.nodeElement.style('cursor', 'move');
                     AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                 }
             })
