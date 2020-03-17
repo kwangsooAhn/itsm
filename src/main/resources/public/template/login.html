@@ -50,6 +50,8 @@
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+    i18n.add();
+
     let keyModule = '';
     let keyExponent = '';
 
@@ -73,10 +75,8 @@
                     messageId = 'common.msg.unknownError';
                     break;
             }
-            i18n.add(function() {
-                aliceJs.alert(i18n.get(messageId), function() {
-                    document.getElementById('uid').focus();
-                });
+            aliceJs.alert(i18n.get(messageId), function() {
+                document.getElementById('uid').focus();
             });
         } else {
             document.getElementById('uid').focus();
