@@ -85,7 +85,6 @@ class AliceFileService(
      */
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): AliceFileLocEntity {
-        val aliceFileLocEntity: AliceFileLocEntity
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = getRandomFilename()
         val tempPath = getDir("temp", fileName)
@@ -104,6 +103,7 @@ class AliceFileService(
 
         multipartFile.transferTo(tempPath.toFile())
 
+        val aliceFileLocEntity: AliceFileLocEntity
         aliceFileLocEntity = AliceFileLocEntity(
             0,
             aliceUserDto.userKey,
