@@ -103,8 +103,7 @@ class AliceFileService(
 
         multipartFile.transferTo(tempPath.toFile())
 
-        val aliceFileLocEntity: AliceFileLocEntity
-        aliceFileLocEntity = AliceFileLocEntity(
+        val aliceFileLocEntity = AliceFileLocEntity(
             0,
             aliceUserDto.userKey,
             false,
