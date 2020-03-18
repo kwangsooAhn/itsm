@@ -49,6 +49,27 @@
     }
 
     /**
+     * save as process.
+     */
+    function saveAsProcess() {
+        alert('SAVE AS');
+        aliceJs.sendXhr({
+            method: 'POST',
+            url: '/rest/processes/' + AliceProcessEditor.data.process.id,
+            callbackFunc: function(xhr) {
+                if (xhr.responseText === 'true') {
+                    aliceJs.alert(i18n.get('common.msg.save'));
+                } else {
+                    aliceJs.alert(i18n.get('common.label.fail'));
+                }
+            },
+            contentType: 'application/json; charset=utf-8',
+            params: JSON.stringify(AliceProcessEditor.data)
+        });
+
+    }
+
+    /**
      * simulation workflow.
      */
     function simulationWorkflow() {
@@ -101,13 +122,30 @@
      */
     function initUtil() {
         // add click event listener.
-        document.getElementById('btnSave').addEventListener('click', saveProcess);
-        document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);
-        document.getElementById('btnUndo').addEventListener('click', undoProcess);
-        document.getElementById('btnRedo').addEventListener('click', redoProcess);
-        document.getElementById('btnImport').addEventListener('click', importProcess);
-        document.getElementById('btnExport').addEventListener('click', exportProcess);
-        document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
+        if (document.getElementById('btnSave') != null) {
+            document.getElementById('btnSave').addEventListener('click', saveProcess);
+        }
+        if (document.getElementById('btnSaveAs') != null) {
+            document.getElementById("btnSaveAs").addEventListener('click', saveAsProcess);
+        }
+        if (document.getElementById('btnSimulation') != null) {
+            document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);
+        }
+        if (document.getElementById('btnUndo') != null) {
+            document.getElementById('btnUndo').addEventListener('click', undoProcess);
+        }
+        if (document.getElementById('btnRedo') != null) {
+            document.getElementById('btnRedo').addEventListener('click', redoProcess);
+        }
+        if (document.getElementById('btnImport') != null) {
+            document.getElementById('btnImport').addEventListener('click', importProcess);
+        }
+        if (document.getElementById('btnExport') != null) {
+            document.getElementById('btnExport').addEventListener('click', exportProcess);
+        }
+        if (document.getElementById('btnDownload') != null) {
+            document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
+        }
     }
 
     exports.utils = utils;

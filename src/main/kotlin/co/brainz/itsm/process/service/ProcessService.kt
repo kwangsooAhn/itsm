@@ -80,6 +80,13 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         return restTemplate.update(url, wfProcessElementDto)
     }
 
+    fun saveAsProcess(wfProcessElementDto: WfProcessElementDto): String {
+        println(">>>>OK")
+        println(wfProcessElementDto)
+        println("==============")
+        return ""
+    }
+
     /**
      * 프로세스 1건 데이터 삭제.
      */
