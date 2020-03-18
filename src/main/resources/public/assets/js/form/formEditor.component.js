@@ -489,7 +489,7 @@
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        dateTimePicker.initDateTimePicker('datetime-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultTimeFormat, formEditor.userData.defaultLang); 
+        dateTimePicker.initDateTimePicker('datetime-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultTime, formEditor.userData.defaultLang);
     }
 
     /**
