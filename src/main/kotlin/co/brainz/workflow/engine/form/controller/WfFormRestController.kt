@@ -46,4 +46,9 @@ class WfFormRestController(private val wfEngine: WfEngine) {
         return wfEngine.form().deleteForm(formId)
     }
 
+    @PostMapping("/{formId}")
+    fun saveAsFormData(@RequestBody wfFormComponentSaveDto: WfFormComponentSaveDto, @PathVariable formId: String): WfFormDto {
+        return wfEngine.form().saveAsForm(wfFormComponentSaveDto)
+    }
+
 }

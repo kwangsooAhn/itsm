@@ -8,6 +8,8 @@ data class RestTemplateFormSaveDto(
         val formName: String,
         val formDesc: String? = null,
         val formStatus: String?,
+        val createUserKey: String? = null,
+        val createDt: LocalDateTime? = null,
         val updateUserKey: String? = null,
         var updateDt: LocalDateTime? = null
 ) : Serializable

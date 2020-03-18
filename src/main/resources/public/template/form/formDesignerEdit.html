@@ -30,20 +30,24 @@
 <div class="alice-form-container light-thema" id="form-designer">
     <div class="alice-form-toolbar">
         <span class="logo"></span>
-        <a href="javascript:void(0);" onclick="formEditor.save();">
+        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="formEditor.save();">
             <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
             <label th:text="#{common.btn.save}"></label>
         </a>
-        <a href="#">
+        <a th:if="${isView}" href="javascript:void(0);" onclick="formEditor.saveAs();">
+            <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
+            <label th:text="#{common.btn.saveAs}"></label>
+        </a>
+        <a th:if="${#strings.isEmpty(isView)}" href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/undo.png}"/>
             <label th:text="#{form.label.undo}"></label>
         </a>
-        <a href="#">
+        <a th:if="${#strings.isEmpty(isView)}" href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
             <label th:text="#{form.label.redo}"></label>
         </a>
         <span class="separator"></span>
-        <a href="#">
+        <a th:if="${#strings.isEmpty(isView)}" href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/import.png}"/>
             <label th:text="#{form.label.import}"></label>
         </a>
@@ -56,7 +60,7 @@
             <img th:src="@{/assets/media/icons/form/topmenu/preview.png}"/>
             <label th:text="#{form.label.preview}"></label>
         </a>
-        <a href="#">
+        <a th:if="${#strings.isEmpty(isView)}" href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/save_exit.png}"/>
             <label th:text="#{form.label.saveExist}"></label>
         </a>
