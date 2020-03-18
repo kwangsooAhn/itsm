@@ -30,7 +30,7 @@
         //신청서 작성 화면 오픈.
         function openDocumentEdit(documentId) {
             //TODO: 임시 size. 추후 변경 필요.
-            if(documentId !== undefined) {
+            if (documentId !== undefined) {
                 window.open('/documents/' + documentId + '/edit', '_blank', 'width=800, height=805');
             } else {
                 window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');
@@ -40,8 +40,9 @@
         //신청서 삭제 기능
         function deleteDocument(documentId) {
             restSubmit('DELETE', '/rest/documents/' + documentId, function(result) {
-                alert('[[#{common.msg.delete.success}]]');
-                location.reload();
+                alert('[[#{common.msg.delete.fail}]]');
+                // alert('[[#{common.msg.delete.success}]]');
+                // location.reload();
             });
         }
 

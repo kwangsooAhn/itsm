@@ -6,9 +6,7 @@ import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.service.WfFormService
-import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import org.springframework.stereotype.Service
 
 @Service
@@ -53,7 +51,6 @@ class WfDocumentService(private val wfFormService: WfFormService,
         return wfFormService.form(documentEntity.form.formId)
     }
 
-
     /**
      * Create Document.
      *
@@ -78,28 +75,10 @@ class WfDocumentService(private val wfFormService: WfFormService,
                 documentId = dataEntity.documentId,
                 documentName = dataEntity.documentName,
                 documentDesc = dataEntity.documentDesc,
-                // 상단 이슈 해결되고 나서 적용할 것
-                formId = "",
-                procId = "",
+                formId = dataEntity.form.formId,
+                procId = dataEntity.process.processId,
                 createDt = dataEntity.createDt,
                 createUserKey = dataEntity.createUserKey
         )
-    }
-
-    /**
-     * Delete Document.
-     *
-     * @param documentId
-     */
-    fun deleteDocument(documentId: String) {
-//        val documentEntity = wfDocumentRepository.findByDocumentId(documentId)
-//        if (documentEntity.documentStatus == RestTemplateConstants.DocumentStatus.PUBLISH.value
-//                || documentEntity.processStatus == WfProcessConstants.Status.DESTROY.code
-//        ) {
-//            return false
-//        } else {
-            wfDocumentRepository.removeWfDocumentEntityByDocumentId(documentId)
-//        }
-//        return true
     }
 }

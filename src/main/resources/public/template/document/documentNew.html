@@ -22,7 +22,7 @@
         <tr>
             <th th:text="#{document.label.description}">신청서  설명</th>
             <td>
-                <textarea id="document_desc" maxlength="128" tabindex="2" style="height:100px; width:100%"></textarea>
+                <textarea id="document_desc" maxlength="128" style="height:100px; width:100%"></textarea>
             </td>
         </tr>
         <tr>
@@ -57,19 +57,16 @@
 </body>
 <script th:src="@{/assets/js/util/validation-alice.js}"></script>
 <script type="text/javascript">
-    // 신청서 생성
     function createDocument() {
-        //빈 값 체크
         if (emptyValidation()) {
-        	var documentForm = document.getElementById('document_form');
-        	var documentProcess = document.getElementById('document_process');
+            let documentForm = document.getElementById('document_form');
+        	let documentProcess = document.getElementById('document_process');
             const documentInfo = {
                 documentName: document.getElementById('document_name').value,
                 documentDesc: document.getElementById('document_desc').value,
-                formId: documentForm .options[documentForm.selectedIndex].value,
-                procId: documentProcess .options[documentProcess.selectedIndex].value,
+                formId: documentForm.options[documentForm.selectedIndex].value,
+                procId: documentProcess.options[documentProcess.selectedIndex].value,
             };
-            //등록
             restSubmit('POST', '/rest/documents', documentInfo);
         }
     }
@@ -88,9 +85,8 @@
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(response) {
-                // opener.location.reload();
-                window.close();
                 opener.location.reload();
+                window.close();
             }
         };
         aliceJs.sendXhr(opt);

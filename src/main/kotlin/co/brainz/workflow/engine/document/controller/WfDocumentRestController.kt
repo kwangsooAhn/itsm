@@ -31,7 +31,6 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
         return wfEngine.document().document(documentId)
     }
 
-
     /**
      * 신청서 등록.
      *
@@ -40,14 +39,5 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
     @PostMapping("")
     fun createDocument(@RequestBody documentDto: WfDocumentDto): WfDocumentDto {
         return wfEngine.document().createDocument(documentDto)
-    }
-
-    /**
-     * 신청서 삭제.
-     */
-    @Transactional
-    @DeleteMapping("/{documentId}")
-    fun deleteDocument(@PathVariable documentId: String) {
-        return wfEngine.document().deleteDocument(documentId)
     }
 }

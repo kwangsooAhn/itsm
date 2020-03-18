@@ -46,8 +46,8 @@ class DocumentController(private val documentService: DocumentService) {
      */
     @GetMapping("/new")
     fun getDocumentNew(model: Model): String {
-        model.addAttribute("formList", documentService.findFormList())
-        model.addAttribute("processList", documentService.findProcessList())
+        model.addAttribute("formList", documentService.findFormList("status", ""))
+        model.addAttribute("processList", documentService.findProcessList("status"))
         return documentCreatePage
     }
 

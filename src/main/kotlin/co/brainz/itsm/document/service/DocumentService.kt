@@ -7,8 +7,6 @@ import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
-import co.brainz.workflow.provider.dto.RestTemplateFormViewDto
-import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -54,9 +52,9 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
      *
      * @return List<RestTemplateFormDto>
      */
-    fun findFormList(): List<RestTemplateFormDto> {
+    fun findFormList(key: String, keyValue: String?): List<RestTemplateFormDto> {
         var params = LinkedMultiValueMap<String, String>()
-        params.add("status", RestTemplateConstants.FormStatus.PUBLISH.value)
+        params.add(key, RestTemplateConstants.FormStatus.PUBLISH.value)
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORMS.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -65,6 +63,7 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
             form.createDt = form.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
             form.updateDt = form.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
         }
+        System.out.print("test :" + forms.size)
         return forms
     }
 
@@ -73,16 +72,16 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
      *
      * @return List<RestTemplateProcessDto>
      */
-    fun findProcessList(): List<WfProcessDto> { //WfJsonProcessDto ? ProcessDto?
+    fun findProcessList(key: String): List<WfProcessDto> {
         var params = LinkedMultiValueMap<String, String>()
         params.add("status", RestTemplateConstants.ProcessStatus.PUBLISH.value)
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url, parameters = params)
         val responseBody = restTemplate.get(url)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val processes: List<WfProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfProcessDto::class.java))
-        for (item in processes) {
-            item.createDt = item.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
-            item.updateDt = item.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
+        for (process in processes) {
+            process.createDt = process.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
+            process.updateDt = process.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
         }
         return processes
     }
@@ -90,9 +89,10 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     /**
      * 신청서 생성
      *
-     * @return documentDto
+     * @return RestTemplateDocumentDto
      */
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
+        // TODO (form_id, process_id) 조합 중복체크 : 해당 일감은 추후 진행합니다.
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
@@ -114,7 +114,7 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
      * @return Boolean
      */
     fun deleteDocument(documentId: String): Boolean {
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.DELETE_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
-        return restTemplate.delete(urlDto)
+        // TODO wfEngene에서 삭제 가능 여부 체크 : 해당 일감은 추후 진행합니다.
+        return false
     }
 }
