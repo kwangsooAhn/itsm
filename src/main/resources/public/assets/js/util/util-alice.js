@@ -476,11 +476,11 @@ aliceJs.getTimeStamp = function(format, day, time) {
     if (time !== undefined && time !== null && time !== '') {
         today.setHours(today.getHours() + Number(time));
     }
-    return format.replace(/YYYY/gi, parseZero(today.getFullYear(), 4))
-        .replace(/MM/gi, parseZero(today.getMonth() + 1, 2))
-        .replace(/DD/gi, parseZero(today.getDate(), 2))
-        .replace(/hh/gi, parseZero(today.getHours(), 2))
-        .replace(/mm/gi, parseZero(today.getMinutes(), 2));
+    return format.replace(/YYYY/gi, aliceJs.parseZero(today.getFullYear(), 4))
+        .replace(/MM/gi, aliceJs.parseZero(today.getMonth() + 1, 2))
+        .replace(/DD/gi, aliceJs.parseZero(today.getDate(), 2))
+        .replace(/hh/gi, aliceJs.parseZero(today.getHours(), 2))
+        .replace(/mm/gi, aliceJs.parseZero(today.getMinutes(), 2));
 };
 
 /**
@@ -490,7 +490,7 @@ aliceJs.getTimeStamp = function(format, day, time) {
  * @param {Number} digits 자릿수
  * @return {String} zero + num 변경된 날짜 시간 값
  */
-function parseZero(num, digits) {
+aliceJs.parseZero = function(num, digits) {
     let zero = '';
     num = num.toString();
     if (num.length < digits) {
@@ -499,4 +499,4 @@ function parseZero(num, digits) {
         }
     }
     return zero + num;
-}
+};
