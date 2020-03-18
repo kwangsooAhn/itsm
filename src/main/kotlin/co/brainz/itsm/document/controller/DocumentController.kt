@@ -42,7 +42,7 @@ class DocumentController(private val documentService: DocumentService) {
      * 신청서 생성 화면.
      *
      * @param documentId
-     * @return String
+     * @return model
      */
     @GetMapping("/new")
     fun getDocumentNew(model: Model): String {
