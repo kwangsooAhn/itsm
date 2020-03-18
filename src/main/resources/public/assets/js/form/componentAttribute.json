@@ -1529,7 +1529,7 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "Y", 
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 
