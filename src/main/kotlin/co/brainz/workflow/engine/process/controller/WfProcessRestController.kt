@@ -5,7 +5,6 @@ import co.brainz.workflow.engine.process.dto.ProcessDto
 import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/rest/wf/processes")

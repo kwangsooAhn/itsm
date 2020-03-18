@@ -4,7 +4,6 @@ import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import org.springframework.web.bind.annotation.*
-import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/rest/wf/documents")

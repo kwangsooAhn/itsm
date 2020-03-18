@@ -96,18 +96,6 @@ object RestTemplateConstants {
     }
 
     /**
-     * Document Status.
-     *
-     * @param value
-     */
-    enum class DocumentStatus(val value: String) {
-        EDIT("document.status.edit"),
-        SIMULATION("document.status.simu"),
-        PUBLISH("document.status.publish"),
-        DESTROY("document.status.destroy")
-    }
-
-    /**
      * Token Status.
      *
      * @param value
