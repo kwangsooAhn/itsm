@@ -31,12 +31,7 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      */
     fun selectProcessList(search: String): MutableList<WfProcessDto> {
         val processDtoList = mutableListOf<WfProcessDto>()
-        val processList = if (search.isEmpty()) {
-            wfProcessRepository.findByProcessList()
-        } else {
-            val word = "%$search%"
-            wfProcessRepository.findByProcessNameLikeOrProcessDescLike(word, word)
-        }
+        val processList = wfProcessRepository.findByProcessListOrProcessSearchList(search)
 
         processList.forEach {
             val enabled = when (it.processStatus) {
