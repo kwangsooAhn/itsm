@@ -234,7 +234,7 @@
 
         changeElementType(element, type);
         d3.select('g.alice-tooltip').remove();
-        setElementMenu(element)
+        setElementMenu(element);
         console.debug('edited element [%s]!!', type);
     }
 
@@ -454,18 +454,25 @@
 
         if (elem.classed('event')) {
             const elementId = elem.node().id;
-            let isConnected = false;
+            let isSourceConnected = false,
+                isTargetConnected = false;
             let connectors = AliceProcessEditor.data.elements.filter(function(e) { return e.type === 'arrowConnector'; });
             connectors.forEach(function(c) {
-                if (c.data['start-id'] === elementId || c.data['end-id'] === elementId) {
-                    isConnected = true;
+                if (c.data['start-id'] === elementId) {
+                    isSourceConnected = true;
+                }
+                if (c.data['end-id'] === elementId) {
+                    isTargetConnected = true;
                 }
             });
-            if (isConnected) {
+            if (isSourceConnected || isTargetConnected) {
                 if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
                     elementTypeItems = elementTypeItems.filter(function(item) { return item.type === 'commonEnd' || item.type === 'messageEnd'; });
                 } else {
                     elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonEnd' && item.type !== 'messageEnd'; });
+                    if (isTargetConnected) {
+                        elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonStart'; });
+                    }
                 }
             }
         }
