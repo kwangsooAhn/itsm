@@ -82,6 +82,7 @@
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(response) {
+                opener.location.reload();
                 window.close();
 
                 const _width = 1500,
@@ -92,7 +93,7 @@
 
                 let specs = 'left=' + _left + ',top=' + _top;
                 specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                window.open('/processes/' + JSON.parse(response.responseText).processId + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
+                window.open('/processes/' + response.responseText + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
             }
         };
         aliceJs.sendXhr(opt);
