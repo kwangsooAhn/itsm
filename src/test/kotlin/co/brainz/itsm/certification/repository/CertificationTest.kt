@@ -29,7 +29,7 @@ import java.util.TimeZone
 @RunWith(SpringRunner::class)
 @SpringBootTest(properties = ["classpath:application.properties"])
 class CertificationTest {
-/
+
     @Autowired
     lateinit var aliceCertificationService: AliceCertificationService
     lateinit var mvc: MockMvc
