@@ -4,10 +4,12 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class WfFormSaveDto(
-        val formId: String,
+        var formId: String,
         val formName: String,
         val formDesc: String? = null,
         val formStatus: String?,
+        val createDt: LocalDateTime? = null,
+        val createUserKey: String? = null,
         val updateUserKey: String? = null,
         var updateDt: LocalDateTime? = null
 ) : Serializable

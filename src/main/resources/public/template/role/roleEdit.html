@@ -213,17 +213,17 @@
             if (isEmpty('txtRoleName', 'role.msg.nameNotExist')) return;
 
             //저장 데이터 수집
-            var obj = new Object();
+            var obj = {};
             obj.roleId = document.getElementById('txtRoleId').value;    //역할 아이디
             obj.roleName = document.getElementById('txtRoleName').value;//역할 명
             obj.roleDesc= document.getElementById('txtRoleDesc').value; //역할 설명
-            var arrAuthId = new Array();                                //역할 권한
+            var arrAuthId = [];                                         //역할 권한
             Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]:checked'), function(item) {
                 arrAuthId.push(item.id);
             });
 
             if (arrAuthId.length === 0) {
-                alert([[#{role.msg.authNotExist}]]);
+                aliceJs.alert([[#{role.msg.authNotExist}]]);
                 return;
             }
 
@@ -241,8 +241,9 @@
                 params: roleJson,
                 contentType: 'application/json',
                 callbackFunc: function () {
-                    alert([[#{common.msg.save}]]);
-                    window.location.href ='/roles/edit';
+                    aliceJs.alert([[#{common.msg.save}]], function() {
+                        window.location.href ='/roles/edit';
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
@@ -256,14 +257,15 @@
                     callbackFunc: function(response) {
                         switch (response.responseText) {
                             case "true":
-                                alert([[#{common.msg.delete.success}]]);
-                                window.location.href ='/roles/edit';
+                                aliceJs.alert([[#{common.msg.delete.success}]], function() {
+                                    window.location.href ='/roles/edit';
+                                });
                                 break;
                             case "false":
-                                alert([[#{common.msg.delete.fail}]]);
+                                aliceJs.alert([[#{common.msg.delete.fail}]]);
                                 break;
                             default :
-                                alert([[#{common.msg.save.fail}]]);
+                                aliceJs.alert([[#{common.msg.save.fail}]]);
                                 break;
                         }
                     }

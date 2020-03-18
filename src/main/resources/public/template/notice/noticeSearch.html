@@ -47,7 +47,7 @@
             if (isEmpty('toDt', 'notice.msg.toDtNotExist')) return false;
             if (changeDateFormatYYYYMMDD(document.getElementById('fromDt').value, formatArray[0]) >
                     changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])) {
-                alert('검색 시작 날짜가 종료 날짜보다 큽니다.');
+                aliceJs.alert('검색 시작 날짜가 종료 날짜보다 큽니다.');
                 return false;
             }
             return true;

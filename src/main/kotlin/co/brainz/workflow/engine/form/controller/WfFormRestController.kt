@@ -4,7 +4,14 @@ import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.form.dto.WfFormComponentSaveDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import javax.transaction.Transactional
 
 @RestController
@@ -36,5 +43,10 @@ class WfFormRestController(private val wfEngine: WfEngine) {
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String) {
         return wfEngine.form().deleteForm(formId)
+    }
+
+    @PostMapping("/{formId}")
+    fun saveAsFormData(@RequestBody wfFormComponentSaveDto: WfFormComponentSaveDto, @PathVariable formId: String): WfFormDto {
+        return wfEngine.form().saveAsForm(wfFormComponentSaveDto)
     }
 }

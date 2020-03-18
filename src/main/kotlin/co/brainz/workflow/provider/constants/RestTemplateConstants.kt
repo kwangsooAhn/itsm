@@ -13,6 +13,7 @@ object RestTemplateConstants {
         GET_FORM("/rest/wf/forms/{formId}", "GET"),
         POST_FORM("/rest/wf/forms", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
+        POST_FORM_SAVE_AS("/rest/wf/forms/{formId}", "POST"),
         DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
     }
 
@@ -80,7 +81,7 @@ object RestTemplateConstants {
         EDIT("form.status.edit"),
         SIMULATION("form.status.simu"),
         PUBLISH("form.status.publish"),
-        DESTROY("destroy")
+        DESTROY("form.status.destroy")
     }
 
     /**
@@ -92,7 +93,7 @@ object RestTemplateConstants {
         EDIT("process.status.edit"),
         SIMULATION("process.status.simu"),
         PUBLISH("process.status.publish"),
-        DESTROY("destroy")
+        DESTROY("process.status.destroy")
     }
 
     /**

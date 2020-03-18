@@ -41,8 +41,9 @@
         //폼 삭제
         function deleteForm(formId) {
             restSubmit('DELETE', '/rest/forms/' + formId, function() {
-                alert('[[#{common.msg.delete.success}]]');
-                location.reload();
+                aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
+                    location.reload();
+                });
             });
         }
     
@@ -62,6 +63,18 @@
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
             window.open('/forms/' + formId + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
+        }
+
+        function openFormDesignerView(formId) {
+            const _width = 1500,
+                  _height = 920;
+            //중앙 배치
+            const _left = Math.ceil((window.screen.width - _width) / 2);
+            const _top = Math.ceil((window.screen.height - _height) / 4);
+
+            let specs = 'left=' + _left + ',top=' + _top;
+            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+            window.open('/forms/' + formId + '/view', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
     
         //REST API
