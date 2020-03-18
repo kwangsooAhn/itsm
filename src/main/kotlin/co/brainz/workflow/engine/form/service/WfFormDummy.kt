@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.form.service
 
 import co.brainz.workflow.engine.form.constants.WfFormConstants
+import co.brainz.workflow.engine.form.dto.WfFormComponentDataDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentSaveDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
@@ -78,5 +79,7 @@ class WfFormDummy: WfForm {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-
+    override fun getFormComponentData(componentType: String, attributeId: String): List<WfFormComponentDataDto> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

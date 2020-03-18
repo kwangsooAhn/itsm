@@ -34,17 +34,20 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
      */
     @GetMapping("/list")
     fun getCustomCodeList(model: Model): String {
-        model.addAttribute("customCodeList", customCodeService.getCustomCodes())
+        model.addAttribute("customCodeList", customCodeService.getCustomCodeList())
         return customCodeListPage
     }
 
     /**
      * 사용자 정의 코드 신규 등록 화면.
      *
+     * @param model
      * @return String
      */
     @GetMapping("/new")
-    fun getCustomCodeNew(): String {
+    fun getCustomCodeNew(model: Model): String {
+        model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
+        model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
         return customCodeEditPage
     }
 
@@ -71,6 +74,8 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
     @GetMapping("/{customCodeId}/edit")
     fun getCustomCodeEdit(@PathVariable customCodeId: String, model: Model): String {
         model.addAttribute("customCode", customCodeService.getCustomCode(customCodeId))
+        model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
+        model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
         return customCodeEditPage
     }
 }

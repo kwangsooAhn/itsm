@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.form.controller
 
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.engine.form.dto.WfFormComponentDataDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentSaveDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
@@ -46,4 +47,8 @@ class WfFormRestController(private val wfEngine: WfEngine) {
         return wfEngine.form().deleteForm(formId)
     }
 
+    @GetMapping("/components/{componentType}/data")
+    fun getFormComponentData(@PathVariable componentType: String, request: HttpServletRequest): List<WfFormComponentDataDto> {
+        return wfEngine.form().getFormComponentData(componentType, request.getParameter("attributeId") ?: "")
+    }
 }

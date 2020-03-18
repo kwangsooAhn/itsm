@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.form.service
 
+import co.brainz.workflow.engine.form.dto.WfFormComponentDataDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentSaveDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
@@ -43,4 +44,12 @@ interface WfForm {
      */
     fun saveForm(wfFormComponentSaveDto: WfFormComponentSaveDto)
 
+    /**
+     * Get Component Data.
+     *
+     * @param componentType
+     * @param attributeId
+     * @return List<WfFormComponentDataDto>
+     */
+    fun getFormComponentData(componentType: String, attributeId: String): List<WfFormComponentDataDto>
 }

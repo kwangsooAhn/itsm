@@ -23,8 +23,8 @@ data class CustomCodeEntity(
         @Column(name = "target_table")
         var targetTable: String = "",
 
-        @Column(name = "key_column")
-        var keyColumn: String = "",
+        @Column(name = "search_column")
+        var searchColumn: String = "",
 
         @Column(name = "value_column")
         var valueColumn: String = ""

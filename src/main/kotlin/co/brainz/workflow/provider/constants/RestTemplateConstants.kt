@@ -13,7 +13,8 @@ object RestTemplateConstants {
         GET_FORM("/rest/wf/forms/{formId}", "GET"),
         POST_FORM("/rest/wf/forms", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
-        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
+        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE"),
+        GET_FORM_COMPONENT_DATA("/rest/wf/forms/components/{componentType}/data", "GET")
     }
 
     /**

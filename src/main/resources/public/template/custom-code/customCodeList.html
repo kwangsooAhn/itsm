@@ -42,7 +42,7 @@
             <tr th:each="customCode: ${customCodeList}">
                 <td><a th:text="${customCode.customCodeName}"
                        th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a></td>
-                <td th:text="${customCode.targetTable}"></td>
+                <td th:text="|${customCode.targetTableName}(${customCode.targetTable})|"></td>
                 <td th:text="${customCode.createUserName}"></td>
                 <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}"
                     th:with="dateformat=${#authentication.details.timeFormat}"

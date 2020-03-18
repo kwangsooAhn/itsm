@@ -21,14 +21,15 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      * @return List<CustomCodeDto>
      */
     @GetMapping("")
-    fun getCustomCode(): List<CustomCodeDto> {
-        return customCodeService.getCustomCodes()
+    fun getCustomCodeList(): List<CustomCodeDto> {
+        return customCodeService.getCustomCodeList()
     }
 
     /**
      * 사용자 정의 코드 등록.
      *
      * @param customCodeDto
+     * @return String
      */
     @PostMapping("")
     fun createCustomCode(@RequestBody customCodeDto: CustomCodeDto): String {
@@ -39,6 +40,7 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      * 사용자 정의 코드 수정.
      *
      * @param customCodeDto
+     * @return String
      */
     @PutMapping("")
     fun updateCustomCode(@RequestBody customCodeDto: CustomCodeDto): String {

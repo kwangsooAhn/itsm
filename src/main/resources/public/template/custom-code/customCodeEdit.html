@@ -19,8 +19,9 @@
             border: 1px solid;
             height: 50px;
         }
-        table input {
+        table input, select {
             width: 100%;
+            height: 24px;
         }
     </style>
 </head>
@@ -44,18 +45,23 @@
                 </tr>
                 <tr>
                     <td><label th:text="#{custom.code.label.targetTable}"></label><span class="required"></span></td>
-                    <td><input type="text" id="target_table" required="required" maxlength="100"
-                               th:value="${customCode?.targetTable}"></td>
+                    <td>
+                        <select id="target_table">
+                            <option th:each="customCodeTable: ${customCodeTableList}"
+                                    th:value="${customCodeTable.customCodeTable}"
+                                    th:text="|${customCodeTable.customCodeTableName}(${customCodeTable.customCodeTable})|"
+                                    th:selected="${customCodeTable.customCodeTable} == ${customCode?.targetTable}">
+                            </option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{custom.code.label.keyColumn}"></label><span class="required"></span></td>
-                    <td><input type="text" id="key_column" required="required" maxlength="100"
-                               th:value="${customCode?.keyColumn}"></td>
+                    <td><label th:text="#{custom.code.label.searchColumn}"></label><span class="required"></span></td>
+                    <td><select id="search_column"></select></td>
                 </tr>
                 <tr>
                     <td><label th:text="#{custom.code.label.valueColumn}"></label><span class="required"></span></td>
-                    <td><input type="text" id="value_column" required="required" maxlength="100"
-                               th:value="${customCode?.valueColumn}"></td>
+                    <td><select id="value_column"></select></td>
                 </tr>
             </tbody>
         </table>
@@ -72,41 +78,74 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
-    <script type="text/javascript">
+    <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
+        //상태값
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION = '1';
-        const STATUS_ERROR_TARGET_TABLE_NOT_EXIST = '2';
-        const STATUS_ERROR_KEY_COLUMN_NOT_EXIST = '3';
-        const STATUS_ERROR_VALUE_COLUMN_NOT_EXIST = '4';
 
-        //Blank Remove
-        function blankRemove(elements) {
-            for (let i = 0; i < elements.length; i++) {
-                document.getElementById(elements[i]).value = document.getElementById(elements[i]).value.trim();
+        window.onload = function() {
+            const targetTable = document.getElementById('target_table');
+            initSelectBox(targetTable.value);
+            targetTable.addEventListener('change', function () {
+                initSelectBox(this.value);
+            });
+        };
+
+        //select box 초기화
+        function initSelectBox(value) {
+            const searchColumn = document.getElementById('search_column');
+            const valueColumn = document.getElementById('value_column');
+
+            //remove Child
+            while (searchColumn.hasChildNodes()) { searchColumn.removeChild(searchColumn.firstChild); }
+            while (valueColumn.hasChildNodes()) { valueColumn.removeChild(valueColumn.firstChild); }
+
+            const customCodeColumnList = /*[[${customCodeColumnList}]]*/'';
+            const searchColumnValue = /*[[${customCode?.searchColumn}]]*/'';
+            const valueColumnValue = /*[[${customCode?.valueColumn}]]*/'';
+
+            for (let i = 0; i < customCodeColumnList.length; i++) {
+                const customCodeColumn = customCodeColumnList[i];
+                if (customCodeColumn.customCodeTable === value) {
+                    let option = document.createElement('option');
+                    option.value = customCodeColumn.customCodeColumn;
+                    option.text = customCodeColumn.customCodeColumnName + '(' + customCodeColumn.customCodeColumn + ')';
+                    switch (customCodeColumn.customCodeType) {
+                        case "search":
+                            option.selected = (searchColumnValue === customCodeColumn.customCodeColumn);
+                            searchColumn.append(option);
+                            break;
+                        case "value":
+                            option.selected = (valueColumnValue === customCodeColumn.customCodeColumn);
+                            valueColumn.append(option);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
 
-        //Empty Check
+        //empty Check
         function emptyCheck() {
             if (isEmpty('custom_code_name', 'custom.code.msg.inputCustomCodeName')) { return false; }
             if (isEmpty('target_table', 'custom.code.msg.inputTableTarget')) { return false; }
-            if (isEmpty('key_column', 'custom.code.msg.inputKeyColumn')) { return false; }
+            if (isEmpty('search_column', 'custom.code.msg.inputSearchColumn')) { return false; }
             return !isEmpty('value_column', 'custom.code.msg.inputValueColumn');
         }
 
-        //Insert/Update Custom Code
+        //insert/update Custom Code
         function saveCustomCode(method) {
-            blankRemove(['custom_code_name', 'target_table', 'key_column', 'value_column']);
             if (emptyCheck()) {
                 const data = {
                     customCodeName: document.getElementById('custom_code_name').value,
                     targetTable: document.getElementById('target_table').value,
-                    keyColumn: document.getElementById('key_column').value,
+                    searchColumn: document.getElementById('search_column').value,
                     valueColumn: document.getElementById('value_column').value,
                 };
                 if (method === 'put') {
-                    data.customCodeId = '[[${customCode?.customCodeId}]]';
+                    data.customCodeId = /*[[${customCode?.customCodeId}]]*/'';
                 }
                 restSubmit(method, '/rest/custom-codes', data);
             }
@@ -122,23 +161,14 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            alert('[[#{common.msg.save}]]');
+                            alert(/*[[#{common.msg.save}]]*/'');
                             location.href = '/custom-codes/search';
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                            alert('[[#{custom.code.msg.customCodeNameDuplication}]]');
-                            break;
-                        case STATUS_ERROR_TARGET_TABLE_NOT_EXIST:
-                            alert('[[#{custom.code.msg.tableTargetNotExist}]]');
-                            break;
-                        case STATUS_ERROR_KEY_COLUMN_NOT_EXIST:
-                            alert('[[#{custom.code.msg.keyColumnNotExist}]]');
-                            break;
-                        case STATUS_ERROR_VALUE_COLUMN_NOT_EXIST:
-                            alert('[[#{custom.code.msg.valueColumnNotExist}]]');
+                            alert(/*[[#{custom.code.msg.customCodeNameDuplication}]]*/'');
                             break;
                         default :
-                            alert('[[#{common.msg.save.fail}]]');
+                            alert(/*[[#{common.msg.save.fail}]]*/'');
                             break;
                     }
                 }
