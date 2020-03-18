@@ -33,6 +33,7 @@
      */
     function saveForm() {
         data = JSON.parse(JSON.stringify(formEditor.data));
+
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) { 
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent); 
@@ -938,13 +939,17 @@
         let mergeAttr = component.getData(compData.type);
         mergeAttr.id = compData.id;
         mergeAttr.type = compData.type;
-        
+
         Object.keys(compData).forEach(function(comp) {
             if (compData[comp] !== null && typeof(compData[comp]) === 'object' && compData.hasOwnProperty(comp))  {
                 Object.keys(compData[comp]).forEach(function(attr) {
                     Object.keys(mergeAttr[comp]).forEach(function(d) {
                         if (attr === d) {
-                        	mergeAttr[comp][d] = compData[comp][attr];
+                            if (typeof(mergeAttr[comp][d]) === 'object') {
+                                mergeAttr[comp] = compData[comp];
+                            } else {
+                                mergeAttr[comp][d] = compData[comp][attr];
+                            }
                         }
                     });
                 });
@@ -963,7 +968,6 @@
     function drawForm(data) {
         console.debug(JSON.parse(data));
         formEditor.data = JSON.parse(data);
-        
         if (formEditor.data.components.length > 0 ) {
             formEditor.data.components.sort(function (a, b) { //컴포넌트 재정렬
                 return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;  
