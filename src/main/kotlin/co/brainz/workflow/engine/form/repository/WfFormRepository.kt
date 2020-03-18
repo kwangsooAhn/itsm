@@ -16,6 +16,6 @@ interface WfFormRepository: JpaRepository<WfFormEntity, String>, WfFormRepositor
             "WHEN m.formStatus = 'form.status.edit' THEN 1 " +
             "WHEN m.formStatus = 'form.status.publish' THEN 2 " +
             "WHEN m.formStatus = 'form.status.destroy' THEN 3 " +
-            "END, m.createDt DESC")
+            "END, COALESCE(m.updateDt, m.createDt) DESC")
     fun findByFormList() : List<WfFormEntity>
 }

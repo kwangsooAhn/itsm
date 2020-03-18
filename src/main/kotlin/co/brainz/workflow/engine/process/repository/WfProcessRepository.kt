@@ -16,6 +16,6 @@ interface WfProcessRepository : JpaRepository<WfProcessEntity, String> {
             "WHEN m.processStatus = 'process.status.edit' THEN 1 " +
             "WHEN m.processStatus = 'process.status.publish' THEN 2 " +
             "WHEN m.processStatus = 'process.status.destroy' THEN 3 " +
-            "END, m.createDt DESC")
+            "END, COALESCE(m.updateDt, m.createDt) DESC")
     fun findByProcessList(): List<WfProcessEntity>
 }
