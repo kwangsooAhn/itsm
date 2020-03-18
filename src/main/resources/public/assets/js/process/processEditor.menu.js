@@ -234,7 +234,7 @@
 
         changeElementType(element, type);
         d3.select('g.alice-tooltip').remove();
-        setElementMenu(element)
+        setElementMenu(element);
         console.debug('edited element [%s]!!', type);
     }
 
@@ -454,18 +454,25 @@
 
         if (elem.classed('event')) {
             const elementId = elem.node().id;
-            let isConnected = false;
+            let isSourceConnected = false,
+                isTargetConnected = false;
             let connectors = AliceProcessEditor.data.elements.filter(function(e) { return e.type === 'arrowConnector'; });
             connectors.forEach(function(c) {
-                if (c.data['start-id'] === elementId || c.data['end-id'] === elementId) {
-                    isConnected = true;
+                if (c.data['start-id'] === elementId) {
+                    isSourceConnected = true;
+                }
+                if (c.data['end-id'] === elementId) {
+                    isTargetConnected = true;
                 }
             });
-            if (isConnected) {
+            if (isSourceConnected || isTargetConnected) {
                 if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
                     elementTypeItems = elementTypeItems.filter(function(item) { return item.type === 'commonEnd' || item.type === 'messageEnd'; });
                 } else {
                     elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonEnd' && item.type !== 'messageEnd'; });
+                    if (isTargetConnected) {
+                        elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonStart'; });
+                    }
                 }
             }
         }
@@ -496,20 +503,40 @@
         elements.forEach(function(e, i) {
             if (elementId === e.id) { elements.splice(i, 1); }
         });
-        d3.select(elem.node().parentNode).remove();
 
-        // Also delete the connector connected to the target element.
+        let links = AliceProcessEditor.elements.links;
         if (!elem.classed('connector')) {
+            // delete the connector connected to the target element.
+            let nodes = AliceProcessEditor.elements.nodes;
             for (let i = elements.length - 1; i >= 0; i--) {
                 if (elements[i].type === 'arrowConnector') {
-                    let connectorNode = document.getElementById(elements[i].id);
-                    if (connectorNode) {
-                        const data = connectorNode.__data__;
-                        if (data.source.node().id === elementId || data.target.node().id === elementId) {
-                            elements.splice(i, 1);
-                            d3.select(connectorNode.parentNode).remove();
+                    if (elements[i].data['start-id'] === elementId || elements[i].data['end-id'] === elementId) {
+                        for (let j = 0, len = links.length; j < len; j++) {
+                            if (elements[i].id === links[j].id) {
+                                links.splice(j, 1);
+                                AliceProcessEditor.setConnectors(true);
+                                break;
+                            }
                         }
+                        elements.splice(i, 1);
                     }
+                }
+            }
+            // delete node.
+            for (let i = 0, len = nodes.length; i < len; i++) {
+                if (nodes[i].node().id === elementId) {
+                    nodes.splice(i, 1);
+                    d3.select(elem.node().parentNode).remove();
+                    break;
+                }
+            }
+        } else {
+            // delete connector.
+            for (let i = 0, len = links.length; i < len; i++) {
+                if (links[i].id === elementId) {
+                    links.splice(i, 1);
+                    AliceProcessEditor.setConnectors(true);
+                    break;
                 }
             }
         }
