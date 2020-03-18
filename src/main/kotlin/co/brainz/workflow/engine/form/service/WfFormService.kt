@@ -32,7 +32,14 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     override fun forms(search: String): List<WfFormDto> {
         //val formEntityList = formRepository.findFormEntityList(search, search)
-        val formEntityList = wfFormRepository.findWfFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(search, search)
+        var formEntityList: List<WfFormEntity>? = null
+
+        if (search.isEmpty()) {
+            formEntityList = wfFormRepository.findByFormList()
+        } else {
+            formEntityList = wfFormRepository.findWfFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(search, search)
+        }
+
         val formList = mutableListOf<WfFormDto>()
         for (item in formEntityList) {
             formList.add(formEntityToDto(item))
