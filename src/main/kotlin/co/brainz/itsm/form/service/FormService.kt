@@ -71,6 +71,9 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun saveAsForm(formData: String): String {
         val formComponentSaveDto = makeFormComponentSaveDto(formData);
+        if (formComponentSaveDto.form.formStatus == RestTemplateConstants.FormStatus.DESTROY.value) {
+            formComponentSaveDto.form.formStatus = RestTemplateConstants.FormStatus.EDIT.value
+        }
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
         val responseBody = restTemplate.createToSave(urlDto, formComponentSaveDto)
         return when (responseBody.isNotEmpty()) {
