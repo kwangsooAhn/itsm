@@ -458,3 +458,45 @@ aliceJs.confirm = function(message, callbackFunc) {
         }
     );
 };
+
+/**
+ * 현재 시간을 format 형식에 따라 반환.
+ * @param {String} format format
+ * @param {String} day 날짜 간격(3 = 현재 날짜의 3일 후, -3 = 현재 날짜의 3일전을 의미)
+ * @param {String} time 시간 간격(3 = 현재 시간 기준 3시간 후, -3 = 현재 시간기준 3시간 전을 의미)
+ * @return {String} format 변경된 시간
+ */
+//TODO: datepicker 라이브러리 사용과 동일한 형식으로 12시, 24시일 경우 출력되도록 수정 필요.
+aliceJs.getTimeStamp = function(format, day, time) {
+    const today = new Date();
+
+    if (day !== undefined && day !== null && day !== '') {
+        today.setDate(today.getDate() + Number(day));
+    }
+    if (time !== undefined && time !== null && time !== '') {
+        today.setHours(today.getHours() + Number(time));
+    }
+    return format.replace(/YYYY/gi, parseZero(today.getFullYear(), 4))
+        .replace(/MM/gi, parseZero(today.getMonth() + 1, 2))
+        .replace(/DD/gi, parseZero(today.getDate(), 2))
+        .replace(/hh/gi, parseZero(today.getHours(), 2))
+        .replace(/mm/gi, parseZero(today.getMinutes(), 2));
+};
+
+/**
+ * 시분초에 length가 변경될 경우 0 붙이는 함수이다.
+ * 예를 들어 1월은 01월 3시 일경우 03시등으로 변경하기 위해 사용한다.
+ * @param {Number} num 날짜, 시간 값
+ * @param {Number} digits 자릿수
+ * @return {String} zero + num 변경된 날짜 시간 값
+ */
+function parseZero(num, digits) {
+    let zero = '';
+    num = num.toString();
+    if (num.length < digits) {
+        for (let i = 0; i < (digits - num.length); i++) {
+            zero += '0';
+        }
+    }
+    return zero + num;
+}
