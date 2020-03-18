@@ -7,35 +7,16 @@
 
     let documentContainer = null;
     const defaultColWidth = 8.33; //폼 패널을 12등분하였을때, 1개의 너비
+    let userData = {              //사용자 세션 정보
+        defaultLang: 'en',
+        defaultDateFormat: 'YYYY-MM-DD',
+        defaultTimeFormat: 'hh:mm',
+        defaultTime: '24'
+    };
 
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-
-    /**
-     * 현재 시간 format 형식에 따라 반환.
-     *
-     * @param format format
-     */
-    //TODO: 임시 메소드. 추후 수정 필요.
-    function getTimeStamp(format) {
-        const today = new Date();
-        return format.replace(/yyyy/gi, parseZero(today.getFullYear(), 4))
-            .replace(/MM/gi, parseZero(today.getMonth() + 1, 2))
-            .replace(/dd/gi, parseZero(today.getDate(), 2))
-            .replace(/HH/gi, parseZero(today.getHours(), 2))
-            .replace(/mm/gi, parseZero(today.getMinutes(), 2));
-    }
-
-    function parseZero(n, digits) {
-        let zero = '';
-        n = n.toString();
-        if (n.length < digits) {
-            for (let i = 0; i < (digits - n.length); i++)
-                zero += '0';
-        }
-        return zero + n;
-    }
 
     /**
      * alert message.
@@ -44,8 +25,9 @@
      * @param msg 메시지
      */
     function alertMsg(element, msg) {
-        alert(msg);
-        setTimeout(function() { element.focus(); }, 10);
+        aliceJs.alert(msg, function() {
+            element.focus();
+        });
     }
 
     /**
@@ -158,6 +140,16 @@
                 const textEle = document.createElement('input');
                 textEle.type = 'text';
                 textEle.placeholder = displayData.placeholder;
+                if (displayData['default']) {
+                    let defaultTextValueArr = displayData['default'].split('|');
+                    let defaultTextValue = '';
+                    if (defaultTextValueArr[0] === 'none') {
+                        defaultTextValue = defaultTextValueArr[1];
+                    } else {
+                        defaultTextValue = userData[defaultTextValueArr[0]];
+                    }
+                    textEle.value = defaultTextValue;
+                }
                 textEle.style.outlineWidth = displayData['outline-width'] + 'px';
                 textEle.style.outlineColor = displayData['outline-color'];
                 textEle.minLength = validateData['length-min'];
@@ -280,15 +272,21 @@
                 fieldLastEle.appendChild(lineEle);
                 break;
             case 'date':
-                let dateDefault = displayData.default;
-                if (dateDefault === 'today') {
-                    dateDefault = getTimeStamp(displayData.format);
+                let dateDefaultArr = displayData.default.split('|');
+                let dateDefault = '';
+                if (dateDefaultArr[0] === 'now') {
+                    dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat);
+                    dateDefault = dateDefault.split(' ')[0];
+                } else if (dateDefaultArr[0] === 'datepicker') {
+                    dateDefault = dateDefaultArr[1];
+                } else if (dateDefaultArr[0] === 'date') {
+                    dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat, dateDefaultArr[1]);
                     dateDefault = dateDefault.split(' ')[0];
                 }
                 const dateEle = document.createElement('input');
                 dateEle.id = 'date-' + compData.id;
                 dateEle.type = 'text';
-                dateEle.placeholder = displayData.format;
+                dateEle.placeholder = userData.defaultDateFormat;
                 dateEle.value = dateDefault;
                 dateEle.required = (validateData.required === 'Y');
                 dateEle.readOnly = true;
@@ -296,33 +294,43 @@
                     validateCheck(this, validateData);
                 });
                 fieldLastEle.appendChild(dateEle);
-                dateTimePicker.initDatePicker('date-' + compData.id, displayData.format.toUpperCase());
+                dateTimePicker.initDatePicker('date-' + compData.id, userData.defaultDateFormat, userData.defaultLang);
                 break;
             case 'time':
-                let timeDefault = displayData.default;
-                if (timeDefault === 'now') {
-                    timeDefault = getTimeStamp(displayData.format);
-                    timeDefault = timeDefault.split(' ')[1];
+                let timeDefaultArr = displayData.default.split('|');
+                let timeDefault = '';
+                if (timeDefaultArr[0] === 'now') {
+                    timeDefault = aliceJs.getTimeStamp(userData.defaultTimeFormat);
+                } else if (timeDefaultArr[0] === 'timepicker') {
+                    timeDefault = timeDefaultArr[1];
+                } else if (timeDefaultArr[0] === 'time') {
+                    timeDefault = aliceJs.getTimeStamp(userData.defaultTimeFormat, '', timeDefaultArr[1]);
                 }
                 const timeEle = document.createElement('input');
                 timeEle.id = 'time-' + compData.id;
                 timeEle.type = 'text';
-                timeEle.placeholder = displayData.format;
+                timeEle.placeholder = userData.defaultTimeFormat;
                 timeEle.value = timeDefault;
                 timeEle.required = (validateData.required === 'Y');
                 timeEle.readOnly = true;
                 fieldLastEle.appendChild(timeEle);
-                dateTimePicker.initTimePicker('time-' + compData.id);
+                dateTimePicker.initTimePicker('time-' + compData.id, userData.defaultTime);
                 break;
             case 'datetime':
-                let datetimeDefault = displayData.default;
-                if (datetimeDefault === 'now') {
-                    datetimeDefault = getTimeStamp(displayData.format);
+                let datetimeDefaultArr = displayData.default.split('|');
+                let datetimeDefault = '';
+                if (datetimeDefaultArr[0] === 'now') {
+                    datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat);
+                } else if (datetimeDefaultArr[0] === 'datetimepicker') {
+                    datetimeDefault = datetimeDefault[1];
+                } else if (datetimeDefaultArr[0] === 'datetime') {
+                    datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
                 }
+
                 const datetimeEle = document.createElement('input');
                 datetimeEle.id = 'datetime-' + compData.id;
                 datetimeEle.type = 'text';
-                datetimeEle.placeholder = displayData.format;
+                datetimeEle.placeholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat;
                 datetimeEle.value = datetimeDefault;
                 datetimeEle.required = (validateData.required === 'Y');
                 datetimeEle.readOnly = true;
@@ -330,7 +338,7 @@
                     validateCheck(this, validateData);
                 });
                 fieldLastEle.appendChild(datetimeEle);
-                dateTimePicker.initDateTimePicker('datetime-' + compData.id, displayData.format.toUpperCase());
+                dateTimePicker.initDateTimePicker('datetime-' + compData.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang);
                 break;
             case 'fileupload':
                 const fileEle = document.createElement('input');
@@ -419,101 +427,112 @@
      * save document.
      */
     function save(v_kind) {
-        if (!requiredCheck()) {
-            let documentObject = {};
-            let tokenObject = {};
-            let componentArrayList = [];
-            let actionArrayList = [];
-
-            //documentId 값을 구한다.
-            const documentElements = document.getElementById('documentId');
-            if (documentElements !== null && documentElements !== undefined) {
-                //documentObject.documentId = documentElements.getAttribute('data-id');
-                tokenObject.documentId = documentElements.getAttribute('data-id');
-            } else {
-                //documentObject.documentId = '';
-                tokenObject.documentId = "";
+        // validation check
+        if (v_kind == 'process') {
+            if (requiredCheck()) {
+                return false;
             }
-            //tokenObject.documentName = "";
+        }
 
-            //ComponentsInfo
-            const componentElements = documentContainer.getElementsByClassName('component');
-            for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
-                let componentDataType = componentElements[eIndex].getAttribute('data-type');
+        let documentObject = {};
+        let tokenObject = {};
+        let componentArrayList = [];
+        let actionArrayList = [];
 
-                if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
-                    componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox') {
-                    let componentId = componentElements[eIndex].getAttribute('id');
-                    let componentValue = '';
-                    let componentChildObject = {};
-                    let componentChild = '';
+        //documentId 값을 구한다.
+        const documentElements = document.getElementById('documentId');
+        if (documentElements !== null && documentElements !== undefined) {
+            //documentObject.documentId = documentElements.getAttribute('data-id');
+            tokenObject.documentId = documentElements.getAttribute('data-id');
+        } else {
+            //documentObject.documentId = '';
+            tokenObject.documentId = "";
+        }
+        //tokenObject.documentName = "";
 
-                    if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') {
+        //ComponentsInfo
+        const componentElements = documentContainer.getElementsByClassName('component');
+        for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
+            let componentDataType = componentElements[eIndex].getAttribute('data-type');
+
+            if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
+                componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox') {
+                let componentId = componentElements[eIndex].getAttribute('id');
+                let componentValue = '';
+                let componentChildObject = {};
+                let componentChild = '';
+
+                switch (componentDataType) {
+                    case 'text':
+                    case 'date':
+                    case 'time':
+                    case 'datetime':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         componentValue = componentChild.item(0).value;
-                    } else if (componentDataType === 'textarea') {
+                        break;
+                    case 'textarea':
                         componentChild = componentElements[eIndex].getElementsByTagName('textarea');
                         componentValue = componentChild.item(0).value;
-                    } else if (componentDataType === 'select') {
+                        break;
+                    case 'select':
                         componentChild = componentElements[eIndex].getElementsByTagName('select');
                         componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
-                    } else if (componentDataType === 'radio') {
+                        break;
+                    case 'radio':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
                             if (componentChild[radioIndex].checked) {
                                 componentValue = componentChild[radioIndex].value;
                             }
                         }
-                    } else if (componentDataType === 'checkbox') {
+                        break;
+                    case 'checkbox':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
                             if (componentChild[checkBoxIndex].checked) {
                                 if (checkBoxIndex === 0) {
                                     componentValue = componentChild[checkBoxIndex].value;
                                 } else {
-                                    componentValue = componentValue +','+componentChild[checkBoxIndex].value;
+                                    componentValue = componentValue + ',' + componentChild[checkBoxIndex].value;
                                 }
                             }
                         }
-                    } else if (componentDataType === 'fileupload') {
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        componentValue = componentChild.item(0).value;
-                    }
-
-                    componentChildObject.componentId = componentId;
-                    componentChildObject.value = componentValue;
-                    componentArrayList.push(componentChildObject);
+                        break;
                 }
-            }
 
-            //tokenObject를 초기화
-            const tokenElements = document.getElementById('tokenId');
-            if (tokenElements !== null && tokenElements !== undefined) {
-                tokenObject.tokenId = tokenElements.getAttribute('data-id');
-            } else {
-                tokenObject.tokenId = '';
+                componentChildObject.componentId = componentId;
+                componentChildObject.value = componentValue;
+                componentArrayList.push(componentChildObject);
             }
-            if (v_kind === 'save') {
-                tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
-            } else if (v_kind === 'process') {
-                tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
-            }
+        }
 
-            tokenObject.elementId = '';
-            if (componentArrayList.length > 0) {
-                tokenObject.data = componentArrayList;
-            } else {
-                tokenObject.data = '';
-            }
+        //tokenObject를 초기화
+        const tokenElements = document.getElementById('tokenId');
+        if (tokenElements !== null && tokenElements !== undefined) {
+            tokenObject.tokenId = tokenElements.getAttribute('data-id');
+        } else {
+            tokenObject.tokenId = '';
+        }
+        if (v_kind === 'save') {
+            tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
+        } else if (v_kind === 'process') {
+            tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
+        }
 
-            tokenObject.actions = actionArrayList;
+        tokenObject.elementId = '';
+        if (componentArrayList.length > 0) {
+            tokenObject.data = componentArrayList;
+        } else {
+            tokenObject.data = '';
+        }
 
-            let method = '';
-            if (tokenObject.tokenId === '') {
-                method = 'post';
-            } else {
-                method = 'put';
-            }
+        tokenObject.actions = actionArrayList;
+
+        let method = '';
+        if (tokenObject.tokenId === '') {
+            method = 'post';
+        } else {
+            method = 'put';
 
             /*const object = {
                 //documentDto : documentObject,
@@ -529,22 +548,57 @@
                 params: JSON.stringify(tokenObject),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    alert(i18n.get('common.msg.save'));
-                    window.close();
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        window.close();
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
         }
+
+        /*const object = {
+            //documentDto : documentObject,
+            tokenDto: tokenObject
+        };*/
+
+        //console.log(tokenObject);
+        //return false;
+
+        const opt = {
+            method: method,
+            url: '/rest/tokens/data',
+            params: JSON.stringify(tokenObject),
+            contentType: 'application/json',
+            callbackFunc: function() {
+                alert(i18n.get('common.msg.save'));
+                window.close();
+            }
+        };
+        aliceJs.sendXhr(opt);
     }
 
     /**
      * init document.
      *
      * @param documentId 문서 id
+     * @param {String} authInfo 사용자 세션 정보
      */
-    function init(documentId) {
+    function init(documentId, authInfo) {
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
         documentContainer = document.getElementById('document-container');
+
+        let authData = JSON.parse(authInfo);
+        //편집화면에서 사용할 사용자 세션 정보
+        if (authData) {
+            Object.assign(userData, authData);
+
+            userData.defaultLang  = authData.lang;
+            let format = authData.timeFormat;
+            let formatArray = format.split(' ');
+
+            userData.defaultDateFormat =  formatArray[0].toUpperCase();
+            if (formatArray.length === 3) { userData.defaultTime = '12'; }
+        }
 
         // document data search.
         aliceJs.sendXhr({

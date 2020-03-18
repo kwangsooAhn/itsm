@@ -178,6 +178,7 @@ body {
         }
         .property-field {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             font-size: 0.875rem;      //14px
             width: 100%;
@@ -280,6 +281,10 @@ body {
                 button[id*="right"]::before {
                     content: 'R';
                 }
+            }
+            .default-none {
+                width: auto;
+                margin: 0.625rem 0 0 5rem;  //10px 0 0 80px
             }
         }
         .property-field.vertical {

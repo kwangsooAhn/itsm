@@ -107,6 +107,7 @@
      * @constructor
      */
     function Text(attr) {
+        let textDefault = attr.display['default'].split('|')[1];
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -119,7 +120,7 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' placeholder='${attr.display.placeholder}' readonly 
+                    <input type='text' placeholder='${attr.display.placeholder}' value='${textDefault}' readonly 
                     style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' 
                     ${attr.validate.required === "Y" ? "required" : ""} 
                     max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]} />
@@ -127,12 +128,6 @@
             </div>
         `);
 
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
     }
@@ -162,12 +157,6 @@
             </div>
         `);
 
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
     }
@@ -203,12 +192,6 @@
             selectbox.appendChild(option);
         }
 
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
     }
@@ -271,12 +254,6 @@
             }
         }
 
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
     }
@@ -331,12 +308,6 @@
             }
         }
 
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
     }
@@ -405,17 +376,18 @@
      */
     function Datebox(attr) {
         //날짜 포멧 변경
-        let defaultFormatArr = attr.display['default'].split('|');
-        let defaultInputVal = '';
-        if (defaultFormatArr[0] === 'now') { 
-            defaultInputVal = utils.getTimeStamp();
-            defaultInputVal = defaultInputVal.split(' ')[0];
-        } else if (defaultFormatArr[0] === 'datepicker') { 
-            defaultInputVal = defaultFormatArr[1];
-        } else if (defaultFormatArr[0] === 'date') { 
-            defaultInputVal = utils.getTimeStamp(defaultFormatArr[1]); 
-            defaultInputVal = defaultInputVal.split(' ')[0];
+        let dateDefaultArr = attr.display['default'].split('|');
+        let dateDefault = '';
+        if (dateDefaultArr[0] === 'now') {
+            dateDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat);
+            dateDefault = dateDefault.split(' ')[0];
+        } else if (dateDefaultArr[0] === 'datepicker') {
+            dateDefault = dateDefaultArr[1];
+        } else if (dateDefaultArr[0] === 'date') {
+            dateDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat, dateDefaultArr[1]);
+            dateDefault = dateDefault.split(' ')[0];
         }
+
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -428,17 +400,11 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${defaultInputVal}' readonly/>
+                    <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${dateDefault}' readonly/>
                 </div>
             </div>
         `);
-        
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
+
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
@@ -452,18 +418,16 @@
      */
     function Timebox(attr) {
         //시간 포멧 변경
-        let defaultFormatArr = attr.display['default'].split('|');
-        let defaultInputVal = '';
-        if (defaultFormatArr[0] === 'now') { 
-            defaultInputVal = utils.getTimeStamp();
-            defaultInputVal = defaultInputVal.split(' ')[1];
-        } else if (defaultFormatArr[0] === 'timepicker') { 
-            defaultInputVal = defaultFormatArr[1];
-        } else if (defaultFormatArr[0] === 'time') { 
-            defaultInputVal = utils.getTimeStamp('', defaultFormatArr[1]); 
-            defaultInputVal = defaultInputVal.split(' ')[1];
+        let timeDefaultArr = attr.display['default'].split('|');
+        let timeDefault = '';
+        if (timeDefaultArr[0] === 'now') {
+            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultTimeFormat);
+        } else if (timeDefaultArr[0] === 'timepicker') {
+            timeDefault = timeDefaultArr[1];
+        } else if (timeDefaultArr[0] === 'time') {
+            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultTimeFormat, '', timeDefaultArr[1]);
         }
-        
+
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -476,21 +440,15 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='time-${attr.id}' placeholder='hh:mm' value='${defaultInputVal}' readonly/>
+                    <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat}' value='${timeDefault}' readonly/>
                 </div>
             </div>
         `);
 
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultTimeFormat);
+        dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultTime);
     }
 
     /**
@@ -500,16 +458,17 @@
      */
     function DateTimebox(attr) {
         //날짜 시간 포멧 변경
-        let defaultFormatArr = attr.display['default'].split('|');
-        let defaultInputVal = '';
-        if (defaultFormatArr[0] === 'now') { 
-            defaultInputVal = utils.getTimeStamp();
-        } else if (defaultFormatArr[0] === 'datetimepicker') { 
-            defaultInputVal = defaultFormatArr[1];
-        } else if (defaultFormatArr[0] === 'datetime') { 
-            defaultInputVal = utils.getTimeStamp(defaultFormatArr[1], defaultFormatArr[2]);
+        let datetimeDefaultArr = attr.display['default'].split('|');
+        let datetimeDefault = '';
+        if (datetimeDefaultArr[0] === 'now') {
+            datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat);
+        } else if (datetimeDefaultArr[0] === 'datetimepicker') {
+            datetimeDefault = datetimeDefaultArr[1];
+        } else if (datetimeDefaultArr[0] === 'datetime') {
+            datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
         }
-        
+
+
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -522,21 +481,15 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + " hh:mm"}' value='${defaultInputVal}' readonly />
+                    <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat}' value='${datetimeDefault}' readonly />
                 </div>
             </div>
         `);
 
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        dateTimePicker.initDateTimePicker('datetime-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultTimeFormat, formEditor.userData.defaultLang); 
+        dateTimePicker.initDateTimePicker('datetime-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultTime, formEditor.userData.defaultLang);
     }
 
     /**
@@ -556,18 +509,12 @@
                         <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                 </div>
-                <div class='field dropbox' style='flex-basis: 100%;'>
-                    <p> drag and drop files or click to select </p>
+                <div class='field' style='flex-basis: 100%;'>
+                    <input type='file' readonly />
                 </div>
             </div>
         `);
 
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
     }
@@ -590,17 +537,10 @@
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
                     <input type='text' readonly ${attr.validate.required === "Y" ? "required" : ""} />
-                    <button type='button' disabled>${attr.display["button-text"]}</button>
+                    <button type='button' readonly>${attr.display["button-text"]}</button>
                 </div>
             </div>
         `);
-
-        if (attr.label.position === 'hidden') {
-            comp.querySelector('.group').firstElementChild.style.display = 'none';
-        } else if (attr.label.position === 'left') {
-            comp.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(attr.label.column)) + '%';
-            comp.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(attr.display.column)) + '%';
-        }
         
         formPanel.appendChild(comp);
         this.domElem = comp;
@@ -682,6 +622,16 @@
              componentConstructor.domElem.setAttribute('id', compId);
              componentConstructor.domElem.setAttribute('data-index', getLastIndex());
              componentConstructor.domElem.setAttribute('tabIndex', getLastIndex());
+
+             //공통 : 라벨 위치 조정
+             if (typeof compAttr.label !== 'undefined') {
+                 if (compAttr.label.position === 'hidden') {
+                     componentConstructor.domElem.querySelector('.group').firstElementChild.style.display = 'none';
+                 } else if (compAttr.label.position === 'left') {
+                     componentConstructor.domElem.querySelector('.group').firstElementChild.style.flexBasis = (defaultColWidth * Number(compAttr.label.column)) + '%';
+                     componentConstructor.domElem.querySelector('.group').lastElementChild.style.flexBasis = (defaultColWidth * Number(compAttr.display.column)) + '%';
+                 }
+             }
          }
          return componentConstructor;
     }

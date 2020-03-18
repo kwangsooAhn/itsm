@@ -38,9 +38,9 @@
             url: '/rest/processes/' + AliceProcessEditor.data.process.id,
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
-                    alert(i18n.get('common.msg.save'));
+                    aliceJs.alert(i18n.get('common.msg.save'));
                 } else {
-                    alert(i18n.get('common.label.fail'));
+                    aliceJs.alert(i18n.get('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',

@@ -192,6 +192,30 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
     }
 
     /**
+     * Save as Form.
+     *
+     * @param wfFormComponentSaveDto
+     * @return WfFormDto
+     */
+    override fun saveAsForm(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto {
+        val formDataDto = WfFormDto(
+                formName = wfFormComponentSaveDto.form.formName,
+                formDesc = wfFormComponentSaveDto.form.formDesc,
+                createUserKey = wfFormComponentSaveDto.form.createUserKey,
+                createDt = wfFormComponentSaveDto.form.createDt,
+                formStatus = wfFormComponentSaveDto.form.formStatus
+        )
+        val wfFormDto = createForm(formDataDto)
+        wfFormComponentSaveDto.form.formId = wfFormDto.formId
+        when (wfFormComponentSaveDto.form.formStatus) {
+            WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.formEnabled = false
+        }
+        saveForm(wfFormComponentSaveDto)
+
+        return wfFormDto
+    }
+
+    /**
      * Entity -> Dto.
      *
      * @param wfFormEntity

@@ -10984,6 +10984,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -11111,6 +11113,11 @@ body {
 
 .alice-form-properties-panel .property-field .property-field-button button[id*="right"]::before {
   content: 'R';
+}
+
+.alice-form-properties-panel .property-field .default-none {
+  width: auto;
+  margin: 0.625rem 0 0 5rem;
 }
 
 .alice-form-properties-panel .property-field.vertical {

@@ -3,6 +3,7 @@ common:
   searchWord: "Search"
   btn:
     save: "SAVE"
+    saveAs: "SAVE AS"
     close: "CLOSE"
     logout: "LOGOUT"
     delete: "DELETE"
@@ -36,6 +37,7 @@ common:
     save.fail: "Fail"
     delete.success: "Deleted."
     delete.fail: "Deletion failed."
+    unknownError: "An unknown error has occurred. Please contact the administrator."
 
 # Menu
 menu:
@@ -202,6 +204,11 @@ login:
   loginNote: "Do you have an account?"
   signupNote: "Would you like to sign up?"
   msg:
+    invalidPassword: "The ID or password are not correct. Please check again."
+    disabledUser: "Your account has been disabled. Please contact the administrator."
+    invalidUser: "This account is not registered. Please check again."
+    enterId: "Please enter your ID."
+    enterPassword: "Please enter your password."
     sessionExpired: "Your session has expired."
     redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
 

@@ -45,6 +45,13 @@ interface WfForm {
     fun saveForm(wfFormComponentSaveDto: WfFormComponentSaveDto)
 
     /**
+     * Save as Form.
+     *
+     * @param wfFormComponentSaveDto
+     */
+    fun saveAsForm(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto
+
+    /**
      * Get Component Data.
      *
      * @param componentType

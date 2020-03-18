@@ -6,6 +6,8 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
+    <link th:href="@{/assets/vendors/popupmodal/css/popupmodal.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
     <script th:src="@{/assets/js/document/document.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
@@ -55,10 +57,21 @@
 </div>
 </body>
 <script type="text/javascript">
-    window.addEventListener('load', function() {
-        i18n.add(function(){
-            aliceDocument.init('[[${documentId}]]');
+    window.onload = function() {
+        const userAuthInfo = {
+            userId : '[[${#authentication.details.userId}]]',
+            userName: '[[${#authentication.details.userName}]]',
+            email: '[[${#authentication.details.email}]]',
+            position: '[[${#authentication.details.position}]]',
+            department: '[[${#authentication.details.department}]]',
+            officeNumber: '[[${#authentication.details.officeNumber}]]',
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]',
+            timeFormat : '[[${#authentication.details.timeFormat}]]',
+            lang: '[[${#authentication.details.lang}]]'
+        };
+        i18n.add(function() {
+            aliceDocument.init('[[${documentId}]]', JSON.stringify(userAuthInfo));
         });
-    });
+    };
 </script>
 </html>

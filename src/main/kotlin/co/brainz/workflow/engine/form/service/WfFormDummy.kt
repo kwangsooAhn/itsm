@@ -79,6 +79,10 @@ class WfFormDummy: WfForm {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun saveAsForm(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getFormComponentData(componentType: String, attributeId: String): List<WfFormComponentDataDto> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

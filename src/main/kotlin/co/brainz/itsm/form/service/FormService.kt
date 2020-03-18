@@ -22,12 +22,13 @@ import java.time.LocalDateTime
 @Service
 class FormService(private val restTemplate: RestTemplateProvider) {
 
+    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     fun findForms(search: String): List<RestTemplateFormDto> {
         val params = LinkedMultiValueMap<String, String>()
         params.add("search", search)
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORMS.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val forms: List<RestTemplateFormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateFormDto::class.java))
         for (form in forms) {
             form.createDt = form.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
@@ -51,7 +52,6 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val responseBody = restTemplate.create(url, restTemplateFormDto)
         return when (responseBody.isNotEmpty()) {
             true -> {
-                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
                 val dataDto = mapper.readValue(responseBody, RestTemplateFormDto::class.java)
                 dataDto.formId
             }
@@ -65,7 +65,28 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     }
 
     fun saveFormData(formData: String): Boolean {
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val formComponentSaveDto = makeFormComponentSaveDto(formData);
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
+        return restTemplate.update(urlDto, formComponentSaveDto)
+    }
+
+    fun saveAsForm(formData: String): String {
+        val formComponentSaveDto = makeFormComponentSaveDto(formData);
+        if (formComponentSaveDto.form.formStatus == RestTemplateConstants.FormStatus.DESTROY.value) {
+            formComponentSaveDto.form.formStatus = RestTemplateConstants.FormStatus.EDIT.value
+        }
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
+        val responseBody = restTemplate.createToSave(urlDto, formComponentSaveDto)
+        return when (responseBody.isNotEmpty()) {
+            true -> {
+                val dataDto = mapper.readValue(responseBody, RestTemplateFormDto::class.java)
+                dataDto.formId
+            }
+            false -> ""
+        }
+    }
+
+    fun makeFormComponentSaveDto(formData: String): RestTemplateFormComponentSaveDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
         val forms = mapper.convertValue(map["form"], RestTemplateFormViewDto::class.java)
         val components:MutableList<LinkedHashMap<String, Any>>  = mapper.convertValue(map["components"], TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
@@ -76,15 +97,13 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 formName = forms.name,
                 formDesc = forms.desc,
                 formStatus = forms.status,
-                updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now()),
-                updateUserKey = aliceUserDto.userKey
+                createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now()),
+                createUserKey = aliceUserDto.userKey
         )
-        val formComponentSaveDto = RestTemplateFormComponentSaveDto(
+        return RestTemplateFormComponentSaveDto(
                 form = formSaveDto,
                 components = components
         )
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
-        return restTemplate.update(urlDto, formComponentSaveDto)
     }
 
     fun getFormComponentData(componentType: String, attributeId: String): List<FormComponentDataDto> {
