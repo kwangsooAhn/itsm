@@ -233,8 +233,8 @@
         elementData.data = typeData;
 
         changeElementType(element, type);
-        setProperties(element);
-        removeElementTooltipItems();
+        d3.select('g.alice-tooltip').remove();
+        setElementMenu(element)
         console.debug('edited element [%s]!!', type);
     }
 
@@ -363,6 +363,9 @@
                     }
                 }
             });
+            if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
+                isSuggest = false;
+            }
             if (!isSuggest) {
                 actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'suggest'; });
             }
@@ -448,6 +451,24 @@
         if (category) {
             elementTypeItems = tooltipItems.filter(function(item) { return item.parent === category; });
         }
+
+        if (elem.classed('event')) {
+            const elementId = elem.node().id;
+            let isConnected = false;
+            let connectors = AliceProcessEditor.data.elements.filter(function(e) { return e.type === 'arrowConnector'; });
+            connectors.forEach(function(c) {
+                if (c.data['start-id'] === elementId || c.data['end-id'] === elementId) {
+                    isConnected = true;
+                }
+            });
+            if (isConnected) {
+                if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type === 'commonEnd' || item.type === 'messageEnd'; });
+                } else {
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonEnd' && item.type !== 'messageEnd'; });
+                }
+            }
+        }
         setElementItems(elementTypeItems, elem);
     }
 
@@ -469,8 +490,7 @@
      * @param elem 대상 element
      */
     function deleteElement(elem) {
-        removeElementTooltipItems();
-        removeActionTooltipItems();
+        d3.select('g.alice-tooltip').remove();
         const elementId = elem.node().id,
               elements = AliceProcessEditor.data.elements;
         elements.forEach(function(e, i) {
@@ -501,8 +521,7 @@
      * @param elem 복제 대상 element
      */
     function copyElement(elem) {
-        removeElementTooltipItems();
-        removeActionTooltipItems();
+        d3.select('g.alice-tooltip').remove();
         const targetElementData = getElementData(elem);
         let elemData = JSON.parse(JSON.stringify(targetElementData));
         elemData.display['position-x'] = elemData.display['position-x'] + 10;
@@ -524,8 +543,7 @@
      * @param type 추가할 element 타입
      */
     function suggestElement(elem, type) {
-        removeElementTooltipItems();
-        removeActionTooltipItems();
+        d3.select('g.alice-tooltip').remove();
 
         const targetElementData = getElementData(elem);
         const targetBbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
@@ -596,23 +614,6 @@
                 d3.event.stopPropagation();
                 d.action(elem);
             });
-    }
-
-    /**
-     * remove element tooltip items.
-     */
-    function removeElementTooltipItems() {
-        d3.selectAll('.element-tooltip-item').remove();
-        d3.selectAll('.element-tooltip').remove();
-        d3.select(document.getElementById('action-tooltip-item-edit')).style('fill', 'url(#action-edit)');
-    }
-
-    /**
-     * remove action tooltip items.
-     */
-    function removeActionTooltipItems() {
-        d3.selectAll('.action-tooltip-item').remove();
-        d3.selectAll('.action-tooltip').remove();
     }
 
     /**
