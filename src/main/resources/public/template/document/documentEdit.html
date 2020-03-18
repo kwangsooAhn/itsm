@@ -50,11 +50,12 @@
 </head>
 <body>
 <div id="document-container"></div>
-<div style="margin-top: 10px; text-align: center;">
+<div id="button-container"></div>
+<!--<div style="margin-top: 10px; text-align: center;">
     <button th:text="#{common.btn.save}" onclick="aliceDocument.save('save')"></button>
     <button th:text="#{common.btn.register}" onclick="aliceDocument.save('process')"></button>
     <button th:text="#{common.btn.cancel}" onclick="window.close();"></button>
-</div>
+</div>-->
 </body>
 <script type="text/javascript">
     window.onload = function() {
@@ -70,7 +71,7 @@
             lang: '[[${#authentication.details.lang}]]'
         };
         i18n.add(function() {
-            aliceDocument.init('[[${documentId}]]', JSON.stringify(userAuthInfo));
+            aliceDocument.initDocument('[[${documentId}]]', JSON.stringify(userAuthInfo));
         });
     };
 </script>

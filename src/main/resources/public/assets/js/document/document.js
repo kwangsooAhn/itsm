@@ -6,6 +6,7 @@
     'use strict';
 
     let documentContainer = null;
+    let buttonContainer = null;
     const defaultColWidth = 8.33; //폼 패널을 12등분하였을때, 1개의 너비
     let userData = {              //사용자 세션 정보
         defaultLang: 'en',
@@ -94,18 +95,18 @@
      */
     function addComponent(compData) {
         const comp = document.createElement('div');
-        comp.id = compData.id;
+        comp.id = compData.componentId;
         comp.className = 'component';
-        comp.setAttribute('data-type', compData.type);
+        comp.setAttribute('data-type', compData.attributes.type);
 
         const fieldFirstEle = document.createElement('div');
         const fieldLastEle = document.createElement('div');
         fieldFirstEle.className = 'field';
         fieldLastEle.className = 'field';
 
-        const lblData = compData.label;
-        const displayData = compData.display;
-        const validateData = compData.validate;
+        const lblData = compData.attributes.label;
+        const displayData = compData.attributes.display;
+        const validateData = compData.attributes.validate;
 
         if (typeof lblData !== 'undefined' && lblData.position !== 'hidden') {
             const lblEle = document.createElement('div');
@@ -135,7 +136,7 @@
         comp.appendChild(fieldLastEle);
         documentContainer.appendChild(comp);
 
-        switch (compData.type) {
+        switch (compData.attributes.type) {
             case 'text':
                 const textEle = document.createElement('input');
                 textEle.type = 'text';
@@ -158,6 +159,9 @@
                 textEle.addEventListener('focusout', function() {
                     validateCheck(this, validateData);
                 });
+                if (compData.values != undefined && compData.values != "") {
+                    textEle.value = compData.values[0].value;
+                }
                 fieldLastEle.appendChild(textEle);
                 break;
             case 'textarea':
@@ -171,12 +175,15 @@
                 textareaEle.addEventListener('focusout', function() {
                     validateCheck(this, validateData);
                 });
+                if (compData.values != undefined && compData.values != "") {
+                    textareaEle.value = compData.values[0].value;
+                }
                 fieldLastEle.appendChild(textareaEle);
                 break;
             case 'select':
                 const selectEle = document.createElement('select');
                 selectEle.required = (validateData.required === 'Y');
-                const optData = compData.option;
+                const optData = compData.attributes.option;
                 optData.sort(function(a, b) {
                     return a.seq - b.seq;
                 });
@@ -184,12 +191,17 @@
                     const optEle = document.createElement('option');
                     optEle.text = optData[i].name;
                     optEle.value = optData[i].value;
+                    if (compData.values != undefined && compData.values != "") {
+                        if (optEle.value === compData.values[0].value) {
+                            optEle.selected = true;
+                        }
+                    }
                     selectEle.appendChild(optEle);
                 }
                 fieldLastEle.appendChild(selectEle);
                 break;
             case 'radio':
-                const radioOptData = compData.option;
+                const radioOptData = compData.attributes.option;
                 radioOptData.sort(function(a, b) {
                     return a.seq - b.seq;
                 });
@@ -198,10 +210,16 @@
                     if (displayData.direction === 'horizontal') { divEle.style.display = 'inline-block'}
                     const radioEle = document.createElement('input');
                     radioEle.type = 'radio';
-                    radioEle.name = 'radio-' + compData.id;
+                    radioEle.name = 'radio-' + compData.componentId;
                     radioEle.id = radioOptData[i].value;
                     radioEle.value = radioOptData[i].value;
-                    radioEle.checked = (i === 0);
+                    if (compData.values != undefined && compData.values != "") {
+                        if (radioEle.value === compData.values[0].value) {
+                            radioEle.checked = true;
+                        }
+                    } else {
+                        radioEle.checked = (i === 0);
+                    }
                     radioEle.required = (i === 0 && validateData.required === 'Y');
 
                     const lblEle = document.createElement('label');
@@ -218,7 +236,7 @@
                 }
                 break;
             case 'checkbox':
-                const checkOptData = compData.option;
+                const checkOptData = compData.attributes.option;
                 checkOptData.sort(function(a, b) {
                     return a.seq - b.seq;
                 });
@@ -227,9 +245,14 @@
                     if (displayData.direction === 'horizontal') { divEle.style.display = 'inline-block'}
                     const checkEle = document.createElement('input');
                     checkEle.type = 'checkbox';
-                    checkEle.name = 'check-' + compData.id;
+                    checkEle.name = 'check-' + compData.componentId;
                     checkEle.id = checkOptData[i].value;
                     checkEle.value = checkOptData[i].value;
+                    if (compData.values != undefined && compData.values != "") {
+                        if (checkEle.value === compData.values[0].value) {
+                            checkEle.checked = true;
+                        }
+                    }
                     checkEle.required = (i === 0 && validateData.required === 'Y');
 
                     const lblEle = document.createElement('label');
@@ -284,7 +307,7 @@
                     dateDefault = dateDefault.split(' ')[0];
                 }
                 const dateEle = document.createElement('input');
-                dateEle.id = 'date-' + compData.id;
+                dateEle.id = 'date-' + compData.componentId;
                 dateEle.type = 'text';
                 dateEle.placeholder = userData.defaultDateFormat;
                 dateEle.value = dateDefault;
@@ -294,7 +317,7 @@
                     validateCheck(this, validateData);
                 });
                 fieldLastEle.appendChild(dateEle);
-                dateTimePicker.initDatePicker('date-' + compData.id, userData.defaultDateFormat, userData.defaultLang);
+                dateTimePicker.initDatePicker('date-' + compData.componentId, userData.defaultDateFormat, userData.defaultLang);
                 break;
             case 'time':
                 let timeDefaultArr = displayData.default.split('|');
@@ -307,14 +330,14 @@
                     timeDefault = aliceJs.getTimeStamp(userData.defaultTimeFormat, '', timeDefaultArr[1]);
                 }
                 const timeEle = document.createElement('input');
-                timeEle.id = 'time-' + compData.id;
+                timeEle.id = 'time-' + compData.componentId;
                 timeEle.type = 'text';
                 timeEle.placeholder = userData.defaultTimeFormat;
                 timeEle.value = timeDefault;
                 timeEle.required = (validateData.required === 'Y');
                 timeEle.readOnly = true;
                 fieldLastEle.appendChild(timeEle);
-                dateTimePicker.initTimePicker('time-' + compData.id, userData.defaultTime);
+                dateTimePicker.initTimePicker('time-' + compData.componentId, userData.defaultTime);
                 break;
             case 'datetime':
                 let datetimeDefaultArr = displayData.default.split('|');
@@ -328,7 +351,7 @@
                 }
 
                 const datetimeEle = document.createElement('input');
-                datetimeEle.id = 'datetime-' + compData.id;
+                datetimeEle.id = 'datetime-' + compData.componentId;
                 datetimeEle.type = 'text';
                 datetimeEle.placeholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat;
                 datetimeEle.value = datetimeDefault;
@@ -338,7 +361,7 @@
                     validateCheck(this, validateData);
                 });
                 fieldLastEle.appendChild(datetimeEle);
-                dateTimePicker.initDateTimePicker('datetime-' + compData.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang);
+                dateTimePicker.initDateTimePicker('datetime-' + compData.componentId, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang);
                 break;
             case 'fileupload':
                 const fileEle = document.createElement('input');
@@ -352,21 +375,63 @@
     }
 
     /**
+     * button를 만든다. (v_data)
+     * 저장과 취소 버튼은 기본적으로 생성된다.
+     * @param  data : button 정보 값
+     */
+    function addButton(v_data) {
+        const buttonEle = document.createElement('div');
+        buttonEle.style.marginTop = '10px';
+        buttonEle.style.textAlign = 'center';
+
+        const buttonSaveEle = document.createElement('button');
+        buttonSaveEle.type = 'button';
+        buttonSaveEle.innerText = i18n.get('common.btn.save');
+        buttonSaveEle.addEventListener('click', function() {
+            aliceDocument.save('save');
+        });
+        buttonEle.appendChild(buttonSaveEle);
+/////////////////////////////////////////////////////////////////////////////////////
+        if (v_data !== undefined && v_data !== '') {
+            console.log(v_data);
+        }
+/////////////////////////////////////////////////////////////////////////////////////
+        const buttonCancelEle = document.createElement('button');
+        buttonCancelEle.type = 'button';
+        buttonCancelEle.innerText = i18n.get('common.btn.cancel');
+        buttonCancelEle.addEventListener('click', function() {
+            window.close();
+        });
+        buttonEle.appendChild(buttonCancelEle);
+        buttonContainer.appendChild(buttonEle);
+    }
+
+    /**
      * draw document.
      *
      * @param data 문서 데이터.
      */
     function drawDocument(data) {
-        if (data.components.length > 0) {
-            if (data.components.length > 2) {
-                data.components.sort(function (a, b) {
-                    return a.display.order - b.display.order;
+        var components;
+
+        if (data.components != undefined) {
+            components = data.components;
+        } else if (data.token.components != undefined) {
+            components = data.token.components;
+        }
+
+        if (components.length > 0) {
+            if (components.length > 2) {
+                components.sort(function (a, b) {
+                    return a.attributes.display.order - b.attributes.display.order;
                 });
             }
-            for (let i = 0; i < data.components.length; i++) {
-                addComponent(data.components[i]);
+            for (let i = 0; i < components.length; i++) {
+                addComponent(components[i]);
             }
         }
+
+        addButton(data.action);
 
         if (data.documentId !== undefined) {
             addIdComponent('documentId', data.documentId);
@@ -428,13 +493,12 @@
      */
     function save(v_kind) {
         // validation check
-        if (v_kind == 'process') {
+        if (v_kind !== 'save') {
             if (requiredCheck()) {
                 return false;
             }
         }
 
-        let documentObject = {};
         let tokenObject = {};
         let componentArrayList = [];
         let actionArrayList = [];
@@ -442,13 +506,10 @@
         //documentId 값을 구한다.
         const documentElements = document.getElementById('documentId');
         if (documentElements !== null && documentElements !== undefined) {
-            //documentObject.documentId = documentElements.getAttribute('data-id');
             tokenObject.documentId = documentElements.getAttribute('data-id');
         } else {
-            //documentObject.documentId = '';
             tokenObject.documentId = "";
         }
-        //tokenObject.documentName = "";
 
         //ComponentsInfo
         const componentElements = documentContainer.getElementsByClassName('component');
@@ -464,6 +525,9 @@
 
                 switch (componentDataType) {
                     case 'text':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).value;
+                        break;
                     case 'date':
                     case 'time':
                     case 'datetime':
@@ -490,7 +554,7 @@
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
                             if (componentChild[checkBoxIndex].checked) {
-                                if (checkBoxIndex === 0) {
+                                if (componentValue.indexOf(",") === -1) {
                                     componentValue = componentChild[checkBoxIndex].value;
                                 } else {
                                     componentValue = componentValue + ',' + componentChild[checkBoxIndex].value;
@@ -515,7 +579,7 @@
         }
         if (v_kind === 'save') {
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
-        } else if (v_kind === 'process') {
+        } else {
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
         }
 
@@ -533,36 +597,7 @@
             method = 'post';
         } else {
             method = 'put';
-
-            /*const object = {
-                //documentDto : documentObject,
-                tokenDto: tokenObject
-            };*/
-
-            //console.log(tokenObject);
-            //return false;
-
-            const opt = {
-                method: method,
-                url: '/rest/tokens/data',
-                params: JSON.stringify(tokenObject),
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alert(i18n.get('common.msg.save'), function() {
-                        window.close();
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
         }
-
-        /*const object = {
-            //documentDto : documentObject,
-            tokenDto: tokenObject
-        };*/
-
-        //console.log(tokenObject);
-        //return false;
 
         const opt = {
             method: method,
@@ -570,8 +605,9 @@
             params: JSON.stringify(tokenObject),
             contentType: 'application/json',
             callbackFunc: function() {
-                alert(i18n.get('common.msg.save'));
-                window.close();
+                aliceJs.alert(i18n.get('common.msg.save'), function() {
+                    window.close();
+                });
             }
         };
         aliceJs.sendXhr(opt);
@@ -583,10 +619,10 @@
      * @param documentId 문서 id
      * @param {String} authInfo 사용자 세션 정보
      */
-    function init(documentId, authInfo) {
+    function initDocument(documentId, authInfo) {
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
         documentContainer = document.getElementById('document-container');
-
+        buttonContainer = document.getElementById('button-container');
         let authData = JSON.parse(authInfo);
         //편집화면에서 사용할 사용자 세션 정보
         if (authData) {
@@ -607,8 +643,42 @@
             callbackFunc: function(xhr) {
                 let jsonData = JSON.parse(xhr.responseText);
                 jsonData.documentId = documentId;
-                //진행중 저장을 위해서 테스트 데이터
-                //jsonData.tokenId = '40288ab770a01cd30170a01d69e40003';
+                drawDocument(jsonData);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+    }
+
+    /**
+     * init Token.
+     *
+     * @param documentId 문서 id
+     * @param {String} authInfo 사용자 세션 정보
+     */
+    function initToken(tokenId, authInfo) {
+        console.info('document editor initialization. [Token ID: ' + tokenId + ']');
+        documentContainer = document.getElementById('document-container');
+        buttonContainer = document.getElementById('button-container');
+        let authData = JSON.parse(authInfo);
+        //편집화면에서 사용할 사용자 세션 정보
+        if (authData) {
+            Object.assign(userData, authData);
+
+            userData.defaultLang  = authData.lang;
+            let format = authData.timeFormat;
+            let formatArray = format.split(' ');
+
+            userData.defaultDateFormat =  formatArray[0].toUpperCase();
+            if (formatArray.length === 3) { userData.defaultTime = '12'; }
+        }
+
+        // document data search.
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/tokens/data/' + tokenId,
+            callbackFunc: function(xhr) {
+                let jsonData = JSON.parse(xhr.responseText);
+                jsonData.tokenId = tokenId;
                 drawDocument(jsonData);
             },
             contentType: 'application/json; charset=utf-8'
@@ -624,7 +694,8 @@
         documentContainer = document.getElementById(elementId);
     }
 
-    exports.init = init;
+    exports.initDocument = initDocument;
+    exports.initToken = initToken;
     exports.save = save;
     exports.initContainer = initContainer;
     exports.drawDocument = drawDocument;

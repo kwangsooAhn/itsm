@@ -60,4 +60,14 @@ class TokenService(private val restTemplate: RestTemplateProvider) {
         }
         return tokens
     }
+
+    /**
+     * 처리할 문서 상세 조회.
+     *
+     * @return List<tokenDto>
+     */
+    fun findToken(tokenId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), tokenId))
+        return restTemplate.get(url)
+    }
 }
