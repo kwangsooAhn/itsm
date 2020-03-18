@@ -13,6 +13,7 @@ object RestTemplateConstants {
         GET_FORM("/rest/wf/forms/{formId}", "GET"),
         POST_FORM("/rest/wf/forms", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
+        POST_FORM_SAVE_AS("/rest/wf/forms/{formId}", "POST"),
         DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
     }
 
@@ -77,8 +78,8 @@ object RestTemplateConstants {
     enum class FormStatus(val value: String) {
         EDIT("form.status.edit"),
         SIMULATION("form.status.simu"),
-        PUBLISH("publish"),
-        DESTROY("destroy")
+        PUBLISH("form.status.publish"),
+        DESTROY("form.status.destroy")
     }
 
     /**

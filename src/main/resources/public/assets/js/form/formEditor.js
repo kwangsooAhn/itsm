@@ -53,6 +53,33 @@
     }
 
     /**
+     * 다른 이름으로 저장.
+     */
+    function saveAsForm() {
+        data = JSON.parse(JSON.stringify(formEditor.data));
+        let lastCompIndex = component.getLastIndex();
+        data.components = data.components.filter(function(comp) {
+            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
+        });
+        aliceJs.sendXhr({
+            method: 'POST',
+            url: '/rest/forms/data',
+            callbackFunc: function(xhr) {
+                if (xhr.responseText !== '') {
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        opener.location.reload();
+                        location.href = '/forms/' + xhr.responseText + '/edit';
+                    });
+                } else {
+                    aliceJs.alert(i18n.get('common.label.fail'));
+                }
+            },
+            contentType: 'application/json; charset=utf-8',
+            params: JSON.stringify(data)
+        });
+    }
+
+    /**
      * 작업 취소
      */
     function undoForm() {
@@ -1045,6 +1072,7 @@
     
     exports.init = init;
     exports.save = saveForm;
+    exports.saveAs = saveAsForm;
     exports.undo = undoForm;
     exports.redo = redoForm;
     exports.preview = previewForm;

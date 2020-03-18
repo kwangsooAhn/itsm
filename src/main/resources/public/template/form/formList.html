@@ -28,7 +28,11 @@
             </colgroup>
             <tbody>
                 <tr th:each="form: ${formList}">
-                    <td th:text="${form.formName}"></td>
+                    <td><a sec:authorize="hasAnyAuthority('form.create', 'form.update')"
+                           href="javascript:void(0);"
+                           th:attr="onclick=|openFormDesignerView('${form.formId}')|"
+                           th:text="${form.formName}"></a>
+                    </td>
                     <td th:text="${form.formDesc}"></td>
                     <td th:text="${form.userName}"></td>
                     <td th:if="${form.updateDt == null && form.updateUserKey == null}"

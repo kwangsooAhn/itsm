@@ -3,6 +3,7 @@ common:
   searchWord: "Search"
   btn:
     save: "SAVE"
+    saveAs: "SAVE AS"
     close: "CLOSE"
     logout: "LOGOUT"
     delete: "DELETE"
