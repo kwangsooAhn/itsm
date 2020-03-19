@@ -15,8 +15,10 @@
         connectors,
         dragLine;
 
-    const nodes= [],
-        links = [];
+    const elements = {
+        nodes: [],
+        links: []
+    }
 
     let mousedownElement,
         mouseoverElement,
@@ -45,9 +47,17 @@
 
     /**
      * set connector.
+     *
+     * @param recycle 모두 지우고 다시 그리기 옵션
      */
-    function setConnectors() {
-        connectors = connectors.data(links);
+    function setConnectors(recycle) {
+        if (recycle) {
+            connectors = connectors.data([]);
+            // remove old links
+            connectors.exit().remove();
+        }
+
+        connectors = connectors.data(elements.links);
         // remove old links
         connectors.exit().remove();
 
@@ -184,10 +194,9 @@
      * @param target target element
      */
     function connectElement(source, target) {
-        links.push({id: workflowUtil.generateUUID(), source: source, target: target});
+        elements.links.push({id: workflowUtil.generateUUID(), source: source, target: target});
         setConnectors();
     }
-
 
     /**
      * element 마우스 이벤트.
@@ -204,7 +213,7 @@
                 cursor = 'crosshair';
             }
             elemContainer.style('cursor', cursor);
-            if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
+            if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 return;
             }
             mouseoverElement = elem;
@@ -214,7 +223,7 @@
         mouseout: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
-            if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
+            if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 elemContainer.style('cursor', 'default');
                 return;
             }
@@ -270,12 +279,12 @@
                     return;
                 }
 
-                if (mousedownElement !== mouseoverElement) {
+                if (mousedownElement.node().id !== mouseoverElement.node().id) {
                     mouseoverElement
                         .classed('selected', false);
 
                     if (checkAvailableLink()) {
-                        links.push({id: workflowUtil.generateUUID(), source: mousedownElement, target: mouseoverElement});
+                        elements.links.push({id: workflowUtil.generateUUID(), source: mousedownElement, target: mouseoverElement});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -289,6 +298,9 @@
             }
         },
         mousedrag: function() {
+            if (mousedownElement.classed('commonEnd') || mousedownElement.classed('messageEnd')) {
+                return false;
+            }
             const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
                 gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
                 centerX = bbox.cx + gTransform.x,
@@ -306,7 +318,7 @@
         let availableLink = true;
         const source = mousedownElement,
             target = mouseoverElement;
-        links.forEach(function(l) {
+        elements.links.forEach(function(l) {
             // it's not a gateway, but several starts
             if (!l.source.classed('gateway') && l.source.node().id === source.node().id) {
                 availableLink = false;
@@ -317,6 +329,17 @@
                 availableLink = false;
             }
         });
+
+        // common start cannot be a target.
+        if (target.classed('commonStart')) {
+            availableLink = false;
+        }
+
+        // common end/message end cannot be a source.
+        if (source.classed('commonEnd') || source.classed('messageEnd')) {
+            availableLink = false;
+        }
+
         return availableLink;
     }
 
@@ -353,7 +376,6 @@
                             .attr('x', rectData[i].x += d3.event.dx)
                             .attr('y', rectData[i].y += d3.event.dy);
                     }
-                    self.nodeElement.style('cursor', 'move');
                     updateRect();
                 }
             })
@@ -569,7 +591,6 @@
                     self.typeElement
                         .attr('x', d3.event.x - (typeImageSize / 2))
                         .attr('y', d3.event.y - (typeImageSize / 2));
-                    self.nodeElement.style('cursor', 'move');
                     AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     drawConnectors();
                 }
@@ -629,7 +650,6 @@
                     self.typeElement
                         .attr('x', d3.event.x - (typeImageSize / 2))
                         .attr('y', d3.event.y - (typeImageSize / 2));
-                    self.nodeElement.style('cursor', 'move');
                     AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     drawConnectors();
                 }
@@ -710,7 +730,6 @@
                     self.textElement
                         .attr('x', d3.event.x)
                         .attr('y', d3.event.y);
-                    self.nodeElement.style('cursor', 'move');
                     AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                 }
             })
@@ -786,7 +805,7 @@
                 }
                 if (node) {
                     _this.classed(type, true);
-                    nodes.push(node.nodeElement);
+                    elements.nodes.push(node.nodeElement);
                     AliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
@@ -898,7 +917,7 @@
                     nodeRightArray = [],
                     nodeBottomArray = [],
                     nodeLeftArray = [];
-                nodes.forEach(function(node){
+                elements.nodes.forEach(function(node){
                     let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(node);
                     nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
                     nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
@@ -910,7 +929,7 @@
                     minTop = svgBBox.cy,
                     maxRight = svgBBox.cx,
                     maxBottom = svgBBox.cy;
-                if (nodes.length > 0) {
+                if (elements.nodes.length > 0) {
                     minLeft = d3.min(nodeLeftArray);
                     minTop = d3.min(nodeTopArray);
                     maxRight = d3.max(nodeRightArray);
@@ -1001,7 +1020,7 @@
         }
 
         if (node) {
-            nodes.push(node.nodeElement);
+            elements.nodes.push(node.nodeElement);
             const nodeId = node.nodeElement.attr('id');
             if (category !== 'event' && category !== 'gateway') {
                 changeTextToElement(nodeId, element.data.name);
@@ -1014,18 +1033,18 @@
     /**
      * Draw a element with the loaded information.
      *
-     * @param elements editor 에 추가할 element 목록
+     * @param elementList editor 에 추가할 element 목록
      */
-    function drawProcess(elements) {
+    function drawProcess(elementList) {
         // add element
-        elements.forEach(function(element) {
+        elementList.forEach(function(element) {
             if (element.type === 'arrowConnector') {
                 return;
             }
             let node = addElement(element);
             if (node) {
                 const nodeId = node.nodeElement.attr('id');
-                elements.forEach(function(e) {
+                elementList.forEach(function(e) {
                     if (e.type !== 'arrowConnector') {
                         return;
                     }
@@ -1040,7 +1059,7 @@
         });
 
         // add connector
-        elements.forEach(function(element) {
+        elementList.forEach(function(element) {
             if (element.type !== 'arrowConnector') {
                 return;
             }
@@ -1051,7 +1070,7 @@
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
+                elements.links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
             }
         });
         setConnectors();
@@ -1073,10 +1092,12 @@
     }
 
     exports.init = init;
+    exports.elements = elements;
     exports.drawProcess = drawProcess;
     exports.addElement = addElement;
     exports.changeTextToElement = changeTextToElement;
     exports.removeElementSelected = removeElementSelected;
     exports.connectElement = connectElement;
+    exports.setConnectors = setConnectors;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

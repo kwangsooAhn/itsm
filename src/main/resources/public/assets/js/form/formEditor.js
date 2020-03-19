@@ -23,7 +23,9 @@
         userData = {              //사용자 세션 정보
             defaultLang: 'en',
             defaultDateFormat: 'YYYY-MM-DD',
-            defaultTimeFormat: '24'
+            defaultTimeFormat: 'hh:mm',
+            defaultTime: '24'
+
         },
         customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
     /**
@@ -31,6 +33,7 @@
      */
     function saveForm() {
         data = JSON.parse(JSON.stringify(formEditor.data));
+
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) { 
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent); 
@@ -41,6 +44,33 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
                     aliceJs.alert(i18n.get('common.msg.save'));
+                } else {
+                    aliceJs.alert(i18n.get('common.label.fail'));
+                }
+            },
+            contentType: 'application/json; charset=utf-8',
+            params: JSON.stringify(data)
+        });
+    }
+
+    /**
+     * 다른 이름으로 저장.
+     */
+    function saveAsForm() {
+        data = JSON.parse(JSON.stringify(formEditor.data));
+        let lastCompIndex = component.getLastIndex();
+        data.components = data.components.filter(function(comp) {
+            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
+        });
+        aliceJs.sendXhr({
+            method: 'POST',
+            url: '/rest/forms/data',
+            callbackFunc: function(xhr) {
+                if (xhr.responseText !== '') {
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        opener.location.reload();
+                        location.href = '/forms/' + xhr.responseText + '/edit';
+                    });
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -574,13 +604,13 @@
                                 if (fieldArr.type === 'session') {
                                     if (changeValue === 'none') {
                                         setUserInputCell('');
-                                        changeValue += '|';
                                     } else {
                                         let userInputCell = fieldGroupDiv.querySelector('#' + group + '-' + fieldArr.id + '-none');
                                         if (userInputCell) {
                                             userInputCell.remove();
                                         }
                                     }
+                                    changeValue += ('|' + this.options[this.selectedIndex].text);
                                 }
                                 changePropertiesValue(changeValue, group, fieldArr.id);
                             }, false);
@@ -693,9 +723,9 @@
                             if (compAttr.type === 'date') {
                                 dateTimePicker.initDatePicker('datepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (compAttr.type === 'time') {
-                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTimeFormat, setDateFormat);
+                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTime, setDateFormat);
                             } else if (compAttr.type === 'datetime') {
-                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, setDateFormat);
+                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang, setDateFormat);
                             }
                             break;
                         case 'button':
@@ -800,9 +830,9 @@
                             if (fieldArr.type === 'datepicker') {
                                 dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (fieldArr.type === 'timepicker') {
-                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTimeFormat, setDateFormat);
+                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTime, setDateFormat);
                             } else if (fieldArr.type === 'datetimepicker') {
-                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultTimeFormat, userData.defaultLang, setDateFormat);
+                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang, setDateFormat);
                             }
                             break;
                         case 'customcode':
@@ -936,13 +966,17 @@
         let mergeAttr = component.getData(compData.type);
         mergeAttr.id = compData.id;
         mergeAttr.type = compData.type;
-        
+
         Object.keys(compData).forEach(function(comp) {
             if (compData[comp] !== null && typeof(compData[comp]) === 'object' && compData.hasOwnProperty(comp))  {
                 Object.keys(compData[comp]).forEach(function(attr) {
                     Object.keys(mergeAttr[comp]).forEach(function(d) {
                         if (attr === d) {
-                        	mergeAttr[comp][d] = compData[comp][attr];
+                            if (typeof(mergeAttr[comp][d]) === 'object') {
+                                mergeAttr[comp] = compData[comp];
+                            } else {
+                                mergeAttr[comp][d] = compData[comp][attr];
+                            }
                         }
                     });
                 });
@@ -961,7 +995,6 @@
     function drawForm(data) {
         console.debug(JSON.parse(data));
         formEditor.data = JSON.parse(data);
-        
         if (formEditor.data.components.length > 0 ) {
             formEditor.data.components.sort(function (a, b) { //컴포넌트 재정렬
                 return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;  
@@ -975,14 +1008,15 @@
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editbox = component.draw(defaultComponent);
         setComponentData(editbox.attr);
-        editbox.domElem.querySelector('[contenteditable=true]').focus();
+
         //폼 상세 정보 출력
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/form/formAttribute.json',
             callbackFunc: function(xhr) {
                 formProperties = JSON.parse(xhr.responseText);
-                showComponentProperties(editbox.id);
+                const firstComponent = document.getElementById('panel-form').querySelectorAll('.component')[0];
+                showComponentProperties(firstComponent.id);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -993,11 +1027,12 @@
     /**
      * form designer 초기화
      * @param {String} formId 폼 아이디
-     * @param {Object} authInfo 사용자 세션 정보
+     * @param {String} authInfo 사용자 세션 정보
      */
     function init(formId, authInfo) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         propertiesPanel = document.getElementById('panel-properties');
+
         let authData = JSON.parse(authInfo);
         //편집화면에서 사용할 사용자 dateformat 설정
         if (authData) {
@@ -1007,7 +1042,7 @@
             let formatArray = format.split(' ');
             
             userData.defaultDateFormat =  formatArray[0].toUpperCase();
-            if (formatArray.length === 3) { userData.defaultTimeFormat = '12'; }
+            if (formatArray.length === 3) { userData.defaultTime = '12'; }
         }
         
         workflowUtil.polyfill();
@@ -1042,6 +1077,7 @@
     
     exports.init = init;
     exports.save = saveForm;
+    exports.saveAs = saveAsForm;
     exports.undo = undoForm;
     exports.redo = redoForm;
     exports.preview = previewForm;

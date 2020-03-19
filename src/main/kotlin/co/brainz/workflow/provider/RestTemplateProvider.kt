@@ -110,6 +110,16 @@ class RestTemplateProvider(private val restTemplate: RestTemplate) {
         }
     }
 
+    fun createToSave(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): String {
+        val url = this.makeUri(restTemplateUrlDto)
+        val requestEntity = this.setHttpEntity(dto)
+        val responseJson = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String::class.java)
+        return when (responseJson.statusCode) {
+            HttpStatus.OK -> responseJson.body.toString()
+            else -> ""
+        }
+    }
+
     fun update(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): Boolean {
         val url = this.makeUri(restTemplateUrlDto)
         val requestEntity = this.setHttpEntity(dto)

@@ -63,10 +63,23 @@ class FormController(private val codeService: CodeService,
         return formDesignerEditPage
     }
 
+    /**
+     * 폼 디자이너 미리보기 화면.
+     */
     @RequestMapping("/{formId}/preview", method = [RequestMethod.POST, RequestMethod.GET])
     fun getFormEditPreview(@PathVariable formId: String, model: Model, request: HttpServletRequest): String {
         model.addAttribute("data", request.getParameter("data")?:"")
         return formEditPreviewPage
+    }
+
+    /**
+     * 폼 디자이너 상세화면.
+     */
+    @GetMapping("/{formId}/view")
+    fun getFormDesignerView(@PathVariable formId: String, model: Model): String {
+        model.addAttribute("formId", formId)
+        model.addAttribute("isView", true)
+        return formDesignerEditPage
     }
 
 }
