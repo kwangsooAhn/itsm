@@ -82,6 +82,7 @@
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(response) {
+                opener.location.reload();
                 window.close();
 
                 const _width = 1800,
