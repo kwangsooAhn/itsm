@@ -249,9 +249,12 @@
                     checkEle.id = checkOptData[i].value;
                     checkEle.value = checkOptData[i].value;
                     if (compData.values != undefined && compData.values != "") {
-                        if (checkEle.value === compData.values[0].value) {
-                            checkEle.checked = true;
-                        }
+                        const checkboxValue = compData.values[0].value.split(',');
+                        checkboxValue.forEach(function (element) {
+                            if (checkEle.value === element) {
+                                checkEle.checked = true;
+                            }
+                        });
                     }
                     checkEle.required = (i === 0 && validateData.required === 'Y');
 
@@ -375,11 +378,11 @@
     }
 
     /**
-     * button를 만든다. (v_data)
+     * button를 만든다.
      * 저장과 취소 버튼은 기본적으로 생성된다.
-     * @param  data : button 정보 값
+     * @param  buttonData : button 정보 값
      */
-    function addButton(v_data) {
+    function addButton(buttonData) {
         const buttonEle = document.createElement('div');
         buttonEle.style.marginTop = '10px';
         buttonEle.style.textAlign = 'center';
@@ -391,11 +394,32 @@
             aliceDocument.save('save');
         });
         buttonEle.appendChild(buttonSaveEle);
-/////////////////////////////////////////////////////////////////////////////////////
-        if (v_data !== undefined && v_data !== '') {
-            console.log(v_data);
+
+        if (buttonData !== undefined && buttonData !== '') {
+            buttonData.forEach(function(element) {
+                if (element.name !== '') {
+                    let buttonProcessEle = document.createElement('button');
+                    buttonProcessEle.type = 'button';
+                    buttonProcessEle.innerText = element.name;
+                    buttonProcessEle.addEventListener('click', function () {
+                        aliceDocument.save(element.value);
+                    });
+                    buttonEle.appendChild(buttonProcessEle);
+                }
+            });
+        } else {
+            //token Id 가 없고 버튼에 대한 정보 없다는 것은 처음 문서 생성 이라고 판단한다.
+            if (document.getElementById('tokenId') === null) {
+                const buttonProcessEle = document.createElement('button');
+                buttonProcessEle.type = 'button';
+                buttonProcessEle.innerText = i18n.get('common.btn.register');
+                buttonProcessEle.addEventListener('click', function () {
+                    aliceDocument.save('');
+                });
+                buttonEle.appendChild(buttonProcessEle);
+            }
         }
-/////////////////////////////////////////////////////////////////////////////////////
+
         const buttonCancelEle = document.createElement('button');
         buttonCancelEle.type = 'button';
         buttonCancelEle.innerText = i18n.get('common.btn.cancel');
@@ -403,6 +427,7 @@
             window.close();
         });
         buttonEle.appendChild(buttonCancelEle);
+
         buttonContainer.appendChild(buttonEle);
     }
 
@@ -431,14 +456,18 @@
             }
         }
 
-        addButton(data.action);
-
         if (data.documentId !== undefined) {
             addIdComponent('documentId', data.documentId);
         }
 
         if (data.tokenId !== undefined) {
             addIdComponent('tokenId', data.tokenId);
+        }
+
+        if (data.components != undefined) {
+            addButton(data.action);
+        } else if (data.token.components != undefined) {
+            addButton(data.token.action);
         }
     }
 
@@ -554,7 +583,7 @@
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
                             if (componentChild[checkBoxIndex].checked) {
-                                if (componentValue.indexOf(",") === -1) {
+                                if (componentValue === '' && componentValue.indexOf(",") === -1) {
                                     componentValue = componentChild[checkBoxIndex].value;
                                 } else {
                                     componentValue = componentValue + ',' + componentChild[checkBoxIndex].value;
@@ -583,13 +612,16 @@
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
         }
 
-        tokenObject.elementId = '';
+        tokenObject.assigneeId = '';
+        tokenObject.assigneeType = '';
+
         if (componentArrayList.length > 0) {
             tokenObject.data = componentArrayList;
         } else {
             tokenObject.data = '';
         }
 
+        actionArrayList = v_kind;
         tokenObject.actions = actionArrayList;
 
         let method = '';
@@ -610,6 +642,7 @@
                 });
             }
         };
+
         aliceJs.sendXhr(opt);
     }
 
@@ -672,7 +705,7 @@
             if (formatArray.length === 3) { userData.defaultTime = '12'; }
         }
 
-        // document data search.
+        // token data search.
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/tokens/data/' + tokenId,

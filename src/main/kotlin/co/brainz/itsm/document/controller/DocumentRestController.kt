@@ -63,8 +63,8 @@ class DocumentRestController(private val documentService: DocumentService) {
                 "validate":{"required":"N"}},
                 "values":[{"value":""}]
                 }
-            ],
-            "action":[{"name" : "등록","value" : "" }]
+            ]
+            ,"action":[{"name" : "등록","value" : "" }]
             }
         """
     }

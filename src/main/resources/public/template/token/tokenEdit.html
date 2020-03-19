@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{document.label.write}"></title>
+    <title th:text="#{token.label.write}"></title>
     <meta charset="utf-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -66,7 +66,7 @@
             lang: '[[${#authentication.details.lang}]]'
         };
         i18n.add(function() {
-            aliceDocument.initDocument('[[${documentId}]]', JSON.stringify(userAuthInfo));
+            aliceDocument.initToken('[[${tokenId}]]', JSON.stringify(userAuthInfo));
         });
     };
 </script>
