@@ -52,13 +52,15 @@
      * save as process.
      */
     function saveAsProcess() {
-        alert('SAVE AS');
         aliceJs.sendXhr({
             method: 'POST',
             url: '/rest/processes/' + AliceProcessEditor.data.process.id,
             callbackFunc: function(xhr) {
-                if (xhr.responseText === 'true') {
-                    aliceJs.alert(i18n.get('common.msg.save'));
+                if (xhr.responseText !== '') {
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        opener.location.reload();
+                        location.href = '/processes/' + xhr.responseText + '/edit';
+                    });
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }

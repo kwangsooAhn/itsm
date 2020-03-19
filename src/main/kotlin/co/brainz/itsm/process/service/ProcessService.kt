@@ -56,6 +56,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
         restTemplateProcessDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.code
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
         return when (responseBody.isNotEmpty()) {
@@ -80,11 +81,29 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         return restTemplate.update(url, wfProcessElementDto)
     }
 
+    /**
+     * 프로세스 다른 이름 저장.
+     */
     fun saveAsProcess(wfProcessElementDto: WfProcessElementDto): String {
-        println(">>>>OK")
-        println(wfProcessElementDto)
-        println("==============")
-        return ""
+        val processId = wfProcessElementDto.process?.id?:""
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        wfProcessElementDto.process?.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        wfProcessElementDto.process?.createUserKey = userDetails.userKey
+        wfProcessElementDto.process?.updateDt = null
+        wfProcessElementDto.process?.updateUserKey = null
+        if (wfProcessElementDto.process?.status == RestTemplateConstants.ProcessStatus.DESTROY.code) {
+            wfProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.code
+        }
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS_SAVE_AS.url.replace(restTemplate.getKeyRegex(), processId))
+        val responseBody = restTemplate.createToSave(url, wfProcessElementDto)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        return when (responseBody.isNotEmpty()) {
+            true -> {
+                val processDto = mapper.readValue(responseBody, RestTemplateProcessDto::class.java)
+                processDto.processId
+            }
+            false -> ""
+        }
     }
 
     /**

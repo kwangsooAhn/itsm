@@ -55,6 +55,14 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
     }
 
     /**
+     * 프로세스 다른 이름 저장.
+     */
+    @PostMapping("/{processId}")
+    fun saveAsProcessData(@RequestBody wfProcessElementDto: WfProcessElementDto, @PathVariable processId: String): ProcessDto {
+        return wfEngine.process().saveAsForm(wfProcessElementDto)
+    }
+
+    /**
      * 프로세스 1건 데이터 삭제.
      * @param processId
      * @return Boolean result

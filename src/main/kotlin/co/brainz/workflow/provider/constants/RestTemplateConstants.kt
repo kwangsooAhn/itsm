@@ -28,6 +28,7 @@ object RestTemplateConstants {
         GET_PROCESS("/rest/wf/processes/{processId}", "GET"),
         POST_PROCESS("/rest/wf/processes", "POST"),
         PUT_PROCESS("/rest/wf/processes/{processId}", "PUT"),
+        POST_PROCESS_SAVE_AS("/rest/wf/processes/{processId}", "POST"),
         DELETE_PROCESS("/rest/wf/processes/{processId}", "DELETE")
     }
 
@@ -80,6 +81,16 @@ object RestTemplateConstants {
         SIMULATION("form.status.simu"),
         PUBLISH("form.status.publish"),
         DESTROY("form.status.destroy")
+    }
+
+    /**
+     * Process Status.
+     */
+    enum class ProcessStatus(val code: String) {
+        EDIT("process.status.edit"),
+        SIMULATION("process.status.simu"),
+        PUBLISH("process.status.publish"),
+        DESTROY("process.status.destroy")
     }
 
     /**

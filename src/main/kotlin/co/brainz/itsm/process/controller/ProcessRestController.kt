@@ -45,6 +45,9 @@ class ProcessRestController(private val processService: ProcessService) {
         return processService.updateProcess(wfProcessElementDto)
     }
 
+    /**
+     * 프로세스 다른 이름 저장.
+     */
     @PostMapping("/{processId}")
     fun saveAsProcess(@RequestBody wfProcessElementDto: WfProcessElementDto): String {
         return processService.saveAsProcess(wfProcessElementDto)
