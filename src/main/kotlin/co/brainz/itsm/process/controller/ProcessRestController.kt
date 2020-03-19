@@ -2,7 +2,12 @@ package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.engine.process.dto.WfProcessElementDto
+import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -30,11 +36,17 @@ class ProcessRestController(private val processService: ProcessService) {
     }
 
     /**
-     * 프로세스 신규 등록.
+     * 프로세스 신규 등록 or 다른 이름 저장.
      */
     @PostMapping("")
-    fun createProcess(@RequestBody restTemplateProcessDto: RestTemplateProcessDto): String {
-        return processService.createProcess(restTemplateProcessDto)
+    fun createProcess(@RequestParam(value = "saveType", defaultValue = "") saveType: String,
+                      @RequestBody jsonData: Any): String {
+        val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        return when (saveType) {
+            RestTemplateConstants.ProcessSaveType.COPY.code -> processService.saveAsProcess(mapper.convertValue(jsonData, WfProcessElementDto::class.java))
+            else -> processService.createProcess(mapper.convertValue(jsonData, RestTemplateProcessDto::class.java))
+        }
     }
 
     /**

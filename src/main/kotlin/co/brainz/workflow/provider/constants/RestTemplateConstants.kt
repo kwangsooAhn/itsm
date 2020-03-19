@@ -27,8 +27,8 @@ object RestTemplateConstants {
         GET_PROCESSES("/rest/wf/processes", "GET"),
         GET_PROCESS("/rest/wf/processes/{processId}", "GET"),
         POST_PROCESS("/rest/wf/processes", "POST"),
+        POST_PROCESS_SAVE_AS("/rest/wf/processes?saveType=copy", "POST"),
         PUT_PROCESS("/rest/wf/processes/{processId}", "PUT"),
-        POST_PROCESS_SAVE_AS("/rest/wf/processes/{processId}", "POST"),
         DELETE_PROCESS("/rest/wf/processes/{processId}", "DELETE")
     }
 
@@ -91,6 +91,13 @@ object RestTemplateConstants {
         SIMULATION("process.status.simu"),
         PUBLISH("process.status.publish"),
         DESTROY("process.status.destroy")
+    }
+
+    /**
+     * Process SaveType.
+     */
+    enum class ProcessSaveType(val code: String) {
+        COPY("copy")
     }
 
     /**
