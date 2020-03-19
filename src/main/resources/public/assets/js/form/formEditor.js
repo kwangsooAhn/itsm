@@ -1008,14 +1008,15 @@
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editbox = component.draw(defaultComponent);
         setComponentData(editbox.attr);
-        editbox.domElem.querySelector('[contenteditable=true]').focus();
+
         //폼 상세 정보 출력
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/form/formAttribute.json',
             callbackFunc: function(xhr) {
                 formProperties = JSON.parse(xhr.responseText);
-                showComponentProperties(editbox.id);
+                const firstComponent = document.getElementById('panel-form').querySelectorAll('.component')[0];
+                showComponentProperties(firstComponent.id);
             },
             contentType: 'application/json; charset=utf-8'
         });
