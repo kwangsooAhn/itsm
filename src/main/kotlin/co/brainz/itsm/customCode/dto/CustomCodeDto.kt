@@ -1,6 +1,5 @@
 package co.brainz.itsm.customCode.dto
 
-import java.io.Serializable
 import java.time.LocalDateTime
 
 data class CustomCodeDto(
@@ -17,4 +16,4 @@ data class CustomCodeDto(
         var updateDt: LocalDateTime? = null,
         var updateUserName: String? = null,
         var enabled: Boolean = true
-) : Serializable
+)

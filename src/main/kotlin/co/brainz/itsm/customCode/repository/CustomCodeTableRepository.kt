@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CustomCodeTableRepository: JpaRepository<CustomCodeTableEntity, String> {
+    fun findByOrderByCustomCodeTableNameAsc(): List<CustomCodeTableEntity>
     fun findByCustomCodeTable(customCodeTable: String): CustomCodeTableEntity
 }

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CustomCodeRepository : JpaRepository<CustomCodeEntity, String> {
-    fun findByOrderByCustomCodeNameDesc(): List<CustomCodeEntity>
+interface CustomCodeRepository: JpaRepository<CustomCodeEntity, String> {
+    fun findByOrderByCustomCodeNameAsc(): List<CustomCodeEntity>
     fun existsByCustomCodeName(customCodeName: String): Boolean
 }

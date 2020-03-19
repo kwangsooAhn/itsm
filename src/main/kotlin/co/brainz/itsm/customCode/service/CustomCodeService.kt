@@ -34,15 +34,17 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
      * @return MutableList<CustomCodeDto>
      */
     fun getCustomCodeList(): List<CustomCodeDto> {
-        val customCodeEntityList = customCodeRepository.findByOrderByCustomCodeNameDesc()
+        val customCodeEntityList = customCodeRepository.findByOrderByCustomCodeNameAsc()
         val customCodeList = mutableListOf<CustomCodeDto>()
-
-        val customCodeTableNameList = getCustomCodeTableNameList()
         val usedCustomCodeIdList = getUsedCustomCodeIdList()
-
+        val customCodeTableList = getCustomCodeTableList()
         for (customCodeEntity in customCodeEntityList) {
             val customCode = customCodeMapper.toCustomCodeDto(customCodeEntity)
-            customCodeTableNameList[customCodeEntity.targetTable]?.let { customCode.targetTableName = it }
+            customCodeTableList.forEach {
+                if (customCode.targetTable == it.customCodeTable) {
+                    customCode.targetTableName = it.customCodeTableName
+                }
+            }
             customCode.enabled = (usedCustomCodeIdList.indexOf(customCodeEntity.customCodeId) == -1)
             customCodeList.add(customCode)
         }
@@ -119,7 +121,7 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
      * @return MutableList<CustomCodeTableDto>
      */
     fun getCustomCodeTableList(): MutableList<CustomCodeTableDto> {
-        val customCodeTableEntityList = customCodeTableRepository.findAll()
+        val customCodeTableEntityList = customCodeTableRepository.findByOrderByCustomCodeTableNameAsc()
         val customCodeTableList = mutableListOf<CustomCodeTableDto>()
         for (customCodeTableEntity in customCodeTableEntityList) {
             customCodeTableList.add(customCodeTableMapper.toCustomCodeTableDto(customCodeTableEntity))
@@ -128,26 +130,12 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
     }
 
     /**
-     * 사용자 정의 코드 테이블 이름 리스트 조회.
-     *
-     * @return List<String>
-     */
-    fun getCustomCodeTableNameList(): Map<String, String> {
-        val customCodeTableNameList = mutableMapOf<String, String>()
-        val customCodeTableList = customCodeTableRepository.findAll()
-        for (customCodeTable in customCodeTableList) {
-            customCodeTableNameList[customCodeTable.customCodeTable] = customCodeTable.customCodeTableName
-        }
-        return customCodeTableNameList
-    }
-
-    /**
      * 사용자 정의 코드 컬럼 리스트 조회.
      *
      * @return MutableList<CustomCodeColumnDto>
      */
     fun getCustomCodeColumnList(): MutableList<CustomCodeColumnDto> {
-        val customCodeColumnEntityList = customCodeColumnRepository.findAll()
+        val customCodeColumnEntityList = customCodeColumnRepository.findByOrderByCustomCodeColumnNameAsc()
         val customCodeColumnList = mutableListOf<CustomCodeColumnDto>()
         for (customCodeColumnEntity in customCodeColumnEntityList) {
             customCodeColumnList.add(customCodeColumnMapper.toCustomCodeColumnDto(customCodeColumnEntity))
