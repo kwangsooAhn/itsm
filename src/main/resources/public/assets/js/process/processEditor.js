@@ -213,7 +213,7 @@
                 cursor = 'crosshair';
             }
             elemContainer.style('cursor', cursor);
-            if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
+            if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 return;
             }
             mouseoverElement = elem;
@@ -223,7 +223,7 @@
         mouseout: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
-            if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
+            if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 elemContainer.style('cursor', 'default');
                 return;
             }
@@ -279,7 +279,7 @@
                     return;
                 }
 
-                if (mousedownElement !== mouseoverElement) {
+                if (mousedownElement.node().id !== mouseoverElement.node().id) {
                     mouseoverElement
                         .classed('selected', false);
 
