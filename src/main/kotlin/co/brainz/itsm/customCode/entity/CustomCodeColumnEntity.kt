@@ -11,13 +11,16 @@ import javax.persistence.Table
 @Table(name = "awf_custom_code_column")
 @IdClass(CustomCodeColumnPk::class)
 data class CustomCodeColumnEntity(
-        @Id @Column(name = "custom_code_table")
+        @Id
+        @Column(name = "custom_code_table")
         var customCodeTable: String = "",
 
-        @Id @Column(name = "custom_code_type")
+        @Id
+        @Column(name = "custom_code_type")
         var customCodeType: String = "",
 
-        @Id @Column(name = "custom_code_column")
+        @Id
+        @Column(name = "custom_code_column")
         var customCodeColumn: String = "",
 
         @Column(name = "custom_code_column_name")

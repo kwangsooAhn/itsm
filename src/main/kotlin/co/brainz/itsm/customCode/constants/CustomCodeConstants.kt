@@ -18,7 +18,8 @@ object CustomCodeConstants {
     enum class Status(val code: String) {
         STATUS_VALID_SUCCESS("-1"),
         STATUS_SUCCESS("0"),
-        STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION("1")
+        STATUS_ERROR_CUSTOM_CODE_USED("1"),
+        STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION("2")
     }
 
     /**

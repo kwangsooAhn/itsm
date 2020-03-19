@@ -344,4 +344,5 @@ custom.code:
     inputTableTarget: "Please enter a table target name."
     inputSearchColumn: "Please enter a search column name."
     inputValueColumn: "Please enter a value column name."
+    customCodeUsed: "The Custom code is being used."
     customCodeNameDuplication: "The same custom code name exists."

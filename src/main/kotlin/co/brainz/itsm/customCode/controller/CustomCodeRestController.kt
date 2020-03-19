@@ -51,9 +51,10 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      * 사용자 정의 코드 삭제.
      *
      * @param customCodeId
+     * @return String
      */
     @DeleteMapping("/{customCodeId}")
-    fun deleteCustomCode(@PathVariable customCodeId: String) {
-        customCodeService.deleteCustomCode(customCodeId)
+    fun deleteCustomCode(@PathVariable customCodeId: String): String {
+        return customCodeService.deleteCustomCode(customCodeId)
     }
 }

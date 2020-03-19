@@ -28,7 +28,7 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
 
     /**
      * 사용자 정의 코드 리스트 화면.
-
+     *
      * @param model
      * @return String
      */

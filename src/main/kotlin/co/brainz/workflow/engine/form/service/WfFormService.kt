@@ -242,11 +242,15 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      * Get Component Data.
      *
      * @param componentType
-     * @param attributeId
+     * @return List<WfFormComponentDataDto>
      */
-    override fun getFormComponentData(componentType: String, attributeId: String): List<WfFormComponentDataDto> {
+    override fun getFormComponentData(componentType: String): List<WfFormComponentDataDto> {
         val componentDataList = mutableListOf<WfFormComponentDataDto>()
-        val componentDataEntityList = wfComponentDataRepository.findByAttributeValueList(componentType, attributeId)
+        val componentDataEntityList = if (componentType == "") {
+            wfComponentDataRepository.findAll()
+        } else {
+            wfComponentDataRepository.findByComponentDataList(componentType)
+        }
         for (componentDataEntity in componentDataEntityList) {
             componentDataList.add(WfFormComponentDataDto(
                     componentId = componentDataEntity.componentId,

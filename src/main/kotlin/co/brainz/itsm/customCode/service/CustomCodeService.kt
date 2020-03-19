@@ -38,45 +38,15 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
         val customCodeList = mutableListOf<CustomCodeDto>()
 
         val customCodeTableNameList = getCustomCodeTableNameList()
-        val useCustomCodeId = getUseCustomCodeIdList()
+        val usedCustomCodeIdList = getUsedCustomCodeIdList()
 
         for (customCodeEntity in customCodeEntityList) {
             val customCode = customCodeMapper.toCustomCodeDto(customCodeEntity)
             customCodeTableNameList[customCodeEntity.targetTable]?.let { customCode.targetTableName = it }
-            customCode.enabled = (useCustomCodeId.indexOf(customCodeEntity.customCodeId) == -1)
+            customCode.enabled = (usedCustomCodeIdList.indexOf(customCodeEntity.customCodeId) == -1)
             customCodeList.add(customCode)
         }
         return customCodeList
-    }
-
-    /**
-     * 사용자 정의 코드 테이블 이름 리스트 조회.
-     *
-     * @return List<String>
-     */
-    fun getCustomCodeTableNameList(): Map<String, String> {
-        val customCodeTableNameList = mutableMapOf<String, String>()
-        val customCodeTableList = customCodeTableRepository.findAll()
-        for (customCodeTable in customCodeTableList) {
-            customCodeTableNameList[customCodeTable.customCodeTable] = customCodeTable.customCodeTableName
-        }
-        return customCodeTableNameList
-    }
-
-    /**
-     * 사용중인 사용자 정의 코드 ID 리스트 조회.
-     *
-     * @return List<String>
-     */
-    fun getUseCustomCodeIdList(): List<String> {
-        val customCodeIdList = mutableListOf<String>()
-        val formComponentDataList =
-                formService.getFormComponentData(CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE, CustomCodeConstants.ATTRIBUTE_ID_DISPLAY)
-        for (formComponentData in formComponentDataList) {
-            val map = ObjectMapper().readValue(formComponentData.attributeValue, MutableMap::class.java)
-            customCodeIdList.add(map[CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE].toString())
-        }
-        return customCodeIdList
     }
 
     /**
@@ -88,18 +58,59 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
     fun getCustomCode(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)
-        customCodeDto.targetTableName = customCodeTableRepository.findByCustomCodeTable(customCodeEntity.targetTable).customCodeTableName
-        customCodeDto.searchColumnName = customCodeColumnRepository.findById(CustomCodeColumnPk(
-                customCodeTable = customCodeEntity.targetTable,
-                customCodeColumn = customCodeEntity.searchColumn,
-                customCodeType = CustomCodeConstants.ColumnType.SEARCH.code
-        )).orElse(CustomCodeColumnEntity()).customCodeColumnName
-        customCodeDto.valueColumnName = customCodeColumnRepository.findById(CustomCodeColumnPk(
-                customCodeTable = customCodeEntity.targetTable,
-                customCodeColumn = customCodeEntity.valueColumn,
-                customCodeType = CustomCodeConstants.ColumnType.VALUE.code
-        )).orElse(CustomCodeColumnEntity()).customCodeColumnName
+        customCodeDto.targetTableName = customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable).customCodeTableName
+        customCodeDto.searchColumnName = getCustomCodeColumnName(customCodeDto.targetTable, customCodeDto.searchColumn, CustomCodeConstants.ColumnType.SEARCH.code)
+        customCodeDto.valueColumnName = getCustomCodeColumnName(customCodeDto.targetTable, customCodeDto.valueColumn, CustomCodeConstants.ColumnType.VALUE.code)
         return customCodeDto
+    }
+
+    /**
+     * 사용자 정의 코드 저장(등록/수정).
+     *
+     * @param customCodeDto
+     * @return String
+     */
+    fun saveCustomCode(customCodeDto: CustomCodeDto): String {
+        var code = customCodeEditValid(customCodeDto)
+        when (code) {
+            CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code -> {
+                customCodeRepository.save(customCodeMapper.toCustomCodeEntity(customCodeDto))
+                code = CustomCodeConstants.Status.STATUS_SUCCESS.code
+            }
+        }
+        return code
+    }
+
+    /**
+     * 사용자 정의 코드 삭제.
+     *
+     * @param customCodeId
+     * @return String
+     */
+    fun deleteCustomCode(customCodeId: String): String {
+        return if (getUsedCustomCodeIdList().indexOf(customCodeId) != -1) {
+            CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
+        } else {
+            customCodeRepository.deleteById(customCodeId)
+            CustomCodeConstants.Status.STATUS_SUCCESS.code
+        }
+    }
+
+    /**
+     * 사용중인 사용자 정의 코드 ID 리스트 조회.
+     *
+     * @return List<String>
+     */
+    fun getUsedCustomCodeIdList(): List<String> {
+        val usedCustomCodeIdList = mutableListOf<String>()
+        val formComponentDataList = formService.getFormComponentDataList(CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE)
+        for (formComponentData in formComponentDataList) {
+            if (formComponentData.attributeId == CustomCodeConstants.ATTRIBUTE_ID_DISPLAY) {
+                val map = ObjectMapper().readValue(formComponentData.attributeValue, MutableMap::class.java)
+                map[CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE]?.let { usedCustomCodeIdList.add(it.toString()) }
+            }
+        }
+        return usedCustomCodeIdList
     }
 
     /**
@@ -117,6 +128,20 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
     }
 
     /**
+     * 사용자 정의 코드 테이블 이름 리스트 조회.
+     *
+     * @return List<String>
+     */
+    fun getCustomCodeTableNameList(): Map<String, String> {
+        val customCodeTableNameList = mutableMapOf<String, String>()
+        val customCodeTableList = customCodeTableRepository.findAll()
+        for (customCodeTable in customCodeTableList) {
+            customCodeTableNameList[customCodeTable.customCodeTable] = customCodeTable.customCodeTableName
+        }
+        return customCodeTableNameList
+    }
+
+    /**
      * 사용자 정의 코드 컬럼 리스트 조회.
      *
      * @return MutableList<CustomCodeColumnDto>
@@ -124,27 +149,23 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
     fun getCustomCodeColumnList(): MutableList<CustomCodeColumnDto> {
         val customCodeColumnEntityList = customCodeColumnRepository.findAll()
         val customCodeColumnList = mutableListOf<CustomCodeColumnDto>()
-        for(customCodeColumnEntity in customCodeColumnEntityList) {
-            customCodeColumnList.add(customCodeColumnMapper.toCustomCodeTableDto(customCodeColumnEntity))
+        for (customCodeColumnEntity in customCodeColumnEntityList) {
+            customCodeColumnList.add(customCodeColumnMapper.toCustomCodeColumnDto(customCodeColumnEntity))
         }
         return customCodeColumnList
     }
 
     /**
-     * 사용자 정의 코드 저장(등록/수정).
+     * 사용자 정의 코드 컬럼 이름 조회.
      *
-     * @param customCodeDto
      * @return String
      */
-    fun saveCustomCode(customCodeDto: CustomCodeDto): String {
-        var code = customCodeEditValid(customCodeDto)
-        when(code) {
-            CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code -> {
-                customCodeRepository.save(customCodeMapper.toCustomCodeEntity(customCodeDto))
-                code = CustomCodeConstants.Status.STATUS_SUCCESS.code
-            }
-        }
-        return code
+    fun getCustomCodeColumnName(customCodeTable: String, customCodeColumn: String, customCodeType: String): String {
+        return customCodeColumnRepository.findById(CustomCodeColumnPk(
+                customCodeTable = customCodeTable,
+                customCodeColumn = customCodeColumn,
+                customCodeType = customCodeType
+        )).orElse(CustomCodeColumnEntity()).customCodeColumnName
     }
 
     /**
@@ -154,27 +175,21 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
      * @return String
      */
     fun customCodeEditValid(customCodeDto: CustomCodeDto): String {
-        var nameCheck = true
+        var isContinue = true
+        var code = CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code
         if (customCodeDto.customCodeId != "") {
-            val existCustomCode = customCodeRepository.findById(customCodeDto.customCodeId).orElse(CustomCodeEntity())
-            nameCheck = (customCodeDto.customCodeName != existCustomCode.customCodeName)
-        }
-        return when {
-            nameCheck && customCodeRepository.existsByCustomCodeName(customCodeDto.customCodeName) -> {
-                CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION.code
+            if (getUsedCustomCodeIdList().indexOf(customCodeDto.customCodeId) != -1) {
+                code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
+                isContinue = false
             }
-            else -> {
-                CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code
+            if (isContinue) {
+                val existCustomCode = customCodeRepository.findById(customCodeDto.customCodeId).orElse(CustomCodeEntity())
+                isContinue = (customCodeDto.customCodeName != existCustomCode.customCodeName)
             }
         }
-    }
-
-    /**
-     * 사용자 정의 코드 삭제.
-     *
-     * @param customCodeId
-     */
-    fun deleteCustomCode(customCodeId: String) {
-        customCodeRepository.deleteById(customCodeId)
+        if (isContinue && customCodeRepository.existsByCustomCodeName(customCodeDto.customCodeName)) {
+            code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION.code
+        }
+        return code
     }
 }

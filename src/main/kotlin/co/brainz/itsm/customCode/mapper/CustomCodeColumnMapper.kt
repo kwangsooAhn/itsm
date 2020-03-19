@@ -6,5 +6,5 @@ import org.mapstruct.Mapper
 
 @Mapper
 interface CustomCodeColumnMapper {
-    fun toCustomCodeTableDto(customCodeColumnEntity: CustomCodeColumnEntity): CustomCodeColumnDto
+    fun toCustomCodeColumnDto(customCodeColumnEntity: CustomCodeColumnEntity): CustomCodeColumnDto
 }

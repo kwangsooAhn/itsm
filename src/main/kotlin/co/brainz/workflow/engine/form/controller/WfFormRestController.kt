@@ -52,8 +52,8 @@ class WfFormRestController(private val wfEngine: WfEngine) {
         return wfEngine.form().saveAsForm(wfFormComponentSaveDto)
     }
 
-    @GetMapping("/components/{componentType}/data")
-    fun getFormComponentData(@PathVariable componentType: String, request: HttpServletRequest): List<WfFormComponentDataDto> {
-        return wfEngine.form().getFormComponentData(componentType, request.getParameter("attributeId") ?: "")
+    @GetMapping("/components")
+    fun getFormComponentData(request: HttpServletRequest): List<WfFormComponentDataDto> {
+        return wfEngine.form().getFormComponentData(request.getParameter("componentType") ?: "")
     }
 }

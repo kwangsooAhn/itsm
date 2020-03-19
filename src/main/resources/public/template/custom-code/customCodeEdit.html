@@ -82,7 +82,8 @@
         /*<![CDATA[*/
         //상태값
         const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION = '1';
+        const STATUS_ERROR_CUSTOM_CODE_USED = '1';
+        const STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION = '2';
 
         window.onload = function() {
             const targetTable = document.getElementById('target_table');
@@ -161,14 +162,18 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            alert(/*[[#{common.msg.save}]]*/'');
-                            location.href = '/custom-codes/search';
+                            aliceJs.alert(/*[[#{common.msg.save}]]*/'', function () {
+                                location.href = '/custom-codes/search';
+                            });
+                            break;
+                        case STATUS_ERROR_CUSTOM_CODE_USED:
+                            aliceJs.alert(/*[[#{custom.code.msg.customCodeUsed}]]*/'');
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                            alert(/*[[#{custom.code.msg.customCodeNameDuplication}]]*/'');
+                            aliceJs.alert(/*[[#{custom.code.msg.customCodeNameDuplication}]]*/'');
                             break;
                         default :
-                            alert(/*[[#{common.msg.save.fail}]]*/'');
+                            aliceJs.alert(/*[[#{common.msg.save.fail}]]*/'');
                             break;
                     }
                 }

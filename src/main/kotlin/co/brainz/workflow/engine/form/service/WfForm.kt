@@ -55,8 +55,7 @@ interface WfForm {
      * Get Component Data.
      *
      * @param componentType
-     * @param attributeId
      * @return List<WfFormComponentDataDto>
      */
-    fun getFormComponentData(componentType: String, attributeId: String): List<WfFormComponentDataDto>
+    fun getFormComponentData(componentType: String): List<WfFormComponentDataDto>
 }

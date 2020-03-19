@@ -259,7 +259,7 @@ form:
     alert:
       nameNotExist: "문서양식 이름을 입력해주세요."
   preview:
-    name: 문서양식 미리보기
+    name: "문서양식 미리보기"
 
 # Process
 process:
@@ -346,4 +346,5 @@ custom.code:
     inputTableTarget: "대상 테이블명을 입력해주세요."
     inputSearchColumn: "검색 컬럼명을 입력해주세요."
     inputValueColumn: "값 컬럼명을 입력해주세요."
+    customCodeUsed: "사용 중인 사용자 정의 코드입니다."
     customCodeNameDuplication: "동일한 사용자 정의 코드명이 존재합니다."

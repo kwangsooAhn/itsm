@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface WfComponentDataRepository: JpaRepository<WfComponentDataEntity, String> {
     @Query("SELECT cd FROM WfComponentEntity c, WfComponentDataEntity cd " +
-                 "WHERE c.componentId = cd.componentId AND c.componentType = :componentType AND cd.attributeId = :attributeId")
-    fun findByAttributeValueList(componentType: String, attributeId: String): List<WfComponentDataEntity>
+                 "WHERE c.componentId = cd.componentId AND c.componentType = :componentType")
+    fun findByComponentDataList(componentType: String?): List<WfComponentDataEntity>
 }

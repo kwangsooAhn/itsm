@@ -106,12 +106,10 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         )
     }
 
-    fun getFormComponentData(componentType: String, attributeId: String): List<FormComponentDataDto> {
+    fun getFormComponentDataList(componentType: String): List<FormComponentDataDto> {
         val params = LinkedMultiValueMap<String, String>()
-        params.add("attributeId", attributeId)
-        val urlDto = RestTemplateUrlDto(
-                callUrl = RestTemplateConstants.Form.GET_FORM_COMPONENT_DATA.url.replace(restTemplate.getKeyRegex(), componentType),
-                parameters = params)
+        params.add("componentType", componentType)
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM_COMPONENT_DATA.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormComponentDataDto::class.java))
