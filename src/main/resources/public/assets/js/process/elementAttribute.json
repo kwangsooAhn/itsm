@@ -98,9 +98,9 @@
             {
               "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee",
               "sub-list": [
-                {"id": "assignee", "name": "Assignee"},
-                {"id": "candidate-users", "name": "Candidate Users"},
-                {"id": "candidate-groups", "name": "Candidate Groups"}
+                {"id": "assignee.type.assignee", "name": "Assignee"},
+                {"id": "assignee.type.candidate.users", "name": "Candidate Users"},
+                {"id": "assignee.type.candidate.groups", "name": "Candidate Groups"}
               ]
             },
             {"id": "assignee", "name": "Assignee", "type": "inputbox", "default": ""},

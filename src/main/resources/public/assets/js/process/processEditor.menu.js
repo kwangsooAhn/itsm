@@ -492,6 +492,24 @@
     }
 
     /**
+     * reset element position.
+     */
+    function resetElementPosition() {
+        const containerTransform = d3.zoomTransform(d3.select('g.element-container').node());
+        console.debug('container transform : x(%s), y(%s)', containerTransform.x, containerTransform.y);
+        if (containerTransform.x !== 0 || containerTransform.y !== 0) {
+            AliceProcessEditor.data.elements.forEach(function(elem) {
+                if (elem.type !== 'arrowConnector') {
+                    const nodeElement = d3.select(document.getElementById(elem.id));
+                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
+                    elem.display['position-x'] = bbox.cx + containerTransform.x;
+                    elem.display['position-y'] = bbox.cy + containerTransform.y;
+                }
+            });
+        }
+    }
+
+    /**
      * element 를 저장 데이터 및 화면에서 제거한다.
      *
      * @param elem 대상 element
@@ -664,6 +682,7 @@
                 }
             }
         } else { // show process properties
+            if (!AliceProcessEditor.data.process) { return; }
             makePropertiesItem(AliceProcessEditor.data.process.id, processProperties, AliceProcessEditor.data.process);
         }
     }
@@ -723,9 +742,9 @@
      *
      * @param id ID
      * @param properties 속성정보
-     * @param data 데이터속성
+     * @param elemData 속성데이터
      */
-    function makePropertiesItem(id, properties, data) {
+    function makePropertiesItem(id, properties, elemData) {
         const propertiesContainer = document.querySelector('.alice-process-properties-panel');
         propertiesContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
@@ -767,7 +786,7 @@
                     case 'checkbox':
                         elementObject = document.createElement('input');
                         elementObject.type = 'checkbox';
-                        if (data[property.id] && data[property.id] === 'Y') {
+                        if (elemData[property.id] && elemData[property.id] === 'Y') {
                             elementObject.checked = true;
                         }
                         break;
@@ -786,8 +805,8 @@
                 if (elementObject) {
                     elementObject.id = property.id;
                     elementObject.name = property.id;
-                    if (data[property.id] && property.type !== 'checkbox') {
-                        elementObject.value = data[property.id];
+                    if (elemData[property.id] && property.type !== 'checkbox') {
+                        elementObject.value = elemData[property.id];
                     }
                     if (property.id === 'name') {
                         let keyupHandler = function(e) {
@@ -834,9 +853,8 @@
                 method: 'GET',
                 url: '/rest/processes/data/' + processId,
                 callbackFunc: function(xhr) {
-                    const data = xhr.responseText;
-                    console.debug(JSON.parse(data));
-                    AliceProcessEditor.data = JSON.parse(data);
+                    console.debug(JSON.parse(xhr.responseText));
+                    AliceProcessEditor.data = JSON.parse(xhr.responseText);
                     document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
                     const elements = AliceProcessEditor.data.elements;
                     setElementMenu();
@@ -915,5 +933,6 @@
     exports.getElementDefaultType = getElementDefaultType;
     exports.changeDisplayValue = changeDisplayValue;
     exports.changeElementType = changeElementType;
+    exports.resetElementPosition = resetElementPosition;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
