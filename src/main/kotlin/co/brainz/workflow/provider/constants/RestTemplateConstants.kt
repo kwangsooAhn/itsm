@@ -13,8 +13,17 @@ object RestTemplateConstants {
         GET_FORM("/rest/wf/forms/{formId}", "GET"),
         POST_FORM("/rest/wf/forms", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
-        POST_FORM_SAVE_AS("/rest/wf/forms/{formId}", "POST"),
+        POST_FORM_SAVE_AS("/rest/wf/forms?saveType=copy", "POST"),
         DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
+    }
+
+    /**
+     * Form SaveType.
+     *
+     * @param code
+     */
+    enum class FormSaveType(val code: String) {
+        COPY("copy")
     }
 
     /**

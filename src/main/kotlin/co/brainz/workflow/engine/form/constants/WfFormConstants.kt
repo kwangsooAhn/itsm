@@ -21,4 +21,13 @@ object WfFormConstants {
         PUBLISH("publish"),
         DESTROY("destroy")
     }
+
+    /**
+     * Form SaveType.
+     *
+     * @param value
+     */
+    enum class FormSaveType(val value: String) {
+        COPY("copy")
+    }
 }
