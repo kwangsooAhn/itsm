@@ -324,18 +324,25 @@ class WfTokenService(private val wfDocumentRepository: WfDocumentRepository,
 
             //  다음 Element 가져오기
             val nextElement: WfElementEntity? = wfElementService.getNextElement(completedToken.elementId, wfTokenDto)
+
+            // 0. 엘리먼트 널 첵, 널이면 에러
+            // 1. 엘리먼트 타입 확인. 타입에 따라 종료만? 종료 + 다음타겟 확인할지.
+            // 2. 엘리먼트 찾고 토큰 DTO를 생성한다. 생성된 DTO에 어디 createTokenData여부, completeToken 여부, completeInstance 여부 확인
+
             nextElement?.let { it ->
                 val assigneeValueInNextElement: String? = it.getElementDataValue(WfElementConstants.AttributeId.ASSIGNEE.value)
                 val assigneeTypeValueInNextElement: String? = it.getElementDataValue(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value)
 
-                val nextToken = WfTokenDto(tokenId = "",
-                        isComplete = false,
-                        elementId = it.elementId,
-                        assigneeId = getAssigneeForToken(assigneeValueInNextElement),
-                        assigneeType = assigneeTypeValueInNextElement,
-                        data = null,
-                        documentId = completedToken.instance.document.documentId,
-                        documentName = completedToken.instance.document.documentName
+                val nextToken = WfTokenDto(
+                    tokenId = "",
+                    isComplete = false,
+                    elementId = it.elementId,
+                    elementType = it.elementType,
+                    assigneeId = getAssigneeForToken(assigneeValueInNextElement),
+                    assigneeType = assigneeTypeValueInNextElement,
+                    data = null,
+                    documentId = completedToken.instance.document.documentId,
+                    documentName = completedToken.instance.document.documentName
                 )
 
                 when (it.elementType) {
@@ -366,7 +373,7 @@ class WfTokenService(private val wfDocumentRepository: WfDocumentRepository,
     private fun getAssigneeForToken(assigneeData: String?): String {
         // 데이터가 만약 mappingExpresion('${xxxx}'와 같은) 이라면 문서에서 해당 코드로 매핑된 데이터를 찾아서 사용.
         // 데이터가 단순히 문자열이라면 그대로 사용.
-        var assigneeForToken: String = ""
+        var assigneeForToken = ""
 
         val mappingExpr = WfTokenConstants.mappingExpression.toRegex()
         assigneeData?.let {

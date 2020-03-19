@@ -16,35 +16,34 @@ import javax.persistence.Table
 @Entity
 @Table(name = "wf_token")
 data class WfTokenEntity(
+    @Id @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "token_id", length = 128)
+    val tokenId: String,
 
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "token_id", length = 128)
-        val tokenId: String,
+    /*@JoinColumn(name = "instance_id")
+    val instanceId: String,*/
 
-        /*@JoinColumn(name = "instance_id")
-        val instanceId: String,*/
+    @JoinColumn(name = "element_id")
+    val elementId: String,
 
-        @JoinColumn(name = "element_id")
-        val elementId: String,
+    @Column(name = "token_status", length = 100)
+    var tokenStatus: String,
 
-        @Column(name = "token_status", length = 100)
-        var tokenStatus: String,
+    @Column(name = "token_start_dt", nullable = false)
+    val tokenStartDt: LocalDateTime? = null,
 
-        @Column(name = "token_start_dt", nullable = false)
-        val tokenStartDt: LocalDateTime? = null,
+    @Column(name = "token_end_dt", nullable = false)
+    var tokenEndDt: LocalDateTime? = null,
 
-        @Column(name = "token_end_dt", nullable = false)
-        var tokenEndDt: LocalDateTime? = null,
+    @Column(name = "", length = 128)
+    var assigneeId: String? = null,
 
-        @Column(name = "", length = 128)
-        var assigneeId: String? = null,
+    @Column(name = "", length = 256)
+    var assigneeType: String? = null,
 
-        @Column(name = "", length = 256)
-        var assigneeType: String? = null,
-
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "instance_id")
-        val instance: WfInstanceEntity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instance_id")
+    val instance: WfInstanceEntity
 
 ) : Serializable
