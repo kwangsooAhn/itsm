@@ -213,7 +213,7 @@
                 cursor = 'crosshair';
             }
             elemContainer.style('cursor', cursor);
-            if (!isDrawConnector || !mousedownElement || elem === mousedownElement) {
+            if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 return;
             }
             mouseoverElement = elem;
