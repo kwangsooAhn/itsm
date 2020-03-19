@@ -33,6 +33,7 @@
      */
     function saveProcess() {
         console.debug(AliceProcessEditor.data);
+        AliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/processes/' + AliceProcessEditor.data.process.id,
