@@ -12,5 +12,6 @@ data class RestTemplateTokenDto(
         var assigneeId: String? = null,
         var assigneeType: String? = null,
         var data: List<RestTemplateTokenDataDto>? = null,
+        var fileDataIds: String? = null,
         val action: List<RestTemplateActionDto>? = emptyList()
 ) : Serializable

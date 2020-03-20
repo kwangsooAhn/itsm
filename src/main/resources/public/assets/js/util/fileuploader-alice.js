@@ -135,10 +135,10 @@ const fileUploader = (function () {
                 // 등록된 파일이 있으면 조회.
                 const opt = {
                     method: 'get',
-                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : ''),
+                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
+                                  +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
-
                         files.forEach(function (fileMap) {
                             let file = fileMap.fileLocDto;
 

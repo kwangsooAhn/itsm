@@ -28,15 +28,15 @@ class TokenRestController(private val tokenService: TokenService) {
      * token 신규 등록 / 처리
      */
     @PostMapping("/data")
-    fun createToken(@RequestBody tokenDto: RestTemplateTokenDto): String {
-        return tokenService.createToken(tokenDto)
+    fun createToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): String {
+        return tokenService.createToken(restTemplateTokenDto)
     }
 
     /**
      * token 수정 / 처리
      */
     @PutMapping("/data")
-    fun updateToken(@RequestBody tokenDto: RestTemplateTokenDto): Boolean {
-        return tokenService.updateToken(tokenDto)
+    fun updateToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        return tokenService.updateToken(restTemplateTokenDto)
     }
 }

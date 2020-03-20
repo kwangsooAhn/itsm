@@ -1,6 +1,7 @@
 package co.brainz.itsm.token.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class TokenService(private val restTemplate: RestTemplateProvider) {
+class TokenService(private val restTemplate: RestTemplateProvider
+                   , private val aliceFileService: AliceFileService) {
 
     /**
      * Token 신규 등록 / 처리
@@ -25,7 +27,9 @@ class TokenService(private val restTemplate: RestTemplateProvider) {
      */
     fun createToken(restTemplateTokenDto: RestTemplateTokenDto): String {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
-        return restTemplate.create(url, restTemplateTokenDto)
+        val result = restTemplate.create(url, restTemplateTokenDto)
+        restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+        return result
     }
 
     /**
@@ -36,7 +40,11 @@ class TokenService(private val restTemplate: RestTemplateProvider) {
      */
     fun updateToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
-        return restTemplate.update(url, restTemplateTokenDto)
+        val result = restTemplate.update(url, restTemplateTokenDto)
+        if (result) {
+            restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+        }
+        return result
     }
 
     /**

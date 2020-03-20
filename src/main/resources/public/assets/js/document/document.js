@@ -375,11 +375,12 @@
                 const fileUploadedEle = document.createElement('div');
                 fileUploadedEle.id = fileUploadedEleId;
                 fieldLastEle.appendChild(fileUploadedEle);
-                console.log(compData.values[0].value);
                 if (compData.values != undefined && compData.values != "") {
-                    fileUploader.init({extra: {formId: 'frm', ownId: '', dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId}});
+                    fileUploader.init({extra: {formId: 'frm', ownId: '',
+                            dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId, fileDataIds: compData.values[0].value}});
                 } else {
-                    fileUploader.init({extra: {formId: 'frm', ownId: compData.values[0].value, dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId}});
+                    fileUploader.init({extra: {formId: 'frm', ownId: '',
+                            dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId}});
                 }
                 break;
             default :
@@ -541,6 +542,7 @@
         let tokenObject = {};
         let componentArrayList = [];
         let actionArrayList = [];
+        let fileDataIds = '';
 
         //documentId 값을 구한다.
         const documentElements = document.getElementById('documentId');
@@ -605,16 +607,13 @@
                     case 'fileupload' :
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
-                            if (componentChild[fileuploadIndex].checked) {
-                                if (componentValue === '' && componentValue.indexOf(",") === -1) {
-                                    componentValue = componentChild[fileuploadIndex].value;
-                                } else {
-                                    componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
-                                }
+                            if (componentValue === '' && componentValue.indexOf(",") === -1) {
+                                componentValue = componentChild[fileuploadIndex].value;
+                            } else {
+                                componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
                             }
                         }
-                        /*const fileSeq = [];
-                        document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));*/
+                        fileDataIds = componentValue;
                         break;
                 }
 
@@ -656,18 +655,21 @@
             method = 'put';
         }
 
+        if (fileDataIds !== '') {
+            tokenObject.fileDataIds = fileDataIds;
+        }
+
         const opt = {
             method: method,
             url: '/rest/tokens/data',
             params: JSON.stringify(tokenObject),
             contentType: 'application/json',
-            callbackFunc: function() {
+            callbackFunc: function(xhr) {
                 aliceJs.alert(i18n.get('common.msg.save'), function() {
                     window.close();
                 });
             }
         };
-
         aliceJs.sendXhr(opt);
     }
 
@@ -699,7 +701,6 @@
             method: 'GET',
             url: '/rest/documents/data/' + documentId,
             callbackFunc: function(xhr) {
-                console.log(xhr.responseText);
                 let jsonData = JSON.parse(xhr.responseText);
                 jsonData.documentId = documentId;
                 drawDocument(jsonData);
