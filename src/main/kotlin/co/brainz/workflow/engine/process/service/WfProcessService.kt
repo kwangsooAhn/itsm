@@ -39,8 +39,9 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
             wfProcessRepository.findAll()
         } else if (status.isEmpty()){
             wfProcessRepository.findByProcessNameLikeOrProcessDescLike("%$search%", "%$search%")
-        } else wfProcessRepository.findByProcessStatusLike(status)
-
+        } else {
+            wfProcessRepository.findByProcessStatus(status)
+        }
         processList.forEach {
             val enabled = when (it.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.SIMULATION.code -> true

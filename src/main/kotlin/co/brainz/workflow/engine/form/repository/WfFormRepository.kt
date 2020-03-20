@@ -8,6 +8,6 @@ interface WfFormRepository: JpaRepository<WfFormEntity, String>, WfFormRepositor
 
     fun findWfFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(formName: String, formDesc: String): List<WfFormEntity>
     fun findWfFormEntityByFormId(formId: String): Optional<WfFormEntity>
-    fun findByFormStatusLike(formStatus: String): List<WfFormEntity>
+    fun findWfFormEntityByFormStatus(formStatus: String): List<WfFormEntity>
     fun removeWfFormEntityByFormId(formId: String)
 }

@@ -17,7 +17,7 @@ import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/rest/wf/forms")
-class WfFormRestController(private val wfEngine: WfEngine) {
+class er(private val wfEngine: WfEngine) {
 
     @GetMapping("")
     fun getForms(@RequestParam parameters: LinkedHashMap<String, Any>): List<WfFormDto> {

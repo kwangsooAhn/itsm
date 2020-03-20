@@ -1,15 +1,20 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.itsm.process.service.ProcessService
+import co.brainz.workflow.provider.constants.RestTemplateConstants
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/documents")
-class DocumentController(private val documentService: DocumentService) {
+class DocumentController(private val documentService: DocumentService,
+                         private val formService: FormService,
+                         private val progressService: ProcessService) {
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
@@ -46,8 +51,12 @@ class DocumentController(private val documentService: DocumentService) {
      */
     @GetMapping("/new")
     fun getDocumentNew(model: Model): String {
-        model.addAttribute("formList", documentService.findFormList("status", ""))
-        model.addAttribute("processList", documentService.findProcessList("status"))
+        var formParams = LinkedMultiValueMap<String, String>()
+        var processParams = LinkedMultiValueMap<String, String>()
+        formParams["status"] = RestTemplateConstants.FormStatus.PUBLISH.value
+        processParams["status"] = RestTemplateConstants.ProcessStatus.PUBLISH.value
+        model.addAttribute("formList", formService.findForms(formParams))
+        model.addAttribute("processList", progressService.getProcesses(processParams))
         return documentCreatePage
     }
 

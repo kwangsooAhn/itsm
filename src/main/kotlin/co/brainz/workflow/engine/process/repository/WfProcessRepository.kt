@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface WfProcessRepository : JpaRepository<WfProcessEntity, String> {
     fun findByProcessNameLikeOrProcessDescLike(processName: String, processDesc: String): List<WfProcessEntity>
-    fun findByProcessStatusLike(processStatus: String): List<WfProcessEntity>
+    fun findByProcessStatus(processStatus: String): List<WfProcessEntity>
     fun findByProcessId(processId: String): WfProcessEntity
 }

@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    <h1>신청서 생성</h1>
+    <h1 th:text="#{document.label.reg}"></h1>
     <hr>
     <table style="width:95%; margin: 0 auto;">
         <colgroup>
@@ -14,19 +14,19 @@
             <col width="*">
         </colgroup>
         <tr>
-            <th class="required" th:text="#{document.label.name}">신청서  이름</th>
+            <th class="required" th:text="#{document.label.name}"></th>
             <td>
                 <input id="document_name" type="text" maxlength="50" required="required" style="width:100%"/>
             </td>
         </tr>
         <tr>
-            <th th:text="#{document.label.description}">신청서  설명</th>
+            <th th:text="#{document.label.description}"></th>
             <td>
                 <textarea id="document_desc" maxlength="128" style="height:100px; width:100%"></textarea>
             </td>
         </tr>
         <tr>
-            <th class="required" th:text="#{document.label.form}">문서양식</th>
+            <th class="required" th:text="#{document.label.form}"></th>
             <td>
                 <select id="document_form" style="width:75%">
                     <option th:each="form:${formList}" 
@@ -37,7 +37,7 @@
             </td>
         </tr>
         <tr>
-            <th class="required" th:text="#{document.label.process}">프로세스</th>
+            <th class="required" th:text="#{document.label.process}"></th>
             <td>
                 <select id="document_process" style="width:75%">
                     <option th:each="process:${processList}"
@@ -51,8 +51,8 @@
 </div>
 <hr>
 <div style="margin-top: 10px; text-align: center;">
-    <button th:text="#{common.btn.register}" onclick="createDocument()">등록</button>
-    <button th:text="#{common.btn.close}" onclick="window.close();">닫기</button>
+    <button th:text="#{common.btn.register}" onclick="createDocument()"></button>
+    <button th:text="#{common.btn.close}" onclick="window.close();"></button>
 </div>
 </body>
 <script th:src="@{/assets/js/util/validation-alice.js}"></script>

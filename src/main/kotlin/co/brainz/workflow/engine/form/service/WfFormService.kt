@@ -39,7 +39,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         val formEntityList = if (status.isEmpty()) {
             wfFormRepository.findWfFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(search, search)
         } else {
-            wfFormRepository.findByFormStatusLike(status)
+            wfFormRepository.findWfFormEntityByFormStatus(status)
         }
         val formList = mutableListOf<WfFormDto>()
         for (item in formEntityList) {

@@ -310,6 +310,7 @@ validation:
 document:
   label:
     list: "Service Request List"
+    reg: "Service Request Registration"
     write: "Service Request Write"
     name: "Service Request Name"
     description: "Service Request Description"
