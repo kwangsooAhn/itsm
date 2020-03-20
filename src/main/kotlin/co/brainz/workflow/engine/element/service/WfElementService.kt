@@ -5,6 +5,7 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
+import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.token.dto.WfTokenDto
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service
 @Service
 class WfElementService(
     private val wfElementRepository: WfElementRepository,
+    private val wfElementDataRepository: WfElementDataRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val wfTokenDataRepository: WfTokenDataRepository
 ) {
@@ -40,24 +42,38 @@ class WfElementService(
     /**
      * 다음 엘리먼트 정보 가져오기
      *
-     * @param elementId 종료된 토큰의 엘리먼트 아이디
-     * @param wfTokenDto  종료된 토큰
-     * @return WfElementEntity 조회된 엘리먼트 리턴
+     * @param wfTokenDto 종료된 엘리먼트의 토큰
      */
-    fun getNextElement(elementId: String, wfTokenDto: WfTokenDto): WfElementEntity {
-        lateinit var nextElement: WfElementEntity
+    fun getNextElement(wfTokenDto: WfTokenDto): WfElementEntity {
+        val connector = this.getConnector(wfTokenDto)
+        // 컨넥터 엘리먼트가 가지고 있는 타겟 엘리먼트 아이디 조회
+        val nextElementId = wfElementDataRepository.findByElementAndAttributeId(connector).attributeValue
+        return wfElementRepository.getOne(nextElementId)
+    }
+
+    /**
+     * 컨넥터 엘리먼트를 조회.
+     * 종료된 엘리먼트의 다음 엘리먼트 지정을 위한 컨넥터를 찾아서 리턴한다.
+     *
+     * @param wfTokenDto 종료된 엘리먼트의 토큰
+     */
+    private fun getConnector(wfTokenDto: WfTokenDto): WfElementEntity {
+        val elementId = wfTokenDto.elementId
+        lateinit var connectorElement: WfElementEntity
         val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(elementId)
 
-        // 게이트웨이인 경우 connector의 condition으로 다음 element를 선택한다.
-        if (arrowConnectors.size > 1 && arrowConnectors[0].elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
+        // 게이트웨이로 인해 connector가 복수개일때 connector의 condition값으로 다음 element를 선택한다.
+        if (arrowConnectors.size > 1) {
             run main@{
                 arrowConnectors.forEach connector@{ arrowConnector ->
                     arrowConnector.elementDataEntities.forEach {
                         // 엘리먼트 세부 설정 속성값이 분기 조건 데이터일 때
                         if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
                             val regexGeneral = "\\x22[^\\x22]+\\x22".toRegex() // "" 따옴표 값을 모두 찾아보자.
-                            val regexComponentMappingId = "\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d".toRegex()//${value}
-                            val regexConstant = "\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d".toRegex() // #{value}
+                            val regexComponentMappingId =
+                                "\\x22\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22".toRegex()// ${value}
+                            val regexConstant =
+                                "\\x22\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22".toRegex() // #{value}
 
                             val getDoubleQuotationValue = regexGeneral.findAll(it.attributeValue)
 
@@ -68,12 +84,16 @@ class WfElementService(
                                 // 부등호만 가져온다.
                                 symbol = symbol.replace(doubleQuotation.value, "")
 
-                                // 분기 조건 값에서 따옴표(")를 제거한다.
-                                val mappingId = doubleQuotation.value.replace("\"", "")
+                                // 분기 조건 값
+                                val mappingIdForRegex = doubleQuotation.value
+
+                                // 분기 조건 값에서 따옴표(")를 제거한 원본값.
+                                val mappingId =
+                                    doubleQuotation.value.replace("\"", "").replace("\${", "").replace("}", "")
 
                                 // 값(${value}, #{value}, 일반)에 따라 비교할 데이터를 조회
                                 val value = when {
-                                    mappingId.matches(regexComponentMappingId) -> { // ${value} 값
+                                    mappingIdForRegex.matches(regexComponentMappingId) -> { // ${value} 값
                                         val tokenId = wfTokenDto.tokenId
                                         val tokenDatas = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
                                         val componentIds = tokenDatas.map { tokenData ->
@@ -95,7 +115,7 @@ class WfElementService(
                                         tokenData.value
                                     }
 
-                                    mappingId.matches(regexConstant) -> { // #{value} 값
+                                    mappingIdForRegex.matches(regexConstant) -> { // #{value} 값
                                         wfTokenDto.assigneeId as String
                                     }
                                     else -> mappingId // 일반 값
@@ -111,12 +131,12 @@ class WfElementService(
                                 )
                             }
 
-                            // TODO 2020-03-19 kbh - 부등호(symbol)에 따라 기능 추가 해야함. 현재는 동일 조건(== 만 동작한다.
+                            // TODO 2020-03-19 kbh - 부등호(symbol)에 따라 최종값 비교 기능을 추가 해야함. 현재는 동일 조건(== 만 동작한다.
                             symbol = symbol.trim()
 
                             // 최종 값을 비교하고
                             if (compareValues[0] == compareValues[1]) {
-                                nextElement = arrowConnector
+                                connectorElement = arrowConnector
                                 return@main
                             } else {
                                 return@connector
@@ -126,9 +146,10 @@ class WfElementService(
                 }
             }
 
-        } else { // 게이트웨이 외 일반적인 경우
-            nextElement = wfElementRepository.findTargetElement(arrowConnectors[0].elementId)
+        } else { // 그 외 connector 가 1개일 때
+            connectorElement = arrowConnectors[0]
         }
-        return nextElement
+
+        return connectorElement
     }
 }
