@@ -14,7 +14,7 @@ object WfTokenConstants {
     /**
      * Assignee Type.
      */
-    enum class AssigneeType(val code:String) {
+    enum class AssigneeType(val code: String) {
         ASSIGNEE("assignee"),
         USERS("users"),
         GROUPS("groups")
