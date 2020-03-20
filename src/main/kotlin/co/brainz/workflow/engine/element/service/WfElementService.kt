@@ -84,16 +84,18 @@ class WfElementService(
                                 // 부등호만 가져온다.
                                 symbol = symbol.replace(doubleQuotation.value, "")
 
-                                // 분기 조건 값
+                                // 분기 조건 값, 따옴표로 둘러쌓여 있다.
                                 val mappingIdForRegex = doubleQuotation.value
 
-                                // 분기 조건 값에서 따옴표(")를 제거한 원본값.
+                                // 분기 조건 값에서 따옴표("), $, # 등 특수문자를 제거한 원본 값.
                                 val mappingId =
                                     doubleQuotation.value.replace("\"", "").replace("\${", "").replace("}", "")
 
-                                // 값(${value}, #{value}, 일반)에 따라 비교할 데이터를 조회
+                                // 분기 조건 값에 따라 비교할 데이터를 조회한다. (${value}, #{value}, 일반)
                                 val value = when {
-                                    mappingIdForRegex.matches(regexComponentMappingId) -> { // ${value} 값
+
+                                    // ${value} 값
+                                    mappingIdForRegex.matches(regexComponentMappingId) -> {
                                         val tokenId = wfTokenDto.tokenId
                                         val tokenDatas = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
                                         val componentIds = tokenDatas.map { tokenData ->
@@ -115,15 +117,19 @@ class WfElementService(
                                         tokenData.value
                                     }
 
-                                    mappingIdForRegex.matches(regexConstant) -> { // #{value} 값
+                                    // #{value} 값
+                                    mappingIdForRegex.matches(regexConstant) -> {
                                         wfTokenDto.assigneeId as String
                                     }
-                                    else -> mappingId // 일반 값
+
+                                    // 일반 상수 값
+                                    else -> mappingId
                                 }
 
                                 compareValues.add(value)
                             }
 
+                            // 비교 대상이 2건을 벗어나거나 잘못 셋팅되었거나할 때 에러를 발생시킨다.
                             if (compareValues.size != 2) {
                                 throw AliceException(
                                     AliceErrorConstants.ERR,
@@ -134,7 +140,7 @@ class WfElementService(
                             // TODO 2020-03-19 kbh - 부등호(symbol)에 따라 최종값 비교 기능을 추가 해야함. 현재는 동일 조건(== 만 동작한다.
                             symbol = symbol.trim()
 
-                            // 최종 값을 비교하고
+                            // 최종 값을 비교
                             if (compareValues[0] == compareValues[1]) {
                                 connectorElement = arrowConnector
                                 return@main
