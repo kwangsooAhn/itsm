@@ -82,7 +82,7 @@
                 let selectedLink = d3.select(this).classed('selected', true);
                 selectedElement = null;
 
-                document.getElementById(this.id + '_midPoint').style.opacity = '1';
+                document.getElementById(this.id + '_midPoint').style.opacity = 1;
 
                 setConnectors();
                 AliceProcessEditor.setElementMenu(selectedLink);
@@ -130,7 +130,14 @@
         enter.append('circle')
             .attr('class', 'pointer')
             .attr('id', function(d) { return d.id + '_midPoint' })
-            .attr('r', displayOptions.pointerRadius);
+            .attr('r', displayOptions.pointerRadius)
+            .style('opacity', 0)
+            .call(d3.drag()
+                .on('drag', function(d) {
+                    d.midPoint = [d3.event.x, d3.event.y];
+                    drawConnectors();
+                })
+            );
 
         connectors = connectors.merge(enter);
 
@@ -173,10 +180,13 @@
                             x2 = targetBBox.x + t[0],
                             y1 = sourceBBox.y + s[1],
                             y2 = targetBBox.y + t[1];
-                        best = [[x1, y1], [(x1 + x2) / 2, (y1 + y2) / 2], [x2, y2]];
-                        d3.select(document.getElementById(d.id + 'midPoint'))
-                            .attr('cx', (x1 + x2) / 2)
-                            .attr('cy', (y1 + y2) / 2);
+                        let midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
+                        let midPointCord = [(x1 + x2) / 2, (y1 + y2) / 2];
+                        if (typeof d.midPoint !== 'undefined') {
+                            midPointCord = d.midPoint;
+                        }
+                        best = [[x1, y1], midPointCord, [x2, y2]];
+                        midPoint.attr('cx', midPointCord[0]).attr('cy', midPointCord[1]);
                     }
                 });
             });
@@ -268,7 +278,7 @@
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
                         // svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1); <- querySelector 로 첫번째 글자로 숫자가 오면 오류남.
-                        document.getElementById(selectedElementId + '_point' + i).style.opacity = '1';
+                        document.getElementById(selectedElementId + '_point' + i).style.opacity = 1;
                     }
                 }
                 elemContainer.style('cursor', 'move');
