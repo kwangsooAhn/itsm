@@ -11,7 +11,7 @@
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam;
+    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId;
     const setExtraParam = function (param) {
         extraParam = param;
     };
@@ -19,8 +19,20 @@ const fileUploader = (function () {
     const createDropZone = function () {
         /*<![CDATA[*/
 
+        if (extraParam.dropZoneFilesId != undefined) {
+            dropZoneFilesId = extraParam.dropZoneFilesId;
+        } else {
+            dropZoneFilesId = 'dropZoneFiles';
+        }
+
+        if (extraParam.dropZoneUploadedFilesId != undefined) {
+            dropZoneUploadedFilesId = extraParam.dropZoneUploadedFilesId;
+        } else {
+            dropZoneUploadedFilesId = 'dropZoneUploadedFiles';
+        }
+
         // 파일 추가 버튼 정의 및 추가
-        const dropZoneFiles = document.getElementById('dropZoneFiles');
+        const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
         dropZoneFiles.className = 'fileEditorable';
 
         const addFileSpan = document.createElement('span');
@@ -99,10 +111,11 @@ const fileUploader = (function () {
         fileView.appendChild(fileViewTemplate);
 
         // 파일 업로드 영역에 드랍 영역 정의
-        document.getElementById('dropZoneFiles').appendChild(fileDropZone);
+        document.getElementById(''+ dropZoneFilesId +'').appendChild(fileDropZone);
 
         // 파일 업로드 기능 정의
-        const myDropZone = new Dropzone('#dropZoneFiles #dropZoneFileUpload', {
+        let dropzoneId = '#'+dropZoneFilesId+' #dropZoneFileUpload';
+        const myDropZone = new Dropzone(''+ dropzoneId +'', {
             paramName: "file", // file 매개변수명
             params: extraParam || null, // 추가 매개변수
             maxFilesize: 3, // MB
@@ -162,9 +175,7 @@ const fileUploader = (function () {
                             fileTag.append(fileSize);
                             fileTag.append(fileSeq);
                             fileTag.append(delBtn);
-
-                            document.getElementById('dropZoneUploadedFiles').appendChild(fileTag);
-
+                            document.getElementById(''+dropZoneUploadedFilesId+'').appendChild(fileTag);
                             // 파일 다운로드
                             originName.addEventListener('click', function (e) {
                                 const thisEvent = e.target;

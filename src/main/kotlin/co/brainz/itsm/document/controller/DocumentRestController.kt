@@ -62,7 +62,16 @@ class DocumentRestController(private val documentService: DocumentService) {
                 {"seq":3,"name":"낮음","value":"3"}],
                 "validate":{"required":"N"}},
                 "values":[{"value":""}]
-                }
+                },
+                {"componentId":"a3f2f42ce627bf2464df0d833b155130",
+                  "attributes":{"type":"date","common":{"mapping-id":""},
+                  "display":{"column":"10","default":"datepicker|19-03-2020","order":1},
+                  "label":{"position":"left","column":"2","size":"12","color":"#000000","bold":"N","italic":"N","underline":"N","align":"left","text":"TEXT"},
+                  "validate":{"required":"N","date-min":"1900-01-01","date-max":"2999-12-31"}},"values":[{"value":""}]},
+                 {"componentId":"a965f98cf3e6a16565e5b8d3770ccd7a","attributes":{"type":"fileupload","common":{"mapping-id":""},
+                  "display":{"column":"10","order":2},
+                  "label":{"position":"left","column":"2","size":"12","color":"#000000","bold":"N","italic":"N","underline":"N","align":"left","text":"TEXT"},
+                  "validate":{"required":"N"}},"values":[{"value":""}]}
             ]
             ,"action":[{"name" : "등록","value" : "" }]
             }

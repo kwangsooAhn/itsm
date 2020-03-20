@@ -367,10 +367,20 @@
                 dateTimePicker.initDateTimePicker('datetime-' + compData.componentId, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang);
                 break;
             case 'fileupload':
-                const fileEle = document.createElement('input');
-                fileEle.type = 'file';
-                fileEle.multiple = true;
+                const fileEle = document.createElement('div');
+                const fileEleId = 'dropZoneFiles-' + compData.componentId;
+                const fileUploadedEleId = 'dropZoneUploadedFiles-' + compData.componentId;
+                fileEle.id = fileEleId;
                 fieldLastEle.appendChild(fileEle);
+                const fileUploadedEle = document.createElement('div');
+                fileUploadedEle.id = fileUploadedEleId;
+                fieldLastEle.appendChild(fileUploadedEle);
+                console.log(compData.values[0].value);
+                if (compData.values != undefined && compData.values != "") {
+                    fileUploader.init({extra: {formId: 'frm', ownId: '', dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId}});
+                } else {
+                    fileUploader.init({extra: {formId: 'frm', ownId: compData.values[0].value, dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId}});
+                }
                 break;
             default :
                 break;
@@ -546,7 +556,8 @@
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
 
             if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
-                componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox') {
+                componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
+                componentDataType === 'fileupload') {
                 let componentId = componentElements[eIndex].getAttribute('id');
                 let componentValue = '';
                 let componentChildObject = {};
@@ -590,6 +601,20 @@
                                 }
                             }
                         }
+                        break;
+                    case 'fileupload' :
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
+                            if (componentChild[fileuploadIndex].checked) {
+                                if (componentValue === '' && componentValue.indexOf(",") === -1) {
+                                    componentValue = componentChild[fileuploadIndex].value;
+                                } else {
+                                    componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
+                                }
+                            }
+                        }
+                        /*const fileSeq = [];
+                        document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));*/
                         break;
                 }
 
@@ -674,6 +699,7 @@
             method: 'GET',
             url: '/rest/documents/data/' + documentId,
             callbackFunc: function(xhr) {
+                console.log(xhr.responseText);
                 let jsonData = JSON.parse(xhr.responseText);
                 jsonData.documentId = documentId;
                 drawDocument(jsonData);

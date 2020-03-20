@@ -94,7 +94,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         )
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        for (component in formEntity.get().components!!) {
+        /*for (component in formEntity.get().components!!) {
             val map = LinkedHashMap<String, Any>()
             map["id"] = component.componentId
             map["type"] = component.componentType
@@ -113,6 +113,53 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
                 }
             }
             components.add(map)
+        }*/
+
+        for (component in formEntity.get().components!!) {
+            val test = LinkedHashMap<String, Any>()
+            /*val map = LinkedHashMap<String, Any>()
+            map["id"] = component.componentId
+            map["type"] = component.componentType
+
+            //make common
+            val common = LinkedHashMap<String, Any>()
+            common["mapping-id"] = component.mappingId
+            map["common"] = common
+
+            //attribute
+            for (attribute in component.attributes!!) {
+                val jsonElement = JsonParser().parse(attribute.attributeValue)
+                when (jsonElement.isJsonArray) {
+                    true -> map[attribute.attributeId] = mapper.readValue(attribute.attributeValue, mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java))
+                    false -> map[attribute.attributeId] = mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
+                }
+            }
+            components.add(map)*/
+            //attributes
+            val attributes = LinkedHashMap<String, Any>()
+            val common = LinkedHashMap<String, Any>()
+            common["mapping-id"] = component.mappingId
+            attributes["type"] = component.componentType
+            attributes["common"] = common
+
+            for (attribute in component.attributes!!) {
+                val element = JsonParser().parse(attribute.attributeValue)
+                when (element.isJsonArray) {
+                    true -> attributes[attribute.attributeId] = mapper.readValue(attribute.attributeValue, mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java))
+                    false -> attributes[attribute.attributeId] = mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
+                }
+            }
+
+            //values
+            val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            val valueMap = LinkedHashMap<String, Any>()
+            valueMap["value"] = ""
+            values.add(valueMap)
+
+            test["componentId"] = component.componentId
+            test["attributes"] = attributes
+            test["values"] = values
+            components.add(test)
         }
 
         return WfFormComponentViewDto(
