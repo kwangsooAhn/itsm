@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.document.controller
 
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
