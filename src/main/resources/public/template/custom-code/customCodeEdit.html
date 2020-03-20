@@ -113,11 +113,11 @@
                     option.value = customCodeColumn.customCodeColumn;
                     option.text = customCodeColumn.customCodeColumnName + '(' + customCodeColumn.customCodeColumn + ')';
                     switch (customCodeColumn.customCodeType) {
-                        case "search":
+                        case 'search':
                             option.selected = (searchColumnValue === customCodeColumn.customCodeColumn);
                             searchColumn.append(option);
                             break;
-                        case "value":
+                        case 'value':
                             option.selected = (valueColumnValue === customCodeColumn.customCodeColumn);
                             valueColumn.append(option);
                             break;
