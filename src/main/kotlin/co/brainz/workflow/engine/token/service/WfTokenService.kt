@@ -266,11 +266,13 @@ class WfTokenService(
      */
     fun createToken(wfInstance: WfInstanceEntity, wfTokenDto: WfTokenDto): WfTokenEntity {
         val tokenEntity = WfTokenEntity(
-            tokenId = "",
-            elementId = wfTokenDto.elementId,
-            tokenStatus = WfTokenConstants.Status.RUNNING.code,
-            tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-            instance = wfInstance
+                tokenId = "",
+                elementId = wfTokenDto.elementId,
+                tokenStatus = WfTokenConstants.Status.RUNNING.code,
+                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                assigneeId = wfTokenDto.assigneeId,
+                assigneeType = wfTokenDto.assigneeType,
+                instance = wfInstance
         )
         return wfTokenRepository.save(tokenEntity)
     }
