@@ -26,7 +26,7 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
         var status = ""
         var userKey = ""
         //TODO: assigneeType 추가시 수정
-        var type = WfTokenConstants.AssigneeType.USER.code
+        var type = WfTokenConstants.AssigneeType.USERS.code
         if (parameters["status"] != null) {
             status = parameters["status"].toString()
         }
