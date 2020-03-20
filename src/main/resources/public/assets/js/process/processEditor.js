@@ -7,7 +7,8 @@
 
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
-        gridInterval: 10      // value of grid interval.
+        gridInterval: 10,     // value of grid interval.
+        pointerRadius: 4
     };
 
     let svg,
@@ -81,6 +82,8 @@
                 let selectedLink = d3.select(this).classed('selected', true);
                 selectedElement = null;
 
+                document.getElementById(this.id + '_midPoint').style.opacity = '1';
+
                 setConnectors();
                 AliceProcessEditor.setElementMenu(selectedLink);
             })
@@ -124,6 +127,11 @@
                 return name;
             });
 
+        enter.append('circle')
+            .attr('class', 'pointer')
+            .attr('id', function(d) { return d.id + '_midPoint' })
+            .attr('r', displayOptions.pointerRadius);
+
         connectors = connectors.merge(enter);
 
         // draw links
@@ -147,40 +155,41 @@
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
 
             let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
-            let best = {};
+            let best = [];
             let sourcePointArray = [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
                 [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]];
             let targetPointArray = [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
                 [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]];
 
             sourcePointArray.forEach(function(s) {
-                targetPointArray.forEach(function (d) {
+                targetPointArray.forEach(function (t) {
                     let dist = Math.hypot(
-                        (targetBBox.x + d[0]) - (sourceBBox.x + s[0]),
-                        (targetBBox.y + d[1]) - (sourceBBox.y + s[1])
+                        (targetBBox.x + t[0]) - (sourceBBox.x + s[0]),
+                        (targetBBox.y + t[1]) - (sourceBBox.y + s[1])
                     );
                     if (dist < min) {
                         min = dist;
-                        best = {
-                            s: {x: sourceBBox.x + s[0], y: sourceBBox.y + s[1]},
-                            d: {x: targetBBox.x + d[0], y: targetBBox.y + d[1]}
-                        };
+                        let x1 = sourceBBox.x + s[0],
+                            x2 = targetBBox.x + t[0],
+                            y1 = sourceBBox.y + s[1],
+                            y2 = targetBBox.y + t[1];
+                        best = [[x1, y1], [(x1 + x2) / 2, (y1 + y2) / 2], [x2, y2]];
+                        d3.select(document.getElementById(d.id + 'midPoint'))
+                            .attr('cx', (x1 + x2) / 2)
+                            .attr('cy', (y1 + y2) / 2);
                     }
                 });
             });
 
-            let lineFunction = d3.line().x(function(d) {return  d.x;}).y(function(d){return d.y;}).curve(d3.curveLinear);
-            return lineFunction([best.s, best.d]);
-
             /*
-            // 추후 참고 수정 예정.
-            const lineGenerator = d3.line();
             //lineGenerator.curve(d3.curveStep);
             //lineGenerator.curve(d3.curveStepAfter);
             //lineGenerator.curve(d3.curveStepBefore);
-            lineGenerator.curve(d3.curveLinear);
-            return lineGenerator([[sourceBBox.cx, sourceBBox.cy], [targetBBox.cx, targetBBox.cy]]);
+            //lineGenerator.curve(d3.curveLinear);
+            //lineGenerator.curve(curveCardinal);
             */
+            let lineGenerator = d3.line().curve(d3.curveLinear);
+            return lineGenerator(best);
         };
 
         connectors.select('path.connector').attr('d', function(d) {return getLinePath(d);});
@@ -473,7 +482,6 @@
          * element 위치, 크기 등 update.
          */
         function updateRect() {
-            const pointerRadius = 4;
             const rectData = self.rectData;
 
             let updateX = (rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x),
@@ -510,7 +518,7 @@
                 self['pointElement' + (i + 1)]
                     .data(rectData)
                     .attr('id', self.nodeElement.node().id + '_point' + (i + 1))
-                    .attr('r', pointerRadius)
+                    .attr('r', displayOptions.pointerRadius)
                     .attr('cx', point[0])
                     .attr('cy', point[1]);
             });
@@ -853,13 +861,12 @@
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
-        const width = 1120,
-            height = 879;
+        const drawingBoard = document.querySelector('.alice-process-drawing-board');
 
         // add svg and svg event
         svg = d3.select('.alice-process-drawing-board').append('svg')
-            .attr('width', width)
-            .attr('height', height)
+            .attr('width', drawingBoard.offsetWidth)
+            .attr('height', drawingBoard.offsetHeight)
             .on('mousedown', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector) { return; }
@@ -885,8 +892,7 @@
         let horizontalGrid = svg.append('g').attr('class', 'grid horizontal-grid');
 
         const setDrawingBoardGrid = function() {
-            const drawingBoard = document.querySelector('.alice-process-drawing-board'),
-                drawingBoardWidth = drawingBoard.offsetWidth,
+            let drawingBoardWidth = drawingBoard.offsetWidth,
                 drawingBoardHeight = drawingBoard.offsetHeight;
 
             svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
@@ -959,6 +965,10 @@
             .on('wheel.zoom', null)
             .on('dblclick.zoom', null);
 
+        const connectorContainer = svg.append('g').attr('class', 'connector-container');
+        connectors = connectorContainer.selectAll('g.connector');
+        elementsContainer = svg.append('g').attr('class', 'element-container');
+
         // define arrow markers for links
         svg.append('defs').append('marker')
             .attr('id', 'end-arrow')
@@ -974,10 +984,6 @@
         dragLine = svg.append('path')
             .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
-
-        const connectorContainer = svg.append('g').attr('class', 'connector-container');
-        connectors = connectorContainer.selectAll('g.connector');
-        elementsContainer = svg.append('g').attr('class', 'element-container');
     }
 
     /**
