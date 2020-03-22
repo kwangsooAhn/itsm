@@ -161,44 +161,76 @@
             const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
 
-            let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
             let best = [];
             let sourcePointArray = [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
                 [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]];
             let targetPointArray = [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
                 [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]];
+            let midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
 
-            sourcePointArray.forEach(function(s) {
-                targetPointArray.forEach(function (t) {
+            let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
+            if (typeof d.midPoint !== 'undefined') {
+                sourcePointArray.forEach(function(s) {
                     let dist = Math.hypot(
-                        (targetBBox.x + t[0]) - (sourceBBox.x + s[0]),
-                        (targetBBox.y + t[1]) - (sourceBBox.y + s[1])
+                        d.midPoint[0] - (sourceBBox.x + s[0]),
+                        d.midPoint[1] - (sourceBBox.y + s[1])
                     );
                     if (dist < min) {
                         min = dist;
                         let x1 = sourceBBox.x + s[0],
-                            x2 = targetBBox.x + t[0],
-                            y1 = sourceBBox.y + s[1],
-                            y2 = targetBBox.y + t[1];
-                        let midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
-                        let midPointCord = [(x1 + x2) / 2, (y1 + y2) / 2];
-                        if (typeof d.midPoint !== 'undefined') {
-                            midPointCord = d.midPoint;
-                        }
-                        best = [[x1, y1], midPointCord, [x2, y2]];
-                        midPoint.attr('cx', midPointCord[0]).attr('cy', midPointCord[1]);
+                            y1 = sourceBBox.y + s[1];
+                        best = [[x1, y1]];
                     }
                 });
-            });
+                best.push(d.midPoint);
+                let lastPoint = [];
+                min = Number.MAX_SAFE_INTEGER || 9007199254740991;
+                targetPointArray.forEach(function(t) {
+                    let dist = Math.hypot(
+                        (targetBBox.x + t[0]) - d.midPoint[0],
+                        (targetBBox.y + t[1]) - d.midPoint[1]
+                    );
+                    if (dist < min) {
+                        min = dist;
+                        let x2 = targetBBox.x + t[0],
+                            y2 = targetBBox.y + t[1];
+                        lastPoint = [x2, y2];
+                    }
+                });
+                best.push(lastPoint);
+                midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+            } else {
+                sourcePointArray.forEach(function(s) {
+                    targetPointArray.forEach(function (t) {
+                        let dist = Math.hypot(
+                            (targetBBox.x + t[0]) - (sourceBBox.x + s[0]),
+                            (targetBBox.y + t[1]) - (sourceBBox.y + s[1])
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x1 = sourceBBox.x + s[0],
+                                x2 = targetBBox.x + t[0],
+                                y1 = sourceBBox.y + s[1],
+                                y2 = targetBBox.y + t[1];
+                            let midPointCord = [(x1 + x2) / 2, (y1 + y2) / 2];
+                            if (typeof d.midPoint !== 'undefined') {
+                                midPointCord = d.midPoint;
+                            }
+                            best = [[x1, y1], midPointCord, [x2, y2]];
+                            midPoint.attr('cx', midPointCord[0]).attr('cy', midPointCord[1]);
+                        }
+                    });
+                });
+            }
 
             /*
             //lineGenerator.curve(d3.curveStep);
             //lineGenerator.curve(d3.curveStepAfter);
             //lineGenerator.curve(d3.curveStepBefore);
             //lineGenerator.curve(d3.curveLinear);
-            //lineGenerator.curve(curveCardinal);
+            //lineGenerator.curve(d3.curveCardinal);
             */
-            let lineGenerator = d3.line().curve(d3.curveLinear);
+            let lineGenerator = d3.line().curve(d3.curveCardinal.tension(0.5));
             return lineGenerator(best);
         };
 
