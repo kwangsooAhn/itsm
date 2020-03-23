@@ -1,9 +1,9 @@
 package co.brainz.itsm.form.controller
 
-import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.form.service.FormService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,8 +20,7 @@ import javax.servlet.http.HttpServletRequest
  */
 @Controller
 @RequestMapping("/forms")
-class FormController(private val codeService: CodeService,
-                     private val formService: FormService) {
+class FormController(private val formService: FormService) {
 
     private val formSearchPage: String = "form/formSearch"
     private val formListPage: String = "form/formList"
@@ -42,7 +41,9 @@ class FormController(private val codeService: CodeService,
      */
     @GetMapping("/list")
     fun getFormList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("formList", formService.findForms(request.getParameter("search") ?: ""))
+        val params = LinkedMultiValueMap<String, String>()
+        params["search"] = request.getParameter("search") ?: ""
+        model.addAttribute("formList", formService.findForms(params))
         return formListPage
     }
 

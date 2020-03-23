@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.form.service
 
 import co.brainz.workflow.engine.form.constants.WfFormConstants
+import co.brainz.workflow.engine.form.dto.WfFormComponentDataDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentSaveDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
@@ -9,9 +10,9 @@ import java.util.UUID
 
 class WfFormDummy: WfForm {
 
-    override fun forms(search: String): List<WfFormDto> {
+    override fun forms(parameters: LinkedHashMap<String, Any>): List<WfFormDto> {
         val list = mutableListOf<WfFormDto>()
-        if (search.isEmpty()) {
+        if (parameters["search"].toString().isEmpty()) {
             val form = WfFormDto(
                     formId = UUID.randomUUID().toString(),
                     formName = "단순문의",
@@ -82,5 +83,7 @@ class WfFormDummy: WfForm {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-
+    override fun getFormComponentData(componentType: String): List<WfFormComponentDataDto> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

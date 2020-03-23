@@ -14,7 +14,8 @@ object RestTemplateConstants {
         POST_FORM("/rest/wf/forms", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
         POST_FORM_SAVE_AS("/rest/wf/forms/{formId}", "POST"),
-        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
+        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE"),
+        GET_FORM_COMPONENT_DATA("/rest/wf/forms/components", "GET")
     }
 
     /**
@@ -27,6 +28,7 @@ object RestTemplateConstants {
         GET_PROCESSES("/rest/wf/processes", "GET"),
         GET_PROCESS("/rest/wf/processes/{processId}", "GET"),
         POST_PROCESS("/rest/wf/processes", "POST"),
+        POST_PROCESS_SAVE_AS("/rest/wf/processes?saveType=copy", "POST"),
         PUT_PROCESS("/rest/wf/processes/{processId}", "PUT"),
         DELETE_PROCESS("/rest/wf/processes/{processId}", "DELETE")
     }
@@ -55,6 +57,8 @@ object RestTemplateConstants {
     enum class Workflow(val url: String, val method: String) {
         GET_DOCUMENTS("/rest/wf/documents", "GET"),
         GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
+        POST_DOCUMENT("/rest/wf/documents", "POST"),
+        DELETE_DOCUMENT("/rest/wf/documents/{documentId}", "DELETE"),
         GET_INSTANCES("/rest/wf/instances", "GET"),
         TASK_COMPLETE("/rest/wf/tasks/{instanceId}/complete", "PUT"),
         TASK_GATEWAY("/rest/wf/tasks/{instanceId}/gateway", "PUT")
@@ -80,6 +84,25 @@ object RestTemplateConstants {
         SIMULATION("form.status.simu"),
         PUBLISH("form.status.publish"),
         DESTROY("form.status.destroy")
+    }
+
+    /**
+     * Process Status.
+     *
+     * @param value
+     */
+    enum class ProcessStatus(val value: String) {
+        EDIT("process.status.edit"),
+        SIMULATION("process.status.simu"),
+        PUBLISH("process.status.publish"),
+        DESTROY("process.status.destroy")
+    }
+
+    /**
+     * Process SaveType.
+     */
+    enum class ProcessSaveType(val code: String) {
+        COPY("copy")
     }
 
     /**

@@ -110,14 +110,18 @@
                 "value": "none|",
                 "type": "session",
                 "option": [
-                    {"id": "none", "name": "사용자 입력"},
-                    {"id": "userId", "name": "아이디"},
-                    {"id": "userName", "name": "이름"},
-                    {"id": "email", "name": "이메일"},
-                    {"id": "position", "name": "직책"},
-                    {"id": "department", "name": "부서"},
-                    {"id": "officeNumber", "name": "사무실 번호"},
-                    {"id": "mobileNumber", "name": "핸드폰 번호"}
+                    {"id": "none", "name": "직접입력"},
+                    {"id": "select", "name": "자동입력",
+                        "items" : [
+                            {"id": "userId", "name": "아이디"},
+                            {"id": "userName", "name": "이름"},
+                            {"id": "email", "name": "이메일"},
+                            {"id": "position", "name": "직책"},
+                            {"id": "department", "name": "부서"},
+                            {"id": "officeNumber", "name": "사무실 번호"},
+                            {"id": "mobileNumber", "name": "핸드폰 번호"}
+                        ]
+                    }
                 ],
                 "code": "",
                 "unit": ""
@@ -875,8 +879,8 @@
         ],
         "display": [
             {
-                "id": "width", 
-                "name": "Width", 
+                "id": "thickness",
+                "name": "Thickness",
                 "value": "1", 
                 "type": "inputbox-underline", 
                 "code": "", 

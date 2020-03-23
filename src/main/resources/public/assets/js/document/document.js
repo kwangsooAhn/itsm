@@ -17,6 +17,7 @@
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    const defaultAssigneeTypeForSave = 'assignee';
 
     /**
      * alert message.
@@ -146,7 +147,7 @@
                     if (defaultTextValueArr[0] === 'none') {
                         defaultTextValue = defaultTextValueArr[1];
                     } else {
-                        defaultTextValue = userData[defaultTextValueArr[0]];
+                        defaultTextValue = userData[defaultTextValueArr[1]];
                     }
                     textEle.value = defaultTextValue;
                 }
@@ -266,7 +267,7 @@
                 break;
             case 'divider':
                 const lineEle = document.createElement('hr');
-                lineEle.style.borderWidth = displayData.width + 'px';
+                lineEle.style.borderWidth = displayData.thickness + 'px';
                 lineEle.style.borderStyle = displayData.type;
                 lineEle.style.borderColor = displayData.color;
                 fieldLastEle.appendChild(lineEle);
@@ -506,7 +507,7 @@
             }
         }
 
-        //tokenObject를 초기화
+        //tokenObject init (RestTemplateTokenDto)
         const tokenElements = document.getElementById('tokenId');
         if (tokenElements !== null && tokenElements !== undefined) {
             tokenObject.tokenId = tokenElements.getAttribute('data-id');
@@ -515,6 +516,8 @@
         }
         if (v_kind === 'save') {
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
+            tokenObject.assigneeId = userData.userKey;
+            tokenObject.assigneeType = defaultAssigneeTypeForSave;
         } else if (v_kind === 'process') {
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
         }
@@ -588,11 +591,12 @@
         documentContainer = document.getElementById('document-container');
 
         let authData = JSON.parse(authInfo);
-        //편집화면에서 사용할 사용자 세션 정보
+        //신청서화면에서 사용할 사용자 세션 정보
         if (authData) {
             Object.assign(userData, authData);
 
             userData.defaultLang  = authData.lang;
+            userData.userKey = authData.userKey;
             let format = authData.timeFormat;
             let formatArray = format.split(' ');
 
@@ -619,9 +623,24 @@
      * Init Container.
      *
      * @param elementId
+     * @param {String} authInfo 사용자 세션 정보
      */
-    function initContainer(elementId) {
+    function initContainer(elementId, authInfo) {
         documentContainer = document.getElementById(elementId);
+
+        let authData = JSON.parse(authInfo);
+        //미리 보기시 사용할 사용자 세션 정보
+        if (authData) {
+            Object.assign(userData, authData);
+
+            userData.defaultLang  = authData.lang;
+            userData.userKey = authData.userKey;
+            let format = authData.timeFormat;
+            let formatArray = format.split(' ');
+
+            userData.defaultDateFormat =  formatArray[0].toUpperCase();
+            if (formatArray.length === 3) { userData.defaultTime = '12'; }
+        }
     }
 
     exports.init = init;
