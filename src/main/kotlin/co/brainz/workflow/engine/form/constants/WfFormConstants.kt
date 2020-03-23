@@ -28,6 +28,6 @@ object WfFormConstants {
      * @param value
      */
     enum class FormSaveType(val value: String) {
-        COPY("copy")
+        SAVE_AS("saveas")
     }
 }

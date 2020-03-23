@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -43,7 +42,7 @@ class WfFormRestController(private val wfEngine: WfEngine) {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            WfFormConstants.FormSaveType.COPY.value -> wfEngine.form().saveAsForm(mapper.convertValue(jsonData, WfFormComponentSaveDto::class.java))
+            WfFormConstants.FormSaveType.SAVE_AS.value -> wfEngine.form().saveAsForm(mapper.convertValue(jsonData, WfFormComponentSaveDto::class.java))
             else -> wfEngine.form().createForm(mapper.convertValue(jsonData, WfFormDto::class.java))
         }
     }
