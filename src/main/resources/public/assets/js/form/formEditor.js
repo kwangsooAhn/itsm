@@ -618,7 +618,7 @@
                                         subListElem.appendChild(subListOption);
                                     }
                                 }
-                                subListElem.setAttribute('id', group + '-' + fieldArr.id + '-session');
+                                subListElem.setAttribute('id', compAttr.id + '-' + group + '-' + fieldArr.id + '-session');
                                 subListElem.classList.add('default-session');
                                 subListElem.addEventListener('change', function() {
                                     if (type === 'none') {
@@ -641,7 +641,7 @@
                                 propertyValue.appendChild(propertyOption);
                             }
                             propertyValue.addEventListener('change', function() {
-                                let delElem = fieldGroupDiv.querySelector('#' + group + '-' + fieldArr.id + '-session');
+                                let delElem = document.getElementById( compAttr.id + '-' + group + '-' + fieldArr.id + '-session');
                                 if (delElem) {
                                     delElem.remove();
                                 }
@@ -649,7 +649,6 @@
                             }, false);
 
                             fieldGroupDiv.appendChild(propertyValue);
-
                             setSubList(propertyValueArr[0], propertyValueArr[1]);
                             break;
                         case 'slider':
