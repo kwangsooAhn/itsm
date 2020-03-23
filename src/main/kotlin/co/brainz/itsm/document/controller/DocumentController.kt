@@ -47,13 +47,13 @@ class DocumentController(private val documentService: DocumentService,
     /**
      * 신청서 생성 화면.
      *
-     * @param documentId
-     * @return model
+     * @param model
+     * @return String
      */
     @GetMapping("/new")
     fun getDocumentNew(model: Model): String {
-        var formParams = LinkedMultiValueMap<String, String>()
-        var processParams = LinkedMultiValueMap<String, String>()
+        val formParams = LinkedMultiValueMap<String, String>()
+        val processParams = LinkedMultiValueMap<String, String>()
         formParams["status"] = RestTemplateConstants.FormStatus.PUBLISH.value
         processParams["status"] = RestTemplateConstants.ProcessStatus.PUBLISH.value
         model.addAttribute("formList", formService.findForms(formParams))

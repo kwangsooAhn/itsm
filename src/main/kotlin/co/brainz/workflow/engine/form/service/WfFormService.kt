@@ -31,8 +31,8 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      * @return List<FormDto>
      */
     override fun forms(parameters: LinkedHashMap<String, Any>): List<WfFormDto> {
-        var search: String = ""
-        var status: String = ""
+        var search = ""
+        var status = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString()
         //val formEntityList = formRepository.findFormEntityList(search, search)

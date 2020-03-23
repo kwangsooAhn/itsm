@@ -44,7 +44,7 @@ class WfDocumentService(private val wfFormService: WfFormService,
      * Search Document.
      *
      * @param documentId
-     * @return FormComponentViewDto
+     * @return WfFormComponentViewDto?
      */
     fun document(documentId: String): WfFormComponentViewDto? {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
@@ -55,7 +55,7 @@ class WfDocumentService(private val wfFormService: WfFormService,
      * Create Document.
      *
      * @param documentDto
-     * @return DocumentDto
+     * @return WfDocumentDto
      */
     fun createDocument(documentDto: WfDocumentDto): WfDocumentDto {
         val form = WfFormEntity(formId = documentDto.formId)

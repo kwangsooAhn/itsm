@@ -45,9 +45,10 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     }
 
     /**
-     * 신청서 생성
+     * 신청서 생성.
      *
-     * @return RestTemplateDocumentDto
+     * @param restTemplateDocumentDto
+     * @return String?
      */
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         // TODO (form_id, process_id) 조합 중복체크 : 해당 일감은 추후 진행합니다.
@@ -67,12 +68,13 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     }
 
     /**
-     * 신청서 삭제
+     * 신청서 삭제.
      *
+     * @param documentId
      * @return Boolean
      */
     fun deleteDocument(documentId: String): Boolean {
-        // TODO wfEngene에서 삭제 가능 여부 체크 : 해당 일감은 추후 진행합니다.
+        //TODO : wfEngine에서 삭제 가능 여부 체크(해당 일감은 추후 진행합니다.(
         return false
     }
 }

@@ -30,7 +30,7 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * @param documentId
      * @return FormComponentViewDto
      */
-    @GetMapping("{documentId}")
+    @GetMapping("/{documentId}")
     fun getDocument(@PathVariable documentId: String): WfFormComponentViewDto? {
         return wfEngine.document().document(documentId)
     }
@@ -38,7 +38,8 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
     /**
      * 신청서 등록.
      *
-     * @return DocumentDto
+     * @param documentDto
+     * @return WfDocumentDto
      */
     @PostMapping("")
     fun createDocument(@RequestBody documentDto: WfDocumentDto): WfDocumentDto {
