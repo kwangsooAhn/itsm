@@ -10,10 +10,10 @@ import javax.persistence.Table
 @Table(name = "awf_custom_code_table")
 data class CustomCodeTableEntity(
         @Id
-        @Column(name = "custom_code_table")
+        @Column(name = "custom_code_table", length = 128)
         var customCodeTable: String = "",
 
-        @Column(name = "custom_code_table_name")
+        @Column(name = "custom_code_table_name", length = 128)
         var customCodeTableName: String = ""
 
 ): Serializable

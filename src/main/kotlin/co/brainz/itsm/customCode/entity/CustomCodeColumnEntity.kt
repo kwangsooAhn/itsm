@@ -12,18 +12,18 @@ import javax.persistence.Table
 @IdClass(CustomCodeColumnPk::class)
 data class CustomCodeColumnEntity(
         @Id
-        @Column(name = "custom_code_table")
+        @Column(name = "custom_code_table", length = 128)
         var customCodeTable: String = "",
 
         @Id
-        @Column(name = "custom_code_type")
+        @Column(name = "custom_code_type", length = 128)
         var customCodeType: String = "",
 
         @Id
-        @Column(name = "custom_code_column")
+        @Column(name = "custom_code_column", length = 128)
         var customCodeColumn: String = "",
 
-        @Column(name = "custom_code_column_name")
+        @Column(name = "custom_code_column_name", length = 128)
         var customCodeColumnName: String = ""
 ): Serializable
 

@@ -14,19 +14,19 @@ import javax.persistence.Table
 data class CustomCodeEntity(
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "custom_code_id")
+        @Column(name = "custom_code_id", length = 100)
         var customCodeId: String = "",
 
-        @Column(name = "custom_code_name")
+        @Column(name = "custom_code_name", length = 128)
         var customCodeName: String = "",
 
-        @Column(name = "target_table")
+        @Column(name = "target_table", length = 128)
         var targetTable: String = "",
 
-        @Column(name = "search_column")
+        @Column(name = "search_column", length = 128)
         var searchColumn: String = "",
 
-        @Column(name = "value_column")
+        @Column(name = "value_column", length = 128)
         var valueColumn: String = ""
 
 ): Serializable, AliceMetaEntity()
