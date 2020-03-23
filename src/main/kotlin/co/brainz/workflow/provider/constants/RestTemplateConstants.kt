@@ -14,7 +14,8 @@ object RestTemplateConstants {
         POST_FORM("/rest/wf/forms", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
         POST_FORM_SAVE_AS("/rest/wf/forms/{formId}", "POST"),
-        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
+        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE"),
+        GET_FORM_COMPONENT_DATA("/rest/wf/forms/components", "GET")
     }
 
     /**

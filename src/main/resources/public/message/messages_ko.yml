@@ -15,6 +15,7 @@ common:
     write: "작성"
     cancel: "취소"
     check: "확인"
+    list: "목록"
   label:
     title: "제목"
     message: "메시지"
@@ -30,6 +31,7 @@ common:
     updateDate: "수정일시"
     attachFile: "첨부파일"
     notSelect: "선택 안 함"
+    lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
   msg:
     save: "저장되었습니다"
     save.fail: "실패되었습니다."
@@ -53,6 +55,7 @@ menu:
   setting.auth: "권한 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
+  setting.custom.code: "사용자 정의 코드"
   editMyInfo: "자기 정보 수정"
 
 # auth
@@ -97,6 +100,10 @@ auth:
   document.create: "신청서 등록"
   token.read: "처리할 문서 조회"
   token.create: "처리할 문서 등록"
+  custom.code.read: "사용자 정의 코드 조회"
+  custom.code.create: "사용자 정의 코드 등록"
+  custom.code.update: "사용자 정의 코드 수정"
+  custom.code.delete: "사용자 정의 코드 삭제"
 
 # 사용자
 user:
@@ -252,7 +259,7 @@ form:
     alert:
       nameNotExist: "문서양식 이름을 입력해주세요."
   preview:
-    name: 문서양식 미리보기
+    name: "문서양식 미리보기"
 
 # Process
 process:
@@ -331,3 +338,19 @@ document:
 token:
   label:
     list: "처리할 문서 목록"
+
+# Custom Code
+custom.code:
+  label:
+    title: "사용자 정의 코드"
+    customCodeName : "사용자 정의 코드명"
+    targetTable : "대상 테이블명"
+    searchColumn: "검색 컬럼명"
+    valueColumn: "값 컬럼명"
+  msg:
+    inputCustomCodeName: "사용자 정의 코드명을 입력해주세요."
+    inputTableTarget: "대상 테이블명을 입력해주세요."
+    inputSearchColumn: "검색 컬럼명을 입력해주세요."
+    inputValueColumn: "값 컬럼명을 입력해주세요."
+    customCodeUsed: "사용 중인 사용자 정의 코드입니다."
+    customCodeNameDuplication: "동일한 사용자 정의 코드명이 존재합니다."

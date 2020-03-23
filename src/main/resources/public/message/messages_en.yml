@@ -15,6 +15,7 @@ common:
     write: "WRITE"
     cancel: "CANCEL"
     check: "CHECK"
+    list: "LIST"
   label:
     title: "Title"
     message: "Message"
@@ -30,6 +31,7 @@ common:
     updateDate: "Update Date"
     attachFile: "Attach file"
     notSelect: "Not Select"
+    lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
   msg:
     save: "Saved"
     save.fail: "Fail"
@@ -53,6 +55,7 @@ menu:
   setting.auth: "Auth management"
   setting.form: "Form"
   setting.process: "Process"
+  setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
 
 # Auth
@@ -95,6 +98,10 @@ auth:
   document.create: "document create"
   token.read: "token read"
   token.create: "token create"
+  custom.code.read: "custom.code read"
+  custom.code.create: "custom.code create"
+  custom.code.update: "custom.code update"
+  custom.code.delete: "custom.code delete"
 
 # User
 user:
@@ -329,3 +336,19 @@ document:
 token:
   label:
     list: "Process Document List"
+
+# Custom Code
+custom.code:
+  label:
+    title: "Custom Code"
+    customCodeName : "Custom Code Name"
+    targetTable : "Target Table Name"
+    searchColumn: "Search Column Name"
+    valueColumn: "Value Column Name"
+  msg:
+    inputCustomCodeName: "Please enter a custom code name."
+    inputTableTarget: "Please enter a table target name."
+    inputSearchColumn: "Please enter a search column name."
+    inputValueColumn: "Please enter a value column name."
+    customCodeUsed: "The Custom code is being used."
+    customCodeNameDuplication: "The same custom code name exists."

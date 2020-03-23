@@ -1048,22 +1048,16 @@
         workflowUtil.polyfill();
         component.init();
         context.init();
-        
-        //TODO: custom 컴포넌트에서 사용하기 위해 awf_custom_code (사용자 정의 코드) 테이블 데이터를 조회하려 저장한다.
-        customCodeList = [ //가데이터 사용
-            {customCodeId: '1', customCodeName:'사용자 이름 검색', targetTable: 'awf_user', keyColumn:'user_name', valueColumn: 'user_key'},
-            {customCodeId: '2', customCodeName:'사용자 부서 검색', targetTable: 'awf_user', keyColumn:'department', valueColumn: 'user_key'}
-        ];
-        /*aliceJs.sendXhr({
+
+        aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/custom-codes/list',
+            url: '/rest/custom-codes',
             callbackFunc: function(xhr) {
                 customCodeList = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
-        */
-        
+
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',

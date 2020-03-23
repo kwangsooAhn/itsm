@@ -2,6 +2,7 @@ package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
+import co.brainz.itsm.form.dto.FormComponentDataDto
 import co.brainz.itsm.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -103,4 +104,12 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         )
     }
 
+    fun getFormComponentDataList(componentType: String): List<FormComponentDataDto> {
+        val params = LinkedMultiValueMap<String, String>()
+        params.add("componentType", componentType)
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM_COMPONENT_DATA.url, parameters = params)
+        val responseBody = restTemplate.get(urlDto)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormComponentDataDto::class.java))
+    }
 }
