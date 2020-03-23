@@ -216,7 +216,7 @@ body {
             fill: none;
             stroke: none;
             stroke-width: 20;
-            pointer-events: all;
+            pointer-events: stroke;
         }
 
         .connector text {

@@ -7,7 +7,8 @@
 
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
-        gridInterval: 10      // value of grid interval.
+        gridInterval: 10,     // value of grid interval.
+        pointerRadius: 4
     };
 
     let svg,
@@ -40,7 +41,7 @@
     function removeElementSelected() {
         selectedElement = null;
         svg.selectAll('.node').classed('selected', false);
-        svg.selectAll('.pointer').style('opacity', 0);
+        svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
         svg.selectAll('.connector').classed('selected', false);
         svg.selectAll('.alice-tooltip').remove();
     }
@@ -53,13 +54,10 @@
     function setConnectors(recycle) {
         if (recycle) {
             connectors = connectors.data([]);
-            // remove old links
-            connectors.exit().remove();
+            connectors.exit().remove(); // remove old links
         }
-
         connectors = connectors.data(elements.links);
-        // remove old links
-        connectors.exit().remove();
+        connectors.exit().remove(); // remove old links
 
         let enter = connectors.enter().append('g').attr('class', 'connector');
 
@@ -80,6 +78,10 @@
                 // select link
                 let selectedLink = d3.select(this).classed('selected', true);
                 selectedElement = null;
+
+                d3.select(this.parentNode).selectAll('.pointer')
+                    .style('opacity', 1)
+                    .style('cursor', 'move');
 
                 setConnectors();
                 AliceProcessEditor.setElementMenu(selectedLink);
@@ -124,10 +126,90 @@
                 return name;
             });
 
+        enter.append('circle')
+            .attr('class', 'pointer')
+            .attr('id', function(d) { return d.id + '_midPoint'; })
+            .attr('r', displayOptions.pointerRadius)
+            .style('opacity', 0)
+            .call(d3.drag()
+                .on('drag', function(d) {
+                    d.midPoint = [d3.event.x, d3.event.y];
+                    drawConnectors();
+                    AliceProcessEditor.changeDisplayValue(d.id);
+                })
+            );
+
+        enter.append('circle')
+            .attr('class', 'pointer')
+            .attr('id', function(d) { return d.id + '_sourcePoint'; })
+            .attr('r', displayOptions.pointerRadius)
+            .style('opacity', 0)
+            .call(d3.drag()
+                .on('drag', function(d) {
+                    d.sourcePoint = [d3.event.x, d3.event.y];
+                    drawConnectors();
+                    AliceProcessEditor.changeDisplayValue(d.id);
+                })
+            );
+
+        enter.append('circle')
+            .attr('class', 'pointer')
+            .attr('id', function(d) { return d.id + '_targetPoint'; })
+            .attr('r', displayOptions.pointerRadius)
+            .style('opacity', 0)
+            .call(d3.drag()
+                .on('drag', function(d) {
+                    d.targetPoint = [d3.event.x, d3.event.y];
+                    drawConnectors();
+                    AliceProcessEditor.changeDisplayValue(d.id);
+                })
+            );
+
         connectors = connectors.merge(enter);
 
         // draw links
         drawConnectors();
+    }
+
+    /**
+     * 시작지점과 종료지점의 라인을 좌표배열로 리턴한다.
+     *
+     * @param sourceBBox source element bbox.
+     * @param targetBBox target element bbox.
+     * @param sourcePointArray source element 시작 지점 배열
+     * @param targetPointArray target element 시작 지점 배열
+     * @return {[]} 라인배열
+     */
+    function getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray) {
+        let best = [];
+        let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
+        sourcePointArray.forEach(function(s) {
+            targetPointArray.forEach(function(t) {
+                let dist = Math.hypot(
+                    (targetBBox.x + t[0]) - (sourceBBox.x + s[0]),
+                    (targetBBox.y + t[1]) - (sourceBBox.y + s[1])
+                );
+                if (dist < min) {
+                    min = dist;
+                    let x1 = sourceBBox.x + s[0],
+                        x2 = targetBBox.x + t[0],
+                        y1 = sourceBBox.y + s[1],
+                        y2 = targetBBox.y + t[1];
+                    best = [[x1, y1], [x2, y2]];
+                }
+            });
+        });
+        return best;
+    }
+
+    /**
+     * 라인 사이의 좌표를 구해서 리턴한다.
+     *
+     * @param line 시작/종료 라인좌표
+     * @return {number[]} middle point 좌표
+     */
+    function getMidPointCoords(line) {
+        return [(line[1][0] + line[0][0]) / 2, (line[1][1] + line[0][1]) / 2];
     }
 
     /**
@@ -146,41 +228,93 @@
             const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
 
-            let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
-            let best = {};
+            let lineCoords = [];
             let sourcePointArray = [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
                 [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]];
             let targetPointArray = [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
                 [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]];
+            const midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
 
-            sourcePointArray.forEach(function(s) {
-                targetPointArray.forEach(function (d) {
-                    let dist = Math.hypot(
-                        (targetBBox.x + d[0]) - (sourceBBox.x + s[0]),
-                        (targetBBox.y + d[1]) - (sourceBBox.y + s[1])
-                    );
-                    if (dist < min) {
-                        min = dist;
-                        best = {
-                            s: {x: sourceBBox.x + s[0], y: sourceBBox.y + s[1]},
-                            d: {x: targetBBox.x + d[0], y: targetBBox.y + d[1]}
-                        };
-                    }
-                });
-            });
+            if (typeof d.midPoint !== 'undefined') {
+                midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
 
-            let lineFunction = d3.line().x(function(d) {return  d.x;}).y(function(d){return d.y;}).curve(d3.curveLinear);
-            return lineFunction([best.s, best.d]);
+                const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
+                      targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
+
+                if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                    sourcePoint.style('opacity', 1);
+                    targetPoint.style('opacity', 1);
+                }
+                if (typeof d.sourcePoint === 'undefined' && typeof d.targetPoint === 'undefined') {
+                    let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
+                    let sourcePointCoords = getMidPointCoords(bestLine1);
+                    lineCoords.push(bestLine1[0]);
+                    //lineCoords.push(sourcePointCoords);
+                    lineCoords.push(bestLine1[1]);
+                    let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    let targetPointCoords = getMidPointCoords(bestLine2);
+                    lineCoords.push(bestLine2[0]);
+                    //lineCoords.push(targetPointCoords);
+                    lineCoords.push(bestLine2[1]);
+
+                    sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
+                    targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
+                } else if (typeof d.sourcePoint === 'undefined') {
+                    let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
+                    let sourcePointCoords = getMidPointCoords(bestLine1);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(sourcePointCoords);
+                    lineCoords.push(bestLine1[1]);
+                    let bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(bestLine2[1]);
+
+                    sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
+                    targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
+                } else if (typeof d.targetPoint === 'undefined') {
+                    let bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(bestLine1[1]);
+                    let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    let targetPointCoords = getMidPointCoords(bestLine2);
+                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(targetPointCoords);
+                    lineCoords.push(bestLine2[1]);
+
+                    sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
+                    targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
+                } else {
+                    let bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(bestLine1[1]);
+                    lineCoords.push(d.midPoint);
+                    let bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(bestLine2[1]);
+
+                    sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
+                    targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
+                }
+            } else {
+                let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
+                let midPointCoords = getMidPointCoords(bestLine);
+                lineCoords.push(bestLine[0]);
+                lineCoords.push(midPointCoords);
+                lineCoords.push(bestLine[1]);
+
+                midPoint.attr('cx', midPointCoords[0]).attr('cy', midPointCoords[1]);
+            }
 
             /*
-            // 추후 참고 수정 예정.
-            const lineGenerator = d3.line();
-            //lineGenerator.curve(d3.curveStep);
-            //lineGenerator.curve(d3.curveStepAfter);
-            //lineGenerator.curve(d3.curveStepBefore);
-            lineGenerator.curve(d3.curveLinear);
-            return lineGenerator([[sourceBBox.cx, sourceBBox.cy], [targetBBox.cx, targetBBox.cy]]);
+            //d3.curveStep
+            //d3.curveStepAfter
+            //d3.curveStepBefore
+            //d3.curveLinear
+            //d3.curveCardinal.tension(0.5)
+            //d3.curveBundle.beta(1)
             */
+            let lineGenerator = d3.line().curve(d3.curveLinear);
+            return lineGenerator(lineCoords);
         };
 
         connectors.select('path.connector').attr('d', function(d) {return getLinePath(d);});
@@ -259,7 +393,7 @@
                     const selectedElementId = selectedElement.node().id;
                     for (let i = 1; i <= 4; i++) {
                         // svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1); <- querySelector 로 첫번째 글자로 숫자가 오면 오류남.
-                        document.getElementById(selectedElementId + '_point' + i).style.opacity = '1';
+                        document.getElementById(selectedElementId + '_point' + i).style.opacity = 1;
                     }
                 }
                 elemContainer.style('cursor', 'move');
@@ -473,7 +607,6 @@
          * element 위치, 크기 등 update.
          */
         function updateRect() {
-            const pointerRadius = 4;
             const rectData = self.rectData;
 
             let updateX = (rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x),
@@ -510,7 +643,7 @@
                 self['pointElement' + (i + 1)]
                     .data(rectData)
                     .attr('id', self.nodeElement.node().id + '_point' + (i + 1))
-                    .attr('r', pointerRadius)
+                    .attr('r', displayOptions.pointerRadius)
                     .attr('cx', point[0])
                     .attr('cy', point[1]);
             });
@@ -853,13 +986,12 @@
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
-        const width = 1120,
-            height = 879;
+        const drawingBoard = document.querySelector('.alice-process-drawing-board');
 
         // add svg and svg event
         svg = d3.select('.alice-process-drawing-board').append('svg')
-            .attr('width', width)
-            .attr('height', height)
+            .attr('width', drawingBoard.offsetWidth)
+            .attr('height', drawingBoard.offsetHeight)
             .on('mousedown', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector) { return; }
@@ -885,8 +1017,7 @@
         let horizontalGrid = svg.append('g').attr('class', 'grid horizontal-grid');
 
         const setDrawingBoardGrid = function() {
-            const drawingBoard = document.querySelector('.alice-process-drawing-board'),
-                drawingBoardWidth = drawingBoard.offsetWidth,
+            let drawingBoardWidth = drawingBoard.offsetWidth,
                 drawingBoardHeight = drawingBoard.offsetHeight;
 
             svg.attr('width', drawingBoardWidth).attr('height', drawingBoardHeight);
@@ -959,6 +1090,10 @@
             .on('wheel.zoom', null)
             .on('dblclick.zoom', null);
 
+        const connectorContainer = svg.append('g').attr('class', 'connector-container');
+        connectors = connectorContainer.selectAll('g.connector');
+        elementsContainer = svg.append('g').attr('class', 'element-container');
+
         // define arrow markers for links
         svg.append('defs').append('marker')
             .attr('id', 'end-arrow')
@@ -974,10 +1109,6 @@
         dragLine = svg.append('path')
             .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
-
-        const connectorContainer = svg.append('g').attr('class', 'connector-container');
-        connectors = connectorContainer.selectAll('g.connector');
-        elementsContainer = svg.append('g').attr('class', 'element-container');
     }
 
     /**
@@ -1070,7 +1201,19 @@
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                elements.links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
+                let linkData = {id: nodeId, source: d3.select(source), target: d3.select(target)};
+                if (element.display) {
+                    if (typeof element.display['mid-point'] !== 'undefined') {
+                        linkData.midPoint = element.display['mid-point'];
+                    }
+                    if (typeof element.display['source-point'] !== 'undefined') {
+                        linkData.sourcePoint = element.display['source-point'];
+                    }
+                    if (typeof element.display['target-point'] !== 'undefined') {
+                        linkData.targetPoint = element.display['target-point'];
+                    }
+                }
+                elements.links.push(linkData);
             }
         });
         setConnectors();

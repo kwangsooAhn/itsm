@@ -10052,7 +10052,7 @@ body {
   fill: none;
   stroke: none;
   stroke-width: 20;
-  pointer-events: all;
+  pointer-events: stroke;
 }
 .alice-process-drawing-board .connector text {
   fill: #000000;
