@@ -37,7 +37,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         if (parameters["status"] != null) status = parameters["status"].toString()
         //val formEntityList = formRepository.findFormEntityList(search, search)
         val formEntityList = if (status.isEmpty()) {
-            wfFormRepository.findWfFormEntityByFormNameIgnoreCaseContainingOrFormDescIgnoreCaseContainingOrderByCreateDtDesc(search, search)
+            wfFormRepository.findFormListOrFormSearchList(search)
         } else {
             wfFormRepository.findWfFormEntityByFormStatus(status)
         }

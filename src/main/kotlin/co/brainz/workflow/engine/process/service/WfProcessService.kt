@@ -38,7 +38,7 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
         val processList = if (search.isEmpty() && status.isEmpty()) {
             wfProcessRepository.findAll()
         } else if (status.isEmpty()){
-            wfProcessRepository.findByProcessNameLikeOrProcessDescLike("%$search%", "%$search%")
+            wfProcessRepository.findByProcessListOrProcessSearchList("%$search%")
         } else {
             wfProcessRepository.findByProcessStatus(status)
         }
