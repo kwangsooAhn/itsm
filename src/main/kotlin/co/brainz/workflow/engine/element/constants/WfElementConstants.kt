@@ -34,4 +34,17 @@ object WfElementConstants {
         TARGET_ID("end-id"),
         CONDITION("condition")
     }
+
+    /**
+     * 엘리먼트의 condition 값 비교를 위해 정규식에 사용할 문자열
+     *
+     * GENERAL - ""(따옴표)로 묶인 일반 값
+     * MAPPINGID - "${value}" 형태로 엘리먼트 mappingid  값
+     * CONSTANT -  "#{value}" 형태로 클라이언트에서 넘어오는 action 등의 값
+     */
+    enum class RegexCondition(val value: String) {
+        GENERAL("\\x22[^\\x22]+\\x22"),
+        MAPPINGID("\\x22\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22"),
+        CONSTANT("\\x22\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22")
+    }
 }

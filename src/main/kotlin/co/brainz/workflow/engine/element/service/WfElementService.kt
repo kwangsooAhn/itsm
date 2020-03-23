@@ -69,11 +69,9 @@ class WfElementService(
                     arrowConnector.elementDataEntities.forEach {
                         // 엘리먼트 세부 설정 속성값이 분기 조건 데이터일 때
                         if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
-                            val regexGeneral = "\\x22[^\\x22]+\\x22".toRegex() // "" 따옴표 값을 모두 찾아보자.
-                            val regexComponentMappingId =
-                                "\\x22\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22".toRegex()// ${value}
-                            val regexConstant =
-                                "\\x22\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22".toRegex() // #{value}
+                            val regexGeneral = WfElementConstants.RegexCondition.GENERAL.value.toRegex()
+                            val regexComponentMappingId = WfElementConstants.RegexCondition.MAPPINGID.value.toRegex()
+                            val regexConstant = WfElementConstants.RegexCondition.CONSTANT.value.toRegex()
 
                             val getDoubleQuotationValue = regexGeneral.findAll(it.attributeValue)
 
