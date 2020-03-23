@@ -20,7 +20,7 @@
             type: 'delete', parent: 'action',
             url: iconDirectory + '/tooltip/delete.png',
             action: function(el) {
-                deleteElement(el)
+                deleteElement(el);
             }
         },
         {
