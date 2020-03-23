@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/rest/wf/processes")
@@ -28,8 +27,8 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * 프로세스 목록 조회.
      */
     @GetMapping("")
-    fun getProcesses(request: HttpServletRequest): MutableList<WfProcessDto> {
-        return wfEngine.process().selectProcessList(request.getParameter("search") ?: "")
+    fun getProcesses(@RequestParam parameters: LinkedHashMap<String, Any>): MutableList<WfProcessDto> {
+        return wfEngine.process().selectProcessList(parameters)
     }
 
     /**

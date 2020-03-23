@@ -23,9 +23,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun findForms(search: String): List<RestTemplateFormDto> {
-        val params = LinkedMultiValueMap<String, String>()
-        params.add("search", search)
+    fun findForms(params: LinkedMultiValueMap<String, String>): List<RestTemplateFormDto> {
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORMS.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
         val forms: List<RestTemplateFormDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateFormDto::class.java))

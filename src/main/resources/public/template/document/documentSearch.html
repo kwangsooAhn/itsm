@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+            layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{document.label.list}"></title>
 </head>
@@ -9,34 +10,49 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{document.label.list}"></h1>
+        <div sec:authorize="hasAuthority('document.create')" class="button" align="right">
+            <button type="button" onclick="openDocumentEdit()" th:text="#{common.btn.register}"></button>
+        </div>
         <hr>
         <div id="documentList" style="margin-top: 20px"></div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-<script type="text/javascript">
-    window.onload = function() {
-        restSubmit('get', '/documents/list')
-    };
-
-    //REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            callbackFunc: function(response) {
-                document.getElementById('documentList').innerHTML = response.responseText;
-            }
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            restSubmit('GET', '/documents/list', function(result){
+                document.getElementById('documentList').innerHTML = result;
+            });
         };
-        aliceJs.sendXhr(opt);
-    }
 
-    //신청서 작성 화면 오픈.
-    function openDocumentEdit(documentId) {
-        //TODO: 임시 size. 추후 변경 필요.
-        window.open('/documents/' + documentId + '/edit', '_blank', 'width=900, height=805');
-    }
-</script>
+        function openDocumentEdit(documentId) {
+            if (documentId !== undefined) {
+                window.open('/documents/' + documentId + '/edit', '_blank', 'width=800, height=805');
+            } else {
+                window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');
+            }
+        }
+
+        function deleteDocument(documentId) {
+            restSubmit('DELETE', '/rest/documents/' + documentId, function(result) {
+                alert('[[#{common.msg.delete.fail}]]');
+            });
+        }
+
+        //REST API
+        function restSubmit(method, url, result) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    result(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
 </th:block>
 </html>
