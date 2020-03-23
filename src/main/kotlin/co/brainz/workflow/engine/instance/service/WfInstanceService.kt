@@ -25,8 +25,8 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
     fun instances(parameters: LinkedHashMap<String, Any>): List<WfInstanceViewDto> {
         var status = ""
         var userKey = ""
-        //TODO: assigneeType 추가시 수정
-        var type = WfTokenConstants.AssigneeType.USER.code
+
+        var type = WfTokenConstants.AssigneeType.ASSIGNEE.code
         if (parameters["status"] != null) {
             status = parameters["status"].toString()
         }

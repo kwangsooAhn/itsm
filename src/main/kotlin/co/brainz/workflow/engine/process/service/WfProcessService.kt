@@ -29,15 +29,19 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
     /**
      * 프로세스 목록 조회
      */
-    fun selectProcessList(search: String): MutableList<WfProcessDto> {
+    fun selectProcessList(parameters: LinkedHashMap<String, Any>): MutableList<WfProcessDto> {
+        var search: String = ""
+        var status: String = ""
+        if (parameters["search"] != null) search = parameters["search"].toString()
+        if (parameters["status"] != null) status = parameters["status"].toString()
         val processDtoList = mutableListOf<WfProcessDto>()
-        val processList = if (search.isEmpty()) {
+        val processList = if (search.isEmpty() && status.isEmpty()) {
             wfProcessRepository.findAll()
+        } else if (status.isEmpty()){
+            wfProcessRepository.findByProcessListOrProcessSearchList("%$search%")
         } else {
-            val word = "%$search%"
-            wfProcessRepository.findByProcessNameLikeOrProcessDescLike(word, word)
+            wfProcessRepository.findByProcessStatus(status)
         }
-
         processList.forEach {
             val enabled = when (it.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.SIMULATION.code -> true

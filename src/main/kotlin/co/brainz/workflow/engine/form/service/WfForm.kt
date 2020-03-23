@@ -10,10 +10,10 @@ interface WfForm {
     /**
      * Search Forms.
      *
-     * @param search
+     * @param parameters
      * @return List<FormDto>
      */
-    fun forms(search: String): List<WfFormDto>
+    fun forms(parameters: LinkedHashMap<String, Any>): List<WfFormDto>
 
     /**
      * Create Form.
