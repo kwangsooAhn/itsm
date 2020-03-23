@@ -27,8 +27,13 @@ class WfFormRestController(private val wfEngine: WfEngine) {
     }
 
     @GetMapping("/{formId}")
-    fun getForm(@PathVariable formId: String): WfFormComponentViewDto {
+    fun getForm(@PathVariable formId: String): WfFormDto {
         return wfEngine.form().form(formId)
+    }
+
+    @GetMapping("/{formId}/data")
+    fun getFormData(@PathVariable formId: String): WfFormComponentViewDto {
+        return wfEngine.form().formData(formId)
     }
 
     @PostMapping("")

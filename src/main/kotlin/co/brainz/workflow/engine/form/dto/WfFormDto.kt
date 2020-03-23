@@ -6,11 +6,11 @@ import java.time.LocalDateTime
 data class WfFormDto(
         var formId: String = "",
         var formName: String = "",
-        val formStatus: String? = "",
+        var formStatus: String? = "",
         var formDesc: String? = null,
         var formEnabled: Boolean = false,
-        val createUserKey: String? = null,
-        val createDt: LocalDateTime? = null,
-        val updateUserKey: String? = null,
-        val updateDt: LocalDateTime? = null
+        var createUserKey: String? = null,
+        var createDt: LocalDateTime? = null,
+        var updateUserKey: String? = null,
+        var updateDt: LocalDateTime? = null
 ) : Serializable

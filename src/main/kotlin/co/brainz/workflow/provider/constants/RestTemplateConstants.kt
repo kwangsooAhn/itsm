@@ -11,6 +11,7 @@ object RestTemplateConstants {
     enum class Form(val url: String, val method: String) {
         GET_FORMS("/rest/wf/forms", "GET"),
         GET_FORM("/rest/wf/forms/{formId}", "GET"),
+        GET_FORM_DATA("/rest/wf/forms/{formId}/data", "GET"),
         POST_FORM("/rest/wf/forms", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
         POST_FORM_SAVE_AS("/rest/wf/forms/{formId}", "POST"),

@@ -35,8 +35,8 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return forms
     }
 
-    fun findForm(formId: String): String {
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM.url.replace(restTemplate.getKeyRegex(), formId))
+    fun getFormData(formId: String): String {
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId))
         return restTemplate.get(urlDto)
     }
 
