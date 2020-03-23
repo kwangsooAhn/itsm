@@ -16,7 +16,7 @@ data class CustomCodeColumnEntity(
         var customCodeTable: String = "",
 
         @Id
-        @Column(name = "custom_code_type", length = 128)
+        @Column(name = "custom_code_type", length = 100)
         var customCodeType: String = "",
 
         @Id

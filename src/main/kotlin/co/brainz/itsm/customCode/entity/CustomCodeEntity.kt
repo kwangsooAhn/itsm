@@ -14,7 +14,7 @@ import javax.persistence.Table
 data class CustomCodeEntity(
         @Id @GeneratedValue(generator = "system-uuid")
         @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "custom_code_id", length = 100)
+        @Column(name = "custom_code_id", length = 128)
         var customCodeId: String = "",
 
         @Column(name = "custom_code_name", length = 128)
