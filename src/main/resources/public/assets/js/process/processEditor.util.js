@@ -5,6 +5,24 @@
 }(this, (function (exports) {
     'use strict';
 
+    let isEdited = false;
+    let observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            console.log(mutation);
+            isEdited = true;
+        });
+    });
+
+    let observerConfig = {
+        childList: true,
+        characterData: true,
+        subtree: true
+    };
+
+    window.addEventListener('beforeunload', function (event) {
+        if (isEdited) event.returnValue = '';
+    });
+
     const utils = {
         /**
          * 해당 element의 중앙 x,y 좌표와 넓이,높이를 리턴한다.
@@ -40,6 +58,7 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(i18n.get('common.msg.save'));
+                    isEdited = false;
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -149,6 +168,9 @@
         if (document.getElementById('btnDownload') != null) {
             document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
         }
+        // start observer
+        isEdited = false;
+        observer.observe(document.querySelector('.alice-process-drawing-board'), observerConfig);
     }
 
     exports.utils = utils;
