@@ -27,9 +27,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     /**
      * 프로세스 데이터 목록 조회.
      */
-    fun getProcesses(search: String): List<WfProcessDto> {
-        val params = LinkedMultiValueMap<String, String>()
-        params.add("search", search)
+    fun getProcesses(params: LinkedMultiValueMap<String, String>): List<WfProcessDto> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url, parameters = params)
         val responseBody = restTemplate.get(url)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())

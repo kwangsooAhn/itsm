@@ -18,5 +18,6 @@ interface WfFormRepository: JpaRepository<WfFormEntity, String>, WfFormRepositor
             "END, COALESCE(m.updateDt, m.createDt) DESC")
     fun findFormListOrFormSearchList(value: String?): List<WfFormEntity>
     fun findWfFormEntityByFormId(formId: String): Optional<WfFormEntity>
+    fun findWfFormEntityByFormStatus(formStatus: String): List<WfFormEntity>
     fun removeWfFormEntityByFormId(formId: String)
 }

@@ -1,5 +1,6 @@
 package co.brainz.itsm.document.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -8,7 +9,9 @@ import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class DocumentService(private val restTemplate: RestTemplateProvider) {
@@ -39,5 +42,39 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     fun findDocument(documentId: String): String {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
         return restTemplate.get(url)
+    }
+
+    /**
+     * 신청서 생성.
+     *
+     * @param restTemplateDocumentDto
+     * @return String?
+     */
+    fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
+        // TODO (form_id, process_id) 조합 중복체크 : 해당 일감은 추후 진행합니다.
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
+        restTemplateDocumentDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
+        val responseBody: String = restTemplate.create(url, restTemplateDocumentDto)
+        return when (responseBody.isNotEmpty()) {
+            true -> {
+                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+                val dataDto = mapper.readValue(responseBody, restTemplateDocumentDto::class.java)
+                dataDto.documentId
+            }
+            false -> ""
+        }
+    }
+
+    /**
+     * 신청서 삭제.
+     *
+     * @param documentId
+     * @return Boolean
+     */
+    fun deleteDocument(documentId: String): Boolean {
+        //TODO : wfEngine에서 삭제 가능 여부 체크(해당 일감은 추후 진행합니다.(
+        return false
     }
 }
