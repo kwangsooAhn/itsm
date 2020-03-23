@@ -17,6 +17,7 @@
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    const defaultAssigneeTypeForSave = 'assignee';
 
     /**
      * alert message.
@@ -506,7 +507,7 @@
             }
         }
 
-        //tokenObject를 초기화
+        //tokenObject init (RestTemplateTokenDto)
         const tokenElements = document.getElementById('tokenId');
         if (tokenElements !== null && tokenElements !== undefined) {
             tokenObject.tokenId = tokenElements.getAttribute('data-id');
@@ -515,6 +516,8 @@
         }
         if (v_kind === 'save') {
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
+            tokenObject.assigneeId = userData.userKey;
+            tokenObject.assigneeType = defaultAssigneeTypeForSave;
         } else if (v_kind === 'process') {
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
         }
@@ -593,6 +596,7 @@
             Object.assign(userData, authData);
 
             userData.defaultLang  = authData.lang;
+            userData.userKey = authData.userKey;
             let format = authData.timeFormat;
             let formatArray = format.split(' ');
 

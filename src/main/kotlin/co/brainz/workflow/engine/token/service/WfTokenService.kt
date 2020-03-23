@@ -256,6 +256,8 @@ class WfTokenService(private val wfDocumentRepository: WfDocumentRepository,
                 elementId = wfTokenDto.elementId,
                 tokenStatus = WfTokenConstants.Status.RUNNING.code,
                 tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                assigneeId = wfTokenDto.assigneeId,
+                assigneeType = wfTokenDto.assigneeType,
                 instance = wfInstance
         )
         return wfTokenRepository.save(tokenEntity)
