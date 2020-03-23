@@ -47,6 +47,7 @@ menu:
   help.faq: "FAQ"
   help.document: "Service Request"
   help.token: "Process Document"
+  help.dashboard: "Personal Dashboard"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
@@ -329,3 +330,8 @@ document:
 token:
   label:
     list: "Process Document List"
+
+# Dashboard
+dashboard:
+  label:
+    view: "Requested Documents Status"

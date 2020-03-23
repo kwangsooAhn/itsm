@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{dashboard.label.view}">신청한 문서 현황</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <h1 th:text="#{dashboard.label.view}">신청한 문서 현황</h1>
+        <hr>
+        <div id="dashboardList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        window.onload = function() {
+            const userKey = '[[${#authentication.details.userKey}]]';
+            console.log('[[${#authentication.details.userKey}]]');
+            console.log(userKey);
+            restSubmit('get', '/dashboard/list', userKey);
+        };
+
+        //REST API
+        function restSubmit(method, url) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    document.getElementById('dashboardList').innerHTML = response.responseText;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+    </script>
+</th:block>
+</body>
+</html>
