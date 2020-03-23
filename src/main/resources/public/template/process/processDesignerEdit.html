@@ -24,25 +24,29 @@
 <div class="alice-process-container">
     <div class="alice-process-toolbar">
         <span class="logo"></span>
-        <a href="#" id="btnSave">
+        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnSave">
             <img th:src="@{/assets/media/icons/process/topmenu/save.png}"/>
             <label th:text="#{common.btn.save}"/>
+        </a>
+        <a th:if="${isView}" href="#" id="btnSaveAs">
+            <img th:src="@{/assets/media/icons/process/topmenu/save.png}"/>
+            <label th:text="#{common.btn.saveAs}"/>
         </a>
         <a href="#" id="btnSimulation">
             <img th:src="@{/assets/media/icons/process/topmenu/simulation.png}"/>
             <label th:text="#{process.label.simulation}"/>
         </a>
         <span class="separator"></span>
-        <a href="#" id="btnUndo">
+        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnUndo">
             <img th:src="@{/assets/media/icons/process/topmenu/undo.png}"/>
             <label th:text="#{process.label.undo}"/>
         </a>
-        <a href="#" id="btnRedo">
+        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnRedo">
             <img th:src="@{/assets/media/icons/process/topmenu/redo.png}"/>
             <label th:text="#{process.label.redo}"/>
         </a>
-        <span class="separator"></span>
-        <a href="#" id="btnImport">
+        <span th:if="${#strings.isEmpty(isView)}" class="separator"></span>
+        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnImport">
             <img th:src="@{/assets/media/icons/process/topmenu/import.png}"/>
             <label th:text="#{process.label.import}"/>
         </a>

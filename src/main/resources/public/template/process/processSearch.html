@@ -65,6 +65,18 @@
             window.open('/processes/' + processId + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
+        function openProcessDesignerView(processId) {
+            const _width = 1800,
+                  _height = 1000;
+            //중앙 배치
+            const _left = Math.ceil((window.screen.width - _width) / 2);
+            const _top = Math.ceil((window.screen.height - _height) / 4);
+
+            let specs = 'left=' + _left + ',top=' + _top;
+            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+            window.open('/processes/' + processId + '/view', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
+        }
+
         //REST API
         function restSubmit(method, url, result) {
             const opt = {
