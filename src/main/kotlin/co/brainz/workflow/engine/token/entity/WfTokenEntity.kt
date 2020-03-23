@@ -21,9 +21,6 @@ data class WfTokenEntity(
     @Column(name = "token_id", length = 128)
     val tokenId: String,
 
-    /*@JoinColumn(name = "instance_id")
-    val instanceId: String,*/
-
     @JoinColumn(name = "element_id")
     val elementId: String,
 
