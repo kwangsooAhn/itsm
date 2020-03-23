@@ -54,7 +54,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
         restTemplateProcessDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
-        restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.code
+        restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
         return when (responseBody.isNotEmpty()) {
@@ -88,8 +88,8 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         wfProcessElementDto.process?.createUserKey = userDetails.userKey
         wfProcessElementDto.process?.updateDt = null
         wfProcessElementDto.process?.updateUserKey = null
-        if (wfProcessElementDto.process?.status == RestTemplateConstants.ProcessStatus.DESTROY.code) {
-            wfProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.code
+        if (wfProcessElementDto.process?.status == RestTemplateConstants.ProcessStatus.DESTROY.value) {
+            wfProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
         }
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS_SAVE_AS.url)
         val responseBody = restTemplate.createToSave(url, wfProcessElementDto)
