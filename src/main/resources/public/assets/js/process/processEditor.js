@@ -42,6 +42,7 @@
         selectedElement = null;
         svg.selectAll('.node').classed('selected', false);
         svg.selectAll('.pointer').style('opacity', 0);
+        svg.selectAll('.pointer').style('cursor', 'default');
         svg.selectAll('.connector').classed('selected', false);
         svg.selectAll('.alice-tooltip').remove();
     }
@@ -54,13 +55,10 @@
     function setConnectors(recycle) {
         if (recycle) {
             connectors = connectors.data([]);
-            // remove old links
-            connectors.exit().remove();
+            connectors.exit().remove(); // remove old links
         }
-
         connectors = connectors.data(elements.links);
-        // remove old links
-        connectors.exit().remove();
+        connectors.exit().remove(); // remove old links
 
         let enter = connectors.enter().append('g').attr('class', 'connector');
 
@@ -82,7 +80,9 @@
                 let selectedLink = d3.select(this).classed('selected', true);
                 selectedElement = null;
 
-                document.getElementById(this.id + '_midPoint').style.opacity = 1;
+                d3.select(this.parentNode).selectAll('.pointer')
+                    .style('opacity', 1)
+                    .style('cursor', 'move');
 
                 setConnectors();
                 AliceProcessEditor.setElementMenu(selectedLink);
@@ -129,12 +129,36 @@
 
         enter.append('circle')
             .attr('class', 'pointer')
-            .attr('id', function(d) { return d.id + '_midPoint' })
+            .attr('id', function(d) { return d.id + '_midPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
             .call(d3.drag()
                 .on('drag', function(d) {
                     d.midPoint = [d3.event.x, d3.event.y];
+                    drawConnectors();
+                })
+            );
+
+        enter.append('circle')
+            .attr('class', 'pointer')
+            .attr('id', function(d) { return d.id + '_sourcePoint'; })
+            .attr('r', displayOptions.pointerRadius)
+            .style('opacity', 0)
+            .call(d3.drag()
+                .on('drag', function(d) {
+                    d.sourcePoint = [d3.event.x, d3.event.y];
+                    drawConnectors();
+                })
+            );
+
+        enter.append('circle')
+            .attr('class', 'pointer')
+            .attr('id', function(d) { return d.id + '_targetPoint'; })
+            .attr('r', displayOptions.pointerRadius)
+            .style('opacity', 0)
+            .call(d3.drag()
+                .on('drag', function(d) {
+                    d.targetPoint = [d3.event.x, d3.event.y];
                     drawConnectors();
                 })
             );
@@ -167,38 +191,154 @@
             let targetPointArray = [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
                 [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]];
             let midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
+            let sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint'));
+            let targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
 
             let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
             if (typeof d.midPoint !== 'undefined') {
-                sourcePointArray.forEach(function(s) {
-                    let dist = Math.hypot(
-                        d.midPoint[0] - (sourceBBox.x + s[0]),
-                        d.midPoint[1] - (sourceBBox.y + s[1])
-                    );
-                    if (dist < min) {
-                        min = dist;
-                        let x1 = sourceBBox.x + s[0],
-                            y1 = sourceBBox.y + s[1];
-                        best = [[x1, y1]];
-                    }
-                });
-                best.push(d.midPoint);
-                let lastPoint = [];
-                min = Number.MAX_SAFE_INTEGER || 9007199254740991;
-                targetPointArray.forEach(function(t) {
-                    let dist = Math.hypot(
-                        (targetBBox.x + t[0]) - d.midPoint[0],
-                        (targetBBox.y + t[1]) - d.midPoint[1]
-                    );
-                    if (dist < min) {
-                        min = dist;
-                        let x2 = targetBBox.x + t[0],
-                            y2 = targetBBox.y + t[1];
-                        lastPoint = [x2, y2];
-                    }
-                });
-                best.push(lastPoint);
-                midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+                sourcePoint.style('opacity', 1);
+                targetPoint.style('opacity', 1);
+                if (typeof d.sourcePoint === 'undefined' && typeof d.targetPoint === 'undefined') {
+                    sourcePointArray.forEach(function(s) {
+                        let dist = Math.hypot(
+                            d.midPoint[0] - (sourceBBox.x + s[0]),
+                            d.midPoint[1] - (sourceBBox.y + s[1])
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x1 = sourceBBox.x + s[0],
+                                y1 = sourceBBox.y + s[1];
+                            best = [[x1, y1]];
+                        }
+                    });
+                    let sourcePointCoord = [(d.midPoint[0] + best[0][0]) / 2, (d.midPoint[1] + best[0][1]) / 2];
+                    best.push(sourcePointCoord);
+                    best.push(d.midPoint);
+                    let lastPoint = [];
+                    min = Number.MAX_SAFE_INTEGER || 9007199254740991;
+                    targetPointArray.forEach(function(t) {
+                        let dist = Math.hypot(
+                            (targetBBox.x + t[0]) - d.midPoint[0],
+                            (targetBBox.y + t[1]) - d.midPoint[1]
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x2 = targetBBox.x + t[0],
+                                y2 = targetBBox.y + t[1];
+                            lastPoint = [x2, y2];
+                        }
+                    });
+                    let targetPointCoord = [(d.midPoint[0] + lastPoint[0]) / 2, (d.midPoint[1] + lastPoint[1]) / 2];
+                    best.push(targetPointCoord);
+                    best.push(lastPoint);
+                    midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+                    sourcePoint.attr('cx', sourcePointCoord[0]).attr('cy', sourcePointCoord[1]);
+                    targetPoint.attr('cx', targetPointCoord[0]).attr('cy', targetPointCoord[1]);
+                } else if (typeof d.sourcePoint === 'undefined') {
+                    sourcePointArray.forEach(function(s) {
+                        let dist = Math.hypot(
+                            d.midPoint[0] - (sourceBBox.x + s[0]),
+                            d.midPoint[1] - (sourceBBox.y + s[1])
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x1 = sourceBBox.x + s[0],
+                                y1 = sourceBBox.y + s[1];
+                            best = [[x1, y1]];
+                        }
+                    });
+                    let sourcePointCoord = [(d.midPoint[0] + best[0][0]) / 2, (d.midPoint[1] + best[0][1]) / 2];
+                    best.push(sourcePointCoord);
+                    best.push(d.midPoint);
+                    best.push(d.targetPoint);
+                    let lastPoint = [];
+                    min = Number.MAX_SAFE_INTEGER || 9007199254740991;
+                    targetPointArray.forEach(function(t) {
+                        let dist = Math.hypot(
+                            (targetBBox.x + t[0]) - d.targetPoint[0],
+                            (targetBBox.y + t[1]) - d.targetPoint[1]
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x2 = targetBBox.x + t[0],
+                                y2 = targetBBox.y + t[1];
+                            lastPoint = [x2, y2];
+                        }
+                    });
+                    best.push(lastPoint);
+                    midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+                    sourcePoint.attr('cx', sourcePointCoord[0]).attr('cy', sourcePointCoord[1]);
+                    targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
+                } else if (typeof d.targetPoint === 'undefined') {
+                    sourcePointArray.forEach(function(s) {
+                        let dist = Math.hypot(
+                            d.sourcePoint[0] - (sourceBBox.x + s[0]),
+                            d.sourcePoint[1] - (sourceBBox.y + s[1])
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x1 = sourceBBox.x + s[0],
+                                y1 = sourceBBox.y + s[1];
+                            best = [[x1, y1]];
+                        }
+                    });
+                    best.push(d.sourcePoint);
+                    best.push(d.midPoint);
+                    let lastPoint = [];
+                    min = Number.MAX_SAFE_INTEGER || 9007199254740991;
+                    targetPointArray.forEach(function(t) {
+                        let dist = Math.hypot(
+                            (targetBBox.x + t[0]) - d.midPoint[0],
+                            (targetBBox.y + t[1]) - d.midPoint[1]
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x2 = targetBBox.x + t[0],
+                                y2 = targetBBox.y + t[1];
+                            lastPoint = [x2, y2];
+                        }
+                    });
+                    let targetPointCoord = [(d.midPoint[0] + lastPoint[0]) / 2, (d.midPoint[1] + lastPoint[1]) / 2];
+                    best.push(targetPointCoord);
+                    best.push(lastPoint);
+                    midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+                    sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
+                    targetPoint.attr('cx', targetPointCoord[0]).attr('cy', targetPointCoord[1]);
+                } else {
+                    sourcePointArray.forEach(function(s) {
+                        let dist = Math.hypot(
+                            d.sourcePoint[0] - (sourceBBox.x + s[0]),
+                            d.sourcePoint[1] - (sourceBBox.y + s[1])
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x1 = sourceBBox.x + s[0],
+                                y1 = sourceBBox.y + s[1];
+                            best = [[x1, y1]];
+                        }
+                    });
+                    best.push(d.sourcePoint);
+                    best.push(d.midPoint);
+                    best.push(d.targetPoint);
+                    let lastPoint = [];
+                    min = Number.MAX_SAFE_INTEGER || 9007199254740991;
+                    targetPointArray.forEach(function(t) {
+                        let dist = Math.hypot(
+                            (targetBBox.x + t[0]) - d.targetPoint[0],
+                            (targetBBox.y + t[1]) - d.targetPoint[1]
+                        );
+                        if (dist < min) {
+                            min = dist;
+                            let x2 = targetBBox.x + t[0],
+                                y2 = targetBBox.y + t[1];
+                            lastPoint = [x2, y2];
+                        }
+                    });
+                    best.push(lastPoint);
+                    midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+                    sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
+                    targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
+                }
             } else {
                 sourcePointArray.forEach(function(s) {
                     targetPointArray.forEach(function (t) {
@@ -212,12 +352,9 @@
                                 x2 = targetBBox.x + t[0],
                                 y1 = sourceBBox.y + s[1],
                                 y2 = targetBBox.y + t[1];
-                            let midPointCord = [(x1 + x2) / 2, (y1 + y2) / 2];
-                            if (typeof d.midPoint !== 'undefined') {
-                                midPointCord = d.midPoint;
-                            }
-                            best = [[x1, y1], midPointCord, [x2, y2]];
-                            midPoint.attr('cx', midPointCord[0]).attr('cy', midPointCord[1]);
+                            let midPointCoord = [(x1 + x2) / 2, (y1 + y2) / 2];
+                            best = [[x1, y1], midPointCoord, [x2, y2]];
+                            midPoint.attr('cx', midPointCoord[0]).attr('cy', midPointCoord[1]);
                         }
                     });
                 });
@@ -228,9 +365,9 @@
             //lineGenerator.curve(d3.curveStepAfter);
             //lineGenerator.curve(d3.curveStepBefore);
             //lineGenerator.curve(d3.curveLinear);
-            //lineGenerator.curve(d3.curveCardinal);
+            //lineGenerator.curve(d3.curveCardinal.tension(0.5));
             */
-            let lineGenerator = d3.line().curve(d3.curveCardinal.tension(0.5));
+            let lineGenerator = d3.line().curve(d3.curveLinear);
             return lineGenerator(best);
         };
 
