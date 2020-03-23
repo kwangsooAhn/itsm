@@ -7,7 +7,7 @@
 
     const utils = {
         /**
-         * 해당 element의 중앙 x,y 좌표와 넓이,높이를 리턴한다.
+         * 해당 element 의 중앙 x,y 좌표와 넓이,높이를 리턴한다.
          *
          * @param selection
          * @returns {{x: number, width: number, y: number, height: number}}
@@ -125,33 +125,33 @@
      */
     function initUtil() {
         // add click event listener.
-        if (document.getElementById('btnSave') != null) {
+        if (document.getElementById('btnSave') !== null) {
             document.getElementById('btnSave').addEventListener('click', saveProcess);
         }
-        if (document.getElementById('btnSaveAs') != null) {
+        if (document.getElementById('btnSaveAs') !== null) {
             document.getElementById("btnSaveAs").addEventListener('click', saveAsProcess);
         }
-        if (document.getElementById('btnSimulation') != null) {
+        if (document.getElementById('btnSimulation') !== null) {
             document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);
         }
-        if (document.getElementById('btnUndo') != null) {
+        if (document.getElementById('btnUndo') !== null) {
             document.getElementById('btnUndo').addEventListener('click', undoProcess);
         }
-        if (document.getElementById('btnRedo') != null) {
+        if (document.getElementById('btnRedo') !== null) {
             document.getElementById('btnRedo').addEventListener('click', redoProcess);
         }
-        if (document.getElementById('btnImport') != null) {
+        if (document.getElementById('btnImport') !== null) {
             document.getElementById('btnImport').addEventListener('click', importProcess);
         }
-        if (document.getElementById('btnExport') != null) {
+        if (document.getElementById('btnExport') !== null) {
             document.getElementById('btnExport').addEventListener('click', exportProcess);
         }
-        if (document.getElementById('btnDownload') != null) {
+        if (document.getElementById('btnDownload') !== null) {
             document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
         }
     }
 
     exports.utils = utils;
     exports.initUtil = initUtil;
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule',{value: true});
 })));

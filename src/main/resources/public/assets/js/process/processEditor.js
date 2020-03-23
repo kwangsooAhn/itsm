@@ -41,8 +41,7 @@
     function removeElementSelected() {
         selectedElement = null;
         svg.selectAll('.node').classed('selected', false);
-        svg.selectAll('.pointer').style('opacity', 0);
-        svg.selectAll('.pointer').style('cursor', 'default');
+        svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
         svg.selectAll('.connector').classed('selected', false);
         svg.selectAll('.alice-tooltip').remove();
     }
@@ -136,6 +135,7 @@
                 .on('drag', function(d) {
                     d.midPoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                    AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
 
@@ -148,6 +148,7 @@
                 .on('drag', function(d) {
                     d.sourcePoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                    AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
 
@@ -160,6 +161,7 @@
                 .on('drag', function(d) {
                     d.targetPoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                    AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
 
@@ -167,6 +169,47 @@
 
         // draw links
         drawConnectors();
+    }
+
+    /**
+     * 시작지점과 종료지점의 라인을 좌표배열로 리턴한다.
+     *
+     * @param sourceBBox source element bbox.
+     * @param targetBBox target element bbox.
+     * @param sourcePointArray source element 시작 지점 배열
+     * @param targetPointArray target element 시작 지점 배열
+     * @return {[]} 라인배열
+     */
+    function getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray) {
+        let best = [];
+        let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
+        sourcePointArray.forEach(function(s) {
+            targetPointArray.forEach(function(t) {
+                let dist = Math.hypot(
+                    (targetBBox.x + t[0]) - (sourceBBox.x + s[0]),
+                    (targetBBox.y + t[1]) - (sourceBBox.y + s[1])
+                );
+                if (dist < min) {
+                    min = dist;
+                    let x1 = sourceBBox.x + s[0],
+                        x2 = targetBBox.x + t[0],
+                        y1 = sourceBBox.y + s[1],
+                        y2 = targetBBox.y + t[1];
+                    best = [[x1, y1], [x2, y2]];
+                }
+            });
+        });
+        return best;
+    }
+
+    /**
+     * 라인 사이의 좌표를 구해서 리턴한다.
+     *
+     * @param line 시작/종료 라인좌표
+     * @return {number[]} middle point 좌표
+     */
+    function getMidPointCoords(line) {
+        return [(line[1][0] + line[0][0]) / 2, (line[1][1] + line[0][1]) / 2];
     }
 
     /**
@@ -185,190 +228,93 @@
             const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
 
-            let best = [];
+            let lineCoords = [];
             let sourcePointArray = [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
                 [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]];
             let targetPointArray = [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
                 [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]];
-            let midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
-            let sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint'));
-            let targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
+            const midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
 
-            let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
             if (typeof d.midPoint !== 'undefined') {
-                sourcePoint.style('opacity', 1);
-                targetPoint.style('opacity', 1);
+                midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+
+                const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
+                      targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
+
+                if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                    sourcePoint.style('opacity', 1);
+                    targetPoint.style('opacity', 1);
+                }
                 if (typeof d.sourcePoint === 'undefined' && typeof d.targetPoint === 'undefined') {
-                    sourcePointArray.forEach(function(s) {
-                        let dist = Math.hypot(
-                            d.midPoint[0] - (sourceBBox.x + s[0]),
-                            d.midPoint[1] - (sourceBBox.y + s[1])
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x1 = sourceBBox.x + s[0],
-                                y1 = sourceBBox.y + s[1];
-                            best = [[x1, y1]];
-                        }
-                    });
-                    let sourcePointCoord = [(d.midPoint[0] + best[0][0]) / 2, (d.midPoint[1] + best[0][1]) / 2];
-                    best.push(sourcePointCoord);
-                    best.push(d.midPoint);
-                    let lastPoint = [];
-                    min = Number.MAX_SAFE_INTEGER || 9007199254740991;
-                    targetPointArray.forEach(function(t) {
-                        let dist = Math.hypot(
-                            (targetBBox.x + t[0]) - d.midPoint[0],
-                            (targetBBox.y + t[1]) - d.midPoint[1]
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x2 = targetBBox.x + t[0],
-                                y2 = targetBBox.y + t[1];
-                            lastPoint = [x2, y2];
-                        }
-                    });
-                    let targetPointCoord = [(d.midPoint[0] + lastPoint[0]) / 2, (d.midPoint[1] + lastPoint[1]) / 2];
-                    best.push(targetPointCoord);
-                    best.push(lastPoint);
-                    midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
-                    sourcePoint.attr('cx', sourcePointCoord[0]).attr('cy', sourcePointCoord[1]);
-                    targetPoint.attr('cx', targetPointCoord[0]).attr('cy', targetPointCoord[1]);
+                    let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
+                    let sourcePointCoords = getMidPointCoords(bestLine1);
+                    lineCoords.push(bestLine1[0]);
+                    //lineCoords.push(sourcePointCoords);
+                    lineCoords.push(bestLine1[1]);
+                    let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    let targetPointCoords = getMidPointCoords(bestLine2);
+                    lineCoords.push(bestLine2[0]);
+                    //lineCoords.push(targetPointCoords);
+                    lineCoords.push(bestLine2[1]);
+
+                    sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
+                    targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else if (typeof d.sourcePoint === 'undefined') {
-                    sourcePointArray.forEach(function(s) {
-                        let dist = Math.hypot(
-                            d.midPoint[0] - (sourceBBox.x + s[0]),
-                            d.midPoint[1] - (sourceBBox.y + s[1])
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x1 = sourceBBox.x + s[0],
-                                y1 = sourceBBox.y + s[1];
-                            best = [[x1, y1]];
-                        }
-                    });
-                    let sourcePointCoord = [(d.midPoint[0] + best[0][0]) / 2, (d.midPoint[1] + best[0][1]) / 2];
-                    best.push(sourcePointCoord);
-                    best.push(d.midPoint);
-                    best.push(d.targetPoint);
-                    let lastPoint = [];
-                    min = Number.MAX_SAFE_INTEGER || 9007199254740991;
-                    targetPointArray.forEach(function(t) {
-                        let dist = Math.hypot(
-                            (targetBBox.x + t[0]) - d.targetPoint[0],
-                            (targetBBox.y + t[1]) - d.targetPoint[1]
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x2 = targetBBox.x + t[0],
-                                y2 = targetBBox.y + t[1];
-                            lastPoint = [x2, y2];
-                        }
-                    });
-                    best.push(lastPoint);
-                    midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
-                    sourcePoint.attr('cx', sourcePointCoord[0]).attr('cy', sourcePointCoord[1]);
+                    let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
+                    let sourcePointCoords = getMidPointCoords(bestLine1);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(sourcePointCoords);
+                    lineCoords.push(bestLine1[1]);
+                    let bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(bestLine2[1]);
+
+                    sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
                     targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
                 } else if (typeof d.targetPoint === 'undefined') {
-                    sourcePointArray.forEach(function(s) {
-                        let dist = Math.hypot(
-                            d.sourcePoint[0] - (sourceBBox.x + s[0]),
-                            d.sourcePoint[1] - (sourceBBox.y + s[1])
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x1 = sourceBBox.x + s[0],
-                                y1 = sourceBBox.y + s[1];
-                            best = [[x1, y1]];
-                        }
-                    });
-                    best.push(d.sourcePoint);
-                    best.push(d.midPoint);
-                    let lastPoint = [];
-                    min = Number.MAX_SAFE_INTEGER || 9007199254740991;
-                    targetPointArray.forEach(function(t) {
-                        let dist = Math.hypot(
-                            (targetBBox.x + t[0]) - d.midPoint[0],
-                            (targetBBox.y + t[1]) - d.midPoint[1]
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x2 = targetBBox.x + t[0],
-                                y2 = targetBBox.y + t[1];
-                            lastPoint = [x2, y2];
-                        }
-                    });
-                    let targetPointCoord = [(d.midPoint[0] + lastPoint[0]) / 2, (d.midPoint[1] + lastPoint[1]) / 2];
-                    best.push(targetPointCoord);
-                    best.push(lastPoint);
-                    midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+                    let bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(bestLine1[1]);
+                    let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    let targetPointCoords = getMidPointCoords(bestLine2);
+                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(targetPointCoords);
+                    lineCoords.push(bestLine2[1]);
+
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
-                    targetPoint.attr('cx', targetPointCoord[0]).attr('cy', targetPointCoord[1]);
+                    targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else {
-                    sourcePointArray.forEach(function(s) {
-                        let dist = Math.hypot(
-                            d.sourcePoint[0] - (sourceBBox.x + s[0]),
-                            d.sourcePoint[1] - (sourceBBox.y + s[1])
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x1 = sourceBBox.x + s[0],
-                                y1 = sourceBBox.y + s[1];
-                            best = [[x1, y1]];
-                        }
-                    });
-                    best.push(d.sourcePoint);
-                    best.push(d.midPoint);
-                    best.push(d.targetPoint);
-                    let lastPoint = [];
-                    min = Number.MAX_SAFE_INTEGER || 9007199254740991;
-                    targetPointArray.forEach(function(t) {
-                        let dist = Math.hypot(
-                            (targetBBox.x + t[0]) - d.targetPoint[0],
-                            (targetBBox.y + t[1]) - d.targetPoint[1]
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x2 = targetBBox.x + t[0],
-                                y2 = targetBBox.y + t[1];
-                            lastPoint = [x2, y2];
-                        }
-                    });
-                    best.push(lastPoint);
-                    midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
+                    let bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(bestLine1[1]);
+                    lineCoords.push(d.midPoint);
+                    let bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(bestLine2[1]);
+
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
                     targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
                 }
             } else {
-                sourcePointArray.forEach(function(s) {
-                    targetPointArray.forEach(function (t) {
-                        let dist = Math.hypot(
-                            (targetBBox.x + t[0]) - (sourceBBox.x + s[0]),
-                            (targetBBox.y + t[1]) - (sourceBBox.y + s[1])
-                        );
-                        if (dist < min) {
-                            min = dist;
-                            let x1 = sourceBBox.x + s[0],
-                                x2 = targetBBox.x + t[0],
-                                y1 = sourceBBox.y + s[1],
-                                y2 = targetBBox.y + t[1];
-                            let midPointCoord = [(x1 + x2) / 2, (y1 + y2) / 2];
-                            best = [[x1, y1], midPointCoord, [x2, y2]];
-                            midPoint.attr('cx', midPointCoord[0]).attr('cy', midPointCoord[1]);
-                        }
-                    });
-                });
+                let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
+                let midPointCoords = getMidPointCoords(bestLine);
+                lineCoords.push(bestLine[0]);
+                lineCoords.push(midPointCoords);
+                lineCoords.push(bestLine[1]);
+
+                midPoint.attr('cx', midPointCoords[0]).attr('cy', midPointCoords[1]);
             }
 
             /*
-            //lineGenerator.curve(d3.curveStep);
-            //lineGenerator.curve(d3.curveStepAfter);
-            //lineGenerator.curve(d3.curveStepBefore);
-            //lineGenerator.curve(d3.curveLinear);
-            //lineGenerator.curve(d3.curveCardinal.tension(0.5));
+            //d3.curveStep
+            //d3.curveStepAfter
+            //d3.curveStepBefore
+            //d3.curveLinear
+            //d3.curveCardinal.tension(0.5)
+            //d3.curveBundle.beta(1)
             */
             let lineGenerator = d3.line().curve(d3.curveLinear);
-            return lineGenerator(best);
+            return lineGenerator(lineCoords);
         };
 
         connectors.select('path.connector').attr('d', function(d) {return getLinePath(d);});
@@ -1255,7 +1201,19 @@
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                elements.links.push({id: nodeId, source: d3.select(source), target: d3.select(target)});
+                let linkData = {id: nodeId, source: d3.select(source), target: d3.select(target)};
+                if (element.display) {
+                    if (typeof element.display['mid-point'] !== 'undefined') {
+                        linkData.midPoint = element.display['mid-point'];
+                    }
+                    if (typeof element.display['source-point'] !== 'undefined') {
+                        linkData.sourcePoint = element.display['source-point'];
+                    }
+                    if (typeof element.display['target-point'] !== 'undefined') {
+                        linkData.targetPoint = element.display['target-point'];
+                    }
+                }
+                elements.links.push(linkData);
             }
         });
         setConnectors();
