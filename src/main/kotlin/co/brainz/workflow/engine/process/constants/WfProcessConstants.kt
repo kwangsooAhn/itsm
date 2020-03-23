@@ -14,4 +14,11 @@ object WfProcessConstants {
         PUBLISH("process.status.publish"),
         DESTROY("process.status.destroy")
     }
+
+    /**
+     * 프로세스 저장 타입.
+     */
+    enum class SaveType(val code: String) {
+        COPY("copy")
+    }
 }

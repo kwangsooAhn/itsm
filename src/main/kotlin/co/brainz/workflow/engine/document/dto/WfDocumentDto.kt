@@ -8,7 +8,7 @@ data class WfDocumentDto(
         val documentName: String,
         val documentDesc: String? = null,
         val procId: String,
-        val formId: String? = "",
+        val formId: String,
         val createUserKey: String? = null,
         val createDt: LocalDateTime? = null,
         val updateUserKey: String? = null,

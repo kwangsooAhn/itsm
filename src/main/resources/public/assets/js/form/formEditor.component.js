@@ -107,7 +107,13 @@
      * @constructor
      */
     function Text(attr) {
-        let textDefault = attr.display['default'].split('|')[1];
+        let textDefaultArr = attr.display['default'].split('|');
+        let textDefaultName = '';
+        if (textDefaultArr[0] === 'none') {
+            textDefaultName = textDefaultArr[1];
+        } else {
+            textDefaultName = textDefaultArr[2];
+        }
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -120,7 +126,7 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' placeholder='${attr.display.placeholder}' value='${textDefault}' readonly 
+                    <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultName}' readonly 
                     style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' 
                     ${attr.validate.required === "Y" ? "required" : ""} 
                     max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]} />
@@ -361,7 +367,7 @@
             <div class='move-icon'></div>
             <div class='group'>
                 <div class='field' style='flex-basis: 100%;'>
-                    <hr style='border: ${attr.display.type} ${attr.display.width}px ${attr.display.color};'>
+                    <hr style='border: ${attr.display.type} ${attr.display.thickness}px ${attr.display.color};'>
                 </div>
             </div>
         `);

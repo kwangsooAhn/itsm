@@ -29,15 +29,19 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
     /**
      * 프로세스 목록 조회
      */
-    fun selectProcessList(search: String): MutableList<WfProcessDto> {
+    fun selectProcessList(parameters: LinkedHashMap<String, Any>): MutableList<WfProcessDto> {
+        var search: String = ""
+        var status: String = ""
+        if (parameters["search"] != null) search = parameters["search"].toString()
+        if (parameters["status"] != null) status = parameters["status"].toString()
         val processDtoList = mutableListOf<WfProcessDto>()
-        val processList = if (search.isEmpty()) {
+        val processList = if (search.isEmpty() && status.isEmpty()) {
             wfProcessRepository.findAll()
+        } else if (status.isEmpty()){
+            wfProcessRepository.findByProcessListOrProcessSearchList("%$search%")
         } else {
-            val word = "%$search%"
-            wfProcessRepository.findByProcessNameLikeOrProcessDescLike(word, word)
+            wfProcessRepository.findByProcessStatus(status)
         }
-
         processList.forEach {
             val enabled = when (it.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.SIMULATION.code -> true
@@ -75,7 +79,6 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      * 프로세스 신규 등록
      */
     fun insertProcess(processDto: ProcessDto): ProcessDto {
-        processDto.processStatus = WfProcessConstants.Status.EDIT.code // 등록 시 프로세스 상태
         val wfProcessEntity: WfProcessEntity = wfProcessRepository.save(processMapper.toProcessEntity(processDto))
 
         return ProcessDto(
@@ -170,5 +173,28 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
 
         }
         return true
+    }
+
+    /**
+     * 프로세스 다음 이름 저장.
+     */
+    fun saveAsForm(wfProcessElementDto: WfProcessElementDto): ProcessDto {
+        val processDataDto = ProcessDto(
+                processName = wfProcessElementDto.process?.name.toString(),
+                processDesc = wfProcessElementDto.process?.description,
+                createDt = wfProcessElementDto.process?.createDt,
+                processStatus = wfProcessElementDto.process?.status.toString(),
+                createUserKey = wfProcessElementDto.process?.createUserKey,
+                updateDt = wfProcessElementDto.process?.updateDt,
+                updateUserKey = wfProcessElementDto.process?.updateUserKey
+        )
+        val processDto = insertProcess(processDataDto)
+        if (wfProcessElementDto.process?.status == WfProcessConstants.Status.DESTROY.code) {
+            processDto.processStatus = WfProcessConstants.Status.EDIT.code
+            processDto.enabled = true
+        }
+        wfProcessElementDto.process?.id = processDto.processId
+        updateProcess(wfProcessElementDto)
+        return processDto
     }
 }

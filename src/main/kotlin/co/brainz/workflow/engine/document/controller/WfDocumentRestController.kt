@@ -1,10 +1,12 @@
 package co.brainz.workflow.engine.document.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -28,8 +30,19 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * @param documentId
      * @return FormComponentViewDto
      */
-    @GetMapping("{documentId}")
+    @GetMapping("/{documentId}")
     fun getDocument(@PathVariable documentId: String): WfFormComponentViewDto? {
         return wfEngine.document().document(documentId)
+    }
+
+    /**
+     * 신청서 등록.
+     *
+     * @param documentDto
+     * @return WfDocumentDto
+     */
+    @PostMapping("")
+    fun createDocument(@RequestBody documentDto: WfDocumentDto): WfDocumentDto {
+        return wfEngine.document().createDocument(documentDto)
     }
 }

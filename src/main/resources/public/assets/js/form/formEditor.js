@@ -571,24 +571,65 @@
                             }
                             break;
                         case 'select':
+                            propertyValue = document.createElement('select');
+                            propertyValue.classList.add('property-field-value');
+                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                let propertyOption = document.createElement('option');
+                                propertyOption.value = fieldArr.option[i].id;
+                                propertyOption.text = fieldArr.option[i].name;
+                                if (fieldArr.value === fieldArr.option[i].id) {
+                                    propertyOption.setAttribute('selected', 'selected');
+                                }
+                                propertyValue.appendChild(propertyOption);
+                            }
+                            propertyValue.addEventListener('change', function() {
+                                changePropertiesValue(this.value, group, fieldArr.id);
+                            }, false);
+                            fieldGroupDiv.appendChild(propertyValue);
+                            break;
                         case 'session':
                             propertyValue = document.createElement('select');
                             propertyValue.classList.add('property-field-value');
                             let propertyValueArr = fieldArr.value.split('|');
                             /**
-                             * 사용자 입력을 받는 inputbox를 생성하고 이벤트를 등록한다.
+                             * 사용자 입력을 받는 inputbox 또는  selectbox를 생성하고 이벤트를 등록한다.
+                             *  none|직접입력값, select|userid|아이디, select|username|이름 등
+                             * @param {String} type none, select 2가지 타입
                              * @param {String} defaultValue 기본 값
                              */
-                            const setUserInputCell = function(defaultValue) {
-                                let defaultInputCell = document.createElement('input');
-                                defaultInputCell.setAttribute('type', 'text');
-                                defaultInputCell.setAttribute('id', group + '-' + fieldArr.id + '-none');
-                                defaultInputCell.classList.add('default-none');
-                                defaultInputCell.setAttribute('value', defaultValue);
-                                defaultInputCell.addEventListener('change', function() {
-                                    changePropertiesValue('none|' + this.value, group, fieldArr.id);
+                            const setSubList = function(type, defaultValue) {
+                                let subListElem = null;
+                                if (type === 'none') {
+                                    subListElem = document.createElement('input');
+                                    subListElem.setAttribute('type', 'text');
+                                    subListElem.setAttribute('value', defaultValue);
+                                } else {
+                                    subListElem = document.createElement('select');
+                                    if (defaultValue === '') { defaultValue = fieldArr.option[1].items[0].id + '|' + fieldArr.option[1].items[0].name; }
+                                    for (let i = 0, len = fieldArr.option[1].items.length; i < len; i++) {
+                                        let selectItem = fieldArr.option[1].items[i];
+                                        let subListOption = document.createElement('option');
+                                        subListOption.value = selectItem.id;
+                                        subListOption.text = selectItem.name;
+                                        if (defaultValue === selectItem.id) {
+                                            subListOption.setAttribute('selected', 'selected');
+                                            defaultValue += ('|' + selectItem.name);
+                                        }
+                                        subListElem.appendChild(subListOption);
+                                    }
+                                }
+                                subListElem.setAttribute('id', compAttr.id + '-' + group + '-' + fieldArr.id + '-session');
+                                subListElem.classList.add('default-session');
+                                subListElem.addEventListener('change', function() {
+                                    if (type === 'none') {
+                                        changePropertiesValue(type + '|' + this.value, group, fieldArr.id);
+                                    } else {
+                                        changePropertiesValue(type + '|' + this.value + '|' + this.options[this.selectedIndex].text, group, fieldArr.id);
+                                    }
                                 }, false);
-                                fieldGroupDiv.appendChild(defaultInputCell);
+                                fieldGroupDiv.appendChild(subListElem);
+
+                                changePropertiesValue(type + '|' + defaultValue, group, fieldArr.id);
                             };
                             for (let i = 0, len = fieldArr.option.length; i < len; i++) {
                                 let propertyOption = document.createElement('option');
@@ -600,26 +641,15 @@
                                 propertyValue.appendChild(propertyOption);
                             }
                             propertyValue.addEventListener('change', function() {
-                                let changeValue = this.value;
-                                if (fieldArr.type === 'session') {
-                                    if (changeValue === 'none') {
-                                        setUserInputCell('');
-                                    } else {
-                                        let userInputCell = fieldGroupDiv.querySelector('#' + group + '-' + fieldArr.id + '-none');
-                                        if (userInputCell) {
-                                            userInputCell.remove();
-                                        }
-                                    }
-                                    changeValue += ('|' + this.options[this.selectedIndex].text);
+                                let delElem = document.getElementById( compAttr.id + '-' + group + '-' + fieldArr.id + '-session');
+                                if (delElem) {
+                                    delElem.remove();
                                 }
-                                changePropertiesValue(changeValue, group, fieldArr.id);
+                                setSubList(this.value, '');
                             }, false);
-                            fieldGroupDiv.appendChild(propertyValue);
 
-                            //사용자 입력 input 생성
-                            if (fieldArr.type === 'session' && propertyValueArr[0] === 'none') {
-                                setUserInputCell(propertyValueArr[1]);
-                            }
+                            fieldGroupDiv.appendChild(propertyValue);
+                            setSubList(propertyValueArr[0], propertyValueArr[1]);
                             break;
                         case 'slider':
                             propertyValue = document.createElement('input');
@@ -1048,22 +1078,16 @@
         workflowUtil.polyfill();
         component.init();
         context.init();
-        
-        //TODO: custom 컴포넌트에서 사용하기 위해 awf_custom_code (사용자 정의 코드) 테이블 데이터를 조회하려 저장한다.
-        customCodeList = [ //가데이터 사용
-            {customCodeId: '1', customCodeName:'사용자 이름 검색', targetTable: 'awf_user', keyColumn:'user_name', valueColumn: 'user_key'},
-            {customCodeId: '2', customCodeName:'사용자 부서 검색', targetTable: 'awf_user', keyColumn:'department', valueColumn: 'user_key'}
-        ];
-        /*aliceJs.sendXhr({
+
+        aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/custom-codes/list',
+            url: '/rest/custom-codes',
             callbackFunc: function(xhr) {
                 customCodeList = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
-        */
-        
+
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',

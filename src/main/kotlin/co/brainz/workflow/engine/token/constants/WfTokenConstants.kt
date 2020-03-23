@@ -15,9 +15,10 @@ object WfTokenConstants {
      * Assignee Type.
      */
     enum class AssigneeType(val code: String) {
-        USER("user"),
-        GROUP("group")
-    }
+        ASSIGNEE("assignee"),
+        USERS("users"),
+        GROUPS("groups")
+    };
 
     /**
      * Mapping id expression.

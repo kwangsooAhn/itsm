@@ -27,9 +27,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     /**
      * 프로세스 데이터 목록 조회.
      */
-    fun getProcesses(search: String): List<WfProcessDto> {
-        val params = LinkedMultiValueMap<String, String>()
-        params.add("search", search)
+    fun getProcesses(params: LinkedMultiValueMap<String, String>): List<WfProcessDto> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url, parameters = params)
         val responseBody = restTemplate.get(url)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -56,6 +54,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
         restTemplateProcessDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
         return when (responseBody.isNotEmpty()) {
@@ -78,6 +77,30 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         wfProcessElementDto.process?.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.PUT_PROCESS.url.replace(restTemplate.getKeyRegex(), processId))
         return restTemplate.update(url, wfProcessElementDto)
+    }
+
+    /**
+     * 프로세스 다른 이름 저장.
+     */
+    fun saveAsProcess(wfProcessElementDto: WfProcessElementDto): String {
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        wfProcessElementDto.process?.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        wfProcessElementDto.process?.createUserKey = userDetails.userKey
+        wfProcessElementDto.process?.updateDt = null
+        wfProcessElementDto.process?.updateUserKey = null
+        if (wfProcessElementDto.process?.status == RestTemplateConstants.ProcessStatus.DESTROY.value) {
+            wfProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
+        }
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS_SAVE_AS.url)
+        val responseBody = restTemplate.createToSave(url, wfProcessElementDto)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        return when (responseBody.isNotEmpty()) {
+            true -> {
+                val processDto = mapper.readValue(responseBody, RestTemplateProcessDto::class.java)
+                processDto.processId
+            }
+            false -> ""
+        }
     }
 
     /**
