@@ -64,7 +64,7 @@
         });
         aliceJs.sendXhr({
             method: 'POST',
-            url: '/rest/forms/data',
+            url: '/rest/forms' + '?saveType=saveas',
             callbackFunc: function(xhr) {
                 if (xhr.responseText !== '') {
                     aliceJs.alert(i18n.get('common.msg.save'), function() {

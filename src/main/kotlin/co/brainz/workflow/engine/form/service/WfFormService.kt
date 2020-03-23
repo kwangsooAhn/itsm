@@ -18,6 +18,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonParser
 import org.springframework.stereotype.Service
 import java.util.Optional
+import java.util.UUID
 import kotlin.collections.set
 
 @Service
@@ -217,6 +218,9 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         wfFormComponentSaveDto.form.formId = wfFormDto.formId
         when (wfFormComponentSaveDto.form.formStatus) {
             WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.formEnabled = false
+        }
+        for (component in wfFormComponentSaveDto.components) {
+            component["id"] = UUID.randomUUID().toString().replace("-", "")
         }
         saveForm(wfFormComponentSaveDto)
 

@@ -55,7 +55,7 @@
     function saveAsProcess() {
         aliceJs.sendXhr({
             method: 'POST',
-            url: '/rest/processes' + '?saveType=copy',
+            url: '/rest/processes' + '?saveType=saveas',
             callbackFunc: function(xhr) {
                 if (xhr.responseText !== '') {
                     aliceJs.alert(i18n.get('common.msg.save'), function() {

@@ -19,6 +19,6 @@ object WfProcessConstants {
      * 프로세스 저장 타입.
      */
     enum class SaveType(val code: String) {
-        COPY("copy")
+        SAVE_AS("saveas")
     }
 }
