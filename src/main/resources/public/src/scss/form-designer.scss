@@ -282,8 +282,8 @@ body {
                     content: 'R';
                 }
             }
-            .default-none {
-                width: auto;
+            .default-session {
+                width: auto !important;
                 margin: 0.625rem 0 0 5rem;  //10px 0 0 80px
             }
         }

@@ -55,4 +55,14 @@ class ProcessController(private val processService: ProcessService) {
         model.addAttribute("processId", processId)
         return processDesignerEditPage
     }
+
+    /**
+     * 프로세스 디자이너 보기 화면.
+     */
+    @GetMapping("/{processId}/view")
+    fun getProcessDesignerView(@PathVariable processId: String, model: Model): String {
+        model.addAttribute("processId", processId)
+        model.addAttribute("isView", true)
+        return processDesignerEditPage
+    }
 }
