@@ -9,7 +9,6 @@ import co.brainz.workflow.engine.form.dto.WfFormComponentDataDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentSaveDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
-import co.brainz.workflow.engine.form.dto.WfFormViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
 import co.brainz.workflow.engine.form.repository.WfFormRepository
@@ -115,12 +114,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun formData(formId: String): WfFormComponentViewDto {
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
-        val formViewDto = WfFormViewDto(
-                id = formEntity.get().formId,
-                name = formEntity.get().formName,
-                desc = formEntity.get().formDesc,
-                status = formEntity.get().formStatus
-        )
+        val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         for (component in formEntity.get().components!!) {

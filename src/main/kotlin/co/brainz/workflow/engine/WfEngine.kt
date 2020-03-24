@@ -20,10 +20,8 @@ import org.springframework.stereotype.Service
 @Service
 class WfEngine(private val wfFormRepository: WfFormRepository,
                private val wfProcessRepository: WfProcessRepository,
-               private val wfElementRepository: WfElementRepository,
                private val wfComponentRepository: WfComponentRepository,
                private val wfComponentDataRepository: WfComponentDataRepository,
-               private val wfFormService: WfFormService,
                private val wfDocumentRepository: WfDocumentRepository,
                private val wfInstanceRepository: WfInstanceRepository,
                private val wfTokenRepository: WfTokenRepository,
@@ -49,7 +47,7 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Document Engine.
      */
     fun document(): WfDocumentService {
-        return WfDocumentService(wfFormService, wfDocumentRepository)
+        return WfDocumentService(wfDocumentRepository, wfFormRepository)
     }
 
     /**
