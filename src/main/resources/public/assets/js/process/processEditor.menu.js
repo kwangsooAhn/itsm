@@ -11,6 +11,11 @@
     const itemSize = 20;
     const itemMargin = 8;
 
+    const assigneeTypeData = {
+        users: [],
+        groups: []
+    }
+
     let processProperties = {},
         elementsProperties = {},
         elementsKeys = [];
@@ -777,6 +782,119 @@
     }
 
     /**
+     * Assignee Type 에 따라 속성 항목을 변경한다.
+     *
+     * @param assigneeTypeObject Assignee Type object
+     * @param value
+     */
+    function changePropertyAssigneeType(assigneeTypeObject, value) {
+        let assigneeObject = document.getElementById('assignee');
+        if (assigneeObject.parentNode.querySelector('select') !== null) {
+            assigneeObject.parentNode.querySelector('select').remove();
+            assigneeObject.parentNode.querySelector('button').remove();
+            assigneeObject.parentNode.querySelector('table').remove();
+        }
+        assigneeObject.value = '';
+
+        if (assigneeTypeObject.value === 'assignee.type.assignee') {
+            assigneeObject.style.display = 'inline-block';
+            if (typeof value !== 'undefined') {
+                assigneeObject.value = value;
+            }
+        } else {
+            assigneeObject.style.display = 'none';
+            let dataSelect = document.createElement('select');
+            dataSelect.className = 'candidate';
+            let dataList = assigneeTypeData.users;
+            let dataKeys = {value: 'userKey', text: 'userName'};
+            if (assigneeTypeObject.value === 'assignee.type.candidate.groups') {
+                dataList = assigneeTypeData.groups;
+                dataKeys = {value: 'roleKey', text: 'roleName'};
+            }
+            for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
+                let option = document.createElement('option');
+                let optionData = dataList[i];
+                option.value = optionData[dataKeys.value];
+                option.text = optionData[dataKeys.text];
+                dataSelect.appendChild(option);
+            }
+            assigneeObject.parentNode.insertBefore(dataSelect, assigneeObject.nextSibling);
+            let btnAdd = document.createElement('button');
+            btnAdd.innerText = 'ADD';
+
+            const saveData = function() {
+                let dataTable = assigneeObject.parentNode.querySelector('table');
+                let rows = dataTable.querySelectorAll('tr');
+                let assigneeValue = '';
+                let rowLength = rows.length;
+                if (rowLength > 1) {
+                    for (let i = 1; i < rowLength; i++) {
+                        if (i !== 1) { assigneeValue += ','; }
+                        assigneeValue += rows[i].querySelector('input').value;
+                    }
+                }
+                assigneeObject.value = assigneeValue;
+
+                const evt = document.createEvent('HTMLEvents');
+                evt.initEvent('change', false, true);
+                assigneeObject.dispatchEvent(evt);
+            }
+
+            const addDataRow = function(dataVal, dataText) {
+                let dataTable = assigneeObject.parentNode.querySelector('table');
+                let row = document.createElement('tr');
+                let nameColumn = document.createElement('td');
+                nameColumn.textContent = dataText;
+                let hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.value = dataVal;
+                nameColumn.appendChild(hiddenInput);
+                row.appendChild(nameColumn);
+                let btnColumn = document.createElement('td');
+                let btnDel = document.createElement('span');
+                btnDel.className = 'remove';
+                btnDel.addEventListener('click', function() {
+                    this.parentNode.parentNode.remove();
+                    saveData();
+                });
+                btnColumn.appendChild(btnDel);
+                row.appendChild(btnColumn);
+                dataTable.appendChild(row);
+
+                saveData();
+            }
+
+            btnAdd.addEventListener('click', function() {
+                let dataSelect = this.parentNode.querySelector('select');
+                addDataRow(dataSelect.value, dataSelect.options[dataSelect.selectedIndex].text);
+            });
+            assigneeObject.parentNode.insertBefore(btnAdd, dataSelect.nextSibling);
+            let userTable = document.createElement('table');
+            let headRow = document.createElement('tr');
+            let headNameColumn = document.createElement('th')
+            headNameColumn.textContent = 'Name';
+            headRow.appendChild(headNameColumn);
+            let headBtnColumn = document.createElement('th')
+            headRow.appendChild(headBtnColumn);
+            userTable.appendChild(headRow);
+            assigneeObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
+
+            if (typeof value !== 'undefined') {
+                const values = value.split(',');
+                for (let i = 0, len = values.length; i < len; i++) {
+                    for (let j = 0, dataLen = dataList.length; j < dataLen; j++) {
+                        if (values[i] === dataList[j][dataKeys.value]) {
+                            addDataRow(values[i], dataList[j][dataKeys.text]);
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    /**
      * 속성 항목을 생성한다.
      *
      * @param id ID
@@ -838,7 +956,11 @@
                             option.text = optionList[j].name;
                             elementObject.appendChild(option);
                         }
-
+                        if (property.id === 'assignee-type') {
+                            elementObject.addEventListener('change', function() {
+                                changePropertyAssigneeType(this);
+                            });
+                        }
                 }
 
                 if (elementObject) {
@@ -866,6 +988,11 @@
                 propertiesContainer.appendChild(propertyContainer);
             }
         }
+
+        let assigneeTypeObject = document.getElementById('assignee-type');
+        if (assigneeTypeObject !== null) {
+            changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
+        }
     }
 
     /**
@@ -879,7 +1006,7 @@
     }
 
     /**
-     * tooltip item 에 사용된 이미지 로딩.
+     * tooltip item 에 사용된 이미지 및 속성 데이터 로딩.
      *
      * @param processId 프로세스 ID
      */
@@ -962,6 +1089,24 @@
             .attr('y', 0)
             .attr('xlink:href', function(d) { return d.url; });
     }
+
+    aliceJs.sendXhr({
+        method: 'get',
+        url: '/rest/users',
+        callbackFunc: function(xhr) {
+            assigneeTypeData.users = JSON.parse(xhr.responseText);
+        },
+        contentType: 'application/json; charset=utf-8'
+    });
+
+    aliceJs.sendXhr({
+        method: 'get',
+        url: '/rest/roles',
+        callbackFunc: function(xhr) {
+            assigneeTypeData.groups = JSON.parse(xhr.responseText);
+        },
+        contentType: 'application/json; charset=utf-8'
+    });
 
     exports.data = data;
     exports.loadItems = loadItems;

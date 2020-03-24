@@ -2,6 +2,7 @@ package co.brainz.itsm.user.controller
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceSignUpDto
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -119,5 +121,16 @@ class UserRestController(
             }
         }
         return usernamePasswordAuthenticationToken
+    }
+
+    /**
+     * 전체 사용자 목록 조회.
+     */
+    @GetMapping("/", "")
+    fun getUsers(request: HttpServletRequest): MutableList<AliceUserEntity> {
+        /*return """
+           [{"userKey": "ddddd", "userName": "홍길동"}] 
+        """*/
+        return userService.selectUserList("")
     }
 }
