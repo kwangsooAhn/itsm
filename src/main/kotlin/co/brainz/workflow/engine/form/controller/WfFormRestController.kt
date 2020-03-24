@@ -32,8 +32,13 @@ class WfFormRestController(private val wfEngine: WfEngine) {
     }
 
     @GetMapping("/{formId}")
-    fun getForm(@PathVariable formId: String): WfFormComponentViewDto {
+    fun getForm(@PathVariable formId: String): WfFormDto {
         return wfEngine.form().form(formId)
+    }
+
+    @GetMapping("/{formId}/data")
+    fun getFormData(@PathVariable formId: String): WfFormComponentViewDto {
+        return wfEngine.form().formData(formId)
     }
 
     @PostMapping("")
@@ -42,15 +47,21 @@ class WfFormRestController(private val wfEngine: WfEngine) {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            WfFormConstants.FormSaveType.SAVE_AS.value -> wfEngine.form().saveAsForm(mapper.convertValue(jsonData, WfFormComponentSaveDto::class.java))
+            WfFormConstants.FormSaveType.SAVE_AS.value -> wfEngine.form().saveAsFormData(mapper.convertValue(jsonData, WfFormComponentSaveDto::class.java))
             else -> wfEngine.form().createForm(mapper.convertValue(jsonData, WfFormDto::class.java))
         }
     }
 
     @Transactional
     @PutMapping("/{formId}")
+    fun updateForm(@RequestBody wfFormDto: WfFormDto): Boolean {
+        return wfEngine.form().updateForm(wfFormDto)
+    }
+
+    @Transactional
+    @PutMapping("/{formId}/data")
     fun saveFormData(@RequestBody wfFormComponentSaveDto: WfFormComponentSaveDto, @PathVariable formId: String) {
-        return wfEngine.form().saveForm(wfFormComponentSaveDto)
+        return wfEngine.form().saveFormData(wfFormComponentSaveDto)
     }
 
     @Transactional
@@ -61,7 +72,7 @@ class WfFormRestController(private val wfEngine: WfEngine) {
 
     @PostMapping("/{formId}")
     fun saveAsFormData(@RequestBody wfFormComponentSaveDto: WfFormComponentSaveDto, @PathVariable formId: String): WfFormDto {
-        return wfEngine.form().saveAsForm(wfFormComponentSaveDto)
+        return wfEngine.form().saveAsFormData(wfFormComponentSaveDto)
     }
 
     @GetMapping("/components")
