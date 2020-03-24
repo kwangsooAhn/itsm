@@ -99,7 +99,11 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun form(formId: String): WfFormDto {
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
-        return wfFormMapper.toFormDto(formEntity)
+        val wfFormDto = wfFormMapper.toFormDto(formEntity)
+        when (wfFormDto.formStatus) {
+            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.SIMULATION.value -> wfFormDto.formEnabled = true
+        }
+        return wfFormDto
     }
 
     /**
@@ -147,11 +151,27 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
     }
 
     /**
-     * Insert Form.
+     * Update Form.
+     *
+     * @param wfFormDto
+     * @return Boolean
+     */
+    fun updateForm(wfFormDto: WfFormDto): Boolean {
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(wfFormDto.formId)
+        formEntity.get().formName = wfFormDto.formName
+        formEntity.get().formDesc = wfFormDto.formDesc
+        formEntity.get().formStatus = wfFormDto.formStatus
+        formEntity.get().updateDt = wfFormDto.updateDt
+        formEntity.get().updateUserKey = wfFormDto.updateUserKey
+        return true
+    }
+
+    /**
+     * Insert, Update Form Data.
      *
      * @param wfFormComponentSaveDto
      */
-    fun saveForm(wfFormComponentSaveDto: WfFormComponentSaveDto) {
+    fun saveFormData(wfFormComponentSaveDto: WfFormComponentSaveDto) {
 
         //Delete component, attribute
         val componentEntities = wfComponentRepository.findByFormId(wfFormComponentSaveDto.form.formId)
@@ -220,7 +240,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      * @param wfFormComponentSaveDto
      * @return WfFormDto
      */
-    fun saveAsForm(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto {
+    fun saveAsFormData(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto {
         val formDataDto = WfFormDto(
                 formName = wfFormComponentSaveDto.form.formName,
                 formDesc = wfFormComponentSaveDto.form.formDesc,
@@ -233,7 +253,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         when (wfFormComponentSaveDto.form.formStatus) {
             WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.formEnabled = false
         }
-        saveForm(wfFormComponentSaveDto)
+        saveFormData(wfFormComponentSaveDto)
 
         return wfFormDto
     }

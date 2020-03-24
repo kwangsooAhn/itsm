@@ -52,8 +52,24 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * 프로세스 단건 조회.
      */
     @GetMapping("/{processId}")
-    fun getProcess(@PathVariable processId: String): WfProcessElementDto {
+    fun getProcess(@PathVariable processId: String): WfProcessDto {
         return wfEngine.process().getProcess(processId)
+    }
+
+    /**
+     * 프로세스 데이터 조회.
+     */
+    @GetMapping("/{processId}/data")
+    fun getProcessData(@PathVariable processId: String): WfProcessElementDto {
+        return wfEngine.process().getProcessData(processId)
+    }
+
+    /**
+     * 프로세스 1건 수정.
+     */
+    @PutMapping("/{processId}")
+    fun updateProcess(@RequestBody wfProcessDto: WfProcessDto): Boolean {
+        return wfEngine.process().updateProcess(wfProcessDto)
     }
 
     /**
@@ -61,9 +77,9 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * @param wfProcessElementDto
      * @return Boolean result
      */
-    @PutMapping("/{processId}")
-    fun updateProcess(@RequestBody wfProcessElementDto: WfProcessElementDto): Boolean {
-        return wfEngine.process().updateProcess(wfProcessElementDto)
+    @PutMapping("/{processId}/data")
+    fun updateProcessData(@RequestBody wfProcessElementDto: WfProcessElementDto): Boolean {
+        return wfEngine.process().updateProcessData(wfProcessElementDto)
     }
 
     /**

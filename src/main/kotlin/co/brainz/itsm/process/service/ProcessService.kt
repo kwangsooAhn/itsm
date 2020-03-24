@@ -42,8 +42,8 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     /**
      * 프로세스 데이터 조회.
      */
-    fun getProcess(processId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESS.url.replace(restTemplate.getKeyRegex(), processId))
+    fun getProcessData(processId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESS_DATA.url.replace(restTemplate.getKeyRegex(), processId))
         return restTemplate.get(url)
     }
 
@@ -70,12 +70,12 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     /**
      * 프로세스 업데이트
      */
-    fun updateProcess(wfProcessElementDto: WfProcessElementDto): Boolean {
+    fun updateProcessData(wfProcessElementDto: WfProcessElementDto): Boolean {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val processId = wfProcessElementDto.process?.id?:""
         wfProcessElementDto.process?.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         wfProcessElementDto.process?.updateUserKey = userDetails.userKey
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.PUT_PROCESS.url.replace(restTemplate.getKeyRegex(), processId))
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(restTemplate.getKeyRegex(), processId))
         return restTemplate.update(url, wfProcessElementDto)
     }
 

@@ -43,8 +43,14 @@ class WfFormRestController(private val wfEngine: WfEngine) {
 
     @Transactional
     @PutMapping("/{formId}")
+    fun updateForm(@RequestBody wfFormDto: WfFormDto): Boolean {
+        return wfEngine.form().updateForm(wfFormDto)
+    }
+
+    @Transactional
+    @PutMapping("/{formId}/data")
     fun saveFormData(@RequestBody wfFormComponentSaveDto: WfFormComponentSaveDto, @PathVariable formId: String) {
-        return wfEngine.form().saveForm(wfFormComponentSaveDto)
+        return wfEngine.form().saveFormData(wfFormComponentSaveDto)
     }
 
     @Transactional
@@ -55,7 +61,7 @@ class WfFormRestController(private val wfEngine: WfEngine) {
 
     @PostMapping("/{formId}")
     fun saveAsFormData(@RequestBody wfFormComponentSaveDto: WfFormComponentSaveDto, @PathVariable formId: String): WfFormDto {
-        return wfEngine.form().saveAsForm(wfFormComponentSaveDto)
+        return wfEngine.form().saveAsFormData(wfFormComponentSaveDto)
     }
 
     @GetMapping("/components")
