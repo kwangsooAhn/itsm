@@ -20,7 +20,11 @@
     };
 
     window.addEventListener('beforeunload', function (event) {
-        if (isEdited) event.returnValue = '';
+        if (isEdited) {
+            event.returnValue = '';
+        } else {
+            delete event['returnValue'];
+        }
     });
 
     const utils = {

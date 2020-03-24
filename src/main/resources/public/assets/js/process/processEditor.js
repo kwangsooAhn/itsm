@@ -1074,6 +1074,7 @@
             }
         });
         setConnectors();
+        AliceProcessEditor.initUtil();
     }
 
     /**
@@ -1088,7 +1089,6 @@
         initProcessEdit();
         addElementsEvent();
         AliceProcessEditor.loadItems(processId);
-        AliceProcessEditor.initUtil();
     }
 
     exports.init = init;
