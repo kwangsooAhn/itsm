@@ -18,4 +18,9 @@ interface WfInstanceRepository: JpaRepository<WfInstanceEntity, String> {
             "and t.assigneeId = :userKey")
     fun findInstances(status: String, type: String, userKey: String): List<Map<String, Any>>
 
+//    @Query("select i.instanceStatus as instanceStatus , count(instanceStatus) as count " +
+//            "from WfInstanceEntity i " +
+//            "group by instanceStatus " +
+//            "where i.instanceCreateUserKey = :userKey")
+//    fun countInstancesStatusByInstanceCreateUserKey(userKey: String): List<Map<String, Any>>
 }

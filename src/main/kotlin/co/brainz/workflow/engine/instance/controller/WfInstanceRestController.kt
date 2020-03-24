@@ -34,4 +34,14 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
         return wfEngine.instance().instance(tokenId)
     }
 
+//    /**
+//     * Process Instance Status Count.
+//     *
+//     * @param userKey
+//     * @return List<InstanceViewDto>
+//     */
+//    @GetMapping("/{userKey}/count")
+//    fun getProcessInstancesStatusCount(@PathVariable userKey: String): List<Map<String, Any>> {
+//        return wfEngine.instance().instancesStatusCount(userKey)
+//    }
 }
