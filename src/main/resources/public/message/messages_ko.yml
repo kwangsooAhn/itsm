@@ -359,4 +359,9 @@ custom.code:
 # Dashboard
 dashboard:
   label:
-    view: "신청한 문서 현황"
+    title: "대시보드"
+    documentStatus: "신청한 문서 현황"
+    status:
+      running: "Running"
+      wait: "Wait"
+      finish: "finish"

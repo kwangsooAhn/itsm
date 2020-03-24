@@ -3,23 +3,21 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{dashboard.label.view}">신청한 문서 현황</title>
+    <title th:text="#{dashboard.label.title}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
-        <h1 th:text="#{dashboard.label.view}">신청한 문서 현황</h1>
+        <h1 th:text="#{dashboard.label.title}"></h1>
         <hr>
-        <div id="dashboardList" style="margin-top: 20px"></div>
+        <h2 th:text="#{dashboard.label.documentStatus}"></h2>
+        <div id="documentStatusList" style="margin-top: 20px"></div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         window.onload = function() {
-            const userKey = '[[${#authentication.details.userKey}]]';
-            console.log('[[${#authentication.details.userKey}]]');
-            console.log(userKey);
-            restSubmit('get', '/dashboard/list', userKey);
+            restSubmit('GET', '/dashboard/list');
         };
 
         //REST API
@@ -28,7 +26,7 @@
                 method: method,
                 url: url,
                 callbackFunc: function(response) {
-                    document.getElementById('dashboardList').innerHTML = response.responseText;
+                    document.getElementById('documentStatusList').innerHTML = response.responseText;
                 }
             };
             aliceJs.sendXhr(opt);
