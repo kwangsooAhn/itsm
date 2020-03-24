@@ -11,10 +11,15 @@ class AliceException : Exception {
         this.err = error
     }
 
+    fun getHttpStatusCode(): Int {
+        return this.err.httpStatus
+    }
+
     fun getCode(): String {
         return this.err.code
     }
+
     fun getCodeDetail(): String {
-        return this.err.detail
+        return this.err.detailMessage
     }
 }

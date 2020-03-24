@@ -3,6 +3,7 @@ package co.brainz.framework.exception
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
 import org.springframework.stereotype.Component
+import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.WebRequest
 
 /**
@@ -29,21 +30,33 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                 is AliceException -> {
                     val knownErrMsg = exception.getCode() + " (" + exception.getCodeDetail() + ")"
                     logger.error("Known Alice error. {}", knownErrMsg)
+                    val status = exception.getHttpStatusCode()
+                    errorAttributes["status"] = status
+                    errorAttributes["error"] = AliceHttpStatusConstants.getHttpPhraseByStatus(status)
+                    errorAttributes["message"] = exception.message
                     errorAttributes["knownError"] = knownErrMsg
                 }
                 else -> {
                     var throwable = exception.cause
                     var msg = ""
                     while (throwable !== null) {
-                         msg += "\n" + throwable.message
+                        msg += "\n" + throwable.message
                         throwable = throwable.cause
                     }
                     errorAttributes["message"] = msg
                 }
             }
         }
-        logger.error(exception?.message)
-        logger.error("Exception type: {}", errorAttributes["exceptionType"])
+        logger.error("Error attribute {}", errorAttributes)
+
+        /**
+         * BasicErrorController 에서 ResponseEntity 생성시 request 파라미터중 status 값으로 HttpStatus 를 셋업한다.
+         * request 에 status를 셋팅할 필요성이 있어서 추가함
+         * @since 2020-03-24 beom
+         */
+        errorAttributes["status"]?.let {
+            webRequest.setAttribute("javax.servlet.error.status_code", it, RequestAttributes.SCOPE_REQUEST)
+        }
         return errorAttributes
     }
 }

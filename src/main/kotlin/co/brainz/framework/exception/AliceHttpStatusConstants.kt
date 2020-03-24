@@ -4,14 +4,13 @@ package co.brainz.framework.exception
  * Http status
  *
  * response 시 내부적으로 사용할 값을 정의한다.
- * 이것 외에 쓸 생각은 없지만 추가가 필요해진 경우 아래 사이트를 참고하여 추가한다.
+ * 이정도면 적당하다 생각되나 추가가 필요해진 경우 아래 사이트를 참고하여 추가한다.
  * 상태값은 org.springframework.http.HttpStatus 를 참고한다.
  *
  * @site https://ko.wikipedia.org/wiki/HTTP_%EC%83%81%ED%83%9C_%EC%BD%94%EB%93%9C#3xx_(%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%EC%85%98_%EC%99%84%EB%A3%8C)
  *       https://ko.wikipedia.org/wiki/HTTP
  */
-enum class AliceHttpStatusConstants(val code: Int, val codeName: String) {
-
+enum class AliceHttpStatusConstants(val status: Int, val reasonPhrase: String) {
 
     /**
      * 전송 성공
@@ -52,4 +51,24 @@ enum class AliceHttpStatusConstants(val code: Int, val codeName: String) {
      * 요청을 수행할 수 있는 기능이 없음.
      */
     NOT_IMPLEMENTED(501, "Not Implemented")
+    ;
+
+    companion object {
+        /**
+         * http 상태 값으로 해당 값의 표현(reasonPhrase)을 돌려준다
+         *
+         * @param status http status
+         */
+        fun getHttpPhraseByStatus(status: Int): String {
+            var phrase = ""
+            AliceHttpStatusConstants.values().forEach {
+                if (it.status == status) {
+                    phrase = it.reasonPhrase
+                    return@forEach
+                }
+            }
+            return phrase
+        }
+    }
+
 }
