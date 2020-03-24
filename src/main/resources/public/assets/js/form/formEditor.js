@@ -15,7 +15,25 @@
     'use strict';
     
     const defaultComponent = 'editbox';
-    
+
+    let isEdited = false;
+    let observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            console.log(mutation);
+            isEdited = true;
+        });
+    });
+
+    let observerConfig = {
+        attributes: true,
+        childList: true,
+        characterData: true
+    };
+
+    window.addEventListener('beforeunload', function (event) {
+        if (isEdited) event.returnValue = '';
+    });
+
     let propertiesPanel = null,
         selectedComponentId = '', //선택된 컴포넌트 ID
         data = {},                //저장용 데이터
@@ -44,6 +62,7 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
                     aliceJs.alert(i18n.get('common.msg.save'));
+                    isEdited = false;
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -64,7 +83,7 @@
         });
         aliceJs.sendXhr({
             method: 'POST',
-            url: '/rest/forms/data',
+            url: '/rest/forms' + '?saveType=saveas',
             callbackFunc: function(xhr) {
                 if (xhr.responseText !== '') {
                     aliceJs.alert(i18n.get('common.msg.save'), function() {
@@ -1051,6 +1070,8 @@
             contentType: 'application/json; charset=utf-8'
         });
 
+        isEdited = false;
+        observer.observe(document.getElementById('panel-form'), observerConfig);
         document.querySelector('.form-name').textContent = formEditor.data.form.name;
     }
     

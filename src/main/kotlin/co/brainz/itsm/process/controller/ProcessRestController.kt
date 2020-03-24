@@ -44,7 +44,7 @@ class ProcessRestController(private val processService: ProcessService) {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            RestTemplateConstants.ProcessSaveType.COPY.code -> processService.saveAsProcess(mapper.convertValue(jsonData, WfProcessElementDto::class.java))
+            RestTemplateConstants.ProcessSaveType.SAVE_AS.code -> processService.saveAsProcess(mapper.convertValue(jsonData, WfProcessElementDto::class.java))
             else -> processService.createProcess(mapper.convertValue(jsonData, RestTemplateProcessDto::class.java))
         }
     }

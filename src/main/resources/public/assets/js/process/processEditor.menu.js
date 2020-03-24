@@ -409,9 +409,20 @@
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
-              targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
-              targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
+              gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+
+        let targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
+            targetY = bbox.y + gTransform.y - containerHeight - 10;
+
+        if (elem.classed('connector')) {
+            let linkData = elem.node().__data__;
+            if (linkData.midPoint) {
+                targetX = (linkData.midPoint[0] + gTransform.x) - containerWidth / 2;
+                targetY = linkData.midPoint[1] + gTransform.y - containerHeight - 10;
+            } else {
+                targetY = bbox.cy + gTransform.y - containerHeight - 10;
+            }
+        }
 
         tooltipItemContainer
             .attr('transform', 'translate(' + targetX + ',' + targetY + ')')
@@ -499,11 +510,25 @@
         console.debug('container transform : x(%s), y(%s)', containerTransform.x, containerTransform.y);
         if (containerTransform.x !== 0 || containerTransform.y !== 0) {
             AliceProcessEditor.data.elements.forEach(function(elem) {
+                const nodeElement = d3.select(document.getElementById(elem.id));
                 if (elem.type !== 'arrowConnector') {
-                    const nodeElement = d3.select(document.getElementById(elem.id));
                     const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
                     elem.display['position-x'] = bbox.cx + containerTransform.x;
                     elem.display['position-y'] = bbox.cy + containerTransform.y;
+                } else {
+                    const linkData = nodeElement.node().__data__;
+                    if (typeof linkData.midPoint !== 'undefined') {
+                        elem.display['mid-point'] =
+                            [linkData.midPoint[0] + containerTransform.x, linkData.midPoint[1] + containerTransform.y];
+                    }
+                    if (typeof linkData.sourcePoint !== 'undefined') {
+                        elem.display['source-point'] =
+                            [linkData.sourcePoint[0] + containerTransform.x, linkData.sourcePoint[1] + containerTransform.y];
+                    }
+                    if (typeof linkData.targetPoint !== 'undefined') {
+                        elem.display['target-point'] =
+                            [linkData.targetPoint[0] + containerTransform.x, linkData.targetPoint[1] + containerTransform.y];
+                    }
                 }
             });
         }
@@ -696,8 +721,22 @@
         let elementData = AliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
         if (elementData.length > 0) {
             const nodeElement = d3.select(document.getElementById(id));
-            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
-            elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
+            if (nodeElement.classed('connector')) {
+                const linkData = nodeElement.node().__data__;
+                elementData[0].display = {};
+                if (typeof linkData.midPoint !== 'undefined') {
+                    elementData[0].display['mid-point'] = linkData.midPoint;
+                }
+                if (typeof linkData.sourcePoint !== 'undefined') {
+                    elementData[0].display['source-point'] = linkData.sourcePoint;
+                }
+                if (typeof linkData.targetPoint !== 'undefined') {
+                    elementData[0].display['target-point'] = linkData.targetPoint;
+                }
+            } else {
+                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
+                elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
+            }
         }
     }
 
