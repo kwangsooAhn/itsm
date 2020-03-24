@@ -50,7 +50,9 @@
     /*<![CDATA[*/
     let keyModule = '';
     let keyExponent = '';
-
+    let ipList = /*[[${ipList}]]*/;
+    let clientIp = /*[[${clientIp}]]*/;
+    let ipSeparator = ".*";
     window.onload = function() {
         keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
         keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
@@ -94,11 +96,31 @@
             aliceJs.alert([[#{login.msg.enterPassword}]]);
             return false;
         }
+
+        if (!ipAccessCheck()) {
+            aliceJs.alert([[#{login.msg.ipAccessDenied}]]);
+            return false;
+        }
+
         const rsa = new RSAKey();
         rsa.setPublic(keyModule, keyExponent);
         document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
         document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
         document.loginForm.submit();
+    }
+
+    function ipAccessCheck() {
+        if (ipList !== null && clientIp !== null) {
+            for (var i = 0; i < ipList.length; i++) {
+                var comparativeIndex = ipList[i].ipAddr.indexOf(ipSeparator);
+                if (clientIp === ipList[i].ipAddr) {
+                    return true;
+                } else if ((comparativeIndex != -1) && (clientIp.substr(0,comparativeIndex) === ipList[i].ipAddr.substr(0,comparativeIndex))) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     /*]]>*/
 </script>
