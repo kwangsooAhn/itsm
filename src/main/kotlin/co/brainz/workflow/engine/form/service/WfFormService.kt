@@ -164,6 +164,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         formEntity.get().formStatus = wfFormDto.formStatus
         formEntity.get().updateDt = wfFormDto.updateDt
         formEntity.get().updateUserKey = wfFormDto.updateUserKey
+        wfFormRepository.save(formEntity.get())
         return true
     }
 
