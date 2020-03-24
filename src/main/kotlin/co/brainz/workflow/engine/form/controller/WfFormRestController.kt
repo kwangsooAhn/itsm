@@ -47,7 +47,7 @@ class WfFormRestController(private val wfEngine: WfEngine) {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            WfFormConstants.FormSaveType.SAVE_AS.value -> wfEngine.form().saveAsForm(mapper.convertValue(jsonData, WfFormComponentSaveDto::class.java))
+            WfFormConstants.FormSaveType.SAVE_AS.value -> wfEngine.form().saveAsFormData(mapper.convertValue(jsonData, WfFormComponentSaveDto::class.java))
             else -> wfEngine.form().createForm(mapper.convertValue(jsonData, WfFormDto::class.java))
         }
     }
