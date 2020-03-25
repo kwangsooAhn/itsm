@@ -16,7 +16,6 @@ interface WfFormMapper {
             Mapping(source = "formName", target = "name"),
             Mapping(source = "formDesc", target = "desc"),
             Mapping(source = "formStatus", target = "status")
-
     )
     fun toFormViewDto(wfFormEntity: WfFormEntity): WfFormViewDto
 }

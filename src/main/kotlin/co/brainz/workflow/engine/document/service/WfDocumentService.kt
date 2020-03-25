@@ -1,6 +1,5 @@
 package co.brainz.workflow.engine.document.service
 
-import co.brainz.workflow.engine.component.entity.WfComponentEntity
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
@@ -13,7 +12,6 @@ import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonParser
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 

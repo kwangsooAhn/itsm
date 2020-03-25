@@ -17,10 +17,6 @@ import co.brainz.workflow.engine.token.entity.WfTokenDataEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonParser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -169,8 +165,6 @@ class WfTokenService(
      * @return LinkedHashMap<String, Any>
      */
     fun getTokenData(tokenId: String): LinkedHashMap<String, Any> {
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val componentEntities = tokenMstEntity.get().instance.document.form.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
