@@ -17,7 +17,14 @@ data class AliceUrlEntity(
 
         @Id
         @Column(name = "method", length = 16)
-        val method: String
+        val method: String,
+
+        @Column(name = "url_desc", length = 256)
+        val urlDesc: String,
+
+        @Column(name = "is_required_auth")
+        val isRequiredAuth: Boolean = true
+
 ): Serializable
 
 data class AliceUrlEntityPk(

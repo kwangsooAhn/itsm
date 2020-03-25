@@ -89,7 +89,7 @@ class AuthService(
             menuAuthMapRepository.save(AliceMenuAuthMapEntity(menu, auth))
         }
         urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach { url ->
-            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.url, url.method), auth))
+            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.url, url.method, url.urlDesc, url.isRequiredAuth), auth))
         }
 
         return result.authId
@@ -119,7 +119,7 @@ class AuthService(
             urlAuthMapRepository.deleteById(urlAuthMapPk)
         }
         urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach { url ->
-            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.url, url.method), auth))
+            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.url, url.method, url.urlDesc, url.isRequiredAuth), auth))
         }
 
         return result.authId
