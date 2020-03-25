@@ -71,5 +71,8 @@ server:
             timeout: 60m
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\
+
+# IP 접근 제한 기능 설정
+ip.access.control: true
     
 jasypt.encryptor.bean: jasyptStringEncryptor
