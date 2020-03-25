@@ -4,6 +4,7 @@ import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfElementService
+import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.service.WfInstanceService
@@ -34,7 +35,8 @@ class WfTokenService(
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfInstanceService: WfInstanceService,
-    private val wfElementService: WfElementService
+    private val wfElementService: WfElementService,
+    private val wfFormService: WfFormService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -176,27 +178,7 @@ class WfTokenService(
         val componentList: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         if (componentEntities != null) {
             for (componentEntity in componentEntities) {
-
-                //attributes
-                val attributes = LinkedHashMap<String, Any>()
-                val common = LinkedHashMap<String, Any>()
-                common["mapping-id"] = componentEntity.mappingId
-                attributes["type"] = componentEntity.componentType
-                attributes["common"] = common
-
-                for (attribute in componentEntity.attributes!!) {
-                    val element = JsonParser().parse(attribute.attributeValue)
-                    when (element.isJsonArray) {
-                        true -> attributes[attribute.attributeId] = mapper.readValue(
-                            attribute.attributeValue,
-                            mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
-                        )
-                        false -> attributes[attribute.attributeId] =
-                            mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
-                    }
-                }
-
-                //values
+                val attributes = wfFormService.makeAttributes(componentEntity)
                 val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
                 for (tokenDataEntity in tokenDataEntities) {
                     if (tokenDataEntity.componentId == componentEntity.componentId) {
