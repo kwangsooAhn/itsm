@@ -12,8 +12,8 @@ interface NoticeRepository: JpaRepository<NoticeEntity, String> {
     @Query("select a from NoticeEntity a where (a.topNoticeStrtDt < now() and a.topNoticeEndDt > now() and a.topNoticeYn = true) order by a.createDt desc")
     fun findTopNoticeList(): MutableList<NoticeEntity>
 
-    @Query("select a from NoticeEntity a where (a.topNoticeStrtDt < now() and a.topNoticeEndDt > now() and a.topNoticeYn = true) and (lower(a.noticeTitle) like lower(concat('%', :searchValue, '%')) or lower(a.aliceUserEntity.userName) like lower(concat('%', :searchValue, '%'))) and a.createDt between :fromDt and :toDt order by a.createDt desc")
-    fun findTopNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity>
+    @Query("select a from NoticeEntity a where (a.topNoticeStrtDt < now() and a.topNoticeEndDt > now() and a.topNoticeYn = true) and (lower(a.noticeTitle) like lower(concat('%', :searchValue, '%')) or lower(a.aliceUserEntity.userName) like lower(concat('%', :searchValue, '%'))) order by a.createDt desc")
+    fun findTopNoticeSearch(searchValue: String): MutableList<NoticeEntity>
 
     fun findAllByOrderByCreateDtDesc(): MutableList<NoticeEntity>
 

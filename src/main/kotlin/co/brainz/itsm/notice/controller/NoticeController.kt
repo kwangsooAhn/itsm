@@ -63,7 +63,7 @@ class NoticeController(private val userService: UserService,
                 val fromDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.fromDt, "fromDt")
                 val toDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.toDt, "toDt")
                 noticeList = noticeService.findNoticeSearch(searchValue, fromDt, toDt)
-                topNoticeList = noticeService.findTopNoticeSearch(searchValue, fromDt, toDt)
+                topNoticeList = noticeService.findTopNoticeSearch(searchValue)
             }
             false -> {
                 noticeList = noticeService.findNoticeList()
