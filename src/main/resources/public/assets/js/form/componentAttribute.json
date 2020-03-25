@@ -8,7 +8,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -35,7 +36,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -43,7 +45,7 @@
                 "value": "#000000", 
                 "type": "rgb", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "bold", 
@@ -84,7 +86,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -94,7 +97,8 @@
                 "value": "", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             },
             {
                 "id": "column", 
@@ -132,7 +136,8 @@
                 "value": "1", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "outline-color", 
@@ -175,7 +180,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             },
             {
                 "id": "length-min", 
@@ -183,7 +189,8 @@
                 "value": "0", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             },
             {
                 "id": "length-max", 
@@ -191,7 +198,8 @@
                 "value": "30", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             }
         ]
     },
@@ -203,7 +211,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -214,7 +223,7 @@
                 "type": "select", 
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "column", 
@@ -230,7 +239,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -279,7 +289,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -289,7 +300,8 @@
                 "value": "3", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             },
             {
                 "id": "placeholder", 
@@ -297,7 +309,8 @@
                 "value": "", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             },
             {
                 "id": "column", 
@@ -305,7 +318,7 @@
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "outline-width", 
@@ -313,7 +326,8 @@
                 "value": "1", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "outline-color", 
@@ -340,7 +354,8 @@
                 "value": "0", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             },
             {
                 "id": "length-max", 
@@ -348,7 +363,8 @@
                 "value": "30", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             }
         ]
     },
@@ -360,7 +376,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -387,7 +404,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -395,7 +413,7 @@
                 "value": "#000000", 
                 "type": "rgb", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "bold", 
@@ -403,7 +421,7 @@
                 "value": "N", 
                 "type": "button", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "italic", 
@@ -411,7 +429,7 @@
                 "value": "N", 
                 "type": "button", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "underline", 
@@ -436,7 +454,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -480,7 +499,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -507,7 +527,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -556,7 +577,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -618,7 +640,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -645,7 +668,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -694,7 +718,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -756,7 +781,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "" ,
+                "validate": ""
             }
         ],
         "display": [
@@ -766,7 +792,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px" ,
+                "validate": "number|max[100]|min[5]|minLength[2]"
             },
             {
                 "id": "color", 
@@ -815,7 +842,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ]
     },
@@ -827,7 +855,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -837,7 +866,8 @@
                 "value": "https://placehold.it/720X100", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             },
             {
                 "id": "width", 
@@ -845,7 +875,8 @@
                 "value": "720", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "height", 
@@ -853,7 +884,8 @@
                 "value": "100", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "align", 
@@ -874,7 +906,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -884,7 +917,8 @@
                 "value": "1", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -913,7 +947,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -940,7 +975,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -989,7 +1025,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1047,7 +1084,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1074,7 +1112,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -1123,7 +1162,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1181,7 +1221,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1208,7 +1249,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -1257,7 +1299,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1315,7 +1358,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1342,7 +1386,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -1391,7 +1436,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1424,7 +1470,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1451,7 +1498,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number|max[100]"
             },
             {
                 "id": "color", 
@@ -1500,7 +1548,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1526,7 +1575,8 @@
                 "value": "BUTTON", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "validate": [

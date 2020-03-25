@@ -46,6 +46,91 @@
 
         },
         customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
+
+    /**
+     * text, textarea validate check.
+     *
+     * @param element target element
+     * @param validate validate attr
+     */
+    function validateCheck(element, validate) {
+        if (typeof validate === 'undefined' || validate === '') { return false; }
+        let numberRegex = /^[0-9]*$/;
+        const validateFunc = {
+            number: function(value) {
+                return numberRegex.test(value)
+            },
+            min: function (value, arg) {
+                if (numberRegex.test(value) && numberRegex.test(arg)) {
+                    return (value >= Number(arg))
+                }
+                return true
+            },
+            max: function (value, arg) {
+                if (numberRegex.test(value) && numberRegex.test(arg)) {
+                    return (value <= Number(arg))
+                }
+                return true
+            },
+            minLength: function (value, arg) {
+                if (numberRegex.test(arg)) {
+                    return (value.length >= Number(arg))
+                }
+                return true
+            },
+            maxLength: function (value, arg) {
+                if (numberRegex.test(arg)) {
+                    return (value.length <= Number(arg))
+                }
+                return true
+            }
+        };
+
+        element.addEventListener('focusout', function(e) {
+            if (element.value === '') { return false; }
+            let result = true,
+                msg = null;
+            if (element.classList.contains('validate-error')) {
+                element.classList.remove('validate-error');
+                element.style.backgroundColor = ''; //임시
+            }
+            let validateArray = validate.split('|');
+            for (let i = 0; i < validateArray.length; i++) {
+                let validateValueArray = validateArray[i].split('[');
+                let arg = (typeof validateValueArray[1] !== 'undefined') ? validateValueArray[1].replace(/\]\s*$/gi, '') : '';
+                switch (validateValueArray[0]) {
+                    case 'number':
+                        result = validateFunc.number(element.value);
+                        break;
+                    case 'min':
+                        result = validateFunc.min(element.value, arg);
+                        break;
+                    case 'max':
+                        result = validateFunc.max(element.value, arg);
+                        break;
+                    case 'minLength':
+                        result = validateFunc.minLength(element.value, arg);
+                        break;
+                    case 'maxLength':
+                        result = validateFunc.maxLength(element.value, arg);
+                        break;
+                }
+                if (!result) {
+                    i = validateArray.length;
+                    msg = i18n.get('form.msg.alert.' + validateValueArray[0]).replace('{0}', arg);
+                }
+            }
+            if (!result) {
+                e.stopImmediatePropagation();
+                if (!element.classList.contains('validate-error')) {
+                    element.classList.add('validate-error');
+                    element.style.backgroundColor = '#ff000040';//임시
+                }
+                aliceJs.alert(msg, function() { element.focus(); });
+            }
+        });
+    }
+
     /**
      * 폼 저장
      */
@@ -575,11 +660,12 @@
                             propertyValue.classList.add('property-field-value');
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
-                            propertyValue.addEventListener('change', function() {
+                            validateCheck(propertyValue, fieldArr.validate);
+                            propertyValue.addEventListener('focusout', function() {
                                 changePropertiesValue(this.value, group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
-                            
+
                             if (fieldArr.type === 'inputbox-underline') { propertyValue.classList.add('underline'); }
                             
                             if (fieldArr.unit !== '') {
@@ -689,6 +775,7 @@
                             slideValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
                             slideValue.setAttribute('type', 'text');
                             slideValue.setAttribute('value', fieldArr.value);
+                            slideValue.setAttribute('readOnly', 'true');
                             fieldGroupDiv.appendChild(slideValue);
                             break;
                         case 'rgb':
@@ -937,7 +1024,7 @@
         
         let formAttr = formEditor.data.form;
         let detailAttr = formProperties.form;
-        
+
         //data + 기본 속성 = 세부 속성 재할당 
         Object.keys(formAttr).forEach(function(form) {
             Object.keys(detailAttr).forEach(function(idx) {
@@ -988,11 +1075,13 @@
             }
             propertyValue.classList.add('property-field-value');
             if (fieldArr.id === 'name') {
+                validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('keyup', function(e) {
                     formEditor.data.form.name = this.value;
                     document.querySelector('.form-name').textContent = this.value;
                 });
             } else {
+                validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('change', function(e) {
                     formEditor.data.form[fieldArr.id] = this.value;
                 }, false);
