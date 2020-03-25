@@ -25,10 +25,8 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
 
     @Throws(Exception::class)
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        
         // URL 접근 확인
         urlAccessAuthCheck(request)
-        
         return true
     }
     
@@ -36,7 +34,6 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
      * URL 접근 권한 확인.
      */
     private fun urlAccessAuthCheck(request: HttpServletRequest) {
-        
         val securityContextObject = request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
         val requestUrl = request.requestURI
         val requestMethod = request.method.toLowerCase()
@@ -71,7 +68,6 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
 
     @Throws(Exception::class)
     override fun postHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any, modelAndView: ModelAndView?) {
-
         val useRsa = request.getAttribute(AliceConstants.RsaKey.USE_RSA.value)
         if (useRsa != null) {
             logger.debug(">>> create RSA key <<< {}", request.requestURL)
@@ -83,12 +79,10 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
             request.setAttribute(AliceConstants.RsaKey.PUBLIC_EXPONENT.value, aliceCryptoRsa.getPublicKeyExponent())
         }
 
-
-//        if (modelAndView != null) {
-//
-//        }
-
+        var requestInfo = request.method + "|URI:" + request.requestURI
+        if (modelAndView != null) {
+            requestInfo += "|Viewname: " + modelAndView.viewName
+        }
+        logger.debug("Request Info|{}", requestInfo)
     }
-
-
 }
