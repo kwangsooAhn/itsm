@@ -1,7 +1,7 @@
 package co.brainz.framework.exception
 
 /**
- * Http status
+ * Http 상태 코드
  *
  * response 시 내부적으로 사용할 값을 정의한다.
  * 이정도면 적당하다 생각되나 추가가 필요해진 경우 아래 사이트를 참고하여 추가한다.
@@ -61,7 +61,7 @@ enum class AliceHttpStatusConstants(val status: Int, val reasonPhrase: String) {
          */
         fun getHttpPhraseByStatus(status: Int): String {
             var phrase = ""
-            AliceHttpStatusConstants.values().forEach {
+            values().forEach {
                 if (it.status == status) {
                     phrase = it.reasonPhrase
                     return@forEach

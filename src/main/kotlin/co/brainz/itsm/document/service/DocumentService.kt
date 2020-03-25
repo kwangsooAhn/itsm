@@ -74,7 +74,7 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
      * @return Boolean
      */
     fun deleteDocument(documentId: String): Boolean {
-        //TODO : wfEngine에서 삭제 가능 여부 체크(해당 일감은 추후 진행합니다.(
-        return false
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.DELETE_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        return restTemplate.delete(url)
     }
 }

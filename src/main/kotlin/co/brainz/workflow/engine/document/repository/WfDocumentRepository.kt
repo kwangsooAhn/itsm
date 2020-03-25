@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository
 interface WfDocumentRepository: JpaRepository<WfDocumentEntity, String> {
 
     fun findDocumentEntityByDocumentId(documentId: String): WfDocumentEntity
-    fun removeWfDocumentEntityByDocumentId(documentId: String)
+    fun deleteWfDocumentEntityByDocumentId(documentId: String): Boolean
+
 }

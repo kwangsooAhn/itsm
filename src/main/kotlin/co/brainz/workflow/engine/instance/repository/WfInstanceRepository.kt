@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.instance.repository
 
+import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -17,5 +18,7 @@ interface WfInstanceRepository: JpaRepository<WfInstanceEntity, String> {
             "and t.assigneeType = :type " +
             "and t.assigneeId = :userKey")
     fun findInstances(status: String, type: String, userKey: String): List<Map<String, Any>>
+
+    fun countByDocument(wfDocumentEntity: WfDocumentEntity): Int
 
 }
