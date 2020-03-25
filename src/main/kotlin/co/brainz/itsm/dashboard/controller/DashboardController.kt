@@ -1,13 +1,13 @@
 package co.brainz.itsm.dashboard.controller
 
-//import co.brainz.itsm.dashboard.service.DashboardService
+import co.brainz.itsm.dashboard.service.DashboardService
+import co.brainz.itsm.token.service.TokenService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 /**
@@ -21,18 +21,31 @@ import org.springframework.web.bind.annotation.RequestMapping
  */
 @Controller
 @RequestMapping("/dashboard")
-class DashboardController() { //private val dashboardService: DashboardService
+class DashboardController(private val dashboardService: DashboardService,
+                          private val tokenService: TokenService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val dashboardViewPage: String = "dashboard/dashboardView"
     private val dashboardListPage: String = "dashboard/dashboardList"
 
     /**
-     * Dashboard 화면 호출 처리
+     * Dashboard 화면 호출
      */
     @GetMapping("/view")
     fun getDashboardView(request: HttpServletRequest, model: Model): String {
         return dashboardViewPage
     }
 
+    /**
+     * 처리할 문서 리스트 화면.
+     *
+     * @param model
+     * @return String
+     */
+    @GetMapping("/list")
+    fun getDashboardList(model: Model): String {
+        // 신청한 문서 현황 count
+        model.addAttribute("statusCount", dashboardService.getStatusCountList())
+        return dashboardListPage
+    }
 }

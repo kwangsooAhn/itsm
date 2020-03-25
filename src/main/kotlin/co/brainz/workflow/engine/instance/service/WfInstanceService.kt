@@ -85,4 +85,17 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
         }
     }
 
+    /**
+     * Instance Status Count
+     *
+     * @param userKey
+     */
+    fun instancesStatusCount(userKey: String): List<Map<String, Any>> {
+        val statusCountList = wfInstanceRepository.countInstancesStatusByInstanceCreateUserKey(userKey)
+        for (statusCount in statusCountList) {
+            System.out.println("status : " + statusCount)
+        }
+
+        return statusCountList
+    }
 }

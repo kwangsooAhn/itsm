@@ -31,14 +31,9 @@
         </thead>
         <tbody>
         <tr>
-            <td th:text="${statusCountList.running}"></td>
-            <td th:text="${statusCountList.wait}"></td>
-            <td th:text="${statusCountList.finish}"></td>
-        </tr>
-        <tr th:each="status: ${statusCountList}">
-            <td th:text="${status.running}"></td>
-            <td th:text="${status.wait}"></td>
-            <td th:text="${status.finish}"></td>
+            <td th:text="${statusCount.running}"></td>
+            <td th:text="${statusCount.wait}"></td>
+            <td th:text="${statusCount.finish}"></td>
         </tr>
         </tbody>
     </table>
