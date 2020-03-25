@@ -414,13 +414,13 @@
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
+                const timeformat = userData.defaultDateFormat +" "+ userData.defaultTimeFormat +" "+ userData.defaultTime;
                 if (changeValue === 'none' || changeValue === 'now') {
                     changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 } else {
                     let inputCells = parentEl.querySelectorAll('input[type="text"]');
-                    
                     if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
-                        changeValue += ('|' + inputCells[0].value);
+                        changeValue += ('|' + inputCells[0].value +'|'+ timeformat);
                     } else {
                         for (let i = 0, len = inputCells.length; i < len; i++ ) {
                             changeValue += ('|' + inputCells[i].value);
@@ -826,7 +826,6 @@
                             propertyValue.setAttribute('name', group + '.' + fieldArr.id);
                             propertyValue.setAttribute('value', fieldArr.value);
                             fieldGroupDiv.appendChild(propertyValue);
-                            
                             if (fieldArr.type === 'datepicker') {
                                 dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (fieldArr.type === 'timepicker') {
@@ -966,7 +965,6 @@
         let mergeAttr = component.getData(compData.type);
         mergeAttr.id = compData.id;
         mergeAttr.type = compData.type;
-
         Object.keys(compData).forEach(function(comp) {
             if (compData[comp] !== null && typeof(compData[comp]) === 'object' && compData.hasOwnProperty(comp))  {
                 Object.keys(compData[comp]).forEach(function(attr) {

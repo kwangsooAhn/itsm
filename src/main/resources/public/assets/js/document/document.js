@@ -349,7 +349,8 @@
                 if (datetimeDefaultArr[0] === 'now') {
                     datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat);
                 } else if (datetimeDefaultArr[0] === 'datetimepicker') {
-                    datetimeDefault = datetimeDefault[1];
+                    let datepickerDate = datetimeDefaultArr[1].split(' ');
+                    datetimeDefault = datepickerDate[0]+' '+datepickerDate[1];
                 } else if (datetimeDefaultArr[0] === 'datetime') {
                     datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
                 }
@@ -635,12 +636,11 @@
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
             tokenObject.assigneeId = userData.userKey;
             tokenObject.assigneeType = defaultAssigneeTypeForSave;
-        } else if (v_kind === 'process') {
+        } else {
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
+            tokenObject.assigneeId = '';
+            tokenObject.assigneeType = '';
         }
-
-        tokenObject.assigneeId = '';
-        tokenObject.assigneeType = '';
 
         if (componentArrayList.length > 0) {
             tokenObject.data = componentArrayList;
