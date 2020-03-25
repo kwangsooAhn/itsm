@@ -25,28 +25,26 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
     override fun getErrorAttributes(webRequest: WebRequest, includeStackTrace: Boolean): MutableMap<String, Any?> {
         val exception = getError(webRequest)
         val errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace) as LinkedHashMap<String, Any?>
-        if (exception != null) {
-            errorAttributes["exceptionType"] = exception::class.java.canonicalName
-            when (exception) {
-                is AliceException -> {
-                    val knownErrMsg = exception.getCode() + " (" + exception.getCodeDetail() + ")"
-                    logger.error("Known Alice error. {}", knownErrMsg)
-                    val status = exception.getHttpStatusCode()
-                    errorAttributes["status"] = status
-                    errorAttributes["error"] = AliceHttpStatusConstants.getHttpPhraseByStatus(status)
-                    errorAttributes["message"] = exception.message
-                    errorAttributes["knownError"] = knownErrMsg
-                }
-                else -> {
+        errorAttributes["exceptionType"] = exception::class.java.canonicalName
+        when (exception) {
+            is AliceException -> {
+                val knownErrMsg = exception.getCode() + " (" + exception.getCodeDetail() + ")"
+                logger.error("Known Alice error. {}", knownErrMsg)
+                val status = exception.getHttpStatusCode()
+                errorAttributes["status"] = status
+                errorAttributes["error"] = AliceHttpStatusConstants.getHttpPhraseByStatus(status)
+                errorAttributes["message"] = exception.message
+                errorAttributes["knownError"] = knownErrMsg
+            }
+            else -> {
 
-                    var throwable = exception.cause
-                    var msg = ""
-                    while (throwable !== null) {
-                        msg += "\n" + throwable.message
-                        throwable = throwable.cause
-                    }
-                    errorAttributes["message"] = msg
+                var throwable = exception.cause
+                var msg = ""
+                while (throwable !== null) {
+                    msg += "\n" + throwable.message
+                    throwable = throwable.cause
                 }
+                errorAttributes["message"] = msg
             }
         }
         logger.error("Error attribute {}", errorAttributes)
