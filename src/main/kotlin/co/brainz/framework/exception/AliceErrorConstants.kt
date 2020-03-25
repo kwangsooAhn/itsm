@@ -7,7 +7,7 @@ package co.brainz.framework.exception
 enum class AliceErrorConstants(
     val httpStatus: Int = AliceHttpStatusConstants.INTERNAL_SERVER_ERROR.status,
     val code: String = "DEFAULT",
-    val detailMessage: String
+    val message: String
 ) {
     ERR(AliceHttpStatusConstants.NOT_ACCEPTABLE.status, "ERR-DEFAULT", "Default error"),
     ERR_00001(AliceHttpStatusConstants.BAD_REQUEST.status, "ERR-00001", "Wrong id or passwd"),

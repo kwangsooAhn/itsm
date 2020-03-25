@@ -20,6 +20,6 @@ class AliceException : Exception {
     }
 
     fun getCodeDetail(): String {
-        return this.err.detailMessage
+        return this.err.message
     }
 }

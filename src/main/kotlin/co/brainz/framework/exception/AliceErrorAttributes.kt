@@ -5,6 +5,7 @@ import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.WebRequest
+import java.lang.reflect.UndeclaredThrowableException
 
 /**
  * 에러 속성을 정의한다.
@@ -37,6 +38,7 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                     errorAttributes["knownError"] = knownErrMsg
                 }
                 else -> {
+
                     var throwable = exception.cause
                     var msg = ""
                     while (throwable !== null) {
@@ -58,5 +60,23 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
             webRequest.setAttribute("javax.servlet.error.status_code", it, RequestAttributes.SCOPE_REQUEST)
         }
         return errorAttributes
+    }
+
+    /**
+     * DefaultErrorAttributes.getError() 오버라이드.
+     *
+     * UndeclaredThrowableException 이 오는경우가 있다.
+     * try catch (Exception) 으로 잡아서 throw 하는 경우 발생한다. Exception으로 통으로 잡아서 발생하는 듯 하다.
+     * AliceException 을 가져오기 위해 오버라이드 했다.
+     *
+     * @since 2020-03-25 beom
+     */
+    override fun getError(webRequest: WebRequest): Throwable {
+        var exception = super.getError(webRequest)
+        exception = when (exception) {
+            is UndeclaredThrowableException -> exception.cause
+            else -> exception
+        }
+        return exception
     }
 }

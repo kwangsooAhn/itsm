@@ -29,6 +29,8 @@ class AliceErrorHandler(errorAttributes: AliceErrorAttributes,
     @RequestMapping
     override fun error(request: HttpServletRequest): ResponseEntity<Map<String, Any>> {
         logger.debug("Alice error handler for responsebody")
-        return super.error(request)
+        val response = super.error(request)
+        logger.debug("{}", response)
+        return response
     }
 }

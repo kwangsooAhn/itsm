@@ -64,7 +64,7 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
                         }
                     }
                 }
-                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.detail)
+                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.message)
             }
         }
     }
