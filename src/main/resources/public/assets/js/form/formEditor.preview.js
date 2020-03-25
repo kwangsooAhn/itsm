@@ -12,10 +12,10 @@
 }(this, (function (exports) {
     'use strict';
 
-    function init(data) {
+    function init(data, authInfo) {
         let editorData = JSON.parse(data);
         console.info('formEditor preview initialization. [FORM ID: ' + editorData.form.id + ']');
-        aliceDocument.initContainer('document-container');
+        aliceDocument.initContainer('document-container', authInfo);
         aliceDocument.drawDocument(editorData);
     }
 

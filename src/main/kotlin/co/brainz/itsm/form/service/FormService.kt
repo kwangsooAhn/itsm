@@ -2,6 +2,7 @@ package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
+import co.brainz.itsm.form.dto.FormComponentDataDto
 import co.brainz.itsm.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -34,8 +35,8 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return forms
     }
 
-    fun findForm(formId: String): String {
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM.url.replace(restTemplate.getKeyRegex(), formId))
+    fun getFormData(formId: String): String {
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId))
         return restTemplate.get(urlDto)
     }
 
@@ -63,7 +64,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun saveFormData(formData: String): Boolean {
         val formComponentSaveDto = makeFormComponentSaveDto(formData);
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
         return restTemplate.update(urlDto, formComponentSaveDto)
     }
 
@@ -72,7 +73,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         if (formComponentSaveDto.form.formStatus == RestTemplateConstants.FormStatus.DESTROY.value) {
             formComponentSaveDto.form.formStatus = RestTemplateConstants.FormStatus.EDIT.value
         }
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url)
         val responseBody = restTemplate.createToSave(urlDto, formComponentSaveDto)
         return when (responseBody.isNotEmpty()) {
             true -> {
@@ -103,4 +104,12 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         )
     }
 
+    fun getFormComponentDataList(componentType: String): List<FormComponentDataDto> {
+        val params = LinkedMultiValueMap<String, String>()
+        params.add("componentType", componentType)
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM_COMPONENT_DATA.url, parameters = params)
+        val responseBody = restTemplate.get(urlDto)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormComponentDataDto::class.java))
+    }
 }

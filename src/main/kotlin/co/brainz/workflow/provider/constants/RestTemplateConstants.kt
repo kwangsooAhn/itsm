@@ -11,10 +11,22 @@ object RestTemplateConstants {
     enum class Form(val url: String, val method: String) {
         GET_FORMS("/rest/wf/forms", "GET"),
         GET_FORM("/rest/wf/forms/{formId}", "GET"),
+        GET_FORM_DATA("/rest/wf/forms/{formId}/data", "GET"),
         POST_FORM("/rest/wf/forms", "POST"),
+        POST_FORM_SAVE_AS("/rest/wf/forms?saveType=saveas", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
-        POST_FORM_SAVE_AS("/rest/wf/forms/{formId}", "POST"),
-        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
+        PUT_FORM_DATA("/rest/wf/forms/{formId}/data", "PUT"),
+        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE"),
+        GET_FORM_COMPONENT_DATA("/rest/wf/forms/components", "GET")
+    }
+
+    /**
+     * Form SaveType.
+     *
+     * @param code
+     */
+    enum class FormSaveType(val code: String) {
+        SAVE_AS("saveas")
     }
 
     /**
@@ -26,8 +38,11 @@ object RestTemplateConstants {
     enum class Process(val url: String, val method: String) {
         GET_PROCESSES("/rest/wf/processes", "GET"),
         GET_PROCESS("/rest/wf/processes/{processId}", "GET"),
+        GET_PROCESS_DATA("/rest/wf/processes/{processId}/data", "GET"),
         POST_PROCESS("/rest/wf/processes", "POST"),
+        POST_PROCESS_SAVE_AS("/rest/wf/processes?saveType=saveas", "POST"),
         PUT_PROCESS("/rest/wf/processes/{processId}", "PUT"),
+        PUT_PROCESS_DATA("/rest/wf/processes/{processId}/data", "PUT"),
         DELETE_PROCESS("/rest/wf/processes/{processId}", "DELETE")
     }
 
@@ -94,6 +109,13 @@ object RestTemplateConstants {
         SIMULATION("process.status.simu"),
         PUBLISH("process.status.publish"),
         DESTROY("process.status.destroy")
+    }
+
+    /**
+     * Process SaveType.
+     */
+    enum class ProcessSaveType(val code: String) {
+        SAVE_AS("saveas")
     }
 
     /**

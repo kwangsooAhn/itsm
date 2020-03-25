@@ -148,7 +148,7 @@
                     if (defaultTextValueArr[0] === 'none') {
                         defaultTextValue = defaultTextValueArr[1];
                     } else {
-                        defaultTextValue = userData[defaultTextValueArr[0]];
+                        defaultTextValue = userData[defaultTextValueArr[1]];
                     }
                     textEle.value = defaultTextValue;
                 }
@@ -293,7 +293,7 @@
                 break;
             case 'divider':
                 const lineEle = document.createElement('hr');
-                lineEle.style.borderWidth = displayData.width + 'px';
+                lineEle.style.borderWidth = displayData.thickness + 'px';
                 lineEle.style.borderStyle = displayData.type;
                 lineEle.style.borderColor = displayData.color;
                 fieldLastEle.appendChild(lineEle);
@@ -687,7 +687,7 @@
         documentContainer = document.getElementById('document-container');
         buttonContainer = document.getElementById('button-container');
         let authData = JSON.parse(authInfo);
-        //편집화면에서 사용할 사용자 세션 정보
+        //신청서화면에서 사용할 사용자 세션 정보
         if (authData) {
             Object.assign(userData, authData);
 
@@ -753,9 +753,24 @@
      * Init Container.
      *
      * @param elementId
+     * @param {String} authInfo 사용자 세션 정보
      */
-    function initContainer(elementId) {
+    function initContainer(elementId, authInfo) {
         documentContainer = document.getElementById(elementId);
+
+        let authData = JSON.parse(authInfo);
+        //미리 보기시 사용할 사용자 세션 정보
+        if (authData) {
+            Object.assign(userData, authData);
+
+            userData.defaultLang  = authData.lang;
+            userData.userKey = authData.userKey;
+            let format = authData.timeFormat;
+            let formatArray = format.split(' ');
+
+            userData.defaultDateFormat =  formatArray[0].toUpperCase();
+            if (formatArray.length === 3) { userData.defaultTime = '12'; }
+        }
     }
 
     exports.initDocument = initDocument;

@@ -5,9 +5,31 @@
 }(this, (function (exports) {
     'use strict';
 
+    let isEdited = false;
+    let observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            console.log(mutation);
+            isEdited = true;
+        });
+    });
+
+    let observerConfig = {
+        childList: true,
+        characterData: true,
+        subtree: true
+    };
+
+    window.addEventListener('beforeunload', function (event) {
+        if (isEdited) {
+            event.returnValue = '';
+        } else {
+            delete event['returnValue'];
+        }
+    });
+
     const utils = {
         /**
-         * 해당 element의 중앙 x,y 좌표와 넓이,높이를 리턴한다.
+         * 해당 element 의 중앙 x,y 좌표와 넓이,높이를 리턴한다.
          *
          * @param selection
          * @returns {{x: number, width: number, y: number, height: number}}
@@ -40,6 +62,7 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(i18n.get('common.msg.save'));
+                    isEdited = false;
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -47,6 +70,29 @@
             contentType: 'application/json; charset=utf-8',
             params: JSON.stringify(AliceProcessEditor.data)
         });
+    }
+
+    /**
+     * save as process.
+     */
+    function saveAsProcess() {
+        aliceJs.sendXhr({
+            method: 'POST',
+            url: '/rest/processes' + '?saveType=saveas',
+            callbackFunc: function(xhr) {
+                if (xhr.responseText !== '') {
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        opener.location.reload();
+                        location.href = '/processes/' + xhr.responseText + '/edit';
+                    });
+                } else {
+                    aliceJs.alert(i18n.get('common.label.fail'));
+                }
+            },
+            contentType: 'application/json; charset=utf-8',
+            params: JSON.stringify(AliceProcessEditor.data)
+        });
+
     }
 
     /**
@@ -102,16 +148,36 @@
      */
     function initUtil() {
         // add click event listener.
-        document.getElementById('btnSave').addEventListener('click', saveProcess);
-        document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);
-        document.getElementById('btnUndo').addEventListener('click', undoProcess);
-        document.getElementById('btnRedo').addEventListener('click', redoProcess);
-        document.getElementById('btnImport').addEventListener('click', importProcess);
-        document.getElementById('btnExport').addEventListener('click', exportProcess);
-        document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
+        if (document.getElementById('btnSave') !== null) {
+            document.getElementById('btnSave').addEventListener('click', saveProcess);
+        }
+        if (document.getElementById('btnSaveAs') !== null) {
+            document.getElementById("btnSaveAs").addEventListener('click', saveAsProcess);
+        }
+        if (document.getElementById('btnSimulation') !== null) {
+            document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);
+        }
+        if (document.getElementById('btnUndo') !== null) {
+            document.getElementById('btnUndo').addEventListener('click', undoProcess);
+        }
+        if (document.getElementById('btnRedo') !== null) {
+            document.getElementById('btnRedo').addEventListener('click', redoProcess);
+        }
+        if (document.getElementById('btnImport') !== null) {
+            document.getElementById('btnImport').addEventListener('click', importProcess);
+        }
+        if (document.getElementById('btnExport') !== null) {
+            document.getElementById('btnExport').addEventListener('click', exportProcess);
+        }
+        if (document.getElementById('btnDownload') !== null) {
+            document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
+        }
+        // start observer
+        isEdited = false;
+        observer.observe(document.querySelector('.alice-process-drawing-board'), observerConfig);
     }
 
     exports.utils = utils;
     exports.initUtil = initUtil;
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule',{value: true});
 })));
