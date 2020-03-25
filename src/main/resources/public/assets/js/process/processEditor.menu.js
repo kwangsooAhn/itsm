@@ -785,7 +785,7 @@
      * Assignee Type 에 따라 속성 항목을 변경한다.
      *
      * @param assigneeTypeObject Assignee Type object
-     * @param value
+     * @param value assignee value
      */
     function changePropertyAssigneeType(assigneeTypeObject, value) {
         let assigneeObject = document.getElementById('assignee');
@@ -838,7 +838,7 @@
                 const evt = document.createEvent('HTMLEvents');
                 evt.initEvent('change', false, true);
                 assigneeObject.dispatchEvent(evt);
-            }
+            };
 
             const addDataRow = function(dataVal, dataText) {
                 let dataTable = assigneeObject.parentNode.querySelector('table');
@@ -862,19 +862,35 @@
                 dataTable.appendChild(row);
 
                 saveData();
-            }
+            };
 
             btnAdd.addEventListener('click', function() {
-                let dataSelect = this.parentNode.querySelector('select');
-                addDataRow(dataSelect.value, dataSelect.options[dataSelect.selectedIndex].text);
+                let dataSelect = this.parentNode.querySelector('select'),
+                    dataTable = assigneeObject.parentNode.querySelector('table'),
+                    rows = dataTable.querySelectorAll('tr');
+
+                let isDuplicate = false,
+                    selectedValue = dataSelect.value,
+                    rowLength = rows.length;
+                if (rowLength > 1) {
+                    for (let i = 1; i < rowLength; i++) {
+                        if (selectedValue === rows[i].querySelector('input').value) {
+                            isDuplicate = true;
+                            break;
+                        }
+                    }
+                }
+                if (!isDuplicate) {
+                    addDataRow(dataSelect.value, dataSelect.options[dataSelect.selectedIndex].text);
+                }
             });
             assigneeObject.parentNode.insertBefore(btnAdd, dataSelect.nextSibling);
             let userTable = document.createElement('table');
             let headRow = document.createElement('tr');
-            let headNameColumn = document.createElement('th')
+            let headNameColumn = document.createElement('th');
             headNameColumn.textContent = 'Name';
             headRow.appendChild(headNameColumn);
-            let headBtnColumn = document.createElement('th')
+            let headBtnColumn = document.createElement('th');
             headRow.appendChild(headBtnColumn);
             userTable.appendChild(headRow);
             assigneeObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
@@ -1094,7 +1110,6 @@
         method: 'GET',
         url: '/rest/users',
         callbackFunc: function(xhr) {
-            console.log(xhr.responseText)
             assigneeTypeData.users = JSON.parse(xhr.responseText);
         },
         contentType: 'application/json; charset=utf-8'
@@ -1104,7 +1119,6 @@
         method: 'GET',
         url: '/rest/roles',
         callbackFunc: function(xhr) {
-            console.log(xhr.responseText)
             assigneeTypeData.groups = JSON.parse(xhr.responseText);
         },
         contentType: 'application/json; charset=utf-8'
