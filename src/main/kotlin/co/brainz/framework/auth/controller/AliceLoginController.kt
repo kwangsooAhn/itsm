@@ -60,7 +60,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
                 clientIp = request.getHeader("HTTP_X_FORWARDED_FOR");
             }
             if (clientIp == null) {
-                clientIp = request.remoteAddr;
+                clientIp = request.remoteAddr
             }
             logger.info("INFO{} ",clientIp)
             model.addAttribute("ipList", ipList)
