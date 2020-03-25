@@ -45,9 +45,9 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
         return noticeListDto
     }
 
-    fun findTopNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeListDto> {
+    fun findTopNoticeSearch(searchValue: String): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findTopNoticeSearch(searchValue, fromDt, toDt).forEach {noticeEntity ->
+        noticeRepository.findTopNoticeSearch(searchValue).forEach {noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
