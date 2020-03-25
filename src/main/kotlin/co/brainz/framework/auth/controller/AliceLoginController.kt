@@ -1,7 +1,7 @@
 package co.brainz.framework.auth.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.auth.service.AliceAccessAllowService
+import co.brainz.framework.auth.service.AliceIpVerificationService
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import org.springframework.beans.factory.annotation.Value
 import co.brainz.framework.constants.AliceConstants
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession
  */
 @Controller
 class AliceLoginController(private val userDetailsService: AliceUserDetailsService,
-                           private val aliceAccessAllowService: AliceAccessAllowService) {
+                           private val aliceIpVerificationService: AliceIpVerificationService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val tokenSearchPage: String = "/tokens/tokenSearch"
@@ -44,7 +44,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
         var clientIp: String? = request.getHeader("X-Forwarded-For")
 
         if (ipAccessControlValue == "true") {
-            val ipList = aliceAccessAllowService.getIpList()
+            val ipList = aliceIpVerificationService.getIpList()
 
             //Client의 ip 정보를 확인한다.
             if (clientIp == null) {
