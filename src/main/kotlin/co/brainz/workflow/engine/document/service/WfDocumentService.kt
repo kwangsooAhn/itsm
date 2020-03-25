@@ -5,13 +5,22 @@ import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
+import co.brainz.workflow.engine.form.mapper.WfFormMapper
+import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
 @Service
-class WfDocumentService(private val wfFormService: WfFormService,
-                        private val wfDocumentRepository: WfDocumentRepository) {
+class WfDocumentService(private val wfDocumentRepository: WfDocumentRepository,
+                        private val wfFormRepository: WfFormRepository,
+                        private val wfFormService: WfFormService) {
+
+    private val wfFormMapper: WfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
 
     /**
      * Search Documents.
@@ -48,7 +57,25 @@ class WfDocumentService(private val wfFormService: WfFormService,
      */
     fun document(documentId: String): WfFormComponentViewDto? {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        return wfFormService.formData(documentEntity.form.formId)
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId)
+        val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
+        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        for (component in formEntity.get().components!!) {
+            val attributes = wfFormService.makeAttributes(component)
+            val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+
+            val map = LinkedHashMap<String, Any>()
+            map["componentId"] = component.componentId
+            map["attributes"] = attributes
+            map["values"] = values
+            components.add(map)
+        }
+
+        return WfFormComponentViewDto(
+                form = formViewDto,
+                components = components
+        )
     }
 
     /**

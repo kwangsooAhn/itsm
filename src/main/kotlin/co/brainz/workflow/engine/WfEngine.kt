@@ -4,7 +4,6 @@ import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.document.service.WfDocumentService
-import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
@@ -20,15 +19,14 @@ import org.springframework.stereotype.Service
 @Service
 class WfEngine(private val wfFormRepository: WfFormRepository,
                private val wfProcessRepository: WfProcessRepository,
-               private val wfElementRepository: WfElementRepository,
                private val wfComponentRepository: WfComponentRepository,
                private val wfComponentDataRepository: WfComponentDataRepository,
-               private val wfFormService: WfFormService,
                private val wfDocumentRepository: WfDocumentRepository,
                private val wfInstanceRepository: WfInstanceRepository,
                private val wfTokenRepository: WfTokenRepository,
                private val wfTokenDataRepository: WfTokenDataRepository,
                private val wfInstanceService: WfInstanceService,
+               private val wfFormService: WfFormService,
                private val wfElementService: WfElementService) {
 
     /**
@@ -49,7 +47,7 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Document Engine.
      */
     fun document(): WfDocumentService {
-        return WfDocumentService(wfFormService, wfDocumentRepository)
+        return WfDocumentService(wfDocumentRepository, wfFormRepository, wfFormService)
     }
 
     /**
@@ -63,7 +61,7 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Token Engine.
      */
     fun token(): WfTokenService {
-        return WfTokenService(wfDocumentRepository, wfTokenRepository, wfTokenDataRepository, wfInstanceService, wfElementService)
+        return WfTokenService(wfDocumentRepository, wfTokenRepository, wfTokenDataRepository, wfInstanceService, wfElementService, wfFormService)
     }
 
 }
