@@ -48,16 +48,16 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
 
             //Client의 ip 정보를 확인한다.
             if (clientIp == null) {
-                clientIp = request.getHeader("Proxy-Client-IP");
+                clientIp = request.getHeader("Proxy-Client-IP")
             }
             if (clientIp == null) {
-                clientIp = request.getHeader("WL-Proxy-Client-IP");
+                clientIp = request.getHeader("WL-Proxy-Client-IP")
             }
             if (clientIp == null) {
-                clientIp = request.getHeader("HTTP_CLIENT_IP");
+                clientIp = request.getHeader("HTTP_CLIENT_IP")
             }
             if (clientIp == null) {
-                clientIp = request.getHeader("HTTP_X_FORWARDED_FOR");
+                clientIp = request.getHeader("HTTP_X_FORWARDED_FOR")
             }
             if (clientIp == null) {
                 clientIp = request.remoteAddr
