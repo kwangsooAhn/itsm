@@ -346,19 +346,25 @@
             case 'datetime':
                 let datetimeDefaultArr = displayData.default.split('|');
                 let datetimeDefault = '';
+                let dateplaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat;
+
                 if (datetimeDefaultArr[0] === 'now') {
                     datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat);
                 } else if (datetimeDefaultArr[0] === 'datetimepicker') {
                     let datepickerDate = datetimeDefaultArr[1].split(' ');
                     datetimeDefault = datepickerDate[0]+' '+datepickerDate[1];
+                    let afterDateFormat = userData.defaultDateFormat +' '+ userData.defaultTimeFormat + ' '+userData.defaultTime;
+                    datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], afterDateFormat, datetimeDefaultArr[1], userData.defaultLang);
+                    dateplaceholder = afterDateFormat;
                 } else if (datetimeDefaultArr[0] === 'datetime') {
                     datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
                 }
 
+
                 const datetimeEle = document.createElement('input');
                 datetimeEle.id = 'datetime-' + compData.componentId;
                 datetimeEle.type = 'text';
-                datetimeEle.placeholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat;
+                datetimeEle.placeholder = dateplaceholder;
                 datetimeEle.value = datetimeDefault;
                 datetimeEle.required = (validateData.required === 'Y');
                 datetimeEle.readOnly = true;
@@ -558,7 +564,6 @@
         const componentElements = documentContainer.getElementsByClassName('component');
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
-
             if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
                 componentDataType === 'fileupload') {
@@ -573,10 +578,17 @@
                         componentValue = componentChild.item(0).value;
                         break;
                     case 'date':
-                    case 'time':
-                    case 'datetime':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         componentValue = componentChild.item(0).value;
+                        break;
+                    case 'time':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).value;
+                        break;
+                    case 'datetime':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        let dateFormat = componentChild.item(0).placeholder;
+                        componentValue = componentChild.item(0).value+'|'+dateFormat;
                         break;
                     case 'textarea':
                         componentChild = componentElements[eIndex].getElementsByTagName('textarea');
@@ -609,16 +621,17 @@
                     case 'fileupload' :
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
-                            if (componentValue === '' && componentValue.indexOf(",") === -1) {
-                                componentValue = componentChild[fileuploadIndex].value;
-                            } else {
-                                componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
+                            if (componentChild[fileuploadIndex].name === 'fileSeq') {
+                                if (componentValue === '' && componentValue.indexOf(",") === -1) {
+                                    componentValue = componentChild[fileuploadIndex].value;
+                                } else {
+                                    componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
+                                }
                             }
                         }
                         fileDataIds = componentValue;
                         break;
                 }
-
                 componentChildObject.componentId = componentId;
                 componentChildObject.value = componentValue;
                 componentArrayList.push(componentChildObject);
@@ -661,7 +674,6 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
-
         const opt = {
             method: method,
             url: '/rest/tokens/data',

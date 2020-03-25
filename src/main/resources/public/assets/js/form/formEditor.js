@@ -19,7 +19,6 @@
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            console.log(mutation);
             isEdited = true;
         });
     });
@@ -51,10 +50,9 @@
      */
     function saveForm() {
         data = JSON.parse(JSON.stringify(formEditor.data));
-
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) { 
-            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent); 
+            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
         aliceJs.sendXhr({
             method: 'PUT',

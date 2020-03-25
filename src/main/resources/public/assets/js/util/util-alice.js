@@ -362,7 +362,6 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
     if (arrayDate.length === 2 || arrayDate.length === 3) {
         v_date = v_date +' '+ arrayDate[1];
     }
-    //console.log("v_date==="+v_date);
     //올바르게 변환한 yyyy-mm-dd와 시간을 객체로 변환한다.
     var result_date = new Date(v_date);
     var year = result_date.getFullYear();
@@ -509,6 +508,7 @@ aliceJs.parseZero = function(num, digits) {
  * @return {String} format 변경된 시간
  */
 aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLang) {
+
     //이전 날짜 포맷 배열처리
     let beforeFormatArray = beforeFormat.split(' ');
     //변경 날짜 포맷 배열처리
@@ -545,17 +545,15 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
     }
 
     //배열이 2개까지 있다면 12시간을 가지고 있다고 생각한다.
-    if (dateArray[2] !== undefined && dateArray[2] !== null) {
-        if (dateArray[1] !=='AM' && dateArray[1] !=='PM') {
-            //ex) 03-25-2020 12:00 오전
+    if (dateArray[2] !== undefined && dateArray[2] !== null && dateArray[2] !== '') {
+        if (dateArray[1] ==='오전' || dateArray[1] ==='오후' || dateArray[1] ==='AM' || dateArray[1] ==='PM') {
             beforeHourArray = dateArray[2].split(':');
-        } else if (dateArray[2] !=='오전' && dateArray[2] !=='오후') {
-            //ex) 1900-01-01 AM 12:00
+        } else if (dateArray[2] ==='오전' || dateArray[2] ==='오후' || dateArray[2] ==='AM' || dateArray[2] ==='PM') {
             beforeHourArray = dateArray[1].split(':');
         }
         hour = beforeHourArray[0];
         min = beforeHourArray[1];
-    } else if (dateArray[1] !== undefined && dateArray[1] !== null) {
+    } else if (dateArray[1] !== undefined && dateArray[1] !== null && dateArray[1] !== '') {
         beforeHourArray = dateArray[1].split(':');
         hour = beforeHourArray[0];
         min = beforeHourArray[1];
@@ -575,14 +573,10 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
         if (beforeFormatArray[2] != undefined && afterFormatArray[2] != undefined) {
             //이전, 이후 모두 12시간
             if (beforeFormatArray[2] === '12' && afterFormatArray[2] === '12') {
-                if (dateArray[1] === 'AM' || dateArray[1] === 'PM') {
-                    returnDate = returnDate +' '+ dateArray[1] +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2);
-                } else if (dateArray[2] === '오전' || dateArray[2] === '오후') {
-                    returnDate = returnDate +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2)+' '+dateArray[1];
-                }
+                returnDate = returnDate +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2)+' '+ dateArray[1];
             } else if (beforeFormatArray[2] === '12' && afterFormatArray[2] === '24') {
-                if (hour > 11) {
-                    hour = eval(hour+12);
+                if (dateArray[1] === 'PM' || dateArray[1] === '오후') {
+                    hour = eval(parseInt(hour) + 12);
                     if (hour === 24) {
                         hour = 23;
                     }
@@ -592,17 +586,15 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
                 if (hour > 11) {
                     hour = eval(hour - 12);
                     if (userLang === 'en') {
-                        returnDate = returnDate +' AM '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2);
+                        returnDate = returnDate +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2)+' PM';
                     } else if(userLang === 'ko') {
-                        returnDate = returnDate +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2) +' 오전';
+                        returnDate = returnDate +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2)+' 오후';
                     }
                 } else {
-                    hour = eval(hour - 12);
-                    returnDate = returnDate +' PM '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2);
                     if (userLang === 'en') {
-                        returnDate = returnDate +' PM '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2);
+                        returnDate = returnDate +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2)+' AM';
                     } else if(userLang === 'ko') {
-                        returnDate = returnDate +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2) +' 오후';
+                        returnDate = returnDate +' '+ aliceJs.parseZero(hour,2) +':'+  aliceJs.parseZero(min,2)+' 오전';
                     }
                 }
             } else if (beforeFormatArray[2] === '24' && afterFormatArray[2] === '24') {

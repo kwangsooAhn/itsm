@@ -1024,7 +1024,7 @@
             {
                 "id": "date-min", 
                 "name": "Min Date", 
-                "value": "1900-01-01", 
+                "value": "1900-01-01",
                 "type": "datepicker", 
                 "code": "", 
                 "unit": "" 
