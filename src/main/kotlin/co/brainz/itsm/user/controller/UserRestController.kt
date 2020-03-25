@@ -2,13 +2,13 @@ package co.brainz.itsm.user.controller
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.service.UserService
 import org.mapstruct.factory.Mappers
@@ -127,10 +127,7 @@ class UserRestController(
      * 전체 사용자 목록 조회.
      */
     @GetMapping("/", "")
-    fun getUsers(request: HttpServletRequest): MutableList<AliceUserEntity> {
-        /*return """
-           [{"userKey": "ddddd", "userName": "홍길동"}] 
-        """*/
-        return userService.selectUserList("")
+    fun getUsers(): MutableList<UserListDto> {
+        return userService.selectUserListOrderByName()
     }
 }

@@ -809,7 +809,7 @@
             let dataKeys = {value: 'userKey', text: 'userName'};
             if (assigneeTypeObject.value === 'assignee.type.candidate.groups') {
                 dataList = assigneeTypeData.groups;
-                dataKeys = {value: 'roleKey', text: 'roleName'};
+                dataKeys = {value: 'roleId', text: 'roleName'};
             }
             for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
                 let option = document.createElement('option');
@@ -1091,18 +1091,20 @@
     }
 
     aliceJs.sendXhr({
-        method: 'get',
+        method: 'GET',
         url: '/rest/users',
         callbackFunc: function(xhr) {
+            console.log(xhr.responseText)
             assigneeTypeData.users = JSON.parse(xhr.responseText);
         },
         contentType: 'application/json; charset=utf-8'
     });
 
     aliceJs.sendXhr({
-        method: 'get',
+        method: 'GET',
         url: '/rest/roles',
         callbackFunc: function(xhr) {
+            console.log(xhr.responseText)
             assigneeTypeData.groups = JSON.parse(xhr.responseText);
         },
         contentType: 'application/json; charset=utf-8'
