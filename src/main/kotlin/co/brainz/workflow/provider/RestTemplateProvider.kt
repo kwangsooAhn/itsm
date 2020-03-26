@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
@@ -127,10 +128,9 @@ class RestTemplateProvider(private val restTemplate: RestTemplate) {
         return responseJson.statusCode == HttpStatus.OK
     }
 
-    fun delete(restTemplateUrlDto: RestTemplateUrlDto): Boolean {
+    fun delete(restTemplateUrlDto: RestTemplateUrlDto): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
         val requestEntity = HttpEntity(null, null)
-        val responseJson = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
-        return responseJson.statusCode == HttpStatus.OK
+        return restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
     }
 }

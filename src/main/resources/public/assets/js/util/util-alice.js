@@ -47,7 +47,6 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     });
     elmNode.appendChild(table);
     console.log(data);
-    console.log(messages);
     aliceJs.alert('Error !!')
 };
 

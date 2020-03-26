@@ -333,6 +333,7 @@ document:
     dateMax: "{0} 날짜 이전으로 선택해주세요."
     requiredEnter: "필수 항목을 입력해주세요."
     requiredSelect: "필수 항목을 선택해주세요."
+    raunchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
 
 # token
 token:
@@ -343,8 +344,8 @@ token:
 custom.code:
   label:
     title: "사용자 정의 코드"
-    customCodeName : "사용자 정의 코드명"
-    targetTable : "대상 테이블명"
+    customCodeName: "사용자 정의 코드명"
+    targetTable: "대상 테이블명"
     searchColumn: "검색 컬럼명"
     valueColumn: "값 컬럼명"
   msg:

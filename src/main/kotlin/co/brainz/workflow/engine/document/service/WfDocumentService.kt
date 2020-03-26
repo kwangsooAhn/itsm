@@ -10,8 +10,10 @@ import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class WfDocumentService(
     private val wfFormService: WfFormService,
     private val wfDocumentRepository: WfDocumentRepository,
@@ -100,18 +102,15 @@ class WfDocumentService(
         val selectedDocument = wfDocumentRepository.getOne(documentId)
         val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
 
-        // 있으면 삭제.
+        // 있으면 삭제
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
-            wfDocumentRepository.deleteWfDocumentEntityByDocumentId(documentId)
+            wfDocumentRepository.deleteByDocumentId(documentId)
             true
-        // 없으면 패스.
         } else {
             false
         }
-
         logger.info("Delete document result. {}", isDel)
-
         return isDel
     }
 }

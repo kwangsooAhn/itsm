@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -106,7 +107,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     /**
      * 프로세스 1건 데이터 삭제.
      */
-    fun deleteProcess(processId: String): Boolean {
+    fun deleteProcess(processId: String): ResponseEntity<String> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.DELETE_PROCESS.url.replace(restTemplate.getKeyRegex(), processId))
         return  restTemplate.delete(url)
     }
