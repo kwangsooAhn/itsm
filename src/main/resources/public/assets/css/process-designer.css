@@ -10164,5 +10164,31 @@ body {
 .alice-process-properties-panel p textarea {
   height: 5.625rem;
 }
+.alice-process-properties-panel p select.candidate {
+  width: 8.125rem;
+}
+.alice-process-properties-panel p button {
+  width: 3.125rem;
+}
+.alice-process-properties-panel p table {
+  margin-left: 5.625rem;
+  width: 11.25rem;
+  border: black solid 0.063rem;
+}
+.alice-process-properties-panel p table th {
+  background-color: lightgrey;
+  text-align: center;
+  font-weight: bold;
+}
+.alice-process-properties-panel p table td {
+  padding-left: 0.313rem;
+}
+.alice-process-properties-panel p table td span.remove {
+  display: inline-block;
+  background-image: url("../media/icons/icon_delete.png");
+  width: 0.938rem;
+  height: 0.938rem;
+  cursor: pointer;
+}
 
 /*# sourceMappingURL=process-designer.css.map */

@@ -13,6 +13,7 @@ import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.entity.UserSpecification
 import co.brainz.itsm.user.repository.UserRepository
@@ -179,5 +180,18 @@ class UserService(private val aliceCertificationRepository: AliceCertificationRe
      */
     fun selectTimezoneList(): MutableList<AliceTimezoneEntity> {
         return userAliceTimezoneRepository.findAllByOrderByTimezoneIdAsc()
+    }
+
+    /**
+     * 모든 사용자 정보를 조회한다.
+     * (selectbox 용으로 key, id, name 조회)
+     */
+    fun selectUserListOrderByName(): MutableList<UserListDto> {
+        val userList = userRepository.findByOrderByUserNameAsc()
+        var userDtoList = mutableListOf<UserListDto>()
+        for (userEntity in userList) {
+            userDtoList.add(UserListDto(userKey = userEntity.userKey, userId = userEntity.userId, userName = userEntity.userName))
+        }
+        return userDtoList
     }
 }
