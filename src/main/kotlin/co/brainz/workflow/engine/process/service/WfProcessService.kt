@@ -35,10 +35,8 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString()
         val processDtoList = mutableListOf<WfProcessDto>()
-        val processList = if (search.isEmpty() && status.isEmpty()) {
-            wfProcessRepository.findAll()
-        } else if (status.isEmpty()){
-            wfProcessRepository.findByProcessListOrProcessSearchList("%$search%")
+        val processList = if (status.isEmpty()) {
+            wfProcessRepository.findByProcessListOrProcessSearchList(search)
         } else {
             wfProcessRepository.findByProcessStatus(status)
         }
