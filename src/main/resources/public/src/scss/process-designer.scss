@@ -381,6 +381,41 @@ body {
             textarea {
                 height: 5.625rem;  // 90px
             }
+
+            select.candidate {
+                width: 8.125rem; // 130px
+            }
+
+            button {
+                width: 3.125rem; // 50px
+            }
+
+            table {
+                margin-left: 5.625rem; // 90px
+                width: 11.25rem; // 180px
+                border: black solid 0.063rem;
+
+                th {
+                    background-color: lightgrey;
+                    text-align: center;
+                    font: {
+                        weight: bold;
+                    }
+                }
+                td {
+                    padding: {
+                        left: 0.313rem;
+                    };
+
+                    span.remove {
+                        display: inline-block;
+                        background-image: url("../media/icons/icon_delete.png");
+                        width: 0.938rem;  // 15px
+                        height: 0.938rem; // 15px
+                        cursor: pointer;
+                    }
+                }
+            }
         }
     }
 }
