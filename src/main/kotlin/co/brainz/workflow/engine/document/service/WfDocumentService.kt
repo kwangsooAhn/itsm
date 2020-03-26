@@ -104,7 +104,7 @@ class WfDocumentService(
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
             wfDocumentRepository.deleteWfDocumentEntityByDocumentId(documentId)
-
+            true
         // 없으면 패스.
         } else {
             false

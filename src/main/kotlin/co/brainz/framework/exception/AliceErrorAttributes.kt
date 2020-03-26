@@ -17,6 +17,7 @@ import java.lang.reflect.UndeclaredThrowableException
  * message: 에러 메시지
  * path: 호출URL
  * exceptionType: 종류
+ * info: 기타 추가로 넘겨줄 정보
  */
 @Component
 class AliceErrorAttributes : DefaultErrorAttributes() {
@@ -35,6 +36,7 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                 errorAttributes["error"] = AliceHttpStatusConstants.getHttpPhraseByStatus(status)
                 errorAttributes["message"] = exception.message
                 errorAttributes["knownError"] = knownErrMsg
+                errorAttributes["info"] = exception.getInfo()
             }
             else -> {
 
