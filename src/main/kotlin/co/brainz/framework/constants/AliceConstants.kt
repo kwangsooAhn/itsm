@@ -29,7 +29,6 @@ object AliceConstants {
         PATTEN2("/favicon.ico"),
         PATTEN3("/"),
         PATTEN4("/logout"),
-        PATTEN5("/certification/**"),
         PATTEN6("/oauth/**"),
         PATTEN7("/portal/**"),
         PATTEN8("/layout/**"),
