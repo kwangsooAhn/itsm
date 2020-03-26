@@ -1,8 +1,13 @@
 package co.brainz.framework.exception
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
 import org.springframework.stereotype.Component
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.WebRequest
 import java.lang.reflect.UndeclaredThrowableException
@@ -27,6 +32,7 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
         val exception = getError(webRequest)
         val errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace) as LinkedHashMap<String, Any?>
         errorAttributes["exceptionType"] = exception::class.java.canonicalName
+
         when (exception) {
             is AliceException -> {
                 val knownErrMsg = exception.getCode() + " (" + exception.getCodeDetail() + ")"
@@ -36,7 +42,18 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                 errorAttributes["error"] = AliceHttpStatusConstants.getHttpPhraseByStatus(status)
                 errorAttributes["message"] = exception.message
                 errorAttributes["knownError"] = knownErrMsg
-                errorAttributes["info"] = exception.getInfo()
+                errorAttributes["errorInfo"] = exception.getErrorInfo()
+            }
+            is HttpClientErrorException -> {
+                val responseBodyAsJson = exception.responseBodyAsString
+                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+                val jsonToMap: MutableMap<String, Any> = mapper.readValue(responseBodyAsJson)
+                errorAttributes["status"] = jsonToMap["status"]
+                errorAttributes["error"] = jsonToMap["error"]
+                errorAttributes["message"] = jsonToMap["message"]
+                errorAttributes["knownError"] = jsonToMap["knownError"]
+                errorAttributes["exceptionType"] = jsonToMap["exceptionType"]
+                errorAttributes["errorInfo"] = jsonToMap["errorInfo"]
             }
             else -> {
 

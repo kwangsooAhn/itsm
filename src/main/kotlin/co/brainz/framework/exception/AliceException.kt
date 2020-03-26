@@ -33,7 +33,7 @@ class AliceException : Exception {
         return this.err.message
     }
 
-    fun getInfo(): Any {
+    fun getErrorInfo(): Any {
         return this.errorInfo
     }
 }

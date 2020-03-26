@@ -46,7 +46,8 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         valueTd.innerText = obj.text;
     });
     elmNode.appendChild(table);
-
+    console.log(data);
+    console.log(messages);
     aliceJs.alert('Error !!')
 };
 
