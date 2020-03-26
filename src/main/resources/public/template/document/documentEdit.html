@@ -54,9 +54,54 @@
     <button th:text="#{common.btn.save}" onclick="aliceDocument.save('save')"></button>
     <button th:text="#{common.btn.register}" onclick="aliceDocument.save('process')"></button>
     <button th:text="#{common.btn.cancel}" onclick="window.close();"></button>
+
+    <!-- TODO 게이트웨이 동작 테스트 용입니다. -->
+    <br>
+    <br>tokenid <input type="text" id="tokenid" />
+    <br>elementid <input type="text" id="elementid" />
+    <br>componentid 1 <input type="text" id="component1" />
+    <br>value1 <input type="text" id="value1" />
+    <br>componentid 2 <input type="text" id="component2" />
+    <br>value 2 <input type="text" id="value2" />
+    <br><button th:text="게이트웨이" onclick="actionTest()"></button>
 </div>
 </body>
 <script type="text/javascript">
+
+    function beom() {
+
+        // test 용입니다.
+        const parameters = {
+            // documentId: "beom",
+            // tokenId: document.getElementById('tokenid').value,
+            // isComplete: true,
+            // elementId: document.getElementById('elementid').value,
+            // data: [
+            //     {componentId: document.getElementById('component1').value, value:document.getElementById('value1').value},
+            //     {componentId: document.getElementById('component2').value, value:document.getElementById('value2').value}
+            // ],
+            documentId: "beom",
+            tokenId: "40288a1970f215a00170f241a2570017",
+            isComplete: true,
+            elementId: "aebd76f44cd82ea150a9fe943167a751",
+            data: [
+                {"componentId":"a0a7a73248f07e94ccc5b20c85e83d15", "value":"kim"},
+                {"componentId":"a4c76f07d924b33d6cf068c1d0888eae", "value":"option"}
+            ],
+            action: []
+        }
+
+        aliceJs.sendXhr({
+            method: 'PUT',
+            url: '/rest/tokens/data',
+            params: JSON.stringify(parameters),
+            contentType: 'application/json; charset=utf-8',
+            callbackFunc: function(xhr) {
+                console.log(xhr)
+            }
+        });
+    }
+
     window.onload = function() {
         const userAuthInfo = {
             userKey : '[[${#authentication.details.userKey}]]',
@@ -73,6 +118,12 @@
         i18n.add(function() {
             aliceDocument.init('[[${documentId}]]', JSON.stringify(userAuthInfo));
         });
+
+
+
+
+
+
     };
 </script>
 </html>

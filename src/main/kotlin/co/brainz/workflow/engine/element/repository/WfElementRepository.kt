@@ -16,12 +16,7 @@ interface WfElementRepository: JpaRepository<WfElementEntity, String> {
     fun findAllArrowConnectorElement(elementId: String,
                                      startId: String = WfElementConstants.AttributeId.SOURCE_ID.value): MutableList<WfElementEntity>
 
-    @Query("SELECT elem.element, elem.attributeId, elem.attributeValue " +
-            "FROM WfElementDataEntity elem " +
-            "WHERE elem.attributeId = :endId " +
-            "AND elem.attributeValue = :elementId")
-    fun findTargetElement(elementId: String,
-                          endId: String = WfElementConstants.AttributeId.TARGET_ID.value): WfElementEntity
+
 
     fun findByProcessIdAndElementType(processId : String, elementType : String) : WfElementEntity
 

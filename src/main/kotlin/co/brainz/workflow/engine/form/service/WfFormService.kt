@@ -11,11 +11,13 @@ import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
 import co.brainz.workflow.engine.form.dto.WfFormViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
+import co.brainz.workflow.engine.form.mapper.WfFormMapper
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonParser
+import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import java.util.Optional
 import java.util.UUID
@@ -24,7 +26,9 @@ import kotlin.collections.set
 @Service
 class WfFormService(private val wfFormRepository: WfFormRepository,
                     private val wfComponentRepository: WfComponentRepository,
-                    private val wfComponentDataRepository: WfComponentDataRepository) : WfForm {
+                    private val wfComponentDataRepository: WfComponentDataRepository) {
+
+    private val wfFormMapper: WfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
 
     /**
      * Search Forms.
@@ -32,7 +36,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      * @param parameters
      * @return List<FormDto>
      */
-    override fun forms(parameters: LinkedHashMap<String, Any>): List<WfFormDto> {
+    fun forms(parameters: LinkedHashMap<String, Any>): List<WfFormDto> {
         var search = ""
         var status = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
@@ -57,7 +61,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      * @param wfFormDto
      * @return FormDto
      */
-    override fun createForm(wfFormDto: WfFormDto): WfFormDto {
+    fun createForm(wfFormDto: WfFormDto): WfFormDto {
         val formEntity = WfFormEntity(
                 formId = wfFormDto.formId,
                 formName = wfFormDto.formName,
@@ -84,17 +88,32 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      *
      * @param formId
      */
-    override fun deleteForm(formId: String) {
+    fun deleteForm(formId: String) {
         wfFormRepository.removeWfFormEntityByFormId(formId)
     }
 
     /**
-     * Search Form.
+     * Form Info.
+     *
+     * @param formId
+     * @return WfFormDto
+     */
+    fun form(formId: String): WfFormDto {
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
+        val wfFormDto = wfFormMapper.toFormDto(formEntity)
+        when (wfFormDto.formStatus) {
+            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.SIMULATION.value -> wfFormDto.formEnabled = true
+        }
+        return wfFormDto
+    }
+
+    /**
+     * Form Data Info.
      *
      * @param formId
      * @return FormComponentDto
      */
-    override fun form(formId: String): WfFormComponentViewDto {
+    fun formData(formId: String): WfFormComponentViewDto {
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
         val formViewDto = WfFormViewDto(
                 id = formEntity.get().formId,
@@ -133,11 +152,28 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
     }
 
     /**
-     * Insert Form.
+     * Update Form.
+     *
+     * @param wfFormDto
+     * @return Boolean
+     */
+    fun updateForm(wfFormDto: WfFormDto): Boolean {
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(wfFormDto.formId)
+        formEntity.get().formName = wfFormDto.formName
+        formEntity.get().formDesc = wfFormDto.formDesc
+        formEntity.get().formStatus = wfFormDto.formStatus
+        formEntity.get().updateDt = wfFormDto.updateDt
+        formEntity.get().updateUserKey = wfFormDto.updateUserKey
+        wfFormRepository.save(formEntity.get())
+        return true
+    }
+
+    /**
+     * Insert, Update Form Data.
      *
      * @param wfFormComponentSaveDto
      */
-    override fun saveForm(wfFormComponentSaveDto: WfFormComponentSaveDto) {
+    fun saveFormData(wfFormComponentSaveDto: WfFormComponentSaveDto) {
 
         //Delete component, attribute
         val componentEntities = wfComponentRepository.findByFormId(wfFormComponentSaveDto.form.formId)
@@ -206,7 +242,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      * @param wfFormComponentSaveDto
      * @return WfFormDto
      */
-    override fun saveAsForm(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto {
+    fun saveAsFormData(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto {
         val formDataDto = WfFormDto(
                 formName = wfFormComponentSaveDto.form.formName,
                 formDesc = wfFormComponentSaveDto.form.formDesc,
@@ -222,7 +258,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         for (component in wfFormComponentSaveDto.components) {
             component["id"] = UUID.randomUUID().toString().replace("-", "")
         }
-        saveForm(wfFormComponentSaveDto)
+        saveFormData(wfFormComponentSaveDto)
 
         return wfFormDto
     }
@@ -256,7 +292,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      * @param componentType
      * @return List<WfFormComponentDataDto>
      */
-    override fun getFormComponentData(componentType: String): List<WfFormComponentDataDto> {
+    fun getFormComponentData(componentType: String): List<WfFormComponentDataDto> {
         val componentDataList = mutableListOf<WfFormComponentDataDto>()
         val componentDataEntityList = if (componentType == "") {
             wfComponentDataRepository.findAll()

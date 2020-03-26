@@ -88,6 +88,7 @@ class RestTemplateProvider(private val restTemplate: RestTemplate) {
             tokenId = tokenMap["tokenId"] as String,
             documentId = tokenMap["documentId"] as String,
             elementId = tokenMap["elementId"] as String,
+            elementType = tokenMap["elementType"] as String,
             isComplete = tokenMap["isComplete"] as Boolean,
             assigneeId = tokenMap["assigneeId"]?.toString(),
             assigneeType = tokenMap["assigneeType"]?.toString(),

@@ -37,7 +37,7 @@ class FormRestController(private val formService: FormService) {
      */
     @GetMapping("/data/{formId}")
     fun getFormData(@PathVariable formId: String): String {
-        return formService.findForm(formId)
+        return formService.getFormData(formId)
     }
 
     /**

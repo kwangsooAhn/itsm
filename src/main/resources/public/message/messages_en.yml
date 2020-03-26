@@ -211,6 +211,7 @@ login:
     enterPassword: "Please enter your password."
     sessionExpired: "Your session has expired."
     redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
+    ipAccessDenied: "The IP is not accessible."
 
 # FORM
 form:
