@@ -37,7 +37,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -240,7 +240,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -405,7 +405,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -528,7 +528,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -669,7 +669,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -793,7 +793,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px" ,
-                "validate": "number|max[100]|min[5]|minLength[2]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -976,7 +976,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -1043,7 +1043,7 @@
                 "name": "Default", 
                 "value": "now", 
                 "type": "radio-datetime",
-                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "date", "name": "{0}days after"}, {"id": "datepicker", "name": ""} ], 
+                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "date", "name": "{0}days after", "validate": "number"}, {"id": "datepicker", "name": ""} ],
                 "code": "", 
                 "unit": "" 
             }
@@ -1113,7 +1113,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -1180,7 +1180,7 @@
                 "name": "Default", 
                 "value": "now", 
                 "type": "radio-datetime", 
-                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "time", "name": "{0}hours later"}, {"id": "timepicker", "name": ""} ],
+                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "time", "name": "{0}hours later", "validate": "number"}, {"id": "timepicker", "name": ""} ],
                 "code": "", 
                 "unit": "" 
             }
@@ -1250,7 +1250,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -1317,7 +1317,7 @@
                 "name": "Default", 
                 "value": "now", 
                 "type": "radio-datetime",
-                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "datetime", "name": "{0}days{0}hours later"}, {"id": "datetimepicker", "name": ""} ],
+                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "datetime", "name": "{0}days{0}hours later", "validate": "number"}, {"id": "datetimepicker", "name": ""} ],
                 "code": "", 
                 "unit": "" 
             }
@@ -1387,7 +1387,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -1499,7 +1499,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "px",
-                "validate": "number|max[100]"
+                "validate": "number"
             },
             {
                 "id": "color", 

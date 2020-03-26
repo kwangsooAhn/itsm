@@ -54,7 +54,7 @@
      * @param validate validate attr
      */
     function validateCheck(element, validate) {
-        if (typeof validate === 'undefined' || validate === '') { return false; }
+        if (typeof validate === 'undefined' || validate === '') { return; }
         let numberRegex = /^[0-9]*$/;
         const validateFunc = {
             number: function(value) {
@@ -87,13 +87,11 @@
         };
 
         element.addEventListener('focusout', function(e) {
-            if (element.value === '') { return false; }
-            let result = true,
-                msg = null;
             if (element.classList.contains('validate-error')) {
                 element.classList.remove('validate-error');
-                element.style.backgroundColor = ''; //임시
             }
+            if (element.value === '') { return; }
+            let result = true;
             let validateArray = validate.split('|');
             for (let i = 0; i < validateArray.length; i++) {
                 let validateValueArray = validateArray[i].split('[');
@@ -117,16 +115,12 @@
                 }
                 if (!result) {
                     i = validateArray.length;
-                    msg = i18n.get('form.msg.alert.' + validateValueArray[0]).replace('{0}', arg);
-                }
-            }
-            if (!result) {
-                e.stopImmediatePropagation();
-                if (!element.classList.contains('validate-error')) {
+                    e.stopImmediatePropagation();
                     element.classList.add('validate-error');
-                    element.style.backgroundColor = '#ff000040';//임시
+                    aliceJs.alert(i18n.get('form.msg.alert.' + validateValueArray[0]).replace('{0}', arg), function() {
+                        element.focus();
+                    });
                 }
-                aliceJs.alert(msg, function() { element.focus(); });
             }
         });
     }
@@ -484,7 +478,7 @@
 
                 element.domElem.classList.add('selected');
             }
-        }
+        };
 
         /**
          * 변경된 값을 컴포넌트 속성 정보에 반영하고, 컴포넌트를 다시 그린다.
@@ -824,6 +818,7 @@
                             let optionDefaultArr;
                             let defaultFormatArr = fieldArr.value !== '' ? fieldArr.value.split('|') : ''; //none, now, date|-3, time|2, datetime|7|0 등 
                             let propertyTemplate = ``;
+                            let optionValidate = '';
                             for (let i = 0, len = fieldArr.option.length; i < len; i++) {
                                 let option = fieldArr.option[i];
                                 optionDefaultArr = ['', '', ''];
@@ -847,13 +842,24 @@
                                     ${option.id === 'now' || option.id === 'none' ? "<label for='" + option.id + "'>" + labelName[0] + "</label>" : ""}
                                     </div>
                                 `;
+                                if (option.id === 'date' || option.id === 'time' || option.id === 'datetime') {
+                                    optionValidate = option.validate
+                                }
                             }
                             fieldGroupDiv.innerHTML += propertyTemplate;
-                            
+
                             //이벤트 등록
                             let changeOptions = fieldGroupDiv.querySelectorAll('input[type="radio"], input[type="text"]');
                             for (let i = 0, len = changeOptions.length; i < len; i++ ) {
-                                changeOptions[i].addEventListener('change', setDateFormat, false);
+                                let optionIdArr = changeOptions[i].id.split('-');
+                                if (changeOptions[i].type === 'text' && (compAttr.type.indexOf(optionIdArr[0]) !== -1)) {
+                                    validateCheck(changeOptions[i], optionValidate);
+                                }
+                                if (changeOptions[i].type === 'text') {
+                                    changeOptions[i].addEventListener('focusout', setDateFormat, false);
+                                } else {
+                                    changeOptions[i].addEventListener('change', setDateFormat, false);
+                                }
                             }
                             
                             if (compAttr.type === 'date') {

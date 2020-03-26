@@ -11005,6 +11005,10 @@ body {
   width: 5rem;
 }
 
+.alice-form-properties-panel .property-field .validate-error {
+  background-color: #ff000040;
+}
+
 .alice-form-properties-panel .property-field input[type=text] {
   -webkit-box-flex: 1;
       -ms-flex: 1;
