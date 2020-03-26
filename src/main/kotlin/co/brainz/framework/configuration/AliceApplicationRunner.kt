@@ -23,6 +23,6 @@ class AliceApplicationRunner(private val aliceUrlRepository: AliceUrlRepository)
     }
 
     fun getUrlAuthList(): List<AliceUrlEntity> {
-        return aliceUrlRepository.findByOrderByUrlAsc()
+        return aliceUrlRepository.findAliceUrlEntityByRequiredAuthIs(false)
     }
 }

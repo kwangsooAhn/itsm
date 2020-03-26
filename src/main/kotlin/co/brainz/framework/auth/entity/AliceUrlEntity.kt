@@ -23,7 +23,7 @@ data class AliceUrlEntity(
         val urlDesc: String,
 
         @Column(name = "is_required_auth")
-        val isRequiredAuth: Boolean = true
+        val requiredAuth: Boolean
 
 ): Serializable
 

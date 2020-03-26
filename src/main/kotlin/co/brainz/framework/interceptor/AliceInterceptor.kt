@@ -42,7 +42,7 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
         val requestMethod = request.method.toLowerCase()
         logger.debug(">>> Url [{}] {} <<<", requestMethod, requestUrl)
 
-        if (securityContextObject != null && requestUrl != "" && !AliceUtil().urlExcludePatternCheck(requestUrl)) {
+        if (securityContextObject != null && requestUrl != "" && !AliceUtil().urlExcludePatternCheck(request)) {
             val securityContext = securityContextObject as SecurityContext
             val aliceUserDto = securityContext.authentication.details as AliceUserDto
             val regex = "\\{([a-zA-Z]*)}".toRegex()
@@ -64,7 +64,7 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
                         }
                     }
                 }
-                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.detail)
+                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.detail + "(URL: ${requestUrl})")
             }
         }
     }
@@ -82,11 +82,6 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
             request.setAttribute(AliceConstants.RsaKey.PUBLIC_MODULE.value, aliceCryptoRsa.getPublicKeyModulus())
             request.setAttribute(AliceConstants.RsaKey.PUBLIC_EXPONENT.value, aliceCryptoRsa.getPublicKeyExponent())
         }
-
-
-//        if (modelAndView != null) {
-//
-//        }
 
     }
 
