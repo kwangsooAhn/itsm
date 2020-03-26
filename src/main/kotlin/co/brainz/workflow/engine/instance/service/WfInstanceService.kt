@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.instance.service
 
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
+import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
@@ -88,14 +89,20 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
     /**
      * Instance Status Count
      *
-     * @param userKey
+     * @param parameters
      */
-    fun instancesStatusCount(userKey: String): List<Map<String, Any>> {
-        val statusCountList = wfInstanceRepository.countInstancesStatusByInstanceCreateUserKey(userKey)
-        for (statusCount in statusCountList) {
-            System.out.println("status : " + statusCount)
+    fun instancesStatusCount(parameters: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
+        var userKey: String = ""
+        if (parameters["userKey"] != null) {
+            userKey = parameters["userKey"].toString()
+        }
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val tokenDataList = wfInstanceRepository.findInstancesCount(userKey)
+        val tokens = mutableListOf<WfInstanceCountDto>()
+        for (tokenData in tokenDataList) {
+            tokens.add(mapper.convertValue(tokenData, WfInstanceCountDto::class.java))
         }
 
-        return statusCountList
+        return tokens
     }
 }

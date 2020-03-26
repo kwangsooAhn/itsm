@@ -33,12 +33,12 @@ data class WfInstanceEntity(
         @Column(name = "instance_end_dt", insertable = false)
         var instanceEndDt: LocalDateTime? = null,
 
+        @Column(name = "instance_create_user_key", length = 128)
+        var instanceCreateUserKey: String? = null,
+
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "document_id")
-        val document: WfDocumentEntity,
-
-        @Column(name = "instance_create_user_key", length = 128)
-        val instanceCreateUserKey: String? = null
+        val document: WfDocumentEntity
 
 ) : Serializable {
 

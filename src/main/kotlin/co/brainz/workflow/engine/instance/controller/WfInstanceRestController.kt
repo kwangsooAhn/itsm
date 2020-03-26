@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.instance.controller
 
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -25,17 +26,6 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     }
 
     /**
-     * Process Instance Status Count.
-     *
-     * @param request
-     * @return List<Map<String, Any>>
-     */
-    @GetMapping("/count")
-    fun getProcessInstancesStatusCount(request: HttpServletRequest): List<Map<String, Any>> {
-        return wfEngine.instance().instancesStatusCount(request.getParameter("userKey") ?: "")
-    }
-
-    /**
      * Process Instance.
      *
      * @param tokenId
@@ -44,5 +34,16 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     @GetMapping("/{tokenId}")
     fun getProcessInstance(@PathVariable tokenId: String): WfInstanceViewDto {
         return wfEngine.instance().instance(tokenId)
+    }
+
+    /**
+     * Process Instance Status Count.
+     *
+     * @param request
+     * @return List<Map<String, Any>>
+     */
+    @GetMapping("/count")
+    fun getProcessInstancesStatusCount(@RequestParam parameters: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
+        return wfEngine.instance().instancesStatusCount(parameters)
     }
 }

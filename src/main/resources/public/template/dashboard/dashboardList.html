@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -8,15 +7,13 @@
             width: 100%;
             border: 1px solid;
             border-collapse: collapse;
-        }
-        table td {
-            border-left: 1px solid;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 <div>
-    <table style="text-align: center">
+    <table border="1">
         <colgroup>
             <col width="30%">
             <col width="30%">
@@ -31,9 +28,12 @@
         </thead>
         <tbody>
         <tr>
-            <td th:text="${statusCount.running}"></td>
-            <td th:text="${statusCount.wait}"></td>
-            <td th:text="${statusCount.finish}"></td>
+            <td th:each="statusCount: ${statusCountList}" th:text="${statusCount.instanceCount}"></td>
+        </tr>
+        <tr>
+            <td  th:text="'0'">0</td>
+            <td  th:text="'0'">0</td>
+            <td  th:text="'0'">0</td>
         </tr>
         </tbody>
     </table>

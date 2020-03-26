@@ -1,12 +1,15 @@
 package co.brainz.itsm.dashboard.controller
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.dashboard.service.DashboardService
 import co.brainz.itsm.token.service.TokenService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -37,7 +40,7 @@ class DashboardController(private val dashboardService: DashboardService,
     }
 
     /**
-     * 처리할 문서 리스트 화면.
+     * Dashboard List 호출
      *
      * @param model
      * @return String
@@ -45,7 +48,10 @@ class DashboardController(private val dashboardService: DashboardService,
     @GetMapping("/list")
     fun getDashboardList(model: Model): String {
         // 신청한 문서 현황 count
-        model.addAttribute("statusCount", dashboardService.getStatusCountList())
+        val params = LinkedMultiValueMap<String, String>()
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        params["userKey"] = aliceUserDto.userKey
+        model.addAttribute("statusCountList", dashboardService.getStatusCountList(params))
         return dashboardListPage
     }
 }

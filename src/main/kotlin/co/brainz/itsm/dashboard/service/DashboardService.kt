@@ -1,9 +1,16 @@
 package co.brainz.itsm.dashboard.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.util.AliceTimezoneUtils
+import co.brainz.itsm.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
+import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
+import co.brainz.workflow.provider.dto.*
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
@@ -16,16 +23,10 @@ class DashboardService(private val restTemplate: RestTemplateProvider) {
      *
      * @return
      */
-   fun getStatusCountList(): LinkedMultiValueMap<String, Any> {
-        val params = LinkedMultiValueMap<String, String>()
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        params.add("userKey", aliceUserDto.userKey)
-
-        var testData =  LinkedMultiValueMap<String, Any>()
-        testData["running"] = 100
-        testData["wait"] = 22
-        testData["finish"] = 0
-
-        return testData
+   fun getStatusCountList(params: LinkedMultiValueMap<String, String>): List<RestTemplateInstanceCountDto> {
+        var url =  RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES_COUNT.url, parameters = params)
+        val responseBody = restTemplate.get(url)
+        val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceCountDto::class.java))
     }
 }
