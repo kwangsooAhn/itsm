@@ -13,10 +13,13 @@ import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.entity.UserSpecification
+import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserRepository
+import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
@@ -42,12 +45,19 @@ class UserService(private val aliceCertificationRepository: AliceCertificationRe
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
+    val userMapper: UserMapper = Mappers.getMapper(UserMapper::class.java)
+
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(searchValue: String): MutableList<AliceUserEntity> {
+    fun selectUserList(searchValue: String): MutableList<UserDto> {
         val codeList= codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
-        return userRepository.findAll(UserSpecification(codeList, searchValue))
+        val aliceUserEntities = userRepository.findAll(UserSpecification(codeList, searchValue))
+        val userList: MutableList<UserDto> = mutableListOf()
+        aliceUserEntities.forEach {
+            userList.add(userMapper.toUserDto(it))
+        }
+        return userList
     }
 
     /**
