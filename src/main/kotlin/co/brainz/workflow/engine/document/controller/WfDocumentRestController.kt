@@ -1,8 +1,9 @@
 package co.brainz.workflow.engine.document.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
+import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -44,5 +45,13 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
     @PostMapping("")
     fun createDocument(@RequestBody documentDto: WfDocumentDto): WfDocumentDto {
         return wfEngine.document().createDocument(documentDto)
+    }
+
+    /**
+     * 신청서 삭제
+     */
+    @DeleteMapping("/{documentId}")
+    fun deleteDocument(@PathVariable documentId: String): Boolean {
+        return wfEngine.document().deleteDocument(documentId)
     }
 }

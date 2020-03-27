@@ -47,7 +47,7 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Document Engine.
      */
     fun document(): WfDocumentService {
-        return WfDocumentService(wfDocumentRepository, wfFormRepository, wfFormService)
+        return WfDocumentService(wfFormService, wfFormRepository, wfDocumentRepository, wfInstanceRepository)
     }
 
     /**
