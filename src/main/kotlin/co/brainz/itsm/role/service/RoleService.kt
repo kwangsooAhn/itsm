@@ -12,6 +12,7 @@ import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.framework.auth.dto.AliceAuthSimpleDto
 import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.itsm.role.dto.RoleListDto
 
 @Service
 class RoleService(
@@ -23,8 +24,13 @@ class RoleService(
     /**
      * 상단 전체 역할정보를 가져온다.
      */
-    fun selectRoleList(): MutableList<AliceRoleEntity> {
-        return roleRepository.findByOrderByRoleNameAsc()
+    fun selectRoleList(): MutableList<RoleListDto> {
+        val roleList = roleRepository.findByOrderByRoleNameAsc()
+        val roleDtoList = mutableListOf<RoleListDto>()
+        for (roleEntity in roleList) {
+            roleDtoList.add(RoleListDto(roleId = roleEntity.roleId, roleName = roleEntity.roleName))
+        }
+        return roleDtoList
     }
 
     /**

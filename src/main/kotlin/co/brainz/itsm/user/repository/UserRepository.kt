@@ -1,5 +1,6 @@
 package co.brainz.itsm.user.repository
 
+import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
@@ -38,4 +39,8 @@ interface UserRepository: JpaRepository<AliceUserEntity, String>, JpaSpecificati
      */
     fun countByUserId(userId: String): Int
 
+    /**
+     *  사용자 목록을 사용자명으로 정렬조회한다.
+     */
+    fun findByOrderByUserNameAsc(): MutableList<AliceUserEntity>
 }

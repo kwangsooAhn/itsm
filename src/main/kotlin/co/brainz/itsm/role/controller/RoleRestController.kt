@@ -1,7 +1,7 @@
 package co.brainz.itsm.role.controller
 
-import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.itsm.role.dto.RoleDto
+import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.service.RoleService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -26,7 +26,7 @@ class RoleRestController(private val roleService: RoleService) {
      * 역할 전체 목록을 조회한다.
      */
     @GetMapping("/", "")
-    fun getRoles(): MutableList<AliceRoleEntity> {
+    fun getRoles(): MutableList<RoleListDto> {
         return roleService.selectRoleList()
     }
 
@@ -59,7 +59,6 @@ class RoleRestController(private val roleService: RoleService) {
      */
     @DeleteMapping("/{roleId}")
     fun deleteRole(@PathVariable roleId: String): String {
-        var result = roleService.deleteRole(roleId)
-        return result
+        return roleService.deleteRole(roleId)
     }
 }
