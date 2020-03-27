@@ -10,9 +10,6 @@ import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -67,7 +64,6 @@ class WfDocumentService(private val wfFormService: WfFormService,
         val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId)
         val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         for (component in formEntity.get().components!!) {
             val attributes = wfFormService.makeAttributes(component)
             val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
