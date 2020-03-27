@@ -37,7 +37,6 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
         val securityContextObject = request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
         val requestUrl = request.requestURI
         val requestMethod = request.method.toLowerCase()
-        logger.debug(">>> Url [{}] {} <<<", requestMethod, requestUrl)
 
         if (securityContextObject != null && requestUrl != "" && !AliceUtil().urlExcludePatternCheck(requestUrl)) {
             val securityContext = securityContextObject as SecurityContext
