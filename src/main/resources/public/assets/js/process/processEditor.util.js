@@ -8,7 +8,7 @@
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            //console.log(mutation);
+            console.log(mutation);
             isEdited = true;
         });
     });
@@ -49,10 +49,11 @@
             };
         },
         /**
+         * 두 개의 json 데이터가 동일한 지 비교한 후 boolean 을 리턴한다.
          *
-         * @param obj1
-         * @param obj2
-         * @return {boolean}
+         * @param obj1 비교 대상 JSON데이터1
+         * @param obj2 비교 대상 JSON데이터2
+         * @return {boolean} 데이터 일치 여부 (true: 일치, false: 불일치)
          */
         compareJson: function(obj1, obj2) {
             if (!Object.keys(obj2).every(function(key) { return obj1.hasOwnProperty(key); })) {
@@ -74,8 +75,6 @@
         saveHistory: function(data, list, keep_redo) {
             if (data.length === 1 && utils.compareJson(data[0][0], data[0][1])) { // data check
                 console.debug('These two json data are the same.');
-                console.debug('0: ' + JSON.stringify(data[0][0]));
-                console.debug('1: ' + JSON.stringify(data[0][1]));
                 return;
             }
             keep_redo = keep_redo || false;
@@ -83,9 +82,10 @@
                 this.redo_list = [];
             }
             (list || this.undo_list).push(data);
-            console.debug(this.undo_list);
         },
         undo: function() {
+            AliceProcessEditor.removeElementSelected();
+            AliceProcessEditor.setElementMenu();
             if (this.undo_list.length) {
                 let restoreData = this.undo_list.pop();
                 this.saveHistory(restoreData, this.redo_list, true);
@@ -93,6 +93,8 @@
             }
         },
         redo: function() {
+            AliceProcessEditor.removeElementSelected();
+            AliceProcessEditor.setElementMenu();
             if (this.redo_list.length) {
                 let restoreData = this.redo_list.pop();
                 this.saveHistory(restoreData, this.undo_list, true);
@@ -139,8 +141,8 @@
                     } else {
                         let link = {
                             id: changeData.id,
-                            source: d3.select(document.getElementById(changeData.data['start-id'])),
-                            target: d3.select(document.getElementById(changeData.data['end-id']))
+                            sourceId: changeData.data['start-id'],
+                            targetId: changeData.data['end-id']
                         };
                         if (changeData.display && changeData.display['mid-point']) {
                             link.midPoint = changeData.display['mid-point'];
@@ -161,6 +163,7 @@
                 if (originData.name !== changeData.type) { // modify type
                     document.querySelector('.process-name').textContent = changeData.name;
                 }
+                AliceProcessEditor.setElementMenu();
             } else { // modify element
                 let element = d3.select(document.getElementById(changeData.id));
                 if (originData.type !== changeData.type) { // modify type
@@ -215,12 +218,6 @@
                         break;
                     }
                 }
-            }
-            let selected = document.querySelector('.alice-process-drawing-board').querySelector('.selected');
-            if (selected) { // element is selected.
-                AliceProcessEditor.setElementMenu(d3.select(selected));
-            } else { // otherwise, display process properties.
-                AliceProcessEditor.setElementMenu();
             }
         };
         restoreData.forEach(function(data) {
@@ -291,7 +288,6 @@
      * undo.
      */
     function undoProcess() {
-        d3.select('g.alice-tooltip').remove();
         history.undo();
     }
 
@@ -299,7 +295,6 @@
      * redo.
      */
     function redoProcess() {
-        d3.select('g.alice-tooltip').remove();
         history.redo();
     }
 

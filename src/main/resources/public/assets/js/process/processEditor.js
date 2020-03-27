@@ -224,13 +224,18 @@
      */
     function drawConnectors() {
         const getLinePath = function(d) {
-            let target = d3.select(document.getElementById(d.targetId)),
-                source = d3.select(document.getElementById(d.sourceId));
+            const targetNode = document.getElementById(d.targetId),
+                  sourceNode = document.getElementById(d.sourceId);
+            if (!targetNode || !sourceNode) {
+                return '';
+            }
+            let target = d3.select(targetNode),
+                source = d3.select(sourceNode);
             if (target.classed('gateway')) {
-                target = d3.select(document.getElementById(d.targetId).parentNode);
+                target = d3.select(targetNode.parentNode);
             }
             if (source.classed('gateway')) {
-                source = d3.select(document.getElementById(d.sourceId).parentNode);
+                source = d3.select(sourceNode.parentNode);
             }
             const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
@@ -951,7 +956,7 @@
         if (d3.select(elementNode).classed('connector')) {
             d3.select(elementNode.parentNode).select('tspan').text(text);
         } else {
-            const textElement = d3.select(elementNode.parentNode).select('text')
+            const textElement = d3.select(elementNode.parentNode).select('text');
             if (textElement.node()) {
                 textElement.text(text);
 
@@ -1025,7 +1030,7 @@
             svg.selectAll('g.grid').selectAll('*').remove();
             verticalGrid.call(verticalAxis);
             horizontalGrid.call(horizontalAxis);
-        }
+        };
         window.onresize = setDrawingBoardGrid;
         setDrawingBoardGrid();
 
