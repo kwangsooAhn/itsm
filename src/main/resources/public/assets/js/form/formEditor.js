@@ -61,13 +61,13 @@
                 return numberRegex.test(value);
             },
             min: function(value, arg) {
-                if (numberRegex.test(value) && numberRegex.test(arg)) {
+                if (numberRegex.test(arg)) {
                     return (value >= Number(arg));
                 }
                 return true;
             },
             max: function(value, arg) {
-                if (numberRegex.test(value) && numberRegex.test(arg)) {
+                if (numberRegex.test(arg)) {
                     return (value <= Number(arg));
                 }
                 return true;
@@ -101,10 +101,20 @@
                         result = validateFunc.number(element.value);
                         break;
                     case 'min':
-                        result = validateFunc.min(element.value, arg);
+                        result = validateFunc.number(element.value);
+                        if (result) {
+                            result = validateFunc.min(element.value, arg);
+                        } else {
+                            validateValueArray[0] = 'number';
+                        }
                         break;
                     case 'max':
-                        result = validateFunc.max(element.value, arg);
+                        result = validateFunc.number(element.value);
+                        if (result) {
+                            result = validateFunc.max(element.value, arg);
+                        } else {
+                            validateValueArray[0] = 'number';
+                        }
                         break;
                     case 'minLength':
                         result = validateFunc.minLength(element.value, arg);
