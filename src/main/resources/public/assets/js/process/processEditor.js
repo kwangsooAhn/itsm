@@ -224,13 +224,13 @@
      */
     function drawConnectors() {
         const getLinePath = function(d) {
-            let target = d.target,
-                source = d.source;
+            let target = d3.select(document.getElementById(d.targetId)),
+                source = d3.select(document.getElementById(d.sourceId));
             if (target.classed('gateway')) {
-                target = d3.select(d.target.node().parentNode);
+                target = d3.select(document.getElementById(d.targetId).parentNode);
             }
             if (source.classed('gateway')) {
-                source = d3.select(d.source.node().parentNode);
+                source = d3.select(document.getElementById(d.sourceId).parentNode);
             }
             const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
@@ -412,7 +412,7 @@
                         .classed('selected', false);
 
                     if (checkAvailableLink()) {
-                        elements.links.push({id: workflowUtil.generateUUID(), source: mousedownElement, target: mouseoverElement});
+                        elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -446,7 +446,7 @@
     function checkAvailableLink() {
         let availableLink = true;
         const source = mousedownElement,
-            target = mouseoverElement;
+              target = mouseoverElement;
         elements.links.forEach(function(l) {
             // it's not a gateway, but several starts
             if (!l.source.classed('gateway') && l.source.node().id === source.node().id) {
@@ -486,10 +486,10 @@
         const self = this;
         self.width = width ? width : 120;
         self.height = height ? height : 70;
-        self.radius = 10;
+        self.radius = 8;
         const calcX = x - (self.width / 2),
-            calcY = y - (self.height / 2),
-            typeImageSize = 20;
+              calcY = y - (self.height / 2),
+              typeImageSize = 20;
 
         const drag = d3.drag()
             .on('start', elementMouseEventHandler.mousedown)
@@ -499,11 +499,10 @@
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
-                    const rectData = self.rectData;
-                    for (let i = 0, len = rectData.length; i < len; i++) {
+                    for (let i = 0, len = self.rectData.length; i < len; i++) {
                         self.nodeElement
-                            .attr('x', rectData[i].x += d3.event.dx)
-                            .attr('y', rectData[i].y += d3.event.dy);
+                            .attr('x', self.rectData[i].x += d3.event.dx)
+                            .attr('y', self.rectData[i].y += d3.event.dy);
                     }
                     updateRect();
                 }
@@ -1191,7 +1190,7 @@
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                let linkData = {id: nodeId, source: d3.select(source), target: d3.select(target)};
+                let linkData = {id: nodeId, sourceId: source.id, targetId: target.id};
                 if (element.display) {
                     if (typeof element.display['mid-point'] !== 'undefined') {
                         linkData.midPoint = element.display['mid-point'];

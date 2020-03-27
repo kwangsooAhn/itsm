@@ -301,11 +301,11 @@
             elemData.type = 'arrowConnector';
             elemData.display = {};
             elemData.data = getAttributeData('connector', 'arrowConnector');
-            elemData.data['start-id'] = data.source.node().id;
-            elemData.data['end-id'] = data.target.node().id;
+            elemData.data['start-id'] = data.sourceId;
+            elemData.data['end-id'] = data.targetId;
             elements.forEach(function(e) {
-                if (e.id === data.source.node().id) { elemData.data['start-name'] = e.data.name; }
-                if (e.id === data.target.node().id) { elemData.data['end-name'] = e.data.name; }
+                if (e.id === data.sourceId) { elemData.data['start-name'] = e.data.name; }
+                if (e.id === data.targetId) { elemData.data['end-name'] = e.data.name; }
             });
         }
         if (elemData.data.name) {
@@ -369,7 +369,7 @@
                 let connectorNode = document.getElementById(c.id);
                 if (connectorNode) {
                     const data = connectorNode.__data__;
-                    if (data.source.node().id === elementId) {
+                    if (data.sourceId === elementId) {
                         isSuggest = false;
                     }
                 }
@@ -652,7 +652,7 @@
             AliceProcessEditor.removeElementSelected();
 
             const connectorElementId = workflowUtil.generateUUID();
-            AliceProcessEditor.elements.links.push({id: connectorElementId, source: elem, target: node.nodeElement});
+            AliceProcessEditor.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id});
             AliceProcessEditor.setConnectors();
 
             const connectorElementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];

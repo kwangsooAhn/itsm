@@ -47,6 +47,24 @@
                 width: bbox.width,
                 height: bbox.height
             };
+        },
+        /**
+         *
+         * @param obj1
+         * @param obj2
+         * @return {boolean}
+         */
+        compareJson: function(obj1, obj2) {
+            if (!Object.keys(obj2).every(function(key) { return obj1.hasOwnProperty(key); })) {
+                return false;
+            }
+            return Object.keys(obj1).every(function(key) {
+                if ((typeof obj1[key] === 'object') && (typeof obj2[key] === 'object')) {
+                    return utils.compareJson(obj1[key], obj2[key]);
+                } else {
+                    return obj1[key] === obj2[key];
+                }
+            });
         }
     };
 
@@ -54,6 +72,12 @@
         redo_list: [],
         undo_list: [],
         saveHistory: function(data, list, keep_redo) {
+            if (data.length === 1 && utils.compareJson(data[0][0], data[0][1])) { // data check
+                console.debug('These two json data are the same.');
+                console.debug('0: ' + JSON.stringify(data[0][0]));
+                console.debug('1: ' + JSON.stringify(data[0][1]));
+                return;
+            }
             keep_redo = keep_redo || false;
             if (!keep_redo) {
                 this.redo_list = [];
@@ -138,8 +162,8 @@
                     document.querySelector('.process-name').textContent = changeData.name;
                 }
             } else { // modify element
+                let element = d3.select(document.getElementById(changeData.id));
                 if (originData.type !== changeData.type) { // modify type
-                    let element = d3.select(document.getElementById(changeData.id));
                     AliceProcessEditor.changeElementType(element, changeData.type);
                 }
                 if (originData.data.name !== changeData.data.name) { // modify name
@@ -147,12 +171,15 @@
                 }
                 if (changeData.type !== 'arrowConnector') {
                     if (originData.display['position-x'] !== changeData.display['position-x']
-                        || originData.display['position-y'] !== changeData.display['position-y']) { // modify position
-                        // TODO: position
-                    }
-                    if (originData.display.width !== changeData.display.width
-                        || originData.display.height !== changeData.display.height) { // modify size
-                        // TODO: resizing
+                        || originData.display['position-y'] !== changeData.display['position-y']
+                        || originData.display.width !== changeData.display.width
+                        || originData.display.height !== changeData.display.height) { // modify position or size
+                        let node = AliceProcessEditor.addElement(changeData);
+                        if (node) {
+                            d3.select(element.node().parentNode).remove();
+                            node.nodeElement.attr('id', changeData.id);
+                            AliceProcessEditor.setConnectors(true);
+                        }
                     }
                 } else {
                     if (changeData.display && (originData.display['mid-point'] !== changeData.display['mid-point']
