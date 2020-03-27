@@ -8,7 +8,7 @@
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            console.log(mutation);
+            //console.log(mutation);
             isEdited = true;
         });
     });
@@ -19,7 +19,7 @@
         subtree: true
     };
 
-    window.addEventListener('beforeunload', function (event) {
+    window.addEventListener('beforeunload', function(event) {
         if (isEdited) {
             event.returnValue = '';
         } else {
@@ -49,6 +49,163 @@
             };
         }
     };
+
+    const history = {
+        redo_list: [],
+        undo_list: [],
+        saveHistory: function(data, list, keep_redo) {
+            keep_redo = keep_redo || false;
+            if (!keep_redo) {
+                this.redo_list = [];
+            }
+            (list || this.undo_list).push(data);
+            console.debug(this.undo_list);
+        },
+        undo: function() {
+            if (this.undo_list.length) {
+                let restoreData = this.undo_list.pop();
+                this.saveHistory(restoreData, this.redo_list, true);
+                redrawProcess(restoreData, 'undo');
+            }
+        },
+        redo: function() {
+            if (this.redo_list.length) {
+                let restoreData = this.redo_list.pop();
+                this.saveHistory(restoreData, this.undo_list, true);
+                redrawProcess(restoreData, 'redo');
+            }
+        }
+    };
+
+    /**
+     * 프로세스를 다시 그리고, 데이터 수정를 수정한다.
+     *
+     * @param restoreData 데이터
+     * @param type 타입(undo, redo)
+     */
+    function redrawProcess(restoreData, type) {
+        const restoreProcess = function(originData, changeData) {
+            let links = AliceProcessEditor.elements.links;
+            if (!Object.keys(originData).length || !Object.keys(changeData).length) {
+                if (!Object.keys(changeData).length) { // delete element
+                    AliceProcessEditor.data.elements.forEach(function(elem, i) {
+                        if (originData.id === elem.id) {
+                            AliceProcessEditor.data.elements.splice(i, 1);
+                        }
+                    });
+                    if (originData.type !== 'arrowConnector') {
+                        let element = d3.select(document.getElementById(originData.id));
+                        d3.select(element.node().parentNode).remove();
+                    } else {
+                        for (let i = 0, len = links.length; i < len; i++) {
+                            if (links[i].id === originData.id) {
+                                AliceProcessEditor.elements.links.splice(i, 1);
+                                AliceProcessEditor.setConnectors(true);
+                                break;
+                            }
+                        }
+                    }
+                } else { // add element
+                    if (changeData.type !== 'arrowConnector') {
+                        let node = AliceProcessEditor.addElement(changeData);
+                        if (node) {
+                            node.nodeElement.attr('id', changeData.id);
+                            AliceProcessEditor.data.elements.push(changeData);
+                        }
+                    } else {
+                        let link = {
+                            id: changeData.id,
+                            source: d3.select(document.getElementById(changeData.data['start-id'])),
+                            target: d3.select(document.getElementById(changeData.data['end-id']))
+                        };
+                        if (changeData.display && changeData.display['mid-point']) {
+                            link.midPoint = changeData.display['mid-point'];
+                        }
+                        if (changeData.display && changeData.display['source-point']) {
+                            link.sourcePoint = changeData.display['source-point'];
+                        }
+                        if (changeData.display && changeData.display['target-point']) {
+                            link.targetPoint = changeData.display['target-point'];
+                        }
+                        links.push(link);
+                        AliceProcessEditor.data.elements.push(changeData);
+                        AliceProcessEditor.setConnectors(true);
+                    }
+                }
+            } else if (typeof changeData.type === 'undefined') { // modify process data
+                AliceProcessEditor.data.process = changeData;
+                if (originData.name !== changeData.type) { // modify type
+                    document.querySelector('.process-name').textContent = changeData.name;
+                }
+            } else { // modify element
+                if (originData.type !== changeData.type) { // modify type
+                    let element = d3.select(document.getElementById(changeData.id));
+                    AliceProcessEditor.changeElementType(element, changeData.type);
+                }
+                if (originData.data.name !== changeData.data.name) { // modify name
+                    AliceProcessEditor.changeTextToElement(changeData.id, changeData.data.name);
+                }
+                if (changeData.type !== 'arrowConnector') {
+                    if (originData.display['position-x'] !== changeData.display['position-x']
+                        || originData.display['position-y'] !== changeData.display['position-y']) { // modify position
+                        // TODO: position
+                    }
+                    if (originData.display.width !== changeData.display.width
+                        || originData.display.height !== changeData.display.height) { // modify size
+                        // TODO: resizing
+                    }
+                } else {
+                    if (changeData.display && (originData.display['mid-point'] !== changeData.display['mid-point']
+                        || originData.display['source-point'] !== changeData.display['source-point']
+                        || originData.display['target-point'] !== changeData.display['target-point'])) {
+                        // modify connector points.
+                        for (let i = 0, len = links.length; i < len; i++) {
+                            if (links[i].id === changeData.id) {
+                                if (changeData.display && changeData.display['mid-point']) {
+                                    links[i].midPoint = changeData.display['mid-point'];
+                                } else {
+                                    delete links[i].midPoint;
+                                }
+                                if (changeData.display && changeData.display['source-point']) {
+                                    links[i].sourcePoint = changeData.display['source-point'];
+                                } else {
+                                    delete links[i].sourcePoint;
+                                }
+                                if (changeData.display && changeData.display['target-point']) {
+                                    links[i].targetPoint = changeData.display['target-point'];
+                                } else {
+                                    delete links[i].targetPoint;
+                                }
+                                AliceProcessEditor.setConnectors(true);
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (let i = 0, len = AliceProcessEditor.data.elements.length; i < len; i++) {
+                    if (AliceProcessEditor.data.elements[i].id === changeData.id) {
+                        AliceProcessEditor.data.elements[i] = changeData;
+                        break;
+                    }
+                }
+            }
+            let selected = document.querySelector('.alice-process-drawing-board').querySelector('.selected');
+            if (selected) { // element is selected.
+                AliceProcessEditor.setElementMenu(d3.select(selected));
+            } else { // otherwise, display process properties.
+                AliceProcessEditor.setElementMenu();
+            }
+        };
+        restoreData.forEach(function(data) {
+            let originData = data[1],
+                changeData = data[0];
+            if (type === 'redo') {
+                originData = data[0];
+                changeData = data[1];
+            }
+            restoreProcess(originData, changeData);
+        });
+    }
 
     /**
      * save process.
@@ -107,16 +264,16 @@
      * undo.
      */
     function undoProcess() {
-        //TODO: 처리로직
-        console.log('clicked undo button.');
+        d3.select('g.alice-tooltip').remove();
+        history.undo();
     }
 
     /**
      * redo.
      */
     function redoProcess() {
-        //TODO: 처리로직
-        console.log('clicked redo button.');
+        d3.select('g.alice-tooltip').remove();
+        history.redo();
     }
 
     /**
@@ -178,6 +335,7 @@
     }
 
     exports.utils = utils;
+    exports.history = history;
     exports.initUtil = initUtil;
     Object.defineProperty(exports, '__esModule',{value: true});
 })));

@@ -17,9 +17,8 @@
         dragLine;
 
     const elements = {
-        nodes: [],
         links: []
-    }
+    };
 
     let mousedownElement,
         mouseoverElement,
@@ -133,8 +132,12 @@
             .style('opacity', 0)
             .call(d3.drag()
                 .on('drag', function(d) {
+                    svg.selectAll('.alice-tooltip').remove();
                     d.midPoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                })
+                .on('end', function(d) {
+                    AliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
                     AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
@@ -148,6 +151,8 @@
                 .on('drag', function(d) {
                     d.sourcePoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                })
+                .on('end', function(d) {
                     AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
@@ -161,6 +166,8 @@
                 .on('drag', function(d) {
                     d.targetPoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                })
+                .on('end', function(d) {
                     AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
@@ -322,17 +329,6 @@
     }
 
     /**
-     * connector 를 추가한다.
-     *
-     * @param source source element
-     * @param target target element
-     */
-    function connectElement(source, target) {
-        elements.links.push({id: workflowUtil.generateUUID(), source: source, target: target});
-        setConnectors();
-    }
-
-    /**
      * element 마우스 이벤트.
      *
      * @type {{mouseover: mouseover, mouseout: mouseout, mouseup: mouseup, mousedown: mousedown}}
@@ -390,11 +386,9 @@
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
                 selectedElement.classed('selected', true);
                 if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
-                    const selectedElementId = selectedElement.node().id;
-                    for (let i = 1; i <= 4; i++) {
-                        // svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1); <- querySelector 로 첫번째 글자로 숫자가 오면 오류남.
-                        document.getElementById(selectedElementId + '_point' + i).style.opacity = 1;
-                    }
+                    selectedElement.node().parentNode.querySelectorAll('.pointer').forEach(function(elem) {
+                        elem.style.opacity = 1;
+                    });
                 }
                 elemContainer.style('cursor', 'move');
                 AliceProcessEditor.setElementMenu(elem);
@@ -426,6 +420,7 @@
                 resetMouseVars();
             } else {
                 elemContainer.style('cursor', 'pointer');
+                AliceProcessEditor.changeDisplayValue(elem.node().id);
                 if (svg.select('.alice-tooltip').node() === null) {
                     AliceProcessEditor.setActionTooltipItem(elem);
                 }
@@ -599,6 +594,7 @@
                     })
                     .on('end', function() {
                         AliceProcessEditor.setElementMenu(self.nodeElement);
+                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     })
                 );
         });
@@ -618,7 +614,6 @@
                 .attr('y', updateY)
                 .attr('width', updateWidth)
                 .attr('height', updateHeight);
-            AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
 
             if (isShowType && self.nodeElement.classed('task')) {
                 self.typeElement
@@ -642,7 +637,6 @@
             pointArray.forEach(function(point, i) {
                 self['pointElement' + (i + 1)]
                     .data(rectData)
-                    .attr('id', self.nodeElement.node().id + '_point' + (i + 1))
                     .attr('r', displayOptions.pointerRadius)
                     .attr('cx', point[0])
                     .attr('cy', point[1]);
@@ -724,7 +718,6 @@
                     self.typeElement
                         .attr('x', d3.event.x - (typeImageSize / 2))
                         .attr('y', d3.event.y - (typeImageSize / 2));
-                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     drawConnectors();
                 }
             })
@@ -783,7 +776,6 @@
                     self.typeElement
                         .attr('x', d3.event.x - (typeImageSize / 2))
                         .attr('y', d3.event.y - (typeImageSize / 2));
-                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     drawConnectors();
                 }
             })
@@ -863,7 +855,6 @@
                     self.textElement
                         .attr('x', d3.event.x)
                         .attr('y', d3.event.y);
-                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                 }
             })
             .on('end', elementMouseEventHandler.mouseup);
@@ -938,7 +929,6 @@
                 }
                 if (node) {
                     _this.classed(type, true);
-                    elements.nodes.push(node.nodeElement);
                     AliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
@@ -1048,8 +1038,9 @@
                     nodeRightArray = [],
                     nodeBottomArray = [],
                     nodeLeftArray = [];
-                elements.nodes.forEach(function(node){
-                    let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(node);
+                const nodes = svg.selectAll('.node').nodes();
+                nodes.forEach(function(node){
+                    let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
                     nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
                     nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
                     nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
@@ -1060,7 +1051,7 @@
                     minTop = svgBBox.cy,
                     maxRight = svgBBox.cx,
                     maxBottom = svgBBox.cy;
-                if (elements.nodes.length > 0) {
+                if (nodes.length > 0) {
                     minLeft = d3.min(nodeLeftArray);
                     minTop = d3.min(nodeTopArray);
                     maxRight = d3.max(nodeRightArray);
@@ -1151,7 +1142,6 @@
         }
 
         if (node) {
-            elements.nodes.push(node.nodeElement);
             const nodeId = node.nodeElement.attr('id');
             if (category !== 'event' && category !== 'gateway') {
                 changeTextToElement(nodeId, element.data.name);
@@ -1240,7 +1230,6 @@
     exports.addElement = addElement;
     exports.changeTextToElement = changeTextToElement;
     exports.removeElementSelected = removeElementSelected;
-    exports.connectElement = connectElement;
     exports.setConnectors = setConnectors;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
