@@ -818,7 +818,6 @@
                             let optionDefaultArr;
                             let defaultFormatArr = fieldArr.value !== '' ? fieldArr.value.split('|') : ''; //none, now, date|-3, time|2, datetime|7|0 등 
                             let propertyTemplate = ``;
-                            let optionValidate = '';
                             for (let i = 0, len = fieldArr.option.length; i < len; i++) {
                                 let option = fieldArr.option[i];
                                 optionDefaultArr = ['', '', ''];
@@ -842,20 +841,18 @@
                                     ${option.id === 'now' || option.id === 'none' ? "<label for='" + option.id + "'>" + labelName[0] + "</label>" : ""}
                                     </div>
                                 `;
-                                if (option.id === 'date' || option.id === 'time' || option.id === 'datetime') {
-                                    optionValidate = option.validate
-                                }
                             }
                             fieldGroupDiv.innerHTML += propertyTemplate;
 
                             //이벤트 등록
                             let changeOptions = fieldGroupDiv.querySelectorAll('input[type="radio"], input[type="text"]');
                             for (let i = 0, len = changeOptions.length; i < len; i++ ) {
-                                let optionIdArr = changeOptions[i].id.split('-');
-                                if (changeOptions[i].type === 'text' && (compAttr.type.indexOf(optionIdArr[0]) !== -1)) {
-                                    validateCheck(changeOptions[i], optionValidate);
-                                }
                                 if (changeOptions[i].type === 'text') {
+                                    for (let j = 0; j < fieldArr.option.length; j++) {
+                                        if (changeOptions[i].id.split('-')[0] === fieldArr.option[j].id) {
+                                            validateCheck(changeOptions[i], fieldArr.option[j].validate);
+                                        }
+                                    }
                                     changeOptions[i].addEventListener('focusout', setDateFormat, false);
                                 } else {
                                     changeOptions[i].addEventListener('change', setDateFormat, false);
@@ -1088,7 +1085,7 @@
                 });
             } else {
                 validateCheck(propertyValue, fieldArr.validate);
-                propertyValue.addEventListener('change', function(e) {
+                propertyValue.addEventListener('focusout', function(e) {
                     formEditor.data.form[fieldArr.id] = this.value;
                 }, false);
             }
