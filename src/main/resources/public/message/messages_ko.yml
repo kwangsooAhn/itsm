@@ -213,6 +213,7 @@ login:
     enterPassword: "패스워드를 입력해주세요."
     sessionExpired: "세션이 만료되었습니다."
     redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
+    ipAccessDenied: "해당 IP는 접근이 불가능합니다."
 
 # FORM
 form:

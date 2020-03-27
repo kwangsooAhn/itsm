@@ -96,9 +96,9 @@
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {
-              "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee",
+              "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee.type.assignee",
               "sub-list": [
-                {"id": "assignee.type.assignee", "name": "Assignee"},
+                {"id": "assignee.type.assignee", "name": "Component Value"},
                 {"id": "assignee.type.candidate.users", "name": "Candidate Users"},
                 {"id": "assignee.type.candidate.groups", "name": "Candidate Groups"}
               ]

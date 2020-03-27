@@ -8,6 +8,7 @@ import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.service.UserService
 import org.mapstruct.factory.Mappers
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -119,5 +121,13 @@ class UserRestController(
             }
         }
         return usernamePasswordAuthenticationToken
+    }
+
+    /**
+     * 전체 사용자 목록 조회.
+     */
+    @GetMapping("/", "")
+    fun getUsers(): MutableList<UserListDto> {
+        return userService.selectUserListOrderByName()
     }
 }

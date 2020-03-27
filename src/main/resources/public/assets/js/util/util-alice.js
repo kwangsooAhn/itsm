@@ -278,7 +278,7 @@ function showProgressBar() {
         imgProgressBar.style.top = '0';
         imgProgressBar.style.bottom = '0';
         imgProgressBar.style.margin = 'auto';
-        if (divProgressBar) {
+        if (divProgressBar && document.body) {
             divProgressBar.appendChild(imgProgressBar);
             document.body.appendChild(divProgressBar);
         }

@@ -31,7 +31,7 @@ class ProcessRestController(private val processService: ProcessService) {
      */
     @GetMapping("/data/{processId}")
     fun getProcessData(@PathVariable processId: String): String {
-        val processData = processService.getProcess(processId)
+        val processData = processService.getProcessData(processId)
         logger.debug("get process data. {}", processData)
         return processData
     }
@@ -55,7 +55,7 @@ class ProcessRestController(private val processService: ProcessService) {
      */
     @PutMapping("/{processId}")
     fun updateProcess(@RequestBody wfProcessElementDto: WfProcessElementDto): Boolean {
-        return processService.updateProcess(wfProcessElementDto)
+        return processService.updateProcessData(wfProcessElementDto)
     }
 
     /**

@@ -36,8 +36,8 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return forms
     }
 
-    fun findForm(formId: String): String {
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM.url.replace(restTemplate.getKeyRegex(), formId))
+    fun getFormData(formId: String): String {
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId))
         return restTemplate.get(urlDto)
     }
 
@@ -65,7 +65,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun saveFormData(formData: String): Boolean {
         val formComponentSaveDto = makeFormComponentSaveDto(formData)
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
         return restTemplate.update(urlDto, formComponentSaveDto)
     }
 

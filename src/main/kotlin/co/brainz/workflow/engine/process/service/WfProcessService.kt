@@ -57,7 +57,18 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
     /**
      * 프로세스 조회
      */
-    fun getProcess(processId: String): WfProcessElementDto {
+    fun getProcess(processId: String): WfProcessDto {
+        val wfProcessDto = processMapper.toWfProcessDto(wfProcessRepository.findByProcessId(processId))
+        when (wfProcessDto.status) {
+            WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.SIMULATION.code -> wfProcessDto.enabled = true
+        }
+        return wfProcessDto
+    }
+
+    /**
+     * 프로세스 데이터 조회
+     */
+    fun getProcessData(processId: String): WfProcessElementDto {
         val processEntity = wfProcessRepository.findByProcessId(processId)
         val wfProcessDto = processMapper.toWfProcessDto(processEntity)
         val wfElementDto = mutableListOf<WfElementDto>()
@@ -67,9 +78,9 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
             val elDto = processMapper.toWfElementDto(elementEntity)
             elDto.display = elementEntity.displayInfo.let { mapper.readValue(it) }
             elDto.data = elementEntity.elementDataEntities.associateByTo(
-                mutableMapOf(),
-                { it.attributeId },
-                { it.attributeValue })
+                    mutableMapOf(),
+                    { it.attributeId },
+                    { it.attributeValue })
             wfElementDto.add(elDto)
         }
         return WfProcessElementDto(wfProcessDto, wfElementDto)
@@ -108,9 +119,23 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
     }
 
     /**
+     * 프로세스 변경.
+     */
+    fun updateProcess(wfProcessDto: WfProcessDto): Boolean {
+        val processEntity = wfProcessRepository.findByProcessId(wfProcessDto.id)
+        processEntity.processName = wfProcessDto.name.toString()
+        processEntity.processStatus = wfProcessDto.status.toString()
+        processEntity.processDesc = wfProcessDto.description
+        processEntity.updateUserKey = wfProcessDto.updateUserKey
+        processEntity.updateDt = wfProcessDto.updateDt
+        wfProcessRepository.save(processEntity)
+        return true
+    }
+
+    /**
      * 프로세스 정보 변경.
      */
-    fun updateProcess(wfProcessElementDto: WfProcessElementDto): Boolean {
+    fun updateProcessData(wfProcessElementDto: WfProcessElementDto): Boolean {
 
         // 클라이언트에서 요청한 프로세스 정보.
         val wfJsonProcessDto = wfProcessElementDto.process
@@ -194,7 +219,7 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
             processDto.enabled = true
         }
         wfProcessElementDto.process?.id = processDto.processId
-        updateProcess(wfProcessElementDto)
+        updateProcessData(wfProcessElementDto)
         return processDto
     }
 }

@@ -7,7 +7,6 @@ import co.brainz.workflow.engine.document.service.WfDocumentService
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.repository.WfFormRepository
-import co.brainz.workflow.engine.form.service.WfForm
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.instance.service.WfInstanceService
@@ -35,9 +34,8 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
     /**
      * Form Engine.
      */
-    fun form(): WfForm {
+    fun form(): WfFormService {
         return WfFormService(wfFormRepository, wfComponentRepository, wfComponentDataRepository)
-        //return FormDummy()
     }
 
     /**
