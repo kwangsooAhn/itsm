@@ -17,15 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 
-/**
- * ### FAQ 관련 뷰 화면 호출 처리용 클래스.
- *
- * FaqController에서 처리하는 모든 호출은 View 혹은 View + Data를 반환한다.
- * 즉, View가 포함되는 호출에 대한 처리이며, 순수하게 JSON 데이터만 반환하는 경우는 FaqRestController에서 담당한다.
- *
- * @see co.brainz.itsm.notice.controller.NoticeRestController
- */
-
 @Controller
 @RequestMapping("/notices")
 class NoticeController(private val userService: UserService,

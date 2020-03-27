@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -49,21 +50,10 @@ class FormRestController(private val formService: FormService) {
     }
 
     /**
-     * 문서양식 다른 이름으로 저장.
-     *
-     * @param formData
-     * @return String (New formId)
-     */
-    @PostMapping("/data")
-    fun saveAsForm(@RequestBody formData: String): String {
-        return formService.saveAsForm(formData)
-    }
-
-    /**
      * 문서 삭제.
      */
     @DeleteMapping("/{formId}")
-    fun deleteForm(@PathVariable formId: String): Boolean {
+    fun deleteForm(@PathVariable formId: String): ResponseEntity<String> {
         return formService.deleteForm(formId)
     }
 
