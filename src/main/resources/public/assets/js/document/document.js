@@ -621,15 +621,22 @@
                     case 'fileupload' :
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
-                            if (componentChild[fileuploadIndex].name === 'fileSeq') {
+                            if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
                                 if (componentValue === '' && componentValue.indexOf(",") === -1) {
                                     componentValue = componentChild[fileuploadIndex].value;
                                 } else {
                                     componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
                                 }
                             }
+                            //신규 추가된 첨부파일만 임시폴더에서 일반폴더로 옮기기 위해서
+                            if (componentChild[fileuploadIndex].name === 'fileSeq') {
+                                if (fileDataIds === '' && fileDataIds.indexOf(",") === -1) {
+                                    fileDataIds = componentChild[fileuploadIndex].value;
+                                } else {
+                                    fileDataIds = fileDataIds + ',' + componentChild[fileuploadIndex].value;
+                                }
+                            }
                         }
-                        fileDataIds = componentValue;
                         break;
                 }
                 componentChildObject.componentId = componentId;
@@ -674,6 +681,7 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
+
         const opt = {
             method: method,
             url: '/rest/tokens/data',
