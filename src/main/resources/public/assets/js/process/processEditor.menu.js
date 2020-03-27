@@ -14,7 +14,7 @@
     const assigneeTypeData = {
         users: [],
         groups: []
-    }
+    };
 
     let processProperties = {},
         elementsProperties = {},
@@ -405,7 +405,7 @@
             .attr('width', itemSize)
             .attr('height', itemSize)
             .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
-            .on('mousedown', function(d, i) {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 actionTooltip.forEach(function(t) {
                     if (t.focus_url) {
@@ -611,8 +611,7 @@
         elemData.display['position-y'] = elemData.display['position-y'] + 10;
         let node = AliceProcessEditor.addElement(elemData);
         if (node) {
-            const nodeId = node.nodeElement.attr('id');
-            elemData.id = nodeId;
+            elemData.id = node.nodeElement.attr('id');
             AliceProcessEditor.data.elements.push(elemData);
 
             AliceProcessEditor.removeElementSelected();
@@ -642,9 +641,8 @@
 
         let node = AliceProcessEditor.addElement(elemData);
         if (node) {
-            const nodeId = node.nodeElement.attr('id'),
-                  bbox = AliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
-            elemData.id = nodeId;
+            elemData.id = node.nodeElement.attr('id');
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
             elemData.display.width = bbox.width;
             elemData.display.height = bbox.height;
             AliceProcessEditor.data.elements.push(elemData);
@@ -1016,17 +1014,17 @@
                         elementObject.value = elemData[property.id];
                     }
                     if (property.id === 'name') {
-                        let keyupHandler = function(e) {
+                        let keyupHandler = function() {
                             AliceProcessEditor.changeTextToElement(id, this.value);
                         };
                         if (id === AliceProcessEditor.data.process.id) {
-                            keyupHandler = function(e) {
+                            keyupHandler = function() {
                                 document.querySelector('.process-name').textContent = this.value;
                             };
                         }
                         elementObject.addEventListener('keyup', keyupHandler);
                     }
-                    elementObject.addEventListener('change', function(event) {
+                    elementObject.addEventListener('change', function() {
                         changePropertiesDataValue(id);
                     });
                     propertyContainer.appendChild(elementObject);
@@ -1101,6 +1099,24 @@
             contentType: 'application/json; charset=utf-8'
         });
 
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/users',
+            callbackFunc: function(xhr) {
+                assigneeTypeData.users = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/roles',
+            callbackFunc: function(xhr) {
+                assigneeTypeData.groups = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
         // add pattern image. for tooltip item image.
         const imageLoadingList = [];
         tooltipItems.forEach(function(item) {
@@ -1135,24 +1151,6 @@
             .attr('y', 0)
             .attr('xlink:href', function(d) { return d.url; });
     }
-
-    aliceJs.sendXhr({
-        method: 'GET',
-        url: '/rest/users',
-        callbackFunc: function(xhr) {
-            assigneeTypeData.users = JSON.parse(xhr.responseText);
-        },
-        contentType: 'application/json; charset=utf-8'
-    });
-
-    aliceJs.sendXhr({
-        method: 'GET',
-        url: '/rest/roles',
-        callbackFunc: function(xhr) {
-            assigneeTypeData.groups = JSON.parse(xhr.responseText);
-        },
-        contentType: 'application/json; charset=utf-8'
-    });
 
     exports.data = data;
     exports.loadItems = loadItems;

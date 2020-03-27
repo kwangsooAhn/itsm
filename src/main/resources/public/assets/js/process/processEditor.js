@@ -391,7 +391,7 @@
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
                 selectedElement.classed('selected', true);
                 if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
-                    selectedElement.node().parentNode.querySelectorAll('.pointer').forEach(function(elem) {
+                    d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
                         elem.style.opacity = 1;
                     });
                 }

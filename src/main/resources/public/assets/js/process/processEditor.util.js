@@ -51,8 +51,8 @@
         /**
          * 두 개의 json 데이터가 동일한 지 비교한 후 boolean 을 리턴한다.
          *
-         * @param obj1 비교 대상 JSON데이터1
-         * @param obj2 비교 대상 JSON데이터2
+         * @param obj1 비교 대상 JSON 데이터 1
+         * @param obj2 비교 대상 JSON 데이터 2
          * @return {boolean} 데이터 일치 여부 (true: 일치, false: 불일치)
          */
         compareJson: function(obj1, obj2) {
