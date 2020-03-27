@@ -58,31 +58,31 @@
         let numberRegex = /^[0-9]*$/;
         const validateFunc = {
             number: function(value) {
-                return numberRegex.test(value)
+                return numberRegex.test(value);
             },
-            min: function (value, arg) {
+            min: function(value, arg) {
                 if (numberRegex.test(value) && numberRegex.test(arg)) {
-                    return (value >= Number(arg))
+                    return (value >= Number(arg));
                 }
-                return true
+                return true;
             },
-            max: function (value, arg) {
+            max: function(value, arg) {
                 if (numberRegex.test(value) && numberRegex.test(arg)) {
-                    return (value <= Number(arg))
+                    return (value <= Number(arg));
                 }
-                return true
+                return true;
             },
-            minLength: function (value, arg) {
+            minLength: function(value, arg) {
                 if (numberRegex.test(arg)) {
-                    return (value.length >= Number(arg))
+                    return (value.length >= Number(arg));
                 }
-                return true
+                return true;
             },
-            maxLength: function (value, arg) {
+            maxLength: function(value, arg) {
                 if (numberRegex.test(arg)) {
-                    return (value.length <= Number(arg))
+                    return (value.length <= Number(arg));
                 }
-                return true
+                return true;
             }
         };
 
@@ -114,12 +114,12 @@
                         break;
                 }
                 if (!result) {
-                    i = validateArray.length;
                     e.stopImmediatePropagation();
                     element.classList.add('validate-error');
-                    aliceJs.alert(i18n.get('form.msg.alert.' + validateValueArray[0]).replace('{0}', arg), function() {
+                    aliceJs.alert(i18n.get('form.msg.alert.' + validateValueArray[0], arg), function() {
                         element.focus();
                     });
+                    break;
                 }
             }
         });
