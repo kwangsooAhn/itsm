@@ -508,7 +508,7 @@
                 changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
             } else {
                 let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
-                if (parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
+                if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
