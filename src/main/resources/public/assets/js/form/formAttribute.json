@@ -4,7 +4,8 @@
             "id": "name", 
             "name": "Name", 
             "value": "", 
-            "type": "inputbox"
+            "type": "inputbox",
+            "validate": "maxLength[20]"
         },
         {
             "id": "id", 
@@ -16,7 +17,8 @@
             "id": "desc", 
             "name": "Description", 
             "value": "", 
-            "type": "textarea"
+            "type": "textarea",
+            "validate": "maxLength[200]"
         },
         {
             "id": "status",
