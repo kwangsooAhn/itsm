@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
@@ -57,19 +58,19 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         }
     }
 
-    fun deleteForm(formId: String): Boolean {
+    fun deleteForm(formId: String): ResponseEntity<String> {
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.DELETE_FORM.url.replace(restTemplate.getKeyRegex(), formId))
         return restTemplate.delete(urlDto)
     }
 
     fun saveFormData(formData: String): Boolean {
-        val formComponentSaveDto = makeFormComponentSaveDto(formData);
+        val formComponentSaveDto = makeFormComponentSaveDto(formData)
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
         return restTemplate.update(urlDto, formComponentSaveDto)
     }
 
     fun saveAsForm(formData: String): String {
-        val formComponentSaveDto = makeFormComponentSaveDto(formData);
+        val formComponentSaveDto = makeFormComponentSaveDto(formData)
         if (formComponentSaveDto.form.formStatus == RestTemplateConstants.FormStatus.DESTROY.value) {
             formComponentSaveDto.form.formStatus = RestTemplateConstants.FormStatus.EDIT.value
         }
