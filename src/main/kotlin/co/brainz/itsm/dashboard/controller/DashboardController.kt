@@ -14,13 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 /**
- * ### 신청한 문서 대시보드 관련 뷰 화면 호출 처리용 클래스.
- *
- * DashboardController에서 처리하는 모든 호출은 View 혹은 View + Data를 반환한다.
- * 즉, View가 포함되는 호출에 대한 처리이며, 순수하게 JSON 데이터만 반환하는 경우는 DashboardRestController에서 담당한다.
- *
+ * ### 대시보드 관련 뷰 화면 호출 처리용 클래스.
  * @author jy.lim
- * @see co.brainz.itsm.dashboard.controller.DashboardRestController
  */
 @Controller
 @RequestMapping("/dashboard")
@@ -47,7 +42,6 @@ class DashboardController(private val dashboardService: DashboardService,
      */
     @GetMapping("/list")
     fun getDashboardList(model: Model): String {
-        // 신청한 문서 현황 count
         val params = LinkedMultiValueMap<String, String>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         params["userKey"] = aliceUserDto.userKey

@@ -39,11 +39,11 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     /**
      * Process Instance Status Count.
      *
-     * @param request
-     * @return List<Map<String, Any>>
+     * @param param
+     * @return List<WfInstanceCountDto>
      */
     @GetMapping("/count")
-    fun getProcessInstancesStatusCount(@RequestParam parameters: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
-        return wfEngine.instance().instancesStatusCount(parameters)
+    fun getProcessInstancesStatusCount(@RequestParam param: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
+        return wfEngine.instance().instancesStatusCount(param)
     }
 }

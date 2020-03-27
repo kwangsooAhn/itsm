@@ -97,12 +97,12 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
             userKey = parameters["userKey"].toString()
         }
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tokenDataList = wfInstanceRepository.findInstancesCount(userKey)
-        val tokens = mutableListOf<WfInstanceCountDto>()
-        for (tokenData in tokenDataList) {
-            tokens.add(mapper.convertValue(tokenData, WfInstanceCountDto::class.java))
+        val instanceStatusCountList = wfInstanceRepository.findInstancesCount(userKey)
+        val counts = mutableListOf<WfInstanceCountDto>()
+        for (instanceStatusCount in instanceStatusCountList) {
+            counts.add(mapper.convertValue(instanceStatusCount, WfInstanceCountDto::class.java))
         }
 
-        return tokens
+        return counts
     }
 }

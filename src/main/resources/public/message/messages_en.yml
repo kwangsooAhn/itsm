@@ -363,3 +363,4 @@ dashboard:
       running: "Running"
       wait: "Wait"
       finish: "finish"
+      noData: "There is no data."

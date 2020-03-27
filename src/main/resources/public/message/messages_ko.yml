@@ -363,6 +363,7 @@ dashboard:
     title: "대시보드"
     documentStatus: "신청한 문서 현황"
     status:
-      running: "Running"
-      wait: "Wait"
-      finish: "finish"
+      running: "진행"
+      wait: "대기"
+      finish: "완료"
+      noData: "데이터가 없습니다."

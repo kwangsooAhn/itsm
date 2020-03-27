@@ -21,20 +21,19 @@
         </colgroup>
         <thead>
         <tr>
-            <th th:text="#{dashboard.label.status.running}">Running</th>
-            <th th:text="#{dashboard.label.status.wait}">Wait</th>
-            <th th:text="#{dashboard.label.status.finish}">Finish</th>
+            <th th:text="#{dashboard.label.status.wait}"></th>
+            <th th:text="#{dashboard.label.status.running}"></th>
+            <th th:text="#{dashboard.label.status.finish}"></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td th:each="statusCount: ${statusCountList}" th:text="${statusCount.instanceCount}"></td>
+            <td th:each="statusCount: ${statusCountList}" th:text="${statusCount.instanceCount}" th:id="${statusCount.instanceStatus}"></td>
+            <td colspan="3" th:if="${#arrays.isEmpty(statusCountList)}" th:text="#{dashboard.label.status.noData}"></td>
         </tr>
-        <tr>
-            <td  th:text="'0'">0</td>
-            <td  th:text="'0'">0</td>
-            <td  th:text="'0'">0</td>
-        </tr>
+<!--        <tr>-->
+<!--            <td th:each="statusCount: ${statusCountList}" th:if="${statusCountList.instanceStatus == 'running'}" th:text="${statusCount.instanceCount}"></td>-->
+<!--        </tr>-->
         </tbody>
     </table>
 </div>
