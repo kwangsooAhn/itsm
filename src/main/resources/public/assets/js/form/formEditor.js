@@ -42,7 +42,6 @@
             defaultDateFormat: 'YYYY-MM-DD',
             defaultTimeFormat: 'hh:mm',
             defaultTime: '24'
-
         },
         customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
     /**
@@ -431,9 +430,9 @@
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
-                const timeformat = userData.defaultDateFormat +" "+ userData.defaultTimeFormat +" "+ userData.defaultTime;
+                let timeformat = userData.defaultDateFormat +" "+ userData.defaultTimeFormat +" "+ userData.defaultTime;
                 if (changeValue === 'none' || changeValue === 'now') {
-                    changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+                    changePropertiesValue(changeValue+'|'+ timeformat, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 } else {
                     let inputCells = parentEl.querySelectorAll('input[type="text"]');
                     if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
@@ -442,6 +441,10 @@
                         for (let i = 0, len = inputCells.length; i < len; i++ ) {
                             changeValue += ('|' + inputCells[i].value);
                         }
+                        if (checkedRadio.value === 'time') {
+                            timeformat = userData.defaultTimeFormat;
+                        }
+                        changeValue = changeValue +'|'+ timeformat;
                     }
                     changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 }
@@ -871,7 +874,17 @@
                             propertyValue.classList.add('property-field-value');
                             propertyValue.setAttribute('id', fieldArr.id + '-' + compAttr.id);
                             propertyValue.setAttribute('name', group + '.' + fieldArr.id);
-                            propertyValue.setAttribute('value', fieldArr.value);
+                            let dateTimePickerValue = '';
+                            if (fieldArr.value != '') {
+                                let dateTimePickerFormat = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
+                                dateTimePickerValue = fieldArr.value.split('|');
+                                if (dateTimePickerValue[1] === undefined) {
+                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], userData.defaultLang);
+                                } else {
+                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, dateTimePickerValue[0], userData.defaultLang);
+                                }
+                            }
+                            propertyValue.setAttribute('value', dateTimePickerValue);
                             fieldGroupDiv.appendChild(propertyValue);
                             if (fieldArr.type === 'datepicker') {
                                 dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);

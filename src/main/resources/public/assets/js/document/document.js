@@ -98,16 +98,34 @@
         const comp = document.createElement('div');
         comp.id = compData.componentId;
         comp.className = 'component';
-        comp.setAttribute('data-type', compData.attributes.type);
+        let comp_type = '';
+        if (compData.attributes === undefined) {
+            comp_type = compData.type;
+        } else {
+            comp_type = compData.attributes.type;
+        }
+        comp.setAttribute('data-type', comp_type);
 
         const fieldFirstEle = document.createElement('div');
         const fieldLastEle = document.createElement('div');
         fieldFirstEle.className = 'field';
         fieldLastEle.className = 'field';
 
-        const lblData = compData.attributes.label;
-        const displayData = compData.attributes.display;
-        const validateData = compData.attributes.validate;
+        let comp_label = '';
+        let comp_display = '';
+        let comp_validate = '';
+        if (compData.attributes === undefined) {
+            comp_label = compData.label;
+            comp_display = compData.display;
+            comp_validate = compData.validate;
+        } else {
+            comp_label = compData.attributes.label;
+            comp_display = compData.attributes.display;
+            comp_validate = compData.attributes.validate;
+        }
+        const lblData = comp_label;
+        const displayData = comp_display;
+        const validateData = comp_validate;
 
         if (typeof lblData !== 'undefined' && lblData.position !== 'hidden') {
             const lblEle = document.createElement('div');
@@ -137,7 +155,7 @@
         comp.appendChild(fieldLastEle);
         documentContainer.appendChild(comp);
 
-        switch (compData.attributes.type) {
+        switch (comp_type) {
             case 'text':
                 const textEle = document.createElement('input');
                 textEle.type = 'text';
@@ -301,14 +319,39 @@
             case 'date':
                 let dateDefaultArr = displayData.default.split('|');
                 let dateDefault = '';
-                if (dateDefaultArr[0] === 'now') {
-                    dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat);
-                    dateDefault = dateDefault.split(' ')[0];
+                let dateplaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat;
+
+                if (dateDefaultArr[0] === 'none') {
+                    if (compData.values != undefined && compData.values.length > 0 ) {
+                        let dateValue = compData.values[0].value.split('|');
+                        if (dateValue[0] !== '') {
+                            dateDefault = aliceJs.changeDateFormat(dateValue[1], dateplaceholder, dateValue[0], userData.defaultLang);
+                        }
+                    }
+                } else if (dateDefaultArr[0] === 'now') {
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        let dateValue = compData.values[0].value.split('|');
+                        dateDefault = aliceJs.changeDateFormat(dateValue[1], dateplaceholder, dateValue[0], userData.defaultLang);
+                    } else {
+                        dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat);
+                        dateDefault = dateDefault.split(' ')[0];
+                    }
                 } else if (dateDefaultArr[0] === 'datepicker') {
-                    dateDefault = dateDefaultArr[1];
+                    //dateDefault = dateDefaultArr[1];
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        let dateValue = compData.values[0].value.split('|');
+                        dateDefault = aliceJs.changeDateFormat(dateValue[1], dateplaceholder, dateValue[0], userData.defaultLang);
+                    } else {
+                        dateDefault = aliceJs.changeDateFormat(dateDefaultArr[2], dateplaceholder, dateDefaultArr[1], userData.defaultLang);
+                    }
                 } else if (dateDefaultArr[0] === 'date') {
-                    dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat, dateDefaultArr[1]);
-                    dateDefault = dateDefault.split(' ')[0];
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat, dateDefaultArr[1]);
+                        dateDefault = dateDefault.split(' ')[0];
+                    } else {
+                        dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat, dateDefaultArr[1]);
+                        dateDefault = dateDefault.split(' ')[0];
+                    }
                 }
                 const dateEle = document.createElement('input');
                 dateEle.id = 'date-' + compData.componentId;
@@ -346,25 +389,42 @@
             case 'datetime':
                 let datetimeDefaultArr = displayData.default.split('|');
                 let datetimeDefault = '';
-                let dateplaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat;
+                let datetimeplaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
 
-                if (datetimeDefaultArr[0] === 'now') {
-                    datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat);
+                if (datetimeDefaultArr[0] === 'none') {
+                    if (compData.values != undefined && compData.values.length > 0 ) {
+                        let dateValue = compData.values[0].value.split('|');
+                        if (dateValue[0] !== '') {
+                            datetimeDefault = aliceJs.changeDateFormat(dateValue[1], datetimeplaceholder, dateValue[0], userData.defaultLang);
+                        }
+                    }
+                } else if (datetimeDefaultArr[0] === 'now') {
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        let dateValue = compData.values[0].value.split('|');
+                        datetimeDefault = aliceJs.changeDateFormat(dateValue[1], datetimeplaceholder, dateValue[0], userData.defaultLang);
+                    } else {
+                        datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat);
+                    }
                 } else if (datetimeDefaultArr[0] === 'datetimepicker') {
-                    let datepickerDate = datetimeDefaultArr[1].split(' ');
-                    datetimeDefault = datepickerDate[0]+' '+datepickerDate[1];
-                    let afterDateFormat = userData.defaultDateFormat +' '+ userData.defaultTimeFormat + ' '+userData.defaultTime;
-                    datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], afterDateFormat, datetimeDefaultArr[1], userData.defaultLang);
-                    dateplaceholder = afterDateFormat;
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        let dateValue = compData.values[0].value.split('|');
+                        datetimeDefault = aliceJs.changeDateFormat(dateValue[1], datetimeplaceholder, dateValue[0], userData.defaultLang);
+                    } else {
+                        datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], datetimeplaceholder, datetimeDefaultArr[1], userData.defaultLang);
+                    }
                 } else if (datetimeDefaultArr[0] === 'datetime') {
-                    datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        let dateValue = compData.values[0].value.split('|');
+                        datetimeDefault = aliceJs.changeDateFormat(dateValue[1], datetimeplaceholder, dateValue[0], userData.defaultLang);
+                    } else {
+                        datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+                    }
                 }
-
 
                 const datetimeEle = document.createElement('input');
                 datetimeEle.id = 'datetime-' + compData.componentId;
                 datetimeEle.type = 'text';
-                datetimeEle.placeholder = dateplaceholder;
+                datetimeEle.placeholder = datetimeplaceholder;
                 datetimeEle.value = datetimeDefault;
                 datetimeEle.required = (validateData.required === 'Y');
                 datetimeEle.readOnly = true;
@@ -446,8 +506,9 @@
             window.close();
         });
         buttonEle.appendChild(buttonCancelEle);
-
-        buttonContainer.appendChild(buttonEle);
+        if (buttonContainer !== null) {
+            buttonContainer.appendChild(buttonEle);
+        }
     }
 
     /**
@@ -467,7 +528,11 @@
         if (components.length > 0) {
             if (components.length > 2) {
                 components.sort(function (a, b) {
-                    return a.attributes.display.order - b.attributes.display.order;
+                    if (a.attributes === undefined) {
+                        return a.display.order - b.display.order;
+                    } else {
+                        return a.attributes.display.order - b.attributes.display.order;
+                    }
                 });
             }
             for (let i = 0; i < components.length; i++) {
@@ -579,7 +644,8 @@
                         break;
                     case 'date':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        componentValue = componentChild.item(0).value;
+                        let dateFormat = componentChild.item(0).placeholder;
+                        componentValue = componentChild.item(0).value+'|'+dateFormat;
                         break;
                     case 'time':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
@@ -587,8 +653,8 @@
                         break;
                     case 'datetime':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        let dateFormat = componentChild.item(0).placeholder;
-                        componentValue = componentChild.item(0).value+'|'+dateFormat;
+                        let datetimeFormat = componentChild.item(0).placeholder;
+                        componentValue = componentChild.item(0).value+'|'+datetimeFormat;
                         break;
                     case 'textarea':
                         componentChild = componentElements[eIndex].getElementsByTagName('textarea');

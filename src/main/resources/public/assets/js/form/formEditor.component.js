@@ -393,24 +393,42 @@
             dateDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat, dateDefaultArr[1]);
             dateDefault = dateDefault.split(' ')[0];
         }
-
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+        let comp = '';
+        if (formEditor.userData.defaultTime == '12') {
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + ' a'}' value='${dateDefault}' readonly/>
                     </div>
                 </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${dateDefault}' readonly/>
+            `);
+        } else {
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${dateDefault}' readonly/>
+                    </div>
                 </div>
-            </div>
-        `);
-
+            `);
+        }
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
@@ -426,30 +444,80 @@
         //시간 포멧 변경
         let timeDefaultArr = attr.display['default'].split('|');
         let timeDefault = '';
+        let timeFormat = formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat +' ' +formEditor.userData.defaultTime;
+        let beforeFormt = formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat +' ' + '24';
         if (timeDefaultArr[0] === 'now') {
-            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultTimeFormat);
-        } else if (timeDefaultArr[0] === 'timepicker') {
-            timeDefault = timeDefaultArr[1];
+            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat);
+            timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, formEditor.userData.lang);
+            let timeNow = timeDefault.split(' ');
+            if (timeNow.length > 2) {
+                timeDefault = timeNow[1] +' '+timeNow[2];
+            } else {
+                timeDefault = timeNow[1];
+            }
         } else if (timeDefaultArr[0] === 'time') {
-            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultTimeFormat, '', timeDefaultArr[1]);
+            timeDefault = aliceJs.getTimeStamp(beforeFormt, '', timeDefaultArr[1]);
+            let timeDate = timeDefault.split(' ');
+            timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDate[0] +' '+ timeDate[1], formEditor.userData.lang);
+            let time = timeDefault.split(' ');
+            if (time.length > 2) {
+                timeDefault = time[1] +' '+time[2];
+            } else {
+                timeDefault = time[1];
+            }
+            timeDefault = time[1];
+        } else if (timeDefaultArr[0] === 'timepicker') {
+            timeDefault = '2010-12-31 '+timeDefaultArr[1];
+            timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, formEditor.userData.lang);
+            let timepicker = timeDefault.split(' ');
+            if (timepicker.length === 3) {
+                timeDefault = timepicker[1] +' '+timepicker[2];
+            } else if (timepicker.length === 2) {
+                timeDefault = timepicker[1];
+            } else if (timepicker.length === 1) {
+                timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat);
+                timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, formEditor.userData.lang);
+                timepicker = timeDefault.split(' ');
+                timeDefault = timepicker[1];
+            }
         }
 
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+        let comp = '';
+        if (formEditor.userData.defaultTime == '12') {
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat + ' a'}' value='${timeDefault}' readonly/>
                     </div>
                 </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat}' value='${timeDefault}' readonly/>
+            `);
+        } else {
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat}' value='${timeDefault}' readonly/>
+                    </div>
                 </div>
-            </div>
-        `);
+            `);
+        }
 
         formPanel.appendChild(comp);
         this.domElem = comp;
@@ -472,26 +540,45 @@
             datetimeDefault = datetimeDefaultArr[1];
         } else if (datetimeDefaultArr[0] === 'datetime') {
             datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+        } else if (datetimeDefaultArr[0] === 'time') {
+            datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
         }
-
-
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+        let comp ='';
+        if (formEditor.userData.defaultTime == '12') {
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + ' a'}' value='${datetimeDefault}' readonly />
                     </div>
                 </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat}' value='${datetimeDefault}' readonly />
+            `);
+        } else {
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${datetimeDefault}' readonly />
+                    </div>
                 </div>
-            </div>
-        `);
-
+            `);
+        }
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
@@ -572,7 +659,6 @@
             compAttr.type = compType;
         }
         compAttr.display.order = ++componentIdx;
-        
         let componentConstructor = null;
         switch(compType) {
             case 'editbox':
