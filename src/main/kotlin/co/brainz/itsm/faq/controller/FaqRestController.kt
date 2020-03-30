@@ -1,6 +1,7 @@
 package co.brainz.itsm.faq.controller
 
 import co.brainz.itsm.faq.dto.FaqDto
+import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.service.FaqService
 import org.slf4j.Logger
@@ -33,7 +34,7 @@ class FaqRestController(private val faqService: FaqService) {
      * FAQ 리스트 데이터 조회
      */
     @GetMapping("/", "")
-    fun getFaqs(request: HttpServletRequest): List<FaqEntity> {
+    fun getFaqs(request: HttpServletRequest): List<FaqListDto> {
         return faqService.findAll()
     }
 
