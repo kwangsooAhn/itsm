@@ -9,7 +9,6 @@ import co.brainz.workflow.engine.form.dto.WfFormComponentDataDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentSaveDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
-import co.brainz.workflow.engine.form.dto.WfFormViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
 import co.brainz.workflow.engine.form.repository.WfFormRepository
@@ -115,33 +114,14 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun formData(formId: String): WfFormComponentViewDto {
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
-        val formViewDto = WfFormViewDto(
-                id = formEntity.get().formId,
-                name = formEntity.get().formName,
-                desc = formEntity.get().formDesc,
-                status = formEntity.get().formStatus
-        )
+        val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         for (component in formEntity.get().components!!) {
-            val map = LinkedHashMap<String, Any>()
-            map["id"] = component.componentId
-            map["type"] = component.componentType
-
-            //make common
-            val common = LinkedHashMap<String, Any>()
-            common["mapping-id"] = component.mappingId
-            map["common"] = common
-
-            //attribute
-            for (attribute in component.attributes!!) {
-                val jsonElement = JsonParser().parse(attribute.attributeValue)
-                when (jsonElement.isJsonArray) {
-                    true -> map[attribute.attributeId] = mapper.readValue(attribute.attributeValue, mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java))
-                    false -> map[attribute.attributeId] = mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
-                }
-            }
-            components.add(map)
+            val attributes = LinkedHashMap<String, Any>()
+            attributes["id"] = component.componentId
+            attributes.putAll(makeAttributes(component))
+            components.add(attributes)
         }
 
         return WfFormComponentViewDto(
@@ -149,6 +129,33 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
                 components = components
         )
 
+    }
+
+    /**
+     * Make Attribute.
+     *
+     * @param component
+     * @return HashMap<String, Any>
+     */
+    fun makeAttributes(component: WfComponentEntity): LinkedHashMap<String, Any> {
+        val attributes = LinkedHashMap<String, Any>()
+
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        attributes["type"] = component.componentType
+
+        val common = LinkedHashMap<String, Any>()
+        common["mapping-id"] = component.mappingId
+        attributes["common"] = common
+
+        for (attribute in component.attributes!!) {
+            val jsonElement = JsonParser().parse(attribute.attributeValue)
+            when (jsonElement.isJsonArray) {
+                true -> attributes[attribute.attributeId] = mapper.readValue(attribute.attributeValue, mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java))
+                false -> attributes[attribute.attributeId] = mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
+            }
+        }
+
+        return attributes
     }
 
     /**
