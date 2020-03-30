@@ -7,7 +7,7 @@ data class RestTemplateInstanceViewDto(
         val tokenId: String,
         val instanceId: String,
         val documentName: String,
-        val documentDesc: String?,
+        val documentDesc: String? = null,
         var createDt: LocalDateTime,
         val userKey: String
 ) : Serializable

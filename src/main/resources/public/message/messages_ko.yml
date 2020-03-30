@@ -49,7 +49,7 @@ menu:
   help.faq: "FAQ"
   help.document: "신청서"
   help.token: "처리할 문서"
-  help.dashboard: "대시보드" # 임시 메뉴명
+  help.dashboard: "대시보드"
   setting: "설정"
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
