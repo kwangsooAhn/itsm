@@ -38,7 +38,7 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
         val requestUrl = request.requestURI
         val requestMethod = request.method.toLowerCase()
 
-        if (securityContextObject != null && requestUrl != "" && !AliceUtil().urlExcludePatternCheck(requestUrl)) {
+        if (securityContextObject != null && requestUrl != "" && !AliceUtil().urlExcludePatternCheck(request)) {
             val securityContext = securityContextObject as SecurityContext
             val aliceUserDto = securityContext.authentication.details as AliceUserDto
             val regex = "\\{([a-zA-Z]*)}".toRegex()
@@ -60,7 +60,7 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
                         }
                     }
                 }
-                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.message)
+                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.message + "(URL: ${requestUrl})")
             }
         }
     }

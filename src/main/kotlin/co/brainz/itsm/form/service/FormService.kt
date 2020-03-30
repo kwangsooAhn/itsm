@@ -33,6 +33,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             form.createDt = form.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
             form.updateDt = form.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
         }
+
         return forms
     }
 

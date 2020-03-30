@@ -3,9 +3,9 @@ package co.brainz.workflow.engine.form.dto
 import java.io.Serializable
 
 data class WfFormViewDto(
-        val id: String,
-        val name: String,
-        val desc: String?,
-        val status: String?
+        var id: String = "",
+        var name: String = "",
+        var desc: String? = null,
+        var status: String? = null
 ): Serializable
 
