@@ -18,6 +18,8 @@ interface WfInstanceRepository: JpaRepository<WfInstanceEntity, String> {
             "and t.assigneeId = :userKey")
     fun findInstances(status: String, type: String, userKey: String): List<Map<String, Any>>
 
+    fun countByDocument(wfDocumentEntity: WfDocumentEntity): Int
+
     @Query("select i.instanceStatus as instanceStatus, count(i.instanceStatus) as instanceCount " +
             "from WfInstanceEntity i " +
             "where i.instanceCreateUserKey = :userKey " +

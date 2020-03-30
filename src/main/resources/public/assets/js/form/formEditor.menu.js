@@ -240,7 +240,7 @@
      */
     function onKeyDownHandler(e) {
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
-        if (userKeyCode === keycode.ctrl) { isCtrlPressed = true;}
+        isCtrlPressed = userKeyCode === keycode.ctrl;
 
         if (flag === 1 && selectedItem) { //컨텍스트 메뉴를 오픈한체 키보드 ↑, ↓, enter 클릭시 동작
             let len = searchItems.length - 1;
@@ -311,12 +311,12 @@
         if (clickInsideElement(e, 'alice-form-properties-panel')) { return false; }
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
 
-        if (isCtrlPressed && flag === 1 && itemInContext) { 
+        if (isCtrlPressed && flag === 1 && itemInContext) {
             menuOff();
             itemInContext = null;
         }
         isCtrlPressed = false;
-        
+
         if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return false; }
         if (selectedItem && userKeyCode === keycode.enter) {
             searchItems = [];
@@ -394,7 +394,7 @@
                 menuOff();
                 
                 if (e.target.classList.contains('alice-form-panel') || e.target.classList.contains('drawing-board')) { 
-                    formEditor.showFormProperties(); 
+                    formEditor.showFormProperties();
                 }
                 itemInContext = null;
             }
