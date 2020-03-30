@@ -259,6 +259,11 @@ form:
   msg:
     alert:
       nameNotExist: "Please enter a form name."
+      number: "Please enter only numbers."
+      min: "Please enter at least {0}."
+      max: "Please enter below {0}."
+      minLength: "Please enter at least {0} characters."
+      maxLength: "Please enter less than {0} characters."
   preview:
     name: "Form Edit Preview"
 

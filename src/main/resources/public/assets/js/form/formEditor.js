@@ -44,6 +44,95 @@
             defaultTime: '24'
         },
         customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
+
+    /**
+     * text, textarea validate check.
+     *
+     * @param element target element
+     * @param validate validate attr
+     */
+    function validateCheck(element, validate) {
+        if (typeof validate === 'undefined' || validate === '') { return; }
+        let numberRegex = /^[0-9]*$/;
+        const validateFunc = {
+            number: function(value) {
+                return numberRegex.test(value);
+            },
+            min: function(value, arg) {
+                if (numberRegex.test(arg)) {
+                    return (value >= Number(arg));
+                }
+                return true;
+            },
+            max: function(value, arg) {
+                if (numberRegex.test(arg)) {
+                    return (value <= Number(arg));
+                }
+                return true;
+            },
+            minLength: function(value, arg) {
+                if (numberRegex.test(arg)) {
+                    return (value.length >= Number(arg));
+                }
+                return true;
+            },
+            maxLength: function(value, arg) {
+                if (numberRegex.test(arg)) {
+                    return (value.length <= Number(arg));
+                }
+                return true;
+            }
+        };
+
+        element.addEventListener('focusout', function(e) {
+            if (element.classList.contains('validate-error')) {
+                element.classList.remove('validate-error');
+            }
+            if (element.value === '') { return; }
+            let result = true;
+            let validateArray = validate.split('|');
+            for (let i = 0; i < validateArray.length; i++) {
+                let validateValueArray = validateArray[i].split('[');
+                let arg = (typeof validateValueArray[1] !== 'undefined') ? validateValueArray[1].replace(/\]\s*$/gi, '') : '';
+                switch (validateValueArray[0]) {
+                    case 'number':
+                        result = validateFunc.number(element.value);
+                        break;
+                    case 'min':
+                        result = validateFunc.number(element.value);
+                        if (result) {
+                            result = validateFunc.min(element.value, arg);
+                        } else {
+                            validateValueArray[0] = 'number';
+                        }
+                        break;
+                    case 'max':
+                        result = validateFunc.number(element.value);
+                        if (result) {
+                            result = validateFunc.max(element.value, arg);
+                        } else {
+                            validateValueArray[0] = 'number';
+                        }
+                        break;
+                    case 'minLength':
+                        result = validateFunc.minLength(element.value, arg);
+                        break;
+                    case 'maxLength':
+                        result = validateFunc.maxLength(element.value, arg);
+                        break;
+                }
+                if (!result) {
+                    e.stopImmediatePropagation();
+                    element.classList.add('validate-error');
+                    aliceJs.alert(i18n.get('form.msg.alert.' + validateValueArray[0], arg), function() {
+                        element.focus();
+                    });
+                    break;
+                }
+            }
+        });
+    }
+
     /**
      * 폼 저장
      */
@@ -396,7 +485,7 @@
 
                 element.domElem.classList.add('selected');
             }
-        }
+        };
 
         /**
          * 변경된 값을 컴포넌트 속성 정보에 반영하고, 컴포넌트를 다시 그린다.
@@ -426,7 +515,7 @@
                 changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
             } else {
                 let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
-                if (parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
+                if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
@@ -576,11 +665,12 @@
                             propertyValue.classList.add('property-field-value');
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
-                            propertyValue.addEventListener('change', function() {
+                            validateCheck(propertyValue, fieldArr.validate);
+                            propertyValue.addEventListener('focusout', function() {
                                 changePropertiesValue(this.value, group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
-                            
+
                             if (fieldArr.type === 'inputbox-underline') { propertyValue.classList.add('underline'); }
                             
                             if (fieldArr.unit !== '') {
@@ -690,6 +780,7 @@
                             slideValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
                             slideValue.setAttribute('type', 'text');
                             slideValue.setAttribute('value', fieldArr.value);
+                            slideValue.setAttribute('readOnly', 'true');
                             fieldGroupDiv.appendChild(slideValue);
                             break;
                         case 'rgb':
@@ -763,11 +854,20 @@
                                 `;
                             }
                             fieldGroupDiv.innerHTML += propertyTemplate;
-                            
+
                             //이벤트 등록
                             let changeOptions = fieldGroupDiv.querySelectorAll('input[type="radio"], input[type="text"]');
                             for (let i = 0, len = changeOptions.length; i < len; i++ ) {
-                                changeOptions[i].addEventListener('change', setDateFormat, false);
+                                if (changeOptions[i].type === 'text') {
+                                    for (let j = 0; j < fieldArr.option.length; j++) {
+                                        if (changeOptions[i].id.split('-')[0] === fieldArr.option[j].id) {
+                                            validateCheck(changeOptions[i], fieldArr.option[j].validate);
+                                        }
+                                    }
+                                    changeOptions[i].addEventListener('focusout', setDateFormat, false);
+                                } else {
+                                    changeOptions[i].addEventListener('change', setDateFormat, false);
+                                }
                             }
                             
                             if (compAttr.type === 'date') {
@@ -947,7 +1047,7 @@
         
         let formAttr = formEditor.data.form;
         let detailAttr = formProperties.form;
-        
+
         //data + 기본 속성 = 세부 속성 재할당 
         Object.keys(formAttr).forEach(function(form) {
             Object.keys(detailAttr).forEach(function(idx) {
@@ -998,12 +1098,14 @@
             }
             propertyValue.classList.add('property-field-value');
             if (fieldArr.id === 'name') {
+                validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('keyup', function(e) {
                     formEditor.data.form.name = this.value;
                     document.querySelector('.form-name').textContent = this.value;
                 });
             } else {
-                propertyValue.addEventListener('change', function(e) {
+                validateCheck(propertyValue, fieldArr.validate);
+                propertyValue.addEventListener('focusout', function(e) {
                     formEditor.data.form[fieldArr.id] = this.value;
                 }, false);
             }
