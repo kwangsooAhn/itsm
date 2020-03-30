@@ -53,15 +53,20 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
      */
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         // TODO (form_id, process_id) 조합 중복체크 : 해당 일감은 추후 진행합니다.
+
+
+
+
+
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
-        val responseBody: String = restTemplate.create(url, restTemplateDocumentDto)
-        return when (responseBody.isNotEmpty()) {
+        val responseBody = restTemplate.create(url, restTemplateDocumentDto)
+        return when (responseBody.body.toString().isNotEmpty()) {
             true -> {
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-                val dataDto = mapper.readValue(responseBody, restTemplateDocumentDto::class.java)
+                val dataDto = mapper.readValue(responseBody.body.toString(), restTemplateDocumentDto::class.java)
                 dataDto.documentId
             }
             false -> ""

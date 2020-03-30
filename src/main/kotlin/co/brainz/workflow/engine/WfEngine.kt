@@ -4,7 +4,6 @@ import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.document.service.WfDocumentService
-import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service
 @Service
 class WfEngine(private val wfFormRepository: WfFormRepository,
                private val wfProcessRepository: WfProcessRepository,
-               private val wfElementRepository: WfElementRepository,
                private val wfComponentRepository: WfComponentRepository,
                private val wfComponentDataRepository: WfComponentDataRepository,
                private val wfFormService: WfFormService,
@@ -49,7 +47,7 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Document Engine.
      */
     fun document(): WfDocumentService {
-        return WfDocumentService(wfFormService, wfDocumentRepository, wfInstanceRepository)
+        return WfDocumentService(wfFormService, wfDocumentRepository, wfInstanceRepository, wfProcessRepository, wfFormRepository)
     }
 
     /**
