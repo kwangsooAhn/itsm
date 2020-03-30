@@ -61,9 +61,11 @@ menu:
 # Auth
 auth:
   label:
+    manage: "Role management"
     authId: "Auth ID"
     authName: "Auth name"
     authDesc: "Auth Desc"
+    referenceCount: "Role reference count"
   msg:
     idNotExist: "Please enter a auth id."
     nameNotExist: "Please enter a auth name."
@@ -332,6 +334,7 @@ document:
     dateMax: "Please select before {0} date."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
+    raunchedInstance: "There is an instance started and cannot be deleted."
 
 # token
 token:
@@ -342,8 +345,8 @@ token:
 custom.code:
   label:
     title: "Custom Code"
-    customCodeName : "Custom Code Name"
-    targetTable : "Target Table Name"
+    customCodeName: "Custom Code Name"
+    targetTable: "Target Table Name"
     searchColumn: "Search Column Name"
     valueColumn: "Value Column Name"
   msg:

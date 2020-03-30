@@ -9,6 +9,7 @@ import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -73,8 +74,8 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
      * @param documentId
      * @return Boolean
      */
-    fun deleteDocument(documentId: String): Boolean {
-        //TODO : wfEngine에서 삭제 가능 여부 체크(해당 일감은 추후 진행합니다.(
-        return false
+    fun deleteDocument(documentId: String): ResponseEntity<String> {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.DELETE_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        return restTemplate.delete(url)
     }
 }

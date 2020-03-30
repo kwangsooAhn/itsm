@@ -23,9 +23,11 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         return;
     }
 
+    // text 정보들 - timestamp, status, error, message, path, exceptionType, knownError
     const data = JSON.parse(text);
     let messages = [
-        {key: '제목', text: data.error + ' (' + data.status + ')'},
+        {key: '코드', text: data.status},
+        {key: '에러', text: data.error},
         {key: '메시지', text: data.message},
         {key: '호출 URL', text: data.path}
     ];
@@ -44,7 +46,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         valueTd.innerText = obj.text;
     });
     elmNode.appendChild(table);
-
+    console.log(data);
     aliceJs.alert('Error !!')
 };
 
