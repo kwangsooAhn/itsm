@@ -7,8 +7,12 @@ import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
+import co.brainz.workflow.engine.token.dto.WfActionDto
 import co.brainz.workflow.engine.token.dto.WfTokenDto
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -154,4 +158,79 @@ class WfElementService(
 
         return connectorElement
     }
+
+    /**
+     * Set Actions.
+     *
+     * @param wfTokenDto
+     * @return MutableList<WfActionDto>
+     */
+    fun getActionList(wfTokenDto: WfTokenDto): MutableList<WfActionDto> {
+        val connector = this.getConnector(wfTokenDto)
+        val nextElement = getNextElement(wfTokenDto)
+
+        val actionList: MutableList<WfActionDto> = mutableListOf()
+        val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        when (nextElement.elementType) {
+            WfElementConstants.ElementType.USER_TASK.value,
+            WfElementConstants.ElementType.END_EVENT.value,
+            WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
+                nextElement.elementDataEntities.forEach {
+                    if (it.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                        val buttonMap: LinkedHashMap<*, *>? = mapper.readValue(it.attributeValue, LinkedHashMap::class.java)
+                        if (buttonMap != null) {
+                            for ((key, value) in buttonMap) {
+                                actionList.add(WfActionDto(name = key.toString(), value = value.toString()))
+                            }
+                        }
+                    }
+                }
+            }
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
+                //GW의 condition field가 #{action} 이라면 GW 에서 나가는 화살표의 속성을 이용해서 action 값 설정
+                //#{action} 이 아니라면 GW로 들어가는 화살표의 속성을 이용해서 action 값 구성.
+                nextElement.elementDataEntities.forEach {
+                    if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
+                        if (it.attributeValue.contains("#{action}")) {
+                            //TODO: 다음 Task 로 연결되는 Arrow 의 정보를 찾아 추가
+                            //Output Arrow Attribute
+                            val nextConnector: WfElementEntity = getNextConnector(it.attributeValue)
+                            nextConnector.elementDataEntities.forEach { data ->
+                                if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                                    actionList.add(WfActionDto(name = "", value = ""))
+                                }
+                            }
+                        } else {
+                            //TODO: nextElement 앞의 Arrow 의 속성으로 추가
+                            //Input Arrow Attribute
+                            connector.elementDataEntities.forEach { data ->
+                                if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                                    actionList.add(WfActionDto(name = "", value = ""))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else -> actionList.add(WfActionDto(name = "progress", value = "처리"))
+        }
+
+        return actionList
+    }
+
+    /**
+     * Get Next Connector.
+     *
+     * @param codition
+     * @return WfElementEntity
+     */
+    fun getNextConnector(codition: String): WfElementEntity {
+        return WfElementEntity(
+                elementId = "",
+                elementName = "",
+                elementType = "",
+                elementConfig = ""
+        )
+    }
+
 }

@@ -21,7 +21,9 @@ object WfElementConstants {
         ARROW_CONNECTOR("arrowConnector"),
         COMMON_SUBPROCESS("subprocess"),
         ANNOTATION_ARTIFACT("annotationArtifact"),
-        GROUP_ARTIFACT("groupArtifact")
+        GROUP_ARTIFACT("groupArtifact"),
+        SIGNAL_EVENT("signalEvent"),
+        END_EVENT("endEvent")
     }
 
     /**
@@ -32,7 +34,8 @@ object WfElementConstants {
         ASSIGNEE_TYPE("assignee-type"),
         SOURCE_ID("start-id"),
         TARGET_ID("end-id"),
-        CONDITION("condition")
+        CONDITION("condition"),
+        ACTION("action")
     }
 
     /**
