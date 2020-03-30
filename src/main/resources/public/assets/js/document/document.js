@@ -76,13 +76,23 @@
                         alertMsg(element, i18n.get('document.msg.lengthMax').replace('{0}', value));
                         return true;
                     }
-                    if (key === 'date-min' && value > chkVal) {
-                        alertMsg(element, i18n.get('document.msg.dateMin').replace('{0}', value));
-                        return true;
+                    if (key === 'date-min') {
+                        let dateMinValueArray = value.split("|");
+                        let dateMinValuePlaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
+                        let dateMinValue = aliceJs.changeDateFormat(dateMinValueArray[1], dateMinValuePlaceholder, dateMinValueArray[0], userData.defaultLang);
+                        if (dateMinValue > chkVal) {
+                            alertMsg(element, i18n.get('document.msg.dateMin').replace('{0}', dateMinValue));
+                            return true;
+                        }
                     }
-                    if (key === 'date-max' && value < chkVal) {
-                        alertMsg(element, i18n.get('document.msg.dateMax').replace('{0}', value));
-                        return true;
+                    if (key === 'date-max') {
+                        let dateMaxValueArray = value.split("|");
+                        let dateMaxValuePlaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
+                        let dateMaxValue = aliceJs.changeDateFormat(dateMaxValueArray[1], dateMaxValuePlaceholder, dateMaxValueArray[0], userData.defaultLang);
+                        if (dateMaxValue < chkVal) {
+                            alertMsg(element, i18n.get('document.msg.dateMax').replace('{0}', dateMaxValue));
+                            return true;
+                        }
                     }
                 }
             }
@@ -178,7 +188,7 @@
                 textEle.addEventListener('focusout', function() {
                     validateCheck(this, validateData);
                 });
-                if (compData.values != undefined && compData.values != "") {
+                if (compData.values != undefined && compData.values.length > 0) {
                     textEle.value = compData.values[0].value;
                 }
                 fieldLastEle.appendChild(textEle);
@@ -194,7 +204,7 @@
                 textareaEle.addEventListener('focusout', function() {
                     validateCheck(this, validateData);
                 });
-                if (compData.values != undefined && compData.values != "") {
+                if (compData.values != undefined && compData.values.length > 0) {
                     textareaEle.value = compData.values[0].value;
                 }
                 fieldLastEle.appendChild(textareaEle);
@@ -202,15 +212,20 @@
             case 'select':
                 const selectEle = document.createElement('select');
                 selectEle.required = (validateData.required === 'Y');
-                const optData = compData.attributes.option;
-                optData.sort(function(a, b) {
+                let optData;
+                if (compData.attributes !== undefined) {
+                    optData = compData.attributes.option;
+                } else {
+                    optData = compData.option;
+                }
+                optData.sort(function (a, b) {
                     return a.seq - b.seq;
                 });
                 for (let i = 0; i < optData.length; i++) {
                     const optEle = document.createElement('option');
                     optEle.text = optData[i].name;
                     optEle.value = optData[i].value;
-                    if (compData.values != undefined && compData.values != "") {
+                    if (compData.values !== undefined && compData.values.length > 0) {
                         if (optEle.value === compData.values[0].value) {
                             optEle.selected = true;
                         }
@@ -218,12 +233,19 @@
                     selectEle.appendChild(optEle);
                 }
                 fieldLastEle.appendChild(selectEle);
+
                 break;
             case 'radio':
-                const radioOptData = compData.attributes.option;
-                radioOptData.sort(function(a, b) {
+                let radioOptData;
+                if (compData.attributes !== undefined) {
+                    radioOptData = compData.attributes.option;
+                } else {
+                    radioOptData = compData.option;
+                }
+                radioOptData.sort(function (a, b) {
                     return a.seq - b.seq;
                 });
+
                 for (let i = 0; i < radioOptData.length; i++) {
                     const divEle = document.createElement('div');
                     if (displayData.direction === 'horizontal') { divEle.style.display = 'inline-block'}
@@ -232,7 +254,7 @@
                     radioEle.name = 'radio-' + compData.componentId;
                     radioEle.id = radioOptData[i].value;
                     radioEle.value = radioOptData[i].value;
-                    if (compData.values != undefined && compData.values != "") {
+                    if (compData.values != undefined && compData.values.length > 0) {
                         if (radioEle.value === compData.values[0].value) {
                             radioEle.checked = true;
                         }
@@ -255,10 +277,16 @@
                 }
                 break;
             case 'checkbox':
-                const checkOptData = compData.attributes.option;
+                let checkOptData;
+                if (compData.attributes !== undefined) {
+                    checkOptData = compData.attributes.option;
+                } else {
+                    checkOptData = compData.option;
+                }
                 checkOptData.sort(function(a, b) {
                     return a.seq - b.seq;
                 });
+
                 for (let i = 0; i < checkOptData.length; i++) {
                     const divEle = document.createElement('div');
                     if (displayData.direction === 'horizontal') { divEle.style.display = 'inline-block'}
@@ -267,7 +295,7 @@
                     checkEle.name = 'check-' + compData.componentId;
                     checkEle.id = checkOptData[i].value;
                     checkEle.value = checkOptData[i].value;
-                    if (compData.values != undefined && compData.values != "") {
+                    if (compData.values != undefined && compData.values.length > 0) {
                         const checkboxValue = compData.values[0].value.split(',');
                         checkboxValue.forEach(function (element) {
                             if (checkEle.value === element) {
@@ -443,7 +471,7 @@
                 const fileUploadedEle = document.createElement('div');
                 fileUploadedEle.id = fileUploadedEleId;
                 fieldLastEle.appendChild(fileUploadedEle);
-                if (compData.values != undefined && compData.values != "") {
+                if (compData.values != undefined && compData.values.length > 0) {
                     fileUploader.init({extra: {formId: 'frm', ownId: '',
                             dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId, fileDataIds: compData.values[0].value}});
                 } else {
@@ -753,7 +781,7 @@
             url: '/rest/tokens/data',
             params: JSON.stringify(tokenObject),
             contentType: 'application/json',
-            callbackFunc: function(xhr) {
+            callbackFunc: function() {
                 aliceJs.alert(i18n.get('common.msg.save'), function() {
                     window.close();
                 });
@@ -802,7 +830,7 @@
     /**
      * init Token.
      *
-     * @param documentId 문서 id
+     * @param tokenId 문서 id
      * @param {String} authInfo 사용자 세션 정보
      */
     function initToken(tokenId, authInfo) {
