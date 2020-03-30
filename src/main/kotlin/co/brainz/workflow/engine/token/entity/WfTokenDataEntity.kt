@@ -9,13 +9,9 @@ import javax.persistence.JoinColumn
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_token_data")
+@Table(name = "wf_token_data_copy")
 @IdClass(WfTokenDataPk::class)
 data class WfTokenDataEntity(
-
-        @Id
-        @JoinColumn(name = "instance_id")
-        val instanceId: String,
 
         @Id
         @JoinColumn(name = "token_id")
@@ -31,7 +27,6 @@ data class WfTokenDataEntity(
 ) : Serializable
 
 data class WfTokenDataPk(
-        val instanceId: String = "",
         val tokenId: String = "",
         val componentId: String = ""
 ) : Serializable

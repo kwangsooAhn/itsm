@@ -7,12 +7,11 @@ import org.springframework.stereotype.Repository
 @Repository
 interface WfTokenDataRepository : JpaRepository<WfTokenDataEntity, String> {
 
-    fun deleteTokenDataEntityByInstanceIdAndTokenId(instanceId: String, tokenId: String)
+    fun deleteTokenDataEntityByTokenId(tokenId: String)
 
     fun findTokenDataEntityByTokenId(tokenId: String): List<WfTokenDataEntity>
 
-    fun findByInstanceIdAndTokenIdAndComponentId(
-        instanceId: String,
+    fun findByTokenIdAndComponentId(
         tokenId: String,
         componentId: String
     ): WfTokenDataEntity
