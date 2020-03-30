@@ -49,6 +49,7 @@ menu:
   help.faq: "FAQ"
   help.document: "Service Request"
   help.token: "Process Document"
+  help.dashboard: "Dashboard"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"

@@ -21,19 +21,20 @@
         </colgroup>
         <thead>
         <tr>
-            <th th:text="#{dashboard.label.status.wait}"></th>
             <th th:text="#{dashboard.label.status.running}"></th>
+            <th th:text="#{dashboard.label.status.wait}"></th>
             <th th:text="#{dashboard.label.status.finish}"></th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td th:each="statusCount: ${statusCountList}" th:text="${statusCount.instanceCount}" th:id="${statusCount.instanceStatus}"></td>
-            <td colspan="3" th:if="${#arrays.isEmpty(statusCountList)}" th:text="#{dashboard.label.status.noData}"></td>
+        <tr th:if="${#arrays.isEmpty(statusCountList)}">
+            <td colspan="3" th:text="#{dashboard.label.status.noData}"></td>
         </tr>
-<!--        <tr>-->
-<!--            <td th:each="statusCount: ${statusCountList}" th:if="${statusCountList.instanceStatus == 'running'}" th:text="${statusCount.instanceCount}"></td>-->
-<!--        </tr>-->
+        <tr th:if="${#arrays.length(statusCountList)} > 0">
+            <td><span th:each="statusCount:${statusCountList}" th:text="${statusCount.instanceStatus == 'running'} ? ${statusCount.instanceCount}:''"></span></td>
+            <td><span th:each="statusCount:${statusCountList}" th:text="${statusCount.instanceStatus == 'wait'} ? ${statusCount.instanceCount}:''"></span></td>
+            <td><span th:each="statusCount:${statusCountList}" th:text="${statusCount.instanceStatus == 'finish'} ? ${statusCount.instanceCount}:''"></span></td>
+        </tr>
         </tbody>
     </table>
 </div>

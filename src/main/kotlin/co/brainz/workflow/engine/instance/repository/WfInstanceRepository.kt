@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.instance.repository
 
+import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -31,5 +32,4 @@ interface WfInstanceRepository: JpaRepository<WfInstanceEntity, String> {
             "   when i.instanceStatus = 'finish' then 3 " +
             "END" )
     fun findInstancesCount(userKey: String): List<Map<String, Any>>
-
 }
