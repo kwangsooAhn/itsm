@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_token_data_copy")
+@Table(name = "wf_token_data")
 @IdClass(WfTokenDataPk::class)
 data class WfTokenDataEntity(
 
