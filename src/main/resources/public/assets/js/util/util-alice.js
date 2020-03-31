@@ -505,10 +505,11 @@ aliceJs.parseZero = function(num, digits) {
 
 /**
  * 사용자가 원하는 포맷으로 현재 시간을 format 형식에 따라 반환.
- * @param {String} 이전 날짜 포맷
- * @param {String} 변경하고자 하는 날짜 포맷
- * @param {String} 날짜
- * @return {String} format 변경된 시간
+ * @param {String} 이전 날짜 포맷              EX) YYYY-MM-DD YY hh:mm 12
+ * @param {String} 변경하고자 하는 날짜 포맷   EX) YYYY-MM-DD hh:mm 12
+ * @param {String} 날짜                       EX) 2020-03-31 PM 01:00 or 2020-03-31 13:00
+ * @param {String} 언어                       EX) en, ko
+ * @return {String} 변경된 날짜               EX) 2020-03-31 PM 01:00 or 2020-03-31 13:00
  */
 aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLang) {
     //반환 날짜
@@ -521,7 +522,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
         //입력 받은 날짜를 배열 처리
         let dateArray = dateValue.split(' ');
         let beforeDateArray; //날짜 처리
-        let beforeHourArray; //날짜 처리
+        let beforeHourArray; //시간 처리
         //현재 날짜
         let year, month, day, hour, min = '';
 
@@ -547,7 +548,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
             day = beforeDateArray[0];
         }
 
-        //배열이 2개까지 있다면 12시간을 가지고 있다고 생각한다.
+        //배열이 2개까지 있다면 12시간(오전,오후,AM,PM)을 가지고 있다고 생각한다.
         if (dateArray[2] !== undefined && dateArray[2] !== null && dateArray[2] !== '') {
             if (dateArray[1] === '오전' || dateArray[1] === '오후' || dateArray[1] === 'AM' || dateArray[1] === 'PM') {
                 beforeHourArray = dateArray[2].split(':');
