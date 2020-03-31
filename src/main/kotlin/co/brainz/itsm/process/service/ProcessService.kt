@@ -77,7 +77,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         wfProcessElementDto.process?.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(restTemplate.getKeyRegex(), processId))
         val responseEntity = restTemplate.update(url, wfProcessElementDto)
-        return responseEntity.body.toString().isEmpty()
+        return responseEntity.body.toString().isNotEmpty()
     }
 
     /**
