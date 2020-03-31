@@ -454,12 +454,12 @@
               target = mouseoverElement;
         elements.links.forEach(function(l) {
             // it's not a gateway, but several starts
-            if (!l.source.classed('gateway') && l.source.node().id === source.node().id) {
+            if (!source.classed('gateway') && l.sourceId === source.node().id) {
                 availableLink = false;
             }
             // cannot link to each other
-            if ((l.source.node().id === source.node().id && l.target.node().id === target.node().id) ||
-                (l.source.node().id === target.node().id && l.target.node().id === source.node().id)) {
+            if ((l.sourceId === source.node().id && l.targetId === target.node().id) ||
+                (l.sourceId === target.node().id && l.targetId === source.node().id)) {
                 availableLink = false;
             }
         });
