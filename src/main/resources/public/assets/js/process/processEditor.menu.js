@@ -789,10 +789,8 @@
                         propertyValue = propertyObject.checked ? 'Y' : 'N';
                         if (propertyObject.id === 'is-default') {
                             let conditionAttrObject = container.querySelector('input[name=condition]');
-                            if (conditionAttrObject) {
-                                if (propertyObject.checked) {
-                                    conditionAttrObject.value = '';
-                                }
+                            if (conditionAttrObject && propertyObject.checked) {
+                                conditionAttrObject.value = '';
                             }
                         }
                     }
