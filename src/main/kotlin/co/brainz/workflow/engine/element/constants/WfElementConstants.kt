@@ -35,7 +35,9 @@ object WfElementConstants {
         SOURCE_ID("start-id"),
         TARGET_ID("end-id"),
         CONDITION("condition"),
-        ACTION("action")
+        ACTION("action"),
+        SAVE("save"),
+        REJECT("reject")
     }
 
     /**

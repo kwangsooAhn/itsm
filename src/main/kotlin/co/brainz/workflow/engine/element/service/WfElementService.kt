@@ -171,6 +171,12 @@ class WfElementService(
         val nextElement = getNextElement(wfTokenDto)
 
         val actionList: MutableList<WfActionDto> = mutableListOf()
+
+        //attributeId : save
+        val saveMap = HashMap<String, String>()
+        saveMap[WfElementConstants.AttributeId.SAVE.value] = "저장"
+        actionList.addAll(makeAction(mapper.writeValueAsString(saveMap)))
+
         when (nextElement.elementType) {
             WfElementConstants.ElementType.USER_TASK.value,
             WfElementConstants.ElementType.END_EVENT.value,
@@ -212,6 +218,13 @@ class WfElementService(
             else -> actionList.add(WfActionDto(name = "progress", value = "처리"))
         }
 
+        //attributeId : action reject
+        connector.elementDataEntities.forEach {
+            if (it.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                actionList.addAll(makeAction(it.attributeValue))
+            }
+        }
+
         return actionList
     }
 
@@ -228,7 +241,6 @@ class WfElementService(
             for ((key, value) in buttonMap) {
                 actionList.add(WfActionDto(name = key.toString(), value = value.toString()))
             }
-            actionList.add(WfActionDto(name = "", value = ""))
         }
         return actionList
     }
