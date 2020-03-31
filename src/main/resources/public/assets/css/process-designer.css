@@ -10042,6 +10042,9 @@ body {
   stroke-dasharray: 10, 2;
   stroke-width: 0.188rem;
 }
+.alice-process-drawing-board path.connector.is-default {
+  stroke-width: 0.313rem;
+}
 .alice-process-drawing-board path.connector.drag-line {
   pointer-events: none;
 }
