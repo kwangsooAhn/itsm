@@ -110,7 +110,6 @@
               ]
             },
             {"id": "assignee", "name": "Assignee", "type": "inputbox", "default": ""},
-            {"id": "action", "name": "Action", "type": "textarea", "default": ""},
             {"id": "reject-id", "name": "Reject", "type": "inputbox", "default": ""},
             {"id": "withdraw", "name": "Withdraw", "type": "checkbox", "default": ""},
             {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
@@ -204,7 +203,8 @@
           "title": "Data",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
           ]
         }
       ]
@@ -218,7 +218,8 @@
           "title": "Data",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
           ]
         }
       ]
@@ -232,7 +233,8 @@
           "title": "Data",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
           ]
         }
       ]
@@ -249,7 +251,9 @@
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "condition", "name": "Condition", "type": "inputbox", "default": ""}
+            {"id": "condition", "name": "Condition", "type": "inputbox", "default": ""},
+            {"id": "action-name", "name": "Action Name", "type": "inputbox", "default": ""},
+            {"id": "action-value", "name": "Action Value", "type": "inputbox", "default": ""}
           ]
         },
         {
