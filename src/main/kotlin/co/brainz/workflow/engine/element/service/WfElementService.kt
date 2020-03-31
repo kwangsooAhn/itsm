@@ -168,21 +168,20 @@ class WfElementService(
      */
     fun getActionList(wfTokenDto: WfTokenDto): MutableList<WfActionDto> {
         val connector = this.getConnector(wfTokenDto)
+        val currentElement = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
         val nextElement = getNextElement(wfTokenDto)
 
         val actionList: MutableList<WfActionDto> = mutableListOf()
 
         //attributeId : save
-        val saveMap = HashMap<String, String>()
-        saveMap[WfElementConstants.AttributeId.SAVE.value] = "저장"
-        actionList.addAll(makeAction(mapper.writeValueAsString(saveMap)))
+        actionList.add(WfActionDto(name = WfElementConstants.Action.SAVE.value, value = "저장"))
 
         when (nextElement.elementType) {
             WfElementConstants.ElementType.USER_TASK.value,
             WfElementConstants.ElementType.END_EVENT.value,
             WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
                 connector.elementDataEntities.forEach {
-                    if (it.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                    if (it.attributeId == WfElementConstants.AttributeId.ACTION.value && it.attributeValue.isNotEmpty()) {
                         actionList.addAll(makeAction(it.attributeValue))
                     }
                 }
@@ -199,14 +198,14 @@ class WfElementService(
                                     nextConnector = arrowConnectors[0]
                                 }
                                 nextConnector.elementDataEntities.forEach { data ->
-                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value && data.attributeValue.isNotEmpty()) {
                                         actionList.addAll(makeAction(data.attributeValue))
                                     }
                                 }
                             }
                             false -> {
                                 connector.elementDataEntities.forEach { data ->
-                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value && data.attributeValue.isNotEmpty()) {
                                         actionList.addAll(makeAction(data.attributeValue))
                                     }
                                 }
@@ -215,13 +214,13 @@ class WfElementService(
                     }
                 }
             }
-            else -> actionList.add(WfActionDto(name = "progress", value = "처리"))
+            else -> actionList.add(WfActionDto(name = WfElementConstants.Action.PROCESS.value, value = "처리"))
         }
 
         //attributeId : action reject
-        connector.elementDataEntities.forEach {
-            if (it.attributeId == WfElementConstants.AttributeId.ACTION.value) {
-                actionList.addAll(makeAction(it.attributeValue))
+        currentElement.elementDataEntities.forEach {
+            if (it.attributeId == WfElementConstants.AttributeId.REJECT.value && it.attributeValue.isNotEmpty()) {
+                actionList.add(WfActionDto(name = WfElementConstants.Action.REJECT.value, value = "반려"))
             }
         }
 

@@ -37,7 +37,7 @@ object WfElementConstants {
         CONDITION("condition"),
         ACTION("action"),
         SAVE("save"),
-        REJECT("reject")
+        REJECT("reject-id")
     }
 
     /**
@@ -51,5 +51,14 @@ object WfElementConstants {
         GENERAL("\\x22[^\\x22]+\\x22"),
         MAPPINGID("\\x22\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22"),
         CONSTANT("\\x22\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22")
+    }
+
+    /**
+     * Action Type.
+     */
+    enum class Action(val value: String) {
+        SAVE("save"),
+        REJECT("reject"),
+        PROCESS("process")
     }
 }
