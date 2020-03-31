@@ -873,7 +873,7 @@
                             if (compAttr.type === 'date') {
                                 dateTimePicker.initDatePicker('datepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (compAttr.type === 'time') {
-                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTime, setDateFormat);
+                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTime, userData.defaultLang, setDateFormat);
                             } else if (compAttr.type === 'datetime') {
                                 dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang, setDateFormat);
                             }
@@ -989,7 +989,7 @@
                             if (fieldArr.type === 'datepicker') {
                                 dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (fieldArr.type === 'timepicker') {
-                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTime, setDateFormat);
+                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTime, userData.defaultLang, setDateFormat);
                             } else if (fieldArr.type === 'datetimepicker') {
                                 dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang, setDateFormat);
                             }

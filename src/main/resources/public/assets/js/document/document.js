@@ -412,7 +412,7 @@
                 timeEle.required = (validateData.required === 'Y');
                 timeEle.readOnly = true;
                 fieldLastEle.appendChild(timeEle);
-                dateTimePicker.initTimePicker('time-' + compData.componentId, userData.defaultTime);
+                dateTimePicker.initTimePicker('time-' + compData.componentId, userData.defaultTime, userData.defaultLang);
                 break;
             case 'datetime':
                 let datetimeDefaultArr = displayData.default.split('|');
@@ -775,7 +775,6 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
-
         const opt = {
             method: method,
             url: '/rest/tokens/data',

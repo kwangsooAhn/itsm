@@ -509,6 +509,7 @@ aliceJs.parseZero = function(num, digits) {
  * @return {String} format 변경된 시간
  */
 aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLang) {
+    console.log(beforeFormat +','+ afterFormat+','+ dateValue+','+ userLang)
     //반환 날짜
     let returnDate;
     if (beforeFormat != undefined && afterFormat != undefined && dateValue !== '') {
@@ -570,6 +571,9 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
             returnDate = aliceJs.parseZero(day, 2) + '-' + aliceJs.parseZero(month, 2) + '-' + year;
         }
 
+        console.log("returnDate==="+returnDate);
+        console.log(hour+':'+min);
+        console.log(beforeFormatArray[2] +"=="+afterFormatArray[2]);
         if (hour !== '' && hour !== undefined && min !== '' && min !== undefined) {
             if (beforeFormatArray[2] != undefined && afterFormatArray[2] != undefined) {
                 //이전, 이후 모두 12시간
@@ -588,6 +592,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
                         }
                     }
                     returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' ' + dateArray[1];
+                    console.log("fin==="+returnDate);
                 } else if (beforeFormatArray[2] === '12' && afterFormatArray[2] === '24') {
                     if (dateArray[1] === 'PM' || dateArray[1] === '오후') {
                         hour = eval(parseInt(hour) + 12);
@@ -602,7 +607,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
                         if (userLang === 'en') {
                             returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' PM';
                         } else if (userLang === 'ko') {
-                            returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' 오후';
+                            returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' 오후'
                         }
                     } else {
                         if (userLang === 'en') {

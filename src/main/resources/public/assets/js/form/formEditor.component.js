@@ -384,35 +384,23 @@
         //날짜 포멧 변경
         let dateDefaultArr = attr.display['default'].split('|');
         let dateDefault = '';
+        let dateFormat = formEditor.userData.defaultDateFormat;
         if (dateDefaultArr[0] === 'now') {
-            dateDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat);
+            dateDefault = aliceJs.getTimeStamp(dateFormat);
             dateDefault = dateDefault.split(' ')[0];
         } else if (dateDefaultArr[0] === 'datepicker') {
-            dateDefault = dateDefaultArr[1];
+            if (dateDefaultArr[1] === '') {
+                dateDefaultArr[1] = aliceJs.getTimeStamp(dateFormat);
+            }
+            dateDefault = aliceJs.changeDateFormat(dateDefaultArr[2], dateFormat, dateDefaultArr[1], formEditor.userData.lang);
         } else if (dateDefaultArr[0] === 'date') {
-            dateDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat, dateDefaultArr[1]);
-            dateDefault = dateDefault.split(' ')[0];
+            if (dateDefaultArr[1] === '') {
+                dateDefaultArr[1] = 0;
+            }
+            dateDefault = aliceJs.getTimeStamp(dateFormat, dateDefaultArr[1]);
+            dateDefault = aliceJs.changeDateFormat(dateDefaultArr[2], dateFormat, dateDefault.split(' ')[0], formEditor.userData.lang);
         }
-        let comp = '';
-        if (formEditor.userData.defaultTime == '12') {
-            comp = utils.createComponentByTemplate(`
-                <div class='move-icon'></div>
-                <div class='group'>
-                    <div class='field'>
-                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
-                        </div>
-                    </div>
-                    <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + ' a'}' value='${dateDefault}' readonly/>
-                    </div>
-                </div>
-            `);
-        } else {
-            comp = utils.createComponentByTemplate(`
+        let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
                     <div class='field'>
@@ -428,11 +416,11 @@
                     </div>
                 </div>
             `);
-        }
+
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        dateTimePicker.initDatePicker('date-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultLang);
+        dateTimePicker.initDatePicker('date-' + attr.id, dateFormat, formEditor.userData.defaultLang);
     }
 
     /**
@@ -441,6 +429,7 @@
      * @constructor
      */
     function Timebox(attr) {
+        console.log(attr);
         //시간 포멧 변경
         let timeDefaultArr = attr.display['default'].split('|');
         let timeDefault = '';
@@ -458,16 +447,19 @@
         } else if (timeDefaultArr[0] === 'time') {
             timeDefault = aliceJs.getTimeStamp(beforeFormt, '', timeDefaultArr[1]);
             let timeDate = timeDefault.split(' ');
-            timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDate[0] +' '+ timeDate[1], formEditor.userData.lang);
+            console.log(timeDate);
+            timeDefault = aliceJs.changeDateFormat(beforeFormt, beforeFormt, timeDate[0] +' '+ timeDate[1], formEditor.userData.lang);
+            console.log(timeDate);
             let time = timeDefault.split(' ');
-            if (time.length > 2) {
-                timeDefault = time[1] +' '+time[2];
+            /*if (time.length > 2) {
+                timeDefault = time[2] +' '+time[1];
             } else {
                 timeDefault = time[1];
-            }
+            }*/
+
             timeDefault = time[1];
         } else if (timeDefaultArr[0] === 'timepicker') {
-            timeDefault = '2010-12-31 '+timeDefaultArr[1];
+            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat)+ ' ' + timeDefaultArr[1];
             timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, formEditor.userData.lang);
             let timepicker = timeDefault.split(' ');
             if (timepicker.length === 3) {
@@ -481,7 +473,7 @@
                 timeDefault = timepicker[1];
             }
         }
-
+        console.log(timeDefaultArr[0]+"====="+timeDefault +"====="+formEditor.userData.defaultTime);
         let comp = '';
         if (formEditor.userData.defaultTime == '12') {
             comp = utils.createComponentByTemplate(`
@@ -496,7 +488,7 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat + ' a'}' value='${timeDefault}' readonly/>
+                        <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat}' value='${timeDefault}' readonly/>
                     </div>
                 </div>
             `);
@@ -522,7 +514,7 @@
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultTime);
+        dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultTime, formEditor.userData.defaultLang);
     }
 
     /**
@@ -532,37 +524,29 @@
      */
     function DateTimebox(attr) {
         //날짜 시간 포멧 변경
+        console.log("=====AAAAAAA=====");
+        console.log(attr);
         let datetimeDefaultArr = attr.display['default'].split('|');
         let datetimeDefault = '';
+        let timeFormat = formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat;
+        let nowTimeFormat = formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat + ' '+  formEditor.userData.defaultTime;
         if (datetimeDefaultArr[0] === 'now') {
-            datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat);
+            datetimeDefault = aliceJs.getTimeStamp(timeFormat);
         } else if (datetimeDefaultArr[0] === 'datetimepicker') {
             datetimeDefault = datetimeDefaultArr[1];
         } else if (datetimeDefaultArr[0] === 'datetime') {
-            datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+            datetimeDefault = aliceJs.getTimeStamp(timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+            console.log("====ddd===");
+            console.log(datetimeDefault);
+            datetimeDefault = aliceJs.changeDateFormat('YYYY-MM-DD hh:mm 24', nowTimeFormat, datetimeDefault, formEditor.userData.lang);
+            console.log(datetimeDefault);
         } else if (datetimeDefaultArr[0] === 'time') {
-            datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+            datetimeDefault = aliceJs.getTimeStamp(timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
         }
-        let comp ='';
-        if (formEditor.userData.defaultTime == '12') {
-            comp = utils.createComponentByTemplate(`
-                <div class='move-icon'></div>
-                <div class='group'>
-                    <div class='field'>
-                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
-                        </div>
-                    </div>
-                    <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + ' a'}' value='${datetimeDefault}' readonly />
-                    </div>
-                </div>
-            `);
-        } else {
-            comp = utils.createComponentByTemplate(`
+
+        console.log(datetimeDefaultArr);
+        console.log(datetimeDefault);
+        let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
                     <div class='field'>
@@ -578,7 +562,6 @@
                     </div>
                 </div>
             `);
-        }
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환

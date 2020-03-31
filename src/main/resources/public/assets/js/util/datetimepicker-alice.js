@@ -111,13 +111,17 @@ const dateTimePicker = (function() {
      *
      * @param targetId Target element id
      * @param hourType hour format (optional) - 24(default), 12
+     * @param lang lang: ko, en
      * @param callback 콜백 함수
      */
-    function initTimePicker(targetId, hourType, callback) {
+    function initTimePicker(targetId, hourType, lang, callback) {
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'HOUR';
         if (typeof hourType !== 'undefined') {
             options.hourType = hourType;
+        }
+        if (typeof lang !== 'undefined') {
+            options.lang = lang;
         }
         let picker = initPicker(targetId, options);
         picker.el.addEventListener('wdp.close', () => {

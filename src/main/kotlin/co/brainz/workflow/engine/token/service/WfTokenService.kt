@@ -99,7 +99,7 @@ class WfTokenService(
         wfTokenDto.elementId = processId?.let { wfElementService.getStartElement(it).elementId }.toString()
         val token = instance?.let { createToken(it, wfTokenDto) }
         if (instance != null && token != null) {
-            createTokenData(wfTokenDto, instance.instanceId, token.tokenId)
+            createTokenData(wfTokenDto, token.tokenId)
             wfTokenDto.tokenId = token.tokenId
         }
         if (wfTokenDto.isComplete) {
@@ -151,10 +151,9 @@ class WfTokenService(
      */
     fun putToken(wfTokenDto: WfTokenDto): Boolean {
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId)
-        val instanceId = tokenEntity.get().instance.instanceId
         updateToken(tokenEntity.get(), wfTokenDto)
-        deleteTokenData(instanceId, wfTokenDto.tokenId)
-        createTokenData(wfTokenDto, instanceId, wfTokenDto.tokenId)
+        deleteTokenData(wfTokenDto.tokenId)
+        createTokenData(wfTokenDto, wfTokenDto.tokenId)
         return true
     }
 
@@ -222,10 +221,9 @@ class WfTokenService(
     fun putTokenData(wfTokenDto: WfTokenDto): Boolean {
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId)
         if (tokenEntity.isPresent) {
-            val instanceId = tokenEntity.get().instance.instanceId
             updateToken(tokenEntity.get(), wfTokenDto)
-            deleteTokenData(instanceId, wfTokenDto.tokenId)
-            createTokenData(wfTokenDto, instanceId, wfTokenDto.tokenId)
+            deleteTokenData(wfTokenDto.tokenId)
+            createTokenData(wfTokenDto, wfTokenDto.tokenId)
             if (wfTokenDto.isComplete) {
                 completeToken(wfTokenDto)
             }
@@ -257,17 +255,15 @@ class WfTokenService(
      * Token Data Insert.
      *
      * @param wfTokenDto
-     * @param instanceId
      * @param tokenId
      */
-    fun createTokenData(wfTokenDto: WfTokenDto, instanceId: String, tokenId: String) {
+    fun createTokenData(wfTokenDto: WfTokenDto, tokenId: String) {
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
         for (tokenDataDto in wfTokenDto.data!!) {
             val tokenDataEntity = WfTokenDataEntity(
-                    instanceId = instanceId,
-                    tokenId = tokenId,
-                    componentId = tokenDataDto.componentId,
-                    value = tokenDataDto.value
+                tokenId = tokenId,
+                componentId = tokenDataDto.componentId,
+                value = tokenDataDto.value
             )
             tokenDataEntities.add(tokenDataEntity)
         }
@@ -290,11 +286,10 @@ class WfTokenService(
     /**
      * Token Data Delete.
      *
-     * @param instanceId
      * @param tokenId
      */
-    fun deleteTokenData(instanceId: String, tokenId: String) {
-        wfTokenDataRepository.deleteTokenDataEntityByInstanceIdAndTokenId(instanceId, tokenId)
+    fun deleteTokenData(tokenId: String) {
+        wfTokenDataRepository.deleteTokenDataEntityByTokenId(tokenId)
     }
 
     /**
@@ -343,7 +338,7 @@ class WfTokenService(
                     WfElementConstants.ElementType.USER_TASK.value -> {
                         logger.debug("Element type: USER_TASK")
                         val createdToken = createToken(completedToken.instance, nextToken)
-                        createTokenData(wfTokenDto, completedToken.instance.instanceId, createdToken.tokenId)
+                        createTokenData(wfTokenDto, createdToken.tokenId)
                     }
                     WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                         logger.debug("Element type: EXCLUSIVE_GATEWAY")
@@ -360,7 +355,7 @@ class WfTokenService(
                         }
                         nextToken.tokenId = createdToken.tokenId
                         nextToken.data = createdTokenDataDto
-                        createTokenData(wfTokenDto, completedToken.instance.instanceId, createdToken.tokenId)
+                        createTokenData(wfTokenDto, createdToken.tokenId)
                         this.completeToken(nextToken)
                     }
                     WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
