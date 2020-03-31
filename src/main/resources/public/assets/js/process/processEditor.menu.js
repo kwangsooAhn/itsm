@@ -1043,9 +1043,11 @@
                             d3.selectAll('.node').classed('reject-element', false);
                         });
                     }
-                    elementObject.addEventListener('change', function() {
-                        changePropertiesDataValue(id);
-                    });
+                    if (property.id !== 'id') {
+                        elementObject.addEventListener('change', function() {
+                            changePropertiesDataValue(id);
+                        });
+                    }
                     propertyContainer.appendChild(elementObject);
                 }
                 propertiesContainer.appendChild(propertyContainer);

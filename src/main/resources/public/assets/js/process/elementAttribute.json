@@ -112,6 +112,7 @@
             {"id": "assignee", "name": "Assignee", "type": "inputbox", "default": ""},
             {"id": "action", "name": "Action", "type": "textarea", "default": ""},
             {"id": "reject-id", "name": "Reject", "type": "inputbox", "default": ""},
+            {"id": "withdraw", "name": "Withdraw", "type": "checkbox", "default": ""},
             {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
           ]
         }
