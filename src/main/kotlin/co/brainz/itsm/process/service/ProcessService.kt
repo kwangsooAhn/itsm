@@ -60,7 +60,6 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
         return when (responseBody.body.toString().isNotEmpty()) {
             true -> {
-
                 val dataDto = mapper.readValue(responseBody.body.toString(), RestTemplateProcessDto::class.java)
                 dataDto.processId
             }
