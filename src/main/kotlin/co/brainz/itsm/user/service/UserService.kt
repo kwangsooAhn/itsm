@@ -198,7 +198,7 @@ class UserService(private val aliceCertificationRepository: AliceCertificationRe
      */
     fun selectUserListOrderByName(): MutableList<UserListDto> {
         val userList = userRepository.findByOrderByUserNameAsc()
-        var userDtoList = mutableListOf<UserListDto>()
+        val userDtoList = mutableListOf<UserListDto>()
         for (userEntity in userList) {
             userDtoList.add(UserListDto(userKey = userEntity.userKey, userId = userEntity.userId, userName = userEntity.userName))
         }

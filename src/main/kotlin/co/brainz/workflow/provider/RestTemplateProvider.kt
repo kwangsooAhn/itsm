@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -102,30 +101,21 @@ class RestTemplateProvider(private val restTemplate: RestTemplate) {
         return restTemplate.getForObject(url, String::class.java) ?: ""
     }
 
-    fun create(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): String {
+    fun create(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
-        val responseJson = restTemplate.postForEntity(url, dto, String::class.java)
-        return when (responseJson.statusCode) {
-            HttpStatus.OK -> responseJson.body.toString()
-            else -> ""
-        }
+        return restTemplate.postForEntity(url, dto, String::class.java)
     }
 
-    fun createToSave(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): String {
+    fun createToSave(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
         val requestEntity = this.setHttpEntity(dto)
-        val responseJson = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String::class.java)
-        return when (responseJson.statusCode) {
-            HttpStatus.OK -> responseJson.body.toString()
-            else -> ""
-        }
+        return restTemplate.exchange(url, HttpMethod.POST, requestEntity, String::class.java)
     }
 
-    fun update(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): Boolean {
+    fun update(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
         val requestEntity = this.setHttpEntity(dto)
-        val responseJson = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
-        return responseJson.statusCode == HttpStatus.OK
+        return restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
     }
 
     fun delete(restTemplateUrlDto: RestTemplateUrlDto): ResponseEntity<String> {

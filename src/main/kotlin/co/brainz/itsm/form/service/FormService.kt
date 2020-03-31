@@ -23,7 +23,7 @@ import java.time.LocalDateTime
 @Service
 class FormService(private val restTemplate: RestTemplateProvider) {
 
-    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+    private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun findForms(params: LinkedMultiValueMap<String, String>): List<RestTemplateFormDto> {
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORMS.url, parameters = params)
@@ -49,10 +49,10 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         restTemplateFormDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
         restTemplateFormDto.updateDt = restTemplateFormDto.updateDt?.let { AliceTimezoneUtils().toGMT(it) }
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM.url)
-        val responseBody = restTemplate.create(url, restTemplateFormDto)
-        return when (responseBody.isNotEmpty()) {
+        val responseEntity = restTemplate.create(url, restTemplateFormDto)
+        return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
-                val dataDto = mapper.readValue(responseBody, RestTemplateFormDto::class.java)
+                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
                 dataDto.formId
             }
             false -> ""
@@ -67,7 +67,8 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     fun saveFormData(formData: String): Boolean {
         val formComponentSaveDto = makeFormComponentSaveDto(formData)
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
-        return restTemplate.update(urlDto, formComponentSaveDto)
+        val responseEntity = restTemplate.update(urlDto, formComponentSaveDto)
+        return responseEntity.body.toString().isNotEmpty()
     }
 
     fun saveAsForm(formData: String): String {
@@ -76,10 +77,10 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             formComponentSaveDto.form.formStatus = RestTemplateConstants.FormStatus.EDIT.value
         }
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url)
-        val responseBody = restTemplate.createToSave(urlDto, formComponentSaveDto)
-        return when (responseBody.isNotEmpty()) {
+        val responseEntity = restTemplate.createToSave(urlDto, formComponentSaveDto)
+        return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
-                val dataDto = mapper.readValue(responseBody, RestTemplateFormDto::class.java)
+                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
                 dataDto.formId
             }
             false -> ""

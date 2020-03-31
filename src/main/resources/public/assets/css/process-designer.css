@@ -10098,6 +10098,10 @@ body {
 .alice-process-drawing-board .element .node.selected.event.messageEnd {
   stroke-width: 4;
 }
+.alice-process-drawing-board .element .node.reject-element {
+  stroke: #ff0000;
+  stroke-width: 2;
+}
 .alice-process-drawing-board .element .group {
   fill: none;
   stroke-dasharray: 5, 5;
@@ -10156,10 +10160,8 @@ body {
   width: 11.25rem;
 }
 .alice-process-properties-panel p input:read-only {
+  background-color: #f6f6f7;
   border-width: 0;
-}
-.alice-process-properties-panel p input:read-only background {
-  color: #f6f6f7;
 }
 .alice-process-properties-panel p textarea {
   height: 5.625rem;

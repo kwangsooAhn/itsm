@@ -99,7 +99,6 @@ class WfElementService(
                                         val componentIds = tokenDatas.map { tokenData ->
                                             tokenData.componentId
                                         }
-                                        val instanceId = tokenDatas[0].instanceId
                                         val wfComponentEntity =
                                             wfComponentRepository.findByComponentIdInAndMappingId(
                                                 componentIds,
@@ -107,8 +106,7 @@ class WfElementService(
                                             )
                                         val componentId = wfComponentEntity.componentId
 
-                                        val tokenData = wfTokenDataRepository.findByInstanceIdAndTokenIdAndComponentId(
-                                            instanceId,
+                                        val tokenData = wfTokenDataRepository.findByTokenIdAndComponentId(
                                             tokenId,
                                             componentId
                                         )

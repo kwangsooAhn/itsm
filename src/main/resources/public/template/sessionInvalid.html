@@ -40,12 +40,12 @@
         function gotoLoginPage() {
             clearTimeout(timer);
             const logoutForm = document.getElementById('logoutForm');
-            if (window.opener !== null) {
+            if (window.opener) {
                 window.opener.name = 'alice_web';
                 logoutForm.target = window.opener.name;
             }
             logoutForm.submit();
-            if (window.opener !== null) {
+            if (window.opener) {
                 window.close();
             }
         }

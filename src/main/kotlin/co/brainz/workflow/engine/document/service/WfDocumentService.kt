@@ -1,13 +1,19 @@
 package co.brainz.workflow.engine.document.service
 
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
+import co.brainz.workflow.engine.form.mapper.WfFormMapper
+import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
+import org.mapstruct.factory.Mappers
+import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,10 +23,14 @@ import org.springframework.transaction.annotation.Transactional
 class WfDocumentService(
     private val wfFormService: WfFormService,
     private val wfDocumentRepository: WfDocumentRepository,
-    private val wfInstanceRepository: WfInstanceRepository
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfProcessRepository: WfProcessRepository,
+    private val wfFormRepository: WfFormRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    private val wfFormMapper: WfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
 
     /**
      * Search Documents.
@@ -57,7 +67,24 @@ class WfDocumentService(
      */
     fun document(documentId: String): WfFormComponentViewDto? {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        return wfFormService.formData(documentEntity.form.formId)
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId)
+        val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
+        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        for (component in formEntity.get().components!!) {
+            val attributes = wfFormService.makeAttributes(component)
+            val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+
+            val map = LinkedHashMap<String, Any>()
+            map["componentId"] = component.componentId
+            map["attributes"] = attributes
+            map["values"] = values
+            components.add(map)
+        }
+
+        return WfFormComponentViewDto(
+                form = formViewDto,
+                components = components
+        )
     }
 
     /**
@@ -67,8 +94,17 @@ class WfDocumentService(
      * @return WfDocumentDto
      */
     fun createDocument(documentDto: WfDocumentDto): WfDocumentDto {
-        val form = WfFormEntity(formId = documentDto.formId)
-        val process = WfProcessEntity(processId = documentDto.procId)
+        val formId = documentDto.formId
+        val processId = documentDto.procId
+        val selectedForm = wfFormRepository.getOne(formId)
+        val selectedProcess = wfProcessRepository.getOne(processId)
+        val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
+        if (selectedDocument != null) {
+            throw AliceException(AliceErrorConstants.ERR, "Duplication document. check form and process")
+        }
+
+        val form = WfFormEntity(formId = formId)
+        val process = WfProcessEntity(processId = processId)
         val documentEntity = WfDocumentEntity(
             documentId = documentDto.documentId,
             documentName = documentDto.documentName,
