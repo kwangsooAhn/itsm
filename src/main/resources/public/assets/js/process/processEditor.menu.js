@@ -1012,7 +1012,10 @@
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {
                         elementObject.value = elemData[property.id];
+                    } else if (property.id === 'id') {
+                        elementObject.value = id;
                     }
+
                     if (property.id === 'name') {
                         let keyupHandler = function() {
                             AliceProcessEditor.changeTextToElement(id, this.value);
@@ -1023,6 +1026,22 @@
                             };
                         }
                         elementObject.addEventListener('keyup', keyupHandler);
+                    }
+                    if (property.id === 'reject-id') {
+                        const addRejectClass = function(e) {
+                            e.stopPropagation();
+                            const elementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === e.target.value; });
+                            if (elementData.length) {
+                                d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
+                            } else {
+                                d3.selectAll('.node').classed('reject-element', false);
+                            }
+                        };
+                        elementObject.addEventListener('keyup', addRejectClass);
+                        elementObject.addEventListener('focus', addRejectClass);
+                        elementObject.addEventListener('focusout', function() {
+                            d3.selectAll('.node').classed('reject-element', false);
+                        });
                     }
                     elementObject.addEventListener('change', function() {
                         changePropertiesDataValue(id);
