@@ -189,8 +189,8 @@ class WfElementService(
                                 val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(nextElement.elementId)
                                 var nextConnector: WfElementEntity = arrowConnectors[0]
                                 if (arrowConnectors.size > 1) {
-                                    //TODO: 조건에 따른 연결 커넥션 선택
-                                    nextConnector = arrowConnectors[1]
+                                    //TODO: 조건에 따른 연결 커넥션 선택 (아래는 예시)
+                                    nextConnector = arrowConnectors[0]
                                 }
                                 nextConnector.elementDataEntities.forEach { data ->
                                     if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
