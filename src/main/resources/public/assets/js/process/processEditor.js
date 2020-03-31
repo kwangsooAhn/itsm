@@ -1168,18 +1168,7 @@
             }
             let node = addElement(element);
             if (node) {
-                const nodeId = node.nodeElement.attr('id');
-                elementList.forEach(function(e) {
-                    if (e.type !== 'arrowConnector') {
-                        return;
-                    }
-                    if (e.data['start-id'] === element.id) {
-                        e.data['start-id'] = nodeId;
-                    } else if (e.data['end-id'] === element.id) {
-                        e.data['end-id'] = nodeId;
-                    }
-                });
-                element.id = nodeId;
+                node.nodeElement.attr('id', element.id);
             }
         });
 
