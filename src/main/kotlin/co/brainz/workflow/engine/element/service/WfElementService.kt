@@ -26,6 +26,7 @@ class WfElementService(
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * get element by ProcessId, ElementType
@@ -170,42 +171,38 @@ class WfElementService(
         val nextElement = getNextElement(wfTokenDto)
 
         val actionList: MutableList<WfActionDto> = mutableListOf()
-        val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         when (nextElement.elementType) {
             WfElementConstants.ElementType.USER_TASK.value,
             WfElementConstants.ElementType.END_EVENT.value,
             WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
-                nextElement.elementDataEntities.forEach {
+                connector.elementDataEntities.forEach {
                     if (it.attributeId == WfElementConstants.AttributeId.ACTION.value) {
-                        val buttonMap: LinkedHashMap<*, *>? = mapper.readValue(it.attributeValue, LinkedHashMap::class.java)
-                        if (buttonMap != null) {
-                            for ((key, value) in buttonMap) {
-                                actionList.add(WfActionDto(name = key.toString(), value = value.toString()))
-                            }
-                        }
+                        actionList.addAll(makeAction(it.attributeValue))
                     }
                 }
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
-                //GW의 condition field가 #{action} 이라면 GW 에서 나가는 화살표의 속성을 이용해서 action 값 설정
-                //#{action} 이 아니라면 GW로 들어가는 화살표의 속성을 이용해서 action 값 구성.
                 nextElement.elementDataEntities.forEach {
                     if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
-                        if (it.attributeValue.contains("#{action}")) {
-                            //TODO: 다음 Task 로 연결되는 Arrow 의 정보를 찾아 추가
-                            //Output Arrow Attribute
-                            val nextConnector: WfElementEntity = getNextConnector(it.attributeValue)
-                            nextConnector.elementDataEntities.forEach { data ->
-                                if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
-                                    actionList.add(WfActionDto(name = "", value = ""))
+                        when (it.attributeValue.contains("#{action}")) {
+                            true -> {
+                                val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(nextElement.elementId)
+                                var nextConnector: WfElementEntity = arrowConnectors[0]
+                                if (arrowConnectors.size > 1) {
+                                    //TODO: 조건에 따른 연결 커넥션 선택
+                                    nextConnector = arrowConnectors[1]
+                                }
+                                nextConnector.elementDataEntities.forEach { data ->
+                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                                        actionList.addAll(makeAction(data.attributeValue))
+                                    }
                                 }
                             }
-                        } else {
-                            //TODO: nextElement 앞의 Arrow 의 속성으로 추가
-                            //Input Arrow Attribute
-                            connector.elementDataEntities.forEach { data ->
-                                if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
-                                    actionList.add(WfActionDto(name = "", value = ""))
+                            false -> {
+                                connector.elementDataEntities.forEach { data ->
+                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value) {
+                                        actionList.addAll(makeAction(data.attributeValue))
+                                    }
                                 }
                             }
                         }
@@ -219,18 +216,21 @@ class WfElementService(
     }
 
     /**
-     * Get Next Connector.
+     * Make Actions.
      *
-     * @param codition
-     * @return WfElementEntity
+     * @param action
+     * @return MutableList<WfActionDto>
      */
-    fun getNextConnector(codition: String): WfElementEntity {
-        return WfElementEntity(
-                elementId = "",
-                elementName = "",
-                elementType = "",
-                elementConfig = ""
-        )
+    fun makeAction(action: String): MutableList<WfActionDto> {
+        val actionList: MutableList<WfActionDto> = mutableListOf()
+        val buttonMap: LinkedHashMap<*, *>? = mapper.readValue(action, LinkedHashMap::class.java)
+        if (buttonMap != null) {
+            for ((key, value) in buttonMap) {
+                actionList.add(WfActionDto(name = key.toString(), value = value.toString()))
+            }
+            actionList.add(WfActionDto(name = "", value = ""))
+        }
+        return actionList
     }
 
 }
