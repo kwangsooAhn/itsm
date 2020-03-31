@@ -57,6 +57,73 @@ class WfElementService(
     }
 
     /**
+     * Set Actions.
+     *
+     * @param wfTokenDto
+     * @return MutableList<WfActionDto>
+     */
+    fun getActionList(wfTokenDto: WfTokenDto): MutableList<WfActionDto> {
+        val connector = this.getConnector(wfTokenDto)
+        val currentElement = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
+        val nextElement = getNextElement(wfTokenDto)
+
+        val actionList: MutableList<WfActionDto> = mutableListOf()
+
+        //attributeId : save
+        actionList.add(WfActionDto(name = WfElementConstants.Action.SAVE.value, value = "저장"))
+
+        when (nextElement.elementType) {
+            WfElementConstants.ElementType.USER_TASK.value,
+            WfElementConstants.ElementType.END_EVENT.value,
+            WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
+                connector.elementDataEntities.forEach {
+                    if (it.attributeId == WfElementConstants.AttributeId.ACTION.value && it.attributeValue.isNotEmpty()) {
+                        actionList.addAll(makeAction(it.attributeValue))
+                    }
+                }
+            }
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
+                nextElement.elementDataEntities.forEach {
+                    if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
+                        when (it.attributeValue.contains("#{action}")) {
+                            true -> {
+                                val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(nextElement.elementId)
+                                var nextConnector: WfElementEntity = arrowConnectors[0]
+                                if (arrowConnectors.size > 1) {
+                                    //TODO: 조건에 따른 연결 커넥션 선택 (아래는 예시)
+                                    nextConnector = arrowConnectors[0]
+                                }
+                                nextConnector.elementDataEntities.forEach { data ->
+                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value && data.attributeValue.isNotEmpty()) {
+                                        actionList.addAll(makeAction(data.attributeValue))
+                                    }
+                                }
+                            }
+                            false -> {
+                                connector.elementDataEntities.forEach { data ->
+                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value && data.attributeValue.isNotEmpty()) {
+                                        actionList.addAll(makeAction(data.attributeValue))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else -> actionList.add(WfActionDto(name = WfElementConstants.Action.PROCESS.value, value = "처리"))
+        }
+
+        //attributeId : action reject
+        currentElement.elementDataEntities.forEach {
+            if (it.attributeId == WfElementConstants.AttributeId.REJECT.value && it.attributeValue.isNotEmpty()) {
+                actionList.add(WfActionDto(name = WfElementConstants.Action.REJECT.value, value = "반려"))
+            }
+        }
+
+        return actionList
+    }
+
+    /**
      * 컨넥터 엘리먼트를 조회.
      * 종료된 엘리먼트의 다음 엘리먼트 지정을 위한 컨넥터를 찾아서 리턴한다.
      *
@@ -161,79 +228,12 @@ class WfElementService(
     }
 
     /**
-     * Set Actions.
-     *
-     * @param wfTokenDto
-     * @return MutableList<WfActionDto>
-     */
-    fun getActionList(wfTokenDto: WfTokenDto): MutableList<WfActionDto> {
-        val connector = this.getConnector(wfTokenDto)
-        val currentElement = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
-        val nextElement = getNextElement(wfTokenDto)
-
-        val actionList: MutableList<WfActionDto> = mutableListOf()
-
-        //attributeId : save
-        actionList.add(WfActionDto(name = WfElementConstants.Action.SAVE.value, value = "저장"))
-
-        when (nextElement.elementType) {
-            WfElementConstants.ElementType.USER_TASK.value,
-            WfElementConstants.ElementType.END_EVENT.value,
-            WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
-                connector.elementDataEntities.forEach {
-                    if (it.attributeId == WfElementConstants.AttributeId.ACTION.value && it.attributeValue.isNotEmpty()) {
-                        actionList.addAll(makeAction(it.attributeValue))
-                    }
-                }
-            }
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
-                nextElement.elementDataEntities.forEach {
-                    if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
-                        when (it.attributeValue.contains("#{action}")) {
-                            true -> {
-                                val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(nextElement.elementId)
-                                var nextConnector: WfElementEntity = arrowConnectors[0]
-                                if (arrowConnectors.size > 1) {
-                                    //TODO: 조건에 따른 연결 커넥션 선택 (아래는 예시)
-                                    nextConnector = arrowConnectors[0]
-                                }
-                                nextConnector.elementDataEntities.forEach { data ->
-                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value && data.attributeValue.isNotEmpty()) {
-                                        actionList.addAll(makeAction(data.attributeValue))
-                                    }
-                                }
-                            }
-                            false -> {
-                                connector.elementDataEntities.forEach { data ->
-                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value && data.attributeValue.isNotEmpty()) {
-                                        actionList.addAll(makeAction(data.attributeValue))
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else -> actionList.add(WfActionDto(name = WfElementConstants.Action.PROCESS.value, value = "처리"))
-        }
-
-        //attributeId : action reject
-        currentElement.elementDataEntities.forEach {
-            if (it.attributeId == WfElementConstants.AttributeId.REJECT.value && it.attributeValue.isNotEmpty()) {
-                actionList.add(WfActionDto(name = WfElementConstants.Action.REJECT.value, value = "반려"))
-            }
-        }
-
-        return actionList
-    }
-
-    /**
      * Make Actions.
      *
      * @param action
      * @return MutableList<WfActionDto>
      */
-    fun makeAction(action: String): MutableList<WfActionDto> {
+    private fun makeAction(action: String): MutableList<WfActionDto> {
         val actionList: MutableList<WfActionDto> = mutableListOf()
         val buttonMap: LinkedHashMap<*, *>? = mapper.readValue(action, LinkedHashMap::class.java)
         if (buttonMap != null) {
