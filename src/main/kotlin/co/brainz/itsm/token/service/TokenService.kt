@@ -3,7 +3,6 @@ package co.brainz.itsm.token.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceTimezoneUtils
-import co.brainz.itsm.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
@@ -28,15 +27,14 @@ class TokenService(private val restTemplate: RestTemplateProvider
      *
      * @return Boolean
      */
-    fun createToken(restTemplateTokenDto: RestTemplateTokenDto): String {
+    fun createToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
         val responseEntity = restTemplate.create(url, restTemplateTokenDto)
         return if (responseEntity.body.toString().isNotEmpty()) {
             restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
-            val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-            dataDto.formId
+            true
         } else {
-            ""
+            false
         }
     }
 

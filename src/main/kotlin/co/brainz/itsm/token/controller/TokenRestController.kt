@@ -28,7 +28,7 @@ class TokenRestController(private val tokenService: TokenService) {
      * token 신규 등록 / 처리
      */
     @PostMapping("/data")
-    fun createToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): String {
+    fun createToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         return tokenService.createToken(restTemplateTokenDto)
     }
 

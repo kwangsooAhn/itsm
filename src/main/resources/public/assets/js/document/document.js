@@ -238,7 +238,8 @@
                     textEditorToolbar.style.borderColor = displayData['outline-color'];
                 }
                 if (compData.values != undefined && compData.values.length > 0) {
-                    textareaEle.value = compData.values[0].value;
+                    console.log(compData.values[0].value);
+                    textEditorEle.value = compData.values[0].value;
                 }
                 //fieldLastEle.appendChild(textareaEle);
                 break;
@@ -826,10 +827,14 @@
             url: '/rest/tokens/data',
             params: JSON.stringify(tokenObject),
             contentType: 'application/json',
-            callbackFunc: function() {
-                aliceJs.alert(i18n.get('common.msg.save'), function() {
-                    window.close();
-                });
+            callbackFunc: function(xhr) {
+                if (xhr.responseText === 'true') {
+                    aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        window.close();
+                    });
+                } else {
+                    aliceJs.alert(i18n.get('common.msg.fail'));
+                }
             }
         };
         aliceJs.sendXhr(opt);
