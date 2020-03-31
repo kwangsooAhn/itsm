@@ -4,6 +4,7 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
+import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
@@ -76,11 +77,7 @@ class WfElementService(
             WfElementConstants.ElementType.USER_TASK.value,
             WfElementConstants.ElementType.END_EVENT.value,
             WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
-                connector.elementDataEntities.forEach {
-                    if (it.attributeId == WfElementConstants.AttributeId.ACTION.value && it.attributeValue.isNotEmpty()) {
-                        actionList.addAll(makeAction(it.attributeValue))
-                    }
-                }
+                actionList.addAll(makeAction(connector.elementDataEntities))
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                 nextElement.elementDataEntities.forEach {
@@ -93,18 +90,10 @@ class WfElementService(
                                     //TODO: 조건에 따른 연결 커넥션 선택 (아래는 예시)
                                     nextConnector = arrowConnectors[0]
                                 }
-                                nextConnector.elementDataEntities.forEach { data ->
-                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value && data.attributeValue.isNotEmpty()) {
-                                        actionList.addAll(makeAction(data.attributeValue))
-                                    }
-                                }
+                                actionList.addAll(makeAction(nextConnector.elementDataEntities))
                             }
                             false -> {
-                                connector.elementDataEntities.forEach { data ->
-                                    if (data.attributeId == WfElementConstants.AttributeId.ACTION.value && data.attributeValue.isNotEmpty()) {
-                                        actionList.addAll(makeAction(data.attributeValue))
-                                    }
-                                }
+                                actionList.addAll(makeAction(connector.elementDataEntities))
                             }
                         }
                     }
@@ -230,16 +219,23 @@ class WfElementService(
     /**
      * Make Actions.
      *
-     * @param action
+     * @param dataEntities
      * @return MutableList<WfActionDto>
      */
-    private fun makeAction(action: String): MutableList<WfActionDto> {
+    private fun makeAction(dataEntities: MutableList<WfElementDataEntity>): MutableList<WfActionDto> {
         val actionList: MutableList<WfActionDto> = mutableListOf()
-        val buttonMap: LinkedHashMap<*, *>? = mapper.readValue(action, LinkedHashMap::class.java)
-        if (buttonMap != null) {
-            for ((key, value) in buttonMap) {
-                actionList.add(WfActionDto(name = key.toString(), value = value.toString()))
+        var actionName = ""
+        var actionValue = ""
+        dataEntities.forEach {
+            if (it.attributeId == WfElementConstants.AttributeId.ACTION_NAME.value) {
+                actionName = it.attributeValue
             }
+            if (it.attributeId == WfElementConstants.AttributeId.ACTION_VALUE.value) {
+                actionValue = it.attributeValue
+            }
+        }
+        if (actionName.isNotEmpty() && actionValue.isNotEmpty()) {
+            actionList.add(WfActionDto(name = actionValue, value = actionName))
         }
         return actionList
     }
