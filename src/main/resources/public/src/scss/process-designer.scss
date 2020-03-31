@@ -199,15 +199,15 @@ body {
         path.connector {
             fill: none;
             stroke: #000;
-            stroke-width: 1;
+            stroke-width: 2;
             cursor: default;
         }
         path.connector.selected {
             stroke-dasharray: 10,2;
-            stroke-width: 2;
+            stroke-width: 3;
         }
         path.connector.is-default {
-            stroke-width: 3;
+            stroke-width: 4;
         }
         path.connector.drag-line {
             pointer-events: none;

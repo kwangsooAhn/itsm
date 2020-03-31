@@ -10035,15 +10035,15 @@ body {
 .alice-process-drawing-board path.connector {
   fill: none;
   stroke: #000;
-  stroke-width: 1;
+  stroke-width: 2;
   cursor: default;
 }
 .alice-process-drawing-board path.connector.selected {
   stroke-dasharray: 10, 2;
-  stroke-width: 2;
+  stroke-width: 3;
 }
 .alice-process-drawing-board path.connector.is-default {
-  stroke-width: 3;
+  stroke-width: 4;
 }
 .alice-process-drawing-board path.connector.drag-line {
   pointer-events: none;
