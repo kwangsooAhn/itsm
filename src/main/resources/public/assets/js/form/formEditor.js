@@ -836,6 +836,28 @@
                                     optionDefaultArr = defaultFormatArr;
                                 }
                                 let labelName = option.name.split('{0}');
+
+                                if (option.id ==='datetimepicker') {
+                                    if (optionDefaultArr[1] !=='') {
+                                        let nowTimeFormat = formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat + ' '+  formEditor.userData.defaultTime;
+                                        optionDefaultArr[1] = aliceJs.changeDateFormat(optionDefaultArr[2], nowTimeFormat, optionDefaultArr[1], formEditor.userData.lang);
+                                    }
+                                } else if (option.id ==='timepicker') {
+                                    if (optionDefaultArr[1] !=='') {
+                                        let timeFormat = formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat +' ' +formEditor.userData.defaultTime;
+                                        let beforeFormt = formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat +' ' + '24';
+                                        let timeDefault = '';
+                                        timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat);
+                                        timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, formEditor.userData.lang);
+                                        let timeNow = timeDefault.split(' ');
+                                        if (timeNow.length > 2) {
+                                            optionDefaultArr[1] = timeNow[1] +' '+timeNow[2];
+                                        } else {
+                                            optionDefaultArr[1] = timeNow[1];
+                                        }
+                                    }
+                                }
+
                                 propertyTemplate += `
                                     <div class='vertical-group'>
                                     <input type='radio' id='${option.id}' name='${group}.${fieldArr.id}' value='${option.id}'
@@ -1153,7 +1175,6 @@
      * @param {Object} data 조회한 폼 및 컴포넌트 정보
      */
     function drawForm(data) {
-        console.debug(JSON.parse(data));
         formEditor.data = JSON.parse(data);
         if (formEditor.data.components.length > 0 ) {
             formEditor.data.components.sort(function (a, b) { //컴포넌트 재정렬

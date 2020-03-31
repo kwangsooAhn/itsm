@@ -396,9 +396,10 @@
         } else if (dateDefaultArr[0] === 'date') {
             if (dateDefaultArr[1] === '') {
                 dateDefaultArr[1] = 0;
+                dateDefault = aliceJs.getTimeStamp(dateFormat, '');
+            } else {
+                dateDefault = aliceJs.getTimeStamp(dateFormat, dateDefaultArr[1]);
             }
-            dateDefault = aliceJs.getTimeStamp(dateFormat, dateDefaultArr[1]);
-            dateDefault = aliceJs.changeDateFormat(dateDefaultArr[2], dateFormat, dateDefault.split(' ')[0], formEditor.userData.lang);
         }
         let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
@@ -429,7 +430,6 @@
      * @constructor
      */
     function Timebox(attr) {
-        console.log(attr);
         //시간 포멧 변경
         let timeDefaultArr = attr.display['default'].split('|');
         let timeDefault = '';
@@ -447,17 +447,13 @@
         } else if (timeDefaultArr[0] === 'time') {
             timeDefault = aliceJs.getTimeStamp(beforeFormt, '', timeDefaultArr[1]);
             let timeDate = timeDefault.split(' ');
-            console.log(timeDate);
-            timeDefault = aliceJs.changeDateFormat(beforeFormt, beforeFormt, timeDate[0] +' '+ timeDate[1], formEditor.userData.lang);
-            console.log(timeDate);
+            timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDate[0] +' '+ timeDate[1], formEditor.userData.lang);
             let time = timeDefault.split(' ');
-            /*if (time.length > 2) {
-                timeDefault = time[2] +' '+time[1];
+            if (time.length > 2) {
+                timeDefault = time[1] +' '+time[2];
             } else {
                 timeDefault = time[1];
-            }*/
-
-            timeDefault = time[1];
+            }
         } else if (timeDefaultArr[0] === 'timepicker') {
             timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat)+ ' ' + timeDefaultArr[1];
             timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, formEditor.userData.lang);
@@ -473,7 +469,10 @@
                 timeDefault = timepicker[1];
             }
         }
-        console.log(timeDefaultArr[0]+"====="+timeDefault +"====="+formEditor.userData.defaultTime);
+        let targetElement = document.getElementById('time-' + attr.id);
+        if (targetElement != undefined) {
+            targetElement.remove();
+        }
         let comp = '';
         if (formEditor.userData.defaultTime == '12') {
             comp = utils.createComponentByTemplate(`
@@ -488,7 +487,7 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat}' value='${timeDefault}' readonly/>
+                        <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat} a' value='${timeDefault}' readonly/>
                     </div>
                 </div>
             `);
@@ -524,29 +523,32 @@
      */
     function DateTimebox(attr) {
         //날짜 시간 포멧 변경
-        console.log("=====AAAAAAA=====");
-        console.log(attr);
         let datetimeDefaultArr = attr.display['default'].split('|');
         let datetimeDefault = '';
+        let beforeDatetimeDefault = '';
         let timeFormat = formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat;
         let nowTimeFormat = formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat + ' '+  formEditor.userData.defaultTime;
+
         if (datetimeDefaultArr[0] === 'now') {
             datetimeDefault = aliceJs.getTimeStamp(timeFormat);
         } else if (datetimeDefaultArr[0] === 'datetimepicker') {
-            datetimeDefault = datetimeDefaultArr[1];
+            if (datetimeDefaultArr[1] !== '') {
+                beforeDatetimeDefault = datetimeDefaultArr[1];
+            } else {
+                beforeDatetimeDefault = aliceJs.getTimeStamp(timeFormat);
+            }
+            datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], nowTimeFormat, beforeDatetimeDefault, formEditor.userData.lang);
         } else if (datetimeDefaultArr[0] === 'datetime') {
-            datetimeDefault = aliceJs.getTimeStamp(timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
-            console.log("====ddd===");
-            console.log(datetimeDefault);
-            datetimeDefault = aliceJs.changeDateFormat('YYYY-MM-DD hh:mm 24', nowTimeFormat, datetimeDefault, formEditor.userData.lang);
-            console.log(datetimeDefault);
-        } else if (datetimeDefaultArr[0] === 'time') {
-            datetimeDefault = aliceJs.getTimeStamp(timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+            beforeDatetimeDefault = aliceJs.getTimeStamp(timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+            datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[3], nowTimeFormat, beforeDatetimeDefault, formEditor.userData.lang);
         }
 
-        console.log(datetimeDefaultArr);
-        console.log(datetimeDefault);
-        let comp = utils.createComponentByTemplate(`
+        let targetElement = document.getElementById('datetime-' + attr.id);
+        if (targetElement != undefined) {
+            targetElement.remove();
+        }
+        let comp = '';
+            comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
                     <div class='field'>
@@ -558,7 +560,7 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${datetimeDefault}' readonly />
+                        <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat} a' value='${datetimeDefault}' readonly />
                     </div>
                 </div>
             `);
