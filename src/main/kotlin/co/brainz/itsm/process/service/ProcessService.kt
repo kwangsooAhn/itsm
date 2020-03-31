@@ -24,6 +24,7 @@ import java.time.LocalDateTime
 class ProcessService(private val restTemplate: RestTemplateProvider) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 프로세스 데이터 목록 조회.
@@ -31,7 +32,6 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     fun getProcesses(params: LinkedMultiValueMap<String, String>): List<WfProcessDto> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url, parameters = params)
         val responseBody = restTemplate.get(url)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val wfProcessList: List<WfProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfProcessDto::class.java))
         for (item in wfProcessList) {
             item.createDt = item.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
@@ -58,10 +58,9 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
-        return when (responseBody.isNotEmpty()) {
+        return when (responseBody.body.toString().isNotEmpty()) {
             true -> {
-                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-                val dataDto = mapper.readValue(responseBody, RestTemplateProcessDto::class.java)
+                val dataDto = mapper.readValue(responseBody.body.toString(), RestTemplateProcessDto::class.java)
                 dataDto.processId
             }
             false -> ""
@@ -77,7 +76,8 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         wfProcessElementDto.process?.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         wfProcessElementDto.process?.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(restTemplate.getKeyRegex(), processId))
-        return restTemplate.update(url, wfProcessElementDto)
+        val responseEntity = restTemplate.update(url, wfProcessElementDto)
+        return responseEntity.body.toString().isNotEmpty()
     }
 
     /**
@@ -93,11 +93,10 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
             wfProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
         }
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS_SAVE_AS.url)
-        val responseBody = restTemplate.createToSave(url, wfProcessElementDto)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        return when (responseBody.isNotEmpty()) {
+        val responseEntity = restTemplate.createToSave(url, wfProcessElementDto)
+        return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
-                val processDto = mapper.readValue(responseBody, RestTemplateProcessDto::class.java)
+                val processDto = mapper.readValue(responseEntity.body.toString(), RestTemplateProcessDto::class.java)
                 processDto.processId
             }
             false -> ""

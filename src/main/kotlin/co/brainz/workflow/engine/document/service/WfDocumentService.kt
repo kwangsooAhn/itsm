@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine.document.service
 
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
@@ -11,16 +13,20 @@ import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import org.mapstruct.factory.Mappers
+import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class WfDocumentService(private val wfFormService: WfFormService,
-                        private val wfFormRepository: WfFormRepository,
-                        private val wfDocumentRepository: WfDocumentRepository,
-                        private val wfInstanceRepository: WfInstanceRepository) {
+class WfDocumentService(
+    private val wfFormService: WfFormService,
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfProcessRepository: WfProcessRepository,
+    private val wfFormRepository: WfFormRepository
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -88,8 +94,17 @@ class WfDocumentService(private val wfFormService: WfFormService,
      * @return WfDocumentDto
      */
     fun createDocument(documentDto: WfDocumentDto): WfDocumentDto {
-        val form = WfFormEntity(formId = documentDto.formId)
-        val process = WfProcessEntity(processId = documentDto.procId)
+        val formId = documentDto.formId
+        val processId = documentDto.procId
+        val selectedForm = wfFormRepository.getOne(formId)
+        val selectedProcess = wfProcessRepository.getOne(processId)
+        val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
+        if (selectedDocument != null) {
+            throw AliceException(AliceErrorConstants.ERR, "Duplication document. check form and process")
+        }
+
+        val form = WfFormEntity(formId = formId)
+        val process = WfProcessEntity(processId = processId)
         val documentEntity = WfDocumentEntity(
             documentId = documentDto.documentId,
             documentName = documentDto.documentName,
