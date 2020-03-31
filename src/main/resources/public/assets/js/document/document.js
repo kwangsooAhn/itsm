@@ -240,6 +240,9 @@
                         textEditorToolbar.style.borderWidth = displayData['outline-width'] + 'px';
                         textEditorToolbar.style.borderColor = displayData['outline-color'];
                     }
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        textEditor.setContents(JSON.parse(compData.values[0].value));
+                    }
                 } else {
                     const textareaEle = document.createElement('textarea');
                     textareaEle.placeholder = displayData.placeholder;
@@ -251,13 +254,11 @@
                     textareaEle.addEventListener('focusout', function() {
                         validateCheck(this, validateData);
                     });
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        textareaEle.value = compData.values[0].value;
+                    }
                     fieldLastEle.appendChild(textareaEle);
                 }
-                if (compData.values != undefined && compData.values.length > 0) {
-                    console.log(compData.values[0].value);
-                    textEditorEle.value = compData.values[0].value;
-                }
-                //fieldLastEle.appendChild(textareaEle);
                 break;
             case 'select':
                 const selectEle = document.createElement('select');
@@ -543,15 +544,6 @@
         const buttonEle = document.createElement('div');
         buttonEle.style.marginTop = '10px';
         buttonEle.style.textAlign = 'center';
-
-        const buttonSaveEle = document.createElement('button');
-        buttonSaveEle.type = 'button';
-        buttonSaveEle.innerText = i18n.get('common.btn.save');
-        buttonSaveEle.addEventListener('click', function() {
-            aliceDocument.save('save');
-        });
-        buttonEle.appendChild(buttonSaveEle);
-
         if (buttonData !== undefined && buttonData !== '') {
             buttonData.forEach(function(element) {
                 if (element.name !== '') {
@@ -565,18 +557,20 @@
                 }
             });
         } else {
+            //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
             //token Id 가 없고 버튼에 대한 정보 없다는 것은 처음 문서 생성 이라고 판단한다.
             if (document.getElementById('tokenId') === null) {
-                const buttonProcessEle = document.createElement('button');
-                buttonProcessEle.type = 'button';
-                buttonProcessEle.innerText = i18n.get('common.btn.register');
-                buttonProcessEle.addEventListener('click', function () {
-                    aliceDocument.save('');
+                const buttonSaveEle = document.createElement('button');
+                buttonSaveEle.type = 'button';
+                buttonSaveEle.innerText = i18n.get('common.btn.save');
+                buttonSaveEle.addEventListener('click', function () {
+                    aliceDocument.save('save');
                 });
-                buttonEle.appendChild(buttonProcessEle);
+                buttonEle.appendChild(buttonSaveEle);
             }
         }
 
+        //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
         const buttonCancelEle = document.createElement('button');
         buttonCancelEle.type = 'button';
         buttonCancelEle.innerText = i18n.get('common.btn.cancel');
