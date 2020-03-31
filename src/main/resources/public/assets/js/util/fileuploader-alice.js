@@ -105,10 +105,10 @@ const fileUploader = (function () {
         const myDropZone = new Dropzone('#dropZoneFiles #dropZoneFileUpload', {
             paramName: "file", // file 매개변수명
             params: extraParam || null, // 추가 매개변수
-            maxFilesize: 3, // MB
+            maxFilesize: 3, // 첨부파일 용량 제한
             url: '/fileupload',
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
-            maxFiles: null, // 처리할 최대 파일수
+            maxFiles: null, // 첨부파일 개수 제한
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
             //acceptedFiles: "image/*",
@@ -261,6 +261,16 @@ const fileUploader = (function () {
                 });
 
                 this.on("canceled", function () {
+                });
+
+                this.on("maxfilesexceeded", function (file, maxFiles) {
+                    this.removeFile(file);
+                    alert("첨부파일 개수를 초과하였습니다. \n(첨부파일 제한 개수 : " + maxFiles +")");
+                });
+
+                this.on("maxfilesizeexceeded", function (file, maxFileSize) {
+                    this.removeFile(file);
+                    alert("첨부파일 제한 용량을 초과하였습니다. \n(첨부파일 제한 용량 : " + maxFileSize +"MB)");
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
