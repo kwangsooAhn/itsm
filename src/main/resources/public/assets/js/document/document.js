@@ -70,7 +70,6 @@
                     }
                     if (key === 'length-min' && value > chkVal.length) {
                         alertMsg(element, i18n.get('document.msg.lengthMin', value));
-                        alertMsg(element, i18n.get('document.msg.lengthMin', value));
                         return true;
                     }
                     if (key === 'length-max' && value < chkVal.length) {
@@ -85,6 +84,7 @@
                             alertMsg(element, i18n.get('document.msg.dateMin').replace('{0}', dateMinValue));
                             return true;
                         }
+                    }
                     if (key === 'date-max') {
                         let dateMaxValueArray = value.split("|");
                         let dateMaxValuePlaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
@@ -240,7 +240,7 @@
                 if (compData.values != undefined && compData.values.length > 0) {
                     textareaEle.value = compData.values[0].value;
                 }
-                fieldLastEle.appendChild(textareaEle);
+                //fieldLastEle.appendChild(textareaEle);
                 break;
             case 'select':
                 const selectEle = document.createElement('select');

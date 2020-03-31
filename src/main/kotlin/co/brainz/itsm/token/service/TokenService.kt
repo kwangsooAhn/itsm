@@ -30,16 +30,13 @@ class TokenService(private val restTemplate: RestTemplateProvider
      */
     fun createToken(restTemplateTokenDto: RestTemplateTokenDto): String {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
-        val result = restTemplate.create(url, restTemplateTokenDto)
-        restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
-        return result
         val responseEntity = restTemplate.create(url, restTemplateTokenDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-                dataDto.formId
-            }
-            false -> ""
+        return if (responseEntity.body.toString().isNotEmpty()) {
+            restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+            val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
+            dataDto.formId
+        } else {
+            ""
         }
     }
 
@@ -52,12 +49,13 @@ class TokenService(private val restTemplate: RestTemplateProvider
     fun updateToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
         val responseEntity = restTemplate.update(url, restTemplateTokenDto)
-        return responseEntity.body.toString().isNotEmpty()
-        val result = restTemplate.update(url, restTemplateTokenDto)
-        if (result) {
-            restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+        return when (responseEntity.body.toString().isNotEmpty()) {
+            true -> {
+                restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+                true
+            }
+            false -> false
         }
-        return result
     }
 
     /**
