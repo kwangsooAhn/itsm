@@ -295,6 +295,15 @@
         ],
         "display": [
             {
+                "id": "editor-useYn",
+                "name": "Editor Use",
+                "value": "Y",
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "",
+                "unit": ""
+            },
+            {
                 "id": "rows", 
                 "name": "Rows", 
                 "value": "3", 
