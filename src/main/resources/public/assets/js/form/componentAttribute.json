@@ -310,7 +310,7 @@
                 "type": "inputbox-underline", 
                 "code": "", 
                 "unit": "",
-                "validate": "number"
+                "validate": "number|min[2]"
             },
             {
                 "id": "placeholder", 
