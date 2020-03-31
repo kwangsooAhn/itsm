@@ -14,7 +14,7 @@
     const assigneeTypeData = {
         users: [],
         groups: []
-    }
+    };
 
     let processProperties = {},
         elementsProperties = {},
@@ -220,27 +220,31 @@
     function editElementType(element, type) {
         const elementId = element.node().id,
               elements = AliceProcessEditor.data.elements;
-        const elementData = elements.filter(function(elem) { return elem.id === elementId; })[0];
-        console.debug('current element type: %s, edit element type: %s', elementData.type, type);
-        if (elementData.type === type) {
-            return;
-        }
-        const category = getElementCategory(type);
-        let typeData = getAttributeData(category, type);
-        Object.keys(typeData).forEach(function(newKey) {
-            Object.keys(elementData.data).forEach(function(oldKey) {
-                if (newKey === oldKey) {
-                    typeData[newKey] = elementData.data[oldKey];
-                }
+        const elementData = elements.filter(function(elem) { return elem.id === elementId; });
+        if (elementData.length) {
+            console.debug('current element type: %s, edit element type: %s', elementData[0].type, type);
+            if (elementData[0].type === type) {
+                return;
+            }
+            const originElementData = JSON.parse(JSON.stringify(elementData[0]));
+            const category = getElementCategory(type);
+            let typeData = getAttributeData(category, type);
+            Object.keys(typeData).forEach(function(newKey) {
+                Object.keys(elementData[0].data).forEach(function(oldKey) {
+                    if (newKey === oldKey) {
+                        typeData[newKey] = elementData[0].data[oldKey];
+                    }
+                });
             });
-        });
-        elementData.type = type;
-        elementData.data = typeData;
+            elementData[0].type = type;
+            elementData[0].data = typeData;
 
-        changeElementType(element, type);
-        d3.select('g.alice-tooltip').remove();
-        setElementMenu(element);
-        console.debug('edited element [%s]!!', type);
+            changeElementType(element, type);
+            d3.select('g.alice-tooltip').remove();
+            setElementMenu(element);
+            AliceProcessEditor.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+            console.debug('edited element [%s]!!', type);
+        }
     }
 
     /**
@@ -295,18 +299,20 @@
         } else {
             const data = elem.node().__data__;
             elemData.type = 'arrowConnector';
+            elemData.display = {};
             elemData.data = getAttributeData('connector', 'arrowConnector');
-            elemData.data['start-id'] = data.source.node().id;
-            elemData.data['end-id'] = data.target.node().id;
+            elemData.data['start-id'] = data.sourceId;
+            elemData.data['end-id'] = data.targetId;
             elements.forEach(function(e) {
-                if (e.id === data.source.node().id) { elemData.data['start-name'] = e.data.name; }
-                if (e.id === data.target.node().id) { elemData.data['end-name'] = e.data.name; }
+                if (e.id === data.sourceId) { elemData.data['start-name'] = e.data.name; }
+                if (e.id === data.targetId) { elemData.data['end-name'] = e.data.name; }
             });
         }
         if (elemData.data.name) {
             AliceProcessEditor.changeTextToElement(elementId, elemData.data.name);
         }
         elements.push(elemData);
+        AliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
     }
 
     /**
@@ -363,7 +369,7 @@
                 let connectorNode = document.getElementById(c.id);
                 if (connectorNode) {
                     const data = connectorNode.__data__;
-                    if (data.source.node().id === elementId) {
+                    if (data.sourceId === elementId) {
                         isSuggest = false;
                     }
                 }
@@ -399,7 +405,7 @@
             .attr('width', itemSize)
             .attr('height', itemSize)
             .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
-            .on('mousedown', function(d, i) {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 actionTooltip.forEach(function(t) {
                     if (t.focus_url) {
@@ -548,14 +554,19 @@
         d3.select('g.alice-tooltip').remove();
         const elementId = elem.node().id,
               elements = AliceProcessEditor.data.elements;
+
+        const histories = [];
         elements.forEach(function(e, i) {
-            if (elementId === e.id) { elements.splice(i, 1); }
+            if (elementId === e.id) {
+                let originElementData = JSON.parse(JSON.stringify(e));
+                elements.splice(i, 1);
+                histories.push({0: originElementData, 1: {}});
+            }
         });
 
         let links = AliceProcessEditor.elements.links;
         if (!elem.classed('connector')) {
             // delete the connector connected to the target element.
-            let nodes = AliceProcessEditor.elements.nodes;
             for (let i = elements.length - 1; i >= 0; i--) {
                 if (elements[i].type === 'arrowConnector') {
                     if (elements[i].data['start-id'] === elementId || elements[i].data['end-id'] === elementId) {
@@ -566,18 +577,14 @@
                                 break;
                             }
                         }
+                        let originElementData = JSON.parse(JSON.stringify(elements[i]));
                         elements.splice(i, 1);
+                        histories.push({0: originElementData, 1: {}});
                     }
                 }
             }
             // delete node.
-            for (let i = 0, len = nodes.length; i < len; i++) {
-                if (nodes[i].node().id === elementId) {
-                    nodes.splice(i, 1);
-                    d3.select(elem.node().parentNode).remove();
-                    break;
-                }
-            }
+            d3.select(elem.node().parentNode).remove();
         } else {
             // delete connector.
             for (let i = 0, len = links.length; i < len; i++) {
@@ -588,6 +595,7 @@
                 }
             }
         }
+        AliceProcessEditor.history.saveHistory(histories);
     }
 
     /**
@@ -603,11 +611,11 @@
         elemData.display['position-y'] = elemData.display['position-y'] + 10;
         let node = AliceProcessEditor.addElement(elemData);
         if (node) {
-            const nodeId = node.nodeElement.attr('id');
-            elemData.id = nodeId;
+            elemData.id = node.nodeElement.attr('id');
             AliceProcessEditor.data.elements.push(elemData);
 
             AliceProcessEditor.removeElementSelected();
+            AliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
         }
     }
 
@@ -633,15 +641,23 @@
 
         let node = AliceProcessEditor.addElement(elemData);
         if (node) {
-            const nodeId = node.nodeElement.attr('id'),
-                  bbox = AliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
-            elemData.id = nodeId;
+            elemData.id = node.nodeElement.attr('id');
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
             elemData.display.width = bbox.width;
             elemData.display.height = bbox.height;
             AliceProcessEditor.data.elements.push(elemData);
 
             AliceProcessEditor.removeElementSelected();
-            AliceProcessEditor.connectElement(elem, node.nodeElement);
+
+            const connectorElementId = workflowUtil.generateUUID();
+            AliceProcessEditor.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id});
+            AliceProcessEditor.setConnectors();
+
+            const connectorElementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
+            AliceProcessEditor.history.saveHistory([
+                {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
+                {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
+            ]);
         }
     }
 
@@ -704,7 +720,7 @@
                 if (elem.classed(elementsKeys[i])) {
                     let property = elements.filter(function(attr) { return attr.id === elementId; })[0];
                     let properties = elementsProperties[elementsKeys[i]];
-                    let attributes = properties.filter(function(p){ return p.type === property.type; });
+                    let attributes = properties.filter(function(p) { return p.type === property.type; });
                     if (attributes.length > 0) {
                         makePropertiesItem(elementId, attributes[0], property.data);
                     }
@@ -724,8 +740,9 @@
      */
     function changeDisplayValue(id) {
         let elementData = AliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
-        if (elementData.length > 0) {
-            const nodeElement = d3.select(document.getElementById(id));
+        if (elementData.length) {
+            const originElementData = JSON.parse(JSON.stringify(elementData[0])),
+                  nodeElement = d3.select(document.getElementById(id));
             if (nodeElement.classed('connector')) {
                 const linkData = nodeElement.node().__data__;
                 elementData[0].display = {};
@@ -742,40 +759,51 @@
                 const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
                 elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
             }
+            AliceProcessEditor.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
         }
     }
 
     /**
      * 변경된 element data 속성 값을 저장한다.
      *
-     * @param id element ID
+     * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
         const container = document.querySelector('.alice-process-properties-panel');
         const propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === AliceProcessEditor.data.process.id) {
+            const originProcessData = JSON.parse(JSON.stringify(AliceProcessEditor.data.process));
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
                 let propertyObject = propertyObjects[i];
                 AliceProcessEditor.data.process[propertyObject.name] = propertyObject.value;
             }
+            AliceProcessEditor.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(AliceProcessEditor.data.process))}]);
         } else {
             let elementData = AliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
-            for (let i = 0, len = propertyObjects.length; elementData.length > 0 && i < len; i++) {
-                let propertyObject = propertyObjects[i];
-                let propertyValue = propertyObject.value;
-                if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
-                    propertyValue = propertyObject.checked ? 'Y' : 'N';
+            if (elementData.length) {
+                const originElementData = JSON.parse(JSON.stringify(elementData[0]));
+                for (let i = 0, len = propertyObjects.length; i < len; i++) {
+                    let propertyObject = propertyObjects[i],
+                        propertyValue = propertyObject.value;
+                    if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
+                        propertyValue = propertyObject.checked ? 'Y' : 'N';
+                    }
+                    elementData[0].data[propertyObject.name] = propertyValue;
                 }
-                elementData[0].data[propertyObject.name] = propertyValue;
-            }
 
-            let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
-            for (let i = 0, len = connectors.length; i < len; i++) {
-                if (connectors[i].data['start-id'] === id) {
-                    connectors[i].data['start-name'] = elementData[0].data.name;
-                }
-                if (connectors[i].data['end-id'] === id) {
-                    connectors[i].data['end-name'] = elementData[0].data.name;
+                const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
+                AliceProcessEditor.history.saveHistory([{0: originElementData, 1: changeElementData}]);
+
+                if (originElementData.data.name !== changeElementData.data.name) {
+                    let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+                    for (let i = 0, len = connectors.length; i < len; i++) {
+                        if (connectors[i].data['start-id'] === id) {
+                            connectors[i].data['start-name'] = elementData[0].data.name;
+                        }
+                        if (connectors[i].data['end-id'] === id) {
+                            connectors[i].data['end-name'] = elementData[0].data.name;
+                        }
+                    }
                 }
             }
         }
@@ -986,17 +1014,17 @@
                         elementObject.value = elemData[property.id];
                     }
                     if (property.id === 'name') {
-                        let keyupHandler = function(e) {
+                        let keyupHandler = function() {
                             AliceProcessEditor.changeTextToElement(id, this.value);
                         };
                         if (id === AliceProcessEditor.data.process.id) {
-                            keyupHandler = function(e) {
+                            keyupHandler = function() {
                                 document.querySelector('.process-name').textContent = this.value;
                             };
                         }
                         elementObject.addEventListener('keyup', keyupHandler);
                     }
-                    elementObject.addEventListener('change', function(event) {
+                    elementObject.addEventListener('change', function() {
                         changePropertiesDataValue(id);
                     });
                     propertyContainer.appendChild(elementObject);
@@ -1071,6 +1099,24 @@
             contentType: 'application/json; charset=utf-8'
         });
 
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/users',
+            callbackFunc: function(xhr) {
+                assigneeTypeData.users = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/roles',
+            callbackFunc: function(xhr) {
+                assigneeTypeData.groups = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
         // add pattern image. for tooltip item image.
         const imageLoadingList = [];
         tooltipItems.forEach(function(item) {
@@ -1105,24 +1151,6 @@
             .attr('y', 0)
             .attr('xlink:href', function(d) { return d.url; });
     }
-
-    aliceJs.sendXhr({
-        method: 'GET',
-        url: '/rest/users',
-        callbackFunc: function(xhr) {
-            assigneeTypeData.users = JSON.parse(xhr.responseText);
-        },
-        contentType: 'application/json; charset=utf-8'
-    });
-
-    aliceJs.sendXhr({
-        method: 'GET',
-        url: '/rest/roles',
-        callbackFunc: function(xhr) {
-            assigneeTypeData.groups = JSON.parse(xhr.responseText);
-        },
-        contentType: 'application/json; charset=utf-8'
-    });
 
     exports.data = data;
     exports.loadItems = loadItems;

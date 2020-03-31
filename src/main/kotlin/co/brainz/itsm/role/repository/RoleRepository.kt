@@ -3,6 +3,7 @@ package co.brainz.itsm.role.repository
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import org.springframework.stereotype.Repository
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 
 
 @Repository
@@ -15,6 +16,7 @@ interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
     /**
      * 상단 역할명 조회
      */
+    @Query("select a from AliceRoleEntity a join fetch a.createUser left outer join a.updateUser")
     fun findByOrderByRoleNameAsc(): MutableList<AliceRoleEntity>
 
     /*

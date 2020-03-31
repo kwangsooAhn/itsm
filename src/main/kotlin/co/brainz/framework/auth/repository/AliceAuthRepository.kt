@@ -11,6 +11,7 @@ interface AliceAuthRepository: JpaRepository<AliceAuthEntity, String> {
     /**
      * 권한 리스트 조회
      */
+    @Query("select a from AliceAuthEntity a join fetch a.createUser left outer join a.updateUser")
     fun findByOrderByAuthIdAsc(): MutableList<AliceAuthEntity>
 
     /**

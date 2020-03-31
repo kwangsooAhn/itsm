@@ -17,9 +17,8 @@
         dragLine;
 
     const elements = {
-        nodes: [],
         links: []
-    }
+    };
 
     let mousedownElement,
         mouseoverElement,
@@ -133,8 +132,12 @@
             .style('opacity', 0)
             .call(d3.drag()
                 .on('drag', function(d) {
+                    svg.selectAll('.alice-tooltip').remove();
                     d.midPoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                })
+                .on('end', function(d) {
+                    AliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
                     AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
@@ -148,6 +151,8 @@
                 .on('drag', function(d) {
                     d.sourcePoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                })
+                .on('end', function(d) {
                     AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
@@ -161,6 +166,8 @@
                 .on('drag', function(d) {
                     d.targetPoint = [d3.event.x, d3.event.y];
                     drawConnectors();
+                })
+                .on('end', function(d) {
                     AliceProcessEditor.changeDisplayValue(d.id);
                 })
             );
@@ -217,13 +224,18 @@
      */
     function drawConnectors() {
         const getLinePath = function(d) {
-            let target = d.target,
-                source = d.source;
+            const targetNode = document.getElementById(d.targetId),
+                  sourceNode = document.getElementById(d.sourceId);
+            if (!targetNode || !sourceNode) {
+                return '';
+            }
+            let target = d3.select(targetNode),
+                source = d3.select(sourceNode);
             if (target.classed('gateway')) {
-                target = d3.select(d.target.node().parentNode);
+                target = d3.select(targetNode.parentNode);
             }
             if (source.classed('gateway')) {
-                source = d3.select(d.source.node().parentNode);
+                source = d3.select(sourceNode.parentNode);
             }
             const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
@@ -322,17 +334,6 @@
     }
 
     /**
-     * connector 를 추가한다.
-     *
-     * @param source source element
-     * @param target target element
-     */
-    function connectElement(source, target) {
-        elements.links.push({id: workflowUtil.generateUUID(), source: source, target: target});
-        setConnectors();
-    }
-
-    /**
      * element 마우스 이벤트.
      *
      * @type {{mouseover: mouseover, mouseout: mouseout, mouseup: mouseup, mousedown: mousedown}}
@@ -390,11 +391,9 @@
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
                 selectedElement.classed('selected', true);
                 if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
-                    const selectedElementId = selectedElement.node().id;
-                    for (let i = 1; i <= 4; i++) {
-                        // svg.select('#' + selectedElementId + '_point' + i).style('opacity', 1); <- querySelector 로 첫번째 글자로 숫자가 오면 오류남.
-                        document.getElementById(selectedElementId + '_point' + i).style.opacity = 1;
-                    }
+                    d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
+                        elem.style.opacity = 1;
+                    });
                 }
                 elemContainer.style('cursor', 'move');
                 AliceProcessEditor.setElementMenu(elem);
@@ -418,7 +417,7 @@
                         .classed('selected', false);
 
                     if (checkAvailableLink()) {
-                        elements.links.push({id: workflowUtil.generateUUID(), source: mousedownElement, target: mouseoverElement});
+                        elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -426,6 +425,7 @@
                 resetMouseVars();
             } else {
                 elemContainer.style('cursor', 'pointer');
+                AliceProcessEditor.changeDisplayValue(elem.node().id);
                 if (svg.select('.alice-tooltip').node() === null) {
                     AliceProcessEditor.setActionTooltipItem(elem);
                 }
@@ -451,15 +451,15 @@
     function checkAvailableLink() {
         let availableLink = true;
         const source = mousedownElement,
-            target = mouseoverElement;
+              target = mouseoverElement;
         elements.links.forEach(function(l) {
             // it's not a gateway, but several starts
-            if (!l.source.classed('gateway') && l.source.node().id === source.node().id) {
+            if (!source.classed('gateway') && l.sourceId === source.node().id) {
                 availableLink = false;
             }
             // cannot link to each other
-            if ((l.source.node().id === source.node().id && l.target.node().id === target.node().id) ||
-                (l.source.node().id === target.node().id && l.target.node().id === source.node().id)) {
+            if ((l.sourceId === source.node().id && l.targetId === target.node().id) ||
+                (l.sourceId === target.node().id && l.targetId === source.node().id)) {
                 availableLink = false;
             }
         });
@@ -491,10 +491,10 @@
         const self = this;
         self.width = width ? width : 120;
         self.height = height ? height : 70;
-        self.radius = 10;
+        self.radius = 8;
         const calcX = x - (self.width / 2),
-            calcY = y - (self.height / 2),
-            typeImageSize = 20;
+              calcY = y - (self.height / 2),
+              typeImageSize = 20;
 
         const drag = d3.drag()
             .on('start', elementMouseEventHandler.mousedown)
@@ -504,11 +504,10 @@
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
-                    const rectData = self.rectData;
-                    for (let i = 0, len = rectData.length; i < len; i++) {
+                    for (let i = 0, len = self.rectData.length; i < len; i++) {
                         self.nodeElement
-                            .attr('x', rectData[i].x += d3.event.dx)
-                            .attr('y', rectData[i].y += d3.event.dy);
+                            .attr('x', self.rectData[i].x += d3.event.dx)
+                            .attr('y', self.rectData[i].y += d3.event.dy);
                     }
                     updateRect();
                 }
@@ -599,6 +598,7 @@
                     })
                     .on('end', function() {
                         AliceProcessEditor.setElementMenu(self.nodeElement);
+                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     })
                 );
         });
@@ -618,7 +618,6 @@
                 .attr('y', updateY)
                 .attr('width', updateWidth)
                 .attr('height', updateHeight);
-            AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
 
             if (isShowType && self.nodeElement.classed('task')) {
                 self.typeElement
@@ -642,7 +641,6 @@
             pointArray.forEach(function(point, i) {
                 self['pointElement' + (i + 1)]
                     .data(rectData)
-                    .attr('id', self.nodeElement.node().id + '_point' + (i + 1))
                     .attr('r', displayOptions.pointerRadius)
                     .attr('cx', point[0])
                     .attr('cy', point[1]);
@@ -724,7 +722,6 @@
                     self.typeElement
                         .attr('x', d3.event.x - (typeImageSize / 2))
                         .attr('y', d3.event.y - (typeImageSize / 2));
-                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     drawConnectors();
                 }
             })
@@ -783,7 +780,6 @@
                     self.typeElement
                         .attr('x', d3.event.x - (typeImageSize / 2))
                         .attr('y', d3.event.y - (typeImageSize / 2));
-                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     drawConnectors();
                 }
             })
@@ -863,7 +859,6 @@
                     self.textElement
                         .attr('x', d3.event.x)
                         .attr('y', d3.event.y);
-                    AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                 }
             })
             .on('end', elementMouseEventHandler.mouseup);
@@ -938,7 +933,6 @@
                 }
                 if (node) {
                     _this.classed(type, true);
-                    elements.nodes.push(node.nodeElement);
                     AliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
@@ -962,7 +956,7 @@
         if (d3.select(elementNode).classed('connector')) {
             d3.select(elementNode.parentNode).select('tspan').text(text);
         } else {
-            const textElement = d3.select(elementNode.parentNode).select('text')
+            const textElement = d3.select(elementNode.parentNode).select('text');
             if (textElement.node()) {
                 textElement.text(text);
 
@@ -1036,7 +1030,7 @@
             svg.selectAll('g.grid').selectAll('*').remove();
             verticalGrid.call(verticalAxis);
             horizontalGrid.call(horizontalAxis);
-        }
+        };
         window.onresize = setDrawingBoardGrid;
         setDrawingBoardGrid();
 
@@ -1048,8 +1042,9 @@
                     nodeRightArray = [],
                     nodeBottomArray = [],
                     nodeLeftArray = [];
-                elements.nodes.forEach(function(node){
-                    let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(node);
+                const nodes = svg.selectAll('.node').nodes();
+                nodes.forEach(function(node){
+                    let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
                     nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
                     nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
                     nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
@@ -1060,7 +1055,7 @@
                     minTop = svgBBox.cy,
                     maxRight = svgBBox.cx,
                     maxBottom = svgBBox.cy;
-                if (elements.nodes.length > 0) {
+                if (nodes.length > 0) {
                     minLeft = d3.min(nodeLeftArray);
                     minTop = d3.min(nodeTopArray);
                     maxRight = d3.max(nodeRightArray);
@@ -1151,7 +1146,6 @@
         }
 
         if (node) {
-            elements.nodes.push(node.nodeElement);
             const nodeId = node.nodeElement.attr('id');
             if (category !== 'event' && category !== 'gateway') {
                 changeTextToElement(nodeId, element.data.name);
@@ -1201,7 +1195,7 @@
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                let linkData = {id: nodeId, source: d3.select(source), target: d3.select(target)};
+                let linkData = {id: nodeId, sourceId: source.id, targetId: target.id};
                 if (element.display) {
                     if (typeof element.display['mid-point'] !== 'undefined') {
                         linkData.midPoint = element.display['mid-point'];
@@ -1240,7 +1234,6 @@
     exports.addElement = addElement;
     exports.changeTextToElement = changeTextToElement;
     exports.removeElementSelected = removeElementSelected;
-    exports.connectElement = connectElement;
     exports.setConnectors = setConnectors;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
