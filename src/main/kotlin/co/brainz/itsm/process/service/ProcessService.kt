@@ -24,6 +24,7 @@ import java.time.LocalDateTime
 class ProcessService(private val restTemplate: RestTemplateProvider) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 프로세스 데이터 목록 조회.
@@ -31,7 +32,6 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     fun getProcesses(params: LinkedMultiValueMap<String, String>): List<WfProcessDto> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url, parameters = params)
         val responseBody = restTemplate.get(url)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val wfProcessList: List<WfProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfProcessDto::class.java))
         for (item in wfProcessList) {
             item.createDt = item.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
@@ -60,7 +60,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
         return when (responseBody.body.toString().isNotEmpty()) {
             true -> {
-                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
                 val dataDto = mapper.readValue(responseBody.body.toString(), RestTemplateProcessDto::class.java)
                 dataDto.processId
             }
@@ -95,7 +95,6 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         }
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS_SAVE_AS.url)
         val responseEntity = restTemplate.createToSave(url, wfProcessElementDto)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
                 val processDto = mapper.readValue(responseEntity.body.toString(), RestTemplateProcessDto::class.java)
