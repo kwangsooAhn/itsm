@@ -49,6 +49,7 @@ menu:
   help.faq: "FAQ"
   help.document: "Service Request"
   help.token: "Process Document"
+  help.dashboard: "Dashboard"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
@@ -361,3 +362,14 @@ custom.code:
     inputValueColumn: "Please enter a value column name."
     customCodeUsed: "The Custom code is being used."
     customCodeNameDuplication: "The same custom code name exists."
+
+# Dashboard
+dashboard:
+  label:
+    title: "Dashboard"
+    documentStatus: "Requested Documents Status"
+    status:
+      running: "Running"
+      wait: "Wait"
+      finish: "finish"
+      noData: "There is no data."

@@ -49,6 +49,7 @@ menu:
   help.faq: "FAQ"
   help.document: "신청서"
   help.token: "처리할 문서"
+  help.dashboard: "대시보드"
   setting: "설정"
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
@@ -361,3 +362,14 @@ custom.code:
     inputValueColumn: "값 컬럼명을 입력해주세요."
     customCodeUsed: "사용 중인 사용자 정의 코드입니다."
     customCodeNameDuplication: "동일한 사용자 정의 코드명이 존재합니다."
+
+# Dashboard
+dashboard:
+  label:
+    title: "대시보드"
+    documentStatus: "신청한 문서 현황"
+    status:
+      running: "진행"
+      wait: "대기"
+      finish: "완료"
+      noData: "데이터가 없습니다."

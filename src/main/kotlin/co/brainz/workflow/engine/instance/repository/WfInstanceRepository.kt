@@ -21,4 +21,15 @@ interface WfInstanceRepository: JpaRepository<WfInstanceEntity, String> {
 
     fun countByDocument(wfDocumentEntity: WfDocumentEntity): Int
 
+    @Query("select i.instanceStatus as instanceStatus, count(i.instanceStatus) as instanceCount " +
+            "from WfInstanceEntity i " +
+            "where i.instanceCreateUserKey = :userKey " +
+            "group by i.instanceStatus " +
+            "order by " +
+            "case " +
+            "   when i.instanceStatus = 'running' then 1  " +
+            "   when i.instanceStatus = 'wait' then 2 " +
+            "   when i.instanceStatus = 'finish' then 3 " +
+            "end" )
+    fun findInstancesCount(userKey: String): List<Map<String, Any>>
 }
