@@ -71,7 +71,7 @@ class WfElementService(
         val actionList: MutableList<WfActionDto> = mutableListOf()
 
         //attributeId : save
-        actionList.add(WfActionDto(name = WfElementConstants.Action.SAVE.value, value = "저장"))
+        actionList.add(WfActionDto(name = "저장", value = WfElementConstants.Action.SAVE.value))
 
         when (nextElement.elementType) {
             WfElementConstants.ElementType.USER_TASK.value,
@@ -99,13 +99,13 @@ class WfElementService(
                     }
                 }
             }
-            else -> actionList.add(WfActionDto(name = WfElementConstants.Action.PROCESS.value, value = "처리"))
+            else -> actionList.add(WfActionDto(name = "처리", value = WfElementConstants.Action.PROCESS.value))
         }
 
         //attributeId : action reject
         currentElement.elementDataEntities.forEach {
             if (it.attributeId == WfElementConstants.AttributeId.REJECT.value && it.attributeValue.isNotEmpty()) {
-                actionList.add(WfActionDto(name = WfElementConstants.Action.REJECT.value, value = "반려"))
+                actionList.add(WfActionDto(name = "반려", value = WfElementConstants.Action.REJECT.value))
             }
         }
 
