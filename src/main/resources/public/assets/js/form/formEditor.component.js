@@ -145,8 +145,8 @@
      */
     function Textarea(attr) {
         const defaultRowHeight = 26;
-        let textEditorUseYn = attr.display['editor-useYn'] === 'Y' ? true : false;
-        let textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
+        const textEditorUseYn = attr.display['editor-useYn'] === 'Y' ? true : false;
+        const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
