@@ -30,6 +30,6 @@ interface WfInstanceRepository: JpaRepository<WfInstanceEntity, String> {
             "   when i.instanceStatus = 'running' then 1  " +
             "   when i.instanceStatus = 'wait' then 2 " +
             "   when i.instanceStatus = 'finish' then 3 " +
-            "END" )
+            "end" )
     fun findInstancesCount(userKey: String): List<Map<String, Any>>
 }

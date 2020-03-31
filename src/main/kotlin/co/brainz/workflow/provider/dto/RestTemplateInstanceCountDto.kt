@@ -1,6 +1,5 @@
 package co.brainz.workflow.provider.dto
 
-import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import java.io.Serializable
 
 data class RestTemplateInstanceCountDto(

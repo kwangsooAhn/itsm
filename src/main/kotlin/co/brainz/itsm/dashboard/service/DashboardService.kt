@@ -2,7 +2,8 @@ package co.brainz.itsm.dashboard.service
 
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.*
+import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
+import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule

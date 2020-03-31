@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping
  */
 @Controller
 @RequestMapping("/dashboard")
-class DashboardController(private val dashboardService: DashboardService,
-                          private val tokenService: TokenService) {
+class DashboardController(private val dashboardService: DashboardService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val dashboardViewPage: String = "dashboard/dashboardView"
