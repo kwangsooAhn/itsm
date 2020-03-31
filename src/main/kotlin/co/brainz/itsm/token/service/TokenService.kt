@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class TokenService(private val restTemplate: RestTemplateProvider
-                   , private val aliceFileService: AliceFileService) {
+class TokenService(private val restTemplate: RestTemplateProvider,
+                   private val aliceFileService: AliceFileService) {
 
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
