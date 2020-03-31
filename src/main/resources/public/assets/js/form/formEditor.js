@@ -481,6 +481,7 @@
                 element.domElem.setAttribute('tabIndex', originDisplayOrder);
                 
                 targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                targetElement.innerHTML = '';
                 targetElement.remove();
                 
                 let compIdx = component.getLastIndex();
