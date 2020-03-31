@@ -9,14 +9,15 @@ import co.brainz.workflow.engine.instance.dto.WfInstanceDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
-import co.brainz.workflow.engine.token.dto.WfActionDto
 import co.brainz.workflow.engine.token.dto.WfTokenDataDto
 import co.brainz.workflow.engine.token.dto.WfTokenDto
 import co.brainz.workflow.engine.token.dto.WfTokenViewDto
 import co.brainz.workflow.engine.token.entity.WfTokenDataEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
+import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -36,6 +37,7 @@ class WfTokenService(
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val tokenMapper = Mappers.getMapper(WfTokenMapper::class.java)
 
     /**
      * Search Tokens.
@@ -192,18 +194,10 @@ class WfTokenService(
         val componentsMap = LinkedHashMap<String, Any>()
         componentsMap["components"] = componentList
 
-        //action
-        val wfActionList: MutableList<WfActionDto> = mutableListOf()
-        val actionDto = WfActionDto(
-            name = "",
-            value = ""
-        )
-        wfActionList.add(actionDto)
-
         val tokenViewDto = WfTokenViewDto(
             tokenId = tokenMstEntity.get().tokenId,
             components = componentList,
-            action = wfActionList
+            action = wfElementService.getActionList(tokenMapper.toWfTokenDto(tokenMstEntity.get()))
         )
 
         val returnValue = LinkedHashMap<String, Any>()
