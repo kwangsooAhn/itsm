@@ -1,0 +1,58 @@
+@import "bootstrap-4.4.1/bootstrap";
+
+#document-container {
+    overflow-y: auto;
+    height: 750px;
+    border: 1px solid #BCC5D3;
+    >.component {
+        padding: 15px 60px;
+        .field {
+            .label {
+                display: inline;
+            }
+            textarea {
+                resize: vertical;
+            }
+        }
+        input[type=text] {
+            width: 100%;
+            outline: solid 1px;
+        }
+        input[type=radio] {
+            cursor: pointer;
+            &:focus {
+                outline: 1px #3c3cff solid;
+            }
+        }
+        span[class*="required"] {
+            padding-left: 5px;
+            color: #fc5f6b;
+            font-weight: bold;
+        }
+    }
+}
+
+textarea {
+    width: 100%;
+    outline: solid 1px;
+}
+
+select {
+    width: 100%;
+}
+.field {
+    >div {
+        width: 100%;
+    }
+}
+
+input[type=checkbox] {
+    cursor: pointer;
+    &:focus {
+        outline: 1px #3c3cff solid;
+    }
+}
+
+input[type=file] {
+    cursor: pointer;
+}
