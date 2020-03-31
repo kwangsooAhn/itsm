@@ -10,10 +10,11 @@ package co.brainz.framework.exception
  */
 class AliceException : Exception {
     private val err: AliceErrorConstants
-    private lateinit var errorInfo: Any
+    private var errorInfo: Any
 
     constructor(error: AliceErrorConstants, message: String?) : super(message) {
         this.err = error
+        this.errorInfo = ""
     }
 
     constructor(error: AliceErrorConstants, message: String?, errorInfo:Any) : super(message) {
