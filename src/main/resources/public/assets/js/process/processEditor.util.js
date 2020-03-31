@@ -19,7 +19,7 @@
         subtree: true
     };
 
-    window.addEventListener('beforeunload', function (event) {
+    window.addEventListener('beforeunload', function(event) {
         if (isEdited) {
             event.returnValue = '';
         } else {
@@ -47,8 +47,189 @@
                 width: bbox.width,
                 height: bbox.height
             };
+        },
+        /**
+         * 두 개의 json 데이터가 동일한 지 비교한 후 boolean 을 리턴한다.
+         *
+         * @param obj1 비교 대상 JSON 데이터 1
+         * @param obj2 비교 대상 JSON 데이터 2
+         * @return {boolean} 데이터 일치 여부 (true: 일치, false: 불일치)
+         */
+        compareJson: function(obj1, obj2) {
+            if (!Object.keys(obj2).every(function(key) { return obj1.hasOwnProperty(key); })) {
+                return false;
+            }
+            return Object.keys(obj1).every(function(key) {
+                if ((typeof obj1[key] === 'object') && (typeof obj2[key] === 'object')) {
+                    return utils.compareJson(obj1[key], obj2[key]);
+                } else {
+                    return obj1[key] === obj2[key];
+                }
+            });
         }
     };
+
+    const history = {
+        redo_list: [],
+        undo_list: [],
+        saveHistory: function(data, list, keep_redo) {
+            if (data.length === 1 && utils.compareJson(data[0][0], data[0][1])) { // data check
+                console.debug('These two json data are the same.');
+                return;
+            }
+            keep_redo = keep_redo || false;
+            if (!keep_redo) {
+                this.redo_list = [];
+            }
+            (list || this.undo_list).push(data);
+        },
+        undo: function() {
+            AliceProcessEditor.removeElementSelected();
+            AliceProcessEditor.setElementMenu();
+            if (this.undo_list.length) {
+                let restoreData = this.undo_list.pop();
+                this.saveHistory(restoreData, this.redo_list, true);
+                redrawProcess(restoreData, 'undo');
+            }
+        },
+        redo: function() {
+            AliceProcessEditor.removeElementSelected();
+            AliceProcessEditor.setElementMenu();
+            if (this.redo_list.length) {
+                let restoreData = this.redo_list.pop();
+                this.saveHistory(restoreData, this.undo_list, true);
+                redrawProcess(restoreData, 'redo');
+            }
+        }
+    };
+
+    /**
+     * 프로세스를 다시 그리고, 데이터 수정를 수정한다.
+     *
+     * @param restoreData 데이터
+     * @param type 타입(undo, redo)
+     */
+    function redrawProcess(restoreData, type) {
+        const restoreProcess = function(originData, changeData) {
+            let links = AliceProcessEditor.elements.links;
+            if (!Object.keys(originData).length || !Object.keys(changeData).length) {
+                if (!Object.keys(changeData).length) { // delete element
+                    AliceProcessEditor.data.elements.forEach(function(elem, i) {
+                        if (originData.id === elem.id) {
+                            AliceProcessEditor.data.elements.splice(i, 1);
+                        }
+                    });
+                    if (originData.type !== 'arrowConnector') {
+                        let element = d3.select(document.getElementById(originData.id));
+                        d3.select(element.node().parentNode).remove();
+                    } else {
+                        for (let i = 0, len = links.length; i < len; i++) {
+                            if (links[i].id === originData.id) {
+                                AliceProcessEditor.elements.links.splice(i, 1);
+                                AliceProcessEditor.setConnectors(true);
+                                break;
+                            }
+                        }
+                    }
+                } else { // add element
+                    if (changeData.type !== 'arrowConnector') {
+                        let node = AliceProcessEditor.addElement(changeData);
+                        if (node) {
+                            node.nodeElement.attr('id', changeData.id);
+                            AliceProcessEditor.data.elements.push(changeData);
+                        }
+                    } else {
+                        let link = {
+                            id: changeData.id,
+                            sourceId: changeData.data['start-id'],
+                            targetId: changeData.data['end-id']
+                        };
+                        if (changeData.display && changeData.display['mid-point']) {
+                            link.midPoint = changeData.display['mid-point'];
+                        }
+                        if (changeData.display && changeData.display['source-point']) {
+                            link.sourcePoint = changeData.display['source-point'];
+                        }
+                        if (changeData.display && changeData.display['target-point']) {
+                            link.targetPoint = changeData.display['target-point'];
+                        }
+                        links.push(link);
+                        AliceProcessEditor.data.elements.push(changeData);
+                        AliceProcessEditor.setConnectors(true);
+                    }
+                }
+            } else if (typeof changeData.type === 'undefined') { // modify process data
+                AliceProcessEditor.data.process = changeData;
+                if (originData.name !== changeData.type) { // modify type
+                    document.querySelector('.process-name').textContent = changeData.name;
+                }
+                AliceProcessEditor.setElementMenu();
+            } else { // modify element
+                let element = d3.select(document.getElementById(changeData.id));
+                if (originData.type !== changeData.type) { // modify type
+                    AliceProcessEditor.changeElementType(element, changeData.type);
+                }
+                if (originData.data.name !== changeData.data.name) { // modify name
+                    AliceProcessEditor.changeTextToElement(changeData.id, changeData.data.name);
+                }
+                if (changeData.type !== 'arrowConnector') {
+                    if (originData.display['position-x'] !== changeData.display['position-x']
+                        || originData.display['position-y'] !== changeData.display['position-y']
+                        || originData.display.width !== changeData.display.width
+                        || originData.display.height !== changeData.display.height) { // modify position or size
+                        let node = AliceProcessEditor.addElement(changeData);
+                        if (node) {
+                            d3.select(element.node().parentNode).remove();
+                            node.nodeElement.attr('id', changeData.id);
+                            AliceProcessEditor.setConnectors(true);
+                        }
+                    }
+                } else {
+                    if (changeData.display && (originData.display['mid-point'] !== changeData.display['mid-point']
+                        || originData.display['source-point'] !== changeData.display['source-point']
+                        || originData.display['target-point'] !== changeData.display['target-point'])) {
+                        // modify connector points.
+                        for (let i = 0, len = links.length; i < len; i++) {
+                            if (links[i].id === changeData.id) {
+                                if (changeData.display && changeData.display['mid-point']) {
+                                    links[i].midPoint = changeData.display['mid-point'];
+                                } else {
+                                    delete links[i].midPoint;
+                                }
+                                if (changeData.display && changeData.display['source-point']) {
+                                    links[i].sourcePoint = changeData.display['source-point'];
+                                } else {
+                                    delete links[i].sourcePoint;
+                                }
+                                if (changeData.display && changeData.display['target-point']) {
+                                    links[i].targetPoint = changeData.display['target-point'];
+                                } else {
+                                    delete links[i].targetPoint;
+                                }
+                                AliceProcessEditor.setConnectors(true);
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (let i = 0, len = AliceProcessEditor.data.elements.length; i < len; i++) {
+                    if (AliceProcessEditor.data.elements[i].id === changeData.id) {
+                        AliceProcessEditor.data.elements[i] = changeData;
+                        break;
+                    }
+                }
+            }
+        };
+        restoreData.forEach(function(data) {
+            let originData = data[1],
+                changeData = data[0];
+            if (type === 'redo') {
+                originData = data[0];
+                changeData = data[1];
+            }
+            restoreProcess(originData, changeData);
+        });
+    }
 
     /**
      * save process.
@@ -107,16 +288,14 @@
      * undo.
      */
     function undoProcess() {
-        //TODO: 처리로직
-        console.log('clicked undo button.');
+        history.undo();
     }
 
     /**
      * redo.
      */
     function redoProcess() {
-        //TODO: 처리로직
-        console.log('clicked redo button.');
+        history.redo();
     }
 
     /**
@@ -178,6 +357,7 @@
     }
 
     exports.utils = utils;
+    exports.history = history;
     exports.initUtil = initUtil;
     Object.defineProperty(exports, '__esModule',{value: true});
 })));

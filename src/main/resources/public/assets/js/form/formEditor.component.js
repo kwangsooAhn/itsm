@@ -144,6 +144,7 @@
      * @constructor
      */
     function Textarea(attr) {
+        let textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * 30 : 30;
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -156,15 +157,39 @@
                     </div>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' readonly 
-                    style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' 
-                    ${attr.validate.required === "Y" ? "required" : ""}></textarea>
+                    <div style='width: 100%;'>
+                        <div class='editor-container' 
+                        style='height: ${textEditorHeight}px; border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;'></div>
+                    </div>
                 </div>
             </div>
         `);
 
         formPanel.appendChild(comp);
         this.domElem = comp;
+
+        let textEditorOptions = {
+            modules: {
+                toolbar: [
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                    ['bold', 'italic', 'underline'],
+                    [{'color': []}, {'background': []}],
+                    [{'align': []},
+                        { 'list': 'bullet' },
+                        'image']
+                ]
+            },
+            placeholder: attr.display.placeholder,
+            readOnly: true,
+            theme: 'snow'
+        };
+        let textEditorContainer = comp.querySelector('.editor-container');
+        let textEditor = new Quill(textEditorContainer, textEditorOptions);
+        let textEditorToolbar = comp.querySelector('.ql-toolbar');
+        if (textEditor !== null && textEditorToolbar) {
+            textEditorToolbar.style.borderWidth = attr.display['outline-width'] + 'px';
+            textEditorToolbar.style.borderColor = attr.display['outline-color'];
+        }
     }
 
     /**

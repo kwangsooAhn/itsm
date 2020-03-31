@@ -9,8 +9,6 @@ data class WfProcessDto(
     var name: String? = null,
     var description: String? = null,
     var status: String? = null,
-    var formId: String? = null,
-    var formName: String? = null,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var createDt: LocalDateTime? = null,
     var createUserKey: String? = null,

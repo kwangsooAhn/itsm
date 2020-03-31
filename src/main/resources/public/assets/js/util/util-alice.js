@@ -46,7 +46,8 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         valueTd.innerText = obj.text;
     });
     elmNode.appendChild(table);
-    aliceJs.alert('Error !!')
+    console.log(data);
+    aliceJs.alert('[' + data.status + ']' + data.error + '<br/>' + data.message)
 };
 
 /*!
@@ -363,6 +364,7 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
     if (arrayDate.length === 2 || arrayDate.length === 3) {
         v_date = v_date +' '+ arrayDate[1];
     }
+    //console.log("v_date==="+v_date);
     //올바르게 변환한 yyyy-mm-dd와 시간을 객체로 변환한다.
     var result_date = new Date(v_date);
     var year = result_date.getFullYear();

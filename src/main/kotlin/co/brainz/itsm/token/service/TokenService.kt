@@ -3,6 +3,7 @@ package co.brainz.itsm.token.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceTimezoneUtils
+import co.brainz.itsm.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
@@ -19,6 +20,8 @@ import org.springframework.util.LinkedMultiValueMap
 class TokenService(private val restTemplate: RestTemplateProvider
                    , private val aliceFileService: AliceFileService) {
 
+    private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * Token 신규 등록 / 처리
      * isComplete : false일 경우에는 저장, true일 경우에 처리
@@ -30,6 +33,14 @@ class TokenService(private val restTemplate: RestTemplateProvider
         val result = restTemplate.create(url, restTemplateTokenDto)
         restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
         return result
+        val responseEntity = restTemplate.create(url, restTemplateTokenDto)
+        return when (responseEntity.body.toString().isNotEmpty()) {
+            true -> {
+                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
+                dataDto.formId
+            }
+            false -> ""
+        }
     }
 
     /**
@@ -40,6 +51,8 @@ class TokenService(private val restTemplate: RestTemplateProvider
      */
     fun updateToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
+        val responseEntity = restTemplate.update(url, restTemplateTokenDto)
+        return responseEntity.body.toString().isNotEmpty()
         val result = restTemplate.update(url, restTemplateTokenDto)
         if (result) {
             restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }

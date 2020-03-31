@@ -69,11 +69,12 @@
                         }
                     }
                     if (key === 'length-min' && value > chkVal.length) {
-                        alertMsg(element, i18n.get('document.msg.lengthMin').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.lengthMin', value));
+                        alertMsg(element, i18n.get('document.msg.lengthMin', value));
                         return true;
                     }
                     if (key === 'length-max' && value < chkVal.length) {
-                        alertMsg(element, i18n.get('document.msg.lengthMax').replace('{0}', value));
+                        alertMsg(element, i18n.get('document.msg.lengthMax', value));
                         return true;
                     }
                     if (key === 'date-min') {
@@ -84,7 +85,6 @@
                             alertMsg(element, i18n.get('document.msg.dateMin').replace('{0}', dateMinValue));
                             return true;
                         }
-                    }
                     if (key === 'date-max') {
                         let dateMaxValueArray = value.split("|");
                         let dateMaxValuePlaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
@@ -194,16 +194,49 @@
                 fieldLastEle.appendChild(textEle);
                 break;
             case 'textarea':
-                const textareaEle = document.createElement('textarea');
-                textareaEle.placeholder = displayData.placeholder;
-                textareaEle.style.outlineWidth = displayData['outline-width'] + 'px';
-                textareaEle.style.outlineColor = displayData['outline-color'];
-                textareaEle.minLength = validateData['length-min'];
-                textareaEle.maxLength = validateData['length-max'];
-                textareaEle.required = (validateData.required === 'Y');
-                textareaEle.addEventListener('focusout', function() {
-                    validateCheck(this, validateData);
+                const textEditorGroupEle = document.createElement('div');
+                textEditorGroupEle.style.width = '100%';
+                fieldLastEle.appendChild(textEditorGroupEle);
+
+                const textEditorEle = document.createElement('div');
+                textEditorEle.className = 'editor-container';
+                let textEditorEleHeight = displayData.rows !== '' ? Number(displayData.rows) * 30 : 30;
+                textEditorEle.style.height = textEditorEleHeight + 'px';
+                textEditorEle.style.borderWidth = displayData['outline-width'] + 'px';
+                textEditorEle.style.borderColor = displayData['outline-color'];
+                textEditorEle.setAttribute('data-required', (validateData.required === 'Y'));
+                textEditorGroupEle.appendChild(textEditorEle);
+
+                let textEditorOptions = {
+                    modules: {
+                        toolbar: [
+                            [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                            ['bold', 'italic', 'underline'],
+                            [{'color': []}, {'background': []}],
+                            [{'align': []}, { 'list': 'bullet' }, 'image']
+                        ]
+                    },
+                    placeholder: displayData.placeholder,
+                    theme: 'snow'
+                };
+                let textEditor = new Quill(textEditorEle, textEditorOptions);
+                //유효성 검사
+                textEditor.on('selection-change', function(range, oldRange, source) {
+                    if (range === null && oldRange !== null) {
+                        if (validateData['length-min'] !== '' && textEditor.getLength() < Number(validateData['length-min'])) {
+                            alertMsg(textEditor, i18n.get('document.msg.lengthMin', validateData['length-min']));
+                        }
+                        if (validateData['length-max'] !== '' && textEditor.getLength() > Number(validateData['length-max'])) {
+                            textEditor.deleteText(Number(validateData['length-max']) - 1, textEditor.getLength());
+                            alertMsg(textEditor, i18n.get('document.msg.lengthMax', validateData['length-max']));
+                        }
+                    }
                 });
+                let textEditorToolbar = textEditorGroupEle.querySelector('.ql-toolbar');
+                if (textEditor !== null && textEditorToolbar) {
+                    textEditorToolbar.style.borderWidth = displayData['outline-width'] + 'px';
+                    textEditorToolbar.style.borderColor = displayData['outline-color'];
+                }
                 if (compData.values != undefined && compData.values.length > 0) {
                     textareaEle.value = compData.values[0].value;
                 }
@@ -614,6 +647,18 @@
                 return true;
             }
         }
+        //textarea Editor 필수 체크
+        const textAreaElems = document.querySelectorAll('.editor-container');
+        for (let i = 0; i < textAreaElems.length; i++) {
+            let textAreaElem = textAreaElems[i];
+            if (textAreaElem.getAttribute('data-required') === 'true') {
+                let textEditor = new Quill(textAreaElem);
+                if (textEditor.getLength() === 1) {
+                    alertMsg(textEditor, i18n.get('document.msg.requiredEnter'));
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -685,8 +730,9 @@
                         componentValue = componentChild.item(0).value+'|'+datetimeFormat;
                         break;
                     case 'textarea':
-                        componentChild = componentElements[eIndex].getElementsByTagName('textarea');
-                        componentValue = componentChild.item(0).value;
+                        componentChild = componentElements[eIndex].querySelector('.editor-container');
+                        let textEditor = new Quill(componentChild); //Quill.find(componentChild) === textEditor : true
+                        componentValue = JSON.stringify(textEditor.getContents());
                         break;
                     case 'select':
                         componentChild = componentElements[eIndex].getElementsByTagName('select');
