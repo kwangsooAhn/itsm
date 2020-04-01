@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletRequest
 
@@ -19,6 +20,7 @@ class TokenController(private val userService: UserService, private val tokenSer
     private val statusPage: String = "redirect:/certification/status"
     private val tokenSearchPage: String = "token/tokenSearch"
     private val tokenListPage: String = "token/tokenList"
+    private val tokenEditPage: String = "token/tokenEdit"
 
     /**
      * 처리할 문서 리스트 호출 화면.
@@ -49,5 +51,17 @@ class TokenController(private val userService: UserService, private val tokenSer
     fun getTokenList(model: Model): String {
         model.addAttribute("tokenList", tokenService.getTokenList())
         return tokenListPage
+    }
+
+    /**
+     * 처리할 문서 상세 화면.
+     *
+     * @param tokenId
+     * @return String
+     */
+    @GetMapping("{tokenId}/edit")
+    fun getDocumentEdit(@PathVariable tokenId: String, model: Model): String {
+        model.addAttribute("tokenId", tokenId)
+        return tokenEditPage
     }
 }

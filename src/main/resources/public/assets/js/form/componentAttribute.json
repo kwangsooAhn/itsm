@@ -1070,7 +1070,7 @@
             {
                 "id": "date-min", 
                 "name": "Min Date", 
-                "value": "1900-01-01", 
+                "value": "1900-01-01|YYYY-MM-DD",
                 "type": "datepicker", 
                 "code": "", 
                 "unit": "" 
@@ -1078,7 +1078,7 @@
             {
                 "id": "date-max", 
                 "name": "Max Date", 
-                "value": "2999-12-31", 
+                "value": "2999-12-31|YYYY-MM-DD",
                 "type": "datepicker", 
                 "code": "", 
                 "unit": "" 
@@ -1344,7 +1344,7 @@
             {
                 "id": "date-min", 
                 "name": "Min Datetime", 
-                "value": "1900-01-01 00:00", 
+                "value": "1900-01-01 00:00|YYYY-MM-DD hh:mm 24",
                 "type": "datetimepicker", 
                 "code": "", 
                 "unit": "" 
@@ -1352,7 +1352,7 @@
             {
                 "id": "date-max", 
                 "name": "Max Datetime", 
-                "value": "2999-12-31 23:59", 
+                "value": "2999-12-31 23:59|YYYY-MM-DD hh:mm 24",
                 "type": "datetimepicker", 
                 "code": "", 
                 "unit": "" 

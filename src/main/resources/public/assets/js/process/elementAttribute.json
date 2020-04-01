@@ -53,6 +53,21 @@
       ]
     },
     {
+      "type": "signalSend",
+      "name": "Signal Send Event",
+      "default": "false",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "target-process-list", "name": "Target Process", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
       "type": "commonEnd",
       "name": "End Event",
       "default": "false",
@@ -251,6 +266,7 @@
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "is-default", "name": "is Default", "type": "checkbox", "default": ""},
             {"id": "condition", "name": "Condition", "type": "inputbox", "default": ""},
             {"id": "action-name", "name": "Action Name", "type": "inputbox", "default": ""},
             {"id": "action-value", "name": "Action Value", "type": "inputbox", "default": ""}
@@ -279,7 +295,12 @@
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "sub-process-id", "name": "Sub Process ID", "type": "inputbox", "default": ""}
+            {
+              "id": "sub-process-id", "name": "SubProcess", "type": "select", "default": "",
+              "sub-list": [
+                {"id": "", "name": "Not selected"}
+              ]
+            }
           ]
         }
       ]

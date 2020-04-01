@@ -346,7 +346,7 @@ document:
 token:
   label:
     list: "Process Document List"
-
+    write: "Process Document"
 # Custom Code
 custom.code:
   label:
@@ -373,3 +373,9 @@ dashboard:
       wait: "Wait"
       finish: "finish"
       noData: "There is no data."
+
+# fileupload
+fileupload:
+  msg:
+    maxfilesexceeded: "The number of attachments has been exceeded. (Attachment limit number : {0})"
+    maxfilesizeexceeded: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"

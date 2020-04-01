@@ -8,6 +8,7 @@
         {"id": "status", "name": "Status", "type": "select", "default": "",
           "sub-list": [
             {"id": "process.status.edit", "name": "Editing"},
+            {"id": "process.status.simu", "name": "Simulation"},
             {"id": "process.status.publish", "name": "Publish"},
             {"id": "process.status.destroy", "name": "Destroy"}
           ]

@@ -19,7 +19,6 @@
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            console.log(mutation);
             isEdited = true;
         });
     });
@@ -43,7 +42,6 @@
             defaultDateFormat: 'YYYY-MM-DD',
             defaultTimeFormat: 'hh:mm',
             defaultTime: '24'
-
         },
         customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
 
@@ -140,10 +138,9 @@
      */
     function saveForm() {
         data = JSON.parse(JSON.stringify(formEditor.data));
-
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) { 
-            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent); 
+            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
         aliceJs.sendXhr({
             method: 'PUT',
@@ -523,17 +520,21 @@
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
+                let timeformat = userData.defaultDateFormat +" "+ userData.defaultTimeFormat +" "+ userData.defaultTime;
                 if (changeValue === 'none' || changeValue === 'now') {
-                    changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+                    changePropertiesValue(changeValue+'|'+ timeformat, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 } else {
                     let inputCells = parentEl.querySelectorAll('input[type="text"]');
-                    
                     if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
-                        changeValue += ('|' + inputCells[0].value);
+                        changeValue += ('|' + inputCells[0].value +'|'+ timeformat);
                     } else {
                         for (let i = 0, len = inputCells.length; i < len; i++ ) {
                             changeValue += ('|' + inputCells[i].value);
                         }
+                        if (checkedRadio.value === 'time') {
+                            timeformat = userData.defaultTimeFormat;
+                        }
+                        changeValue = changeValue +'|'+ timeformat;
                     }
                     changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 }
@@ -836,6 +837,28 @@
                                     optionDefaultArr = defaultFormatArr;
                                 }
                                 let labelName = option.name.split('{0}');
+
+                                if (option.id ==='datetimepicker') {
+                                    if (optionDefaultArr[1] !=='') {
+                                        let nowTimeFormat = formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat + ' '+  formEditor.userData.defaultTime;
+                                        optionDefaultArr[1] = aliceJs.changeDateFormat(optionDefaultArr[2], nowTimeFormat, optionDefaultArr[1], formEditor.userData.lang);
+                                    }
+                                } else if (option.id ==='timepicker') {
+                                    if (optionDefaultArr[1] !=='') {
+                                        let timeFormat = formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat +' ' +formEditor.userData.defaultTime;
+                                        let beforeFormt = formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat +' ' + '24';
+                                        let timeDefault = '';
+                                        timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat);
+                                        timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, formEditor.userData.lang);
+                                        let timeNow = timeDefault.split(' ');
+                                        if (timeNow.length > 2) {
+                                            optionDefaultArr[1] = timeNow[1] +' '+timeNow[2];
+                                        } else {
+                                            optionDefaultArr[1] = timeNow[1];
+                                        }
+                                    }
+                                }
+
                                 propertyTemplate += `
                                     <div class='vertical-group'>
                                     <input type='radio' id='${option.id}' name='${group}.${fieldArr.id}' value='${option.id}'
@@ -873,7 +896,7 @@
                             if (compAttr.type === 'date') {
                                 dateTimePicker.initDatePicker('datepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (compAttr.type === 'time') {
-                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTime, setDateFormat);
+                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, userData.defaultTime, userData.defaultLang, setDateFormat);
                             } else if (compAttr.type === 'datetime') {
                                 dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang, setDateFormat);
                             }
@@ -974,13 +997,22 @@
                             propertyValue.classList.add('property-field-value');
                             propertyValue.setAttribute('id', fieldArr.id + '-' + compAttr.id);
                             propertyValue.setAttribute('name', group + '.' + fieldArr.id);
-                            propertyValue.setAttribute('value', fieldArr.value);
+                            let dateTimePickerValue = '';
+                            if (fieldArr.value != '') {
+                                let dateTimePickerFormat = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
+                                dateTimePickerValue = fieldArr.value.split('|');
+                                if (dateTimePickerValue[1] === undefined) {
+                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], userData.defaultLang);
+                                } else {
+                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, dateTimePickerValue[0], userData.defaultLang);
+                                }
+                            }
+                            propertyValue.setAttribute('value', dateTimePickerValue);
                             fieldGroupDiv.appendChild(propertyValue);
-                            
                             if (fieldArr.type === 'datepicker') {
                                 dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultLang, setDateFormat);
                             } else if (fieldArr.type === 'timepicker') {
-                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTime, setDateFormat);
+                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultTime, userData.defaultLang, setDateFormat);
                             } else if (fieldArr.type === 'datetimepicker') {
                                 dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang, setDateFormat);
                             }
@@ -1118,7 +1150,6 @@
         let mergeAttr = component.getData(compData.type);
         mergeAttr.id = compData.id;
         mergeAttr.type = compData.type;
-
         Object.keys(compData).forEach(function(comp) {
             if (compData[comp] !== null && typeof(compData[comp]) === 'object' && compData.hasOwnProperty(comp))  {
                 Object.keys(compData[comp]).forEach(function(attr) {
@@ -1145,7 +1176,6 @@
      * @param {Object} data 조회한 폼 및 컴포넌트 정보
      */
     function drawForm(data) {
-        console.debug(JSON.parse(data));
         formEditor.data = JSON.parse(data);
         if (formEditor.data.components.length > 0 ) {
             formEditor.data.components.sort(function (a, b) { //컴포넌트 재정렬
