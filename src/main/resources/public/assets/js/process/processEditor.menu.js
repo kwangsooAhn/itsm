@@ -98,6 +98,13 @@
                 editElementType(el,'timerStart');
             }
         }, {
+            type: 'signalStart', parent: 'event',
+            url: iconDirectory + '/element-type/event-start.png',
+            element_url: iconDirectory + '/element-type/event-start.png',
+            action: function(el) {
+                editElementType(el,'signalStart');
+            }
+        }, {
             type: 'commonEnd', parent: 'event',
             url: iconDirectory + '/element-type/event-end.png',
             action: function(el) {
@@ -996,7 +1003,7 @@
                     case 'select':
                         elementObject = document.createElement('select');
                         let optionList = property['sub-list'];
-                        if (property.id === 'sub-process-id') {
+                        if (property.id === 'process-id' || property.id === 'sub-process-id') {
                             optionList = optionList.concat(publishProcesses);
                         }
                         for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
