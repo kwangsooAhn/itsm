@@ -53,8 +53,8 @@
       ]
     },
     {
-      "type": "signalStart",
-      "name": "Signal Start Event",
+      "type": "signalSend",
+      "name": "Signal Send Event",
       "default": "false",
       "attribute": [
         {
@@ -62,12 +62,7 @@
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {
-              "id": "process-id", "name": "Start Process", "type": "select", "default": "",
-              "sub-list": [
-                {"id": "", "name": "Not selected"}
-              ]
-            }
+            {"id": "target-process-list", "name": "Target Process", "type": "inputbox", "default": ""}
           ]
         }
       ]
