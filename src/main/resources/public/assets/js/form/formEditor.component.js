@@ -416,37 +416,44 @@
         //날짜 포멧 변경
         let dateDefaultArr = attr.display['default'].split('|');
         let dateDefault = '';
+        let dateFormat = formEditor.userData.defaultDateFormat;
         if (dateDefaultArr[0] === 'now') {
-            dateDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat);
+            dateDefault = aliceJs.getTimeStamp(dateFormat);
             dateDefault = dateDefault.split(' ')[0];
         } else if (dateDefaultArr[0] === 'datepicker') {
-            dateDefault = dateDefaultArr[1];
+            if (dateDefaultArr[1] === '') {
+                dateDefaultArr[1] = aliceJs.getTimeStamp(dateFormat);
+            }
+            dateDefault = aliceJs.changeDateFormat(dateDefaultArr[2], dateFormat, dateDefaultArr[1], formEditor.userData.lang);
         } else if (dateDefaultArr[0] === 'date') {
-            dateDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat, dateDefaultArr[1]);
-            dateDefault = dateDefault.split(' ')[0];
+            if (dateDefaultArr[1] === '') {
+                dateDefaultArr[1] = 0;
+                dateDefault = aliceJs.getTimeStamp(dateFormat, '');
+            } else {
+                dateDefault = aliceJs.getTimeStamp(dateFormat, dateDefaultArr[1]);
+            }
         }
-
         let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${dateDefault}' readonly/>
                     </div>
                 </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='date-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat}' value='${dateDefault}' readonly/>
-                </div>
-            </div>
-        `);
+            `);
 
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        dateTimePicker.initDatePicker('date-' + attr.id, formEditor.userData.defaultDateFormat, formEditor.userData.defaultLang);
+        dateTimePicker.initDatePicker('date-' + attr.id, dateFormat, formEditor.userData.defaultLang);
     }
 
     /**
@@ -458,35 +465,87 @@
         //시간 포멧 변경
         let timeDefaultArr = attr.display['default'].split('|');
         let timeDefault = '';
+        let timeFormat = formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat +' ' +formEditor.userData.defaultTime;
+        let beforeFormt = formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat +' ' + '24';
         if (timeDefaultArr[0] === 'now') {
-            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultTimeFormat);
-        } else if (timeDefaultArr[0] === 'timepicker') {
-            timeDefault = timeDefaultArr[1];
+            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat +' ' +formEditor.userData.defaultTimeFormat);
+            timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, formEditor.userData.lang);
+            let timeNow = timeDefault.split(' ');
+            if (timeNow.length > 2) {
+                timeDefault = timeNow[1] +' '+timeNow[2];
+            } else {
+                timeDefault = timeNow[1];
+            }
         } else if (timeDefaultArr[0] === 'time') {
-            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultTimeFormat, '', timeDefaultArr[1]);
+            timeDefault = aliceJs.getTimeStamp(beforeFormt, '', timeDefaultArr[1]);
+            let timeDate = timeDefault.split(' ');
+            timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDate[0] +' '+ timeDate[1], formEditor.userData.lang);
+            let time = timeDefault.split(' ');
+            if (time.length > 2) {
+                timeDefault = time[1] +' '+time[2];
+            } else {
+                timeDefault = time[1];
+            }
+        } else if (timeDefaultArr[0] === 'timepicker') {
+            timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat)+ ' ' + timeDefaultArr[1];
+            timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, formEditor.userData.lang);
+            let timepicker = timeDefault.split(' ');
+            if (timepicker.length === 3) {
+                timeDefault = timepicker[1] +' '+timepicker[2];
+            } else if (timepicker.length === 2) {
+                timeDefault = timepicker[1];
+            } else if (timepicker.length === 1) {
+                timeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat);
+                timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, formEditor.userData.lang);
+                timepicker = timeDefault.split(' ');
+                timeDefault = timepicker[1];
+            }
         }
-
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+        let targetElement = document.getElementById('time-' + attr.id);
+        if (targetElement != undefined) {
+            targetElement.remove();
+        }
+        let comp = '';
+        if (formEditor.userData.defaultTime == '12') {
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat} a' value='${timeDefault}' readonly/>
                     </div>
                 </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat}' value='${timeDefault}' readonly/>
+            `);
+        } else {
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='time-${attr.id}' placeholder='${formEditor.userData.defaultTimeFormat}' value='${timeDefault}' readonly/>
+                    </div>
                 </div>
-            </div>
-        `);
+            `);
+        }
 
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
-        dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultTime);
+        dateTimePicker.initTimePicker('time-' + attr.id, formEditor.userData.defaultTime, formEditor.userData.defaultLang);
     }
 
     /**
@@ -498,32 +557,45 @@
         //날짜 시간 포멧 변경
         let datetimeDefaultArr = attr.display['default'].split('|');
         let datetimeDefault = '';
+        let beforeDatetimeDefault = '';
+        let timeFormat = formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat;
+        let nowTimeFormat = formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat + ' '+  formEditor.userData.defaultTime;
+
         if (datetimeDefaultArr[0] === 'now') {
-            datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat);
+            datetimeDefault = aliceJs.getTimeStamp(timeFormat);
         } else if (datetimeDefaultArr[0] === 'datetimepicker') {
-            datetimeDefault = datetimeDefaultArr[1];
+            if (datetimeDefaultArr[1] !== '') {
+                beforeDatetimeDefault = datetimeDefaultArr[1];
+            } else {
+                beforeDatetimeDefault = aliceJs.getTimeStamp(timeFormat);
+            }
+            datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], nowTimeFormat, beforeDatetimeDefault, formEditor.userData.lang);
         } else if (datetimeDefaultArr[0] === 'datetime') {
-            datetimeDefault = aliceJs.getTimeStamp(formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+            beforeDatetimeDefault = aliceJs.getTimeStamp(timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+            datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[3], nowTimeFormat, beforeDatetimeDefault, formEditor.userData.lang);
         }
 
-
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+        let targetElement = document.getElementById('datetime-' + attr.id);
+        if (targetElement != undefined) {
+            targetElement.remove();
+        }
+        let comp = '';
+            comp = utils.createComponentByTemplate(`
+                <div class='move-icon'></div>
+                <div class='group'>
+                    <div class='field'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
+                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
+                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
+                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
+                        </div>
+                    </div>
+                    <div class='field' style='flex-basis: 100%;'>
+                        <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat} a' value='${datetimeDefault}' readonly />
                     </div>
                 </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' id='datetime-${attr.id}' placeholder='${formEditor.userData.defaultDateFormat + ' ' + formEditor.userData.defaultTimeFormat}' value='${datetimeDefault}' readonly />
-                </div>
-            </div>
-        `);
-
+            `);
         formPanel.appendChild(comp);
         this.domElem = comp;
         //TODO: 데이터 포멧 변환
@@ -604,7 +676,6 @@
             compAttr.type = compType;
         }
         compAttr.display.order = ++componentIdx;
-        
         let componentConstructor = null;
         switch(compType) {
             case 'editbox':

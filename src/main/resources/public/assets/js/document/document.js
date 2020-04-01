@@ -6,6 +6,7 @@
     'use strict';
 
     let documentContainer = null;
+    let buttonContainer = null;
     const defaultColWidth = 8.33; //폼 패널을 12등분하였을때, 1개의 너비
     let userData = {              //사용자 세션 정보
         defaultLang: 'en',
@@ -27,9 +28,7 @@
      */
     function alertMsg(element, msg) {
         aliceJs.alert(msg, function() {
-            if (element) {
-                element.focus();
-            }
+            element.focus();
         });
     }
 
@@ -71,20 +70,29 @@
                     }
                     if (key === 'length-min' && value > chkVal.length) {
                         alertMsg(element, i18n.get('document.msg.lengthMin', value));
-                        alertMsg(element, i18n.get('document.msg.lengthMin', value));
                         return true;
                     }
                     if (key === 'length-max' && value < chkVal.length) {
                         alertMsg(element, i18n.get('document.msg.lengthMax', value));
                         return true;
                     }
-                    if (key === 'date-min' && value > chkVal) {
-                        alertMsg(element, i18n.get('document.msg.dateMin', value));
-                        return true;
+                    if (key === 'date-min') {
+                        let dateMinValueArray = value.split("|");
+                        let dateMinValuePlaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
+                        let dateMinValue = aliceJs.changeDateFormat(dateMinValueArray[1], dateMinValuePlaceholder, dateMinValueArray[0], userData.defaultLang);
+                        if (dateMinValue > chkVal) {
+                            alertMsg(element, i18n.get('document.msg.dateMin').replace('{0}', dateMinValue));
+                            return true;
+                        }
                     }
-                    if (key === 'date-max' && value < chkVal) {
-                        alertMsg(element, i18n.get('document.msg.dateMax', value));
-                        return true;
+                    if (key === 'date-max') {
+                        let dateMaxValueArray = value.split("|");
+                        let dateMaxValuePlaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
+                        let dateMaxValue = aliceJs.changeDateFormat(dateMaxValueArray[1], dateMaxValuePlaceholder, dateMaxValueArray[0], userData.defaultLang);
+                        if (dateMaxValue < chkVal) {
+                            alertMsg(element, i18n.get('document.msg.dateMax').replace('{0}', dateMaxValue));
+                            return true;
+                        }
                     }
                 }
             }
@@ -98,18 +106,36 @@
      */
     function addComponent(compData) {
         const comp = document.createElement('div');
-        comp.id = compData.id;
+        comp.id = compData.componentId;
         comp.className = 'component';
-        comp.setAttribute('data-type', compData.type);
+        let comp_type = '';
+        if (compData.attributes === undefined) {
+            comp_type = compData.type;
+        } else {
+            comp_type = compData.attributes.type;
+        }
+        comp.setAttribute('data-type', comp_type);
 
         const fieldFirstEle = document.createElement('div');
         const fieldLastEle = document.createElement('div');
         fieldFirstEle.className = 'field';
         fieldLastEle.className = 'field';
 
-        const lblData = compData.label;
-        const displayData = compData.display;
-        const validateData = compData.validate;
+        let comp_label = '';
+        let comp_display = '';
+        let comp_validate = '';
+        if (compData.attributes === undefined) {
+            comp_label = compData.label;
+            comp_display = compData.display;
+            comp_validate = compData.validate;
+        } else {
+            comp_label = compData.attributes.label;
+            comp_display = compData.attributes.display;
+            comp_validate = compData.attributes.validate;
+        }
+        const lblData = comp_label;
+        const displayData = comp_display;
+        const validateData = comp_validate;
 
         if (typeof lblData !== 'undefined' && lblData.position !== 'hidden') {
             const lblEle = document.createElement('div');
@@ -139,7 +165,7 @@
         comp.appendChild(fieldLastEle);
         documentContainer.appendChild(comp);
 
-        switch (compData.type) {
+        switch (comp_type) {
             case 'text':
                 const textEle = document.createElement('input');
                 textEle.type = 'text';
@@ -162,6 +188,9 @@
                 textEle.addEventListener('focusout', function() {
                     validateCheck(this, validateData);
                 });
+                if (compData.values != undefined && compData.values.length > 0) {
+                    textEle.value = compData.values[0].value;
+                }
                 fieldLastEle.appendChild(textEle);
                 break;
             case 'textarea':
@@ -211,6 +240,9 @@
                         textEditorToolbar.style.borderWidth = displayData['outline-width'] + 'px';
                         textEditorToolbar.style.borderColor = displayData['outline-color'];
                     }
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        textEditor.setContents(JSON.parse(compData.values[0].value));
+                    }
                 } else {
                     const textareaEle = document.createElement('textarea');
                     textareaEle.placeholder = displayData.placeholder;
@@ -222,38 +254,64 @@
                     textareaEle.addEventListener('focusout', function() {
                         validateCheck(this, validateData);
                     });
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        textareaEle.value = compData.values[0].value;
+                    }
                     fieldLastEle.appendChild(textareaEle);
                 }
                 break;
             case 'select':
                 const selectEle = document.createElement('select');
                 selectEle.required = (validateData.required === 'Y');
-                const optData = compData.option;
-                optData.sort(function(a, b) {
+                let optData;
+                if (compData.attributes !== undefined) {
+                    optData = compData.attributes.option;
+                } else {
+                    optData = compData.option;
+                }
+                optData.sort(function (a, b) {
                     return a.seq - b.seq;
                 });
                 for (let i = 0; i < optData.length; i++) {
                     const optEle = document.createElement('option');
                     optEle.text = optData[i].name;
                     optEle.value = optData[i].value;
+                    if (compData.values !== undefined && compData.values.length > 0) {
+                        if (optEle.value === compData.values[0].value) {
+                            optEle.selected = true;
+                        }
+                    }
                     selectEle.appendChild(optEle);
                 }
                 fieldLastEle.appendChild(selectEle);
+
                 break;
             case 'radio':
-                const radioOptData = compData.option;
-                radioOptData.sort(function(a, b) {
+                let radioOptData;
+                if (compData.attributes !== undefined) {
+                    radioOptData = compData.attributes.option;
+                } else {
+                    radioOptData = compData.option;
+                }
+                radioOptData.sort(function (a, b) {
                     return a.seq - b.seq;
                 });
+
                 for (let i = 0; i < radioOptData.length; i++) {
                     const divEle = document.createElement('div');
                     if (displayData.direction === 'horizontal') { divEle.style.display = 'inline-block'}
                     const radioEle = document.createElement('input');
                     radioEle.type = 'radio';
-                    radioEle.name = 'radio-' + compData.id;
+                    radioEle.name = 'radio-' + compData.componentId;
                     radioEle.id = radioOptData[i].value;
                     radioEle.value = radioOptData[i].value;
-                    radioEle.checked = (i === 0);
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        if (radioEle.value === compData.values[0].value) {
+                            radioEle.checked = true;
+                        }
+                    } else {
+                        radioEle.checked = (i === 0);
+                    }
                     radioEle.required = (i === 0 && validateData.required === 'Y');
 
                     const lblEle = document.createElement('label');
@@ -270,18 +328,32 @@
                 }
                 break;
             case 'checkbox':
-                const checkOptData = compData.option;
+                let checkOptData;
+                if (compData.attributes !== undefined) {
+                    checkOptData = compData.attributes.option;
+                } else {
+                    checkOptData = compData.option;
+                }
                 checkOptData.sort(function(a, b) {
                     return a.seq - b.seq;
                 });
+
                 for (let i = 0; i < checkOptData.length; i++) {
                     const divEle = document.createElement('div');
                     if (displayData.direction === 'horizontal') { divEle.style.display = 'inline-block'}
                     const checkEle = document.createElement('input');
                     checkEle.type = 'checkbox';
-                    checkEle.name = 'check-' + compData.id;
+                    checkEle.name = 'check-' + compData.componentId;
                     checkEle.id = checkOptData[i].value;
                     checkEle.value = checkOptData[i].value;
+                    if (compData.values != undefined && compData.values.length > 0) {
+                        const checkboxValue = compData.values[0].value.split(',');
+                        checkboxValue.forEach(function (element) {
+                            if (checkEle.value === element) {
+                                checkEle.checked = true;
+                            }
+                        });
+                    }
                     checkEle.required = (i === 0 && validateData.required === 'Y');
 
                     const lblEle = document.createElement('label');
@@ -326,19 +398,28 @@
             case 'date':
                 let dateDefaultArr = displayData.default.split('|');
                 let dateDefault = '';
-                if (dateDefaultArr[0] === 'now') {
-                    dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat);
-                    dateDefault = dateDefault.split(' ')[0];
-                } else if (dateDefaultArr[0] === 'datepicker') {
-                    dateDefault = dateDefaultArr[1];
-                } else if (dateDefaultArr[0] === 'date') {
-                    dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat, dateDefaultArr[1]);
-                    dateDefault = dateDefault.split(' ')[0];
+                let dateplaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat;
+
+                if (compData.values != undefined && compData.values.length > 0 ) {
+                    let dateValue = compData.values[0].value.split('|');
+                    if (dateValue[0] !== '') {
+                        dateDefault = aliceJs.changeDateFormat(dateValue[1], dateplaceholder, dateValue[0], userData.defaultLang);
+                    }
+                } else {
+                    if (dateDefaultArr[0] === 'now') {
+                        dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat);
+                        dateDefault = dateDefault.split(' ')[0];
+                    } else if (dateDefaultArr[0] === 'datepicker') {
+                        dateDefault = aliceJs.changeDateFormat(dateDefaultArr[2], dateplaceholder, dateDefaultArr[1], userData.defaultLang);
+                    } else if (dateDefaultArr[0] === 'date') {
+                        dateDefault = aliceJs.getTimeStamp(userData.defaultDateFormat, dateDefaultArr[1]);
+                        dateDefault = dateDefault.split(' ')[0];
+                    }
                 }
                 const dateEle = document.createElement('input');
-                dateEle.id = 'date-' + compData.id;
+                dateEle.id = 'date-' + compData.componentId;
                 dateEle.type = 'text';
-                dateEle.placeholder = userData.defaultDateFormat;
+                dateEle.placeholder = dateplaceholder;
                 dateEle.value = dateDefault;
                 dateEle.required = (validateData.required === 'Y');
                 dateEle.readOnly = true;
@@ -346,43 +427,70 @@
                     validateCheck(this, validateData);
                 });
                 fieldLastEle.appendChild(dateEle);
-                dateTimePicker.initDatePicker('date-' + compData.id, userData.defaultDateFormat, userData.defaultLang);
+                dateTimePicker.initDatePicker('date-' + compData.componentId, userData.defaultDateFormat, userData.defaultLang);
                 break;
             case 'time':
                 let timeDefaultArr = displayData.default.split('|');
                 let timeDefault = '';
-                if (timeDefaultArr[0] === 'now') {
-                    timeDefault = aliceJs.getTimeStamp(userData.defaultTimeFormat);
-                } else if (timeDefaultArr[0] === 'timepicker') {
-                    timeDefault = timeDefaultArr[1];
-                } else if (timeDefaultArr[0] === 'time') {
-                    timeDefault = aliceJs.getTimeStamp(userData.defaultTimeFormat, '', timeDefaultArr[1]);
+
+                if (compData.values != undefined && compData.values.length > 0 ) {
+                    //저장한 날짜와 포맷
+                    let timeValue = compData.values[0].value.split('|');
+                    //저장한 가상 날짜 및 시간
+                    let dummyDateTime = aliceJs.getTimeStamp(timeValue[1]);
+                    //저장한 가상 날짜
+                    let dummyDate = dummyDateTime.split(' ');
+                    let timeFormat = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
+                    timeDefault = aliceJs.changeDateFormat(timeValue[1], timeFormat, dummyDate[0] +' '+ timeValue[0], userData.defaultLang);
+                    let time = timeDefault.split(' ');
+                    if (time.length > 2) {
+                        timeDefault = time[1] +' '+time[2];
+                    } else {
+                        timeDefault = time[1];
+                    }
+                } else {
+                    if (timeDefaultArr[0] === 'now') {
+                        timeDefault = aliceJs.getTimeStamp(userData.defaultTimeFormat);
+                    } else if (timeDefaultArr[0] === 'timepicker') {
+                        timeDefault = timeDefaultArr[1];
+                    } else if (timeDefaultArr[0] === 'time') {
+                        timeDefault = aliceJs.getTimeStamp(userData.defaultTimeFormat, '', timeDefaultArr[1]);
+                    }
                 }
                 const timeEle = document.createElement('input');
-                timeEle.id = 'time-' + compData.id;
+                timeEle.id = 'time-' + compData.componentId;
                 timeEle.type = 'text';
                 timeEle.placeholder = userData.defaultTimeFormat;
                 timeEle.value = timeDefault;
                 timeEle.required = (validateData.required === 'Y');
                 timeEle.readOnly = true;
                 fieldLastEle.appendChild(timeEle);
-                dateTimePicker.initTimePicker('time-' + compData.id, userData.defaultTime);
+                dateTimePicker.initTimePicker('time-' + compData.componentId, userData.defaultTime, userData.defaultLang);
                 break;
+
             case 'datetime':
                 let datetimeDefaultArr = displayData.default.split('|');
                 let datetimeDefault = '';
-                if (datetimeDefaultArr[0] === 'now') {
-                    datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat);
-                } else if (datetimeDefaultArr[0] === 'datetimepicker') {
-                    datetimeDefault = datetimeDefault[1];
-                } else if (datetimeDefaultArr[0] === 'datetime') {
-                    datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
-                }
+                let datetimeplaceholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
 
+                if (compData.values != undefined && compData.values.length > 0 ) {
+                    let dateValue = compData.values[0].value.split('|');
+                    if (dateValue[0] !== '') {
+                        datetimeDefault = aliceJs.changeDateFormat(dateValue[1], datetimeplaceholder, dateValue[0], userData.defaultLang);
+                    }
+                } else {
+                    if (datetimeDefaultArr[0] === 'now') {
+                        datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat);
+                    } else if (datetimeDefaultArr[0] === 'datetimepicker') {
+                        datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], datetimeplaceholder, datetimeDefaultArr[1], userData.defaultLang);
+                    } else if (datetimeDefaultArr[0] === 'datetime') {
+                        datetimeDefault = aliceJs.getTimeStamp(userData.defaultDateFormat + ' ' + userData.defaultTimeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+                    }
+                }
                 const datetimeEle = document.createElement('input');
-                datetimeEle.id = 'datetime-' + compData.id;
+                datetimeEle.id = 'datetime-' + compData.componentId;
                 datetimeEle.type = 'text';
-                datetimeEle.placeholder = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat;
+                datetimeEle.placeholder = datetimeplaceholder;
                 datetimeEle.value = datetimeDefault;
                 datetimeEle.required = (validateData.required === 'Y');
                 datetimeEle.readOnly = true;
@@ -390,16 +498,75 @@
                     validateCheck(this, validateData);
                 });
                 fieldLastEle.appendChild(datetimeEle);
-                dateTimePicker.initDateTimePicker('datetime-' + compData.id, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang);
+                dateTimePicker.initDateTimePicker('datetime-' + compData.componentId, userData.defaultDateFormat, userData.defaultTime, userData.defaultLang);
                 break;
             case 'fileupload':
-                const fileEle = document.createElement('input');
-                fileEle.type = 'file';
-                fileEle.multiple = true;
+                const fileEle = document.createElement('div');
+                const fileEleId = 'dropZoneFiles-' + compData.componentId;
+                const fileUploadedEleId = 'dropZoneUploadedFiles-' + compData.componentId;
+                fileEle.id = fileEleId;
                 fieldLastEle.appendChild(fileEle);
+                const fileUploadedEle = document.createElement('div');
+                fileUploadedEle.id = fileUploadedEleId;
+                fieldLastEle.appendChild(fileUploadedEle);
+                if (compData.values != undefined && compData.values.length > 0) {
+                    fileUploader.init({extra: {formId: 'frm', ownId: '',
+                            dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId, fileDataIds: compData.values[0].value}});
+                } else {
+                    fileUploader.init({extra: {formId: 'frm', ownId: '',
+                            dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId}});
+                }
                 break;
             default :
                 break;
+        }
+    }
+
+    /**
+     * button를 만든다.
+     * 저장과 취소 버튼은 기본적으로 생성된다.
+     * @param  buttonData : button 정보 값
+     */
+    function addButton(buttonData) {
+        const buttonEle = document.createElement('div');
+        buttonEle.style.marginTop = '10px';
+        buttonEle.style.textAlign = 'center';
+        if (buttonData !== undefined && buttonData !== '') {
+            buttonData.forEach(function(element) {
+                if (element.name !== '') {
+                    let buttonProcessEle = document.createElement('button');
+                    buttonProcessEle.type = 'button';
+                    buttonProcessEle.innerText = element.name;
+                    buttonProcessEle.addEventListener('click', function () {
+                        aliceDocument.save(element.value);
+                    });
+                    buttonEle.appendChild(buttonProcessEle);
+                }
+            });
+        } else {
+            //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
+            //token Id 가 없고 버튼에 대한 정보 없다는 것은 처음 문서 생성 이라고 판단한다.
+            if (document.getElementById('tokenId') === null) {
+                const buttonSaveEle = document.createElement('button');
+                buttonSaveEle.type = 'button';
+                buttonSaveEle.innerText = i18n.get('common.btn.save');
+                buttonSaveEle.addEventListener('click', function () {
+                    aliceDocument.save('save');
+                });
+                buttonEle.appendChild(buttonSaveEle);
+            }
+        }
+
+        //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
+        const buttonCancelEle = document.createElement('button');
+        buttonCancelEle.type = 'button';
+        buttonCancelEle.innerText = i18n.get('common.btn.cancel');
+        buttonCancelEle.addEventListener('click', function() {
+            window.close();
+        });
+        buttonEle.appendChild(buttonCancelEle);
+        if (buttonContainer !== null) {
+            buttonContainer.appendChild(buttonEle);
         }
     }
 
@@ -409,14 +576,26 @@
      * @param data 문서 데이터.
      */
     function drawDocument(data) {
-        if (data.components.length > 0) {
-            if (data.components.length > 2) {
-                data.components.sort(function (a, b) {
-                    return a.display.order - b.display.order;
+        var components;
+
+        if (data.components != undefined) {
+            components = data.components;
+        } else if (data.token.components != undefined) {
+            components = data.token.components;
+        }
+
+        if (components.length > 0) {
+            if (components.length > 2) {
+                components.sort(function (a, b) {
+                    if (a.attributes === undefined) {
+                        return a.display.order - b.display.order;
+                    } else {
+                        return a.attributes.display.order - b.attributes.display.order;
+                    }
                 });
             }
-            for (let i = 0; i < data.components.length; i++) {
-                addComponent(data.components[i]);
+            for (let i = 0; i < components.length; i++) {
+                addComponent(components[i]);
             }
         }
 
@@ -426,6 +605,12 @@
 
         if (data.tokenId !== undefined) {
             addIdComponent('tokenId', data.tokenId);
+        }
+
+        if (data.components != undefined) {
+            addButton(data.action);
+        } else if (data.token.components != undefined) {
+            addButton(data.token.action);
         }
     }
 
@@ -492,35 +677,32 @@
      */
     function save(v_kind) {
         // validation check
-        if (v_kind == 'process') {
+        if (v_kind !== 'save') {
             if (requiredCheck()) {
                 return false;
             }
         }
 
-        let documentObject = {};
         let tokenObject = {};
         let componentArrayList = [];
         let actionArrayList = [];
+        let fileDataIds = '';
 
         //documentId 값을 구한다.
         const documentElements = document.getElementById('documentId');
         if (documentElements !== null && documentElements !== undefined) {
-            //documentObject.documentId = documentElements.getAttribute('data-id');
             tokenObject.documentId = documentElements.getAttribute('data-id');
         } else {
-            //documentObject.documentId = '';
             tokenObject.documentId = "";
         }
-        //tokenObject.documentName = "";
 
         //ComponentsInfo
         const componentElements = documentContainer.getElementsByClassName('component');
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
-
             if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
-                componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox') {
+                componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
+                componentDataType === 'fileupload') {
                 let componentId = componentElements[eIndex].getAttribute('id');
                 let componentValue = '';
                 let componentChildObject = {};
@@ -528,11 +710,23 @@
 
                 switch (componentDataType) {
                     case 'text':
-                    case 'date':
-                    case 'time':
-                    case 'datetime':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         componentValue = componentChild.item(0).value;
+                        break;
+                    case 'date':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        let dateFormat = componentChild.item(0).placeholder;
+                        componentValue = componentChild.item(0).value+'|'+dateFormat;
+                        break;
+                    case 'time':
+                        let timeFormat = userData.defaultDateFormat + ' ' + userData.defaultTimeFormat + ' ' + userData.defaultTime;
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).value+'|'+timeFormat;
+                        break;
+                    case 'datetime':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        let datetimeFormat = componentChild.item(0).placeholder;
+                        componentValue = componentChild.item(0).value+'|'+datetimeFormat;
                         break;
                     case 'textarea':
                         componentChild = componentElements[eIndex].querySelector('.editor-container');
@@ -560,7 +754,7 @@
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
                             if (componentChild[checkBoxIndex].checked) {
-                                if (checkBoxIndex === 0) {
+                                if (componentValue === '' && componentValue.indexOf(",") === -1) {
                                     componentValue = componentChild[checkBoxIndex].value;
                                 } else {
                                     componentValue = componentValue + ',' + componentChild[checkBoxIndex].value;
@@ -568,8 +762,27 @@
                             }
                         }
                         break;
+                    case 'fileupload' :
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
+                            if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
+                                if (componentValue === '' && componentValue.indexOf(",") === -1) {
+                                    componentValue = componentChild[fileuploadIndex].value;
+                                } else {
+                                    componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
+                                }
+                            }
+                            //신규 추가된 첨부파일만 임시폴더에서 일반폴더로 옮기기 위해서
+                            if (componentChild[fileuploadIndex].name === 'fileSeq') {
+                                if (fileDataIds === '' && fileDataIds.indexOf(",") === -1) {
+                                    fileDataIds = componentChild[fileuploadIndex].value;
+                                } else {
+                                    fileDataIds = fileDataIds + ',' + componentChild[fileuploadIndex].value;
+                                }
+                            }
+                        }
+                        break;
                 }
-
                 componentChildObject.componentId = componentId;
                 componentChildObject.value = componentValue;
                 componentArrayList.push(componentChildObject);
@@ -587,17 +800,19 @@
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
             tokenObject.assigneeId = userData.userKey;
             tokenObject.assigneeType = defaultAssigneeTypeForSave;
-        } else if (v_kind === 'process') {
+        } else {
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
+            tokenObject.assigneeId = '';
+            tokenObject.assigneeType = '';
         }
 
-        tokenObject.elementId = '';
         if (componentArrayList.length > 0) {
             tokenObject.data = componentArrayList;
         } else {
             tokenObject.data = '';
         }
 
+        actionArrayList = v_kind;
         tokenObject.actions = actionArrayList;
 
         let method = '';
@@ -605,45 +820,24 @@
             method = 'post';
         } else {
             method = 'put';
-
-            /*const object = {
-                //documentDto : documentObject,
-                tokenDto: tokenObject
-            };*/
-
-            //console.log(tokenObject);
-            //return false;
-
-            const opt = {
-                method: method,
-                url: '/rest/tokens/data',
-                params: JSON.stringify(tokenObject),
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alert(i18n.get('common.msg.save'), function() {
-                        window.close();
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
         }
 
-        /*const object = {
-            //documentDto : documentObject,
-            tokenDto: tokenObject
-        };*/
-
-        //console.log(tokenObject);
-        //return false;
-
+        if (fileDataIds !== '') {
+            tokenObject.fileDataIds = fileDataIds;
+        }
         const opt = {
             method: method,
             url: '/rest/tokens/data',
             params: JSON.stringify(tokenObject),
             contentType: 'application/json',
-            callbackFunc: function() {
-                alert(i18n.get('common.msg.save'));
-                window.close();
+            callbackFunc: function(xhr) {
+                if (xhr.responseText === 'true') {
+                    aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        window.close();
+                    });
+                } else {
+                    aliceJs.alert(i18n.get('common.msg.fail'));
+                }
             }
         };
         aliceJs.sendXhr(opt);
@@ -655,10 +849,10 @@
      * @param documentId 문서 id
      * @param {String} authInfo 사용자 세션 정보
      */
-    function init(documentId, authInfo) {
+    function initDocument(documentId, authInfo) {
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
         documentContainer = document.getElementById('document-container');
-
+        buttonContainer = document.getElementById('button-container');
         let authData = JSON.parse(authInfo);
         //신청서화면에서 사용할 사용자 세션 정보
         if (authData) {
@@ -680,8 +874,42 @@
             callbackFunc: function(xhr) {
                 let jsonData = JSON.parse(xhr.responseText);
                 jsonData.documentId = documentId;
-                //진행중 저장을 위해서 테스트 데이터
-                //jsonData.tokenId = '40288ab770a01cd30170a01d69e40003';
+                drawDocument(jsonData);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+    }
+
+    /**
+     * init Token.
+     *
+     * @param tokenId 문서 id
+     * @param {String} authInfo 사용자 세션 정보
+     */
+    function initToken(tokenId, authInfo) {
+        console.info('document editor initialization. [Token ID: ' + tokenId + ']');
+        documentContainer = document.getElementById('document-container');
+        buttonContainer = document.getElementById('button-container');
+        let authData = JSON.parse(authInfo);
+        //편집화면에서 사용할 사용자 세션 정보
+        if (authData) {
+            Object.assign(userData, authData);
+
+            userData.defaultLang  = authData.lang;
+            let format = authData.timeFormat;
+            let formatArray = format.split(' ');
+
+            userData.defaultDateFormat =  formatArray[0].toUpperCase();
+            if (formatArray.length === 3) { userData.defaultTime = '12'; }
+        }
+
+        // token data search.
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/tokens/data/' + tokenId,
+            callbackFunc: function(xhr) {
+                let jsonData = JSON.parse(xhr.responseText);
+                jsonData.tokenId = tokenId;
                 drawDocument(jsonData);
             },
             contentType: 'application/json; charset=utf-8'
@@ -712,7 +940,8 @@
         }
     }
 
-    exports.init = init;
+    exports.initDocument = initDocument;
+    exports.initToken = initToken;
     exports.save = save;
     exports.initContainer = initContainer;
     exports.drawDocument = drawDocument;

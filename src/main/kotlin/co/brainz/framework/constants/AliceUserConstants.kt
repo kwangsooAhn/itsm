@@ -113,10 +113,8 @@ object AliceUserConstants {
     /**
      * 사용자 파일업로드 관련 제한 확장자 목록
      */
-    enum class ProhibitExtension() {
-        PDF,
+    enum class ProhibitExtension {
         EXE,
-        DOC,
         PHP
     }
 }

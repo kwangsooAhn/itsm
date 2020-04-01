@@ -43,15 +43,15 @@ class WfDocumentService(
         val documentEntities = wfDocumentRepository.findAll()
         for (document in documentEntities) {
             val documentDto = WfDocumentDto(
-                documentId = document.documentId,
-                documentName = document.documentName,
-                documentDesc = document.documentDesc,
-                procId = document.process.processId,
-                formId = document.form.formId,
-                createDt = document.createDt,
-                createUserKey = document.createUserKey,
-                updateDt = document.updateDt,
-                updateUserKey = document.updateUserKey
+                    documentId = document.documentId,
+                    documentName = document.documentName,
+                    documentDesc = document.documentDesc,
+                    procId = document.process.processId,
+                    formId = document.form.formId,
+                    createDt = document.createDt,
+                    createUserKey = document.createUserKey,
+                    updateDt = document.updateDt,
+                    updateUserKey = document.updateUserKey
             )
             documents.add(documentDto)
         }
@@ -106,24 +106,24 @@ class WfDocumentService(
         val form = WfFormEntity(formId = formId)
         val process = WfProcessEntity(processId = processId)
         val documentEntity = WfDocumentEntity(
-            documentId = documentDto.documentId,
-            documentName = documentDto.documentName,
-            documentDesc = documentDto.documentDesc,
-            form = form,
-            process = process,
-            createDt = documentDto.createDt,
-            createUserKey = documentDto.createUserKey
+                documentId = documentDto.documentId,
+                documentName = documentDto.documentName,
+                documentDesc = documentDto.documentDesc,
+                form = form,
+                process = process,
+                createDt = documentDto.createDt,
+                createUserKey = documentDto.createUserKey
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
         return WfDocumentDto(
-            documentId = dataEntity.documentId,
-            documentName = dataEntity.documentName,
-            documentDesc = dataEntity.documentDesc,
-            formId = dataEntity.form.formId,
-            procId = dataEntity.process.processId,
-            createDt = dataEntity.createDt,
-            createUserKey = dataEntity.createUserKey
+                documentId = dataEntity.documentId,
+                documentName = dataEntity.documentName,
+                documentDesc = dataEntity.documentDesc,
+                formId = dataEntity.form.formId,
+                procId = dataEntity.process.processId,
+                createDt = dataEntity.createDt,
+                createUserKey = dataEntity.createUserKey
         )
     }
 

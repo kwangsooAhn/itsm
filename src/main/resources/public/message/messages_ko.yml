@@ -346,7 +346,7 @@ document:
 token:
   label:
     list: "처리할 문서 목록"
-
+    write: "처리할 문서"
 # Custom Code
 custom.code:
   label:
