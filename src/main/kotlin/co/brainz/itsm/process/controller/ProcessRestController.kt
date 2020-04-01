@@ -1,7 +1,6 @@
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessService
-import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -12,7 +11,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
-import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/rest/processes")
