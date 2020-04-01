@@ -265,12 +265,12 @@ const fileUploader = (function () {
 
                 this.on("maxfilesexceeded", function (file, maxFiles) {
                     this.removeFile(file);
-                    alert("첨부파일 개수를 초과하였습니다. \n(첨부파일 제한 개수 : " + maxFiles +")");
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesexceeded').replace('{0}', maxFiles));
                 });
 
                 this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                     this.removeFile(file);
-                    alert("첨부파일 제한 용량을 초과하였습니다. \n(첨부파일 제한 용량 : " + maxFileSize +"MB)");
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded').replace('{0}', maxFileSize));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
