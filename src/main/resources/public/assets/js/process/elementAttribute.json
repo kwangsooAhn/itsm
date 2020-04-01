@@ -281,7 +281,9 @@
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
             {
               "id": "sub-process-id", "name": "SubProcess", "type": "select", "default": "",
-              "sub-list": []
+              "sub-list": [
+                {"id": "", "name": "Not selected"}
+              ]
             }
           ]
         }

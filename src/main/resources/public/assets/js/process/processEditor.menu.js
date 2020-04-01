@@ -997,7 +997,7 @@
                         elementObject = document.createElement('select');
                         let optionList = property['sub-list'];
                         if (property.id === 'sub-process-id') {
-                            optionList = [{id: '', name: i18n.get('common.label.notSelect')}].concat(publishProcesses);
+                            optionList = optionList.concat(publishProcesses);
                         }
                         for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
                             let option = document.createElement('option');
