@@ -596,6 +596,7 @@
             }
         }
         AliceProcessEditor.history.saveHistory(histories);
+        AliceProcessEditor.setElementMenu();
     }
 
     /**
@@ -650,7 +651,7 @@
             AliceProcessEditor.removeElementSelected();
 
             const connectorElementId = workflowUtil.generateUUID();
-            AliceProcessEditor.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id});
+            AliceProcessEditor.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N'});
             AliceProcessEditor.setConnectors();
 
             const connectorElementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
@@ -787,6 +788,12 @@
                         propertyValue = propertyObject.value;
                     if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
                         propertyValue = propertyObject.checked ? 'Y' : 'N';
+                        if (propertyObject.id === 'is-default') {
+                            let conditionAttrObject = container.querySelector('input[name=condition]');
+                            if (conditionAttrObject && propertyObject.checked) {
+                                conditionAttrObject.value = '';
+                            }
+                        }
                     }
                     elementData[0].data[propertyObject.name] = propertyValue;
                 }
@@ -962,9 +969,9 @@
             let divideLine = document.createElement('hr');
             propertiesContainer.appendChild(divideLine);
 
-            const properties = propertiesDivision[idx].items;
-            for (let i = 0, attrLen = properties.length; i < attrLen; i++) {
-                const property = properties[i];
+            const items = propertiesDivision[idx].items;
+            for (let i = 0, attrLen = items.length; i < attrLen; i++) {
+                const property = items[i];
                 let propertyContainer = document.createElement('p');
                 let labelObject = document.createElement('label');
                 labelObject.htmlFor =  property.id;
@@ -975,6 +982,9 @@
                 switch (property.type) {
                     case 'inputbox':
                         elementObject = document.createElement('input');
+                        if (properties.type === 'arrowConnector' && property.id === 'condition' && elemData['is-default'] === 'Y') {
+                            elementObject.disabled = true;
+                        }
                         break;
                     case 'inputbox-readonly':
                         elementObject = document.createElement('input');
@@ -1026,8 +1036,7 @@
                             };
                         }
                         elementObject.addEventListener('keyup', keyupHandler);
-                    }
-                    if (property.id === 'reject-id') {
+                    } else if (property.id === 'reject-id') {
                         const addRejectClass = function(e) {
                             e.stopPropagation();
                             const elementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === e.target.value; });
@@ -1046,6 +1055,31 @@
                     if (property.id !== 'id') {
                         elementObject.addEventListener('change', function() {
                             changePropertiesDataValue(id);
+                            if (property.id === 'is-default') {
+                                let conditionAttrObject = propertiesContainer.querySelector('input[name=condition]');
+                                if (conditionAttrObject) {
+                                    conditionAttrObject.disabled = this.checked;
+                                    d3.select(document.getElementById(id)).classed('is-default', this.checked);
+                                    let sourceId;
+                                    AliceProcessEditor.elements.links.forEach(function(l) {
+                                        if (l.id === id) {
+                                            l.isDefault = conditionAttrObject.disabled ? 'Y' : 'N';
+                                            sourceId = l.sourceId;
+                                        }
+                                    });
+                                    AliceProcessEditor.elements.links.forEach(function(l) {
+                                        if (l.sourceId === sourceId && l.id !== id && l.isDefault === 'Y') {
+                                            d3.select(document.getElementById(l.id)).classed('is-default', false);
+                                            l.isDefault = 'N';
+                                            AliceProcessEditor.data.elements.forEach(function(e) {
+                                                if (e.id === l.id) {
+                                                    e.data['is-default'] = 'N';
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
                         });
                     }
                     propertyContainer.appendChild(elementObject);
