@@ -596,6 +596,7 @@
             }
         }
         AliceProcessEditor.history.saveHistory(histories);
+        AliceProcessEditor.setElementMenu();
     }
 
     /**
