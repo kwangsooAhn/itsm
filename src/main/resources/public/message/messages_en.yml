@@ -49,6 +49,7 @@ menu:
   help.faq: "FAQ"
   help.document: "Service Request"
   help.token: "Process Document"
+  help.dashboard: "Dashboard"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
@@ -345,7 +346,7 @@ document:
 token:
   label:
     list: "Process Document List"
-
+    write: "Process Document"
 # Custom Code
 custom.code:
   label:
@@ -367,3 +368,14 @@ fileupload:
   msg:
     maxfilesexceeded: "The number of attachments has been exceeded. (Attachment limit number : {0})"
     maxfilesizeexceeded: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"
+
+# Dashboard
+dashboard:
+  label:
+    title: "Dashboard"
+    documentStatus: "Requested Documents Status"
+    status:
+      running: "Running"
+      wait: "Wait"
+      finish: "finish"
+      noData: "There is no data."

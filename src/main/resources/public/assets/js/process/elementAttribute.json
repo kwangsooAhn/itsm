@@ -8,6 +8,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
           ]
         }
@@ -21,6 +22,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "" },
             {
               "id": "message-type", "name": "Message Type", "type": "select", "default": "",
@@ -42,9 +44,25 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
             {"id": "timer-date", "name": "Timer Date", "type": "inputbox", "default": ""},
             {"id": "timer-cycle", "name": "Timer Cycle", "type": "inputbox", "default": ""}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "signalSend",
+      "name": "Signal Send Event",
+      "default": "false",
+      "attribute": [
+        {
+          "title": "Data",
+          "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "target-process-list", "name": "Target Process", "type": "inputbox", "default": ""}
           ]
         }
       ]
@@ -57,6 +75,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
           ]
         }
@@ -70,6 +89,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
             {
               "id": "message-type", "name": "Message Type", "type": "select", "default": "",
@@ -93,6 +113,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {
@@ -104,7 +125,8 @@
               ]
             },
             {"id": "assignee", "name": "Assignee", "type": "inputbox", "default": ""},
-            {"id": "action", "name": "Action", "type": "textarea", "default": ""},
+            {"id": "reject-id", "name": "Reject", "type": "inputbox", "default": ""},
+            {"id": "withdraw", "name": "Withdraw", "type": "checkbox", "default": ""},
             {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
           ]
         }
@@ -118,6 +140,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": ""},
@@ -134,6 +157,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {
@@ -157,6 +181,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": ""},
@@ -173,6 +198,7 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""},
             {"id": "script", "name": "Script", "type": "inputbox", "default": ""},
@@ -191,7 +217,9 @@
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
           ]
         }
       ]
@@ -204,7 +232,9 @@
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
           ]
         }
       ]
@@ -217,7 +247,9 @@
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
           ]
         }
       ]
@@ -232,8 +264,12 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "condition", "name": "Condition", "type": "inputbox", "default": ""}
+            {"id": "is-default", "name": "is Default", "type": "checkbox", "default": ""},
+            {"id": "condition", "name": "Condition", "type": "inputbox", "default": ""},
+            {"id": "action-name", "name": "Action Name", "type": "inputbox", "default": ""},
+            {"id": "action-value", "name": "Action Value", "type": "inputbox", "default": ""}
           ]
         },
         {
@@ -257,8 +293,14 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "sub-process-id", "name": "Sub Process ID", "type": "inputbox", "default": ""}
+            {
+              "id": "sub-process-id", "name": "SubProcess", "type": "select", "default": "",
+              "sub-list": [
+                {"id": "", "name": "Not selected"}
+              ]
+            }
           ]
         }
       ]

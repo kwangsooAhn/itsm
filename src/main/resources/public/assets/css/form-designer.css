@@ -11274,6 +11274,10 @@ body {
   color: #969696;
 }
 
+.component .group .field .ql-toolbar {
+  pointer-events: none;
+}
+
 .component:hover .move-icon:after {
   content: '::';
 }

@@ -63,6 +63,7 @@
         // add new links
         enter.append('path')
             .attr('class', 'connector')
+            .classed('is-default', function(d) { return d.isDefault === 'Y'; })
             .attr('id', function(d) { return d.id; })
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function() {
@@ -417,7 +418,7 @@
                         .classed('selected', false);
 
                     if (checkAvailableLink()) {
-                        elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id});
+                        elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N'});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -1168,18 +1169,7 @@
             }
             let node = addElement(element);
             if (node) {
-                const nodeId = node.nodeElement.attr('id');
-                elementList.forEach(function(e) {
-                    if (e.type !== 'arrowConnector') {
-                        return;
-                    }
-                    if (e.data['start-id'] === element.id) {
-                        e.data['start-id'] = nodeId;
-                    } else if (e.data['end-id'] === element.id) {
-                        e.data['end-id'] = nodeId;
-                    }
-                });
-                element.id = nodeId;
+                node.nodeElement.attr('id', element.id);
             }
         });
 
@@ -1195,7 +1185,7 @@
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                let linkData = {id: nodeId, sourceId: source.id, targetId: target.id};
+                let linkData = {id: nodeId, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default']};
                 if (element.display) {
                     if (typeof element.display['mid-point'] !== 'undefined') {
                         linkData.midPoint = element.display['mid-point'];

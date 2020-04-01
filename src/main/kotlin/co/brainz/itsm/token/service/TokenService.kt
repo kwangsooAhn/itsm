@@ -1,8 +1,8 @@
 package co.brainz.itsm.token.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceTimezoneUtils
-import co.brainz.itsm.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class TokenService(private val restTemplate: RestTemplateProvider) {
+class TokenService(private val restTemplate: RestTemplateProvider,
+                   private val aliceFileService: AliceFileService) {
 
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -26,15 +27,14 @@ class TokenService(private val restTemplate: RestTemplateProvider) {
      *
      * @return Boolean
      */
-    fun createToken(restTemplateTokenDto: RestTemplateTokenDto): String {
+    fun createToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
         val responseEntity = restTemplate.create(url, restTemplateTokenDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-                dataDto.formId
-            }
-            false -> ""
+        return if (responseEntity.body.toString().isNotEmpty()) {
+            restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+            true
+        } else {
+            false
         }
     }
 
@@ -47,7 +47,13 @@ class TokenService(private val restTemplate: RestTemplateProvider) {
     fun updateToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
         val responseEntity = restTemplate.update(url, restTemplateTokenDto)
-        return responseEntity.body.toString().isNotEmpty()
+        return when (responseEntity.body.toString().isNotEmpty()) {
+            true -> {
+                restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+                true
+            }
+            false -> false
+        }
     }
 
     /**
@@ -70,5 +76,15 @@ class TokenService(private val restTemplate: RestTemplateProvider) {
             token.createDt = token.createDt.let { AliceTimezoneUtils().toTimezone(it) }
         }
         return tokens
+    }
+
+    /**
+     * 처리할 문서 상세 조회.
+     *
+     * @return List<tokenDto>
+     */
+    fun findToken(tokenId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), tokenId))
+        return restTemplate.get(url)
     }
 }
