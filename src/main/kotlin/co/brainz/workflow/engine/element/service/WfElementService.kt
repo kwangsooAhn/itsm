@@ -17,6 +17,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.stream.Stream
 
 @Service
 class WfElementService(
@@ -55,6 +56,150 @@ class WfElementService(
         // 컨넥터 엘리먼트가 가지고 있는 타겟 엘리먼트 아이디 조회
         val nextElementId = wfElementDataRepository.findByElementAndAttributeId(connector).attributeValue
         return wfElementRepository.getOne(nextElementId)
+    }
+
+
+    fun arrowElement(elementId: String): WfElementEntity {
+        lateinit var element: WfElementEntity
+        val arrowElements = wfElementRepository.findAllArrowConnectorElement(elementId)
+        if (arrowElements.isNotEmpty()) {
+            element = when (arrowElements.size) {
+                0 -> arrowElements[0]
+                else -> {
+                    getArrowElement(arrowElements)
+                }
+            }
+        }
+        return element
+    }
+
+    private fun getArrowElement(arrowElements: MutableList<WfElementEntity>): WfElementEntity {
+        arrowElements.forEach { arrow ->
+            arrow.elementDataEntities.forEach { data ->
+                if (data.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
+                    val regexGeneral = WfElementConstants.RegexCondition.GENERAL.value.toRegex()
+                    val regexComponentMappingId = WfElementConstants.RegexCondition.MAPPINGID.value.toRegex()
+                    val regexConstant = WfElementConstants.RegexCondition.CONSTANT.value.toRegex()
+                    val getDoubleQuotationValue = regexGeneral.findAll(data.attributeValue)
+                    val compareValues = mutableListOf<String>()
+                    var symbol = data.attributeValue
+                    getDoubleQuotationValue.forEach { doubleQuotation ->
+                        symbol = symbol.replace(doubleQuotation.value, "")
+                        val mappingIdForRegex = doubleQuotation.value
+                        val mappingId = doubleQuotation.value.replace("\"", "").replace("\${", "").replace("}", "")
+
+                    }
+                }
+            }
+        }
+        return arrowElements[0]
+    }
+
+    //elementId로 현재 토큰과 다음 토큰, 연결괸 Arrow 정보를 가져와야 한다.
+    //없으면.. 최초 시??
+    fun action(elementId: String): MutableList<WfActionDto>  {
+        val currentElement = getElement(elementId) //현재 정보
+        val arrowElement = arrowElement(elementId) //다음 연결 화살표
+        val nextElementId = wfElementDataRepository.findByElementAndAttributeId(arrowElement).attributeValue //다음 정보 아이디
+        val nextElement = getElement(nextElementId)
+
+        println(">>>>>>>>>>>>>>>")
+        println(currentElement)
+        println(arrowElement)
+        println(nextElement)
+        println(">>>>>>>>>>>>>>>")
+
+        val actions: MutableList<WfActionDto> = mutableListOf()
+        actions.addAll(preActions(nextElement))
+        actions.addAll(typeActions(nextElement))
+        actions.addAll(postActions(nextElement))
+        return actions
+    }
+
+    private fun typeActions(element: WfElementEntity): MutableList<WfActionDto> {
+        val typeActions: MutableList<WfActionDto> = mutableListOf()
+        when (element.elementType) {
+            WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
+                typeActions.add(WfActionDto(name = "등록", value = WfElementConstants.Action.REGIST.value))
+            }
+            WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
+
+            }
+            WfElementConstants.ElementType.USER_TASK.value -> {
+                typeActions.addAll(makeAction(element.elementDataEntities))
+            }
+            WfElementConstants.ElementType.END_EVENT.value -> {
+                typeActions.addAll(makeAction(element.elementDataEntities))
+            }
+            WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
+                typeActions.addAll(makeAction(element.elementDataEntities))
+            }
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
+                val arrowElement = arrowElement(element.elementId)
+                element.elementDataEntities.forEach {
+                    if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
+                        when (it.attributeValue.contains("#{action}")) {
+                            true -> {
+
+                            }
+                            false -> {
+
+                            }
+                            /*true -> {
+                                val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(nextElement.elementId)
+                                var nextConnector: WfElementEntity = arrowConnectors[0]
+                                if (arrowConnectors.size > 1) {
+                                    //TODO: 조건에 따른 연결 커넥션 선택 (아래는 예시)
+                                    nextConnector = arrowConnectors[0]
+                                }
+                                actionList.addAll(makeAction(nextConnector.elementDataEntities))
+                            }
+                            false -> {
+                                actionList.addAll(makeAction(connector.elementDataEntities))
+                            }*/
+                        }
+                    }
+                }
+            }
+
+        }
+
+        if (typeActions.isEmpty()) {
+            typeActions.add(WfActionDto(name = "처리", value = WfElementConstants.Action.PROCESS.value))
+        }
+
+        return typeActions
+    }
+
+    private fun preActions(element: WfElementEntity): MutableList<WfActionDto> {
+        val preActions: MutableList<WfActionDto> = mutableListOf()
+
+        //SAVE (Common)
+        preActions.add(WfActionDto(name = "저장", value = WfElementConstants.Action.SAVE.value))
+
+        //TODO: Add Preview Actions
+
+        return preActions
+    }
+
+    private fun postActions(element: WfElementEntity): MutableList<WfActionDto> {
+        val postActions: MutableList<WfActionDto> = mutableListOf()
+
+        //REJECT
+        element.elementDataEntities.forEach {
+            if (it.attributeId == WfElementConstants.AttributeId.REJECT.value && it.attributeValue.isNotEmpty()) {
+                postActions.add(WfActionDto(name = "반려", value = WfElementConstants.Action.REJECT.value))
+            }
+        }
+
+        //TODO: Add Post Actions
+
+        return postActions
+    }
+
+
+    fun getElement(elementId: String): WfElementEntity {
+        return wfElementRepository.findWfElementEntityByElementId(elementId)
     }
 
     /**

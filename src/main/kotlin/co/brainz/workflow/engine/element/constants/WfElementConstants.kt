@@ -58,6 +58,7 @@ object WfElementConstants {
      * Action Type.
      */
     enum class Action(val value: String) {
+        REGIST("regist"),
         SAVE("save"),
         REJECT("reject"),
         PROCESS("process")
