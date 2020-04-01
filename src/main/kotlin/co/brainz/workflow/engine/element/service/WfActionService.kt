@@ -29,19 +29,7 @@ class WfActionService(private val wfElementService: WfElementService,
      */
     fun actionInit(processId: String): MutableList<WfActionDto> {
         val startElement = wfElementService.getStartElement(processId)
-        val actions: MutableList<WfActionDto> = mutableListOf()
-        when (startElement.elementType) {
-            WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
-                actions.add(WfActionDto(name = "등록", value = WfElementConstants.Action.REGIST.value))
-                actions.add(WfActionDto(name = "취소", value = WfElementConstants.Action.CANCEL.value))
-            }
-            else -> {
-                actions.add(WfActionDto(name = "등록", value = WfElementConstants.Action.REGIST.value))
-                actions.add(WfActionDto(name = "취소", value = WfElementConstants.Action.CANCEL.value))
-            }
-        }
-
-        return actions
+        return actions(startElement.elementId)
     }
 
     fun actions(elementId: String): MutableList<WfActionDto> {
