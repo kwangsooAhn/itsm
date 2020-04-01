@@ -276,12 +276,12 @@ const fileUploader = (function () {
 
                 this.on("maxfilesexceeded", function (file, maxFiles) {
                     this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesexceeded').replace('{0}', maxFiles));
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesexceeded', maxFiles));
                 });
 
                 this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                     this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded').replace('{0}', maxFileSize));
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize ));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
