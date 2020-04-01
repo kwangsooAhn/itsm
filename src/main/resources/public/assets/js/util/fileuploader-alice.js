@@ -281,7 +281,7 @@ const fileUploader = (function () {
 
                 this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                     this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize ));
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
