@@ -16,6 +16,8 @@
         groups: []
     };
 
+    let publishProcesses = [];
+
     let processProperties = {},
         elementsProperties = {},
         elementsKeys = [];
@@ -94,6 +96,13 @@
             element_url: iconDirectory + '/element-type/event-start-timer.png',
             action: function(el) {
                 editElementType(el,'timerStart');
+            }
+        }, {
+            type: 'signalSend', parent: 'event',
+            url: iconDirectory + '/element-type/event-start.png',
+            element_url: iconDirectory + '/element-type/event-start.png',
+            action: function(el) {
+                editElementType(el,'signalSend');
             }
         }, {
             type: 'commonEnd', parent: 'event',
@@ -783,9 +792,11 @@
             let elementData = AliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
             if (elementData.length) {
                 const originElementData = JSON.parse(JSON.stringify(elementData[0]));
+                elementData[0].data = {};
                 for (let i = 0, len = propertyObjects.length; i < len; i++) {
-                    let propertyObject = propertyObjects[i],
-                        propertyValue = propertyObject.value;
+                    let propertyObject = propertyObjects[i];
+                    if (!propertyObject.name) { continue; }
+                    let propertyValue = propertyObject.value;
                     if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
                         propertyValue = propertyObject.checked ? 'Y' : 'N';
                         if (propertyObject.id === 'is-default') {
@@ -837,109 +848,121 @@
                 assigneeObject.value = value;
             }
         } else {
-            assigneeObject.style.display = 'none';
-            let dataSelect = document.createElement('select');
-            dataSelect.className = 'candidate';
             let dataList = assigneeTypeData.users;
             let dataKeys = {value: 'userKey', text: 'userName'};
             if (assigneeTypeObject.value === 'assignee.type.candidate.groups') {
                 dataList = assigneeTypeData.groups;
                 dataKeys = {value: 'roleId', text: 'roleName'};
             }
-            for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
-                let option = document.createElement('option');
-                let optionData = dataList[i];
-                option.value = optionData[dataKeys.value];
-                option.text = optionData[dataKeys.text];
-                dataSelect.appendChild(option);
+            setMultipleDatatable(assigneeObject, dataList, dataKeys, value);
+        }
+    }
+
+    /**
+     * 다중 선택 속성 테이블을 생성한다.
+     *
+     * @param inputObject 값을 넣는 input object(선택된 데이터가 콤마 구분으로 등록된다.)
+     * @param dataList 선택 목록
+     * @param dataKeys dropdown 의 value/text 키 값. 예시: { value: 'id', text: 'name' }
+     * @param value 선택된 값이 있을 경우 그 값을 전달한다.
+     */
+    function setMultipleDatatable(inputObject, dataList, dataKeys, value) {
+        inputObject.style.display = 'none';
+        let dataSelect = document.createElement('select');
+        dataSelect.className = 'candidate';
+        for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
+            let option = document.createElement('option');
+            let optionData = dataList[i];
+            option.value = optionData[dataKeys.value];
+            option.text = optionData[dataKeys.text];
+            dataSelect.appendChild(option);
+        }
+        inputObject.parentNode.insertBefore(dataSelect, inputObject.nextSibling);
+
+        let btnAdd = document.createElement('button');
+        btnAdd.innerText = 'ADD';
+
+        const saveData = function() {
+            let dataTable = inputObject.parentNode.querySelector('table');
+            let rows = dataTable.querySelectorAll('tr');
+            let assigneeValue = '';
+            let rowLength = rows.length;
+            if (rowLength > 1) {
+                for (let i = 1; i < rowLength; i++) {
+                    if (i !== 1) { assigneeValue += ','; }
+                    assigneeValue += rows[i].querySelector('input').value;
+                }
             }
-            assigneeObject.parentNode.insertBefore(dataSelect, assigneeObject.nextSibling);
-            let btnAdd = document.createElement('button');
-            btnAdd.innerText = 'ADD';
+            inputObject.value = assigneeValue;
 
-            const saveData = function() {
-                let dataTable = assigneeObject.parentNode.querySelector('table');
-                let rows = dataTable.querySelectorAll('tr');
-                let assigneeValue = '';
-                let rowLength = rows.length;
-                if (rowLength > 1) {
-                    for (let i = 1; i < rowLength; i++) {
-                        if (i !== 1) { assigneeValue += ','; }
-                        assigneeValue += rows[i].querySelector('input').value;
-                    }
-                }
-                assigneeObject.value = assigneeValue;
+            const evt = document.createEvent('HTMLEvents');
+            evt.initEvent('change', false, true);
+            inputObject.dispatchEvent(evt);
+        };
 
-                const evt = document.createEvent('HTMLEvents');
-                evt.initEvent('change', false, true);
-                assigneeObject.dispatchEvent(evt);
-            };
-
-            const addDataRow = function(dataVal, dataText) {
-                let dataTable = assigneeObject.parentNode.querySelector('table');
-                let row = document.createElement('tr');
-                let nameColumn = document.createElement('td');
-                nameColumn.textContent = dataText;
-                let hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.value = dataVal;
-                nameColumn.appendChild(hiddenInput);
-                row.appendChild(nameColumn);
-                let btnColumn = document.createElement('td');
-                let btnDel = document.createElement('span');
-                btnDel.className = 'remove';
-                btnDel.addEventListener('click', function() {
-                    this.parentNode.parentNode.remove();
-                    saveData();
-                });
-                btnColumn.appendChild(btnDel);
-                row.appendChild(btnColumn);
-                dataTable.appendChild(row);
-
+        const addDataRow = function(dataVal, dataText) {
+            let dataTable = inputObject.parentNode.querySelector('table');
+            let row = document.createElement('tr');
+            let nameColumn = document.createElement('td');
+            nameColumn.textContent = dataText;
+            let hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.value = dataVal;
+            nameColumn.appendChild(hiddenInput);
+            row.appendChild(nameColumn);
+            let btnColumn = document.createElement('td');
+            let btnDel = document.createElement('span');
+            btnDel.className = 'remove';
+            btnDel.addEventListener('click', function() {
+                this.parentNode.parentNode.remove();
                 saveData();
-            };
-
-            btnAdd.addEventListener('click', function() {
-                let dataSelect = this.parentNode.querySelector('select'),
-                    dataTable = assigneeObject.parentNode.querySelector('table'),
-                    rows = dataTable.querySelectorAll('tr');
-
-                let isDuplicate = false,
-                    selectedValue = dataSelect.value,
-                    rowLength = rows.length;
-                if (rowLength > 1) {
-                    for (let i = 1; i < rowLength; i++) {
-                        if (selectedValue === rows[i].querySelector('input').value) {
-                            isDuplicate = true;
-                            break;
-                        }
-                    }
-                }
-                if (!isDuplicate) {
-                    addDataRow(dataSelect.value, dataSelect.options[dataSelect.selectedIndex].text);
-                }
             });
-            assigneeObject.parentNode.insertBefore(btnAdd, dataSelect.nextSibling);
-            let userTable = document.createElement('table');
-            let headRow = document.createElement('tr');
-            let headNameColumn = document.createElement('th');
-            headNameColumn.textContent = 'Name';
-            headRow.appendChild(headNameColumn);
-            let headBtnColumn = document.createElement('th');
-            headRow.appendChild(headBtnColumn);
-            userTable.appendChild(headRow);
-            assigneeObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
+            btnColumn.appendChild(btnDel);
+            row.appendChild(btnColumn);
+            dataTable.appendChild(row);
 
-            if (typeof value !== 'undefined') {
-                const values = value.split(',');
-                for (let i = 0, len = values.length; i < len; i++) {
-                    for (let j = 0, dataLen = dataList.length; j < dataLen; j++) {
-                        if (values[i] === dataList[j][dataKeys.value]) {
-                            addDataRow(values[i], dataList[j][dataKeys.text]);
-                            break;
-                        }
+            saveData();
+        };
+
+        btnAdd.addEventListener('click', function() {
+            let dataSelect = this.parentNode.querySelector('select'),
+                dataTable = inputObject.parentNode.querySelector('table'),
+                rows = dataTable.querySelectorAll('tr');
+
+            let isDuplicate = false,
+                selectedValue = dataSelect.value,
+                rowLength = rows.length;
+            if (rowLength > 1) {
+                for (let i = 1; i < rowLength; i++) {
+                    if (selectedValue === rows[i].querySelector('input').value) {
+                        isDuplicate = true;
+                        break;
                     }
+                }
+            }
+            if (!isDuplicate) {
+                addDataRow(dataSelect.value, dataSelect.options[dataSelect.selectedIndex].text);
+            }
+        });
+        inputObject.parentNode.insertBefore(btnAdd, dataSelect.nextSibling);
+        let userTable = document.createElement('table');
+        let headRow = document.createElement('tr');
+        let headNameColumn = document.createElement('th');
+        headNameColumn.textContent = 'Name';
+        headRow.appendChild(headNameColumn);
+        let headBtnColumn = document.createElement('th');
+        headRow.appendChild(headBtnColumn);
+        userTable.appendChild(headRow);
+        inputObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
 
+        if (typeof value !== 'undefined') {
+            const values = value.split(',');
+            for (let i = 0, len = values.length; i < len; i++) {
+                for (let j = 0, dataLen = dataList.length; j < dataLen; j++) {
+                    if (values[i] === dataList[j][dataKeys.value]) {
+                        addDataRow(values[i], dataList[j][dataKeys.text]);
+                        break;
+                    }
                 }
             }
         }
@@ -1003,7 +1026,10 @@
                         break;
                     case 'select':
                         elementObject = document.createElement('select');
-                        const optionList = property['sub-list'];
+                        let optionList = property['sub-list'];
+                        if (property.id === 'sub-process-id') {
+                            optionList = optionList.concat(publishProcesses);
+                        }
                         for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
                             let option = document.createElement('option');
                             option.value = optionList[j].id;
@@ -1018,6 +1044,8 @@
                 }
 
                 if (elementObject) {
+                    propertiesContainer.appendChild(propertyContainer);
+                    propertyContainer.appendChild(elementObject);
                     elementObject.id = property.id;
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {
@@ -1026,32 +1054,39 @@
                         elementObject.value = id;
                     }
 
-                    if (property.id === 'name') {
-                        let keyupHandler = function() {
-                            AliceProcessEditor.changeTextToElement(id, this.value);
-                        };
-                        if (id === AliceProcessEditor.data.process.id) {
-                            keyupHandler = function() {
-                                document.querySelector('.process-name').textContent = this.value;
+                    switch (property.id) {
+                        case 'name':
+                            let keyupHandler = function() {
+                                AliceProcessEditor.changeTextToElement(id, this.value);
                             };
-                        }
-                        elementObject.addEventListener('keyup', keyupHandler);
-                    } else if (property.id === 'reject-id') {
-                        const addRejectClass = function(e) {
-                            e.stopPropagation();
-                            const elementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === e.target.value; });
-                            if (elementData.length) {
-                                d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
-                            } else {
-                                d3.selectAll('.node').classed('reject-element', false);
+                            if (id === AliceProcessEditor.data.process.id) {
+                                keyupHandler = function() {
+                                    document.querySelector('.process-name').textContent = this.value;
+                                };
                             }
-                        };
-                        elementObject.addEventListener('keyup', addRejectClass);
-                        elementObject.addEventListener('focus', addRejectClass);
-                        elementObject.addEventListener('focusout', function() {
-                            d3.selectAll('.node').classed('reject-element', false);
-                        });
+                            elementObject.addEventListener('keyup', keyupHandler);
+                            break;
+                        case 'reject-id':
+                            const addRejectClass = function(e) {
+                                e.stopPropagation();
+                                const elementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === e.target.value; });
+                                if (elementData.length) {
+                                    d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
+                                } else {
+                                    d3.selectAll('.node').classed('reject-element', false);
+                                }
+                            };
+                            elementObject.addEventListener('keyup', addRejectClass);
+                            elementObject.addEventListener('focus', addRejectClass);
+                            elementObject.addEventListener('focusout', function() {
+                                d3.selectAll('.node').classed('reject-element', false);
+                            });
+                            break;
+                        case 'target-process-list':
+                            setMultipleDatatable(elementObject, publishProcesses, {value: 'id', text: 'name'}, elemData[property.id]);
+                            break;
                     }
+
                     if (property.id !== 'id') {
                         elementObject.addEventListener('change', function() {
                             changePropertiesDataValue(id);
@@ -1082,9 +1117,7 @@
                             }
                         });
                     }
-                    propertyContainer.appendChild(elementObject);
                 }
-                propertiesContainer.appendChild(propertyContainer);
             }
         }
 
@@ -1095,6 +1128,7 @@
     }
 
     /**
+     *
      * 선택된 element 의 속성 및 tooltip 메뉴를 표시한다.
      *
      * @param elem 선택된 element
@@ -1168,6 +1202,15 @@
             url: '/rest/roles',
             callbackFunc: function(xhr) {
                 assigneeTypeData.groups = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/processes?status=process.status.publish',
+            callbackFunc: function(xhr) {
+                publishProcesses = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
