@@ -1,7 +1,7 @@
 #document-container {
     overflow-y: auto;
     height: 750px;
-    border: 1px solid #BCC5D3;
+    border: 1px solid #bcc5d3;
     >.component {
         padding: 15px 60px;
         .field {
@@ -38,6 +38,7 @@ textarea {
 select {
     width: 100%;
 }
+
 .field {
     >div {
         width: 100%;

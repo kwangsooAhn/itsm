@@ -1,7 +1,7 @@
 #document-container {
   overflow-y: auto;
   height: 750px;
-  border: 1px solid #BCC5D3;
+  border: 1px solid #bcc5d3;
 }
 
 #document-container > .component {
