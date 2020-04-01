@@ -38,7 +38,8 @@ common:
     delete.success: "Deleted."
     delete.fail: "Deletion failed."
     unknownError: "An unknown error has occurred. Please contact the administrator."
-
+    update: "Changed."
+    update.fail: "Change failed."
 # Menu
 menu:
   service: "Service"
@@ -139,7 +140,12 @@ user:
     passwordNotEquals: "Passwords do not match"
     nameNotExist: "Please enter your UserName"
     emailNotExist: "Please enter your Email"
-
+    createUser: "User is registered."
+    emailWithUpdate: "Member information, including email information, has been modified."
+    sameUserId: "The same ID exists.."
+    sameEmail: "The same Email exists."
+    joinUser: "Joined."
+    joinUserFail: "Join failed."
 # FAQ
 faq:
   add: "Add"
