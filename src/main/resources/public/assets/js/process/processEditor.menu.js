@@ -16,6 +16,8 @@
         groups: []
     };
 
+    let publishProcesses = [];
+
     let processProperties = {},
         elementsProperties = {},
         elementsKeys = [];
@@ -993,7 +995,10 @@
                         break;
                     case 'select':
                         elementObject = document.createElement('select');
-                        const optionList = property['sub-list'];
+                        let optionList = property['sub-list'];
+                        if (property.id === 'sub-process-id') {
+                            optionList = [{id: '', name: i18n.get('common.label.notSelect')}].concat(publishProcesses);
+                        }
                         for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
                             let option = document.createElement('option');
                             option.value = optionList[j].id;
@@ -1134,6 +1139,15 @@
             url: '/rest/roles',
             callbackFunc: function(xhr) {
                 assigneeTypeData.groups = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/processes?status=process.status.publish',
+            callbackFunc: function(xhr) {
+                publishProcesses = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });

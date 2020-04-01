@@ -279,7 +279,10 @@
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "sub-process-id", "name": "Sub Process ID", "type": "inputbox", "default": ""}
+            {
+              "id": "sub-process-id", "name": "SubProcess", "type": "select", "default": "",
+              "sub-list": []
+            }
           ]
         }
       ]

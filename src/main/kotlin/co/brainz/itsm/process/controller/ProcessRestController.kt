@@ -1,6 +1,8 @@
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessService
+import co.brainz.workflow.engine.process.constants.WfProcessConstants
+import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.ui.Model
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/rest/processes")
@@ -64,6 +69,16 @@ class ProcessRestController(private val processService: ProcessService) {
     @DeleteMapping("/{processId}")
     fun deleteForm(@PathVariable processId: String): ResponseEntity<String> {
         return processService.deleteProcess(processId)
+    }
+
+    /**
+     * 프로세스 목록 조회.
+     */
+    @GetMapping("/", "")
+    fun getProcessList(@RequestParam(value = "status", defaultValue = "") status: String): List<WfProcessDto> {
+        val params = LinkedMultiValueMap<String, String>()
+        params["status"] = status
+        return processService.getProcesses(params)
     }
 
 }
