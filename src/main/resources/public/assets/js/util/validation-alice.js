@@ -161,7 +161,6 @@ function isValidPassword(elementId) {
     let userId = document.getElementById("userId").value;
     let emailId = document.getElementById("email").value.split('@');
     let password = document.getElementById(elementId).value;
-    let mobileNumber = document.getElementById("mobileNumber").value;
     let searchUpperCase = password.search(upperCaseReg);
     let searchLowerCase = password.search(lowerCaseReg);
     let searchNumber = password.search(numberReg);
@@ -224,40 +223,6 @@ function isValidPassword(elementId) {
         return false;
     }
 
-    /*
-     * Mobile Number Inclusion Validation Check
-     * [ 설명 ]
-     * 비밀번호에 사용자의 핸드폰 번호를 포함하지 않는다.
-     */
-    if (mobileNumber !== '') {
-        if (mobileNumber.length >= 10) {
-            let middleNum = '',
-                lastNum = '';
-
-            if (mobileNumber.length === 10) {
-                middleNum = mobileNumber.substring(3, 6);
-                lastNum = mobileNumber.substring(6, 10);
-
-                if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    aliceJs.alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
-                    return false;
-                }
-            } else {
-                middleNum = mobileNumber.substring(3, 7);
-                lastNum = mobileNumber.substring(7, 11);
-
-                if (password.search(middleNum) > -1 || password.search(lastNum) > -1) {
-                    aliceJs.alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
-                    return false;
-                }
-            }
-        } else {
-            if (password.search(mobileNumber) > -1) {
-                aliceJs.alert(i18n.get('validation.msg.pwContainsInnerMobileNumber'));
-                return false;
-            }
-        }
-    }
     return true;
 }
 

@@ -3,6 +3,7 @@ package co.brainz.workflow.engine.token.service
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
+import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
@@ -33,7 +34,8 @@ class WfTokenService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfInstanceService: WfInstanceService,
     private val wfElementService: WfElementService,
-    private val wfFormService: WfFormService
+    private val wfFormService: WfFormService,
+    private val wfActionService: WfActionService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -197,7 +199,7 @@ class WfTokenService(
         val tokenViewDto = WfTokenViewDto(
             tokenId = tokenMstEntity.get().tokenId,
             components = componentList,
-            action = wfElementService.getActionList(tokenMapper.toWfTokenDto(tokenMstEntity.get()))
+            action = wfActionService.actions(tokenMstEntity.get().elementId)
         )
 
         val returnValue = LinkedHashMap<String, Any>()
