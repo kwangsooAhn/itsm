@@ -11,6 +11,10 @@
     <meta http-equiv="pragma" content="no-cache"/>
     <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
+    <link th:href="@{/assets/vendors/popupmodal/css/popupmodal.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
+    <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/quill/quill.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
@@ -26,20 +30,24 @@
 <div class="alice-form-container light-thema" id="form-designer">
     <div class="alice-form-toolbar">
         <span class="logo"></span>
-        <a href="javascript:void(0);" onclick="formEditor.save();">
+        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="formEditor.save();">
             <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
             <label th:text="#{common.btn.save}"></label>
         </a>
-        <a href="#">
+        <a th:if="${isView}" href="javascript:void(0);" onclick="formEditor.saveAs();">
+            <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
+            <label th:text="#{common.btn.saveAs}"></label>
+        </a>
+        <a th:if="${#strings.isEmpty(isView)}" href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/undo.png}"/>
             <label th:text="#{form.label.undo}"></label>
         </a>
-        <a href="#">
+        <a th:if="${#strings.isEmpty(isView)}" href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
             <label th:text="#{form.label.redo}"></label>
         </a>
         <span class="separator"></span>
-        <a href="#">
+        <a th:if="${#strings.isEmpty(isView)}" href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/import.png}"/>
             <label th:text="#{form.label.import}"></label>
         </a>
@@ -48,11 +56,11 @@
             <label th:text="#{form.label.export}"></label>
         </a>
         <span class="separator"></span>
-        <a href="#">
+        <a href="javascript:void(0);" onclick="formEditor.preview();">
             <img th:src="@{/assets/media/icons/form/topmenu/preview.png}"/>
             <label th:text="#{form.label.preview}"></label>
         </a>
-        <a href="#">
+        <a th:if="${#strings.isEmpty(isView)}" href="#">
             <img th:src="@{/assets/media/icons/form/topmenu/save_exit.png}"/>
             <label th:text="#{form.label.saveExist}"></label>
         </a>
@@ -111,9 +119,10 @@
             <img th:src="@{/assets/media/icons/form/context-component/image.png}"/>
             <label th:text="#{form.component.image}"></label>
         </li>
-        <li class="context-item-link" data-action="line">
-            <img th:src="@{/assets/media/icons/form/context-component/line.png}"/>
-            <label th:text="#{form.component.line}"></label>
+        <li class="context-item-link" data-action="divider">
+            <!--TODO divider 가로선 아이콘으로 변경 필요-->
+            <img th:src="@{/assets/media/icons/form/context-component/divider.png}"/>
+            <label th:text="#{form.component.divider}"></label>
         </li>
         <li class="context-item-link" data-action="date">
             <img th:src="@{/assets/media/icons/form/context-component/calendar.png}"/>
@@ -131,13 +140,22 @@
             <img th:src="@{/assets/media/icons/form/context-component/upload.png}"/>
             <label th:text="#{form.component.fileupload}"></label>
         </li>
+        <li class="context-item-link" data-action="custom-code">
+        <!-- TODO: 커스텀 코드 컴포넌트 아이콘 변경 -->
+            <img th:src="@{/assets/media/icons/form/context-component/text.png}"/>
+            <label th:text="#{form.component.customCode}"></label>
+        </li>
     </ul>
 </div>
 </body>
 <script type="text/javascript">
     window.onload = function() {
+        const userAuthInfo = {
+            timeFormat : '[[${#authentication.details.timeFormat}]]',
+            lang: '[[${#authentication.details.lang}]]'
+        };
         i18n.add(function(){
-            formEditor.init('[[${formId}]]');
+            formEditor.init('[[${formId}]]', JSON.stringify(userAuthInfo));
         });
     };
 </script>

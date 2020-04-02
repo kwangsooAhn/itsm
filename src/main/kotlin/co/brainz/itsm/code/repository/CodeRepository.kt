@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CodeRepository : JpaRepository<CodeEntity, String> {
-    fun findByPCode(pCode: String): MutableList<CodeEntity>
+    fun findByPCode(pCode: CodeEntity): MutableList<CodeEntity>
 }

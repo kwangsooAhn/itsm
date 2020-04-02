@@ -25,7 +25,7 @@
             </div>
             <table border="1" style="">
                 <colgroup>
-                    <col width="10%">
+                    <col width="15%">
                     <col width="40%">
                     <col width="10%">
                     <col width="*">
@@ -46,6 +46,10 @@
                     <td colspan="3">
                         <textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${authDetail?.authDesc}"></textarea>
                     </td>
+                </tr>
+                <tr>
+                    <th th:text="#{auth.label.referenceCount}"></th>
+                    <td colspan="3"><span id="roleAuthMapCount" name="roleAuthMapCount"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{common.label.createUserName}"></th>
@@ -163,6 +167,9 @@
                         document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
                         document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
                         document.getElementById('txtAuthId').setAttribute('readonly','true');
+                        document.getElementById('roleAuthMapCount').innerHTML = responseJson.roleAuthMapCount;
+                        disabledButton(responseJson.roleAuthMapCount);
+
                     },
                 };
                 aliceJs.sendXhr(opt);
@@ -192,6 +199,7 @@
             document.getElementById('spanCreateDt').innerHTML = '';
             document.getElementById('spanUpdateUserKey').innerHTML = '';
             document.getElementById('spanUpdateDt').innerHTML = '';
+            document.getElementById('roleAuthMapCount').innerHTML = '';
         }
 
         /* 등록, 수정 버튼 */
@@ -210,13 +218,13 @@
             if (flag === 'post') {
                 for(var i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
-                        alert([[#{auth.msg.idDuplecate}]]);
+                        aliceJs.alert([[#{auth.msg.idDuplecate}]]);
                         return;
                     }
                 }
                 for(var i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
-                        alert([[#{auth.msg.nameDuplecate}]]);
+                        aliceJs.alert([[#{auth.msg.nameDuplecate}]]);
                         return;
                     }
                 }
@@ -224,7 +232,7 @@
                 if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
                     for(var i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
-                            alert([[#{auth.msg.nameDuplecate}]]);
+                            aliceJs.alert([[#{auth.msg.nameDuplecate}]]);
                             return;
                         }
                     }
@@ -232,7 +240,7 @@
             }
 
             //저장 process
-            var obj = new Object();
+            var obj = {};
             obj.authId = document.getElementById('txtAuthId').value;    //권한 아이디
             obj.authName = document.getElementById('txtAuthName').value;//권한명
             obj.authDesc= document.getElementById('txtAuthDesc').value; //권한 설명
@@ -262,8 +270,9 @@
                 params: authJson,
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    alert([[#{common.msg.save}]]);
-                    window.location.href ='/auths/edit';
+                    aliceJs.alert([[#{common.msg.save}]], function() {
+                        window.location.href ='/auths/edit';
+                    });
                 }
             };
             
@@ -276,13 +285,24 @@
                     method: 'delete',
                     url: '/rest/auths/' + document.getElementById('txtAuthId').value,
                     callbackFunc: function() {
-                        alert([[#{common.msg.delete.success}]]);
-                        window.location.href ='/auths/edit';
+                        aliceJs.alert([[#{common.msg.delete.success}]], function() {
+                            window.location.href ='/auths/edit';
+                        });
                     }
                   }
             aliceJs.sendXhr(opt);
         }
 
+        /** 삭제 버튼 활성, 비활성화 */
+        function disabledButton(count) {
+            var btn = document.getElementById('btnDelete');
+
+            if (count !== 0) {
+                btn.disabled = 'disabled';
+            } else {
+                btn.disabled = false;
+            }
+        }
         /*]]>*/
     </script>
 </th:block>

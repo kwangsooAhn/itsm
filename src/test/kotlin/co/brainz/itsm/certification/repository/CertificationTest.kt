@@ -2,23 +2,23 @@ package co.brainz.itsm.certification.repository
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.constants.UserConstants
-import co.brainz.framework.util.EncryptionUtil
-import co.brainz.framework.certification.dto.CertificationDto
-import co.brainz.framework.certification.service.CertificationService
-import co.brainz.framework.certification.service.KeyGeneratorService
+import co.brainz.framework.certification.dto.AliceCertificationDto
+import co.brainz.framework.certification.service.AliceCertificationService
+import co.brainz.framework.certification.service.AliceKeyGeneratorService
+import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.util.AliceEncryptionUtil
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -31,7 +31,7 @@ import java.util.TimeZone
 class CertificationTest {
 
     @Autowired
-    lateinit var certificationService: CertificationService
+    lateinit var aliceCertificationService: AliceCertificationService
     lateinit var mvc: MockMvc
     lateinit var securityContext: SecurityContext
 
@@ -45,8 +45,8 @@ class CertificationTest {
     fun init() {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
         securityContext = SecurityContextHolder.getContext()
-        val userDto: AliceUserEntity = certificationService.findByUserId(userId)
-        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userKey, userDto.userId, userDto.userName, userDto.email, userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), userDto.oauthKey, emptySet(), emptySet(), emptySet(), TimeZone.getDefault().id, "en","YYYY-MM-DD HH:MM", "defualt")
+        val userDto: AliceUserEntity = aliceCertificationService.findByUserId(userId)
+        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userKey, userDto.userId, userDto.userName, userDto.email, "", "", "", "", userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), userDto.oauthKey, emptySet(), emptySet(), emptySet(), TimeZone.getDefault().id, "en","YYYY-MM-DD HH:MM", "defualt")
         val usernamePasswordAuthenticationToken: UsernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
         usernamePasswordAuthenticationToken.details = aliceUserDto
         securityContext.authentication = usernamePasswordAuthenticationToken
@@ -54,19 +54,19 @@ class CertificationTest {
 
     fun userStatusInit() {
         //Check user exists.
-        val userDto: AliceUserEntity = certificationService.findByUserId(userId)
+        val userDto: AliceUserEntity = aliceCertificationService.findByUserId(userId)
         assertThat(userDto.email).isEqualTo(email)
 
         //User status init.
-        val status : String = UserConstants.Status.SIGNUP.code
+        val status : String = AliceUserConstants.Status.SIGNUP.code
         val certificationCode: String = ""
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationCode, status)
-        certificationService.updateUser(certificationDto)
+        val aliceCertificationDto: AliceCertificationDto = AliceCertificationDto(userId, email, certificationCode, status)
+        aliceCertificationService.updateUser(aliceCertificationDto)
 
         //Check user status init.
         mvc.perform(get("/certification/status"))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", UserConstants.Status.SIGNUP.value))
+                .andExpect(model().attribute("validCode", AliceUserConstants.Status.SIGNUP.value))
     }
 
     //Send Mail
@@ -74,7 +74,7 @@ class CertificationTest {
     fun sendCertifiedMail() {
         userStatusInit()
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        certificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, null, null)
+        aliceCertificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, null, null)
     }
 
     //Valid CertificationCode
@@ -82,15 +82,15 @@ class CertificationTest {
     fun userMailValid() {
         userStatusInit()
 
-        val certificationKey: String = KeyGeneratorService().getKey(50, false)
-        val certificationDto: CertificationDto = CertificationDto(userId, email, certificationKey, UserConstants.Status.SIGNUP.code)
-        certificationService.updateUser(certificationDto)
+        val certificationKey: String = AliceKeyGeneratorService().getKey(50, false)
+        val aliceCertificationDto: AliceCertificationDto = AliceCertificationDto(userId, email, certificationKey, AliceUserConstants.Status.SIGNUP.code)
+        aliceCertificationService.updateUser(aliceCertificationDto)
 
         val uid: String = "${certificationKey}:${userId}:${email}"
-        val encryptUid: String = EncryptionUtil().twoWayEnCode(uid)
+        val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
                 .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", UserConstants.Status.CERTIFIED.value))
+                .andExpect(model().attribute("validCode", AliceUserConstants.Status.CERTIFIED.value))
     }
 
 }

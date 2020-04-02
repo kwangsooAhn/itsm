@@ -8,7 +8,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -35,7 +36,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -43,7 +45,7 @@
                 "value": "#000000", 
                 "type": "rgb", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "bold", 
@@ -84,7 +86,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -94,7 +97,8 @@
                 "value": "", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             },
             {
                 "id": "column", 
@@ -105,12 +109,35 @@
                 "unit": "" 
             },
             {
+                "id": "default",
+                "name": "Default",
+                "value": "none|",
+                "type": "session",
+                "option": [
+                    {"id": "none", "name": "직접입력"},
+                    {"id": "select", "name": "자동입력",
+                        "items" : [
+                            {"id": "userId", "name": "아이디"},
+                            {"id": "userName", "name": "이름"},
+                            {"id": "email", "name": "이메일"},
+                            {"id": "position", "name": "직책"},
+                            {"id": "department", "name": "부서"},
+                            {"id": "officeNumber", "name": "사무실 번호"},
+                            {"id": "mobileNumber", "name": "핸드폰 번호"}
+                        ]
+                    }
+                ],
+                "code": "",
+                "unit": ""
+            },
+            {
                 "id": "outline-width", 
                 "name": "Outline Width", 
                 "value": "1", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "outline-color", 
@@ -153,7 +180,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             },
             {
                 "id": "length-min", 
@@ -161,7 +189,8 @@
                 "value": "0", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             },
             {
                 "id": "length-max", 
@@ -169,7 +198,8 @@
                 "value": "30", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             }
         ]
     },
@@ -181,7 +211,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -192,7 +223,7 @@
                 "type": "select", 
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "column", 
@@ -208,7 +239,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -257,17 +289,28 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
+            {
+                "id": "editor-useYn",
+                "name": "Editor Use",
+                "value": "Y",
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "",
+                "unit": ""
+            },
             {
                 "id": "rows", 
                 "name": "Rows", 
                 "value": "3", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number|min[2]"
             },
             {
                 "id": "placeholder", 
@@ -275,7 +318,8 @@
                 "value": "", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             },
             {
                 "id": "column", 
@@ -283,7 +327,7 @@
                 "value": "10", 
                 "type": "slider", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "outline-width", 
@@ -291,7 +335,8 @@
                 "value": "1", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "outline-color", 
@@ -318,7 +363,8 @@
                 "value": "0", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             },
             {
                 "id": "length-max", 
@@ -326,7 +372,8 @@
                 "value": "30", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": "number"
             }
         ]
     },
@@ -338,7 +385,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -365,7 +413,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -373,7 +422,7 @@
                 "value": "#000000", 
                 "type": "rgb", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "bold", 
@@ -381,7 +430,7 @@
                 "value": "N", 
                 "type": "button", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "italic", 
@@ -389,7 +438,7 @@
                 "value": "N", 
                 "type": "button", 
                 "code": "", 
-                "unit": "" 
+                "unit": ""
             },
             {
                 "id": "underline", 
@@ -414,7 +463,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -458,7 +508,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -485,7 +536,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -534,7 +586,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -596,7 +649,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -623,7 +677,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -672,7 +727,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -734,7 +790,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "" ,
+                "validate": ""
             }
         ],
         "display": [
@@ -744,7 +801,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px" ,
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -793,7 +851,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ]
     },
@@ -805,25 +864,28 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
             {
                 "id": "path", 
                 "name": "Image Path", 
-                "value": "https://placehold.it/800X100", 
+                "value": "https://placehold.it/720X100", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             },
             {
                 "id": "width", 
                 "name": "Width", 
-                "value": "800", 
+                "value": "720", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "height", 
@@ -831,7 +893,8 @@
                 "value": "100", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "align", 
@@ -844,7 +907,7 @@
             }
         ]
     },
-    "line": {
+    "divider": {
         "common": [
             {
                 "id": "mapping-id", 
@@ -852,17 +915,19 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
             {
-                "id": "width", 
-                "name": "Width", 
+                "id": "thickness",
+                "name": "Thickness",
                 "value": "1", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -891,7 +956,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -918,7 +984,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -967,7 +1034,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -980,18 +1048,11 @@
                 "unit": "" 
             },
             {
-                "id": "format", 
-                "name": "Format", 
-                "value": "yyyy-MM-dd", 
-                "type": "inputbox", 
-                "code": "", 
-                "unit": "" 
-            },
-            {
                 "id": "default", 
                 "name": "Default", 
-                "value": "today", 
-                "type": "inputbox", 
+                "value": "now", 
+                "type": "radio-datetime",
+                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "date", "name": "{0}days after", "validate": "number"}, {"id": "datepicker", "name": ""} ],
                 "code": "", 
                 "unit": "" 
             }
@@ -1000,7 +1061,7 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "Y", 
+                "value": "N", 
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 
@@ -1009,16 +1070,16 @@
             {
                 "id": "date-min", 
                 "name": "Min Date", 
-                "value": "1900-01-01", 
-                "type": "inputbox-underline", 
+                "value": "1900-01-01|YYYY-MM-DD",
+                "type": "datepicker", 
                 "code": "", 
                 "unit": "" 
             },
             {
                 "id": "date-max", 
                 "name": "Max Date", 
-                "value": "2999-12-31", 
-                "type": "inputbox-underline", 
+                "value": "2999-12-31|YYYY-MM-DD",
+                "type": "datepicker", 
                 "code": "", 
                 "unit": "" 
             }
@@ -1032,7 +1093,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1059,7 +1121,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -1108,7 +1171,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1121,18 +1185,11 @@
                 "unit": "" 
             },
             {
-                "id": "format", 
-                "name": "Format", 
-                "value": "HH:mm", 
-                "type": "inputbox", 
-                "code": "", 
-                "unit": "" 
-            },
-            {
                 "id": "default", 
                 "name": "Default", 
                 "value": "now", 
-                "type": "inputbox", 
+                "type": "radio-datetime", 
+                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "time", "name": "{0}hours later", "validate": "number"}, {"id": "timepicker", "name": ""} ],
                 "code": "", 
                 "unit": "" 
             }
@@ -1141,9 +1198,25 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "Y", 
+                "value": "N", 
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "time-min", 
+                "name": "Min Time", 
+                "value": "", 
+                "type": "timepicker", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "time-max", 
+                "name": "Max Time", 
+                "value": "", 
+                "type": "timepicker", 
                 "code": "", 
                 "unit": "" 
             }
@@ -1157,7 +1230,8 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1184,7 +1258,8 @@
                 "value": "12", 
                 "type": "inputbox-underline", 
                 "code": "", 
-                "unit": "px" 
+                "unit": "px",
+                "validate": "number"
             },
             {
                 "id": "color", 
@@ -1233,7 +1308,8 @@
                 "value": "TEXT", 
                 "type": "inputbox", 
                 "code": "", 
-                "unit": "" 
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1246,18 +1322,11 @@
                 "unit": "" 
             },
             {
-                "id": "format", 
-                "name": "Format", 
-                "value": "yyyy-MM-dd HH:mm", 
-                "type": "inputbox", 
-                "code": "", 
-                "unit": "" 
-            },
-            {
                 "id": "default", 
                 "name": "Default", 
                 "value": "now", 
-                "type": "inputbox", 
+                "type": "radio-datetime",
+                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "datetime", "name": "{0}days{0}hours later", "validate": "number"}, {"id": "datetimepicker", "name": ""} ],
                 "code": "", 
                 "unit": "" 
             }
@@ -1266,7 +1335,7 @@
             {
                 "id": "required", 
                 "name": "Required", 
-                "value": "Y", 
+                "value": "N", 
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "", 
@@ -1274,17 +1343,17 @@
             },
             {
                 "id": "date-min", 
-                "name": "Min Date", 
-                "value": "1900-01-01", 
-                "type": "inputbox-underline", 
+                "name": "Min Datetime", 
+                "value": "1900-01-01 00:00|YYYY-MM-DD hh:mm 24",
+                "type": "datetimepicker", 
                 "code": "", 
                 "unit": "" 
             },
             {
                 "id": "date-max", 
-                "name": "Max Date", 
-                "value": "2999-12-31", 
-                "type": "inputbox-underline", 
+                "name": "Max Datetime", 
+                "value": "2999-12-31 23:59|YYYY-MM-DD hh:mm 24",
+                "type": "datetimepicker", 
                 "code": "", 
                 "unit": "" 
             }
@@ -1298,8 +1367,237 @@
                 "value": "", 
                 "type": "inputbox-underline", 
                 "code": "", 
+                "unit": "",
+                "validate": ""
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Column", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px",
+                "validate": "number"
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "",
+                "validate": ""
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Column", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "N", 
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
                 "unit": "" 
             }
         ]
-    } 
+    },
+    "custom-code": {
+        "common": [
+            {
+                "id": "mapping-id", 
+                "name": "Mapping Id", 
+                "value": "", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "",
+                "validate": ""
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position", 
+                "value": "left", 
+                "type": "select", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "column", 
+                "name": "Column", 
+                "value": "2", 
+                "type": "slider",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "size", 
+                "name": "Font Size", 
+                "value": "12", 
+                "type": "inputbox-underline", 
+                "code": "", 
+                "unit": "px",
+                "validate": "number"
+            },
+            {
+                "id": "color", 
+                "name": "Font Color", 
+                "value": "#000000", 
+                "type": "rgb", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "bold", 
+                "name": "Bold", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "italic", 
+                "name": "Italic", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "underline", 
+                "name": "Underline", 
+                "value": "N", 
+                "type": "button", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "align", 
+                "name": "Align", 
+                "value": "left", 
+                "type": "button", 
+                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "text", 
+                "name": "Content", 
+                "value": "TEXT", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "",
+                "validate": ""
+            }
+        ],
+        "display": [
+            {
+                "id": "column", 
+                "name": "Column", 
+                "value": "10", 
+                "type": "slider", 
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "custom-code", 
+                "name": "Custom Code", 
+                "value": "", 
+                "type": "customcode",
+                "code": "", 
+                "unit": "" 
+            },
+            {
+                "id": "button-text", 
+                "name": "Buttom Content", 
+                "value": "BUTTON", 
+                "type": "inputbox", 
+                "code": "", 
+                "unit": "",
+                "validate": ""
+            }
+        ],
+        "validate": [
+            {
+                "id": "required", 
+                "name": "Required", 
+                "value": "N",
+                "type": "radio",
+                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "code": "", 
+                "unit": "" 
+            }
+        ]
+    }
 }

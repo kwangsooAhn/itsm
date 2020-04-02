@@ -11,7 +11,7 @@
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam;
+    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId;
     const setExtraParam = function (param) {
         extraParam = param;
     };
@@ -19,8 +19,20 @@ const fileUploader = (function () {
     const createDropZone = function () {
         /*<![CDATA[*/
 
+        if (extraParam.dropZoneFilesId != undefined) {
+            dropZoneFilesId = extraParam.dropZoneFilesId;
+        } else {
+            dropZoneFilesId = 'dropZoneFiles';
+        }
+
+        if (extraParam.dropZoneUploadedFilesId != undefined) {
+            dropZoneUploadedFilesId = extraParam.dropZoneUploadedFilesId;
+        } else {
+            dropZoneUploadedFilesId = 'dropZoneUploadedFiles';
+        }
+
         // 파일 추가 버튼 정의 및 추가
-        const dropZoneFiles = document.getElementById('dropZoneFiles');
+        const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
         dropZoneFiles.className = 'fileEditorable';
 
         const addFileSpan = document.createElement('span');
@@ -99,16 +111,17 @@ const fileUploader = (function () {
         fileView.appendChild(fileViewTemplate);
 
         // 파일 업로드 영역에 드랍 영역 정의
-        document.getElementById('dropZoneFiles').appendChild(fileDropZone);
+        document.getElementById(''+ dropZoneFilesId +'').appendChild(fileDropZone);
 
         // 파일 업로드 기능 정의
-        const myDropZone = new Dropzone('#dropZoneFiles #dropZoneFileUpload', {
+        let dropzoneId = '#'+dropZoneFilesId+' #dropZoneFileUpload';
+        const myDropZone = new Dropzone(''+ dropzoneId +'', {
             paramName: "file", // file 매개변수명
             params: extraParam || null, // 추가 매개변수
-            maxFilesize: 3, // MB
+            maxFilesize: 3, // 첨부파일 용량 제한
             url: '/fileupload',
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
-            maxFiles: null, // 처리할 최대 파일수
+            maxFiles: null, // 첨부파일 개수 제한
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
             //acceptedFiles: "image/*",
@@ -122,10 +135,10 @@ const fileUploader = (function () {
                 // 등록된 파일이 있으면 조회.
                 const opt = {
                     method: 'get',
-                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : ''),
+                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
+                                  +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
-
                         files.forEach(function (fileMap) {
                             let file = fileMap.fileLocDto;
 
@@ -162,9 +175,7 @@ const fileUploader = (function () {
                             fileTag.append(fileSize);
                             fileTag.append(fileSeq);
                             fileTag.append(delBtn);
-
-                            document.getElementById('dropZoneUploadedFiles').appendChild(fileTag);
-
+                            document.getElementById(''+dropZoneUploadedFilesId+'').appendChild(fileTag);
                             // 파일 다운로드
                             originName.addEventListener('click', function (e) {
                                 const thisEvent = e.target;
@@ -188,20 +199,11 @@ const fileUploader = (function () {
                                 aliceJs.sendXhr(fileDownOpt);
                             });
 
-                            // 파일삭제
+                            // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
                             delBtn.addEventListener('click', function (e) {
-                                const thisEvent = e.target;
-                                const delBtnOpt = {
-                                    method: 'delete',
-                                    url: '/filedel?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
-                                    callbackFunc: function (xhr) {
-                                        alert(i18n.get('common.msg.delete.success'));
-                                        thisEvent.parentElement.remove();
-                                    },
-                                    params: '',
-                                    async: true
-                                };
-                                aliceJs.sendXhr(delBtnOpt);
+                                const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]'); 
+                                delFile.setAttribute('name', 'delFileSeq');
+                                delFile.parentElement.style.display = 'none';
                             });
                         });
 
@@ -270,6 +272,16 @@ const fileUploader = (function () {
                 });
 
                 this.on("canceled", function () {
+                });
+
+                this.on("maxfilesexceeded", function (file, maxFiles) {
+                    this.removeFile(file);
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesexceeded', maxFiles));
+                });
+
+                this.on("maxfilesizeexceeded", function (file, maxFileSize) {
+                    this.removeFile(file);
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행

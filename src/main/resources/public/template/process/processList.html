@@ -18,22 +18,21 @@
     <div>
         <table>
             <colgroup>
-                <col width="18%">
+                <col width="25%">
+                <col width="25%">
                 <col width="20%">
-                <col width="12%">
-                <col width="10%">
                 <col width="20%">
-                <col width="10%">
                 <col width="5%">
                 <col width="5%">
             </colgroup>
             <tbody>
                 <tr th:each="process: ${processList}">
-                    <td th:text="${process.name}"></td>
+                    <td><a sec:authorize="hasAnyAuthority('process.create', 'process.update')"
+                           href="javascript:void(0);"
+                           th:attr="onclick=|openProcessDesignerView('${process.id}')|"
+                           th:text="${process.name}"></a>
+                    </td>
                     <td th:text="${process.description}"></td>
-                    <td th:text="${process.formName}"></td>
-                    <td>이름</td>
-                    <!--<td th:text="${process.userName}"></td>-->
                     <td th:if="${process.updateDt == null && process.updateUserKey == null}"
                         th:with="dateformat=${#authentication.details.timeFormat}"
                         th:text="|${#temporals.format(process.createDt,dateformat)} ${process.createUserKey}|"></td>

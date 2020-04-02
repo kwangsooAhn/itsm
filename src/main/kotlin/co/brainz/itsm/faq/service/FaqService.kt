@@ -1,10 +1,13 @@
 package co.brainz.itsm.faq.service
 
-import co.brainz.framework.fileTransaction.dto.FileDto
-import co.brainz.framework.fileTransaction.service.FileService
+import co.brainz.framework.fileTransaction.dto.AliceFileDto
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.faq.dto.FaqDto
+import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.entity.FaqEntity
+import co.brainz.itsm.faq.mapper.FaqMapper
 import co.brainz.itsm.faq.repository.FaqRepository
+import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,13 +19,20 @@ import org.springframework.transaction.annotation.Transactional
  * @author Jung heechan
  */
 @Service
-class FaqService(private val faqRepository: FaqRepository, private val fileService: FileService) {
+class FaqService(private val faqRepository: FaqRepository, private val aliceFileService: AliceFileService) {
+
+    val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
 
     /**
      * FAQ 전체 데이터 조회
      */
-    fun findAll(): List<FaqEntity> {
-        return faqRepository.findAll()
+    fun findAll(): List<FaqListDto> {
+        val faqEntities = faqRepository.getFaqList()
+        val faqList: MutableList<FaqListDto> = mutableListOf()
+        faqEntities.forEach {
+            faqList.add(faqMapper.toFaqListDto(it))
+        }
+        return faqList
     }
 
     /**
@@ -52,7 +62,7 @@ class FaqService(private val faqRepository: FaqRepository, private val fileServi
         faqEntity.faqContent = faqDto.faqContent
 
         val savedFaqEntity = faqRepository.save(faqEntity)
-        fileService.upload(FileDto(savedFaqEntity.faqId, faqDto.fileSeq))
+        aliceFileService.upload(AliceFileDto(savedFaqEntity.faqId, faqDto.fileSeq))
     }
 
     /**
@@ -61,6 +71,6 @@ class FaqService(private val faqRepository: FaqRepository, private val fileServi
     @Transactional
     fun delete(faqId: String) {
         faqRepository.deleteById(faqId)
-        fileService.delete(faqId)
+        aliceFileService.delete(faqId)
     }
 }

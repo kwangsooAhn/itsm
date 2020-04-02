@@ -51,7 +51,7 @@ body {
         padding-top: $process-toolbar-top-bottom-padding;
         padding-bottom: $process-toolbar-top-bottom-padding;
         line-height: 1.0rem;
-        
+
         font: {
             size: 0.938rem; // 15px
         }
@@ -199,12 +199,15 @@ body {
         path.connector {
             fill: none;
             stroke: #000;
-            stroke-width: 0.125rem;
+            stroke-width: 2;
             cursor: default;
         }
         path.connector.selected {
             stroke-dasharray: 10,2;
-            stroke-width: 0.188rem;
+            stroke-width: 3;
+        }
+        path.connector.is-default {
+            stroke-width: 4;
         }
         path.connector.drag-line {
             pointer-events: none;
@@ -216,8 +219,17 @@ body {
             fill: none;
             stroke: none;
             stroke-width: 20;
-            pointer-events: all;
+            pointer-events: stroke;
         }
+
+        .connector text {
+            fill: #000000;
+            font: {
+                weight: bold;
+                size: 0.813rem; // 13px
+            }
+        }
+
         defs {
             marker {
                 path {
@@ -232,8 +244,8 @@ body {
                 stroke: #bcc5d3;
                 stroke-width: 0.5;
             }
-            image.action-tooltip-item:hover,
-            image.element-tooltip-item:hover {
+            rect.action-tooltip-item:hover,
+            rect.element-tooltip-item:hover {
                 cursor: pointer;
             }
         }
@@ -249,27 +261,55 @@ body {
             shape-rendering: crispEdges;
         }
 
-        .node {
-            fill: #ffffff;
-            opacity: 1;
-            stroke: #000000;
-            stroke-width: 1;
+        .element {
+            .node {
+                fill: #ffffff;
+                opacity: 1;
+                stroke: #000000;
+                stroke-width: 1;
+            }
+
+            .node.event.commonEnd,
+            .node.event.messageEnd {
+                stroke-width: 3;
+            }
+
+            .node.selected {
+                stroke: #5887f9;
+                stroke-width: 2;
+            }
+
+            .node.selected.event.commonEnd,
+            .node.selected.event.messageEnd {
+                stroke-width: 4;
+            }
+
+            .node.reject-element {
+                stroke: #ff0000;
+                stroke-width: 2;
+            }
+
+            .group {
+                fill: none;
+                stroke-dasharray: 5,5;
+            }
+
+            .annotation {
+                fill-opacity: 0;
+                stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
+            }
+
+            text {
+                fill: #000000;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                text-anchor: middle;
+                dominant-baseline: middle;
+            }
         }
 
-        .node.selected {
-            stroke: #5887f9;
-            stroke-width: 2;
-        }
-
-        .group {
-            fill-opacity: 0;
-            stroke-dasharray: 5,5;
-        }
-
-        .annotation {
-            fill-opacity: 0;
-            stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
-        }
     }
 
     &-properties-panel {
@@ -282,6 +322,17 @@ body {
         top: $process-toolbar-height;
         right: 0;
         border: #bcc5d3 solid 0.063rem;
+
+        h2 {
+            font: {
+                size: 1.25rem; // 20px
+                weight: bold;
+            }
+            margin: {
+                top: 1.25rem; // 20px
+                left: 0.938rem; // 15px
+            }
+        }
 
         h3 {
             font: {
@@ -324,8 +375,50 @@ body {
                 width: 11.25rem; // 180px
             }
 
+            input:read-only {
+                background-color: #f6f6f7;
+                border: {
+                    width: 0;
+                }
+            }
+
             textarea {
                 height: 5.625rem;  // 90px
+            }
+
+            select.candidate {
+                width: 8.125rem; // 130px
+            }
+
+            button {
+                width: 3.125rem; // 50px
+            }
+
+            table {
+                margin-left: 5.625rem; // 90px
+                width: 11.25rem; // 180px
+                border: black solid 0.063rem;
+
+                th {
+                    background-color: lightgrey;
+                    text-align: center;
+                    font: {
+                        weight: bold;
+                    }
+                }
+                td {
+                    padding: {
+                        left: 0.313rem;
+                    };
+
+                    span.remove {
+                        display: inline-block;
+                        background-image: url("../media/icons/icon_delete.png");
+                        width: 0.938rem;  // 15px
+                        height: 0.938rem; // 15px
+                        cursor: pointer;
+                    }
+                }
             }
         }
     }

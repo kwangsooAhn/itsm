@@ -3,6 +3,7 @@ common:
   searchWord: "Search"
   btn:
     save: "SAVE"
+    saveAs: "SAVE AS"
     close: "CLOSE"
     logout: "LOGOUT"
     delete: "DELETE"
@@ -14,6 +15,7 @@ common:
     write: "WRITE"
     cancel: "CANCEL"
     check: "CHECK"
+    list: "LIST"
   label:
     title: "Title"
     message: "Message"
@@ -29,11 +31,15 @@ common:
     updateDate: "Update Date"
     attachFile: "Attach file"
     notSelect: "Not Select"
+    lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
   msg:
     save: "Saved"
     save.fail: "Fail"
     delete.success: "Deleted."
-
+    delete.fail: "Deletion failed."
+    unknownError: "An unknown error has occurred. Please contact the administrator."
+    update: "Changed."
+    update.fail: "Change failed."
 # Menu
 menu:
   service: "Service"
@@ -43,21 +49,25 @@ menu:
   help.notice: "Notice"
   help.faq: "FAQ"
   help.document: "Service Request"
-  help.ticket: "Process Document"
+  help.token: "Process Document"
+  help.dashboard: "Dashboard"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
   setting.auth: "Auth management"
   setting.form: "Form"
   setting.process: "Process"
+  setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
 
 # Auth
 auth:
   label:
+    manage: "Role management"
     authId: "Auth ID"
     authName: "Auth name"
     authDesc: "Auth Desc"
+    referenceCount: "Role reference count"
   msg:
     idNotExist: "Please enter a auth id."
     nameNotExist: "Please enter a auth name."
@@ -69,17 +79,17 @@ auth:
     update: "auth update"
     delete: "auth delete"
   service.read:
-    all: "서비스 요청 전체 조회"
-    my: "서비스 요청 자신 업무만 조회"
-  service.create: "서비스 요청 작성"
-  notice.read: "공지사항 조회"
-  notice.create: "공지사항 등록"
-  notice.update: "공지사항 변경"
-  notice.delete: "공지사항 삭제"
-  faq.read: "공지사항 조회"
-  faq.create: "공지사항 등록"
-  faq.update: "공지사항 변경"
-  faq.delete: "공지사항 삭제"
+    all: "Full service request inquiry"
+    my: "Service request Inquiry only for work"
+  service.create: "Create service request"
+  notice.read: "Notice inquiry"
+  notice.create: "Notice registration"
+  notice.update: "Notice change"
+  notice.delete: "Notice delete"
+  faq.read: "FAQ inquiry"
+  faq.create: "FAQ registration"
+  faq.update: "FAQ change"
+  faq.delete: "FAQ delete"
   form.read: "form read"
   form.create: "form create"
   form.update: "form update"
@@ -90,8 +100,12 @@ auth:
   process.delete: "process delete"
   document.read: "document read"
   document.create: "document create"
-  ticket.read: "ticket read"
-  ticket.create: "ticket create"
+  token.read: "token read"
+  token.create: "token create"
+  custom.code.read: "custom.code read"
+  custom.code.create: "custom.code create"
+  custom.code.update: "custom.code update"
+  custom.code.delete: "custom.code delete"
 
 # User
 user:
@@ -126,7 +140,12 @@ user:
     passwordNotEquals: "Passwords do not match"
     nameNotExist: "Please enter your UserName"
     emailNotExist: "Please enter your Email"
-    
+    createUser: "User is registered."
+    emailWithUpdate: "Member information, including email information, has been modified."
+    sameUserId: "The same ID exists.."
+    sameEmail: "The same Email exists."
+    joinUser: "Joined."
+    joinUserFail: "Join failed."
 # FAQ
 faq:
   add: "Add"
@@ -194,8 +213,14 @@ login:
   loginNote: "Do you have an account?"
   signupNote: "Would you like to sign up?"
   msg:
+    invalidPassword: "The ID or password are not correct. Please check again."
+    disabledUser: "Your account has been disabled. Please contact the administrator."
+    invalidUser: "This account is not registered. Please check again."
+    enterId: "Please enter your ID."
+    enterPassword: "Please enter your password."
     sessionExpired: "Your session has expired."
     redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
+    ipAccessDenied: "The IP is not accessible."
 
 # FORM
 form:
@@ -230,16 +255,24 @@ form:
     checkbox: "Checkbox"
     label: "Label"
     image: "Image"
-    line: "Line"
+    divider: "Divider"
     date: "Date"
     time: "Time"
     datetime: "Date Time"
     fileupload: "Fileupload"
+    customCode: "Custom Code"
   lang:
     ko: "Korean"
   msg:
     alert:
       nameNotExist: "Please enter a form name."
+      number: "Please enter only numbers."
+      min: "Please enter at least {0}."
+      max: "Please enter below {0}."
+      minLength: "Please enter at least {0} characters."
+      maxLength: "Please enter less than {0} characters."
+  preview:
+    name: "Form Edit Preview"
 
 # Process
 process:
@@ -277,6 +310,7 @@ role:
     roleName: "Role Name"
     roleDesc: "Role Desc"
     roleAuth: "Role Auth"
+    referenceCount: "Reference Count"
   msg:
     idNotExist: "Please enter a role id."
     nameNotExist: "Please enter a role name."
@@ -298,16 +332,56 @@ validation:
 document:
   label:
     list: "Service Request List"
+    reg: "Service Request Registration"
     write: "Service Request Write"
+    name: "Service Request Name"
+    description: "Service Request Description"
+    form: "Form"
+    process: "Process"
   msg:
+    nameNotExist: "Please enter document's name."
     lengthMin: "Please enter at least {0} characters."
     lengthMax: "Please enter less than {0} characters."
     dateMin: "Please select after {0} date."
     dateMax: "Please select before {0} date."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
+    raunchedInstance: "There is an instance started and cannot be deleted."
 
-# Ticket
-ticket:
+# token
+token:
   label:
     list: "Process Document List"
+    write: "Process Document"
+# Custom Code
+custom.code:
+  label:
+    title: "Custom Code"
+    customCodeName: "Custom Code Name"
+    targetTable: "Target Table Name"
+    searchColumn: "Search Column Name"
+    valueColumn: "Value Column Name"
+  msg:
+    inputCustomCodeName: "Please enter a custom code name."
+    inputTableTarget: "Please enter a table target name."
+    inputSearchColumn: "Please enter a search column name."
+    inputValueColumn: "Please enter a value column name."
+    customCodeUsed: "The Custom code is being used."
+    customCodeNameDuplication: "The same custom code name exists."
+
+# Dashboard
+dashboard:
+  label:
+    title: "Dashboard"
+    documentStatus: "Requested Documents Status"
+    status:
+      running: "Running"
+      wait: "Wait"
+      finish: "finish"
+      noData: "There is no data."
+
+# fileupload
+fileupload:
+  msg:
+    maxfilesexceeded: "The number of attachments has been exceeded. (Attachment limit number : {0})"
+    maxfilesizeexceeded: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"

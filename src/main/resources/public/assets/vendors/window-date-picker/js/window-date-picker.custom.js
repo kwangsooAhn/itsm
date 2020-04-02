@@ -466,7 +466,7 @@
           this.allowEmpty = o.allowEmpty;
           this.showArrowButtons = o.showArrowButtons;
           this.orientation = o.showArrowButtons ? true : o.orientation;
-
+          
           if ((o.value == null || o.value == '') && o.allowEmpty) {
             this.setEmptyValue();
           } else {
@@ -544,7 +544,7 @@
             var hourIndex = isDefaultAmPmType ? 2 : 1;
             var minuteIndex = isDefaultAmPmType ? 3 : 2;
             var ampmIndex = isDefaultAmPmType ? 1 : 3;
-
+            
             this.els.hourInput = this.els.hourContainer.querySelector('.wdp-hour-el-container > input:nth-child(' + hourIndex + ')');
             this.els.hourInput.value = Util.renderNumber(this.value.hour || 0);
             Util.addEventListener(this.els.hourInput, ['change'], this.changeHourInput.bind(this));
@@ -624,7 +624,7 @@
               Util.addEventListener(this.inputEl, [Util.MOUSE_DOWN], this.open);
             }
           }
-
+          
           this.setInputText();
           Util.addEventListener(this.els.cross, [Util.MOUSE_DOWN], this.clickCross.bind(this));
           this.showButtons = o.showButtons;
@@ -1243,10 +1243,13 @@
               if (this.dateType == DMY || this.dateType == MDY) {
                 txt += timeString.concat(" ", am);
               } else {
-                txt += am.concat(" ", timeString);
+                if (am.length == 0) {
+                  txt += timeString;
+                } else {
+                  txt += am.concat(" ", timeString);
+                }
               }
             }
-
             return txt;
           }
           /**
@@ -1300,11 +1303,10 @@
           value: function setValue(v) {
             var date,
                 value = {};
-
+            
             if (typeof v === 'string') {
               var d = '1970-01-01',
                   h = '00:00';
-
               if (this.type != HOUR) {
                 var s = v.replace(/\//g, '-').split('-');
                 s[2] = s[2].split(' ')[0];
@@ -1340,7 +1342,6 @@
                     hour = '0';
                   }
                 }
-
                 h = "".concat(Util.renderNumber(hour), ":").concat(Util.renderNumber(minute));
               }
 

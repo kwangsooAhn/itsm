@@ -1,6 +1,6 @@
 package co.brainz.sample.file.controller
 
-import co.brainz.framework.fileTransaction.service.FileService
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
-class FileUploadTestSample(private val fileService: FileService) {
+class FileUploadTestSample(private val aliceFileService: AliceFileService) {
 
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java)

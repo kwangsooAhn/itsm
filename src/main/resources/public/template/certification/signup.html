@@ -5,6 +5,7 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/popupmodal/css/popupmodal.css}" rel="stylesheet"/>
     <title>회원가입 페이지</title>
 </head>
 <body>
@@ -71,14 +72,11 @@
             3. 사용자의 이메일 ID를 포함하지 않는다.
                    예) 이메일 ID가 ITSM인 경우, ITS는 포함 가능, ITSM은 포함 불가
 
-            4. 사용자의 내선 번호를 포함하지 않는다.
-                   예) 내선 번호가 010-1234-5678인 경우, 123 포함 가능, 1234 포함 불가, 567 포함 가능, 5678 포함 불가
-                        내선 번호가 010-123-4567인 경우, 12 포함 가능,123 포함 불가, 456 포함 가능, 4567 포함 불가
-
-            5. 공백을 허용하지 않는다.
+            4. 공백을 허용하지 않는다.
             </pre>
         </div>
     </div>
+    <script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
     <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
     <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
     <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
@@ -150,17 +148,18 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            alert("가입되었습니다.");
-                            location.href = "/login";
+                            aliceJs.alert([[#{user.msg.joinUser}]], function() {
+                                location.href = "/login";
+                            });
                             break;
                         case STATUS_ERROR_USER_ID_DUPLICATION:
-                            alert("동일한 아이디가 존재합니다.");
+                            aliceJs.alert([[#{user.msg.sameUserId}]]);
                             break;
                         case STATUS_ERROR_EMAIL_DUPLICATION:
-                            alert("이미 사용중인 이메일입니다.");
+                            aliceJs.alert([[#{user.msg.sameEmail}]]);
                             break;
                         default :
-                            alert("가입이 실패되었습니다.");
+                            aliceJs.alert([[#{common.msg.save.fail}]]);
                             break;
                     }
                 }

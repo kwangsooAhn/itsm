@@ -11,144 +11,172 @@
     const itemSize = 20;
     const itemMargin = 8;
 
+    const assigneeTypeData = {
+        users: [],
+        groups: []
+    };
+
+    let publishProcesses = [];
+
     let processProperties = {},
         elementsProperties = {},
         elementsKeys = [];
 
     const tooltipItems = [
         {
-            type: 'delete', parent: 'action-tooltip',
+            type: 'delete', parent: 'action',
             url: iconDirectory + '/tooltip/delete.png',
-            action: function(el, i) {
-                removeElementItems();
-                console.log('remove');
+            action: function(el) {
+                deleteElement(el);
             }
         },
         {
-            type: 'copy', parent: 'action-tooltip',
+            type: 'copy', parent: 'action',
             url: iconDirectory + '/tooltip/copy.png',
-            action: function(el, i) {
-                removeElementItems();
-                console.log('copy');
+            action: function(el) {
+                copyElement(el);
             }
         },
         {
-            type: 'edit', parent: 'action-tooltip',
+            type: 'edit', parent: 'action',
             url: iconDirectory + '/tooltip/edit.png',
             focus_url: iconDirectory + '/tooltip/edit_focus.png',
-            action: function(el, i) {
-                setElementTypeItems(el);
+            action: function(el) {
+                setElementCategoryItems(el);
             }
         },
         {
-            type: 'suggest', parent: 'action-tooltip',
+            type: 'suggest', parent: 'action',
             url: iconDirectory + '/tooltip/suggest.png',
             focus_url: iconDirectory + '/tooltip/suggest_focus.png',
-            action: function(el, i) {
+            action: function(el) {
                 setSuggestElementItems(el);
             }
         },
         {
-            type: 'userTask', parent: 'suggest-tooltip',
+            type: 'userTask', parent: 'suggest',
             url: iconDirectory + '/suggestion/usertask.png',
-            action: function(el, i) {
-                console.log('add user task');
+            action: function(el) {
+                suggestElement(el, 'userTask');
             }
         }, {
-            type: 'manualTask', parent: 'suggest-tooltip',
+            type: 'manualTask', parent: 'suggest',
             url: iconDirectory + '/suggestion/manual.png',
-            action: function(el, i) {
-                console.log('add manual task');
+            action: function(el) {
+                suggestElement(el, 'manualTask');
             }
         }, {
-            type: 'exclusiveGateway', parent: 'suggest-tooltip',
+            type: 'exclusiveGateway', parent: 'suggest',
             url: iconDirectory + '/suggestion/gateways.png',
-            action: function(el, i) {
-                console.log('add exclusive gateway');
+            action: function(el) {
+                suggestElement(el, 'exclusiveGateway');
             }
         }, {
-            type: 'commonEnd', parent: 'suggest-tooltip',
+            type: 'commonEnd', parent: 'suggest',
             url: iconDirectory + '/suggestion/end.png',
-            action: function(el, i) {
-                console.log('add end event');
+            action: function(el) {
+                suggestElement(el, 'commonEnd');
             }
         }, {
-            type: 'commonStart', parent: 'event-tooltip',
+            type: 'commonStart', parent: 'event',
             url: iconDirectory + '/element-type/event-start.png',
-            action: function(el, i) {
-                console.log('edit type start');
+            action: function(el) {
+                editElementType(el,'commonStart');
             }
         }, {
-            type: 'messageStart', parent: 'event-tooltip',
+            type: 'messageStart', parent: 'event',
             url: iconDirectory + '/element-type/event-start-msg.png',
-            action: function(el, i) {
-                console.log('edit type message start');
+            element_url: iconDirectory + '/element-type/task-receive.png',
+            action: function(el) {
+                editElementType(el,'messageStart');
             }
         }, {
-            type: 'timerStart', parent: 'event-tooltip',
+            type: 'timerStart', parent: 'event',
             url: iconDirectory + '/element-type/event-start-timer.png',
-            action: function(el, i) {
-                console.log('edit type timer start');
+            element_url: iconDirectory + '/element-type/event-start-timer.png',
+            action: function(el) {
+                editElementType(el,'timerStart');
             }
         }, {
-            type: 'commonEnd', parent: 'event-tooltip',
+            type: 'signalSend', parent: 'event',
+            url: iconDirectory + '/element-type/event-start.png',
+            element_url: iconDirectory + '/element-type/event-start.png',
+            action: function(el) {
+                editElementType(el,'signalSend');
+            }
+        }, {
+            type: 'commonEnd', parent: 'event',
             url: iconDirectory + '/element-type/event-end.png',
-            action: function(el, i) {
-                console.log('edit type end');
+            action: function(el) {
+                editElementType(el,'commonEnd');
             }
         }, {
-            type: 'messageEnd', parent: 'event-tooltip',
+            type: 'messageEnd', parent: 'event',
             url: iconDirectory + '/element-type/event-end-msg.png',
-            action: function(el, i) {
-                console.log('edit type message end');
+            element_url: iconDirectory + '/element-type/task-send.png',
+            action: function(el) {
+                editElementType(el,'messageEnd');
             }
         }, {
-            type: 'userTask', parent: 'task-tooltip',
+            type: 'userTask', parent: 'task',
             url: iconDirectory + '/element-type/task-user.png',
-            action: function(el, i) {
-                console.log('edit user task');
+            element_url: iconDirectory + '/element-type/task-user.png',
+            action: function(el) {
+                editElementType(el,'userTask');
             }
         }, {
-            type: 'manualTask', parent: 'task-tooltip',
+            type: 'manualTask', parent: 'task',
             url: iconDirectory + '/element-type/task-manual.png',
-            action: function(el, i) {
-                console.log('edit manual task');
+            element_url: iconDirectory + '/element-type/task-manual.png',
+            action: function(el) {
+                editElementType(el,'manualTask');
             }
         }, {
-            type: 'scriptTask', parent: 'task-tooltip',
+            type: 'scriptTask', parent: 'task',
             url: iconDirectory + '/element-type/task-script.png',
-            action: function(el, i) {
-                console.log('edit script task');
+            element_url: iconDirectory + '/element-type/task-script.png',
+            action: function(el) {
+                editElementType(el,'scriptTask');
             }
         }, {
-            type: 'sendTask', parent: 'task-tooltip',
+            type: 'sendTask', parent: 'task',
             url: iconDirectory + '/element-type/task-send.png',
-            action: function(el, i) {
-                console.log('edit send task');
+            element_url: iconDirectory + '/element-type/task-send.png',
+            action: function(el) {
+                editElementType(el,'sendTask');
             }
         }, {
-            type: 'receiveTask', parent: 'task-tooltip',
+            type: 'receiveTask', parent: 'task',
             url: iconDirectory + '/element-type/task-receive.png',
-            action: function(el, i) {
-                console.log('edit receive task');
+            element_url: iconDirectory + '/element-type/task-receive.png',
+            action: function(el) {
+                editElementType(el,'receiveTask');
             }
         }, {
-            type: 'exclusiveGateway', parent: 'gateway-tooltip',
+            type: 'subprocess', parent: 'subprocess',
+            url: iconDirectory + '/element-type/subprocess.png',
+            element_url: iconDirectory + '/element-type/subprocess.png',
+            action: function(el) {}
+        }, {
+            type: 'exclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/element-type/gateway-exclusive.png',
-            action: function(el, i) {
-                console.log('edit exclusive gateway');
+            element_url: iconDirectory + '/element-type/gateway-exclusive.png',
+            action: function(el) {
+                editElementType(el,'exclusiveGateway');
             }
         }, {
-            type: 'parallelGateway', parent: 'gateway-tooltip',
+            type: 'parallelGateway', parent: 'gateway',
             url: iconDirectory + '/element-type/gateway-parallel.png',
-            action: function(el, i) {
-                console.log('edit parallel gateway');
+            element_url: iconDirectory + '/element-type/gateway-parallel.png',
+            action: function(el) {
+                editElementType(el,'parallelGateway');
             }
         }, {
-            type: 'inclusiveGateway', parent: 'gateway-tooltip',
+            type: 'inclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/element-type/gateway-inclusive.png',
-            action: function(el, i) {
-                console.log('edit exclusive gateway');
+            element_url: iconDirectory + '/element-type/event-end.png',
+            action: function(el) {
+                editElementType(el,'inclusiveGateway');
             }
         }
     ];
@@ -178,6 +206,70 @@
     }
 
     /**
+     * element 기본 타입을 조회하여 리턴한다.
+     *
+     * @param category element category
+     * @return {String} 기본 타입
+     */
+    function getElementDefaultType(category) {
+        let type = elementsProperties[category][0].type;
+        let defaultTypeProperties = elementsProperties[category].filter(function(prop) { return prop.default === 'true'; });
+        if (defaultTypeProperties.length > 0) {
+            type = defaultTypeProperties[0].type;
+        }
+        return type;
+    }
+
+    /**
+     * element 타입을 변경한다.
+     *
+     * @param element 변경할 대상 element
+     * @param type 변경타입
+     */
+    function editElementType(element, type) {
+        const elementId = element.node().id,
+              elements = AliceProcessEditor.data.elements;
+        const elementData = elements.filter(function(elem) { return elem.id === elementId; });
+        if (elementData.length) {
+            console.debug('current element type: %s, edit element type: %s', elementData[0].type, type);
+            if (elementData[0].type === type) {
+                return;
+            }
+            const originElementData = JSON.parse(JSON.stringify(elementData[0]));
+            const category = getElementCategory(type);
+            let typeData = getAttributeData(category, type);
+            Object.keys(typeData).forEach(function(newKey) {
+                Object.keys(elementData[0].data).forEach(function(oldKey) {
+                    if (newKey === oldKey) {
+                        typeData[newKey] = elementData[0].data[oldKey];
+                    }
+                });
+            });
+            elementData[0].type = type;
+            elementData[0].data = typeData;
+
+            changeElementType(element, type);
+            d3.select('g.alice-tooltip').remove();
+            setElementMenu(element);
+            AliceProcessEditor.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+            console.debug('edited element [%s]!!', type);
+        }
+    }
+
+    /**
+     * element 의 타입에 따라 이미지를 변경한다.
+     *
+     * @param element target element
+     * @param type 변경될 타입
+     */
+    function changeElementType(element, type) {
+        const category = getElementCategory(type);
+        const typeList = elementsProperties[category];
+        typeList.forEach(function(t) { element.classed(t.type, t.type === type); });
+        d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-' + type + '-element)');
+    }
+
+    /**
      * 추가된 element properties 를 data 에 추가한다.
      *
      * @param elem 추가된 element
@@ -187,26 +279,28 @@
             return;
         }
 
-        const elemId = elem.node().id,
+        const elementId = elem.node().id,
               elements = AliceProcessEditor.data.elements;
 
-        let elemList = elements.filter(function(attr) { return attr.id === elemId; });
+        let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;
         }
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
         let elemData = {};
-        elemData.id = elemId;
+        elemData.id = elementId;
         if (elem.classed('node')) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let elemType = elementsProperties[elementsKeys[i]][0].type;
+                    let elemType = '';
                     if (elementsKeys[i] === 'artifact' && elem.classed('group')) {
                         elemType = 'groupArtifact';
+                    } else {
+                        elemType = getElementDefaultType(elementsKeys[i]);
                     }
                     elemData.type = elemType;
-                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.x, 'position-y': bbox.y};
+                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
                     elemData.data = getAttributeData(elementsKeys[i], elemType);
                     break;
                 }
@@ -214,11 +308,20 @@
         } else {
             const data = elem.node().__data__;
             elemData.type = 'arrowConnector';
+            elemData.display = {};
             elemData.data = getAttributeData('connector', 'arrowConnector');
-            elemData.data['start-id'] = data.source.node().id;
-            elemData.data['end-id'] = data.target.node().id;
+            elemData.data['start-id'] = data.sourceId;
+            elemData.data['end-id'] = data.targetId;
+            elements.forEach(function(e) {
+                if (e.id === data.sourceId) { elemData.data['start-name'] = e.data.name; }
+                if (e.id === data.targetId) { elemData.data['end-name'] = e.data.name; }
+            });
+        }
+        if (elemData.data.name) {
+            AliceProcessEditor.changeTextToElement(elementId, elemData.data.name);
         }
         elements.push(elemData);
+        AliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
     }
 
     /**
@@ -238,7 +341,7 @@
         let elementTypeData = elementTypeList.filter(function(elem){ return elem.type === type; });
         if (elementTypeData.length > 0) {
             let attributeList = elementTypeData[0].attribute;
-            attributeList.forEach(function(attr){
+            attributeList.forEach(function(attr) {
                 let items = attr.items;
                 items.forEach(function(item){
                     data[item.id] = item.default;
@@ -258,11 +361,34 @@
             return;
         }
 
-        let actionTooltip = tooltipItems.filter(function(item) { return item.parent === 'action-tooltip'; });
-        if (elem.classed('artifact')) {
-            actionTooltip = actionTooltip.slice(0, 2);
+        let actionTooltip = tooltipItems.filter(function(item) { return item.parent === 'action'; });
+        if (elem.classed('subprocess')) {
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });
+        } else if (elem.classed('artifact')) {
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete' || tooltip.type === 'copy'; });
         } else if (elem.classed('connector')) {
-            actionTooltip = actionTooltip.slice(0, 1);
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete'; });
+        }
+
+        if (!elem.classed('gateway')) {
+            let isSuggest = true;
+            let elementId = elem.node().id;
+            let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+            connectors.forEach(function(c) {
+                let connectorNode = document.getElementById(c.id);
+                if (connectorNode) {
+                    const data = connectorNode.__data__;
+                    if (data.sourceId === elementId) {
+                        isSuggest = false;
+                    }
+                }
+            });
+            if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
+                isSuggest = false;
+            }
+            if (!isSuggest) {
+                actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'suggest'; });
+            }
         }
 
         const tooltipItemContainer = d3.select('.alice-process-drawing-board').select('svg').append('g')
@@ -288,7 +414,7 @@
             .attr('width', itemSize)
             .attr('height', itemSize)
             .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
-            .on('mousedown', function(d, i) {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 actionTooltip.forEach(function(t) {
                     if (t.focus_url) {
@@ -299,13 +425,24 @@
                 if (d.focus_url) {
                     d3.select(this).style('fill', 'url(#' + d.parent + '-' + d.type + '-focus)');
                 }
-                d.action(elem, i);
+                d.action(elem);
             });
 
         const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-            gTransform = d3.zoomTransform(d3.select('g.node-container').node()),
-            targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
-            targetY = (elem.classed('connector') ? bbox.cy + gTransform.y : bbox.y + gTransform.y) - containerHeight - 10;
+              gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+
+        let targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
+            targetY = bbox.y + gTransform.y - containerHeight - 10;
+
+        if (elem.classed('connector')) {
+            let linkData = elem.node().__data__;
+            if (linkData.midPoint) {
+                targetX = (linkData.midPoint[0] + gTransform.x) - containerWidth / 2;
+                targetY = linkData.midPoint[1] + gTransform.y - containerHeight - 10;
+            } else {
+                targetY = bbox.cy + gTransform.y - containerHeight - 10;
+            }
+        }
 
         tooltipItemContainer
             .attr('transform', 'translate(' + targetX + ',' + targetY + ')')
@@ -322,40 +459,227 @@
         if (elem.classed('group') || elem.classed('annotation') || elem.classed('connector')) {
             return;
         }
-        let suggestTooltip = tooltipItems.filter(function(item) { return item.parent === 'suggest-tooltip'; });
+
+        let suggestTooltip = tooltipItems.filter(function(item) { return item.parent === 'suggest'; });
         setElementItems(suggestTooltip, elem);
     }
 
     /**
-     * show elements type tooltip.
+     * show elements category tooltip.
      *
      * @param elem 선택된 element
      */
-    function setElementTypeItems(elem) {
+    function setElementCategoryItems(elem) {
         let elementTypeItems = [];
-        let type = '';
+        let category = '';
         if (elem.classed('event')) {
-            type = 'event';
+            category = 'event';
         } else if (elem.classed('task')) {
-            type = 'task';
+            category = 'task';
         } else if (elem.classed('gateway')) {
-            type = 'gateway';
+            category = 'gateway';
         }
-        if (type) {
-            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === type + '-tooltip'; });
+        if (category) {
+            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === category; });
+        }
+
+        if (elem.classed('event')) {
+            const elementId = elem.node().id;
+            let isSourceConnected = false,
+                isTargetConnected = false;
+            let connectors = AliceProcessEditor.data.elements.filter(function(e) { return e.type === 'arrowConnector'; });
+            connectors.forEach(function(c) {
+                if (c.data['start-id'] === elementId) {
+                    isSourceConnected = true;
+                }
+                if (c.data['end-id'] === elementId) {
+                    isTargetConnected = true;
+                }
+            });
+            if (isSourceConnected || isTargetConnected) {
+                if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type === 'commonEnd' || item.type === 'messageEnd'; });
+                } else {
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonEnd' && item.type !== 'messageEnd'; });
+                    if (isTargetConnected) {
+                        elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonStart'; });
+                    }
+                }
+            }
         }
         setElementItems(elementTypeItems, elem);
     }
 
     /**
+     * element 정보를 조회하여 리턴한다.
+     *
+     * @param elem element
+     * @return {*}
+     */
+    function getElementData(elem) {
+        const elementId = elem.node().id,
+              elements = AliceProcessEditor.data.elements;
+        return elements.filter(function(e) { return e.id === elementId; })[0];
+    }
+
+    /**
+     * reset element position.
+     */
+    function resetElementPosition() {
+        const containerTransform = d3.zoomTransform(d3.select('g.element-container').node());
+        console.debug('container transform : x(%s), y(%s)', containerTransform.x, containerTransform.y);
+        if (containerTransform.x !== 0 || containerTransform.y !== 0) {
+            AliceProcessEditor.data.elements.forEach(function(elem) {
+                const nodeElement = d3.select(document.getElementById(elem.id));
+                if (elem.type !== 'arrowConnector') {
+                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
+                    elem.display['position-x'] = bbox.cx + containerTransform.x;
+                    elem.display['position-y'] = bbox.cy + containerTransform.y;
+                } else {
+                    const linkData = nodeElement.node().__data__;
+                    if (typeof linkData.midPoint !== 'undefined') {
+                        elem.display['mid-point'] =
+                            [linkData.midPoint[0] + containerTransform.x, linkData.midPoint[1] + containerTransform.y];
+                    }
+                    if (typeof linkData.sourcePoint !== 'undefined') {
+                        elem.display['source-point'] =
+                            [linkData.sourcePoint[0] + containerTransform.x, linkData.sourcePoint[1] + containerTransform.y];
+                    }
+                    if (typeof linkData.targetPoint !== 'undefined') {
+                        elem.display['target-point'] =
+                            [linkData.targetPoint[0] + containerTransform.x, linkData.targetPoint[1] + containerTransform.y];
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * element 를 저장 데이터 및 화면에서 제거한다.
+     *
+     * @param elem 대상 element
+     */
+    function deleteElement(elem) {
+        d3.select('g.alice-tooltip').remove();
+        const elementId = elem.node().id,
+              elements = AliceProcessEditor.data.elements;
+
+        const histories = [];
+        elements.forEach(function(e, i) {
+            if (elementId === e.id) {
+                let originElementData = JSON.parse(JSON.stringify(e));
+                elements.splice(i, 1);
+                histories.push({0: originElementData, 1: {}});
+            }
+        });
+
+        let links = AliceProcessEditor.elements.links;
+        if (!elem.classed('connector')) {
+            // delete the connector connected to the target element.
+            for (let i = elements.length - 1; i >= 0; i--) {
+                if (elements[i].type === 'arrowConnector') {
+                    if (elements[i].data['start-id'] === elementId || elements[i].data['end-id'] === elementId) {
+                        for (let j = 0, len = links.length; j < len; j++) {
+                            if (elements[i].id === links[j].id) {
+                                links.splice(j, 1);
+                                AliceProcessEditor.setConnectors(true);
+                                break;
+                            }
+                        }
+                        let originElementData = JSON.parse(JSON.stringify(elements[i]));
+                        elements.splice(i, 1);
+                        histories.push({0: originElementData, 1: {}});
+                    }
+                }
+            }
+            // delete node.
+            d3.select(elem.node().parentNode).remove();
+        } else {
+            // delete connector.
+            for (let i = 0, len = links.length; i < len; i++) {
+                if (links[i].id === elementId) {
+                    links.splice(i, 1);
+                    AliceProcessEditor.setConnectors(true);
+                    break;
+                }
+            }
+        }
+        AliceProcessEditor.history.saveHistory(histories);
+        AliceProcessEditor.setElementMenu();
+    }
+
+    /**
+     * element 를 복사하고 데이터에 추가한다.
+     *
+     * @param elem 복제 대상 element
+     */
+    function copyElement(elem) {
+        d3.select('g.alice-tooltip').remove();
+        const targetElementData = getElementData(elem);
+        let elemData = JSON.parse(JSON.stringify(targetElementData));
+        elemData.display['position-x'] = elemData.display['position-x'] + 10;
+        elemData.display['position-y'] = elemData.display['position-y'] + 10;
+        let node = AliceProcessEditor.addElement(elemData);
+        if (node) {
+            elemData.id = node.nodeElement.attr('id');
+            AliceProcessEditor.data.elements.push(elemData);
+
+            AliceProcessEditor.removeElementSelected();
+            AliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+        }
+    }
+
+    /**
+     * suggest element 를 connector 와 함께 추가한다.
+     *
+     * @param elem source element
+     * @param type 추가할 element 타입
+     */
+    function suggestElement(elem, type) {
+        d3.select('g.alice-tooltip').remove();
+
+        const targetElementData = getElementData(elem);
+        const targetBbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem);
+        const elemData = {};
+        elemData.type = type;
+        elemData.display = {
+            'position-x': targetBbox.cx + (targetBbox.width / 2) + 120,
+            'position-y': targetElementData.display['position-y']
+        };
+        let category = getElementCategory(type);
+        elemData.data = getAttributeData(category, type);
+
+        let node = AliceProcessEditor.addElement(elemData);
+        if (node) {
+            elemData.id = node.nodeElement.attr('id');
+            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
+            elemData.display.width = bbox.width;
+            elemData.display.height = bbox.height;
+            AliceProcessEditor.data.elements.push(elemData);
+
+            AliceProcessEditor.removeElementSelected();
+
+            const connectorElementId = workflowUtil.generateUUID();
+            AliceProcessEditor.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N'});
+            AliceProcessEditor.setConnectors();
+
+            const connectorElementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
+            AliceProcessEditor.history.saveHistory([
+                {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
+                {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
+            ]);
+        }
+    }
+
+    /**
      * show elements type tooltip.
      *
-     * @param items tooltip에 표시할 항목목록
+     * @param items tooltip 에 표시할 항목목록
      * @param elem 선택된 element
      */
     function setElementItems(items, elem) {
-        removeElementItems();
-
+        d3.selectAll('.element-tooltip-item').remove();
+        d3.selectAll('.element-tooltip').remove();
         if (items.length === 0) {
             return;
         }
@@ -387,18 +711,10 @@
             .attr('width', itemSize)
             .attr('height', itemSize)
             .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
-            .on('mousedown', function(d, i) {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
-                d.action(elem, d, i);
+                d.action(elem);
             });
-    }
-
-    /**
-     * remove element tooltip items.
-     */
-    function removeElementItems() {
-        d3.selectAll('.element-tooltip-item').remove();
-        d3.selectAll('.element-tooltip').remove();
     }
 
     /**
@@ -408,46 +724,246 @@
      */
     function setProperties(elem) {
         if (typeof elem !== 'undefined') { // show element properties
-            const elemId = elem.node().id;
+            const elementId = elem.node().id;
             const elements = AliceProcessEditor.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let property = elements.filter(function(attr) { return attr.id === elemId; })[0];
+                    let property = elements.filter(function(attr) { return attr.id === elementId; })[0];
                     let properties = elementsProperties[elementsKeys[i]];
-                    let attributes = properties.filter(function(p){ return p.type === property.type; });
+                    let attributes = properties.filter(function(p) { return p.type === property.type; });
                     if (attributes.length > 0) {
-                        makePropertiesItem(elemId, attributes[0].attribute, property.data);
+                        makePropertiesItem(elementId, attributes[0], property.data);
                     }
                     break;
                 }
             }
         } else { // show process properties
-            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties.attribute, AliceProcessEditor.data.process);
+            if (!AliceProcessEditor.data.process) { return; }
+            makePropertiesItem(AliceProcessEditor.data.process.id, processProperties, AliceProcessEditor.data.process);
         }
     }
 
     /**
-     * 변경된 element 속성 값을 저장한다.
+     * 변경된 element display 속성 값을 저장한다.
      *
      * @param id element ID
      */
-    function changePropertiesValue(id) {
+    function changeDisplayValue(id) {
+        let elementData = AliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
+        if (elementData.length) {
+            const originElementData = JSON.parse(JSON.stringify(elementData[0])),
+                  nodeElement = d3.select(document.getElementById(id));
+            if (nodeElement.classed('connector')) {
+                const linkData = nodeElement.node().__data__;
+                elementData[0].display = {};
+                if (typeof linkData.midPoint !== 'undefined') {
+                    elementData[0].display['mid-point'] = linkData.midPoint;
+                }
+                if (typeof linkData.sourcePoint !== 'undefined') {
+                    elementData[0].display['source-point'] = linkData.sourcePoint;
+                }
+                if (typeof linkData.targetPoint !== 'undefined') {
+                    elementData[0].display['target-point'] = linkData.targetPoint;
+                }
+            } else {
+                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
+                elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
+            }
+            AliceProcessEditor.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+        }
+    }
+
+    /**
+     * 변경된 element data 속성 값을 저장한다.
+     *
+     * @param id process ID or element ID
+     */
+    function changePropertiesDataValue(id) {
         const container = document.querySelector('.alice-process-properties-panel');
         const propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === AliceProcessEditor.data.process.id) {
+            const originProcessData = JSON.parse(JSON.stringify(AliceProcessEditor.data.process));
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
                 let propertyObject = propertyObjects[i];
                 AliceProcessEditor.data.process[propertyObject.name] = propertyObject.value;
             }
+            AliceProcessEditor.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(AliceProcessEditor.data.process))}]);
         } else {
             let elementData = AliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
-            for (let i = 0, len = propertyObjects.length; elementData.length > 0 && i < len; i++) {
-                let propertyObject = propertyObjects[i];
-                let propertyValue = propertyObject.value;
-                if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
-                    propertyValue = propertyObject.checked ? 'Y' : 'N';
+            if (elementData.length) {
+                const originElementData = JSON.parse(JSON.stringify(elementData[0]));
+                elementData[0].data = {};
+                for (let i = 0, len = propertyObjects.length; i < len; i++) {
+                    let propertyObject = propertyObjects[i];
+                    if (!propertyObject.name) { continue; }
+                    let propertyValue = propertyObject.value;
+                    if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
+                        propertyValue = propertyObject.checked ? 'Y' : 'N';
+                        if (propertyObject.id === 'is-default') {
+                            let conditionAttrObject = container.querySelector('input[name=condition]');
+                            if (conditionAttrObject && propertyObject.checked) {
+                                conditionAttrObject.value = '';
+                            }
+                        }
+                    }
+                    elementData[0].data[propertyObject.name] = propertyValue;
                 }
-                elementData[0].data[propertyObject.name] = propertyValue;
+
+                const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
+                AliceProcessEditor.history.saveHistory([{0: originElementData, 1: changeElementData}]);
+
+                if (originElementData.data.name !== changeElementData.data.name) {
+                    let connectors = AliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+                    for (let i = 0, len = connectors.length; i < len; i++) {
+                        if (connectors[i].data['start-id'] === id) {
+                            connectors[i].data['start-name'] = elementData[0].data.name;
+                        }
+                        if (connectors[i].data['end-id'] === id) {
+                            connectors[i].data['end-name'] = elementData[0].data.name;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Assignee Type 에 따라 속성 항목을 변경한다.
+     *
+     * @param assigneeTypeObject Assignee Type object
+     * @param value assignee value
+     */
+    function changePropertyAssigneeType(assigneeTypeObject, value) {
+        let assigneeObject = document.getElementById('assignee');
+        if (assigneeObject.parentNode.querySelector('select') !== null) {
+            assigneeObject.parentNode.querySelector('select').remove();
+            assigneeObject.parentNode.querySelector('button').remove();
+            assigneeObject.parentNode.querySelector('table').remove();
+        }
+        assigneeObject.value = '';
+
+        if (assigneeTypeObject.value === 'assignee.type.assignee') {
+            assigneeObject.style.display = 'inline-block';
+            if (typeof value !== 'undefined') {
+                assigneeObject.value = value;
+            }
+        } else {
+            let dataList = assigneeTypeData.users;
+            let dataKeys = {value: 'userKey', text: 'userName'};
+            if (assigneeTypeObject.value === 'assignee.type.candidate.groups') {
+                dataList = assigneeTypeData.groups;
+                dataKeys = {value: 'roleId', text: 'roleName'};
+            }
+            setMultipleDatatable(assigneeObject, dataList, dataKeys, value);
+        }
+    }
+
+    /**
+     * 다중 선택 속성 테이블을 생성한다.
+     *
+     * @param inputObject 값을 넣는 input object(선택된 데이터가 콤마 구분으로 등록된다.)
+     * @param dataList 선택 목록
+     * @param dataKeys dropdown 의 value/text 키 값. 예시: { value: 'id', text: 'name' }
+     * @param value 선택된 값이 있을 경우 그 값을 전달한다.
+     */
+    function setMultipleDatatable(inputObject, dataList, dataKeys, value) {
+        inputObject.style.display = 'none';
+        let dataSelect = document.createElement('select');
+        dataSelect.className = 'candidate';
+        for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
+            let option = document.createElement('option');
+            let optionData = dataList[i];
+            option.value = optionData[dataKeys.value];
+            option.text = optionData[dataKeys.text];
+            dataSelect.appendChild(option);
+        }
+        inputObject.parentNode.insertBefore(dataSelect, inputObject.nextSibling);
+
+        let btnAdd = document.createElement('button');
+        btnAdd.innerText = 'ADD';
+
+        const saveData = function() {
+            let dataTable = inputObject.parentNode.querySelector('table');
+            let rows = dataTable.querySelectorAll('tr');
+            let assigneeValue = '';
+            let rowLength = rows.length;
+            if (rowLength > 1) {
+                for (let i = 1; i < rowLength; i++) {
+                    if (i !== 1) { assigneeValue += ','; }
+                    assigneeValue += rows[i].querySelector('input').value;
+                }
+            }
+            inputObject.value = assigneeValue;
+
+            const evt = document.createEvent('HTMLEvents');
+            evt.initEvent('change', false, true);
+            inputObject.dispatchEvent(evt);
+        };
+
+        const addDataRow = function(dataVal, dataText) {
+            let dataTable = inputObject.parentNode.querySelector('table');
+            let row = document.createElement('tr');
+            let nameColumn = document.createElement('td');
+            nameColumn.textContent = dataText;
+            let hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.value = dataVal;
+            nameColumn.appendChild(hiddenInput);
+            row.appendChild(nameColumn);
+            let btnColumn = document.createElement('td');
+            let btnDel = document.createElement('span');
+            btnDel.className = 'remove';
+            btnDel.addEventListener('click', function() {
+                this.parentNode.parentNode.remove();
+                saveData();
+            });
+            btnColumn.appendChild(btnDel);
+            row.appendChild(btnColumn);
+            dataTable.appendChild(row);
+
+            saveData();
+        };
+
+        btnAdd.addEventListener('click', function() {
+            let dataSelect = this.parentNode.querySelector('select'),
+                dataTable = inputObject.parentNode.querySelector('table'),
+                rows = dataTable.querySelectorAll('tr');
+
+            let isDuplicate = false,
+                selectedValue = dataSelect.value,
+                rowLength = rows.length;
+            if (rowLength > 1) {
+                for (let i = 1; i < rowLength; i++) {
+                    if (selectedValue === rows[i].querySelector('input').value) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+            }
+            if (!isDuplicate) {
+                addDataRow(dataSelect.value, dataSelect.options[dataSelect.selectedIndex].text);
+            }
+        });
+        inputObject.parentNode.insertBefore(btnAdd, dataSelect.nextSibling);
+        let userTable = document.createElement('table');
+        let headRow = document.createElement('tr');
+        let headNameColumn = document.createElement('th');
+        headNameColumn.textContent = 'Name';
+        headRow.appendChild(headNameColumn);
+        let headBtnColumn = document.createElement('th');
+        headRow.appendChild(headBtnColumn);
+        userTable.appendChild(headRow);
+        inputObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
+
+        if (typeof value !== 'undefined') {
+            const values = value.split(',');
+            for (let i = 0, len = values.length; i < len; i++) {
+                for (let j = 0, dataLen = dataList.length; j < dataLen; j++) {
+                    if (values[i] === dataList[j][dataKeys.value]) {
+                        addDataRow(values[i], dataList[j][dataKeys.text]);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -456,12 +972,18 @@
      * 속성 항목을 생성한다.
      *
      * @param id ID
-     * @param properties 속성정보목록
-     * @param data 데이터속성
+     * @param properties 속성정보
+     * @param elemData 속성데이터
      */
-    function makePropertiesItem(id, propertiesDivision, data) {
+    function makePropertiesItem(id, properties, elemData) {
         const propertiesContainer = document.querySelector('.alice-process-properties-panel');
         propertiesContainer.innerHTML = '';
+        const propertiesDivision = properties.attribute;
+        if (id !== AliceProcessEditor.data.process.id) {
+            let elementName = document.createElement('h2');
+            elementName.textContent = properties.name;
+            propertiesContainer.appendChild(elementName);
+        }
 
         for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
             let title = document.createElement('h3');
@@ -470,9 +992,9 @@
             let divideLine = document.createElement('hr');
             propertiesContainer.appendChild(divideLine);
 
-            const properties = propertiesDivision[idx].items;
-            for (let i = 0, attrLen = properties.length; i < attrLen; i++) {
-                const property = properties[i];
+            const items = propertiesDivision[idx].items;
+            for (let i = 0, attrLen = items.length; i < attrLen; i++) {
+                const property = items[i];
                 let propertyContainer = document.createElement('p');
                 let labelObject = document.createElement('label');
                 labelObject.htmlFor =  property.id;
@@ -480,49 +1002,133 @@
                 propertyContainer.appendChild(labelObject);
 
                 let elementObject;
-                if (property.type === 'inputbox') {
-                    elementObject = document.createElement('input');
-                } else if (property.type === 'textarea') {
-                    elementObject = document.createElement('textarea');
-                    elementObject.style.resize = 'none';
-                } else if (property.type === 'checkbox') {
-                    elementObject = document.createElement('input');
-                    elementObject.type = 'checkbox';
-                    if (data[property.id] && data[property.id] === 'Y') {
-                        elementObject.checked = true;
-                    }
-                } else if (property.type === 'select') {
-                    elementObject = document.createElement('select');
-                    const optionList = property['sub-list'];
-                    for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
-                        let option = document.createElement('option');
-                        option.value = optionList[j].id;
-                        option.text = optionList[j].name;
-                        elementObject.appendChild(option);
-                    }
+                switch (property.type) {
+                    case 'inputbox':
+                        elementObject = document.createElement('input');
+                        if (properties.type === 'arrowConnector' && property.id === 'condition' && elemData['is-default'] === 'Y') {
+                            elementObject.disabled = true;
+                        }
+                        break;
+                    case 'inputbox-readonly':
+                        elementObject = document.createElement('input');
+                        elementObject.readOnly = true;
+                        break;
+                    case 'textarea':
+                        elementObject = document.createElement('textarea');
+                        elementObject.style.resize = 'none';
+                        break;
+                    case 'checkbox':
+                        elementObject = document.createElement('input');
+                        elementObject.type = 'checkbox';
+                        if (elemData[property.id] && elemData[property.id] === 'Y') {
+                            elementObject.checked = true;
+                        }
+                        break;
+                    case 'select':
+                        elementObject = document.createElement('select');
+                        let optionList = property['sub-list'];
+                        if (property.id === 'sub-process-id') {
+                            optionList = optionList.concat(publishProcesses);
+                        }
+                        for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
+                            let option = document.createElement('option');
+                            option.value = optionList[j].id;
+                            option.text = optionList[j].name;
+                            elementObject.appendChild(option);
+                        }
+                        if (property.id === 'assignee-type') {
+                            elementObject.addEventListener('change', function() {
+                                changePropertyAssigneeType(this);
+                            });
+                        }
                 }
+
                 if (elementObject) {
+                    propertiesContainer.appendChild(propertyContainer);
+                    propertyContainer.appendChild(elementObject);
                     elementObject.id = property.id;
                     elementObject.name = property.id;
-                    if (data[property.id] && property.type !== 'checkbox') {
-                        elementObject.value = data[property.id];
+                    if (elemData[property.id] && property.type !== 'checkbox') {
+                        elementObject.value = elemData[property.id];
+                    } else if (property.id === 'id') {
+                        elementObject.value = id;
                     }
-                    if (id === AliceProcessEditor.data.process.id && property.id === 'name') {
-                        elementObject.addEventListener('keyup', function(event) {
-                            document.querySelector('.process-name').textContent = this.value;
+
+                    switch (property.id) {
+                        case 'name':
+                            let keyupHandler = function() {
+                                AliceProcessEditor.changeTextToElement(id, this.value);
+                            };
+                            if (id === AliceProcessEditor.data.process.id) {
+                                keyupHandler = function() {
+                                    document.querySelector('.process-name').textContent = this.value;
+                                };
+                            }
+                            elementObject.addEventListener('keyup', keyupHandler);
+                            break;
+                        case 'reject-id':
+                            const addRejectClass = function(e) {
+                                e.stopPropagation();
+                                const elementData = AliceProcessEditor.data.elements.filter(function(elem) { return elem.id === e.target.value; });
+                                if (elementData.length) {
+                                    d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
+                                } else {
+                                    d3.selectAll('.node').classed('reject-element', false);
+                                }
+                            };
+                            elementObject.addEventListener('keyup', addRejectClass);
+                            elementObject.addEventListener('focus', addRejectClass);
+                            elementObject.addEventListener('focusout', function() {
+                                d3.selectAll('.node').classed('reject-element', false);
+                            });
+                            break;
+                        case 'target-process-list':
+                            setMultipleDatatable(elementObject, publishProcesses, {value: 'id', text: 'name'}, elemData[property.id]);
+                            break;
+                    }
+
+                    if (property.id !== 'id') {
+                        elementObject.addEventListener('change', function() {
+                            changePropertiesDataValue(id);
+                            if (property.id === 'is-default') {
+                                let conditionAttrObject = propertiesContainer.querySelector('input[name=condition]');
+                                if (conditionAttrObject) {
+                                    conditionAttrObject.disabled = this.checked;
+                                    d3.select(document.getElementById(id)).classed('is-default', this.checked);
+                                    let sourceId;
+                                    AliceProcessEditor.elements.links.forEach(function(l) {
+                                        if (l.id === id) {
+                                            l.isDefault = conditionAttrObject.disabled ? 'Y' : 'N';
+                                            sourceId = l.sourceId;
+                                        }
+                                    });
+                                    AliceProcessEditor.elements.links.forEach(function(l) {
+                                        if (l.sourceId === sourceId && l.id !== id && l.isDefault === 'Y') {
+                                            d3.select(document.getElementById(l.id)).classed('is-default', false);
+                                            l.isDefault = 'N';
+                                            AliceProcessEditor.data.elements.forEach(function(e) {
+                                                if (e.id === l.id) {
+                                                    e.data['is-default'] = 'N';
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
                         });
                     }
-                    elementObject.addEventListener('change', function(event) {
-                        changePropertiesValue(id);
-                    });
-                    propertyContainer.appendChild(elementObject);
                 }
-                propertiesContainer.appendChild(propertyContainer);
             }
+        }
+
+        let assigneeTypeObject = document.getElementById('assignee-type');
+        if (assigneeTypeObject !== null) {
+            changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
         }
     }
 
     /**
+     *
      * 선택된 element 의 속성 및 tooltip 메뉴를 표시한다.
      *
      * @param elem 선택된 element
@@ -533,7 +1139,7 @@
     }
 
     /**
-     * tooltip item 에 사용된 이미지 로딩.
+     * tooltip item 에 사용된 이미지 및 속성 데이터 로딩.
      *
      * @param processId 프로세스 ID
      */
@@ -545,10 +1151,9 @@
             aliceJs.sendXhr({
                 method: 'GET',
                 url: '/rest/processes/data/' + processId,
-                callbackFunc: function (xhr) {
-                    const data = xhr.responseText;
-                    console.debug(JSON.parse(data));
-                    AliceProcessEditor.data = JSON.parse(data);
+                callbackFunc: function(xhr) {
+                    console.debug(JSON.parse(xhr.responseText));
+                    AliceProcessEditor.data = JSON.parse(xhr.responseText);
                     document.querySelector('.process-name').textContent = AliceProcessEditor.data.process.name;
                     const elements = AliceProcessEditor.data.elements;
                     setElementMenu();
@@ -564,7 +1169,7 @@
             aliceJs.sendXhr({
                 method: 'GET',
                 url: '/assets/js/process/elementAttribute.json',
-                callbackFunc: function (xhr) {
+                callbackFunc: function(xhr) {
                     elementsProperties = JSON.parse(xhr.responseText);
                     elementsKeys = Object.getOwnPropertyNames(elementsProperties);
                     loadProcessData();
@@ -576,20 +1181,53 @@
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/process/processAttribute.json',
-            callbackFunc: function (xhr) {
+            callbackFunc: function(xhr) {
                 processProperties = JSON.parse(xhr.responseText);
                 loadElementData();
             },
             contentType: 'application/json; charset=utf-8'
         });
 
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/users',
+            callbackFunc: function(xhr) {
+                assigneeTypeData.users = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/roles',
+            callbackFunc: function(xhr) {
+                assigneeTypeData.groups = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/processes?status=process.status.publish',
+            callbackFunc: function(xhr) {
+                publishProcesses = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
         // add pattern image. for tooltip item image.
         const imageLoadingList = [];
-        tooltipItems.forEach(function(item){
+        tooltipItems.forEach(function(item) {
             let data = {};
             data.id = item.parent + '-' + item.type;
             data.url = item.url;
             imageLoadingList.push(data);
+            if (item.element_url) {
+                let elemData = {};
+                elemData.id = item.parent + '-' + item.type + '-element';
+                elemData.url = item.element_url;
+                imageLoadingList.push(elemData);
+            }
             if (item.focus_url) {
                 let focusData = {};
                 focusData.id = item.parent + '-' + item.type + '-focus';
@@ -598,7 +1236,7 @@
             }
         });
 
-        const defs = d3.select('svg').append('defs');
+        const defs = d3.select('svg').select('defs');
         defs.selectAll('pattern').data(imageLoadingList)
             .enter()
             .append('pattern')
@@ -609,8 +1247,6 @@
             .append('image')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('width', 20)
-            .attr('height', 20)
             .attr('xlink:href', function(d) { return d.url; });
     }
 
@@ -620,5 +1256,9 @@
     exports.setElementMenu = setElementMenu;
     exports.setActionTooltipItem = setActionTooltipItem;
     exports.getElementCategory = getElementCategory;
+    exports.getElementDefaultType = getElementDefaultType;
+    exports.changeDisplayValue = changeDisplayValue;
+    exports.changeElementType = changeElementType;
+    exports.resetElementPosition = resetElementPosition;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

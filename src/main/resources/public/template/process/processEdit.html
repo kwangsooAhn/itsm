@@ -82,9 +82,18 @@
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(response) {
-                let responseObj = JSON.parse(response.responseText)
+                opener.location.reload();
                 window.close();
-                window.open('/processes/' + responseObj.processId + '/edit', '_blank', 'width=1500, height=800')
+
+                const _width = 1800,
+                      _height = 920;
+                //중앙 배치
+                const _left = Math.ceil((window.screen.width - _width) / 2);
+                const _top = Math.ceil((window.screen.height - _height) / 4);
+
+                let specs = 'left=' + _left + ',top=' + _top;
+                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                window.open('/processes/' + response.responseText + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
             }
         };
         aliceJs.sendXhr(opt);

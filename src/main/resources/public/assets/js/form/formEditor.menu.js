@@ -3,6 +3,7 @@
 *
 * @author woodajung
 * @version 1.0
+* @sdoc js/form/formEditor.js
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -23,7 +24,6 @@
 
     /**
      * context menu on
-     * 
      * @param {Object} state {1=control 메뉴 on, 2=component 메뉴 on}
      */
     function menuOn(state) {
@@ -72,8 +72,7 @@
     }
 
     /**
-     * 검색어와 일치하는 component 메뉴 on.
-     * 
+     * 검색어와 일치하는 component 메뉴 on
      * @param {String} searchText 검색어
      * @return {Boolean} 검색어와 일치하는 component 메뉴가 존재하면 true 아니면 false
      */
@@ -118,9 +117,8 @@
     }
 
     /**
-     * 특정 클래스 이름을 가진 요소 내부를 클릭했는지 확인.
-     * 
-     * @param {Object} e 이벤트
+     * 특정 클래스 이름을 가진 요소 내부를 클릭했는지 확인
+     * @param {Object} e 이벤트객체
      * @param {String} className 클래스명
      * @return {Object} 존재하면 객제 반환
      */
@@ -139,8 +137,7 @@
     }
 
     /**
-     * 마우스, 키보드 클릭 위치.
-     * 
+     * 마우스, 키보드 클릭 위치
      * @param {Object} e 이벤트
      * @return {Object} 마우스, 키보드 클릭 좌표
      */
@@ -184,8 +181,7 @@
     }
 
     /**
-     * 컨텍스트 메뉴 위치 재조정.
-     * 
+     * 컨텍스트 메뉴 위치 재조정
      * @param {Object} e 이벤트
      */
     function setPositionMenu(e) {
@@ -237,17 +233,16 @@
             }
         }
     }
-        
+    
     /**
-     * 이벤트 핸들러
-     * 
-     * @param {Object} e 이벤트
+     * keydown 이벤트 핸들러
+     * @param {Object} e 이벤트객체
      */
     function onKeyDownHandler(e) {
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
-        if (userKeyCode === keycode.ctrl) { isCtrlPressed = true;}
+        isCtrlPressed = userKeyCode === keycode.ctrl;
 
-        if (flag === 1 && selectedItem) {
+        if (flag === 1 && selectedItem) { //컨텍스트 메뉴를 오픈한체 키보드 ↑, ↓, enter 클릭시 동작
             let len = searchItems.length - 1;
 
             switch (userKeyCode) {
@@ -287,10 +282,14 @@
         }
     }
     
+    /**
+     * keypress 이벤트 핸들러
+     * @param {Object} e 이벤트객체
+     */
     function onKeyPressHandler(e) {
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
 
-        if (userKeyCode === keycode.enter) {
+        if (userKeyCode === keycode.enter) {//editbox 에서 enter키를 입력하면 editbox를 아래 추가한다.
             if (flag === 0) {
                 e.preventDefault();
 
@@ -304,15 +303,20 @@
         }
     }
     
+    /**
+     * keyup 이벤트 핸들러
+     * @param {Object} e 이벤트객체
+     */
     function onKeyUpHandler(e) {
+        if (clickInsideElement(e, 'alice-form-properties-panel')) { return false; }
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
 
-        if (isCtrlPressed && flag === 1 && itemInContext) { 
+        if (isCtrlPressed && flag === 1 && itemInContext) {
             menuOff();
             itemInContext = null;
         }
         isCtrlPressed = false;
-        
+
         if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return false; }
         if (selectedItem && userKeyCode === keycode.enter) {
             searchItems = [];
@@ -320,9 +324,10 @@
             selectedItemIdx = 0;
             return false;
         }
+
         itemInContext = clickInsideElement(e, 'component');
 
-        if (itemInContext) {
+        if (itemInContext) { //editbox에 컴포넌트명을 입력하면 컨텍스트 메뉴 출력
             let box = itemInContext.querySelector('[contenteditable=true]');
             if (box) {
                 let text = box.textContent;
@@ -338,6 +343,10 @@
         }
     }
     
+    /**
+     * 마우스 우클릭 이벤트 핸들러
+     * @param {Object} e 이벤트객체
+     */
     function onRightClickHandler(e) {
         if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) { return false; }
 
@@ -362,12 +371,16 @@
         }
     }
     
+    /**
+     * 마우스 좌클릭 이벤트 핸들러
+     * @param {Object} e 이벤트객체
+     */
     function onLeftClickHandler(e) {
         if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) { return false; }
 
         let clickedElem = clickInsideElement(e, 'context-item-link');
 
-        if (clickedElem) { //contex 메뉴 클릭
+        if (clickedElem) { //contex 메뉴오픈
             e.preventDefault();
             menuItemListener(clickedElem);
         } else {
@@ -380,7 +393,9 @@
                 flag = 1;
                 menuOff();
                 
-                if (e.target.classList.contains('alice-form-panel')) { formEditor.showFormProperties(); }
+                if (e.target.classList.contains('alice-form-panel') || e.target.classList.contains('drawing-board')) { 
+                    formEditor.showFormProperties();
+                }
                 itemInContext = null;
             }
             let button = e.button ? e.button : e.which;
@@ -407,12 +422,20 @@
         }
     }
     
+    /**
+     * 마우스 down 이벤트 핸들러
+     * @param {Object} e 이벤트객체
+     */
     function onMouseDownHandler(e) {
         if (e.target.classList.contains('move-icon')) {
             e.target.parentNode.setAttribute('draggable', 'true');
         }
     }
-
+    
+    /**
+     * drag 이벤트 핸들러
+     * @param {Object} e 이벤트객체
+     */
     function onDragStartHandler(e) {
         dragComponent = e.target;
         if (dragComponent) {
@@ -460,7 +483,7 @@
             if (targetComponent !== lastComponent && Number(targetComponent.getAttribute('data-index')) === (dragIdx + 1)) { return false; }
             
             let targetIdx = Number(targetComponent.getAttribute('data-index'));
-            let lastCompIndex = component.getLastIndex();
+            let lastCompIdx = component.getLastIndex();
             let dragComponentHTML = e.dataTransfer.getData('text/html');
             targetComponent.parentNode.removeChild(dragComponent);
             targetComponent.insertAdjacentHTML('beforebegin', dragComponentHTML);
@@ -471,21 +494,8 @@
             
             dragComponent.parentNode.removeChild(lastComponent);
             lastComponent = null;
-            //데이터 display 순서 재정렬
-            for (let i = dragComponent.parentNode.children.length - 1; i >= sortIdx; i--) {
-                let childNode = dragComponent.parentNode.children[i];
-                childNode.setAttribute('data-index', lastCompIndex);
-                childNode.setAttribute('tabIndex', lastCompIndex);
-                
-                for (let j = 0, len = formEditor.data.components.length; j < len; j++) {
-                    let comp = formEditor.data.components[j];
-                    if (comp.id === childNode.id) { 
-                        comp.display.order = lastCompIndex;
-                        break;
-                    }
-                }
-                lastCompIndex--;
-            }
+            //재정렬
+            formEditor.reorderComponent(dragComponent, sortIdx, lastCompIdx);
             componentDragOff();
         }
     }
@@ -506,17 +516,21 @@
         }
         dragComponent = null;
     }
+    
     /**
      * context menu item 클릭시 이벤트 호출
-     * 
      * @param {HTMLElement} elem 컨텍스트 메뉴의 item 중 선택된 elem 객체
      */
     function menuItemListener(elem) {
         let clickedComponent = itemInContext;
+        formEditor.hideComponentProperties();
+        
         switch (elem.getAttribute('data-action')) {
-            case 'copy':
+            case 'copy': //컴포넌트 복사
+                formEditor.copyComponent(clickedComponent.id);
                 break;
-            case 'delete':
+            case 'delete': //컴포넌트 삭제
+                formEditor.deleteComponent(clickedComponent.id);
                 break;
             case 'addEditboxUp': //위에 editbox 컴포넌트 추가
                 formEditor.addEditboxUp(clickedComponent.id);
@@ -528,7 +542,6 @@
                 formEditor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
         }
         menuOff();
-        formEditor.hideComponentProperties();
         itemInContext = null;
     }
 

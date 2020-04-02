@@ -97,11 +97,7 @@
             3. 사용자의 이메일 ID를 포함하지 않는다.
                예) 이메일 ID가 ITSM인 경우, ITS는 포함 가능, ITSM은 포함 불가
 
-            4. 사용자의 핸드폰 번호를 포함하지 않는다.
-               예) 핸드폰 번호가 010-1234-5678인 경우, 123 포함 가능, 1234 포함 불가, 567 포함 가능, 5678 포함 불가
-                   핸드폰 번호가 010-123-4567인 경우, 12 포함 가능,123 포함 불가, 456 포함 가능, 4567 포함 불가
-
-            5. 공백을 허용하지 않는다.
+            4. 공백을 허용하지 않는다.
         </pre>
     </div>
 </th:block>
@@ -235,21 +231,23 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            alert('수정되었습니다.');
-                            window.location.reload();
+                            aliceJs.alert([[#{common.msg.update}]], function() {
+                                window.location.reload();
+                            });
                             break;
                         case STATUS_SUCCESS_EDIT_EMAIL:
-                            alert('이메일 정보를 포함한 회원 정보가 수정되었습니다.');
-                            window.location.reload();
+                            aliceJs.alert([[#{user.msg.emailWithUpdate}]], function() {
+                                window.location.reload();
+                            });
                             break;
                         case STATUS_ERROR_USER_ID_DUPLICATION:
-                            alert('동일한 아이디가 존재합니다.');
+                            aliceJs.alert([[#{user.msg.sameUserId}]]);
                             break;
                         case STATUS_ERROR_EMAIL_DUPLICATION:
-                            alert('이미 사용중인 이메일입니다.');
+                            aliceJs.alert([[#{user.msg.sameEmail}]]);
                             break;
                         default :
-                            alert('수정이 실패되었습니다.');
+                            aliceJs.alert([[#{common.msg.update.fail}]]);
                             break;
                     }
                 }

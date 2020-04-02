@@ -2,7 +2,7 @@ package co.brainz.framework.interceptor
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.encryption.CryptoRsa
+import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceUtil
@@ -19,16 +19,14 @@ import javax.servlet.http.HttpServletResponse
  * 인터셉터 구현 클래스
  */
 @Component
-class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdapter() {
+class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInterceptorAdapter() {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Throws(Exception::class)
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        
         // URL 접근 확인
         urlAccessAuthCheck(request)
-        
         return true
     }
     
@@ -36,13 +34,11 @@ class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdap
      * URL 접근 권한 확인.
      */
     private fun urlAccessAuthCheck(request: HttpServletRequest) {
-        
         val securityContextObject = request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
         val requestUrl = request.requestURI
         val requestMethod = request.method.toLowerCase()
-        logger.debug(">>> Url [{}] {} <<<", requestMethod, requestUrl)
 
-        if (securityContextObject != null && requestUrl != "" && !AliceUtil().urlExcludePatternCheck(requestUrl)) {
+        if (securityContextObject != null && requestUrl != "" && !AliceUtil().urlExcludePatternCheck(request)) {
             val securityContext = securityContextObject as SecurityContext
             val aliceUserDto = securityContext.authentication.details as AliceUserDto
             val regex = "\\{([a-zA-Z]*)}".toRegex()
@@ -64,31 +60,28 @@ class AliceInterceptor(private val cryptoRsa: CryptoRsa): HandlerInterceptorAdap
                         }
                     }
                 }
-                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.detail)
+                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.message + "(URL: ${requestUrl})")
             }
         }
     }
 
     @Throws(Exception::class)
     override fun postHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any, modelAndView: ModelAndView?) {
-
         val useRsa = request.getAttribute(AliceConstants.RsaKey.USE_RSA.value)
         if (useRsa != null) {
             logger.debug(">>> create RSA key <<< {}", request.requestURL)
-            cryptoRsa.resetKeyPair()
+            aliceCryptoRsa.resetKeyPair()
             val session = request.getSession(true)
             session.removeAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value)
-            session.setAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value, cryptoRsa.getPrivateKey())
-            request.setAttribute(AliceConstants.RsaKey.PUBLIC_MODULE.value, cryptoRsa.getPublicKeyModulus())
-            request.setAttribute(AliceConstants.RsaKey.PUBLIC_EXPONENT.value, cryptoRsa.getPublicKeyExponent())
+            session.setAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value, aliceCryptoRsa.getPrivateKey())
+            request.setAttribute(AliceConstants.RsaKey.PUBLIC_MODULE.value, aliceCryptoRsa.getPublicKeyModulus())
+            request.setAttribute(AliceConstants.RsaKey.PUBLIC_EXPONENT.value, aliceCryptoRsa.getPublicKeyExponent())
         }
 
-
-//        if (modelAndView != null) {
-//
-//        }
-
+        var requestInfo = request.method + "|URI:" + request.requestURI
+        if (modelAndView != null) {
+            requestInfo += "|Viewname: " + modelAndView.viewName
+        }
+        logger.debug("Request Info|{}", requestInfo)
     }
-
-
 }

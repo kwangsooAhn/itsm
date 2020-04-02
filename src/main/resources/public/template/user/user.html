@@ -110,7 +110,7 @@
                 method: 'put',
                 params: aliceJs.serialize(document.getElementById('userDetailEditModal')),
                 callbackFunc: function () {
-                    alert([[#{common.msg.save}]]);
+                    aliceJs.alert([[#{common.msg.save}]]);
                 }
             };
             aliceJs.sendXhr(opt);

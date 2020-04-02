@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{token.label.list}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <h1 th:text="#{token.label.list}"></h1>
+        <hr>
+        <div id="tokenList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        window.onload = function() {
+            restSubmit('get', '/tokens/list');
+        };
+
+        //REST API
+        function restSubmit(method, url) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    document.getElementById('tokenList').innerHTML = response.responseText;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        //신청서 작성 화면 오픈.
+        function openTokenEdit(tokenId) {
+            //TODO: 임시 size. 추후 변경 필요.
+            window.open('/tokens/' + tokenId + '/edit', '_blank', 'width=900, height=805');
+        }
+    </script>
+</th:block>
+</body>
+</html>

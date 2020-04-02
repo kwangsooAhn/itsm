@@ -80,6 +80,8 @@
                 object[key] = value;
             });
 
+            delFileCheck();
+
             const fileSeq = [];
             document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(Number(elm.value)));
             object['fileSeq'] = fileSeq;
@@ -90,8 +92,9 @@
                 params: JSON.stringify(object),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    alert("Success");
-                    window.location = "/faqs/search";
+                    aliceJs.alert("Success", function() {
+                        window.location.href = "/faqs/search";
+                    });
                 }
             };
             aliceJs.sendXhr(opt);

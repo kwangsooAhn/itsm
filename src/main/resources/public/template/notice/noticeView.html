@@ -99,7 +99,7 @@
             // 게시물 삭제 처리 시, validation 체크.
             const noticeNo = /*[[${notice.noticeNo}]]*/;
             if (noticeNo === null) {
-                alert('이미 삭제된 게시물 입니다.');
+                aliceJs.alert('이미 삭제된 게시물 입니다.');
                 return history.go(-1);
             }
 
@@ -126,8 +126,9 @@
                 url: url,
                 async: async,
                 callbackFunc: function() {
-                    alert('삭제 처리되었습니다.');
-                    window.location = '/notices/search';
+                    aliceJs.alert('삭제 처리되었습니다.', function() {
+                        window.location.href = '/notices/search';
+                    });
                 }
             };
             aliceJs.sendXhr(opt);

@@ -4,7 +4,8 @@
             "id": "name", 
             "name": "Name", 
             "value": "", 
-            "type": "inputbox"
+            "type": "inputbox",
+            "validate": "maxLength[20]"
         },
         {
             "id": "id", 
@@ -16,7 +17,20 @@
             "id": "desc", 
             "name": "Description", 
             "value": "", 
-            "type": "textarea"
+            "type": "textarea",
+            "validate": "maxLength[200]"
+        },
+        {
+            "id": "status",
+            "name": "Status",
+            "value": "",
+            "type": "select",
+            "option": [ 
+                    {"id": "form.status.edit", "name": "Editing"}, 
+                    {"id": "form.status.simu", "name": "Simulation"}, 
+                    {"id": "form.status.publish", "name": "Publish"},
+                    {"id": "form.status.destroy", "name": "Destroy"}
+            ]
         }
     ]
 }
