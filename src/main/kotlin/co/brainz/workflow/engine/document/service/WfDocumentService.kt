@@ -5,6 +5,7 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class WfDocumentService(
     private val wfFormService: WfFormService,
+    private val wfActionService: WfActionService,
     private val wfDocumentRepository: WfDocumentRepository,
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfProcessRepository: WfProcessRepository,
@@ -83,7 +85,8 @@ class WfDocumentService(
 
         return WfFormComponentViewDto(
                 form = formViewDto,
-                components = components
+                components = components,
+                action = wfActionService.actionInit(documentEntity.process.processId)
         )
     }
 

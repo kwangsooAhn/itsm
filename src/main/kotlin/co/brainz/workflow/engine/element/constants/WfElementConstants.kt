@@ -35,6 +35,7 @@ object WfElementConstants {
         SOURCE_ID("start-id"),
         TARGET_ID("end-id"),
         CONDITION("condition"),
+        CONDITION_ITEM("condition-item"),
         ACTION_NAME("action-name"),
         ACTION_VALUE("action-value"),
         SAVE("save"),
@@ -58,6 +59,8 @@ object WfElementConstants {
      * Action Type.
      */
     enum class Action(val value: String) {
+        REGIST("regist"),
+        CANCEL("cancel"),
         SAVE("save"),
         REJECT("reject"),
         PROCESS("process")
