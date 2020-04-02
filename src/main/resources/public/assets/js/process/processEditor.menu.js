@@ -626,6 +626,7 @@
 
             AliceProcessEditor.removeElementSelected();
             AliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+            AliceProcessEditor.setElementMenu();
         }
     }
 
