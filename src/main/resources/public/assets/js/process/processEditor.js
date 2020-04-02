@@ -145,11 +145,7 @@
             .call(d3.drag()
                 .on('drag', function(d) {
                     svg.selectAll('.alice-tooltip').remove();
-
-                    snapToGrid(d3.event.x);
-
                     d.midPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
-
                     drawConnectors();
                 })
                 .on('end', function(d) {
