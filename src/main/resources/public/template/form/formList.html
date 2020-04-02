@@ -30,27 +30,27 @@
                 <tr th:each="form: ${formList}">
                     <td><a sec:authorize="hasAnyAuthority('form.create', 'form.update')"
                            href="javascript:void(0);"
-                           th:attr="onclick=|openFormDesignerView('${form.formId}')|"
-                           th:text="${form.formName}"></a>
+                           th:attr="onclick=|openFormDesignerView('${form.id}')|"
+                           th:text="${form.name}"></a>
                     </td>
-                    <td th:text="${form.formDesc}"></td>
-                    <td th:text="${form.userName}"></td>
+                    <td th:text="${form.desc}"></td>
+                    <td></td>
                     <td th:if="${form.updateDt == null && form.updateUserKey == null}"
                         th:with="dateformat=${#authentication.details.timeFormat}"
                         th:text="|${#temporals.format(form.createDt,dateformat)} ${form.createUserKey}|"></td>
                     <td th:unless="${form.updateDt == null && form.updateUserKey == null}"
                         th:with="dateformat=${#authentication.details.timeFormat}"
                         th:text="|${#temporals.format(form.updateDt,dateformat)} ${form.updateUserKey}|"></td>
-                    <td th:text="#{${form.formStatus}}"></td>
+                    <td th:text="#{${form.status}}"></td>
                     <td>
                         <button sec:authorize="hasAuthority('form.update')"
-                            th:text="#{common.btn.modify}" th:disabled="${!form.formEnabled}"
-                            th:attr="onclick=|openFormDesignerEdit('${form.formId}')|"></button>
+                            th:text="#{common.btn.modify}" th:disabled="${!form.editable}"
+                            th:attr="onclick=|openFormDesignerEdit('${form.id}')|"></button>
                     </td>
                     <td>
                         <button sec:authorize="hasAuthority('form.delete')"
-                                th:text="#{common.btn.delete}" th:disabled="${!form.formEnabled}"
-                                th:attr="onclick=|deleteForm('${form.formId}')|"></button>
+                                th:text="#{common.btn.delete}" th:disabled="${!form.editable}"
+                                th:attr="onclick=|deleteForm('${form.id}')|"></button>
                     </td>
                 </tr>
             </tbody>

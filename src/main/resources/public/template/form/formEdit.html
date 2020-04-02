@@ -60,8 +60,8 @@
         //빈 값 체크
         if (emptyValidation()) {
             const formInfo = {
-                formName: document.getElementById('form_name').value,
-                formDesc: document.getElementById('form_desc').value
+                name: document.getElementById('form_name').value,
+                desc: document.getElementById('form_desc').value
             };
             //등록
             restSubmit('POST', '/rest/forms', formInfo);

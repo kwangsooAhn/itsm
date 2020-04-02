@@ -1,7 +1,7 @@
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormService
-import co.brainz.itsm.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
