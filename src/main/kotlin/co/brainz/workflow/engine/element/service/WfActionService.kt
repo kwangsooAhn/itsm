@@ -29,7 +29,9 @@ class WfActionService(private val wfElementService: WfElementService,
      */
     fun actionInit(processId: String): MutableList<WfActionDto> {
         val startElement = wfElementService.getStartElement(processId)
-        return actions(startElement.elementId)
+        val startArrow = getArrowElements(startElement.elementId)[0]
+        val registerElementId = getNextElementId(startArrow)
+        return actions(registerElementId)
     }
 
     fun actions(elementId: String): MutableList<WfActionDto> {
@@ -174,7 +176,7 @@ class WfActionService(private val wfElementService: WfElementService,
             }
         }
         if (actionName.isNotEmpty() && actionValue.isNotEmpty()) {
-            actionList.add(WfActionDto(name = actionValue, value = actionName))
+            actionList.add(WfActionDto(name = actionName, value = actionValue))
         }
         return actionList
     }
