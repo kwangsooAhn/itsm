@@ -8,7 +8,7 @@
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
         gridInterval: 10,     // value of grid interval.
-        pointerRadius: 4
+        pointerRadius: 5
     };
 
     let svg,
@@ -32,6 +32,17 @@
     function resetMouseVars() {
         mousedownElement = null;
         mouseoverElement = null;
+    }
+
+    /**
+     * snap to grid.
+     *
+     * @param p
+     * @return {number}
+     */
+    function snapToGrid(p) {
+        const r = displayOptions.gridInterval;
+        return Math.round(p / r) * r;
     }
 
     /**
@@ -134,7 +145,11 @@
             .call(d3.drag()
                 .on('drag', function(d) {
                     svg.selectAll('.alice-tooltip').remove();
-                    d.midPoint = [d3.event.x, d3.event.y];
+
+                    snapToGrid(d3.event.x);
+
+                    d.midPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
+
                     drawConnectors();
                 })
                 .on('end', function(d) {
@@ -150,7 +165,7 @@
             .style('opacity', 0)
             .call(d3.drag()
                 .on('drag', function(d) {
-                    d.sourcePoint = [d3.event.x, d3.event.y];
+                    d.sourcePoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                     drawConnectors();
                 })
                 .on('end', function(d) {
@@ -165,7 +180,7 @@
             .style('opacity', 0)
             .call(d3.drag()
                 .on('drag', function(d) {
-                    d.targetPoint = [d3.event.x, d3.event.y];
+                    d.targetPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                     drawConnectors();
                 })
                 .on('end', function(d) {
@@ -262,12 +277,10 @@
                     let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
                     let sourcePointCoords = getMidPointCoords(bestLine1);
                     lineCoords.push(bestLine1[0]);
-                    //lineCoords.push(sourcePointCoords);
                     lineCoords.push(bestLine1[1]);
                     let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     let targetPointCoords = getMidPointCoords(bestLine2);
                     lineCoords.push(bestLine2[0]);
-                    //lineCoords.push(targetPointCoords);
                     lineCoords.push(bestLine2[1]);
 
                     sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
@@ -491,7 +504,7 @@
     function RectResizableElement(x, y, isShowType, width, height) {
         const self = this;
         self.width = width ? width : 120;
-        self.height = height ? height : 70;
+        self.height = height ? height : 80;
         self.radius = 8;
         const calcX = x - (self.width / 2),
               calcY = y - (self.height / 2),
@@ -505,10 +518,11 @@
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
+                    const mouseX = snapToGrid(d3.event.dx),
+                          mouseY = snapToGrid(d3.event.dy);
                     for (let i = 0, len = self.rectData.length; i < len; i++) {
-                        self.nodeElement
-                            .attr('x', self.rectData[i].x += d3.event.dx)
-                            .attr('y', self.rectData[i].y += d3.event.dy);
+                        self.rectData[i].x += mouseX;
+                        self.rectData[i].y += mouseY;
                     }
                     updateRect();
                 }
@@ -549,6 +563,7 @@
         ['nw-resize', 'se-resize', 'ne-resize', 'sw-resize'].forEach(function(cursor, i) {
             self['pointElement' + (i + 1)] = elementContainer.append('circle')
                 .attr('class', 'pointer')
+                .attr('r', displayOptions.pointerRadius)
                 .style('opacity', 0)
                 .on('mouseover', function() { self['pointElement' + (i + 1)].style('cursor', cursor); })
                 .on('mouseout', function() { self['pointElement' + (i + 1)].style('cursor', 'default'); })
@@ -559,37 +574,39 @@
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
                             const minWidth = 80, minHeight = 60;
+                            const mouseX = snapToGrid(d3.event.dx),
+                                  mouseY = snapToGrid(d3.event.dy);
                             switch (i + 1) {
                                 case 1:
-                                    if (self.rectData[1].x - (self.rectData[0].x + d3.event.dx) >= minWidth) {
-                                        self.pointElement1.attr('cx', self.rectData[0].x += d3.event.dx);
+                                    if (self.rectData[1].x - (self.rectData[0].x + mouseX) >= minWidth) {
+                                        self.rectData[0].x += mouseX;
                                     }
-                                    if (self.rectData[1].y - (self.rectData[0].y + d3.event.dy) >= minHeight) {
-                                        self.pointElement1.attr('cy', self.rectData[0].y += d3.event.dy);
+                                    if (self.rectData[1].y - (self.rectData[0].y + mouseY) >= minHeight) {
+                                        self.rectData[0].y += mouseY;
                                     }
                                     break;
                                 case 2:
-                                    if ((self.rectData[1].x + d3.event.dx) - self.rectData[0].x >= minWidth) {
-                                        self.pointElement2.attr('cx', self.rectData[1].x += d3.event.dx);
+                                    if ((self.rectData[1].x + mouseX) - self.rectData[0].x >= minWidth) {
+                                        self.rectData[1].x += mouseX;
                                     }
-                                    if ((self.rectData[1].y + d3.event.dy) - self.rectData[0].y >= minHeight) {
-                                        self.pointElement2.attr('cy', self.rectData[1].y += d3.event.dy);
+                                    if ((self.rectData[1].y + mouseY) - self.rectData[0].y >= minHeight) {
+                                        self.rectData[1].y += mouseY;
                                     }
                                     break;
                                 case 3:
-                                    if ((self.rectData[1].x + d3.event.dx) - self.rectData[0].x >= minWidth) {
-                                        self.pointElement3.attr('cx', self.rectData[1].x += d3.event.dx);
+                                    if ((self.rectData[1].x + mouseX) - self.rectData[0].x >= minWidth) {
+                                        self.rectData[1].x += mouseX;
                                     }
-                                    if (self.rectData[1].y - (self.rectData[0].y + d3.event.dy) >= minHeight) {
-                                        self.pointElement3.attr('cy', self.rectData[0].y += d3.event.dy);
+                                    if (self.rectData[1].y - (self.rectData[0].y + mouseY) >= minHeight) {
+                                        self.rectData[0].y += mouseY;
                                     }
                                     break;
                                 case 4:
-                                    if (self.rectData[1].x - (self.rectData[0].x + d3.event.dx) >= minWidth) {
-                                        self.pointElement4.attr('cx', self.rectData[0].x += d3.event.dx);
+                                    if (self.rectData[1].x - (self.rectData[0].x + mouseX) >= minWidth) {
+                                        self.rectData[0].x += mouseX;
                                     }
-                                    if ((self.rectData[1].y + d3.event.dy) - self.rectData[0].y >= minHeight) {
-                                        self.pointElement4.attr('cy', self.rectData[1].y += d3.event.dy);
+                                    if ((self.rectData[1].y + mouseY) - self.rectData[0].y >= minHeight) {
+                                        self.rectData[1].y += mouseY;
                                     }
                                     break;
                             }
@@ -641,8 +658,6 @@
                     [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
             pointArray.forEach(function(point, i) {
                 self['pointElement' + (i + 1)]
-                    .data(rectData)
-                    .attr('r', displayOptions.pointerRadius)
                     .attr('cx', point[0])
                     .attr('cy', point[1]);
             });
@@ -707,7 +722,7 @@
      */
     function EventElement(x, y) {
         const self = this;
-        const radius = 25, typeImageSize = 20;
+        const radius = 20, typeImageSize = 20;
 
         const drag = d3.drag()
             .on('start', elementMouseEventHandler.mousedown)
@@ -717,12 +732,14 @@
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
+                    const mouseX = snapToGrid(d3.event.x),
+                          mouseY = snapToGrid(d3.event.y);
                     self.nodeElement
-                        .attr('cx', d3.event.x)
-                        .attr('cy', d3.event.y);
+                        .attr('cx', mouseX)
+                        .attr('cy', mouseY);
                     self.typeElement
-                        .attr('x', d3.event.x - (typeImageSize / 2))
-                        .attr('y', d3.event.y - (typeImageSize / 2));
+                        .attr('x', mouseX - (typeImageSize / 2))
+                        .attr('y', mouseY - (typeImageSize / 2));
                     drawConnectors();
                 }
             })
@@ -764,7 +781,7 @@
      */
     function GatewayElement(x, y) {
         const self = this;
-        const width = 45, height = 45, typeImageSize = 20;
+        const size = 40, typeImageSize = 20;
 
         const drag = d3.drag()
             .on('start', elementMouseEventHandler.mousedown)
@@ -774,13 +791,15 @@
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
+                    const mouseX = snapToGrid(d3.event.x),
+                          mouseY = snapToGrid(d3.event.y);
                     self.nodeElement
-                        .attr('x', d3.event.x - (width / 2))
-                        .attr('y', d3.event.y - (height / 2))
-                        .attr('transform', 'rotate(45, ' + d3.event.x + ', ' + d3.event.y + ')');
+                        .attr('x', mouseX - (size / 2))
+                        .attr('y', mouseY - (size / 2))
+                        .attr('transform', 'rotate(45, ' + mouseX + ', ' + mouseY + ')');
                     self.typeElement
-                        .attr('x', d3.event.x - (typeImageSize / 2))
-                        .attr('y', d3.event.y - (typeImageSize / 2));
+                        .attr('x', mouseX - (typeImageSize / 2))
+                        .attr('y', mouseY - (typeImageSize / 2));
                     drawConnectors();
                 }
             })
@@ -791,10 +810,10 @@
 
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
-            .attr('width', width)
-            .attr('height', height)
-            .attr('x', x - (width / 2))
-            .attr('y', y - (height / 2))
+            .attr('width', size)
+            .attr('height', size)
+            .attr('x', x - (size / 2))
+            .attr('y', y - (size / 2))
             .attr('transform', 'rotate(45, ' + x + ', ' + y + ')')
             .attr('class', 'node gateway ' + defaultType)
             .on('mouseover', elementMouseEventHandler.mouseover)
@@ -854,12 +873,15 @@
                 } else {
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
+                    const mouseX = snapToGrid(d3.event.x),
+                          mouseY = snapToGrid(d3.event.y);
                     self.nodeElement
-                        .attr('x', d3.event.x - (width / 2))
-                        .attr('y', d3.event.y - (height / 2));
+                        .attr('x', mouseX - (width / 2))
+                        .attr('y', mouseY - (height / 2));
                     self.textElement
-                        .attr('x', d3.event.x)
-                        .attr('y', d3.event.y);
+                        .attr('x', mouseX)
+                        .attr('y', mouseY);
+                    drawConnectors();
                 }
             })
             .on('end', elementMouseEventHandler.mouseup);
@@ -908,8 +930,8 @@
             .on('dragend', function() {
                 const svgOffset = svg.node().getBoundingClientRect(),
                     gTransform = d3.zoomTransform(d3.select('g.element-container').node());
-                let x = d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x,
-                    y = d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y;
+                let x = snapToGrid(d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x),
+                    y = snapToGrid(d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y);
                 let _this = d3.select(this);
                 let node;
                 let type = '';
