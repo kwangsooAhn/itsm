@@ -267,7 +267,7 @@
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
             {"id": "is-default", "name": "is Default", "type": "checkbox", "default": ""},
-            {"id": "condition", "name": "Condition", "type": "inputbox", "default": ""},
+            {"id": "condition-value", "name": "Condition", "type": "inputbox", "default": ""},
             {"id": "action-name", "name": "Action Name", "type": "inputbox", "default": ""},
             {"id": "action-value", "name": "Action Value", "type": "inputbox", "default": ""}
           ]
