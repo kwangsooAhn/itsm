@@ -1055,11 +1055,13 @@
         window.onkeydown = function(e) {
             let keyCode = e.keyCode ? e.keyCode : e.which;
             isMovableDrawingboard = keyCode === 32;
+            d3.select(document.getElementById('icon-move-drawingboard')).classed('selected', isMovableDrawingboard);
         };
         window.onkeyup = function() {
             if (isMovableDrawingboard) {
                 isMovableDrawingboard = false;
             }
+            d3.select(document.getElementById('icon-move-drawingboard')).classed('selected', isMovableDrawingboard);
         };
         setDrawingBoardGrid();
 
@@ -1142,6 +1144,12 @@
         dragLine = svg.append('path')
             .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
+
+        document.getElementById('icon-move-drawingboard').addEventListener('click', function() {
+            let isSelected = d3.select(this).classed('selected');
+            d3.select(this).classed('selected', !isSelected);
+            isMovableDrawingboard = !isSelected;
+        });
     }
 
     /**
