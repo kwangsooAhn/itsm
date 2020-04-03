@@ -1,20 +1,13 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.aliceDocument = global.aliceDocument || {})));
+            (factory((global.AliceDocument = global.AliceDocument || {})));
 }(this, (function (exports) {
     'use strict';
 
     let documentContainer = null;
     let buttonContainer = null;
     const defaultColWidth = 8.33; //폼 패널을 12등분하였을때, 1개의 너비
-    let userData = {              //사용자 세션 정보
-        defaultLang: 'en',
-        defaultDateFormat: 'YYYY-MM-DD',
-        defaultTimeFormat: 'hh:mm',
-        defaultTime: '24'
-    };
-
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -571,34 +564,25 @@
     }
 
     /**
-     * draw document.
+     * 조회된 데이터 draw.
      *
      * @param data 문서 데이터.
      */
     function drawDocument(data) {
-        var components;
-
-        if (data.components != undefined) {
-            components = data.components;
-        } else if (data.token.components != undefined) {
-            components = data.token.components;
-        }
-
-        if (components.length > 0) {
-            if (components.length > 2) {
-                components.sort(function (a, b) {
-                    if (a.attributes === undefined) {
-                        return a.display.order - b.display.order;
-                    } else {
-                        return a.attributes.display.order - b.attributes.display.order;
-                    }
+        if (data.token.components.length > 0 ) {
+            if (data.token.components.length > 2) { //컴포넌트 재정렬
+                data.token.components.sort(function (a, b) {
+                    return a.attributes.display.order < b.attributes.display.order ? -1 : a.attributes.display.order > b.attributes.display.order ? 1 : 0;  
                 });
             }
-            for (let i = 0; i < components.length; i++) {
-                addComponent(components[i]);
+            //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
+            for (let i = 0, len = data.token.components.length; i < len; i ++) {
+                let component = Adata.token.components[i];
+                let defaultComponentAttr = Component.getData(component.attributes.type);
+                let mergeComponentAttr = Object.assign({}, defaultComponentAttr, component.attributes);
+                Component.draw(component.attributes.type, mergeComponentAttr);
             }
         }
-
         if (data.documentId !== undefined) {
             addIdComponent('documentId', data.documentId);
         }
@@ -847,26 +831,12 @@
      * init document.
      *
      * @param documentId 문서 id
-     * @param {String} authInfo 사용자 세션 정보
      */
-    function initDocument(documentId, authInfo) {
+    function init(documentId) {
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
         documentContainer = document.getElementById('document-container');
         buttonContainer = document.getElementById('button-container');
-        let authData = JSON.parse(authInfo);
-        //신청서화면에서 사용할 사용자 세션 정보
-        if (authData) {
-            Object.assign(userData, authData);
-
-            userData.defaultLang  = authData.lang;
-            userData.userKey = authData.userKey;
-            let format = authData.timeFormat;
-            let formatArray = format.split(' ');
-
-            userData.defaultDateFormat =  formatArray[0].toUpperCase();
-            if (formatArray.length === 3) { userData.defaultTime = '12'; }
-        }
-
+        
         // document data search.
         aliceJs.sendXhr({
             method: 'GET',
@@ -884,24 +854,11 @@
      * init Token.
      *
      * @param tokenId 문서 id
-     * @param {String} authInfo 사용자 세션 정보
      */
-    function initToken(tokenId, authInfo) {
+    function initToken(tokenId) {
         console.info('document editor initialization. [Token ID: ' + tokenId + ']');
         documentContainer = document.getElementById('document-container');
         buttonContainer = document.getElementById('button-container');
-        let authData = JSON.parse(authInfo);
-        //편집화면에서 사용할 사용자 세션 정보
-        if (authData) {
-            Object.assign(userData, authData);
-
-            userData.defaultLang  = authData.lang;
-            let format = authData.timeFormat;
-            let formatArray = format.split(' ');
-
-            userData.defaultDateFormat =  formatArray[0].toUpperCase();
-            if (formatArray.length === 3) { userData.defaultTime = '12'; }
-        }
 
         // token data search.
         aliceJs.sendXhr({
@@ -920,27 +877,12 @@
      * Init Container.
      *
      * @param elementId
-     * @param {String} authInfo 사용자 세션 정보
      */
-    function initContainer(elementId, authInfo) {
+    function initContainer(elementId) {
         documentContainer = document.getElementById(elementId);
-
-        let authData = JSON.parse(authInfo);
-        //미리 보기시 사용할 사용자 세션 정보
-        if (authData) {
-            Object.assign(userData, authData);
-
-            userData.defaultLang  = authData.lang;
-            userData.userKey = authData.userKey;
-            let format = authData.timeFormat;
-            let formatArray = format.split(' ');
-
-            userData.defaultDateFormat =  formatArray[0].toUpperCase();
-            if (formatArray.length === 3) { userData.defaultTime = '12'; }
-        }
     }
 
-    exports.initDocument = initDocument;
+    exports.init = init;
     exports.initToken = initToken;
     exports.save = save;
     exports.initContainer = initContainer;

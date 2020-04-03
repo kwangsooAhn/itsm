@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:fragment="configFragment">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link th:href="@{/assets/css/form.core.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/form.component.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/popupmodal/css/popupmodal.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
+    <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
+    <th:block layout:fragment="css"></th:block>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
+    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
+    <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
+    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
+    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/vendors/quill/quill.js}"></script>
+    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
+    <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
+    <script th:src="@{/assets/js/form/form.core.js}"></script>
+    <script th:src="@{/assets/js/form/form.component.js}"></script>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        const userAuthInfo = {
+            userKey : '[[${#authentication.details.userKey}]]',
+            userId : '[[${#authentication.details.userId}]]',
+            userName: '[[${#authentication.details.userName}]]',
+            email: '[[${#authentication.details.email}]]',
+            position: '[[${#authentication.details.position}]]',
+            department: '[[${#authentication.details.department}]]',
+            officeNumber: '[[${#authentication.details.officeNumber}]]',
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]',
+            timeFormat : '[[${#authentication.details.timeFormat}]]',
+            lang: '[[${#authentication.details.lang}]]'
+        };
+        i18n.add(function(){
+            AliceForm.init(JSON.stringify(userAuthInfo));
+        });
+        /*]]>*/
+    </script>
+    <th:block layout:fragment="script"></th:block>
+</head>
+</html>
