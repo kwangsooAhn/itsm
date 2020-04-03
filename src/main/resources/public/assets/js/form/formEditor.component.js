@@ -399,7 +399,7 @@
             <div class='move-icon'></div>
             <div class='group'>
                 <div class='field' style='flex-basis: 100%;'>
-                    <hr style='border: ${attr.display.type} ${attr.display.thickness}px ${attr.display.color};'>
+                    <hr style='border-top: ${attr.display.type} ${attr.display.thickness}px ${attr.display.color};'>
                 </div>
             </div>
         `);
