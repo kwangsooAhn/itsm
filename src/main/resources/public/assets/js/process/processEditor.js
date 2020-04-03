@@ -24,7 +24,8 @@
         mouseoverElement,
         selectedElement;
 
-    let isDrawConnector = false;
+    let isDrawConnector = false,
+        isMovableDrawingboard = false;
 
     /**
      * reset mouse variables.
@@ -1051,39 +1052,57 @@
             horizontalGrid.call(horizontalAxis);
         };
         window.onresize = setDrawingBoardGrid;
+        window.onkeydown = function(e) {
+            let keyCode = e.keyCode ? e.keyCode : e.which;
+            isMovableDrawingboard = keyCode === 32;
+        };
+        window.onkeyup = function() {
+            if (isMovableDrawingboard) {
+                isMovableDrawingboard = false;
+            }
+        };
         setDrawingBoardGrid();
 
         // add zoom
         const zoom = d3.zoom()
             .on('start', function() {
-                svg.style('cursor', 'grabbing');
-                const nodeTopArray = [],
-                    nodeRightArray = [],
-                    nodeBottomArray = [],
-                    nodeLeftArray = [];
-                const nodes = svg.selectAll('.node').nodes();
-                nodes.forEach(function(node){
-                    let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
-                    nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
-                    nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
-                    nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
-                    nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
-                });
-                const svgBBox = AliceProcessEditor.utils.getBoundingBoxCenter(svg);
-                let minLeft = svgBBox.cx,
-                    minTop = svgBBox.cy,
-                    maxRight = svgBBox.cx,
-                    maxBottom = svgBBox.cy;
-                if (nodes.length > 0) {
-                    minLeft = d3.min(nodeLeftArray);
-                    minTop = d3.min(nodeTopArray);
-                    maxRight = d3.max(nodeRightArray);
-                    maxBottom = d3.max(nodeBottomArray);
+                if (!isMovableDrawingboard) {
+                    const drawingBoard = document.querySelector('.alice-process-drawing-board'),
+                          gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+                    zoom.translateExtent([
+                        [-gTransform.x, -gTransform.y],
+                        [drawingBoard.offsetWidth - gTransform.x, drawingBoard.offsetHeight - gTransform.y]
+                    ]);
+                } else {
+                    svg.style('cursor', 'grabbing');
+                    const nodeTopArray = [],
+                          nodeRightArray = [],
+                          nodeBottomArray = [],
+                          nodeLeftArray = [];
+                    const nodes = svg.selectAll('.node').nodes();
+                    nodes.forEach(function(node){
+                        let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
+                        nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
+                        nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
+                        nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
+                        nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
+                    });
+                    const svgBBox = AliceProcessEditor.utils.getBoundingBoxCenter(svg);
+                    let minLeft = svgBBox.cx,
+                        minTop = svgBBox.cy,
+                        maxRight = svgBBox.cx,
+                        maxBottom = svgBBox.cy;
+                    if (nodes.length > 0) {
+                        minLeft = d3.min(nodeLeftArray);
+                        minTop = d3.min(nodeTopArray);
+                        maxRight = d3.max(nodeRightArray);
+                        maxBottom = d3.max(nodeBottomArray);
+                    }
+                    zoom.translateExtent([
+                        [minLeft - displayOptions.translateLimit, minTop - displayOptions.translateLimit],
+                        [maxRight + displayOptions.translateLimit, maxBottom + displayOptions.translateLimit]
+                    ]);
                 }
-                zoom.translateExtent([
-                    [minLeft - displayOptions.translateLimit, minTop - displayOptions.translateLimit],
-                    [maxRight + displayOptions.translateLimit, maxBottom + displayOptions.translateLimit]
-                ]);
             })
             .on('zoom', function() {
                 horizontalGrid
