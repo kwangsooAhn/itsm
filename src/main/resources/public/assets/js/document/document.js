@@ -390,9 +390,10 @@
                 break;
             case 'divider':
                 const lineEle = document.createElement('hr');
-                lineEle.style.borderWidth = displayData.thickness + 'px';
-                lineEle.style.borderStyle = displayData.type;
-                lineEle.style.borderColor = displayData.color;
+                lineEle.style.borderTopWidth  = displayData.thickness + 'px';
+                lineEle.style.borderBottomWidth = '0px';
+                lineEle.style.borderTopStyle = displayData.type;
+                lineEle.style.borderTopColor = displayData.color;
                 fieldLastEle.appendChild(lineEle);
                 break;
             case 'date':
