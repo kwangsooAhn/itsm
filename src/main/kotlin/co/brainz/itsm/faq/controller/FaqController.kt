@@ -34,6 +34,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/search")
     fun getFaqSearch(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
         return faqSearchPage
     }
 
@@ -50,6 +51,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/list")
     fun getFaqList(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
         model.addAttribute("faqs", faqService.findAll())
         return faqListPage
     }

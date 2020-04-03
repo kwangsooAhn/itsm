@@ -1,7 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <style>
+        #faqGroup {
+            background-color: #f1f9ff;
+            width: 100%;
+        }
+        #faqTitle {
+            padding-left: 2rem;
+        }
+        #faqContents {
+            padding-left: 4rem;
+        }
+    </style>
+</head>
 <body>
+
+<!--test-->
+<details th:each="faqGroup :${faqGroupList}">
+    <summary th:text="${faqGroup}" id="faqGroup">카테고리</summary>
+    <details>
+        <summary id="faqTitle" >제목</summary>
+        <p id ="faqContents">내용</p>
+    </details>
+</details>
+
 <table class="table table-hover" style="text-align: center">
     <colgroup>
         <col width="30%">
@@ -23,4 +47,7 @@
     </tbody>
 </table>
 </body>
+<script type="text/javascript">
+
+</script>
 </html>

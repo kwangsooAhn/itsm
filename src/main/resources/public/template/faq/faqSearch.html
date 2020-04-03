@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
     <title>FAQ 리스트</title>
 </head>
 <body>
 <th:block layout:fragment="content">
-<div class="container">
-    <div sec:authorize="hasAuthority('faq.create')" class="button" style="float:right">
-        <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
+<div class="container" style="width: 70%; margin: 50px auto;">
+    <h1 th:text="#{menu.help.faq}">FAQ</h1>
+    <p>자주 묻는 질문과 답변입니다.</p>
+    <div>
+        <select align="left" id="searchKeyword">
+            <option value="" selected>전체</option>
+            <option th:each="faqGroup :${faqGroupList}" th:text="${faqGroup}" th:value="${faqGroup}"></option>
+        </select>
+        <div sec:authorize="hasAuthority('faq.create')" class="button" style="float:right">
+            <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
+        </div>
     </div>
     <div id="faqList">
     </div>
@@ -20,10 +28,14 @@
 <th:block layout:fragment="pageScript">
 <script type="text/javascript">
 window.onload = function() {
-    loadXMLDoc();
+    search();
 }
 
-function loadXMLDoc() {
+document.getElementById("searchKeyword").change( function() {
+    console.log('test');
+});
+
+function search(val) {
     const opt = {
         method: "GET",
         url: "/faqs/list",
