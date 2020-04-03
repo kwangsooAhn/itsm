@@ -176,6 +176,28 @@ body {
             background: lightgray;
             margin-left: 0.625rem;
         }
+
+        span.move-icon {
+            display: inline-block;
+            width: 3rem; // 48px
+            height: 3rem; // 48px
+            margin-left: 0.313rem; // 5px
+            position: absolute;
+            bottom: 0.938rem; // 15px
+            background: {
+                color: transparent;
+                size: initial;
+                repeat: no-repeat;
+                position: center center;
+                image: url("../media/icons/process/editor/move.png");
+            }
+        }
+
+        span.move-icon.selected {
+            background: {
+                image: url("../media/icons/process/editor/move_selected.png");
+            }
+        }
     }
 
     &-drawing-board {
