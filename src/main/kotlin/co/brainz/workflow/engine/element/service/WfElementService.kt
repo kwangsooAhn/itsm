@@ -121,6 +121,7 @@ class WfElementService(
         } else { // 그 외 connector 가 1개일 때
             selectedConnector = connectorElements[0]
         }
+        logger.debug("selectedConnector {}", selectedConnector)
         return selectedConnector
     }
 
