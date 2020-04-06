@@ -29,10 +29,10 @@
             <th class="required" th:text="#{document.label.form}"></th>
             <td>
                 <select id="document_form" style="width:75%">
-                    <option th:each="form:${formList}" 
-                            th:id="${form?.formId}" 
-                            th:value="${form?.formId}" 
-                            th:text="#{${form?.formName}}" ></option>
+                    <option th:each="form:${formList}"
+                            th:id="${form?.id}"
+                            th:value="${form?.id}"
+                            th:text="#{${form?.name}}" ></option>
                 </select>
             </td>
         </tr>
