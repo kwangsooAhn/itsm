@@ -54,7 +54,7 @@ class WfActionService(private val wfElementService: WfElementService,
      * @param elementId
      * @return MutableList<WfElementEntity>
      */
-    private fun getArrowElements(elementId: String): MutableList<WfElementEntity> {
+    fun getArrowElements(elementId: String): MutableList<WfElementEntity> {
         return wfElementRepository.findAllArrowConnectorElement(elementId)
     }
 
@@ -64,7 +64,7 @@ class WfActionService(private val wfElementService: WfElementService,
      * @param arrowElement
      * @return String
      */
-    private fun getNextElementId(arrowElement: WfElementEntity): String {
+    fun getNextElementId(arrowElement: WfElementEntity): String {
         return wfElementDataRepository.findByElementAndAttributeId(arrowElement).attributeValue
     }
 
@@ -74,7 +74,7 @@ class WfActionService(private val wfElementService: WfElementService,
      * @param elementId
      * @return WfElementEntity
      */
-    private fun getElement(elementId: String): WfElementEntity {
+    fun getElement(elementId: String): WfElementEntity {
         return wfElementRepository.findWfElementEntityByElementId(elementId)
     }
 

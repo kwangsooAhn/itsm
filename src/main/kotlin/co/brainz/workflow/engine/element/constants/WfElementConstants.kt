@@ -63,6 +63,7 @@ object WfElementConstants {
         CANCEL("cancel"),
         SAVE("save"),
         REJECT("reject"),
-        PROCESS("process")
+        PROCESS("process"),
+        WITHDRAW("withdraw")
     }
 }

@@ -5,7 +5,6 @@ import co.brainz.workflow.engine.token.dto.WfTokenDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -28,18 +27,6 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
     }
 
     /**
-     * 토큰 신규 등록.
-     *
-     * @param wfTokenDto
-     * @return Boolean
-     */
-    @Transactional
-    @PostMapping("")
-    fun postTokenData(@RequestBody wfTokenDto: WfTokenDto): Boolean {
-        return wfEngine.token().postTokenData(wfTokenDto)
-    }
-
-    /**
      * 토큰 일반정보 조회.
      *
      * @param tokenId
@@ -48,18 +35,6 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
     @GetMapping("/{tokenId}")
     fun getToken(@PathVariable tokenId: String): LinkedHashMap<String, Any> {
         return wfEngine.token().getToken(tokenId)
-    }
-
-    /**
-     * 토큰 일반정보 업데이트.
-     *
-     * @param tokenId
-     * @param wfTokenDto
-     * @return Boolean
-     */
-    @PutMapping("/{tokenId}")
-    fun putToken(@PathVariable tokenId: String, @RequestBody wfTokenDto: WfTokenDto): Boolean {
-        return wfEngine.token().putToken(wfTokenDto)
     }
 
     /**
@@ -74,16 +49,15 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
     }
 
     /**
-     * 토큰 상세정보 업데이트.
+     * Token Gate.
      *
-     * @param tokenId
      * @param wfTokenDto
-     * @return Boolean
+     * @return Any
      */
     @Transactional
-    @PutMapping("/{tokenId}/data")
-    fun putTokenData(@PathVariable tokenId: String, @RequestBody wfTokenDto: WfTokenDto): Boolean {
-        return wfEngine.token().putTokenData(wfTokenDto)
+    @PostMapping("")
+    fun postTokenGate(@RequestBody wfTokenDto: WfTokenDto) {
+        return wfEngine.token().tokenGate(wfTokenDto)
     }
 
 }

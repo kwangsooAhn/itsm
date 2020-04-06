@@ -54,8 +54,6 @@ object RestTemplateConstants {
      */
     enum class Token(val url: String, val method: String) {
         POST_TOKEN_DATA("/rest/wf/tokens", "POST"),
-        PUT_TOKEN_DATA("/rest/wf/tokens/{tokenId}/data", "PUT"),
-        PUT_TOKEN("/rest/wf/tokens/{tokenId}", "PUT"),
         GET_TOKEN("/rest/wf/tokens/{tokenId}", "GET"),
         GET_TOKENS("/rest/wf/tokens", "GET"),
         GET_TOKEN_DATA("/rest/wf/tokens/{tokenId}/data", "GET")
