@@ -173,6 +173,7 @@ class WfTokenService(
             WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.userTask(wfTokenEntity.get(), wfTokenDto)
             WfElementConstants.ElementType.END_EVENT.value -> wfTokenElementService.endEvent(wfTokenEntity.get(), wfTokenDto)
             WfElementConstants.ElementType.COMMON_SUBPROCESS.value -> wfTokenElementService.subProcess(wfTokenEntity.get(), wfTokenDto)
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> wfTokenElementService.exclusiveGateway(wfTokenEntity.get(), wfTokenDto)
         }
     }
 

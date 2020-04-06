@@ -129,10 +129,9 @@ class WfActionService(private val wfElementService: WfElementService,
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                 var isAction = false
-                val conditionItem = "#{action}"
                 nextElement.elementDataEntities.forEach { data ->
                     if (data.attributeId == WfElementConstants.AttributeId.CONDITION_ITEM.value) {
-                        if (data.attributeValue == conditionItem) {
+                        if (data.attributeValue == WfElementConstants.AttributeValue.ACTION.value) {
                             isAction = true
                         }
                     }

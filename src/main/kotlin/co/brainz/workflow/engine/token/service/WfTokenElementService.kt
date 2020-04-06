@@ -64,6 +64,7 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
     /**
      * UserTask.
      *
+     * @param wfTokenEntity
      * @param wfTokenDto
      */
     fun userTask(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
@@ -84,6 +85,7 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
     /**
      * EndEvent.
      *
+     * @param wfTokenEntity
      * @param wfTokenDto
      */
     fun endEvent(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
@@ -94,11 +96,22 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
     /**
      * SubProcess.
      *
+     * @param wfTokenEntity
      * @param wfTokenDto
      */
     fun subProcess(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)
 
+    }
+
+    /**
+     * Exclusive Gateway.
+     *
+     * @param wfTokenEntity,
+     * @param wfTokenDto
+     */
+    fun exclusiveGateway(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+        logger.debug("Token Action : {}", wfTokenDto.action)
     }
 
     /**
@@ -134,6 +147,17 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
                 }
                 wfTokenDataRepository.saveAll(dataList)
             }
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
+                val conditionField = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.CONDITION_ITEM.value)
+                when (conditionField == WfElementConstants.AttributeValue.ACTION.value) {
+                    true -> {
+                        //TODO: 나가는 화살표 조건들과 비교해서 같은 action 경로 선택
+                    }
+                    false -> {
+                        //TODO: 현재 Element에서 나가는 화살표의 action 값 비교 후 Element 선택
+                    }
+                }
+            }
         }
     }
 
@@ -153,4 +177,5 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
         }
         return attributeValue
     }
+
 }

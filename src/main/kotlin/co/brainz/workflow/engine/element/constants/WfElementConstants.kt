@@ -66,4 +66,8 @@ object WfElementConstants {
         PROCESS("process"),
         WITHDRAW("withdraw")
     }
+
+    enum class AttributeValue(val value: String) {
+        ACTION("#{action}")
+    }
 }
