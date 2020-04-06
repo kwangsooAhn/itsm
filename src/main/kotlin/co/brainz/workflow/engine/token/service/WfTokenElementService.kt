@@ -158,6 +158,11 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
                     }
                 }
             }
+            WfElementConstants.ElementType.END_EVENT.value -> {
+                wfInstanceService.completeInstance(wfTokenEntity.instance.instanceId)
+                //TODO: #8321 종료이벤트 로직 강화
+                //호출한 부모 토큰이 존재할 경우 해당 토큰 호출
+            }
         }
     }
 
