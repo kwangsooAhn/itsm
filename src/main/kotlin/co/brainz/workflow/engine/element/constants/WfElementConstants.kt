@@ -51,8 +51,8 @@ object WfElementConstants {
      */
     enum class RegexCondition(val value: String) {
         GENERAL("\\x22[^\\x22]+\\x22"),
-        MAPPINGID("\\x22\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22"),
-        CONSTANT("\\x22\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22")
+        MAPPINGID("\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d"),
+        CONSTANT("\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d")
     }
 
     /**
