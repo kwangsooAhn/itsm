@@ -72,7 +72,7 @@ class WfElementService(
                 arrowConnectors.forEach connector@{ arrowConnector ->
                     arrowConnector.elementDataEntities.forEach {
                         // 엘리먼트 세부 설정 속성값이 분기 조건 데이터일 때
-                        if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
+                        if (it.attributeId == WfElementConstants.AttributeId.CONDITION_VALUE.value) {
                             val regexGeneral = WfElementConstants.RegexCondition.GENERAL.value.toRegex()
                             val regexComponentMappingId = WfElementConstants.RegexCondition.MAPPINGID.value.toRegex()
                             val regexConstant = WfElementConstants.RegexCondition.CONSTANT.value.toRegex()
