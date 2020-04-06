@@ -11,7 +11,7 @@
 <div class="container" style="width: 70%; margin: 50px auto;">
     <h1 th:text="#{menu.help.faq}">FAQ</h1>
     <p>자주 묻는 질문과 답변입니다.</p>
-    <div>
+    <div id="faqSearch" style="margin: 30px 0;">
         <select align="left" id="searchKeyword">
             <option value="" selected>전체</option>
             <option th:each="faqGroup :${faqGroupList}" th:text="${faqGroup}" th:value="${faqGroup}"></option>
@@ -31,8 +31,9 @@ window.onload = function() {
     search();
 }
 
-document.getElementById("searchKeyword").change( function() {
-    console.log('test');
+let keyword = document.getElementById("searchKeyword");
+keyword.addEventListener('change', function(event){
+    search(event.target.value);
 });
 
 function search(val) {
@@ -45,6 +46,7 @@ function search(val) {
     };
     aliceJs.sendXhr(opt);
 }
+
 </script>
 </th:block>
 </html>
