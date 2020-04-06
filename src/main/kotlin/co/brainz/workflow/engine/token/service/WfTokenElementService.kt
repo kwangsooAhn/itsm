@@ -3,6 +3,7 @@ package co.brainz.workflow.engine.token.service
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementDataEntity
+import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
@@ -67,16 +68,15 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
      * @param wfTokenEntity
      * @param wfTokenDto
      */
-    fun userTask(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+    fun userTask(wfTokenEntity: WfTokenEntity, wfElementEntity: WfElementEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)
         when (wfTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> wfTokenActionService.save(wfTokenEntity, wfTokenDto)
             WfElementConstants.Action.REJECT.value -> {
-                val element = wfActionService.getElement(wfTokenEntity.elementId)
                 val values = HashMap<String, Any>()
-                values[WfElementConstants.AttributeId.REJECT_ID.value] = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.REJECT_ID.value)
-                values[WfElementConstants.AttributeId.ASSIGNEE_TYPE.value] = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value)
-                values[WfElementConstants.AttributeId.ASSIGNEE.value] = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+                values[WfElementConstants.AttributeId.REJECT_ID.value] = getAttributeValue(wfElementEntity.elementDataEntities, WfElementConstants.AttributeId.REJECT_ID.value)
+                values[WfElementConstants.AttributeId.ASSIGNEE_TYPE.value] = getAttributeValue(wfElementEntity.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value)
+                values[WfElementConstants.AttributeId.ASSIGNEE.value] = getAttributeValue(wfElementEntity.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
                 wfTokenActionService.reject(wfTokenEntity, wfTokenDto, values)
             }
             else -> {

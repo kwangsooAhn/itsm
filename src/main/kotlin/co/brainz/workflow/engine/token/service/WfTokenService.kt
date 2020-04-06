@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.token.service
 
 import co.brainz.workflow.engine.element.constants.WfElementConstants
+import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
@@ -160,17 +161,16 @@ class WfTokenService(
      * @param wfTokenDto
      */
     fun tokenGate(wfTokenDto: WfTokenDto) {
-        var elementType = ""
+        var wfElementEntity = WfElementEntity()
         val wfTokenEntity = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId)
         if (wfTokenEntity.isPresent) {
-            val wfElementEntity = wfActionService.getElement(wfTokenEntity.get().elementId)
-            elementType = wfElementEntity.elementType
+            wfElementEntity = wfActionService.getElement(wfTokenEntity.get().elementId)
         }
 
-        logger.debug("Token Element Type : {}", elementType)
-        when(elementType) {
+        logger.debug("Token Element Type : {}", wfElementEntity.elementType)
+        when(wfElementEntity.elementType) {
             "" -> wfTokenElementService.initStart(wfTokenDto)
-            WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.userTask(wfTokenEntity.get(), wfTokenDto)
+            WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.userTask(wfTokenEntity.get(), wfElementEntity, wfTokenDto)
             WfElementConstants.ElementType.END_EVENT.value -> wfTokenElementService.endEvent(wfTokenEntity.get(), wfTokenDto)
             WfElementConstants.ElementType.COMMON_SUBPROCESS.value -> wfTokenElementService.subProcess(wfTokenEntity.get(), wfTokenDto)
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> wfTokenElementService.exclusiveGateway(wfTokenEntity.get(), wfTokenDto)
