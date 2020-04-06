@@ -71,10 +71,17 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
         logger.debug("Token Action : {}", wfTokenDto.action)
         when (wfTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> wfTokenActionService.save(wfTokenEntity, wfTokenDto)
+            WfElementConstants.Action.REJECT.value -> {
+                val element = wfActionService.getElement(wfTokenEntity.elementId)
+                val values = HashMap<String, Any>()
+                values[WfElementConstants.AttributeId.REJECT_ID.value] = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.REJECT_ID.value)
+                values[WfElementConstants.AttributeId.ASSIGNEE_TYPE.value] = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value)
+                values[WfElementConstants.AttributeId.ASSIGNEE.value] = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+                wfTokenActionService.reject(wfTokenEntity, wfTokenDto, values)
+            }
             else -> {
                 when (wfTokenDto.action) {
                     WfElementConstants.Action.REGIST.value -> wfTokenActionService.registration(wfTokenEntity, wfTokenDto)
-                    WfElementConstants.Action.REJECT.value -> wfTokenActionService.reject(wfTokenEntity, wfTokenDto)
                     WfElementConstants.Action.WITHDRAW.value -> wfTokenActionService.withdraw(wfTokenEntity, wfTokenDto)
                 }
                 goToNext(wfTokenEntity)

@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.token.service
 
+import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.dto.WfTokenDto
@@ -85,11 +86,24 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
      * @param wfTokenDto
      * @return Boolean
      */
-    fun reject(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto): Boolean {
+    fun reject(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto, values: HashMap<String, Any>): Boolean {
         //TODO: 확인 필요
         wfTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
         wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         wfTokenRepository.save(wfTokenEntity)
+
+        //Create Reject Token
+        val rejectToken = WfTokenEntity(
+                tokenId = "",
+                tokenStatus = WfTokenConstants.Status.RUNNING.code,
+                assigneeId = values[WfElementConstants.AttributeId.ASSIGNEE.value] as String,
+                assigneeType = values[WfElementConstants.AttributeId.ASSIGNEE_TYPE.value] as String,
+                elementId = values[WfElementConstants.AttributeId.REJECT_ID.value] as String,
+                instance = wfTokenEntity.instance,
+                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
+        )
+        wfTokenRepository.save(rejectToken)
+
         return true
     }
 

@@ -39,7 +39,7 @@ object WfElementConstants {
         ACTION_NAME("action-name"),
         ACTION_VALUE("action-value"),
         SAVE("save"),
-        REJECT("reject-id")
+        REJECT_ID("reject-id")
     }
 
     /**
