@@ -8,7 +8,7 @@
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            console.log(mutation);
+            //console.log(mutation);
             isEdited = true;
         });
     });

@@ -52,8 +52,8 @@
     function removeElementSelected() {
         selectedElement = null;
         svg.selectAll('.node').classed('selected', false);
-        svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
         svg.selectAll('.connector').classed('selected', false);
+        svg.selectAll('.pointer').style('opacity', 0);
         svg.selectAll('.alice-tooltip').remove();
     }
 
@@ -78,7 +78,7 @@
             .classed('is-default', function(d) { return d.isDefault === 'Y'; })
             .attr('id', function(d) { return d.id; })
             .style('marker-end', 'url(#end-arrow)')
-            .on('mousedown', function() {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
@@ -90,10 +90,7 @@
                 // select link
                 let selectedLink = d3.select(this).classed('selected', true);
                 selectedElement = null;
-
-                d3.select(this.parentNode).selectAll('.pointer')
-                    .style('opacity', 1)
-                    .style('cursor', 'move');
+                d3.select(document.getElementById(d.id + '_midPoint')).style('opacity', 1);
 
                 setConnectors();
                 AliceProcessEditor.setElementMenu(selectedLink);
@@ -236,6 +233,16 @@
      * draw connector.
      */
     function drawConnectors() {
+        const calcRoundedPointCoordinate = function(sourceCoords, targetCoords) {
+            const radius = 3;
+            let dx = sourceCoords[0] - targetCoords[0],
+                dy = sourceCoords[1] - targetCoords[1],
+                dist = Math.sqrt(dx * dx + dy * dy),
+                x = targetCoords[0] + dx * radius / dist,
+                y = targetCoords[1] + dy * radius / dist;
+            return [x, y];
+        };
+
         const getLinePath = function(d) {
             const targetNode = document.getElementById(d.targetId),
                   sourceNode = document.getElementById(d.sourceId);
@@ -262,57 +269,60 @@
 
             if (typeof d.midPoint !== 'undefined') {
                 midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
-
                 const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
                       targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
-
                 if (d3.select(document.getElementById(d.id)).classed('selected')) {
                     sourcePoint.style('opacity', 1);
                     targetPoint.style('opacity', 1);
                 }
                 if (typeof d.sourcePoint === 'undefined' && typeof d.targetPoint === 'undefined') {
                     let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
-                    let sourcePointCoords = getMidPointCoords(bestLine1);
-                    lineCoords.push(bestLine1[0]);
-                    lineCoords.push(bestLine1[1]);
                     let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
-                    let targetPointCoords = getMidPointCoords(bestLine2);
-                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(calcRoundedPointCoordinate(bestLine1[0], d.midPoint));
+                    lineCoords.push(calcRoundedPointCoordinate(bestLine2[1], d.midPoint));
                     lineCoords.push(bestLine2[1]);
 
+                    let sourcePointCoords = getMidPointCoords(bestLine1);
                     sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
+                    let targetPointCoords = getMidPointCoords(bestLine2);
                     targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else if (typeof d.sourcePoint === 'undefined') {
                     let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
-                    let sourcePointCoords = getMidPointCoords(bestLine1);
-                    lineCoords.push(bestLine1[0]);
-                    lineCoords.push(sourcePointCoords);
-                    lineCoords.push(bestLine1[1]);
                     let bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
-                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(calcRoundedPointCoordinate(bestLine1[0], d.midPoint));
+                    lineCoords.push(calcRoundedPointCoordinate(d.targetPoint, d.midPoint));
+                    lineCoords.push(calcRoundedPointCoordinate(d.midPoint, d.targetPoint));
+                    lineCoords.push(calcRoundedPointCoordinate(bestLine2[1], d.targetPoint));
                     lineCoords.push(bestLine2[1]);
 
+                    let sourcePointCoords = getMidPointCoords(bestLine1);
                     sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
                     targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
                 } else if (typeof d.targetPoint === 'undefined') {
                     let bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
-                    lineCoords.push(bestLine1[0]);
-                    lineCoords.push(bestLine1[1]);
                     let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
-                    let targetPointCoords = getMidPointCoords(bestLine2);
-                    lineCoords.push(bestLine2[0]);
-                    lineCoords.push(targetPointCoords);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(calcRoundedPointCoordinate(bestLine1[0], d.sourcePoint));
+                    lineCoords.push(calcRoundedPointCoordinate(d.midPoint, d.sourcePoint));
+                    lineCoords.push(calcRoundedPointCoordinate(d.sourcePoint, d.midPoint));
+                    lineCoords.push(calcRoundedPointCoordinate(bestLine2[1], d.midPoint));
                     lineCoords.push(bestLine2[1]);
 
+                    let targetPointCoords = getMidPointCoords(bestLine2);
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
                     targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else {
                     let bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
-                    lineCoords.push(bestLine1[0]);
-                    lineCoords.push(bestLine1[1]);
-                    lineCoords.push(d.midPoint);
                     let bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
-                    lineCoords.push(bestLine2[0]);
+                    lineCoords.push(bestLine1[0]);
+                    lineCoords.push(calcRoundedPointCoordinate(bestLine1[0], d.sourcePoint));
+                    lineCoords.push(calcRoundedPointCoordinate(d.midPoint, d.sourcePoint));
+                    lineCoords.push(calcRoundedPointCoordinate(d.sourcePoint, d.midPoint));
+                    lineCoords.push(calcRoundedPointCoordinate(d.targetPoint, d.midPoint));
+                    lineCoords.push(calcRoundedPointCoordinate(d.midPoint, d.targetPoint));
+                    lineCoords.push(calcRoundedPointCoordinate(bestLine2[1], d.targetPoint));
                     lineCoords.push(bestLine2[1]);
 
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
@@ -320,28 +330,22 @@
                 }
             } else {
                 let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
-                let midPointCoords = getMidPointCoords(bestLine);
                 lineCoords.push(bestLine[0]);
-                lineCoords.push(midPointCoords);
                 lineCoords.push(bestLine[1]);
 
+                let midPointCoords = getMidPointCoords(bestLine);
                 midPoint.attr('cx', midPointCoords[0]).attr('cy', midPointCoords[1]);
             }
 
-            /*
-            //d3.curveStep
-            //d3.curveStepAfter
-            //d3.curveStepBefore
-            //d3.curveLinear
-            //d3.curveCardinal.tension(0.5)
-            //d3.curveBundle.beta(1)
-            */
-            let lineGenerator = d3.line().curve(d3.curveLinear);
+            const lineGenerator = d3.line().curve(d3.curveBundle.beta(1));
             return lineGenerator(lineCoords);
         };
 
-        connectors.select('path.connector').attr('d', function(d) {return getLinePath(d);});
-        connectors.select('path.painted-connector').attr('d', function(d) {return getLinePath(d);});
+        connectors.select('path.connector').attr('d', function(d) {
+            let linePath = getLinePath(d);
+            d3.select(document.getElementById(d.id).parentNode).select('path.painted-connector').attr('d', linePath);
+            return linePath;
+        });
     }
 
     /**
@@ -503,6 +507,7 @@
         self.width = width ? width : 120;
         self.height = height ? height : 80;
         self.radius = 8;
+        const minWidth = 80, minHeight = 60;
         const calcX = x - (self.width / 2),
               calcY = y - (self.height / 2),
               typeImageSize = 20;
@@ -570,40 +575,40 @@
                     })
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-                            const minWidth = 80, minHeight = 60;
                             const mouseX = snapToGrid(d3.event.dx),
                                   mouseY = snapToGrid(d3.event.dy);
+                            const rectData = self.rectData;
                             switch (i + 1) {
                                 case 1:
-                                    if (self.rectData[1].x - (self.rectData[0].x + mouseX) >= minWidth) {
-                                        self.rectData[0].x += mouseX;
+                                    if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
+                                        rectData[0].x += mouseX;
                                     }
-                                    if (self.rectData[1].y - (self.rectData[0].y + mouseY) >= minHeight) {
-                                        self.rectData[0].y += mouseY;
+                                    if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
+                                        rectData[0].y += mouseY;
                                     }
                                     break;
                                 case 2:
-                                    if ((self.rectData[1].x + mouseX) - self.rectData[0].x >= minWidth) {
-                                        self.rectData[1].x += mouseX;
+                                    if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
+                                        rectData[1].x += mouseX;
                                     }
-                                    if ((self.rectData[1].y + mouseY) - self.rectData[0].y >= minHeight) {
-                                        self.rectData[1].y += mouseY;
+                                    if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
+                                        rectData[1].y += mouseY;
                                     }
                                     break;
                                 case 3:
-                                    if ((self.rectData[1].x + mouseX) - self.rectData[0].x >= minWidth) {
-                                        self.rectData[1].x += mouseX;
+                                    if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
+                                        rectData[1].x += mouseX;
                                     }
-                                    if (self.rectData[1].y - (self.rectData[0].y + mouseY) >= minHeight) {
-                                        self.rectData[0].y += mouseY;
+                                    if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
+                                        rectData[0].y += mouseY;
                                     }
                                     break;
                                 case 4:
-                                    if (self.rectData[1].x - (self.rectData[0].x + mouseX) >= minWidth) {
-                                        self.rectData[0].x += mouseX;
+                                    if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
+                                        rectData[0].x += mouseX;
                                     }
-                                    if ((self.rectData[1].y + mouseY) - self.rectData[0].y >= minHeight) {
-                                        self.rectData[1].y += mouseY;
+                                    if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
+                                        rectData[1].y += mouseY;
                                     }
                                     break;
                             }
@@ -624,10 +629,10 @@
         function updateRect() {
             const rectData = self.rectData;
 
-            let updateX = (rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x),
-                updateY = (rectData[1].y - rectData[0].y > 0 ? rectData[0].y : rectData[1].y),
-                updateWidth = Math.abs(rectData[1].x - rectData[0].x),
-                updateHeight = Math.abs(rectData[1].y - rectData[0].y);
+            let updateX = rectData[0].x,
+                updateY = rectData[0].y,
+                updateWidth = rectData[1].x - rectData[0].x,
+                updateHeight = rectData[1].y - rectData[0].y;
             self.nodeElement
                 .attr('x', updateX)
                 .attr('y', updateY)
@@ -1069,12 +1074,7 @@
         const zoom = d3.zoom()
             .on('start', function() {
                 if (!isMovableDrawingboard) {
-                    const drawingBoard = document.querySelector('.alice-process-drawing-board'),
-                          gTransform = d3.zoomTransform(d3.select('g.element-container').node());
-                    zoom.translateExtent([
-                        [-gTransform.x, -gTransform.y],
-                        [drawingBoard.offsetWidth - gTransform.x, drawingBoard.offsetHeight - gTransform.y]
-                    ]);
+                    dismovableDrawingboard();
                 } else {
                     svg.style('cursor', 'grabbing');
                     const nodeTopArray = [],
@@ -1107,6 +1107,10 @@
                 }
             })
             .on('zoom', function() {
+                if (!isMovableDrawingboard) {
+                    dismovableDrawingboard();
+                    svg.style('cursor', 'default');
+                }
                 horizontalGrid
                     .call(horizontalAxis.scale(d3.event.transform.rescaleY(horizontalScale)));
                 verticalGrid
@@ -1124,6 +1128,19 @@
             .call(zoom)
             .on('wheel.zoom', null)
             .on('dblclick.zoom', null);
+
+        /**
+         * disable the movable function of the drawing board.
+         */
+        function dismovableDrawingboard() {
+            const drawingBoard = document.querySelector('.alice-process-drawing-board'),
+                  gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+            zoom.translateExtent([
+                [-gTransform.x, -gTransform.y],
+                [drawingBoard.offsetWidth - gTransform.x, drawingBoard.offsetHeight - gTransform.y]
+            ]);
+            svg.style('cursor', 'default');
+        }
 
         const connectorContainer = svg.append('g').attr('class', 'connector-container');
         connectors = connectorContainer.selectAll('g.connector');
