@@ -282,15 +282,12 @@
             //calc radius of circle
             let K = 0.3 * A * B * Math.sin(angle);
             let r = A * B * C / 4 / K;
-            console.debug('A: %s, B: %s, C: %s', A, B, C);
             r = Math.round(r * 1000) / 1000;
 
             //large arc flag
             let laf = +(Math.PI / 2 > angle);
-
             //sweep flag
             let saf = +((endPoint[0] - startPoint[0]) * (midPoint[1] - startPoint[1]) - (endPoint[1] - startPoint[1]) * (midPoint[0] - startPoint[0]) < 0);
-            console.debug('angle: %s, K: %s, r: %s, laf: %s, saf: %s', angle, K, r, laf, saf);
 
             //return ['L', startPoint, 'A', r, r, 0, laf, saf, endPoint].join(' ');
             return ['L', startPoint, 'A', r, r, 0, 0, saf, endPoint].join(' ');
@@ -405,8 +402,6 @@
                     linePath += calcCirclePath(coords[0], coords[1], coords[2]);
                 });
                 linePath += ['L', bestLine2[1]].join(' ');
-                console.debug(linePath);
-
             } else {
                 let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
                 linePath = ['M', bestLine[0], 'L', bestLine[1]].join(' ');
