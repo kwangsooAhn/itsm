@@ -170,9 +170,9 @@ class WfTokenService(
         logger.debug("Token Element Type : {}", elementType)
         when(elementType) {
             "" -> wfTokenElementService.initStart(wfTokenDto)
-            WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.userTask(wfTokenDto)
-            WfElementConstants.ElementType.END_EVENT.value -> wfTokenElementService.endEvent(wfTokenDto)
-            WfElementConstants.ElementType.COMMON_SUBPROCESS.value -> wfTokenElementService.subProcess(wfTokenDto)
+            WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.userTask(wfTokenEntity.get(), wfTokenDto)
+            WfElementConstants.ElementType.END_EVENT.value -> wfTokenElementService.endEvent(wfTokenEntity.get(), wfTokenDto)
+            WfElementConstants.ElementType.COMMON_SUBPROCESS.value -> wfTokenElementService.subProcess(wfTokenEntity.get(), wfTokenDto)
         }
     }
 

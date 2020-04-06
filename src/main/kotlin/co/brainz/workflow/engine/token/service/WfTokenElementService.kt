@@ -66,9 +66,8 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
      *
      * @param wfTokenDto
      */
-    fun userTask(wfTokenDto: WfTokenDto) {
+    fun userTask(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)
-        val wfTokenEntity = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
         when (wfTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> wfTokenActionService.save(wfTokenEntity, wfTokenDto)
             else -> {
@@ -87,7 +86,7 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
      *
      * @param wfTokenDto
      */
-    fun endEvent(wfTokenDto: WfTokenDto) {
+    fun endEvent(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)
 
     }
@@ -97,7 +96,7 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
      *
      * @param wfTokenDto
      */
-    fun subProcess(wfTokenDto: WfTokenDto) {
+    fun subProcess(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)
 
     }
