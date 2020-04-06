@@ -1,11 +1,11 @@
 #document-container {
   overflow-y: auto;
-  height: 750px;
-  border: 1px solid #bcc5d3;
+  height: 46.875rem;
+  border: 0.0625rem solid #bcc5d3;
 }
 
 #document-container > .component {
-  padding: 15px 60px;
+  padding: 0.9375rem 3.75rem;
 }
 
 #document-container > .component .field .label {
@@ -18,7 +18,7 @@
 
 #document-container > .component input[type=text] {
   width: 100%;
-  outline: solid 1px;
+  outline: solid 0.0625rem;
 }
 
 #document-container > .component input[type=radio] {
@@ -26,18 +26,18 @@
 }
 
 #document-container > .component input[type=radio]:focus {
-  outline: 1px #3c3cff solid;
+  outline: 0.0625rem #3c3cff solid;
 }
 
 #document-container > .component span[class*="required"] {
-  padding-left: 5px;
+  padding-left: 0.3125rem;
   color: #fc5f6b;
   font-weight: bold;
 }
 
 textarea {
   width: 100%;
-  outline: solid 1px;
+  outline: solid 0.0625rem;
 }
 
 select {
@@ -53,7 +53,7 @@ input[type=checkbox] {
 }
 
 input[type=checkbox]:focus {
-  outline: 1px #3c3cff solid;
+  outline: 0.0625rem #3c3cff solid;
 }
 
 input[type=file] {
