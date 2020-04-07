@@ -6,4 +6,3 @@ data class WfTokenDataDto(
         val componentId: String,
         var value: String
 ) : Serializable
-

@@ -774,6 +774,7 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
+
         const opt = {
             method: method,
             url: '/rest/tokens/data',
