@@ -96,7 +96,7 @@
      *
      * @param compData 컴포넌트 데이터
      */
-    function addComponent(compData) {
+    /*function addComponent(compData) {
         const comp = document.createElement('div');
         comp.id = compData.componentId;
         comp.className = 'component';
@@ -499,9 +499,11 @@
                 const fileUploadedEleId = 'dropZoneUploadedFiles-' + compData.componentId;
                 fileEle.id = fileEleId;
                 fieldLastEle.appendChild(fileEle);
+
                 const fileUploadedEle = document.createElement('div');
                 fileUploadedEle.id = fileUploadedEleId;
                 fieldLastEle.appendChild(fileUploadedEle);
+
                 if (compData.values != undefined && compData.values.length > 0) {
                     fileUploader.init({extra: {formId: 'frm', ownId: '',
                             dropZoneFilesId: fileEleId, dropZoneUploadedFilesId: fileUploadedEleId, fileDataIds: compData.values[0].value}});
@@ -513,7 +515,7 @@
             default :
                 break;
         }
-    }
+    }*/
 
     /**
      * button를 만든다.
@@ -825,6 +827,7 @@
                 }
                 component.draw(compType, documentContainer, componentAttr);
             }
+            //TODO: 유효성 검증 추가
         }
         if (data.documentId !== undefined) {
             addIdComponent('documentId', data.documentId);

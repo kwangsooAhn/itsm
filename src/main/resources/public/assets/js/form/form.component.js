@@ -350,8 +350,8 @@
                 divEle.appendChild(lblElem);
                 divEle.appendChild(checkElem);
             } else {
-                divEle.appendChild(optionChk);
                 divEle.appendChild(checkElem);
+                divEle.appendChild(lblElem);
             }
             fieldLastEle.appendChild(divEle);
         }
@@ -446,7 +446,9 @@
                 dateDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
                 dateDefault = dateDefault.split(' ')[0];
             } else if (dateDefaultArr[0] === 'datepicker') {
-                dateDefault = aliceJs.changeDateFormat(dateDefaultArr[2], datePlaceholder, dateDefaultArr[1], aliceForm.options.lang);
+                if (dateDefaultArr[1] !== '') {
+                    dateDefault = aliceJs.changeDateFormat(dateDefaultArr[2], datePlaceholder, dateDefaultArr[1], aliceForm.options.lang);
+                }
             } else if (dateDefaultArr[0] === 'date') {
                 dateDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat, dateDefaultArr[1]);
                 dateDefault = dateDefault.split(' ')[0];
@@ -464,14 +466,17 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.validate.required === "Y" ? "required" : ""} readonly/>
+                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.validate.required === "Y" ? "required" : ""}/>
                     </div>
                 </div>
             `);
 
         target.appendChild(comp);
         this.domElem = comp;
-        dateTimePicker.initDatePicker('date-' + attr.id, aliceForm.options.dateFormat, aliceForm.options.lang);
+
+        if (!target.hasAttribute('data-readonly')) {
+            dateTimePicker.initDatePicker('date-' + attr.id, aliceForm.options.dateFormat, aliceForm.options.lang);
+        }
     }
 
     /**
@@ -484,9 +489,8 @@
     function Timebox(attr, target) {
         //시간 포멧 변경
         let timeDefaultArr = attr.display['default'].split('|');
-        let timeDefault = '';
         let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
-
+        let timeDefault = '';
         //처리할 문서는 실 데이터를 출력한다.
         if (attr.values !== undefined && attr.values.length > 0) {
             //저장한 날짜와 포맷
@@ -499,54 +503,35 @@
             let time = timeDefault.split(' ');
             timeDefault = (time.length > 2) ? (time[1] +' '+time[2]) : timeDefault = time[1];
         } else {
+            let beforeFormt = aliceForm.options.dateFormat +' ' + aliceForm.options.timeFormat +' ' + '24';
             if (timeDefaultArr[0] === 'now') {
-                timeDefault = aliceJs.getTimeStamp(aliceForm.options.timeFormat);
+                timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat);
+                timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, aliceForm.options.lang);
+                let timeNow = timeDefault.split(' ');
+                timeDefault = (timeNow.length > 2) ? (timeNow[1] +' ' + timeNow[2]) : timeNow[1];
             } else if (timeDefaultArr[0] === 'timepicker') {
-                timeDefault = timeDefaultArr[1];
+                timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat) + ' ' + timeDefaultArr[1];
+                timeDefault = aliceJs.changeDateFormat(timeDefaultArr[2], timeFormat, timeDefault, aliceForm.options.lang);
+                let timePicker = timeDefault.split(' ');
+                if (timePicker.length === 3) {
+                    timeDefault = timePicker[1] + ' '+ timePicker[2];
+                } else if (timePicker.length === 2) {
+                    timeDefault = timePicker[1];
+                } else if (timePicker.length === 1) {
+                    timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat);
+                    timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, aliceForm.options.lang);
+                    timePicker = timeDefault.split(' ');
+                    timeDefault = timePicker[1];
+                }
             } else if (timeDefaultArr[0] === 'time') {
-                timeDefault = aliceJs.getTimeStamp(aliceForm.options.timeFormat, '', timeDefaultArr[1]);
+                timeDefault = aliceJs.getTimeStamp(beforeFormt, '', timeDefaultArr[1]);
+                let timeDate = timeDefault.split(' ');
+                timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDate[0] +' '+ timeDate[1], aliceForm.options.lang);
+                let time = timeDefault.split(' ');
+                timeDefault = (time.length > 2) ? (time[1] +' '+time[2]) : time[1];
             }
         }
 
-        /*let beforeFormt = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + '24';
-        if (timeDefaultArr[0] === 'now') {
-            timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat +' ' + aliceForm.options.timeFormat);
-            timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, aliceForm.options.lang);
-            let timeNow = timeDefault.split(' ');
-            if (timeNow.length > 2) {
-                timeDefault = timeNow[1] +' '+timeNow[2];
-            } else {
-                timeDefault = timeNow[1];
-            }
-        } else if (timeDefaultArr[0] === 'time') {
-            timeDefault = aliceJs.getTimeStamp(beforeFormt, '', timeDefaultArr[1]);
-            let timeDate = timeDefault.split(' ');
-            timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDate[0] + ' ' + timeDate[1], aliceForm.options.lang);
-            let time = timeDefault.split(' ');
-            if (time.length > 2) {
-                timeDefault = time[1] +' '+time[2];
-            } else {
-                timeDefault = time[1];
-            }
-        } else if (timeDefaultArr[0] === 'timepicker') {
-            timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat) + ' ' + timeDefaultArr[1];
-            timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, aliceForm.options.lang);
-            let timepicker = timeDefault.split(' ');
-            if (timepicker.length === 3) {
-                timeDefault = timepicker[1] +' '+timepicker[2];
-            } else if (timepicker.length === 2) {
-                timeDefault = timepicker[1];
-            } else if (timepicker.length === 1) {
-                timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat);
-                timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, aliceForm.options.lang);
-                timepicker = timeDefault.split(' ');
-                timeDefault = timepicker[1];
-            }
-        }
-        let targetElement = document.getElementById('time-' + attr.id);
-        if (targetElement != undefined) {
-            targetElement.remove();
-        }*/
         let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
@@ -559,7 +544,7 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.validate.required === "Y" ? "required" : ""}  readonly/>
+                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.validate.required === "Y" ? "required" : ""} />
                     </div>
                 </div>
             `);
@@ -567,7 +552,9 @@
         target.appendChild(comp);
         this.domElem = comp;
 
-        dateTimePicker.initTimePicker('time-' + attr.id, aliceForm.options.hourType, aliceForm.options.lang);
+        if (!target.hasAttribute('data-readonly')) {
+            dateTimePicker.initTimePicker('time-' + attr.id, aliceForm.options.hourType, aliceForm.options.lang);
+        }
     }
 
     /**
@@ -581,7 +568,9 @@
         //날짜 시간 포멧 변경
         let datetimeDefaultArr = attr.display['default'].split('|');
         let datetimeDefault = '';
+        let beforeDatetimeDefault = '';
         let datetimePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
+        let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat;
 
         if (attr.values != undefined && attr.values.length > 0 ) {
             let dateValue = attr.values[0].value.split('|');
@@ -590,38 +579,20 @@
             }
         } else {
             if (datetimeDefaultArr[0] === 'now') {
-                datetimeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat);
+                datetimeDefault = aliceJs.getTimeStamp(timeFormat);
+                datetimeDefault = aliceJs.changeDateFormat(timeFormat + ' 24', datetimePlaceholder, datetimeDefault, aliceForm.options.lang);
             } else if (datetimeDefaultArr[0] === 'datetimepicker') {
-                datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], datetimePlaceholder, datetimeDefaultArr[1], aliceForm.options.lang);
+                if (datetimeDefaultArr[1] !== '') {
+                    beforeDatetimeDefault = datetimeDefaultArr[1];
+                    datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], datetimePlaceholder, beforeDatetimeDefault, aliceForm.options.lang);
+                }
             } else if (datetimeDefaultArr[0] === 'datetime') {
-                datetimeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+                beforeDatetimeDefault = aliceJs.getTimeStamp(timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
+                datetimeDefault = aliceJs.changeDateFormat(timeFormat + ' 24', datetimePlaceholder, beforeDatetimeDefault, aliceForm.options.lang);
             }
         }
 
-       /* let beforeDatetimeDefault = '';
-        let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat;
-        let nowTimeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' '+  aliceForm.options.hourType;
-
-        if (datetimeDefaultArr[0] === 'now') {
-            datetimeDefault = aliceJs.getTimeStamp(timeFormat);
-        } else if (datetimeDefaultArr[0] === 'datetimepicker') {
-            if (datetimeDefaultArr[1] !== '') {
-                beforeDatetimeDefault = datetimeDefaultArr[1];
-            } else {
-                beforeDatetimeDefault = aliceJs.getTimeStamp(timeFormat);
-            }
-            datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[2], nowTimeFormat, beforeDatetimeDefault, aliceForm.options.lang);
-        } else if (datetimeDefaultArr[0] === 'datetime') {
-            beforeDatetimeDefault = aliceJs.getTimeStamp(timeFormat, datetimeDefaultArr[1], datetimeDefaultArr[2]);
-            datetimeDefault = aliceJs.changeDateFormat(datetimeDefaultArr[3], nowTimeFormat, beforeDatetimeDefault, aliceForm.options.lang);
-        }
-
-        let targetElement = document.getElementById('datetime-' + attr.id);
-        if (targetElement != undefined) {
-            targetElement.remove();
-        }*/
-        let comp = '';
-            comp = utils.createComponentByTemplate(`
+        let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
                     <div class='field'>
@@ -633,14 +604,16 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder} a' value='${datetimeDefault}' ${attr.validate.required === "Y" ? "required" : ""} readonly />
+                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.validate.required === "Y" ? "required" : ""} />
                     </div>
                 </div>
             `);
         target.appendChild(comp);
         this.domElem = comp;
 
-        dateTimePicker.initDateTimePicker('datetime-' + attr.id, aliceForm.options.dateFormat, aliceForm.options.hourType, aliceForm.options.lang);
+        if (!target.hasAttribute('data-readonly')) {
+            dateTimePicker.initDateTimePicker('datetime-' + attr.id, aliceForm.options.dateFormat, aliceForm.options.hourType, aliceForm.options.lang);
+        }
     }
 
     /**
@@ -741,7 +714,6 @@
             compAttr.type = compType;
         }
         compAttr.display.order = ++componentIdx;
-        console.log(compAttr);
         let componentConstructor = null;
         switch(compType) {
             case 'editbox':

@@ -46,7 +46,7 @@
      */
     function validateCheck(element, validate) {
         if (typeof validate === 'undefined' || validate === '') { return; }
-        let numberRegex = /^[0-9]*$/;
+        let numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
         const validateFunc = {
             number: function(value) {
                 return numberRegex.test(value);
@@ -486,7 +486,7 @@
                 compAttr.id = id;
                 compAttr.display.order = originDisplayOrder;
                 setComponentData(compAttr);
-                
+
                 let targetElement = document.getElementById(id);
                 element.domElem.id = id;
                 element.domElem.setAttribute('data-index', originDisplayOrder);
