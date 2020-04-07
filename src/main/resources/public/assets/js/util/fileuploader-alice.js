@@ -201,7 +201,7 @@ const fileUploader = (function () {
 
                             // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
                             delBtn.addEventListener('click', function (e) {
-                                const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]'); 
+                                const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]');
                                 delFile.setAttribute('name', 'delFileSeq');
                                 delFile.parentElement.style.display = 'none';
                             });
@@ -217,6 +217,17 @@ const fileUploader = (function () {
                     async: true
                 };
                 aliceJs.sendXhr(opt);
+
+                //파일 확장자 목록 관련 출력
+                var fileNameExtensionList;
+                const opt2 = {
+                    method: 'GET',
+                    url: '/fileNameExtensionList',
+                    callbackFunc: function (response) {
+                        fileNameExtensionList = JSON.parse(response.responseText);
+                    }
+                };
+                aliceJs.sendXhr(opt2)
 
                 //파일접근시 사용.
                 //all accepted files: .getAcceptedFiles()
@@ -245,6 +256,21 @@ const fileUploader = (function () {
                 });
 
                 this.on("success", function (file, response) {
+                    var fileName = file.name;
+                    var fileNameLength = file.name.length;
+                    var lastDot = fileName.lastIndexOf('.');
+                    var fileNameExtension = fileName.substring(lastDot+1, fileNameLength).toUpperCase();
+                    var array = [];
+
+                    for (var i = 0; i < fileNameExtensionList.length; i++)  {
+                        array[i] = fileNameExtensionList[i].fileNameExtension;
+                    }
+
+                    if (!(array.includes(fileNameExtension))) {
+                        this.removeFile(file);
+                        aliceJs.alert(i18n.get('fileupload.msg.fileNameExtensionNotExist'))
+                    }
+
                     const seq = document.createElement('input');
                     seq.setAttribute('type', 'hidden');
                     seq.setAttribute('name', 'fileSeq');
