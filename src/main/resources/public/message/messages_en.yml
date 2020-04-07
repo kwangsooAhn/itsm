@@ -386,3 +386,4 @@ fileupload:
   msg:
     maxfilesexceeded: "The number of attachments has been exceeded. (Attachment limit number : {0})"
     maxfilesizeexceeded: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"
+    fileNameExtensionNotExist: "Files with the fileName extension cannot be uploaded."

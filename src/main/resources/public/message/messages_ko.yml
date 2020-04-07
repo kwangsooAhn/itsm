@@ -386,3 +386,4 @@ fileupload:
   msg:
     maxfilesexceeded: "첨부파일 개수를 초과하였습니다. (첨부파일 제한 개수 : {0})"
     maxfilesizeexceeded: "첨부파일 제한 용량을 초과하였습니다. (첨부파일 제한 용량 : {0}MB)"
+    fileNameExtensionNotExist: "해당 확장자를 가진 파일은 업로드가 불가능합니다."
