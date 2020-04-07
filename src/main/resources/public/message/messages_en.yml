@@ -37,9 +37,10 @@ common:
     save.fail: "Fail"
     delete.success: "Deleted."
     delete.fail: "Deletion failed."
-    unknownError: "An unknown error has occurred. Please contact the administrator."
     update: "Changed."
     update.fail: "Change failed."
+    unknownError: "An unknown error has occurred. Please contact the administrator."
+    requiredEnter: "Please enter the required item."
 # Menu
 menu:
   service: "Service"
