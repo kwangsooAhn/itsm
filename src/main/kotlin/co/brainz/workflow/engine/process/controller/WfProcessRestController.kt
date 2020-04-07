@@ -43,7 +43,7 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            WfProcessConstants.SaveType.SAVE_AS.code -> wfEngine.process().saveAsForm(mapper.convertValue(jsonData, WfProcessElementDto::class.java))
+            WfProcessConstants.SaveType.SAVE_AS.code -> wfEngine.process().saveAsProcess(mapper.convertValue(jsonData, WfProcessElementDto::class.java))
             else -> wfEngine.process().insertProcess(mapper.convertValue(jsonData, ProcessDto::class.java))
         }
     }
