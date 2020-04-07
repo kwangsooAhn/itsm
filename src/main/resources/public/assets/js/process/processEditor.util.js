@@ -351,6 +351,7 @@
         if (document.getElementById('btnDownload') !== null) {
             document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
         }
+
         // start observer
         isEdited = false;
         observer.observe(document.querySelector('.alice-process-drawing-board'), observerConfig);

@@ -62,23 +62,23 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun createForm(wfFormDto: WfFormDto): WfFormDto {
         val formEntity = WfFormEntity(
-                formId = wfFormDto.formId,
-                formName = wfFormDto.formName,
-                formDesc = wfFormDto.formDesc,
-                formStatus = wfFormDto.formStatus,
+                formId = wfFormDto.id,
+                formName = wfFormDto.name,
+                formDesc = wfFormDto.desc,
+                formStatus = wfFormDto.status,
                 createDt = wfFormDto.createDt,
                 createUserKey = wfFormDto.createUserKey
         )
         val dataEntity = wfFormRepository.save(formEntity)
 
         return WfFormDto(
-                formId = dataEntity.formId,
-                formName = dataEntity.formName,
-                formDesc = dataEntity.formDesc,
-                formEnabled = true,
+                id = dataEntity.formId,
+                name = dataEntity.formName,
+                status = dataEntity.formStatus,
+                desc = dataEntity.formDesc,
+                editable = true,
                 createUserKey = dataEntity.createUserKey,
-                createDt = dataEntity.createDt,
-                formStatus = dataEntity.formStatus
+                createDt = dataEntity.createDt
         )
     }
 
@@ -100,8 +100,8 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
     fun form(formId: String): WfFormDto {
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
         val wfFormDto = wfFormMapper.toFormDto(formEntity)
-        when (wfFormDto.formStatus) {
-            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.SIMULATION.value -> wfFormDto.formEnabled = true
+        when (wfFormDto.status) {
+            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.SIMULATION.value -> wfFormDto.editable = true
         }
         return wfFormDto
     }
@@ -165,10 +165,10 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      * @return Boolean
      */
     fun updateForm(wfFormDto: WfFormDto): Boolean {
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(wfFormDto.formId)
-        formEntity.get().formName = wfFormDto.formName
-        formEntity.get().formDesc = wfFormDto.formDesc
-        formEntity.get().formStatus = wfFormDto.formStatus
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(wfFormDto.id)
+        formEntity.get().formName = wfFormDto.name
+        formEntity.get().formDesc = wfFormDto.desc
+        formEntity.get().formStatus = wfFormDto.status
         formEntity.get().updateDt = wfFormDto.updateDt
         formEntity.get().updateUserKey = wfFormDto.updateUserKey
         wfFormRepository.save(formEntity.get())
@@ -183,7 +183,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
     fun saveFormData(wfFormComponentSaveDto: WfFormComponentSaveDto) {
 
         //Delete component, attribute
-        val componentEntities = wfComponentRepository.findByFormId(wfFormComponentSaveDto.form.formId)
+        val componentEntities = wfComponentRepository.findByFormId(wfFormComponentSaveDto.form.id)
         val componentIds: MutableList<String> = mutableListOf()
         for (component in componentEntities) {
             componentIds.add(component.componentId)
@@ -194,11 +194,11 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
 
         //Update Form
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val wfFormData: Optional<WfFormEntity> = wfFormRepository.findWfFormEntityByFormId(wfFormComponentSaveDto.form.formId)
+        val wfFormData: Optional<WfFormEntity> = wfFormRepository.findWfFormEntityByFormId(wfFormComponentSaveDto.form.id)
         wfFormData.ifPresent {
-            wfFormData.get().formName = wfFormComponentSaveDto.form.formName
-            wfFormData.get().formDesc = wfFormComponentSaveDto.form.formDesc
-            wfFormData.get().formStatus = wfFormComponentSaveDto.form.formStatus
+            wfFormData.get().formName = wfFormComponentSaveDto.form.name
+            wfFormData.get().formDesc = wfFormComponentSaveDto.form.desc
+            wfFormData.get().formStatus = wfFormComponentSaveDto.form.status
             wfFormData.get().updateDt = wfFormComponentSaveDto.form.updateDt
             wfFormData.get().updateUserKey = wfFormComponentSaveDto.form.updateUserKey
             val resultFormEntity = wfFormRepository.save(wfFormData.get())
@@ -251,16 +251,16 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun saveAsFormData(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto {
         val formDataDto = WfFormDto(
-                formName = wfFormComponentSaveDto.form.formName,
-                formDesc = wfFormComponentSaveDto.form.formDesc,
+                name = wfFormComponentSaveDto.form.name,
+                status = wfFormComponentSaveDto.form.status,
+                desc = wfFormComponentSaveDto.form.desc,
                 createUserKey = wfFormComponentSaveDto.form.createUserKey,
-                createDt = wfFormComponentSaveDto.form.createDt,
-                formStatus = wfFormComponentSaveDto.form.formStatus
+                createDt = wfFormComponentSaveDto.form.createDt
         )
         val wfFormDto = createForm(formDataDto)
-        wfFormComponentSaveDto.form.formId = wfFormDto.formId
-        when (wfFormComponentSaveDto.form.formStatus) {
-            WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.formEnabled = false
+        wfFormComponentSaveDto.form.id = wfFormDto.id
+        when (wfFormComponentSaveDto.form.status) {
+            WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.editable = false
         }
         for (component in wfFormComponentSaveDto.components) {
             component["id"] = UUID.randomUUID().toString().replace("-", "")
@@ -278,17 +278,17 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun formEntityToDto(wfFormEntity: WfFormEntity): WfFormDto {
         val formDto = WfFormDto(
-                formId = wfFormEntity.formId,
-                formName = wfFormEntity.formName,
-                formStatus = wfFormEntity.formStatus,
-                formDesc = wfFormEntity.formDesc,
+                id = wfFormEntity.formId,
+                name = wfFormEntity.formName,
+                status = wfFormEntity.formStatus,
+                desc = wfFormEntity.formDesc,
                 createUserKey = wfFormEntity.createUserKey,
                 createDt = wfFormEntity.createDt,
                 updateUserKey = wfFormEntity.updateUserKey,
                 updateDt = wfFormEntity.updateDt
         )
         when (wfFormEntity.formStatus) {
-            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.SIMULATION.value -> formDto.formEnabled = true
+            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.SIMULATION.value -> formDto.editable = true
         }
         return formDto
     }
