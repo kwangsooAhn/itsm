@@ -45,7 +45,8 @@ object AliceConstants {
         PATTEN97("/filelist"),
         PATTEN98("/filedel"),
         PATTEN99("/fileSubmit"),
-        PATTEN100("/i18n/**")
+        PATTEN100("/fileNameExtensionList"),
+        PATTEN101("/i18n/**")
         ;
 
         companion object {
