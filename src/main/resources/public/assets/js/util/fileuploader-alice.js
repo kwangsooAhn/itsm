@@ -19,13 +19,12 @@ const fileUploader = (function () {
     const createDropZone = function () {
         /*<![CDATA[*/
 
-        if (extraParam.dropZoneFilesId != undefined) {
-            dropZoneFilesId = extraParam.dropZoneFilesId;
-        } else {
-            dropZoneFilesId = 'dropZoneFiles';
+        if (extraParam.dropZoneFilesId === undefined) {
+            extraParam.dropZoneFilesId = 'dropZoneFiles';
         }
+        dropZoneFilesId = extraParam.dropZoneFilesId;
 
-        if (extraParam.dropZoneUploadedFilesId != undefined) {
+        if (extraParam.dropZoneUploadedFilesId !== undefined) {
             dropZoneUploadedFilesId = extraParam.dropZoneUploadedFilesId;
         } else {
             dropZoneUploadedFilesId = 'dropZoneUploadedFiles';
@@ -214,7 +213,7 @@ const fileUploader = (function () {
                         }
                     },
                     params: '',
-                    async: true
+                    async: false
                 };
                 aliceJs.sendXhr(opt);
 
