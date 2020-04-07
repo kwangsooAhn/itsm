@@ -156,11 +156,8 @@ class WfElementService(
             stringForRegex.matches(regexConstant) -> {
                 var action = ""
                 val actionId = stringForRegex.trim().replace("#{", "").replace("}", "")
-                wfTokenDto.action?.forEach {
-                    if (it.name == actionId) {
-                        action = it.value
-                        return@forEach
-                    }
+                if (wfTokenDto.action == actionId) {
+                    action = wfTokenDto.action
                 }
                 action
             }

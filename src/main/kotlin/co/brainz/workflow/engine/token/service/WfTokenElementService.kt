@@ -79,20 +79,20 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
             WfElementConstants.Action.WITHDRAW.value -> wfTokenActionService.setWithdraw(wfTokenEntity, wfTokenDto)
             else -> {
                 wfTokenActionService.setProcess(wfTokenEntity, wfTokenDto)
-                goToNext(wfTokenEntity)
+                goToNext(wfTokenEntity, wfTokenDto)
             }
         }
     }
 
     /**
-     * EndEvent.
+     * CommonEndEvent.
      *
      * @param wfTokenEntity
      * @param wfTokenDto
      */
-    fun setEndEvent(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+    fun setCommonEndEvent(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)
-
+        wfTokenRepository.save(wfTokenEntity)
     }
 
     /**
@@ -120,8 +120,9 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
      * Add Next Token. (+ TokenData)
      *
      * @param wfTokenEntity
+     * @param wfTokenDto
      */
-    private fun goToNext(wfTokenEntity: WfTokenEntity) {
+    private fun goToNext(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
         val arrows = wfActionService.getArrowElements(wfTokenEntity.elementId)
         //TODO: GateWay 면 Element 선택 추가.
         val nextElementId = wfActionService.getNextElementId(arrows[0])
@@ -160,7 +161,16 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
                     }
                 }
             }
-            WfElementConstants.ElementType.END_EVENT.value -> {
+            WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
+                val newTokenEntity = WfTokenEntity(
+                        tokenId = "",
+                        elementId = element.elementId,
+                        tokenStatus = WfTokenConstants.Status.FINISH.code,
+                        tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                        tokenEndDt = LocalDateTime.now(ZoneId.of("UTC")),
+                        instance = wfTokenEntity.instance
+                )
+                setCommonEndEvent(newTokenEntity, wfTokenDto)
                 wfInstanceService.completeInstance(wfTokenEntity.instance.instanceId)
                 //TODO: #8321 종료이벤트 로직 강화
                 //호출한 부모 토큰이 존재할 경우 해당 토큰 호출
