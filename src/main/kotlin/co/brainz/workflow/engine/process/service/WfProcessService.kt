@@ -18,6 +18,8 @@ import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
+import kotlin.collections.LinkedHashMap
 
 @Service
 @Transactional
@@ -201,7 +203,7 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
     /**
      * 프로세스 다음 이름 저장.
      */
-    fun saveAsForm(wfProcessElementDto: WfProcessElementDto): ProcessDto {
+    fun saveAsProcess(wfProcessElementDto: WfProcessElementDto): ProcessDto {
         val processDataDto = ProcessDto(
                 processName = wfProcessElementDto.process?.name.toString(),
                 processDesc = wfProcessElementDto.process?.description,
@@ -216,8 +218,42 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
             processDto.processStatus = WfProcessConstants.Status.EDIT.code
             processDto.enabled = true
         }
-        wfProcessElementDto.process?.id = processDto.processId
-        updateProcessData(wfProcessElementDto)
+        val newProcess = WfProcessDto(
+                id = processDto.processId,
+                name = processDto.processName,
+                createUserKey = processDto.createUserKey,
+                createDt = processDto.createDt,
+                status = processDto.processStatus,
+                enabled = processDto.enabled,
+                description = processDto.processDesc
+        )
+        val newElements: MutableList<WfElementDto> = mutableListOf()
+        val elementKeyMap: MutableMap<String, String> = mutableMapOf()
+        wfProcessElementDto.elements?.forEach { element ->
+            elementKeyMap[element.id] = UUID.randomUUID().toString().replace("-", "")
+        }
+        wfProcessElementDto.elements?.forEach { element ->
+            val dataMap: MutableMap<String, Any>? = element.data
+            if (dataMap != null) {
+                for ((key, value) in dataMap) {
+                    if (elementKeyMap.containsKey(value)) {
+                        dataMap[key] = elementKeyMap[value].toString()
+                    }
+                }
+            }
+            val wfElementDto = WfElementDto(
+                    id = elementKeyMap[element.id]!!,
+                    data = dataMap,
+                    type = element.type,
+                    display = element.display
+            )
+            newElements.add(wfElementDto)
+        }
+        val newProcessElementDto = WfProcessElementDto(
+                process = newProcess,
+                elements = newElements
+        )
+        updateProcessData(newProcessElementDto)
         return processDto
     }
 }
