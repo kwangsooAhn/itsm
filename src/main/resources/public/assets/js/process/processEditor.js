@@ -171,7 +171,6 @@
                 })
                 .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        AliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
                         AliceProcessEditor.changeDisplayValue(d.id);
                     }
                 })
@@ -191,7 +190,6 @@
                 })
                 .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        AliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
                         AliceProcessEditor.changeDisplayValue(d.id);
                     }
                 })
@@ -266,6 +264,23 @@
         };
 
         /**
+         * 두 개의 좌표 사이의 거리를 구한다.
+         *
+         * @param a 시작좌표
+         * @param b 종료좌표
+         * @return {number} 좌표 사이 거리
+         */
+        const calcDist = function(a, b) {
+            let dist = Math.sqrt(
+                Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
+            );
+            if (dist === 0) {
+                dist = 1;
+            }
+            return dist;
+        };
+
+        /**
          * convert 3 points to an Arc Path.
          *
          * @param startPoint 시작좌표
@@ -274,40 +289,26 @@
          * @return {string} path
          */
         const calcCirclePath = function(startPoint, midPoint, endPoint) {
-            let A = dist(endPoint, midPoint);
-            let B = dist(midPoint, startPoint);
-            let C = dist(startPoint, endPoint);
-            let angle = Math.acos((A * A + B * B - C * C) / (2 * A * B));
+            let distA = calcDist(endPoint, midPoint);
+            let distB = calcDist(midPoint, startPoint);
+            let distC = calcDist(startPoint, endPoint);
+            let angle = Math.acos((distA * distA + distB * distB - distC * distC) / (2 * distA * distB));
 
             //calc radius of circle
-            let K = 0.3 * A * B * Math.sin(angle);
-            let r = A * B * C / 4 / K;
+            let K = 0.3 * distA * distB * Math.sin(angle);
+            let r = distA * distB * distC / 4 / K;
+            console.debug('A: %s, B: %s, C: %s', distA, distB, distC);
             r = Math.round(r * 1000) / 1000;
 
             //large arc flag
             let laf = +(Math.PI / 2 > angle);
+
             //sweep flag
             let saf = +((endPoint[0] - startPoint[0]) * (midPoint[1] - startPoint[1]) - (endPoint[1] - startPoint[1]) * (midPoint[0] - startPoint[0]) < 0);
+            console.debug('angle: %s, K: %s, r: %s, laf: %s, saf: %s', angle, K, r, laf, saf);
 
             //return ['L', startPoint, 'A', r, r, 0, laf, saf, endPoint].join(' ');
             return ['L', startPoint, 'A', r, r, 0, 0, saf, endPoint].join(' ');
-        };
-
-        /**
-         * 두 개의 좌표 사이의 거리를 구한다.
-         *
-         * @param a 시작좌표
-         * @param b 종료좌표
-         * @return {number} 좌표 사이 거리
-         */
-        const dist = function(a, b) {
-            let dist = Math.sqrt(
-                Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
-            );
-            if (dist === 0) {
-                dist = 1;
-            }
-            return dist;
         };
 
         /**
@@ -402,6 +403,7 @@
                     linePath += calcCirclePath(coords[0], coords[1], coords[2]);
                 });
                 linePath += ['L', bestLine2[1]].join(' ');
+                console.debug(linePath);
             } else {
                 let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
                 linePath = ['M', bestLine[0], 'L', bestLine[1]].join(' ');
