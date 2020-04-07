@@ -89,9 +89,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         wfProcessElementDto.process?.createUserKey = userDetails.userKey
         wfProcessElementDto.process?.updateDt = null
         wfProcessElementDto.process?.updateUserKey = null
-        if (wfProcessElementDto.process?.status == RestTemplateConstants.ProcessStatus.DESTROY.value) {
-            wfProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
-        }
+        wfProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS_SAVE_AS.url)
         val responseEntity = restTemplate.createToSave(url, wfProcessElementDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
