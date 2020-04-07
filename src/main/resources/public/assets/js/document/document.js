@@ -827,11 +827,6 @@
             tokenObject.fileDataIds = fileDataIds;
         }
 
-        // 2020-04-06 kbh
-        // 프로세스 넘기려고 부득이하게 하드코딩함. merge 된 후 삭제 예정
-        //tokenObject.documentId = 'beom'
-        //tokenObject.elementId = 'a12c2f06debf788570a6b08a5ece73ac'
-
         const opt = {
             method: method,
             url: '/rest/tokens/data',
