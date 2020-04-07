@@ -21,42 +21,13 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * Init Registration.
-     *
-     * @param wfTokenDto
-     * @param instance
-     */
-    fun initRegistration(wfTokenDto: WfTokenDto, instance: WfInstanceEntity?) {
-        wfTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
-        val token = instance?.let { createToken(it, wfTokenDto) }
-        if (token != null) {
-            wfTokenDto.tokenId = token.tokenId
-            createTokenData(wfTokenDto, token.tokenId)
-        }
-    }
-
-    /**
-     * Init Save.
-     *
-     * @param wfTokenDto
-     * @param instance
-     */
-    fun initSave(wfTokenDto: WfTokenDto, instance: WfInstanceEntity?) {
-        val token = instance?.let { createToken(it, wfTokenDto) }
-        if (token != null) {
-            wfTokenDto.tokenId = token.tokenId
-            createTokenData(wfTokenDto, token.tokenId)
-        }
-    }
-
-    /**
-     * Registration.
+     * Token Process (End Token).
      *
      * @param wfTokenEntity
-     * @param
-     *
+     * @param wfTokenDto
      */
-    fun registration(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+    fun setProcess(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+        wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         wfTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
         wfTokenDto.assigneeId = wfTokenEntity.assigneeId
         wfTokenDto.assigneeType = wfTokenEntity.assigneeType
@@ -66,9 +37,10 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
     }
 
     /**
-     * Save.
+     * Token Save.
      *
      * @param wfTokenEntity
+     * @param wfTokenDto
      * @return Boolean
      */
     fun save(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto): Boolean {
@@ -80,13 +52,14 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
     }
 
     /**
-     * Reject.
+     * Token Reject.
      *
      * @param wfTokenEntity
      * @param wfTokenDto
+     * @param values
      * @return Boolean
      */
-    fun reject(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto, values: HashMap<String, Any>): Boolean {
+    fun setReject(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto, values: HashMap<String, Any>): Boolean {
         //TODO: 확인 필요
         wfTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
         wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
@@ -108,12 +81,12 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
     }
 
     /**
-     * Withdraw.
+     * Token Withdraw.
      *
      * @param wfTokenEntity
      * @param wfTokenDto
      */
-    fun withdraw(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+    fun setWithdraw(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
 
     }
 
@@ -123,7 +96,7 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
      * @param wfTokenDto
      * @return TokenEntity
      */
-    private fun createToken(wfInstance: WfInstanceEntity, wfTokenDto: WfTokenDto): WfTokenEntity {
+    fun createToken(wfInstance: WfInstanceEntity, wfTokenDto: WfTokenDto): WfTokenEntity {
         val tokenEntity = WfTokenEntity(
                 tokenId = "",
                 elementId = wfTokenDto.elementId,
@@ -133,6 +106,9 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
                 assigneeType = wfTokenDto.assigneeType,
                 instance = wfInstance
         )
+        if (wfTokenDto.tokenStatus == WfTokenConstants.Status.FINISH.code) {
+            tokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+        }
         return wfTokenRepository.save(tokenEntity)
     }
 
@@ -142,7 +118,7 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
      * @param wfTokenDto
      * @param tokenId
      */
-    private fun createTokenData(wfTokenDto: WfTokenDto, tokenId: String) {
+    fun createTokenData(wfTokenDto: WfTokenDto, tokenId: String) {
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
         for (tokenDataDto in wfTokenDto.data!!) {
             val tokenDataEntity = WfTokenDataEntity(

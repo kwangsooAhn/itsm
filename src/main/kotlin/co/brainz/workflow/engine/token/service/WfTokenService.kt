@@ -1,9 +1,11 @@
 package co.brainz.workflow.engine.token.service
 
+import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
-import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.service.WfFormService
+import co.brainz.workflow.engine.instance.dto.WfInstanceDto
+import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.dto.WfTokenDataDto
 import co.brainz.workflow.engine.token.dto.WfTokenDto
@@ -18,11 +20,13 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class WfTokenService(
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService,
-    private val wfTokenElementService: WfTokenElementService
+        private val wfDocumentRepository: WfDocumentRepository,
+        private val wfTokenRepository: WfTokenRepository,
+        private val wfTokenDataRepository: WfTokenDataRepository,
+        private val wfInstanceService: WfInstanceService,
+        private val wfFormService: WfFormService,
+        private val wfActionService: WfActionService,
+        private val wfTokenElementService: WfTokenElementService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -156,24 +160,38 @@ class WfTokenService(
     }
 
     /**
+     * Init Token.
+     *
+     * @param wfTokenDto
+     */
+    fun initToken(wfTokenDto: WfTokenDto) {
+        val documentDto = wfTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
+        val processId = documentDto?.process?.processId
+        val instanceDto = documentDto?.let { WfInstanceDto(instanceId = "", document = it) }
+        val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
+
+        val wfTokenEntity = wfTokenElementService.initStart(wfTokenDto, processId, instance)
+        wfTokenDto.tokenId = wfTokenEntity?.tokenId.toString()
+        wfTokenDto.assigneeId = wfTokenEntity?.assigneeId
+        wfTokenDto.assigneeType = wfTokenEntity?.assigneeType
+
+        setTokenGate(wfTokenDto)
+    }
+
+    /**
      * Token Gate.
      *
      * @param wfTokenDto
      */
-    fun tokenGate(wfTokenDto: WfTokenDto) {
-        var wfElementEntity = WfElementEntity()
-        val wfTokenEntity = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId)
-        if (wfTokenEntity.isPresent) {
-            wfElementEntity = wfActionService.getElement(wfTokenEntity.get().elementId)
-        }
-
+    fun setTokenGate(wfTokenDto: WfTokenDto) {
+        val wfTokenEntity = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
+        val wfElementEntity = wfActionService.getElement(wfTokenEntity.elementId)
         logger.debug("Token Element Type : {}", wfElementEntity.elementType)
-        when(wfElementEntity.elementType) {
-            "" -> wfTokenElementService.initStart(wfTokenDto)
-            WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.userTask(wfTokenEntity.get(), wfElementEntity, wfTokenDto)
-            WfElementConstants.ElementType.END_EVENT.value -> wfTokenElementService.endEvent(wfTokenEntity.get(), wfTokenDto)
-            WfElementConstants.ElementType.COMMON_SUBPROCESS.value -> wfTokenElementService.subProcess(wfTokenEntity.get(), wfTokenDto)
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> wfTokenElementService.exclusiveGateway(wfTokenEntity.get(), wfTokenDto)
+        when (wfElementEntity.elementType) {
+            WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.setUserTask(wfTokenEntity, wfElementEntity, wfTokenDto)
+            WfElementConstants.ElementType.END_EVENT.value -> wfTokenElementService.setEndEvent(wfTokenEntity, wfTokenDto)
+            WfElementConstants.ElementType.COMMON_SUBPROCESS.value -> wfTokenElementService.setSubProcess(wfTokenEntity, wfTokenDto)
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> wfTokenElementService.setExclusiveGateway(wfTokenEntity, wfTokenDto)
         }
     }
 

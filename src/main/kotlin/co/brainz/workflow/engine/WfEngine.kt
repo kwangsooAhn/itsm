@@ -28,7 +28,8 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
                private val wfTokenDataRepository: WfTokenDataRepository,
                private val wfFormService: WfFormService,
                private val wfActionService: WfActionService,
-               private val wfTokenElementService: WfTokenElementService) {
+               private val wfTokenElementService: WfTokenElementService,
+               private val wfInstanceService: WfInstanceService) {
 
     /**
      * Form Engine.
@@ -62,7 +63,7 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Token Engine.
      */
     fun token(): WfTokenService {
-        return WfTokenService(wfTokenRepository, wfTokenDataRepository, wfFormService, wfActionService, wfTokenElementService)
+        return WfTokenService(wfDocumentRepository, wfTokenRepository, wfTokenDataRepository, wfInstanceService, wfFormService, wfActionService, wfTokenElementService)
     }
 
 }

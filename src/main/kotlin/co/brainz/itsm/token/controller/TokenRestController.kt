@@ -5,6 +5,7 @@ import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,13 +25,21 @@ class TokenRestController(private val tokenService: TokenService) {
     }
 
     /**
-     * Token 처리 (등록, 수정, 처리, ...).
+     * Post Token 처리.
      *
      * @param restTemplateTokenDto
      * @return Boolean
      */
     @PostMapping("/data")
-    fun setToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+    fun postToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         return tokenService.postToken(restTemplateTokenDto)
+    }
+
+    /**
+     * Put Token 처리.
+     */
+    @PutMapping("/data")
+    fun putToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        return tokenService.putToken(restTemplateTokenDto)
     }
 }

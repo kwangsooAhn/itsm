@@ -22,14 +22,32 @@ class TokenService(private val restTemplate: RestTemplateProvider,
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
-     * Token 처리 (등록, 수정, 처리, ...).
+     * Post Token 처리.
      *
      * @param restTemplateTokenDto
      * @return Boolean
      */
     fun postToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
-        val responseEntity = restTemplate.createToSave(url, restTemplateTokenDto)
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN.url)
+        val responseEntity = restTemplate.create(url, restTemplateTokenDto)
+        return when (responseEntity.body.toString().isNotEmpty()) {
+            true -> {
+                restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+                true
+            }
+            false -> false
+        }
+    }
+
+    /**
+     * Put Token 처리.
+     *
+     * @param restTemplateTokenDto
+     * @return Boolean
+     */
+    fun putToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
+        val responseEntity = restTemplate.update(url, restTemplateTokenDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
                 restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }

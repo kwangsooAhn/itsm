@@ -5,6 +5,7 @@ import co.brainz.workflow.engine.token.dto.WfTokenDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -49,7 +50,7 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
     }
 
     /**
-     * Token Gate.
+     * Post Token Gate.
      *
      * @param wfTokenDto
      * @return Any
@@ -57,7 +58,16 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
     @Transactional
     @PostMapping("")
     fun postTokenGate(@RequestBody wfTokenDto: WfTokenDto) {
-        return wfEngine.token().tokenGate(wfTokenDto)
+        return wfEngine.token().initToken(wfTokenDto)
+    }
+
+    /**
+     * Put Token Gate.
+     */
+    @Transactional
+    @PutMapping("")
+    fun putTokenGate(@RequestBody wfTokenDto: WfTokenDto) {
+        return wfEngine.token().setTokenGate(wfTokenDto)
     }
 
 }

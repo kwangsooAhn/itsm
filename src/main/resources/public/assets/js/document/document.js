@@ -814,7 +814,13 @@
 
         tokenObject.action = v_kind;
 
-        let method = 'post';
+        let method = '';
+        if (tokenObject.tokenId === '') {
+            method = 'post';
+        } else {
+            method = 'put';
+        }
+
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
