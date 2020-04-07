@@ -120,7 +120,7 @@ const fileUploader = (function () {
             maxFilesize: 3, // 첨부파일 용량 제한
             url: '/fileupload',
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
-            maxFiles: 1, // 첨부파일 개수 제한
+            maxFiles: null, // 첨부파일 개수 제한
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
             //acceptedFiles: "image/*",
