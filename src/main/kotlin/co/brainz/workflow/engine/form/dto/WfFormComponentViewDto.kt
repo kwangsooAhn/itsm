@@ -6,5 +6,5 @@ import java.io.Serializable
 data class WfFormComponentViewDto(
         val form: WfFormDto,
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf(),
-        val action: MutableList<WfActionDto>? = mutableListOf()
+        val actions: MutableList<WfActionDto>? = mutableListOf()
 ): Serializable

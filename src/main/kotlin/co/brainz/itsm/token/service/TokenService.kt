@@ -22,30 +22,31 @@ class TokenService(private val restTemplate: RestTemplateProvider,
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
-     * Token 신규 등록 / 처리
-     * isComplete : false일 경우에는 저장, true일 경우에 처리
+     * Post Token 처리.
      *
+     * @param restTemplateTokenDto
      * @return Boolean
      */
-    fun createToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN_DATA.url)
+    fun postToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN.url)
         val responseEntity = restTemplate.create(url, restTemplateTokenDto)
-        return if (responseEntity.body.toString().isNotEmpty()) {
-            restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
-            true
-        } else {
-            false
+        return when (responseEntity.body.toString().isNotEmpty()) {
+            true -> {
+                restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
+                true
+            }
+            false -> false
         }
     }
 
     /**
-     * Token 수정 / 처리
-     * isComplete : false일 경우에는 수정, true일 경우에 처리
+     * Put Token 처리.
      *
+     * @param restTemplateTokenDto
      * @return Boolean
      */
-    fun updateToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
+    fun putToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
         val responseEntity = restTemplate.update(url, restTemplateTokenDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
