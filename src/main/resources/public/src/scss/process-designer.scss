@@ -244,11 +244,17 @@ body {
             pointer-events: stroke;
         }
 
-        .connector text {
-            fill: #000000;
-            font: {
-                weight: bold;
-                size: 0.813rem; // 13px
+        .connector {
+            text {
+                fill: #000000;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+            }
+
+            circle.pointer {
+                cursor: move;
             }
         }
 

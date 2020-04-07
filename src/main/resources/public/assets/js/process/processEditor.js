@@ -8,7 +8,8 @@
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
         gridInterval: 10,     // value of grid interval.
-        pointerRadius: 5
+        pointerRadius: 5,
+        connectorRadius: 8
     };
 
     let svg,
@@ -52,8 +53,8 @@
     function removeElementSelected() {
         selectedElement = null;
         svg.selectAll('.node').classed('selected', false);
-        svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
         svg.selectAll('.connector').classed('selected', false);
+        svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
         svg.selectAll('.alice-tooltip').remove();
     }
 
@@ -78,7 +79,7 @@
             .classed('is-default', function(d) { return d.isDefault === 'Y'; })
             .attr('id', function(d) { return d.id; })
             .style('marker-end', 'url(#end-arrow)')
-            .on('mousedown', function() {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
@@ -90,10 +91,7 @@
                 // select link
                 let selectedLink = d3.select(this).classed('selected', true);
                 selectedElement = null;
-
-                d3.select(this.parentNode).selectAll('.pointer')
-                    .style('opacity', 1)
-                    .style('cursor', 'move');
+                d3.select(document.getElementById(d.id + '_midPoint')).style('opacity', 1).style('cursor', 'move');
 
                 setConnectors();
                 AliceProcessEditor.setElementMenu(selectedLink);
@@ -145,13 +143,17 @@
             .style('opacity', 0)
             .call(d3.drag()
                 .on('drag', function(d) {
-                    svg.selectAll('.alice-tooltip').remove();
-                    d.midPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
-                    drawConnectors();
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        svg.selectAll('.alice-tooltip').remove();
+                        d.midPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
+                        drawConnectors();
+                    }
                 })
                 .on('end', function(d) {
-                    AliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
-                    AliceProcessEditor.changeDisplayValue(d.id);
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        AliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
+                        AliceProcessEditor.changeDisplayValue(d.id);
+                    }
                 })
             );
 
@@ -162,11 +164,15 @@
             .style('opacity', 0)
             .call(d3.drag()
                 .on('drag', function(d) {
-                    d.sourcePoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
-                    drawConnectors();
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        d.sourcePoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
+                        drawConnectors();
+                    }
                 })
                 .on('end', function(d) {
-                    AliceProcessEditor.changeDisplayValue(d.id);
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        AliceProcessEditor.changeDisplayValue(d.id);
+                    }
                 })
             );
 
@@ -177,11 +183,15 @@
             .style('opacity', 0)
             .call(d3.drag()
                 .on('drag', function(d) {
-                    d.targetPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
-                    drawConnectors();
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        d.targetPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
+                        drawConnectors();
+                    }
                 })
                 .on('end', function(d) {
-                    AliceProcessEditor.changeDisplayValue(d.id);
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        AliceProcessEditor.changeDisplayValue(d.id);
+                    }
                 })
             );
 
@@ -236,6 +246,77 @@
      * draw connector.
      */
     function drawConnectors() {
+        /**
+         * 종료좌표에서 일정거리 떨어진 좌표를 구한다.
+         *
+         * @param sourceCoords 시작좌표
+         * @param targetCoords 종료좌표
+         * @return {[*, *]} 좌표
+         */
+        const calcRoundedPointCoordinate = function(sourceCoords, targetCoords) {
+            const radius = displayOptions.connectorRadius;
+            let dx = sourceCoords[0] - targetCoords[0],
+                dy = sourceCoords[1] - targetCoords[1],
+                dist = Math.sqrt(dx * dx + dy * dy),
+                x = targetCoords[0] + dx * radius / dist,
+                y = targetCoords[1] + dy * radius / dist;
+            return [x, y];
+        };
+
+        /**
+         * 두 개의 좌표 사이의 거리를 구한다.
+         *
+         * @param a 시작좌표
+         * @param b 종료좌표
+         * @return {number} 좌표 사이 거리
+         */
+        const calcDist = function(a, b) {
+            let dist = Math.sqrt(
+                Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
+            );
+            if (dist === 0) {
+                dist = 1;
+            }
+            return dist;
+        };
+
+        /**
+         * convert 3 points to an Arc Path.
+         *
+         * @param startPoint 시작좌표
+         * @param midPoint 중간좌표
+         * @param endPoint 종료좌표
+         * @return {string} path
+         */
+        const calcCirclePath = function(startPoint, midPoint, endPoint) {
+            let distA = calcDist(endPoint, midPoint);
+            let distB = calcDist(midPoint, startPoint);
+            let distC = calcDist(startPoint, endPoint);
+            let angle = Math.acos((distA * distA + distB * distB - distC * distC) / (2 * distA * distB));
+
+            //calc radius of circle
+            let K = 0.3 * distA * distB * Math.sin(angle);
+            let r = distA * distB * distC / 4 / K;
+            console.debug('A: %s, B: %s, C: %s', distA, distB, distC);
+            r = Math.round(r * 1000) / 1000;
+
+            //large arc flag
+            let laf = +(Math.PI / 2 > angle);
+
+            //sweep flag
+            let saf = +((endPoint[0] - startPoint[0]) * (midPoint[1] - startPoint[1]) - (endPoint[1] - startPoint[1]) * (midPoint[0] - startPoint[0]) < 0);
+            console.debug('angle: %s, K: %s, r: %s, laf: %s, saf: %s', angle, K, r, laf, saf);
+
+            //return ['L', startPoint, 'A', r, r, 0, laf, saf, endPoint].join(' ');
+            return ['L', startPoint, 'A', r, r, 0, 0, saf, endPoint].join(' ');
+        };
+
+        /**
+         * line path.
+         *
+         * @param d line data
+         * @return {string} line path
+         */
         const getLinePath = function(d) {
             const targetNode = document.getElementById(d.targetId),
                   sourceNode = document.getElementById(d.sourceId);
@@ -253,95 +334,91 @@
             const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
 
-            let lineCoords = [];
             let sourcePointArray = [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
                 [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]];
             let targetPointArray = [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
                 [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]];
             const midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
-
+            let linePath = '';
             if (typeof d.midPoint !== 'undefined') {
                 midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
-
                 const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
                       targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
-
                 if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                    sourcePoint.style('opacity', 1);
-                    targetPoint.style('opacity', 1);
+                    sourcePoint.style('opacity', 1).style('cursor', 'move');
+                    targetPoint.style('opacity', 1).style('cursor', 'move');
                 }
-                if (typeof d.sourcePoint === 'undefined' && typeof d.targetPoint === 'undefined') {
-                    let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
-                    let sourcePointCoords = getMidPointCoords(bestLine1);
-                    lineCoords.push(bestLine1[0]);
-                    lineCoords.push(bestLine1[1]);
-                    let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
-                    let targetPointCoords = getMidPointCoords(bestLine2);
-                    lineCoords.push(bestLine2[0]);
-                    lineCoords.push(bestLine2[1]);
 
+                const roundedCoords = [];
+                let bestLine1,
+                    bestLine2;
+                if (typeof d.sourcePoint === 'undefined' && typeof d.targetPoint === 'undefined') {
+                    bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    roundedCoords.push(
+                        [calcRoundedPointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcRoundedPointCoordinate(bestLine2[1], d.midPoint)]
+                    );
+
+                    let sourcePointCoords = getMidPointCoords(bestLine1);
                     sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
+                    let targetPointCoords = getMidPointCoords(bestLine2);
                     targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else if (typeof d.sourcePoint === 'undefined') {
-                    let bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
-                    let sourcePointCoords = getMidPointCoords(bestLine1);
-                    lineCoords.push(bestLine1[0]);
-                    lineCoords.push(sourcePointCoords);
-                    lineCoords.push(bestLine1[1]);
-                    let bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
-                    lineCoords.push(bestLine2[0]);
-                    lineCoords.push(bestLine2[1]);
+                    bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    roundedCoords.push(
+                        [calcRoundedPointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcRoundedPointCoordinate(d.targetPoint, d.midPoint)],
+                        [calcRoundedPointCoordinate(d.midPoint, d.targetPoint), d.targetPoint, calcRoundedPointCoordinate(bestLine2[1], d.targetPoint)]
+                    );
 
+                    let sourcePointCoords = getMidPointCoords(bestLine1);
                     sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
                     targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
                 } else if (typeof d.targetPoint === 'undefined') {
-                    let bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
-                    lineCoords.push(bestLine1[0]);
-                    lineCoords.push(bestLine1[1]);
-                    let bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
-                    let targetPointCoords = getMidPointCoords(bestLine2);
-                    lineCoords.push(bestLine2[0]);
-                    lineCoords.push(targetPointCoords);
-                    lineCoords.push(bestLine2[1]);
+                    bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    roundedCoords.push(
+                        [calcRoundedPointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcRoundedPointCoordinate(d.midPoint, d.sourcePoint)],
+                        [calcRoundedPointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcRoundedPointCoordinate(bestLine2[1], d.midPoint)]
+                    );
 
+                    let targetPointCoords = getMidPointCoords(bestLine2);
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
                     targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else {
-                    let bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
-                    lineCoords.push(bestLine1[0]);
-                    lineCoords.push(bestLine1[1]);
-                    lineCoords.push(d.midPoint);
-                    let bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
-                    lineCoords.push(bestLine2[0]);
-                    lineCoords.push(bestLine2[1]);
+                    bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    roundedCoords.push(
+                        [calcRoundedPointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcRoundedPointCoordinate(d.midPoint, d.sourcePoint)],
+                        [calcRoundedPointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcRoundedPointCoordinate(d.targetPoint, d.midPoint)],
+                        [calcRoundedPointCoordinate(d.midPoint, d.targetPoint), d.targetPoint, calcRoundedPointCoordinate(bestLine2[1], d.targetPoint)]
+                    );
 
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
                     targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
                 }
+
+                linePath  = ['M', bestLine1[0]].join(' ');
+                roundedCoords.forEach(function(coords) {
+                    linePath += calcCirclePath(coords[0], coords[1], coords[2]);
+                });
+                linePath += ['L', bestLine2[1]].join(' ');
+                console.debug(linePath);
             } else {
                 let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
+                linePath = ['M', bestLine[0], 'L', bestLine[1]].join(' ');
                 let midPointCoords = getMidPointCoords(bestLine);
-                lineCoords.push(bestLine[0]);
-                lineCoords.push(midPointCoords);
-                lineCoords.push(bestLine[1]);
-
                 midPoint.attr('cx', midPointCoords[0]).attr('cy', midPointCoords[1]);
+                return linePath.toString();
             }
-
-            /*
-            //d3.curveStep
-            //d3.curveStepAfter
-            //d3.curveStepBefore
-            //d3.curveLinear
-            //d3.curveCardinal.tension(0.5)
-            //d3.curveBundle.beta(1)
-            */
-            let lineGenerator = d3.line().curve(d3.curveLinear);
-            return lineGenerator(lineCoords);
+            return linePath;
         };
 
-        connectors.select('path.connector').attr('d', function(d) {return getLinePath(d);});
-        connectors.select('path.painted-connector').attr('d', function(d) {return getLinePath(d);});
+        connectors.select('path.connector').attr('d', function(d) {
+            let linePath = getLinePath(d);
+            d3.select(document.getElementById(d.id).parentNode).select('path.painted-connector').attr('d', linePath);
+            return linePath;
+        });
     }
 
     /**
@@ -503,6 +580,7 @@
         self.width = width ? width : 120;
         self.height = height ? height : 80;
         self.radius = 8;
+        const minWidth = 80, minHeight = 60;
         const calcX = x - (self.width / 2),
               calcY = y - (self.height / 2),
               typeImageSize = 20;
@@ -570,40 +648,40 @@
                     })
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-                            const minWidth = 80, minHeight = 60;
                             const mouseX = snapToGrid(d3.event.dx),
                                   mouseY = snapToGrid(d3.event.dy);
+                            const rectData = self.rectData;
                             switch (i + 1) {
                                 case 1:
-                                    if (self.rectData[1].x - (self.rectData[0].x + mouseX) >= minWidth) {
-                                        self.rectData[0].x += mouseX;
+                                    if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
+                                        rectData[0].x += mouseX;
                                     }
-                                    if (self.rectData[1].y - (self.rectData[0].y + mouseY) >= minHeight) {
-                                        self.rectData[0].y += mouseY;
+                                    if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
+                                        rectData[0].y += mouseY;
                                     }
                                     break;
                                 case 2:
-                                    if ((self.rectData[1].x + mouseX) - self.rectData[0].x >= minWidth) {
-                                        self.rectData[1].x += mouseX;
+                                    if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
+                                        rectData[1].x += mouseX;
                                     }
-                                    if ((self.rectData[1].y + mouseY) - self.rectData[0].y >= minHeight) {
-                                        self.rectData[1].y += mouseY;
+                                    if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
+                                        rectData[1].y += mouseY;
                                     }
                                     break;
                                 case 3:
-                                    if ((self.rectData[1].x + mouseX) - self.rectData[0].x >= minWidth) {
-                                        self.rectData[1].x += mouseX;
+                                    if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
+                                        rectData[1].x += mouseX;
                                     }
-                                    if (self.rectData[1].y - (self.rectData[0].y + mouseY) >= minHeight) {
-                                        self.rectData[0].y += mouseY;
+                                    if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
+                                        rectData[0].y += mouseY;
                                     }
                                     break;
                                 case 4:
-                                    if (self.rectData[1].x - (self.rectData[0].x + mouseX) >= minWidth) {
-                                        self.rectData[0].x += mouseX;
+                                    if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
+                                        rectData[0].x += mouseX;
                                     }
-                                    if ((self.rectData[1].y + mouseY) - self.rectData[0].y >= minHeight) {
-                                        self.rectData[1].y += mouseY;
+                                    if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
+                                        rectData[1].y += mouseY;
                                     }
                                     break;
                             }
@@ -624,10 +702,10 @@
         function updateRect() {
             const rectData = self.rectData;
 
-            let updateX = (rectData[1].x - rectData[0].x > 0 ? rectData[0].x : rectData[1].x),
-                updateY = (rectData[1].y - rectData[0].y > 0 ? rectData[0].y : rectData[1].y),
-                updateWidth = Math.abs(rectData[1].x - rectData[0].x),
-                updateHeight = Math.abs(rectData[1].y - rectData[0].y);
+            let updateX = rectData[0].x,
+                updateY = rectData[0].y,
+                updateWidth = rectData[1].x - rectData[0].x,
+                updateHeight = rectData[1].y - rectData[0].y;
             self.nodeElement
                 .attr('x', updateX)
                 .attr('y', updateY)
@@ -1069,12 +1147,7 @@
         const zoom = d3.zoom()
             .on('start', function() {
                 if (!isMovableDrawingboard) {
-                    const drawingBoard = document.querySelector('.alice-process-drawing-board'),
-                          gTransform = d3.zoomTransform(d3.select('g.element-container').node());
-                    zoom.translateExtent([
-                        [-gTransform.x, -gTransform.y],
-                        [drawingBoard.offsetWidth - gTransform.x, drawingBoard.offsetHeight - gTransform.y]
-                    ]);
+                    dismovableDrawingboard();
                 } else {
                     svg.style('cursor', 'grabbing');
                     const nodeTopArray = [],
@@ -1107,6 +1180,10 @@
                 }
             })
             .on('zoom', function() {
+                if (!isMovableDrawingboard) {
+                    dismovableDrawingboard();
+                    svg.style('cursor', 'default');
+                }
                 horizontalGrid
                     .call(horizontalAxis.scale(d3.event.transform.rescaleY(horizontalScale)));
                 verticalGrid
@@ -1124,6 +1201,19 @@
             .call(zoom)
             .on('wheel.zoom', null)
             .on('dblclick.zoom', null);
+
+        /**
+         * disable the movable function of the drawing board.
+         */
+        function dismovableDrawingboard() {
+            const drawingBoard = document.querySelector('.alice-process-drawing-board'),
+                  gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+            zoom.translateExtent([
+                [-gTransform.x, -gTransform.y],
+                [drawingBoard.offsetWidth - gTransform.x, drawingBoard.offsetHeight - gTransform.y]
+            ]);
+            svg.style('cursor', 'default');
+        }
 
         const connectorContainer = svg.append('g').attr('class', 'connector-container');
         connectors = connectorContainer.selectAll('g.connector');
