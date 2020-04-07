@@ -799,7 +799,6 @@
      * @param data 문서 데이터.
      */
     function drawDocument(data) {
-        console.log(data);
         let components = (data.token === undefined) ? data.components : data.token.components;
         if (components.length > 0) {
             if (components.length > 2) {
