@@ -797,19 +797,32 @@
      * @param data 문서 데이터.
      */
     function drawDocument(data) {
-        if (data.token.components.length > 0 ) {
-            if (data.token.components.length > 2) { //컴포넌트 재정렬
-                data.token.components.sort(function (a, b) {
-                    return a.attributes.display.order < b.attributes.display.order ? -1 : a.attributes.display.order > b.attributes.display.order ? 1 : 0;  
+        console.log(data);
+        let components = (data.token === undefined) ? data.components : data.token.components;
+        if (components.length > 0) {
+            if (components.length > 2) {
+                components.sort(function (a, b) {
+                    if (a.attributes === undefined) {
+                        return a.display.order - b.display.order;
+                    } else {
+                        return a.attributes.display.order - b.attributes.display.order;
+                    }
                 });
             }
-            //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
-            for (let i = 0, len = data.token.components.length; i < len; i ++) {
-                let component = data.token.components[i];
-                //et defaultComponentAttr = Component.getData(component.attributes.type);
-                //let mergeComponentAttr = Object.assign({}, defaultComponentAttr, component.attributes);
-                //component.draw(component.attributes.type, mergeComponentAttr);
-                addComponent(component);
+            for (let i = 0, len = components.length; i < len; i++) {
+                //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
+                let componentAttr = components[i];
+                let compType = (componentAttr.attributes === undefined) ? componentAttr.type : componentAttr.attributes.type;
+                let defaultComponentAttr = component.getData(compType);
+                let mergeComponentAttr = null;
+                if (componentAttr.attributes === undefined) { //신청서
+                    mergeComponentAttr = Object.assign({}, defaultComponentAttr, componentAttr);
+                    componentAttr = mergeComponentAttr;
+                } else { //처리할 문서
+                    mergeComponentAttr = Object.assign({}, defaultComponentAttr, componentAttr.attributes);
+                    componentAttr.attributes = mergeComponentAttr;
+                }
+                component.draw(compType, documentContainer, componentAttr);
             }
         }
         if (data.documentId !== undefined) {
