@@ -36,9 +36,6 @@ data class WfInstanceEntity(
         @Column(name = "instance_create_user_key", length = 128)
         var instanceCreateUserKey: String? = null,
 
-        @Column(name = "call_token_id", length = 128)
-        var callTokenId: String? = null,
-
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "document_id")
         val document: WfDocumentEntity
