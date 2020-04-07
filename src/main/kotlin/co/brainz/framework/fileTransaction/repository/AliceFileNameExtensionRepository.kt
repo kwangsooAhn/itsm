@@ -5,5 +5,5 @@ import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AliceFileNameExtensionRepository:JpaRepository<AliceFileNameExtensionEntity, String> {
+interface AliceFileNameExtensionRepository: JpaRepository<AliceFileNameExtensionEntity, String> {
 }

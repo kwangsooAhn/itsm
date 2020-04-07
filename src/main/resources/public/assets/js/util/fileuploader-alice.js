@@ -227,7 +227,7 @@ const fileUploader = (function () {
                         fileNameExtensionList = JSON.parse(response.responseText);
                     }
                 };
-                aliceJs.sendXhr(opt2)
+                aliceJs.sendXhr(opt2);
 
                 //파일접근시 사용.
                 //all accepted files: .getAcceptedFiles()
