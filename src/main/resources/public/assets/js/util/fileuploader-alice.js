@@ -19,13 +19,12 @@ const fileUploader = (function () {
     const createDropZone = function () {
         /*<![CDATA[*/
 
-        if (extraParam.dropZoneFilesId != undefined) {
-            dropZoneFilesId = extraParam.dropZoneFilesId;
-        } else {
-            dropZoneFilesId = 'dropZoneFiles';
+        if (extraParam.dropZoneFilesId === undefined) {
+            extraParam.dropZoneFilesId = 'dropZoneFiles';
         }
+        dropZoneFilesId = extraParam.dropZoneFilesId;
 
-        if (extraParam.dropZoneUploadedFilesId != undefined) {
+        if (extraParam.dropZoneUploadedFilesId !== undefined) {
             dropZoneUploadedFilesId = extraParam.dropZoneUploadedFilesId;
         } else {
             dropZoneUploadedFilesId = 'dropZoneUploadedFiles';
@@ -121,7 +120,7 @@ const fileUploader = (function () {
             maxFilesize: 3, // 첨부파일 용량 제한
             url: '/fileupload',
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
-            maxFiles: null, // 첨부파일 개수 제한
+            maxFiles: 1, // 첨부파일 개수 제한
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
             //acceptedFiles: "image/*",
@@ -214,7 +213,7 @@ const fileUploader = (function () {
                         }
                     },
                     params: '',
-                    async: true
+                    async: false
                 };
                 aliceJs.sendXhr(opt);
 

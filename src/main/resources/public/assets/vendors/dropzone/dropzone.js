@@ -1107,7 +1107,7 @@ var Dropzone = function (_Emitter) {
       if (_this.options.clickable === true) {
         _this.clickableElements = [_this.element];
       } else {
-        _this.clickableElements = Dropzone.getElements(_this.options.clickable, "clickable");
+        _this.clickableElements = Dropzone.getElements('#' + _this.options.params.dropZoneFilesId + ' ' + _this.options.clickable, "clickable");
       }
     }
 
