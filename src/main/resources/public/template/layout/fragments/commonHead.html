@@ -19,5 +19,20 @@
 <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
 <script type="text/javascript">
     i18n.add();
+
+    //Drag and Drop Prevent Event Listener
+    window.addEventListener('dragover', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        e.dataTransfer.effectAllowed = 'none';
+        e.dataTransfer.dropEffect = 'none';
+    }, false);
+
+    window.addEventListener('drop', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        e.dataTransfer.effectAllowed = 'none';
+        e.dataTransfer.dropEffect = 'none';
+    }, false);
 </script>
 </html>
