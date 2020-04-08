@@ -16,7 +16,7 @@
         groups: []
     };
 
-    let publishProcesses = [];
+    let documents = [];
 
     let processProperties = {},
         elementsProperties = {},
@@ -1028,8 +1028,10 @@
                     case 'select':
                         elementObject = document.createElement('select');
                         let optionList = property['sub-list'];
-                        if (property.id === 'sub-process-id') {
-                            optionList = optionList.concat(publishProcesses);
+                        if (property.id === 'sub-document-id') {
+                            documents.forEach(function(d) {
+                                optionList.push({id: d.documentId, name: d.documentName});
+                            });
                         }
                         for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
                             let option = document.createElement('option');
@@ -1083,8 +1085,8 @@
                                 d3.selectAll('.node').classed('reject-element', false);
                             });
                             break;
-                        case 'target-process-list':
-                            setMultipleDatatable(elementObject, publishProcesses, {value: 'id', text: 'name'}, elemData[property.id]);
+                        case 'target-document-list':
+                            setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
                             break;
                     }
 
@@ -1209,9 +1211,9 @@
 
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/processes?status=process.status.publish',
+            url: '/rest/documents',
             callbackFunc: function(xhr) {
-                publishProcesses = JSON.parse(xhr.responseText);
+                documents = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });
