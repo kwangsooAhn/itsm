@@ -62,7 +62,7 @@
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "target-process-list", "name": "Target Process", "type": "inputbox", "default": ""}
+            {"id": "target-document-list", "name": "Target Document", "type": "inputbox", "default": ""}
           ]
         }
       ]
@@ -296,7 +296,7 @@
             {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
             {
-              "id": "sub-process-id", "name": "SubProcess", "type": "select", "default": "",
+              "id": "sub-document-id", "name": "Sub Document", "type": "select", "default": "",
               "sub-list": [
                 {"id": "", "name": "Not selected"}
               ]
