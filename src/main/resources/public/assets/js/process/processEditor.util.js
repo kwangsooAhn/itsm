@@ -183,7 +183,18 @@
                             node.nodeElement.attr('id', changeData.id);
                             AliceProcessEditor.setConnectors(true);
                         }
+                    } else if (originData.data['line-color'] !== changeData.data['line-color']
+                        || originData.data['background-color'] !== changeData.data['background-color']) { // group color
+                        let element = d3.select(document.getElementById(changeData.id));
+                        element.style('stroke', changeData.data['line-color'])
+                               .style('fill', changeData.data['background-color']);
+                        if (changeData.data['background-color'] === '') {
+                            element.style('fill-opacity', 0);
+                        } else {
+                            element.style('fill-opacity', 0.5);
+                        }
                     }
+
                 } else {
                     if (changeData.display && (originData.display['mid-point'] !== changeData.display['mid-point']
                         || originData.display['source-point'] !== changeData.display['source-point']

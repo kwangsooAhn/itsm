@@ -315,7 +315,8 @@
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Annotation", "type": "inputbox", "default": "Annotation"}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
+            {"id": "name", "name": "Annotation", "type": "textarea", "default": "Annotation"}
           ]
         }
       ]
@@ -328,7 +329,10 @@
         {
           "title": "Data",
           "items": [
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Group"},
+            {"id": "line-color", "name": "Line Color", "type": "rgb", "default": "#000000"},
+            {"id": "background-color", "name": "Background Color", "type": "rgb", "default": ""},
             {"id": "description", "name": "Description", "type": "textarea", "default": ""}
           ]
         }

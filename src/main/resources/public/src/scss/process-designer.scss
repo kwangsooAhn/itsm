@@ -181,8 +181,8 @@ body {
             display: inline-block;
             width: 3rem; // 48px
             height: 3rem; // 48px
-            margin-left: 0.313rem; // 5px
             position: absolute;
+            left: 0.313rem; // 5px
             bottom: 0.938rem; // 15px
             background: {
                 color: transparent;
@@ -318,7 +318,7 @@ body {
             }
 
             .group {
-                fill: none;
+                fill-opacity: 0;
                 stroke-dasharray: 5,5;
             }
 
@@ -381,7 +381,9 @@ body {
             border: 0.125rem solid darkgray;  // 2px
         }
 
-        p {
+        div.properties {
+            display: flex;
+            flex-wrap: wrap;
             padding-left: 1.5rem; // 24px
 
             font: {
@@ -401,6 +403,7 @@ body {
 
             input:not([type=checkbox]), select, textarea {
                 width: 11.25rem; // 180px
+                height: 1.563rem; //25px
             }
 
             input:read-only {
@@ -408,6 +411,10 @@ body {
                 border: {
                     width: 0;
                 }
+            }
+
+            input.color {
+                width: 9.375rem; // 150px
             }
 
             textarea {
@@ -419,7 +426,8 @@ body {
             }
 
             button {
-                width: 3.125rem; // 50px
+                width: 3.125rem;  // 50px
+                height: 1.563rem; //25px
             }
 
             table {
@@ -446,6 +454,30 @@ body {
                         height: 0.938rem; // 15px
                         cursor: pointer;
                     }
+                }
+            }
+
+            span.selected-color {
+                display: inline-block;
+                width: 1.563rem;    //25px
+                height: 1.563rem;
+                margin-right: 0.3125rem; //5px
+                border: 0.0625rem solid #000000;
+                cursor: pointer;
+            }
+
+            div.color-palette {
+                background-color: #d3d3d3;
+                margin: {
+                    left: 5.625rem; // 90px
+                    right: 1.5rem;  // 24px
+                };
+                div {
+                    display: inline-block;
+                    width: 1.25rem;    //20px
+                    height: 1.25rem;
+                    margin: 0.3125rem; //5px
+                    cursor: pointer;
                 }
             }
         }
