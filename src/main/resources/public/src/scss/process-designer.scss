@@ -397,8 +397,13 @@ body {
 
             label {
                 display: inline-block;
-                width: 5.625rem;  // 90px
+                width: 5.313rem;  // 85px
                 vertical-align: top;
+            }
+
+            label.required {
+                width: 0.5rem;  // 8px
+                color: #ff0000;
             }
 
             input:not([type=checkbox]), select, textarea {
@@ -431,7 +436,7 @@ body {
             }
 
             table {
-                margin-left: 5.625rem; // 90px
+                margin-left: 5.813rem; // 93px
                 width: 11.25rem; // 180px
                 border: black solid 0.063rem;
 
@@ -468,9 +473,9 @@ body {
 
             div.color-palette {
                 background-color: #d3d3d3;
+                width: 11.25rem; // 180px
                 margin: {
-                    left: 5.625rem; // 90px
-                    right: 1.5rem;  // 24px
+                    left: 5.813rem; // 93px
                 };
                 div {
                     display: inline-block;

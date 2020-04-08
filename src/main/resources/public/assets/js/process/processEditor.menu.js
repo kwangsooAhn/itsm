@@ -999,8 +999,15 @@
                 let propertyContainer = document.createElement('div');
                 propertyContainer.className = 'properties';
                 propertiesContainer.appendChild(propertyContainer);
+                let requiredLabelObject = document.createElement('label');
+                requiredLabelObject.className = 'required';
+                requiredLabelObject.htmlFor =  property.id;
+                if (property.required === 'Y') {
+                    requiredLabelObject.textContent = '*';
+                }
+                propertyContainer.appendChild(requiredLabelObject);
                 let labelObject = document.createElement('label');
-                labelObject.htmlFor =  property.id;
+                labelObject.htmlFor = property.id;
                 labelObject.textContent = property.name;
                 propertyContainer.appendChild(labelObject);
 

@@ -10177,8 +10177,12 @@ body {
 }
 .alice-process-properties-panel div.properties label {
   display: inline-block;
-  width: 5.625rem;
+  width: 5.313rem;
   vertical-align: top;
+}
+.alice-process-properties-panel div.properties label.required {
+  width: 0.5rem;
+  color: #ff0000;
 }
 .alice-process-properties-panel div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties select, .alice-process-properties-panel div.properties textarea {
   width: 11.25rem;
@@ -10202,7 +10206,7 @@ body {
   height: 1.563rem;
 }
 .alice-process-properties-panel div.properties table {
-  margin-left: 5.625rem;
+  margin-left: 5.813rem;
   width: 11.25rem;
   border: black solid 0.063rem;
 }
@@ -10231,8 +10235,8 @@ body {
 }
 .alice-process-properties-panel div.properties div.color-palette {
   background-color: #d3d3d3;
-  margin-left: 5.625rem;
-  margin-right: 1.5rem;
+  width: 11.25rem;
+  margin-left: 5.813rem;
 }
 .alice-process-properties-panel div.properties div.color-palette div {
   display: inline-block;
