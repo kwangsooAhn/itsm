@@ -221,7 +221,7 @@ const fileUploader = (function () {
                 var fileNameExtensionList;
                 const opt2 = {
                     method: 'GET',
-                    url: '/fileNameExtensionList',
+                    url: '/rest/fileNameExtensionList',
                     callbackFunc: function (response) {
                         fileNameExtensionList = JSON.parse(response.responseText);
                     }

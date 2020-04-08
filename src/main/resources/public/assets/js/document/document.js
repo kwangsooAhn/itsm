@@ -943,3 +943,21 @@
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
+
+/**
+ * Drag, Drop 방지 관련 이벤트 리스너.
+ *
+ */
+window.addEventListener('dragover', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = 'none';
+    e.dataTransfer.dropEffect = 'none';
+}, false);
+
+window.addEventListener('drop', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = 'none';
+    e.dataTransfer.dropEffect = 'none';
+}, false);
