@@ -515,6 +515,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
     //반환 날짜
     let returnDate;
     if (beforeFormat != undefined && afterFormat != undefined && dateValue !== '') {
+        if (beforeFormat === afterFormat) { return dateValue; }
         //이전 날짜 포맷 배열처리
         let beforeFormatArray = beforeFormat.split(' ');
         //변경 날짜 포맷 배열처리

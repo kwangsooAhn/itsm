@@ -102,7 +102,7 @@
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}' 
                     style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' ${attr.validate.required === "Y" ? "required" : ""} 
-                    max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]} />
+                    max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]} regexp=${attr.validate["regexp"]} regexp-msg=${attr.validate["regexp-msg"]}/>
                 </div>
             </div>
         `);
@@ -142,11 +142,14 @@
                 ${textEditorUseYn ?
                     `<div style='width: 100%;'>
                         <div class='editor-container' 
-                        style='height: ${textEditorHeight}px; border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;'></div>
+                        style='height: ${textEditorHeight}px; border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;'
+                        ${attr.validate.required === "Y" ? "required" : ""} 
+                        max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]}></div>
                     </div>` :
                     `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
                     style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' 
-                    ${attr.validate.required === "Y" ? "required" : ""}>${textAreaDefaultValue}</textarea>`
+                    ${attr.validate.required === "Y" ? "required" : ""} 
+                    max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]}>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
             </div>
@@ -268,14 +271,6 @@
                 radioElem.checked = (i === 0);
             }
             radioElem.required = (i === 0 && attr.validate.required === 'Y');
-
-            /*radioElem.addEventListener('click', function() {
-                let checkedRadio = comp.querySelectorAll('input[type=radio]:checked');
-                for (let i = 0; i < checkedRadio.length; i++) {
-                    checkedRadio[i].checked = false;
-                }
-                this.checked = true;
-            });*/
             
             let lblElem = document.createElement('label');
             lblElem.setAttribute('for', attr.option[i].value);
@@ -466,7 +461,7 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.validate.required === "Y" ? "required" : ""}/>
+                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max=${attr.validate["date-max"]} date-min=${attr.validate["date-min"]}/>
                     </div>
                 </div>
             `);
@@ -544,7 +539,7 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.validate.required === "Y" ? "required" : ""} />
+                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.validate.required === "Y" ? "required" : ""} time-max=${attr.validate["time-max"]} time-min=${attr.validate["time-min"]}/>
                     </div>
                 </div>
             `);
@@ -604,7 +599,7 @@
                         </div>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.validate.required === "Y" ? "required" : ""} />
+                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max=${attr.validate["date-max"]} date-min=${attr.validate["date-min"]}/>
                     </div>
                 </div>
             `);
