@@ -44,6 +44,7 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
     fun initStart(wfTokenDto: WfTokenDto, wfDocumentEntity: WfDocumentEntity, instance: WfInstanceEntity) {
         val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
         val wfTokenEntity= setCommonStartEvent(wfTokenDto, startElement, instance)
+
         goToNext(wfTokenEntity, wfTokenDto)
         val nextElement = getNextElement(wfTokenEntity)
         val currentTokenEntity = wfTokenRepository.findWfTokenEntityByInstanceAndElementId(instance, nextElement.elementId)
@@ -138,8 +139,11 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
         val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
         val startTokenEntity = WfTokenEntity(
                 tokenId = "",
+                assigneeId = wfTokenDto.assigneeId,
+                assigneeType = wfTokenDto.assigneeType,
                 tokenStatus = WfTokenConstants.Status.RUNNING.code,
                 tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                tokenEndDt = LocalDateTime.now(ZoneId.of("UTC")),
                 instance = wfInstanceEntity,
                 elementId = startElement.elementId
         )
@@ -231,6 +235,29 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
                 wfInstanceService.completeInstance(wfTokenEntity.instance.instanceId)
                 //TODO: #8321 종료이벤트 로직 강화
                 //호출한 부모 토큰이 존재할 경우 해당 토큰 호출
+            }
+            WfElementConstants.ElementType.SUB_PROCESS.value -> {
+                //TODO: assingee 정보는 앞단계의 정보로 채운다.
+
+                val newTokenEntity = WfTokenEntity(
+                        tokenId = "",
+                        elementId = element.elementId,
+                        assigneeType = wfTokenEntity.assigneeType,
+                        assigneeId = wfTokenEntity.assigneeId,
+                        tokenStatus = WfTokenConstants.Status.RUNNING.code,
+                        tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                        instance = wfTokenEntity.instance
+                )
+                val saveTokenEntity = wfTokenRepository.save(newTokenEntity)
+
+                //Token Data
+                val tokenDataList = wfTokenDataRepository.findTokenDataEntityByTokenId(wfTokenEntity.tokenId)
+                val dataList: MutableList<WfTokenDataEntity> = mutableListOf()
+                tokenDataList.forEach { tokenData ->
+                    dataList.add(WfTokenDataEntity(tokenId = saveTokenEntity.tokenId, componentId = tokenData.componentId, value = tokenData.value))
+                }
+                wfTokenDataRepository.saveAll(dataList)
+
             }
         }
     }
