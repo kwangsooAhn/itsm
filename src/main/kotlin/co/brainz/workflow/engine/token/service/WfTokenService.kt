@@ -166,14 +166,11 @@ class WfTokenService(
      */
     fun initToken(wfTokenDto: WfTokenDto) {
         val documentDto = wfTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
-        val processId = documentDto?.process?.processId
         val instanceDto = documentDto?.let { WfInstanceDto(instanceId = "", document = it) }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
 
-        val wfTokenEntity = wfTokenElementService.initStart(wfTokenDto, processId, instance)
-        wfTokenDto.tokenId = wfTokenEntity?.tokenId.toString()
-        wfTokenDto.assigneeId = wfTokenEntity?.assigneeId
-        wfTokenDto.assigneeType = wfTokenEntity?.assigneeType
+        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId!!)
+        wfTokenElementService.initStart(wfTokenDto, wfDocumentEntity, instance!!)
 
         setTokenGate(wfTokenDto)
     }
@@ -190,7 +187,7 @@ class WfTokenService(
         when (wfElementEntity.elementType) {
             WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.setUserTask(wfTokenEntity, wfElementEntity, wfTokenDto)
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> wfTokenElementService.setCommonEndEvent(wfTokenEntity, wfTokenDto)
-            WfElementConstants.ElementType.COMMON_SUBPROCESS.value -> wfTokenElementService.setSubProcess(wfTokenEntity, wfTokenDto)
+            WfElementConstants.ElementType.SUB_PROCESS.value -> wfTokenElementService.setSubProcess(wfTokenEntity, wfElementEntity, wfTokenDto)
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> wfTokenElementService.setExclusiveGateway(wfTokenEntity, wfTokenDto)
         }
     }

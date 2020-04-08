@@ -1,10 +1,14 @@
 package co.brainz.workflow.engine.token.service
 
+import co.brainz.workflow.engine.document.entity.WfDocumentEntity
+import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
+import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
+import co.brainz.workflow.engine.instance.dto.WfInstanceDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
@@ -25,7 +29,8 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
                             private val wfTokenRepository: WfTokenRepository,
                             private val wfInstanceService: WfInstanceService,
                             private val wfElementService: WfElementService,
-                            private val wfTokenDataRepository: WfTokenDataRepository) {
+                            private val wfTokenDataRepository: WfTokenDataRepository,
+                            private val wfDocumentRepository: WfDocumentRepository) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -33,30 +38,44 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
      * Init Start.
      *
      * @param wfTokenDto
+     * @param wfDocumentEntity
      * @param instance
-     * @return WfTokenEntity?
      */
-    fun initStart(wfTokenDto: WfTokenDto, processId: String?, instance: WfInstanceEntity?): WfTokenEntity? {
-        val initElementId = processId?.let { wfElementService.getStartElement(it).elementId }.toString()
-        wfTokenDto.elementId = initElementId
-        wfTokenDto.assigneeType = ""
-        wfTokenDto.assigneeId = ""
+    fun initStart(wfTokenDto: WfTokenDto, wfDocumentEntity: WfDocumentEntity, instance: WfInstanceEntity) {
+        val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
+        val wfTokenEntity= setCommonStartEvent(wfTokenDto, startElement, instance)
+        goToNext(wfTokenEntity, wfTokenDto)
+        val nextElement = getNextElement(wfTokenEntity)
+        val currentTokenEntity = wfTokenRepository.findWfTokenEntityByInstanceAndElementId(instance, nextElement.elementId)
+        wfTokenDto.tokenId = currentTokenEntity.tokenId
+    }
+
+    /**
+     * CommonStartEvent.
+     *
+     * @param wfTokenDto
+     * @param wfElementEntity
+     * @param wfInstanceEntity
+     * @return WfTokenEntity
+     */
+    fun setCommonStartEvent(wfTokenDto: WfTokenDto, wfElementEntity: WfElementEntity, wfInstanceEntity: WfInstanceEntity): WfTokenEntity {
+        logger.debug("Token Action : {}", wfTokenDto.action)
+
+        wfTokenDto.elementId = wfElementEntity.elementId
         wfTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
-        val startToken = instance?.let { wfTokenActionService.createToken(it, wfTokenDto) }
+        return wfTokenActionService.createToken(wfInstanceEntity, wfTokenDto)
+    }
 
-        val arrow = wfActionService.getArrowElements(startToken?.elementId.toString())[0]
+    /**
+     * Get Next Element.
+     *
+     * @param wfTokenEntity
+     * @return WfElementEntity
+     */
+    fun getNextElement(wfTokenEntity: WfTokenEntity): WfElementEntity {
+        val arrow = wfActionService.getArrowElements(wfTokenEntity.elementId)[0]
         val elementId = wfActionService.getNextElementId(arrow)
-        val element= wfActionService.getElement(elementId)
-
-        val newTokenDto = WfTokenDto(
-                tokenId = "",
-                elementId = elementId,
-                assigneeId = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value),
-                assigneeType = getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
-                tokenStatus = WfTokenConstants.Status.RUNNING.code,
-                documentId = instance?.document?.documentId
-        )
-        return instance?.let { wfTokenActionService.createToken(it, newTokenDto) }
+        return wfActionService.getElement(elementId)
     }
 
     /**
@@ -101,9 +120,47 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
      * @param wfTokenEntity
      * @param wfTokenDto
      */
-    fun setSubProcess(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+    fun setSubProcess(wfTokenEntity: WfTokenEntity, wfElementEntity: WfElementEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)
 
+        //New Instance
+        val wfInstanceDto = WfInstanceDto(
+                instanceId = "",
+                document = wfTokenEntity.instance.document,
+                instanceStatus = WfInstanceConstants.Status.RUNNING.code,
+                callTokenId = wfTokenDto.tokenId
+        )
+        val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
+
+        //Call Document Start Element
+        val documentId = getAttributeValue(wfElementEntity.elementDataEntities, WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value)
+        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+        val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
+        val startTokenEntity = WfTokenEntity(
+                tokenId = "",
+                tokenStatus = WfTokenConstants.Status.RUNNING.code,
+                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                instance = wfInstanceEntity,
+                elementId = startElement.elementId
+        )
+        wfTokenRepository.save(startTokenEntity)
+
+        //Call Document Running Element
+        val arrows = wfActionService.getArrowElements(startElement.elementId)[0]
+        val nextElementId = wfActionService.getNextElementId(arrows)
+        val nextElement = wfActionService.getElement(nextElementId)
+
+        //New Token
+        val newTokenEntity = WfTokenEntity(
+                tokenId = "",
+                tokenStatus = WfTokenConstants.Status.RUNNING.code,
+                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                assigneeType = getAttributeValue(nextElement.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
+                assigneeId = getAttributeValue(nextElement.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value),
+                instance = wfInstanceEntity,
+                elementId = nextElementId
+        )
+        wfTokenRepository.save(newTokenEntity)
     }
 
     /**

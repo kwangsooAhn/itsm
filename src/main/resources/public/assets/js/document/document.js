@@ -796,15 +796,9 @@
         } else {
             tokenObject.tokenId = '';
         }
-        if (v_kind === 'save') {
-            tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
-            tokenObject.assigneeId = userData.userKey;
-            tokenObject.assigneeType = defaultAssigneeTypeForSave;
-        } else {
-            tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
-            tokenObject.assigneeId = '';
-            tokenObject.assigneeType = '';
-        }
+        tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
+        tokenObject.assigneeId = userData.userKey;
+        tokenObject.assigneeType = defaultAssigneeTypeForSave;
 
         if (componentArrayList.length > 0) {
             tokenObject.data = componentArrayList;

@@ -45,6 +45,8 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
      */
     fun save(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto): Boolean {
         wfTokenDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
+        wfTokenDto.assigneeId = wfTokenEntity.assigneeId
+        wfTokenDto.assigneeType = wfTokenEntity.assigneeType
         updateToken(wfTokenEntity, wfTokenDto)
         deleteTokenData(wfTokenDto.tokenId)
         createTokenData(wfTokenDto, wfTokenDto.tokenId)
