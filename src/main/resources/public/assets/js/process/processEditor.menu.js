@@ -1132,9 +1132,6 @@
 
                     if (property.id !== 'id') {
                         elementObject.addEventListener('change', function() {
-                            if (property.type === 'rgb') {
-
-                            }
                             changePropertiesDataValue(id);
                             if (property.id === 'is-default') {
                                 let conditionAttrObject = propertiesContainer.querySelector('input[name=condition]');
