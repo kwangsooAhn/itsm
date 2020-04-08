@@ -13,5 +13,5 @@ data class WfTokenDto(
     var assigneeId: String? = null,
     var assigneeType: String? = null,
     var data: List<WfTokenDataDto>? = null,
-    val action: List<WfActionDto>? = emptyList()
+    val action: String = ""
 ) : Serializable

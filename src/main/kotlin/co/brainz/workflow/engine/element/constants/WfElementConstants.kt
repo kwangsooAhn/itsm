@@ -23,7 +23,6 @@ object WfElementConstants {
         ANNOTATION_ARTIFACT("annotationArtifact"),
         GROUP_ARTIFACT("groupArtifact"),
         SIGNAL_EVENT("signalEvent"),
-        END_EVENT("endEvent")
     }
 
     /**
@@ -39,7 +38,7 @@ object WfElementConstants {
         ACTION_NAME("action-name"),
         ACTION_VALUE("action-value"),
         SAVE("save"),
-        REJECT("reject-id")
+        REJECT_ID("reject-id")
     }
 
     /**
@@ -63,6 +62,11 @@ object WfElementConstants {
         CANCEL("cancel"),
         SAVE("save"),
         REJECT("reject"),
-        PROCESS("process")
+        PROCESS("process"),
+        WITHDRAW("withdraw")
+    }
+
+    enum class AttributeValue(val value: String) {
+        ACTION("#{action}")
     }
 }
