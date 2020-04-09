@@ -102,23 +102,26 @@
                 AliceProcessEditor.addElementProperty(d);
             });
 
-        // add new paintedPath links
-        enter.append('path')
-            .attr('class', 'painted-connector')
-            .on('mouseout', function() {
-                if (!dragElement) {
-                    d3.select(this).style('cursor', 'default');
-                }
-            })
-            .on('mouseover', function() {
+        /**
+         * connector event handler.
+         *
+         * @type {{mouseover: mouseover, mouseout: mouseout, mousedown: mousedown}}
+         */
+        const connectorMouseEventHandler = {
+            mouseover: function() {
                 if (isDrawConnector) {
                     return;
                 }
                 if (!dragElement) {
                     d3.select(this).style('cursor', 'pointer');
                 }
-            })
-            .on('mousedown', function(d) {
+            },
+            mouseout: function() {
+                if (!dragElement) {
+                    d3.select(this).style('cursor', 'default');
+                }
+            },
+            mousedown: function(d) {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
@@ -126,13 +129,24 @@
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                 d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
-            });
+            }
+        };
+
+        // add new paintedPath links
+        enter.append('path')
+            .attr('class', 'painted-connector')
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown);
 
         enter.append('text').append('textPath')
             .attr('xlink:href', function(d) { return '#' + d.id; })
             .attr('startOffset', '10%')
             .append('tspan')
             .attr('dy', '-10')
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown)
             .text(function(d) {
                 let name = '';
                 const elements = AliceProcessEditor.data.elements;
@@ -147,6 +161,9 @@
             .attr('id', function(d) { return d.id + '_midPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
@@ -168,6 +185,9 @@
             .attr('id', function(d) { return d.id + '_sourcePoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
@@ -187,6 +207,9 @@
             .attr('id', function(d) { return d.id + '_targetPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
@@ -439,7 +462,11 @@
             if (!dragElement) {
                 let cursor = 'pointer';
                 if (isDrawConnector) {
-                    cursor = 'crosshair';
+                    if (!elem.classed('group')) {
+                        cursor = 'crosshair';
+                    } else {
+                        cursor = 'default';
+                    }
                 }
                 elemContainer.style('cursor', cursor);
             }
@@ -471,14 +498,16 @@
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
-                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
-                    gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
-                    centerX = bbox.cx + gTransform.x,
-                    centerY = bbox.cy + gTransform.y;
-                dragLine
-                    .style('marker-end', 'url(#end-arrow)')
-                    .classed('hidden', false)
-                    .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
+                if (!elem.classed('group')) {
+                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
+                        gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
+                        centerX = bbox.cx + gTransform.x,
+                        centerY = bbox.cy + gTransform.y;
+                    dragLine
+                        .style('marker-end', 'url(#end-arrow)')
+                        .classed('hidden', false)
+                        .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
+                }
             } else {
                 if (selectedElement === elem) {
                     return;
@@ -562,17 +591,18 @@
                 availableLink = false;
             }
         });
-
         // common start cannot be a target.
         if (target.classed('commonStart')) {
             availableLink = false;
         }
-
         // common end/message end cannot be a source.
         if (source.classed('commonEnd') || source.classed('messageEnd')) {
             availableLink = false;
         }
-
+        // group is not connected.
+        if (source.classed('group') || target.classed('group')) {
+            availableLink = false;
+        }
         return availableLink;
     }
 
@@ -1404,6 +1434,13 @@
             case 'artifact':
                 if (element.type === 'groupArtifact') {
                     node = new GroupElement(x, y, element.display.width, element.display.height);
+                    node.nodeElement.style('stroke', element.data['line-color'])
+                        .style('fill', element.data['background-color']);
+                    if (element.data['background-color'] === '') {
+                        node.nodeElement.style('fill-opacity', 0);
+                    } else {
+                        node.nodeElement.style('fill-opacity', 0.5);
+                    }
                 } else if (element.type === 'annotationArtifact') {
                     node = new AnnotationElement(x, y);
                 }
