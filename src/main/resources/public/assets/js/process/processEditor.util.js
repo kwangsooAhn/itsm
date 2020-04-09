@@ -8,7 +8,7 @@
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            console.log(mutation);
+            //console.log(mutation);
             isEdited = true;
         });
     });
@@ -183,7 +183,18 @@
                             node.nodeElement.attr('id', changeData.id);
                             AliceProcessEditor.setConnectors(true);
                         }
+                    } else if (originData.data['line-color'] !== changeData.data['line-color']
+                        || originData.data['background-color'] !== changeData.data['background-color']) { // group color
+                        let element = d3.select(document.getElementById(changeData.id));
+                        element.style('stroke', changeData.data['line-color'])
+                               .style('fill', changeData.data['background-color']);
+                        if (changeData.data['background-color'] === '') {
+                            element.style('fill-opacity', 0);
+                        } else {
+                            element.style('fill-opacity', 0.5);
+                        }
                     }
+
                 } else {
                     if (changeData.display && (originData.display['mid-point'] !== changeData.display['mid-point']
                         || originData.display['source-point'] !== changeData.display['source-point']
@@ -254,26 +265,122 @@
     }
 
     /**
+     * 다른 이름으로 저장 content.
+     *
+     * @return {string} content html
+     */
+    function createDialogContent() {
+        const container = document.createElement('div');
+
+        const nameContent = document.createElement('div');
+        const nameLabel = document.createElement('label');
+        nameLabel.className = 'gmodal-input-label';
+        nameLabel.htmlFor = 'process_name';
+        nameLabel.textContent = 'Name';
+        nameContent.appendChild(nameLabel);
+        const nameTextObject = document.createElement('input');
+        nameTextObject.className = 'gmodal-input';
+        nameTextObject.id = 'process_name';
+        nameTextObject.textContent = AliceProcessEditor.data.process.name;
+        nameContent.appendChild(nameTextObject);
+        container.appendChild(nameContent);
+
+        const descContent = document.createElement('div');
+        const descLabel = document.createElement('label');
+        descLabel.className = 'gmodal-input-label';
+        descLabel.htmlFor = 'process_description';
+        descLabel.textContent = 'Description';
+        descContent.appendChild(descLabel);
+        const descTextareaObject = document.createElement('textarea');
+        descTextareaObject.className = 'gmodal-input';
+        descTextareaObject.rows = 3;
+        descTextareaObject.id = 'process_description';
+        descContent.appendChild(descTextareaObject);
+        container.appendChild(descContent);
+
+        const requiredMsgContent = document.createElement('div');
+        requiredMsgContent.className = 'gmodal-required';
+        requiredMsgContent.textContent = i18n.get('common.msg.requiredEnter');
+        container.appendChild(requiredMsgContent);
+
+        return container.outerHTML;
+    }
+
+    /**
      * save as process.
      */
     function saveAsProcess() {
-        aliceJs.sendXhr({
-            method: 'POST',
-            url: '/rest/processes' + '?saveType=saveas',
-            callbackFunc: function(xhr) {
-                if (xhr.responseText !== '') {
-                    aliceJs.alert(i18n.get('common.msg.save'), function() {
-                        opener.location.reload();
-                        location.href = '/processes/' + xhr.responseText + '/edit';
-                    });
-                } else {
-                    aliceJs.alert(i18n.get('common.label.fail'));
-                }
-            },
-            contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(AliceProcessEditor.data)
-        });
+        /**
+         * 필수체크.
+         *
+         * @return {boolean} 체크성공여부
+         */
+        const checkRequired = function() {
+            let nameTextObject = document.getElementById('process_name');
+            if (nameTextObject.value.trim() === '') {
+                nameTextObject.style.backgroundColor = '#ff000040';
+                document.querySelector('.gmodal-required').style.display = 'block';
+                return false;
+            }
+            nameTextObject.style.backgroundColor = '';
+            document.querySelector('.gmodal-required').style.display = 'none';
+            return true;
+        };
+        /**
+         * 저장처리.
+         */
+        const saveAs = function() {
+            const saveAsProcessData = JSON.parse(JSON.stringify(AliceProcessEditor.data));
+            let processData = saveAsProcessData.process;
+            processData.name = document.getElementById('process_name').value;
+            processData.description = document.getElementById('process_description').value;
+            aliceJs.sendXhr({
+                method: 'POST',
+                url: '/rest/processes' + '?saveType=saveas',
+                callbackFunc: function(xhr) {
+                    if (xhr.responseText !== '') {
+                        aliceJs.alert(i18n.get('common.msg.save'), function() {
+                            isEdited = false;
+                            opener.location.reload();
+                            location.href = '/processes/' + xhr.responseText + '/edit';
+                        });
+                    } else {
+                        aliceJs.alert(i18n.get('common.label.fail'));
+                    }
+                },
+                contentType: 'application/json; charset=utf-8',
+                params: JSON.stringify(saveAsProcessData)
+            });
+        };
 
+        const saveAsModal = new gModal({
+            title: 'Save As Process',
+            body: createDialogContent(),
+            buttons: [
+                {
+                    content: 'Cancle',
+                    classes: 'gmodal-button-red',
+                    bindKey: false, /* no key! */
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }, {
+                    content: 'Save As',
+                    classes: 'gmodal-button-green',
+                    bindKey: false, /* no key! */
+                    callback: function(modal) {
+                        if (checkRequired()) {
+                            saveAs();
+                            modal.hide();
+                        }
+                    }
+                }
+            ],
+            close: {
+                closable: false,
+            }
+        });
+        saveAsModal.show();
     }
 
     /**
@@ -331,7 +438,7 @@
             document.getElementById('btnSave').addEventListener('click', saveProcess);
         }
         if (document.getElementById('btnSaveAs') !== null) {
-            document.getElementById("btnSaveAs").addEventListener('click', saveAsProcess);
+            document.getElementById('btnSaveAs').addEventListener('click', saveAsProcess);
         }
         if (document.getElementById('btnSimulation') !== null) {
             document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);

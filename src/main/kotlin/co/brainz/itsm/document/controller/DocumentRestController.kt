@@ -46,6 +46,14 @@ class DocumentRestController(private val documentService: DocumentService) {
     }
 
     /**
+     * 신청서 목록 조회.
+     */
+    @GetMapping("/", "")
+    fun getDocuments(): List<RestTemplateDocumentDto> {
+        return documentService.findDocumentList()
+    }
+
+    /**
      * 신청서 display 데이터 조회
      *
      * @param documentId

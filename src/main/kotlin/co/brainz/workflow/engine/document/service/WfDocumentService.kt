@@ -93,7 +93,7 @@ class WfDocumentService(
         return WfFormComponentViewDto(
                 form = formViewDto,
                 components = components,
-                action = wfActionService.actionInit(documentEntity.process.processId)
+                actions = wfActionService.actionInit(documentEntity.process.processId)
         )
     }
 

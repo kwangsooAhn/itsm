@@ -23,7 +23,6 @@ object WfElementConstants {
         ANNOTATION_ARTIFACT("annotationArtifact"),
         GROUP_ARTIFACT("groupArtifact"),
         SIGNAL_EVENT("signalEvent"),
-        END_EVENT("endEvent")
     }
 
     /**
@@ -34,12 +33,12 @@ object WfElementConstants {
         ASSIGNEE_TYPE("assignee-type"),
         SOURCE_ID("start-id"),
         TARGET_ID("end-id"),
-        CONDITION("condition"),
         CONDITION_ITEM("condition-item"),
+        CONDITION_VALUE("condition-value"),
         ACTION_NAME("action-name"),
         ACTION_VALUE("action-value"),
         SAVE("save"),
-        REJECT("reject-id")
+        REJECT_ID("reject-id")
     }
 
     /**
@@ -51,8 +50,8 @@ object WfElementConstants {
      */
     enum class RegexCondition(val value: String) {
         GENERAL("\\x22[^\\x22]+\\x22"),
-        MAPPINGID("\\x22\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22"),
-        CONSTANT("\\x22\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d\\x22")
+        MAPPINGID("\\x24\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d"),
+        CONSTANT("\\x23\\x7b[^\\x22\\x24\\x7b\\x7d]+\\x7d")
     }
 
     /**
@@ -63,6 +62,11 @@ object WfElementConstants {
         CANCEL("cancel"),
         SAVE("save"),
         REJECT("reject"),
-        PROCESS("process")
+        PROCESS("process"),
+        WITHDRAW("withdraw")
+    }
+
+    enum class AttributeValue(val value: String) {
+        ACTION("#{action}")
     }
 }

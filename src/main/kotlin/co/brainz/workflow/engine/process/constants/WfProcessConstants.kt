@@ -10,8 +10,8 @@ object WfProcessConstants {
      */
     enum class Status(val code: String) {
         EDIT("process.status.edit"),
-        SIMULATION("process.status.simu"),
         PUBLISH("process.status.publish"),
+        USE("process.status.use"),
         DESTROY("process.status.destroy")
     }
 

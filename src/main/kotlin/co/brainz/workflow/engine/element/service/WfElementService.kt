@@ -1,7 +1,5 @@
 package co.brainz.workflow.engine.element.service
 
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
@@ -23,7 +21,6 @@ class WfElementService(
     private val wfComponentRepository: WfComponentRepository,
     private val wfTokenDataRepository: WfTokenDataRepository
 ) {
-
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -63,89 +60,58 @@ class WfElementService(
      */
     private fun getConnector(wfTokenDto: WfTokenDto): WfElementEntity {
         val elementId = wfTokenDto.elementId
-        lateinit var connectorElement: WfElementEntity
-        val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(elementId)
+        lateinit var selectedConnector: WfElementEntity
 
-        // 게이트웨이로 인해 connector가 복수개일때 connector의 condition값으로 다음 element를 선택한다.
-        if (arrowConnectors.size > 1) {
+        // 컨넥터를 가져와서
+        val connectorElements = wfElementRepository.findAllArrowConnectorElement(elementId)
+
+        // 컨넥터가 하나를 초과하면
+        if (connectorElements.size > 1) {
             run main@{
-                arrowConnectors.forEach connector@{ arrowConnector ->
-                    arrowConnector.elementDataEntities.forEach {
-                        // 엘리먼트 세부 설정 속성값이 분기 조건 데이터일 때
-                        if (it.attributeId == WfElementConstants.AttributeId.CONDITION.value) {
-                            val regexGeneral = WfElementConstants.RegexCondition.GENERAL.value.toRegex()
-                            val regexComponentMappingId = WfElementConstants.RegexCondition.MAPPINGID.value.toRegex()
-                            val regexConstant = WfElementConstants.RegexCondition.CONSTANT.value.toRegex()
+                connectorElements.forEach connector@{ connectorElement ->
 
-                            val getDoubleQuotationValue = regexGeneral.findAll(it.attributeValue)
+                    // 컨넥터의 source element id 를 이용하여 gw 엘리먼트를 조회 후 condition-item을 가져온다.
+                    val gateWayElementId = wfElementDataRepository.findByElementAndAttributeId(
+                        connectorElement,
+                        WfElementConstants.AttributeId.SOURCE_ID.value
+                    ).attributeValue
+                    val conditionItem = wfElementDataRepository.findByElementAndAttributeId(
+                        wfElementRepository.getOne(gateWayElementId),
+                        WfElementConstants.AttributeId.CONDITION_ITEM.value
+                    ).attributeValue.trim()
+                    val item = this.getMatchesRegex(conditionItem, wfTokenDto)
 
-                            val compareValues = mutableListOf<String>()
+                    // 컨넥터의 condition-value를 가져와서 symbol, value 로 분리한다.
+                    val conditionValue = wfElementDataRepository.findByElementAndAttributeId(
+                        connectorElement,
+                        WfElementConstants.AttributeId.CONDITION_VALUE.value
+                    ).attributeValue
+                    val conditionValues = conditionValue.split("\\s+".toRegex())
+                    val symbol = conditionValues[0]
+                    val value = this.getMatchesRegex(conditionValues[1], wfTokenDto)
 
-                            var symbol = it.attributeValue
-                            getDoubleQuotationValue.forEach { doubleQuotation ->
-                                // 부등호만 가져온다.
-                                symbol = symbol.replace(doubleQuotation.value, "")
-
-                                // 분기 조건 값, 따옴표로 둘러쌓여 있다.
-                                val mappingIdForRegex = doubleQuotation.value
-
-                                // 분기 조건 값에서 따옴표("), $, # 등 특수문자를 제거한 원본 값.
-                                val mappingId =
-                                    doubleQuotation.value.replace("\"", "").replace("\${", "").replace("}", "")
-
-                                // 분기 조건 값에 따라 비교할 데이터를 조회한다. (${value}, #{value}, 일반)
-                                val value = when {
-
-                                    // ${value} 값
-                                    mappingIdForRegex.matches(regexComponentMappingId) -> {
-                                        val tokenId = wfTokenDto.tokenId
-                                        val tokenDatas = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
-                                        val componentIds = tokenDatas.map { tokenData ->
-                                            tokenData.componentId
-                                        }
-                                        val wfComponentEntity =
-                                            wfComponentRepository.findByComponentIdInAndMappingId(
-                                                componentIds,
-                                                mappingId
-                                            )
-                                        val componentId = wfComponentEntity.componentId
-
-                                        val tokenData = wfTokenDataRepository.findByTokenIdAndComponentId(
-                                            tokenId,
-                                            componentId
-                                        )
-                                        tokenData.value
-                                    }
-
-                                    // #{value} 값
-                                    mappingIdForRegex.matches(regexConstant) -> {
-                                        wfTokenDto.assigneeId as String
-                                    }
-
-                                    // 일반 상수 값
-                                    else -> mappingId
-                                }
-
-                                compareValues.add(value)
-                            }
-
-                            // 비교 대상이 2건을 벗어나거나 잘못 셋팅되었거나할 때 에러를 발생시킨다.
-                            if (compareValues.size != 2) {
-                                throw AliceException(
-                                    AliceErrorConstants.ERR,
-                                    "There are two values for comparing gateway branch conditions."
-                                )
-                            }
-
-                            // TODO 2020-03-19 kbh - 부등호(symbol)에 따라 최종값 비교 기능을 추가 해야함. 현재는 동일 조건(== 만 동작한다.
-                            symbol = symbol.trim()
-
-                            // 최종 값을 비교
-                            if (compareValues[0] == compareValues[1]) {
-                                connectorElement = arrowConnector
+                    // symbol이 뭐냐에 따라 condition-item 과 condition-value가 일치하는 컨넥터 1개를 찾는다.
+                    when (symbol) {
+                        "=" -> {
+                            if (item == value) {
+                                selectedConnector = connectorElement
                                 return@main
-                            } else {
-                                return@connector
+                            }
+                        }
+                        "<=" -> {
+                            val val1 = item.toInt()
+                            val val2 = value.toInt()
+                            if (val1 <= val2) {
+                                selectedConnector = connectorElement
+                                return@main
+                            }
+                        }
+                        ">=" -> {
+                            val val1 = item.toInt()
+                            val val2 = value.toInt()
+                            if (val1 >= val2) {
+                                selectedConnector = connectorElement
+                                return@main
                             }
                         }
                     }
@@ -153,10 +119,53 @@ class WfElementService(
             }
 
         } else { // 그 외 connector 가 1개일 때
-            connectorElement = arrowConnectors[0]
+            selectedConnector = connectorElements[0]
         }
+        logger.debug("selectedConnector {}", selectedConnector)
+        return selectedConnector
+    }
 
-        return connectorElement
+    /**
+     * 프로세스 디자이너에서 condition에 사용하는 문법 구조에 해당하는 실제 데이터를 가져온다.
+     * 일반, 엘리먼트 mappingid(${value}), 클라이언트에서 넘어오는 버튼(#{action}) 등
+     */
+    private fun getMatchesRegex(stringForRegex: String, wfTokenDto: WfTokenDto): String {
+        val regexGeneral = WfElementConstants.RegexCondition.GENERAL.value.toRegex()
+        val regexComponentMappingId = WfElementConstants.RegexCondition.MAPPINGID.value.toRegex()
+        val regexConstant = WfElementConstants.RegexCondition.CONSTANT.value.toRegex()
+        return when {
+            stringForRegex.matches(regexComponentMappingId) -> {
+                val mappingId = stringForRegex.trim().replace("\${", "").replace("}", "")
+                val tokenId = wfTokenDto.tokenId
+                val tokenDatas = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
+                val componentIds = tokenDatas.map { tokenData ->
+                    tokenData.componentId
+                }
+                val wfComponentEntity =
+                    wfComponentRepository.findByComponentIdInAndMappingId(
+                        componentIds,
+                        mappingId
+                    )
+                val componentId = wfComponentEntity.componentId
+                val tokenData = wfTokenDataRepository.findByTokenIdAndComponentId(
+                    tokenId,
+                    componentId
+                )
+                tokenData.value
+            }
+            stringForRegex.matches(regexConstant) -> {
+                var action = ""
+                val actionId = stringForRegex.trim().replace("#{", "").replace("}", "")
+                if (wfTokenDto.action == actionId) {
+                    action = wfTokenDto.action
+                }
+                action
+            }
+            stringForRegex.matches(regexGeneral) -> {
+                stringForRegex.trim().replace("\"", "")
+            }
+            else -> stringForRegex.trim()
+        }
     }
 
 }
