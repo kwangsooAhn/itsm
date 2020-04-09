@@ -244,13 +244,14 @@ function isValidEmail(elementId) {
  * RGB 유효성 검사.
  *
  * @param elementId element ID
+ * @param callbackFunc callback function
  * @return {boolean} 유효성 검사 통과 여부
  */
-function isValidRgb(elementId) {
+function isValidRgb(elementId, callbackFunc) {
     let rgb = document.getElementById(elementId).value;
 
     if (!rgbReg.test(rgb)) {
-        aliceJs.alert(i18n.get('validation.msg.checkRgbFormat'));
+        aliceJs.alert(i18n.get('validation.msg.checkRgbFormat'), callbackFunc);
         return false;
     }
     return true;

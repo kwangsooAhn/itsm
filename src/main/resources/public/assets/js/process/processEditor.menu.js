@@ -1068,7 +1068,7 @@
                         elementObject = document.createElement('input');
                         elementObject.className = 'color';
                         elementObject.addEventListener('change', function() {
-                            if (this.value.trim() !== ''&& !isValidRgb(this.id)) {
+                            if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
                                 this.value = '';
                             }
                             this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
