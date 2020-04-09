@@ -632,7 +632,7 @@
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <div id='dropZoneFiles-${attr.id}'>
-                        <div id='dropZoneUploadedFiles-${attr.id}'></div>
+                        <div id='dropZoneUploadedFiles-${attr.id}' class='dropbox'></div>
                     </div> 
                 </div>
             </div>
@@ -641,10 +641,35 @@
         target.appendChild(comp);
         this.domElem = comp;
 
-        if (attr.values != undefined && attr.values.length > 0 ) {
-            fileUploader.init({extra: {formId: 'frm', ownId: '', dropZoneFilesId: 'dropZoneFiles-' + attr.id, dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.id, fileDataIds: attr.values[0].value}});
+        if (!target.hasAttribute('data-readonly')) {
+            document.getElementById('dropZoneUploadedFiles-' + attr.id).classList.remove('dropbox');
+            if (attr.values !== undefined && attr.values.length > 0) {
+                fileUploader.init({
+                    extra: {
+                        formId: 'frm',
+                        ownId: '',
+                        dropZoneFilesId: 'dropZoneFiles-' + attr.id,
+                        dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.id,
+                        fileDataIds: attr.values[0].value
+                    }
+                });
+            } else {
+                fileUploader.init({
+                    extra: {
+                        formId: 'frm',
+                        ownId: '',
+                        dropZoneFilesId: 'dropZoneFiles-' + attr.id,
+                        dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.id
+                    }
+                });
+            }
         } else {
-            fileUploader.init({extra: {formId: 'frm', ownId: '', dropZoneFilesId: 'dropZoneFiles-' + attr.id, dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.id}});
+            let fileUploadElem = comp.querySelector('.dropbox');
+            fileUploadElem.textContent = 'Drop files here to upload';
+            let buttonElem = document.createElement('button');
+            buttonElem.type = 'button';
+            buttonElem.innerText = 'ADD';
+            fileUploadElem.parentNode.insertBefore(buttonElem, fileUploadElem);
         }
     }
     /**
@@ -667,7 +692,7 @@
                     </div>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' readonly ${attr.validate.required === "Y" ? "required" : ""} />
+                    <input type='text' ${attr.validate.required === "Y" ? "required" : ""}  readonly/>
                     <button type='button'>${attr.display["button-text"]}</button>
                 </div>
             </div>
@@ -785,7 +810,8 @@
      */
     function getData(type) {
         let refineAttr = { display: {} };
-        let defaultAttr = Object.assign({}, aliceForm.options.componentAttribute[type]);
+        let defaultAttr = JSON.parse(JSON.stringify(aliceForm.options.componentAttribute[type]));
+        //let defaultAttr = Object.assign({}, aliceForm.options.componentAttribute[type]);
         Object.keys(defaultAttr).forEach(function(group) {
             if (group === 'option') { //옵션 json 구조 변경
                 let options = [];

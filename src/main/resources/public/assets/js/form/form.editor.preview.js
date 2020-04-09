@@ -3,19 +3,18 @@
 *
 * @author phc
 * @version 1.0
-* @sdoc js/form/formEditor.js
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.formEditorPreview = global.formEditorPreview || {})));
+            (factory((global.preview = global.preview || {})));
 }(this, (function (exports) {
     'use strict';
 
-    function init(data, authInfo) {
+    function init(data) {
         let editorData = JSON.parse(data);
         console.info('formEditor preview initialization. [FORM ID: ' + editorData.form.id + ']');
-        aliceDocument.initContainer('document-container', authInfo);
+        aliceDocument.initContainer('document-container');
         aliceDocument.drawDocument(editorData);
     }
 

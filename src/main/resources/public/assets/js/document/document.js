@@ -371,7 +371,7 @@
         aliceJs.sendXhr(opt);
     }
 
-        /**
+    /**
      * 조회된 데이터 draw.
      *
      * @param data 문서 데이터.
@@ -395,10 +395,10 @@
                 let defaultComponentAttr = component.getData(compType);
                 let mergeComponentAttr = null;
                 if (componentAttr.attributes === undefined) { //신청서
-                    mergeComponentAttr = Object.assign({}, defaultComponentAttr, componentAttr);
+                    mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
                     componentAttr = mergeComponentAttr;
                 } else { //처리할 문서
-                    mergeComponentAttr = Object.assign({}, defaultComponentAttr, componentAttr.attributes);
+                    mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr.attributes);
                     componentAttr.attributes = mergeComponentAttr;
                 }
                 component.draw(compType, documentContainer, componentAttr);

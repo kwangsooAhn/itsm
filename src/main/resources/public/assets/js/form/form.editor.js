@@ -1174,7 +1174,7 @@
             for (let i = 0, len = editor.data.components.length; i < len; i ++) {
                 let componentAttr = editor.data.components[i];
                 let defaultComponentAttr = component.getData(componentAttr.type);
-                let mergeComponentAttr = Object.assign({}, defaultComponentAttr, componentAttr);
+                let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
                 setComponentData(mergeComponentAttr);
 
                 component.draw(componentAttr.type, formPanel, mergeComponentAttr);

@@ -9,6 +9,7 @@ $form-container-min-width: 75rem;    // 1200px
 $form-container-min-height: 37.5rem;    // 600px
 $form-container-top-margin: 5rem;    //80px
 $form-container-left-margin: 8.75rem;    //140px
+$form-component-selected-color: #f4f7f7; 
 
 body {
     font-family: $alice-font-family;
@@ -105,6 +106,42 @@ body {
             border: 0.0625rem solid #BCC5D3;
             background: $white;
             overflow: auto;
+        }
+        .drawing-board[data-readonly=true] {/* 폼 편집 양식시 컴포넌트 수정을 막음 */
+            input[type=text],
+            textarea,
+            button,
+            .ql-toolbar {
+                pointer-events: none;
+            }
+            .component { padding-left: 0; }
+            .component:hover { .move-icon:after { content: '::'; } }
+            .component.selected { background-color: $form-component-selected-color; }
+
+            .component[data-type]:not([data-type="editbox"]):hover { 
+                cursor: pointer; 
+            }
+            
+            .component[data-type]:not([data-type="editbox"]) .group { 
+                pointer-events: none;
+            }
+            
+            .component[data-type="editbox"]:hover { 
+                cursor: text; 
+            }
+            
+            .group[contenteditable=true]:empty::before {
+                content: attr(placeholder); 
+                display: block;
+            }
+            
+            .group[contenteditable=true] {
+                color : #BCC5D3;
+                font-size: 0.75rem;    //12px
+                height: 5rem;          //80px
+                line-height: 5rem;
+                cursor: text; 
+            }
         }
     }
     &-properties-panel {
@@ -267,6 +304,25 @@ body {
                 width: auto !important;
                 margin: 0.625rem 0 0 5rem;  //10px 0 0 80px
             }
+            /*color picker*/
+            .selected-color {
+                width: 1.25rem;    //20px
+                display: inline-block;
+                height: 1.25rem;
+                margin-right: 0.3125rem; //5px
+                border: 0.0625rem solid #000000;
+                cursor: pointer;
+            }
+            .color-palette {
+                background: #d3d3d3;
+                div {
+                    width: 1.25rem;    //20px
+                    display: inline-block;
+                    height: 1.25rem;
+                    margin: 0.3125rem; //5px
+                    cursor: pointer;
+                }
+            } 
         }
         .property-field.vertical {
             flex-direction: column;
@@ -324,114 +380,3 @@ body {
     ul li:hover { background-color: rgba(188, 197, 211, 0.1); cursor: pointer; }
 }
 .context-menu.on { display: block; }
-
-.component {
-    display: flex; 
-    align-items: center; 
-    width: 100%; 
-    max-width: 100%; 
-    border: none; 
-    padding: 0.625rem 3.75rem 0.625rem 0;    //10px 60px 10px 0px
-    background-color: #ffffff;
-    .move-icon { 
-        width:  1.875rem;    // 30px
-        height: 1.875rem;
-        margin: 1.563rem 0.9375rem;    //25px 15px
-        text-align: center;
-        content: '';
-        cursor: move;
-        font-size: 1.25rem;
-    }
-    .group {
-        display: flex; 
-        flex-wrap: wrap; 
-        width: 100%; 
-        align-items: center; 
-        input[readonly] { pointer-events: none; }
-        .field input[type=text] {
-            width: 100%; 
-            height: 1.563rem;    //25px
-        }
-        .field button {
-            flex: 1 1 auto;
-            height: 1.563rem;    //25px
-            line-height: 1rem;   //16px
-            padding: 0 0.625rem; //10px
-            white-space: nowrap;
-        }
-        .field textarea { width: 100%; }
-        .field.dropbox { 
-            height: 9.375rem;    //150px
-            line-height: 9.375rem;
-            background-color: #CCCCCC; 
-            text-align: center;
-            font-weight: bold;
-            font-size:  1.25rem;    //20px
-            color: #969696;
-         }
-         .field .ql-toolbar { pointer-events: none; }
-    }
-}
-
-.component:hover {
-    .move-icon:after { content: '::'; }
-}
-
-.component:focus { outline: none; }
-.component *:focus { outline: none; }
-
-.component.selected { background-color: #f4f7f7; }
-
-.component[data-type]:not([data-type="editbox"]):hover { 
-    cursor: pointer; 
-}
-
-.component[data-type]:not([data-type="editbox"]) .group { 
-    pointer-events: none;
-}
-
-.component[data-type="editbox"]:hover { 
-    cursor: text; 
-}
-
-.group[contenteditable=true]:empty::before {
-    content: attr(placeholder); 
-    display: block;
-}
-
-.group[contenteditable=true] {
-    color : #BCC5D3;
-    font-size: 0.75rem;    //12px
-    height: 5rem;          //80px
-    line-height: 5rem;
-    cursor: text; 
-}
-
-.component.over { 
-    border-top: 0.125rem dashed #BCC5D3; 
-    * {
-        pointer-events: none;
-    }
-}
-
-.color-palette {
-    background: #d3d3d3;
-    div {
-        width: 1.25rem;    //20px
-        display: inline-block;
-        height: 1.25rem;
-        margin: 0.3125rem; //5px
-        cursor: pointer;
-    }
-}
-
-.selected-color {
-    width: 1.25rem;    //20px
-    display: inline-block;
-    height: 1.25rem;
-    margin-right: 0.3125rem; //5px
-    border: 0.0625rem solid #000000;
-    cursor: pointer;
-} 
-
-

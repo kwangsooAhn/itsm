@@ -623,3 +623,18 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
     }
     return returnDate;
 };
+
+/**
+ * Merge a `source` object to a `target` recursively
+ * @param target target 객체
+ * @param source source 객제
+ */
+aliceJs.mergeObject = function (target, source) {
+    for (let key of Object.keys(source)) {
+        if (source[key] instanceof Object) {
+            Object.assign(source[key], aliceJs.mergeObject(target[key], source[key]));
+        }
+    }
+    Object.assign(target || {}, source);
+    return target;
+};

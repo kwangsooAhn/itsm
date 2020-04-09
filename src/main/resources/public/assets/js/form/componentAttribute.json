@@ -1580,7 +1580,7 @@
             },
             {
                 "id": "button-text", 
-                "name": "Buttom Content", 
+                "name": "Button Content",
                 "value": "BUTTON", 
                 "type": "inputbox", 
                 "code": "", 
