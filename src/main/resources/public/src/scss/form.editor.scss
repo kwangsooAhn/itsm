@@ -107,7 +107,8 @@ body {
             background: $white;
             overflow: auto;
         }
-        .drawing-board[data-readonly=true] {/* 폼 편집 양식시 컴포넌트 수정을 막음 */
+        /* 폼 편집 양식시 컴포넌트 수정을 막음 */
+        .drawing-board[data-readonly=true] {
             input[type=text],
             textarea,
             button,

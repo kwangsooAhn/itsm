@@ -95,9 +95,8 @@
                     <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
-                    </div>
+                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
+                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}' 
@@ -134,9 +133,8 @@
                     <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
-                    </div>
+                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
+                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                 ${textEditorUseYn ?
@@ -169,16 +167,13 @@
                     ]
                 },
                 placeholder: attr.display.placeholder,
-                theme: 'snow'
+                theme: 'snow',
+                readOnly: (target.hasAttribute('data-readonly'))            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
             };
             let textEditorContainer = comp.querySelector('.editor-container');
             let textEditor = new Quill(textEditorContainer, textEditorOptions);
             textEditor.setContents(textAreaDefaultValue);
 
-            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
-            if (target.hasAttribute('data-readonly')) {
-                textEditor.enable(false);
-            }
             let textEditorToolbar = textEditor.getModule('toolbar');
             if (textEditorToolbar) {
                 textEditorToolbar.container.style.borderWidth = attr.display['outline-width'] + 'px';
@@ -203,8 +198,8 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
+                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <select ${attr.validate.required === "Y" ? "required" : ""}></select>
@@ -244,8 +239,8 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
+                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;' id='radio'></div>
             </div>
@@ -306,8 +301,8 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
+                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;' id='chkbox'></div>
             </div>
@@ -457,8 +452,8 @@
                         ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                         </div>
+                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
                         <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max=${attr.validate["date-max"]} date-min=${attr.validate["date-min"]}/>
@@ -535,8 +530,8 @@
                         ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                         </div>
+                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
                         <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.validate.required === "Y" ? "required" : ""} time-max=${attr.validate["time-max"]} time-min=${attr.validate["time-min"]}/>
@@ -595,8 +590,8 @@
                         ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                            <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                         </div>
+                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
                         <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max=${attr.validate["date-max"]} date-min=${attr.validate["date-min"]}/>
@@ -627,8 +622,8 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
+                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <div id='dropZoneFiles-${attr.id}'>
@@ -687,9 +682,8 @@
                     <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
-                    </div>
+                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
+                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
                     <input type='text' ${attr.validate.required === "Y" ? "required" : ""}  readonly/>

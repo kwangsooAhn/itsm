@@ -33,7 +33,6 @@
 
 .component .group .field span[class*="required"] {
   padding-left: 0.3125rem;
-  text-decoration: none;
   color: #fc5f6b;
   font-weight: bold;
 }

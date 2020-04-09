@@ -20,7 +20,10 @@
      */
     function alertMsg(element, msg) {
         aliceJs.alert(msg, function() {
-            element.focus();
+            if (element) {
+                element.value = '';
+                element.focus();
+            }
         });
     }
 
@@ -29,7 +32,8 @@
      *
      * @param elem element
      */
-    function validateCheck(elem) {
+    function validateCheck(e) {
+        const elem = e.srcElement || e.target;
         const chkVal = elem.value.trim();
         if (chkVal.length !== 0) {
             for (let i = 0, len = elem.attributes.length; i < len; i++) {
@@ -59,11 +63,11 @@
                                 break;
                         }
                     }
-                    if (attr.nodeName === 'length-min' && attr.nodeValue > chkVal.length) {
+                    if (attr.nodeName === 'min-length' && attr.nodeValue > chkVal.length) {
                         alertMsg(elem, i18n.get('document.msg.lengthMin', attr.nodeValue));
                         return true;
                     }
-                    if (attr.nodeName === 'length-max' && attr.nodeValue < chkVal.length) {
+                    if (attr.nodeName === 'max-length' && attr.nodeValue < chkVal.length) {
                         alertMsg(elem, i18n.get('document.msg.lengthMax', attr.nodeValue));
                         return true;
                     }
@@ -188,6 +192,7 @@
      * id Component를 만든다. (document, token)
      *
      * @param v_kind 분류, data : id 값
+     * @param v_data id
      */
     function addIdComponent(v_kind, v_data) {
         const comp = document.createElement('div');
@@ -350,7 +355,7 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
-
+        console.log(tokenObject);
         const opt = {
             method: method,
             url: '/rest/tokens/data',
@@ -376,6 +381,9 @@
      * @param data 문서 데이터.
      */
     function drawDocument(data) {
+        if (typeof data === 'string') { data = JSON.parse(data); }
+        documentContainer = document.getElementById('document-container');
+        buttonContainer = document.getElementById('button-container');
         let components = (data.token === undefined) ? data.components : data.token.components;
         if (components.length > 0) {
             if (components.length > 2) {
@@ -410,19 +418,19 @@
                     let textEditor = new Quill(elem);
                     textEditor.on('selection-change', function (range, oldRange, source) {
                         if (range === null && oldRange !== null) {
-                            if (elem.getAttribute('length-min') !== '' && textEditor.getLength() < Number(elem.getAttribute('length-min'))) {
-                                alertMsg(textEditor, i18n.get('document.msg.lengthMin', elem.getAttribute('length-min')));
+                            if (elem.getAttribute('min-length') !== '' && textEditor.getLength() < Number(elem.getAttribute('min-length'))) {
+                                alertMsg(textEditor, i18n.get('document.msg.lengthMin', elem.getAttribute('min-length')));
+                                return true;
                             }
-                            if (elem.getAttribute('length-max') !== '' && textEditor.getLength() > Number(elem.getAttribute('length-max'))) {
-                                textEditor.deleteText(Number(elem.getAttribute('length-max')) - 1, textEditor.getLength());
-                                alertMsg(textEditor, i18n.get('document.msg.lengthMax', elem.getAttribute('length-max')));
+                            if (elem.getAttribute('max-length') !== '' && textEditor.getLength() > Number(elem.getAttribute('max-length'))) {
+                                textEditor.deleteText(Number(elem.getAttribute('max-length')) - 1, textEditor.getLength());
+                                alertMsg(textEditor, i18n.get('document.msg.lengthMax', elem.getAttribute('max-length')));
+                                return true;
                             }
                         }
                     });
                 } else {
-                    elem.addEventListener('focusout', function () {
-                        validateCheck(this);
-                    });
+                    elem.addEventListener('focusout',validateCheck, false);
                 }
             }
         }
@@ -448,9 +456,7 @@
      */
     function init(documentId) {
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
-        documentContainer = document.getElementById('document-container');
-        buttonContainer = document.getElementById('button-container');
-
+        
         // document data search.
         aliceJs.sendXhr({
             method: 'GET',
@@ -458,6 +464,7 @@
             callbackFunc: function(xhr) {
                 let jsonData = JSON.parse(xhr.responseText);
                 jsonData.documentId = documentId;
+                console.log(jsonData);
                 drawDocument(jsonData);
             },
             contentType: 'application/json; charset=utf-8'
@@ -471,8 +478,6 @@
      */
     function initToken(tokenId) {
         console.info('document editor initialization. [Token ID: ' + tokenId + ']');
-        documentContainer = document.getElementById('document-container');
-        buttonContainer = document.getElementById('button-container');
 
         // token data search.
         aliceJs.sendXhr({
@@ -487,20 +492,28 @@
         });
     }
 
-    /**
-     * Init Container.
-     *
-     * @param elementId
-     */
-    function initContainer(elementId) {
-        documentContainer = document.getElementById(elementId);
-    }
-
     exports.init = init;
     exports.initToken = initToken;
     exports.save = save;
-    exports.initContainer = initContainer;
     exports.drawDocument = drawDocument;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
+
+/**
+ * Drag, Drop 방지 관련 이벤트 리스너.
+ *
+ */
+window.addEventListener('dragover', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = 'none';
+    e.dataTransfer.dropEffect = 'none';
+}, false);
+
+window.addEventListener('drop', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = 'none';
+    e.dataTransfer.dropEffect = 'none';
+}, false);

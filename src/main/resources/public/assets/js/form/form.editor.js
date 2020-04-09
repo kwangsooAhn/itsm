@@ -198,7 +198,7 @@
     function previewForm() {
         let url = '/forms/' + editor.data.form.id + '/preview';
         const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-        window.open(url, 'result', 'width=1500,height=920,' + specs);
+        window.open(url, 'result', 'width=800,height=805,' + specs);
 
         let form = document.createElement('form');
         form.action = url;

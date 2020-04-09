@@ -10815,3 +10815,10 @@ a.text-dark:hover, a.text-dark:focus {
 .drawing-board .move-icon {
   display: none;
 }
+
+.drawing-board[data-readonly=true] input[type=text],
+.drawing-board[data-readonly=true] textarea,
+.drawing-board[data-readonly=true] button,
+.drawing-board[data-readonly=true] .ql-toolbar {
+  pointer-events: none;
+}

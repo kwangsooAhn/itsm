@@ -10869,6 +10869,7 @@ body {
   height: calc(100vh - 2.5rem);
   min-height: 35rem;
   background: #f6f6f7;
+  /* 폼 편집 양식시 컴포넌트 수정을 막음 */
 }
 
 .alice-form-panel .drawing-board {
@@ -10892,10 +10893,6 @@ body {
   border: 0.0625rem solid #BCC5D3;
   background: #fff;
   overflow: auto;
-}
-
-.alice-form-panel .drawing-board[data-readonly=true] {
-  /* 폼 편집 양식시 컴포넌트 수정을 막음 */
 }
 
 .alice-form-panel .drawing-board[data-readonly=true] input[type=text],

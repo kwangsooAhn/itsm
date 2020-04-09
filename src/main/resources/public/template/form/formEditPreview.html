@@ -4,46 +4,13 @@
       layout:decorator="form/formCore">
 <head>
     <title th:text="#{form.preview.name}"></title>
-    <script th:src="@{/assets/js/form/form.editor.preview.js}"></script>
-    <style>
-        /*임시 css*/
-        #document-container {
-            overflow-y: auto;
-            height: 750px;
-            border: 1px solid #BCC5D3;
-        }
-        #document-container > .component {
-            padding: 15px 60px;
-        }
-        #document-container > .component .field .label {
-            display: inline;
-        }
-        #document-container > .component .field textarea {
-            resize: vertical;
-        }
-        #document-container > .component input[type=text], textarea, select, .field > div {
-            width: 100%;
-        }
-        #document-container > .component input[type=radio], input[type=checkbox], input[type=file] {
-            cursor: pointer;
-        }
-        #document-container > .component input[type=radio]:focus, input[type=checkbox]:focus {
-            outline: 1px #3c3cff solid; /*임시. radio, checkbox focus 시 안보여서 설정함.*/
-        }
-        #document-container > .component input[type=text], textarea {
-            outline: solid 1px;
-        }
-        #document-container > .component span[class*="required"] {
-            padding-left: 5px;
-            color: #fc5f6b;
-            font-weight: bold;
-        }
-    </style>
+    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/js/document/document.js}"></script>
 </head>
 <body>
 <form id="frm" name="frm">
-<div id="document-container"></div>
-<div id="button-container"></div>
+<div class="drawing-board" id="document-container" data-readonly="true"></div>
+<div id="button-container" style="display: none;"></div>
 </form>
 <div style="margin-top: 10px; text-align: center;">
     <button th:text="#{common.btn.close}" onclick="window.close();"></button>
@@ -53,7 +20,7 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            preview.init('[(${data})]');
+            aliceDocument.drawDocument('[(${data})]');
         };
         /*]]>*/
     </script>

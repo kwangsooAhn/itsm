@@ -12,3 +12,11 @@
     margin: 0.625rem;
     .move-icon { display: none; }
 }
+.drawing-board[data-readonly=true] {
+    input[type=text],
+    textarea,
+    button,
+    .ql-toolbar {
+        pointer-events: none;
+    }
+}
