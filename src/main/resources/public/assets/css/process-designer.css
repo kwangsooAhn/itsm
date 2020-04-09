@@ -10139,6 +10139,10 @@ body {
   text-anchor: middle;
   dominant-baseline: middle;
 }
+.alice-process-drawing-board g.guides-container line.guides-line {
+  stroke: darkgray;
+  stroke-width: 0;
+}
 .alice-process-properties-panel {
   display: inline-block;
   background-color: #f6f6f7;
