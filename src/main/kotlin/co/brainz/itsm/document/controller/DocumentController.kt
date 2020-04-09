@@ -53,9 +53,12 @@ class DocumentController(private val documentService: DocumentService,
     @GetMapping("/new")
     fun getDocumentNew(model: Model): String {
         val formParams = LinkedMultiValueMap<String, String>()
-        val processParams = LinkedMultiValueMap<String, String>()
         formParams["status"] = RestTemplateConstants.FormStatus.PUBLISH.value
-        processParams["status"] = RestTemplateConstants.ProcessStatus.PUBLISH.value
+        val processParams = LinkedMultiValueMap<String, String>()
+        val status = ArrayList<String>()
+        status.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
+        status.add(RestTemplateConstants.ProcessStatus.USE.value)
+        processParams["status"] = status.joinToString(",")
         model.addAttribute("formList", formService.findForms(formParams))
         model.addAttribute("processList", progressService.getProcesses(processParams))
         return documentCreatePage

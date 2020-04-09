@@ -292,9 +292,9 @@ process:
     export: "Export"
     imageDownload: "Image Download"
   status:
-    edit: "Editing"
-    simu: "Simulation Complete"
+    edit: "Edit"
     publish: "Publish"
+    use: "Use"
     destroy: "Destroy"
   msg:
     alert:

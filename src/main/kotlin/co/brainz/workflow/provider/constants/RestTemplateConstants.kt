@@ -106,8 +106,8 @@ object RestTemplateConstants {
      */
     enum class ProcessStatus(val value: String) {
         EDIT("process.status.edit"),
-        SIMULATION("process.status.simu"),
         PUBLISH("process.status.publish"),
+        USE("process.status.use"),
         DESTROY("process.status.destroy")
     }
 

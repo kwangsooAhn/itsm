@@ -292,9 +292,9 @@ process:
     export: "내보내기"
     imageDownload: "이미지로 저장하기"
   status:
-    edit: "편집중"
-    simu: "시뮬레이션 완료"
+    edit: "편집"
     publish: "발행"
+    use: "사용"
     destroy: "폐기"
   msg:
     alert:
