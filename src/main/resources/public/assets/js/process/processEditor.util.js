@@ -74,7 +74,7 @@
         undo_list: [],
         saveHistory: function(data, list, keep_redo) {
             if (data.length === 1 && utils.compareJson(data[0][0], data[0][1])) { // data check
-                console.debug('These two json data are the same.');
+                //console.debug('These two json data are the same.');
                 return;
             }
             keep_redo = keep_redo || false;

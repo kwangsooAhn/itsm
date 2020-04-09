@@ -338,6 +338,12 @@ body {
             }
         }
 
+        g.guides-container {
+            line.guides-line {
+                stroke: darkgray;
+                stroke-width: 0;
+            }
+        }
     }
 
     &-properties-panel {
