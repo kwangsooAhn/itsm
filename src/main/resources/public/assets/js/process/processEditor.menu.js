@@ -1067,6 +1067,9 @@
 
                         elementObject = document.createElement('input');
                         elementObject.className = 'color';
+                        if (property.required === 'Y') {
+                            elementObject.readOnly = true;
+                        }
                         elementObject.addEventListener('change', function() {
                             if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
                                 this.value = '';
