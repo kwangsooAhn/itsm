@@ -2,9 +2,13 @@ package co.brainz.workflow.engine.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
+import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
+import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
@@ -25,9 +29,12 @@ class WfDocumentService(
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
     private val wfDocumentRepository: WfDocumentRepository,
+    private val wfDocumentDataRepository: WfDocumentDataRepository,
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfProcessRepository: WfProcessRepository,
-    private val wfFormRepository: WfFormRepository
+    private val wfFormRepository: WfFormRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val wfElementRepository: WfElementRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -118,6 +125,9 @@ class WfDocumentService(
                 createUserKey = documentDto.createUserKey
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
+        
+        // 신청서 양식 정보 초기화
+        createDocumentData(dataEntity)
 
         return WfDocumentDto(
                 documentId = dataEntity.documentId,
@@ -152,4 +162,44 @@ class WfDocumentService(
         logger.info("Delete document result. {}", isDel)
         return isDel
     }
+
+    /**
+     * Create Document Data.
+     *
+     * @param documentDto
+     * @return WfDocumentDto
+     */
+    fun createDocumentData(documentDto: WfDocumentEntity) {
+        val formId = documentDto.form.formId
+        val processId = documentDto.process.processId
+        val wfDocumentDataEntities: MutableList<WfDocumentDataEntity> = mutableListOf()
+
+        val componentEntities = wfComponentRepository.findByFormId(formId)
+        val componentIds: MutableList<String> = mutableListOf()
+        for (component in componentEntities) {
+            componentIds.add(component.componentId)
+        }
+        val elementEntities = wfElementRepository.findUserTaskByProcessId(processId)
+        val elementIds: MutableList<String> = mutableListOf()
+        for (element in elementEntities) {
+            elementIds.add(element.elementId)
+        }
+        for (componentId in componentIds) {
+            for (elementId in elementIds) {
+                val documentDataEntity = WfDocumentDataEntity(
+                        documentId = documentDto.documentId,
+                        componentId = componentId,
+                        elementId = elementId
+                )
+                wfDocumentDataEntities.add(documentDataEntity)
+            }
+        }
+
+        if (wfDocumentDataEntities.isNotEmpty()) {
+            logger.debug("documentData setting...")
+            wfDocumentDataRepository.saveAll(wfDocumentDataEntities)
+        }
+    }
+    //        val componentList = wfComponentDataRepository.findComponentDataByFormId(formId, "label")
+    //        val elementList = wfElementDataRepository.findElementDataByProcessId(processId, "userTask", "name")
 }

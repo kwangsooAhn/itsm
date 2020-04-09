@@ -44,4 +44,15 @@ class DocumentRestController(private val documentService: DocumentService) {
     fun deleteDocument(@PathVariable documentId: String): ResponseEntity<String> {
         return documentService.deleteDocument(documentId)
     }
+
+    /**
+     * 신청서 display 데이터 조회
+     *
+     * @param documentId
+     * */
+    @GetMapping("/display/{documentId}")
+    fun getDocumentDisplay(@PathVariable documentId: String): String? {
+        return documentService.findDocumentDisplay(documentId)
+    }
+
 }

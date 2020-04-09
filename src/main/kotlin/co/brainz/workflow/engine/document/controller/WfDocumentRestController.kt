@@ -54,4 +54,15 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
     fun deleteDocument(@PathVariable documentId: String): Boolean {
         return wfEngine.document().deleteDocument(documentId)
     }
+
+//    /**
+//     * 신청서 display 등록.
+//     *
+//     * @param documentDto
+//     * @return WfDocumentDto
+//     */
+//    @PostMapping("/{documentId}/data")
+//    fun createDocumentData(@RequestBody documentDto: WfDocumentDto): Boolean {
+//        return wfEngine.document().createDocumentData(documentDto)
+//    }
 }
