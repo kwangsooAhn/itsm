@@ -24,7 +24,8 @@
 
     let mousedownElement,
         mouseoverElement,
-        selectedElement;
+        selectedElement,
+        dragElement;
 
     let isDrawConnector = false,
         isMovableDrawingboard = false;
@@ -105,13 +106,17 @@
         enter.append('path')
             .attr('class', 'painted-connector')
             .on('mouseout', function() {
-                d3.select(this).style('cursor', 'default');
+                if (!dragElement) {
+                    d3.select(this).style('cursor', 'default');
+                }
             })
             .on('mouseover', function() {
                 if (isDrawConnector) {
                     return;
                 }
-                d3.select(this).style('cursor', 'pointer');
+                if (!dragElement) {
+                    d3.select(this).style('cursor', 'pointer');
+                }
             })
             .on('mousedown', function(d) {
                 d3.event.stopPropagation();
@@ -431,11 +436,13 @@
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
             mouseoverElement = null;
-            let cursor = 'pointer';
-            if (isDrawConnector) {
-                cursor = 'crosshair';
+            if (!dragElement) {
+                let cursor = 'pointer';
+                if (isDrawConnector) {
+                    cursor = 'crosshair';
+                }
+                elemContainer.style('cursor', cursor);
             }
-            elemContainer.style('cursor', cursor);
             if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 return;
             }
@@ -447,7 +454,9 @@
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
             if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
-                elemContainer.style('cursor', 'default');
+                if (!dragElement) {
+                    elemContainer.style('cursor', 'default');
+                }
                 return;
             }
             mouseoverElement = null;
@@ -512,6 +521,7 @@
                 }
                 resetMouseVars();
             } else {
+                dragElement = null;
                 elemContainer.style('cursor', 'pointer');
                 AliceProcessEditor.changeDisplayValue(elem.node().id);
                 if (svg.select('.alice-tooltip').node() === null) {
@@ -597,7 +607,7 @@
             isDrawTop = isDrawTop || elemTop === top;
             isDrawBottom = isDrawBottom || elemBottom === bottom;
         });
-        console.debug('center-x: %s, center-y: %s, left: %s, right: %s, top: %s, bottom: %s', isDrawCenterX, isDrawCenterY, isDrawLeft, isDrawRight, isDrawTop, isDrawBottom);
+        //console.debug('center-x: %s, center-y: %s, left: %s, right: %s, top: %s, bottom: %s', isDrawCenterX, isDrawCenterY, isDrawLeft, isDrawRight, isDrawTop, isDrawBottom);
 
         const drawingBoard = document.querySelector('.alice-process-drawing-board'),
               gTransform = d3.zoomTransform(d3.select('g.guides-container').node());
@@ -689,6 +699,7 @@
                 if (isDrawConnector) {
                     elementMouseEventHandler.mousedrag();
                 } else {
+                    dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
                     const mouseX = snapToGrid(d3.event.dx),
@@ -907,6 +918,7 @@
                 if (isDrawConnector) {
                     elementMouseEventHandler.mousedrag();
                 } else {
+                    dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
                     const mouseX = snapToGrid(d3.event.x),
@@ -967,6 +979,7 @@
                 if (isDrawConnector) {
                     elementMouseEventHandler.mousedrag();
                 } else {
+                    dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
                     const mouseX = snapToGrid(d3.event.x),
@@ -1050,6 +1063,7 @@
                 if (isDrawConnector) {
                     elementMouseEventHandler.mousedrag();
                 } else {
+                    dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
                     const mouseX = snapToGrid(d3.event.x),
