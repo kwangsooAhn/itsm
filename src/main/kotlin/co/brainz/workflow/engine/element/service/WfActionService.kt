@@ -54,7 +54,7 @@ class WfActionService(private val wfElementService: WfElementService,
      * @param elementId
      * @return MutableList<WfElementEntity>
      */
-    private fun getArrowElements(elementId: String): MutableList<WfElementEntity> {
+    fun getArrowElements(elementId: String): MutableList<WfElementEntity> {
         return wfElementRepository.findAllArrowConnectorElement(elementId)
     }
 
@@ -64,7 +64,7 @@ class WfActionService(private val wfElementService: WfElementService,
      * @param arrowElement
      * @return String
      */
-    private fun getNextElementId(arrowElement: WfElementEntity): String {
+    fun getNextElementId(arrowElement: WfElementEntity): String {
         return wfElementDataRepository.findByElementAndAttributeId(arrowElement).attributeValue
     }
 
@@ -74,7 +74,7 @@ class WfActionService(private val wfElementService: WfElementService,
      * @param elementId
      * @return WfElementEntity
      */
-    private fun getElement(elementId: String): WfElementEntity {
+    fun getElement(elementId: String): WfElementEntity {
         return wfElementRepository.findWfElementEntityByElementId(elementId)
     }
 
@@ -100,7 +100,7 @@ class WfActionService(private val wfElementService: WfElementService,
         val postActions: MutableList<WfActionDto> = mutableListOf()
         //REJECT: 현재 element 속성에 반려가 존재할 경우
         element.elementDataEntities.forEach {
-            if (it.attributeId == WfElementConstants.AttributeId.REJECT.value && it.attributeValue.isNotEmpty()) {
+            if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.isNotEmpty()) {
                 postActions.add(WfActionDto(name = "반려", value = WfElementConstants.Action.REJECT.value))
             }
         }
@@ -121,7 +121,7 @@ class WfActionService(private val wfElementService: WfElementService,
             WfElementConstants.ElementType.USER_TASK.value -> {
                 typeActions.addAll(makeAction(arrow.elementDataEntities))
             }
-            WfElementConstants.ElementType.END_EVENT.value -> {
+            WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
                 typeActions.addAll(makeAction(arrow.elementDataEntities))
             }
             WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
@@ -129,10 +129,9 @@ class WfActionService(private val wfElementService: WfElementService,
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                 var isAction = false
-                val conditionItem = "#{action}"
                 nextElement.elementDataEntities.forEach { data ->
                     if (data.attributeId == WfElementConstants.AttributeId.CONDITION_ITEM.value) {
-                        if (data.attributeValue == conditionItem) {
+                        if (data.attributeValue == WfElementConstants.AttributeValue.ACTION.value) {
                             isAction = true
                         }
                     }

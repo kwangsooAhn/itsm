@@ -10,7 +10,7 @@
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-    const defaultAssigneeTypeForSave = 'assignee';
+    const defaultAssigneeTypeForSave = 'assignee.type.assignee';
 
     /**
      * alert message.
@@ -209,7 +209,6 @@
 
         let tokenObject = {};
         let componentArrayList = [];
-        let actionArrayList = [];
         let fileDataIds = '';
 
         //documentId 값을 구한다.
@@ -339,8 +338,7 @@
             tokenObject.data = '';
         }
 
-        actionArrayList = v_kind;
-        tokenObject.actions = actionArrayList;
+        tokenObject.action = v_kind;
 
         let method = '';
         if (tokenObject.tokenId === '') {
@@ -361,6 +359,7 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        opener.location.reload();
                         window.close();
                     });
                 } else {
@@ -451,7 +450,7 @@
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
         documentContainer = document.getElementById('document-container');
         buttonContainer = document.getElementById('button-container');
-        
+
         // document data search.
         aliceJs.sendXhr({
             method: 'GET',

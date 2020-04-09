@@ -13,6 +13,7 @@
     };
 
     let svg,
+        groupArtifactContainer,
         elementsContainer,
         connectors,
         dragLine;
@@ -570,12 +571,12 @@
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
-     * @param isShowType 타입표시여부
+     * @param type element type
      * @param width element width
      * @param height element height
      * @constructor
      */
-    function RectResizableElement(x, y, isShowType, width, height) {
+    function RectResizableElement(x, y, type, width, height) {
         const self = this;
         self.width = width ? width : 120;
         self.height = height ? height : 80;
@@ -603,7 +604,10 @@
                 }
             })
             .on('end', elementMouseEventHandler.mouseup);
-        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        let elementContainer = elementsContainer.append('g').attr('class', 'element');
+        if (type === 'group') {
+            elementContainer = groupArtifactContainer.append('g').attr('class', 'element');
+        }
         self.rectData = [{ x: calcX, y: calcY }, { x: calcX + self.width, y: calcY + self.height }];
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -618,7 +622,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        if (isShowType) {
+        if (type !== 'group') {
             self.typeElement = elementContainer.append('rect')
                 .attr('class', 'element-type')
                 .attr('width', typeImageSize)
@@ -712,11 +716,11 @@
                 .attr('width', updateWidth)
                 .attr('height', updateHeight);
 
-            if (isShowType && self.nodeElement.classed('task')) {
+            if (self.nodeElement.classed('task')) {
                 self.typeElement
                     .attr('x', updateX + (typeImageSize / 2))
                     .attr('y', updateY + (typeImageSize / 2));
-            } else if (isShowType && self.nodeElement.classed('subprocess')) {
+            } else if (self.nodeElement.classed('subprocess')) {
                 self.typeElement
                     .attr('x', updateX + (updateWidth / 2) - (typeImageSize / 2))
                     .attr('y', updateY + updateHeight - typeImageSize - 3);
@@ -753,7 +757,7 @@
      */
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, true, width, height);
+        this.base(x, y, 'task', width, height);
         const defaultType = AliceProcessEditor.getElementDefaultType('task');
         this.nodeElement
             .classed('task', true)
@@ -777,7 +781,7 @@
      */
     function SubprocessElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, true, width, height);
+        this.base(x, y, 'subprocess', width, height);
         this.nodeElement.classed('subprocess', true);
         const defaultType = AliceProcessEditor.getElementDefaultType('subprocess');
         this.typeElement
@@ -920,7 +924,7 @@
      */
     function GroupElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, false, width, height);
+        this.base(x, y, 'group', width, height);
         this.nodeElement
             .classed('artifact', true)
             .classed('group', true);
@@ -1192,6 +1196,8 @@
                     .attr('transform', d3.event.transform);
                 svg.select('g.connector-container')
                     .attr('transform', d3.event.transform);
+                svg.select('g.group-artifact-container')
+                    .attr('transform', d3.event.transform);
             })
             .on('end', function() {
                 svg.style('cursor', 'default');
@@ -1215,6 +1221,7 @@
             svg.style('cursor', 'default');
         }
 
+        groupArtifactContainer = svg.append('g').attr('class', 'group-artifact-container');
         const connectorContainer = svg.append('g').attr('class', 'connector-container');
         connectors = connectorContainer.selectAll('g.connector');
         elementsContainer = svg.append('g').attr('class', 'element-container');

@@ -8,8 +8,10 @@ import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.dto.AliceFileLocDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
+import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
+import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
@@ -39,6 +41,7 @@ import java.util.Calendar
 @Service
 class AliceFileService(
     private val aliceFileLocRepository: AliceFileLocRepository,
+    private val aliceFileNameExtensionRepository: AliceFileNameExtensionRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val environment: Environment
 ) {
@@ -58,6 +61,13 @@ class AliceFileService(
             fileName += charCode
         }
         return fileName
+    }
+
+    /**
+     * 파일 허용 확장자 목록 가져오기
+     */
+    fun getFileNameExtension(): List<AliceFileNameExtensionEntity> {
+        return aliceFileNameExtensionRepository.findAll()
     }
 
     /**
@@ -89,16 +99,14 @@ class AliceFileService(
         val fileName = getRandomFilename()
         val tempPath = getDir("temp", fileName)
         val filePath = getDir("uploadRoot", fileName)
+        val fileNameExtension = File(multipartFile.originalFilename).extension.toUpperCase()
 
         if (Files.notExists(tempPath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
-        for (it in AliceUserConstants.ProhibitExtension.values()) {
-            val extension = it.toString()
-            if (File(multipartFile.originalFilename).extension.toUpperCase() == extension) {
-                throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
-            }
+        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
+            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
         }
 
         multipartFile.transferTo(tempPath.toFile())

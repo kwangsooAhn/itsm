@@ -421,20 +421,27 @@ function delFileCheck() {
  * @param callbackFunc callback function
  */
 aliceJs.alert = function(message, callbackFunc) {
-    popup.alert({
-            content: message,
-            keyboard: true,
-            btn_align: 'right',
-            default_btns: {
-                ok: 'OK'
+    const myModal = new gModal({
+        title: 'Alert',
+        body: '<div style="text-align: center;">' + message + '</div>',
+        buttons: [
+            {
+                content: 'OK',
+                classes: 'gmodal-button-green',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
             }
-        },
-        function() {
-            if (typeof callbackFunc === 'function') {
-                callbackFunc();
-            }
+        ],
+        close: {
+            closable: false,
         }
-    );
+    });
+    myModal.show();
 };
 
 /**
@@ -444,21 +451,34 @@ aliceJs.alert = function(message, callbackFunc) {
  * @param callbackFunc callback function
  */
 aliceJs.confirm = function(message, callbackFunc) {
-    popup.confirm({
-            content : message,
-            keyboard: true,
-            btn_align: 'right',
-            default_btns: {
-                ok: 'OK',
-                cancel: 'CANCEL'
+    const myModal = new gModal({
+        title: 'Confirm',
+        body: '<div style="text-align: center;">' + message + '</div>',
+        buttons: [
+            {
+                content: 'Cancel',
+                classes: 'gmodal-button-red',
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    modal.hide();
+                }
+            },{
+                content: 'OK',
+                classes: 'gmodal-button-green',
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
             }
-        },
-        function(param) {
-            if (param.proceed && typeof callbackFunc === 'function') {
-                callbackFunc();
-            }
+        ],
+        close: {
+            closable: false,
         }
-    );
+    });
+    myModal.show();
 };
 
 /**
