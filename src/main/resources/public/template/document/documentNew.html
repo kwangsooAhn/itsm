@@ -85,8 +85,13 @@
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(response) {
+                console.log(response.responseText);
+                let documentId = response.responseText;
                 opener.location.reload();
                 window.close();
+                const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes";
+<!--                window.open('/documents/{documentId}' + response.responseText + '/data', '_blank', 'width=1500,height=920,' + specs);-->
+                window.open('/documents/display/' + documentId, '_blank', 'width=1500,height=920,' + specs);
             }
         };
         aliceJs.sendXhr(opt);

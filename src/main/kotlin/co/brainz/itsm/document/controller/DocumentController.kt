@@ -21,6 +21,7 @@ class DocumentController(private val documentService: DocumentService,
     private val documentListPage: String = "document/documentList"
     private val documentCreatePage: String = "document/documentNew"
     private val documentEditPage: String = "document/documentEdit"
+    private val documentDisplayPage: String = "document/documentDisplay"
 
     /**
      * 신청서 리스트 호출 화면.
@@ -71,5 +72,15 @@ class DocumentController(private val documentService: DocumentService,
     fun getDocumentEdit(@PathVariable documentId: String, model: Model): String {
         model.addAttribute("documentId", documentId)
         return documentEditPage
+    }
+
+    /**
+     * 신청서 display 데이터 조회
+     *
+     * @return string
+     * */
+    @GetMapping("/display/{documentId}")
+    fun getDocumentDisplay(): String {
+        return documentDisplayPage
     }
 }

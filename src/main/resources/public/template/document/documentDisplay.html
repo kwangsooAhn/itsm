@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{document.label.write}"></title>
+    <th:block th:replace="layout/fragments/commonHead"></th:block>
+</head>
+<body>
+<div>
+    <h1 th:text="#{document.label.display}">신청서 양식 편집</h1>
+    <hr>
+
+</div>
+<hr>
+<div style="margin-top: 10px; text-align: center;">
+    <button th:text="#{common.btn.register}" onclick="createDocument()"></button>
+    <button th:text="#{common.btn.close}" onclick="window.close();"></button>
+</div>
+</body>
+<script th:src="@{/assets/js/util/validation-alice.js}"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        let documentId = '2c995081712e3f5b01712e4c56530000';
+        restSubmit('GET', '/documents/display/' + documentId, function(result){
+            console.log(1111);
+        });
+    };
+</script>
+</html>
