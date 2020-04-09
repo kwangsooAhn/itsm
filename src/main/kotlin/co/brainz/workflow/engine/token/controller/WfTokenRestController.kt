@@ -65,7 +65,7 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      * Put Token Gate.
      */
     @Transactional
-    @PutMapping("")
+    @PutMapping("/{tokenId}")
     fun putTokenGate(@RequestBody wfTokenDto: WfTokenDto) {
         return wfEngine.token().setToken(wfTokenDto)
     }

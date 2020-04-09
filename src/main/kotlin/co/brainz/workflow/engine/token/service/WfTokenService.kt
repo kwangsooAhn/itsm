@@ -161,12 +161,12 @@ class WfTokenService(private val wfTokenRepository: WfTokenRepository,
     }
 
     /**
-     * (PUT) Set Token.
+     * (PUT) Set Token Action.
      *
      * @param wfTokenDto
      */
     fun setToken(wfTokenDto: WfTokenDto) {
-        wfTokenElementService.setTokenGate(wfTokenDto)
+        wfTokenElementService.setTokenAction(wfTokenDto)
     }
 
     /**
