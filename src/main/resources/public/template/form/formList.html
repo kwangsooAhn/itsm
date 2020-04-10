@@ -27,7 +27,10 @@
                 <col width="5%">
             </colgroup>
             <tbody>
-                <tr th:each="form: ${formList}">
+                <tr th:if="${#arrays.isEmpty(formList)}">
+                    <td colspan="7" th:text="#{common.msg.noData}"></td>
+                </tr>
+                <tr th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
                     <td><a sec:authorize="hasAnyAuthority('form.create', 'form.update')"
                            href="javascript:void(0);"
                            th:attr="onclick=|openFormDesignerView('${form.id}')|"

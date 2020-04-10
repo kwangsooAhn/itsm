@@ -24,7 +24,10 @@
             <col width="5%">
         </colgroup>
         <tbody>
-            <tr th:each="token: ${tokenList}">
+            <tr th:if="${#arrays.isEmpty(tokenList)}">
+                <td colspan="4" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
                 <td th:text="${token.documentName}"></td>
                 <td th:text="${token.documentDesc}"></td>
                 <td th:with="dateformat=${#authentication.details.timeFormat}"

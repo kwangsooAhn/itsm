@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{download.label.title}"></title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{download.label.title}"></h1>
+            <div style="margin-top: 10px">
+                <select id="category" style="width: 230px; height: 30px">
+                    <option value="all" th:text="#{download.category.all}"></option>
+                    <option th:each="category: ${categoryList}" th:value="${category.code}"
+                            th:text="#{${category.code}}"></option>
+                </select>
+                <input type="text" id="search" style="margin: 0 5px" th:placeholder="#{download.label.searchPlaceholder}">
+                <input type="text" id="fromDt" readonly="readonly"
+                       th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
+                       th:value="${#temporals.format(fromDt, dateformat)}"/>
+                <span>~</span>
+                <input type="text" id="toDt" readonly="readonly"
+                       th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
+                       th:value="${#temporals.format(toDt, dateformat)}"/>
+                <button style="float: right" onclick="location.href='/downloads/new'"
+                        sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.register}" ></button>
+            </div>
+        </div>
+        <hr>
+        <div id="downloadList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const format = /*[[${#authentication.details.timeFormat}]]*/'';
+        const lang = /*[[${#authentication.details.lang}]]*/'';
+        const formatArray = format.split(' ');
+
+        window.onload = function() {
+            const dateFormat = formatArray[0].toUpperCase();
+            dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
+            dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
+            document.getElementById('category').addEventListener('change', function() { getDownloadList(); });
+            document.getElementById('search').addEventListener('keyup', function() { getDownloadList(); });
+
+            getDownloadList();
+        };
+
+        function setDatePicker(element, picker) {
+            if (typeof picker === 'undefined') {
+                return false;
+            }
+            if (element.id === 'fromDt') {
+                const toDtValue = document.getElementById('toDt').value;
+                if (toDtValue < element.value) {
+                    aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                } else {
+                    getDownloadList();
+                }
+            } else {
+                const fromDtValue = document.getElementById('fromDt').value;
+                if (fromDtValue > element.value) {
+                    aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                } else {
+                    getDownloadList();
+                }
+            }
+        }
+
+        function getDownloadList() {
+            const searchOpt = {
+                category: document.getElementById('category').value,
+                search: document.getElementById('search').value.trim(),
+                fromDt: document.getElementById('fromDt').value,
+                toDt: document.getElementById('toDt').value
+            };
+            const urlParam = 'category=' + searchOpt.category + '&search=' + searchOpt.search +
+                             '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
+            restSubmit('get', '/downloads/list?' + urlParam);
+        }
+
+        //REST API
+        function restSubmit(method, url) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    document.getElementById('downloadList').innerHTML = response.responseText;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

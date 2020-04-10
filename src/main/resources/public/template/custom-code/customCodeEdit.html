@@ -68,10 +68,10 @@
         <div align="right">
             <button style="margin-right: 5px;" onclick="location.href='/custom-codes/search'"
                     th:text="#{common.btn.list}"></button>
-            <button th:if="!${customCode?.customCodeId}" onclick="saveCustomCode('post')"
-                    th:text="#{common.btn.save}"></button>
-            <button th:unless="!${customCode?.customCodeId}" onclick="saveCustomCode('put')"
+            <button th:if="${customCode?.customCodeId}" onclick="saveCustomCode('put')"
                     th:text="#{common.btn.modify}"></button>
+            <button th:unless="${customCode?.customCodeId}" onclick="saveCustomCode('post')"
+                    th:text="#{common.btn.save}"></button>
         </div>
     </div>
 </th:block>

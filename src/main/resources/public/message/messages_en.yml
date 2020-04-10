@@ -41,6 +41,7 @@ common:
     update.fail: "Change failed."
     unknownError: "An unknown error has occurred. Please contact the administrator."
     requiredEnter: "Please enter the required item."
+    noData: "There is no data."
 # Menu
 menu:
   service: "Service"
@@ -52,6 +53,7 @@ menu:
   help.document: "Service Request"
   help.token: "Process Document"
   help.dashboard: "Dashboard"
+  help.download: "Download"
   setting: "settings"
   setting.user: "Users management"
   setting.role: "Role management"
@@ -107,6 +109,10 @@ auth:
   custom.code.create: "custom.code create"
   custom.code.update: "custom.code update"
   custom.code.delete: "custom.code delete"
+  download.read: "download read"
+  download.create: "download create"
+  download.update: "download update"
+  download.delete: "download delete"
 
 # User
 user:
@@ -379,7 +385,6 @@ dashboard:
       running: "Running"
       wait: "Wait"
       finish: "finish"
-      noData: "There is no data."
 
 # fileupload
 fileupload:
@@ -387,3 +392,25 @@ fileupload:
     maxfilesexceeded: "The number of attachments has been exceeded. (Attachment limit number : {0})"
     maxfilesizeexceeded: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"
     fileNameExtensionNotExist: "Files with the fileName extension cannot be uploaded."
+
+# Download
+download:
+  label:
+    title: "Download"
+    searchPlaceholder: "Title / Create User"
+    downloadSeq: "Number"
+    downloadTitle: "Title"
+    downloadCategory: "Category"
+    createUser: "Create User"
+    createDt: "Create Date Time"
+    createDtAndcreateUser: "Create Date Time And Create User"
+    views: "Views"
+  category:
+    all: "All"
+    companyPolicy: "Company Policy"
+    ect: "Ect"
+  msg:
+    selectDownloadCategory: "Please select a category."
+    inputDownloadTitle: "Please enter a title."
+    selectAfterDate: "Please select after {0} date."
+    selectBeforeDate: "Please select before {0} date."
