@@ -61,8 +61,6 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
             true -> {
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
                 val dataDto = mapper.readValue(responseBody.body.toString(), restTemplateDocumentDto::class.java)
-//                // 문서번호를 통해 양식 데이터를 초기화한다.
-//                createDocumentData(dataDto)
                 dataDto.documentId
             }
             false -> ""
@@ -81,27 +79,14 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     }
 
     /**
-     * 신청서 display 생성. (기본값)
+     * 신청서 양식 데이터 조회
      *
-     * @param restTemplateDocumentDto
-     * @return String?
-     */
-    fun createDocumentData(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
-        val documentId = restTemplateDocumentDto.documentId.toString()
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENTS_DISPLAY.url.replace(restTemplate.getKeyRegex(), documentId))
-        val responseBody = restTemplate.create(url, restTemplateDocumentDto)
-        return when (responseBody.body.toString().isNotEmpty()) {
-            true -> "true"
-            false -> "false"
-        }
-    }
-
-    /**
-     * 신청서 display 조회
-     *
+     * @param documentId
      * @return List<DocumentDto>
      */
-    fun findDocumentDisplay(documentId: String): String? {//List<RestTemplateDocumentDto> {
-        return ""
+    fun findDocumentDisplay(documentId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_DISPLAY.url.replace(restTemplate.getKeyRegex(), documentId))
+        return restTemplate.get(url)
     }
+
 }
