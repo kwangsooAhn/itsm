@@ -87,12 +87,11 @@
         if (attr.values !== undefined && attr.values.length > 0) {
             textDefaultValue = attr.values[0].value;
         }
-
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                <div class='field'  style='text-align: ${attr.label.align};'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; 
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
@@ -101,7 +100,7 @@
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}' 
                     style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' ${attr.validate.required === "Y" ? "required" : ""} 
-                    max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]} regexp=${attr.validate["regexp"]} regexp-msg=${attr.validate["regexp-msg"]}/>
+                    max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
                 </div>
             </div>
         `);
@@ -119,7 +118,7 @@
      */
     function Textarea(attr, target) {
         const defaultRowHeight = 26;
-        const textEditorUseYn = attr.display['editor-useYn'] === 'Y' ? true : false;
+        const textEditorUseYn = attr.display['editor-useYn'] === 'Y';
         const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
         let textAreaDefaultValue = '';
         //처리할 문서는 실 데이터를 출력한다.
@@ -129,8 +128,8 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                <div class='field' style='text-align: ${attr.label.align};'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; 
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
@@ -142,12 +141,12 @@
                         <div class='editor-container' 
                         style='height: ${textEditorHeight}px; border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;'
                         ${attr.validate.required === "Y" ? "required" : ""} 
-                        max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]}></div>
+                        max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'></div>
                     </div>` :
                     `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
                     style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' 
                     ${attr.validate.required === "Y" ? "required" : ""} 
-                    max-length=${attr.validate["length-max"]} min-length=${attr.validate["length-min"]}>${textAreaDefaultValue}</textarea>`
+                    max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
             </div>
@@ -156,7 +155,7 @@
         target.appendChild(comp);
         this.domElem = comp;
 
-        if (textEditorUseYn) { //텍스트 에디터
+        if (textEditorUseYn) { //텍스트 에디터ㅈ
             let textEditorOptions = {
                 modules: {
                     toolbar: [
@@ -193,8 +192,8 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                <div class='field' style='text-align: ${attr.label.align};'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
@@ -234,8 +233,8 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                <div class='field' style='text-align: ${attr.label.align};'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
@@ -266,6 +265,14 @@
                 radioElem.checked = (i === 0);
             }
             radioElem.required = (i === 0 && attr.validate.required === 'Y');
+
+            radioElem.addEventListener('click', function() {
+                let checkedRadioElem = comp.querySelectorAll('input[type=radio]:checked');
+                for (let j = 0, cheklen = checkedRadioElem.length; j < cheklen; j++) {
+                    checkedRadioElem[j].checked = false;
+                }
+                this.checked = true;
+            });
             
             let lblElem = document.createElement('label');
             lblElem.setAttribute('for', attr.option[i].value);
@@ -296,8 +303,8 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                <div class='field' style='text-align: ${attr.label.align};'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
@@ -323,13 +330,14 @@
 
             //처리할 문서는 실 데이터를 출력한다.
             if (attr.values !== undefined && attr.values.length > 0) {
-                const checkboxValue = attr.values[0].value.split(',');
-                checkboxValue.forEach(function (val) {
-                    if (checkElem.value === val) {
+                const checkboxValues = attr.values[0].value.split(',');
+                for (let j = 0, cheklen = checkboxValues.length; j < cheklen; j++) {
+                    if (checkElem.value === checkboxValues[j]) {
                         checkElem.checked = true;
                     }
-                });
+                }
             }
+
             checkElem.required = (i === 0 && attr.validate.required === 'Y');
             
             let lblElem = document.createElement('label');
@@ -361,8 +369,8 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field' style='flex-basis: 100%;'>
-                    <div class='label'style='color: ${attr.display.color}; font-size: ${attr.display.size}px; text-align: ${attr.display.align}; 
+                <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
+                    <div class='label'style='color: ${attr.display.color}; font-size: ${attr.display.size}px;
                     ${attr.display.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.display.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.display.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.display.text}</div>
@@ -384,7 +392,7 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
+                <div class='field' style='flex-basis: 100%; text-align: ${attr.label.align};'>
                     <img src='${attr.display.path}' alt='' width='${attr.display.width}' height='${attr.display.height}'>
                 </div>
             </div>
@@ -447,8 +455,8 @@
         let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
-                    <div class='field'>
-                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                    <div class='field' style='text-align: ${attr.label.align};'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; 
                         ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
@@ -456,7 +464,7 @@
                         <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max=${attr.validate["date-max"]} date-min=${attr.validate["date-min"]}/>
+                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -491,14 +499,14 @@
             let dummyDate = dummyDateTime.split(' ');
             timeDefault = aliceJs.changeDateFormat(timeValue[1], timeFormat, dummyDate[0] +' '+ timeValue[0], aliceForm.options.lang);
             let time = timeDefault.split(' ');
-            timeDefault = (time.length > 2) ? (time[1] +' '+time[2]) : timeDefault = time[1];
+            timeDefault = (time.length > 2) ? (time[1] +' '+ time[2]) : timeDefault = time[1];
         } else {
-            let beforeFormt = aliceForm.options.dateFormat +' ' + aliceForm.options.timeFormat +' ' + '24';
+            let beforeFormt = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + '24';
             if (timeDefaultArr[0] === 'now') {
                 timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat);
                 timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, aliceForm.options.lang);
                 let timeNow = timeDefault.split(' ');
-                timeDefault = (timeNow.length > 2) ? (timeNow[1] +' ' + timeNow[2]) : timeNow[1];
+                timeDefault = (timeNow.length > 2) ? (timeNow[1] + ' ' + timeNow[2]) : timeNow[1];
             } else if (timeDefaultArr[0] === 'timepicker') {
                 timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat) + ' ' + timeDefaultArr[1];
                 timeDefault = aliceJs.changeDateFormat(timeDefaultArr[2], timeFormat, timeDefault, aliceForm.options.lang);
@@ -516,17 +524,17 @@
             } else if (timeDefaultArr[0] === 'time') {
                 timeDefault = aliceJs.getTimeStamp(beforeFormt, '', timeDefaultArr[1]);
                 let timeDate = timeDefault.split(' ');
-                timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDate[0] +' '+ timeDate[1], aliceForm.options.lang);
+                timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDate[0] + ' ' + timeDate[1], aliceForm.options.lang);
                 let time = timeDefault.split(' ');
-                timeDefault = (time.length > 2) ? (time[1] +' '+time[2]) : time[1];
+                timeDefault = (time.length > 2) ? (time[1] + ' ' + time[2]) : time[1];
             }
         }
 
         let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
-                    <div class='field'>
-                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                    <div class='field' style='text-align: ${attr.label.align};'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
                         ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
@@ -534,7 +542,7 @@
                         <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.validate.required === "Y" ? "required" : ""} time-max=${attr.validate["time-max"]} time-min=${attr.validate["time-min"]}/>
+                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.validate.required === "Y" ? "required" : ""} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
                     </div>
                 </div>
             `);
@@ -585,8 +593,8 @@
         let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
-                    <div class='field'>
-                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                    <div class='field' style='text-align: ${attr.label.align};'>
+                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
                         ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
@@ -594,7 +602,7 @@
                         <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max=${attr.validate["date-max"]} date-min=${attr.validate["date-min"]}/>
+                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -617,8 +625,8 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                <div class='field' style='text-align: ${attr.label.align};'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
@@ -638,31 +646,22 @@
 
         if (!target.hasAttribute('data-readonly')) {
             document.getElementById('dropZoneUploadedFiles-' + attr.id).classList.remove('dropbox');
+            let fileOptions = {
+                extra: {
+                    formId: 'frm',
+                    ownId: '',
+                    dropZoneFilesId: 'dropZoneFiles-' + attr.id,
+                    dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.id
+                }
+            };
             if (attr.values !== undefined && attr.values.length > 0) {
-                fileUploader.init({
-                    extra: {
-                        formId: 'frm',
-                        ownId: '',
-                        dropZoneFilesId: 'dropZoneFiles-' + attr.id,
-                        dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.id,
-                        fileDataIds: attr.values[0].value
-                    }
-                });
-            } else {
-                fileUploader.init({
-                    extra: {
-                        formId: 'frm',
-                        ownId: '',
-                        dropZoneFilesId: 'dropZoneFiles-' + attr.id,
-                        dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.id
-                    }
-                });
+                fileOptions.extra.fileDataIds = attr.values[0].value;
             }
+            fileUploader.init(fileOptions);
         } else {
             let fileUploadElem = comp.querySelector('.dropbox');
             fileUploadElem.textContent = 'Drop files here to upload';
             let buttonElem = document.createElement('button');
-            buttonElem.type = 'button';
             buttonElem.innerText = 'ADD';
             fileUploadElem.parentNode.insertBefore(buttonElem, fileUploadElem);
         }
@@ -678,8 +677,8 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; text-align: ${attr.label.align}; 
+                <div class='field' style='text-align: ${attr.label.align};'>
+                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>

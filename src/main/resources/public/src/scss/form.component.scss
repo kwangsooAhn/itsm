@@ -42,6 +42,9 @@
                 font-size:  1.25rem;    //20px
                 color: #969696;
              }
+            .ql-editor.ql-blank::before {
+                content: attr(data-placeholder);
+            }
         }
     }
     /* drag and drop icon */

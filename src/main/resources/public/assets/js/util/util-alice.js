@@ -498,11 +498,12 @@ aliceJs.getTimeStamp = function(format, day, time) {
     if (time !== undefined && time !== null && time !== '') {
         today.setHours(today.getHours() + Number(time));
     }
-    return format.replace(/YYYY/gi, aliceJs.parseZero(today.getFullYear(), 4))
-        .replace(/MM/gi, aliceJs.parseZero(today.getMonth() + 1, 2))
-        .replace(/DD/gi, aliceJs.parseZero(today.getDate(), 2))
-        .replace(/hh/gi, aliceJs.parseZero(today.getHours(), 2))
-        .replace(/mm/gi, aliceJs.parseZero(today.getMinutes(), 2));
+
+    return format.replace(/YYYY/g, aliceJs.parseZero(today.getFullYear(), 4))
+        .replace(/MM/g, aliceJs.parseZero(today.getMonth() + 1, 2))
+        .replace(/DD/g, aliceJs.parseZero(today.getDate(), 2))
+        .replace(/hh/g, aliceJs.parseZero(today.getHours(), 2))
+        .replace(/mm/g, aliceJs.parseZero(today.getMinutes(), 2));
 };
 
 /**

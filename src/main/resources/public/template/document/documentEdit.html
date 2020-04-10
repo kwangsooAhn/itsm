@@ -4,16 +4,20 @@
       layout:decorator="form/formCore">
 <head>
     <title th:text="#{document.label.write}"></title>
+    <th:block layout:fragment="css">
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/js/document/document.js}"></script>
+    </th:block>
 </head>
 <body>
-<form id="frm" name="frm">
-<div class="drawing-board" id="document-container"></div>
-<div id="button-container"></div>
-</form>
+<th:block layout:fragment="content">
+    <form id="frm" name="frm">
+    <div class="drawing-board" id="document-container"></div>
+    <div id="button-container"></div>
+    </form>
+</th:block>
 </body>
 <th:block layout:fragment="script">
+    <script th:src="@{/assets/js/document/document.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {

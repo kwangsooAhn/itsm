@@ -46,7 +46,7 @@
      */
     function validateCheck(element, validate) {
         if (typeof validate === 'undefined' || validate === '') { return; }
-        let numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
+        const numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
         const validateFunc = {
             number: function(value) {
                 return numberRegex.test(value);
@@ -118,6 +118,7 @@
                     e.stopImmediatePropagation();
                     element.classList.add('validate-error');
                     aliceJs.alert(i18n.get('form.msg.alert.' + validateValueArray[0], arg), function() {
+                        element.value = '';
                         element.focus();
                     });
                     break;
@@ -804,8 +805,9 @@
                             selectedColorBox.classList.add('selected-color');
                             selectedColorBox.style.backgroundColor = fieldArr.value;
                             fieldGroupDiv.appendChild(selectedColorBox);
+
                             propertyValue = document.createElement('input');
-                            propertyValue.classList.add('property-field-value', 'underline');
+                            propertyValue.classList.add('property-field-value', 'underline', 'color');
                             propertyValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
@@ -1019,7 +1021,15 @@
                                 if (dateTimePickerValue[1] === undefined) {
                                     dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
                                 } else {
-                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
+                                    let dummyDateTime = '';
+                                    if (fieldArr.type === 'timepicker') {
+                                        dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat) + ' ';
+                                    }
+                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, dummyDateTime + dateTimePickerValue[0], aliceForm.options.lang);
+                                    console.log(dateTimePickerValue);
+                                    if (fieldArr.type === 'timepicker') {
+                                        dateTimePickerValue = dateTimePickerValue.split(' ')[1];
+                                    }
                                 }
                             }
                             propertyValue.setAttribute('value', dateTimePickerValue);

@@ -72,11 +72,11 @@
                         return true;
                     }
                     if (attr.nodeName === 'date-min') {
-                        let dateMinValueArray = attr.nodeValue.split("|");
+                        let dateMinValueArray = attr.nodeValue.split('|');
                         let dateMinValuePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
                         let dateMinValue = aliceJs.changeDateFormat(dateMinValueArray[1], dateMinValuePlaceholder, dateMinValueArray[0], aliceForm.options.lang);
                         if (dateMinValue > chkVal) {
-                            alertMsg(elem, i18n.get('document.msg.dateMin').replace('{0}', dateMinValue));
+                            alertMsg(elem, i18n.get('document.msg.dateMin', dateMinValue));
                             return true;
                         }
                     }
@@ -85,7 +85,7 @@
                         let dateMaxValuePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
                         let dateMaxValue = aliceJs.changeDateFormat(dateMaxValueArray[1], dateMaxValuePlaceholder, dateMaxValueArray[0], aliceForm.options.lang);
                         if (dateMaxValue < chkVal) {
-                            alertMsg(elem, i18n.get('document.msg.dateMax').replace('{0}', dateMaxValue));
+                            alertMsg(elem, i18n.get('document.msg.dateMax', dateMaxValue));
                             return true;
                         }
                     }
@@ -177,8 +177,8 @@
         const textEditorElems = document.querySelectorAll('.editor-container');
         for (let i = 0; i < textEditorElems.length; i++) {
             let textEditorElem = textEditorElems[i];
-            if (textEditorElem.getAttribute('required') === 'true') {
-                let textEditor = new Quill(textEditorElem);
+            if (textEditorElem.hasAttribute('required')) {
+                let textEditor = Quill.find(textEditorElem);
                 if (textEditor.getLength() === 1) {
                     alertMsg(textEditor, i18n.get('document.msg.requiredEnter'));
                     return true;
@@ -244,22 +244,22 @@
                     case 'date':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         let dateFormat = componentChild.item(0).placeholder;
-                        componentValue = componentChild.item(0).value+'|'+dateFormat;
+                        componentValue = componentChild.item(0).value + '|' + dateFormat;
                         break;
                     case 'time':
                         let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        componentValue = componentChild.item(0).value+'|'+timeFormat;
+                        componentValue = componentChild.item(0).value + '|' + timeFormat;
                         break;
                     case 'datetime':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         let datetimeFormat = componentChild.item(0).placeholder;
-                        componentValue = componentChild.item(0).value+'|'+datetimeFormat;
+                        componentValue = componentChild.item(0).value + '|' + datetimeFormat;
                         break;
                     case 'textarea':
                         componentChild = componentElements[eIndex].querySelector('.editor-container');
                         if (componentChild) {
-                            let textEditor = new Quill(componentChild); //Quill.find(componentChild) === textEditor : true
+                            let textEditor = Quill.find(componentChild); //Quill.find(componentChild) === textEditor : true
                             componentValue = JSON.stringify(textEditor.getContents());
                         } else {
                             componentChild = componentElements[eIndex].getElementsByTagName('textarea');
@@ -355,7 +355,12 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
-        console.log(tokenObject);
+
+        // 2020-04-06 kbh
+        // 프로세스 넘기려고 부득이하게 하드코딩함. merge 된 후 삭제 예정
+        //tokenObject.documentId = 'beom'
+        //tokenObject.elementId = 'a12c2f06debf788570a6b08a5ece73ac'
+
         const opt = {
             method: method,
             url: '/rest/tokens/data',
@@ -411,26 +416,28 @@
                 component.draw(compType, documentContainer, componentAttr);
             }
             //유효성 검증 추가
-            let validateElems = document.querySelectorAll('input[type="text"], textarea, .editor-container');
-            for (let i = 0, len = validateElems.length; i < len; i++) {
-                let elem = validateElems[i];
-                if (elem.classList.contains('editor-container')) { //텍스트 에디터 유효성 검증 추가
-                    let textEditor = new Quill(elem);
-                    textEditor.on('selection-change', function (range, oldRange, source) {
-                        if (range === null && oldRange !== null) {
-                            if (elem.getAttribute('min-length') !== '' && textEditor.getLength() < Number(elem.getAttribute('min-length'))) {
-                                alertMsg(textEditor, i18n.get('document.msg.lengthMin', elem.getAttribute('min-length')));
-                                return true;
+            if (!documentContainer.hasAttribute('data-readonly')) {
+                let validateElems = document.querySelectorAll('input[type="text"], textarea, .editor-container');
+                for (let i = 0, len = validateElems.length; i < len; i++) {
+                    let elem = validateElems[i];
+                    if (elem.classList.contains('editor-container')) { //텍스트 에디터 유효성 검증 추가
+                        let textEditor = Quill.find(elem);
+                        textEditor.on('selection-change', function (range, oldRange, source) {
+                            if (range === null && oldRange !== null) {
+                                if (elem.getAttribute('min-length') !== '' && textEditor.getLength() < Number(elem.getAttribute('min-length'))) {
+                                    alertMsg(textEditor, i18n.get('document.msg.lengthMin', elem.getAttribute('min-length')));
+                                    return true;
+                                }
+                                if (elem.getAttribute('max-length') !== '' && textEditor.getLength() > Number(elem.getAttribute('max-length'))) {
+                                    textEditor.deleteText(Number(elem.getAttribute('max-length')) - 1, textEditor.getLength());
+                                    alertMsg(textEditor, i18n.get('document.msg.lengthMax', elem.getAttribute('max-length')));
+                                    return true;
+                                }
                             }
-                            if (elem.getAttribute('max-length') !== '' && textEditor.getLength() > Number(elem.getAttribute('max-length'))) {
-                                textEditor.deleteText(Number(elem.getAttribute('max-length')) - 1, textEditor.getLength());
-                                alertMsg(textEditor, i18n.get('document.msg.lengthMax', elem.getAttribute('max-length')));
-                                return true;
-                            }
-                        }
-                    });
-                } else {
-                    elem.addEventListener('focusout',validateCheck, false);
+                        });
+                    } else {
+                        elem.addEventListener('focusout',validateCheck, false);
+                    }
                 }
             }
         }
@@ -442,10 +449,10 @@
             addIdComponent('tokenId', data.tokenId);
         }
 
-        if (data.components != undefined) {
-            addButton(data.action);
-        } else if (data.token.components != undefined) {
-            addButton(data.token.action);
+        if (data.components !== undefined) {
+            addButton(data.actions);
+        } else if (data.token.components !== undefined) {
+            addButton(data.token.actions);
         }
     }
 
@@ -464,7 +471,6 @@
             callbackFunc: function(xhr) {
                 let jsonData = JSON.parse(xhr.responseText);
                 jsonData.documentId = documentId;
-                console.log(jsonData);
                 drawDocument(jsonData);
             },
             contentType: 'application/json; charset=utf-8'

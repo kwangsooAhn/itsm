@@ -11181,11 +11181,11 @@ body {
   cursor: pointer;
 }
 
-.alice-form-properties-panel .property-field .color-palette {
+.alice-form-properties-panel .color-palette {
   background: #d3d3d3;
 }
 
-.alice-form-properties-panel .property-field .color-palette div {
+.alice-form-properties-panel .color-palette div {
   width: 1.25rem;
   display: inline-block;
   height: 1.25rem;

@@ -375,6 +375,7 @@
      * @param {Object} e 이벤트객체
      */
     function onLeftClickHandler(e) {
+        if (flag !== 0 && (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar'))) { menuOff(); }
         if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) { return false; }
 
         let clickedElem = clickInsideElement(e, 'context-item-link');

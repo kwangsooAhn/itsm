@@ -7,12 +7,12 @@
     <meta http-equiv="expire" content="-1"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
+    <th:block layout:fragment="css">
     <link th:href="@{/assets/css/form.editor.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/js/process/workflow.util.js}"></script>
-    <script th:src="@{/assets/js/form/form.editor.menu.js}"></script>
-    <script th:src="@{/assets/js/form/form.editor.js}"></script>
+    </th:block>
 </head>
 <body>
+<th:block layout:fragment="content">
 <div class="alice-form-container light-thema" id="form-designer">
     <div class="alice-form-toolbar">
         <span class="logo"></span>
@@ -133,14 +133,18 @@
         </li>
     </ul>
 </div>
+</th:block>
 </body>
 <th:block layout:fragment="script">
-<script type="text/javascript">
-    /*<![CDATA[*/
-    window.onload = function() {
-        editor.init('[[${formId}]]');
-    };
-    /*]]>*/
-</script>
+    <script th:src="@{/assets/js/process/workflow.util.js}"></script>
+    <script th:src="@{/assets/js/form/form.editor.menu.js}"></script>
+    <script th:src="@{/assets/js/form/form.editor.js}"></script>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            editor.init('[[${formId}]]');
+        };
+        /*]]>*/
+    </script>
 </th:block>
 </html>

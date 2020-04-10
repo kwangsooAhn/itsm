@@ -12,11 +12,16 @@
     margin: 0.625rem;
     .move-icon { display: none; }
 }
+/*미리 보기*/
 .drawing-board[data-readonly=true] {
     input[type=text],
     textarea,
     button,
-    .ql-toolbar {
+    .ql-toolbar,
+    .editor-container {
+        pointer-events: none;
+    }
+    .component[data-type="editbox"] { 
         pointer-events: none;
     }
 }
