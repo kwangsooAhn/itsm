@@ -13,6 +13,7 @@
     };
 
     let svg,
+        groupArtifactContainer,
         elementsContainer,
         connectors,
         dragLine;
@@ -23,7 +24,8 @@
 
     let mousedownElement,
         mouseoverElement,
-        selectedElement;
+        selectedElement,
+        dragElement;
 
     let isDrawConnector = false,
         isMovableDrawingboard = false;
@@ -34,6 +36,8 @@
     function resetMouseVars() {
         mousedownElement = null;
         mouseoverElement = null;
+        selectedElement = null;
+        dragElement = null;
     }
 
     /**
@@ -100,19 +104,26 @@
                 AliceProcessEditor.addElementProperty(d);
             });
 
-        // add new paintedPath links
-        enter.append('path')
-            .attr('class', 'painted-connector')
-            .on('mouseout', function() {
-                d3.select(this).style('cursor', 'default');
-            })
-            .on('mouseover', function() {
+        /**
+         * connector event handler.
+         *
+         * @type {{mouseover: mouseover, mouseout: mouseout, mousedown: mousedown}}
+         */
+        const connectorMouseEventHandler = {
+            mouseover: function() {
                 if (isDrawConnector) {
                     return;
                 }
-                d3.select(this).style('cursor', 'pointer');
-            })
-            .on('mousedown', function(d) {
+                if (!dragElement) {
+                    d3.select(this).style('cursor', 'pointer');
+                }
+            },
+            mouseout: function() {
+                if (!dragElement) {
+                    d3.select(this).style('cursor', 'default');
+                }
+            },
+            mousedown: function(d) {
                 d3.event.stopPropagation();
                 if (isDrawConnector) {
                     return;
@@ -120,13 +131,24 @@
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                 d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
-            });
+            }
+        };
+
+        // add new paintedPath links
+        enter.append('path')
+            .attr('class', 'painted-connector')
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown);
 
         enter.append('text').append('textPath')
             .attr('xlink:href', function(d) { return '#' + d.id; })
             .attr('startOffset', '10%')
             .append('tspan')
             .attr('dy', '-10')
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown)
             .text(function(d) {
                 let name = '';
                 const elements = AliceProcessEditor.data.elements;
@@ -141,6 +163,9 @@
             .attr('id', function(d) { return d.id + '_midPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
@@ -162,6 +187,9 @@
             .attr('id', function(d) { return d.id + '_sourcePoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
@@ -181,6 +209,9 @@
             .attr('id', function(d) { return d.id + '_targetPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
+            .on('mouseout', connectorMouseEventHandler.mouseout)
+            .on('mouseover', connectorMouseEventHandler.mouseover)
+            .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
@@ -216,15 +247,15 @@
         sourcePointArray.forEach(function(s) {
             targetPointArray.forEach(function(t) {
                 let dist = Math.hypot(
-                    (targetBBox.x + t[0]) - (sourceBBox.x + s[0]),
-                    (targetBBox.y + t[1]) - (sourceBBox.y + s[1])
+                    (targetBBox.cx + t[0]) - (sourceBBox.cx + s[0]),
+                    (targetBBox.cy + t[1]) - (sourceBBox.cy + s[1])
                 );
                 if (dist < min) {
                     min = dist;
-                    let x1 = sourceBBox.x + s[0],
-                        x2 = targetBBox.x + t[0],
-                        y1 = sourceBBox.y + s[1],
-                        y2 = targetBBox.y + t[1];
+                    let x1 = sourceBBox.cx + s[0],
+                        x2 = targetBBox.cx + t[0],
+                        y1 = sourceBBox.cy + s[1],
+                        y2 = targetBBox.cy + t[1];
                     best = [[x1, y1], [x2, y2]];
                 }
             });
@@ -264,23 +295,6 @@
         };
 
         /**
-         * 두 개의 좌표 사이의 거리를 구한다.
-         *
-         * @param a 시작좌표
-         * @param b 종료좌표
-         * @return {number} 좌표 사이 거리
-         */
-        const calcDist = function(a, b) {
-            let dist = Math.sqrt(
-                Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
-            );
-            if (dist === 0) {
-                dist = 1;
-            }
-            return dist;
-        };
-
-        /**
          * convert 3 points to an Arc Path.
          *
          * @param startPoint 시작좌표
@@ -289,15 +303,15 @@
          * @return {string} path
          */
         const calcCirclePath = function(startPoint, midPoint, endPoint) {
-            let distA = calcDist(endPoint, midPoint);
-            let distB = calcDist(midPoint, startPoint);
-            let distC = calcDist(startPoint, endPoint);
+            let distA = AliceProcessEditor.utils.calcDist(endPoint, midPoint);
+            let distB = AliceProcessEditor.utils.calcDist(midPoint, startPoint);
+            let distC = AliceProcessEditor.utils.calcDist(startPoint, endPoint);
             let angle = Math.acos((distA * distA + distB * distB - distC * distC) / (2 * distA * distB));
 
             //calc radius of circle
             let K = 0.3 * distA * distB * Math.sin(angle);
             let r = distA * distB * distC / 4 / K;
-            console.debug('A: %s, B: %s, C: %s', distA, distB, distC);
+            //console.debug('A: %s, B: %s, C: %s', distA, distB, distC);
             r = Math.round(r * 1000) / 1000;
 
             //large arc flag
@@ -305,7 +319,7 @@
 
             //sweep flag
             let saf = +((endPoint[0] - startPoint[0]) * (midPoint[1] - startPoint[1]) - (endPoint[1] - startPoint[1]) * (midPoint[0] - startPoint[0]) < 0);
-            console.debug('angle: %s, K: %s, r: %s, laf: %s, saf: %s', angle, K, r, laf, saf);
+            //console.debug('angle: %s, K: %s, r: %s, laf: %s, saf: %s', angle, K, r, laf, saf);
 
             //return ['L', startPoint, 'A', r, r, 0, laf, saf, endPoint].join(' ');
             return ['L', startPoint, 'A', r, r, 0, 0, saf, endPoint].join(' ');
@@ -325,19 +339,28 @@
             }
             let target = d3.select(targetNode),
                 source = d3.select(sourceNode);
-            if (target.classed('gateway')) {
-                target = d3.select(targetNode.parentNode);
-            }
-            if (source.classed('gateway')) {
-                source = d3.select(sourceNode.parentNode);
-            }
             const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
             const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
 
-            let sourcePointArray = [[sourceBBox.width / 2, 0], [sourceBBox.width, sourceBBox.height / 2],
-                [sourceBBox.width / 2, sourceBBox.height], [0, sourceBBox.height / 2]];
-            let targetPointArray = [[targetBBox.width / 2, 0], [targetBBox.width, targetBBox.height / 2],
-                [targetBBox.width / 2, targetBBox.height], [0, targetBBox.height / 2]];
+            let targetWidth = targetBBox.width,
+                targetHeight = targetBBox.height,
+                sourceWidth = sourceBBox.width,
+                sourceHeight = sourceBBox.height;
+            if (target.classed('gateway') || source.classed('gateway')) {
+                let gatewayDist = AliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
+                if (target.classed('gateway')) {
+                    targetWidth = gatewayDist;
+                    targetHeight = gatewayDist;
+                }
+                if (source.classed('gateway')) {
+                    sourceWidth = gatewayDist;
+                    sourceHeight = gatewayDist;
+                }
+            }
+            let targetPointArray = [[0, -(targetHeight / 2)], [targetWidth / 2, 0],
+                [0, targetHeight / 2], [-(targetWidth / 2), 0]];
+            let sourcePointArray = [[0, -(sourceHeight / 2)], [sourceWidth / 2, 0],
+                [0, sourceHeight / 2], [-(sourceWidth / 2), 0]];
             const midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
             let linePath = '';
             if (typeof d.midPoint !== 'undefined') {
@@ -353,8 +376,8 @@
                 let bestLine1,
                     bestLine2;
                 if (typeof d.sourcePoint === 'undefined' && typeof d.targetPoint === 'undefined') {
-                    bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
-                    bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    bestLine1 = getBestLine(sourceBBox, {cx: d.midPoint[0], cy: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({cx: d.midPoint[0], cy: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
                         [calcRoundedPointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcRoundedPointCoordinate(bestLine2[1], d.midPoint)]
                     );
@@ -364,8 +387,8 @@
                     let targetPointCoords = getMidPointCoords(bestLine2);
                     targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else if (typeof d.sourcePoint === 'undefined') {
-                    bestLine1 = getBestLine(sourceBBox, {x: d.midPoint[0], y: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
-                    bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    bestLine1 = getBestLine(sourceBBox, {cx: d.midPoint[0], cy: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({cx: d.targetPoint[0], cy: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
                         [calcRoundedPointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcRoundedPointCoordinate(d.targetPoint, d.midPoint)],
                         [calcRoundedPointCoordinate(d.midPoint, d.targetPoint), d.targetPoint, calcRoundedPointCoordinate(bestLine2[1], d.targetPoint)]
@@ -375,8 +398,8 @@
                     sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
                     targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
                 } else if (typeof d.targetPoint === 'undefined') {
-                    bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
-                    bestLine2 = getBestLine({x: d.midPoint[0], y: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    bestLine1 = getBestLine(sourceBBox, {cx: d.sourcePoint[0], cy: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({cx: d.midPoint[0], cy: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
                         [calcRoundedPointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcRoundedPointCoordinate(d.midPoint, d.sourcePoint)],
                         [calcRoundedPointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcRoundedPointCoordinate(bestLine2[1], d.midPoint)]
@@ -386,8 +409,8 @@
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
                     targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else {
-                    bestLine1 = getBestLine(sourceBBox, {x: d.sourcePoint[0], y: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
-                    bestLine2 = getBestLine({x: d.targetPoint[0], y: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    bestLine1 = getBestLine(sourceBBox, {cx: d.sourcePoint[0], cy: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({cx: d.targetPoint[0], cy: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
                         [calcRoundedPointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcRoundedPointCoordinate(d.midPoint, d.sourcePoint)],
                         [calcRoundedPointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcRoundedPointCoordinate(d.targetPoint, d.midPoint)],
@@ -403,7 +426,6 @@
                     linePath += calcCirclePath(coords[0], coords[1], coords[2]);
                 });
                 linePath += ['L', bestLine2[1]].join(' ');
-                console.debug(linePath);
             } else {
                 let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
                 linePath = ['M', bestLine[0], 'L', bestLine[1]].join(' ');
@@ -431,11 +453,17 @@
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
             mouseoverElement = null;
-            let cursor = 'pointer';
-            if (isDrawConnector) {
-                cursor = 'crosshair';
+            if (!dragElement) {
+                let cursor = 'pointer';
+                if (isDrawConnector) {
+                    if (!elem.classed('group')) {
+                        cursor = 'crosshair';
+                    } else {
+                        cursor = 'default';
+                    }
+                }
+                elemContainer.style('cursor', cursor);
             }
-            elemContainer.style('cursor', cursor);
             if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 return;
             }
@@ -447,7 +475,9 @@
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
             if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
-                elemContainer.style('cursor', 'default');
+                if (!dragElement) {
+                    elemContainer.style('cursor', 'default');
+                }
                 return;
             }
             mouseoverElement = null;
@@ -462,14 +492,16 @@
                 mousedownElement = elem;
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
-                const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
-                    gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
-                    centerX = bbox.cx + gTransform.x,
-                    centerY = bbox.cy + gTransform.y;
-                dragLine
-                    .style('marker-end', 'url(#end-arrow)')
-                    .classed('hidden', false)
-                    .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
+                if (!elem.classed('group')) {
+                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
+                        gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
+                        centerX = bbox.cx + gTransform.x,
+                        centerY = bbox.cy + gTransform.y;
+                    dragLine
+                        .style('marker-end', 'url(#end-arrow)')
+                        .classed('hidden', false)
+                        .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
+                }
             } else {
                 if (selectedElement === elem) {
                     return;
@@ -512,11 +544,13 @@
                 }
                 resetMouseVars();
             } else {
+                dragElement = null;
                 elemContainer.style('cursor', 'pointer');
                 AliceProcessEditor.changeDisplayValue(elem.node().id);
                 if (svg.select('.alice-tooltip').node() === null) {
                     AliceProcessEditor.setActionTooltipItem(elem);
                 }
+                svg.selectAll('line.guides-line').style('stroke-width', 0);
             }
         },
         mousedrag: function() {
@@ -551,31 +585,143 @@
                 availableLink = false;
             }
         });
-
         // common start cannot be a target.
         if (target.classed('commonStart')) {
             availableLink = false;
         }
-
         // common end/message end cannot be a source.
         if (source.classed('commonEnd') || source.classed('messageEnd')) {
             availableLink = false;
         }
-
+        // group is not connected.
+        if (source.classed('group') || target.classed('group')) {
+            availableLink = false;
+        }
         return availableLink;
     }
 
     /**
-     * 리사이즈 가능한 사각 element.
+     * 현재 위치와 크기를 계산하여 guides line 처리를 한다.
+     *
+     * @param elem 대상 element
+     */
+    function drawGuides(elem) {
+        const errorRange = 3;
+        const elementBbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
+              gatewayDist = AliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
+        let elemLeft = elementBbox.cx - (elementBbox.width / 2),
+            elemRight = elementBbox.cx + (elementBbox.width / 2),
+            elemTop = elementBbox.cy - (elementBbox.height / 2),
+            elemBottom = elementBbox.cy + (elementBbox.height / 2);
+        if (elem.classed('gateway')) {
+            elemLeft = elementBbox.cx - (gatewayDist / 2);
+            elemRight = elementBbox.cx + (gatewayDist / 2);
+            elemTop = elementBbox.cy - (gatewayDist / 2);
+            elemBottom = elementBbox.cy + (gatewayDist / 2);
+        }
+
+        let isDrawCenterX = false,
+            isDrawCenterY = false,
+            isDrawLeft = false,
+            isDrawRight = false,
+            isDrawTop = false,
+            isDrawBottom = false;
+        const elements = AliceProcessEditor.data.elements.filter(function(e) { return e.type !== 'arrowConnector' && e.id !== elem.node().id; });
+        elements.forEach(function(e) {
+            let left = e.display['position-x'] - (e.display.width / 2),
+                right = e.display['position-x'] + (e.display.width / 2),
+                top = e.display['position-y'] - (e.display.height / 2),
+                bottom = e.display['position-y'] + (e.display.height / 2);
+            if (e.type.indexOf('Gateway') > -1) {
+                left = e.display['position-x'] - (gatewayDist / 2);
+                right = e.display['position-x'] + (gatewayDist / 2);
+                top = e.display['position-y'] - (gatewayDist / 2);
+                bottom = e.display['position-y'] + (gatewayDist / 2);
+            }
+            isDrawCenterX = isDrawCenterX || Math.abs(elementBbox.cx - e.display['position-x']) < errorRange;
+            isDrawCenterY = isDrawCenterY || Math.abs(elementBbox.cy - e.display['position-y']) < errorRange;
+            isDrawLeft = isDrawLeft || Math.abs(elemLeft - left) < errorRange;
+            isDrawRight = isDrawRight || Math.abs(elemRight - right) < errorRange;
+            isDrawTop = isDrawTop || Math.abs(elemTop - top) < errorRange;
+            isDrawBottom = isDrawBottom || Math.abs(elemBottom - bottom) < errorRange;
+        });
+        //console.debug('center-x: %s, center-y: %s, left: %s, right: %s, top: %s, bottom: %s', isDrawCenterX, isDrawCenterY, isDrawLeft, isDrawRight, isDrawTop, isDrawBottom);
+
+        const drawingBoard = document.querySelector('.alice-process-drawing-board'),
+              gTransform = d3.zoomTransform(d3.select('g.guides-container').node());
+        if (isDrawCenterX) {
+            svg.select('#guides-center-x')
+                .style('stroke-width', 1)
+                .attr('x1', elementBbox.cx)
+                .attr('x2', elementBbox.cx)
+                .attr('y1', -gTransform.y)
+                .attr('y2', drawingBoard.offsetHeight - gTransform.y);
+        } else {
+            svg.select('#guides-center-x').style('stroke-width', 0);
+        }
+        if (isDrawCenterY) {
+            svg.select('#guides-center-y')
+                .style('stroke-width', 1)
+                .attr('x1', -gTransform.x)
+                .attr('x2', drawingBoard.offsetWidth - gTransform.x)
+                .attr('y1', elementBbox.cy)
+                .attr('y2', elementBbox.cy);
+        } else {
+            svg.select('#guides-center-y').style('stroke-width', 0);
+        }
+        if (isDrawLeft) {
+            svg.select('#guides-left')
+                .style('stroke-width', 1)
+                .attr('x1', elemLeft)
+                .attr('x2', elemLeft)
+                .attr('y1', -gTransform.y)
+                .attr('y2', drawingBoard.offsetHeight - gTransform.y);
+        } else {
+            svg.select('#guides-left').style('stroke-width', 0);
+        }
+        if (isDrawRight) {
+            svg.select('#guides-right')
+                .style('stroke-width', 1)
+                .attr('x1', elemRight)
+                .attr('x2', elemRight)
+                .attr('y1', -gTransform.y)
+                .attr('y2', drawingBoard.offsetHeight - gTransform.y);
+        } else {
+            svg.select('#guides-right').style('stroke-width', 0);
+        }
+        if (isDrawTop) {
+            svg.select('#guides-top')
+                .style('stroke-width', 1)
+                .attr('x1', -gTransform.x)
+                .attr('x2', drawingBoard.offsetWidth - gTransform.x)
+                .attr('y1', elemTop)
+                .attr('y2', elemTop);
+        } else {
+            svg.select('#guides-top').style('stroke-width', 0);
+        }
+        if (isDrawBottom) {
+            svg.select('#guides-bottom')
+                .style('stroke-width', 1)
+                .attr('x1', -gTransform.x)
+                .attr('x2', drawingBoard.offsetWidth - gTransform.x)
+                .attr('y1', elemBottom)
+                .attr('y2', elemBottom);
+        } else {
+            svg.select('#guides-bottom').style('stroke-width', 0);
+        }
+    }
+
+    /**
+     * Resizable rectangle element.
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
-     * @param isShowType 타입표시여부
+     * @param type element type
      * @param width element width
      * @param height element height
      * @constructor
      */
-    function RectResizableElement(x, y, isShowType, width, height) {
+    function RectResizableElement(x, y, type, width, height) {
         const self = this;
         self.width = width ? width : 120;
         self.height = height ? height : 80;
@@ -591,6 +737,7 @@
                 if (isDrawConnector) {
                     elementMouseEventHandler.mousedrag();
                 } else {
+                    dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
                     const mouseX = snapToGrid(d3.event.dx),
@@ -599,11 +746,15 @@
                         self.rectData[i].x += mouseX;
                         self.rectData[i].y += mouseY;
                     }
+                    drawGuides(self.nodeElement);
                     updateRect();
                 }
             })
             .on('end', elementMouseEventHandler.mouseup);
-        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        let elementContainer = elementsContainer.append('g').attr('class', 'element');
+        if (type === 'group') {
+            elementContainer = groupArtifactContainer.append('g').attr('class', 'element');
+        }
         self.rectData = [{ x: calcX, y: calcY }, { x: calcX + self.width, y: calcY + self.height }];
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -618,7 +769,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        if (isShowType) {
+        if (type !== 'group') {
             self.typeElement = elementContainer.append('rect')
                 .attr('class', 'element-type')
                 .attr('width', typeImageSize)
@@ -712,11 +863,11 @@
                 .attr('width', updateWidth)
                 .attr('height', updateHeight);
 
-            if (isShowType && self.nodeElement.classed('task')) {
+            if (self.nodeElement.classed('task')) {
                 self.typeElement
                     .attr('x', updateX + (typeImageSize / 2))
                     .attr('y', updateY + (typeImageSize / 2));
-            } else if (isShowType && self.nodeElement.classed('subprocess')) {
+            } else if (self.nodeElement.classed('subprocess')) {
                 self.typeElement
                     .attr('x', updateX + (updateWidth / 2) - (typeImageSize / 2))
                     .attr('y', updateY + updateHeight - typeImageSize - 3);
@@ -753,7 +904,7 @@
      */
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, true, width, height);
+        this.base(x, y, 'task', width, height);
         const defaultType = AliceProcessEditor.getElementDefaultType('task');
         this.nodeElement
             .classed('task', true)
@@ -777,7 +928,7 @@
      */
     function SubprocessElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, true, width, height);
+        this.base(x, y, 'subprocess', width, height);
         this.nodeElement.classed('subprocess', true);
         const defaultType = AliceProcessEditor.getElementDefaultType('subprocess');
         this.typeElement
@@ -805,6 +956,7 @@
                 if (isDrawConnector) {
                     elementMouseEventHandler.mousedrag();
                 } else {
+                    dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
                     const mouseX = snapToGrid(d3.event.x),
@@ -815,6 +967,10 @@
                     self.typeElement
                         .attr('x', mouseX - (typeImageSize / 2))
                         .attr('y', mouseY - (typeImageSize / 2));
+                    self.textElement
+                        .attr('x', mouseX)
+                        .attr('y', mouseY + (radius * 2));
+                    drawGuides(self.nodeElement);
                     drawConnectors();
                 }
             })
@@ -842,6 +998,12 @@
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
+        self.textElement = elementContainer.append('text')
+            .attr('x', x)
+            .attr('y', y + (radius * 2))
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
 
         return self;
     }
@@ -864,6 +1026,7 @@
                 if (isDrawConnector) {
                     elementMouseEventHandler.mousedrag();
                 } else {
+                    dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
                     const mouseX = snapToGrid(d3.event.x),
@@ -875,6 +1038,10 @@
                     self.typeElement
                         .attr('x', mouseX - (typeImageSize / 2))
                         .attr('y', mouseY - (typeImageSize / 2));
+                    self.textElement
+                        .attr('x', mouseX)
+                        .attr('y', mouseY + size + 10);
+                    drawGuides(self.nodeElement);
                     drawConnectors();
                 }
             })
@@ -904,6 +1071,12 @@
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
+        self.textElement = elementContainer.append('text')
+            .attr('x', x)
+            .attr('y', y + size + 10)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
 
         return self;
     }
@@ -920,7 +1093,7 @@
      */
     function GroupElement(x, y, width, height) {
         this.base = RectResizableElement;
-        this.base(x, y, false, width, height);
+        this.base(x, y, 'group', width, height);
         this.nodeElement
             .classed('artifact', true)
             .classed('group', true);
@@ -946,6 +1119,7 @@
                 if (isDrawConnector) {
                     elementMouseEventHandler.mousedrag();
                 } else {
+                    dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
                     const mouseX = snapToGrid(d3.event.x),
@@ -956,6 +1130,7 @@
                     self.textElement
                         .attr('x', mouseX)
                         .attr('y', mouseY);
+                    drawGuides(self.nodeElement);
                     drawConnectors();
                 }
             })
@@ -1060,7 +1235,7 @@
 
                 // wrap text
                 const element = d3.select(elementNode);
-                if (text.length > 0 && !element.classed('annotation')) {
+                if (text.length > 0 && element.classed('resizable')) {
                     let textLength = textElement.node().getComputedTextLength(),
                         displayText = textElement.text();
                     const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(element);
@@ -1192,6 +1367,10 @@
                     .attr('transform', d3.event.transform);
                 svg.select('g.connector-container')
                     .attr('transform', d3.event.transform);
+                svg.select('g.group-artifact-container')
+                    .attr('transform', d3.event.transform);
+                svg.select('g.guides-container')
+                    .attr('transform', d3.event.transform);
             })
             .on('end', function() {
                 svg.style('cursor', 'default');
@@ -1215,9 +1394,17 @@
             svg.style('cursor', 'default');
         }
 
+        groupArtifactContainer = svg.append('g').attr('class', 'group-artifact-container');
         const connectorContainer = svg.append('g').attr('class', 'connector-container');
         connectors = connectorContainer.selectAll('g.connector');
         elementsContainer = svg.append('g').attr('class', 'element-container');
+        const guidesContainer = svg.append('g').attr('class', 'guides-container');
+        guidesContainer.selectAll('line')
+            .data(['center-x','center-y','left','right','top','bottom'])
+            .enter()
+            .append('line')
+            .attr('id', function(d) { return 'guides-' + d; })
+            .attr('class', 'guides-line');
 
         // define arrow markers for links
         svg.append('defs').append('marker')
@@ -1273,6 +1460,13 @@
             case 'artifact':
                 if (element.type === 'groupArtifact') {
                     node = new GroupElement(x, y, element.display.width, element.display.height);
+                    node.nodeElement.style('stroke', element.data['line-color'])
+                        .style('fill', element.data['background-color']);
+                    if (element.data['background-color'] === '') {
+                        node.nodeElement.style('fill-opacity', 0);
+                    } else {
+                        node.nodeElement.style('fill-opacity', 0.5);
+                    }
                 } else if (element.type === 'annotationArtifact') {
                     node = new AnnotationElement(x, y);
                 }
@@ -1283,9 +1477,7 @@
 
         if (node) {
             const nodeId = node.nodeElement.attr('id');
-            if (category !== 'event' && category !== 'gateway') {
-                changeTextToElement(nodeId, element.data.name);
-            }
+            changeTextToElement(nodeId, element.data.name);
         }
 
         return node;

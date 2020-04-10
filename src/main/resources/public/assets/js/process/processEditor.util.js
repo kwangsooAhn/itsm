@@ -23,7 +23,7 @@
         if (isEdited) {
             event.returnValue = '';
         } else {
-            delete event['returnValue'];
+            delete event.returnValue;
         }
     });
 
@@ -49,7 +49,7 @@
             };
         },
         /**
-         * 두 개의 json 데이터가 동일한 지 비교한 후 boolean 을 리턴한다.
+         * 두 개의 json 데이터가 동일한 지 비교한 후 boolean 을 리턴 한다.
          *
          * @param obj1 비교 대상 JSON 데이터 1
          * @param obj2 비교 대상 JSON 데이터 2
@@ -66,6 +66,22 @@
                     return obj1[key] === obj2[key];
                 }
             });
+        },
+        /**
+         * 두 개의 좌표 사이의 거리를 구한다.
+         *
+         * @param a 시작좌표
+         * @param b 종료좌표
+         * @return {number} 좌표 사이 거리
+         */
+        calcDist: function(a, b) {
+            let dist = Math.sqrt(
+                Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
+            );
+            if (dist === 0) {
+                dist = 1;
+            }
+            return dist;
         }
     };
 
@@ -74,7 +90,7 @@
         undo_list: [],
         saveHistory: function(data, list, keep_redo) {
             if (data.length === 1 && utils.compareJson(data[0][0], data[0][1])) { // data check
-                console.debug('These two json data are the same.');
+                //console.debug('These two json data are the same.');
                 return;
             }
             keep_redo = keep_redo || false;
@@ -176,7 +192,9 @@
                     if (originData.display['position-x'] !== changeData.display['position-x']
                         || originData.display['position-y'] !== changeData.display['position-y']
                         || originData.display.width !== changeData.display.width
-                        || originData.display.height !== changeData.display.height) { // modify position or size
+                        || originData.display.height !== changeData.display.height
+                        || originData.data['line-color'] !== changeData.data['line-color']
+                        || originData.data['background-color'] !== changeData.data['background-color']) { // modify position or size or group color
                         let node = AliceProcessEditor.addElement(changeData);
                         if (node) {
                             d3.select(element.node().parentNode).remove();

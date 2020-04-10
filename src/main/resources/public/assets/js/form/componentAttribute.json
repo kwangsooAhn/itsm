@@ -1207,7 +1207,7 @@
             {
                 "id": "time-min", 
                 "name": "Min Time", 
-                "value": "", 
+                "value": "00:00|YYYY-MM-DD hh:mm 24",
                 "type": "timepicker", 
                 "code": "", 
                 "unit": "" 
@@ -1215,7 +1215,7 @@
             {
                 "id": "time-max", 
                 "name": "Max Time", 
-                "value": "", 
+                "value": "23:59|YYYY-MM-DD hh:mm 24",
                 "type": "timepicker", 
                 "code": "", 
                 "unit": "" 
@@ -1580,7 +1580,7 @@
             },
             {
                 "id": "button-text", 
-                "name": "Buttom Content", 
+                "name": "Button Content",
                 "value": "BUTTON", 
                 "type": "inputbox", 
                 "code": "", 

@@ -94,8 +94,8 @@ object RestTemplateConstants {
      */
     enum class FormStatus(val value: String) {
         EDIT("form.status.edit"),
-        SIMULATION("form.status.simu"),
         PUBLISH("form.status.publish"),
+        USE("form.status.use"),
         DESTROY("form.status.destroy")
     }
 
@@ -106,8 +106,8 @@ object RestTemplateConstants {
      */
     enum class ProcessStatus(val value: String) {
         EDIT("process.status.edit"),
-        SIMULATION("process.status.simu"),
         PUBLISH("process.status.publish"),
+        USE("process.status.use"),
         DESTROY("process.status.destroy")
     }
 

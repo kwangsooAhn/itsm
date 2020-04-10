@@ -31,19 +31,19 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      * 프로세스 목록 조회
      */
     fun selectProcessList(parameters: LinkedHashMap<String, Any>): MutableList<WfProcessDto> {
-        var search: String = ""
-        var status: String = ""
+        var search = ""
+        var status = listOf<String>()
         if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["status"] != null) status = parameters["status"].toString()
+        if (parameters["status"] != null) status = parameters["status"].toString().split(",")
         val processDtoList = mutableListOf<WfProcessDto>()
         val processList = if (status.isEmpty()) {
             wfProcessRepository.findByProcessListOrProcessSearchList(search)
         } else {
-            wfProcessRepository.findByProcessStatus(status)
+            wfProcessRepository.findByProcessStatusInOrderByProcessName(status)
         }
         processList.forEach {
             val enabled = when (it.processStatus) {
-                WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.SIMULATION.code -> true
+                WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
             }
             val wfProcessDto = processMapper.toWfProcessDto(it)
@@ -59,7 +59,7 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
     fun getProcess(processId: String): WfProcessDto {
         val wfProcessDto = processMapper.toWfProcessDto(wfProcessRepository.findByProcessId(processId))
         when (wfProcessDto.status) {
-            WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.SIMULATION.code -> wfProcessDto.enabled = true
+            WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> wfProcessDto.enabled = true
         }
         return wfProcessDto
     }

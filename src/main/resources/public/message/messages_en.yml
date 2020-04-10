@@ -251,8 +251,8 @@ form:
     addBelow: "Add below"
   status:
     edit: "Editing"
-    simu: "Simulation Complete"
     publish: "Publish"
+    use: "Using"
     destroy: "Destroy"
   component:
     text: "Text"
@@ -298,9 +298,9 @@ process:
     export: "Export"
     imageDownload: "Image Download"
   status:
-    edit: "Editing"
-    simu: "Simulation Complete"
+    edit: "Edit"
     publish: "Publish"
+    use: "Use"
     destroy: "Destroy"
   msg:
     alert:
@@ -334,6 +334,7 @@ validation:
     pwContainsEmail: "Password contains an email ID."
     pwContainsInnerMobileNumber: "The password contains your mobile."
     checkEmailFormat: "Please enter the correct email format."
+    checkRgbFormat: "Please enter the correct RGB format."
 
 # Document
 document:

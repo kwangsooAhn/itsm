@@ -11,6 +11,7 @@ interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
     /**
      * 역할별 상세 내용 조회
      */
+    @Query("select a from AliceRoleEntity a inner join fetch a.roleAuthMapEntities where a.roleId = :roleId")
     fun findByRoleId(roleId: String): AliceRoleEntity
 
     /**

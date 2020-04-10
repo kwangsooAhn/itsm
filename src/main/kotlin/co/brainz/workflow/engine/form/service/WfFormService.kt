@@ -23,9 +23,11 @@ import java.util.UUID
 import kotlin.collections.set
 
 @Service
-class WfFormService(private val wfFormRepository: WfFormRepository,
-                    private val wfComponentRepository: WfComponentRepository,
-                    private val wfComponentDataRepository: WfComponentDataRepository) {
+class WfFormService(
+    private val wfFormRepository: WfFormRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val wfComponentDataRepository: WfComponentDataRepository
+) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
 
@@ -37,14 +39,14 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun forms(parameters: LinkedHashMap<String, Any>): List<WfFormDto> {
         var search = ""
-        var status = ""
+        var status = listOf<String>()
         if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["status"] != null) status = parameters["status"].toString()
+        if (parameters["status"] != null) status = parameters["status"].toString().split(",")
         //val formEntityList = formRepository.findFormEntityList(search, search)
         val formEntityList = if (status.isEmpty()) {
             wfFormRepository.findFormListOrFormSearchList(search)
         } else {
-            wfFormRepository.findWfFormEntityByFormStatus(status)
+            wfFormRepository.findByFormStatusInOrderByFormName(status)
         }
         val formList = mutableListOf<WfFormDto>()
         for (item in formEntityList) {
@@ -62,23 +64,23 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun createForm(wfFormDto: WfFormDto): WfFormDto {
         val formEntity = WfFormEntity(
-                formId = wfFormDto.id,
-                formName = wfFormDto.name,
-                formDesc = wfFormDto.desc,
-                formStatus = wfFormDto.status,
-                createDt = wfFormDto.createDt,
-                createUserKey = wfFormDto.createUserKey
+            formId = wfFormDto.id,
+            formName = wfFormDto.name,
+            formDesc = wfFormDto.desc,
+            formStatus = wfFormDto.status,
+            createDt = wfFormDto.createDt,
+            createUserKey = wfFormDto.createUserKey
         )
         val dataEntity = wfFormRepository.save(formEntity)
 
         return WfFormDto(
-                id = dataEntity.formId,
-                name = dataEntity.formName,
-                status = dataEntity.formStatus,
-                desc = dataEntity.formDesc,
-                editable = true,
-                createUserKey = dataEntity.createUserKey,
-                createDt = dataEntity.createDt
+            id = dataEntity.formId,
+            name = dataEntity.formName,
+            status = dataEntity.formStatus,
+            desc = dataEntity.formDesc,
+            editable = true,
+            createUserKey = dataEntity.createUserKey,
+            createDt = dataEntity.createDt
         )
     }
 
@@ -101,7 +103,7 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
         val wfFormDto = wfFormMapper.toFormDto(formEntity)
         when (wfFormDto.status) {
-            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.SIMULATION.value -> wfFormDto.editable = true
+            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.PUBLISH.value -> wfFormDto.editable = true
         }
         return wfFormDto
     }
@@ -125,8 +127,8 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         }
 
         return WfFormComponentViewDto(
-                form = formViewDto,
-                components = components
+            form = formViewDto,
+            components = components
         )
 
     }
@@ -150,8 +152,12 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
         for (attribute in component.attributes!!) {
             val jsonElement = JsonParser().parse(attribute.attributeValue)
             when (jsonElement.isJsonArray) {
-                true -> attributes[attribute.attributeId] = mapper.readValue(attribute.attributeValue, mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java))
-                false -> attributes[attribute.attributeId] = mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
+                true -> attributes[attribute.attributeId] = mapper.readValue(
+                    attribute.attributeValue,
+                    mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
+                )
+                false -> attributes[attribute.attributeId] =
+                    mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
             }
         }
 
@@ -194,7 +200,8 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
 
         //Update Form
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val wfFormData: Optional<WfFormEntity> = wfFormRepository.findWfFormEntityByFormId(wfFormComponentSaveDto.form.id)
+        val wfFormData: Optional<WfFormEntity> =
+            wfFormRepository.findWfFormEntityByFormId(wfFormComponentSaveDto.form.id)
         wfFormData.ifPresent {
             wfFormData.get().formName = wfFormComponentSaveDto.form.name
             wfFormData.get().formDesc = wfFormComponentSaveDto.form.desc
@@ -208,7 +215,8 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
             for (component in wfFormComponentSaveDto.components) {
                 var mappingId = ""
                 if (component["common"] != null) {
-                    val common: java.util.LinkedHashMap<*, *>? = mapper.convertValue(component["common"], LinkedHashMap::class.java)
+                    val common: java.util.LinkedHashMap<*, *>? =
+                        mapper.convertValue(component["common"], LinkedHashMap::class.java)
                     if (common != null) {
                         if (common.containsKey("mapping-id")) {
                             mappingId = common["mapping-id"] as String
@@ -216,10 +224,10 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
                     }
                 }
                 val componentEntity = WfComponentEntity(
-                        componentId = component["id"] as String,
-                        componentType = component["type"] as String,
-                        mappingId = mappingId,
-                        form = resultFormEntity
+                    componentId = component["id"] as String,
+                    componentType = component["type"] as String,
+                    mappingId = mappingId,
+                    form = resultFormEntity
                 )
                 val resultComponentEntity = wfComponentRepository.save(componentEntity)
 
@@ -227,10 +235,10 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
                 for ((key, value) in component) {
                     if (key != "id" && key != "type" && key != "common") {
                         val componentDataEntity = WfComponentDataEntity(
-                                componentId = resultComponentEntity.componentId,
-                                attributeId = key,
-                                attributeValue = mapper.writeValueAsString(value),
-                                attributes = resultComponentEntity
+                            componentId = resultComponentEntity.componentId,
+                            attributeId = key,
+                            attributeValue = mapper.writeValueAsString(value),
+                            attributes = resultComponentEntity
                         )
                         wfComponentDataEntities.add(componentDataEntity)
                     }
@@ -251,16 +259,17 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun saveAsFormData(wfFormComponentSaveDto: WfFormComponentSaveDto): WfFormDto {
         val formDataDto = WfFormDto(
-                name = wfFormComponentSaveDto.form.name,
-                status = wfFormComponentSaveDto.form.status,
-                desc = wfFormComponentSaveDto.form.desc,
-                createUserKey = wfFormComponentSaveDto.form.createUserKey,
-                createDt = wfFormComponentSaveDto.form.createDt
+            name = wfFormComponentSaveDto.form.name,
+            status = wfFormComponentSaveDto.form.status,
+            desc = wfFormComponentSaveDto.form.desc,
+            createUserKey = wfFormComponentSaveDto.form.createUserKey,
+            createDt = wfFormComponentSaveDto.form.createDt
         )
         val wfFormDto = createForm(formDataDto)
         wfFormComponentSaveDto.form.id = wfFormDto.id
         when (wfFormComponentSaveDto.form.status) {
-            WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.editable = false
+            WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.editable =
+                false
         }
         for (component in wfFormComponentSaveDto.components) {
             component["id"] = UUID.randomUUID().toString().replace("-", "")
@@ -278,17 +287,17 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
      */
     fun formEntityToDto(wfFormEntity: WfFormEntity): WfFormDto {
         val formDto = WfFormDto(
-                id = wfFormEntity.formId,
-                name = wfFormEntity.formName,
-                status = wfFormEntity.formStatus,
-                desc = wfFormEntity.formDesc,
-                createUserKey = wfFormEntity.createUserKey,
-                createDt = wfFormEntity.createDt,
-                updateUserKey = wfFormEntity.updateUserKey,
-                updateDt = wfFormEntity.updateDt
+            id = wfFormEntity.formId,
+            name = wfFormEntity.formName,
+            status = wfFormEntity.formStatus,
+            desc = wfFormEntity.formDesc,
+            createUserKey = wfFormEntity.createUserKey,
+            createDt = wfFormEntity.createDt,
+            updateUserKey = wfFormEntity.updateUserKey,
+            updateDt = wfFormEntity.updateDt
         )
         when (wfFormEntity.formStatus) {
-            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.SIMULATION.value -> formDto.editable = true
+            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.PUBLISH.value -> formDto.editable = true
         }
         return formDto
     }
@@ -307,11 +316,13 @@ class WfFormService(private val wfFormRepository: WfFormRepository,
             wfComponentDataRepository.findByComponentDataList(componentType)
         }
         for (componentDataEntity in componentDataEntityList) {
-            componentDataList.add(WfFormComponentDataDto(
+            componentDataList.add(
+                WfFormComponentDataDto(
                     componentId = componentDataEntity.componentId,
                     attributeId = componentDataEntity.attributeId,
                     attributeValue = componentDataEntity.attributeValue
-            ))
+                )
+            )
         }
         return componentDataList
     }

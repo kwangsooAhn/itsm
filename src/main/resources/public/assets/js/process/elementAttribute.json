@@ -8,8 +8,8 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         }
       ]
@@ -22,10 +22,10 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "" },
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
             {
-              "id": "message-type", "name": "Message Type", "type": "select", "default": "",
+              "id": "message-type", "name": "Message Type", "type": "select", "default": "", "required": "Y",
               "sub-list": [
                 {"id": "document", "name": "Document"},
                 {"id": "mail", "name": "Mail"},
@@ -44,10 +44,10 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "timer-date", "name": "Timer Date", "type": "inputbox", "default": ""},
-            {"id": "timer-cycle", "name": "Timer Cycle", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "timer-date", "name": "Timer Date", "type": "inputbox", "default": "", "required": "Y"},
+            {"id": "timer-cycle", "name": "Timer Cycle", "type": "inputbox", "default": "", "required": "Y"}
           ]
         }
       ]
@@ -60,9 +60,9 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "target-document-list", "name": "Target Document", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "target-document-list", "name": "Target Document", "type": "inputbox", "default": "", "required": "Y"}
           ]
         }
       ]
@@ -75,8 +75,8 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         }
       ]
@@ -89,10 +89,10 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
             {
-              "id": "message-type", "name": "Message Type", "type": "select", "default": "",
+              "id": "message-type", "name": "Message Type", "type": "select", "default": "", "required": "Y",
               "sub-list": [
                 {"id": "document", "name": "Document"},
                 {"id": "mail", "name": "Mail"},
@@ -113,21 +113,21 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
-            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
+            {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
             {
-              "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee.type.assignee",
+              "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee.type.assignee", "required": "Y",
               "sub-list": [
                 {"id": "assignee.type.assignee", "name": "Component Value"},
                 {"id": "assignee.type.candidate.users", "name": "Candidate Users"},
                 {"id": "assignee.type.candidate.groups", "name": "Candidate Groups"}
               ]
             },
-            {"id": "assignee", "name": "Assignee", "type": "inputbox", "default": ""},
-            {"id": "reject-id", "name": "Reject", "type": "inputbox", "default": ""},
-            {"id": "withdraw", "name": "Withdraw", "type": "checkbox", "default": ""},
-            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+            {"id": "assignee", "name": "Assignee", "type": "inputbox", "default": "", "required": "Y"},
+            {"id": "reject-id", "name": "Reject", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "withdraw", "name": "Withdraw", "type": "checkbox", "default": "", "required": "N"},
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": "", "required": "N"}
           ]
         }
       ]
@@ -140,11 +140,11 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
-            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
-            {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": ""},
-            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
+            {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
+            {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": "", "required": "N"}
           ]
         }
       ]
@@ -157,18 +157,18 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
-            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
+            {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
             {
-              "id": "message-type", "name": "Message Type", "type": "select", "default": "document",
+              "id": "message-type", "name": "Message Type", "type": "select", "default": "document", "required": "Y",
               "sub-list": [
                 {"id": "document", "name": "Document"},
                 {"id": "mail", "name": "Mail"},
                 {"id": "sms", "name": "SMS"}
               ]
             },
-            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": "", "required": "N"}
           ]
         }
       ]
@@ -181,11 +181,11 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
-            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
-            {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": ""},
-            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
+            {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
+            {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": "", "required": "N"}
           ]
         }
       ]
@@ -198,11 +198,11 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task"},
-            {"id": "description", "name": "Description", "type": "textarea", "default": ""},
-            {"id": "script", "name": "Script", "type": "inputbox", "default": ""},
-            {"id": "notification", "name": "Notification", "type": "checkbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
+            {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
+            {"id": "script", "name": "Script", "type": "inputbox", "default": "", "required": "Y"},
+            {"id": "notification", "name": "Notification", "type": "checkbox", "default": "", "required": "N"}
           ]
         }
       ]
@@ -217,9 +217,9 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "", "required": "Y"}
           ]
         }
       ]
@@ -232,9 +232,9 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "", "required": "Y"}
           ]
         }
       ]
@@ -247,9 +247,9 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "", "required": "Y"}
           ]
         }
       ]
@@ -264,21 +264,21 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-            {"id": "is-default", "name": "is Default", "type": "checkbox", "default": ""},
-            {"id": "condition-value", "name": "Condition", "type": "inputbox", "default": ""},
-            {"id": "action-name", "name": "Action Name", "type": "inputbox", "default": ""},
-            {"id": "action-value", "name": "Action Value", "type": "inputbox", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "is-default", "name": "is Default", "type": "checkbox", "default": "", "required": "N"},
+            {"id": "condition-value", "name": "Condition", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "action-name", "name": "Action Name", "type": "inputbox", "default": "", "required": "N"},
+            {"id": "action-value", "name": "Action Value", "type": "inputbox", "default": "", "required": "N"}
           ]
         },
         {
           "title": "Connection information",
           "items": [
-            {"id": "start-id", "name": "Source Element ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "start-name", "name": "Source Element Name", "type": "inputbox-readonly", "default": ""},
-            {"id": "end-id", "name": "Target Element ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "end-name", "name": "Target Element Name", "type": "inputbox-readonly", "default": ""}
+            {"id": "start-id", "name": "Source Element ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "start-name", "name": "Source Element Name", "type": "inputbox-readonly", "default": "", "required": "N"},
+            {"id": "end-id", "name": "Target Element ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "end-name", "name": "Target Element Name", "type": "inputbox-readonly", "default": "", "required": "N"}
           ]
         }
       ]
@@ -293,10 +293,10 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "Sub Process", "required": "Y"},
             {
-              "id": "sub-document-id", "name": "Sub Document", "type": "select", "default": "",
+              "id": "sub-document-id", "name": "Sub Process", "type": "select", "default": "", "required": "Y",
               "sub-list": [
                 {"id": "", "name": "Not selected"}
               ]
@@ -315,7 +315,8 @@
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Annotation", "type": "inputbox", "default": "Annotation"}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Annotation", "type": "textarea", "default": "Annotation", "required": "Y"}
           ]
         }
       ]
@@ -328,8 +329,11 @@
         {
           "title": "Data",
           "items": [
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Group"},
-            {"id": "description", "name": "Description", "type": "textarea", "default": ""}
+            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Group", "required": "Y"},
+            {"id": "line-color", "name": "Line Color", "type": "rgb", "default": "#000000", "required": "Y"},
+            {"id": "background-color", "name": "Background Color", "type": "rgb", "default": "", "required": "N"},
+            {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"}
           ]
         }
       ]
