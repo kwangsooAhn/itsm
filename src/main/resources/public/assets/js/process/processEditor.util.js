@@ -23,7 +23,7 @@
         if (isEdited) {
             event.returnValue = '';
         } else {
-            delete event['returnValue'];
+            delete event.returnValue;
         }
     });
 
