@@ -245,8 +245,8 @@ form:
     addBelow: "Add below"
   status:
     edit: "Editing"
-    simu: "Simulation Complete"
     publish: "Publish"
+    use: "Using"
     destroy: "Destroy"
   component:
     text: "Text"
