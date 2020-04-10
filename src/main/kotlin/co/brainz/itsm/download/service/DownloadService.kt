@@ -54,6 +54,8 @@ class DownloadService(private val downloadRepository: DownloadRepository,
      * 자료실 상세 조회.
      *
      * @param downloadId
+     * @param type
+     * @return DownloadDto
      */
     @Transactional
     fun getDownload(downloadId: String, type: String): DownloadDto {
