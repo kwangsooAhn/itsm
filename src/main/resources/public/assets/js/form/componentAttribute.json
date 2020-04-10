@@ -37,7 +37,7 @@
                 "type": "inputbox-underline",
                 "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
                 "id": "color",
@@ -240,7 +240,7 @@
                 "type": "inputbox-underline",
                 "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
                 "id": "color",
@@ -414,7 +414,7 @@
                 "type": "inputbox-underline",
                 "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
                 "id": "color",
