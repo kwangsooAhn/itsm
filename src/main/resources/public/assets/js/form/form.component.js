@@ -392,7 +392,7 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field' style='flex-basis: 100%; text-align: ${attr.label.align};'>
+                <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
                     <img src='${attr.display.path}' alt='' width='${attr.display.width}' height='${attr.display.height}'>
                 </div>
             </div>

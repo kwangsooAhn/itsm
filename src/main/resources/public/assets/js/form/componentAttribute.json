@@ -3,11 +3,11 @@
     "text": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -15,98 +15,98 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
                 "validate": "number"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
                 "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "placeholder", 
-                "name": "Placeholder", 
-                "value": "", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "placeholder",
+                "name": "Placeholder",
+                "value": "",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             },
             {
                 "id": "default",
@@ -131,73 +131,73 @@
                 "unit": ""
             },
             {
-                "id": "outline-width", 
-                "name": "Outline Width", 
-                "value": "1", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "outline-width",
+                "name": "Outline Width",
+                "value": "1",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
                 "validate": "number"
             },
             {
-                "id": "outline-color", 
-                "name": "Outline Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "outline-color",
+                "name": "Outline Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             }
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "regexp", 
-                "name": "Validate", 
-                "value": "none", 
-                "type": "select", 
-                "option": [ 
-                    {"id": "none", "name": "None"}, 
-                    {"id": "char", "name": "Char"}, 
+                "id": "regexp",
+                "name": "Validate",
+                "value": "none",
+                "type": "select",
+                "option": [
+                    {"id": "none", "name": "None"},
+                    {"id": "char", "name": "Char"},
                     {"id": "num", "name": "Number"},
                     {"id": "numchar", "name": "Char + Number"},
-                    {"id": "phone", "name": "Phone"}, 
+                    {"id": "phone", "name": "Phone"},
                     {"id": "email", "name": "Email"}
                 ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "regexp-msg", 
-                "name": "Error Message", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "regexp-msg",
+                "name": "Error Message",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             },
             {
-                "id": "length-min", 
-                "name": "Min Length", 
-                "value": "0", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "length-min",
+                "name": "Min Length",
+                "value": "0",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": "number"
             },
             {
-                "id": "length-max", 
-                "name": "Max Length", 
-                "value": "30", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "length-max",
+                "name": "Max Length",
+                "value": "30",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": "number"
             }
@@ -206,11 +206,11 @@
     "textarea": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -218,77 +218,77 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
+                "code": "",
                 "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
                 "validate": "number"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -304,74 +304,74 @@
                 "unit": ""
             },
             {
-                "id": "rows", 
-                "name": "Rows", 
-                "value": "3", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "rows",
+                "name": "Rows",
+                "value": "3",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": "number|min[2]"
             },
             {
-                "id": "placeholder", 
-                "name": "Placeholder", 
-                "value": "", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "placeholder",
+                "name": "Placeholder",
+                "value": "",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
                 "unit": ""
             },
             {
-                "id": "outline-width", 
-                "name": "Outline Width", 
-                "value": "1", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "outline-width",
+                "name": "Outline Width",
+                "value": "1",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
                 "validate": "number"
             },
             {
-                "id": "outline-color", 
-                "name": "Outline Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "outline-color",
+                "name": "Outline Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             }
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "length-min", 
-                "name": "Min Length", 
-                "value": "0", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "length-min",
+                "name": "Min Length",
+                "value": "0",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": "number"
             },
             {
-                "id": "length-max", 
-                "name": "Max Length", 
-                "value": "30", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "length-max",
+                "name": "Max Length",
+                "value": "30",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": "number"
             }
@@ -380,11 +380,11 @@
     "select": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -392,89 +392,89 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
                 "validate": "number"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
                 "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
                 "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
                 "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             }
         ],
         "option": [
@@ -490,24 +490,24 @@
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "radio": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -515,107 +515,107 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "direction", 
-                "name": "Direction", 
-                "value": "horizontal", 
-                "type": "select", 
+                "id": "direction",
+                "name": "Direction",
+                "value": "horizontal",
+                "type": "select",
                 "option": [ {"id": "horizontal", "name": "Horizontal"}, {"id": "vertical", "name": "Vertical"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "position", 
-                "name": "Position", 
-                "value": "right", 
-                "type": "select", 
+                "id": "position",
+                "name": "Position",
+                "value": "right",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ],
         "option": [
@@ -631,24 +631,24 @@
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "checkbox": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -656,107 +656,107 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "direction", 
-                "name": "Direction", 
-                "value": "horizontal", 
-                "type": "select", 
+                "id": "direction",
+                "name": "Direction",
+                "value": "horizontal",
+                "type": "select",
                 "option": [ {"id": "horizontal", "name": "Horizontal"}, {"id": "vertical", "name": "Vertical"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "position", 
-                "name": "Position", 
-                "value": "right", 
-                "type": "select", 
+                "id": "position",
+                "name": "Position",
+                "value": "right",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ],
         "option": [
@@ -772,85 +772,85 @@
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "label": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "" ,
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px" ,
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -859,62 +859,62 @@
     "image": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "path", 
-                "name": "Image Path", 
-                "value": "https://placehold.it/720X100", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "path",
+                "name": "Image Path",
+                "value": "https://placehold.it/720X100",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             },
             {
-                "id": "width", 
-                "name": "Width", 
-                "value": "720", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "width",
+                "name": "Width",
+                "value": "720",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
                 "validate": "number"
             },
             {
-                "id": "height", 
-                "name": "Height", 
-                "value": "100", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "height",
+                "name": "Height",
+                "value": "100",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
                 "validate": "number"
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "select", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "divider": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -923,39 +923,39 @@
             {
                 "id": "thickness",
                 "name": "Thickness",
-                "value": "1", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "value": "1",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
                 "validate": "number"
             },
             {
-                "id": "color", 
-                "name": "Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "type", 
-                "name": "Type", 
-                "value": "solid", 
-                "type": "select", 
+                "id": "type",
+                "name": "Type",
+                "value": "solid",
+                "type": "select",
                 "option": [ {"id": "solid", "name": "Line"}, {"id": "dotted", "name": "Dot"}, { "id": "dashed", "name": "Dash"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "date": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -963,136 +963,136 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "default", 
-                "name": "Default", 
-                "value": "now", 
+                "id": "default",
+                "name": "Default",
+                "value": "now",
                 "type": "radio-datetime",
                 "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "date", "name": "{0}days after", "validate": "number"}, {"id": "datepicker", "name": ""} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "date-min", 
-                "name": "Min Date", 
+                "id": "date-min",
+                "name": "Min Date",
                 "value": "1900-01-01|YYYY-MM-DD",
-                "type": "datepicker", 
-                "code": "", 
-                "unit": "" 
+                "type": "datepicker",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "date-max", 
-                "name": "Max Date", 
+                "id": "date-max",
+                "name": "Max Date",
                 "value": "2999-12-31|YYYY-MM-DD",
-                "type": "datepicker", 
-                "code": "", 
-                "unit": "" 
+                "type": "datepicker",
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "time": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -1100,136 +1100,136 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "default", 
-                "name": "Default", 
-                "value": "now", 
-                "type": "radio-datetime", 
+                "id": "default",
+                "name": "Default",
+                "value": "now",
+                "type": "radio-datetime",
                 "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "time", "name": "{0}hours later", "validate": "number"}, {"id": "timepicker", "name": ""} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "time-min", 
-                "name": "Min Time", 
+                "id": "time-min",
+                "name": "Min Time",
                 "value": "00:00|YYYY-MM-DD hh:mm 24",
-                "type": "timepicker", 
-                "code": "", 
-                "unit": "" 
+                "type": "timepicker",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "time-max", 
-                "name": "Max Time", 
+                "id": "time-max",
+                "name": "Max Time",
                 "value": "23:59|YYYY-MM-DD hh:mm 24",
-                "type": "timepicker", 
-                "code": "", 
-                "unit": "" 
+                "type": "timepicker",
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "datetime": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -1237,136 +1237,136 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "default", 
-                "name": "Default", 
-                "value": "now", 
+                "id": "default",
+                "name": "Default",
+                "value": "now",
                 "type": "radio-datetime",
                 "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "datetime", "name": "{0}days{0}hours later", "validate": "number"}, {"id": "datetimepicker", "name": ""} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "date-min", 
-                "name": "Min Datetime", 
+                "id": "date-min",
+                "name": "Min Datetime",
                 "value": "1900-01-01 00:00|YYYY-MM-DD hh:mm 24",
-                "type": "datetimepicker", 
-                "code": "", 
-                "unit": "" 
+                "type": "datetimepicker",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "date-max", 
-                "name": "Max Datetime", 
+                "id": "date-max",
+                "name": "Max Datetime",
                 "value": "2999-12-31 23:59|YYYY-MM-DD hh:mm 24",
-                "type": "datetimepicker", 
-                "code": "", 
-                "unit": "" 
+                "type": "datetimepicker",
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "fileupload": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -1374,111 +1374,111 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             }
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
-                "value": "N", 
+                "id": "required",
+                "name": "Required",
+                "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ]
     },
     "custom-code": {
         "common": [
             {
-                "id": "mapping-id", 
-                "name": "Mapping Id", 
-                "value": "", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "mapping-id",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
@@ -1486,117 +1486,117 @@
         "label": [
             {
                 "id": "position",
-                "name": "Position", 
-                "value": "left", 
-                "type": "select", 
+                "name": "Position",
+                "value": "left",
+                "type": "select",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "2", 
+                "id": "column",
+                "name": "Column",
+                "value": "2",
                 "type": "slider",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "size", 
-                "name": "Font Size", 
-                "value": "12", 
-                "type": "inputbox-underline", 
-                "code": "", 
+                "id": "size",
+                "name": "Font Size",
+                "value": "12",
+                "type": "inputbox-underline",
+                "code": "",
                 "unit": "px",
-                "validate": "number"
+                "validate": "number|min[10]"
             },
             {
-                "id": "color", 
-                "name": "Font Color", 
-                "value": "#000000", 
-                "type": "rgb", 
-                "code": "", 
-                "unit": "" 
+                "id": "color",
+                "name": "Font Color",
+                "value": "#000000",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "bold", 
-                "name": "Bold", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "italic", 
-                "name": "Italic", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "underline", 
-                "name": "Underline", 
-                "value": "N", 
-                "type": "button", 
-                "code": "", 
-                "unit": "" 
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "align", 
-                "name": "Align", 
-                "value": "left", 
-                "type": "button", 
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "text", 
-                "name": "Content", 
-                "value": "TEXT", 
-                "type": "inputbox", 
-                "code": "", 
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "display": [
             {
-                "id": "column", 
-                "name": "Column", 
-                "value": "10", 
-                "type": "slider", 
-                "code": "", 
-                "unit": "" 
+                "id": "column",
+                "name": "Column",
+                "value": "10",
+                "type": "slider",
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "custom-code", 
-                "name": "Custom Code", 
-                "value": "", 
+                "id": "custom-code",
+                "name": "Custom Code",
+                "value": "",
                 "type": "customcode",
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             },
             {
-                "id": "button-text", 
+                "id": "button-text",
                 "name": "Button Content",
-                "value": "BUTTON", 
-                "type": "inputbox", 
-                "code": "", 
+                "value": "BUTTON",
+                "type": "inputbox",
+                "code": "",
                 "unit": "",
                 "validate": ""
             }
         ],
         "validate": [
             {
-                "id": "required", 
-                "name": "Required", 
+                "id": "required",
+                "name": "Required",
                 "value": "N",
                 "type": "radio",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
-                "code": "", 
-                "unit": "" 
+                "code": "",
+                "unit": ""
             }
         ]
     }
