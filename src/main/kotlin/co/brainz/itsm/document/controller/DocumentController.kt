@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/documents")
-class DocumentController(private val documentService: DocumentService,
-                         private val formService: FormService,
-                         private val progressService: ProcessService) {
+class DocumentController(
+    private val documentService: DocumentService,
+    private val formService: FormService,
+    private val processService: ProcessService
+) {
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
@@ -53,14 +55,19 @@ class DocumentController(private val documentService: DocumentService,
     @GetMapping("/new")
     fun getDocumentNew(model: Model): String {
         val formParams = LinkedMultiValueMap<String, String>()
-        formParams["status"] = RestTemplateConstants.FormStatus.PUBLISH.value
+        val formStatus = ArrayList<String>()
+        formStatus.add(RestTemplateConstants.FormStatus.PUBLISH.value)
+        formStatus.add(RestTemplateConstants.FormStatus.USE.value)
+        formParams["status"] = formStatus.joinToString(",")
+
         val processParams = LinkedMultiValueMap<String, String>()
-        val status = ArrayList<String>()
-        status.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
-        status.add(RestTemplateConstants.ProcessStatus.USE.value)
-        processParams["status"] = status.joinToString(",")
+        val processStatus = ArrayList<String>()
+        processStatus.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
+        processStatus.add(RestTemplateConstants.ProcessStatus.USE.value)
+        processParams["status"] = processStatus.joinToString(",")
+
         model.addAttribute("formList", formService.findForms(formParams))
-        model.addAttribute("processList", progressService.getProcesses(processParams))
+        model.addAttribute("processList", processService.getProcesses(processParams))
         return documentCreatePage
     }
 
