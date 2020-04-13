@@ -498,11 +498,12 @@ aliceJs.getTimeStamp = function(format, day, time) {
     if (time !== undefined && time !== null && time !== '') {
         today.setHours(today.getHours() + Number(time));
     }
-    return format.replace(/YYYY/gi, aliceJs.parseZero(today.getFullYear(), 4))
-        .replace(/MM/gi, aliceJs.parseZero(today.getMonth() + 1, 2))
-        .replace(/DD/gi, aliceJs.parseZero(today.getDate(), 2))
-        .replace(/hh/gi, aliceJs.parseZero(today.getHours(), 2))
-        .replace(/mm/gi, aliceJs.parseZero(today.getMinutes(), 2));
+
+    return format.replace(/YYYY/g, aliceJs.parseZero(today.getFullYear(), 4))
+        .replace(/MM/g, aliceJs.parseZero(today.getMonth() + 1, 2))
+        .replace(/DD/g, aliceJs.parseZero(today.getDate(), 2))
+        .replace(/hh/g, aliceJs.parseZero(today.getHours(), 2))
+        .replace(/mm/g, aliceJs.parseZero(today.getMinutes(), 2));
 };
 
 /**
@@ -535,6 +536,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
     //반환 날짜
     let returnDate;
     if (beforeFormat != undefined && afterFormat != undefined && dateValue !== '') {
+        if (beforeFormat === afterFormat) { return dateValue; }
         //이전 날짜 포맷 배열처리
         let beforeFormatArray = beforeFormat.split(' ');
         //변경 날짜 포맷 배열처리
@@ -641,4 +643,19 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
         }
     }
     return returnDate;
+};
+
+/**
+ * Merge a `source` object to a `target` recursively
+ * @param target target 객체
+ * @param source source 객제
+ */
+aliceJs.mergeObject = function (target, source) {
+    for (let key of Object.keys(source)) {
+        if (source[key] instanceof Object) {
+            Object.assign(source[key], aliceJs.mergeObject(target[key], source[key]));
+        }
+    }
+    Object.assign(target || {}, source);
+    return target;
 };

@@ -244,9 +244,9 @@ form:
     addAbove: "새로만들기-위"
     addBelow: "새로만들기-아래"
   status:
-    edit: "편집중"
-    simu: "시뮬레이션 완료"
+    edit: "편집"
     publish: "발행"
+    use: "사용"
     destroy: "폐기"
   component:
     text: "Text"
