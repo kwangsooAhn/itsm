@@ -304,10 +304,11 @@
      */
     function drawConnectors() {
         /**
-         * 종료좌표에서 일정거리 떨어진 좌표를 구한다.
+         * 종료좌표에서 일정 거리 떨어진 좌표를 구한다.
          *
          * @param sourceCoords 시작좌표
          * @param targetCoords 종료좌표
+         * @param distance 거리
          * @return {[*, *]} 좌표
          */
         const calcDistancePointCoordinate = function(sourceCoords, targetCoords, distance) {
@@ -316,9 +317,9 @@
             }
             let dx = Number(sourceCoords[0]) - Number(targetCoords[0]),
                 dy = Number(sourceCoords[1]) - Number(targetCoords[1]),
-                dist = Math.sqrt(dx * dx + dy * dy),
-                x = Number(targetCoords[0]) + dx * distance / dist,
-                y = Number(targetCoords[1]) + dy * distance / dist;
+                calcDist = Math.sqrt(dx * dx + dy * dy),
+                x = Number(targetCoords[0]) + dx * distance / calcDist,
+                y = Number(targetCoords[1]) + dy * distance / calcDist;
             return [x, y];
         };
 
@@ -477,8 +478,9 @@
             const angleDeg = Math.atan2(endCoords[1] - startCoords[1], endCoords[0] - startCoords[0]) * 180 / Math.PI,
                   coords = calcDistancePointCoordinate(endCoords, startCoords, displayOptions.connectorLabelPos);
             d3.select(document.getElementById(d.id).parentNode).select('text')
-                .attr('x', d.textPoint ? d.textPoint[0] + coords[0] : coords[0])
-                .attr('y', d.textPoint ? d.textPoint[1] + coords[1] : coords[1])
+                .attr('x', d.textPoint ? Number(d.textPoint[0]) + coords[0] : coords[0])
+                .attr('y', d.textPoint ? Number(d.textPoint[1]) + coords[1] : coords[1])
+                .attr('dy', '0.188rem')
                 .style('text-anchor', Math.abs(angleDeg) > 90 ? 'end' : 'start');
 
             d3.select(document.getElementById(d.id).parentNode).select('path.painted-connector').attr('d', linePath);

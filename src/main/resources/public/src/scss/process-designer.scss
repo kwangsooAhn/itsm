@@ -251,7 +251,11 @@ body {
                     weight: bold;
                     size: 0.813rem; // 13px
                 }
-                dominant-baseline: text-after-edge;
+                dominant-baseline: text-before-edge;
+            }
+
+            text.selected {
+                fill: #0c4dcd;
             }
 
             circle.pointer {
