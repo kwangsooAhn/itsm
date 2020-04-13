@@ -155,14 +155,15 @@
         target.appendChild(comp);
         this.domElem = comp;
 
-        if (textEditorUseYn) { //텍스트 에디터ㅈ
+        if (textEditorUseYn) { //텍스트 에디터
             let textEditorOptions = {
                 modules: {
                     toolbar: [
                         [{'header': [1, 2, 3, 4, 5, 6, false]}],
                         ['bold', 'italic', 'underline'],
                         [{'color': []}, {'background': []}],
-                        [{'align': []}, { 'list': 'bullet' }, 'image']
+                        [{'align': []}, { 'list': 'bullet' }],
+                        ['image']
                     ]
                 },
                 placeholder: attr.display.placeholder,
