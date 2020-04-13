@@ -479,7 +479,6 @@
             d3.select(document.getElementById(d.id).parentNode).select('text')
                 .attr('x', d.textPoint ? d.textPoint[0] + coords[0] : coords[0])
                 .attr('y', d.textPoint ? d.textPoint[1] + coords[1] : coords[1])
-                .attr('dx', '0.5')
                 .style('text-anchor', Math.abs(angleDeg) > 90 ? 'end' : 'start')
 
             d3.select(document.getElementById(d.id).parentNode).select('path.painted-connector').attr('d', linePath);
