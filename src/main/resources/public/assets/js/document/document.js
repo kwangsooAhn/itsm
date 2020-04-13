@@ -360,7 +360,6 @@
         // 프로세스 넘기려고 부득이하게 하드코딩함. merge 된 후 삭제 예정
         //tokenObject.documentId = 'beom'
         //tokenObject.elementId = 'a12c2f06debf788570a6b08a5ece73ac'
-
         const opt = {
             method: method,
             url: '/rest/tokens/data',
@@ -448,7 +447,6 @@
         if (data.tokenId !== undefined) {
             addIdComponent('tokenId', data.tokenId);
         }
-
         if (data.components !== undefined) {
             addButton(data.actions);
         } else if (data.token.components !== undefined) {
@@ -463,7 +461,7 @@
      */
     function init(documentId) {
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
-        
+
         // document data search.
         aliceJs.sendXhr({
             method: 'GET',

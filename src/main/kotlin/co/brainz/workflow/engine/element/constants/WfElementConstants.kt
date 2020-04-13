@@ -19,7 +19,7 @@ object WfElementConstants {
         COMMON_END_EVENT("commonEnd"),
         MESSAGE_END_EVENT("messageEnd"),
         ARROW_CONNECTOR("arrowConnector"),
-        COMMON_SUBPROCESS("subprocess"),
+        SUB_PROCESS("subprocess"),
         ANNOTATION_ARTIFACT("annotationArtifact"),
         GROUP_ARTIFACT("groupArtifact"),
         SIGNAL_EVENT("signalEvent"),
@@ -38,7 +38,8 @@ object WfElementConstants {
         ACTION_NAME("action-name"),
         ACTION_VALUE("action-value"),
         SAVE("save"),
-        REJECT_ID("reject-id")
+        REJECT_ID("reject-id"),
+        SUB_DOCUMENT_ID("sub-document-id")
     }
 
     /**
@@ -58,8 +59,6 @@ object WfElementConstants {
      * Action Type.
      */
     enum class Action(val value: String) {
-        REGIST("regist"),
-        CANCEL("cancel"),
         SAVE("save"),
         REJECT("reject"),
         PROCESS("process"),

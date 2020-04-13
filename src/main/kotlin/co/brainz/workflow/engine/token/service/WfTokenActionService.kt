@@ -32,6 +32,7 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
         wfTokenDto.assigneeId = wfTokenEntity.assigneeId
         wfTokenDto.assigneeType = wfTokenEntity.assigneeType
         updateToken(wfTokenEntity, wfTokenDto)
+        //현재 Element 의 데이터를 갱신 (다음 Element 로 넘어가는 데이터와 동일한 값으로 업데이트)
         deleteTokenData(wfTokenDto.tokenId)
         createTokenData(wfTokenDto, wfTokenDto.tokenId)
     }
@@ -45,6 +46,8 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
      */
     fun save(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto): Boolean {
         wfTokenDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
+        wfTokenDto.assigneeId = wfTokenEntity.assigneeId
+        wfTokenDto.assigneeType = wfTokenEntity.assigneeType
         updateToken(wfTokenEntity, wfTokenDto)
         deleteTokenData(wfTokenDto.tokenId)
         createTokenData(wfTokenDto, wfTokenDto.tokenId)

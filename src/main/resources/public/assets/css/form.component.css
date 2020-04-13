@@ -70,6 +70,15 @@
   content: attr(data-placeholder);
 }
 
+.component .group .field .quill-wrap .ql-active {
+  border: 0.0625rem solid #ccc !important;
+  border-radius: 0.25rem;
+}
+
+.component .group .field .quill-wrap button, .component .group .field .quill-wrap .ql-picker {
+  margin-right: 0.125rem;
+}
+
 .component .move-icon {
   width: 1.875rem;
   height: 1.875rem;
