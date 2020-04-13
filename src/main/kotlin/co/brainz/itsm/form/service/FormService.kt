@@ -3,12 +3,10 @@ package co.brainz.itsm.form.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.form.dto.FormComponentDataDto
-import co.brainz.itsm.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
-import co.brainz.workflow.provider.dto.RestTemplateFormSaveDto
-import co.brainz.workflow.provider.dto.RestTemplateFormViewDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -44,7 +42,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun createForm(restTemplateFormDto: RestTemplateFormDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateFormDto.formStatus = RestTemplateConstants.FormStatus.EDIT.value
+        restTemplateFormDto.status = RestTemplateConstants.FormStatus.EDIT.value
         restTemplateFormDto.createUserKey = aliceUserDto.userKey
         restTemplateFormDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
         restTemplateFormDto.updateDt = restTemplateFormDto.updateDt?.let { AliceTimezoneUtils().toGMT(it) }
@@ -53,7 +51,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
                 val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-                dataDto.formId
+                dataDto.id
             }
             false -> ""
         }
@@ -66,22 +64,22 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun saveFormData(formData: String): Boolean {
         val formComponentSaveDto = makeFormComponentSaveDto(formData)
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.formId))
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formComponentSaveDto.form.id))
         val responseEntity = restTemplate.update(urlDto, formComponentSaveDto)
         return responseEntity.body.toString().isNotEmpty()
     }
 
     fun saveAsForm(formData: String): String {
         val formComponentSaveDto = makeFormComponentSaveDto(formData)
-        if (formComponentSaveDto.form.formStatus == RestTemplateConstants.FormStatus.DESTROY.value) {
-            formComponentSaveDto.form.formStatus = RestTemplateConstants.FormStatus.EDIT.value
+        if (formComponentSaveDto.form.status == RestTemplateConstants.FormStatus.DESTROY.value) {
+            formComponentSaveDto.form.status = RestTemplateConstants.FormStatus.EDIT.value
         }
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url)
         val responseEntity = restTemplate.createToSave(urlDto, formComponentSaveDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
                 val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-                dataDto.formId
+                dataDto.id
             }
             false -> ""
         }
@@ -89,15 +87,15 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun makeFormComponentSaveDto(formData: String): RestTemplateFormComponentSaveDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
-        val forms = mapper.convertValue(map["form"], RestTemplateFormViewDto::class.java)
+        val forms = mapper.convertValue(map["form"], RestTemplateFormDto::class.java)
         val components:MutableList<LinkedHashMap<String, Any>>  = mapper.convertValue(map["components"], TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
 
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val formSaveDto = RestTemplateFormSaveDto(
-                formId = forms.id,
-                formName = forms.name,
-                formDesc = forms.desc,
-                formStatus = forms.status,
+        val formSaveDto = RestTemplateFormDto(
+                id = forms.id,
+                name = forms.name,
+                desc = forms.desc,
+                status = forms.status,
                 createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now()),
                 createUserKey = aliceUserDto.userKey
         )

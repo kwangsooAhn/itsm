@@ -421,20 +421,27 @@ function delFileCheck() {
  * @param callbackFunc callback function
  */
 aliceJs.alert = function(message, callbackFunc) {
-    popup.alert({
-            content: message,
-            keyboard: true,
-            btn_align: 'right',
-            default_btns: {
-                ok: 'OK'
+    const myModal = new gModal({
+        title: 'Alert',
+        body: '<div style="text-align: center;">' + message + '</div>',
+        buttons: [
+            {
+                content: 'OK',
+                classes: 'gmodal-button-green',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
             }
-        },
-        function() {
-            if (typeof callbackFunc === 'function') {
-                callbackFunc();
-            }
+        ],
+        close: {
+            closable: false,
         }
-    );
+    });
+    myModal.show();
 };
 
 /**
@@ -444,21 +451,34 @@ aliceJs.alert = function(message, callbackFunc) {
  * @param callbackFunc callback function
  */
 aliceJs.confirm = function(message, callbackFunc) {
-    popup.confirm({
-            content : message,
-            keyboard: true,
-            btn_align: 'right',
-            default_btns: {
-                ok: 'OK',
-                cancel: 'CANCEL'
+    const myModal = new gModal({
+        title: 'Confirm',
+        body: '<div style="text-align: center;">' + message + '</div>',
+        buttons: [
+            {
+                content: 'Cancel',
+                classes: 'gmodal-button-red',
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    modal.hide();
+                }
+            },{
+                content: 'OK',
+                classes: 'gmodal-button-green',
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
             }
-        },
-        function(param) {
-            if (param.proceed && typeof callbackFunc === 'function') {
-                callbackFunc();
-            }
+        ],
+        close: {
+            closable: false,
         }
-    );
+    });
+    myModal.show();
 };
 
 /**
@@ -478,11 +498,12 @@ aliceJs.getTimeStamp = function(format, day, time) {
     if (time !== undefined && time !== null && time !== '') {
         today.setHours(today.getHours() + Number(time));
     }
-    return format.replace(/YYYY/gi, aliceJs.parseZero(today.getFullYear(), 4))
-        .replace(/MM/gi, aliceJs.parseZero(today.getMonth() + 1, 2))
-        .replace(/DD/gi, aliceJs.parseZero(today.getDate(), 2))
-        .replace(/hh/gi, aliceJs.parseZero(today.getHours(), 2))
-        .replace(/mm/gi, aliceJs.parseZero(today.getMinutes(), 2));
+
+    return format.replace(/YYYY/g, aliceJs.parseZero(today.getFullYear(), 4))
+        .replace(/MM/g, aliceJs.parseZero(today.getMonth() + 1, 2))
+        .replace(/DD/g, aliceJs.parseZero(today.getDate(), 2))
+        .replace(/hh/g, aliceJs.parseZero(today.getHours(), 2))
+        .replace(/mm/g, aliceJs.parseZero(today.getMinutes(), 2));
 };
 
 /**
@@ -515,6 +536,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
     //반환 날짜
     let returnDate;
     if (beforeFormat != undefined && afterFormat != undefined && dateValue !== '') {
+        if (beforeFormat === afterFormat) { return dateValue; }
         //이전 날짜 포맷 배열처리
         let beforeFormatArray = beforeFormat.split(' ');
         //변경 날짜 포맷 배열처리
@@ -621,4 +643,19 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
         }
     }
     return returnDate;
+};
+
+/**
+ * Merge a `source` object to a `target` recursively
+ * @param target target 객체
+ * @param source source 객제
+ */
+aliceJs.mergeObject = function (target, source) {
+    for (let key of Object.keys(source)) {
+        if (source[key] instanceof Object) {
+            Object.assign(source[key], aliceJs.mergeObject(target[key], source[key]));
+        }
+    }
+    Object.assign(target || {}, source);
+    return target;
 };

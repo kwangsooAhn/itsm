@@ -26,9 +26,9 @@
             "value": "",
             "type": "select",
             "option": [ 
-                    {"id": "form.status.edit", "name": "Editing"}, 
-                    {"id": "form.status.simu", "name": "Simulation"}, 
+                    {"id": "form.status.edit", "name": "Editing"},
                     {"id": "form.status.publish", "name": "Publish"},
+                    {"id": "form.status.use", "name": "Using"},
                     {"id": "form.status.destroy", "name": "Destroy"}
             ]
         }

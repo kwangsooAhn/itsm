@@ -1,40 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="form/formCore">
 <head>
     <title th:text="#{form.label.edit}"></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta http-equiv="expire" content="-1"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
-    <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
-    <link th:href="@{/assets/vendors/popupmodal/css/popupmodal.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
-    <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/vendors/quill/quill.js}"></script>
-    <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
-    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
-    <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
-    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
-    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
-    <script th:src="@{/assets/js/process/workflow.util.js}"></script>
-    <script th:src="@{/assets/js/form/formEditor.menu.js}"></script>
-    <script th:src="@{/assets/js/form/formEditor.component.js}"></script>
-    <script th:src="@{/assets/js/form/formEditor.js}"></script>
+    <th:block layout:fragment="css">
+    <link th:href="@{/assets/css/form.editor.css}" rel="stylesheet"/>
+    </th:block>
 </head>
 <body>
+<th:block layout:fragment="content">
 <div class="alice-form-container light-thema" id="form-designer">
     <div class="alice-form-toolbar">
         <span class="logo"></span>
-        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="formEditor.save();">
+        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.save();">
             <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
             <label th:text="#{common.btn.save}"></label>
         </a>
-        <a th:if="${isView}" href="javascript:void(0);" onclick="formEditor.saveAs();">
+        <a th:if="${isView}" href="javascript:void(0);" onclick="editor.saveAs();">
             <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
             <label th:text="#{common.btn.saveAs}"></label>
         </a>
@@ -56,7 +42,7 @@
             <label th:text="#{form.label.export}"></label>
         </a>
         <span class="separator"></span>
-        <a href="javascript:void(0);" onclick="formEditor.preview();">
+        <a href="javascript:void(0);" onclick="editor.preview();">
             <img th:src="@{/assets/media/icons/form/topmenu/preview.png}"/>
             <label th:text="#{form.label.preview}"></label>
         </a>
@@ -147,16 +133,18 @@
         </li>
     </ul>
 </div>
+</th:block>
 </body>
-<script type="text/javascript">
-    window.onload = function() {
-        const userAuthInfo = {
-            timeFormat : '[[${#authentication.details.timeFormat}]]',
-            lang: '[[${#authentication.details.lang}]]'
+<th:block layout:fragment="script">
+    <script th:src="@{/assets/js/process/workflow.util.js}"></script>
+    <script th:src="@{/assets/js/form/form.editor.menu.js}"></script>
+    <script th:src="@{/assets/js/form/form.editor.js}"></script>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            editor.init('[[${formId}]]');
         };
-        i18n.add(function(){
-            formEditor.init('[[${formId}]]', JSON.stringify(userAuthInfo));
-        });
-    };
-</script>
+        /*]]>*/
+    </script>
+</th:block>
 </html>

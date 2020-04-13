@@ -7,7 +7,7 @@
 
     const data = {};
 
-    const iconDirectory = '../../assets/media/icons/process';
+    const iconDirectory = '/assets/media/icons/process';
     const itemSize = 20;
     const itemMargin = 8;
 
@@ -16,7 +16,7 @@
         groups: []
     };
 
-    let publishProcesses = [];
+    let documents = [];
 
     let processProperties = {},
         elementsProperties = {},
@@ -626,6 +626,7 @@
 
             AliceProcessEditor.removeElementSelected();
             AliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+            AliceProcessEditor.setElementMenu();
         }
     }
 
@@ -995,9 +996,18 @@
             const items = propertiesDivision[idx].items;
             for (let i = 0, attrLen = items.length; i < attrLen; i++) {
                 const property = items[i];
-                let propertyContainer = document.createElement('p');
+                let propertyContainer = document.createElement('div');
+                propertyContainer.className = 'properties';
+                propertiesContainer.appendChild(propertyContainer);
+                let requiredLabelObject = document.createElement('label');
+                requiredLabelObject.className = 'required';
+                requiredLabelObject.htmlFor =  property.id;
+                if (property.required === 'Y') {
+                    requiredLabelObject.textContent = '*';
+                }
+                propertyContainer.appendChild(requiredLabelObject);
                 let labelObject = document.createElement('label');
-                labelObject.htmlFor =  property.id;
+                labelObject.htmlFor = property.id;
                 labelObject.textContent = property.name;
                 propertyContainer.appendChild(labelObject);
 
@@ -1008,14 +1018,17 @@
                         if (properties.type === 'arrowConnector' && property.id === 'condition' && elemData['is-default'] === 'Y') {
                             elementObject.disabled = true;
                         }
+                        propertyContainer.appendChild(elementObject);
                         break;
                     case 'inputbox-readonly':
                         elementObject = document.createElement('input');
                         elementObject.readOnly = true;
+                        propertyContainer.appendChild(elementObject);
                         break;
                     case 'textarea':
                         elementObject = document.createElement('textarea');
                         elementObject.style.resize = 'none';
+                        propertyContainer.appendChild(elementObject);
                         break;
                     case 'checkbox':
                         elementObject = document.createElement('input');
@@ -1023,12 +1036,15 @@
                         if (elemData[property.id] && elemData[property.id] === 'Y') {
                             elementObject.checked = true;
                         }
+                        propertyContainer.appendChild(elementObject);
                         break;
                     case 'select':
                         elementObject = document.createElement('select');
                         let optionList = property['sub-list'];
-                        if (property.id === 'sub-process-id') {
-                            optionList = optionList.concat(publishProcesses);
+                        if (property.id === 'sub-document-id') {
+                            documents.forEach(function(d) {
+                                optionList.push({id: d.documentId, name: d.documentName});
+                            });
                         }
                         for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
                             let option = document.createElement('option');
@@ -1041,11 +1057,48 @@
                                 changePropertyAssigneeType(this);
                             });
                         }
+                        propertyContainer.appendChild(elementObject);
+                        break;
+                    case 'rgb':
+                        let selectedColorBox = document.createElement('span');
+                        selectedColorBox.className = 'selected-color';
+                        selectedColorBox.style.backgroundColor = elemData[property.id];
+                        propertyContainer.appendChild(selectedColorBox);
+
+                        elementObject = document.createElement('input');
+                        elementObject.className = 'color';
+                        if (property.required === 'Y') {
+                            elementObject.readOnly = true;
+                        }
+                        elementObject.addEventListener('change', function() {
+                            if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
+                                this.value = '';
+                            }
+                            this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
+                            if (properties.type === 'groupArtifact') {
+                                const groupElement = d3.select(document.getElementById(id));
+                                if (this.id === 'line-color') {
+                                    groupElement.style('stroke', this.value);
+                                } else if (this.id === 'background-color') {
+                                    if (this.value.trim() === '') {
+                                        groupElement.style('fill-opacity', 0);
+                                    } else {
+                                        groupElement.style('fill', this.value).style('fill-opacity', 0.5);
+                                    }
+                                }
+                            }
+                        });
+                        propertyContainer.appendChild(elementObject);
+
+                        let colorPaletteBox = document.createElement('div');
+                        colorPaletteBox.id = property.id + '-colorPalette';
+                        colorPaletteBox.className = 'color-palette';
+                        propertyContainer.appendChild(colorPaletteBox);
+                        colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox);
+                        break;
                 }
 
                 if (elementObject) {
-                    propertiesContainer.appendChild(propertyContainer);
-                    propertyContainer.appendChild(elementObject);
                     elementObject.id = property.id;
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {
@@ -1082,8 +1135,8 @@
                                 d3.selectAll('.node').classed('reject-element', false);
                             });
                             break;
-                        case 'target-process-list':
-                            setMultipleDatatable(elementObject, publishProcesses, {value: 'id', text: 'name'}, elemData[property.id]);
+                        case 'target-document-list':
+                            setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
                             break;
                     }
 
@@ -1208,9 +1261,9 @@
 
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/processes?status=process.status.publish',
+            url: '/rest/documents',
             callbackFunc: function(xhr) {
-                publishProcesses = JSON.parse(xhr.responseText);
+                documents = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
         });

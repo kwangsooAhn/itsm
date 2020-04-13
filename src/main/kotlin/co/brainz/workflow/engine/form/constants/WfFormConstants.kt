@@ -17,8 +17,8 @@ object WfFormConstants {
      */
     enum class FormStatus(val value: String) {
         EDIT("form.status.edit"),
-        SIMULATION("form.status.simu"),
         PUBLISH("form.status.publish"),
+        USE("form.status.use"),
         DESTROY("form.status.destroy")
     }
 
