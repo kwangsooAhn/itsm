@@ -9,7 +9,8 @@
         translateLimit: 1000, // drawing board limit.
         gridInterval: 10,     // value of grid interval.
         pointerRadius: 5,
-        connectorRadius: 8
+        connectorRadius: 8,
+        connectorLabelPos: 20
     };
 
     let svg,
@@ -309,13 +310,15 @@
          * @param targetCoords 종료좌표
          * @return {[*, *]} 좌표
          */
-        const calcRoundedPointCoordinate = function(sourceCoords, targetCoords) {
-            const radius = displayOptions.connectorRadius;
-            let dx = sourceCoords[0] - targetCoords[0],
-                dy = sourceCoords[1] - targetCoords[1],
+        const calcDistancePointCoordinate = function(sourceCoords, targetCoords, distance) {
+            if (typeof distance === 'undefined') {
+                distance = displayOptions.connectorRadius;
+            }
+            let dx = Number(sourceCoords[0]) - Number(targetCoords[0]),
+                dy = Number(sourceCoords[1]) - Number(targetCoords[1]),
                 dist = Math.sqrt(dx * dx + dy * dy),
-                x = targetCoords[0] + dx * radius / dist,
-                y = targetCoords[1] + dy * radius / dist;
+                x = Number(targetCoords[0]) + dx * distance / dist,
+                y = Number(targetCoords[1]) + dy * distance / dist;
             return [x, y];
         };
 
@@ -347,7 +350,7 @@
             //console.debug('angle: %s, K: %s, r: %s, laf: %s, saf: %s', angle, K, r, laf, saf);
 
             //return ['L', startPoint, 'A', r, r, 0, laf, saf, endPoint].join(' ');
-            return ['L', startPoint, 'A', r, r, 0, 0, saf, endPoint].join(' ');
+            return [' L', startPoint, 'A', r, r, 0, 0, saf, endPoint].join(' ');
         };
 
         /**
@@ -404,7 +407,7 @@
                     bestLine1 = getBestLine(sourceBBox, {cx: d.midPoint[0], cy: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
                     bestLine2 = getBestLine({cx: d.midPoint[0], cy: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
-                        [calcRoundedPointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcRoundedPointCoordinate(bestLine2[1], d.midPoint)]
+                        [calcDistancePointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcDistancePointCoordinate(bestLine2[1], d.midPoint)]
                     );
 
                     let sourcePointCoords = getMidPointCoords(bestLine1);
@@ -415,8 +418,8 @@
                     bestLine1 = getBestLine(sourceBBox, {cx: d.midPoint[0], cy: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
                     bestLine2 = getBestLine({cx: d.targetPoint[0], cy: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
-                        [calcRoundedPointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcRoundedPointCoordinate(d.targetPoint, d.midPoint)],
-                        [calcRoundedPointCoordinate(d.midPoint, d.targetPoint), d.targetPoint, calcRoundedPointCoordinate(bestLine2[1], d.targetPoint)]
+                        [calcDistancePointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcDistancePointCoordinate(d.targetPoint, d.midPoint)],
+                        [calcDistancePointCoordinate(d.midPoint, d.targetPoint), d.targetPoint, calcDistancePointCoordinate(bestLine2[1], d.targetPoint)]
                     );
 
                     let sourcePointCoords = getMidPointCoords(bestLine1);
@@ -426,8 +429,8 @@
                     bestLine1 = getBestLine(sourceBBox, {cx: d.sourcePoint[0], cy: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
                     bestLine2 = getBestLine({cx: d.midPoint[0], cy: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
-                        [calcRoundedPointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcRoundedPointCoordinate(d.midPoint, d.sourcePoint)],
-                        [calcRoundedPointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcRoundedPointCoordinate(bestLine2[1], d.midPoint)]
+                        [calcDistancePointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcDistancePointCoordinate(d.midPoint, d.sourcePoint)],
+                        [calcDistancePointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcDistancePointCoordinate(bestLine2[1], d.midPoint)]
                     );
 
                     let targetPointCoords = getMidPointCoords(bestLine2);
@@ -437,9 +440,9 @@
                     bestLine1 = getBestLine(sourceBBox, {cx: d.sourcePoint[0], cy: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
                     bestLine2 = getBestLine({cx: d.targetPoint[0], cy: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
-                        [calcRoundedPointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcRoundedPointCoordinate(d.midPoint, d.sourcePoint)],
-                        [calcRoundedPointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcRoundedPointCoordinate(d.targetPoint, d.midPoint)],
-                        [calcRoundedPointCoordinate(d.midPoint, d.targetPoint), d.targetPoint, calcRoundedPointCoordinate(bestLine2[1], d.targetPoint)]
+                        [calcDistancePointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcDistancePointCoordinate(d.midPoint, d.sourcePoint)],
+                        [calcDistancePointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcDistancePointCoordinate(d.targetPoint, d.midPoint)],
+                        [calcDistancePointCoordinate(d.midPoint, d.targetPoint), d.targetPoint, calcDistancePointCoordinate(bestLine2[1], d.targetPoint)]
                     );
 
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
@@ -450,42 +453,38 @@
                 roundedCoords.forEach(function(coords) {
                     linePath += calcCirclePath(coords[0], coords[1], coords[2]);
                 });
-                linePath += ['L', bestLine2[1]].join(' ');
+                linePath += [' L', bestLine2[1]].join(' ');
             } else {
                 let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
                 linePath = ['M', bestLine[0], 'L', bestLine[1]].join(' ');
                 let midPointCoords = getMidPointCoords(bestLine);
                 midPoint.attr('cx', midPointCoords[0]).attr('cy', midPointCoords[1]);
-                return linePath.toString();
             }
             return linePath;
         };
 
         connectors.select('path.connector').attr('d', function(d) {
             let linePath = getLinePath(d);
+
+            let paths = linePath.split(' ');
+            let startCoords = paths[1].split(','),
+                endCoords = paths[paths.length - 1].split(',');
+            if (typeof d.sourcePoint !== 'undefined') {
+                endCoords = d.sourcePoint;
+            } else if (typeof d.midPoint !== 'undefined') {
+                endCoords = d.midPoint;
+            }
+            const angleDeg = Math.atan2(endCoords[1] - startCoords[1], endCoords[0] - startCoords[0]) * 180 / Math.PI,
+                  coords = calcDistancePointCoordinate(endCoords, startCoords, displayOptions.connectorLabelPos);
+            d3.select(document.getElementById(d.id).parentNode).select('text')
+                .attr('x', d.textPoint ? d.textPoint[0] + coords[0] : coords[0])
+                .attr('y', d.textPoint ? d.textPoint[1] + coords[1] : coords[1])
+                .attr('dx', '0.5')
+                .style('text-anchor', Math.abs(angleDeg) > 90 ? 'end' : 'start')
+
             d3.select(document.getElementById(d.id).parentNode).select('path.painted-connector').attr('d', linePath);
             return linePath;
         });
-
-        connectors.select('text')
-            .attr('x', function(d) {
-                let gConnector = d3.select(document.getElementById(d.id));
-                let gConnectorBbox = AliceProcessEditor.utils.getBoundingBoxCenter(gConnector);
-                let textX = gConnectorBbox.cx;
-                if (typeof d.textPoint !== 'undefined') {
-                    textX += d.textPoint[0];
-                }
-                return textX;
-            })
-            .attr('y', function(d) {
-                let gConnector = d3.select(document.getElementById(d.id));
-                let gConnectorBbox = AliceProcessEditor.utils.getBoundingBoxCenter(gConnector);
-                let textY = gConnectorBbox.cy;
-                if (typeof d.textPoint !== 'undefined') {
-                    textY += d.textPoint[1];
-                }
-                return textY;
-            });
     }
 
     /**
