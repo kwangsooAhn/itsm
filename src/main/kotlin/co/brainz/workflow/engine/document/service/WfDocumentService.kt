@@ -4,6 +4,7 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDataDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
@@ -159,7 +160,7 @@ class WfDocumentService(
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
             // 신청서 양식 정보 삭제
-            wfDocumentDataRepository.deleteById(documentId)
+            wfDocumentDataRepository.deleteByDocumentId(documentId)
             // 신청서 정보 삭제
             wfDocumentRepository.deleteByDocumentId(documentId)
             true
@@ -210,28 +211,30 @@ class WfDocumentService(
      *
      * @return List<DocumentDataDto>
      */
-    fun documentDisplay(documentId: String): String {// WfDocumentDisplayViewDto {
-        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        val componentList = wfComponentDataRepository .findComponentDataByFormId(documentEntity.form.formId, "label")
-        val elementList = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId, "userTask", "name")
-
-        // 인스턴스에서 해당 다큐먼트가 있는지 체크.
-//        val selectedDocument = wfDocumentRepository.getOne(documentId)
-//        val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
-
-//        val documents = mutableListOf<WfDocumentDisplayDataDto>()
-//        val documentEntities = wfDocumentDataRepository.findByDocumentId(documentId)
-//        for (document in documentEntities) {
-//            val documentDataDto = WfDocumentDisplayDataDto(
-//                    documentId = document.documentId,
-//                    componentId = document.componentId,
-//                    elementId = document.elementId,
-//                    display = document.display
-//            )
-//            documents.add(documentDataDto)
-//        }
-
-        return "documents"
+    fun documentDisplay(documentId: String): List<WfDocumentDisplayDataDto> {
+        // 편집화면 정보
+//        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+//        val componentList = wfComponentDataRepository .findComponentDataByFormId(documentEntity.form.formId, "label")
+//        val elementList = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId, "userTask", "name")
+        // 디스플레이 데이터
+        val documentDisplay = mutableListOf<WfDocumentDisplayDataDto>()
+        val documentDisplayEntities = wfDocumentDataRepository.findByDocumentId(documentId)
+        for (display in documentDisplayEntities) {
+            val documentDisplayDto = WfDocumentDisplayDataDto(
+                    documentId = documentId,
+                    componentId = display.componentId,
+                    elementId = display.elementId,
+                    display = display.display
+            )
+            documentDisplay.add(documentDisplayDto)
+        }
+//        val documentDisplayViewDto = WfDocumentDisplayViewDto(
+//                documentId = documentId,
+//                components = componentList,
+//                elements = elementList,
+//                displays = documentDisplay
+//        )
+//        return documentDisplayViewDto
+        return documentDisplay
     }
-
 }

@@ -2,6 +2,8 @@ package co.brainz.workflow.engine.document.controller
 
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDataDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplayViewDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -62,7 +64,7 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * @return List<DocumentDataDto>
      */
     @GetMapping("/{documentId}/data")
-    fun getDocumentDisplay(@PathVariable documentId: String): String {//List<WfDocumentDisplayDataDto> {
+    fun getDocumentDisplay(@PathVariable documentId: String): List<WfDocumentDisplayDto> {
         return wfEngine.document().documentDisplay(documentId)
     }
 }

@@ -1,16 +1,9 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/rest/documents")
@@ -59,8 +52,7 @@ class DocumentRestController(private val documentService: DocumentService) {
      */
     @GetMapping("/display/{documentId}")
     fun getDocumentDisplay(@PathVariable documentId: String): String {
-        val rtn = documentService.findDocumentDisplay(documentId)
-        return rtn
+        return documentService.findDocumentDisplay(documentId)
     }
 
 }

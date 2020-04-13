@@ -9,6 +9,8 @@
     <h1 th:text="#{document.label.display}">신청서 양식 편집</h1>
     <hr>
     <div th:text="${documentDisplay}"></div>
+    <hr>
+
     <table>
         <thead>
             <tr>
@@ -37,12 +39,10 @@
     <button th:text="#{common.btn.close}" onclick="window.close();"></button>
 </div>
 </body>
-<script th:src="@{/assets/js/util/validation-alice.js}"></script>
 <script type="text/javascript">
+    /*<![CDATA[*/
     window.onload = function() {
-        restSubmit('GET', '/documents/display/[[${documentId}]]', function(result) {
-            console.log("test");
-        });
+<!--        restSubmit('get', '/rest/documents/display/[[${documentId}]]');-->
     };
 
     //REST API
@@ -56,6 +56,6 @@
         };
         aliceJs.sendXhr(opt);
     }
-
+    /*]]>*/
 </script>
 </html>

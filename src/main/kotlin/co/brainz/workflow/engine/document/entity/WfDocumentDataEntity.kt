@@ -1,7 +1,11 @@
 package co.brainz.workflow.engine.document.entity
 
 import java.io.Serializable
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.IdClass
+import javax.persistence.Column
+import javax.persistence.Table
 
 @Entity
 @Table(name = "wf_document_data")

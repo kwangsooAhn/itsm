@@ -16,7 +16,7 @@ interface WfElementDataRepository : JpaRepository<WfElementDataEntity, WfElement
         endId: String = WfElementConstants.AttributeId.TARGET_ID.value
     ): WfElementDataEntity
 
-    @Query("SELECT e.elementId as elementId, ed.attributeValue as attibuteValue " +
+    @Query("SELECT e.elementId as elementId, ed.attributeValue as attributeValue " +
             "FROM WfElementEntity e, WfElementDataEntity ed " +
             "WHERE e.processId = :processId " +
             "AND e.elementId = ed.element.elementId " +
