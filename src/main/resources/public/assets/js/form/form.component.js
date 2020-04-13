@@ -155,14 +155,15 @@
         target.appendChild(comp);
         this.domElem = comp;
 
-        if (textEditorUseYn) { //텍스트 에디터ㅈ
+        if (textEditorUseYn) { //텍스트 에디터
             let textEditorOptions = {
                 modules: {
                     toolbar: [
                         [{'header': [1, 2, 3, 4, 5, 6, false]}],
                         ['bold', 'italic', 'underline'],
                         [{'color': []}, {'background': []}],
-                        [{'align': []}, { 'list': 'bullet' }, 'image']
+                        [{'align': []}, { 'list': 'bullet' }],
+                        ['image']
                     ]
                 },
                 placeholder: attr.display.placeholder,
@@ -392,7 +393,7 @@
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
-                <div class='field' style='flex-basis: 100%; text-align: ${attr.label.align};'>
+                <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
                     <img src='${attr.display.path}' alt='' width='${attr.display.width}' height='${attr.display.height}'>
                 </div>
             </div>
@@ -488,6 +489,7 @@
         //시간 포멧 변경
         let timeDefaultArr = attr.display['default'].split('|');
         let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
+        let beforeFormt = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + '24';
         let timeDefault = '';
         //처리할 문서는 실 데이터를 출력한다.
         if (attr.values !== undefined && attr.values.length > 0) {
@@ -497,11 +499,15 @@
             let dummyDateTime = aliceJs.getTimeStamp(timeValue[1]);
             //저장한 가상 날짜
             let dummyDate = dummyDateTime.split(' ');
-            timeDefault = aliceJs.changeDateFormat(timeValue[1], timeFormat, dummyDate[0] +' '+ timeValue[0], aliceForm.options.lang);
+            let timeValueArr = timeValue[0].split(' ');
+            if (timeValueArr.length === 2) {
+                timeDefault = aliceJs.changeDateFormat(timeValue[1], beforeFormt, dummyDate[0] +' '+ timeValue[0], aliceForm.options.lang);
+            } else {
+                timeDefault = aliceJs.changeDateFormat(timeValue[1], timeFormat, dummyDate[0] +' '+ timeValue[0], aliceForm.options.lang);
+            }
             let time = timeDefault.split(' ');
             timeDefault = (time.length > 2) ? (time[1] +' '+ time[2]) : timeDefault = time[1];
         } else {
-            let beforeFormt = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + '24';
             if (timeDefaultArr[0] === 'now') {
                 timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat);
                 timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, aliceForm.options.lang);

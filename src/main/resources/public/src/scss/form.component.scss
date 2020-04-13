@@ -45,6 +45,13 @@
             .ql-editor.ql-blank::before {
                 content: attr(data-placeholder);
             }
+            .quill-wrap .ql-active {
+                border: 0.0625rem solid #ccc !important;  //1px
+                border-radius: 0.25rem   //4px
+            }
+            .quill-wrap button, .quill-wrap .ql-picker {
+                margin-right: 0.125rem         //2px
+            }
         }
     }
     /* drag and drop icon */
