@@ -78,6 +78,13 @@ object RestTemplateConstants {
     }
 
     /**
+     * Instance Url.
+     */
+    enum class Instance(val url: String, val method: String) {
+        GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
+    }
+
+    /**
      * Protocol.
      *
      * @param value

@@ -3,6 +3,7 @@ package co.brainz.workflow.engine.instance.service
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
+import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
@@ -64,10 +65,10 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      */
     fun createInstance(wfInstanceDto: WfInstanceDto): WfInstanceEntity {
         val instanceEntity = WfInstanceEntity(
-                instanceId = "",
-                instanceStatus = wfInstanceDto.instanceStatus?:WfInstanceConstants.Status.RUNNING.code,
-                document = wfInstanceDto.document,
-                instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
+            instanceId = "",
+            instanceStatus = wfInstanceDto.instanceStatus ?: WfInstanceConstants.Status.RUNNING.code,
+            document = wfInstanceDto.document,
+            instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
         return wfInstanceRepository.save(instanceEntity)
     }
@@ -104,5 +105,12 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
         }
 
         return counts
+    }
+
+    /**
+     * Instance history
+     */
+    fun getInstancesHistory(instanceId: String): List<WfInstanceHistoryDto> {
+        return wfInstanceRepository.findInstanceHistory(instanceId)
     }
 }

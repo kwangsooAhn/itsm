@@ -355,6 +355,10 @@ token:
   label:
     list: "Process Document List"
     write: "Process Document"
+    endDt: "Finish Date"
+    elementName: "Task Name"
+    assignee: "Assignee"
+    history: "History"
 # Custom Code
 custom.code:
   label:

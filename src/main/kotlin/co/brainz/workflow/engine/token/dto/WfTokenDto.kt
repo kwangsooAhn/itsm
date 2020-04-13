@@ -7,6 +7,7 @@ data class WfTokenDto(
     var documentId: String? = null,
     var documentName: String? = null,
     var isComplete: Boolean = true,
+    var instanceId: String? = null,
     var elementId: String = "",
     var elementType: String = "",
     var tokenStatus: String? = null,

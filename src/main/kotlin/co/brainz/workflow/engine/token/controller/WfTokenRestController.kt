@@ -34,7 +34,7 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      * @return TokenDto
      */
     @GetMapping("/{tokenId}")
-    fun getToken(@PathVariable tokenId: String): LinkedHashMap<String, Any> {
+    fun getToken(@PathVariable tokenId: String): WfTokenDto {
         return wfEngine.token().getToken(tokenId)
     }
 

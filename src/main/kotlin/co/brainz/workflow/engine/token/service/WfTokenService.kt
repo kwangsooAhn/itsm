@@ -82,7 +82,7 @@ class WfTokenService(
      * @param tokenId
      * @return LinkedHashMap<String, Any>
      */
-    fun getToken(tokenId: String): LinkedHashMap<String, Any> {
+    fun getToken(tokenId: String): WfTokenDto {
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
         val componentList: MutableList<WfTokenDataDto> = mutableListOf()
@@ -94,22 +94,23 @@ class WfTokenService(
             componentList.add(tokenDataDto)
         }
 
-        val tokenDto = WfTokenDto(
+        return WfTokenDto(
             tokenId = tokenEntity.get().tokenId,
             elementId = tokenEntity.get().elementId,
             assigneeType = tokenEntity.get().assigneeType,
             assigneeId = tokenEntity.get().assigneeId,
             tokenStatus = tokenEntity.get().tokenStatus,
             isComplete = tokenEntity.get().tokenStatus == WfTokenConstants.Status.FINISH.code,
+            instanceId = tokenEntity.get().instance.instanceId,
             documentId = tokenEntity.get().instance.document.documentId,
             documentName = tokenEntity.get().instance.document.documentName,
             data = componentList
         )
 
-        val returnValue = LinkedHashMap<String, Any>()
-        returnValue["token"] = tokenDto
+        /*val returnValue = LinkedHashMap<String, Any>()
+        returnValue["token"] = tokenDto*/
 
-        return returnValue
+        //return tokenDto
     }
 
     /**
