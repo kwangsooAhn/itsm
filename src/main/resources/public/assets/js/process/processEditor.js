@@ -141,14 +141,9 @@
             .on('mouseover', connectorMouseEventHandler.mouseover)
             .on('mousedown', connectorMouseEventHandler.mousedown);
 
-        enter.append('text').append('textPath')
-            .attr('xlink:href', function(d) { return '#' + d.id; })
-            .attr('startOffset', '10%')
-            .append('tspan')
-            .attr('dy', '-10')
+        enter.append('text')
             .on('mouseout', connectorMouseEventHandler.mouseout)
             .on('mouseover', connectorMouseEventHandler.mouseover)
-            .on('mousedown', connectorMouseEventHandler.mousedown)
             .text(function(d) {
                 let name = '';
                 const elements = AliceProcessEditor.data.elements;
@@ -156,7 +151,37 @@
                     if (elem.id === d.id) { name = elem.data.name; }
                 });
                 return name;
-            });
+            })
+            .call(
+                d3.drag()
+                    .on('start', function() {
+                        if (isDrawConnector) {
+                            return;
+                        }
+                        d3.select(this)
+                            .classed('selected', true)
+                            .style('cursor', 'move');
+                    })
+                    .on('drag', function(d) {
+                        const textElem = d3.select(this);
+                        let mouseX = d3.event.dx,
+                            mouseY = d3.event.dy;
+                        textElem
+                            .attr('x', Number(textElem.attr('x')) + mouseX)
+                            .attr('y', Number(textElem.attr('y')) + mouseY);
+                        if (typeof d.textPoint !== 'undefined') {
+                            mouseX += d.textPoint[0];
+                            mouseY += d.textPoint[1];
+                        }
+                        d.textPoint = [mouseX, mouseY];
+                    })
+                    .on('end', function(d) {
+                        d3.select(this)
+                            .classed('selected', false)
+                            .style('cursor', 'pointer');
+                        AliceProcessEditor.changeDisplayValue(d.id);
+                    })
+            );
 
         enter.append('circle')
             .attr('class', 'pointer')
@@ -441,6 +466,26 @@
             d3.select(document.getElementById(d.id).parentNode).select('path.painted-connector').attr('d', linePath);
             return linePath;
         });
+
+        connectors.select('text')
+            .attr('x', function(d) {
+                let gConnector = d3.select(document.getElementById(d.id));
+                let gConnectorBbox = AliceProcessEditor.utils.getBoundingBoxCenter(gConnector);
+                let textX = gConnectorBbox.cx;
+                if (typeof d.textPoint !== 'undefined') {
+                    textX += d.textPoint[0];
+                }
+                return textX;
+            })
+            .attr('y', function(d) {
+                let gConnector = d3.select(document.getElementById(d.id));
+                let gConnectorBbox = AliceProcessEditor.utils.getBoundingBoxCenter(gConnector);
+                let textY = gConnectorBbox.cy;
+                if (typeof d.textPoint !== 'undefined') {
+                    textY += d.textPoint[1];
+                }
+                return textY;
+            });
     }
 
     /**
@@ -1227,7 +1272,7 @@
         }
 
         if (d3.select(elementNode).classed('connector')) {
-            d3.select(elementNode.parentNode).select('tspan').text(text);
+            d3.select(elementNode.parentNode).select('text').text(text);
         } else {
             const textElement = d3.select(elementNode.parentNode).select('text');
             if (textElement.node()) {
@@ -1522,6 +1567,9 @@
                     }
                     if (typeof element.display['target-point'] !== 'undefined') {
                         linkData.targetPoint = element.display['target-point'];
+                    }
+                    if (typeof element.display['text-point'] !== 'undefined') {
+                        linkData.textPoint = element.display['text-point'];
                     }
                 }
                 elements.links.push(linkData);
