@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <td><label th:text="#{download.label.downloadTitle}"></label><span class="required"></span></td>
-                    <td><input type="text" id="downloadTitle" th:value="${download?.downloadTitle}"></td>
+                    <td><input type="text" id="downloadTitle" maxlength="100" th:value="${download?.downloadTitle}"></td>
                 </tr>
                 <tr>
                     <td><label th:text="#{common.label.attachFile}"></label></td>
@@ -99,6 +99,7 @@
                     fileSeqList: fileSeqList
                 };
                 if (method === 'put') {
+                    delFileCheck();
                     data.downloadId = /*[[${download?.downloadId}]]*/'';
                     data.views = /*[[${download?.views}]]*/'';
                 }

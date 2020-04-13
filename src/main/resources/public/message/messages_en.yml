@@ -398,7 +398,7 @@ fileupload:
 download:
   label:
     title: "Download"
-    searchPlaceholder: "Title / Create User"
+    searchPlaceholder: "Title / Create User / Attach File Name"
     downloadSeq: "Number"
     downloadTitle: "Title"
     downloadCategory: "Category"

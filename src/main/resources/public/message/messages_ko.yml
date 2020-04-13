@@ -398,7 +398,7 @@ fileupload:
 download:
   label:
     title: "자료실"
-    searchPlaceholder: "제목 / 작성자"
+    searchPlaceholder: "제목 / 작성자 / 첨부파일명"
     downloadSeq: "번호"
     downloadTitle: "제목"
     downloadCategory: "카테고리"

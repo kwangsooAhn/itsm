@@ -18,7 +18,8 @@
                     <option th:each="category: ${categoryList}" th:value="${category.code}"
                             th:text="#{${category.code}}"></option>
                 </select>
-                <input type="text" id="search" style="margin: 0 5px" th:placeholder="#{download.label.searchPlaceholder}">
+                <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
+                       th:placeholder="#{download.label.searchPlaceholder}">
                 <input type="text" id="fromDt" readonly="readonly"
                        th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                        th:value="${#temporals.format(fromDt, dateformat)}"/>
