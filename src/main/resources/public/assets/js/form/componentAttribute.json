@@ -129,23 +129,6 @@
                 ],
                 "code": "",
                 "unit": ""
-            },
-            {
-                "id": "outline-width",
-                "name": "Outline Width",
-                "value": "1",
-                "type": "inputbox-underline",
-                "code": "",
-                "unit": "px",
-                "validate": "number"
-            },
-            {
-                "id": "outline-color",
-                "name": "Outline Color",
-                "value": "#000000",
-                "type": "rgb",
-                "code": "",
-                "unit": ""
             }
         ],
         "validate": [
@@ -326,23 +309,6 @@
                 "name": "Column",
                 "value": "10",
                 "type": "slider",
-                "code": "",
-                "unit": ""
-            },
-            {
-                "id": "outline-width",
-                "name": "Outline Width",
-                "value": "1",
-                "type": "inputbox-underline",
-                "code": "",
-                "unit": "px",
-                "validate": "number"
-            },
-            {
-                "id": "outline-color",
-                "name": "Outline Color",
-                "value": "#000000",
-                "type": "rgb",
                 "code": "",
                 "unit": ""
             }
