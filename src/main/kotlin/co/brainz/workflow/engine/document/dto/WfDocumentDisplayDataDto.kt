@@ -2,7 +2,7 @@ package co.brainz.workflow.engine.document.dto
 
 import java.io.Serializable
 
-data class WfDocumentDataDto(
+data class WfDocumentDisplayDataDto(
         val documentId: String,
         val componentId: String,
         val elementId: String,

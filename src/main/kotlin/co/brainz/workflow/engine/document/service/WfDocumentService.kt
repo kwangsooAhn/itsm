@@ -2,12 +2,14 @@ package co.brainz.workflow.engine.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
@@ -26,15 +28,17 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class WfDocumentService(
-    private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService,
-    private val wfDocumentRepository: WfDocumentRepository,
-    private val wfDocumentDataRepository: WfDocumentDataRepository,
-    private val wfInstanceRepository: WfInstanceRepository,
-    private val wfProcessRepository: WfProcessRepository,
-    private val wfFormRepository: WfFormRepository,
-    private val wfComponentRepository: WfComponentRepository,
-    private val wfElementRepository: WfElementRepository
+        private val wfFormService: WfFormService,
+        private val wfActionService: WfActionService,
+        private val wfDocumentRepository: WfDocumentRepository,
+        private val wfDocumentDataRepository: WfDocumentDataRepository,
+        private val wfInstanceRepository: WfInstanceRepository,
+        private val wfProcessRepository: WfProcessRepository,
+        private val wfFormRepository: WfFormRepository,
+        private val wfComponentRepository: WfComponentRepository,
+        private val wfComponentDataRepository: WfComponentDataRepository,
+        private val wfElementRepository: WfElementRepository,
+        private val wfElementDataRepository: WfElementDataRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -154,6 +158,9 @@ class WfDocumentService(
         // 있으면 삭제
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
+            // 신청서 양식 정보 삭제
+            wfDocumentDataRepository.deleteById(documentId)
+            // 신청서 정보 삭제
             wfDocumentRepository.deleteByDocumentId(documentId)
             true
         } else {
@@ -170,16 +177,13 @@ class WfDocumentService(
      * @return WfDocumentDto
      */
     fun createDocumentData(documentDto: WfDocumentEntity) {
-        val formId = documentDto.form.formId
-        val processId = documentDto.process.processId
         val wfDocumentDataEntities: MutableList<WfDocumentDataEntity> = mutableListOf()
-
-        val componentEntities = wfComponentRepository.findByFormId(formId)
+        val componentEntities = wfComponentRepository.findByFormId(documentDto.form.formId)
         val componentIds: MutableList<String> = mutableListOf()
         for (component in componentEntities) {
             componentIds.add(component.componentId)
         }
-        val elementEntities = wfElementRepository.findUserTaskByProcessId(processId)
+        val elementEntities = wfElementRepository.findUserTaskByProcessId(documentDto.process.processId)
         val elementIds: MutableList<String> = mutableListOf()
         for (element in elementEntities) {
             elementIds.add(element.elementId)
@@ -200,6 +204,34 @@ class WfDocumentService(
             wfDocumentDataRepository.saveAll(wfDocumentDataEntities)
         }
     }
-    //        val componentList = wfComponentDataRepository.findComponentDataByFormId(formId, "label")
-    //        val elementList = wfElementDataRepository.findElementDataByProcessId(processId, "userTask", "name")
+
+    /**
+     * Search Document Display data.
+     *
+     * @return List<DocumentDataDto>
+     */
+    fun documentDisplay(documentId: String): String {// WfDocumentDisplayViewDto {
+        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+        val componentList = wfComponentDataRepository .findComponentDataByFormId(documentEntity.form.formId, "label")
+        val elementList = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId, "userTask", "name")
+
+        // 인스턴스에서 해당 다큐먼트가 있는지 체크.
+//        val selectedDocument = wfDocumentRepository.getOne(documentId)
+//        val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
+
+//        val documents = mutableListOf<WfDocumentDisplayDataDto>()
+//        val documentEntities = wfDocumentDataRepository.findByDocumentId(documentId)
+//        for (document in documentEntities) {
+//            val documentDataDto = WfDocumentDisplayDataDto(
+//                    documentId = document.documentId,
+//                    componentId = document.componentId,
+//                    elementId = document.elementId,
+//                    display = document.display
+//            )
+//            documents.add(documentDataDto)
+//        }
+
+        return "documents"
+    }
+
 }

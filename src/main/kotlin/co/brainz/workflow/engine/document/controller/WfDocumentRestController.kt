@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.document.controller
 
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDataDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -55,14 +56,13 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
         return wfEngine.document().deleteDocument(documentId)
     }
 
-//    /**
-//     * 신청서 display 등록.
-//     *
-//     * @param documentDto
-//     * @return WfDocumentDto
-//     */
-//    @PostMapping("/{documentId}/data")
-//    fun createDocumentData(@RequestBody documentDto: WfDocumentDto): Boolean {
-//        return wfEngine.document().createDocumentData(documentDto)
-//    }
+    /**
+     * 신청서 양식 정보 조회.
+     *
+     * @return List<DocumentDataDto>
+     */
+    @GetMapping("/{documentId}/data")
+    fun getDocumentDisplay(@PathVariable documentId: String): String {//List<WfDocumentDisplayDataDto> {
+        return wfEngine.document().documentDisplay(documentId)
+    }
 }

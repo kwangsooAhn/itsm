@@ -8,21 +8,54 @@
 <div>
     <h1 th:text="#{document.label.display}">신청서 양식 편집</h1>
     <hr>
-
+    <div th:text="${documentDisplay}"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>구분</th>
+                <th>엘리먼트 이름 →</th>  <!--th:each="userTask: ${userTaskList}"-->
+            </tr>
+        </thead>
+        <tbody>
+            <tr> <!--th:each="component: ${componentList}"-->
+                <td>컴포넌트 이름 ↓</td>  <!--th:text="|${component.componentName}(${component.componentType)|"-->
+                <td>
+                    <select>
+                        <option value="editable">editable</option>
+                        <option value="editable.required">editable (required)</option>
+                        <option value="readonly">readonly</option>
+                        <option value="hidden">hidden</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <hr>
 <div style="margin-top: 10px; text-align: center;">
-    <button th:text="#{common.btn.register}" onclick="createDocument()"></button>
+    <button th:text="#{common.btn.register}" onclick="window.close()"></button>
     <button th:text="#{common.btn.close}" onclick="window.close();"></button>
 </div>
 </body>
 <script th:src="@{/assets/js/util/validation-alice.js}"></script>
 <script type="text/javascript">
     window.onload = function() {
-        let documentId = '2c995081712e3f5b01712e4c56530000';
-        restSubmit('GET', '/documents/display/' + documentId, function(result){
-            console.log(1111);
+        restSubmit('GET', '/documents/display/[[${documentId}]]', function(result) {
+            console.log("test");
         });
     };
+
+    //REST API
+    function restSubmit(method, url, result) {
+        const opt = {
+            method: method,
+            url: url,
+            callbackFunc: function(response) {
+                result(response.responseText);
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
 </script>
 </html>

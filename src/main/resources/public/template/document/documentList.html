@@ -19,7 +19,8 @@
     <table>
         <colgroup>
             <col width="25%">
-            <col width="65%">
+            <col width="60%">
+            <col width="5%">
             <col width="5%">
             <col width="5%">
         </colgroup>
@@ -31,6 +32,10 @@
                 <button sec:authorize="hasAuthority('document.create')"
                         th:attr="onclick=|openDocumentEdit('${document.documentId}')|"
                         th:text="#{common.btn.write}"></button>
+            </td>
+            <td>
+                <button sec:authorize="hasAuthority('document.update')"
+                        th:text="#{common.btn.modify}" ></button>
             </td>
             <td>
                 <button sec:authorize="hasAuthority('document.delete')"

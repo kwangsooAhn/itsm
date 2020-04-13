@@ -26,6 +26,7 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
                private val wfComponentRepository: WfComponentRepository,
                private val wfComponentDataRepository: WfComponentDataRepository,
                private val wfElementRepository: WfElementRepository,
+               private val wfElementDataRepository: WfElementDataRepository,
                private val wfDocumentRepository: WfDocumentRepository,
                private val wfDocumentDataRepository: WfDocumentDataRepository,
                private val wfInstanceRepository: WfInstanceRepository,
@@ -54,7 +55,7 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Document Engine.
      */
     fun document(): WfDocumentService {
-        return WfDocumentService(wfFormService, wfActionService, wfDocumentRepository, wfDocumentDataRepository, wfInstanceRepository, wfProcessRepository, wfFormRepository, wfComponentRepository, wfElementRepository)
+        return WfDocumentService(wfFormService, wfActionService, wfDocumentRepository, wfDocumentDataRepository, wfInstanceRepository, wfProcessRepository, wfFormRepository, wfComponentRepository, wfComponentDataRepository, wfElementRepository, wfElementDataRepository)
     }
 
     /**

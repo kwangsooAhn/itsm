@@ -12,11 +12,6 @@ data class WfDocumentDataEntity(
     @Column(name = "document_id", length = 128)
     val documentId: String,
 
-//    @Id
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "document_id", insertable = false, updatable = false)
-//    val document: WfDocumentEntity,
-
     @Id
     @Column(name = "component_id", length = 128)
     val componentId: String,
@@ -27,7 +22,7 @@ data class WfDocumentDataEntity(
 
     @Id
     @Column(name = "display", length = 100)
-    var display: String? = "editable"
+    var display: String = "editable"
 
 ) : Serializable
 

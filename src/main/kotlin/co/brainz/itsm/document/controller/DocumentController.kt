@@ -78,12 +78,15 @@ class DocumentController(private val documentService: DocumentService,
     }
 
     /**
-     * 신청서 display 데이터 조회
+     * 신청서 양식 편집 화면
      *
      * @return string
      * */
     @GetMapping("/display/{documentId}")
-    fun getDocumentDisplay(): String {
+    fun getDocumentDisplay(@PathVariable documentId: String, model: Model): String {
+        model.addAttribute("documentId", documentId)
+        model.addAttribute("elementList", "elementList")
+        model.addAttribute("componentList", "componentList")
         return documentDisplayPage
     }
 }

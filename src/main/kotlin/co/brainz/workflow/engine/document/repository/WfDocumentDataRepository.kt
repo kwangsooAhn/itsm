@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface WfDocumentDataRepository: JpaRepository<WfDocumentDataEntity, String> {
 
-//    fun findDocumentEntityByDocumentId(documentId: String): WfDocumentEntity
+    fun findByDocumentId(documentId: String): List<WfDocumentDataEntity>
 
 }
