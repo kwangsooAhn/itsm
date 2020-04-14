@@ -98,9 +98,9 @@
                     <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}' 
-                    style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' ${attr.validate.required === "Y" ? "required" : ""} 
-                    max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
+                    <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}'
+                    ${attr.validate.required === "Y" ? "required" : ""} max-length='${attr.validate["length-max"]}'
+                    min-length='${attr.validate["length-min"]}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
                 </div>
             </div>
         `);
@@ -138,14 +138,12 @@
                 <div class='field' style='flex-basis: 100%;'>
                 ${textEditorUseYn ?
                     `<div style='width: 100%;'>
-                        <div class='editor-container' 
-                        style='height: ${textEditorHeight}px; border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;'
-                        ${attr.validate.required === "Y" ? "required" : ""} 
+                        <div class='editor-container'
+                        style='height: ${textEditorHeight}px;' ${attr.validate.required === "Y" ? "required" : ""}
                         max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'></div>
                     </div>` :
                     `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
-                    style='border-color: ${attr.display["outline-color"]}; border-width: ${attr.display["outline-width"]}px;' 
-                    ${attr.validate.required === "Y" ? "required" : ""} 
+                    ${attr.validate.required === "Y" ? "required" : ""}
                     max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
@@ -173,12 +171,6 @@
             let textEditorContainer = comp.querySelector('.editor-container');
             let textEditor = new Quill(textEditorContainer, textEditorOptions);
             textEditor.setContents(textAreaDefaultValue);
-
-            let textEditorToolbar = textEditor.getModule('toolbar');
-            if (textEditorToolbar) {
-                textEditorToolbar.container.style.borderWidth = attr.display['outline-width'] + 'px';
-                textEditorToolbar.container.style.borderColor = attr.display['outline-color'];
-            }
         }
     }
 
