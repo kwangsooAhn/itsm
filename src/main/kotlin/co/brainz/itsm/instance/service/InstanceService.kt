@@ -1,6 +1,7 @@
 package co.brainz.itsm.instance.service
 
 import co.brainz.framework.util.AliceTimezoneUtils
+import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
@@ -16,7 +17,7 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun getInstanceHistory(tokenId: String): List<RestTemplateInstanceHistoryDto>? {
-        var instanceHistory: List<RestTemplateInstanceHistoryDto>? = null
+        var instanceHistory: MutableList<RestTemplateInstanceHistoryDto>? = null
         getInstanceId(tokenId)?.let { instanceId ->
             val urlDto = RestTemplateUrlDto(
                 callUrl = RestTemplateConstants.Instance.GET_INSTANCE_HISTORY.url.replace(
@@ -31,8 +32,12 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
             )
             instanceHistory?.let { instanceHistory ->
                 for (instance in instanceHistory) {
-                    instance.tokenStartDt = instance.tokenStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
-                    instance.tokenEndDt = instance.tokenEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
+                    if (InstanceConstants.InstanceHistory.isHistoryElement(instance.elementType)) {
+                        instance.tokenStartDt = instance.tokenStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
+                        instance.tokenEndDt = instance.tokenEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
+                    } else {
+                        instanceHistory.remove(instance)
+                    }
                 }
             }
         }

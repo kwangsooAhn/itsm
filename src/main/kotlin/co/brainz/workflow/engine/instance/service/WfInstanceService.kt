@@ -28,18 +28,15 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
         var status = ""
         var userKey = ""
 
-        var type = WfTokenConstants.AssigneeType.ASSIGNEE.code
         if (parameters["status"] != null) {
             status = parameters["status"].toString()
         }
         if (parameters["userKey"] != null) {
             userKey = parameters["userKey"].toString()
         }
-        if (parameters["type"] != null) {
-            type = parameters["type"].toString()
-        }
+
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tokenDataList = wfInstanceRepository.findInstances(status, type, userKey)
+        val tokenDataList = wfInstanceRepository.findInstances(status, userKey)
         val tokens = mutableListOf<WfInstanceViewDto>()
         for (tokenData in tokenDataList) {
             tokens.add(mapper.convertValue(tokenData, WfInstanceViewDto::class.java))

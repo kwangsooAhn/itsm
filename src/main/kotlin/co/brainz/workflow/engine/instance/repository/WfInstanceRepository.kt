@@ -17,10 +17,9 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
                 "where d.documentId = i.document.documentId " +
                 "and i.instanceId = t.instance.instanceId " +
                 "and t.tokenStatus = :status " +
-                "and t.assigneeType = :type " +
                 "and t.assigneeId = :userKey"
     )
-    fun findInstances(status: String, type: String, userKey: String): List<Map<String, Any>>
+    fun findInstances(status: String, userKey: String): List<Map<String, Any>>
 
     fun countByDocument(wfDocumentEntity: WfDocumentEntity): Int
 
@@ -40,9 +39,9 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
 
     @Query(
         "SELECT NEW co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto(" +
-                "t.tokenStartDt, t.tokenEndDt, e.elementName, e.elementType, t.assigneeType, t.assigneeId, t.assigneeId) FROM WfTokenEntity t, WfElementEntity e " +
+                "t.tokenStartDt, t.tokenEndDt, e.elementName, e.elementType, t.assigneeId, t.assigneeId) FROM WfTokenEntity t, WfElementEntity e " +
                 "WHERE t.instance.instanceId = :instanceId " +
-                "AND t.elementId = e.elementId " +
+                "AND t.element = e " +
                 "ORDER BY t.tokenStartDt"
     )
     fun findInstanceHistory(instanceId: String): List<WfInstanceHistoryDto>

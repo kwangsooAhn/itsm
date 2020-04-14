@@ -17,12 +17,14 @@
     <h1 th:text="#{token.label.history}"></h1>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
-            <col width="40%">
-            <col width="30%">
-            <col width="30%">
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
         </colgroup>
         <thead>
         <tr>
+            <th th:text="#{token.label.startDt}">시작일시</th>
             <th th:text="#{token.label.endDt}">완료일시</th>
             <th th:text="#{token.label.elementName}">업무</th>
             <th th:text="#{token.label.assignee}">담당자</th>
@@ -31,6 +33,8 @@
         </thead>
         <tbody id="history">
         <tr th:each="tokenHistory : ${instanceHistory}">
+            <td th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="${#temporals.format(tokenHistory.tokenStartDt, dateformat)}"></td>
             <td th:with="dateformat=${#authentication.details.timeFormat}"
                 th:text="${#temporals.format(tokenHistory.tokenEndDt, dateformat)}"></td>
             <td th:text="${tokenHistory.elementName}"></td>
