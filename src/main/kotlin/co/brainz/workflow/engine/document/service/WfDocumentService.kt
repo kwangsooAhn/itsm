@@ -60,7 +60,7 @@ class WfDocumentService(
                     documentId = document.documentId,
                     documentName = document.documentName,
                     documentDesc = document.documentDesc,
-                    procId = document.process.processId,
+                    processId = document.process.processId,
                     formId = document.form.formId,
                     createDt = document.createDt,
                     createUserKey = document.createUserKey,
@@ -110,7 +110,7 @@ class WfDocumentService(
      */
     fun createDocument(documentDto: WfDocumentDto): WfDocumentDto {
         val formId = documentDto.formId
-        val processId = documentDto.procId
+        val processId = documentDto.processId
         val selectedForm = wfFormRepository.getOne(formId)
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
@@ -139,7 +139,7 @@ class WfDocumentService(
                 documentName = dataEntity.documentName,
                 documentDesc = dataEntity.documentDesc,
                 formId = dataEntity.form.formId,
-                procId = dataEntity.process.processId,
+                processId = dataEntity.process.processId,
                 createDt = dataEntity.createDt,
                 createUserKey = dataEntity.createUserKey
         )

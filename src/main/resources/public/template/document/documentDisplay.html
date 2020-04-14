@@ -8,7 +8,9 @@
 <div>
     <h1 th:text="#{document.label.display}">신청서 양식 편집</h1>
     <hr>
-    <div th:text="${documentDisplay}"></div>
+    <div th:each="display :${documentDisplayList}">
+        <p th:text=${display}></p>
+    </div>
     <hr>
 
     <table>

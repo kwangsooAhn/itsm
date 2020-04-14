@@ -1,11 +1,10 @@
 package co.brainz.workflow.engine.document.dto
 
-import co.brainz.workflow.engine.component.entity.WfComponentDataEntity
+import co.brainz.workflow.engine.process.dto.WfElementDto
 import java.io.Serializable
 
 data class WfDocumentDisplayViewDto(
-        val documentId: String,
-        val components:  List<WfComponentDataEntity>,
-        val elements:  List<Map<String, Any>>,
-        val displays: MutableList<WfDocumentDisplayDto> = mutableListOf()
+        val document: WfDocumentDto,
+        val elements: List<WfElementDto>,
+        val components: MutableMap<String, Any>? = null    //List<WfDocumentDisplayDataDto>
 ) : Serializable
