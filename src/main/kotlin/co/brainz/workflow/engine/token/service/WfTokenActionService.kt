@@ -34,7 +34,6 @@ class WfTokenActionService(
         wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         wfTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
         wfTokenDto.assigneeId = wfTokenEntity.assigneeId
-        wfTokenDto.assigneeType = wfTokenEntity.assigneeType
         updateToken(wfTokenEntity, wfTokenDto)
         //현재 Element 의 데이터를 갱신 (다음 Element 로 넘어가는 데이터와 동일한 값으로 업데이트)
         deleteTokenData(wfTokenDto.tokenId)
@@ -51,7 +50,6 @@ class WfTokenActionService(
     fun save(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto): Boolean {
         wfTokenDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
         wfTokenDto.assigneeId = wfTokenEntity.assigneeId
-        wfTokenDto.assigneeType = wfTokenEntity.assigneeType
         updateToken(wfTokenEntity, wfTokenDto)
         deleteTokenData(wfTokenDto.tokenId)
         createTokenData(wfTokenDto, wfTokenDto.tokenId)
@@ -77,7 +75,6 @@ class WfTokenActionService(
             tokenId = "",
             tokenStatus = WfTokenConstants.Status.RUNNING.code,
             assigneeId = values[WfElementConstants.AttributeId.ASSIGNEE.value] as String,
-            assigneeType = values[WfElementConstants.AttributeId.ASSIGNEE_TYPE.value] as String,
             element = wfElementRepository.findWfElementEntityByElementId(values[WfElementConstants.AttributeId.REJECT_ID.value] as String),
             instance = wfTokenEntity.instance,
             tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
@@ -110,7 +107,6 @@ class WfTokenActionService(
             tokenStatus = wfTokenDto.tokenStatus ?: WfTokenConstants.Status.RUNNING.code,
             tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
             assigneeId = wfTokenDto.assigneeId,
-            assigneeType = wfTokenDto.assigneeType,
             instance = wfInstance
         )
         if (wfTokenDto.tokenStatus == WfTokenConstants.Status.FINISH.code) {
@@ -147,7 +143,6 @@ class WfTokenActionService(
      */
     fun updateToken(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
         wfTokenEntity.assigneeId = wfTokenDto.assigneeId
-        wfTokenEntity.assigneeType = wfTokenDto.assigneeType
         wfTokenEntity.tokenStatus = wfTokenDto.tokenStatus ?: WfTokenConstants.Status.RUNNING.code
         wfTokenRepository.save(wfTokenEntity)
     }

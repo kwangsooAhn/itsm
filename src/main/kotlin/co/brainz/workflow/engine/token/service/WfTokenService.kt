@@ -59,7 +59,6 @@ class WfTokenService(
                     elementId = tokenEntity.element.elementId,
                     tokenStatus = tokenEntity.tokenStatus,
                     assigneeId = tokenEntity.assigneeId,
-                    assigneeType = tokenEntity.assigneeType,
                     documentId = tokenEntity.instance.document.documentId,
                     documentName = tokenEntity.instance.document.documentName
                 )
@@ -90,7 +89,6 @@ class WfTokenService(
         return WfTokenDto(
             tokenId = tokenEntity.get().tokenId,
             elementId = tokenEntity.get().element.elementId,
-            assigneeType = tokenEntity.get().assigneeType,
             assigneeId = tokenEntity.get().assigneeId,
             tokenStatus = tokenEntity.get().tokenStatus,
             isComplete = tokenEntity.get().tokenStatus == WfTokenConstants.Status.FINISH.code,
