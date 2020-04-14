@@ -766,6 +766,9 @@
                 if (typeof linkData.targetPoint !== 'undefined') {
                     elementData[0].display['target-point'] = linkData.targetPoint;
                 }
+                if (typeof linkData.textPoint !== 'undefined') {
+                    elementData[0].display['text-point'] = linkData.textPoint;
+                }
             } else {
                 const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
                 elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};

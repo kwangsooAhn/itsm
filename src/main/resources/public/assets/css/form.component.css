@@ -66,6 +66,10 @@
   color: #969696;
 }
 
+.component .group .field .ql-snow {
+  border-color: #a9a9a9;
+}
+
 .component .group .field .ql-editor.ql-blank::before {
   content: attr(data-placeholder);
 }
