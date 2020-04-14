@@ -4,35 +4,22 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <style>
-        .alice-navbar {
-            background: linear-gradient(to right, #5574F7 30%, #60C3FF);
-            color: #fff;
-            padding: 0.625rem 1.25rem;
-            line-height: 1rem;
-            font-size: 1.25rem;
-            font-weight: 700;
-            z-index: 1000;
-        }
-    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-primary alice-navbar">
     <a class="navbar-brand" href="#"><img th:src="@{/assets/media/icons/logo_portal.png}" width="35" height="35" alt="Alice"></a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">Alice Technical Support</div>
-    <div sec:authorize="isAuthenticated()" class="alice-navbar-profile" onclick="location.href='/layout'" style="cursor:pointer;">Main</div>
-    <div sec:authorize="isAnonymous()" class="alice-navbar-profile" onclick="location.href='/login'" style="cursor:pointer;">Log in</div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" th:text="#{portal.label.mainPhrase}"></div>
+    <div sec:authorize="isAuthenticated()" class="alice-navbar-profile" onclick="location.href='/layout'" style="cursor:pointer;" th:text="#{portal.label.main}"></div>
+    <div sec:authorize="isAnonymous()" class="alice-navbar-profile" onclick="location.href='/login'" style="cursor:pointer;" th:text="#{portal.label.login}"></div>
 </nav>
 <th:block layout:fragment="content">
     <div class="navbar navbar-expand-lg bg-primary alice-navbar" id="portalPartA">
         <div class="container">
-            <form id="formSearch" method="get" style="margin:0px auto; display:block;">
-                <div class="pull-right" id="portalPartB" style="margin-top:250px; text-align:center;">
-                    <div id = "portalPartD" style="padding-bottom:20px; font-size:x-large; font-weight:bold;">Hi! How can we help you today?</div>
-                    <input type="text" id="searchValue" name="searchValue" style="width:500px; height:40px; font-size:20px;"/>
-                    <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/portal/list', true)" style="height:40px;">검색</button>
-                </div>
-            </form>
+            <div class="pull-right" id="portalPartB" style="margin:0px auto; margin-top:150px; text-align:center; display:block;">
+                <div id = "portalPartD" style="padding-bottom:20px; font-size:x-large; font-weight:bold;" th:text="#{portal.label.topPhrase}"></div>
+                <input type="text" id="searchValue" name="searchValue" style="width:500px; height:40px; font-size:20px;" onKeydown="javascript:if(event.keyCode == 13) restSubmit('get', '/portal/list', true); "/>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/portal/list', true)" style="height:40px;" th:text="#{portal.label.search}"></button>
+            </div>
         </div>
     </div>
     <div>
@@ -40,23 +27,23 @@
             <ul style="float:left; text-align:center;">
                 <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
                     <img th:src="@{/public/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
-                    <p style="font-size:x-large; color:#004085;">Notice</p>
+                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.notice}"></p>
                 </li>
                 <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
                     <img th:src="@{/public/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
-                    <p style="font-size:x-large; color:#004085;">FAQ</p>
+                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.faq}"></p>
                 </li>
                 <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
                     <img th:src="@{/public/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
-                    <p style="font-size:x-large; color:#004085;">Download</p>
+                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.download}"></p>
                 </li>
             </ul>
         </div>
     </div>
     <div id="portalList"></div>
-    <div class="container" style="text-align:center;">
-        <span style="font-size:x-large; font-weight:bold; color:#6c757d">Can't find what you're looking for?</span>&nbsp;&nbsp;&nbsp;
-        <a href="#" style="font-size:x-large; font-weight:bold; color:#004085">Contact us</a>
+    <div class="container" style="margin:0px auto; margin-top:250px; text-align:center; display:block;">
+        <span style="font-size:x-large; font-weight:bold; color:#6c757d" th:text="#{portal.label.bottomPhrase}"></span>&nbsp;&nbsp;&nbsp;
+        <a href="#" style="font-size:x-large; font-weight:bold; color:#004085" th:text="#{portal.label.bottomLeftPhrase}"></a>
     </div>
 </th:block>
 </body>

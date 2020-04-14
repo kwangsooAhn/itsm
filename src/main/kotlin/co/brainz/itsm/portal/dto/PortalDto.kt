@@ -9,5 +9,7 @@ data class PortalDto(
         var faqTitle: String? = null,
         var faqContent: String? = null,
         var createDt: LocalDateTime? = null,
-        var updateDt: LocalDateTime? = null
+        var updateDt: LocalDateTime? = null,
+        var downloadId : String? = null,
+        var downloadTitle: String? = null
 ): Serializable

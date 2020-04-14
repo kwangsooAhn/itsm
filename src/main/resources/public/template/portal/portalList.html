@@ -14,6 +14,9 @@
                     <dd style="padding-left:15px;" th:if="${portalList.noticeContents != null}" th:text="${portalList.noticeContents}"></dd>
                     <dt th:if="${portalList.faqTitle != null}" th:text="${portalList.faqTitle}"></dt>
                     <dd style="padding-left:15px;" th:if="${portalList.faqContent != null}" th:text="${portalList.faqContent}"></dd>
+                    <dt th:if="${portalList.downloadId != null}" th:text="#{portal.label.download}"></dt>
+                    <dd style="padding-left:15px;" th:if="${portalList.downloadTitle != null}" th:text="${portalList.downloadTitle}"></dd>
+                    <dd></dd>
                 </dl>
             </tr>
         </div>
