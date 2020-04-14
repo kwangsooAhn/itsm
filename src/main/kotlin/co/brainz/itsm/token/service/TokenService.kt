@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class TokenService(private val restTemplate: RestTemplateProvider,
-                   private val aliceFileService: AliceFileService) {
+class TokenService(
+    private val restTemplate: RestTemplateProvider,
+    private val aliceFileService: AliceFileService
+) {
 
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -46,7 +48,12 @@ class TokenService(private val restTemplate: RestTemplateProvider,
      * @return Boolean
      */
     fun putToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.PUT_TOKEN.url.replace(restTemplate.getKeyRegex(), restTemplateTokenDto.tokenId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Token.PUT_TOKEN.url.replace(
+                restTemplate.getKeyRegex(),
+                restTemplateTokenDto.tokenId
+            )
+        )
         val responseEntity = restTemplate.update(url, restTemplateTokenDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
@@ -72,7 +79,10 @@ class TokenService(private val restTemplate: RestTemplateProvider,
         val responseBody = restTemplate.get(url)
 
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tokens: List<RestTemplateInstanceViewDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceViewDto::class.java))
+        val tokens: List<RestTemplateInstanceViewDto> = mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceViewDto::class.java)
+        )
         for (token in tokens) {
             token.createDt = token.createDt.let { AliceTimezoneUtils().toTimezone(it) }
         }
@@ -85,7 +95,12 @@ class TokenService(private val restTemplate: RestTemplateProvider,
      * @return List<tokenDto>
      */
     fun findToken(tokenId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), tokenId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(
+                restTemplate.getKeyRegex(),
+                tokenId
+            )
+        )
         return restTemplate.get(url)
     }
 }
