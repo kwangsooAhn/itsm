@@ -1,57 +1,27 @@
-#document-container {
-    overflow-y: auto;
+@import "form.core";
+
+.drawing-board {
+    display: flex; 
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
     height: 46.875rem; /* 750px */
-    border: 0.0625rem /* 1px */ solid #bcc5d3;
-    >.component {
-        padding: 0.9375rem 3.75rem; /* 15px 60px */
-        .field {
-            .label {
-                display: inline;
-            }
-            textarea {
-                resize: vertical;
-            }
-        }
-        input[type=text] {
-            width: 100%;
-            outline: solid 0.0625rem; /* 1px */
-        }
-        input[type=radio] {
-            cursor: pointer;
-            &:focus {
-                outline: 0.0625rem /* 1px */ #3c3cff solid;
-            }
-        }
-        span[class*="required"] {
-            padding-left: 0.3125rem; /* 5px */
-            color: #fc5f6b;
-            font-weight: bold;
-        }
+    border: 0.0625rem solid #BCC5D3;  //1px
+    background: $white;
+    overflow: auto;
+    margin: 0.625rem;
+    .move-icon { display: none; }
+}
+/*미리 보기*/
+.drawing-board[data-readonly=true] {
+    input[type=text],
+    textarea,
+    button,
+    .ql-toolbar,
+    .editor-container {
+        pointer-events: none;
     }
-}
-
-textarea {
-    width: 100%;
-    outline: solid 0.0625rem; /* 1px */
-}
-
-select {
-    width: 100%;
-}
-
-.field {
-    >div {
-        width: 100%;
+    .component[data-type="editbox"] { 
+        pointer-events: none;
     }
-}
-
-input[type=checkbox] {
-    cursor: pointer;
-    &:focus {
-        outline: 0.0625rem /* 1px */ #3c3cff solid;
-    }
-}
-
-input[type=file] {
-    cursor: pointer;
 }

@@ -69,6 +69,9 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
                 document = wfInstanceDto.document,
                 instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
+        if (wfInstanceDto.pTokenId != null) {
+            instanceEntity.pTokenId = wfInstanceDto.pTokenId
+        }
         return wfInstanceRepository.save(instanceEntity)
     }
 

@@ -10019,8 +10019,8 @@ body {
   display: inline-block;
   width: 3rem;
   height: 3rem;
-  margin-left: 0.313rem;
   position: absolute;
+  left: 0.313rem;
   bottom: 0.938rem;
   background-color: transparent;
   background-size: initial;
@@ -10077,6 +10077,10 @@ body {
   fill: #000000;
   font-weight: bold;
   font-size: 0.813rem;
+  dominant-baseline: text-before-edge;
+}
+.alice-process-drawing-board .connector text.selected {
+  fill: #0c4dcd;
 }
 .alice-process-drawing-board .connector circle.pointer {
   cursor: move;
@@ -10125,7 +10129,7 @@ body {
   stroke-width: 2;
 }
 .alice-process-drawing-board .element .group {
-  fill: none;
+  fill-opacity: 0;
   stroke-dasharray: 5, 5;
 }
 .alice-process-drawing-board .element .annotation {
@@ -10138,6 +10142,10 @@ body {
   font-size: 0.813rem;
   text-anchor: middle;
   dominant-baseline: middle;
+}
+.alice-process-drawing-board g.guides-container line.guides-line {
+  stroke: darkgray;
+  stroke-width: 0;
 }
 .alice-process-properties-panel {
   display: inline-block;
@@ -10167,51 +10175,82 @@ body {
   margin-left: 0.938rem;
   border: 0.125rem solid darkgray;
 }
-.alice-process-properties-panel p {
+.alice-process-properties-panel div.properties {
+  display: flex;
+  flex-wrap: wrap;
   padding-left: 1.5rem;
   font-size: 0.813rem;
   margin-top: 1rem;
   margin-bottom: 0;
 }
-.alice-process-properties-panel p label {
+.alice-process-properties-panel div.properties label {
   display: inline-block;
-  width: 5.625rem;
+  width: 5.313rem;
   vertical-align: top;
 }
-.alice-process-properties-panel p input:not([type=checkbox]), .alice-process-properties-panel p select, .alice-process-properties-panel p textarea {
-  width: 11.25rem;
+.alice-process-properties-panel div.properties label.required {
+  width: 0.5rem;
+  color: #ff0000;
 }
-.alice-process-properties-panel p input:read-only {
+.alice-process-properties-panel div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties select, .alice-process-properties-panel div.properties textarea {
+  width: 11.25rem;
+  height: 1.563rem;
+}
+.alice-process-properties-panel div.properties input:read-only {
   background-color: #f6f6f7;
   border-width: 0;
 }
-.alice-process-properties-panel p textarea {
+.alice-process-properties-panel div.properties input.color {
+  width: 9.375rem;
+}
+.alice-process-properties-panel div.properties textarea {
   height: 5.625rem;
 }
-.alice-process-properties-panel p select.candidate {
+.alice-process-properties-panel div.properties select.candidate {
   width: 8.125rem;
 }
-.alice-process-properties-panel p button {
+.alice-process-properties-panel div.properties button {
   width: 3.125rem;
+  height: 1.563rem;
 }
-.alice-process-properties-panel p table {
-  margin-left: 5.625rem;
+.alice-process-properties-panel div.properties table {
+  margin-left: 5.813rem;
   width: 11.25rem;
   border: black solid 0.063rem;
 }
-.alice-process-properties-panel p table th {
+.alice-process-properties-panel div.properties table th {
   background-color: lightgrey;
   text-align: center;
   font-weight: bold;
 }
-.alice-process-properties-panel p table td {
+.alice-process-properties-panel div.properties table td {
   padding-left: 0.313rem;
 }
-.alice-process-properties-panel p table td span.remove {
+.alice-process-properties-panel div.properties table td span.remove {
   display: inline-block;
   background-image: url("../media/icons/icon_delete.png");
   width: 0.938rem;
   height: 0.938rem;
+  cursor: pointer;
+}
+.alice-process-properties-panel div.properties span.selected-color {
+  display: inline-block;
+  width: 1.563rem;
+  height: 1.563rem;
+  margin-right: 0.3125rem;
+  border: 0.0625rem solid #000000;
+  cursor: pointer;
+}
+.alice-process-properties-panel div.properties div.color-palette {
+  background-color: #d3d3d3;
+  width: 11.25rem;
+  margin-left: 5.813rem;
+}
+.alice-process-properties-panel div.properties div.color-palette div {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.3125rem;
   cursor: pointer;
 }
 

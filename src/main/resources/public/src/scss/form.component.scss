@@ -1,0 +1,81 @@
+/* 컴포넌트 CSS */
+.component {
+    display: flex; 
+    align-items: center; 
+    width: 100%; 
+    max-width: 100%; 
+    border: none; 
+    padding: 0.625rem 3.75rem;    //10px 60px 10px 0px
+    background-color: #ffffff;
+    .group {
+        display: flex; 
+        flex-wrap: wrap; 
+        width: 100%; 
+        align-items: center; 
+        .field {
+            .label { display: inline; }
+            span[class*="required"] {
+                padding-left: 0.3125rem; //5px
+                color: #fc5f6b;
+                font-weight: bold;
+            }
+            input[type=text] {
+                width: 100%; 
+                height: 1.563rem;    //25px
+            }
+            textarea { 
+                width: 100%; 
+                resize: vertical;
+            }
+            button {
+                flex: 1 1 auto;
+                height: 1.563rem;    //25px
+                line-height: 1rem;   //16px
+                padding: 0 0.625rem; //10px
+                white-space: nowrap;
+            }
+            .dropbox { 
+                height: 9.375rem;    //150px
+                line-height: 9.375rem;
+                background-color: #CCCCCC; 
+                text-align: center;
+                font-size:  1.25rem;    //20px
+                color: #969696;
+            }
+            .ql-snow {
+                border-color: #a9a9a9;
+            }
+            .ql-editor.ql-blank::before {
+                content: attr(data-placeholder);
+            }
+            .quill-wrap .ql-active {
+                border: 0.0625rem solid #ccc !important;  //1px
+                border-radius: 0.25rem   //4px
+            }
+            .quill-wrap button, .quill-wrap .ql-picker {
+                margin-right: 0.125rem         //2px
+            }
+        }
+    }
+    /* drag and drop icon */
+    .move-icon { 
+        width:  1.875rem;    // 30px
+        height: 1.875rem;    // 30px
+        margin: 1.563rem 0.9375rem;    //25px 15px
+        text-align: center;
+        content: '';
+        cursor: move;
+        font-size: 1.25rem;
+    }
+}
+
+.component:focus { outline: none; }
+.component *:focus { outline: none; }
+
+/* drag and drop line */
+.component.over { 
+    border-top: 0.125rem dashed #BCC5D3; 
+    * {
+        pointer-events: none;
+    }
+}

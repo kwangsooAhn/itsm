@@ -7,7 +7,7 @@
 
     const data = {};
 
-    const iconDirectory = '../../assets/media/icons/process';
+    const iconDirectory = '/assets/media/icons/process';
     const itemSize = 20;
     const itemMargin = 8;
 
@@ -766,6 +766,9 @@
                 if (typeof linkData.targetPoint !== 'undefined') {
                     elementData[0].display['target-point'] = linkData.targetPoint;
                 }
+                if (typeof linkData.textPoint !== 'undefined') {
+                    elementData[0].display['text-point'] = linkData.textPoint;
+                }
             } else {
                 const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
                 elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
@@ -996,9 +999,18 @@
             const items = propertiesDivision[idx].items;
             for (let i = 0, attrLen = items.length; i < attrLen; i++) {
                 const property = items[i];
-                let propertyContainer = document.createElement('p');
+                let propertyContainer = document.createElement('div');
+                propertyContainer.className = 'properties';
+                propertiesContainer.appendChild(propertyContainer);
+                let requiredLabelObject = document.createElement('label');
+                requiredLabelObject.className = 'required';
+                requiredLabelObject.htmlFor =  property.id;
+                if (property.required === 'Y') {
+                    requiredLabelObject.textContent = '*';
+                }
+                propertyContainer.appendChild(requiredLabelObject);
                 let labelObject = document.createElement('label');
-                labelObject.htmlFor =  property.id;
+                labelObject.htmlFor = property.id;
                 labelObject.textContent = property.name;
                 propertyContainer.appendChild(labelObject);
 
@@ -1009,14 +1021,17 @@
                         if (properties.type === 'arrowConnector' && property.id === 'condition' && elemData['is-default'] === 'Y') {
                             elementObject.disabled = true;
                         }
+                        propertyContainer.appendChild(elementObject);
                         break;
                     case 'inputbox-readonly':
                         elementObject = document.createElement('input');
                         elementObject.readOnly = true;
+                        propertyContainer.appendChild(elementObject);
                         break;
                     case 'textarea':
                         elementObject = document.createElement('textarea');
                         elementObject.style.resize = 'none';
+                        propertyContainer.appendChild(elementObject);
                         break;
                     case 'checkbox':
                         elementObject = document.createElement('input');
@@ -1024,6 +1039,7 @@
                         if (elemData[property.id] && elemData[property.id] === 'Y') {
                             elementObject.checked = true;
                         }
+                        propertyContainer.appendChild(elementObject);
                         break;
                     case 'select':
                         elementObject = document.createElement('select');
@@ -1044,11 +1060,48 @@
                                 changePropertyAssigneeType(this);
                             });
                         }
+                        propertyContainer.appendChild(elementObject);
+                        break;
+                    case 'rgb':
+                        let selectedColorBox = document.createElement('span');
+                        selectedColorBox.className = 'selected-color';
+                        selectedColorBox.style.backgroundColor = elemData[property.id];
+                        propertyContainer.appendChild(selectedColorBox);
+
+                        elementObject = document.createElement('input');
+                        elementObject.className = 'color';
+                        if (property.required === 'Y') {
+                            elementObject.readOnly = true;
+                        }
+                        elementObject.addEventListener('change', function() {
+                            if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
+                                this.value = '';
+                            }
+                            this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
+                            if (properties.type === 'groupArtifact') {
+                                const groupElement = d3.select(document.getElementById(id));
+                                if (this.id === 'line-color') {
+                                    groupElement.style('stroke', this.value);
+                                } else if (this.id === 'background-color') {
+                                    if (this.value.trim() === '') {
+                                        groupElement.style('fill-opacity', 0);
+                                    } else {
+                                        groupElement.style('fill', this.value).style('fill-opacity', 0.5);
+                                    }
+                                }
+                            }
+                        });
+                        propertyContainer.appendChild(elementObject);
+
+                        let colorPaletteBox = document.createElement('div');
+                        colorPaletteBox.id = property.id + '-colorPalette';
+                        colorPaletteBox.className = 'color-palette';
+                        propertyContainer.appendChild(colorPaletteBox);
+                        colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox);
+                        break;
                 }
 
                 if (elementObject) {
-                    propertiesContainer.appendChild(propertyContainer);
-                    propertyContainer.appendChild(elementObject);
                     elementObject.id = property.id;
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {

@@ -7,6 +7,7 @@ const upperCaseReg = /^[A-Z]*$/;
 const lowerCaseReg = /^[a-z]*$/;
 const numberReg = /^[0-9]*$/;
 const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/;
+const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 
 /** @brief 해당 엘리먼트 아이디의 값이 null인 경우를 판별한다.
  *  @date 2020-03-03
@@ -234,6 +235,23 @@ function isValidEmail(elementId) {
 
     if (!emailReg.test(email)) {
         aliceJs.alert(i18n.get('validation.msg.checkEmailFormat'));
+        return false;
+    }
+    return true;
+}
+
+/**
+ * RGB 유효성 검사.
+ *
+ * @param elementId element ID
+ * @param callbackFunc callback function
+ * @return {boolean} 유효성 검사 통과 여부
+ */
+function isValidRgb(elementId, callbackFunc) {
+    let rgb = document.getElementById(elementId).value;
+
+    if (!rgbReg.test(rgb)) {
+        aliceJs.alert(i18n.get('validation.msg.checkRgbFormat'), callbackFunc);
         return false;
     }
     return true;
