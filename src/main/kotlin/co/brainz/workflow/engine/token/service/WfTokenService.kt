@@ -56,7 +56,7 @@ class WfTokenService(
             returnValue.add(
                 WfTokenDto(
                     tokenId = tokenEntity.tokenId,
-                    elementId = tokenEntity.elementId,
+                    elementId = tokenEntity.element.elementId,
                     tokenStatus = tokenEntity.tokenStatus,
                     assigneeId = tokenEntity.assigneeId,
                     assigneeType = tokenEntity.assigneeType,
@@ -89,7 +89,7 @@ class WfTokenService(
 
         return WfTokenDto(
             tokenId = tokenEntity.get().tokenId,
-            elementId = tokenEntity.get().elementId,
+            elementId = tokenEntity.get().element.elementId,
             assigneeType = tokenEntity.get().assigneeType,
             assigneeId = tokenEntity.get().assigneeId,
             tokenStatus = tokenEntity.get().tokenStatus,
@@ -138,7 +138,7 @@ class WfTokenService(
         return WfTokenViewDto(
             tokenId = tokenMstEntity.get().tokenId,
             components = componentList,
-            actions = wfActionService.actions(tokenMstEntity.get().elementId)
+            actions = wfActionService.actions(tokenMstEntity.get().element.elementId)
         )
 
     }
