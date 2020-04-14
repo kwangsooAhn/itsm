@@ -38,9 +38,6 @@ data class WfTokenEntity(
     @Column(name = "", length = 128)
     var assigneeId: String? = null,
 
-    @Column(name = "", length = 256)
-    var assigneeType: String? = null,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instance_id")
     val instance: WfInstanceEntity
