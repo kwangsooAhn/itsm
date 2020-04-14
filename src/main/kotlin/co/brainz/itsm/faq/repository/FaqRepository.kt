@@ -15,4 +15,7 @@ interface FaqRepository : JpaRepository<FaqEntity, String> {
 
     @Query("select f from FaqEntity f join fetch f.createUser left outer join fetch f.updateUser")
     fun getFaqList(): MutableList<FaqEntity>
+    
+    @Query("select f from FaqEntity f join fetch f.createUser left outer join fetch f.updateUser where (lower(f.faqTitle)) like lower(concat('%',:searchValue,'%'))")
+    fun getFaqSearchList(searchValue: String): MutableList<FaqEntity>
 }

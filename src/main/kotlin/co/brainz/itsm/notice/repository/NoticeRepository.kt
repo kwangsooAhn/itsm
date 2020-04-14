@@ -25,4 +25,7 @@ interface NoticeRepository: JpaRepository<NoticeEntity, String> {
     fun findNoticePopUp(): MutableList<NoticeEntity>
 
     fun findByNoticeNo(noticeNo: String): NoticeEntity
+
+    @Query("select a from NoticeEntity a join fetch a.createUser left outer join a.updateUser where (lower(a.noticeTitle) like lower(concat('%', :searchValue, '%')) or lower(a.aliceUserEntity.userName) like lower(concat('%', :searchValue, '%')))")
+    fun findPortalNoticeSearchList(searchValue: String): MutableList<NoticeEntity>
 }

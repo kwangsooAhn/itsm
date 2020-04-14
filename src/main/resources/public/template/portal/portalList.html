@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<div class= "container">
+    <table class="table table-hover" style="text-align: center">
+        <tbody id="tbody">
+        <div class="container" style="text-align:center;">
+            <tr th:each="portalList : ${portalList}">
+                <dl>
+                    <dt th:if="${portalList.noticeTitle != null}" th:text="${portalList.noticeTitle}"></dt>
+                    <dd style="padding-left:15px;" th:if="${portalList.noticeContents != null}" th:text="${portalList.noticeContents}"></dd>
+                    <dt th:if="${portalList.faqTitle != null}" th:text="${portalList.faqTitle}"></dt>
+                    <dd style="padding-left:15px;" th:if="${portalList.faqContent != null}" th:text="${portalList.faqContent}"></dd>
+                </dl>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
