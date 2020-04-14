@@ -41,7 +41,10 @@
                 text-align: center;
                 font-size:  1.25rem;    //20px
                 color: #969696;
-             }
+            }
+            .ql-snow {
+                border-color: #a9a9a9;
+            }
             .ql-editor.ql-blank::before {
                 content: attr(data-placeholder);
             }
