@@ -259,7 +259,7 @@
                     case 'textarea':
                         componentChild = componentElements[eIndex].querySelector('.editor-container');
                         if (componentChild) {
-                            let textEditor = Quill.find(componentChild); //Quill.find(componentChild) === textEditor : true
+                            let textEditor = Quill.find(componentChild);
                             componentValue = JSON.stringify(textEditor.getContents());
                         } else {
                             componentChild = componentElements[eIndex].getElementsByTagName('textarea');
@@ -385,7 +385,10 @@
      * @param data 문서 데이터.
      */
     function drawDocument(data) {
-        if (typeof data === 'string') { data = JSON.parse(data); }
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+            data.components = data.components.filter(function(comp) { return comp.type !== 'editbox'; }); //미리보기시 editbox 제외
+        }
         documentContainer = document.getElementById('document-container');
         buttonContainer = document.getElementById('button-container');
         let components = (data.token === undefined) ? data.components : data.token.components;
@@ -403,6 +406,7 @@
                 //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
                 let componentAttr = components[i];
                 let compType = (componentAttr.attributes === undefined) ? componentAttr.type : componentAttr.attributes.type;
+                if (compType === 'editbox') { continue; }
                 let defaultComponentAttr = component.getData(compType);
                 let mergeComponentAttr = null;
                 if (componentAttr.attributes === undefined) { //신청서
