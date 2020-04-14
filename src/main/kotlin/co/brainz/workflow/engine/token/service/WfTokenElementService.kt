@@ -186,8 +186,8 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
                 wfTokenRepository.save(newTokenEntity)
                 wfInstanceService.completeInstance(wfTokenEntity.instance.instanceId)
-                if (!wfTokenEntity.instance.callTokenId.isNullOrEmpty()) {
-                    val callTokenId = wfTokenEntity.instance.callTokenId!!
+                if (!wfTokenEntity.instance.pTokenId.isNullOrEmpty()) {
+                    val callTokenId = wfTokenEntity.instance.pTokenId!!
                     val callTokenEntity = wfTokenRepository.findTokenEntityByTokenId(callTokenId).get()
                     callTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
                     callTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
@@ -220,7 +220,7 @@ class WfTokenElementService(private val wfTokenActionService: WfTokenActionServi
                         instanceId = "",
                         document = wfDocumentEntity,
                         instanceStatus = WfInstanceConstants.Status.RUNNING.code,
-                        callTokenId = saveTokenEntity.tokenId
+                        pTokenId = saveTokenEntity.tokenId
                 )
                 val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
 
