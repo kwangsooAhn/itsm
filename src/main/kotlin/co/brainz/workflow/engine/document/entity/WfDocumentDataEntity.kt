@@ -1,11 +1,9 @@
 package co.brainz.workflow.engine.document.entity
 
+import co.brainz.workflow.engine.component.entity.WfComponentEntity
+import co.brainz.workflow.engine.element.entity.WfElementEntity
 import java.io.Serializable
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.IdClass
-import javax.persistence.Column
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "wf_document_data")
@@ -13,25 +11,27 @@ import javax.persistence.Table
 data class WfDocumentDataEntity(
 
     @Id
-    @Column(name = "document_id", length = 128)
-    val documentId: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "document_id")
+    val document: WfDocumentEntity,
 
     @Id
-    @Column(name = "component_id", length = 128)
-    val componentId: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "component_id")
+    val component: WfComponentEntity,
 
     @Id
-    @Column(name = "element_id", length = 256)
-    val elementId: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "element_id")
+    val element: WfElementEntity,
 
-    @Id
     @Column(name = "display", length = 100)
     var display: String = "editable"
 
 ) : Serializable
 
 data class WfDocumentDataPkey(
-        var documentId: String = "",
-        var componentId: String = "",
-        var elementId: String = ""
+    var documentId: String = "",
+    var componentId: String = "",
+    var elementId: String = ""
 ) : Serializable
