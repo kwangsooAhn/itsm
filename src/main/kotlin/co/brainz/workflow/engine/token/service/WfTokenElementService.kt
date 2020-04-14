@@ -115,10 +115,6 @@ class WfTokenElementService(
                     wfElementEntity.elementDataEntities,
                     WfElementConstants.AttributeId.ASSIGNEE.value
                 )
-                wfTokenDto.assigneeType = getAttributeValue(
-                    wfElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
-                )
                 wfTokenActionService.save(wfTokenEntity, wfTokenDto)
             }
             WfElementConstants.Action.REJECT.value -> {
@@ -192,24 +188,17 @@ class WfTokenElementService(
                     nextElementEntity.elementDataEntities,
                     WfElementConstants.AttributeId.ASSIGNEE.value
                 )
-                nextTokenEntity.assigneeType = getAttributeValue(
-                    nextElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
-                )
             }
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
                 nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
-                nextTokenEntity.assigneeType = wfTokenEntity.assigneeType
                 nextTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
                 nextTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
             }
             WfElementConstants.ElementType.SUB_PROCESS.value -> {
                 nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
-                nextTokenEntity.assigneeType = wfTokenEntity.assigneeType
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                 nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
-                nextTokenEntity.assigneeType = wfTokenEntity.assigneeType
                 nextTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
                 nextTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
             }
