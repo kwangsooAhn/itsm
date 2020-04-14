@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.element.entity
 
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
+import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import java.io.Serializable
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -49,6 +50,9 @@ data class WfElementEntity(
         orphanRemoval = true
     )
     val elementDataEntities: MutableList<WfElementDataEntity> = mutableListOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "element")
+    val tokens: MutableList<WfTokenEntity>? = mutableListOf()
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_id", insertable = false, updatable = false)

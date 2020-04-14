@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.token.entity
 
+import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
@@ -21,8 +22,9 @@ data class WfTokenEntity(
     @Column(name = "token_id", length = 128)
     val tokenId: String,
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "element_id")
-    val elementId: String,
+    val element: WfElementEntity,
 
     @Column(name = "token_status", length = 100)
     var tokenStatus: String,

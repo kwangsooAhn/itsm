@@ -10077,6 +10077,10 @@ body {
   fill: #000000;
   font-weight: bold;
   font-size: 0.813rem;
+  dominant-baseline: text-before-edge;
+}
+.alice-process-drawing-board .connector text.selected {
+  fill: #0c4dcd;
 }
 .alice-process-drawing-board .connector circle.pointer {
   cursor: move;

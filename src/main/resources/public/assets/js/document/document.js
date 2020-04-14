@@ -461,7 +461,7 @@
      */
     function init(documentId) {
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
-        
+
         // document data search.
         aliceJs.sendXhr({
             method: 'GET',

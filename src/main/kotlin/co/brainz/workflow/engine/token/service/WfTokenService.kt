@@ -1,11 +1,7 @@
 package co.brainz.workflow.engine.token.service
 
-import co.brainz.workflow.engine.document.repository.WfDocumentRepository
-import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.service.WfFormService
-import co.brainz.workflow.engine.instance.dto.WfInstanceDto
-import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.dto.WfTokenDataDto
 import co.brainz.workflow.engine.token.dto.WfTokenDto
@@ -20,13 +16,11 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class WfTokenService(
-        private val wfDocumentRepository: WfDocumentRepository,
-        private val wfTokenRepository: WfTokenRepository,
-        private val wfTokenDataRepository: WfTokenDataRepository,
-        private val wfInstanceService: WfInstanceService,
-        private val wfFormService: WfFormService,
-        private val wfActionService: WfActionService,
-        private val wfTokenElementService: WfTokenElementService
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfFormService: WfFormService,
+    private val wfActionService: WfActionService,
+    private val wfTokenElementService: WfTokenElementService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -37,7 +31,7 @@ class WfTokenService(
      * @param parameters
      * @return List<LinkedHashMap<String, Any>>
      */
-    fun getTokens(parameters: LinkedHashMap<String, Any>): List<LinkedHashMap<String, Any>> {
+    fun getTokens(parameters: LinkedHashMap<String, Any>): List<WfTokenDto> {
         var assignee = ""
         var assigneeType = ""
         var tokenStatus = ""
@@ -55,22 +49,21 @@ class WfTokenService(
             assigneeType,
             tokenStatus
         )
-        val returnValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+
+        val returnValue: MutableList<WfTokenDto> = mutableListOf()
 
         for (tokenEntity in tokenEntities) {
-            val tokenDto = WfTokenDto(
-                tokenId = tokenEntity.tokenId,
-                elementId = tokenEntity.elementId,
-                tokenStatus = tokenEntity.tokenStatus,
-                assigneeId = tokenEntity.assigneeId,
-                assigneeType = tokenEntity.assigneeType,
-                documentId = tokenEntity.instance.document.documentId,
-                documentName = tokenEntity.instance.document.documentName
+            returnValue.add(
+                WfTokenDto(
+                    tokenId = tokenEntity.tokenId,
+                    elementId = tokenEntity.element.elementId,
+                    tokenStatus = tokenEntity.tokenStatus,
+                    assigneeId = tokenEntity.assigneeId,
+                    assigneeType = tokenEntity.assigneeType,
+                    documentId = tokenEntity.instance.document.documentId,
+                    documentName = tokenEntity.instance.document.documentName
+                )
             )
-
-            val tokenMap = LinkedHashMap<String, Any>()
-            tokenMap["token"] = tokenDto
-            returnValue.add(tokenMap)
         }
 
         return returnValue
@@ -96,7 +89,7 @@ class WfTokenService(
 
         return WfTokenDto(
             tokenId = tokenEntity.get().tokenId,
-            elementId = tokenEntity.get().elementId,
+            elementId = tokenEntity.get().element.elementId,
             assigneeType = tokenEntity.get().assigneeType,
             assigneeId = tokenEntity.get().assigneeId,
             tokenStatus = tokenEntity.get().tokenStatus,
@@ -119,7 +112,7 @@ class WfTokenService(
      * @param tokenId
      * @return LinkedHashMap<String, Any>
      */
-    fun getTokenData(tokenId: String): LinkedHashMap<String, Any> {
+    fun getTokenData(tokenId: String): WfTokenViewDto {
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val componentEntities = tokenMstEntity.get().instance.document.form.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
@@ -148,52 +141,30 @@ class WfTokenService(
         val componentsMap = LinkedHashMap<String, Any>()
         componentsMap["components"] = componentList
 
-        val tokenViewDto = WfTokenViewDto(
+        return WfTokenViewDto(
             tokenId = tokenMstEntity.get().tokenId,
             components = componentList,
-            actions = wfActionService.actions(tokenMstEntity.get().elementId)
+            actions = wfActionService.actions(tokenMstEntity.get().element.elementId)
         )
 
-        val returnValue = LinkedHashMap<String, Any>()
-        returnValue["token"] = tokenViewDto
-
-        return returnValue
     }
 
     /**
-     * Init Token.
+     * (POST) Init Token.
      *
      * @param wfTokenDto
      */
     fun initToken(wfTokenDto: WfTokenDto) {
-        val documentDto = wfTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
-        val processId = documentDto?.process?.processId
-        val instanceDto = documentDto?.let { WfInstanceDto(instanceId = "", document = it) }
-        val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
-
-        val wfTokenEntity = wfTokenElementService.initStart(wfTokenDto, processId, instance)
-        wfTokenDto.tokenId = wfTokenEntity?.tokenId.toString()
-        wfTokenDto.assigneeId = wfTokenEntity?.assigneeId
-        wfTokenDto.assigneeType = wfTokenEntity?.assigneeType
-
-        setTokenGate(wfTokenDto)
+        wfTokenElementService.initToken(wfTokenDto)
     }
 
     /**
-     * Token Gate.
+     * (PUT) Set Token Action.
      *
      * @param wfTokenDto
      */
-    fun setTokenGate(wfTokenDto: WfTokenDto) {
-        val wfTokenEntity = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
-        val wfElementEntity = wfActionService.getElement(wfTokenEntity.elementId)
-        logger.debug("Token Element Type : {}", wfElementEntity.elementType)
-        when (wfElementEntity.elementType) {
-            WfElementConstants.ElementType.USER_TASK.value -> wfTokenElementService.setUserTask(wfTokenEntity, wfElementEntity, wfTokenDto)
-            WfElementConstants.ElementType.COMMON_END_EVENT.value -> wfTokenElementService.setCommonEndEvent(wfTokenEntity, wfTokenDto)
-            WfElementConstants.ElementType.COMMON_SUBPROCESS.value -> wfTokenElementService.setSubProcess(wfTokenEntity, wfTokenDto)
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> wfTokenElementService.setExclusiveGateway(wfTokenEntity, wfTokenDto)
-        }
+    fun setToken(wfTokenDto: WfTokenDto) {
+        wfTokenElementService.setTokenAction(wfTokenDto)
     }
 
     /**
