@@ -252,8 +252,8 @@
             radioElem.setAttribute('seq', attr.option[i].seq);
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (attr.values !== undefined && attr.values.length > 0 && radioElem.value === attr.values[0].value) {
-                radioElem.checked = true;
+            if (attr.values !== undefined && attr.values.length > 0) {
+                radioElem.checked = (radioElem.value === attr.values[0].value);
             } else {
                 radioElem.checked = (i === 0);
             }
@@ -632,9 +632,8 @@
                     <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <div id='dropZoneFiles-${attr.id}'>
-                        <div id='dropZoneUploadedFiles-${attr.id}' class='dropbox'></div>
-                    </div> 
+                    <div id='dropZoneFiles-${attr.id}'></div> 
+                    <div id='dropZoneUploadedFiles-${attr.id}' class='dropbox'></div>
                 </div>
             </div>
         `);
