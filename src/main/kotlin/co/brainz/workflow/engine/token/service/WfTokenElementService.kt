@@ -233,14 +233,14 @@ class WfTokenElementService(
                 wfTokenRepository.save(newTokenEntity)
                 wfInstanceService.completeInstance(wfTokenEntity.instance.instanceId)
                 if (!wfTokenEntity.instance.pTokenId.isNullOrEmpty()) {
-                    val callTokenId = wfTokenEntity.instance.pTokenId!!
-                    val callTokenEntity = wfTokenRepository.findTokenEntityByTokenId(callTokenId).get()
-                    callTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
-                    callTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-                    val saveCallTokenEntity = wfTokenRepository.save(callTokenEntity)
-                    val newElementEntity = wfActionService.getElement(saveCallTokenEntity.element.elementId)
+                    val pTokenId = wfTokenEntity.instance.pTokenId!!
+                    val pTokenEntity = wfTokenRepository.findTokenEntityByTokenId(pTokenId).get()
+                    pTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
+                    pTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+                    val savePTokenEntity = wfTokenRepository.save(pTokenEntity)
+                    val newElementEntity = wfActionService.getElement(savePTokenEntity.element.elementId)
                     //TODO: 문서의 양식이 다르기 때문에 데이터가 다르다. wfTokenDto 값을 현재 문서에 맞게 갱신하는 작업 필요 (mapping-id)
-                    goToNext(saveCallTokenEntity, newElementEntity, wfTokenDto)
+                    goToNext(savePTokenEntity, newElementEntity, wfTokenDto)
                 }
             }
             WfElementConstants.ElementType.USER_TASK.value -> {
