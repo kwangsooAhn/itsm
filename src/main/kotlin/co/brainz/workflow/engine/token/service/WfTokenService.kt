@@ -15,11 +15,13 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class WfTokenService(private val wfTokenRepository: WfTokenRepository,
-                     private val wfTokenDataRepository: WfTokenDataRepository,
-                     private val wfFormService: WfFormService,
-                     private val wfActionService: WfActionService,
-                     private val wfTokenElementService: WfTokenElementService) {
+class WfTokenService(
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfFormService: WfFormService,
+    private val wfActionService: WfActionService,
+    private val wfTokenElementService: WfTokenElementService
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -52,7 +54,7 @@ class WfTokenService(private val wfTokenRepository: WfTokenRepository,
         for (tokenEntity in tokenEntities) {
             val tokenDto = WfTokenDto(
                 tokenId = tokenEntity.tokenId,
-                elementId = tokenEntity.elementId,
+                elementId = tokenEntity.element.elementId,
                 tokenStatus = tokenEntity.tokenStatus,
                 assigneeId = tokenEntity.assigneeId,
                 assigneeType = tokenEntity.assigneeType,
@@ -88,7 +90,7 @@ class WfTokenService(private val wfTokenRepository: WfTokenRepository,
 
         val tokenDto = WfTokenDto(
             tokenId = tokenEntity.get().tokenId,
-            elementId = tokenEntity.get().elementId,
+            elementId = tokenEntity.get().element.elementId,
             assigneeType = tokenEntity.get().assigneeType,
             assigneeId = tokenEntity.get().assigneeId,
             tokenStatus = tokenEntity.get().tokenStatus,
@@ -142,7 +144,7 @@ class WfTokenService(private val wfTokenRepository: WfTokenRepository,
         val tokenViewDto = WfTokenViewDto(
             tokenId = tokenMstEntity.get().tokenId,
             components = componentList,
-            actions = wfActionService.actions(tokenMstEntity.get().elementId)
+            actions = wfActionService.actions(tokenMstEntity.get().element.elementId)
         )
 
         val returnValue = LinkedHashMap<String, Any>()

@@ -162,12 +162,15 @@
                         };
                         if (changeData.display && changeData.display['mid-point']) {
                             link.midPoint = changeData.display['mid-point'];
+                            if (changeData.display['source-point']) {
+                                link.sourcePoint = changeData.display['source-point'];
+                            }
+                            if (changeData.display['target-point']) {
+                                link.targetPoint = changeData.display['target-point'];
+                            }
                         }
-                        if (changeData.display && changeData.display['source-point']) {
-                            link.sourcePoint = changeData.display['source-point'];
-                        }
-                        if (changeData.display && changeData.display['target-point']) {
-                            link.targetPoint = changeData.display['target-point'];
+                        if (changeData.display && changeData.display['text-point']) {
+                            link.textPoint = changeData.display['text-point'];
                         }
                         links.push(link);
                         AliceProcessEditor.data.elements.push(changeData);
@@ -205,7 +208,8 @@
                 } else {
                     if (changeData.display && (originData.display['mid-point'] !== changeData.display['mid-point']
                         || originData.display['source-point'] !== changeData.display['source-point']
-                        || originData.display['target-point'] !== changeData.display['target-point'])) {
+                        || originData.display['target-point'] !== changeData.display['target-point']
+                        || originData.display['text-point'] !== changeData.display['text-point'])) {
                         // modify connector points.
                         for (let i = 0, len = links.length; i < len; i++) {
                             if (links[i].id === changeData.id) {
@@ -223,6 +227,11 @@
                                     links[i].targetPoint = changeData.display['target-point'];
                                 } else {
                                     delete links[i].targetPoint;
+                                }
+                                if (changeData.display && changeData.display['text-point']) {
+                                    links[i].textPoint = changeData.display['text-point'];
+                                } else {
+                                    delete links[i].textPoint;
                                 }
                                 AliceProcessEditor.setConnectors(true);
                                 break;
