@@ -782,7 +782,7 @@
                             propertyValue = document.createElement('input');
                             propertyValue.setAttribute('id', group + '-' + fieldArr.id);
                             propertyValue.setAttribute('type', 'range');
-                            propertyValue.setAttribute('min', 0);
+                            propertyValue.setAttribute('min', 1);
                             propertyValue.setAttribute('max', 12);
                             propertyValue.setAttribute('value', fieldArr.value);
                             fieldGroupDiv.appendChild(propertyValue);
@@ -1026,7 +1026,6 @@
                                         dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat) + ' ';
                                     }
                                     dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, dummyDateTime + dateTimePickerValue[0], aliceForm.options.lang);
-                                    console.log(dateTimePickerValue);
                                     if (fieldArr.type === 'timepicker') {
                                         dateTimePickerValue = dateTimePickerValue.split(' ')[1];
                                     }

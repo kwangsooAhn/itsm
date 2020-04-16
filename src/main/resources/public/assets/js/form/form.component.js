@@ -95,12 +95,11 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}'
-                    ${attr.validate.required === "Y" ? "required" : ""} max-length='${attr.validate["length-max"]}'
-                    min-length='${attr.validate["length-min"]}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
+                    max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}' 
+                    regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
                 </div>
             </div>
         `);
@@ -133,17 +132,15 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                 ${textEditorUseYn ?
                     `<div style='width: 100%;'>
                         <div class='editor-container'
-                        style='height: ${textEditorHeight}px;' ${attr.validate.required === "Y" ? "required" : ""}
+                        style='height: ${textEditorHeight}px;'
                         max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'></div>
                     </div>` :
-                    `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
-                    ${attr.validate.required === "Y" ? "required" : ""}
+                    `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}'
                     max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
@@ -191,10 +188,9 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <select ${attr.validate.required === "Y" ? "required" : ""}></select>
+                    <select></select>
                 </div>
             </div>
         `);
@@ -232,7 +228,6 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;' id='radio'></div>
             </div>
@@ -257,7 +252,6 @@
             } else {
                 radioElem.checked = (i === 0);
             }
-            radioElem.required = (i === 0 && attr.validate.required === 'Y');
 
             radioElem.addEventListener('click', function() {
                 let checkedRadioElem = comp.querySelectorAll('input[type=radio]:checked');
@@ -302,7 +296,6 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;' id='chkbox'></div>
             </div>
@@ -330,8 +323,6 @@
                     }
                 }
             }
-
-            checkElem.required = (i === 0 && attr.validate.required === 'Y');
             
             let lblElem = document.createElement('label');
             lblElem.setAttribute('for', attr.option[i].value);
@@ -454,10 +445,9 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -537,10 +527,9 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.validate.required === "Y" ? "required" : ""} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
+                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
                     </div>
                 </div>
             `);
@@ -597,10 +586,9 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.validate.required === "Y" ? "required" : ""} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -629,7 +617,6 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <div id='dropZoneFiles-${attr.id}'></div> 
@@ -679,10 +666,9 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.validate.required === "Y" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' ${attr.validate.required === "Y" ? "required" : ""}  readonly/>
+                    <input type='text' readonly/>
                     <button type='button'>${attr.display["button-text"]}</button>
                 </div>
             </div>
@@ -783,12 +769,20 @@
 
              //공통 : 라벨 위치 조정
              if (typeof compAttr.label !== 'undefined') {
+                 let firstField = componentConstructor.domElem.querySelector('.group').firstElementChild;
+                 let lastField = componentConstructor.domElem.querySelector('.group').lastElementChild;
                  if (compAttr.label.position === 'hidden') {
-                     componentConstructor.domElem.querySelector('.group').firstElementChild.style.display = 'none';
+                     firstField.style.display = 'none';
                  } else if (compAttr.label.position === 'left') {
-                     componentConstructor.domElem.querySelector('.group').firstElementChild.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
-                     componentConstructor.domElem.querySelector('.group').lastElementChild.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.display.column)) + '%';
+                     firstField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
+                 } else { //top
+                     firstField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
+                     const secondField = document.createElement('div');
+                     secondField.className = 'field';
+                     secondField.style.flexBasis = (100 - (aliceForm.options.columnWidth * Number(compAttr.label.column))) + '%';
+                     lastField.parentNode.insertBefore(secondField, lastField);
                  }
+                 lastField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.display.column)) + '%';
              }
          }
          return componentConstructor;
