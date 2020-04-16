@@ -157,9 +157,10 @@
 
     /**
      * required Check.
+     * 2020.04.16 이후로 컴포넌트 필수값 체크는 삭제됨 (#8370 일감 참조 바람)
      *
      */
-    function requiredCheck() {
+    /*function requiredCheck() {
         const requiredObjs = document.querySelectorAll(':required');
         for (let i = 0; i < requiredObjs.length; i++) {
             let requiredObj = requiredObjs[i];
@@ -186,7 +187,7 @@
             }
         }
         return false;
-    }
+    }*/
 
     /**
      * id Component를 만든다. (document, token)
@@ -205,13 +206,6 @@
      * save document.
      */
     function save(v_kind) {
-        // validation check
-        if (v_kind !== 'save') {
-            if (requiredCheck()) {
-                return false;
-            }
-        }
-
         let tokenObject = {};
         let componentArrayList = [];
         let fileDataIds = '';
