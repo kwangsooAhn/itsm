@@ -6,6 +6,7 @@ data class RestTemplateTokenDto(
         var tokenId: String = "",
         var documentId: String? = null,
         var documentName: String? = null,
+        var instanceId: String? = null,
         var isComplete: Boolean = true,
         var elementId: String = "",
         var elementType: String = "",

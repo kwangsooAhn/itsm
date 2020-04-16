@@ -10,5 +10,5 @@ interface WfTokenRepository : JpaRepository<WfTokenEntity, String> {
 
     fun findTokenEntityByTokenId(tokenId: String): Optional<WfTokenEntity>
 
-    fun findTokenMstEntityByAssigneeIdAndAssigneeTypeAndTokenStatus(assignee: String, assigneeType: String, tokenStatus: String): List<WfTokenEntity>
+    fun findTokenMstEntityByAssigneeIdAndTokenStatus(assignee: String, tokenStatus: String): List<WfTokenEntity>
 }

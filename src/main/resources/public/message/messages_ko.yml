@@ -361,6 +361,11 @@ token:
   label:
     list: "처리할 문서 목록"
     write: "처리할 문서"
+    startDt: "시작 일시"
+    endDt: "완료 일시"
+    elementName: "업무명"
+    assignee: "담당자"
+    history: "처리 이력"
 # Custom Code
 custom.code:
   label:

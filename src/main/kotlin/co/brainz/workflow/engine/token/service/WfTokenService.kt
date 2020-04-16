@@ -33,20 +33,15 @@ class WfTokenService(
      */
     fun getTokens(parameters: LinkedHashMap<String, Any>): List<WfTokenDto> {
         var assignee = ""
-        var assigneeType = ""
         var tokenStatus = ""
         if (parameters["assignee"] != null) {
             assignee = parameters["assignee"].toString()
         }
-        if (parameters["assigneeType"] != null) {
-            assigneeType = parameters["assigneeType"].toString()
-        }
         if (parameters["tokenStatus"] != null) {
             tokenStatus = parameters["tokenStatus"].toString()
         }
-        val tokenEntities = wfTokenRepository.findTokenMstEntityByAssigneeIdAndAssigneeTypeAndTokenStatus(
+        val tokenEntities = wfTokenRepository.findTokenMstEntityByAssigneeIdAndTokenStatus(
             assignee,
-            assigneeType,
             tokenStatus
         )
 
@@ -92,10 +87,16 @@ class WfTokenService(
             assigneeId = tokenEntity.get().assigneeId,
             tokenStatus = tokenEntity.get().tokenStatus,
             isComplete = tokenEntity.get().tokenStatus == WfTokenConstants.Status.FINISH.code,
+            instanceId = tokenEntity.get().instance.instanceId,
             documentId = tokenEntity.get().instance.document.documentId,
             documentName = tokenEntity.get().instance.document.documentName,
             data = componentList
         )
+
+        /*val returnValue = LinkedHashMap<String, Any>()
+        returnValue["token"] = tokenDto*/
+
+        //return tokenDto
     }
 
     /**
