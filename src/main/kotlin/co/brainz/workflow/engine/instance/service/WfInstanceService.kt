@@ -7,7 +7,6 @@ import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
-import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
