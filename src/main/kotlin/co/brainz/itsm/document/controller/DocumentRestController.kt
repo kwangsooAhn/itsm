@@ -52,7 +52,37 @@ class DocumentRestController(private val documentService: DocumentService) {
      */
     @GetMapping("/display/{documentId}")
     fun getDocumentDisplay(@PathVariable documentId: String): String {
-        return documentService.findDocumentDisplay(documentId)
+//        return documentService.findDocumentDisplay(documentId)
+        return dummyData(documentId)
     }
 
+    fun dummyData(documentId: String): String {
+        return """
+            {
+            "documentId":"32ds1261420w7edbcd5251d7b24a6c23",                                    
+            "elements":[
+                {"elementId" : "40288ab770be838a0170be84789b0000",
+                 "attributeValue" : "userTask1"},              
+                {"elementId" : "40288ab770be838a0170be84789b0001",
+                 "attributeValue" : "userTask2"}],
+            "components" : [
+                {"componentId" : "40288ab0709f5ff301709f61a5a30003",
+                 "attributeValue" : "TEXT",
+                 "displayValue" : [
+                    {"elementId" : "40288ab770be838a0170be84789b0000",
+                     "display" : "editable(required)"},             
+                    {"elementId" : "40288ab770be838a0170be84789b0001",
+                     "display" : "readonly"}]
+                },
+                {"componentId" : "40288ab0709f5ff301709f61a5a30004",
+                 "attributeValue" : "TEXT2",
+                 "displayValue" : [
+                    {"elementId" : "40288ab770be838a0170be84789b0000",
+                     "display" : "hidden"},
+                    {"elementId" : "40288ab770be838a0170be84789b0001",
+                     "display" : "editable"}]
+                }]                                    
+            }                                        
+        """
+    }
 }

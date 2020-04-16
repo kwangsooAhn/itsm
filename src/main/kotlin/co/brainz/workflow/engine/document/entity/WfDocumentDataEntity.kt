@@ -3,7 +3,14 @@ package co.brainz.workflow.engine.document.entity
 import co.brainz.workflow.engine.component.entity.WfComponentEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import java.io.Serializable
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.Id
+import javax.persistence.IdClass
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.Table
 
 @Entity
 @Table(name = "wf_document_data")
@@ -15,12 +22,12 @@ data class WfDocumentDataEntity(
     @JoinColumn(name = "document_id")
     val document: WfDocumentEntity,
 
-    @Id
+//    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "component_id")
     val component: WfComponentEntity,
 
-    @Id
+//    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "element_id")
     val element: WfElementEntity,

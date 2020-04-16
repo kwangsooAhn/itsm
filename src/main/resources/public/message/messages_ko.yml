@@ -341,6 +341,10 @@ document:
     display: "신청서 양식 편집"
     form: "문서양식"
     process: "프로세스"
+    editable: "수정가능"
+    editableRequired: "수정가능(필수값)"
+    readonly: "수정불가"
+    hidden: "숨김"
   msg:
     nameNotExist: "신청서 이름을 입력해주세요."
     lengthMin: "{0}글자 이상 입력해주세요."

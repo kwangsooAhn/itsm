@@ -8,32 +8,19 @@
 <div>
     <h1 th:text="#{document.label.display}">신청서 양식 편집</h1>
     <hr>
-    <div th:each="display :${documentDisplayList}">
-        <p th:text=${display}></p>
-    </div>
-    <hr>
-
-    <table>
-        <thead>
-            <tr>
-                <th>구분</th>
-                <th>엘리먼트 이름 →</th>  <!--th:each="userTask: ${userTaskList}"-->
-            </tr>
-        </thead>
+    <table border="1" id="documentDisplay">
         <tbody>
-            <tr> <!--th:each="component: ${componentList}"-->
-                <td>컴포넌트 이름 ↓</td>  <!--th:text="|${component.componentName}(${component.componentType)|"-->
-                <td>
-                    <select>
-                        <option value="editable">editable</option>
-                        <option value="editable.required">editable (required)</option>
-                        <option value="readonly">readonly</option>
-                        <option value="hidden">hidden</option>
-                    </select>
-                </td>
+            <tr id="documentElementRow">
+                <th>구분</th>
             </tr>
         </tbody>
     </table>
+    <select id="selectDisplay" >
+        <option name="displayOption" value="editable">editable</option>
+        <option name="displayOption" value="editable_required">editable (required)</option>
+        <option name="displayOption" value="readonly">readonly</option>
+        <option name="displayOption" value="hidden">hidden</option>
+    </select>
 </div>
 <hr>
 <div style="margin-top: 10px; text-align: center;">
@@ -44,8 +31,76 @@
 <script type="text/javascript">
     /*<![CDATA[*/
     window.onload = function() {
-<!--        restSubmit('get', '/rest/documents/display/[[${documentId}]]');-->
+        // 설정 화면 정보 setting
+        onGetDetail('[[${documentId}]]');
     };
+
+    // 화면 구성
+    function onGetDetail(documentId) {
+        const opt = {
+            method: 'get',
+            url: '/rest/documents/display/' + documentId,
+            callbackFunc: function(response) {
+                var responseJson = JSON.parse(response.responseText);
+                console.log(responseJson);
+
+                var displayTable = document.getElementById('documentDisplay');
+
+                // 엘리먼트 (완료)
+                var elements = responseJson.elements;
+                var elementRow = document.getElementById('documentElementRow');
+                for(let i=0; i < elements.length; i++) {
+                    var elementData = document.createElement('th');
+                    elementData.id = elements[i].elementId;
+                    elementData.innerHTML = elements[i].attributeValue;
+                    elementRow.appendChild(elementData);
+                }
+                displayTable.appendChild(elementRow);
+
+                // 컴포넌트
+                var components = responseJson.components;
+                for(let i=0; i < components.length; i++) {
+                    //컴포넌트 행
+                    var componentRow = document.createElement('tr');
+                        //컴포넌트 헤더
+                        var componentData = document.createElement('td');
+                        componentData.id = components[i].componentId;
+                        componentData.innerHTML = components[i].attributeValue;
+                        componentRow.appendChild(componentData);
+                            // 같은 행에 들어가는 디스플레이 정보
+                            var displayValue = components[i].displayValue;
+                            for(let j =0; j < displayValue.length; j++) {
+                                var displayData = document.createElement('td');
+                                // select box 생성
+                                setDisplaySelect(displayData, displayValue[j]);
+                                // 생성한 select box를 row 에 추가
+                                componentRow.appendChild(displayData);
+                            }
+                    displayTable.appendChild(componentRow);
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    // select box 추가
+    function setDisplaySelect(obj, displayData) {
+        var displaySelect = document.createElement('select');
+        var elementId = displayData.elementId;
+        var display = displayData.display;
+        var values = ['editable', 'editable(required)', 'readonly', 'hidden'];
+        for (let i=0; i<values.length; i++) {
+            var option=document.createElement("option");
+            option.setAttribute('name','display_' + elementId);
+            option.text = values[i];
+            option.value = values[i];
+            if (values[i] == display) {
+                option.setAttribute('selected', 'true');
+            }
+            displaySelect.add(option);
+        }
+        obj.appendChild(displaySelect);
+    }
 
     //REST API
     function restSubmit(method, url, result) {
@@ -53,7 +108,7 @@
             method: method,
             url: url,
             callbackFunc: function(response) {
-                result(response.responseText);
+                console.log(response);
             }
         };
         aliceJs.sendXhr(opt);

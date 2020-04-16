@@ -177,24 +177,24 @@ class WfDocumentService(
      * @param documentDto
      * @return WfDocumentDto
      */
-    fun createDocumentData(documentDto: WfDocumentEntity) {
+    fun createDocumentData(documentEntity: WfDocumentEntity) {
         val wfDocumentDataEntities: MutableList<WfDocumentDataEntity> = mutableListOf()
-        val componentEntities = wfComponentRepository.findByFormId(documentDto.form.formId)
-        val componentIds: MutableList<String> = mutableListOf()
+        val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
+//        val componentIds: MutableList<String> = mutableListOf()
+//        for (component in componentEntities) {
+//            componentIds.add(component.componentId)
+//        }
+        val elementEntities = wfElementRepository.findUserTaskByProcessId(documentEntity.process.processId)
+//        val elementIds: MutableList<WfElementEntity> = mutableListOf()
+//        for (element in elementEntities) {
+//            elementIds.add(element)
+//        }
         for (component in componentEntities) {
-            componentIds.add(component.componentId)
-        }
-        val elementEntities = wfElementRepository.findUserTaskByProcessId(documentDto.process.processId)
-        val elementIds: MutableList<String> = mutableListOf()
-        for (element in elementEntities) {
-            elementIds.add(element.elementId)
-        }
-        for (componentId in componentIds) {
-            for (elementId in elementIds) {
+            for (element in elementEntities) {
                 val documentDataEntity = WfDocumentDataEntity(
-                        documentId = documentDto.documentId,
-                        componentId = componentId,
-                        elementId = elementId
+                        document = documentEntity,
+                        component = component,
+                        element = element
                 )
                 wfDocumentDataEntities.add(documentDataEntity)
             }
@@ -218,16 +218,16 @@ class WfDocumentService(
 //        val elementList = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId, "userTask", "name")
         // 디스플레이 데이터
         val documentDisplay = mutableListOf<WfDocumentDisplayDataDto>()
-        val documentDisplayEntities = wfDocumentDataRepository.findByDocumentId(documentId)
-        for (display in documentDisplayEntities) {
-            val documentDisplayDto = WfDocumentDisplayDataDto(
-                    documentId = documentId,
-                    componentId = display.componentId,
-                    elementId = display.elementId,
-                    display = display.display
-            )
-            documentDisplay.add(documentDisplayDto)
-        }
+//        val documentDisplayEntities = wfDocumentDataRepository.findByDocumentId(documentId)
+//        for (display in documentDisplayEntities) {
+//            val documentDisplayDto = WfDocumentDisplayDataDto(
+//                    documentId = documentId,
+//                    componentId = display.componentId,
+//                    elementId = display.elementId,
+//                    display = display.display
+//            )
+//            documentDisplay.add(documentDisplayDto)
+//        }
 //        val documentDisplayViewDto = WfDocumentDisplayViewDto(
 //                documentId = documentId,
 //                components = componentList,
