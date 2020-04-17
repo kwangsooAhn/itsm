@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.folder.service
 
 import co.brainz.workflow.engine.folder.constants.WfFolderConstants
+import co.brainz.workflow.engine.folder.dto.WfFolderDto
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
 import co.brainz.workflow.engine.folder.repository.WfFolderRepository
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
@@ -31,8 +32,12 @@ class WfFolderService(
             WfFolderEntity(
                 folderId = folderId,
                 instance = addedInstance,
-                relatedType = WfFolderConstants.RelatedType.REFERENCE.code
+                relatedType = WfFolderConstants.RelatedType.ORIGIN.code
             )
         )
+    }
+
+    fun getRelatedInstanceList(tokenId: String): List<WfFolderDto> {
+        return wfFolderRepository.findRelatedDocumentListByTokenId(tokenId)
     }
 }
