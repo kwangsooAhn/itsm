@@ -35,7 +35,7 @@
 
                 <!--임시화면-->
                 const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no, scrollbars=yes";
-                window.open('/documents/display/2c9950817161b911017161fb8d280000', '_blank', 'width=1500,height=920,' + specs);
+                window.open('/documents/2c9950817161b911017161fb8d280000/display', '_blank', 'width=1500,height=920,' + specs);
             }
         }
 
@@ -44,7 +44,7 @@
                 if (JSON.parse(result)) {
                     aliceJs.alert('[[#{common.msg.delete.success}]]');
                 } else {
-                    aliceJs.alert('[[#{document.msg.raunchedInstance}]]');
+                    aliceJs.alert('[[#{document.msg.launchedInstance}]]');
                 }
             });
         }

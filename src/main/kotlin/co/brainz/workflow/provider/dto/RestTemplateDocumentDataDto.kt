@@ -4,7 +4,5 @@ import java.io.Serializable
 
 data class RestTemplateDocumentDataDto(
         val documentId: String? = "",
-        val components: String? = "",//List<RestTemplateComponentDataDto>,
-        val elements: String? = "",//List<Map<String, Any>>,
-        val displays: String? = ""//MutableList<RestTemplateDocumentDisplayDto>
+        val displays: MutableList<LinkedHashMap<String, Any>>
 ) : Serializable

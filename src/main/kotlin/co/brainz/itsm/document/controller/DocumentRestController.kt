@@ -1,9 +1,11 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/rest/documents")
@@ -50,7 +52,7 @@ class DocumentRestController(private val documentService: DocumentService) {
     /**
      * 신청서 편집 데이터 조회.
      */
-    @GetMapping("/display/{documentId}")
+    @GetMapping("/{documentId}/display")
     fun getDocumentDisplay(@PathVariable documentId: String): String {
 //        return documentService.findDocumentDisplay(documentId)
         return dummyData(documentId)
@@ -70,7 +72,7 @@ class DocumentRestController(private val documentService: DocumentService) {
                  "attributeValue" : "TEXT",
                  "displayValue" : [
                     {"elementId" : "40288ab770be838a0170be84789b0000",
-                     "display" : "editable(required)"},             
+                     "display" : "editableRequired"},             
                     {"elementId" : "40288ab770be838a0170be84789b0001",
                      "display" : "readonly"}]
                 },
@@ -84,5 +86,18 @@ class DocumentRestController(private val documentService: DocumentService) {
                 }]                                    
             }                                        
         """
+    }
+
+    /**
+     * 신청서 편집 데이터 저장.
+     */
+    @PutMapping("/{documentId}/display")
+    fun updateDocumentDisplay(@PathVariable documentId: String, @RequestBody restTemplateDocumentDataDto: RestTemplateDocumentDataDto): String {
+        // 수정
+        var test = documentId;
+        var test1 = restTemplateDocumentDataDto;
+        System.out.println("test1:" + test1);
+
+        return "true";
     }
 }
