@@ -265,11 +265,11 @@
                 }
                 this.checked = true;
             });
-
+            
             let lblElem = document.createElement('label');
             lblElem.setAttribute('for', attr.option[i].value);
             lblElem.textContent = attr.option[i].name;
-
+            
             if (attr.display.position === 'left') {
                 divEle.appendChild(lblElem);
                 divEle.appendChild(radioElem);
@@ -785,12 +785,20 @@
 
             //공통 : 라벨 위치 조정
             if (typeof compAttr.label !== 'undefined') {
+                let firstField = componentConstructor.domElem.querySelector('.group').firstElementChild;
+                let lastField = componentConstructor.domElem.querySelector('.group').lastElementChild;
                 if (compAttr.label.position === 'hidden') {
-                    componentConstructor.domElem.querySelector('.group').firstElementChild.style.display = 'none';
+                    firstField.style.display = 'none';
                 } else if (compAttr.label.position === 'left') {
-                    componentConstructor.domElem.querySelector('.group').firstElementChild.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
-                    componentConstructor.domElem.querySelector('.group').lastElementChild.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.display.column)) + '%';
+                    firstField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
+                } else { //top
+                    firstField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
+                    const secondField = document.createElement('div');
+                    secondField.className = 'field';
+                    secondField.style.flexBasis = (100 - (aliceForm.options.columnWidth * Number(compAttr.label.column))) + '%';
+                    lastField.parentNode.insertBefore(secondField, lastField);
                 }
+                lastField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.display.column)) + '%';
             }
         }
         return componentConstructor;

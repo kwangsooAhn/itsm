@@ -27,7 +27,7 @@ const dateTimePicker = (function() {
 
         // create target element container
         let targetContainer = document.createElement('div');
-        targetContainer.style.display = 'inline-block';
+        targetContainer.className = 'picker-wrapper';
         targetElement.parentElement.insertBefore(targetContainer, targetElement.nextSibling);
         targetElement.parentElement.removeChild(targetElement);
         targetContainer.appendChild(targetElement);
