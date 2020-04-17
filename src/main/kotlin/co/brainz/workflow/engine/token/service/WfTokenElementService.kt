@@ -6,6 +6,7 @@ import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
+import co.brainz.workflow.engine.folder.service.WfFolderService
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
 import co.brainz.workflow.engine.instance.service.WfInstanceService
@@ -29,7 +30,8 @@ class WfTokenElementService(
     private val wfInstanceService: WfInstanceService,
     private val wfElementService: WfElementService,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val wfFolderService: WfFolderService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -43,6 +45,7 @@ class WfTokenElementService(
         val documentDto = wfTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
         val instanceDto = documentDto?.let { WfInstanceDto(instanceId = "", document = it) }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
+        instance?.let { wfFolderService.createFolder(instance) }
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId!!)
         val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
@@ -261,6 +264,7 @@ class WfTokenElementService(
                     pTokenId = saveTokenEntity.tokenId
                 )
                 val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
+                wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
 
                 //Call Document Start Element
                 val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
