@@ -11,18 +11,22 @@ import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.engine.token.service.WfTokenActionService
+import co.brainz.workflow.engine.token.service.WfTokenService
+import org.springframework.stereotype.Service
 
 /**
  * Common Event 토큰을 업데이트한다.
  */
+@Service
 class WfUpdateCommonToken(
-    private val wfTokenActionService: WfTokenActionService,
+    wfTokenActionService: WfTokenActionService,
     wfActionService: WfActionService,
     wfTokenRepository: WfTokenRepository,
     wfInstanceService: WfInstanceService,
     wfElementService: WfElementService,
     wfTokenDataRepository: WfTokenDataRepository,
-    wfDocumentRepository: WfDocumentRepository
+    wfDocumentRepository: WfDocumentRepository,
+    wfTokenService: WfTokenService
 ) : WfUpdateTokenService(
     wfTokenActionService,
     wfActionService,
@@ -30,7 +34,8 @@ class WfUpdateCommonToken(
     wfInstanceService,
     wfElementService,
     wfTokenDataRepository,
-    wfDocumentRepository
+    wfDocumentRepository,
+    wfTokenService
 ) {
 
     override fun updateToken(wfTokenEntity: WfTokenEntity, wfElementEntity: WfElementEntity, wfTokenDto: WfTokenDto) {

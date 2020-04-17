@@ -11,18 +11,20 @@ import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.engine.token.service.WfTokenActionService
+import co.brainz.workflow.engine.token.service.WfTokenService
 
 /**
  * User Task 토큰 업데이트
  */
 class WfUpdateUserTaskToken(
-    private val wfTokenActionService: WfTokenActionService,
-    private val wfActionService: WfActionService,
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfInstanceService: WfInstanceService,
-    private val wfElementService: WfElementService,
-    private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    wfTokenActionService: WfTokenActionService,
+    wfActionService: WfActionService,
+    wfTokenRepository: WfTokenRepository,
+    wfInstanceService: WfInstanceService,
+    wfElementService: WfElementService,
+    wfTokenDataRepository: WfTokenDataRepository,
+    wfDocumentRepository: WfDocumentRepository,
+    wfTokenService: WfTokenService
 ) : WfUpdateTokenService(
     wfTokenActionService,
     wfActionService,
@@ -30,7 +32,8 @@ class WfUpdateUserTaskToken(
     wfInstanceService,
     wfElementService,
     wfTokenDataRepository,
-    wfDocumentRepository
+    wfDocumentRepository,
+    wfTokenService
 ) {
     override fun updateToken(wfTokenEntity: WfTokenEntity, wfElementEntity: WfElementEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)

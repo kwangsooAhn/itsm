@@ -18,6 +18,7 @@ import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.engine.token.service.WfTokenActionService
+import co.brainz.workflow.engine.token.service.WfTokenService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
@@ -27,13 +28,14 @@ import java.time.ZoneId
  * 엘리먼트에 해당하는 토큰을 업데이트
  */
 abstract class WfUpdateTokenService(
-    private val wfTokenActionService: WfTokenActionService,
-    private val wfActionService: WfActionService,
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfInstanceService: WfInstanceService,
-    private val wfElementService: WfElementService,
-    private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    protected val wfTokenActionService: WfTokenActionService,
+    protected val wfActionService: WfActionService,
+    protected val wfTokenRepository: WfTokenRepository,
+    protected val wfInstanceService: WfInstanceService,
+    protected val wfElementService: WfElementService,
+    protected val wfTokenDataRepository: WfTokenDataRepository,
+    protected val wfDocumentRepository: WfDocumentRepository,
+    protected val wfTokenService: WfTokenService
 ) {
 
     protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -50,7 +52,8 @@ abstract class WfUpdateTokenService(
                 wfInstanceService,
                 wfElementService,
                 wfTokenDataRepository,
-                wfDocumentRepository
+                wfDocumentRepository,
+                wfTokenService
             )
             WfElementConstants.ElementType.USER_TASK.value -> WfUpdateUserTaskToken(
                 wfTokenActionService,
@@ -59,7 +62,8 @@ abstract class WfUpdateTokenService(
                 wfInstanceService,
                 wfElementService,
                 wfTokenDataRepository,
-                wfDocumentRepository
+                wfDocumentRepository,
+                wfTokenService
             )
             WfElementConstants.ElementType.SIGNAL_EVENT.value -> WfUpdateSignalToken(
                 wfTokenActionService,
@@ -68,7 +72,8 @@ abstract class WfUpdateTokenService(
                 wfInstanceService,
                 wfElementService,
                 wfTokenDataRepository,
-                wfDocumentRepository
+                wfDocumentRepository,
+                wfTokenService
             )
             else -> throw AliceException(AliceErrorConstants.ERR_00005, "Not found element token action.")
         }
