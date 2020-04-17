@@ -1,7 +1,5 @@
 package co.brainz.workflow.engine.folder.entity
 
-
-import co.brainz.framework.auth.entity.AliceUrlEntityPk
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
