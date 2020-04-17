@@ -680,7 +680,7 @@
                     <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' ${attr.displayType === "editable_required" ? "required" : ""}  readonly/>
+                    <input type='text' ${attr.displayType === "editable_required" ? "required" : ""} readonly/>
                     <button type='button'>${attr.display["button-text"]}</button>
                 </div>
             </div>
