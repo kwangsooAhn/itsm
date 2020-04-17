@@ -23,7 +23,8 @@ class WfTokenElementService(
     private val wfInstanceService: WfInstanceService,
     private val wfElementService: WfElementService,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val wfTokenService: WfTokenService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -64,8 +65,8 @@ class WfTokenElementService(
             wfInstanceService,
             wfElementService,
             wfTokenDataRepository,
-            wfDocumentRepository
+            wfDocumentRepository,
+            wfTokenService
         ).updateTokenAction(wfTokenDto)
-
     }
 }
