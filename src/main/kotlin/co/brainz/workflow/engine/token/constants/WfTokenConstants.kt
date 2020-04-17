@@ -18,7 +18,7 @@ object WfTokenConstants {
         ASSIGNEE("assignee.type.assignee"),
         USERS("assignee.type.candidate.users"),
         GROUPS("assignee.type.candidate.groups")
-    };
+    }
 
     /**
      * Mapping id expression.
