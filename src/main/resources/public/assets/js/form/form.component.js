@@ -99,7 +99,7 @@
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}'
-                    ${attr.displayType === "editable_required" ? "required" : ""} max-length='${attr.validate["length-max"]}'
+                    ${attr.displayType === 'editable_required' ? 'required' : ''} max-length='${attr.validate["length-max"]}'
                     min-length='${attr.validate["length-min"]}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
                 </div>
             </div>
@@ -139,11 +139,11 @@
                 ${textEditorUseYn ?
                     `<div style='width: 100%;'>
                         <div id='editor' class='editor-container'
-                        style='height: ${textEditorHeight}px;' ${attr.displayType === "editable_required" ? "required" : ""}
+                        style='height: ${textEditorHeight}px;' ${attr.displayType === 'editable_required' ? 'required' : ''}
                         max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'></div>
                     </div>` :
                     `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
-                    ${attr.displayType === "editable_required" ? "required" : ""}
+                    ${attr.displayType === 'editable_required' ? 'required' : ''}
                     max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
@@ -194,7 +194,7 @@
                     <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <select ${attr.displayType === "editable_required" ? "required" : ""}></select>
+                    <select ${attr.displayType === 'editable_required' ? 'required' : ''}></select>
                 </div>
             </div>
         `);
@@ -454,7 +454,7 @@
                         <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.displayType === "editable_required" ? "required" : ""} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.displayType === 'editable_required' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -537,7 +537,7 @@
                         <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.displayType === "editable_required" ? "required" : ""} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
+                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.displayType === 'editable_required' ? 'required' : ''} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
                     </div>
                 </div>
             `);
@@ -597,7 +597,7 @@
                         <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.displayType === "editable_required" ? "required" : ""} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.displayType === 'editable_required' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -628,7 +628,7 @@
                     </div>
                     <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                 </div>
-                <div class='field' style='flex-basis: 100%;' id='fileupload' ${attr.displayType === "editable_required" ? "required" : ""}>
+                <div class='field' style='flex-basis: 100%;' id='fileupload' ${attr.displayType === 'editable_required' ? 'required' : ''}>
                     <div id='dropZoneFiles-${attr.id}'></div> 
                     <div id='dropZoneUploadedFiles-${attr.id}' class='dropbox'></div>
                 </div>
@@ -680,7 +680,7 @@
                     <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' ${attr.displayType === "editable_required" ? "required" : ""} readonly/>
+                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly/>
                     <button type='button'>${attr.display["button-text"]}</button>
                 </div>
             </div>
