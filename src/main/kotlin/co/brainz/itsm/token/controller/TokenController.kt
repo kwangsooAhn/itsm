@@ -3,6 +3,7 @@ package co.brainz.itsm.token.controller
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
 import org.springframework.security.core.context.SecurityContextHolder
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/tokens")
-class TokenController(private val userService: UserService, private val tokenService: TokenService) {
+class TokenController(private val userService: UserService, private val tokenService: TokenService, private val instanceService: InstanceService) {
 
     private val statusPage: String = "redirect:/certification/status"
     private val tokenSearchPage: String = "token/tokenSearch"
@@ -62,6 +63,7 @@ class TokenController(private val userService: UserService, private val tokenSer
     @GetMapping("{tokenId}/edit")
     fun getDocumentEdit(@PathVariable tokenId: String, model: Model): String {
         model.addAttribute("tokenId", tokenId)
+        model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         return tokenEditPage
     }
 }

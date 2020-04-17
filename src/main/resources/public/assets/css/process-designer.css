@@ -10009,7 +10009,7 @@ body {
   background-image: url("../media/icons/process/element/annotation.png");
 }
 .alice-process-element-palette span.separator {
-  display: list-item;
+  display: block;
   width: 2.5rem;
   height: 0.063rem;
   background: lightgray;
@@ -10077,6 +10077,10 @@ body {
   fill: #000000;
   font-weight: bold;
   font-size: 0.813rem;
+  dominant-baseline: text-before-edge;
+}
+.alice-process-drawing-board .connector text.selected {
+  fill: #0c4dcd;
 }
 .alice-process-drawing-board .connector circle.pointer {
   cursor: move;
@@ -10138,6 +10142,10 @@ body {
   font-size: 0.813rem;
   text-anchor: middle;
   dominant-baseline: middle;
+}
+.alice-process-drawing-board g.guides-container line.guides-line {
+  stroke: darkgray;
+  stroke-width: 0;
 }
 .alice-process-properties-panel {
   display: inline-block;

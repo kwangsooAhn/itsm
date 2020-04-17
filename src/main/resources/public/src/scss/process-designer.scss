@@ -170,7 +170,7 @@ body {
         }
 
         span.separator {
-            display: list-item;
+            display: block;
             width: 2.5rem;
             height: 0.063rem;
             background: lightgray;
@@ -251,6 +251,11 @@ body {
                     weight: bold;
                     size: 0.813rem; // 13px
                 }
+                dominant-baseline: text-before-edge;
+            }
+
+            text.selected {
+                fill: #0c4dcd;
             }
 
             circle.pointer {
@@ -338,6 +343,12 @@ body {
             }
         }
 
+        g.guides-container {
+            line.guides-line {
+                stroke: darkgray;
+                stroke-width: 0;
+            }
+        }
     }
 
     &-properties-panel {

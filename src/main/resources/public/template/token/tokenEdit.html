@@ -1,81 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="form/formCore">
 <head>
     <title th:text="#{token.label.write}"></title>
-    <meta charset="utf-8">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
-    <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
-    <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/vendors/quill/quill.js}"></script>
-    <script th:src="@{/assets/js/document/document.js}"></script>
-    <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
-    <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
-    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
-    <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
-    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
-    <style>
-        /*임시 css*/
-        #document-container {
-            overflow-y: auto;
-            height: 750px;
-            border: 1px solid #BCC5D3;
-        }
-        #document-container > .component {
-            padding: 15px 60px;
-        }
-        #document-container > .component .field .label {
-            display: inline;
-        }
-        #document-container > .component .field textarea {
-            resize: vertical;
-        }
-        #document-container > .component input[type=text], textarea, select, .field > div {
-            width: 100%;
-        }
-        #document-container > .component input[type=radio], input[type=checkbox], input[type=file] {
-            cursor: pointer;
-        }
-        #document-container > .component input[type=radio]:focus, input[type=checkbox]:focus {
-            outline: 1px #3c3cff solid; /*임시. radio, checkbox focus 시 안보여서 설정함.*/
-        }
-        #document-container > .component input[type=text], textarea {
-            outline: solid 1px;
-        }
-        #document-container > .component span[class*="required"] {
-            padding-left: 5px;
-            color: #fc5f6b;
-            font-weight: bold;
-        }
-    </style>
+    <th:block layout:fragment="css">
+        <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
+    </th:block>
 </head>
 <body>
-<form id="frm" name="frm">
-<div id="document-container"></div>
-<div id="button-container"></div>
-</form>
+<th:block layout:fragment="content">
+    <form id="frm" name="frm">
+        <div class="drawing-board" id="document-container"></div>
+        <div id="button-container"></div>
+    </form>
+    <h1 th:text="#{token.label.history}"></h1>
+    <table class="table table-hover" style="text-align: center">
+        <colgroup>
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th th:text="#{token.label.startDt}">시작일시</th>
+            <th th:text="#{token.label.endDt}">완료일시</th>
+            <th th:text="#{token.label.elementName}">업무</th>
+            <th th:text="#{token.label.assignee}">담당자</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="history">
+        <tr th:each="tokenHistory : ${instanceHistory}">
+            <td th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="${#temporals.format(tokenHistory.tokenStartDt, dateformat)}"></td>
+            <td th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="${#temporals.format(tokenHistory.tokenEndDt, dateformat)}"></td>
+            <td th:text="${tokenHistory.elementName}"></td>
+            <td th:text="${tokenHistory.assigneeName}"></td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
 </body>
-<script type="text/javascript">
-    window.onload = function() {
-        const userAuthInfo = {
-            userKey : '[[${#authentication.details.userKey}]]',
-            userId : '[[${#authentication.details.userId}]]',
-            userName: '[[${#authentication.details.userName}]]',
-            email: '[[${#authentication.details.email}]]',
-            position: '[[${#authentication.details.position}]]',
-            department: '[[${#authentication.details.department}]]',
-            officeNumber: '[[${#authentication.details.officeNumber}]]',
-            mobileNumber: '[[${#authentication.details.mobileNumber}]]',
-            timeFormat : '[[${#authentication.details.timeFormat}]]',
-            lang: '[[${#authentication.details.lang}]]'
+<th:block layout:fragment="script">
+    <script th:src="@{/assets/js/document/document.js}"></script>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            aliceDocument.initToken('[[${tokenId}]]');
         };
-        i18n.add(function() {
-            aliceDocument.initToken('[[${tokenId}]]', JSON.stringify(userAuthInfo));
-        });
-    };
-</script>
+        /*]]>*/
+    </script>
+</th:block>
 </html>

@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.token.service
 
 import co.brainz.workflow.engine.element.constants.WfElementConstants
+import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.dto.WfTokenDto
@@ -15,8 +16,11 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Service
-class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
-                           private val wfTokenDataRepository: WfTokenDataRepository) {
+class WfTokenActionService(
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfElementRepository: WfElementRepository
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -30,8 +34,8 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
         wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         wfTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
         wfTokenDto.assigneeId = wfTokenEntity.assigneeId
-        wfTokenDto.assigneeType = wfTokenEntity.assigneeType
         updateToken(wfTokenEntity, wfTokenDto)
+        //현재 Element 의 데이터를 갱신 (다음 Element 로 넘어가는 데이터와 동일한 값으로 업데이트)
         deleteTokenData(wfTokenDto.tokenId)
         createTokenData(wfTokenDto, wfTokenDto.tokenId)
     }
@@ -45,6 +49,7 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
      */
     fun save(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto): Boolean {
         wfTokenDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
+        wfTokenDto.assigneeId = wfTokenEntity.assigneeId
         updateToken(wfTokenEntity, wfTokenDto)
         deleteTokenData(wfTokenDto.tokenId)
         createTokenData(wfTokenDto, wfTokenDto.tokenId)
@@ -67,13 +72,12 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
 
         //Create Reject Token
         val rejectToken = WfTokenEntity(
-                tokenId = "",
-                tokenStatus = WfTokenConstants.Status.RUNNING.code,
-                assigneeId = values[WfElementConstants.AttributeId.ASSIGNEE.value] as String,
-                assigneeType = values[WfElementConstants.AttributeId.ASSIGNEE_TYPE.value] as String,
-                elementId = values[WfElementConstants.AttributeId.REJECT_ID.value] as String,
-                instance = wfTokenEntity.instance,
-                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
+            tokenId = "",
+            tokenStatus = WfTokenConstants.Status.RUNNING.code,
+            assigneeId = values[WfElementConstants.AttributeId.ASSIGNEE.value] as String,
+            element = wfElementRepository.findWfElementEntityByElementId(values[WfElementConstants.AttributeId.REJECT_ID.value] as String),
+            instance = wfTokenEntity.instance,
+            tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
         wfTokenRepository.save(rejectToken)
 
@@ -98,13 +102,12 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
      */
     fun createToken(wfInstance: WfInstanceEntity, wfTokenDto: WfTokenDto): WfTokenEntity {
         val tokenEntity = WfTokenEntity(
-                tokenId = "",
-                elementId = wfTokenDto.elementId,
-                tokenStatus = wfTokenDto.tokenStatus?:WfTokenConstants.Status.RUNNING.code,
-                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-                assigneeId = wfTokenDto.assigneeId,
-                assigneeType = wfTokenDto.assigneeType,
-                instance = wfInstance
+            tokenId = "",
+            element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId),
+            tokenStatus = wfTokenDto.tokenStatus ?: WfTokenConstants.Status.RUNNING.code,
+            tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+            assigneeId = wfTokenDto.assigneeId,
+            instance = wfInstance
         )
         if (wfTokenDto.tokenStatus == WfTokenConstants.Status.FINISH.code) {
             tokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
@@ -122,9 +125,9 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
         for (tokenDataDto in wfTokenDto.data!!) {
             val tokenDataEntity = WfTokenDataEntity(
-                    tokenId = tokenId,
-                    componentId = tokenDataDto.componentId,
-                    value = tokenDataDto.value
+                tokenId = tokenId,
+                componentId = tokenDataDto.componentId,
+                value = tokenDataDto.value
             )
             tokenDataEntities.add(tokenDataEntity)
         }
@@ -140,8 +143,7 @@ class WfTokenActionService(private val wfTokenRepository: WfTokenRepository,
      */
     fun updateToken(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
         wfTokenEntity.assigneeId = wfTokenDto.assigneeId
-        wfTokenEntity.assigneeType = wfTokenDto.assigneeType
-        wfTokenEntity.tokenStatus = wfTokenDto.tokenStatus?:WfTokenConstants.Status.RUNNING.code
+        wfTokenEntity.tokenStatus = wfTokenDto.tokenStatus ?: WfTokenConstants.Status.RUNNING.code
         wfTokenRepository.save(wfTokenEntity)
     }
 

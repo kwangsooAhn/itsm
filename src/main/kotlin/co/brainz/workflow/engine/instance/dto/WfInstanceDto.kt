@@ -6,5 +6,6 @@ import java.io.Serializable
 data class WfInstanceDto(
         val instanceId: String,
         val document: WfDocumentEntity,
-        val instanceStatus: String? = null
+        val instanceStatus: String? = null,
+        val pTokenId: String? = null
 ) : Serializable

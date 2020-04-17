@@ -54,7 +54,7 @@ object RestTemplateConstants {
      */
     enum class Token(val url: String, val method: String) {
         POST_TOKEN("/rest/wf/tokens", "POST"),
-        PUT_TOKEN("/rest/wf/tokens", "PUT"),
+        PUT_TOKEN("/rest/wf/tokens/{tokenId}", "PUT"),
         GET_TOKEN("/rest/wf/tokens/{tokenId}", "GET"),
         GET_TOKENS("/rest/wf/tokens", "GET"),
         GET_TOKEN_DATA("/rest/wf/tokens/{tokenId}/data", "GET")
@@ -81,6 +81,13 @@ object RestTemplateConstants {
     }
 
     /**
+     * Instance Url.
+     */
+    enum class Instance(val url: String, val method: String) {
+        GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
+    }
+
+    /**
      * Protocol.
      *
      * @param value
@@ -97,8 +104,8 @@ object RestTemplateConstants {
      */
     enum class FormStatus(val value: String) {
         EDIT("form.status.edit"),
-        SIMULATION("form.status.simu"),
         PUBLISH("form.status.publish"),
+        USE("form.status.use"),
         DESTROY("form.status.destroy")
     }
 

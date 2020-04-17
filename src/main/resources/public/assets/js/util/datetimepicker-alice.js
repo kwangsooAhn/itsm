@@ -27,7 +27,7 @@ const dateTimePicker = (function() {
 
         // create target element container
         let targetContainer = document.createElement('div');
-        targetContainer.style.display = 'inline-block';
+        targetContainer.className = 'picker-wrapper';
         targetElement.parentElement.insertBefore(targetContainer, targetElement.nextSibling);
         targetElement.parentElement.removeChild(targetElement);
         targetContainer.appendChild(targetElement);
@@ -62,10 +62,15 @@ const dateTimePicker = (function() {
         }
         let picker = initPicker(targetId, options);
         picker.el.addEventListener('wdp.change', () => {
-            if (typeof callback === 'function') { 
-                callback(picker.inputEl); 
+            if (typeof callback === 'function') {
+                callback(picker.inputEl);
             }
             picker.closeDateContainer();
+        });
+        picker.el.addEventListener('wdp.close', () => {
+            if (typeof callback === 'function') {
+                callback(picker.inputEl, picker);
+            }
         });
     }
 
@@ -126,7 +131,7 @@ const dateTimePicker = (function() {
         let picker = initPicker(targetId, options);
         picker.el.addEventListener('wdp.close', () => {
             if (typeof callback === 'function') { 
-                callback(picker.inputEl); 
+                callback(picker.inputEl);
             }
         });
     }

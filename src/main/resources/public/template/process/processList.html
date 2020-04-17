@@ -9,7 +9,11 @@
             border: 1px solid;
             border-collapse: collapse;
         }
+        table tr:nth-child(1) td {
+            border-top: 1px solid;
+        }
         table td {
+            border-top: 1px solid #e7e7e7;
             border-left: 1px solid;
         }
     </style>
@@ -26,7 +30,10 @@
                 <col width="5%">
             </colgroup>
             <tbody>
-                <tr th:each="process: ${processList}">
+                <tr th:if="${#arrays.isEmpty(processList)}">
+                    <td colspan="6" th:text="#{common.msg.noData}"></td>
+                </tr>
+                <tr th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
                     <td><a sec:authorize="hasAnyAuthority('process.create', 'process.update')"
                            href="javascript:void(0);"
                            th:attr="onclick=|openProcessDesignerView('${process.id}')|"

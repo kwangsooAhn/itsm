@@ -28,7 +28,7 @@
         </thead>
         <tbody>
         <tr th:if="${#arrays.isEmpty(statusCountList)}">
-            <td colspan="3" th:text="#{dashboard.label.status.noData}"></td>
+            <td colspan="3" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:if="${#arrays.length(statusCountList)} > 0">
             <td><span th:each="statusCount:${statusCountList}" th:text="${statusCount.instanceStatus == 'running'} ? ${statusCount.instanceCount}:''"></span></td>
