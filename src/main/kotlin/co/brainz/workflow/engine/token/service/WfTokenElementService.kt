@@ -184,10 +184,24 @@ class WfTokenElementService(
         )
         when (nextElementEntity.elementType) {
             WfElementConstants.ElementType.USER_TASK.value -> {
-                nextTokenEntity.assigneeId = getAttributeValue(
-                    nextElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE.value
-                )
+                when (getAttributeValue(nextElementEntity.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value)) {
+                    WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
+                        val assigneeMappingId = getAttributeValue(nextElementEntity.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+                        var componentMappingId = ""
+                        wfTokenEntity.instance.document.form.components?.forEach { component ->
+                            if (component.mappingId == assigneeMappingId) {
+                                componentMappingId = component.componentId
+                            }
+                        }
+                        nextTokenEntity.assigneeId = wfTokenDataRepository.findByTokenIdAndComponentId(wfTokenEntity.tokenId, componentMappingId).value
+                    }
+                    WfTokenConstants.AssigneeType.USERS.code -> {
+                        nextTokenEntity.assigneeId = getAttributeValue(nextElementEntity.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+                    }
+                    WfTokenConstants.AssigneeType.GROUPS.code -> {
+                        //TODO: 담당자 그룹에 따른 처리
+                    }
+                }
             }
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
                 nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
