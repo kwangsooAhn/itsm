@@ -127,6 +127,13 @@ class WfTokenService(
                 component["componentId"] = componentEntity.componentId
                 component["attributes"] = attributes
                 component["values"] = values
+                //TODO: 실 데이터로 변경.
+                component["displayType"] = when (attributes["type"]) {
+                    //"text", "textarea", "select", "radio", "checkbox", "label", "image", "divider", "date", "time", "datetime", "fileupload", "custom-code"
+                    //readonly, editable, editable_required, hidden
+                    "text", "textarea", "select", "radio", "checkbox", "label", "image", "divider", "date", "time", "datetime", "fileupload" -> "editable"
+                    else -> "readonly"
+                }
                 componentList.add(component)
             }
         }

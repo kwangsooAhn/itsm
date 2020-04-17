@@ -80,6 +80,13 @@ class WfDocumentService(
             map["componentId"] = component.componentId
             map["attributes"] = attributes
             map["values"] = values
+            //TODO: 실 데이터로 변경.
+            map["displayType"] = when (attributes["type"]) {
+                //"text", "textarea", "select", "radio", "checkbox", "label", "image", "divider", "date", "time", "datetime", "fileupload", "custom-code"
+                // readonly, editable, editable_required, hidden
+                "text", "textarea", "select", "radio", "checkbox", "label", "image", "divider", "date", "time", "datetime", "fileupload" -> "editable"
+                else -> "readonly"
+            }
             components.add(map)
         }
 
