@@ -36,12 +36,20 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     }
 
     /**
+     * 신청서 조회.
+     */
+    fun findDocument(documentId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        return restTemplate.get(url)
+    }
+
+    /**
      * 신청서 문서 데이터 조회.
      *
      * @return String
      */
-    fun findDocument(documentId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+    fun findDocumentData(documentId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT_DATA.url.replace(restTemplate.getKeyRegex(), documentId))
         return restTemplate.get(url)
     }
 
@@ -54,7 +62,7 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
-        restTemplateDocumentDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateDocumentDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         //TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
         restTemplateDocumentDto.documentStatus = RestTemplateConstants.DocumentStatus.USE.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
@@ -67,6 +75,22 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
             }
             false -> ""
         }
+    }
+
+    /**
+     * Update Document.
+     *
+     * @param restTemplateDocumentDto
+     * @return Boolean
+     */
+    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
+        val documentId = restTemplateDocumentDto.documentId?:""
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
+        restTemplateDocumentDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        val responseEntity = restTemplate.update(url, restTemplateDocumentDto)
+        return responseEntity.body.toString().isNotEmpty()
     }
 
     /**

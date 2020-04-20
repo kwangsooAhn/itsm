@@ -5,7 +5,6 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
-import co.brainz.workflow.engine.document.mapper.WfDocumentMapper
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.constants.WfFormConstants
@@ -37,7 +36,6 @@ class WfDocumentService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
-    private val wfDocumentMapper: WfDocumentMapper = Mappers.getMapper(WfDocumentMapper::class.java)
 
     /**
      * Search Documents.
@@ -71,9 +69,31 @@ class WfDocumentService(
      * Search Document.
      *
      * @param documentId
+     * @return WfDocumentDto
+     */
+    fun getDocument(documentId: String): WfDocumentDto {
+        val document = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+        return WfDocumentDto(
+                documentId = document.documentId,
+                documentName = document.documentName,
+                documentDesc = document.documentDesc,
+                documentStatus = document.documentStatus,
+                procId = document.process!!.processId,
+                formId = document.form!!.formId,
+                createDt = document.createDt,
+                createUserKey = document.createUserKey,
+                updateDt = document.updateDt,
+                updateUserKey = document.updateUserKey
+        )
+    }
+
+    /**
+     * Search Document Data.
+     *
+     * @param documentId
      * @return WfFormComponentViewDto?
      */
-    fun document(documentId: String): WfFormComponentViewDto? {
+    fun getDocumentData(documentId: String): WfFormComponentViewDto? {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form!!.formId)
         val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
@@ -152,8 +172,17 @@ class WfDocumentService(
      */
     fun updateDocument(documentDto: WfDocumentDto): Boolean {
 
-        //Update Document
-        wfDocumentRepository.save(wfDocumentMapper.toDocumentEntity(documentDto))
+        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
+        val form = WfFormEntity(formId = documentDto.formId)
+        val process = WfProcessEntity(processId = documentDto.procId)
+        wfDocumentEntity.documentName = documentDto.documentName
+        wfDocumentEntity.documentDesc = documentDto.documentDesc
+        wfDocumentEntity.documentStatus = documentDto.documentStatus
+        wfDocumentEntity.updateUserKey = documentDto.updateUserKey
+        wfDocumentEntity.updateDt = documentDto.updateDt
+        wfDocumentEntity.form = form
+        wfDocumentEntity.process = process
+        wfDocumentRepository.save(wfDocumentEntity)
 
         when (documentDto.documentStatus) {
             WfDocumentConstants.Status.USE.code -> {
@@ -176,17 +205,15 @@ class WfDocumentService(
     }
 
     /**
-     * 다큐먼트를 삭제한다.
+     * Delete Document.
      *
-     * @param documentId 다큐먼트 아이디
+     * @param documentId
+     * @return Boolean
      */
     fun deleteDocument(documentId: String): Boolean {
-
-        // 인스턴스에서 해당 다큐먼트가 있는지 체크.
         val selectedDocument = wfDocumentRepository.getOne(documentId)
         val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
 
-        // 있으면 삭제
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
             wfDocumentRepository.deleteByDocumentId(documentId)

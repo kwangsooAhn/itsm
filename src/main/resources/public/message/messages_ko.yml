@@ -346,10 +346,11 @@ document:
     description: "설명"
     form: "문서양식"
     process: "프로세스"
+    status: "신청서 상태"
   status:
     temporary: "임시"
     use: "사용"
-    destory: "폐기"
+    destroy: "폐기"
   msg:
     nameNotExist: "신청서 이름을 입력해주세요."
     lengthMin: "{0}글자 이상 입력해주세요."

@@ -31,11 +31,22 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * 신청서 1건 조회.
      *
      * @param documentId
-     * @return FormComponentViewDto
+     * @return WfDocumentDto
      */
     @GetMapping("/{documentId}")
-    fun getDocument(@PathVariable documentId: String): WfFormComponentViewDto? {
-        return wfEngine.document().document(documentId)
+    fun getDocument(@PathVariable documentId: String): WfDocumentDto {
+        return wfEngine.document().getDocument(documentId)
+    }
+
+    /**
+     * 신청서 데이터 조회.
+     *
+     * @param documentId
+     * @return FormComponentViewDto
+     */
+    @GetMapping("/{documentId}/data")
+    fun getDocumentData(@PathVariable documentId: String): WfFormComponentViewDto? {
+        return wfEngine.document().getDocumentData(documentId)
     }
 
     /**

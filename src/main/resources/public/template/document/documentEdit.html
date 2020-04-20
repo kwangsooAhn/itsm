@@ -28,7 +28,7 @@
         <tr>
             <th class="required" th:text="#{document.label.form}"></th>
             <td>
-                <select id="document_form" style="width:75%">
+                <select id="document_form" style="width:75%" th:disabled="${documentId}">
                     <option th:each="form:${formList}" 
                             th:id="${form?.id}"
                             th:value="${form?.id}"
@@ -39,7 +39,7 @@
         <tr>
             <th class="required" th:text="#{document.label.process}"></th>
             <td>
-                <select id="document_process" style="width:75%">
+                <select id="document_process" style="width:75%" th:disabled="${documentId}">
                     <option th:each="process:${processList}"
                             th:id="${process?.id}"
                             th:value="${process?.id}"
@@ -47,27 +47,45 @@
                 </select>
             </td>
         </tr>
+        <tr>
+            <th th:text="#{document.label.status}"></th>
+            <td>
+                <select id="document_status" style="width:75%" th:disabled="!${documentId}">
+                    <option th:each="status:${statusList}" th:value="${status.code}"
+                            th:text="#{${status.code}}" th:selected="${status.code == 'document.status.use'}"></option>
+                </select>
+            </td>
+        </tr>
     </table>
 </div>
 <hr>
 <div style="margin-top: 10px; text-align: center;">
-    <button th:text="#{common.btn.register}" onclick="createDocument()"></button>
+    <button th:if="${documentId}" onclick="saveDocument('put')" th:text="#{common.btn.modify}"></button>
+    <button th:unless="${documentId}" onclick="saveDocument('post')" th:text="#{common.btn.register}"></button>
     <button th:text="#{common.btn.close}" onclick="window.close();"></button>
 </div>
 </body>
 <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+<script th:src="@{/assets/js/document/document.js}"></script>
 <script type="text/javascript">
-    function createDocument() {
+    function saveDocument(method) {
         if (emptyValidation()) {
             let documentForm = document.getElementById('document_form');
         	let documentProcess = document.getElementById('document_process');
+        	let documentStatus = document.getElementById('document_status');
             const documentInfo = {
                 documentName: document.getElementById('document_name').value,
                 documentDesc: document.getElementById('document_desc').value,
                 formId: documentForm.options[documentForm.selectedIndex].value,
                 procId: documentProcess.options[documentProcess.selectedIndex].value,
+                documentStatus: documentStatus.options[documentStatus.selectedIndex].value
             };
-            restSubmit('POST', '/rest/documents', documentInfo);
+            let parameter = '';
+            if (method === 'put') {
+                documentInfo.documentId = '[[${documentId}]]';
+                parameter = '/' + '[[${documentId}]]';
+            }
+            restSubmit(method, '/rest/documents' + parameter, documentInfo);
         }
     }
 
@@ -85,25 +103,23 @@
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(response) {
-                opener.location.reload();
-                window.close();
+                aliceJs.alert(i18n.get('common.msg.save'), function() {
+                    opener.location.reload();
+                    window.close();
+                });
             }
         };
         aliceJs.sendXhr(opt);
     }
 
-    //신규가 아닌 경우 데이터를 조회한다.
-    //조회후 데이터를 셋팅한다.
     /*<![CDATA[*/
     window.onload = function() {
-        console.log(document.getElementById("document_form").value);
-        console.log('[[${documentId}]]');
         if ('[[${documentId}]]' !== '') {
-            //데이터 조회 .. 확인필요
+            i18n.add(function(){
+                aliceDocument.getDocument('[(${documentId})]');
+            });
         }
-
     };
     /*]]>*/
-
 </script>
 </html>

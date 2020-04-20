@@ -48,11 +48,11 @@ data class WfDocumentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_id")
-    val process: WfProcessEntity? = null,
+    var process: WfProcessEntity? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    val form: WfFormEntity? = null
+    var form: WfFormEntity? = null
 
 ) : Serializable {
 
