@@ -148,7 +148,7 @@
      * @param element element
      */
     function selectCheck(element) {
-        let elements = document.getElementsByName(element.name);
+        let elements = element.getElementsByTagName('input');
         for (let j = 0; j < elements.length; j++) {
             if (elements[j].checked) { return true; }
         }
@@ -160,29 +160,36 @@
      *
      */
     function requiredCheck() {
-        const requiredObjs = document.querySelectorAll(':required');
+        const requiredObjs = document.querySelectorAll('[required]');
         for (let i = 0; i < requiredObjs.length; i++) {
             let requiredObj = requiredObjs[i];
-            if (requiredObj.type === 'radio' || requiredObj.type === 'checkbox') {
-                if (!selectCheck(requiredObj)) {
-                    alertMsg(requiredObj, i18n.get('document.msg.requiredSelect'));
-                    return true;
-                }
-            } else if (requiredObj.value === '') {
-                alertMsg(requiredObj, i18n.get('document.msg.requiredEnter'));
-                return true;
-            }
-        }
-        //textarea Editor 필수 체크
-        const textEditorElems = document.querySelectorAll('.editor-container');
-        for (let i = 0; i < textEditorElems.length; i++) {
-            let textEditorElem = textEditorElems[i];
-            if (textEditorElem.hasAttribute('required')) {
-                let textEditor = Quill.find(textEditorElem);
-                if (textEditor.getLength() === 1) {
-                    alertMsg(textEditor, i18n.get('document.msg.requiredEnter'));
-                    return true;
-                }
+            switch (requiredObj.id) {
+                case 'editor':
+                    let textEditor = Quill.find(requiredObj);
+                    if (textEditor.getLength() === 1) {
+                        alertMsg(textEditor, i18n.get('document.msg.requiredEnter'));
+                        return true;
+                    }
+                    break;
+                case 'radio':
+                case 'chkbox':
+                    if (!selectCheck(requiredObj)) {
+                        alertMsg(requiredObj, i18n.get('document.msg.requiredSelect'));
+                        return true;
+                    }
+                    break;
+                case 'fileupload':
+                    if (requiredObj.getElementsByTagName('input').length === 0) {
+                        alertMsg(requiredObj, i18n.get('document.msg.requiredFileupload'));
+                        return true;
+                    }
+                    break;
+                default :
+                    if (requiredObj.value === '') {
+                        alertMsg(requiredObj, i18n.get('document.msg.requiredEnter'));
+                        return true;
+                    }
+                    break;
             }
         }
         return false;
@@ -259,7 +266,7 @@
                     case 'textarea':
                         componentChild = componentElements[eIndex].querySelector('.editor-container');
                         if (componentChild) {
-                            let textEditor = Quill.find(componentChild); //Quill.find(componentChild) === textEditor : true
+                            let textEditor = Quill.find(componentChild);
                             componentValue = JSON.stringify(textEditor.getContents());
                         } else {
                             componentChild = componentElements[eIndex].getElementsByTagName('textarea');
@@ -385,7 +392,10 @@
      * @param data 문서 데이터.
      */
     function drawDocument(data) {
-        if (typeof data === 'string') { data = JSON.parse(data); }
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+            data.components = data.components.filter(function(comp) { return comp.type !== 'editbox'; }); //미리보기시 editbox 제외
+        }
         documentContainer = document.getElementById('document-container');
         buttonContainer = document.getElementById('button-container');
         let components = (data.token === undefined) ? data.components : data.token.components;
@@ -403,6 +413,7 @@
                 //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
                 let componentAttr = components[i];
                 let compType = (componentAttr.attributes === undefined) ? componentAttr.type : componentAttr.attributes.type;
+                if (compType === 'editbox' || componentAttr.displayType === 'hidden') { continue; }
                 let defaultComponentAttr = component.getData(compType);
                 let mergeComponentAttr = null;
                 if (componentAttr.attributes === undefined) { //신청서

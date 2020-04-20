@@ -354,6 +354,7 @@ document:
     dateMax: "Please select before {0} date."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
+    requiredFileupload: "Please upload a file."
     raunchedInstance: "There is an instance started and cannot be deleted."
 
 # token
@@ -361,6 +362,11 @@ token:
   label:
     list: "Process Document List"
     write: "Process Document"
+    startDt: "Start Date"
+    endDt: "Finish Date"
+    elementName: "Task Name"
+    assignee: "Assignee"
+    history: "History"
 # Custom Code
 custom.code:
   label:
