@@ -367,6 +367,7 @@ token:
     elementName: "Task Name"
     assignee: "Assignee"
     history: "History"
+    relatedInstance: "Related Documents"
 # Custom Code
 custom.code:
   label:
