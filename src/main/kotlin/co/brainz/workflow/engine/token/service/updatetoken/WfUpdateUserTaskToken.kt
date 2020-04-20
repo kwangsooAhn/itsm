@@ -5,6 +5,7 @@ import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
+import co.brainz.workflow.engine.folder.service.WfFolderService
 import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.dto.WfTokenDto
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
@@ -24,7 +25,8 @@ class WfUpdateUserTaskToken(
     wfInstanceService: WfInstanceService,
     wfElementService: WfElementService,
     wfTokenDataRepository: WfTokenDataRepository,
-    wfDocumentRepository: WfDocumentRepository
+    wfDocumentRepository: WfDocumentRepository,
+    wfFolderService: WfFolderService
 
 ) : WfUpdateToken(
     wfTokenActionService,
@@ -33,7 +35,8 @@ class WfUpdateUserTaskToken(
     wfInstanceService,
     wfElementService,
     wfTokenDataRepository,
-    wfDocumentRepository
+    wfDocumentRepository,
+    wfFolderService
 ) {
     override fun updateToken(wfTokenEntity: WfTokenEntity, wfElementEntity: WfElementEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)

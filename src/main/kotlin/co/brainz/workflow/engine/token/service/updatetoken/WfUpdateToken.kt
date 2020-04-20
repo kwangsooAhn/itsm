@@ -6,6 +6,7 @@ import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
+import co.brainz.workflow.engine.folder.service.WfFolderService
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
 import co.brainz.workflow.engine.instance.service.WfInstanceService
@@ -28,8 +29,10 @@ abstract class WfUpdateToken(
     protected val wfInstanceService: WfInstanceService,
     protected val wfElementService: WfElementService,
     protected val wfTokenDataRepository: WfTokenDataRepository,
-    protected val wfDocumentRepository: WfDocumentRepository
+    protected val wfDocumentRepository: WfDocumentRepository,
+    protected val wfFolderService: WfFolderService
 ) {
+
     protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
@@ -92,6 +95,7 @@ abstract class WfUpdateToken(
                     pTokenId = saveTokenEntity.tokenId
                 )
                 val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
+                wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
 
                 //Call Document Start Element
                 val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
@@ -126,10 +130,36 @@ abstract class WfUpdateToken(
         )
         when (nextElementEntity.elementType) {
             WfElementConstants.ElementType.USER_TASK.value -> {
-                nextTokenEntity.assigneeId = getAttributeValue(
+                when (getAttributeValue(
                     nextElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE.value
-                )
+                    WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
+                )) {
+                    WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
+                        val assigneeMappingId = getAttributeValue(
+                            nextElementEntity.elementDataEntities,
+                            WfElementConstants.AttributeId.ASSIGNEE.value
+                        )
+                        var componentMappingId = ""
+                        wfTokenEntity.instance.document.form.components?.forEach { component ->
+                            if (component.mappingId == assigneeMappingId) {
+                                componentMappingId = component.componentId
+                            }
+                        }
+                        nextTokenEntity.assigneeId = wfTokenDataRepository.findByTokenIdAndComponentId(
+                            wfTokenEntity.tokenId,
+                            componentMappingId
+                        ).value
+                    }
+                    WfTokenConstants.AssigneeType.USERS.code -> {
+                        nextTokenEntity.assigneeId = getAttributeValue(
+                            nextElementEntity.elementDataEntities,
+                            WfElementConstants.AttributeId.ASSIGNEE.value
+                        )
+                    }
+                    WfTokenConstants.AssigneeType.GROUPS.code -> {
+                        //TODO: 담당자 그룹에 따른 처리
+                    }
+                }
             }
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
                 nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
@@ -181,10 +211,7 @@ abstract class WfUpdateToken(
      * @param attributeId
      * @return String (attributeValue)
      */
-    protected fun getAttributeValue(
-        elementDataEntities: MutableList<WfElementDataEntity>,
-        attributeId: String
-    ): String {
+    protected fun getAttributeValue(elementDataEntities: MutableList<WfElementDataEntity>, attributeId: String): String {
         var attributeValue = ""
         elementDataEntities.forEach { data ->
             if (data.attributeId == attributeId) {

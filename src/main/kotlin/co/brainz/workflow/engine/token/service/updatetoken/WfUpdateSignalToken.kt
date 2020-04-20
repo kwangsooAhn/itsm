@@ -5,6 +5,7 @@ import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
+import co.brainz.workflow.engine.folder.service.WfFolderService
 import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.dto.WfTokenDataDto
 import co.brainz.workflow.engine.token.dto.WfTokenDto
@@ -27,7 +28,8 @@ class WfUpdateSignalToken(
     wfElementService: WfElementService,
     wfTokenDataRepository: WfTokenDataRepository,
     wfDocumentRepository: WfDocumentRepository,
-    private val wfTokenService: WfTokenService
+    private val wfTokenService: WfTokenService,
+    wfFolderService: WfFolderService
 
 ) : WfUpdateToken(
     wfTokenActionService,
@@ -36,7 +38,8 @@ class WfUpdateSignalToken(
     wfInstanceService,
     wfElementService,
     wfTokenDataRepository,
-    wfDocumentRepository
+    wfDocumentRepository,
+    wfFolderService
 ) {
     override fun updateToken(wfTokenEntity: WfTokenEntity, wfElementEntity: WfElementEntity, wfTokenDto: WfTokenDto) {
 
