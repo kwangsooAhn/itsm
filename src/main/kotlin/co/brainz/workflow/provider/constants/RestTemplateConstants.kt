@@ -69,7 +69,9 @@ object RestTemplateConstants {
     enum class Workflow(val url: String, val method: String) {
         GET_DOCUMENTS("/rest/wf/documents", "GET"),
         GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
+        GET_DOCUMENT_DATA("/rest/wf/documents/{documentId}/data", "GET"),
         POST_DOCUMENT("/rest/wf/documents", "POST"),
+        PUT_DOCUMENT("/rest/wf/documents/{documentId}", "PUT"),
         DELETE_DOCUMENT("/rest/wf/documents/{documentId}", "DELETE"),
         GET_DOCUMENTS_DISPLAY("/rest/wf/documents/{documentId}/display", "GET"),
         PUT_DOCUMENTS_DISPLAY("/rest/wf/documents/{documentId}/display", "PUT"),
@@ -84,6 +86,7 @@ object RestTemplateConstants {
      */
     enum class Instance(val url: String, val method: String) {
         GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
+        GET_RELATED_INSTANCE("/rest/wf/folders", "GET")
     }
 
     /**
@@ -118,6 +121,17 @@ object RestTemplateConstants {
         PUBLISH("process.status.publish"),
         USE("process.status.use"),
         DESTROY("process.status.destroy")
+    }
+
+    /**
+     * Document Status.
+     *
+     * @param value
+     */
+    enum class DocumentStatus(val value: String) {
+        TEMPORARY("document.status.temporary"),
+        USE("document.status.use"),
+        DESTROY("document.status.destroy")
     }
 
     /**

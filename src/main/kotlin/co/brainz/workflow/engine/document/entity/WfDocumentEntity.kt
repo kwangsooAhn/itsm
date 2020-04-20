@@ -26,10 +26,13 @@ data class WfDocumentEntity(
     val documentId: String,
 
     @Column(name = "document_name", length = 128)
-    val documentName: String,
+    var documentName: String,
+
+    @Column(name = "document_status", length = 100)
+    var documentStatus: String? = null,
 
     @Column(name = "document_desc", length = 256)
-    val documentDesc: String?,
+    var documentDesc: String?,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
@@ -45,11 +48,11 @@ data class WfDocumentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_id")
-    val process: WfProcessEntity,
+    var process: WfProcessEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    val form: WfFormEntity
+    var form: WfFormEntity
 
 ) : Serializable {
 

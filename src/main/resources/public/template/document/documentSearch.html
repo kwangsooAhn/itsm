@@ -27,22 +27,28 @@
             });
         };
 
-        function openDocumentEdit(documentId) {
-            if (documentId !== undefined) {
-                window.open('/documents/' + documentId + '/edit', '_blank', 'width=800, height=805');
-            } else {
-                <!--window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');-->
+        function openDocument(documentId) {
+            window.open('/documents/' + documentId + '/publish', '_blank', 'width=800, height=805');
+        }
 
-                <!--임시화면-->
-                const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no, scrollbars=yes";
-                window.open('/documents/2c9950817161b911017161fb8d280000/display', '_blank', 'width=1500,height=920,' + specs);
-            }
+        function openDocumentEdit(documentId) {
+            window.open('/documents/' + documentId + '/edit', '_blank', 'width=625, height=400, left=1000, top=350');
+        }
+
+        function createDocument() {
+            <!--window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');-->
+
+            <!--임시화면-->
+            const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no, scrollbars=yes";
+            window.open('/documents/2c9950817161b911017161fb8d280000/display', '_blank', 'width=1500,height=920,' + specs);
         }
 
         function deleteDocument(documentId) {
             restSubmit('DELETE', '/rest/documents/' + documentId, function(result) {
                 if (JSON.parse(result)) {
-                    aliceJs.alert('[[#{common.msg.delete.success}]]');
+                    aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
+                        location.reload();
+                    });
                 } else {
                     aliceJs.alert('[[#{document.msg.launchedInstance}]]');
                 }

@@ -10,8 +10,7 @@ import javax.persistence.*
 @Table(name = "wf_folder")
 @IdClass(WfFolderPk::class)
 data class WfFolderEntity(
-    @Id @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Id
     @Column(name = "folder_id", length = 128)
     var folderId: String = "",
 

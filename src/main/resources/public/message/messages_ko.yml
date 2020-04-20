@@ -351,6 +351,11 @@ document:
     editableRequired: "수정가능(필수값)"
     readonly: "수정불가"
     hidden: "숨김"
+    status: "신청서 상태"
+  status:
+    temporary: "임시"
+    use: "사용"
+    destroy: "폐기"
   msg:
     nameNotExist: "신청서 이름을 입력해주세요."
     lengthMin: "{0}글자 이상 입력해주세요."
@@ -372,6 +377,7 @@ token:
     elementName: "업무명"
     assignee: "담당자"
     history: "처리 이력"
+    relatedInstance: "관련 문서"
 # Custom Code
 custom.code:
   label:

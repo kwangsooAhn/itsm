@@ -4,8 +4,14 @@ import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-import javax.servlet.http.HttpServletRequest
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/documents")
@@ -17,8 +23,8 @@ class DocumentRestController(private val documentService: DocumentService) {
      * @param documentId
      * */
     @GetMapping("/data/{documentId}")
-    fun getDocument(@PathVariable documentId: String): String {
-        return documentService.findDocument(documentId)
+    fun getDocumentData(@PathVariable documentId: String): String {
+        return documentService.findDocumentData(documentId)
     }
 
     /**
@@ -47,6 +53,24 @@ class DocumentRestController(private val documentService: DocumentService) {
     @GetMapping("/", "")
     fun getDocuments(): List<RestTemplateDocumentDto> {
         return documentService.findDocumentList()
+    }
+
+    /**
+     * 신청서 조회.
+     */
+    @GetMapping("/{documentId}")
+    fun getDocument(@PathVariable documentId: String): String {
+        return documentService.findDocument(documentId)
+    }
+
+    /**
+     * 신청서 수정
+     *
+     * @param restTemplateDocumentDto
+     * */
+    @PutMapping("/{documentId}")
+    fun updateDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
+        return documentService.updateDocument(restTemplateDocumentDto)
     }
 
     /**

@@ -8,6 +8,8 @@ data class RestTemplateDocumentDto(
         val documentId: String? = "",
         val documentName: String? = "",
         val documentDesc: String? = null,
+        var documentStatus: String? = null,
+        val procId: String ?= "",
         val processId: String ?= "",
         val formId: String? = "",
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
