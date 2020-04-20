@@ -13,5 +13,4 @@ interface WfDocumentDataRepository: JpaRepository<WfDocumentDataEntity, String> 
     @Transactional
     fun deleteByDocumentId(documentId: String): Int
 
-    fun findByDocument(document: WfDocumentEntity): List<WfDocumentDataEntity>
 }

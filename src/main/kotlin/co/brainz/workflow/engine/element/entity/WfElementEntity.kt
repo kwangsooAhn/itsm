@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.element.entity
 
+import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import java.io.Serializable
@@ -53,6 +54,9 @@ data class WfElementEntity(
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "element")
     val tokens: MutableList<WfTokenEntity>? = mutableListOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "elements")
+    val elements: MutableList<WfDocumentDataEntity>? = mutableListOf()
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_id", insertable = false, updatable = false)

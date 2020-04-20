@@ -19,18 +19,16 @@ data class WfDocumentDataEntity(
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "document_id")
+    @JoinColumn(name = "document_id", insertable = false, updatable = false)
     val document: WfDocumentEntity,
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "component_id")
-    val component: WfComponentEntity,
+    val components: WfComponentEntity,
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "element_id")
-    val element: WfElementEntity,
+    val elements: WfElementEntity,
 
     @Column(name = "display", length = 100)
     var display: String = "editable"

@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.workflow.engine.component.entity.WfComponentEntity
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDataDto
@@ -11,6 +12,7 @@ import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
@@ -202,8 +204,8 @@ class WfDocumentService(
             for (element in elementEntities) {
                 val documentDataEntity = WfDocumentDataEntity(
                         document = documentEntity,
-                        component = component,
-                        element = element
+                        components = component,
+                        elements = element
                 )
                 wfDocumentDataEntities.add(documentDataEntity)
             }
@@ -254,16 +256,23 @@ class WfDocumentService(
      */
     fun updateDocumentDisplay(wfDocumentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
         // 기존 데이터 삭제
-        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(wfDocumentDisplaySaveDto.documentId)
-        val documentDisplayEntities = wfDocumentDataRepository.findByDocument(documentEntity)
+        val documentId = wfDocumentDisplaySaveDto.documentId
+        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+//        val countByDocumentIds = wfDocumentDataRepository.countByDocumentId(documentId)
+//        val isDelete = wfDocumentDataRepository.deleteByDocumentId("0316")
 
-        if (documentDisplayEntities.isNotEmpty()) {
-//            wfDocumentDataRepository.deleteByDocumentId(documentId)
+        // saveDto를 저장 가능한 형태로 치환한다.
+        val displays = wfDocumentDisplaySaveDto.displays
+        displays.forEach {
+            wfDocumentDataRepository.save(
+                WfDocumentDataEntity(
+                    document = documentEntity,
+                    components = wfComponentRepository.findByComponentId(it.getValue("componentId").toString()),
+                    elements = WfElementEntity(it.getValue("elementId").toString()),
+                    display = it.getValue("display").toString()
+                )
+            )
         }
-
-        // 새 데이터 업데이트
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
-        return true;
+        return true
     }
 }
