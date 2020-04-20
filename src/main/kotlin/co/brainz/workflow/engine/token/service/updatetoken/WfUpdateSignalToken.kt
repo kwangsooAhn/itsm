@@ -27,16 +27,16 @@ class WfUpdateSignalToken(
     wfElementService: WfElementService,
     wfTokenDataRepository: WfTokenDataRepository,
     wfDocumentRepository: WfDocumentRepository,
-    wfTokenService: WfTokenService
-) : WfUpdateTokenService(
+    private val wfTokenService: WfTokenService
+
+) : WfUpdateToken(
     wfTokenActionService,
     wfActionService,
     wfTokenRepository,
     wfInstanceService,
     wfElementService,
     wfTokenDataRepository,
-    wfDocumentRepository,
-    wfTokenService
+    wfDocumentRepository
 ) {
     override fun updateToken(wfTokenEntity: WfTokenEntity, wfElementEntity: WfElementEntity, wfTokenDto: WfTokenDto) {
 

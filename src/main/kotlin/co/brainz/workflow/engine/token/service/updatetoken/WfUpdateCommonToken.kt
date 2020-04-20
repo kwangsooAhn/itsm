@@ -11,7 +11,6 @@ import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.engine.token.service.WfTokenActionService
-import co.brainz.workflow.engine.token.service.WfTokenService
 import org.springframework.stereotype.Service
 
 /**
@@ -25,19 +24,17 @@ class WfUpdateCommonToken(
     wfInstanceService: WfInstanceService,
     wfElementService: WfElementService,
     wfTokenDataRepository: WfTokenDataRepository,
-    wfDocumentRepository: WfDocumentRepository,
-    wfTokenService: WfTokenService
-) : WfUpdateTokenService(
-    wfTokenActionService,
-    wfActionService,
-    wfTokenRepository,
-    wfInstanceService,
-    wfElementService,
-    wfTokenDataRepository,
-    wfDocumentRepository,
-    wfTokenService
-) {
+    wfDocumentRepository: WfDocumentRepository
 
+) : WfUpdateToken(
+        wfTokenActionService,
+        wfActionService,
+        wfTokenRepository,
+        wfInstanceService,
+        wfElementService,
+        wfTokenDataRepository,
+        wfDocumentRepository
+    ) {
     override fun updateToken(wfTokenEntity: WfTokenEntity, wfElementEntity: WfElementEntity, wfTokenDto: WfTokenDto) {
         logger.debug("Token Action : {}", wfTokenDto.action)
         when (wfTokenDto.action) {
