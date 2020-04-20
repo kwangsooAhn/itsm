@@ -358,6 +358,7 @@ document:
     dateMax: "{0} 날짜 이전으로 선택해주세요."
     requiredEnter: "필수 항목을 입력해주세요."
     requiredSelect: "필수 항목을 선택해주세요."
+    requiredFileupload: "파일을 업로드해주세요."
     raunchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
 
 # token

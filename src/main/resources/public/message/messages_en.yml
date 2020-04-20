@@ -358,6 +358,7 @@ document:
     dateMax: "Please select before {0} date."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
+    requiredFileupload: "Please upload a file."
     raunchedInstance: "There is an instance started and cannot be deleted."
 
 # token
