@@ -360,6 +360,8 @@ document:
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     launchedInstance: "There is an instance started and cannot be deleted."
+    requiredFileupload: "Please upload a file."
+    raunchedInstance: "There is an instance started and cannot be deleted."
 
 # token
 token:
