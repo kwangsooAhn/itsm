@@ -2277,7 +2277,7 @@
 				<normal_column>
 					<id>32</id>
 					<referenced_column>24</referenced_column>
-					<relation>4</relation>
+					<relation>3</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
