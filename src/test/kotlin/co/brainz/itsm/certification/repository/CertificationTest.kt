@@ -6,7 +6,7 @@ import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.certification.service.AliceKeyGeneratorService
 import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.framework.util.AliceEncryptionUtil
+import co.brainz.framework.encryption.AliceEncryptionUtil
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test

@@ -11,7 +11,7 @@ import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
-import co.brainz.framework.util.AliceEncryptionUtil
+import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import org.slf4j.LoggerFactory
