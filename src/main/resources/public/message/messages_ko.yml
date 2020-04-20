@@ -372,6 +372,7 @@ token:
     elementName: "업무명"
     assignee: "담당자"
     history: "처리 이력"
+    relatedInstance: "관련 문서"
 # Custom Code
 custom.code:
   label:
