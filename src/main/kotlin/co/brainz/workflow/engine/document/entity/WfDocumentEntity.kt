@@ -23,16 +23,16 @@ data class WfDocumentEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "document_id", length = 128)
-    val documentId: String = "",
+    val documentId: String,
 
     @Column(name = "document_name", length = 128)
-    var documentName: String = "",
+    var documentName: String,
 
     @Column(name = "document_status", length = 100)
     var documentStatus: String? = null,
 
     @Column(name = "document_desc", length = 256)
-    var documentDesc: String? = null,
+    var documentDesc: String?,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
@@ -48,11 +48,11 @@ data class WfDocumentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_id")
-    var process: WfProcessEntity? = null,
+    var process: WfProcessEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    var form: WfFormEntity? = null
+    var form: WfFormEntity
 
 ) : Serializable {
 

@@ -147,8 +147,7 @@ class WfDocumentService(
                 process = process,
                 createDt = documentDto.createDt,
                 createUserKey = documentDto.createUserKey,
-                //TODO: 시작 값을 TEMPORARY 로 설정 (기능 구현 후)
-                documentStatus = WfDocumentConstants.Status.USE.code
+                documentStatus = documentDto.documentStatus
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -186,13 +185,11 @@ class WfDocumentService(
 
         when (documentDto.documentStatus) {
             WfDocumentConstants.Status.USE.code -> {
-                //Form Status Change: Any -> Use
                 val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(documentDto.formId).get()
                 if (wfFormEntity.formStatus != WfFormConstants.FormStatus.USE.value) {
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
-                //Process Status Change: Any -> Use
                 val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.procId)
                 if (wfProcessEntity.processStatus != WfProcessConstants.Status.USE.code) {
                     wfProcessEntity.processStatus = WfProcessConstants.Status.USE.code
