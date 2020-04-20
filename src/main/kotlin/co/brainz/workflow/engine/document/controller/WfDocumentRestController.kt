@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.document.controller
 
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDataDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplaySaveDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import org.springframework.web.bind.annotation.RestController
@@ -73,7 +74,8 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * @return Boolean
      */
     @PutMapping("/{documentId}/display")
-    fun updateDocumentDisplay(@PathVariable documentId: String): Boolean {
+    fun updateDocumentDisplay(@RequestBody documentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
+        val test = wfEngine.document().updateDocumentDisplay(documentDisplaySaveDto)
 
         return true
     }

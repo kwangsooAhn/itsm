@@ -4,6 +4,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -87,6 +88,18 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     fun findDocumentDisplay(documentId: String): String {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_DISPLAY.url.replace(restTemplate.getKeyRegex(), documentId))
         return restTemplate.get(url)
+    }
+
+    /**
+     * 신청서 양식 데이터 update
+     *
+     * @param documentDisplay
+     * @return Boolean
+     */
+    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDataDto): Boolean {
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENTS_DISPLAY.url.replace(restTemplate.getKeyRegex(), documentDisplay.documentId.toString()))
+        val responseEntity = restTemplate.update(urlDto, documentDisplay)
+        return responseEntity.body.toString().isNotEmpty()
     }
 
 }

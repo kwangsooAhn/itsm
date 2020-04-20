@@ -22,12 +22,12 @@ data class WfDocumentDataEntity(
     @JoinColumn(name = "document_id")
     val document: WfDocumentEntity,
 
-//    @Id
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "component_id")
     val component: WfComponentEntity,
 
-//    @Id
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "element_id")
     val element: WfElementEntity,

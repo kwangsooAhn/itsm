@@ -5,6 +5,7 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDataDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplaySaveDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
@@ -22,6 +23,9 @@ import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import org.mapstruct.factory.Mappers
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -132,7 +136,7 @@ class WfDocumentService(
         val dataEntity = wfDocumentRepository.save(documentEntity)
         
         // 신청서 양식 정보 초기화
-        createDocumentData(dataEntity)
+        createDocumentDisplay(dataEntity)
 
         return WfDocumentDto(
                 documentId = dataEntity.documentId,
@@ -172,12 +176,12 @@ class WfDocumentService(
     }
 
     /**
-     * Create Document Data.
+     * Create Document Display.
      *
      * @param documentDto
      * @return WfDocumentDto
      */
-    fun createDocumentData(documentEntity: WfDocumentEntity) {
+    fun createDocumentDisplay(documentEntity: WfDocumentEntity) {
         val wfDocumentDataEntities: MutableList<WfDocumentDataEntity> = mutableListOf()
         val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
 //        val componentIds: MutableList<String> = mutableListOf()
@@ -236,5 +240,25 @@ class WfDocumentService(
 //        )
 //        return documentDisplayViewDto
         return documentDisplay
+    }
+
+    /**
+     * Update Document Display data.
+     *
+     * @return List<DocumentDataDto>
+     */
+    fun updateDocumentDisplay(wfDocumentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
+        // 기존 데이터 삭제
+        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(wfDocumentDisplaySaveDto.documentId)
+        val documentDisplayEntities = wfDocumentDataRepository.findByDocument(documentEntity)
+
+        if (documentDisplayEntities.isNotEmpty()) {
+//            wfDocumentDataRepository.deleteByDocumentId(documentId)
+        }
+
+        // 새 데이터 업데이트
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
+        return true;
     }
 }

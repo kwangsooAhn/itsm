@@ -92,12 +92,8 @@ class DocumentRestController(private val documentService: DocumentService) {
      * 신청서 편집 데이터 저장.
      */
     @PutMapping("/{documentId}/display")
-    fun updateDocumentDisplay(@PathVariable documentId: String, @RequestBody restTemplateDocumentDataDto: RestTemplateDocumentDataDto): String {
-        // 수정
-        var test = documentId;
-        var test1 = restTemplateDocumentDataDto;
-        System.out.println("test1:" + test1);
-
+    fun updateDocumentDisplay(@RequestBody documentDisplay: RestTemplateDocumentDataDto): String {
+        documentService.updateDocumentDisplay(documentDisplay)
         return "true";
     }
 }
