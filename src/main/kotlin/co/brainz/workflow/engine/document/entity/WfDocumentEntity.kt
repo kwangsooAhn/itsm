@@ -59,7 +59,7 @@ data class WfDocumentEntity(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
     val document: MutableList<WfInstanceEntity>? = mutableListOf()
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
-    val documentData: MutableList<WfDocumentDataEntity>? = mutableListOf()
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
+//    val documentData: MutableList<WfDocumentDataEntity>? = mutableListOf()
 }
 

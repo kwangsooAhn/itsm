@@ -11,7 +11,7 @@
     <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{document.label.list}"></h1>
         <div sec:authorize="hasAuthority('document.create')" class="button" align="right">
-            <button type="button" onclick="openDocumentEdit()" th:text="#{common.btn.register}"></button>
+            <button type="button" onclick="createDocument()" th:text="#{common.btn.register}"></button>
         </div>
         <hr>
         <div id="documentList" style="margin-top: 20px"></div>
@@ -36,8 +36,7 @@
         }
 
         function createDocument() {
-            <!--window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');-->
-
+<!--            window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');-->
             <!--임시화면-->
             const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no, scrollbars=yes";
             window.open('/documents/2c9950817161b911017161fb8d280000/display', '_blank', 'width=1500,height=920,' + specs);

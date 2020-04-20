@@ -18,17 +18,30 @@ import javax.persistence.Table
 data class WfDocumentDataEntity(
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "document_id", insertable = false, updatable = false)
-    val document: WfDocumentEntity,
+    @Column(name = "document_id")
+    val documentId: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "component_id")
-    val components: WfComponentEntity,
+    @Id
+    @Column(name = "component_id")
+    val componentId: String,
 
+    @Id
+    @Column(name = "element_id")
+    val elementId: String,
+
+    /*@Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "element_id")
-    val elements: WfElementEntity,
+    @JoinColumn(name = "document_id")
+    val document: WfDocumentEntity,*/
+////    @Id
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "component_id")
+//    val components: WfComponentEntity,
+//
+////    @Id
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "element_id")
+//    val elements: WfElementEntity,
 
     @Column(name = "display", length = 100)
     var display: String = "editable"

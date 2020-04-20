@@ -89,7 +89,6 @@ class DocumentController(
     @GetMapping("{documentId}/display")
     fun getDocumentDisplay(@PathVariable documentId: String, model: Model): String {
         model.addAttribute("documentId", documentId)
-//        model.addAttribute("documentDisplayList",  documentService.findDocumentDisplay(documentId))
         return documentDisplayPage
     }
 }

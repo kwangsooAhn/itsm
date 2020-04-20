@@ -532,7 +532,7 @@
         document.getElementById('document_name').value = documentData.documentName;
         document.getElementById('document_desc').value = documentData.documentDesc;
         document.getElementById('document_form').value = documentData.formId;
-        document.getElementById('document_process').value = documentData.procId;
+        document.getElementById('document_process').value = documentData.processId;
         document.getElementById('document_status').value = documentData.documentStatus;
     }
 

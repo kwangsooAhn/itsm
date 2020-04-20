@@ -55,9 +55,6 @@ data class WfElementEntity(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "element")
     val tokens: MutableList<WfTokenEntity>? = mutableListOf()
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "elements")
-    val elements: MutableList<WfDocumentDataEntity>? = mutableListOf()
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "process_id", insertable = false, updatable = false)
     var processEntity: WfProcessEntity? = null

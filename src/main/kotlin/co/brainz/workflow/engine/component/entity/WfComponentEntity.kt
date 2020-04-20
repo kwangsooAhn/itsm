@@ -34,8 +34,5 @@ data class WfComponentEntity(
 ) : Serializable {
         @OneToMany(fetch = FetchType.LAZY, mappedBy = "attributes", cascade = [CascadeType.REMOVE])
         val attributes: MutableList<WfComponentDataEntity>? = mutableListOf()
-
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "components")
-        val components: MutableList<WfDocumentDataEntity>? = mutableListOf()
 }
 

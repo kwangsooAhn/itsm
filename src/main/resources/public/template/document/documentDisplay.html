@@ -97,7 +97,7 @@
             option.text = i18n.get('document.label.' + values[i]);
             option.value = values[i];
             if (values[i] == displayData) {
-                option.setAttribute('selected', 'true');
+                option.setAttribute('selected', 'selected');
             }
             displaySelect.add(option);
         }
@@ -108,12 +108,12 @@
         // 저장 데이터 수집
         var obj = {};
         var arrDisplay = [];
-        Array.prototype.forEach.call(document.querySelectorAll('option[selected=true]'), function(item) {
+        Array.prototype.forEach.call(document.querySelectorAll('option[selected=selected]'), function(item) {
             var objDisplay = {};
             var strArr = item.id.split('_');
-            objDisplay.componentId = strArr[0]; // componentId
-            objDisplay.elementId = strArr[1]; // elementId
-            objDisplay.display = strArr[2]; // display
+            objDisplay.componentId = strArr[0];     // componentId
+            objDisplay.elementId = strArr[1];       // elementId
+            objDisplay.display = strArr[2];         // display
             arrDisplay.push(objDisplay);
         });
 
@@ -122,7 +122,6 @@
         var displayJson = JSON.stringify(obj);
 
         console.log(displayJson);
-
 
         const opt = {
             method: 'put',

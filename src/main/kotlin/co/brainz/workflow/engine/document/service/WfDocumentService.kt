@@ -3,7 +3,6 @@ package co.brainz.workflow.engine.document.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
-import co.brainz.workflow.engine.component.entity.WfComponentEntity
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDataDto
@@ -28,9 +27,6 @@ import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import org.mapstruct.factory.Mappers
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -96,7 +92,7 @@ class WfDocumentService(
                 documentName = document.documentName,
                 documentDesc = document.documentDesc,
                 documentStatus = document.documentStatus,
-                procId = document.process!!.processId,
+                processId = document.process!!.processId,
                 formId = document.form!!.formId,
                 createDt = document.createDt,
                 createUserKey = document.createUserKey,
@@ -177,7 +173,7 @@ class WfDocumentService(
                 documentName = dataEntity.documentName,
                 documentDesc = dataEntity.documentDesc,
                 formId = dataEntity.form.formId,
-                procId = dataEntity.process.processId,
+                processId = dataEntity.process.processId,
                 createDt = dataEntity.createDt,
                 createUserKey = dataEntity.createUserKey
         )
@@ -193,7 +189,7 @@ class WfDocumentService(
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
         val form = WfFormEntity(formId = documentDto.formId)
-        val process = WfProcessEntity(processId = documentDto.procId)
+        val process = WfProcessEntity(processId = documentDto.processId)
         wfDocumentEntity.documentName = documentDto.documentName
         wfDocumentEntity.documentDesc = documentDto.documentDesc
         wfDocumentEntity.documentStatus = documentDto.documentStatus
@@ -210,7 +206,7 @@ class WfDocumentService(
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
-                val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.procId)
+                val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.processId)
                 if (wfProcessEntity.processStatus != WfProcessConstants.Status.USE.code) {
                     wfProcessEntity.processStatus = WfProcessConstants.Status.USE.code
                     wfProcessRepository.save(wfProcessEntity)
@@ -248,27 +244,19 @@ class WfDocumentService(
     /**
      * Create Document Display.
      *
-     * @param documentDto
+     * @param documentEntity
      * @return WfDocumentDto
      */
     fun createDocumentDisplay(documentEntity: WfDocumentEntity) {
         val wfDocumentDataEntities: MutableList<WfDocumentDataEntity> = mutableListOf()
         val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
-//        val componentIds: MutableList<String> = mutableListOf()
-//        for (component in componentEntities) {
-//            componentIds.add(component.componentId)
-//        }
         val elementEntities = wfElementRepository.findUserTaskByProcessId(documentEntity.process.processId)
-//        val elementIds: MutableList<WfElementEntity> = mutableListOf()
-//        for (element in elementEntities) {
-//            elementIds.add(element)
-//        }
         for (component in componentEntities) {
             for (element in elementEntities) {
                 val documentDataEntity = WfDocumentDataEntity(
-                        document = documentEntity,
-                        components = component,
-                        elements = element
+                        documentId = documentEntity.documentId,
+                        componentId = component.componentId,
+                        elementId = element.elementId
                 )
                 wfDocumentDataEntities.add(documentDataEntity)
             }
@@ -315,23 +303,18 @@ class WfDocumentService(
     /**
      * Update Document Display data.
      *
-     * @return List<DocumentDataDto>
+     * @return Boolean
      */
     fun updateDocumentDisplay(wfDocumentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
-        // 기존 데이터 삭제
         val documentId = wfDocumentDisplaySaveDto.documentId
-        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-//        val countByDocumentIds = wfDocumentDataRepository.countByDocumentId(documentId)
-//        val isDelete = wfDocumentDataRepository.deleteByDocumentId("0316")
-
-        // saveDto를 저장 가능한 형태로 치환한다.
+        wfDocumentDataRepository.deleteByDocumentId(documentId)
         val displays = wfDocumentDisplaySaveDto.displays
         displays.forEach {
             wfDocumentDataRepository.save(
                 WfDocumentDataEntity(
-                    document = documentEntity,
-                    components = wfComponentRepository.findByComponentId(it.getValue("componentId").toString()),
-                    elements = WfElementEntity(it.getValue("elementId").toString()),
+                    documentId = documentId,
+                    componentId = it.getValue("componentId").toString(),
+                    elementId = it.getValue("elementId").toString(),
                     display = it.getValue("display").toString()
                 )
             )
