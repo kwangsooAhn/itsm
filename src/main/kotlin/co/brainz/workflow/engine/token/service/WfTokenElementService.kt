@@ -48,7 +48,7 @@ class WfTokenElementService(
         instance?.let { wfFolderService.createFolder(instance) }
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId!!)
-        val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
+        val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
         wfTokenDto.elementType = startElement.elementType
         wfTokenDto.elementId = startElement.elementId
         when (startElement.elementType) {
@@ -267,7 +267,7 @@ class WfTokenElementService(
                 wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
 
                 //Call Document Start Element
-                val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
+                val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
                 wfTokenDto.elementType = startElement.elementType
                 wfTokenDto.elementId = startElement.elementId
                 when (startElement.elementType) {
