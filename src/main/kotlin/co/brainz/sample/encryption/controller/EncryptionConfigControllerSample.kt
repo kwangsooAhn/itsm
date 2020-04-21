@@ -1,6 +1,6 @@
 package co.brainz.sample.encryption.controller
 
-import co.brainz.framework.util.AliceEncryptionUtil
+import co.brainz.framework.encryption.AliceEncryptionUtil
 import org.apache.commons.codec.EncoderException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.PropertySource
