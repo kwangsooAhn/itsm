@@ -180,4 +180,21 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
         }
         return code
     }
+
+    /**
+     * 사용자 정의 조건에 부합하는 데이터 조회.
+     *
+     * @param customCodeId
+     * @return MutableList<>
+     */
+    fun getCustomCodeData(customCodeId: String): String {
+        val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
+        println(customCodeEntity)
+        when(customCodeEntity.targetTable) {
+            CustomCodeConstants.TableName.ROLE.code -> print("ROLE")
+            CustomCodeConstants.TableName.USER.code -> print("USER")
+            else -> print("EMPTY")
+        }
+        return ""
+    }
 }

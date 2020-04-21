@@ -676,8 +676,12 @@
         
         target.appendChild(comp);
         //TODO: custom code 팝업 호출
+        console.log(attr);
         if (attr.values != undefined && attr.values.length > 0 ) {
-            
+            let searchBtn = comp.querySelector('button');
+            searchBtn.addEventListener('click', function() {
+                //window.open('/documents/custom-code/' + attr.display['custom-code'] + '/data/' + attr.values[0].value, '_blank', 'width=500, height=600');
+            });
         }
         this.domElem = comp;
     }

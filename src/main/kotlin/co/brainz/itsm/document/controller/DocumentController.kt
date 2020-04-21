@@ -1,5 +1,6 @@
 package co.brainz.itsm.document.controller
 
+import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.service.ProcessService
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 class DocumentController(
     private val documentService: DocumentService,
     private val formService: FormService,
-    private val processService: ProcessService
+    private val processService: ProcessService,
+    private val customCodeService: CustomCodeService
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"
@@ -81,5 +83,16 @@ class DocumentController(
     fun getDocumentEdit(@PathVariable documentId: String, model: Model): String {
         model.addAttribute("documentId", documentId)
         return documentEditPage
+    }
+
+
+    /**
+     * 사용자 정의 코드 데이터 조회.
+     */
+    @GetMapping("custom-code/{customCodeId}/data/{customCodeData}")
+    fun getCustomCodeData(@PathVariable customCodeId: String, @PathVariable customCodeData: String, model: Model): String {
+        model.addAttribute("customCodeData", customCodeData)
+        model.addAttribute("customCodeList", customCodeService.getCustomCodeData(customCodeId))
+        return "";
     }
 }
