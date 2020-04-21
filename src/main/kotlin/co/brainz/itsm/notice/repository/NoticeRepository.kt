@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface NoticeRepository: JpaRepository<NoticeEntity, String> {
+interface NoticeRepository : JpaRepository<NoticeEntity, String> {
 
     @Query("select a from NoticeEntity a join fetch a.createUser left outer join a.updateUser where (a.topNoticeStrtDt < now() and a.topNoticeEndDt > now() and a.topNoticeYn = true) order by a.createDt desc")
     fun findTopNoticeList(): MutableList<NoticeEntity>
@@ -21,7 +21,7 @@ interface NoticeRepository: JpaRepository<NoticeEntity, String> {
 
     @Query("select a from NoticeEntity a join fetch a.createUser left outer join a.updateUser where (lower(a.noticeTitle) like lower(concat('%', :searchValue, '%')) or lower(a.aliceUserEntity.userName) like lower(concat('%', :searchValue, '%'))) and a.createDt between :fromDt and :toDt order by a.createDt desc")
     fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeEntity>
-    
+
     @Query("select a from NoticeEntity a join fetch a.createUser left outer join a.updateUser where (a.popStrtDt < now() and a.popEndDt > now()) and a.popYn = true")
     fun findNoticePopUp(): MutableList<NoticeEntity>
 
