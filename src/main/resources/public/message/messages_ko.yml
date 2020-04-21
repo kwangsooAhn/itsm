@@ -356,6 +356,11 @@ document:
     description: "설명"
     form: "문서양식"
     process: "프로세스"
+    status: "신청서 상태"
+  status:
+    temporary: "임시"
+    use: "사용"
+    destroy: "폐기"
   msg:
     nameNotExist: "신청서 이름을 입력해주세요."
     lengthMin: "{0}글자 이상 입력해주세요."
@@ -364,6 +369,7 @@ document:
     dateMax: "{0} 날짜 이전으로 선택해주세요."
     requiredEnter: "필수 항목을 입력해주세요."
     requiredSelect: "필수 항목을 선택해주세요."
+    requiredFileupload: "파일을 업로드해주세요."
     raunchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
 
 # token
@@ -371,6 +377,12 @@ token:
   label:
     list: "처리할 문서 목록"
     write: "처리할 문서"
+    startDt: "시작 일시"
+    endDt: "완료 일시"
+    elementName: "업무명"
+    assignee: "담당자"
+    history: "처리 이력"
+    relatedInstance: "관련 문서"
 # Custom Code
 custom.code:
   label:

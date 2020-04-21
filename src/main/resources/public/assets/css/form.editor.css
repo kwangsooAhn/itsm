@@ -11216,6 +11216,10 @@ body {
   margin: 0.125rem 0;
 }
 
+.alice-form-properties-panel .property-field.vertical .vertical-group .picker-wrapper {
+  display: inline-block;
+}
+
 .context-menu {
   display: none;
   width: 19.63rem;

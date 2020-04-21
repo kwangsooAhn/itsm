@@ -337,6 +337,9 @@ body {
             }
             .vertical-group {
                 margin: 0.125rem 0;  //2px 0
+                .picker-wrapper {
+                    display: inline-block;
+                }
             }
         }
     }

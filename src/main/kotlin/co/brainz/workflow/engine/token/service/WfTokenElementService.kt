@@ -6,6 +6,7 @@ import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
+import co.brainz.workflow.engine.folder.service.WfFolderService
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
 import co.brainz.workflow.engine.instance.service.WfInstanceService
@@ -29,7 +30,8 @@ class WfTokenElementService(
     private val wfInstanceService: WfInstanceService,
     private val wfElementService: WfElementService,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val wfFolderService: WfFolderService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -43,9 +45,10 @@ class WfTokenElementService(
         val documentDto = wfTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
         val instanceDto = documentDto?.let { WfInstanceDto(instanceId = "", document = it) }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
+        instance?.let { wfFolderService.createFolder(instance) }
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId!!)
-        val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
+        val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
         wfTokenDto.elementType = startElement.elementType
         wfTokenDto.elementId = startElement.elementId
         when (startElement.elementType) {
@@ -184,10 +187,24 @@ class WfTokenElementService(
         )
         when (nextElementEntity.elementType) {
             WfElementConstants.ElementType.USER_TASK.value -> {
-                nextTokenEntity.assigneeId = getAttributeValue(
-                    nextElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE.value
-                )
+                when (getAttributeValue(nextElementEntity.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value)) {
+                    WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
+                        val assigneeMappingId = getAttributeValue(nextElementEntity.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+                        var componentMappingId = ""
+                        wfTokenEntity.instance.document.form.components?.forEach { component ->
+                            if (component.mappingId == assigneeMappingId) {
+                                componentMappingId = component.componentId
+                            }
+                        }
+                        nextTokenEntity.assigneeId = wfTokenDataRepository.findByTokenIdAndComponentId(wfTokenEntity.tokenId, componentMappingId).value
+                    }
+                    WfTokenConstants.AssigneeType.USERS.code -> {
+                        nextTokenEntity.assigneeId = getAttributeValue(nextElementEntity.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+                    }
+                    WfTokenConstants.AssigneeType.GROUPS.code -> {
+                        //TODO: 담당자 그룹에 따른 처리
+                    }
+                }
             }
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
                 nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
@@ -261,9 +278,10 @@ class WfTokenElementService(
                     pTokenId = saveTokenEntity.tokenId
                 )
                 val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
+                wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
 
                 //Call Document Start Element
-                val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
+                val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
                 wfTokenDto.elementType = startElement.elementType
                 wfTokenDto.elementId = startElement.elementId
                 when (startElement.elementType) {

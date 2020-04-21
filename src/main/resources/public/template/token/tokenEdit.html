@@ -14,6 +14,63 @@
         <div class="drawing-board" id="document-container"></div>
         <div id="button-container"></div>
     </form>
+    <h1 th:text="#{token.label.history}"></h1>
+    <table class="table table-hover" style="text-align: center">
+        <colgroup>
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th th:text="#{token.label.startDt}">시작일시</th>
+            <th th:text="#{token.label.endDt}">완료일시</th>
+            <th th:text="#{token.label.elementName}">업무</th>
+            <th th:text="#{token.label.assignee}">담당자</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="history">
+        <tr th:each="tokenHistory : ${instanceHistory}">
+            <td th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="${#temporals.format(tokenHistory.tokenStartDt, dateformat)}"></td>
+            <td th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="${#temporals.format(tokenHistory.tokenEndDt, dateformat)}"></td>
+            <td th:text="${tokenHistory.elementName}"></td>
+            <td th:text="${tokenHistory.assigneeName}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h1 th:text="#{token.label.relatedInstance}"></h1>
+    <table class="table table-hover" style="text-align: center">
+        <colgroup>
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th th:text="#{document.label.name}">업무</th>
+            <th th:text="#{token.label.startDt}">시작일시</th>
+            <th th:text="#{token.label.endDt}">완료일시</th>
+            <th th:text="#{token.label.assignee}">담당자</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="relatedInstance">
+        <tr th:each="rInstance : ${relatedInstance}">
+            <td th:text="${rInstance.documentName}"></td>
+            <td th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="${#temporals.format(rInstance.instanceStartDt, dateformat)}"></td>
+            <td th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
+            <td th:text="${rInstance.instanceCreateUserKey}"></td>
+        </tr>
+        </tbody>
+    </table>
 </th:block>
 </body>
 <th:block layout:fragment="script">
