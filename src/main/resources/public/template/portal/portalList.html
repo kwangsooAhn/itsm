@@ -10,12 +10,8 @@
         <div class="container" style="text-align:center;">
             <tr th:each="portalList : ${portalList}">
                 <dl>
-                    <dt th:if="${portalList.noticeTitle != null}" th:text="${portalList.noticeTitle}"></dt>
-                    <dd style="padding-left:15px;" th:if="${portalList.noticeContents != null}" th:text="${portalList.noticeContents}"></dd>
-                    <dt th:if="${portalList.faqTitle != null}" th:text="${portalList.faqTitle}"></dt>
-                    <dd style="padding-left:15px;" th:if="${portalList.faqContent != null}" th:text="${portalList.faqContent}"></dd>
-                    <dt th:if="${portalList.downloadId != null}" th:text="#{portal.label.download}"></dt>
-                    <dd style="padding-left:15px;" th:if="${portalList.downloadTitle != null}" th:text="${portalList.downloadTitle}"></dd>
+                    <dt th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></dt>
+                    <dd style="padding-left:15px;" th:if="${portalList.portalContent != null}" th:text="${portalList.portalContent}"></dd>
                     <dd></dd>
                 </dl>
             </tr>

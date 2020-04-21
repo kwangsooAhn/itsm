@@ -2,20 +2,63 @@ package co.brainz.itsm.notice.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.utility.LocalDateTimeAttributeConverter
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDateTime
+import org.hibernate.annotations.GenericGenerator
 import javax.persistence.Column
+import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
-import org.hibernate.annotations.GenericGenerator
-import javax.persistence.Convert
 import javax.persistence.FetchType
+import javax.persistence.SqlResultSetMapping
+import javax.persistence.ConstructorResult
+import javax.persistence.ColumnResult
+import javax.persistence.NamedNativeQuery
+
+@SqlResultSetMapping(
+        name="portalSearchMapping",
+        classes = (
+                arrayOf (
+                        ConstructorResult (
+                                targetClass = PortalDto::class,
+                                columns = (
+                                        arrayOf (
+                                                ColumnResult(name="portal_title", type = String::class),
+                                                ColumnResult(name="portal_content", type = String::class),
+                                                ColumnResult(name="create_dt", type = LocalDateTime::class),
+                                                ColumnResult(name="update_dt", type = LocalDateTime::class),
+                                                ColumnResult(name="table_name", type = String::class)
+                                        )
+                                )
+                        )
+                )
+        )
+)
+
+@NamedNativeQuery(
+        name = "portalSearchMapping",
+        query = "select notice_title as portal_title, notice_contents as portal_content, create_dt, update_dt, 'notice' table_name " +
+                "from portal_notice " +
+                "where (lower(notice_title) like lower(concat('%', :searchValue, '%'))) " +
+                "union all " +
+                "select faq_title, faq_content, create_dt, update_dt, 'faq' table_name " +
+                "from portal_faq " +
+                "where (lower(faq_title) like lower(concat('%', :searchValue, '%'))) " +
+                "union all " +
+                "select download_category, download_title, create_dt, update_dt, 'download' table_name " +
+                "from awf_download " +
+                "where (lower(download_title) like lower(concat('%', :searchValue, '%'))) " +
+                "order by create_dt desc",
+        resultSetMapping = "portalSearchMapping",
+        resultClass = PortalDto::class
+)
 
 @Entity
 @Table(name = "portal_notice")

@@ -4,12 +4,9 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class PortalDto(
-        var noticeTitle: String? = null,
-        var noticeContents: String? = null,
-        var faqTitle: String? = null,
-        var faqContent: String? = null,
+        var portalTitle: String? = null,
+        var portalContent: String? = null,
         var createDt: LocalDateTime? = null,
         var updateDt: LocalDateTime? = null,
-        var downloadId : String? = null,
-        var downloadTitle: String? = null
+        var tableName: String? = null
 ): Serializable

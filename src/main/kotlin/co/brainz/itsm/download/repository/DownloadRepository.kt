@@ -24,10 +24,4 @@ interface DownloadRepository: JpaRepository<DownloadEntity, String> {
            "OR LOWER(COALESCE(l.originName, '')) LIKE LOWER(CONCAT('%', :search, '%'))) " +
            "AND d.createDt BETWEEN :fromDt AND :toDt ORDER BY d.downloadSeq DESC")
     fun findByDownloadList(search: String, fromDt: LocalDateTime, toDt: LocalDateTime): List<DownloadEntity>
-
-    @Query("SELECT DISTINCT d FROM DownloadEntity d " +
-            "LEFT JOIN AliceFileOwnMapEntity m ON d.downloadId = m.ownId LEFT JOIN m.fileLocEntity l " +
-            "WHERE (LOWER(d.downloadTitle) LIKE LOWER(CONCAT('%', :search, '%'))) " +
-            "ORDER BY d.downloadSeq DESC")
-    fun findByDownloadList(search: String): List<DownloadEntity>
 }

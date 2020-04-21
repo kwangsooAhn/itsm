@@ -1,6 +1,7 @@
 package co.brainz.itsm.notice.repository
 
 import co.brainz.itsm.notice.entity.NoticeEntity
+import co.brainz.itsm.portal.dto.PortalDto
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -26,6 +27,9 @@ interface NoticeRepository: JpaRepository<NoticeEntity, String> {
 
     fun findByNoticeNo(noticeNo: String): NoticeEntity
 
-    @Query("select a from NoticeEntity a join fetch a.createUser left outer join a.updateUser where (lower(a.noticeTitle) like lower(concat('%', :searchValue, '%')) or lower(a.aliceUserEntity.userName) like lower(concat('%', :searchValue, '%')))")
-    fun findNoticeSearch(searchValue: String): MutableList<NoticeEntity>
+    @Query(
+            name = "portalSearchMapping",
+            nativeQuery = true
+    )
+    fun findPortalListOrSearchList(searchValue: String): MutableList<PortalDto>
 }
