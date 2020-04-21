@@ -17,8 +17,8 @@
         <div class="container">
             <div class="pull-right" id="portalPartB" style="margin:0px auto; margin-top:150px; text-align:center; display:block;">
                 <div id = "portalPartD" style="padding-bottom:20px; font-size:x-large; font-weight:bold;" th:text="#{portal.label.topPhrase}"></div>
-                <input type="text" id="searchValue" name="searchValue" style="width:500px; height:40px; font-size:20px;" onKeydown="javascript:if(event.keyCode == 13) restSubmit('get', '/portal/list', true); "/>
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/portal/list', true)" style="height:40px;" th:text="#{portal.label.search}"></button>
+                <input type="text" id="searchValue" name="searchValue" style="width:500px; height:40px; font-size:20px;" onKeydown="javascript:if(event.keyCode == 13) restSubmit('get', '/portal/list'); "/>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/portal/list')" style="height:40px;" th:text="#{portal.label.search}"></button>
             </div>
         </div>
     </div>
@@ -63,11 +63,10 @@
             document.getElementById('portalPartD').style.color = '#004085';
 
             const data = {
-                isSearch: isSearch,
                 searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
             };
 
-            const getUrl = url + '?isSearch=' + data.isSearch + '&searchValue=' + data.searchValue;
+            const getUrl = url + '?searchValue=' + data.searchValue;
             const opt = {
                 method: method,
                 url: getUrl,
