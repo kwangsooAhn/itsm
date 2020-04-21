@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{board.label.manager}"></title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table label {
+            margin: 0;
+        }
+        table td {
+            border: 1px solid;
+            height: 50px;
+        }
+        table input, select {
+            width: 90%;
+            height: 24px;
+        }
+        table textarea {
+            width: 100%;
+        }
+        input[type=radio]{
+            background-color: rgb(216, 216, 216);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            margin-left: 16px;
+            border: 1px solid gray;
+            width: 14px;
+            height: 14px;
+            border-radius: 100%;
+        }
+        input[type=radio]:checked{
+            background-color: black;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            margin-left: 16px;
+            border: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 100%;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{board.label.manager}"></h1>
+        </div>
+        <hr>
+        <table>
+            <colgroup>
+                <col width="20%">
+                <col width="30%">
+                <col width="20%">
+                <col width="30%">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td><label th:text="#{board.label.name}"></label><span class="required"></span></td>
+                    <td colspan="3"><input type="text" id="boardAdminTitle" maxlength="100" th:value="${boardAdmin?.boardAdminTitle}"></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{board.label.useYn}"></td>
+                    <td>
+                        <input type="radio" name="boardUseYn" th:value="true" th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true} ? checked" th:text="#{board.label.use}"/>
+                        <input type="radio" name="boardUseYn" th:value="false" th:checked="${boardAdmin?.boardUseYn == false} ? checked" th:text="#{board.label.unused}"/>
+                    </td>
+                    <td><label th:text="#{board.label.order}"></td>
+                    <td><input id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{board.label.desc}"></td>
+                    <td colspan="3"><textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7" style="width: 750px; resize: none;" th:text="${boardAdmin?.boardAdminDesc}"></textarea></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{board.label.answer}"></td>
+                    <td>
+                        <input type="radio" name="answerYn" th:value="true" th:checked="${boardAdmin?.answerYn == null || boardAdmin?.answerYn == true} ? checked" th:text="#{board.label.use}"/>
+                        <input type="radio" name="answerYn" th:value="false" th:checked="${boardAdmin?.answerYn == false} ? checked" th:text="#{board.label.unused}"/>
+                    </td>
+                    <td><label th:text="#{board.label.comment}"></td>
+                    <td>
+                        <input type="radio" name="commentYn" th:value="true" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true} ? checked" th:text="#{board.label.use}"/>
+                        <input type="radio" name="commentYn" th:value="false" th:checked="${boardAdmin?.commentYn == false} ? checked" th:text="#{board.label.unused}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{board.label.category}"></td>
+                    <td colspan="3">
+                        <input type="radio" name="categoryYn" th:value="true" th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true} ? checked" th:text="#{board.label.use}"/>
+                        <input type="radio" name="categoryYn" th:value="false" th:checked="${boardAdmin?.categoryYn == false} ? checked" th:text="#{board.label.unused}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{board.label.attachFile}"></td>
+                    <td>
+                        <input type="radio" name="attachYn" th:value="true" th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true} ? checked" onchange="setDisplay('attachFileSize', true)" th:text="#{board.label.use}"/>
+                        <input type="radio" name="attachYn" th:value="false" th:checked="${boardAdmin?.attachYn == false} ? checked" onchange="setDisplay('attachFileSize', false)" th:text="#{board.label.unused}"/>
+                    </td>
+                    <td><label th:text="#{board.label.attachFileSize}"></td>
+                    <td><input id="attachFileSize" name="attachFileSize" type="text" th:value="${boardAdmin?.attachFileSize}" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{common.label.createUserName}"></td>
+                    <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardAdmin?.createUser} ? ${boardAdmin.createUser.userName} : ''"></span></td>
+                    <td><label th:text="#{common.label.createDate}"></th>
+                    <td><span id="spanCreateDt" name="spanCreateDt"
+                              th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.createDt,dateformat)}"></span></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{common.label.updateUserName}"></th>
+                    <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></span></td>
+                    <td><label th:text="#{common.label.updateDate}"></th>
+                    <td><span id="spanUpdateDt" name="spanUpdateDt"
+                              th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardAdmin?.updateDt,dateformat)}"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <div align="right">
+            <button style="margin-right: 5px;" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
+            <button th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')" th:text="#{common.btn.modify}"></button>
+            <button th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')" th:text="#{common.btn.save}"></button>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+
+        //radio checked 값 확인
+        function getRadioCheckValue(name) {
+            let radioObject =  document.getElementsByName(''+ name +'');
+            for (let i =0; i<radioObject.length; i++) {
+                if(radioObject[i].checked == true) {
+                    return radioObject[i].value;
+                }
+            }
+        }
+
+        //radio check 값에 따라서 화면이 변경 할 수 있도록 변경
+        function setDisplay(id, value) {
+            if (id === 'attachFileSize') {
+                if (value) {
+                    document.getElementById('attachFileSize').removeAttribute('disabled');
+                } else {
+                    document.getElementById('attachFileSize').disabled = 'true';
+                    document.getElementById('attachFileSize').value = 0;
+                }
+            }
+        }
+
+        //게시판 관리 저장
+        function saveBoardAdmin(method) {
+            if (isEmpty('boardAdminTitle', 'board.msg.inputBoardTitle')) return;
+
+            const data = {
+                boardAdminTitle: document.getElementById('boardAdminTitle').value,
+                boardAdminDesc: document.getElementById('boardAdminDesc').value,
+                boardAdminSort: document.getElementById('boardAdminSort').value,
+                boardUseYn: getRadioCheckValue('boardUseYn'),
+                answerYn: getRadioCheckValue('answerYn'),
+                commentYn: getRadioCheckValue('commentYn'),
+                categoryYn: getRadioCheckValue('categoryYn'),
+                attachYn: getRadioCheckValue('attachYn'),
+                attachFileSize: document.getElementById('attachFileSize').value
+            };
+
+            if (method === 'put') {
+                data.boardAdminId = /*[[${boardAdmin?.boardAdminId}]]*/;
+            }
+            restSubmit(method, '/rest/board-admin', data);
+        }
+
+        //REST API
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function() {
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        location.href = '/board-admin/search';
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

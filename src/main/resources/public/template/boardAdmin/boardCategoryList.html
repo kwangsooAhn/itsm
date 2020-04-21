@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        table tr td:nth-child(3) {
+            text-align: left;
+        }
+        table th {
+            border: 1px solid;
+        }
+        table td {
+            border-top: 1px solid #e7e7e7;
+            border-left: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table>
+        <colgroup>
+            <col width="50%">
+            <col width="30%">
+            <col width="20%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th th:text="#{board.label.categoryName}"></th>
+            <th th:text="#{board.label.order}"></th>
+            <th th:text="#{common.label.delete}"></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${#arrays.isEmpty(boardCategoryList)}">
+                <td colspan="3" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr th:unless="${#arrays.isEmpty(boardCategoryList)}" th:each="boardCategory: ${boardCategoryList}">
+                <td th:text="${boardCategory.boardCategoryName}"></td>
+                <td th:text="${boardCategory.boardCategorySort}"></td>
+                <td>
+                    <button sec:authorize="hasAuthority('board.admin.delete')" th:text="#{common.btn.delete}"
+                            th:attr="onclick=|deleteBoardCategory('${boardCategory.boardCategoryId}')|"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

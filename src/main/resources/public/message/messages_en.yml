@@ -25,6 +25,8 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
+    modify: "Modify"
+    delete: "Delete"
     createUserName: "Create User Name"
     updateUserName: "Create Update Name"
     createDate: "Create Date"
@@ -62,6 +64,8 @@ menu:
   setting.process: "Process"
   setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
+  help.board: "board"
+  setting.board.admin: "board manage"
 
 # Auth
 auth:
@@ -421,3 +425,30 @@ download:
     inputDownloadTitle: "Please enter a title."
     selectAfterDate: "Please select after {0} date."
     selectBeforeDate: "Please select before {0} date."
+
+#board
+board:
+  btn:
+    category: "Category"
+  label:
+    board: "Board"
+    manager: "Board Manager"
+    searchPlaceholder: "Title / CreateUserName"
+    name: "Board Name"
+    category: "Category"
+    count: "Number of posts"
+    order: "Sort Order"
+    categoryName: "Category Name"
+    useYn: "Use Yes or NO"
+    desc: "Board desc"
+    writeAuth: "Write permission"
+    roleName: "Role name"
+    answer: "Reply Yes or No"
+    comment: "Comment Yes or No"
+    attachFile: "Attach File Yes or No"
+    attachFileSize: "Attach File Size"
+    msg:
+      inputBoardTitle: "Please enter the board name."
+      inputSortSize: "Please enter a sorting order of 100 or less."
+      inputAttachFileSize: "Please put the attached file size below 1000."
+      inputCategoryName: "Please enter the category name."

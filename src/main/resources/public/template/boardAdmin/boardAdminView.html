@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{board.label.manager}"></title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table label {
+            margin: 0;
+        }
+        table td {
+            border: 1px solid;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{board.label.manager}"></h1>
+        </div>
+        <hr>
+        <table>
+            <colgroup>
+                <col width="20%">
+                <col width="30%">
+                <col width="20%">
+                <col width="30%">
+            </colgroup>
+            <tbody>
+            <tr>
+                <td><label th:text="#{board.label.name}"></label></td>
+                <td colspan="3"><label th:text="${boardAdmin.boardAdminTitle}"/></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{board.label.useYn}"></td>
+                <td><label th:text="${boardAdmin.boardUseYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
+                <td><label th:text="#{board.label.order}"></td>
+                <td><label th:text="${boardAdmin?.boardAdminSort}"/></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{board.label.desc}"></td>
+                <td colspan="3"><label th:text="${boardAdmin?.boardAdminDesc}"/></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{board.label.answer}"></td>
+                <td><label th:text="${boardAdmin.answerYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
+                <td><label th:text="#{board.label.comment}"></td>
+                <td><label th:text="${boardAdmin.commentYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{board.label.category}"></td>
+                <td colspan="3"><label th:text="${boardAdmin.categoryYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{board.label.attachFile}"></td>
+                <td><label th:text="${boardAdmin.attachYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
+                <td><label th:text="#{board.label.attachFileSize}"></td>
+                <td colspan="3"><label th:text="${boardAdmin?.attachFileSize}"/></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{common.label.createUserName}"></td>
+                <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardAdmin?.createUser} ? ${boardAdmin.createUser.userName} : ''"></span></td>
+                <td><label th:text="#{common.label.createDate}"></th>
+                <td><span id="spanCreateDt" name="spanCreateDt"
+                          th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.createDt,dateformat)}"></span></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{common.label.updateUserName}"></th>
+                <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></span></td>
+                <td><label th:text="#{common.label.updateDate}"></th>
+                <td><span id="spanUpdateDt" name="spanUpdateDt"
+                          th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.updateDt,dateformat)}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div align="right">
+            <button style="margin-right: 5px;" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
+            <button style="margin-right: 5px;" sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}" type="button" th:onclick ="'location.href =\'' + @{/board-admin/{id}/edit(id=${boardAdmin.boardAdminId})}+'\''" th:text="#{common.btn.modify}"></button>
+            <button style="margin-right: 5px;" sec:authorize="hasAuthority('board.admin.delete')" th:if="${boardAdmin?.boardAdminId}" type="button" id="delete" th:disabled="${!boardAdmin.enabled}" th:onclick="restSubmit('DELETE',[[@{/rest/board-admin/{boardAdminId}(boardAdminId=${boardAdmin.boardAdminId})}]])" th:text="#{common.btn.delete}"></button>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[ */
+        window.onload = function() {
+            // 게시물 삭제 처리 시
+            const boardAdminId = /*[[${boardAdmin.boardAdminId}]]*/;
+            if (boardAdminId === null) {
+                aliceJs.alert(i18n.get('common.msg.delete.success'));
+                return history.go(-1);
+            }
+        }
+
+        //RESTFUL API
+        function restSubmit(method, url, async) {
+            const opt = {
+                method: method,
+                url: url,
+                async: async,
+                callbackFunc: function() {
+                    aliceJs.alert(i18n.get('common.msg.delete.success'), function() {
+                        window.location.href = '/board-admin/search';
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /* ]]> */
+    </script>
+</th:block>
+</body>
+</html>
