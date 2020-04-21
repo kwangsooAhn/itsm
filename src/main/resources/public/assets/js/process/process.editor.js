@@ -599,7 +599,7 @@
             }
         },
         mousedrag: function() {
-            if (mousedownElement.classed('commonEnd') || mousedownElement.classed('messageEnd')) {
+            if (mousedownElement.classed('commonEnd')) {
                 return false;
             }
             const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
@@ -635,7 +635,7 @@
             availableLink = false;
         }
         // common end/message end cannot be a source.
-        if (source.classed('commonEnd') || source.classed('messageEnd')) {
+        if (source.classed('commonEnd')) {
             availableLink = false;
         }
         // group is not connected.

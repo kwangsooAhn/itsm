@@ -84,13 +84,6 @@
                 editElementType(el,'commonStart');
             }
         }, {
-            type: 'messageStart', parent: 'event',
-            url: iconDirectory + '/element-type/event-start-msg.png',
-            element_url: iconDirectory + '/element-type/task-receive.png',
-            action: function(el) {
-                editElementType(el,'messageStart');
-            }
-        }, {
             type: 'timerStart', parent: 'event',
             url: iconDirectory + '/element-type/event-start-timer.png',
             element_url: iconDirectory + '/element-type/event-start-timer.png',
@@ -109,13 +102,6 @@
             url: iconDirectory + '/element-type/event-end.png',
             action: function(el) {
                 editElementType(el,'commonEnd');
-            }
-        }, {
-            type: 'messageEnd', parent: 'event',
-            url: iconDirectory + '/element-type/event-end-msg.png',
-            element_url: iconDirectory + '/element-type/task-send.png',
-            action: function(el) {
-                editElementType(el,'messageEnd');
             }
         }, {
             type: 'userTask', parent: 'task',
@@ -137,20 +123,6 @@
             element_url: iconDirectory + '/element-type/task-script.png',
             action: function(el) {
                 editElementType(el,'scriptTask');
-            }
-        }, {
-            type: 'sendTask', parent: 'task',
-            url: iconDirectory + '/element-type/task-send.png',
-            element_url: iconDirectory + '/element-type/task-send.png',
-            action: function(el) {
-                editElementType(el,'sendTask');
-            }
-        }, {
-            type: 'receiveTask', parent: 'task',
-            url: iconDirectory + '/element-type/task-receive.png',
-            element_url: iconDirectory + '/element-type/task-receive.png',
-            action: function(el) {
-                editElementType(el,'receiveTask');
             }
         }, {
             type: 'subprocess', parent: 'subprocess',
@@ -371,7 +343,8 @@
         }
 
         if (!elem.classed('gateway')) {
-            let isSuggest = true;
+            let isSuggest = true,
+                isEdit = true;
             let elementId = elem.node().id;
             let connectors = aliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
             connectors.forEach(function(c) {
@@ -381,13 +354,20 @@
                     if (data.sourceId === elementId) {
                         isSuggest = false;
                     }
+
+                    if (elem.classed('commonEnd') && data.targetId === elementId) {
+                        isEdit = false;
+                    }
                 }
             });
-            if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
+            if (elem.classed('commonEnd')) {
                 isSuggest = false;
             }
             if (!isSuggest) {
                 actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'suggest'; });
+            }
+            if (!isEdit) {
+                actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });
             }
         }
 
@@ -497,10 +477,10 @@
                 }
             });
             if (isSourceConnected || isTargetConnected) {
-                if (elem.classed('commonEnd') || elem.classed('messageEnd')) {
-                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type === 'commonEnd' || item.type === 'messageEnd'; });
+                if (elem.classed('commonEnd')) {
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type === 'commonEnd'; });
                 } else {
-                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonEnd' && item.type !== 'messageEnd'; });
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonEnd'; });
                     if (isTargetConnected) {
                         elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonStart'; });
                     }
