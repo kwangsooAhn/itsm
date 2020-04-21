@@ -27,9 +27,6 @@ interface NoticeRepository: JpaRepository<NoticeEntity, String> {
 
     fun findByNoticeNo(noticeNo: String): NoticeEntity
 
-    @Query(
-            name = "portalSearchMapping",
-            nativeQuery = true
-    )
+    @Query(name = "portalSearchMapping", nativeQuery = true)
     fun findPortalListOrSearchList(searchValue: String): MutableList<PortalDto>
 }
