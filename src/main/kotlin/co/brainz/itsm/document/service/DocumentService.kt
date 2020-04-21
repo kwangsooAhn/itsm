@@ -91,14 +91,17 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * @param restTemplateDocumentDto
      * @return Boolean
      */
-    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
+    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         val documentId = restTemplateDocumentDto.documentId?:""
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
         val responseEntity = restTemplate.update(url, restTemplateDocumentDto)
-        return responseEntity.body.toString().isNotEmpty()
+        return when (responseEntity.body.toString().isNotEmpty()) {
+            true -> {documentId}
+            false -> ""
+        }
     }
 
     /**

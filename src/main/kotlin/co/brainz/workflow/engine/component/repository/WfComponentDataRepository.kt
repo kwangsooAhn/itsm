@@ -17,4 +17,10 @@ interface WfComponentDataRepository: JpaRepository<WfComponentDataEntity, String
             "AND c.componentId = cd.componentId " +
             "AND cd.attributeId = :attributeId")
     fun findComponentDataByFormId(formId: String?, attributeId: String): List<WfComponentDataEntity>
+
+    @Query("SELECT cd " +
+            "FROM  WfComponentDataEntity cd " +
+            "WHERE cd.componentId = :componentId " +
+            "AND cd.attributeId = :attributeId")
+    fun findComponentDataByComponentId(componentId: String, attributeId: String): List<WfComponentDataEntity>
 }

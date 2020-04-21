@@ -39,7 +39,8 @@ object WfElementConstants {
         ACTION_VALUE("action-value"),
         SAVE("save"),
         REJECT_ID("reject-id"),
-        SUB_DOCUMENT_ID("sub-document-id")
+        SUB_DOCUMENT_ID("sub-document-id"),
+        NAME("name")
     }
 
     /**

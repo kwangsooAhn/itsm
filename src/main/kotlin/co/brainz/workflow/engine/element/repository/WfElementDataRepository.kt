@@ -21,6 +21,11 @@ interface WfElementDataRepository : JpaRepository<WfElementDataEntity, WfElement
             "WHERE e.processId = :processId " +
             "AND e.elementId = ed.element.elementId " +
             "AND e.elementType = :elementType " +
-            "AND ed.attributeId = :attributeId")
-    fun findElementDataByProcessId(processId: String, elementType: String, attributeId: String): List<Map<String, Any>>
+            "AND ed.attributeId = :attributeId " +
+            "ORDER BY e.elementId DESC")
+    fun findElementDataByProcessId(
+        processId: String,
+        elementType: String = WfElementConstants.ElementType.USER_TASK.value,
+        attributeId: String = WfElementConstants.AttributeId.NAME.value
+    ): List<Map<String, Any>>
 }

@@ -5,14 +5,13 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
-import co.brainz.workflow.engine.document.dto.WfDocumentDisplayDataDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDisplaySaveDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplayViewDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
-import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
@@ -273,31 +272,42 @@ class WfDocumentService(
      *
      * @return List<DocumentDataDto>
      */
-    fun documentDisplay(documentId: String): List<WfDocumentDisplayDataDto> {
+    fun getDocumentDisplay(documentId: String): WfDocumentDisplayViewDto {
         // 편집화면 정보
-//        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-//        val componentList = wfComponentDataRepository .findComponentDataByFormId(documentEntity.form.formId, "label")
-//        val elementList = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId, "userTask", "name")
-        // 디스플레이 데이터
-        val documentDisplay = mutableListOf<WfDocumentDisplayDataDto>()
-//        val documentDisplayEntities = wfDocumentDataRepository.findByDocumentId(documentId)
-//        for (display in documentDisplayEntities) {
-//            val documentDisplayDto = WfDocumentDisplayDataDto(
-//                    documentId = documentId,
-//                    componentId = display.componentId,
-//                    elementId = display.elementId,
-//                    display = display.display
-//            )
-//            documentDisplay.add(documentDisplayDto)
-//        }
-//        val documentDisplayViewDto = WfDocumentDisplayViewDto(
-//                documentId = documentId,
-//                components = componentList,
-//                elements = elementList,
-//                displays = documentDisplay
-//        )
-//        return documentDisplayViewDto
-        return documentDisplay
+        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+        val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
+        val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
+        val displayList = wfDocumentDataRepository.findByDocumentId(documentId)
+
+        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        for (component in componentEntities) {
+            val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            for (display in displayList) {
+                if (display.componentId == component.componentId) {
+                    val displayMap = LinkedHashMap<String, Any>()
+                    displayMap["elementId"] = display.elementId
+                    displayMap["display"] = display.display
+                    displayValue.add(displayMap)
+                }
+            }
+            val componentMap = LinkedHashMap<String, Any>()
+            val componentData = wfComponentDataRepository.findComponentDataByComponentId(component.componentId, "label")
+            var attributeValue = when (componentData.size > 0) {
+                // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
+                true -> componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
+                // 컴포넌트 라벨 속성이 없는 경우, 컴포넌트 타입을 화면에 표시한다.
+                false -> component.componentType
+            }
+            componentMap["componentId"] = component.componentId
+            componentMap["attributeValue"] = attributeValue
+            componentMap["displayValue"] = displayValue
+            components.add(componentMap)
+        }
+        return WfDocumentDisplayViewDto(
+                documentId = documentId,
+                elements = elementEntities,
+                components = components
+        )
     }
 
     /**

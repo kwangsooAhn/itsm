@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class WfDocumentDisplaySaveDto(
         val documentId: String,
-        val displays: MutableList<LinkedHashMap<String, Any>>
+        val displays: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
 ) : Serializable

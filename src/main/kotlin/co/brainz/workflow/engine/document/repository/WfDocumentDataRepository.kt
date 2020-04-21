@@ -13,4 +13,12 @@ interface WfDocumentDataRepository: JpaRepository<WfDocumentDataEntity, String> 
     @Transactional
     fun deleteByDocumentId(documentId: String): Int
 
+    @Query(
+            "SELECT dd " +
+            "FROM WfDocumentDataEntity dd " +
+            "WHERE dd.documentId = :documentId " +
+            "ORDER BY COALESCE(dd.componentId, dd.elementId)"
+    )
+    fun findByDocumentId(documentId: String): List<WfDocumentDataEntity>
+
 }
