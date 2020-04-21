@@ -10009,7 +10009,7 @@ body {
   background-image: url("../media/icons/process/element/annotation.png");
 }
 .alice-process-element-palette span.separator {
-  display: list-item;
+  display: block;
   width: 2.5rem;
   height: 0.063rem;
   background: lightgray;

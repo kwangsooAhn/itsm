@@ -11,7 +11,7 @@
     <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{document.label.list}"></h1>
         <div sec:authorize="hasAuthority('document.create')" class="button" align="right">
-            <button type="button" onclick="openDocumentEdit()" th:text="#{common.btn.register}"></button>
+            <button type="button" onclick="createDocument()" th:text="#{common.btn.register}"></button>
         </div>
         <hr>
         <div id="documentList" style="margin-top: 20px"></div>
@@ -27,18 +27,24 @@
             });
         };
 
+        function openDocument(documentId) {
+            window.open('/documents/' + documentId + '/publish', '_blank', 'width=800, height=805');
+        }
+
         function openDocumentEdit(documentId) {
-            if (documentId !== undefined) {
-                window.open('/documents/' + documentId + '/edit', '_blank', 'width=800, height=805');
-            } else {
-                window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');
-            }
+            window.open('/documents/' + documentId + '/edit', '_blank', 'width=625, height=400, left=1000, top=350');
+        }
+
+        function createDocument() {
+            window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');
         }
 
         function deleteDocument(documentId) {
             restSubmit('DELETE', '/rest/documents/' + documentId, function(result) {
                 if (JSON.parse(result)) {
-                    aliceJs.alert('[[#{common.msg.delete.success}]]');
+                    aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
+                        location.reload();
+                    });
                 } else {
                     aliceJs.alert('[[#{document.msg.raunchedInstance}]]');
                 }
