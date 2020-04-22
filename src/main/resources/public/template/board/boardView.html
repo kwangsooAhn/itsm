@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{board.label.manager}"></title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table label {
+            margin: 0;
+        }
+        table td {
+            border: 1px solid;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{board.label.manager}"></h1>
+        </div>
+        <hr>
+        <table>
+            <colgroup>
+                <col width="20%">
+                <col width="30%">
+                <col width="20%">
+                <col width="30%">
+            </colgroup>
+            <tbody>
+            <tr>
+                <td><label th:text="#{board.label.board}"></label></td>
+                <td colspan="3">
+                    <label th:text="${boardInfo?.boardCategoryName} ? ${boardInfo.boardCategoryName} : ''"/> <label th:text="${boardInfo.boardTitle}"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label th:text="#{board.label.contents}"></td>
+                <td colspan="3"><label th:text="${boardInfo.boardConents}"/></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{common.label.attachFile}"></label></td>
+                <td colspan="3">
+                    <div id="dropZoneFiles"></div>
+                    <div id="dropZoneUploadedFiles"></div>
+                </td>
+            </tr>
+            <tr>
+                <td><label th:text="#{common.label.createUserName}"></td>
+                <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
+                <td><label th:text="#{common.label.createDate}"></td>
+                <td><span id="spanCreateDt" name="spanCreateDt"
+                          th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardInfo?.createDt,dateformat)}"></span></td>
+            </tr>
+            <tr>
+                <td><label th:text="#{common.label.updateUserName}"></td>
+                <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${board?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
+                <td><label th:text="#{common.label.updateDate}"></td>
+                <td><span id="spanUpdateDt" name="spanUpdateDt"
+                          th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardInfo?.updateDt,dateformat)}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <td><label th:text="#{board.label.comment}"></td>
+                <td><input type="text" id="boardComments" name="boardComments" maxlength="100"></td>
+                <td align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></td>
+            </tr>
+            <div id="boardCommentList" style="margin-top: 20px"></div>
+        </table>
+        <div align="right">
+            <button style="margin-right: 5px;" onclick="location.href='/boards/search'" th:text="#{common.btn.list}"></button>
+            <button style="margin-right: 5px;" th:if="${boardInfo?.boardId}" onclick="saveBoard('put')" th:text="#{common.btn.modify}"></button>
+            <button style="margin-right: 5px;" th:if="${boardInfo?.boardId}" onclick="saveBoardAnswer('post')" th:text="#{board.btn.answer}"></button>
+            <button style="margin-right: 5px;" th:if="${boardInfo?.boardId}" onclick="deleteBoard('delete')" th:text="#{common.btn.delete}"></button>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        var boardId = '';
+        window.onload = function() {
+            boardId = /*[[${boardInfo?.boardId}]]*/;
+            if (boardId !== null) {
+                fileUploader.init({extra: {formId: 'boardForm', ownId: [[${boardInfo?.boardId}]]}});
+                getBoardCommentList();
+            }
+        };
+
+        //게시판 저장
+        function saveBoard(method) {
+            if (isEmpty('boardTitle', 'board.msg.inputBoardTitle')) return;
+            let fileSeqList = [];
+            document.getElementsByName('fileSeq').forEach(function(elem) {
+                fileSeqList.push(elem.value);
+            });
+
+            const data = {
+                boardAdminId: /*[[${boardAdminInfo?.boardAdminId}]]*/,
+                boardTitle: document.getElementById('boardTitle').value,
+                boardConents: document.getElementById('boardConents').value,
+                fileSeqList: fileSeqList
+            };
+
+            if (method === 'put') {
+                data.boardId = boardId;
+            }
+            restSubmit(method, '/rest/boards', data);
+        }
+
+        function saveBoardAnswer() {
+            alert("답글");
+        }
+
+        //게시판 삭제
+        function deleteBoard(method) {
+            restSubmit(method, '/rest/boards/' + boardId);
+        }
+
+        //게시판 댓글 저장
+        function saveBoardComment(method) {
+            const data = {
+                boardComments: document.getElementById('boardComments').value
+            };
+            restSubmit(method, '/rest/boards/'+boardId+'/comment', data);
+        }
+
+        //게시판 댓글 조회
+        function getBoardCommentList() {
+            restSubmit('get', '/boards/'+boardId+'/comments/list');
+        }
+
+        //게시판 댓글 삭제
+        function boardCommentDelete() {
+            restSubmit('delete', '/rest/boards/comments/'+boardId);
+        }
+
+        //게시판 댓글 수정
+        function openCommentEdit() {
+            //밑에 row에 자동으로 무엇이 생기고 거기서 저장 할 수 있도록 구현
+            alert("수정");
+        }
+
+        //REST API
+        function restSubmit(method, url, data) {
+            let resultMsg = '';
+            if (method === 'put' || method === 'post') {
+                resultMsg = i18n.get('common.msg.save');
+            } else if (method === 'delete') {
+                resultMsg = i18n.get('common.msg.delete');
+            }
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    if (method === 'put' || method === 'post' || method === 'delete') {
+                        aliceJs.alert(resultMsg, function () {
+                            location.href = '/boards/search';
+                        });
+                    } else if (method === 'get') {
+                        document.getElementById('boardCommentList').innerHTML = response.responseText;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

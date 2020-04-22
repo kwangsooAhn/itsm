@@ -430,10 +430,12 @@ download:
 board:
   btn:
     category: "Category"
+    answer: "Answer"
   label:
     board: "Board"
     manager: "Board Manager"
     searchPlaceholder: "Title / CreateUserName"
+    searchBoardPlaceholder: "Category/ Title / CreateUserName"
     name: "Board Name"
     category: "Category"
     count: "Number of posts"
@@ -447,6 +449,11 @@ board:
     comment: "Comment Yes or No"
     attachFile: "Attach File Yes or No"
     attachFileSize: "Attach File Size"
+    number: "Number"
+    title: "Title"
+    commentCount: "Number of Comment"
+    readCount: "Number of Read"
+    contents: "Contents"
     msg:
       inputBoardTitle: "Please enter the board name."
       inputSortSize: "Please enter a sorting order of 100 or less."

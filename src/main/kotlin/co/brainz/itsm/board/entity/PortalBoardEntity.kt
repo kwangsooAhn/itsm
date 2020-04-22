@@ -20,8 +20,11 @@ class PortalBoardEntity(
         @Column(name = "board_admin_id", length = 128)
         var boardAdminId: String,
 
-        @Column(name = "board_no")
-        var boardNo: Int,
+        @Column(name = "board_category_id ", length = 128)
+        var boardCategoryId : String? = "",
+
+        @Column(name = "board_no", insertable = true, updatable = false)
+        var boardNo: Long? = 0,
 
         @Column(name = "board_title", length = 512)
         var boardTitle: String?,
