@@ -117,7 +117,6 @@ class OAuthService(
         }
         return isExist
     }
-
 }
 
 @Component
@@ -203,7 +202,6 @@ class AliceOAuthServiceGoogle : AliceOAuthServiceIF {
         )
         return responseEntity.body
     }
-
 }
 
 @Component
@@ -248,8 +246,8 @@ class AliceOAuthServiceKakao : AliceOAuthServiceIF {
             val profileInfo = requestProfile(accessToken)
             val mapper = ObjectMapper()
             val result: MutableMap<*, *> = mapper.readValue(profileInfo, MutableMap::class.java)
-            val propertyMap = result.get("properties") as MutableMap<*, *>
-            val userName = propertyMap.get("nickname") as String
+            val propertyMap = result["properties"] as MutableMap<*, *>
+            val userName = propertyMap["nickname"] as String
 
             if (profileInfo.isNotEmpty()) {
                 oAuthDto.userId = jsonToMap(profileInfo, "id")

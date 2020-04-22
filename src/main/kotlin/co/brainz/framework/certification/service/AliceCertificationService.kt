@@ -14,6 +14,12 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
+import java.net.Inet4Address
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import java.util.TimeZone
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
@@ -23,12 +29,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.net.Inet4Address
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
-import java.security.PrivateKey
-import java.time.LocalDateTime
-import java.util.TimeZone
 
 /**
  * @since 1.0
@@ -95,8 +95,8 @@ class AliceCertificationService(
                     expiredDt = LocalDateTime.now().plusMonths(3),
                     status = AliceUserConstants.Status.SIGNUP.code,
                     oauthKey = "",
-                    timezone = TimeZone.getDefault().id,
                     lang = AliceUserConstants.USER_LOCALE_LANG,
+                    timezone = TimeZone.getDefault().id,
                     timeFormat = AliceUserConstants.USER_TIME_FORMAT,
                     theme = AliceUserConstants.USER_THEME
                 )

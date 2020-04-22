@@ -1,12 +1,12 @@
 package co.brainz.framework.configuration
 
 import co.brainz.framework.util.AliceUtil
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.security.web.session.InvalidSessionStrategy
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 @Component
 class AliceInvalidSessionStrategy : InvalidSessionStrategy {
@@ -30,5 +30,4 @@ class AliceInvalidSessionStrategy : InvalidSessionStrategy {
             response.sendRedirect(requestURL.toString())
         }
     }
-
 }
