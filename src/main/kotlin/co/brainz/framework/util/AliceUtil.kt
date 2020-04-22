@@ -17,8 +17,8 @@ class AliceUtil {
         var isPermission = false
         val regex = "\\{([a-zA-Z]*)}".toRegex()
         val requestUrls = requestUrl.split("/")
-        AliceApplicationRunner.aliceUrls.let letDto@ {
-            urlList -> urlList.forEach forEachList@ {
+        AliceApplicationRunner.aliceUrls.let letDto@{ urlList ->
+            urlList.forEach forEachList@{
                 val urls = it.url.split("/")
                 if (requestUrls.size == urls.size && it.method == requestMethod) {
                     requestUrls.forEachIndexed { index, url ->
@@ -51,7 +51,7 @@ class AliceUtil {
      * URL 제외 패턴 확인.
      */
     fun urlExcludePatternCheck(request: HttpServletRequest): Boolean {
-        val requestUrl = request.requestURI?:""
+        val requestUrl = request.requestURI ?: ""
         val requestMethod = request.method.toLowerCase()
         var isPermission = urlRequiredAuthCheck(requestUrl, requestMethod)
         if (!isPermission) {
