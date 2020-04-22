@@ -657,6 +657,7 @@
             let fileUploadElem = comp.querySelector('.dropbox');
             fileUploadElem.textContent = 'Drop files here to upload';
             let buttonElem = document.createElement('button');
+            buttonElem.type = 'button';
             buttonElem.innerText = 'ADD';
             fileUploadElem.parentNode.insertBefore(buttonElem, fileUploadElem);
         }
