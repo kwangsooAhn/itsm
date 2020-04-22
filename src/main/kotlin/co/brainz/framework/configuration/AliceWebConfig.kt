@@ -22,7 +22,7 @@ import javax.net.ssl.SSLContext
 
 
 @Configuration
-class AliceWebConfig{
+class AliceWebConfig {
 
     @Value("\${server.ssl.key-store-password}")
     private val keyStorePassword = ""
@@ -32,7 +32,7 @@ class AliceWebConfig{
 
     // 1. LocaleResolver
     @Bean("localeResolver")
-    fun localeResolver() : LocaleResolver {
+    fun localeResolver(): LocaleResolver {
         val slr = SessionLocaleResolver()
         slr.setDefaultLocale(Locale.KOREA)
         return slr
@@ -40,7 +40,7 @@ class AliceWebConfig{
 
     // 2. LocaleChangInterceptor
     @Bean("localeChangeInterceptor")
-    fun localeChangeInterceptor() : LocaleChangeInterceptor {
+    fun localeChangeInterceptor(): LocaleChangeInterceptor {
         val lci = LocaleChangeInterceptor()
         lci.paramName = "lang"
         lci.isIgnoreInvalidLocale = true
@@ -49,12 +49,12 @@ class AliceWebConfig{
 
     @Bean("messageSource")
     fun messageSource(
-            @Value("\${spring.messages.basename}") basename: String,
-            @Value("\${spring.messages.encoding}") encoding: String
-    ) : MessageSource {
+        @Value("\${spring.messages.basename}") basename: String,
+        @Value("\${spring.messages.encoding}") encoding: String
+    ): MessageSource {
         class YamlMessageSource : ResourceBundleMessageSource() {
             @Throws(MissingResourceException::class)
-            override fun doGetBundle(basename: String, locale: Locale) : ResourceBundle {
+            override fun doGetBundle(basename: String, locale: Locale): ResourceBundle {
                 return ResourceBundle.getBundle(basename, locale, YamlResourceBundle.Control.INSTANCE)
             }
         }
@@ -73,11 +73,16 @@ class AliceWebConfig{
     fun restTemplate(builder: RestTemplateBuilder): RestTemplate? {
 
         val sslContext: SSLContext = SSLContextBuilder
-                .create()
-                .loadKeyMaterial(ClassPathResource("itsm.jks").url, keyStorePassword.toCharArray(), keyStorePassword.toCharArray())
-                .loadTrustMaterial(ClassPathResource("itsm.ts").url, trustStorePassword.toCharArray())
-                .build()
-        val client: HttpClient = HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()
+            .create()
+            .loadKeyMaterial(
+                ClassPathResource("itsm.jks").url,
+                keyStorePassword.toCharArray(),
+                keyStorePassword.toCharArray()
+            )
+            .loadTrustMaterial(ClassPathResource("itsm.ts").url, trustStorePassword.toCharArray())
+            .build()
+        val client: HttpClient =
+            HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()
         return builder.requestFactory { HttpComponentsClientHttpRequestFactory(client) }.build()
     }
 

@@ -34,12 +34,14 @@ import java.util.TimeZone
  * @since 1.0
  */
 @Service
-class AliceCertificationService(private val aliceCertificationRepository: AliceCertificationRepository,
-                                private val roleRepository: RoleRepository,
-                                private val codeService: CodeService,
-                                private val userRoleMapRepository: AliceUserRoleMapRepository,
-                                private val aliceMailService: AliceMailService,
-                                private val aliceCryptoRsa: AliceCryptoRsa) {
+class AliceCertificationService(
+    private val aliceCertificationRepository: AliceCertificationRepository,
+    private val roleRepository: RoleRepository,
+    private val codeService: CodeService,
+    private val userRoleMapRepository: AliceUserRoleMapRepository,
+    private val aliceMailService: AliceMailService,
+    private val aliceCryptoRsa: AliceCryptoRsa
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -61,7 +63,7 @@ class AliceCertificationService(private val aliceCertificationRepository: AliceC
         val roleList = mutableListOf<AliceRoleEntity>()
         val codeEntityList = codeService.selectCodeByParent(pRole)
         val roleIdList = mutableListOf<String>()
-        codeEntityList.forEach {codeEntity ->
+        codeEntityList.forEach { codeEntity ->
             codeEntity.codeValue?.let { codeValue -> roleIdList.add(codeValue) }
         }
 
@@ -77,25 +79,26 @@ class AliceCertificationService(private val aliceCertificationRepository: AliceC
         when (code) {
             AliceUserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-                val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+                val privateKey =
+                    attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val password = aliceSignUpDto.password?.let { aliceCryptoRsa.decrypt(privateKey, it) }
                 var user = AliceUserEntity(
-                        userKey = "",
-                        userId = aliceSignUpDto.userId,
-                        password = BCryptPasswordEncoder().encode(password),
-                        userName = aliceSignUpDto.userName,
-                        email = aliceSignUpDto.email,
-                        position = aliceSignUpDto.position,
-                        department = aliceSignUpDto.department,
-                        officeNumber = aliceSignUpDto.officeNumber,
-                        mobileNumber = aliceSignUpDto.mobileNumber,
-                        expiredDt = LocalDateTime.now().plusMonths(3),
-                        status = AliceUserConstants.Status.SIGNUP.code,
-                        oauthKey = "",
-                        timezone = TimeZone.getDefault().id,
-                        lang = AliceUserConstants.USER_LOCALE_LANG,
-                        timeFormat = AliceUserConstants.USER_TIME_FORMAT,
-                        theme = AliceUserConstants.USER_THEME
+                    userKey = "",
+                    userId = aliceSignUpDto.userId,
+                    password = BCryptPasswordEncoder().encode(password),
+                    userName = aliceSignUpDto.userName,
+                    email = aliceSignUpDto.email,
+                    position = aliceSignUpDto.position,
+                    department = aliceSignUpDto.department,
+                    officeNumber = aliceSignUpDto.officeNumber,
+                    mobileNumber = aliceSignUpDto.mobileNumber,
+                    expiredDt = LocalDateTime.now().plusMonths(3),
+                    status = AliceUserConstants.Status.SIGNUP.code,
+                    oauthKey = "",
+                    timezone = TimeZone.getDefault().id,
+                    lang = AliceUserConstants.USER_LOCALE_LANG,
+                    timeFormat = AliceUserConstants.USER_TIME_FORMAT,
+                    theme = AliceUserConstants.USER_THEME
                 )
 
                 when (target) {
@@ -113,7 +116,7 @@ class AliceCertificationService(private val aliceCertificationRepository: AliceC
                 when (target) {
                     AliceUserConstants.USER_ID -> {
                         getDefaultUserRoleList(AliceUserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach { role ->
-                            userRoleMapRepository.save(AliceUserRoleMapEntity(user,role))
+                            userRoleMapRepository.save(AliceUserRoleMapEntity(user, role))
                         }
                     }
                     AliceUserConstants.ADMIN_ID -> {
@@ -172,17 +175,22 @@ class AliceCertificationService(private val aliceCertificationRepository: AliceC
         updateUser(certificationDto)
         when (target) {
             AliceUserConstants.SendMailStatus.CREATE_USER.code, AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
-            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code-> sendCertificationMail(certificationDto)
+            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> sendCertificationMail(certificationDto)
         }
     }
 
     @Transactional
     fun updateUser(aliceCertificationDto: AliceCertificationDto) {
-        return aliceCertificationRepository.saveCertification(aliceCertificationDto.userId, aliceCertificationDto.certificationCode, aliceCertificationDto.status)
+        return aliceCertificationRepository.saveCertification(
+            aliceCertificationDto.userId,
+            aliceCertificationDto.certificationCode,
+            aliceCertificationDto.status
+        )
     }
 
     fun makeLinkUrl(aliceCertificationDto: AliceCertificationDto): String {
-        val uid = "${aliceCertificationDto.certificationCode}:${aliceCertificationDto.userId}:${aliceCertificationDto.email}"
+        val uid =
+            "${aliceCertificationDto.certificationCode}:${aliceCertificationDto.userId}:${aliceCertificationDto.email}"
         val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
         val urlEncryptUid: String = URLEncoder.encode(encryptUid, StandardCharsets.UTF_8)
         return "${senderProtocol}://${host}:${senderPort}/certification/valid?uid=${urlEncryptUid}"
@@ -248,7 +256,13 @@ class AliceCertificationService(private val aliceCertificationRepository: AliceC
             AliceUserConstants.Status.SIGNUP.code, AliceUserConstants.Status.EDIT.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
-                        val certificationDto = AliceCertificationDto(userDto.userId, userDto.email, "", AliceUserConstants.Status.CERTIFIED.code, null)
+                        val certificationDto = AliceCertificationDto(
+                            userDto.userId,
+                            userDto.email,
+                            "",
+                            AliceUserConstants.Status.CERTIFIED.code,
+                            null
+                        )
                         updateUser(certificationDto)
                         AliceUserConstants.Status.CERTIFIED.value
                     }
