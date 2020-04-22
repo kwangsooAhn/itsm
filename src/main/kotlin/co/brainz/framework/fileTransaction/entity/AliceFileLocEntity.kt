@@ -12,10 +12,10 @@ import javax.persistence.Table
 
 @Entity
 @SequenceGenerator(
-    name = "awf_file_loc_seq_gen",     //시퀀스 제너레이터 이름
-    sequenceName = "awf_file_loc_seq", //시퀀스 이름
-    initialValue = 1,                  //시작값
-    allocationSize = 1                 //메모리를 통해 할당할 범위 사이즈
+    name = "awf_file_loc_seq_gen",     // 시퀀스 제너레이터 이름
+    sequenceName = "awf_file_loc_seq", // 시퀀스 이름
+    initialValue = 1,                  // 시작값
+    allocationSize = 1                 // 메모리를 통해 할당할 범위 사이즈
 )
 @Table(name = "awf_file_loc")
 data class AliceFileLocEntity(
@@ -30,5 +30,4 @@ data class AliceFileLocEntity(
     @Column(name = "file_size") var fileSize: Long?,
     @Column(name = "sort") var sort: Int?
 
-): Serializable, AliceMetaEntity()
-
+) : Serializable, AliceMetaEntity()

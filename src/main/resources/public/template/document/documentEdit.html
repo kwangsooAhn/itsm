@@ -1,50 +1,123 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{document.label.write}"></title>
-    <meta charset="utf-8">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
-    <link th:href="@{/assets/vendors/popupmodal/css/popupmodal.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/vendors/popupmodal/js/popupmodal.js}"></script>
-    <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/vendors/quill/quill.js}"></script>
-    <script th:src="@{/assets/js/document/document.js}"></script>
-    <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
-    <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
-    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
-    <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
-    <script th:src="@{/assets/vendors/window-date-picker/js/window-date-picker.custom.js}"></script>
-    <style>
-    </style>
+    <title th:text="#{help.document}"></title>
+    <th:block th:replace="layout/fragments/commonHead"></th:block>
 </head>
 <body>
-<form id="frm" name="frm">
-<div id="document-container"></div>
-<div id="button-container"></div>
-</form>
+<div>
+    <table style="width:95%; margin: 0 auto;">
+        <colgroup>
+            <col width="20%">
+            <col width="*">
+        </colgroup>
+        <tr>
+            <th class="required" th:text="#{document.label.name}"></th>
+            <td>
+                <input id="document_name" type="text" maxlength="50" required="required" style="width:100%"/>
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{document.label.description}"></th>
+            <td>
+                <textarea id="document_desc" maxlength="128" style="height:100px; width:100%"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <th class="required" th:text="#{document.label.form}"></th>
+            <td>
+                <select id="document_form" style="width:75%" th:disabled="${documentId}">
+                    <option th:each="form:${formList}" 
+                            th:id="${form?.id}"
+                            th:value="${form?.id}"
+                            th:text="#{${form?.name}}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th class="required" th:text="#{document.label.process}"></th>
+            <td>
+                <select id="document_process" style="width:75%" th:disabled="${documentId}">
+                    <option th:each="process:${processList}"
+                            th:id="${process?.id}"
+                            th:value="${process?.id}"
+                            th:text="#{${process?.name}}" ></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{document.label.status}"></th>
+            <td>
+                <select id="document_status" style="width:75%" th:disabled="!${documentId}">
+                    <option th:each="status:${statusList}" th:value="${status.code}"
+                            th:text="#{${status.code}}" th:selected="${status.code == 'document.status.use'}"></option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<hr>
+<div style="margin-top: 10px; text-align: center;">
+    <button th:if="${documentId}" onclick="saveDocument('put')" th:text="#{common.btn.modify}"></button>
+    <button th:unless="${documentId}" onclick="saveDocument('post')" th:text="#{common.btn.register}"></button>
+    <button th:text="#{common.btn.close}" onclick="window.close();"></button>
+</div>
 </body>
+<script th:src="@{/assets/js/util/validation-alice.js}"></script>
+<script th:src="@{/assets/js/document/document.js}"></script>
 <script type="text/javascript">
-    window.onload = function() {
-        const userAuthInfo = {
-            userKey : '[[${#authentication.details.userKey}]]',
-            userId : '[[${#authentication.details.userId}]]',
-            userName: '[[${#authentication.details.userName}]]',
-            email: '[[${#authentication.details.email}]]',
-            position: '[[${#authentication.details.position}]]',
-            department: '[[${#authentication.details.department}]]',
-            officeNumber: '[[${#authentication.details.officeNumber}]]',
-            mobileNumber: '[[${#authentication.details.mobileNumber}]]',
-            timeFormat : '[[${#authentication.details.timeFormat}]]',
-            lang: '[[${#authentication.details.lang}]]'
+    function saveDocument(method) {
+        if (emptyValidation()) {
+            let documentForm = document.getElementById('document_form');
+        	let documentProcess = document.getElementById('document_process');
+        	let documentStatus = document.getElementById('document_status');
+            const documentInfo = {
+                documentName: document.getElementById('document_name').value,
+                documentDesc: document.getElementById('document_desc').value,
+                formId: documentForm.options[documentForm.selectedIndex].value,
+                procId: documentProcess.options[documentProcess.selectedIndex].value,
+                documentStatus: documentStatus.options[documentStatus.selectedIndex].value
+            };
+            let parameter = '';
+            if (method === 'put') {
+                documentInfo.documentId = '[[${documentId}]]';
+                parameter = '/' + '[[${documentId}]]';
+            }
+            restSubmit(method, '/rest/documents' + parameter, documentInfo);
+        }
+    }
+
+    //빈 값 체크
+    function emptyValidation() {
+        if (isEmpty('document_name', 'document.msg.nameNotExist')) { return false; }
+        return true;
+    }
+
+    //REST API
+    function restSubmit(method, url, data) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(response) {
+                aliceJs.alert(i18n.get('common.msg.save'), function() {
+                    opener.location.reload();
+                    window.close();
+                });
+            }
         };
-        i18n.add(function() {
-            aliceDocument.initDocument('[[${documentId}]]', JSON.stringify(userAuthInfo));
-        });
+        aliceJs.sendXhr(opt);
+    }
+
+    /*<![CDATA[*/
+    window.onload = function() {
+        if ('[[${documentId}]]' !== '') {
+            i18n.add(function(){
+                aliceDocument.getDocument('[(${documentId})]');
+            });
+        }
     };
+    /*]]>*/
 </script>
 </html>

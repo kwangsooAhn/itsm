@@ -46,7 +46,7 @@ const colorPalette = (function() {
             colorCodeElem.dispatchEvent(evt);
         });
 
-        eventTriggerElem.addEventListener('blur', e => {
+        eventTriggerElem.addEventListener('blur', function(e) {
 
         });
     };

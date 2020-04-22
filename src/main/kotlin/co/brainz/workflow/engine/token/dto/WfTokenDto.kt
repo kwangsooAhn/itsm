@@ -7,11 +7,11 @@ data class WfTokenDto(
     var documentId: String? = null,
     var documentName: String? = null,
     var isComplete: Boolean = true,
+    var instanceId: String? = null,
     var elementId: String = "",
     var elementType: String = "",
     var tokenStatus: String? = null,
     var assigneeId: String? = null,
-    var assigneeType: String? = null,
     var data: List<WfTokenDataDto>? = null,
-    val action: List<WfActionDto>? = emptyList()
+    val action: String = ""
 ) : Serializable

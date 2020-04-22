@@ -3,13 +3,13 @@
     {
       "title": "Data",
       "items": [
-        {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": ""},
-        {"id": "name", "name": "Name", "type": "inputbox", "default": ""},
-        {"id": "status", "name": "Status", "type": "select", "default": "",
+        {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+        {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "Y"},
+        {"id": "status", "name": "Status", "type": "select", "default": "", "required": "Y",
           "sub-list": [
             {"id": "process.status.edit", "name": "Editing"},
-            {"id": "process.status.simu", "name": "Simulation"},
             {"id": "process.status.publish", "name": "Publish"},
+            {"id": "process.status.use", "name": "Using"},
             {"id": "process.status.destroy", "name": "Destroy"}
           ]
         },

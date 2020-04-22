@@ -13,18 +13,18 @@ import javax.persistence.Table
 @Table(name = "awf_user_role_map")
 @IdClass(AliceUserRoleMapPk::class)
 data class AliceUserRoleMapEntity(
-        @Id
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "user_key")
-        val user: AliceUserEntity,
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_key")
+    val user: AliceUserEntity,
 
-        @Id
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "role_id")
-        val role: AliceRoleEntity
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    val role: AliceRoleEntity
 ) : Serializable
 
 data class AliceUserRoleMapPk(
-        val user: String = "",
-        val role: String = ""
+    val user: String = "",
+    val role: String = ""
 ) : Serializable

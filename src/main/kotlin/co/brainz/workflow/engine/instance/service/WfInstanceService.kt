@@ -3,10 +3,10 @@ package co.brainz.workflow.engine.instance.service
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
+import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
-import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -27,18 +27,15 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
         var status = ""
         var userKey = ""
 
-        var type = WfTokenConstants.AssigneeType.ASSIGNEE.code
         if (parameters["status"] != null) {
             status = parameters["status"].toString()
         }
         if (parameters["userKey"] != null) {
             userKey = parameters["userKey"].toString()
         }
-        if (parameters["type"] != null) {
-            type = parameters["type"].toString()
-        }
+
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tokenDataList = wfInstanceRepository.findInstances(status, type, userKey)
+        val tokenDataList = wfInstanceRepository.findInstances(status, userKey)
         val tokens = mutableListOf<WfInstanceViewDto>()
         for (tokenData in tokenDataList) {
             tokens.add(mapper.convertValue(tokenData, WfInstanceViewDto::class.java))
@@ -64,11 +61,14 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      */
     fun createInstance(wfInstanceDto: WfInstanceDto): WfInstanceEntity {
         val instanceEntity = WfInstanceEntity(
-                instanceId = "",
-                instanceStatus = wfInstanceDto.instanceStatus?:WfInstanceConstants.Status.RUNNING.code,
-                document = wfInstanceDto.document,
-                instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
+            instanceId = "",
+            instanceStatus = wfInstanceDto.instanceStatus ?: WfInstanceConstants.Status.RUNNING.code,
+            document = wfInstanceDto.document,
+            instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
+        if (wfInstanceDto.pTokenId != null) {
+            instanceEntity.pTokenId = wfInstanceDto.pTokenId
+        }
         return wfInstanceRepository.save(instanceEntity)
     }
 
@@ -104,5 +104,12 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
         }
 
         return counts
+    }
+
+    /**
+     * Instance history
+     */
+    fun getInstancesHistory(instanceId: String): List<WfInstanceHistoryDto> {
+        return wfInstanceRepository.findInstanceHistory(instanceId)
     }
 }

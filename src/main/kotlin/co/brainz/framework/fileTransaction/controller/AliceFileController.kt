@@ -1,6 +1,7 @@
 package co.brainz.framework.fileTransaction.controller
 
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
+import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.InputStreamResource
@@ -59,6 +60,14 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
     @GetMapping("/filelist")
     fun getFileList(@RequestParam ownId: String, @RequestParam fileDataId: String): List<AliceFileOwnMapDto> {
         return aliceFileService.getList(ownId, fileDataId)
+    }
+
+    /**
+     * 파일 허용 확장자 목록가져오기
+     */
+    @GetMapping("/rest/fileNameExtensionList")
+    fun getFileNameExtension(): List<AliceFileNameExtensionEntity> {
+        return aliceFileService.getFileNameExtension()
     }
 
     /**

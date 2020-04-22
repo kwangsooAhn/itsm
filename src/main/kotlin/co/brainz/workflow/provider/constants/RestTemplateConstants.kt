@@ -53,8 +53,7 @@ object RestTemplateConstants {
      * @param method
      */
     enum class Token(val url: String, val method: String) {
-        POST_TOKEN_DATA("/rest/wf/tokens", "POST"),
-        PUT_TOKEN_DATA("/rest/wf/tokens/{tokenId}/data", "PUT"),
+        POST_TOKEN("/rest/wf/tokens", "POST"),
         PUT_TOKEN("/rest/wf/tokens/{tokenId}", "PUT"),
         GET_TOKEN("/rest/wf/tokens/{tokenId}", "GET"),
         GET_TOKENS("/rest/wf/tokens", "GET"),
@@ -70,12 +69,22 @@ object RestTemplateConstants {
     enum class Workflow(val url: String, val method: String) {
         GET_DOCUMENTS("/rest/wf/documents", "GET"),
         GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
+        GET_DOCUMENT_DATA("/rest/wf/documents/{documentId}/data", "GET"),
         POST_DOCUMENT("/rest/wf/documents", "POST"),
+        PUT_DOCUMENT("/rest/wf/documents/{documentId}", "PUT"),
         DELETE_DOCUMENT("/rest/wf/documents/{documentId}", "DELETE"),
         GET_INSTANCES("/rest/wf/instances", "GET"),
         GET_INSTANCES_COUNT("/rest/wf/instances/count", "GET"),
         TASK_COMPLETE("/rest/wf/tasks/{instanceId}/complete", "PUT"),
         TASK_GATEWAY("/rest/wf/tasks/{instanceId}/gateway", "PUT")
+    }
+
+    /**
+     * Instance Url.
+     */
+    enum class Instance(val url: String, val method: String) {
+        GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
+        GET_RELATED_INSTANCE("/rest/wf/folders", "GET")
     }
 
     /**
@@ -95,8 +104,8 @@ object RestTemplateConstants {
      */
     enum class FormStatus(val value: String) {
         EDIT("form.status.edit"),
-        SIMULATION("form.status.simu"),
         PUBLISH("form.status.publish"),
+        USE("form.status.use"),
         DESTROY("form.status.destroy")
     }
 
@@ -107,9 +116,20 @@ object RestTemplateConstants {
      */
     enum class ProcessStatus(val value: String) {
         EDIT("process.status.edit"),
-        SIMULATION("process.status.simu"),
         PUBLISH("process.status.publish"),
+        USE("process.status.use"),
         DESTROY("process.status.destroy")
+    }
+
+    /**
+     * Document Status.
+     *
+     * @param value
+     */
+    enum class DocumentStatus(val value: String) {
+        TEMPORARY("document.status.temporary"),
+        USE("document.status.use"),
+        DESTROY("document.status.destroy")
     }
 
     /**

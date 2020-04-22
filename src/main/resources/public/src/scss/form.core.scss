@@ -1,0 +1,25 @@
+/* 폼 편집, 신청서, 처리할 문서 등에서 사용하는 공통 CSS */ 
+@import "bootstrap-4.4.1/bootstrap";
+//@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareL.woff) format('woff');
+    font-weight: 300;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareR.woff) format('woff');
+    font-weight: 400;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareB.woff) format('woff');
+    font-weight: 700;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareEB.woff) format('woff');
+    font-weight: 800;
+}
+
+$alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;

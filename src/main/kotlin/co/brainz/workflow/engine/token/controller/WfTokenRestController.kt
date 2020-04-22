@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.token.controller
 
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.token.dto.WfTokenDto
+import co.brainz.workflow.engine.token.dto.WfTokenViewDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -23,20 +24,8 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      * @return List<TokenDto>
      */
     @GetMapping("")
-    fun getTokens(@RequestParam parameters: LinkedHashMap<String, Any>): List<LinkedHashMap<String, Any>> {
+    fun getTokens(@RequestParam parameters: LinkedHashMap<String, Any>): List<WfTokenDto> {
         return wfEngine.token().getTokens(parameters)
-    }
-
-    /**
-     * 토큰 신규 등록.
-     *
-     * @param wfTokenDto
-     * @return Boolean
-     */
-    @Transactional
-    @PostMapping("")
-    fun postTokenData(@RequestBody wfTokenDto: WfTokenDto): Boolean {
-        return wfEngine.token().postTokenData(wfTokenDto)
     }
 
     /**
@@ -46,20 +35,8 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      * @return TokenDto
      */
     @GetMapping("/{tokenId}")
-    fun getToken(@PathVariable tokenId: String): LinkedHashMap<String, Any> {
+    fun getToken(@PathVariable tokenId: String): WfTokenDto {
         return wfEngine.token().getToken(tokenId)
-    }
-
-    /**
-     * 토큰 일반정보 업데이트.
-     *
-     * @param tokenId
-     * @param wfTokenDto
-     * @return Boolean
-     */
-    @PutMapping("/{tokenId}")
-    fun putToken(@PathVariable tokenId: String, @RequestBody wfTokenDto: WfTokenDto): Boolean {
-        return wfEngine.token().putToken(wfTokenDto)
     }
 
     /**
@@ -69,21 +46,29 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      * @return TokenViewDto
      */
     @GetMapping("/{tokenId}/data")
-    fun getTokenData(@PathVariable tokenId: String): LinkedHashMap<String, Any> {
+    fun getTokenData(@PathVariable tokenId: String): WfTokenViewDto {
         return wfEngine.token().getTokenData(tokenId)
     }
 
     /**
-     * 토큰 상세정보 업데이트.
+     * Post Token Gate.
      *
-     * @param tokenId
      * @param wfTokenDto
-     * @return Boolean
+     * @return Any
      */
     @Transactional
-    @PutMapping("/{tokenId}/data")
-    fun putTokenData(@PathVariable tokenId: String, @RequestBody wfTokenDto: WfTokenDto): Boolean {
-        return wfEngine.token().putTokenData(wfTokenDto)
+    @PostMapping("")
+    fun postTokenGate(@RequestBody wfTokenDto: WfTokenDto) {
+        return wfEngine.token().initToken(wfTokenDto)
+    }
+
+    /**
+     * Put Token Gate.
+     */
+    @Transactional
+    @PutMapping("/{tokenId}")
+    fun putTokenGate(@RequestBody wfTokenDto: WfTokenDto) {
+        return wfEngine.token().setToken(wfTokenDto)
     }
 
 }
