@@ -2,16 +2,19 @@ package co.brainz.workflow.engine.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.workflow.engine.document.constants.WfDocumentConstants
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.service.WfActionService
+import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
+import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import org.mapstruct.factory.Mappers
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
@@ -48,8 +51,9 @@ class WfDocumentService(
                     documentId = document.documentId,
                     documentName = document.documentName,
                     documentDesc = document.documentDesc,
-                    procId = document.process.processId,
-                    formId = document.form.formId,
+                    documentStatus = document.documentStatus,
+                    procId = document.process!!.processId,
+                    formId = document.form!!.formId,
                     createDt = document.createDt,
                     createUserKey = document.createUserKey,
                     updateDt = document.updateDt,
@@ -65,11 +69,33 @@ class WfDocumentService(
      * Search Document.
      *
      * @param documentId
+     * @return WfDocumentDto
+     */
+    fun getDocument(documentId: String): WfDocumentDto {
+        val document = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+        return WfDocumentDto(
+                documentId = document.documentId,
+                documentName = document.documentName,
+                documentDesc = document.documentDesc,
+                documentStatus = document.documentStatus,
+                procId = document.process!!.processId,
+                formId = document.form!!.formId,
+                createDt = document.createDt,
+                createUserKey = document.createUserKey,
+                updateDt = document.updateDt,
+                updateUserKey = document.updateUserKey
+        )
+    }
+
+    /**
+     * Search Document Data.
+     *
+     * @param documentId
      * @return WfFormComponentViewDto?
      */
-    fun document(documentId: String): WfFormComponentViewDto? {
+    fun getDocumentData(documentId: String): WfFormComponentViewDto? {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId)
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form!!.formId)
         val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (component in formEntity.get().components!!) {
@@ -91,7 +117,7 @@ class WfDocumentService(
         return WfFormComponentViewDto(
                 form = formViewDto,
                 components = components,
-                actions = wfActionService.actionInit(documentEntity.process.processId)
+                actions = wfActionService.actionInit(documentEntity.process!!.processId)
         )
     }
 
@@ -120,7 +146,8 @@ class WfDocumentService(
                 form = form,
                 process = process,
                 createDt = documentDto.createDt,
-                createUserKey = documentDto.createUserKey
+                createUserKey = documentDto.createUserKey,
+                documentStatus = documentDto.documentStatus
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -128,25 +155,62 @@ class WfDocumentService(
                 documentId = dataEntity.documentId,
                 documentName = dataEntity.documentName,
                 documentDesc = dataEntity.documentDesc,
-                formId = dataEntity.form.formId,
-                procId = dataEntity.process.processId,
+                documentStatus = dataEntity.documentStatus,
+                formId = dataEntity.form!!.formId,
+                procId = dataEntity.process!!.processId,
                 createDt = dataEntity.createDt,
                 createUserKey = dataEntity.createUserKey
         )
     }
 
     /**
-     * 다큐먼트를 삭제한다.
+     * Update Document.
      *
-     * @param documentId 다큐먼트 아이디
+     * @param documentDto
+     * @return Boolean
+     */
+    fun updateDocument(documentDto: WfDocumentDto): Boolean {
+
+        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
+        val form = WfFormEntity(formId = documentDto.formId)
+        val process = WfProcessEntity(processId = documentDto.procId)
+        wfDocumentEntity.documentName = documentDto.documentName
+        wfDocumentEntity.documentDesc = documentDto.documentDesc
+        wfDocumentEntity.documentStatus = documentDto.documentStatus
+        wfDocumentEntity.updateUserKey = documentDto.updateUserKey
+        wfDocumentEntity.updateDt = documentDto.updateDt
+        wfDocumentEntity.form = form
+        wfDocumentEntity.process = process
+        wfDocumentRepository.save(wfDocumentEntity)
+
+        when (documentDto.documentStatus) {
+            WfDocumentConstants.Status.USE.code -> {
+                val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(documentDto.formId).get()
+                if (wfFormEntity.formStatus != WfFormConstants.FormStatus.USE.value) {
+                    wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
+                    wfFormRepository.save(wfFormEntity)
+                }
+                val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.procId)
+                if (wfProcessEntity.processStatus != WfProcessConstants.Status.USE.code) {
+                    wfProcessEntity.processStatus = WfProcessConstants.Status.USE.code
+                    wfProcessRepository.save(wfProcessEntity)
+                }
+            }
+        }
+
+        return true
+    }
+
+    /**
+     * Delete Document.
+     *
+     * @param documentId
+     * @return Boolean
      */
     fun deleteDocument(documentId: String): Boolean {
-
-        // 인스턴스에서 해당 다큐먼트가 있는지 체크.
         val selectedDocument = wfDocumentRepository.getOne(documentId)
         val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
 
-        // 있으면 삭제
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
             wfDocumentRepository.deleteByDocumentId(documentId)

@@ -15,28 +15,6 @@
       ]
     },
     {
-      "type": "messageStart",
-      "name": "Message Start Event",
-      "default": "false",
-      "attribute": [
-        {
-          "title": "Data",
-          "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
-            {
-              "id": "message-type", "name": "Message Type", "type": "select", "default": "", "required": "Y",
-              "sub-list": [
-                {"id": "document", "name": "Document"},
-                {"id": "mail", "name": "Mail"},
-                {"id": "sms", "name": "SMS"}
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "type": "timerStart",
       "name": "Timer Start Event",
       "default": "false",
@@ -80,28 +58,6 @@
           ]
         }
       ]
-    },
-    {
-      "type": "messageEnd",
-      "name": "Message End Event",
-      "default": "false",
-      "attribute": [
-        {
-          "title": "Data",
-          "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
-            {
-              "id": "message-type", "name": "Message Type", "type": "select", "default": "", "required": "Y",
-              "sub-list": [
-                {"id": "document", "name": "Document"},
-                {"id": "mail", "name": "Mail"},
-                {"id": "sms", "name": "SMS"}
-              ]
-            }
-          ]
-        }
-      ]
     }
   ],
   "task": [
@@ -135,47 +91,6 @@
     {
       "type": "manualTask",
       "name": "Manual Task",
-      "default": "false",
-      "attribute": [
-        {
-          "title": "Data",
-          "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
-            {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
-            {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": "", "required": "N"},
-            {"id": "notification", "name": "Notification", "type": "checkbox", "default": "", "required": "N"}
-          ]
-        }
-      ]
-    },
-    {
-      "type": "sendTask",
-      "name": "Send Task",
-      "default": "false",
-      "attribute": [
-        {
-          "title": "Data",
-          "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
-            {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
-            {
-              "id": "message-type", "name": "Message Type", "type": "select", "default": "document", "required": "Y",
-              "sub-list": [
-                {"id": "document", "name": "Document"},
-                {"id": "mail", "name": "Mail"},
-                {"id": "sms", "name": "SMS"}
-              ]
-            },
-            {"id": "notification", "name": "Notification", "type": "checkbox", "default": "", "required": "N"}
-          ]
-        }
-      ]
-    },
-    {
-      "type": "receiveTask",
-      "name": "Receive Task",
       "default": "false",
       "attribute": [
         {

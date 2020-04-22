@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.AliceProcessEditor = global.AliceProcessEditor || {})));
+            (factory((global.aliceProcessEditor = global.aliceProcessEditor || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -100,8 +100,8 @@
             (list || this.undo_list).push(data);
         },
         undo: function() {
-            AliceProcessEditor.removeElementSelected();
-            AliceProcessEditor.setElementMenu();
+            aliceProcessEditor.removeElementSelected();
+            aliceProcessEditor.setElementMenu();
             if (this.undo_list.length) {
                 let restoreData = this.undo_list.pop();
                 this.saveHistory(restoreData, this.redo_list, true);
@@ -109,8 +109,8 @@
             }
         },
         redo: function() {
-            AliceProcessEditor.removeElementSelected();
-            AliceProcessEditor.setElementMenu();
+            aliceProcessEditor.removeElementSelected();
+            aliceProcessEditor.setElementMenu();
             if (this.redo_list.length) {
                 let restoreData = this.redo_list.pop();
                 this.saveHistory(restoreData, this.undo_list, true);
@@ -127,12 +127,12 @@
      */
     function redrawProcess(restoreData, type) {
         const restoreProcess = function(originData, changeData) {
-            let links = AliceProcessEditor.elements.links;
+            let links = aliceProcessEditor.elements.links;
             if (!Object.keys(originData).length || !Object.keys(changeData).length) {
                 if (!Object.keys(changeData).length) { // delete element
-                    AliceProcessEditor.data.elements.forEach(function(elem, i) {
+                    aliceProcessEditor.data.elements.forEach(function(elem, i) {
                         if (originData.id === elem.id) {
-                            AliceProcessEditor.data.elements.splice(i, 1);
+                            aliceProcessEditor.data.elements.splice(i, 1);
                         }
                     });
                     if (originData.type !== 'arrowConnector') {
@@ -141,18 +141,18 @@
                     } else {
                         for (let i = 0, len = links.length; i < len; i++) {
                             if (links[i].id === originData.id) {
-                                AliceProcessEditor.elements.links.splice(i, 1);
-                                AliceProcessEditor.setConnectors(true);
+                                aliceProcessEditor.elements.links.splice(i, 1);
+                                aliceProcessEditor.setConnectors(true);
                                 break;
                             }
                         }
                     }
                 } else { // add element
                     if (changeData.type !== 'arrowConnector') {
-                        let node = AliceProcessEditor.addElement(changeData);
+                        let node = aliceProcessEditor.addElement(changeData);
                         if (node) {
                             node.nodeElement.attr('id', changeData.id);
-                            AliceProcessEditor.data.elements.push(changeData);
+                            aliceProcessEditor.data.elements.push(changeData);
                         }
                     } else {
                         let link = {
@@ -173,23 +173,23 @@
                             link.textPoint = changeData.display['text-point'];
                         }
                         links.push(link);
-                        AliceProcessEditor.data.elements.push(changeData);
-                        AliceProcessEditor.setConnectors(true);
+                        aliceProcessEditor.data.elements.push(changeData);
+                        aliceProcessEditor.setConnectors(true);
                     }
                 }
             } else if (typeof changeData.type === 'undefined') { // modify process data
-                AliceProcessEditor.data.process = changeData;
+                aliceProcessEditor.data.process = changeData;
                 if (originData.name !== changeData.type) { // modify type
                     document.querySelector('.process-name').textContent = changeData.name;
                 }
-                AliceProcessEditor.setElementMenu();
+                aliceProcessEditor.setElementMenu();
             } else { // modify element
                 let element = d3.select(document.getElementById(changeData.id));
                 if (originData.type !== changeData.type) { // modify type
-                    AliceProcessEditor.changeElementType(element, changeData.type);
+                    aliceProcessEditor.changeElementType(element, changeData.type);
                 }
                 if (originData.data.name !== changeData.data.name) { // modify name
-                    AliceProcessEditor.changeTextToElement(changeData.id, changeData.data.name);
+                    aliceProcessEditor.changeTextToElement(changeData.id, changeData.data.name);
                 }
                 if (changeData.type !== 'arrowConnector') {
                     if (originData.display['position-x'] !== changeData.display['position-x']
@@ -198,11 +198,11 @@
                         || originData.display.height !== changeData.display.height
                         || originData.data['line-color'] !== changeData.data['line-color']
                         || originData.data['background-color'] !== changeData.data['background-color']) { // modify position or size or group color
-                        let node = AliceProcessEditor.addElement(changeData);
+                        let node = aliceProcessEditor.addElement(changeData);
                         if (node) {
                             d3.select(element.node().parentNode).remove();
                             node.nodeElement.attr('id', changeData.id);
-                            AliceProcessEditor.setConnectors(true);
+                            aliceProcessEditor.setConnectors(true);
                         }
                     }
                 } else {
@@ -233,15 +233,15 @@
                                 } else {
                                     delete links[i].textPoint;
                                 }
-                                AliceProcessEditor.setConnectors(true);
+                                aliceProcessEditor.setConnectors(true);
                                 break;
                             }
                         }
                     }
                 }
-                for (let i = 0, len = AliceProcessEditor.data.elements.length; i < len; i++) {
-                    if (AliceProcessEditor.data.elements[i].id === changeData.id) {
-                        AliceProcessEditor.data.elements[i] = changeData;
+                for (let i = 0, len = aliceProcessEditor.data.elements.length; i < len; i++) {
+                    if (aliceProcessEditor.data.elements[i].id === changeData.id) {
+                        aliceProcessEditor.data.elements[i] = changeData;
                         break;
                     }
                 }
@@ -262,11 +262,11 @@
      * save process.
      */
     function saveProcess() {
-        console.debug(AliceProcessEditor.data);
-        AliceProcessEditor.resetElementPosition();
+        console.debug(aliceProcessEditor.data);
+        aliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/processes/' + AliceProcessEditor.data.process.id,
+            url: '/rest/processes/' + aliceProcessEditor.data.process.id,
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(i18n.get('common.msg.save'));
@@ -276,7 +276,7 @@
                 }
             },
             contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(AliceProcessEditor.data)
+            params: JSON.stringify(aliceProcessEditor.data)
         });
     }
 
@@ -297,7 +297,7 @@
         const nameTextObject = document.createElement('input');
         nameTextObject.className = 'gmodal-input';
         nameTextObject.id = 'process_name';
-        nameTextObject.textContent = AliceProcessEditor.data.process.name;
+        nameTextObject.textContent = aliceProcessEditor.data.process.name;
         nameContent.appendChild(nameTextObject);
         container.appendChild(nameContent);
 
@@ -346,7 +346,7 @@
          * 저장처리.
          */
         const saveAs = function() {
-            const saveAsProcessData = JSON.parse(JSON.stringify(AliceProcessEditor.data));
+            const saveAsProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
             let processData = saveAsProcessData.process;
             processData.name = document.getElementById('process_name').value;
             processData.description = document.getElementById('process_description').value;

@@ -17,8 +17,8 @@ data class AliceUrlAuthMapEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns(
-            JoinColumn(name = "method"),
-            JoinColumn(name = "url")
+        JoinColumn(name = "method"),
+        JoinColumn(name = "url")
     )
     val url: AliceUrlEntity,
 
@@ -29,6 +29,6 @@ data class AliceUrlAuthMapEntity(
 ) : Serializable
 
 data class AliceUrlAuthMapPk(
-        val url: AliceUrlEntityPk = AliceUrlEntityPk(),
-        val auth: String = ""
+    val url: AliceUrlEntityPk = AliceUrlEntityPk(),
+    val auth: String = ""
 ) : Serializable

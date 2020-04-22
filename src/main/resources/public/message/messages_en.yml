@@ -308,7 +308,17 @@ process:
 
 # Portal
 portal:
-  intro: "Welcome to PortalMain Test."
+  label:
+    login: "Log In"
+    main: "Main Page"
+    notice: "Notice"
+    faq: "FAQ"
+    download: "Download"
+    search: "Search"
+    mainPhrase: "Alice Technical Support"
+    topPhrase: "Hi! How can we help you today?"
+    bottomPhrase: "Can't find what you're looking for?"
+    bottomLeftPhrase: "Contact us"
 
 # Role
 role:
@@ -346,6 +356,11 @@ document:
     description: "Service Request Description"
     form: "Form"
     process: "Process"
+    status: "Status"
+  status:
+    temporary: "Temporary"
+    use: "Use"
+    destroy: "Destroy"
   msg:
     nameNotExist: "Please enter document's name."
     lengthMin: "Please enter at least {0} characters."
@@ -367,6 +382,7 @@ token:
     elementName: "Task Name"
     assignee: "Assignee"
     history: "History"
+    relatedInstance: "Related Documents"
 # Custom Code
 custom.code:
   label:
