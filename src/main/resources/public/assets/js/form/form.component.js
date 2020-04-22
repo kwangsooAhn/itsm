@@ -681,8 +681,8 @@
                     <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly custom-data=${defaultCustomData}/>
-                    <button id='codeBtn'>${attr.display["button-text"]}</button>
+                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly custom-data='${defaultCustomData}'/>
+                    <input type='button' id='codeBtn' value='${attr.display["button-text"]}'>
                 </div>
             </div>
         `);
@@ -691,7 +691,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            let customCodeInputElem = comp.querySelector('input');
+            let customCodeTextElem = comp.querySelector('input[type="text"]');
             if (defaultCustomData !== '') {
                 let customCodeValues = defaultCustomData.split(',');
                 let inputValue = '';
@@ -705,20 +705,20 @@
                         }
                     }
                 }
-                customCodeInputElem.textContent = inputValue;
+                customCodeTextElem.textContent = inputValue;
             }
 
             let searchBtn = comp.querySelector('#codeBtn');
             searchBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                /*let url = '/documents/custom-code/' + attr.display['custom-code'] + '/data';
+                let url = '/documents/custom-code/' + attr.display['custom-code'] + '/data';
                 window.open(url, 'rtn', 'width=500, height=600');
                 let customCodeData = {
                     componentId: attr.id,
-                    componentValues: customCodeInputElem.getAttribute('custom-data')
+                    componentValues: customCodeTextElem.getAttribute('custom-data')
                 };
 
-                let form = document.createEwlement('form');
+                let form = document.createElement('form');
                 form.action = url;
                 form.method = 'POST';
                 form.target = 'rtn';
@@ -729,7 +729,7 @@
                 form.style.display = 'none';
 
                 document.body.appendChild(form);
-                form.submit();*/
+                form.submit();
             });
         }
 
