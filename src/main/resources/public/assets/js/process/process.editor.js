@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.AliceProcessEditor = global.AliceProcessEditor || {})));
+            (factory((global.aliceProcessEditor = global.aliceProcessEditor || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -99,10 +99,10 @@
                 d3.select(document.getElementById(d.id + '_midPoint')).style('opacity', 1).style('cursor', 'move');
 
                 setConnectors();
-                AliceProcessEditor.setElementMenu(selectedLink);
+                aliceProcessEditor.setElementMenu(selectedLink);
             })
             .call(function(d) {
-                AliceProcessEditor.addElementProperty(d);
+                aliceProcessEditor.addElementProperty(d);
             });
 
         /**
@@ -147,7 +147,7 @@
             .on('mouseover', connectorMouseEventHandler.mouseover)
             .text(function(d) {
                 let name = '';
-                const elements = AliceProcessEditor.data.elements;
+                const elements = aliceProcessEditor.data.elements;
                 elements.forEach(function(elem) {
                     if (elem.id === d.id) { name = elem.data.name; }
                 });
@@ -180,7 +180,7 @@
                         d3.select(this)
                             .classed('selected', false)
                             .style('cursor', 'pointer');
-                        AliceProcessEditor.changeDisplayValue(d.id);
+                        aliceProcessEditor.changeDisplayValue(d.id);
                     })
             );
 
@@ -202,8 +202,8 @@
                 })
                 .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        AliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
-                        AliceProcessEditor.changeDisplayValue(d.id);
+                        aliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
+                        aliceProcessEditor.changeDisplayValue(d.id);
                     }
                 })
             );
@@ -225,7 +225,7 @@
                 })
                 .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        AliceProcessEditor.changeDisplayValue(d.id);
+                        aliceProcessEditor.changeDisplayValue(d.id);
                     }
                 })
             );
@@ -247,7 +247,7 @@
                 })
                 .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        AliceProcessEditor.changeDisplayValue(d.id);
+                        aliceProcessEditor.changeDisplayValue(d.id);
                     }
                 })
             );
@@ -332,9 +332,9 @@
          * @return {string} path
          */
         const calcCirclePath = function(startPoint, midPoint, endPoint) {
-            let distA = AliceProcessEditor.utils.calcDist(endPoint, midPoint);
-            let distB = AliceProcessEditor.utils.calcDist(midPoint, startPoint);
-            let distC = AliceProcessEditor.utils.calcDist(startPoint, endPoint);
+            let distA = aliceProcessEditor.utils.calcDist(endPoint, midPoint);
+            let distB = aliceProcessEditor.utils.calcDist(midPoint, startPoint);
+            let distC = aliceProcessEditor.utils.calcDist(startPoint, endPoint);
             let angle = Math.acos((distA * distA + distB * distB - distC * distC) / (2 * distA * distB));
 
             //calc radius of circle
@@ -368,15 +368,15 @@
             }
             let target = d3.select(targetNode),
                 source = d3.select(sourceNode);
-            const targetBBox = AliceProcessEditor.utils.getBoundingBoxCenter(target);
-            const sourceBBox = AliceProcessEditor.utils.getBoundingBoxCenter(source);
+            const targetBBox = aliceProcessEditor.utils.getBoundingBoxCenter(target);
+            const sourceBBox = aliceProcessEditor.utils.getBoundingBoxCenter(source);
 
             let targetWidth = targetBBox.width,
                 targetHeight = targetBBox.height,
                 sourceWidth = sourceBBox.width,
                 sourceHeight = sourceBBox.height;
             if (target.classed('gateway') || source.classed('gateway')) {
-                let gatewayDist = AliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
+                let gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
                 if (target.classed('gateway')) {
                     targetWidth = gatewayDist;
                     targetHeight = gatewayDist;
@@ -538,7 +538,7 @@
                 selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
 
                 if (!elem.classed('group')) {
-                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
+                    const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
                         gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
                         centerX = bbox.cx + gTransform.x,
                         centerY = bbox.cy + gTransform.y;
@@ -561,7 +561,7 @@
                     });
                 }
                 elemContainer.style('cursor', 'move');
-                AliceProcessEditor.setElementMenu(elem);
+                aliceProcessEditor.setElementMenu(elem);
             }
         },
         mouseup: function() {
@@ -591,18 +591,18 @@
             } else {
                 dragElement = null;
                 elemContainer.style('cursor', 'pointer');
-                AliceProcessEditor.changeDisplayValue(elem.node().id);
+                aliceProcessEditor.changeDisplayValue(elem.node().id);
                 if (svg.select('.alice-tooltip').node() === null) {
-                    AliceProcessEditor.setActionTooltipItem(elem);
+                    aliceProcessEditor.setActionTooltipItem(elem);
                 }
                 svg.selectAll('line.guides-line').style('stroke-width', 0);
             }
         },
         mousedrag: function() {
-            if (mousedownElement.classed('commonEnd') || mousedownElement.classed('messageEnd')) {
+            if (mousedownElement.classed('commonEnd')) {
                 return false;
             }
-            const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
+            const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(mousedownElement),
                 gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
                 centerX = bbox.cx + gTransform.x,
                 centerY = bbox.cy + gTransform.y;
@@ -635,7 +635,7 @@
             availableLink = false;
         }
         // common end/message end cannot be a source.
-        if (source.classed('commonEnd') || source.classed('messageEnd')) {
+        if (source.classed('commonEnd')) {
             availableLink = false;
         }
         // group is not connected.
@@ -652,8 +652,8 @@
      */
     function drawGuides(elem) {
         const errorRange = 3;
-        const elementBbox = AliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              gatewayDist = AliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
+        const elementBbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
+              gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
         let elemLeft = elementBbox.cx - (elementBbox.width / 2),
             elemRight = elementBbox.cx + (elementBbox.width / 2),
             elemTop = elementBbox.cy - (elementBbox.height / 2),
@@ -671,7 +671,7 @@
             isDrawRight = false,
             isDrawTop = false,
             isDrawBottom = false;
-        const elements = AliceProcessEditor.data.elements.filter(function(e) { return e.type !== 'arrowConnector' && e.id !== elem.node().id; });
+        const elements = aliceProcessEditor.data.elements.filter(function(e) { return e.type !== 'arrowConnector' && e.id !== elem.node().id; });
         elements.forEach(function(e) {
             let left = e.display['position-x'] - (e.display.width / 2),
                 right = e.display['position-x'] + (e.display.width / 2),
@@ -886,8 +886,8 @@
                         }
                     })
                     .on('end', function() {
-                        AliceProcessEditor.setElementMenu(self.nodeElement);
-                        AliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
+                        aliceProcessEditor.setElementMenu(self.nodeElement);
+                        aliceProcessEditor.changeDisplayValue(self.nodeElement.node().id);
                     })
                 );
         });
@@ -950,7 +950,7 @@
     function TaskElement(x, y, width, height) {
         this.base = RectResizableElement;
         this.base(x, y, 'task', width, height);
-        const defaultType = AliceProcessEditor.getElementDefaultType('task');
+        const defaultType = aliceProcessEditor.getElementDefaultType('task');
         this.nodeElement
             .classed('task', true)
             .classed(defaultType, true);
@@ -975,7 +975,7 @@
         this.base = RectResizableElement;
         this.base(x, y, 'subprocess', width, height);
         this.nodeElement.classed('subprocess', true);
-        const defaultType = AliceProcessEditor.getElementDefaultType('subprocess');
+        const defaultType = aliceProcessEditor.getElementDefaultType('subprocess');
         this.typeElement
             .attr('x', (this.rectData[0].x + (this.width / 2) - 10))
             .attr('y', (this.rectData[0].y + this.height - 20 - 3))
@@ -1022,7 +1022,7 @@
             .on('end', elementMouseEventHandler.mouseup);
 
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
-        const defaultType = AliceProcessEditor.getElementDefaultType('event');
+        const defaultType = aliceProcessEditor.getElementDefaultType('event');
 
         self.nodeElement = elementContainer.append('circle')
             .attr('id', workflowUtil.generateUUID())
@@ -1093,7 +1093,7 @@
             .on('end', elementMouseEventHandler.mouseup);
 
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
-        const defaultType = AliceProcessEditor.getElementDefaultType('gateway');
+        const defaultType = aliceProcessEditor.getElementDefaultType('gateway');
 
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -1217,7 +1217,7 @@
                 // clear
                 removeElementSelected();
                 resetMouseVars();
-                AliceProcessEditor.setElementMenu();
+                aliceProcessEditor.setElementMenu();
             });
 
         d3.select('.alice-process-element-palette').selectAll('span.shape')
@@ -1232,16 +1232,16 @@
                 let type = '';
                 if (_this.classed('event')) {
                     node = new EventElement(x, y);
-                    type = AliceProcessEditor.getElementDefaultType('event');
+                    type = aliceProcessEditor.getElementDefaultType('event');
                 } else if (_this.classed('task')) {
                     node = new TaskElement(x, y);
-                    type = AliceProcessEditor.getElementDefaultType('task');
+                    type = aliceProcessEditor.getElementDefaultType('task');
                 } else if (_this.classed('subprocess')) {
                     node = new SubprocessElement(x, y);
-                    type = AliceProcessEditor.getElementDefaultType('subprocess');
+                    type = aliceProcessEditor.getElementDefaultType('subprocess');
                 } else if (_this.classed('gateway')) {
                     node = new GatewayElement(x, y);
-                    type = AliceProcessEditor.getElementDefaultType('gateway');
+                    type = aliceProcessEditor.getElementDefaultType('gateway');
                 } else if (_this.classed('group')) {
                     node = new GroupElement(x, y);
                     type = 'groupArtifact';
@@ -1251,7 +1251,7 @@
                 }
                 if (node) {
                     _this.classed(type, true);
-                    AliceProcessEditor.addElementProperty(node.nodeElement);
+                    aliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
     }
@@ -1265,7 +1265,7 @@
     function changeTextToElement(elementId, text) {
         const elementNode = document.getElementById(elementId);
         if (typeof text === 'undefined') {
-            const elements = AliceProcessEditor.data.elements;
+            const elements = aliceProcessEditor.data.elements;
             elements.forEach(function(elem) {
                 if (elem.id === elementId) { text = elem.data.name; }
             });
@@ -1283,7 +1283,7 @@
                 if (text.length > 0 && element.classed('resizable')) {
                     let textLength = textElement.node().getComputedTextLength(),
                         displayText = textElement.text();
-                    const bbox = AliceProcessEditor.utils.getBoundingBoxCenter(element);
+                    const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(element);
                     while (textLength > bbox.width && displayText.length > 0) {
                         displayText = displayText.slice(0, -1);
                         textElement.text(displayText + '...');
@@ -1308,7 +1308,7 @@
                 d3.event.stopPropagation();
                 if (isDrawConnector) { return; }
                 removeElementSelected();
-                AliceProcessEditor.setElementMenu();
+                aliceProcessEditor.setElementMenu();
             })
             .on('mouseup', function() {
                 d3.event.stopPropagation();
@@ -1376,13 +1376,13 @@
                           nodeLeftArray = [];
                     const nodes = svg.selectAll('.node').nodes();
                     nodes.forEach(function(node){
-                        let nodeBBox = AliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
+                        let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
                         nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
                         nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
                         nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
                         nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
                     });
-                    const svgBBox = AliceProcessEditor.utils.getBoundingBoxCenter(svg);
+                    const svgBBox = aliceProcessEditor.utils.getBoundingBoxCenter(svg);
                     let minLeft = svgBBox.cx,
                         minTop = svgBBox.cy,
                         maxRight = svgBBox.cx,
@@ -1485,22 +1485,22 @@
         const x = element.display['position-x'],
               y = element.display['position-y'];
 
-        let category = AliceProcessEditor.getElementCategory(element.type);
+        let category = aliceProcessEditor.getElementCategory(element.type);
         switch (category) {
             case 'event':
                 node = new EventElement(x, y);
-                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                aliceProcessEditor.changeElementType(node.nodeElement, element.type);
                 break;
             case 'task':
                 node = new TaskElement(x, y, element.display.width, element.display.height);
-                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                aliceProcessEditor.changeElementType(node.nodeElement, element.type);
                 break;
             case 'subprocess':
                 node = new SubprocessElement(x, y, element.display.width, element.display.height);
                 break;
             case 'gateway':
                 node = new GatewayElement(x, y);
-                AliceProcessEditor.changeElementType(node.nodeElement, element.type);
+                aliceProcessEditor.changeElementType(node.nodeElement, element.type);
                 break;
             case 'artifact':
                 if (element.type === 'groupArtifact') {
@@ -1576,7 +1576,7 @@
             }
         });
         setConnectors();
-        AliceProcessEditor.initUtil();
+        aliceProcessEditor.initUtil();
     }
 
     /**
@@ -1590,7 +1590,7 @@
         workflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
-        AliceProcessEditor.loadItems(processId);
+        aliceProcessEditor.loadItems(processId);
     }
 
     exports.init = init;
