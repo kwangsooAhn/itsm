@@ -9,8 +9,10 @@ import org.thymeleaf.spring5.SpringTemplateEngine
 import javax.mail.internet.MimeMessage
 
 @Component
-class AliceMailService(private val javaMailSender: JavaMailSender,
-                       private val springTemplateEngine: SpringTemplateEngine) {
+class AliceMailService(
+    private val javaMailSender: JavaMailSender,
+    private val springTemplateEngine: SpringTemplateEngine
+) {
 
     lateinit var mimeMessageHelper: MimeMessageHelper
     lateinit var context: Context
@@ -19,7 +21,7 @@ class AliceMailService(private val javaMailSender: JavaMailSender,
 
     fun makeContext(params: Map<String, Any>) {
         context = Context()
-        params.forEach{ (key, value) -> context.setVariable(key, value) }
+        params.forEach { (key, value) -> context.setVariable(key, value) }
     }
 
     fun makeTemplateEngine(template: String) {
@@ -41,5 +43,4 @@ class AliceMailService(private val javaMailSender: JavaMailSender,
     fun send() {
         javaMailSender.send(message)
     }
-
 }
