@@ -10,7 +10,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_file_name_extension")
 data class AliceFileNameExtensionEntity(
-        @Id
-        @Column(name = "file_name_extension", length = 128)
-        var fileNameExtension: String
-): Serializable, AliceMetaEntity()
+    @Id
+    @Column(name = "file_name_extension", length = 128)
+    var fileNameExtension: String
+) : Serializable, AliceMetaEntity()

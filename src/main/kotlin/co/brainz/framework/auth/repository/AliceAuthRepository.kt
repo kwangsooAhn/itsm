@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AliceAuthRepository: JpaRepository<AliceAuthEntity, String> {
+interface AliceAuthRepository : JpaRepository<AliceAuthEntity, String> {
     /**
      * 권한 리스트 조회
      */
@@ -19,11 +19,13 @@ interface AliceAuthRepository: JpaRepository<AliceAuthEntity, String> {
      */
     fun findByAuthIdIn(roleId: MutableSet<String>): MutableSet<AliceAuthEntity>
 
-    @Query("SELECT u " +
-            "FROM AliceUrlEntity u, AliceUrlAuthMapEntity ua, AliceRoleAuthMapEntity ra, AliceUserRoleMapEntity ur " +
-            "WHERE ur.role = ra.role " +
-            "AND ra.auth = ua.auth " +
-            "AND ua.url = u " +
-            "AND ur.user.userKey = :userKey")
+    @Query(
+        "SELECT u " +
+                "FROM AliceUrlEntity u, AliceUrlAuthMapEntity ua, AliceRoleAuthMapEntity ra, AliceUserRoleMapEntity ur " +
+                "WHERE ur.role = ra.role " +
+                "AND ra.auth = ua.auth " +
+                "AND ua.url = u " +
+                "AND ur.user.userKey = :userKey"
+    )
     fun findByUserKey(userKey: String): MutableSet<AliceUrlEntity>
 }

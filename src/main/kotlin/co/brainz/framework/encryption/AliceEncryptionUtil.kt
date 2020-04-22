@@ -36,7 +36,7 @@ class AliceEncryptionUtil {
         this.keySpec = keySpec
     }
 
-    //양방향  암호화
+    // 양방향  암호화
     fun twoWayEnCode(str: String): String {
         var enStr: String = ""
         if (str != "") {
@@ -47,7 +47,7 @@ class AliceEncryptionUtil {
         return enStr
     }
 
-    //양방향  복호화
+    // 양방향  복호화
     fun twoWayDeCode(str: String): String {
         var deStr: String = ""
         if (str != "") {
@@ -58,7 +58,7 @@ class AliceEncryptionUtil {
         return deStr
     }
 
-    //단항향 암호화
+    // 단항향 암호화
     fun oneWayEnCode(str: String): String {
         var enStr: String = ""
         if (str != "") {
@@ -108,7 +108,7 @@ class AliceEncryptionUtil {
         return String(c.doFinal(byteStr), charset("UTF-8"))
     }
 
-    //SHA 512 암호화
+    // SHA 512 암호화
     private fun enCodeSHA512(str: String): String {
 
         lateinit var toReturn: String
@@ -124,4 +124,3 @@ class AliceEncryptionUtil {
         return toReturn
     }
 }
-

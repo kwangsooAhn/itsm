@@ -12,17 +12,17 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_role")
 data class AliceRoleEntity(
-        @Id
-        @Column(name = "role_id", length = 100)
-        val roleId: String,
+    @Id
+    @Column(name = "role_id", length = 100)
+    val roleId: String,
 
-        @Column(name = "role_name", length = 128)
-        val roleName: String,
+    @Column(name = "role_name", length = 128)
+    val roleName: String,
 
-        @Column(name = "role_desc")
-        val roleDesc: String
+    @Column(name = "role_desc")
+    val roleDesc: String
 
-): Serializable, AliceMetaEntity() {
-        @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-        val roleAuthMapEntities = mutableListOf<AliceRoleAuthMapEntity>()
+) : Serializable, AliceMetaEntity() {
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    val roleAuthMapEntities = mutableListOf<AliceRoleAuthMapEntity>()
 }

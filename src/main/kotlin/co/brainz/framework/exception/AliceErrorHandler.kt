@@ -1,6 +1,5 @@
 package co.brainz.framework.exception
 
-
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.web.ErrorProperties
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController
@@ -13,11 +12,11 @@ import org.springframework.web.servlet.ModelAndView
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-
 @Controller
-class AliceErrorHandler(errorAttributes: AliceErrorAttributes,
-                        errorViewResolvers: List<ErrorViewResolver>)
-    : BasicErrorController(errorAttributes, ErrorProperties(), errorViewResolvers) {
+class AliceErrorHandler(
+    errorAttributes: AliceErrorAttributes,
+    errorViewResolvers: List<ErrorViewResolver>
+) : BasicErrorController(errorAttributes, ErrorProperties(), errorViewResolvers) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @RequestMapping(produces = [MediaType.TEXT_HTML_VALUE])
