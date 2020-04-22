@@ -62,6 +62,12 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
         return wfEngine.document().createDocument(documentDto)
     }
 
+    /**
+     * 신청서 수정.
+     *
+     * @param documentDto
+     * @return Boolean
+     */
     @Transactional
     @PutMapping("/{documentId}")
     fun updateDocument(@PathVariable documentId: String, @RequestBody documentDto: WfDocumentDto): Boolean {
@@ -70,6 +76,9 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
 
     /**
      * 신청서 삭제
+     *
+     * @param documentId
+     * @return Boolean
      */
     @DeleteMapping("/{documentId}")
     fun deleteDocument(@PathVariable documentId: String): Boolean {
@@ -79,7 +88,8 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
     /**
      * 신청서 양식 정보 조회.
      *
-     * @return List<DocumentDataDto>
+     * @param documentId
+     * @return WfDocumentDisplayViewDto
      */
     @GetMapping("/{documentId}/display")
     fun getDocumentDisplay(@PathVariable documentId: String): WfDocumentDisplayViewDto {
@@ -89,6 +99,7 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
     /**
      * 신청서 양식 정보 수정.
      *
+     * @param documentDisplaySaveDto
      * @return Boolean
      */
     @PutMapping("/{documentId}/display")

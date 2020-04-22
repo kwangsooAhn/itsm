@@ -17,7 +17,7 @@ interface WfDocumentDataRepository: JpaRepository<WfDocumentDataEntity, String> 
             "SELECT dd " +
             "FROM WfDocumentDataEntity dd " +
             "WHERE dd.documentId = :documentId " +
-            "ORDER BY COALESCE(dd.componentId, dd.elementId)"
+            "ORDER BY dd.componentId, dd.elementId DESC"
     )
     fun findByDocumentId(documentId: String): List<WfDocumentDataEntity>
 

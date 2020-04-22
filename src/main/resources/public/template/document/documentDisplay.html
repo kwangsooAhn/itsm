@@ -27,9 +27,7 @@
     <hr>
     <table id="documentDisplay">
         <tbody>
-            <tr id="documentElementRow">
-                <th>구분</th>
-            </tr>
+            <tr id="documentElementRow"><th></th></tr>
         </tbody>
     </table>
 </div>
@@ -106,8 +104,8 @@
         obj.appendChild(displaySelect);
     }
 
+    /* Display data save */
     function onSave() {
-        // 저장 데이터 수집
         var obj = {};
         var arrDisplay = [];
         Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
@@ -133,18 +131,6 @@
                     location.href = '/documents/search';
                     window.close();
                 });
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    //REST API
-    function restSubmit(method, url, result) {
-        const opt = {
-            method: method,
-            url: url,
-            callbackFunc: function(response) {
-                console.log(response);
             }
         };
         aliceJs.sendXhr(opt);

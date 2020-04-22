@@ -228,9 +228,7 @@ class WfDocumentService(
 
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
-            // 신청서 양식 정보 삭제
             wfDocumentDataRepository.deleteByDocumentId(documentId)
-            // 신청서 정보 삭제
             wfDocumentRepository.deleteByDocumentId(documentId)
             true
         } else {
@@ -260,7 +258,6 @@ class WfDocumentService(
                 wfDocumentDataEntities.add(documentDataEntity)
             }
         }
-
         if (wfDocumentDataEntities.isNotEmpty()) {
             logger.debug("documentData setting...")
             wfDocumentDataRepository.saveAll(wfDocumentDataEntities)
@@ -273,7 +270,6 @@ class WfDocumentService(
      * @return List<DocumentDataDto>
      */
     fun getDocumentDisplay(documentId: String): WfDocumentDisplayViewDto {
-        // 편집화면 정보
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
         val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
@@ -292,11 +288,12 @@ class WfDocumentService(
             }
             val componentMap = LinkedHashMap<String, Any>()
             val componentData = wfComponentDataRepository.findComponentDataByComponentId(component.componentId, "label")
-            var attributeValue = when (componentData.size > 0) {
+            var attributeValue = if (componentData.size > 0) {
                 // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
-                true -> componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
+                componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
+            } else {
                 // 컴포넌트 라벨 속성이 없는 경우, 컴포넌트 타입을 화면에 표시한다.
-                false -> component.componentType
+                component.componentType
             }
             componentMap["componentId"] = component.componentId
             componentMap["attributeValue"] = attributeValue

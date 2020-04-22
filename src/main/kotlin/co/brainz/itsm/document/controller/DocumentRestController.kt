@@ -65,8 +65,6 @@ class DocumentRestController(private val documentService: DocumentService) {
 
     /**
      * 신청서 수정
-     *
-     * @param restTemplateDocumentDto
      * */
     @PutMapping("/{documentId}")
     fun updateDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
@@ -85,8 +83,7 @@ class DocumentRestController(private val documentService: DocumentService) {
      * 신청서 편집 데이터 저장.
      */
     @PutMapping("/{documentId}/display")
-    fun updateDocumentDisplay(@RequestBody documentDisplay: RestTemplateDocumentDataDto): String {
-        documentService.updateDocumentDisplay(documentDisplay)
-        return "true";
+    fun updateDocumentDisplay(@RequestBody documentDisplay: RestTemplateDocumentDataDto): Boolean {
+        return documentService.updateDocumentDisplay(documentDisplay)
     }
 }
