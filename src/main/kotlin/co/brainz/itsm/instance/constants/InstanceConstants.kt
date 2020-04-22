@@ -9,7 +9,7 @@ class InstanceConstants {
         COMMON_START_EVENT("commonStart"),
         COMMON_END_EVENT("commonEnd"),
         SUB_PROCESS("subprocess"),
-        SIGNAL_EVENT("signalEvent")
+        SIGNAL_SEND("signalSend")
     }
 
     object InstanceHistory {
