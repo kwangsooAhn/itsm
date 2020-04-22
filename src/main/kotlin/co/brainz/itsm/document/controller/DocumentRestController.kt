@@ -65,6 +65,8 @@ class DocumentRestController(private val documentService: DocumentService) {
 
     /**
      * 신청서 수정
+     *
+     * @param restTemplateDocumentDto
      * */
     @PutMapping("/{documentId}")
     fun updateDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
