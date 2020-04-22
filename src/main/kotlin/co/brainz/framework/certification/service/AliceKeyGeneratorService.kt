@@ -7,15 +7,15 @@ class AliceKeyGeneratorService {
     private var lowerCheck: Boolean = false
     var size: Int = 0
 
-    fun getKey(size:Int, lowerCheck: Boolean): String {
+    fun getKey(size: Int, lowerCheck: Boolean): String {
         this.size = size
         this.lowerCheck = lowerCheck
         return init()
     }
 
     private fun init(): String {
-        val random: Random = Random()
-        val sb: StringBuffer = StringBuffer()
+        val random = Random()
+        val sb = StringBuffer()
 
         var num: Int
         do {

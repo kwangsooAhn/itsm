@@ -23,7 +23,9 @@
     <table>
         <colgroup>
             <col width="25%">
-            <col width="65%">
+            <col width="50%">
+            <col width="10%">
+            <col width="5%">
             <col width="5%">
             <col width="5%">
         </colgroup>
@@ -34,10 +36,16 @@
             <tr th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
                 <td th:text="${document.documentName}"></td>
                 <td th:text="${document.documentDesc}"></td>
+                <td th:text="#{${document.documentStatus}}"></td>
                 <td>
                     <button sec:authorize="hasAuthority('document.create')"
-                            th:attr="onclick=|openDocumentEdit('${document.documentId}')|"
+                            th:attr="onclick=|openDocument('${document.documentId}')|"
                             th:text="#{common.btn.write}"></button>
+                </td>
+                <td>
+                    <button sec:authorize="hasAuthority('document.update')"
+                            th:attr="onclick=|openDocumentEdit('${document.documentId}')|"
+                            th:text="#{common.btn.modify}"></button>
                 </td>
                 <td>
                     <button sec:authorize="hasAuthority('document.delete')"

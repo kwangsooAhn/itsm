@@ -22,12 +22,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class AuthService(
-        private val authRepository: AuthRepository,
-        private val roleAuthMapRepository: AliceRoleAuthMapRepository,
-        private val menuRepository: AliceMenuRepository,
-        private val menuAuthMapRepository: AliceMenuAuthMapRepository,
-        private val urlRepository: AliceUrlRepository,
-        private val urlAuthMapRepository: AliceUrlAuthMapRepository
+    private val authRepository: AuthRepository,
+    private val roleAuthMapRepository: AliceRoleAuthMapRepository,
+    private val menuRepository: AliceMenuRepository,
+    private val menuAuthMapRepository: AliceMenuAuthMapRepository,
+    private val urlRepository: AliceUrlRepository,
+    private val urlAuthMapRepository: AliceUrlAuthMapRepository
 ) {
 
     /**
@@ -43,14 +43,14 @@ class AuthService(
     fun getMenuList(): MutableList<AliceMenuEntity> {
         return menuRepository.findByOrderByMenuIdAsc()
     }
-    
+
     /**
      * 전체 url 목록 조회
      */
     fun getUrlList(): MutableList<AliceUrlEntity> {
         return urlRepository.findByOrderByUrlAsc()
     }
-    
+
     /**
      * 권한 정보 삭제
      */
@@ -59,7 +59,7 @@ class AuthService(
         val menuAuthMapCount = menuAuthMapRepository.findByAuth(authInfo).count()
         val urlAuthMapCount = urlAuthMapRepository.findByAuth(authInfo).count()
 
-        if (menuAuthMapCount > 0 || urlAuthMapCount > 0 ) {
+        if (menuAuthMapCount > 0 || urlAuthMapCount > 0) {
             authInfo.menuAuthMapEntities.forEach { menuAuthMap ->
                 menuAuthMapRepository.deleteById(AliceMenuAuthMapPk(menuAuthMap.menu.menuId, authId))
             }
@@ -69,7 +69,7 @@ class AuthService(
                 urlAuthMapRepository.deleteById(urlAuthMapPk)
             }
         }
-        
+
         authRepository.deleteById(authId)
         return "true"
     }
@@ -79,17 +79,26 @@ class AuthService(
      */
     fun createAuth(authInfo: AuthDto): String {
         val auth = AliceAuthEntity(
-                authId = authInfo.authId.toString(),
-                authName = authInfo.authName.toString(),
-                authDesc = authInfo.authDesc.toString()
+            authId = authInfo.authId.toString(),
+            authName = authInfo.authName.toString(),
+            authDesc = authInfo.authDesc.toString()
         )
         val result = authRepository.save(auth)
 
-        menuRepository.findByMenuIdIn(authInfo.arrMenuId!!).forEach {menu ->
+        menuRepository.findByMenuIdIn(authInfo.arrMenuId!!).forEach { menu ->
             menuAuthMapRepository.save(AliceMenuAuthMapEntity(menu, auth))
         }
         urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach { url ->
-            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.url, url.method, url.urlDesc, url.requiredAuth), auth))
+            urlAuthMapRepository.save(
+                AliceUrlAuthMapEntity(
+                    AliceUrlEntity(
+                        url.url,
+                        url.method,
+                        url.urlDesc,
+                        url.requiredAuth
+                    ), auth
+                )
+            )
         }
 
         return result.authId
@@ -119,7 +128,16 @@ class AuthService(
             urlAuthMapRepository.deleteById(urlAuthMapPk)
         }
         urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach { url ->
-            urlAuthMapRepository.save(AliceUrlAuthMapEntity(AliceUrlEntity(url.url, url.method, url.urlDesc, url.requiredAuth), auth))
+            urlAuthMapRepository.save(
+                AliceUrlAuthMapEntity(
+                    AliceUrlEntity(
+                        url.url,
+                        url.method,
+                        url.urlDesc,
+                        url.requiredAuth
+                    ), auth
+                )
+            )
         }
 
         return result.authId
@@ -143,20 +161,20 @@ class AuthService(
         }
 
         dto.add(
-                AuthDto(
-                        authInfo.authId,
-                        authInfo.authName,
-                        authInfo.authDesc,
-                        authInfo.createUser?.userName,
-                        authInfo.createDt,
-                        authInfo.updateUser?.userName,
-                        authInfo.updateDt,
-                        null,
-                        menuList,
-                        null,
-                        urlList,
-                        roleAuthMapCount
-                )
+            AuthDto(
+                authInfo.authId,
+                authInfo.authName,
+                authInfo.authDesc,
+                authInfo.createUser?.userName,
+                authInfo.createDt,
+                authInfo.updateUser?.userName,
+                authInfo.updateDt,
+                null,
+                menuList,
+                null,
+                urlList,
+                roleAuthMapCount
+            )
         )
         return dto
     }
@@ -187,5 +205,4 @@ class AuthService(
         }
         return dto
     }
-
 }

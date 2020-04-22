@@ -40,5 +40,4 @@ class AliceConnectorConfig {
         connector.redirectPort = serverPort
         return connector
     }
-
 }

@@ -38,11 +38,13 @@ import java.util.TimeZone
 import javax.transaction.Transactional
 
 @Service
-class OAuthService(private val userService: UserService,
-                   private val userDetailsService: AliceUserDetailsService,
-                   private val aliceCertificationService: AliceCertificationService,
-                   private val aliceCertificationRepository: AliceCertificationRepository,
-                   private val aliceAuthProvider: AliceAuthProvider) {
+class OAuthService(
+    private val userService: UserService,
+    private val userDetailsService: AliceUserDetailsService,
+    private val aliceCertificationService: AliceCertificationService,
+    private val aliceCertificationRepository: AliceCertificationRepository,
+    private val aliceAuthProvider: AliceAuthProvider
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
@@ -60,37 +62,43 @@ class OAuthService(private val userService: UserService,
 
     fun oAuthSave(aliceOAuthDto: AliceOAuthDto) {
         val userEntity = AliceUserEntity(
-                userKey = "",
-                userId = aliceOAuthDto.userId,
-                password = "",
-                userName = aliceOAuthDto.userName,
-                email = aliceOAuthDto.email,
-                expiredDt = LocalDateTime.now().plusMonths(AliceUserConstants.USER_EXPIRED_VALUE),
-                status = AliceUserConstants.Status.CERTIFIED.code,
-                platform = aliceOAuthDto.platform,
-                oauthKey = aliceOAuthDto.oauthKey,
-                timezone = TimeZone.getDefault().id,
-                lang = AliceUserConstants.USER_LOCALE_LANG,
-                timeFormat = AliceUserConstants.USER_TIME_FORMAT,
-                theme = AliceUserConstants.USER_THEME
+            userKey = "",
+            userId = aliceOAuthDto.userId,
+            password = "",
+            userName = aliceOAuthDto.userName,
+            email = aliceOAuthDto.email,
+            expiredDt = LocalDateTime.now().plusMonths(AliceUserConstants.USER_EXPIRED_VALUE),
+            status = AliceUserConstants.Status.CERTIFIED.code,
+            platform = aliceOAuthDto.platform,
+            oauthKey = aliceOAuthDto.oauthKey,
+            timezone = TimeZone.getDefault().id,
+            lang = AliceUserConstants.USER_LOCALE_LANG,
+            timeFormat = AliceUserConstants.USER_TIME_FORMAT,
+            theme = AliceUserConstants.USER_THEME
         )
         aliceCertificationRepository.save(userEntity)
     }
 
     fun oAuthLogin(aliceOAuthDto: AliceOAuthDto) {
 
-        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userDetailsService.loadUserByOauthKeyAndPlatform(aliceOAuthDto.oauthKey, aliceOAuthDto.platform))
+        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(
+            userDetailsService.loadUserByOauthKeyAndPlatform(
+                aliceOAuthDto.oauthKey,
+                aliceOAuthDto.platform
+            )
+        )
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
 
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, aliceUser.grantedAuthorises)
+        val usernamePasswordAuthenticationToken =
+            UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
             aliceUser.urls?.let { urls ->
                 aliceUser.menus?.let { menus ->
                     AliceUserDto(
-                            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
-                            aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
-                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
-                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
+                        aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
+                        aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
+                        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
+                        menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
                     )
                 }
             }
@@ -101,18 +109,18 @@ class OAuthService(private val userService: UserService,
     fun isExistUser(aliceOAuthDto: AliceOAuthDto): Boolean {
         var isExist = false
         if (aliceOAuthDto.oauthKey.isNotEmpty()) {
-            val userDto: Optional<AliceUserEntity> = userService.selectByOauthKeyAndPlatform(aliceOAuthDto.oauthKey, aliceOAuthDto.platform)
+            val userDto: Optional<AliceUserEntity> =
+                userService.selectByOauthKeyAndPlatform(aliceOAuthDto.oauthKey, aliceOAuthDto.platform)
             if (!userDto.isEmpty) {
                 isExist = true
             }
         }
         return isExist
     }
-
 }
 
 @Component
-class AliceOAuthServiceGoogle: AliceOAuthServiceIF {
+class AliceOAuthServiceGoogle : AliceOAuthServiceIF {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -132,7 +140,10 @@ class AliceOAuthServiceGoogle: AliceOAuthServiceIF {
     lateinit var accessTokenUri: String
 
     override fun platformUrl(): String {
-        return GoogleOAuth2Template(clientId, secret).buildAuthenticateUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters())
+        return GoogleOAuth2Template(clientId, secret).buildAuthenticateUrl(
+            GrantType.AUTHORIZATION_CODE,
+            googleOAuth2Parameters()
+        )
     }
 
     private fun googleOAuth2Parameters(): OAuth2Parameters {
@@ -183,14 +194,18 @@ class AliceOAuthServiceGoogle: AliceOAuthServiceIF {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
         val requestEntity = HttpEntity(parameters, headers)
-        val responseEntity: ResponseEntity<Map<String, Any>> = restTemplate.exchange<Map<String, Any>>(accessTokenUri, HttpMethod.POST, requestEntity, MutableMap::class.java)
+        val responseEntity: ResponseEntity<Map<String, Any>> = restTemplate.exchange<Map<String, Any>>(
+            accessTokenUri,
+            HttpMethod.POST,
+            requestEntity,
+            MutableMap::class.java
+        )
         return responseEntity.body
     }
-
 }
 
 @Component
-class AliceOAuthServiceKakao: AliceOAuthServiceIF {
+class AliceOAuthServiceKakao : AliceOAuthServiceIF {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -231,8 +246,8 @@ class AliceOAuthServiceKakao: AliceOAuthServiceIF {
             val profileInfo = requestProfile(accessToken)
             val mapper = ObjectMapper()
             val result: MutableMap<*, *> = mapper.readValue(profileInfo, MutableMap::class.java)
-            val propertyMap = result.get("properties") as MutableMap<*, *>
-            val userName = propertyMap.get("nickname") as String
+            val propertyMap = result["properties"] as MutableMap<*, *>
+            val userName = propertyMap["nickname"] as String
 
             if (profileInfo.isNotEmpty()) {
                 oAuthDto.userId = jsonToMap(profileInfo, "id")
@@ -255,7 +270,8 @@ class AliceOAuthServiceKakao: AliceOAuthServiceIF {
         headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
         headers["Authorization"] = "Bearer " + parameters["code"]
         val requestEntity = HttpEntity(parameters, headers)
-        val responseEntity: ResponseEntity<String> = restTemplate.postForEntity(accessTokenUri, requestEntity, String::class.java)
+        val responseEntity: ResponseEntity<String> =
+            restTemplate.postForEntity(accessTokenUri, requestEntity, String::class.java)
         var token: String? = ""
         if (responseEntity.statusCode == HttpStatus.OK) {
             token = responseEntity.body
@@ -281,12 +297,12 @@ class AliceOAuthServiceKakao: AliceOAuthServiceIF {
             headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
             headers["Authorization"] = "Bearer $accessToken"
             val requestEntity = HttpEntity(null, headers)
-            val responseEntity: ResponseEntity<String> = restTemplate.postForEntity(profileUri, requestEntity, String::class.java)
+            val responseEntity: ResponseEntity<String> =
+                restTemplate.postForEntity(profileUri, requestEntity, String::class.java)
             if (responseEntity.statusCode == HttpStatus.OK) {
                 profile = responseEntity.body
             }
         }
         return profile ?: ""
     }
-
 }

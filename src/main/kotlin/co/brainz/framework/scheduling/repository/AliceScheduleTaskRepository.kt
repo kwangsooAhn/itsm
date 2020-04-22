@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-public interface AliceScheduleTaskRepository: CrudRepository<AliceScheduleTaskEntity, Long> {
+public interface AliceScheduleTaskRepository : CrudRepository<AliceScheduleTaskEntity, Long> {
     override fun findAll(): MutableList<AliceScheduleTaskEntity>
 }

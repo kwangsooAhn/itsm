@@ -107,7 +107,7 @@ class WfTokenService(
      */
     fun getTokenData(tokenId: String): WfTokenViewDto {
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
-        val componentEntities = tokenMstEntity.get().instance.document.form.components
+        val componentEntities = tokenMstEntity.get().instance.document.form!!.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
 
         val componentList: MutableList<LinkedHashMap<String, Any>> = mutableListOf()

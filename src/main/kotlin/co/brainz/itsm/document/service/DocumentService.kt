@@ -2,9 +2,13 @@ package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
+import co.brainz.itsm.form.service.FormService
+import co.brainz.itsm.process.service.ProcessService
+import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -12,10 +16,13 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
 import java.time.LocalDateTime
 
 @Service
-class DocumentService(private val restTemplate: RestTemplateProvider) {
+class DocumentService(private val restTemplate: RestTemplateProvider,
+                      private val formService: FormService,
+                      private val processService: ProcessService) {
 
     /**
      * 신청서 리스트 조회.
@@ -36,12 +43,20 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     }
 
     /**
+     * 신청서 조회.
+     */
+    fun findDocument(documentId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        return restTemplate.get(url)
+    }
+
+    /**
      * 신청서 문서 데이터 조회.
      *
      * @return String
      */
-    fun findDocument(documentId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+    fun findDocumentData(documentId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT_DATA.url.replace(restTemplate.getKeyRegex(), documentId))
         return restTemplate.get(url)
     }
 
@@ -54,7 +69,9 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
-        restTemplateDocumentDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateDocumentDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        //TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
+        restTemplateDocumentDto.documentStatus = RestTemplateConstants.DocumentStatus.USE.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
         val responseBody = restTemplate.create(url, restTemplateDocumentDto)
         return when (responseBody.body.toString().isNotEmpty()) {
@@ -68,6 +85,22 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     }
 
     /**
+     * Update Document.
+     *
+     * @param restTemplateDocumentDto
+     * @return Boolean
+     */
+    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
+        val documentId = restTemplateDocumentDto.documentId?:""
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
+        restTemplateDocumentDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        val responseEntity = restTemplate.update(url, restTemplateDocumentDto)
+        return responseEntity.body.toString().isNotEmpty()
+    }
+
+    /**
      * 신청서 삭제.
      *
      * @param documentId
@@ -76,5 +109,33 @@ class DocumentService(private val restTemplate: RestTemplateProvider) {
     fun deleteDocument(documentId: String): ResponseEntity<String> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.DELETE_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
         return restTemplate.delete(url)
+    }
+
+    /**
+     * Get Form List.
+     *
+     * @return List<RestTemplateFormDto>
+     */
+    fun getFormList(): List<RestTemplateFormDto> {
+        val formParams = LinkedMultiValueMap<String, String>()
+        val formStatus = ArrayList<String>()
+        formStatus.add(RestTemplateConstants.FormStatus.PUBLISH.value)
+        formStatus.add(RestTemplateConstants.FormStatus.USE.value)
+        formParams["status"] = formStatus.joinToString(",")
+        return formService.findForms(formParams)
+    }
+
+    /**
+     * Get Process List.
+     *
+     * @return List<WfProcessDto>
+     */
+    fun getProcessList(): List<WfProcessDto> {
+        val processParams = LinkedMultiValueMap<String, String>()
+        val processStatus = ArrayList<String>()
+        processStatus.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
+        processStatus.add(RestTemplateConstants.ProcessStatus.USE.value)
+        processParams["status"] = processStatus.joinToString(",")
+        return processService.getProcesses(processParams)
     }
 }

@@ -12,20 +12,20 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_auth")
 data class AliceAuthEntity(
-        @Id
-        @Column(name = "auth_id", length = 100)
-        val authId: String,
+    @Id
+    @Column(name = "auth_id", length = 100)
+    val authId: String,
 
-        @Column(name = "auth_name", length = 128)
-        val authName: String,
+    @Column(name = "auth_name", length = 128)
+    val authName: String,
 
-        @Column(name = "auth_desc")
-        val authDesc: String
+    @Column(name = "auth_desc")
+    val authDesc: String
 
-): Serializable, AliceMetaEntity() {
-        @OneToMany(mappedBy = "auth", fetch = FetchType.LAZY)
-        val urlAuthMapEntities = mutableListOf<AliceUrlAuthMapEntity>()
+) : Serializable, AliceMetaEntity() {
+    @OneToMany(mappedBy = "auth", fetch = FetchType.LAZY)
+    val urlAuthMapEntities = mutableListOf<AliceUrlAuthMapEntity>()
 
-        @OneToMany(mappedBy = "auth", fetch = FetchType.LAZY)
-        val menuAuthMapEntities = mutableListOf<AliceMenuAuthMapEntity>()
+    @OneToMany(mappedBy = "auth", fetch = FetchType.LAZY)
+    val menuAuthMapEntities = mutableListOf<AliceMenuAuthMapEntity>()
 }
