@@ -1,16 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
 </head>
 <body>
-    <p th:text="#{portal.intro}"></p>
-    <span sec:authorize="isAuthenticated()">
-        <button type="button" onclick="location.href='/layout'">메인으로 이동</button>
-    </span>
-    <span sec:authorize="isAnonymous()">
-        <button type="button" onclick="location.href='/login'">로그인</button>
-    </span>
+<nav class="navbar navbar-expand-lg bg-primary alice-navbar">
+    <a class="navbar-brand" href="#"><img th:src="@{/assets/media/icons/logo_portal.png}" width="35" height="35" alt="Alice"></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" th:text="#{portal.label.mainPhrase}"></div>
+    <div sec:authorize="isAuthenticated()" class="alice-navbar-profile" onclick="location.href='/layout'" style="cursor:pointer;" th:text="#{portal.label.main}"></div>
+    <div sec:authorize="isAnonymous()" class="alice-navbar-profile" onclick="location.href='/login'" style="cursor:pointer;" th:text="#{portal.label.login}"></div>
+</nav>
+<th:block layout:fragment="content">
+    <div class="navbar navbar-expand-lg bg-primary alice-navbar" id="portalPartA">
+        <div class="container">
+            <div class="pull-right" id="portalPartB" style="margin:0px auto; margin-top:150px; text-align:center; display:block;">
+                <div id = "portalPartD" style="padding-bottom:20px; font-size:x-large; font-weight:bold;" th:text="#{portal.label.topPhrase}"></div>
+                <input type="text" id="searchValue" name="searchValue" style="width:500px; height:40px; font-size:20px;" onKeydown="javascript:if(event.keyCode == 13) restSubmit('get', '/portal/list'); "/>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/portal/list')" style="height:40px;" th:text="#{portal.label.search}"></button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="portalPartC" class="container">
+            <ul style="float:left; text-align:center;">
+                <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
+                    <img th:src="@{/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
+                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.notice}"></p>
+                </li>
+                <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
+                    <img th:src="@{/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
+                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.faq}"></p>
+                </li>
+                <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
+                    <img th:src="@{/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
+                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.download}"></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="portalList"></div>
+    <div class="container" style="margin:0px auto; margin-top:250px; text-align:center; display:block;">
+        <span style="font-size:x-large; font-weight:bold; color:#6c757d" th:text="#{portal.label.bottomPhrase}"></span>&nbsp;&nbsp;&nbsp;
+        <a href="#" style="font-size:x-large; font-weight:bold; color:#004085" th:text="#{portal.label.bottomLeftPhrase}"></a>
+    </div>
+</th:block>
 </body>
+<th:block layout:fragment="pageScript">
+    <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/theme/default/alice-default-theme.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[ */
+        function restSubmit(method, url, isSearch) {
+            document.getElementById('portalPartA').classList.remove('navbar');
+            document.getElementById('portalPartA').classList.remove('navbar-expand-lg');
+            document.getElementById('portalPartA').classList.remove('bg-primary');
+            document.getElementById('portalPartA').classList.remove('alice-navbar');
+            document.getElementById('portalPartB').style.removeProperty('margin-top');
+            document.getElementById('portalPartC').style.display = 'none';
+            document.getElementById('portalPartD').style.color = '#004085';
+
+            const data = {
+                searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
+            };
+
+            const getUrl = url + '?searchValue=' + data.searchValue;
+            const opt = {
+                method: method,
+                url: getUrl,
+                callbackFunc: function(response) {
+                    document.getElementById('portalList').innerHTML = response.responseText;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /* ]]> */
+    </script>
+</th:block>
 </html>

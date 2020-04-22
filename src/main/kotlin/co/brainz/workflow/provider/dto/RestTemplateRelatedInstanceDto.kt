@@ -10,5 +10,4 @@ data class RestTemplateRelatedInstanceDto(
     var instanceEndDt: LocalDateTime?,
     val instanceCreateUserKey: String?,
     val instanceCreateUserName: String?
-) : Serializable {
-}
+) : Serializable

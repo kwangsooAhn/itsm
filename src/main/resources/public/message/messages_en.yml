@@ -309,7 +309,17 @@ process:
 
 # Portal
 portal:
-  intro: "Welcome to PortalMain Test."
+  label:
+    login: "Log In"
+    main: "Main Page"
+    notice: "Notice"
+    faq: "FAQ"
+    download: "Download"
+    search: "Search"
+    mainPhrase: "Alice Technical Support"
+    topPhrase: "Hi! How can we help you today?"
+    bottomPhrase: "Can't find what you're looking for?"
+    bottomLeftPhrase: "Contact us"
 
 # Role
 role:
