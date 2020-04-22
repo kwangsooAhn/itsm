@@ -2,6 +2,7 @@ package co.brainz.itsm.customCode.service
 
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
+import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.dto.CustomCodeDto
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
@@ -14,14 +15,23 @@ import co.brainz.itsm.customCode.mapper.CustomCodeTableMapper
 import co.brainz.itsm.customCode.repository.CustomCodeColumnRepository
 import co.brainz.itsm.customCode.repository.CustomCodeTableRepository
 import co.brainz.itsm.form.service.FormService
+import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.repository.UserRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
+import javax.persistence.Column
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 @Service
 class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
                         private val customCodeTableRepository: CustomCodeTableRepository,
                         private val customCodeColumnRepository: CustomCodeColumnRepository,
+                        private val roleRepository: RoleRepository,
+                        private val userRepository: UserRepository,
                         private val formService: FormService) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
@@ -184,17 +194,46 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
     /**
      * 사용자 정의 조건에 부합하는 데이터 조회.
      *
-     * @param customCodeId
-     * @return MutableList<>
+     * @param customCodeId 커스텀 코드 ID
+     * @return List<CustomCodeDataDto>
      */
-    fun getCustomCodeData(customCodeId: String): String {
-        val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
-        println(customCodeEntity)
-        when(customCodeEntity.targetTable) {
-            CustomCodeConstants.TableName.ROLE.code -> print("ROLE")
-            CustomCodeConstants.TableName.USER.code -> print("USER")
-            else -> print("EMPTY")
+
+    fun getCustomCodeData(customCodeId: String): List<CustomCodeDataDto> {
+        val customDataList: MutableList<CustomCodeDataDto> = mutableListOf()
+        // TODO: 동적 쿼리로 가져오도록 소스 리팩토링 필요
+        val customCode = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
+        var dataList = mutableListOf<Any>()
+        when (customCode.targetTable) {
+            CustomCodeConstants.TableName.ROLE.code -> {
+                dataList = roleRepository.findByOrderByRoleNameAsc().toMutableList()
+            }
+            CustomCodeConstants.TableName.USER.code -> {
+                print("USER")
+                dataList = userRepository.findByOrderByUserNameAsc().toMutableList()
+            }
         }
-        return ""
+        if (dataList.size > 0) {
+            for (data in dataList) {
+                val customCodeDataDto = CustomCodeDataDto(key = "", value = "")
+                val dataFields = data::class.java.declaredFields
+                for (dataField in dataFields) {
+                    if (dataField.isAnnotationPresent(Column::class.java)) {
+                        dataField.isAccessible = true
+                        val coulmnName = dataField.getAnnotation(Column::class.java)?.name
+                        if (coulmnName == customCode.valueColumn) { // key
+                            customCodeDataDto.key = dataField.get(data) as? String ?: ""
+                        }
+                        if (coulmnName == customCode.searchColumn) { // value
+                            customCodeDataDto.value = dataField.get(data) as? String ?: ""
+                        }
+                        dataField.isAccessible = false
+                    }
+                }
+                if (customCodeDataDto.key.isNotEmpty() && customCodeDataDto.value.isNotEmpty()) {
+                    customDataList.add(customCodeDataDto)
+                }
+            }
+        }
+        return customDataList
     }
 }

@@ -297,7 +297,7 @@
                             }
                         }
                         break;
-                    case 'fileupload' :
+                    case 'fileupload':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
                             if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
@@ -317,8 +317,13 @@
                             }
                         }
                         break;
-                    case 'custom-code' :
-                        //TODO 사용자 정의 코드 구현
+                    case 'custom-code':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).getAttribute('custom-data');
+                        console.log(componentValue);
+                        console.log('여기왜안타?');
+                        break;
+                    default:
                         break;
                 }
                 componentChildObject.componentId = componentId;
@@ -431,7 +436,7 @@
                 for (let i = 0, len = validateElems.length; i < len; i++) {
                     let elem = validateElems[i];
                     if (elem.classList.contains('editor-container')) { //텍스트 에디터 유효성 검증 추가
-                        let textEditor = Quill.find(elem);
+                        /*let textEditor = Quill.find(elem);
                         textEditor.on('selection-change', function (range, oldRange, source) {
                             if (range === null && oldRange !== null) {
                                 if (elem.getAttribute('min-length') !== '' && textEditor.getLength() < Number(elem.getAttribute('min-length'))) {
@@ -444,7 +449,7 @@
                                     return true;
                                 }
                             }
-                        });
+                        });*/
                     } else {
                         elem.addEventListener('focusout',validateCheck, false);
                     }

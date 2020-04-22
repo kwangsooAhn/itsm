@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query
 
 
 @Repository
-interface RoleRepository : JpaRepository<AliceRoleEntity, String>, RoleRepositoryCustom {
+interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
     /**
      * 역할별 상세 내용 조회
      */

@@ -9,6 +9,8 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/documents")
@@ -22,6 +24,8 @@ class DocumentController(
     private val documentListPage: String = "document/documentList"
     private val documentPublishPage: String = "document/documentPublish"
     private val documentEditPage: String = "document/documentEdit"
+
+    private val documentCustomCodePage: String = "document/customCodeData"
 
     /**
      * 신청서 리스트 호출 화면.
@@ -86,10 +90,10 @@ class DocumentController(
     /**
      * 사용자 정의 코드 데이터 조회.
      */
-    @GetMapping("custom-code/{customCodeId}/data/{customCodeData}")
-    fun getCustomCodeData(@PathVariable customCodeId: String, @PathVariable customCodeData: String, model: Model): String {
-        model.addAttribute("customCodeData", customCodeData)
-        model.addAttribute("customCodeList", customCodeService.getCustomCodeData(customCodeId))
-        return "";
+    @RequestMapping("/custom-code/{customCodeId}/data", method = [RequestMethod.POST, RequestMethod.GET])
+    fun getCustomCodeData(@PathVariable customCodeId: String, model: Model, request: HttpServletRequest): String {
+        model.addAttribute("customCodeData", request.getParameter("customCodeData")?:"")
+        model.addAttribute("customCodeDataList", customCodeService.getCustomCodeData(customCodeId))
+        return documentCustomCodePage
     }
 }
