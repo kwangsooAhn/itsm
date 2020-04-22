@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{form.label.customCodeTarget}"></title>
+    <!-- 임시 style -->
+    <style>
+        table {
+            border: 1px solid #BCC5D3;
+        }
+        tbody {
+            display: block;
+            max-height: 540px;
+            overflow: auto;
+        }
+        td {
+            vertical-align: middle;
+        }
+        .btn-container {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table>
+        <colgroup>
+            <col width="20%">
+            <col width="80%">
+        </colgroup>
+        <tbody>
+            <tr th:if="${#arrays.isEmpty(customCodeDataList)}">
+                <td colspan="2" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr th:unless="${#arrays.isEmpty(customCodeDataList)}" th:each="customCode: ${customCodeDataList}">
+                <td><input type="checkbox" th:id="${customCode.key}" th:value="${customCode.value}"/></td>
+                <td th:text="${customCode.value}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="btn-container">
+        <button th:text="#{common.btn.modify}" onclick="customCodeDataSave();"></button>
+        <button th:text="#{common.btn.close}" onclick="window.close();"></button>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    let componentData = {};
+    function customCodeDataSave() {
+        let checkElems = document.getElementsByTagName('input');
+        let componentValue = '';
+        let componentDataValue = '';
+        for (let i = 0, len = checkElems.length; i < len; i++) {
+            if (checkElems[i].checked) {
+                if (componentValue === '' && componentValue.indexOf("/") === -1) {
+                    componentDataValue = checkElems[i].id + '|' + checkElems[i].value;
+                    componentValue = checkElems[i].value;
+                } else {
+                    componentDataValue += (',' + checkElems[i].id + '|' + checkElems[i].value);
+                    componentValue += '/' + checkElems[i].value;
+                }
+            }
+        }
+        if (window.opener && !window.opener.closed) {
+            let component = window.opener.document.getElementById(componentData.componentId);
+            let componentChild =  component.querySelector('input[type="text"]');
+            componentChild.value = componentValue;
+            componentChild.setAttribute('custom-data', componentDataValue);
+            window.close();
+
+        }
+    }
+    window.onload = function() {
+        componentData = JSON.parse('[(${customCodeData})]');
+        let compDataList = componentData.componentValues.split(','); //key|value,key|value
+        let checkboxElems = document.querySelectorAll('input');
+        for (let i = 0, len = checkboxElems.length; i < len; i++) {
+            let checkboxElem = checkboxElems[i];
+            for (let j = 0, dLen = compDataList.length; j < dLen; j++) {
+                let compDataMap = compDataList[j].split('|');
+                if (compDataMap[0] === checkboxElem.id) {
+                    checkboxElem.checked = true;
+                }
+            }
+        }
+    };
+    /*]]>*/
+</script>
+</html>
