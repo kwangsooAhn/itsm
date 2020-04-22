@@ -565,7 +565,7 @@
         let datetimePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
         let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat;
 
-        if (attr.values != undefined && attr.values.length > 0 ) {
+        if (attr.values !== undefined && attr.values.length > 0 ) {
             let dateValue = attr.values[0].value.split('|');
             if (dateValue[0] !== '') {
                 datetimeDefault = aliceJs.changeDateFormat(dateValue[1], datetimePlaceholder, dateValue[0], aliceForm.options.lang);
@@ -669,6 +669,13 @@
      * @constructor
      */
     function CustomCode(attr, target) {
+
+        let textDefaultArr = attr.display['default'].split('|');
+        let textDefaultValue = '';
+        if (textDefaultArr[0] !== 'none') {
+            textDefaultValue = textDefaultArr[1];
+        }
+
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -680,7 +687,7 @@
                     <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly/>
+                    <input type='text' value='${textDefaultValue}' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly/>
                     <button type='button'>${attr.display["button-text"]}</button>
                 </div>
             </div>
@@ -688,8 +695,8 @@
         
         target.appendChild(comp);
         //TODO: custom code 팝업 호출
-        if (attr.values != undefined && attr.values.length > 0 ) {
-            
+        if (attr.values !== undefined && attr.values.length > 0) {
+
         }
         this.domElem = comp;
     }

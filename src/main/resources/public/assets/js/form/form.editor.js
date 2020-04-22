@@ -536,7 +536,7 @@
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
-                let timeformat = aliceForm.options.dateFormat +" "+ aliceForm.options.timeFormat +" "+ aliceForm.options.hourType;
+                let timeformat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
                 if (changeValue === 'none' || changeValue === 'now') {
                     changePropertiesValue(changeValue+'|'+ timeformat, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 } else {
@@ -917,6 +917,54 @@
                             } else if (compAttr.type === 'datetime') {
                                 dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.hourType, aliceForm.options.lang, setDateFormat);
                             }
+                            break;
+                        case 'radio-custom':
+                            fieldGroupDiv.classList.add('vertical');
+                            let fieldValueArr = fieldArr.value.split('|');
+                            let customDefaultTemplate = ``;
+                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                let option = fieldArr.option[i];
+                                customDefaultTemplate += `
+                                    <div class='vertical-group'>
+                                    <input type='radio' id='${option.id}' name='${group}.${fieldArr.id}' value='${option.id}'
+                                    ${option.id === fieldValueArr[0] ? "checked='true'" : ""} />
+                                    <label for='${option.id}'>${option.name}</label>
+                                    ${option.id !== 'none' ? "<br/><select>" + option.items.map(item => `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`).join('') + "</select>": ""}
+                                    </div>
+                                `;
+                            }
+                            fieldGroupDiv.innerHTML += customDefaultTemplate;
+
+                            let changeCustomCode = function(val) {
+                                let customCodeDataSelect = fieldGroupDiv.querySelector('input[id=code]').parentNode.querySelector('select');
+                                customCodeDataSelect.innerHTML = '';
+                                // TODO: custom code data search
+                                let customCodeData = [{id: 'sample1', name: '샘플데이터1'},{id: 'sample2', name: '샘플데이터2'},{id: 'sample3', name: '샘플데이터3'}];
+                                customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.id}'>${d.name}</option>`).join('');
+                                if (val) {
+                                    customCodeDataSelect.value = val;
+                                }
+                                let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
+                                if (targetRadio.checked) {
+                                    changePropertiesValue('code|' + customCodeDataSelect.value, group, fieldArr.id);
+                                }
+                            }
+                            let customCodeSelect = propertiesPanel.querySelector('#custom-code > select');
+                            customCodeSelect.addEventListener('change', function() { changeCustomCode(); });
+                            changeCustomCode(fieldValueArr[0] === 'code' ? fieldValueArr[1] : null);
+
+                            fieldGroupDiv.querySelectorAll('input[type=radio], select').forEach(function(elem) {
+                                elem.addEventListener('change', function(e) {
+                                    let targetId = this.id;
+                                    if (elem.tagName.toUpperCase() === 'SELECT') {
+                                        let targetRadio = this.parentNode.querySelector('input[type=radio]');
+                                        if (!targetRadio.checked) { return; }
+                                        targetId = targetRadio.id;
+                                    }
+                                    changePropertiesValue(targetId !== 'none' ? targetId + '|' + this.parentNode.querySelector('select').value : targetId, group, fieldArr.id);
+                                });
+                            });
+
                             break;
                         case 'button':
                             if (fieldButtonDiv === null) { break; }
