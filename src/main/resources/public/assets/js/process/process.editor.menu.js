@@ -666,6 +666,7 @@
             aliceProcessEditor.setConnectors();
 
             const connectorElementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
+            aliceProcessEditor.history.undo_list.pop(); // remove add connector history.
             aliceProcessEditor.history.saveHistory([
                 {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
                 {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
