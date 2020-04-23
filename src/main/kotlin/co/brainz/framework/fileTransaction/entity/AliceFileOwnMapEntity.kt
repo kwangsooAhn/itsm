@@ -23,5 +23,4 @@ data class AliceFileOwnMapEntity(
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "file_seq")
     var fileLocEntity: AliceFileLocEntity
-
 ) : Serializable

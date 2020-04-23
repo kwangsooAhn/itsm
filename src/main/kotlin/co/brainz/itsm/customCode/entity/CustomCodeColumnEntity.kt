@@ -11,24 +11,24 @@ import javax.persistence.Table
 @Table(name = "awf_custom_code_column")
 @IdClass(CustomCodeColumnPk::class)
 data class CustomCodeColumnEntity(
-        @Id
-        @Column(name = "custom_code_table", length = 128)
-        var customCodeTable: String = "",
+    @Id
+    @Column(name = "custom_code_table", length = 128)
+    var customCodeTable: String = "",
 
-        @Id
-        @Column(name = "custom_code_type", length = 100)
-        var customCodeType: String = "",
+    @Id
+    @Column(name = "custom_code_type", length = 100)
+    var customCodeType: String = "",
 
-        @Id
-        @Column(name = "custom_code_column", length = 128)
-        var customCodeColumn: String = "",
+    @Id
+    @Column(name = "custom_code_column", length = 128)
+    var customCodeColumn: String = "",
 
-        @Column(name = "custom_code_column_name", length = 128)
-        var customCodeColumnName: String = ""
-): Serializable
+    @Column(name = "custom_code_column_name", length = 128)
+    var customCodeColumnName: String = ""
+) : Serializable
 
 data class CustomCodeColumnPk(
-        var customCodeTable: String = "",
-        var customCodeType: String = "",
-        var customCodeColumn: String = ""
-): Serializable
+    var customCodeTable: String = "",
+    var customCodeType: String = "",
+    var customCodeColumn: String = ""
+) : Serializable

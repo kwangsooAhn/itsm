@@ -30,5 +30,4 @@ data class FaqEntity(
 
     @Column(name = "faq_content")
     var faqContent: String = ""
-
-): Serializable, AliceMetaEntity()
+) : Serializable, AliceMetaEntity()

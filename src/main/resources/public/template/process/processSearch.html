@@ -24,18 +24,18 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            getProcessList(document.getElementById('search').value);
+            getProcessList(document.getElementById('search').value, true);
         }
 
         document.getElementById('search').onkeyup = function() {
-            getProcessList(this.value);
+            getProcessList(this.value, false);
         };
 
         //프로세스 리스트 조회
-        function getProcessList(search) {
+        function getProcessList(search, showProgressbar) {
             restSubmit('GET', '/processes/list?search=' + encodeURIComponent(search.trim()), function(result) {
                 document.getElementById('processList').innerHTML = result;
-            });
+            }, showProgressbar);
         }
 
         //프로세스 삭제
@@ -78,10 +78,11 @@
         }
 
         //REST API
-        function restSubmit(method, url, result) {
+        function restSubmit(method, url, result, showProgressbar) {
             const opt = {
                 method: method,
                 url: url,
+                showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     result(response.responseText);
                 }

@@ -12,10 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @Configuration
 @EnableWebSecurity
-class AliceWebSecurityConfig(authProvider: AliceAuthProvider,
-                             authSuccessHandler: AliceAuthSuccessHandler,
-                             authFailureHandler: AliceAuthFailureHandler)
-    : AliceWebSecurityConfigurerAdapter(authProvider, authSuccessHandler, authFailureHandler) {
+class AliceWebSecurityConfig(
+    authProvider: AliceAuthProvider,
+    authSuccessHandler: AliceAuthSuccessHandler,
+    authFailureHandler: AliceAuthFailureHandler
+) : AliceWebSecurityConfigurerAdapter(authProvider, authSuccessHandler, authFailureHandler) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun ignoreConfigure(web: WebSecurity) {
@@ -26,10 +27,20 @@ class AliceWebSecurityConfig(authProvider: AliceAuthProvider,
 
     override fun authorizeRequestConfigure(http: HttpSecurity) {
         http
-                .authorizeRequests()
-                .antMatchers("/", "/login", "/logout", "/sessionInValid", "/certification/**", "/oauth/**", "/portal/**", "/rest/**","/i18n/**").permitAll()
-                .anyRequest().authenticated()
-                .and().csrf().ignoringAntMatchers("/rest/**")
+            .authorizeRequests()
+            .antMatchers(
+                "/",
+                "/login",
+                "/logout",
+                "/sessionInValid",
+                "/certification/**",
+                "/oauth/**",
+                "/portal/**",
+                "/rest/**",
+                "/i18n/**"
+            ).permitAll()
+            .anyRequest().authenticated()
+            .and().csrf().ignoringAntMatchers("/rest/**")
         logger.debug("> http configure <")
     }
 }
