@@ -129,7 +129,7 @@ class WfInstanceService(
      */
     fun getInstanceLastestToken(instanceId: String): WfTokenDto {
         val instanceEntity = wfInstanceRepository.getOne(instanceId)
-        val tokenEntity = wfTokenRepository.findTopByInstanceOrderByTokenStartDtDesc(instanceEntity)
+        val tokenEntity = wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instanceEntity)
 
         val tokenDto = wfTokenMapper.toTokenDto(tokenEntity)
         val tokenDatas = mutableListOf<WfTokenDataDto>()
