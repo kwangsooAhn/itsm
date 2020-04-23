@@ -363,8 +363,8 @@ document:
     process: "Process"
     editable: "Editable"
     editableRequired: "Editable(required)"
-    readonly: "readonly"
-    hidden: "hidden"
+    readonly: "Readonly"
+    hidden: "Hidden"
     status: "Status"
   status:
     temporary: "Temporary"

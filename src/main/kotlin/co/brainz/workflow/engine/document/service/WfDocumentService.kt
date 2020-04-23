@@ -242,7 +242,6 @@ class WfDocumentService(
      * Create Document Display.
      *
      * @param documentEntity
-     * @return WfDocumentDto
      */
     fun createDocumentDisplay(documentEntity: WfDocumentEntity) {
         val wfDocumentDataEntities: MutableList<WfDocumentDataEntity> = mutableListOf()
@@ -267,7 +266,8 @@ class WfDocumentService(
     /**
      * Search Document Display data.
      *
-     * @return List<DocumentDataDto>
+     * @param documentId
+     * @return WfDocumentDisplayViewDto
      */
     fun getDocumentDisplay(documentId: String): WfDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
@@ -288,7 +288,7 @@ class WfDocumentService(
             }
             val componentMap = LinkedHashMap<String, Any>()
             val componentData = wfComponentDataRepository.findComponentDataByComponentId(component.componentId, "label")
-            var attributeValue = if (componentData.size > 0) {
+            val attributeValue = if (componentData.size > 0) {
                 // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
                 componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
             } else {
@@ -310,6 +310,7 @@ class WfDocumentService(
     /**
      * Update Document Display data.
      *
+     * @param wfDocumentDisplaySaveDto
      * @return Boolean
      */
     fun updateDocumentDisplay(wfDocumentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
