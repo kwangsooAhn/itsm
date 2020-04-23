@@ -86,6 +86,7 @@
             .style('marker-end', 'url(#end-arrow)')
             .on('mousedown', function(d) {
                 d3.event.stopPropagation();
+                d3.event.preventDefault();
                 if (isDrawConnector) {
                     return;
                 }
@@ -126,6 +127,7 @@
             },
             mousedown: function(d) {
                 d3.event.stopPropagation();
+                d3.event.preventDefault();
                 if (isDrawConnector) {
                     return;
                 }
@@ -1298,6 +1300,10 @@
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
         const drawingBoard = document.querySelector('.alice-process-drawing-board');
 
         // add svg and svg event

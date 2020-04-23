@@ -205,6 +205,7 @@
         if (elementData.length) {
             console.debug('current element type: %s, edit element type: %s', elementData[0].type, type);
             if (elementData[0].type === type) {
+                d3.select('g.alice-tooltip').remove();
                 return;
             }
             const originElementData = JSON.parse(JSON.stringify(elementData[0]));
@@ -252,7 +253,7 @@
         }
 
         const elementId = elem.node().id,
-              elements = aliceProcessEditor.data.elements;
+            elements = aliceProcessEditor.data.elements;
 
         let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
@@ -375,13 +376,16 @@
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
-              containerHeight = itemSize + (itemMargin * 2);
+            containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
             .attr('width', containerWidth)
             .attr('height', containerHeight)
-            .on('mousedown', function() { d3.event.stopPropagation(); });
+            .on('mousedown', function() {
+                d3.event.stopPropagation();
+                d3.event.preventDefault();
+            });
 
         tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
@@ -396,6 +400,7 @@
             .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
             .on('mousedown', function(d) {
                 d3.event.stopPropagation();
+                d3.event.preventDefault();
                 actionTooltip.forEach(function(t) {
                     if (t.focus_url) {
                         let item = document.getElementById('action-tooltip-item-' + t.type);
@@ -409,7 +414,7 @@
             });
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+            gTransform = d3.zoomTransform(d3.select('g.element-container').node());
 
         let targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
             targetY = bbox.y + gTransform.y - containerHeight - 10;
@@ -498,7 +503,7 @@
      */
     function getElementData(elem) {
         const elementId = elem.node().id,
-              elements = aliceProcessEditor.data.elements;
+            elements = aliceProcessEditor.data.elements;
         return elements.filter(function(e) { return e.id === elementId; })[0];
     }
 
@@ -542,7 +547,7 @@
     function deleteElement(elem) {
         d3.select('g.alice-tooltip').remove();
         const elementId = elem.node().id,
-              elements = aliceProcessEditor.data.elements;
+            elements = aliceProcessEditor.data.elements;
 
         const histories = [];
         elements.forEach(function(e, i) {
@@ -611,7 +616,7 @@
     }
 
     /**
-     * suggest element 를 connector 와 함께 추가한다.
+     * suggest element 를 connector 와 함께 추가 한다.
      *
      * @param elem source element
      * @param type 추가할 element 타입
@@ -623,10 +628,26 @@
         const targetBbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem);
         const elemData = {};
         elemData.type = type;
+
+        let addDistance = 100,
+            addElemWidth = 0;
+        switch (type) {
+            case 'userTask':
+            case 'manualTask':
+                addElemWidth = 120;
+                break;
+            case 'exclusiveGateway':
+                addElemWidth = Math.sqrt(Math.pow(40, 2) + Math.pow(40, 2));
+                break;
+            case 'commonEnd':
+                addElemWidth = 40;
+                break;
+        }
         elemData.display = {
-            'position-x': targetBbox.cx + (targetBbox.width / 2) + 120,
+            'position-x': targetBbox.cx + (targetBbox.width / 2) + addDistance + (addElemWidth / 2),
             'position-y': targetElementData.display['position-y']
         };
+
         let category = getElementCategory(type);
         elemData.data = getAttributeData(category, type);
 
@@ -645,6 +666,7 @@
             aliceProcessEditor.setConnectors();
 
             const connectorElementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
+            aliceProcessEditor.history.undo_list.pop(); // remove add connector history.
             aliceProcessEditor.history.saveHistory([
                 {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
                 {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
@@ -666,13 +688,13 @@
         }
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
-              actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-              containerWidth = itemSize + (itemMargin * 2),
-              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
+            actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+            containerWidth = itemSize + (itemMargin * 2),
+            containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-              x = bbox.x + bbox.width + itemMargin,
-              y = bbox.y;
+            x = bbox.x + bbox.width + itemMargin,
+            y = bbox.y;
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container element-tooltip')
@@ -733,7 +755,7 @@
         let elementData = aliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
         if (elementData.length) {
             const originElementData = JSON.parse(JSON.stringify(elementData[0])),
-                  nodeElement = d3.select(document.getElementById(id));
+                nodeElement = d3.select(document.getElementById(id));
             if (nodeElement.classed('connector')) {
                 const linkData = nodeElement.node().__data__;
                 elementData[0].display = {};
