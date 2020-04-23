@@ -5,6 +5,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import java.security.PrivateKey
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
@@ -19,8 +20,6 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.security.PrivateKey
-
 
 /**
  * 로그인 요청을 인증하는 클래스
@@ -30,8 +29,10 @@ import java.security.PrivateKey
  * 정상적으로 처리가 완료되면 successHandler로 이동하고 실패시 failureHandler 로 이동한다.
  */
 @Component
-class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
-                        private val aliceCryptoRsa: AliceCryptoRsa) : AuthenticationProvider {
+class AliceAuthProvider(
+    private val userDetailsService: AliceUserDetailsService,
+    private val aliceCryptoRsa: AliceCryptoRsa
+) : AuthenticationProvider {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
@@ -63,15 +64,16 @@ class AliceAuthProvider(private val userDetailsService: AliceUserDetailsService,
         }
 
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, password, aliceUser.grantedAuthorises)
+        val usernamePasswordAuthenticationToken =
+            UsernamePasswordAuthenticationToken(userId, password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
             aliceUser.urls?.let { urls ->
                 aliceUser.menus?.let { menus ->
                     AliceUserDto(
-                            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
-                            aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
-                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
-                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
+                        aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
+                        aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
+                        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
+                        menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
                     )
                 }
             }

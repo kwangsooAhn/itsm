@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
  */
 @Order(1)
 @Component
-class AliceApplicationRunner(private val aliceUrlRepository: AliceUrlRepository): ApplicationRunner {
+class AliceApplicationRunner(private val aliceUrlRepository: AliceUrlRepository) : ApplicationRunner {
 
     companion object {
         var aliceUrls: List<AliceUrlEntity> = emptyList()

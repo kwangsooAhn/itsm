@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 
-interface AliceCertificationRepository: JpaRepository<AliceUserEntity, String>, JpaSpecificationExecutor<AliceUserEntity> {
+interface AliceCertificationRepository : JpaRepository<AliceUserEntity, String>, JpaSpecificationExecutor<AliceUserEntity> {
 
     @Modifying
     @Query("UPDATE AliceUserEntity u SET u.certificationCode = :certificationCode, u.status = :status where u.userId = :userId")

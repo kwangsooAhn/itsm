@@ -19,12 +19,12 @@ object AliceUserConstants {
      * 사용자 기본 언어셋.
      */
     const val USER_LOCALE_LANG: String = "ko"
-    
+
     /**
      * 사용자 기본 날짜 포맷
      */
     const val USER_TIME_FORMAT: String = "yyyy-MM-dd HH:mm"
-    
+
     /**
      * 사용자 기본 테마
      */
@@ -61,7 +61,7 @@ object AliceUserConstants {
         STATUS_ERROR("2"),
         STATUS_ERROR_EMAIL_DUPLICATION("3")
     }
-    
+
     /**
      * 사용자 수정 상태
      */
@@ -104,9 +104,9 @@ object AliceUserConstants {
      * 사용자 자기정보 메일 관련 수정 상태
      */
     enum class SendMailStatus(val code: String) {
-       CREATE_USER("0"),
-       UPDATE_USER("1"),
-       UPDATE_USER_EMAIL("2"),
-       CREATE_USER_ADMIN("3")
+        CREATE_USER("0"),
+        UPDATE_USER("1"),
+        UPDATE_USER_EMAIL("2"),
+        CREATE_USER_ADMIN("3")
     }
 }
