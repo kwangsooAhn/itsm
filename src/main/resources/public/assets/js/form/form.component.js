@@ -657,6 +657,7 @@
             let fileUploadElem = comp.querySelector('.dropbox');
             fileUploadElem.textContent = 'Drop files here to upload';
             let buttonElem = document.createElement('button');
+            buttonElem.type = 'button';
             buttonElem.innerText = 'ADD';
             fileUploadElem.parentNode.insertBefore(buttonElem, fileUploadElem);
         }
@@ -686,7 +687,7 @@
                 textDefaultValue = attr.values[0].value;
             }
         }
-
+        let defaultCustomData = (attr.values !== undefined && attr.values.length > 0) ? attr.values[0].value : '';
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -698,18 +699,57 @@
                     <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' value='${textDefaultValue}' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly/>
-                    <button type='button'>${attr.display["button-text"]}</button>
+                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly custom-data='${defaultCustomData}'/>
+                    <input type='button' id='codeBtn' value='${attr.display["button-text"]}'>
                 </div>
             </div>
         `);
         
         target.appendChild(comp);
-        //TODO: custom code 팝업 호출
-        if (attr.values !== undefined && attr.values.length > 0) {
-
-        }
         this.domElem = comp;
+        if (!target.hasAttribute('data-readonly')) {
+            let customCodeTextElem = comp.querySelector('input[type="text"]');
+            if (defaultCustomData !== '') {
+                let customCodeValues = defaultCustomData.split(',');
+                let inputValue = '';
+                for (let i = 0, len = customCodeValues.length; i < len; i++) {
+                    let customDataValue = customCodeValues[i].split('|');
+                    if (customDataValue.length > 1) {
+                        if (inputValue === '' && inputValue.indexOf('/') === -1) {
+                            inputValue = customDataValue[1];
+                        } else {
+                            inputValue += '/' + customDataValue[1];
+                        }
+                    }
+                }
+                customCodeTextElem.value = inputValue;
+            }
+
+            let searchBtn = comp.querySelector('#codeBtn');
+            searchBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                let url = '/documents/custom-code/' + attr.display['custom-code'] + '/data';
+                window.open(url, 'customCodePop', 'width=500, height=600');
+                let customCodeData = {
+                    componentId: attr.id,
+                    componentValues: customCodeTextElem.getAttribute('custom-data')
+                };
+
+                let form = document.createElement('form');
+                form.action = url;
+                form.method = 'POST';
+                form.target = 'customCodePop';
+                let inputElem = document.createElement('input');
+                inputElem.name = 'customCodeData';
+                inputElem.value = JSON.stringify(customCodeData);
+                form.appendChild(inputElem);
+                form.style.display = 'none';
+
+                document.body.appendChild(form);
+                form.submit();
+            });
+        }
+
     }
 
     /**
@@ -828,8 +868,7 @@
      */
     function getData(type) {
         let refineAttr = { display: {} };
-        let defaultAttr = JSON.parse(JSON.stringify(aliceForm.options.componentAttribute[type]));
-        //let defaultAttr = Object.assign({}, aliceForm.options.componentAttribute[type]);
+        let defaultAttr = Object.assign({}, aliceForm.options.componentAttribute[type]);
         Object.keys(defaultAttr).forEach(function(group) {
             if (group === 'option') { //옵션 json 구조 변경
                 let options = [];

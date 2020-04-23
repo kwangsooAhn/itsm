@@ -13,7 +13,8 @@ enum class AliceErrorConstants(
     ERR_00001(AliceHttpStatusConstants.BAD_REQUEST.status, "ERR-00001", "Wrong id or password"),
     ERR_00002(AliceHttpStatusConstants.NOT_FOUND.status, "ERR-00002", "Session expired"),
     ERR_00003(AliceHttpStatusConstants.UNAUTHORIZED.status, "ERR-00003", "Unauthorized page."),
-    ERR_00004(AliceHttpStatusConstants.BAD_REQUEST.status, "ERR-00004", "The file extension is not allowed")
+    ERR_00004(AliceHttpStatusConstants.BAD_REQUEST.status, "ERR-00004", "The file extension is not allowed"),
+    ERR_00005(AliceHttpStatusConstants.NOT_FOUND.status, "ERR-00005", "Not found resource")
     ;
 
 }
