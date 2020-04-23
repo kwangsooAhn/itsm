@@ -14,25 +14,25 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_numbering_pattern")
 data class NumberingPatternEntity(
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "pattern_id", length = 128)
-        val patternId: String,
+    @Id @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "pattern_id", length = 128)
+    val patternId: String,
 
-        @Column(name = "pattern_name", length = 255)
-        val patternName: String,
+    @Column(name = "pattern_name", length = 255)
+    val patternName: String,
 
-        @Column(name = "pattern_type", length = 100)
-        val patternType: String,
+    @Column(name = "pattern_type", length = 100)
+    val patternType: String,
 
-        @Column(name = "pattern_value")
-        val patternValue: String,
+    @Column(name = "pattern_value")
+    val patternValue: String,
 
-        @Column(name = "pattern_order")
-        val patternOrder: Int,
+    @Column(name = "pattern_order")
+    val patternOrder: Int,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "numbering_id")
-        val numberingRule: NumberingRuleEntity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "numbering_id")
+    val numberingRule: NumberingRuleEntity
 
 ) : Serializable

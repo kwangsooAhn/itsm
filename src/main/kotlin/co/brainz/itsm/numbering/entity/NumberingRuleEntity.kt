@@ -15,22 +15,22 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_numbering_rule")
 data class NumberingRuleEntity(
-        @Id @GeneratedValue(generator = "system-uuid")
-        @GenericGenerator(name = "system-uuid", strategy = "uuid")
-        @Column(name = "numbering_id", length = 128)
-        val numberingId: String,
+    @Id @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "numbering_id", length = 128)
+    val numberingId: String,
 
-        @Column(name = "numbering_name", length = 255)
-        val numberingName: String,
+    @Column(name = "numbering_name", length = 255)
+    val numberingName: String,
 
-        @Column(name = "numbering_desc")
-        val numberingDesc: String? = null,
+    @Column(name = "numbering_desc")
+    val numberingDesc: String? = null,
 
-        @Column(name = "latest_value")
-        var latestValue: String? = null
+    @Column(name = "latest_value")
+    var latestValue: String? = null
 
 ) : Serializable {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "numberingRule", cascade = [CascadeType.REMOVE])
-        @OrderBy("pattern_order asc")
-        val patterns: MutableList<NumberingPatternEntity>? = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "numberingRule", cascade = [CascadeType.REMOVE])
+    @OrderBy("pattern_order asc")
+    val patterns: MutableList<NumberingPatternEntity>? = mutableListOf()
 }
