@@ -7,6 +7,7 @@
 
     let documentContainer = null;
     let buttonContainer = null;
+    let commentContainer = null;
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -463,6 +464,32 @@
         } else if (data.token.components !== undefined) {
             addButton(data.token.actions);
         }
+
+        //Add Comment Box
+        addCommentBox();
+
+    }
+
+    function addCommentBox() {
+        commentContainer = document.getElementById('comment-container');
+
+        let commentBoxContainer = document.createElement('div');
+        let commentButtonContainer = document.createElement('div');
+
+        //msg
+        let commentBoxTextarea = document.createElement('textarea');
+
+        //button
+        let commentButton = document.createElement('button');
+        commentButton.type = 'button';
+        commentButton.innerText = '등록';
+        commentButton.addEventListener('click', function () {
+            //aliceDocument.save(element.value);
+            alert('dddd');
+        });
+        commentBoxContainer.appendChild(commentBoxTextarea);
+        commentButtonContainer.appendChild(commentButton);
+        commentContainer.appendChild(commentBoxContainer).appendChild(commentButtonContainer);
     }
 
     /**
