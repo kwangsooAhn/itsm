@@ -163,6 +163,9 @@ faq:
   title: "제목"
   contents: "내용"
   edit: "수정"
+  msg: "자주 묻는 질문과 답변입니다."
+  category:
+    all: "전체"
 
 # NOTICE
 notice:

@@ -163,6 +163,9 @@ faq:
   title: "Title"
   contents: "Contents"
   edit: "Edit"
+  msg: "Frequently asked questions and answers."
+  category:
+    all: "All"
 
 # NOTICE
 notice:
