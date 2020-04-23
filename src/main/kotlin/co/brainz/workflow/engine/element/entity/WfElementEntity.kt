@@ -1,6 +1,5 @@
 package co.brainz.workflow.engine.element.entity
 
-import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import java.io.Serializable
