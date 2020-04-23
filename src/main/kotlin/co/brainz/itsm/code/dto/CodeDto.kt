@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 data class CodeDto (
         var code: String? = null,
         var pCode: CodeEntity? = null,
-        var codeValu: String? = null,
+        var codeValue: String? = null,
         var editable: Boolean? = null,
         var createDt: LocalDateTime? = null,
         var createUserName: String? = null,

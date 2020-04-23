@@ -18,8 +18,7 @@ class CodeController(private val codeService: CodeService) {
      */
     @GetMapping("/code")
     fun getCodeList(request: HttpServletRequest, model: Model): String {
-        var codeList = codeService.getCodeList();
-        model.addAttribute("codeList", codeList)
+        model.addAttribute("codeList", codeService.getCodeList())
         return codeEditPage
     }
 }
