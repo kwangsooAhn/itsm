@@ -332,15 +332,13 @@ class WfTokenElementService(
                 val saveTokenEntity = setNextTokenSave(newTokenEntity, wfTokenDto)
                 wfTokenDto.tokenId = saveTokenEntity.tokenId
                 val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
-
                 val tokenId = wfTokenDto.tokenId
-                val targetDocumentAttribute = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
 
                 // 종료된 토큰의 WfTokenDto.elementId 로 WfElementDataEntity 조회 후 target-document-list 확인
-                val targetDocumentId = mutableListOf<String>()
+                val targetDocumentIds = mutableListOf<String>()
                 nextElementEntity.elementDataEntities.forEach {
-                    if (it.attributeId == targetDocumentAttribute) {
-                        targetDocumentId.add(it.attributeValue)
+                    if (it.attributeId == WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value) {
+                        targetDocumentIds.add(it.attributeValue)
                     }
                 }
 
@@ -365,19 +363,17 @@ class WfTokenElementService(
                 }
 
                 // target-document-list 별로 수행해야할 토큰을 리턴
-                targetDocumentId.forEach { documentId ->
+                targetDocumentIds.forEach { documentId ->
                     val document = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
 
                     // 복제할 데이터에서 타켓 다큐먼트의 mappingId 와 일치하는 value를 찾고
                     // WfTokenDataDto 를 생성한다.
                     val tokenDatas = mutableListOf<WfTokenDataDto>()
                     document.form.components!!.forEach { component ->
-                        if (component.mappingId.isNotBlank()) {
-                            if (tokenDataForCopy[component.mappingId] != null) {
-                                val value = tokenDataForCopy[component.mappingId] as String
-                                val data = WfTokenDataDto(componentId = component.componentId, value = value)
-                                tokenDatas.add(data)
-                            }
+                        if (component.mappingId.isNotBlank() && tokenDataForCopy[component.mappingId] != null) {
+                            val value = tokenDataForCopy[component.mappingId] as String
+                            val data = WfTokenDataDto(componentId = component.componentId, value = value)
+                            tokenDatas.add(data)
                         }
                     }
 
