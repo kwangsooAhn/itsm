@@ -31,10 +31,10 @@ class AliceUserDetailsService(
         val authorities = mutableSetOf<SimpleGrantedAuthority>()
         val rolePrefix = "ROLE_"
 
-        aliceUserAuthDto.userKey?.let {userKey ->
+        aliceUserAuthDto.userKey?.let { userKey ->
             aliceUserRoleMapRepository.findByUserKey(userKey).forEach { aliceRoleEntity ->
                 authorities.add(SimpleGrantedAuthority(rolePrefix + aliceRoleEntity.roleId))
-                aliceRoleEntity.roleAuthMapEntities.forEach{roleAuthMap ->
+                aliceRoleEntity.roleAuthMapEntities.forEach{ roleAuthMap ->
                     authorities.add(SimpleGrantedAuthority(roleAuthMap.auth.authId))
                 }
             }

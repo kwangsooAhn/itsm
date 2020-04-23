@@ -1,5 +1,9 @@
 package co.brainz.framework.configuration
 
+import java.util.Locale
+import java.util.MissingResourceException
+import java.util.ResourceBundle
+import javax.net.ssl.SSLContext
 import net.rakugakibox.util.YamlResourceBundle
 import org.apache.http.client.HttpClient
 import org.apache.http.conn.ssl.NoopHostnameVerifier
@@ -17,9 +21,6 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
-import java.util.*
-import javax.net.ssl.SSLContext
-
 
 @Configuration
 class AliceWebConfig {
@@ -85,5 +86,4 @@ class AliceWebConfig {
             HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()
         return builder.requestFactory { HttpComponentsClientHttpRequestFactory(client) }.build()
     }
-
 }

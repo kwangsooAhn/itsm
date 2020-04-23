@@ -18,10 +18,11 @@ public data class AliceScheduleTaskEntity(
     var executeCycleType: String,
     var executeCyclePeriod: Long,
     var cronExpression: String
-): Serializable {
+) : Serializable {
     companion object {
         private final const val serialVersionUID = -6693358225759255228L
     }
+
     override fun toString(): String {
         return (
                 "ScheduleTask [taskId= $taskId, askType= $taskType, executeClass= $executeClass, " +

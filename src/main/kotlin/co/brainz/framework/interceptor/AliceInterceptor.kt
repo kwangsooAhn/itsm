@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse
  * 인터셉터 구현 클래스
  */
 @Component
-class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInterceptorAdapter() {
+class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInterceptorAdapter() {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -29,12 +29,13 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
         urlAccessAuthCheck(request)
         return true
     }
-    
+
     /**
      * URL 접근 권한 확인.
      */
     private fun urlAccessAuthCheck(request: HttpServletRequest) {
-        val securityContextObject = request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
+        val securityContextObject =
+            request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
         val requestUrl = request.requestURI
         val requestMethod = request.method.toLowerCase()
 
@@ -43,13 +44,11 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
             val aliceUserDto = securityContext.authentication.details as AliceUserDto
             val regex = "\\{([a-zA-Z]*)}".toRegex()
             val requestUrls = requestUrl.split("/")
-            aliceUserDto.urls.let letDto@ {
-                urlList ->
-                urlList.forEach forEachList@ {
+            aliceUserDto.urls.let letDto@{ urlList ->
+                urlList.forEach forEachList@{
                     val urls = it.url.split("/")
                     if (requestUrls.size == urls.size && requestMethod == it.method) {
-                        requestUrls.forEachIndexed {
-                            idx, url ->
+                        requestUrls.forEachIndexed { idx, url ->
                             if (urls[idx] == url || regex.containsMatchIn(urls[idx])) {
                                 if (idx == requestUrls.size - 1) {
                                     return@letDto
@@ -60,13 +59,21 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa): HandlerInter
                         }
                     }
                 }
-                throw AliceException(AliceErrorConstants.ERR_00003, AliceErrorConstants.ERR_00003.message + "(URL: ${requestUrl})")
+                throw AliceException(
+                    AliceErrorConstants.ERR_00003,
+                    AliceErrorConstants.ERR_00003.message + "(URL: ${requestUrl})"
+                )
             }
         }
     }
 
     @Throws(Exception::class)
-    override fun postHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any, modelAndView: ModelAndView?) {
+    override fun postHandle(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        handler: Any,
+        modelAndView: ModelAndView?
+    ) {
         val useRsa = request.getAttribute(AliceConstants.RsaKey.USE_RSA.value)
         if (useRsa != null) {
             logger.debug(">>> create RSA key <<< {}", request.requestURL)
