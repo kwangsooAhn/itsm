@@ -45,7 +45,6 @@ data class WfTokenEntity(
 
 ) : Serializable {
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "token_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tokenId")
     val tokenDatas: List<WfTokenDataEntity>? = mutableListOf()
 }
