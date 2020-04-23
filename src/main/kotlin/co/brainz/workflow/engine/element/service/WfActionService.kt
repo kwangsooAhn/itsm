@@ -124,7 +124,7 @@ class WfActionService(private val wfElementService: WfElementService,
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
                 typeActions.addAll(makeAction(arrow.elementDataEntities))
             }
-            WfElementConstants.ElementType.SIGNAL_EVENT.value -> {
+            WfElementConstants.ElementType.SIGNAL_SEND.value -> {
                 typeActions.addAll(makeAction(arrow.elementDataEntities))
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
