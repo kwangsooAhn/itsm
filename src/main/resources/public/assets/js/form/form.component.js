@@ -674,6 +674,17 @@
         let textDefaultValue = '';
         if (textDefaultArr[0] !== 'none') {
             textDefaultValue = textDefaultArr[1];
+            if (textDefaultArr[0] === 'session') {
+                textDefaultValue = aliceForm.options.sessionInfo[textDefaultArr[1]];
+                //폼 양식 편집 화면에서는 세션 값이 출력되지 않는다.
+                if (target.hasAttribute('data-readonly')) {
+                    textDefaultValue = textDefaultArr[2];
+                }
+            }
+            //처리할 문서는 실 데이터를 출력한다.
+            if (attr.values !== undefined && attr.values.length > 0) {
+                textDefaultValue = attr.values[0].value;
+            }
         }
 
         let comp = utils.createComponentByTemplate(`

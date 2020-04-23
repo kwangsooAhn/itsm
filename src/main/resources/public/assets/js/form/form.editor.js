@@ -956,12 +956,16 @@
                             fieldGroupDiv.querySelectorAll('input[type=radio], select').forEach(function(elem) {
                                 elem.addEventListener('change', function(e) {
                                     let targetId = this.id;
+                                    let targetRadio = this.parentNode.querySelector('input[type=radio]');
                                     if (elem.tagName.toUpperCase() === 'SELECT') {
-                                        let targetRadio = this.parentNode.querySelector('input[type=radio]');
                                         if (!targetRadio.checked) { return; }
                                         targetId = targetRadio.id;
                                     }
-                                    changePropertiesValue(targetId !== 'none' ? targetId + '|' + this.parentNode.querySelector('select').value : targetId, group, fieldArr.id);
+                                    let val = targetId !== 'none' ? targetId + '|' + this.parentNode.querySelector('select').value : targetId;
+                                    if (targetRadio.checked && targetRadio.id === 'session') {
+                                        val += ('|' + this.parentNode.querySelector('select').options[this.parentNode.querySelector('select').selectedIndex].text);
+                                    }
+                                    changePropertiesValue(val, group, fieldArr.id);
                                 });
                             });
 
