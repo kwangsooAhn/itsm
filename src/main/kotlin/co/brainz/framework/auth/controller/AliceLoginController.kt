@@ -3,25 +3,26 @@ package co.brainz.framework.auth.controller
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceIpVerificationService
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import org.springframework.beans.factory.annotation.Value
 import co.brainz.framework.constants.AliceConstants
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpSession
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpSession
 
 /**
  * 로그인 처리 클래스
  */
 @Controller
-class AliceLoginController(private val userDetailsService: AliceUserDetailsService,
-                           private val aliceIpVerificationService: AliceIpVerificationService) {
-
+class AliceLoginController(
+    private val userDetailsService: AliceUserDetailsService,
+    private val aliceIpVerificationService: AliceIpVerificationService
+) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val tokenSearchPage: String = "/tokens/tokenSearch"
     private val invalidSessionPage: String = "/sessionInvalid"
@@ -46,7 +47,7 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
         if (ipAccessControlValue == "true") {
             val ipList = aliceIpVerificationService.getIpList()
 
-            //Client의 ip 정보를 확인한다.
+            // Client의 ip 정보를 확인한다.
             if (clientIp == null) {
                 clientIp = request.getHeader("Proxy-Client-IP")
             }
@@ -62,15 +63,15 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
             if (clientIp == null) {
                 clientIp = request.remoteAddr
             }
-            logger.info("INFO{} ",clientIp)
+            logger.info("INFO{} ", clientIp)
             model.addAttribute("ipList", ipList)
             model.addAttribute("clientIp", clientIp)
         }
 
-
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
-        val securityContextObject = request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
+        val securityContextObject =
+            request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
 
         logger.debug(">>> securityContextObject {} <<<", securityContextObject)
         logger.debug(">>> securityContextObject is null? {} <<<", securityContextObject == null)
@@ -97,4 +98,3 @@ class AliceLoginController(private val userDetailsService: AliceUserDetailsServi
         return invalidSessionPage
     }
 }
-

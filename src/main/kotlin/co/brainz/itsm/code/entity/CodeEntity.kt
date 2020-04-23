@@ -15,11 +15,14 @@ import javax.persistence.Table
 data class CodeEntity(
         @Id @Column(name = "code")
         val code: String,
+
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "p_code")
         val pCode: CodeEntity? = null,
+
         @Column(name = "code_value")
         val codeValue: String? = null,
+
         @Column(name = "editable")
         val editable: Boolean? = null
 ) : Serializable, AliceMetaEntity()

@@ -5,7 +5,6 @@ import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.document.service.WfDocumentService
 import co.brainz.workflow.engine.element.service.WfActionService
-import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
@@ -14,23 +13,24 @@ import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.WfProcessService
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
-import co.brainz.workflow.engine.token.service.WfTokenActionService
 import co.brainz.workflow.engine.token.service.WfTokenElementService
 import co.brainz.workflow.engine.token.service.WfTokenService
 import org.springframework.stereotype.Service
 
 @Service
-class WfEngine(private val wfFormRepository: WfFormRepository,
-               private val wfProcessRepository: WfProcessRepository,
-               private val wfComponentRepository: WfComponentRepository,
-               private val wfComponentDataRepository: WfComponentDataRepository,
-               private val wfDocumentRepository: WfDocumentRepository,
-               private val wfInstanceRepository: WfInstanceRepository,
-               private val wfTokenRepository: WfTokenRepository,
-               private val wfTokenDataRepository: WfTokenDataRepository,
-               private val wfFormService: WfFormService,
-               private val wfActionService: WfActionService,
-               private val wfTokenElementService: WfTokenElementService) {
+class WfEngine(
+    private val wfFormRepository: WfFormRepository,
+    private val wfProcessRepository: WfProcessRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val wfComponentDataRepository: WfComponentDataRepository,
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfFormService: WfFormService,
+    private val wfActionService: WfActionService,
+    private val wfTokenElementService: WfTokenElementService
+) {
 
     /**
      * Form Engine.
@@ -50,7 +50,14 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Document Engine.
      */
     fun document(): WfDocumentService {
-        return WfDocumentService(wfFormService, wfActionService, wfDocumentRepository, wfInstanceRepository, wfProcessRepository, wfFormRepository)
+        return WfDocumentService(
+            wfFormService,
+            wfActionService,
+            wfDocumentRepository,
+            wfInstanceRepository,
+            wfProcessRepository,
+            wfFormRepository
+        )
     }
 
     /**
@@ -64,7 +71,12 @@ class WfEngine(private val wfFormRepository: WfFormRepository,
      * Token Engine.
      */
     fun token(): WfTokenService {
-        return WfTokenService(wfTokenRepository, wfTokenDataRepository, wfFormService, wfActionService, wfTokenElementService)
+        return WfTokenService(
+            wfTokenRepository,
+            wfTokenDataRepository,
+            wfFormService,
+            wfActionService,
+            wfTokenElementService
+        )
     }
-
 }
