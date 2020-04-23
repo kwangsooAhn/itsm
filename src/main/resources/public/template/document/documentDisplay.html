@@ -49,30 +49,30 @@
             method: 'get',
             url: '/rest/documents/[[${documentId}]]/display',
             callbackFunc: function(response) {
-                var responseJson = JSON.parse(response.responseText);
+                const responseJson = JSON.parse(response.responseText);
                 // set element row
-                var elements = responseJson.elements;
-                var displayTable = document.getElementById('documentDisplay');
-                var elementRow = document.getElementById('documentElementRow');
-                for(let i = 0; i < elements.length; i++) {
-                    var elementData = document.createElement('th');
+                const elements = responseJson.elements;
+                const displayTable = document.getElementById('documentDisplay');
+                const elementRow = document.getElementById('documentElementRow');
+                for (let i = 0; i < elements.length; i++) {
+                    let elementData = document.createElement('th');
                     elementData.id = elements[i].elementId;
                     elementData.innerHTML = elements[i].attributeValue;
                     elementRow.appendChild(elementData);
                 }
                 displayTable.appendChild(elementRow);
                 // set component row
-                var components = responseJson.components;
-                for(let i = 0; i < components.length; i++) {
-                    var componentRow = document.createElement('tr');
-                    var componentData = document.createElement('th');
+                const components = responseJson.components;
+                for (let i = 0; i < components.length; i++) {
+                    const componentRow = document.createElement('tr');
+                    const componentData = document.createElement('th');
                     componentData.id = components[i].componentId;
                     componentData.innerHTML = components[i].attributeValue;
                     componentRow.appendChild(componentData);
                     // set display data
-                    var displayValue = components[i].displayValue;
-                    for(let j = 0; j < displayValue.length; j++) {
-                        var displayData = document.createElement('td');
+                    const displayValue = components[i].displayValue;
+                    for (let j = 0; j < displayValue.length; j++) {
+                        let displayData = document.createElement('td');
                         setDisplaySelect(displayData, components[i].componentId, displayValue[j]);
                         componentRow.appendChild(displayData);
                     }
@@ -85,32 +85,32 @@
 
     /* Display data setting */
     function setDisplaySelect(obj, componentId, displayData) {
-        var displaySelect = document.createElement('select');
-        var elementId = displayData.elementId;
-        var displayData = displayData.display;
+        const displaySelect = document.createElement('select');
+        const elementId = displayData.elementId;
+        const displayDetail = displayData.display;
 
-        var values = ['editable', 'editableRequired', 'readonly', 'hidden'];
+        const values = ['editable', 'editableRequired', 'readonly', 'hidden'];
         for (let i = 0; i < values.length; i++) {
-            var option=document.createElement("option");
+            let option=document.createElement("option");
             option.text = i18n.get('document.label.' + values[i]);
             option.value = values[i];
-            if (values[i] == displayData) {
+            if (values[i] === displayDetail) {
                 option.setAttribute('selected', 'true');
             }
             displaySelect.add(option);
         }
         displaySelect.setAttribute('id',componentId + '_' + elementId);
-        displaySelect.setAttribute('name', 'displays')
+        displaySelect.setAttribute('name', 'displays');
         obj.appendChild(displaySelect);
     }
 
     /* Display data save */
     function onSave() {
-        var obj = {};
-        var arrDisplay = [];
+        const obj = {};
+        const arrDisplay = [];
         Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
-            var objDisplay = {};
-            var strArr = item.id.split('_');
+            const objDisplay = {};
+            const strArr = item.id.split('_');
             objDisplay.componentId = strArr[0];     // componentId
             objDisplay.elementId = strArr[1];       // elementId
             objDisplay.display = item.value;        // display
@@ -119,7 +119,7 @@
 
         obj.documentId = '[[${documentId}]]';
         obj.displays = arrDisplay;
-        var displayJson = JSON.stringify(obj);
+        const displayJson = JSON.stringify(obj);
 
         const opt = {
             method: 'put',

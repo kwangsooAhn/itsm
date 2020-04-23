@@ -23,6 +23,7 @@ object WfElementConstants {
         ANNOTATION_ARTIFACT("annotationArtifact"),
         GROUP_ARTIFACT("groupArtifact"),
         SIGNAL_EVENT("signalEvent"),
+        SIGNAL_SEND("signalSend")
     }
 
     /**
