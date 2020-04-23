@@ -357,6 +357,11 @@ document:
     form: "문서양식"
     process: "프로세스"
     status: "신청서 상태"
+  display:
+    editable: "수정가능"
+    editableRequired: "수정가능(필수값)"
+    readonly: "수정불가"
+    hidden: "숨김"
   status:
     temporary: "임시"
     use: "사용"

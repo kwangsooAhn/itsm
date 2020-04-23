@@ -357,6 +357,11 @@ document:
     form: "Form"
     process: "Process"
     status: "Status"
+  display:
+    editable: "Editable"
+    editableRequired: "Editable (required)"
+    readonly: "Readonly"
+    hidden: "Hidden"
   status:
     temporary: "Temporary"
     use: "Use"

@@ -49,30 +49,30 @@
             method: 'get',
             url: '/rest/documents/[[${documentId}]]/display',
             callbackFunc: function(response) {
-                const responseJson = JSON.parse(response.responseText);
+                var responseJson = JSON.parse(response.responseText);
                 // set element row
-                const elements = responseJson.elements;
-                const displayTable = document.getElementById('documentDisplay');
-                const elementRow = document.getElementById('documentElementRow');
+                var elements = responseJson.elements;
+                var displayTable = document.getElementById('documentDisplay');
+                var elementRow = document.getElementById('documentElementRow');
                 for (let i = 0; i < elements.length; i++) {
-                    let elementData = document.createElement('th');
+                    var elementData = document.createElement('th');
                     elementData.id = elements[i].elementId;
                     elementData.innerHTML = elements[i].attributeValue;
                     elementRow.appendChild(elementData);
                 }
                 displayTable.appendChild(elementRow);
                 // set component row
-                const components = responseJson.components;
+                var components = responseJson.components;
                 for (let i = 0; i < components.length; i++) {
-                    const componentRow = document.createElement('tr');
-                    const componentData = document.createElement('th');
+                    var componentRow = document.createElement('tr');
+                    var componentData = document.createElement('th');
                     componentData.id = components[i].componentId;
                     componentData.innerHTML = components[i].attributeValue;
                     componentRow.appendChild(componentData);
                     // set display data
-                    const displayValue = components[i].displayValue;
+                    var displayValue = components[i].displayValue;
                     for (let j = 0; j < displayValue.length; j++) {
-                        let displayData = document.createElement('td');
+                        var displayData = document.createElement('td');
                         setDisplaySelect(displayData, components[i].componentId, displayValue[j]);
                         componentRow.appendChild(displayData);
                     }
@@ -85,32 +85,33 @@
 
     /* Display data setting */
     function setDisplaySelect(obj, componentId, displayData) {
-        const displaySelect = document.createElement('select');
-        const elementId = displayData.elementId;
-        const displayDetail = displayData.display;
+        var displaySelect = document.createElement('select');
+        var elementId = displayData.elementId;
+        var displayData = displayData.display;
 
-        const values = ['editable', 'editableRequired', 'readonly', 'hidden'];
+        let values = ['editable', 'editableRequired', 'readonly', 'hidden'];
+
         for (let i = 0; i < values.length; i++) {
-            let option=document.createElement("option");
-            option.text = i18n.get('document.label.' + values[i]);
+            var option = document.createElement("option");
+            option.text = i18n.get('document.display.' + values[i]);
             option.value = values[i];
-            if (values[i] === displayDetail) {
+            if (values[i] == displayData) {
                 option.setAttribute('selected', 'true');
             }
             displaySelect.add(option);
         }
         displaySelect.setAttribute('id',componentId + '_' + elementId);
-        displaySelect.setAttribute('name', 'displays');
+        displaySelect.setAttribute('name', 'displays')
         obj.appendChild(displaySelect);
     }
 
     /* Display data save */
     function onSave() {
-        const obj = {};
-        const arrDisplay = [];
+        var obj = {};
+        var arrDisplay = [];
         Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
-            const objDisplay = {};
-            const strArr = item.id.split('_');
+            var objDisplay = {};
+            var strArr = item.id.split('_');
             objDisplay.componentId = strArr[0];     // componentId
             objDisplay.elementId = strArr[1];       // elementId
             objDisplay.display = item.value;        // display
@@ -119,7 +120,7 @@
 
         obj.documentId = '[[${documentId}]]';
         obj.displays = arrDisplay;
-        const displayJson = JSON.stringify(obj);
+        var displayJson = JSON.stringify(obj);
 
         const opt = {
             method: 'put',
