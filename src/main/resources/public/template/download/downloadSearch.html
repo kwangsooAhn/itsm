@@ -47,8 +47,8 @@
             const dateFormat = formatArray[0].toUpperCase();
             dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
             dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
-            document.getElementById('category').addEventListener('change', function() { getDownloadList(false); });
-            document.getElementById('search').addEventListener('keyup', function() { getDownloadList(false); });
+            document.getElementById('category').addEventListener('change', getDownloadList.bind(null, false), false);
+            document.getElementById('search').addEventListener('keyup', getDownloadList.bind(null, false), false);
 
             getDownloadList(true);
         };
