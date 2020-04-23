@@ -163,10 +163,6 @@ faq:
   title: "제목"
   contents: "내용"
   edit: "수정"
-  category:
-    techSupport: "기술지원"
-    setting: "설정"
-    etc: "기타"
 
 # NOTICE
 notice:
@@ -253,7 +249,6 @@ form:
     copy: "복사"
     addAbove: "새로만들기-위"
     addBelow: "새로만들기-아래"
-    customCodeTarget: "대상 선택"
   status:
     edit: "편집"
     publish: "발행"
@@ -359,13 +354,8 @@ document:
     write: "신청서 작성"
     name: "신청서 이름"
     description: "설명"
-    display: "신청서 양식 편집"
     form: "문서양식"
     process: "프로세스"
-    editable: "수정가능"
-    editableRequired: "수정가능(필수값)"
-    readonly: "수정불가"
-    hidden: "숨김"
     status: "신청서 상태"
   status:
     temporary: "임시"
@@ -380,7 +370,7 @@ document:
     requiredEnter: "필수 항목을 입력해주세요."
     requiredSelect: "필수 항목을 선택해주세요."
     requiredFileupload: "파일을 업로드해주세요."
-    launchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
+    raunchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
 
 # token
 token:
