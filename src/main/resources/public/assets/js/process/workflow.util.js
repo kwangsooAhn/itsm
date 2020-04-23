@@ -28,6 +28,26 @@ workflowUtil.generateUUID = function() {
 }
 
 /**
+ * 두 개의 json 데이터가 동일한 지 비교한 후 boolean 을 리턴 한다.
+ *
+ * @param obj1 비교 대상 JSON 데이터 1
+ * @param obj2 비교 대상 JSON 데이터 2
+ * @return {boolean} 데이터 일치 여부 (true: 일치, false: 불일치)
+ */
+workflowUtil.compareJson = function(obj1, obj2) {
+    if (!Object.keys(obj2).every(function(key) { return obj1.hasOwnProperty(key); })) {
+        return false;
+    }
+    return Object.keys(obj1).every(function(key) {
+        if ((typeof obj1[key] === 'object') && (typeof obj2[key] === 'object')) {
+            return this.compareJson(obj1[key], obj2[key]);
+        } else {
+            return obj1[key] === obj2[key];
+        }
+    });
+}
+
+/**
  * polyfill.
  */
 workflowUtil.polyfill = function() {

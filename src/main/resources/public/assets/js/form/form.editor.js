@@ -179,18 +179,46 @@
         });
     }
 
+    const history = {
+        redo_list: [],
+        undo_list: [],
+        saveHistory: function(data, list, keep_redo) {
+            if (data.length === 1 && workflowUtil.compareJson(data[0][0], data[0][1])) { // data check
+                //console.debug('These two json data are the same.');
+                return;
+            }
+            keep_redo = keep_redo || false;
+            if (!keep_redo) {
+                this.redo_list = [];
+            }
+            (list || this.undo_list).push(data);
+        },
+        undo: function() {
+            if (this.undo_list.length) {
+                let restoreData = this.undo_list.pop();
+                this.saveHistory(restoreData, this.redo_list, true);
+            }
+        },
+        redo: function() {
+            if (this.redo_list.length) {
+                let restoreData = this.redo_list.pop();
+                this.saveHistory(restoreData, this.undo_list, true);
+            }
+        }
+    };
+
     /**
      * 작업 취소
      */
     function undoForm() {
-        //TODO: 작업 취소
+        history.undo();
     }
 
     /**
      * 작업 재실행
      */
     function redoForm() {
-        //TODO: 작업 재실행
+        history.redo();
     }
     
     /**
@@ -306,8 +334,10 @@
         reorderComponent(elem, elemIdx, lastCompIdx);
         //삭제
         elem.remove();
+        let histories = [];
         for (let i = 0; i < editor.data.components.length; i++) {
             if (elemId === editor.data.components[i].id) {
+                histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
             }
@@ -319,6 +349,7 @@
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
         }
+        editor.saveHistory(histories);
     }
 
     /**
@@ -374,7 +405,7 @@
             elem.parentNode.appendChild(editbox.domElem);
         }
 
-        if(editbox !== null) {
+        if (editbox !== null) {
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
         }
@@ -425,6 +456,7 @@
         for (let i = 0, len = editor.data.components.length; i < len; i++) {
             let comp = editor.data.components[i];
             if (comp.id === compData.id) {//수정
+                editor.saveHistory([{0: JSON.parse(JSON.stringify(comp)), 1: JSON.parse(JSON.stringify(compData))}]);
                 editor.data.components[i] = compData;
                 isExist = true;
                 break;
@@ -1265,6 +1297,7 @@
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
     exports.reorderComponent = reorderComponent;
+    exports.saveHistory = history.saveHistory;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
