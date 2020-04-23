@@ -4,10 +4,10 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class WfInstanceViewDto(
-        val tokenId: String,
-        val instanceId: String,
-        val documentName: String,
-        val documentDesc: String?,
-        val createDt: LocalDateTime,
-        val userKey: String
+    var tokenId: String = "",
+    var instanceId: String = "",
+    var documentName: String = "",
+    var documentDesc: String? = null,
+    var createDt: LocalDateTime = LocalDateTime.now(),
+    var userKey: String = ""
 ) : Serializable

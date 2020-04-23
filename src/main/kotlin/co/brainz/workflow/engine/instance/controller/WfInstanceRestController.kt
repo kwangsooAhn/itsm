@@ -4,6 +4,7 @@ import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
+import co.brainz.workflow.engine.token.dto.WfTokenDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -28,12 +29,12 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     /**
      * Process Instance.
      *
-     * @param tokenId
+     * @param instanceId
      * @return WfInstanceViewDto
      */
-    @GetMapping("/{tokenId}")
-    fun getProcessInstance(@PathVariable tokenId: String): WfInstanceViewDto {
-        return wfEngine.instance().instance(tokenId)
+    @GetMapping("/{instanceId}")
+    fun getProcessInstance(@PathVariable instanceId: String): WfInstanceViewDto {
+        return wfEngine.instance().instance(instanceId)
     }
 
     /**
@@ -53,5 +54,13 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     @GetMapping("/{instanceId}/history")
     fun getInstancesHistory(@PathVariable instanceId: String): List<WfInstanceHistoryDto> {
         return wfEngine.instance().getInstancesHistory(instanceId)
+    }
+
+    /**
+     * 인스턴스ID [instanceId]로 마지막 토큰 정보를 조회한다.
+     */
+    @GetMapping("/{instanceId}/lastest")
+    fun getInstanceLastestToken(@PathVariable instanceId: String): WfTokenDto {
+        return wfEngine.instance().getInstanceLastestToken(instanceId)
     }
 }

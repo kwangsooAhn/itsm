@@ -45,4 +45,5 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
                 "ORDER BY t.tokenStartDt"
     )
     fun findInstanceHistory(instanceId: String): List<WfInstanceHistoryDto>
+
 }

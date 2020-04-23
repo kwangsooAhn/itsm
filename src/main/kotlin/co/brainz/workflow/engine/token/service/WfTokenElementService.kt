@@ -258,7 +258,7 @@ class WfTokenElementService(
     }
 
     /**
-     * Add Next Token. (+ TokenData)
+     * Add Next Token. (+ TokenData)  [wfTokenEntity]
      *
      * @param wfTokenEntity
      * @param wfTokenDto

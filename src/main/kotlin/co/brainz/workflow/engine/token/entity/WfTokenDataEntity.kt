@@ -12,21 +12,20 @@ import javax.persistence.Table
 @Table(name = "wf_token_data")
 @IdClass(WfTokenDataPk::class)
 data class WfTokenDataEntity(
+    @Id
+    @JoinColumn(name = "token_id")
+    val tokenId: String,
 
-        @Id
-        @JoinColumn(name = "token_id")
-        val tokenId: String,
+    @Id
+    @JoinColumn(name = "component_id")
+    val componentId: String,
 
-        @Id
-        @JoinColumn(name = "component_id")
-        val componentId: String,
-
-        @Column(name = "value")
-        var value: String
+    @Column(name = "value")
+    var value: String
 
 ) : Serializable
 
 data class WfTokenDataPk(
-        val tokenId: String = "",
-        val componentId: String = ""
+    val tokenId: String = "",
+    val componentId: String = ""
 ) : Serializable

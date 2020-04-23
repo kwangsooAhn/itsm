@@ -7,15 +7,27 @@ import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
+import co.brainz.workflow.engine.token.dto.WfTokenDataDto
+import co.brainz.workflow.engine.token.dto.WfTokenDto
+import co.brainz.workflow.engine.token.mapper.WfTokenMapper
+import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.mapstruct.factory.Mappers
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Service
-class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) {
+class WfInstanceService(
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfTokenRepository: WfTokenRepository
+) {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
+    private val wfTokenMapper: WfTokenMapper = Mappers.getMapper(WfTokenMapper::class.java)
 
     /**
      * Search Instances.
@@ -45,12 +57,11 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
     }
 
     /**
-     * Search Instance.
+     * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.
      *
-     * @param tokenId
      */
-    fun instance(tokenId: String): WfInstanceViewDto {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun instance(instanceId: String): WfInstanceViewDto {
+        TODO("")
     }
 
     /**
@@ -92,7 +103,7 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      * @param parameters
      */
     fun instancesStatusCount(parameters: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
-        var userKey: String = ""
+        var userKey = ""
         if (parameters["userKey"] != null) {
             userKey = parameters["userKey"].toString()
         }
@@ -111,5 +122,23 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      */
     fun getInstancesHistory(instanceId: String): List<WfInstanceHistoryDto> {
         return wfInstanceRepository.findInstanceHistory(instanceId)
+    }
+
+    /**
+     * 인스턴스ID[instanceId]로 마지막 토큰 정보를 조회한다.
+     */
+    fun getInstanceLastestToken(instanceId: String): WfTokenDto {
+        val instanceEntity = wfInstanceRepository.getOne(instanceId)
+        val tokenEntity = wfTokenRepository.findTopByInstanceOrderByTokenStartDtDesc(instanceEntity)
+
+        val tokenDto = wfTokenMapper.toTokenDto(tokenEntity)
+        val tokenDatas = mutableListOf<WfTokenDataDto>()
+        tokenEntity.tokenDatas?.forEach {
+            tokenDatas.add(wfTokenMapper.toTokenDataDto(it))
+        }
+        tokenDto.data = tokenDatas
+
+        logger.debug("Lastest token: {}", tokenDto)
+        return tokenDto
     }
 }
