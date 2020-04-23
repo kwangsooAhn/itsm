@@ -3,9 +3,9 @@ package co.brainz.workflow.engine.instance.repository
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
+import java.util.Optional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import java.util.Optional
 
 interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
 
