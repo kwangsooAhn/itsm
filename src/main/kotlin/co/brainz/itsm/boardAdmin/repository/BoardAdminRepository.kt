@@ -11,4 +11,6 @@ interface BoardAdminRepository: JpaRepository<PortalBoardAdminEntity, String> {
                   " OR LOWER(pbm.createUser.userName) LIKE LOWER(CONCAT('%', :search,'%'))) " +
                   " ORDER BY pbm.boardAdminId DESC")
     fun findByBoardAdminList(search: String): List<PortalBoardAdminEntity>
+
+    fun findAllByBoardUseYnTrueOrderByBoardAdminSortAsc(): MutableList<PortalBoardAdminEntity>
 }

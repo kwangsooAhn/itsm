@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface BoardReadRepository: JpaRepository<PortalBoardReadEntity, String> {
+    fun findByBoardId(boardId: String): List<PortalBoardReadEntity>
     fun countByBoardId(boardId: String): Long
 }

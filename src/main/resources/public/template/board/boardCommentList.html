@@ -7,7 +7,7 @@
             width: 100%;
             border: 1px solid;
             border-collapse: collapse;
-            text-align: center;
+            margin: 0;
         }
         table tr td:nth-child(3) {
             text-align: left;
@@ -22,32 +22,39 @@
     </style>
 </head>
 <body>
-<div>
-    <table>
-        <colgroup>
-            <col width="50%">
-            <col width="10%">
-            <col width="15%">
-            <col width="25%">
-        </colgroup>
-        <tbody>
-            <tr th:if="${#arrays.isEmpty(boardCommentList)}">
-                <td colspan="4" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr th:unless="${#arrays.isEmpty(boardCommentList)}" th:each="boardComment: ${boardCommentList}">
-                <td style="text-align:left" th:text="${boardComment.boardCommentConents}"></td>
-                <td style="text-align:center" th:text="${boardComment.createUser.userName}"></td>
-                <td style="text-align:center" th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="${boardComment.createDt} ? ${#temporals.format(boardComment.createDt, dateformat)} : ${boardComment.createDt}"></td>
-                <td>
-                    <button sec:authorize="hasAuthority('board.admin.update')" th:text="#{common.btn.modify}"
-                            th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|"></button>
-                    <button sec:authorize="hasAuthority('board.admin.delete')" th:text="#{common.btn.delete}"
-                            th:attr="onclick=|boardCommentDelete('${boardComment.boardCommentId}')|"></button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<table>
+    <colgroup>
+        <col width="60%">
+        <col width="10%">
+        <col width="12%">
+        <col width="18%">
+    </colgroup>
+    <tbody>
+        <tr th:if="${#arrays.isEmpty(boardCommentList)}">
+            <td colspan="4" style="text-align: center" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:unless="${#arrays.isEmpty(boardCommentList)}" th:each="boardComment: ${boardCommentList}">
+            <td style="text-align:left">
+                 <label style="width: 95%" th:id="${boardComment.boardCommentId}" th:name="${boardComment.boardCommentId}"
+                        th:text="${boardComment.boardCommentConents}"></label>
+            </td>
+            <td style="text-align:center" th:text="${boardComment.createUser.userName}"></td>
+            <td style="text-align:center" th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="${boardComment.createDt} ? ${#temporals.format(boardComment.createDt, dateformat)} : ${boardComment.createDt}"></td>
+            <td align="center">
+                <button sec:authorize="hasAuthority('board.update')"
+                        th:if="${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '')"
+                        th:text="#{common.btn.modify}"
+                        th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
+                </button>
+                <button sec:authorize="hasAuthority('board.delete')"
+                        th:if="${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '')"
+                        th:text="#{common.btn.delete}"
+                        th:onclick="restSubmit('delete', [[@{/rest/boards/comments/{id}(id=${boardComment.boardCommentId})}]])">
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>

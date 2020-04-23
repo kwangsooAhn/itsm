@@ -449,6 +449,7 @@ board:
   label:
     board: "게시판"
     manager: "게시판 관리"
+    detail: "게시판 상세"
     searchPlaceholder: "제목 / 등록자"
     searchBoardPlaceholder: "카테고리 / 제목 / 등록자"
     name: "게시판 명"
@@ -476,3 +477,5 @@ board:
     inputSortSize: "정렬순서를 100 이하로 넣어주세요."
     inputAttachFileSize: "첨부파일 용량을 1000 이하로 넣어주세요."
     inputCategoryName: "카테고리명을 입력해주세요."
+    inputBoardComments: "댓글을 입력해주세요."
+    inputBoardEditComments: "댓글 저장부터 해주세요."

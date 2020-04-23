@@ -50,7 +50,7 @@
             </tr>
             <tr th:unless="${#arrays.isEmpty(boardList)}" th:each="board: ${boardList}">
                 <td style="text-align:center" th:text="${board.boardNo}"></td>
-                <td style="text-align:center" th:text="${board.boardCategoryId}"></td>
+                <td style="text-align:center" th:text="${board.boardCategoryName}"></td>
                 <td style="text-align:left">
                     <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
                 </td>

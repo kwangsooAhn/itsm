@@ -26,8 +26,9 @@
                 <input type="text" id="toDt" readonly="readonly"
                        th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                        th:value="${#temporals.format(toDt, dateformat)}"/>
-                <button style="float: right" onclick="openBoardAdd();"
-                        sec:authorize="hasAuthority('board.create')" th:text="#{common.btn.register}" ></button>
+                <button sec:authorize="hasAuthority('board.create')"
+                        style="float: right" onclick="openBoardAdd();" th:text="#{common.btn.register}" >
+                </button>
             </div>
         </div>
         <hr>
@@ -76,7 +77,6 @@
 
         //게시판 조회
         function getBoardList() {
-            console.log(document.getElementById('boardAdmin').value);
             const searchOpt = {
                 boardAdminId: document.getElementById('boardAdmin').value,
                 search: document.getElementById('search').value.trim(),

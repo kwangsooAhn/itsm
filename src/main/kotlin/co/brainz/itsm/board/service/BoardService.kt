@@ -36,7 +36,7 @@ class BoardService(private val boardRepository: BoardRepository,
      * @return MutableList<PortalBoardAdminEntity>
      */
     fun getBoardAdminList(): MutableList<PortalBoardAdminEntity> {
-        return boardAdminRepository.findAll()
+        return boardAdminRepository.findAllByBoardUseYnTrueOrderByBoardAdminSortAsc()
     }
 
     /**
@@ -53,10 +53,15 @@ class BoardService(private val boardRepository: BoardRepository,
         boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt).forEach { PortalBoardEntity ->
             var replyCount = 0L
             var categoryName = ""
+            var readCount = 0L
 
-            val readCount= boardReadRepository.countByBoardId(PortalBoardEntity.boardId)
+            if (boardReadRepository.countByBoardId(PortalBoardEntity.boardId) > 0 ) {
+                readCount = boardReadRepository.findByBoardId(PortalBoardEntity.boardId).get(0).boardReadCount!!
+            }
             if (boardAdminDto.categoryYn) {
-                categoryName = PortalBoardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
+                if (PortalBoardEntity.boardCategoryId != "") {
+                    categoryName = PortalBoardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
+                }
             }
             if (boardAdminDto.commentYn) {
                 replyCount = boardCommentRepository.countByBoardId(PortalBoardEntity.boardId)
@@ -102,8 +107,8 @@ class BoardService(private val boardRepository: BoardRepository,
             boardConents = boardDto.boardConents,
             parentBoardId = boardDto.parentBoardId
         )
-        boardRepository.save(portalBoardEntity)
-        aliceFileService.upload(AliceFileDto(boardDto.boardId, boardDto.fileSeqList))
+        val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
+        aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardDto.fileSeqList))
     }
 
     /**
@@ -133,12 +138,16 @@ class BoardService(private val boardRepository: BoardRepository,
         val replyCount = boardCommentRepository.countByBoardId(boardId)
         var boardReadEntity = boardReadRepository.findById(boardId).orElse(PortalBoardReadEntity())
         if (type == "view") {
+            boardReadEntity.boardId = boardId
             boardReadEntity.boardReadCount = boardReadEntity.boardReadCount?.plus(1)
             boardReadEntity = boardReadRepository.save(boardReadEntity)
         }
 
         val boardEntity = boardRepository.findById(boardId).orElse(null)
-        val categoryName = boardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
+        var categoryName = ""
+        if (boardEntity.boardCategoryId != "") {
+            categoryName = boardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
+        }
 
         return BoardDto(
             boardId = boardEntity.boardId,
@@ -223,7 +232,7 @@ class BoardService(private val boardRepository: BoardRepository,
      */
     fun getBoardCommentList(boardId: String): List<BoardCommentDto> {
         val boardCommentDtoList = mutableListOf<BoardCommentDto>()
-        boardCommentRepository.findByBoardId(boardId).forEach { PortalBoardCommentEntity ->
+        boardCommentRepository.findByBoardIdOrderByCreateDtDesc(boardId).forEach { PortalBoardCommentEntity ->
             boardCommentDtoList.add (
                 BoardCommentDto (
                     boardCommentId = PortalBoardCommentEntity.boardCommentId,

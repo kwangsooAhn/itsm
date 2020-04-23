@@ -450,6 +450,7 @@ board:
   label:
     board: "Board"
     manager: "Board Manager"
+    detail: "Board Detail"
     searchPlaceholder: "Title / CreateUserName"
     searchBoardPlaceholder: "Category/ Title / CreateUserName"
     name: "Board Name"
@@ -475,3 +476,5 @@ board:
       inputSortSize: "Please enter a sorting order of 100 or less."
       inputAttachFileSize: "Please put the attached file size below 1000."
       inputCategoryName: "Please enter the category name."
+      inputBoardComments: "Please enter the board comments."
+      inputBoardEditComments: "Please save comments."

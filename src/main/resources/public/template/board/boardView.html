@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{board.label.manager}"></title>
+    <title th:text="#{board.label.detail}"></title>
     <meta charset="UTF-8">
     <style>
         table {
@@ -19,70 +20,92 @@
             border: 1px solid;
             height: 50px;
         }
+        table input {
+            width: 90%;
+            height: 24px;
+        }
     </style>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:text="#{board.label.manager}"></h1>
+            <h1 th:text="#{board.label.detail}"></h1>
         </div>
         <hr>
-        <table>
-            <colgroup>
-                <col width="20%">
-                <col width="30%">
-                <col width="20%">
-                <col width="30%">
-            </colgroup>
-            <tbody>
-            <tr>
-                <td><label th:text="#{board.label.board}"></label></td>
-                <td colspan="3">
-                    <label th:text="${boardInfo?.boardCategoryName} ? ${boardInfo.boardCategoryName} : ''"/> <label th:text="${boardInfo.boardTitle}"/>
-                </td>
-            </tr>
-            <tr>
-                <td><label th:text="#{board.label.contents}"></td>
-                <td colspan="3"><label th:text="${boardInfo.boardConents}"/></td>
-            </tr>
-            <tr>
-                <td><label th:text="#{common.label.attachFile}"></label></td>
-                <td colspan="3">
-                    <div id="dropZoneFiles"></div>
-                    <div id="dropZoneUploadedFiles"></div>
-                </td>
-            </tr>
-            <tr>
-                <td><label th:text="#{common.label.createUserName}"></td>
-                <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
-                <td><label th:text="#{common.label.createDate}"></td>
-                <td><span id="spanCreateDt" name="spanCreateDt"
-                          th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardInfo?.createDt,dateformat)}"></span></td>
-            </tr>
-            <tr>
-                <td><label th:text="#{common.label.updateUserName}"></td>
-                <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${board?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
-                <td><label th:text="#{common.label.updateDate}"></td>
-                <td><span id="spanUpdateDt" name="spanUpdateDt"
-                          th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardInfo?.updateDt,dateformat)}"></span></td>
-            </tr>
-            </tbody>
-        </table>
-        <table>
-            <tr>
-                <td><label th:text="#{board.label.comment}"></td>
-                <td><input type="text" id="boardComments" name="boardComments" maxlength="100"></td>
-                <td align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></td>
-            </tr>
-            <div id="boardCommentList" style="margin-top: 20px"></div>
-        </table>
-        <div align="right">
-            <button style="margin-right: 5px;" onclick="location.href='/boards/search'" th:text="#{common.btn.list}"></button>
-            <button style="margin-right: 5px;" th:if="${boardInfo?.boardId}" onclick="saveBoard('put')" th:text="#{common.btn.modify}"></button>
-            <button style="margin-right: 5px;" th:if="${boardInfo?.boardId}" onclick="saveBoardAnswer('post')" th:text="#{board.btn.answer}"></button>
-            <button style="margin-right: 5px;" th:if="${boardInfo?.boardId}" onclick="deleteBoard('delete')" th:text="#{common.btn.delete}"></button>
-        </div>
+        <form id="boardForm" method="post" onsubmit="return false">
+            <table>
+                <colgroup>
+                    <col width="20%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="30%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td><label th:text="#{board.label.board}"></label></td>
+                        <td colspan="3">
+                            <label th:if="${boardAdminInfo.categoryYn}" th:text="'['+${boardInfo?.boardCategoryName}+']'"></label>
+                            <label th:text="${boardInfo?.boardTitle}"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label th:text="#{board.label.contents}"></td>
+                        <td colspan="3" th:text="${boardInfo?.boardConents}">
+                        </td>
+                    </tr>
+                        <tr th:if="${boardAdminInfo.attachYn}">
+                            <td><label th:text="#{common.label.attachFile}"></label></td>
+                            <td colspan="3">
+                                <div id="dropZoneFiles"></div>
+                                <div id="dropZoneUploadedFiles"></div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td><label th:text="#{common.label.createUserName}"></td>
+                        <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
+                        <td><label th:text="#{common.label.createDate}"></td>
+                        <td><span id="spanCreateDt" name="spanCreateDt"
+                                  th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardInfo?.createDt,dateformat)}"></span></td>
+                    </tr>
+                    <tr>
+                        <td><label th:text="#{common.label.updateUserName}"></td>
+                        <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
+                        <td><label th:text="#{common.label.updateDate}"></td>
+                        <td><span id="spanUpdateDt" name="spanUpdateDt"
+                                  th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardInfo?.updateDt,dateformat)}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
+                <tr>
+                    <td><label th:text="#{board.label.comment}"></td>
+                    <td><input type="text" id="boardComments" name="boardComments" maxlength="500"></td>
+                    <td><div align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></div></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><div th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div></td>
+                </tr>
+            </table>
+            <div align="right">
+                <button style="margin-right: 5px;" onclick="location.href='/boards/search'" th:text="#{common.btn.list}"></button>
+                <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
+                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
+                        th:onclick ="'location.href =\'' + @{/boards/{id}/edit(id=${boardInfo.boardId})}+'\''"
+                        th:text="#{common.btn.modify}">
+                </button>
+                <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
+                        th:if="${boardInfo?.boardId} and ${boardAdminInfo.answerYn}"
+                        onclick="saveBoardAnswer('post')"
+                        th:text="#{board.btn.answer}">
+                </button>
+                <button sec:authorize="hasAuthority('board.delete')" style="margin-right: 5px;"
+                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
+                        onclick="deleteBoard('delete')"
+                        th:text="#{common.btn.delete}">
+                </button>
+            </div>
+        </form>
     </div>
 </th:block>
 </body>
@@ -90,11 +113,16 @@
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
-        var boardId = '';
+        const boardId = /*[[${boardInfo?.boardId}]]*/;
+        const boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
+        const attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
+        const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
+        const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         window.onload = function() {
-            boardId = /*[[${boardInfo?.boardId}]]*/;
-            if (boardId !== null) {
-                fileUploader.init({extra: {formId: 'boardForm', ownId: [[${boardInfo?.boardId}]]}});
+            if (attachYn) {
+                fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, editor: false}});
+            }
+            if (boardId !== null && commentYn) {
                 getBoardCommentList();
             }
         };
@@ -107,11 +135,16 @@
                 fileSeqList.push(elem.value);
             });
 
+            let boardCategoryId = '';
+            if (categoryYn) {
+                boardCategoryId = document.getElementById('boardCategory').value;
+            }
             const data = {
-                boardAdminId: /*[[${boardAdminInfo?.boardAdminId}]]*/,
+                boardAdminId: boardAdminId,
                 boardTitle: document.getElementById('boardTitle').value,
                 boardConents: document.getElementById('boardConents').value,
-                fileSeqList: fileSeqList
+                fileSeqList: fileSeqList,
+                boardCategoryId: boardCategoryId
             };
 
             if (method === 'put') {
@@ -120,37 +153,52 @@
             restSubmit(method, '/rest/boards', data);
         }
 
-        function saveBoardAnswer() {
+        //게시판 답글
+        function saveBoardAnswer(method) {
             alert("답글");
         }
 
-        //게시판 삭제
+        //게시판  삭제
         function deleteBoard(method) {
             restSubmit(method, '/rest/boards/' + boardId);
         }
 
         //게시판 댓글 저장
         function saveBoardComment(method) {
+            if (isEmpty('boardComments', 'board.msg.inputBoardComments')) return;
             const data = {
-                boardComments: document.getElementById('boardComments').value
+                boardId: boardId,
+                boardCommentConents: document.getElementById('boardComments').value
             };
-            restSubmit(method, '/rest/boards/'+boardId+'/comment', data);
+            restSubmit(method, '/rest/boards/comments', data);
         }
 
         //게시판 댓글 조회
         function getBoardCommentList() {
-            restSubmit('get', '/boards/'+boardId+'/comments/list');
-        }
-
-        //게시판 댓글 삭제
-        function boardCommentDelete() {
-            restSubmit('delete', '/rest/boards/comments/'+boardId);
+            restSubmit('get', '/boards/' + boardId + '/comments/list');
         }
 
         //게시판 댓글 수정
-        function openCommentEdit() {
-            //밑에 row에 자동으로 무엇이 생기고 거기서 저장 할 수 있도록 구현
-            alert("수정");
+        function openCommentEdit(boardCommentId) {
+            if (document.getElementById('editComments')) {
+                aliceJs.alert(i18n.get('board.msg.inputBoardEditComments'), function () {
+                    return false;
+                });
+            } else {
+                let context = document.getElementById(boardCommentId).innerText;
+                document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' id='editComments' name='editComments' value='"+context+"'/>" +
+                    "<button onclick=\"saveBoardEditComment('put','"+boardCommentId+"')\">"+i18n.get('common.btn.save')+"</button>";
+            }
+        }
+
+        function saveBoardEditComment(method, boardCommentId) {
+            if (isEmpty('editComments', 'board.msg.inputBoardComments')) return;
+            const data = {
+                boardCommentId: boardCommentId,
+                boardId: boardId,
+                boardCommentConents: document.getElementById('editComments').value
+            };
+            restSubmit(method, '/rest/boards/comments', data);
         }
 
         //REST API
@@ -159,7 +207,7 @@
             if (method === 'put' || method === 'post') {
                 resultMsg = i18n.get('common.msg.save');
             } else if (method === 'delete') {
-                resultMsg = i18n.get('common.msg.delete');
+                resultMsg = i18n.get('common.msg.delete.success');
             }
             const opt = {
                 method: method,
@@ -169,7 +217,11 @@
                 callbackFunc: function(response) {
                     if (method === 'put' || method === 'post' || method === 'delete') {
                         aliceJs.alert(resultMsg, function () {
-                            location.href = '/boards/search';
+                            if (url.indexOf('/rest/boards/comments') != -1) {
+                                location.reload();
+                            } else {
+                                location.href = '/boards/search';
+                            }
                         });
                     } else if (method === 'get') {
                         document.getElementById('boardCommentList').innerHTML = response.responseText;

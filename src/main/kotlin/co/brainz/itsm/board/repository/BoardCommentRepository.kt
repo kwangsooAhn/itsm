@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface BoardCommentRepository: JpaRepository<PortalBoardCommentEntity, String> {
-    fun findByBoardId(boardId: String) : List<PortalBoardCommentEntity>
+    fun findByBoardId(boardId: String): List<PortalBoardCommentEntity>
+    fun findByBoardIdOrderByCreateDtDesc(boardId: String): List<PortalBoardCommentEntity>
     fun countByBoardId(boardId: String): Long
     fun deleteByBoardId(boardId: String)
 }
