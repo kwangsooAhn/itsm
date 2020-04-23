@@ -274,6 +274,7 @@
             replaceComp.domElem.setAttribute('data-index', compAttr.display.order);
             replaceComp.domElem.setAttribute('tabIndex', compAttr.display.order);
             elem.parentNode.insertBefore(replaceComp.domElem, elem);
+            elem.innerHTML = '';
             elem.remove();
             
             let compIdx = component.getLastIndex();
