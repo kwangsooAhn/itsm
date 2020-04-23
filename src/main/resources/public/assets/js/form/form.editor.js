@@ -192,6 +192,8 @@
                 this.redo_list = [];
             }
             (list || this.undo_list).push(data);
+            console.log(this.redo_list);
+            console.log(this.undo_list);
         },
         undo: function() {
             if (this.undo_list.length) {
@@ -335,10 +337,8 @@
         reorderComponent(elem, elemIdx, lastCompIdx);
         //삭제
         elem.remove();
-        let histories = [];
         for (let i = 0; i < editor.data.components.length; i++) {
             if (elemId === editor.data.components[i].id) {
-                histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
             }
@@ -350,7 +350,6 @@
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
         }
-        editor.saveHistory(histories);
     }
 
     /**
@@ -457,7 +456,6 @@
         for (let i = 0, len = editor.data.components.length; i < len; i++) {
             let comp = editor.data.components[i];
             if (comp.id === compData.id) {//수정
-                editor.saveHistory([{0: JSON.parse(JSON.stringify(comp)), 1: JSON.parse(JSON.stringify(compData))}]);
                 editor.data.components[i] = compData;
                 isExist = true;
                 break;
@@ -1298,7 +1296,6 @@
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
     exports.reorderComponent = reorderComponent;
-    exports.saveHistory = history.saveHistory;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
