@@ -12,11 +12,13 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_code")
 data class CodeEntity(
-        @Id @Column(name = "code")
-        val code: String,
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "p_code")
-        val pCode: CodeEntity? = null,
-        @Column(name = "code_value")
-        val codeValue: String? = null
+    @Id @Column(name = "code")
+    val code: String,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "p_code")
+    val pCode: CodeEntity? = null,
+
+    @Column(name = "code_value")
+    val codeValue: String? = null
 ) : Serializable
