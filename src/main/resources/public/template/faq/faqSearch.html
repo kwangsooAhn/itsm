@@ -9,8 +9,16 @@
 <body>
 <th:block layout:fragment="content">
 <div class="container">
-    <div sec:authorize="hasAuthority('faq.create')" class="button" style="float:right">
-        <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
+    <h1 th:text="#{menu.help.faq}">FAQ</h1>
+    <p>자주 묻는 질문과 답변입니다.</p>
+    <div id="faqSearch" style="margin: 30px 0;">
+        <select align="left" id="searchKeyword">
+            <option value="" selected>전체</option>
+            <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup}}" th:value="${faqGroup}"></option>
+        </select>
+        <div sec:authorize="hasAuthority('faq.create')" class="button" style="float:right">
+            <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
+        </div>
     </div>
     <div id="faqList">
     </div>
@@ -23,7 +31,12 @@ window.onload = function() {
     loadXMLDoc();
 }
 
-function loadXMLDoc() {
+let keyword = document.getElementById("searchKeyword");
+keyword.addEventListener('change', function(event){
+    search(event.target.value);
+});
+
+function search(val) {
     const opt = {
         method: "GET",
         url: "/faqs/list",

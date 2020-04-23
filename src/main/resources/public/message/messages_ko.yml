@@ -163,6 +163,10 @@ faq:
   title: "제목"
   contents: "내용"
   edit: "수정"
+  category:
+    techSupport: "기술지원"
+    setting: "설정"
+    etc: "기타"
 
 # NOTICE
 notice:

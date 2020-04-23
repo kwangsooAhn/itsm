@@ -163,6 +163,10 @@ faq:
   title: "Title"
   contents: "Contents"
   edit: "Edit"
+  category:
+    techSupport: "Technical Support"
+    setting: "Setting"
+    etc: "ETC"
 
 # NOTICE
 notice:
