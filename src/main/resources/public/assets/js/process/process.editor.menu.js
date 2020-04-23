@@ -200,11 +200,12 @@
      */
     function editElementType(element, type) {
         const elementId = element.node().id,
-            elements = aliceProcessEditor.data.elements;
+              elements = aliceProcessEditor.data.elements;
         const elementData = elements.filter(function(elem) { return elem.id === elementId; });
         if (elementData.length) {
             console.debug('current element type: %s, edit element type: %s', elementData[0].type, type);
             if (elementData[0].type === type) {
+                d3.select('g.alice-tooltip').remove();
                 return;
             }
             const originElementData = JSON.parse(JSON.stringify(elementData[0]));
@@ -381,7 +382,10 @@
             .attr('class', 'tooltip-container action-tooltip')
             .attr('width', containerWidth)
             .attr('height', containerHeight)
-            .on('mousedown', function() { d3.event.stopPropagation(); });
+            .on('mousedown', function() {
+                d3.event.stopPropagation();
+                d3.event.preventDefault();
+            });
 
         tooltipItemContainer.selectAll('action-tooltip-item')
             .data(actionTooltip)
@@ -396,6 +400,7 @@
             .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
             .on('mousedown', function(d) {
                 d3.event.stopPropagation();
+                d3.event.preventDefault();
                 actionTooltip.forEach(function(t) {
                     if (t.focus_url) {
                         let item = document.getElementById('action-tooltip-item-' + t.type);
