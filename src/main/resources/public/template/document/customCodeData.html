@@ -39,7 +39,7 @@
         </tbody>
     </table>
     <div class="btn-container">
-        <button type="button" th:text="#{common.btn.modify}" onclick="customCodeDataSave();"></button>
+        <button type="button" th:text="#{common.btn.check}" onclick="customCodeDataSave();"></button>
         <button type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
     </div>
 </div>
@@ -53,7 +53,7 @@
         let componentDataValue = '';
         for (let i = 0, len = checkElems.length; i < len; i++) {
             if (checkElems[i].checked) {
-                if (componentValue === '' && componentValue.indexOf("/") === -1) {
+                if (componentValue === '' && componentValue.indexOf('/') === -1) {
                     componentDataValue = checkElems[i].id + '|' + checkElems[i].value;
                     componentValue = checkElems[i].value;
                 } else {
@@ -74,14 +74,11 @@
     window.onload = function() {
         componentData = JSON.parse('[(${customCodeData})]');
         let compDataList = componentData.componentValues.split(','); //key|value,key|value
-        let checkboxElems = document.querySelectorAll('input');
-        for (let i = 0, len = checkboxElems.length; i < len; i++) {
-            let checkboxElem = checkboxElems[i];
-            for (let j = 0, dLen = compDataList.length; j < dLen; j++) {
-                let compDataMap = compDataList[j].split('|');
-                if (compDataMap[0] === checkboxElem.id) {
-                    checkboxElem.checked = true;
-                }
+        for (let i = 0, len = compDataList.length; i < len; i++) {
+            let compDataMap = compDataList[i].split('|');
+            let checkboxElem = document.querySelector('input[id="' + compDataMap[0] + '"]');
+            if (checkboxElem) {
+                checkboxElem.checked = true;
             }
         }
     };

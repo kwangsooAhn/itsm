@@ -690,7 +690,6 @@
         
         target.appendChild(comp);
         this.domElem = comp;
-
         if (!target.hasAttribute('data-readonly')) {
             let customCodeTextElem = comp.querySelector('input[type="text"]');
             if (defaultCustomData !== '') {
@@ -699,21 +698,21 @@
                 for (let i = 0, len = customCodeValues.length; i < len; i++) {
                     let customDataValue = customCodeValues[i].split('|');
                     if (customDataValue.length > 1) {
-                        if (inputValue === '' && inputValue.indexOf("/") === -1) {
+                        if (inputValue === '' && inputValue.indexOf('/') === -1) {
                             inputValue = customDataValue[1];
                         } else {
                             inputValue += '/' + customDataValue[1];
                         }
                     }
                 }
-                customCodeTextElem.textContent = inputValue;
+                customCodeTextElem.value = inputValue;
             }
 
             let searchBtn = comp.querySelector('#codeBtn');
             searchBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 let url = '/documents/custom-code/' + attr.display['custom-code'] + '/data';
-                window.open(url, 'rtn', 'width=500, height=600');
+                window.open(url, 'customCodePop', 'width=500, height=600');
                 let customCodeData = {
                     componentId: attr.id,
                     componentValues: customCodeTextElem.getAttribute('custom-data')
@@ -722,7 +721,7 @@
                 let form = document.createElement('form');
                 form.action = url;
                 form.method = 'POST';
-                form.target = 'rtn';
+                form.target = 'customCodePop';
                 let inputElem = document.createElement('input');
                 inputElem.name = 'customCodeData';
                 inputElem.value = JSON.stringify(customCodeData);
@@ -852,8 +851,7 @@
      */
     function getData(type) {
         let refineAttr = { display: {} };
-        let defaultAttr = JSON.parse(JSON.stringify(aliceForm.options.componentAttribute[type]));
-        //let defaultAttr = Object.assign({}, aliceForm.options.componentAttribute[type]);
+        let defaultAttr = Object.assign({}, aliceForm.options.componentAttribute[type]);
         Object.keys(defaultAttr).forEach(function(group) {
             if (group === 'option') { //옵션 json 구조 변경
                 let options = [];

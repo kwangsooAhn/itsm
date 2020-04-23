@@ -21,10 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import javax.persistence.Column
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
 
 @Service
 class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
@@ -197,7 +193,6 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
      * @param customCodeId 커스텀 코드 ID
      * @return List<CustomCodeDataDto>
      */
-
     fun getCustomCodeData(customCodeId: String): List<CustomCodeDataDto> {
         val customDataList: MutableList<CustomCodeDataDto> = mutableListOf()
         // TODO: 동적 쿼리로 가져오도록 소스 리팩토링 필요
@@ -219,11 +214,11 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
                 for (dataField in dataFields) {
                     if (dataField.isAnnotationPresent(Column::class.java)) {
                         dataField.isAccessible = true
-                        val coulmnName = dataField.getAnnotation(Column::class.java)?.name
-                        if (coulmnName == customCode.valueColumn) { // key
+                        val columnName = dataField.getAnnotation(Column::class.java)?.name
+                        if (columnName == customCode.valueColumn) { // key
                             customCodeDataDto.key = dataField.get(data) as? String ?: ""
                         }
-                        if (coulmnName == customCode.searchColumn) { // value
+                        if (columnName == customCode.searchColumn) { // value
                             customCodeDataDto.value = dataField.get(data) as? String ?: ""
                         }
                         dataField.isAccessible = false
