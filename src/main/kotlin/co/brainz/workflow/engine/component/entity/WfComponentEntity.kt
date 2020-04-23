@@ -1,6 +1,5 @@
 package co.brainz.workflow.engine.component.entity
 
-import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import java.io.Serializable
 import javax.persistence.CascadeType
