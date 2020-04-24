@@ -22,7 +22,6 @@ object WfElementConstants {
         SUB_PROCESS("subprocess"),
         ANNOTATION_ARTIFACT("annotationArtifact"),
         GROUP_ARTIFACT("groupArtifact"),
-        SIGNAL_EVENT("signalEvent"),
         SIGNAL_SEND("signalSend")
     }
 
