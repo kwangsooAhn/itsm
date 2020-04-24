@@ -1,6 +1,5 @@
 package co.brainz.framework.certification.controller
 
-
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
@@ -34,7 +33,11 @@ class AliceCertificationController(private val aliceCertificationService: AliceC
     }
 
     @GetMapping("/valid")
-    fun valid(request: HttpServletRequest, @RequestParam(value="uid", defaultValue = "") uid: String, model: Model): String {
+    fun valid(
+        request: HttpServletRequest,
+        @RequestParam(value = "uid", defaultValue = "") uid: String,
+        model: Model
+    ): String {
         var validCode: Int = AliceUserConstants.Status.ERROR.value
         if (uid != "") {
             validCode = aliceCertificationService.valid(uid)

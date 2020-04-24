@@ -34,7 +34,7 @@ class AliceUserDetailsService(
         aliceUserAuthDto.userKey?.let { userKey ->
             aliceUserRoleMapRepository.findByUserKey(userKey).forEach { aliceRoleEntity ->
                 authorities.add(SimpleGrantedAuthority(rolePrefix + aliceRoleEntity.roleId))
-                aliceRoleEntity.roleAuthMapEntities.forEach{ roleAuthMap ->
+                aliceRoleEntity.roleAuthMapEntities.forEach { roleAuthMap ->
                     authorities.add(SimpleGrantedAuthority(roleAuthMap.auth.authId))
                 }
             }

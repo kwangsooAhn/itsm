@@ -60,8 +60,8 @@ class WfInstanceService(
      * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.
      *
      */
-    fun instance(instanceId: String): WfInstanceViewDto {
-        TODO("")
+    fun instance(tokenId: String): WfInstanceViewDto {
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     /**

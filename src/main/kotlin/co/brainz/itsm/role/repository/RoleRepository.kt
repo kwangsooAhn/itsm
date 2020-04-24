@@ -1,9 +1,9 @@
 package co.brainz.itsm.role.repository
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
-import org.springframework.stereotype.Repository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
 
 
 @Repository
@@ -24,5 +24,4 @@ interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
      * 로그인 시 사용자 역할리스트 조회
     */
     fun findByRoleIdIn(roleId: List<String>): Set<AliceRoleEntity>
-
 }

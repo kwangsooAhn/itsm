@@ -77,9 +77,9 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
             val elDto = processMapper.toWfElementDto(elementEntity)
             elDto.display = elementEntity.displayInfo.let { mapper.readValue(it) }
             elDto.data = elementEntity.elementDataEntities.associateByTo(
-                    mutableMapOf(),
-                    { it.attributeId },
-                    { it.attributeValue })
+                mutableMapOf(),
+                { it.attributeId },
+                { it.attributeValue })
             wfElementDto.add(elDto)
         }
         return WfProcessElementDto(wfProcessDto, wfElementDto)
@@ -204,13 +204,13 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      */
     fun saveAsProcess(wfProcessElementDto: WfProcessElementDto): ProcessDto {
         val processDataDto = ProcessDto(
-                processName = wfProcessElementDto.process?.name.toString(),
-                processDesc = wfProcessElementDto.process?.description,
-                createDt = wfProcessElementDto.process?.createDt,
-                processStatus = wfProcessElementDto.process?.status.toString(),
-                createUserKey = wfProcessElementDto.process?.createUserKey,
-                updateDt = wfProcessElementDto.process?.updateDt,
-                updateUserKey = wfProcessElementDto.process?.updateUserKey
+            processName = wfProcessElementDto.process?.name.toString(),
+            processDesc = wfProcessElementDto.process?.description,
+            createDt = wfProcessElementDto.process?.createDt,
+            processStatus = wfProcessElementDto.process?.status.toString(),
+            createUserKey = wfProcessElementDto.process?.createUserKey,
+            updateDt = wfProcessElementDto.process?.updateDt,
+            updateUserKey = wfProcessElementDto.process?.updateUserKey
         )
         val processDto = insertProcess(processDataDto)
         if (wfProcessElementDto.process?.status == WfProcessConstants.Status.DESTROY.code) {
@@ -218,13 +218,13 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
             processDto.enabled = true
         }
         val newProcess = WfProcessDto(
-                id = processDto.processId,
-                name = processDto.processName,
-                createUserKey = processDto.createUserKey,
-                createDt = processDto.createDt,
-                status = processDto.processStatus,
-                enabled = processDto.enabled,
-                description = processDto.processDesc
+            id = processDto.processId,
+            name = processDto.processName,
+            createUserKey = processDto.createUserKey,
+            createDt = processDto.createDt,
+            status = processDto.processStatus,
+            enabled = processDto.enabled,
+            description = processDto.processDesc
         )
         val newElements: MutableList<WfElementDto> = mutableListOf()
         val elementKeyMap: MutableMap<String, String> = mutableMapOf()
@@ -241,16 +241,16 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
                 }
             }
             val wfElementDto = WfElementDto(
-                    id = elementKeyMap[element.id]!!,
-                    data = dataMap,
-                    type = element.type,
-                    display = element.display
+                id = elementKeyMap[element.id]!!,
+                data = dataMap,
+                type = element.type,
+                display = element.display
             )
             newElements.add(wfElementDto)
         }
         val newProcessElementDto = WfProcessElementDto(
-                process = newProcess,
-                elements = newElements
+            process = newProcess,
+            elements = newElements
         )
         updateProcessData(newProcessElementDto)
         return processDto
