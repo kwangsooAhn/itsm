@@ -19,9 +19,6 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
 
     /**
      * Search Instances.
-     *
-     * @param parameters
-     * @return List<WfInstanceViewDto>
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<WfInstanceViewDto> {
         var status = ""
@@ -46,8 +43,6 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
 
     /**
      * Search Instance.
-     *
-     * @param tokenId
      */
     fun instance(instanceId: String): WfInstanceViewDto {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -59,9 +54,6 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
 
     /**
      * Instance Create.
-     *
-     * @param wfInstanceDto
-     * @return InstanceEntity
      */
     fun createInstance(wfInstanceDto: WfInstanceDto): WfInstanceEntity {
         val instanceEntity = WfInstanceEntity(
@@ -78,8 +70,6 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
 
     /**
      * Instance Complete.
-     *
-     * @param instanceId
      */
     fun completeInstance(instanceId: String) {
         val instanceEntity = wfInstanceRepository.findInstanceEntityByInstanceId(instanceId)
@@ -92,8 +82,6 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
 
     /**
      * Instance Status Count
-     *
-     * @param parameters
      */
     fun instancesStatusCount(parameters: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
         var userKey: String = ""
