@@ -59,9 +59,11 @@
                             <input type="text" id="boardTitle" maxlength="100" th:value="${boardInfo?.boardTitle}">
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="height: 250px;">
                         <td><label th:text="#{board.label.contents}"></td>
-                        <td colspan="3"><textarea id="boardConents" name="boardConents" maxlength="2048" rows="7" style="width: 750px; resize: none;" th:text="${boardInfo?.boardConents}"></textarea></td>
+                        <td colspan="3">
+                            <div id="boardConents" style="height: 80%"></div>
+                        </td>
                     </tr>
                     <tr th:if="${boardAdminInfo.attachYn}">
                         <td><label th:text="#{common.label.attachFile}"></label></td>
@@ -130,7 +132,29 @@
             if (boardId !== null && commentYn) {
                 getBoardCommentList();
             }
+            initTextEditor(false);
         };
+
+        function initTextEditor(flag) {
+            let textEditorOptions = {
+                modules: {
+                    toolbar: [
+                        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                        ['bold', 'italic', 'underline'],
+                        [{'color': []}, {'background': []}],
+                        [{'align': []}, { 'list': 'bullet' }],
+                        ['image']
+                    ]
+                },
+                theme: 'snow',
+                readOnly: flag
+            };
+
+            let textEditor = new Quill('#boardConents', textEditorOptions);
+            if (boardId != "") {
+                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardConents}]]*/));
+            }
+        }
 
         //게시판 저장
         function saveBoard(method, kind) {
@@ -144,15 +168,16 @@
             if (categoryYn) {
                 boardCategoryId = document.getElementById('boardCategory').value;
             }
+            let boardConents = Quill.find(document.getElementById('boardConents'));
+
             const data = {
                 boardAdminId: boardAdminId,
                 boardTitle: document.getElementById('boardTitle').value,
-                boardConents: document.getElementById('boardConents').value,
+                boardConents: JSON.stringify(boardConents.getContents()),
                 fileSeqList: fileSeqList,
                 boardCategoryId: boardCategoryId
             };
 
-            console.log(method+"==="+kind);
             if (method === 'put' || kind === 'reply') {
                 data.boardId = boardId;
             }

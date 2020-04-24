@@ -48,18 +48,19 @@
                             <label th:text="${boardInfo?.boardTitle}"></label>
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="height: 250px;">
                         <td><label th:text="#{board.label.contents}"></td>
-                        <td colspan="3" th:text="${boardInfo?.boardConents}">
+                        <td colspan="3" style="height: 80%;">
+                            <div id="boardConents" style="height: 100%;"></div>
                         </td>
                     </tr>
-                        <tr th:if="${boardAdminInfo.attachYn}">
-                            <td><label th:text="#{common.label.attachFile}"></label></td>
-                            <td colspan="3">
-                                <div id="dropZoneFiles"></div>
-                                <div id="dropZoneUploadedFiles"></div>
-                            </td>
-                        </tr>
+                    <tr th:if="${boardAdminInfo.attachYn}">
+                        <td><label th:text="#{common.label.attachFile}"></label></td>
+                        <td colspan="3">
+                            <div id="dropZoneFiles"></div>
+                            <div id="dropZoneUploadedFiles"></div>
+                        </td>
+                    </tr>
                     <tr>
                         <td><label th:text="#{common.label.createUserName}"></td>
                         <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
@@ -124,7 +125,21 @@
             if (boardId !== null && commentYn) {
                 getBoardCommentList();
             }
+            initTextEditor(true);
         };
+
+        function initTextEditor(flag) {
+            let textEditorOptions = {
+                modules: {toolbar: false},
+                theme: 'snow',
+                readOnly: flag
+            };
+
+            let textEditor = new Quill('#boardConents', textEditorOptions);
+            if (boardId != "") {
+                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardConents}]]*/));
+            }
+        }
 
         //게시판 저장
         function saveBoard(method) {
@@ -150,11 +165,6 @@
                 data.boardId = boardId;
             }
             restSubmit(method, '/rest/boards', data);
-        }
-
-        //게시판 답글
-        function saveBoardAnswer(method) {
-            alert("답글");
         }
 
         //게시판  삭제
@@ -190,6 +200,7 @@
             }
         }
 
+        //게시판 댓글 수정
         function saveBoardEditComment(method, boardCommentId) {
             if (isEmpty('editComments', 'board.msg.inputBoardComments')) return;
             const data = {
