@@ -49,8 +49,12 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      *
      * @param tokenId
      */
-    fun instance(tokenId: String): WfInstanceViewDto {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    fun instance(instanceId: String): WfInstanceViewDto {
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        return mapper.convertValue(
+            wfInstanceRepository.findInstanceEntityByInstanceId(instanceId),
+            WfInstanceViewDto::class.java
+        )
     }
 
     /**

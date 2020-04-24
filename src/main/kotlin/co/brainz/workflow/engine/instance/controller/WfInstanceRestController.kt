@@ -31,9 +31,9 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
      * @param tokenId
      * @return WfInstanceViewDto
      */
-    @GetMapping("/{tokenId}")
-    fun getProcessInstance(@PathVariable tokenId: String): WfInstanceViewDto {
-        return wfEngine.instance().instance(tokenId)
+    @GetMapping("/{instanceId}")
+    fun getProcessInstance(@PathVariable instanceId: String): WfInstanceViewDto {
+        return wfEngine.instance().instance(instanceId)
     }
 
     /**
