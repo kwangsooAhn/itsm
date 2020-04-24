@@ -22,17 +22,19 @@ class CodeService(private val codeRepository: CodeRepository) {
     fun getCodeList(): MutableList<CodeDto> {
         val codeDto = mutableListOf<CodeDto>()
         codeRepository.findAll().forEach {
-            codeDto.add(codeMapper.toCodeDto(it))
+            when (it.editable) {
+                true -> codeDto.add(codeMapper.toCodeDto(it))
+            }
         }
-        return codeDto
 
+        return codeDto
     }
 
     /**
      * 코드 데이터 상세 정보 조회
      */
     fun getDetailCodes(code: String): CodeDto {
-        return codeMapper.toCodeDto(codeRepository.findById(code).orElse(CodeEntity(code = code)))
+        return codeMapper.toCodeDto(codeRepository.findById(code).orElse(CodeEntity()))
     }
 
     /**

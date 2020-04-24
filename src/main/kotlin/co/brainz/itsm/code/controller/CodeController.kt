@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletRequest
 
 @Controller
-@RequestMapping("/code")
+@RequestMapping("/codes")
 class CodeController(private val codeService: CodeService) {
 
     private val codeEditPage: String = "code/codeEdit"
@@ -16,7 +16,7 @@ class CodeController(private val codeService: CodeService) {
     /**
      * 코드 관리 화면 호출
      */
-    @GetMapping("/code")
+    @GetMapping("/edit")
     fun getCodeList(request: HttpServletRequest, model: Model): String {
         model.addAttribute("codeList", codeService.getCodeList())
         return codeEditPage

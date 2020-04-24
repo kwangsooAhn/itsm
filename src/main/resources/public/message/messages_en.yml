@@ -58,6 +58,7 @@ menu:
   setting.user: "Users management"
   setting.role: "Role management"
   setting.auth: "Auth management"
+  setting.code: "Code management"
   setting.form: "Form"
   setting.process: "Process"
   setting.custom.code: "Custom Code"

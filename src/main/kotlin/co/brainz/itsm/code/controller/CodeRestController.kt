@@ -5,7 +5,7 @@ import co.brainz.itsm.code.service.CodeService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/rest/code")
+@RequestMapping("/rest/codes")
 class CodeRestController(private val codeService: CodeService) {
 
     /**
