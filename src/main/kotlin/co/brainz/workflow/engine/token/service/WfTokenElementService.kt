@@ -49,7 +49,7 @@ class WfTokenElementService(
         instance?.let { wfFolderService.createFolder(instance) }
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId!!)
-        val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
+        val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
         wfTokenDto.elementType = startElement.elementType
         wfTokenDto.elementId = startElement.elementId
         when (startElement.elementType) {
@@ -165,7 +165,6 @@ class WfTokenElementService(
         goToNext(wfTokenEntity, wfElementEntity, wfTokenDto)
     }
 
-
     /**
      * Set Next Token Save.
      *
@@ -236,7 +235,7 @@ class WfTokenElementService(
                         )
                     }
                     WfTokenConstants.AssigneeType.GROUPS.code -> {
-                        //TODO: 담당자 그룹에 따른 처리
+                        // TODO: 담당자 그룹에 따른 처리
                     }
                 }
             }
@@ -315,7 +314,7 @@ class WfTokenElementService(
                 wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
 
                 //Call Document Start Element
-                val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
+                val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
                 wfTokenDto.elementType = startElement.elementType
                 wfTokenDto.elementId = startElement.elementId
                 when (startElement.elementType) {
