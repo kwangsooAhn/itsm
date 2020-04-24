@@ -1,6 +1,7 @@
 package co.brainz.itsm.token.controller
 
 import co.brainz.itsm.token.service.TokenService
+import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -41,5 +42,10 @@ class TokenRestController(private val tokenService: TokenService) {
     @PutMapping("/data")
     fun putToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         return tokenService.putToken(restTemplateTokenDto)
+    }
+
+    @PostMapping("/data/{tokenId}/comment")
+    fun setComment(@PathVariable tokenId: String, @RequestBody restTemplateCommentDto: RestTemplateCommentDto): Boolean {
+        return tokenService.setComment(restTemplateCommentDto)
     }
 }

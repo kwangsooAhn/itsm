@@ -466,30 +466,57 @@
         }
 
         //Add Comment Box
-        addCommentBox();
-
+        if (data.tokenId !== undefined) {
+            addCommentBox(data.tokenId);
+        }
     }
 
-    function addCommentBox() {
+    /**
+     * Comment Object.
+     */
+    function addCommentBox(tokenId) {
         commentContainer = document.getElementById('comment-container');
 
         let commentBoxContainer = document.createElement('div');
         let commentButtonContainer = document.createElement('div');
+        commentBoxContainer.classList.add('field');
+        commentBoxContainer.style.width = '90%';
+        commentButtonContainer.classList.add('field');
+        commentButtonContainer.style.width = '10%';
 
-        //msg
         let commentBoxTextarea = document.createElement('textarea');
-
-        //button
         let commentButton = document.createElement('button');
         commentButton.type = 'button';
-        commentButton.innerText = '등록';
+        commentButton.innerText = i18n.get('common.btn.register');
         commentButton.addEventListener('click', function () {
-            //aliceDocument.save(element.value);
-            alert('dddd');
+            aliceDocument.saveComment(tokenId, commentBoxTextarea.value);
         });
+
         commentBoxContainer.appendChild(commentBoxTextarea);
         commentButtonContainer.appendChild(commentButton);
-        commentContainer.appendChild(commentBoxContainer).appendChild(commentButtonContainer);
+        commentContainer.appendChild(commentBoxContainer);
+        commentContainer.appendChild(commentButtonContainer);
+    }
+
+    function saveComment(tokenId, comment) {
+        let data = {
+            tokenId: tokenId,
+            comment: comment
+        }
+        const opt = {
+            method: 'POST',
+            url: '/rest/tokens/data/' + tokenId + '/comment',
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(xhr) {
+                if (xhr.responseText) {
+                    location.reload();
+                } else {
+                    aliceJs.alert(i18n.get('common.msg.fail'));
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
     }
 
     /**
@@ -566,6 +593,7 @@
     exports.init = init;
     exports.initToken = initToken;
     exports.save = save;
+    exports.saveComment = saveComment;
     exports.drawDocument = drawDocument;
     exports.getDocument = getDocument;
 

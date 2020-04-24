@@ -38,16 +38,18 @@
     width: 100%;
     max-width: 100%;
     border: none;
-    padding: 0.625rem 3.75rem;    //10px 60px 10px 0px
+    padding: 0.625rem 1.25rem;    //10px 60px 10px 0px
     background-color: #ffffff;
     .field {
+        display: flex;
+        height: 3.563rem;
         textarea {
             width: 100%;
             resize: vertical;
         }
         button {
             flex: 1 1 auto;
-            height: 1.563rem;    //25px
+            //height: 3.563rem;
             line-height: 1rem;   //16px
             padding: 0 0.625rem; //10px
             white-space: nowrap;

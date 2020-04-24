@@ -32,6 +32,7 @@ common:
     attachFile: "Attach file"
     notSelect: "Not Select"
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
+    comment: "Comment"
   msg:
     save: "Saved"
     save.fail: "Fail"
