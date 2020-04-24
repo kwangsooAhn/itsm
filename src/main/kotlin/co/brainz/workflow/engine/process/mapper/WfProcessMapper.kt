@@ -9,7 +9,6 @@ import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Mappings
 
-
 @Mapper
 interface WfProcessMapper {
     @Mappings(
@@ -31,7 +30,4 @@ interface WfProcessMapper {
         Mapping(source = "elementType", target = "type")
     )
     fun toWfElementDto(elementEntity: WfElementEntity): WfElementDto
-
-
-
 }

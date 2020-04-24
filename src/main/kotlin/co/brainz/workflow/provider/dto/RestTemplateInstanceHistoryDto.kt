@@ -11,5 +11,4 @@ data class RestTemplateInstanceHistoryDto(
     val assigneeType: String?,
     val assigneeId: String?,
     val assigneeName: String?
-) : Serializable {
-}
+) : Serializable
