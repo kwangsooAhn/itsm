@@ -354,6 +354,7 @@ document:
     write: "신청서 작성"
     name: "신청서 이름"
     description: "설명"
+    display: "신청서 양식 편집"
     form: "문서양식"
     process: "프로세스"
     status: "신청서 상태"
