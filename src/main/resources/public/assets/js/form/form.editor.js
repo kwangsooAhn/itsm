@@ -936,21 +936,28 @@
                             }
                             fieldGroupDiv.innerHTML += customDefaultTemplate;
 
+                            let customCodeSelect = propertiesPanel.querySelector('#custom-code > select');
                             let changeCustomCode = function(val) {
                                 let customCodeDataSelect = fieldGroupDiv.querySelector('input[id=code]').parentNode.querySelector('select');
                                 customCodeDataSelect.innerHTML = '';
-                                // TODO: custom code data search
-                                let customCodeData = [{id: 'sample1', name: '샘플데이터1'},{id: 'sample2', name: '샘플데이터2'},{id: 'sample3', name: '샘플데이터3'}];
-                                customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.id}'>${d.name}</option>`).join('');
-                                if (val) {
-                                    customCodeDataSelect.value = val;
-                                }
-                                let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
-                                if (targetRadio.checked) {
-                                    changePropertiesValue('code|' + customCodeDataSelect.value, group, fieldArr.id);
-                                }
+                                // load custom code data.
+                                aliceJs.sendXhr({
+                                    method: 'GET',
+                                    url: '/rest/forms/custom-code/' + customCodeSelect.value + '/list',
+                                    callbackFunc: function(xhr) {
+                                        let customCodeData = JSON.parse(xhr.responseText);
+                                        customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
+                                        if (val) {
+                                            customCodeDataSelect.value = val;
+                                        }
+                                        let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
+                                        if (targetRadio.checked) {
+                                            changePropertiesValue('code|' + customCodeDataSelect.value + '|' + customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text, group, fieldArr.id);
+                                        }
+                                    },
+                                    contentType: 'application/json; charset=utf-8'
+                                });
                             }
-                            let customCodeSelect = propertiesPanel.querySelector('#custom-code > select');
                             customCodeSelect.addEventListener('change', function() { changeCustomCode(); });
                             changeCustomCode(fieldValueArr[0] === 'code' ? fieldValueArr[1] : null);
 
@@ -963,7 +970,7 @@
                                         targetId = targetRadio.id;
                                     }
                                     let val = targetId !== 'none' ? targetId + '|' + this.parentNode.querySelector('select').value : targetId;
-                                    if (targetRadio.checked && targetRadio.id === 'session') {
+                                    if (targetRadio.checked && targetRadio.id !== 'none') {
                                         val += ('|' + this.parentNode.querySelector('select').options[this.parentNode.querySelector('select').selectedIndex].text);
                                     }
                                     changePropertiesValue(val, group, fieldArr.id);
