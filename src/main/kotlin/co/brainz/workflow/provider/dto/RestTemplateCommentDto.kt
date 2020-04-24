@@ -5,5 +5,6 @@ import java.io.Serializable
 data class RestTemplateCommentDto(
     val tokenId: String? = null,
     val instanceId: String? = null,
-    val comment: String? = null
+    val comment: String? = null,
+    var createUserKey: String? = null
 ) : Serializable

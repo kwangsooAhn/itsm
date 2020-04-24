@@ -5,7 +5,6 @@ import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
@@ -105,19 +104,4 @@ class TokenService(
         return restTemplate.get(url)
     }
 
-    fun setComment(restTemplateCommentDto: RestTemplateCommentDto): Boolean {
-
-        println("data>>>>>>>>")
-        println(restTemplateCommentDto)
-        //println(data)
-        //val commentMap: Map<*, *> = mapper.readValue(data, Map::class.java)
-        //commentMap["tokenId"]
-        println(">>>>>>>>>>>>")
-        val url = RestTemplateUrlDto(
-
-        )
-
-        return true
-
-    }
 }

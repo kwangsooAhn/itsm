@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.instance.entity
 
+import co.brainz.workflow.engine.comment.entity.WfCommentEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
@@ -51,4 +52,7 @@ data class WfInstanceEntity(
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
     val folders: MutableList<WfFolderEntity>? = mutableListOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
+    val comments: MutableList<WfCommentEntity>? = mutableListOf()
 }

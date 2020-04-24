@@ -508,7 +508,7 @@
         }
         const opt = {
             method: 'POST',
-            url: '/rest/tokens/data/' + tokenId + '/comment',
+            url: '/rest/comments/' + tokenId,
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(xhr) {

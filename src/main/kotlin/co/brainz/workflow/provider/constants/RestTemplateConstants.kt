@@ -61,6 +61,16 @@ object RestTemplateConstants {
     }
 
     /**
+     * Comment Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class Comment(val url: String, val method: String) {
+        POST_COMMENT("/rest/wf/comments/{tokenId}", "POST")
+    }
+
+    /**
      * Workflow Url.
      *
      * @param url
