@@ -1580,6 +1580,24 @@
                 "unit": ""
             },
             {
+                "id": "default",
+                "name": "Default",
+                "value": "none",
+                "type": "radio-custom",
+                "option": [
+                    {"id": "none", "name": "None"},
+                    {"id": "session", "name": "Session",
+                        "items" : [
+                            {"id": "userName", "name": "이름"},
+                            {"id": "department", "name": "부서"}
+                        ]
+                    },
+                    {"id": "code", "name": "Custom Code Data", "items" : []}
+                ],
+                "code": "",
+                "unit": ""
+            },
+            {
                 "id": "button-text",
                 "name": "Button Content",
                 "value": "BUTTON",
