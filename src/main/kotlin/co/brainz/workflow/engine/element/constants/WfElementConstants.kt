@@ -22,7 +22,7 @@ object WfElementConstants {
         SUB_PROCESS("subprocess"),
         ANNOTATION_ARTIFACT("annotationArtifact"),
         GROUP_ARTIFACT("groupArtifact"),
-        SIGNAL_EVENT("signalEvent"),
+        SIGNAL_SEND("signalSend"),
     }
 
     /**
@@ -39,7 +39,8 @@ object WfElementConstants {
         ACTION_VALUE("action-value"),
         SAVE("save"),
         REJECT_ID("reject-id"),
-        SUB_DOCUMENT_ID("sub-document-id")
+        SUB_DOCUMENT_ID("sub-document-id"),
+        TARGET_DOCUMENT_LIST("target-document-list")
     }
 
     /**

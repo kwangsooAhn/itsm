@@ -237,7 +237,7 @@
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
             if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
-                componentDataType === 'fileupload') {
+                componentDataType === 'fileupload' || componentDataType === 'custom-code') {
                 let componentId = componentElements[eIndex].getAttribute('id');
                 let componentValue = '';
                 let componentChildObject = {};
@@ -297,7 +297,7 @@
                             }
                         }
                         break;
-                    case 'fileupload' :
+                    case 'fileupload':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
                             if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
@@ -317,8 +317,11 @@
                             }
                         }
                         break;
-                    case 'custom-code' :
-                        //TODO 사용자 정의 코드 구현
+                    case 'custom-code':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).getAttribute('custom-data');
+                        break;
+                    default:
                         break;
                 }
                 componentChildObject.componentId = componentId;

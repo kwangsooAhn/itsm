@@ -47,10 +47,10 @@
             const dateFormat = formatArray[0].toUpperCase();
             dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
             dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
-            document.getElementById('category').addEventListener('change', function() { getDownloadList(); });
-            document.getElementById('search').addEventListener('keyup', function() { getDownloadList(); });
+            document.getElementById('category').addEventListener('change', getDownloadList.bind(null, false), false);
+            document.getElementById('search').addEventListener('keyup', getDownloadList.bind(null, false), false);
 
-            getDownloadList();
+            getDownloadList(true);
         };
 
         function setDatePicker(element, picker) {
@@ -63,7 +63,7 @@
                         changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
                     aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
                 } else {
-                    getDownloadList();
+                    getDownloadList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
@@ -71,12 +71,12 @@
                         changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
                     aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
-                    getDownloadList();
+                    getDownloadList(false);
                 }
             }
         }
 
-        function getDownloadList() {
+        function getDownloadList(showProgressbar) {
             const searchOpt = {
                 category: document.getElementById('category').value,
                 search: document.getElementById('search').value.trim(),
@@ -85,14 +85,15 @@
             };
             const urlParam = 'category=' + searchOpt.category + '&search=' + searchOpt.search +
                              '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
-            restSubmit('get', '/downloads/list?' + urlParam);
+            restSubmit('get', '/downloads/list?' + urlParam, showProgressbar);
         }
 
         //REST API
-        function restSubmit(method, url) {
+        function restSubmit(method, url, showProgressbar) {
             const opt = {
                 method: method,
                 url: url,
+                showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     document.getElementById('downloadList').innerHTML = response.responseText;
                 }
