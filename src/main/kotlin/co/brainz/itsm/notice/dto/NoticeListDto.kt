@@ -5,10 +5,10 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class NoticeListDto(
-        var topNoticeYn: Boolean = true,
-        var noticeNo: String = "",
-        var noticeTitle: String = "",
-        var popYn: Boolean = true,
-        var createDt: LocalDateTime? = null,
-        var aliceUserEntity: AliceUserEntity? = null
-): Serializable
+    var topNoticeYn: Boolean = true,
+    var noticeNo: String = "",
+    var noticeTitle: String = "",
+    var popYn: Boolean = true,
+    var createDt: LocalDateTime? = null,
+    var aliceUserEntity: AliceUserEntity? = null
+) : Serializable

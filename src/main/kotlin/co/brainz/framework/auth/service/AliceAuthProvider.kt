@@ -84,5 +84,4 @@ class AliceAuthProvider(
     override fun supports(authentication: Class<*>): Boolean {
         return authentication == UsernamePasswordAuthenticationToken::class.java
     }
-
 }

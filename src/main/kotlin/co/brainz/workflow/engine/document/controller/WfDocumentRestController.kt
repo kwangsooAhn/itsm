@@ -1,6 +1,8 @@
 package co.brainz.workflow.engine.document.controller
 
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplaySaveDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplayViewDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -60,6 +62,12 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
         return wfEngine.document().createDocument(documentDto)
     }
 
+    /**
+     * 신청서 수정.
+     *
+     * @param documentDto
+     * @return Boolean
+     */
     @Transactional
     @PutMapping("/{documentId}")
     fun updateDocument(@PathVariable documentId: String, @RequestBody documentDto: WfDocumentDto): Boolean {
@@ -68,9 +76,34 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
 
     /**
      * 신청서 삭제
+     *
+     * @param documentId
+     * @return Boolean
      */
     @DeleteMapping("/{documentId}")
     fun deleteDocument(@PathVariable documentId: String): Boolean {
         return wfEngine.document().deleteDocument(documentId)
+    }
+
+    /**
+     * 신청서 양식 정보 조회.
+     *
+     * @param documentId
+     * @return WfDocumentDisplayViewDto
+     */
+    @GetMapping("/{documentId}/display")
+    fun getDocumentDisplay(@PathVariable documentId: String): WfDocumentDisplayViewDto {
+        return wfEngine.document().getDocumentDisplay(documentId)
+    }
+
+    /**
+     * 신청서 양식 정보 수정.
+     *
+     * @param documentDisplaySaveDto
+     * @return Boolean
+     */
+    @PutMapping("/{documentId}/display")
+    fun updateDocumentDisplay(@RequestBody documentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
+        return wfEngine.document().updateDocumentDisplay(documentDisplaySaveDto)
     }
 }

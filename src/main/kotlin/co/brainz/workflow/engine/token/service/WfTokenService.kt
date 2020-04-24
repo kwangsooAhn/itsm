@@ -96,7 +96,7 @@ class WfTokenService(
         /*val returnValue = LinkedHashMap<String, Any>()
         returnValue["token"] = tokenDto*/
 
-        //return tokenDto
+        // return tokenDto
     }
 
     /**
@@ -127,10 +127,10 @@ class WfTokenService(
                 component["componentId"] = componentEntity.componentId
                 component["attributes"] = attributes
                 component["values"] = values
-                //TODO: 실 데이터로 변경.
+                // TODO: 실 데이터로 변경.
                 component["displayType"] = when (attributes["type"]) {
                     "text", "textarea", "select", "radio", "checkbox", "label", "image", "divider", "date", "time", "datetime", "fileupload", "custom-code" -> "editable"
-                    else -> "readonly" //readonly, editable, editable_required, hidden
+                    else -> "readonly" // readonly, editable, editable_required, hidden
                 }
                 componentList.add(component)
             }
@@ -144,7 +144,6 @@ class WfTokenService(
             components = componentList,
             actions = wfActionService.actions(tokenMstEntity.get().element.elementId)
         )
-
     }
 
     /**
@@ -183,5 +182,4 @@ class WfTokenService(
         }
         return assigneeForToken
     }
-
 }

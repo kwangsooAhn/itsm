@@ -42,15 +42,16 @@
          * 검색창 입력시 동작
          */
         document.getElementById('searchValue').onkeyup = function() {
-            searchUser();
+            searchUser(false);
         };
 
         /**
          * 사용자를 검색한다.
          */
-        function searchUser() {
+        function searchUser(showProgressbar) {
             const opt = {
                 method: 'get',
+                showProgressbar: showProgressbar,
                 url: '/users/list?searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim()),
                 callbackFunc: setUserClickEvent,
             };
@@ -116,7 +117,7 @@
             aliceJs.sendXhr(opt);
         }
 
-        searchUser()
+        searchUser(true)
         /*]]>*/
     </script>
 </th:block>

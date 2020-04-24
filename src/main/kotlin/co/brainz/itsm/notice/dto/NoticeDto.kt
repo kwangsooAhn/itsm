@@ -27,4 +27,4 @@ data class NoticeDto(
     var updateUserKey: String? = null,
     var aliceUserEntity: AliceUserEntity? = null,
     var fileSeq: List<Long>? = null
-): Serializable
+) : Serializable
