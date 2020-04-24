@@ -184,7 +184,6 @@
         undo_list: [],
         saveHistory: function(data, list, keep_redo) {
             if (data.length === 1 && workflowUtil.compareJson(data[0][0], data[0][1])) { // data check
-                //console.debug('These two json data are the same.');
                 return;
             }
             keep_redo = keep_redo || false;
@@ -199,15 +198,46 @@
             if (this.undo_list.length) {
                 let restoreData = this.undo_list.pop();
                 this.saveHistory(restoreData, this.redo_list, true);
+                redrawComponent(restoreData, 'undo');
             }
         },
         redo: function() {
             if (this.redo_list.length) {
                 let restoreData = this.redo_list.pop();
                 this.saveHistory(restoreData, this.undo_list, true);
+                redrawComponent(restoreData, 'redo');
             }
         }
     };
+
+    /**
+     * 컴포넌트를 다시 그리고, 데이터 수정를 수정 한다.
+     *
+     * @param restoreData 데이터
+     * @param type 타입(undo, redo)
+     */
+    function redrawComponent(restoreData, type) {
+        const restoreComponent = function (originData, changeData) {
+            if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete
+                if (!Object.keys(changeData).length) { // delete component
+                    // TODO: delete component
+                } else { // add component
+                    // TODO: add component
+                }
+            } else { // modify component
+                // TODO: modify component
+            }
+        };
+        restoreData.forEach(function(data) {
+            let originData = data[1],
+                changeData = data[0];
+            if (type === 'redo') {
+                originData = data[0];
+                changeData = data[1];
+            }
+            restoreComponent(originData, changeData);
+        });
+    }
 
     /**
      * 작업 취소
@@ -265,13 +295,16 @@
      */
     function addComponent(type, componentId) {
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
+            let histories = [];
             let elem = document.getElementById(componentId);
             let replaceComp = component.draw(type, formPanel);
             let compAttr = replaceComp.attr;
             compAttr.id = componentId;
             compAttr.display.order = Number(elem.getAttribute('data-index'));
+            let replaceEditbox = editor.data.components.filter(function(comp) { return comp.id === componentId; });
+            histories.push({0: JSON.parse(JSON.stringify(replaceEditbox[0])), 1: JSON.parse(JSON.stringify(compAttr))});
             setComponentData(compAttr);
-            
+
             replaceComp.domElem.id = componentId;
             replaceComp.domElem.setAttribute('data-index', compAttr.display.order);
             replaceComp.domElem.setAttribute('tabIndex', compAttr.display.order);
@@ -281,7 +314,11 @@
             
             let compIdx = component.getLastIndex();
             component.setLastIndex(compIdx - 1);
-            addEditboxDown(componentId);
+            addEditboxDown(componentId, function(editboxId) {
+                let addEditbox = editor.data.components.filter(function(comp) { return comp.id === editboxId; });
+                histories.push({0: {}, 1: JSON.parse(JSON.stringify(addEditbox[0]))});
+                history.saveHistory(histories);
+            });
         } else {
             let editbox = component.draw(defaultComponent, formPanel);
             setComponentData(editbox.attr);
@@ -305,6 +342,7 @@
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
                 copyData.id = workflowUtil.generateUUID();
                 let comp = component.draw(copyData.type, formPanel, copyData);
+                history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(copyData))}]);
                 setComponentData(comp.attr);
                 elem.parentNode.insertBefore(comp.domElem, elem.nextSibling);
                 comp.domElem.setAttribute('data-index', elemIdx);
@@ -330,6 +368,7 @@
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
+        let histories = [];
         //재정렬
         let elemIdx = Number(elem.getAttribute('data-index'));
         let lastCompIdx = component.getLastIndex() - 1;
@@ -339,6 +378,7 @@
         elem.remove();
         for (let i = 0; i < editor.data.components.length; i++) {
             if (elemId === editor.data.components[i].id) {
+                histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
             }
@@ -346,10 +386,12 @@
         //컴포넌트 없을 경우 editbox 컴포넌트 신규 추가.
         if (document.querySelectorAll('.component').length === 0) {
             let editbox = component.draw(defaultComponent, formPanel);
+            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
         }
+        history.saveHistory(histories);
     }
 
     /**
@@ -362,6 +404,7 @@
 
         let elemIdx = Number(elem.getAttribute('data-index'));
         let editbox = component.draw(defaultComponent, formPanel);
+        history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))}]);
         setComponentData(editbox.attr);
         elem.parentNode.insertBefore(editbox.domElem, elem);
         editbox.domElem.setAttribute('data-index', elemIdx);
@@ -372,17 +415,16 @@
         editor.data.components[lastCompIdx - 1].display.order = elemIdx;
         reorderComponent(elem, elemIdx, lastCompIdx);
 
-        if(editbox !== null) {
-            editbox.domElem.querySelector('[contenteditable=true]').focus();
-            showComponentProperties(editbox.id);
-        }
+        editbox.domElem.querySelector('[contenteditable=true]').focus();
+        showComponentProperties(editbox.id);
     }
 
     /**
      * elemId 선택한 element Id를 기준으로 아래에 editbox 추가 후 data의 display order 변경
      * @param {String} elemId 선택한 element Id
+     * @param {Function} callbackFunc callback function
      */
-    function addEditboxDown(elemId) {
+    function addEditboxDown(elemId, callbackFunc) {
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
@@ -405,9 +447,13 @@
             elem.parentNode.appendChild(editbox.domElem);
         }
 
-        if (editbox !== null) {
-            editbox.domElem.querySelector('[contenteditable=true]').focus();
-            showComponentProperties(editbox.id);
+        editbox.domElem.querySelector('[contenteditable=true]').focus();
+        showComponentProperties(editbox.id);
+
+        if (typeof callbackFunc === 'function') {
+            callbackFunc(editbox.id);
+        } else {
+            history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))}]);
         }
     }
 
