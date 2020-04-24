@@ -359,9 +359,15 @@ document:
     write: "Service Request Write"
     name: "Service Request Name"
     description: "Service Request Description"
+    display: "Service Request Display"
     form: "Form"
     process: "Process"
     status: "Status"
+  display:
+    editable: "Editable"
+    editableRequired: "Editable (required)"
+    readonly: "Readonly"
+    hidden: "Hidden"
   status:
     temporary: "Temporary"
     use: "Use"
