@@ -1,47 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <style>
-        #faqGroup {
-            background-color: #f1f9ff;
-            font-weight: 700;
-            font-size: 1.25rem;
-            height: 30px;
-            width: 100%;
-        }
-        #faqTitle {
-            border-bottom: 1px solid #7fc4fd;
-            margin-left: 2rem;
-        }
-        #faqContent {
-            margin-left: 2rem;
-            display: inline-block;
-            font-style: italic;
-            color: #6c757d;
-        }
-    </style>
-</head>
 <body>
-
-<!--test-->
-<details th:each="faqGroup :${faqGroupList}">
-    <summary id="faqGroup" th:text="#{${faqGroup}}">카테고리</summary>
-    <details id="faqTitle" th:each="faqT : ${faqs}" th:if="${faqT.faqGroup} == ${faqGroup}" th:value="${faqT.faqId}">
-        <summary th:text="#{${faqT.faqTitle}}"></summary>
-        <div th:id="${faqT.faqId}">
-            <div th:each="faqC : ${faqs}" th:if="${faqC.faqId} == ${faqT.faqId}" >
-                <p id="faqContent" th:text="${faqC.faqContent}"></p>
-            </div>
-        </div>
-    </details>
-</details>
-
-<table class="table table-hover" style="text-align: center" hidden>
+<table class="table table-hover" style="text-align: center">
     <colgroup>
         <col width="30%">
         <col width="70%">
-        </colgroup>
+    </colgroup>
     <thead>
     <tr>
         <th th:text="#{faq.group}">그룹</th>
@@ -58,13 +23,4 @@
     </tbody>
 </table>
 </body>
-
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript">
-    window.onload = function() {
-        const faq = document.querySelectorAll('details');
-        console.log(faq);
-    }
-    </script>
-</th:block>
 </html>
