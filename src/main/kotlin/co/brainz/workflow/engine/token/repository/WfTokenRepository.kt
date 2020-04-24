@@ -20,5 +20,5 @@ interface WfTokenRepository : JpaRepository<WfTokenEntity, String> {
     fun findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(
         instance: WfInstanceEntity,
         tokenStatus: String = WfTokenConstants.Status.FINISH.code
-    ): Optional<WfTokenEntity>
+    ): WfTokenEntity?
 }

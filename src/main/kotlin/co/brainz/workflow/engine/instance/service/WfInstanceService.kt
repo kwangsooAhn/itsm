@@ -60,7 +60,7 @@ class WfInstanceService(
      * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.
      *
      */
-    fun instance(tokenId: String): WfInstanceViewDto {
+    fun instance(instanceId: String): WfInstanceViewDto {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
@@ -89,11 +89,10 @@ class WfInstanceService(
      * @param instanceId
      */
     fun completeInstance(instanceId: String) {
-        val instanceEntity = wfInstanceRepository.findInstanceEntityByInstanceId(instanceId)
-        if (instanceEntity.isPresent) {
-            instanceEntity.get().instanceStatus = WfInstanceConstants.Status.FINISH.code
-            instanceEntity.get().instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-            wfInstanceRepository.save(instanceEntity.get())
+        wfInstanceRepository.findByInstanceId(instanceId)?.let {
+            it.instanceStatus = WfInstanceConstants.Status.FINISH.code
+            it.instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            wfInstanceRepository.save(it)
         }
     }
 
@@ -129,8 +128,8 @@ class WfInstanceService(
      */
     fun getInstanceLatestToken(instanceId: String): WfTokenDto {
         var tokenDto = WfTokenDto()
-        wfInstanceRepository.findById(instanceId).ifPresent { instance ->
-            wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance).ifPresent { token ->
+        wfInstanceRepository.findByInstanceId(instanceId)?.let { instance ->
+            wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance)?.let { token ->
                 tokenDto = wfTokenMapper.toTokenDto(token)
                 val tokenDatas = mutableListOf<WfTokenDataDto>()
                 token.tokenDatas?.forEach { tokenData ->
