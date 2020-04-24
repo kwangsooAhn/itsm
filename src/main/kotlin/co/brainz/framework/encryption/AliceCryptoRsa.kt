@@ -1,13 +1,12 @@
 package co.brainz.framework.encryption
 
-import org.springframework.stereotype.Component
 import java.security.KeyFactory
 import java.security.KeyPairGenerator
 import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.spec.RSAPublicKeySpec
 import javax.crypto.Cipher
-
+import org.springframework.stereotype.Component
 
 /**
  * RSA key 생성 및 암호화, 복호화하는 클래스
@@ -81,5 +80,4 @@ class AliceCryptoRsa {
         val decryptedBytes = cipher.doFinal(encryptedBytes)
         return String(decryptedBytes, Charsets.UTF_8)
     }
-
 }

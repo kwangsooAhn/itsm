@@ -1,16 +1,15 @@
 package co.brainz.framework.certification.controller
 
-
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/certification")
@@ -34,7 +33,11 @@ class AliceCertificationController(private val aliceCertificationService: AliceC
     }
 
     @GetMapping("/valid")
-    fun valid(request: HttpServletRequest, @RequestParam(value="uid", defaultValue = "") uid: String, model: Model): String {
+    fun valid(
+        request: HttpServletRequest,
+        @RequestParam(value = "uid", defaultValue = "") uid: String,
+        model: Model
+    ): String {
         var validCode: Int = AliceUserConstants.Status.ERROR.value
         if (uid != "") {
             validCode = aliceCertificationService.valid(uid)

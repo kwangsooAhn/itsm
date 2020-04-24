@@ -3,9 +3,17 @@ package co.brainz.workflow.engine.document.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
+import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
+import co.brainz.workflow.engine.component.repository.WfComponentRepository
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplaySaveDto
+import co.brainz.workflow.engine.document.dto.WfDocumentDisplayViewDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
+import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
+import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.element.repository.WfElementDataRepository
+import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
@@ -25,12 +33,17 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class WfDocumentService(
-    private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService,
-    private val wfDocumentRepository: WfDocumentRepository,
-    private val wfInstanceRepository: WfInstanceRepository,
-    private val wfProcessRepository: WfProcessRepository,
-    private val wfFormRepository: WfFormRepository
+        private val wfFormService: WfFormService,
+        private val wfActionService: WfActionService,
+        private val wfDocumentRepository: WfDocumentRepository,
+        private val wfDocumentDataRepository: WfDocumentDataRepository,
+        private val wfInstanceRepository: WfInstanceRepository,
+        private val wfProcessRepository: WfProcessRepository,
+        private val wfFormRepository: WfFormRepository,
+        private val wfComponentRepository: WfComponentRepository,
+        private val wfComponentDataRepository: WfComponentDataRepository,
+        private val wfElementRepository: WfElementRepository,
+        private val wfElementDataRepository: WfElementDataRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -52,7 +65,7 @@ class WfDocumentService(
                     documentName = document.documentName,
                     documentDesc = document.documentDesc,
                     documentStatus = document.documentStatus,
-                    procId = document.process!!.processId,
+                    processId = document.process!!.processId,
                     formId = document.form!!.formId,
                     createDt = document.createDt,
                     createUserKey = document.createUserKey,
@@ -78,7 +91,7 @@ class WfDocumentService(
                 documentName = document.documentName,
                 documentDesc = document.documentDesc,
                 documentStatus = document.documentStatus,
-                procId = document.process!!.processId,
+                processId = document.process!!.processId,
                 formId = document.form!!.formId,
                 createDt = document.createDt,
                 createUserKey = document.createUserKey,
@@ -129,7 +142,7 @@ class WfDocumentService(
      */
     fun createDocument(documentDto: WfDocumentDto): WfDocumentDto {
         val formId = documentDto.formId
-        val processId = documentDto.procId
+        val processId = documentDto.processId
         val selectedForm = wfFormRepository.getOne(formId)
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
@@ -151,13 +164,15 @@ class WfDocumentService(
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
+        // 신청서 양식 정보 초기화
+        createDocumentDisplay(dataEntity)
+
         return WfDocumentDto(
                 documentId = dataEntity.documentId,
                 documentName = dataEntity.documentName,
                 documentDesc = dataEntity.documentDesc,
-                documentStatus = dataEntity.documentStatus,
-                formId = dataEntity.form!!.formId,
-                procId = dataEntity.process!!.processId,
+                formId = dataEntity.form.formId,
+                processId = dataEntity.process.processId,
                 createDt = dataEntity.createDt,
                 createUserKey = dataEntity.createUserKey
         )
@@ -173,7 +188,7 @@ class WfDocumentService(
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
         val form = WfFormEntity(formId = documentDto.formId)
-        val process = WfProcessEntity(processId = documentDto.procId)
+        val process = WfProcessEntity(processId = documentDto.processId)
         wfDocumentEntity.documentName = documentDto.documentName
         wfDocumentEntity.documentDesc = documentDto.documentDesc
         wfDocumentEntity.documentStatus = documentDto.documentStatus
@@ -190,7 +205,7 @@ class WfDocumentService(
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
-                val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.procId)
+                val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.processId)
                 if (wfProcessEntity.processStatus != WfProcessConstants.Status.USE.code) {
                     wfProcessEntity.processStatus = WfProcessConstants.Status.USE.code
                     wfProcessRepository.save(wfProcessEntity)
@@ -213,6 +228,7 @@ class WfDocumentService(
 
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
+            wfDocumentDataRepository.deleteByDocumentId(documentId)
             wfDocumentRepository.deleteByDocumentId(documentId)
             true
         } else {
@@ -220,5 +236,97 @@ class WfDocumentService(
         }
         logger.info("Delete document result. {}", isDel)
         return isDel
+    }
+
+    /**
+     * Create Document Display.
+     *
+     * @param documentEntity
+     */
+    fun createDocumentDisplay(documentEntity: WfDocumentEntity) {
+        val wfDocumentDataEntities: MutableList<WfDocumentDataEntity> = mutableListOf()
+        val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
+        val elementEntities = wfElementRepository.findUserTaskByProcessId(documentEntity.process.processId)
+        for (component in componentEntities) {
+            for (element in elementEntities) {
+                val documentDataEntity = WfDocumentDataEntity(
+                        documentId = documentEntity.documentId,
+                        componentId = component.componentId,
+                        elementId = element.elementId
+                )
+                wfDocumentDataEntities.add(documentDataEntity)
+            }
+        }
+        if (wfDocumentDataEntities.isNotEmpty()) {
+            logger.debug("documentData setting...")
+            wfDocumentDataRepository.saveAll(wfDocumentDataEntities)
+        }
+    }
+
+    /**
+     * Search Document Display data.
+     *
+     * @param documentId
+     * @return WfDocumentDisplayViewDto
+     */
+    fun getDocumentDisplay(documentId: String): WfDocumentDisplayViewDto {
+        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+        val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
+        val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
+        val displayList = wfDocumentDataRepository.findByDocumentId(documentId)
+
+        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        for (component in componentEntities) {
+            val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            for (display in displayList) {
+                if (display.componentId == component.componentId) {
+                    val displayMap = LinkedHashMap<String, Any>()
+                    displayMap["elementId"] = display.elementId
+                    displayMap["display"] = display.display
+                    displayValue.add(displayMap)
+                }
+            }
+            val componentMap = LinkedHashMap<String, Any>()
+            val componentData = wfComponentDataRepository.findComponentDataByComponentId(component.componentId, "label")
+            val attributeValue = if (componentData.size > 0) {
+                // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
+                componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
+            } else {
+                // 컴포넌트 라벨 속성이 없는 경우, 컴포넌트 타입을 화면에 표시한다.
+                component.componentType
+            }
+            componentMap["componentId"] = component.componentId
+            componentMap["attributeValue"] = attributeValue
+            componentMap["displayValue"] = displayValue
+            components.add(componentMap)
+        }
+        return WfDocumentDisplayViewDto(
+                documentId = documentId,
+                elements = elementEntities,
+                components = components
+        )
+    }
+
+    /**
+     * Update Document Display data.
+     *
+     * @param wfDocumentDisplaySaveDto
+     * @return Boolean
+     */
+    fun updateDocumentDisplay(wfDocumentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
+        val documentId = wfDocumentDisplaySaveDto.documentId
+        wfDocumentDataRepository.deleteByDocumentId(documentId)
+        val displays = wfDocumentDisplaySaveDto.displays
+        displays.forEach {
+            wfDocumentDataRepository.save(
+                WfDocumentDataEntity(
+                    documentId = documentId,
+                    componentId = it.getValue("componentId").toString(),
+                    elementId = it.getValue("elementId").toString(),
+                    display = it.getValue("display").toString()
+                )
+            )
+        }
+        return true
     }
 }
