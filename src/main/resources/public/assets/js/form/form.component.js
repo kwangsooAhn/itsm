@@ -670,7 +670,37 @@
      * @constructor
      */
     function CustomCode(attr, target) {
-        let defaultCustomData = (attr.values !== undefined && attr.values.length > 0) ? attr.values[0].value : '';
+        let textDefaultArr = attr.display['default'].split('|');
+        let textDefaultValue = '',  // 폼 디자이너, 미리보기용
+            defaultCustomData = ''; // 신청서 작성 및 처리할 문서
+        if (!target.hasAttribute('data-readonly')) { // 신청서 작성 및 처리할 문서
+            //처리할 문서는 실 데이터를 출력한다.
+            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) { // 처리할 문서
+                if (attr.values.length > 0) {
+                    defaultCustomData = attr.values[0].value;
+                }
+            } else {  // 신청서 작성
+                if (textDefaultArr[0] !== 'none') {
+                    defaultCustomData = textDefaultArr[1] + '|' + textDefaultArr[2];
+                    if (textDefaultArr[0] === 'session') {
+                        switch (textDefaultArr[1]) {
+                            case 'userName':
+                                defaultCustomData = aliceForm.options.sessionInfo.userKey;
+                                break;
+                            case 'department':
+                                defaultCustomData = aliceForm.options.sessionInfo.department;
+                                break;
+                        }
+                        defaultCustomData += '|' + aliceForm.options.sessionInfo[textDefaultArr[1]];
+                    }
+                }
+            }
+        } else {
+            if (textDefaultArr[0] !== 'none') {
+                textDefaultValue = textDefaultArr[2];
+            }
+        }
+        console.debug('textDefaultValue: %s, defaultCustomData: %s', textDefaultValue, defaultCustomData);
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
@@ -682,10 +712,8 @@
                     <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly custom-data='${defaultCustomData}'/>
+                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly custom-data='${defaultCustomData}' value="${textDefaultValue}"/>
                     <input type='button' id='codeBtn' value='${attr.display["button-text"]}'>
-                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly/>
-                    <button type='button'>${attr.display["button-text"]}</button>
                 </div>
             </div>
         `);
@@ -734,8 +762,6 @@
                 form.submit();
             });
         }
-
-        this.domElem = comp;
     }
 
     /**
@@ -748,7 +774,7 @@
     function draw(compType, compTarget, compData) {
         let compAttr = { display: {} },
             compId = '';
-        
+
         if (compData !== undefined) { //기존 저장된 컴포넌트 속성이 존재할 경우
             if (compData.attributes === undefined) { //폼 편집
                 compId = compData.id;

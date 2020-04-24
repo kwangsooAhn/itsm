@@ -537,7 +537,7 @@
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
-                let timeformat = aliceForm.options.dateFormat +" "+ aliceForm.options.timeFormat +" "+ aliceForm.options.hourType;
+                let timeformat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
                 if (changeValue === 'none' || changeValue === 'now') {
                     changePropertiesValue(changeValue+'|'+ timeformat, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 } else {
@@ -918,6 +918,66 @@
                             } else if (compAttr.type === 'datetime') {
                                 dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.hourType, aliceForm.options.lang, setDateFormat);
                             }
+                            break;
+                        case 'radio-custom':
+                            fieldGroupDiv.classList.add('vertical');
+                            let fieldValueArr = fieldArr.value.split('|');
+                            let customDefaultTemplate = ``;
+                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
+                                let option = fieldArr.option[i];
+                                customDefaultTemplate += `
+                                    <div class='vertical-group'>
+                                    <input type='radio' id='${option.id}' name='${group}.${fieldArr.id}' value='${option.id}'
+                                    ${option.id === fieldValueArr[0] ? "checked='true'" : ""} />
+                                    <label for='${option.id}'>${option.name}</label>
+                                    ${option.id !== 'none' ? "<br/><select>" + option.items.map(item => `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`).join('') + "</select>": ""}
+                                    </div>
+                                `;
+                            }
+                            fieldGroupDiv.innerHTML += customDefaultTemplate;
+
+                            let customCodeSelect = propertiesPanel.querySelector('#custom-code > select');
+                            let changeCustomCode = function(val) {
+                                let customCodeDataSelect = fieldGroupDiv.querySelector('input[id=code]').parentNode.querySelector('select');
+                                customCodeDataSelect.innerHTML = '';
+                                // load custom code data.
+                                aliceJs.sendXhr({
+                                    method: 'GET',
+                                    url: '/rest/forms/custom-code/' + customCodeSelect.value + '/list',
+                                    callbackFunc: function(xhr) {
+                                        let customCodeData = JSON.parse(xhr.responseText);
+                                        customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
+                                        if (val) {
+                                            customCodeDataSelect.value = val;
+                                        }
+                                        let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
+                                        if (targetRadio.checked) {
+                                            changePropertiesValue('code|' + customCodeDataSelect.value + '|' + customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text, group, fieldArr.id);
+                                        }
+                                    },
+                                    contentType: 'application/json; charset=utf-8',
+                                    showProgressbar: false
+                                });
+                            }
+                            customCodeSelect.addEventListener('change', function() { changeCustomCode(); });
+                            changeCustomCode(fieldValueArr[0] === 'code' ? fieldValueArr[1] : null);
+
+                            fieldGroupDiv.querySelectorAll('input[type=radio], select').forEach(function(elem) {
+                                elem.addEventListener('change', function(e) {
+                                    let targetId = this.id;
+                                    let targetRadio = this.parentNode.querySelector('input[type=radio]');
+                                    if (elem.tagName.toUpperCase() === 'SELECT') {
+                                        if (!targetRadio.checked) { return; }
+                                        targetId = targetRadio.id;
+                                    }
+                                    let val = targetId !== 'none' ? targetId + '|' + this.parentNode.querySelector('select').value : targetId;
+                                    if (targetRadio.checked && targetRadio.id !== 'none') {
+                                        val += ('|' + this.parentNode.querySelector('select').options[this.parentNode.querySelector('select').selectedIndex].text);
+                                    }
+                                    changePropertiesValue(val, group, fieldArr.id);
+                                });
+                            });
+
                             break;
                         case 'button':
                             if (fieldButtonDiv === null) { break; }
