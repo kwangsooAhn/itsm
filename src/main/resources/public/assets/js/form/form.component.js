@@ -84,7 +84,7 @@
             textDefaultValue = textDefaultArr[2];
         }
         //처리할 문서는 실 데이터를 출력한다.
-        if (attr.values !== undefined && attr.values.length > 0) {
+        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
             textDefaultValue = attr.values[0].value;
         }
         let comp = utils.createComponentByTemplate(`
@@ -122,7 +122,7 @@
         const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
         let textAreaDefaultValue = '';
         //처리할 문서는 실 데이터를 출력한다.
-        if (attr.values !== undefined && attr.values.length > 0) {
+        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
             textAreaDefaultValue = textEditorUseYn ? JSON.parse(attr.values[0].value) : attr.values[0].value;
         }
         let comp = utils.createComponentByTemplate(`
@@ -205,7 +205,7 @@
             optElem.text = attr.option[i].name;
             optElem.setAttribute('seq', attr.option[i].seq);
             //처리할 문서는 실 데이터를 출력한다.
-            if (attr.values !== undefined && attr.values.length > 0 && optElem.value === attr.values[0].value) {
+            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0 && optElem.value === attr.values[0].value) {
                 optElem.selected = true;
             }
             selectElem.appendChild(optElem);
@@ -252,7 +252,7 @@
             radioElem.setAttribute('seq', attr.option[i].seq);
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (attr.values !== undefined && attr.values.length > 0) {
+            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
                 radioElem.checked = (radioElem.value === attr.values[0].value);
             } else {
                 radioElem.checked = (i === 0);
@@ -321,7 +321,7 @@
             checkElem.name = attr.option[i].name;
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (attr.values !== undefined && attr.values.length > 0) {
+            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
                 const checkboxValues = attr.values[0].value.split(',');
                 for (let j = 0, cheklen = checkboxValues.length; j < cheklen; j++) {
                     if (checkElem.value === checkboxValues[j]) {
@@ -424,7 +424,7 @@
         let dateDefault = '';
         let datePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
         //처리할 문서는 실 데이터를 출력한다.
-        if (attr.values !== undefined && attr.values.length > 0) {
+        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
             let dateValue = attr.values[0].value.split('|');
             if (dateValue[0] !== '') {
                 dateDefault = aliceJs.changeDateFormat(dateValue[1], datePlaceholder, dateValue[0], aliceForm.options.lang);
@@ -481,7 +481,7 @@
         let beforeFormt = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + '24';
         let timeDefault = '';
         //처리할 문서는 실 데이터를 출력한다.
-        if (attr.values !== undefined && attr.values.length > 0) {
+        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
             //저장한 날짜와 포맷
             let timeValue = attr.values[0].value.split('|');
             //저장한 가상 날짜 및 시간
@@ -565,7 +565,7 @@
         let datetimePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
         let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat;
 
-        if (attr.values != undefined && attr.values.length > 0 ) {
+        if (target.hasAttribute('data-isToken') && attr.values != undefined && attr.values.length > 0 ) {
             let dateValue = attr.values[0].value.split('|');
             if (dateValue[0] !== '') {
                 datetimeDefault = aliceJs.changeDateFormat(dateValue[1], datetimePlaceholder, dateValue[0], aliceForm.options.lang);
@@ -649,7 +649,7 @@
                     editor: (attr.displayType !== 'readonly')
                 }
             };
-            if (attr.values !== undefined && attr.values.length > 0) {
+            if (atarget.hasAttribute('data-isToken') && ttr.values !== undefined && attr.values.length > 0) {
                 fileOptions.extra.fileDataIds = attr.values[0].value;
             }
             fileUploader.init(fileOptions);
@@ -706,10 +706,10 @@
             compId = '';
         
         if (compData !== undefined) { //기존 저장된 컴포넌트 속성이 존재할 경우
-            if (compData.attributes === undefined) { //폼 편집, 신청서
+            if (compData.attributes === undefined) { //폼 편집
                 compId = compData.id;
                 compAttr = compData;
-            } else {                                 //처리할 문서
+            } else {                                 //신청서, 처리할 문서
                 compId = compData.componentId;
                 compAttr = compData.attributes;
                 compAttr.values = compData.values;   //처리할 문서 실제 데이터

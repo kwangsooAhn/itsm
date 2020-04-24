@@ -399,7 +399,7 @@
             data.components = data.components.filter(function(comp) { return comp.type !== 'editbox'; }); //미리보기시 editbox 제외
         }
         documentContainer = document.getElementById('document-container');
-        documentContainer.setAttribute('data-isToken', true);
+        documentContainer.setAttribute('data-isToken', (data.token !== undefined)); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
         let components = (data.token === undefined) ? data.components : data.token.components;
         if (components.length > 0) {
