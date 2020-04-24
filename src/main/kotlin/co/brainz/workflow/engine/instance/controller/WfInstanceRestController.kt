@@ -59,8 +59,8 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     /**
      * 인스턴스ID [instanceId]로 마지막 토큰 정보를 조회한다.
      */
-    @GetMapping("/{instanceId}/lastest")
-    fun getInstanceLastestToken(@PathVariable instanceId: String): WfTokenDto {
-        return wfEngine.instance().getInstanceLastestToken(instanceId)
+    @GetMapping("/{instanceId}/latest")
+    fun getInstanceLatestToken(@PathVariable instanceId: String): WfTokenDto {
+        return wfEngine.instance().getInstanceLatestToken(instanceId)
     }
 }
