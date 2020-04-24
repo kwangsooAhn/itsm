@@ -7,6 +7,7 @@ import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
@@ -90,14 +91,17 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * @param restTemplateDocumentDto
      * @return Boolean
      */
-    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
+    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         val documentId = restTemplateDocumentDto.documentId?:""
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
         val responseEntity = restTemplate.update(url, restTemplateDocumentDto)
-        return responseEntity.body.toString().isNotEmpty()
+        return when (responseEntity.body.toString().isNotEmpty()) {
+            true -> {documentId}
+            false -> ""
+        }
     }
 
     /**
@@ -138,4 +142,28 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
         processParams["status"] = processStatus.joinToString(",")
         return processService.getProcesses(processParams)
     }
+
+    /**
+     * 신청서 양식 데이터 조회
+     *
+     * @param documentId
+     * @return List<DocumentDto>
+     */
+    fun findDocumentDisplay(documentId: String): String {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_DISPLAY.url.replace(restTemplate.getKeyRegex(), documentId))
+        return restTemplate.get(url)
+    }
+
+    /**
+     * 신청서 양식 데이터 update
+     *
+     * @param documentDisplay
+     * @return Boolean
+     */
+    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDataDto): Boolean {
+        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENTS_DISPLAY.url.replace(restTemplate.getKeyRegex(), documentDisplay.documentId.toString()))
+        val responseEntity = restTemplate.update(urlDto, documentDisplay)
+        return responseEntity.body.toString().isNotEmpty()
+    }
+
 }

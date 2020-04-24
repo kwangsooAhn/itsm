@@ -32,5 +32,4 @@ class AliceCertificationRestController(private val aliceCertificationService: Al
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         aliceCertificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, AliceUserConstants.SendMailStatus.CREATE_USER.code, null)
     }
-
 }

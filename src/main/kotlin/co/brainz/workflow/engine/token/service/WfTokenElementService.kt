@@ -17,11 +17,11 @@ import co.brainz.workflow.engine.token.entity.WfTokenDataEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import java.time.LocalDateTime
+import java.time.ZoneId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Service
 class WfTokenElementService(
@@ -165,7 +165,6 @@ class WfTokenElementService(
         goToNext(wfTokenEntity, wfElementEntity, wfTokenDto)
     }
 
-
     /**
      * Set Next Token Save.
      *
@@ -176,7 +175,7 @@ class WfTokenElementService(
     private fun setNextTokenSave(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto): WfTokenEntity {
         val saveTokenEntity = wfTokenRepository.save(wfTokenEntity)
 
-        //Token Data
+        // Token Data
         val dataList: MutableList<WfTokenDataEntity> = mutableListOf()
         wfTokenDto.data?.forEach {
             dataList.add(
@@ -236,7 +235,7 @@ class WfTokenElementService(
                         )
                     }
                     WfTokenConstants.AssigneeType.GROUPS.code -> {
-                        //TODO: 담당자 그룹에 따른 처리
+                        // TODO: 담당자 그룹에 따른 처리
                     }
                 }
             }
@@ -279,7 +278,7 @@ class WfTokenElementService(
                     pTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
                     val savePTokenEntity = wfTokenRepository.save(pTokenEntity)
                     val newElementEntity = wfActionService.getElement(savePTokenEntity.element.elementId)
-                    //TODO: 문서의 양식이 다르기 때문에 데이터가 다르다. wfTokenDto 값을 현재 문서에 맞게 갱신하는 작업 필요 (mapping-id)
+                    // TODO: 문서의 양식이 다르기 때문에 데이터가 다르다. wfTokenDto 값을 현재 문서에 맞게 갱신하는 작업 필요 (mapping-id)
                     goToNext(savePTokenEntity, newElementEntity, wfTokenDto)
                 }
             }
@@ -295,11 +294,11 @@ class WfTokenElementService(
                 goToNext(saveTokenEntity, newElementEntity, wfTokenDto)
             }
             WfElementConstants.ElementType.SUB_PROCESS.value -> {
-                //TODO: SubProcess 로 시작시 초기 데이터를 갱신해야한다. 데이터 구조가 다름. (wfTokenDto 를 mapping-id로 처리)
+                // TODO: SubProcess 로 시작시 초기 데이터를 갱신해야한다. 데이터 구조가 다름. (wfTokenDto 를 mapping-id로 처리)
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
                 val saveTokenEntity = setNextTokenSave(newTokenEntity, wfTokenDto)
 
-                //New Instance
+                // New Instance
                 val documentId = getAttributeValue(
                     nextElementEntity.elementDataEntities,
                     WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value
@@ -314,7 +313,7 @@ class WfTokenElementService(
                 val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
                 wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
 
-                //Call Document Start Element
+                // Call Document Start Element
                 val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
                 wfTokenDto.elementType = startElement.elementType
                 wfTokenDto.elementId = startElement.elementId

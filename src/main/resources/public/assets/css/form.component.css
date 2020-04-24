@@ -47,7 +47,7 @@
   resize: vertical;
 }
 
-.component .group .field button {
+.component .group .field input[type=button] {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
