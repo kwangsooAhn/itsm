@@ -955,7 +955,8 @@
                                             changePropertiesValue('code|' + customCodeDataSelect.value + '|' + customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text, group, fieldArr.id);
                                         }
                                     },
-                                    contentType: 'application/json; charset=utf-8'
+                                    contentType: 'application/json; charset=utf-8',
+                                    showProgressbar: false
                                 });
                             }
                             customCodeSelect.addEventListener('change', function() { changeCustomCode(); });

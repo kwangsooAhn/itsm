@@ -675,7 +675,11 @@
             defaultCustomData = ''; // 신청서 작성 및 처리할 문서
         if (!target.hasAttribute('data-readonly')) { // 신청서 작성 및 처리할 문서
             //처리할 문서는 실 데이터를 출력한다.
-            if (attr.values === undefined) { // 신청서 작성
+            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) { // 처리할 문서
+                if (attr.values.length > 0) {
+                    defaultCustomData = attr.values[0].value;
+                }
+            } else {  // 신청서 작성
                 if (textDefaultArr[0] !== 'none') {
                     defaultCustomData = textDefaultArr[1] + '|' + textDefaultArr[2];
                     if (textDefaultArr[0] === 'session') {
@@ -689,10 +693,6 @@
                         }
                         defaultCustomData += '|' + aliceForm.options.sessionInfo[textDefaultArr[1]];
                     }
-                }
-            } else { // 처리할 문서
-                if (attr.values.length > 0) {
-                    defaultCustomData = attr.values[0].value;
                 }
             }
         } else {
@@ -762,8 +762,6 @@
                 form.submit();
             });
         }
-
-        this.domElem = comp;
     }
 
     /**
