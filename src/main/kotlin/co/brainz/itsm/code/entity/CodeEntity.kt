@@ -14,15 +14,15 @@ import javax.persistence.Table
 @Table(name = "awf_code_copy")
 data class CodeEntity(
     @Id @Column(name = "code")
-    val code: String,
+    var code: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_code")
-    val pCode: CodeEntity? = null,
+    var pCode: CodeEntity? = null,
 
     @Column(name = "code_value")
-    val codeValue: String? = null,
+    var codeValue: String? = null,
 
     @Column(name = "editable")
-    val editable: Boolean? = null
+    var editable: Boolean? = true
 ) : Serializable, AliceMetaEntity()
