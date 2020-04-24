@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/boards")
-class boardRestController(private val boardService: BoardService) {
+class BoardRestController(private val boardService: BoardService) {
 
     /**
      * 게시판 신규 등록.
@@ -61,7 +61,7 @@ class boardRestController(private val boardService: BoardService) {
      * @param boardCommentDto
      */
     @PutMapping("/comments")
-    fun updateBoards(@RequestBody boardCommentDto: BoardCommentDto) {
+    fun updateBoard(@RequestBody boardCommentDto: BoardCommentDto) {
         boardService.saveBoardComment(boardCommentDto)
     }
 
@@ -73,5 +73,15 @@ class boardRestController(private val boardService: BoardService) {
     @DeleteMapping("/comments/{commentId}")
     fun deleteBoardComment(@PathVariable commentId: String) {
         boardService.deleteBoardComment(commentId)
+    }
+
+    /**
+     * 게시판 답글 삭제.
+     *
+     * @param boardDto
+     */
+    @PostMapping("/reply")
+    fun createBoardAnswer(@RequestBody boardDto: BoardDto) {
+        boardService.saveBoardReply(boardDto)
     }
 }

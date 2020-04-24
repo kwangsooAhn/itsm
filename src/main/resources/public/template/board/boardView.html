@@ -32,7 +32,6 @@
         <div style="height: 90px;">
             <h1 th:text="#{board.label.detail}"></h1>
         </div>
-        <hr>
         <form id="boardForm" method="post" onsubmit="return false">
             <table>
                 <colgroup>
@@ -95,9 +94,9 @@
                         th:text="#{common.btn.modify}">
                 </button>
                 <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
-                        th:if="${boardInfo?.boardId} and ${boardAdminInfo.answerYn}"
-                        onclick="saveBoardAnswer('post')"
-                        th:text="#{board.btn.answer}">
+                        th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
+                        th:onclick ="'location.href =\'' + @{/boards/{id}/replay/edit(id=${boardInfo.boardId})}+'\''"
+                        th:text="#{board.btn.reply}">
                 </button>
                 <button sec:authorize="hasAuthority('board.delete')" style="margin-right: 5px;"
                         th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"

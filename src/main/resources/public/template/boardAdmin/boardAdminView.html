@@ -51,9 +51,9 @@
                 <td colspan="3"><label th:text="${boardAdmin?.boardAdminDesc}"/></td>
             </tr>
             <tr>
-                <td><label th:text="#{board.label.answer}"></td>
-                <td><label th:text="${boardAdmin.answerYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
-                <td><label th:text="#{board.label.comment}"></td>
+                <td><label th:text="#{board.label.replyYn}"></td>
+                <td><label th:text="${boardAdmin.replyYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
+                <td><label th:text="#{board.label.commentYn}"></td>
                 <td><label th:text="${boardAdmin.commentYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
             </tr>
             <tr>
@@ -61,7 +61,7 @@
                 <td colspan="3"><label th:text="${boardAdmin.categoryYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
             </tr>
             <tr>
-                <td><label th:text="#{board.label.attachFile}"></td>
+                <td><label th:text="#{board.label.attachFileYn}"></td>
                 <td><label th:text="${boardAdmin.attachYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
                 <td><label th:text="#{board.label.attachFileSize}"></td>
                 <td colspan="3"><label th:text="${boardAdmin?.attachFileSize}"/></td>

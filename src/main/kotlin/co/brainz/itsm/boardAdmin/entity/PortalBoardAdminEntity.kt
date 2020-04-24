@@ -29,8 +29,8 @@ class PortalBoardAdminEntity(
         @Column(name = "board_use_yn")
         var boardUseYn: Boolean = false,
 
-        @Column(name = "answer_yn")
-        var answerYn: Boolean = false,
+        @Column(name = "reply_yn")
+        var replyYn: Boolean = false,
 
         @Column(name = "comment_yn")
         var commentYn: Boolean = false,

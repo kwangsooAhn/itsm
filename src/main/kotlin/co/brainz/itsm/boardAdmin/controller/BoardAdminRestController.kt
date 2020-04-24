@@ -18,7 +18,7 @@ class BoardAdminRestController(private val boardAdminService: BoardAdminService)
     /**
      * 게시판 관리 신규 등록.
      *
-     * @param BoardAdminDto
+     * @param boardAdminDto
      */
     @PostMapping("")
     fun createBoardAdmin(@RequestBody boardAdminDto: BoardAdminDto) {
@@ -28,7 +28,7 @@ class BoardAdminRestController(private val boardAdminService: BoardAdminService)
     /**
      * 게시판 관리 수정.
      *
-     * @param BoardAdminDto
+     * @param boardAdminDto
      */
     @PutMapping("")
     fun updateBoardAdmin(@RequestBody boardAdminDto: BoardAdminDto) {

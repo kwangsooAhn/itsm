@@ -447,9 +447,12 @@ download:
 board:
   btn:
     category: "Category"
-    answer: "Answer"
+    reply: "Reply"
   label:
     board: "Board"
+    add: "Board Add"
+    edit: "Board Edit"
+    reply: "Board Reply"
     manager: "Board Manager"
     detail: "Board Detail"
     searchPlaceholder: "Title / CreateUserName"
@@ -463,9 +466,9 @@ board:
     desc: "Board desc"
     writeAuth: "Write permission"
     roleName: "Role name"
-    answer: "Reply Yes or No"
-    comment: "Comment Yes or No"
-    attachFile: "Attach File Yes or No"
+    replyYn: "Reply Yes or No"
+    commentYn: "Comment Yes or No"
+    attachFileYn: "Attach File Yes or No"
     attachFileSize: "Attach File Size"
     number: "Number"
     title: "Title"

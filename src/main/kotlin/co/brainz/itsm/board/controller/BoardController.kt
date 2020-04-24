@@ -79,6 +79,7 @@ class BoardController(private val boardService: BoardService) {
             model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardAdminInfo.boardAdminId))
         }
         model.addAttribute("boardAdminInfo", boardAdminInfo)
+        model.addAttribute("replyYn", false)
         return boardEditPage
     }
 
@@ -98,6 +99,7 @@ class BoardController(private val boardService: BoardService) {
         }
         model.addAttribute("boardAdminInfo", boardAdminInfo)
         model.addAttribute("boardInfo", boardDtoInfo)
+        model.addAttribute("replyYn", false)
         return boardEditPage
     }
 
@@ -112,6 +114,26 @@ class BoardController(private val boardService: BoardService) {
     fun getBoardCommentList(@PathVariable boardId: String, model: Model): String {
         model.addAttribute("boardCommentList", boardService.getBoardCommentList(boardId))
         return boardCommentListPage
+    }
+
+    /**
+     * 게시판 답글 조회 화면.
+     *
+     * @param boardId
+     * @param model
+     * @return String
+     */
+    @GetMapping("/{boardId}/replay/edit")
+    fun getBoardReplayEdit(@PathVariable boardId: String, model: Model): String {
+        val boardDtoInfo : BoardDto = boardService.getBoard(boardId, "reply")
+        val boardAdminInfo : BoardAdminDto = boardService.getBoardAdmin(boardDtoInfo.boardAdminId)
+        if (boardAdminInfo.categoryYn) {
+            model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardAdminInfo.boardAdminId))
+        }
+        model.addAttribute("boardAdminInfo", boardAdminInfo)
+        model.addAttribute("boardInfo", boardDtoInfo)
+        model.addAttribute("replyYn", true)
+        return boardEditPage
     }
 
 }

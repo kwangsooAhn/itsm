@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{board.label.manager}"></title>
+    <title th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.edit}"></title>
+    <title th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.add}"></title>
+    <title th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></title>
     <meta charset="UTF-8">
     <style>
         table {
@@ -33,7 +35,9 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:text="#{board.label.manager}"></h1>
+            <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.edit}"></h1>
+            <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.add}"></h1>
+            <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
         </div>
         <hr>
         <form id="boardForm" method="post" onsubmit="return false">
@@ -85,18 +89,20 @@
             <div align="right">
                 <button style="margin-right: 5px;" onclick="location.href='/boards/search'" th:text="#{common.btn.list}"></button>
                 <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
-                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
-                        onclick="saveBoard('put')"
+                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')
+                               and ${boardInfo?.boardId} and ${replyYn} == false"
+                        onclick ="saveBoard('put', 'normal')"
                         th:text="#{common.btn.modify}">
                 </button>
                 <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
-                        th:unless="${boardInfo?.boardId}" onclick="saveBoard('post')"
+                        th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
+                        onclick="saveBoard('post', 'normal')"
                         th:text="#{common.btn.save}">
                 </button>
-                <button sec:authorize="hasAuthority('board.delete')" style="margin-right: 5px;"
-                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
-                        onclick="deleteBoard('delete')"
-                        th:text="#{common.btn.delete}">
+                <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
+                        th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                        onclick="saveBoard('post', 'reply')"
+                        th:text="#{board.btn.reply}">
                 </button>
             </div>
         </form>
@@ -112,10 +118,14 @@
         const attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
         const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
-
+        const replyYn = /*[[${replyYn}]]*/;
         window.onload = function() {
             if (attachYn) {
-                fileUploader.init({extra: {formId: 'boardForm', ownId: boardId}});
+                if (!replyYn) {
+                    fileUploader.init({extra: {formId: 'boardForm', ownId: boardId}});
+                } else {
+                    fileUploader.init({extra: {formId: 'boardForm', ownId: ''}});
+                }
             }
             if (boardId !== null && commentYn) {
                 getBoardCommentList();
@@ -123,7 +133,7 @@
         };
 
         //게시판 저장
-        function saveBoard(method) {
+        function saveBoard(method, kind) {
             if (isEmpty('boardTitle', 'board.msg.inputBoardTitle')) return;
             let fileSeqList = [];
             document.getElementsByName('fileSeq').forEach(function(elem) {
@@ -142,39 +152,16 @@
                 boardCategoryId: boardCategoryId
             };
 
-            if (method === 'put') {
+            console.log(method+"==="+kind);
+            if (method === 'put' || kind === 'reply') {
                 data.boardId = boardId;
             }
-            restSubmit(method, '/rest/boards', data);
-        }
+            if (kind === 'normal') {
+                restSubmit(method, '/rest/boards', data);
+            } else if (kind === 'reply') {
+                restSubmit(method, '/rest/boards/reply', data);
+            }
 
-        //게시판  삭제
-        function deleteBoard(method) {
-            restSubmit(method, '/rest/boards/' + boardId);
-        }
-
-        //게시판 댓글 저장
-        /*function saveBoardComment(method) {
-            const data = {
-                boardComments: document.getElementById('boardComments').value
-            };
-            restSubmit(method, '/rest/boards/' + boardId + '/comment', data);
-        }*/
-
-        //게시판 댓글 조회
-        function getBoardCommentList() {
-            restSubmit('get', '/boards/' + boardId + '/comments/list');
-        }
-
-        //게시판 댓글 삭제
-        function boardCommentDelete() {
-            restSubmit('delete', '/rest/boards/comments/' + boardId);
-        }
-
-        //게시판 댓글 수정
-        function openCommentEdit() {
-            //밑에 row에 자동으로 무엇이 생기고 거기서 저장 할 수 있도록 구현
-            alert("수정");
         }
 
         //REST API

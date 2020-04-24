@@ -446,9 +446,12 @@ download:
 board:
   btn:
     category: "카테고리"
-    answer: "답글"
+    reply: "답글"
   label:
     board: "게시판"
+    add: "게시판 등록"
+    edit: "게시판 수정"
+    reply: "게시판 답글"
     manager: "게시판 관리"
     detail: "게시판 상세"
     searchPlaceholder: "제목 / 등록자"
@@ -462,9 +465,9 @@ board:
     desc: "게시판 설명"
     writeAuth: "쓰기권한"
     roleName: "역할 명"
-    answer: "답글"
-    comment: "댓글"
-    attachFile: "첨부파일"
+    replyYn: "답글"
+    commentYn: "댓글"
+    attachFileYn: "첨부파일"
     attachFileSize: "첨부파일 용량"
     use: "사용"
     unused: "미사용"

@@ -81,12 +81,12 @@
                     <td colspan="3"><textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7" style="width: 750px; resize: none;" th:text="${boardAdmin?.boardAdminDesc}"></textarea></td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{board.label.answer}"></td>
+                    <td><label th:text="#{board.label.replyYn}"></td>
                     <td>
-                        <input type="radio" name="answerYn" th:value="true" th:checked="${boardAdmin?.answerYn == null || boardAdmin?.answerYn == true} ? checked" th:text="#{board.label.use}"/>
-                        <input type="radio" name="answerYn" th:value="false" th:checked="${boardAdmin?.answerYn == false} ? checked" th:text="#{board.label.unused}"/>
+                        <input type="radio" name="replyYn" th:value="true" th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true} ? checked" th:text="#{board.label.use}"/>
+                        <input type="radio" name="replyYn" th:value="false" th:checked="${boardAdmin?.replyYn == false} ? checked" th:text="#{board.label.unused}"/>
                     </td>
-                    <td><label th:text="#{board.label.comment}"></td>
+                    <td><label th:text="#{board.label.commentYn}"></td>
                     <td>
                         <input type="radio" name="commentYn" th:value="true" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true} ? checked" th:text="#{board.label.use}"/>
                         <input type="radio" name="commentYn" th:value="false" th:checked="${boardAdmin?.commentYn == false} ? checked" th:text="#{board.label.unused}"/>
@@ -100,7 +100,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{board.label.attachFile}"></td>
+                    <td><label th:text="#{board.label.attachFileYn}"></td>
                     <td>
                         <input type="radio" name="attachYn" th:value="true" th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true} ? checked" onchange="setDisplay('attachFileSize', true)" th:text="#{board.label.use}"/>
                         <input type="radio" name="attachYn" th:value="false" th:checked="${boardAdmin?.attachYn == false} ? checked" onchange="setDisplay('attachFileSize', false)" th:text="#{board.label.unused}"/>
@@ -168,7 +168,7 @@
                 boardAdminDesc: document.getElementById('boardAdminDesc').value,
                 boardAdminSort: document.getElementById('boardAdminSort').value,
                 boardUseYn: getRadioCheckValue('boardUseYn'),
-                answerYn: getRadioCheckValue('answerYn'),
+                replyYn: getRadioCheckValue('replyYn'),
                 commentYn: getRadioCheckValue('commentYn'),
                 categoryYn: getRadioCheckValue('categoryYn'),
                 attachYn: getRadioCheckValue('attachYn'),

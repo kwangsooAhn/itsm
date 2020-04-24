@@ -9,7 +9,7 @@ data class BoardAdminDto(
     var boardAdminDesc: String? = "",
     var boardAdminSort: Int?,
     var boardUseYn: Boolean = false,
-    var answerYn: Boolean = false,
+    var replyYn: Boolean = false,
     var commentYn: Boolean = false,
     var categoryYn: Boolean = false,
     var attachYn: Boolean = false,

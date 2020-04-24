@@ -27,8 +27,7 @@ class BoardService(private val boardRepository: BoardRepository,
                    private val boardAdminRepository: BoardAdminRepository,
                    private val boardCategoryRepository: BoardCategoryRepository,
                    private val aliceFileService: AliceFileService,
-                   private val convertParam: ConvertParam
-                   ) {
+                   private val convertParam: ConvertParam) {
 
     /**
      * 게시판 관리 목록
@@ -56,7 +55,7 @@ class BoardService(private val boardRepository: BoardRepository,
             var readCount = 0L
 
             if (boardReadRepository.countByBoardId(PortalBoardEntity.boardId) > 0 ) {
-                readCount = boardReadRepository.findByBoardId(PortalBoardEntity.boardId).get(0).boardReadCount!!
+                readCount = boardReadRepository.findByBoardId(PortalBoardEntity.boardId)[0].boardReadCount!!
             }
             if (boardAdminDto.categoryYn) {
                 if (PortalBoardEntity.boardCategoryId != "") {
@@ -71,10 +70,12 @@ class BoardService(private val boardRepository: BoardRepository,
                     boardId = PortalBoardEntity.boardId,
                     boardAdminId = PortalBoardEntity.boardAdminId,
                     boardCategoryName = categoryName,
-                    boardNo = PortalBoardEntity.boardNo,
+                    boardSeq = PortalBoardEntity.boardSeq,
                     boardTitle = PortalBoardEntity.boardTitle,
                     boardConents = PortalBoardEntity.boardConents,
-                    parentBoardId = PortalBoardEntity.parentBoardId,
+                    boardGroupNo =PortalBoardEntity.boardGroupNo,
+                    boardLevelNo = PortalBoardEntity.boardLevelNo,
+                    boardOrderSeq = PortalBoardEntity.boardOrderSeq,
                     replyCount = replyCount,
                     readCount = readCount,
                     createDt = PortalBoardEntity.createDt,
@@ -93,19 +94,23 @@ class BoardService(private val boardRepository: BoardRepository,
     @Transactional
     fun saveBoard(boardDto: BoardDto) {
         val boardCount = boardRepository.countByBoardAdminId(boardDto.boardAdminId)
-        var boardNo = 0L
+        var boardSeq = 0L
         if (boardCount > 0) {
-            boardNo = boardRepository.findMaxBoardNo(boardDto.boardAdminId)
+            boardSeq = boardRepository.findMaxBoardSeq(boardDto.boardAdminId)
         }
+
+        val updatePortalBoardEntity = boardRepository.findById(boardDto.boardId).orElse(null)
 
         val portalBoardEntity = PortalBoardEntity (
             boardId = boardDto.boardId,
             boardAdminId = boardDto.boardAdminId,
-            boardNo = boardNo + 1,
             boardCategoryId = boardDto.boardCategoryId,
+            boardSeq = boardSeq + 1,
+            boardGroupNo = boardSeq + 1,
+            boardLevelNo = updatePortalBoardEntity?.boardLevelNo ?: 0,
+            boardOrderSeq = updatePortalBoardEntity?.boardOrderSeq ?: 0,
             boardTitle = boardDto.boardTitle,
-            boardConents = boardDto.boardConents,
-            parentBoardId = boardDto.parentBoardId
+            boardConents = boardDto.boardConents
         )
         val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
         aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardDto.fileSeqList))
@@ -149,21 +154,23 @@ class BoardService(private val boardRepository: BoardRepository,
             categoryName = boardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
         }
 
-        return BoardDto(
+        return BoardDto (
             boardId = boardEntity.boardId,
             boardAdminId = boardEntity.boardAdminId,
             boardCategoryId = boardEntity.boardCategoryId,
             boardCategoryName = categoryName,
-            boardNo = boardEntity.boardNo,
-            boardTitle = boardEntity.boardTitle,
-            boardConents = boardEntity.boardConents,
-            parentBoardId = boardEntity.parentBoardId,
+            boardSeq = boardEntity.boardSeq,
+            boardGroupNo = if (type == "reply") boardEntity.boardSeq else boardEntity.boardGroupNo,
+            boardLevelNo = boardEntity.boardLevelNo,
+            boardOrderSeq = boardEntity.boardOrderSeq,
+            boardTitle = if (type == "reply") "RE : "+boardEntity.boardTitle else boardEntity.boardTitle,
+            boardConents = if (type == "reply") "" else boardEntity.boardConents,
             replyCount = replyCount,
             readCount = boardReadEntity.boardReadCount,
-            createDt = boardEntity.createDt,
-            createUser = boardEntity.createUser,
-            updateDt = boardEntity.updateDt,
-            updateUser = boardEntity.updateUser
+            createDt = if (type == "reply") null else boardEntity.createDt,
+            createUser = if (type == "reply") null else boardEntity.createUser,
+            updateDt =if (type == "reply") null else boardEntity.updateDt,
+            updateUser = if (type == "reply") null else boardEntity.updateUser
         )
     }
 
@@ -176,16 +183,16 @@ class BoardService(private val boardRepository: BoardRepository,
     fun getBoardAdmin(boardAdminId: String) : BoardAdminDto {
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         return BoardAdminDto (
-                boardAdminId = boardAdminEntity.boardAdminId,
-                boardAdminTitle = boardAdminEntity.boardAdminTitle,
-                boardAdminDesc = boardAdminEntity.boardAdminDesc,
-                boardAdminSort = boardAdminEntity.boardAdminSort,
-                boardUseYn = boardAdminEntity.boardUseYn,
-                answerYn = boardAdminEntity.answerYn,
-                commentYn = boardAdminEntity.commentYn,
-                categoryYn = boardAdminEntity.categoryYn,
-                attachYn = boardAdminEntity.attachYn,
-                attachFileSize = boardAdminEntity.attachFileSize
+            boardAdminId = boardAdminEntity.boardAdminId,
+            boardAdminTitle = boardAdminEntity.boardAdminTitle,
+            boardAdminDesc = boardAdminEntity.boardAdminDesc,
+            boardAdminSort = boardAdminEntity.boardAdminSort,
+            boardUseYn = boardAdminEntity.boardUseYn,
+            replyYn = boardAdminEntity.replyYn,
+            commentYn = boardAdminEntity.commentYn,
+            categoryYn = boardAdminEntity.categoryYn,
+            attachYn = boardAdminEntity.attachYn,
+            attachFileSize = boardAdminEntity.attachFileSize
         )
     }
 
@@ -268,4 +275,27 @@ class BoardService(private val boardRepository: BoardRepository,
         return boardCategoryDtoList
     }
 
+    /**
+     * 게시판 답글 저장.
+     *
+     * @param boardDto
+     */
+    @Transactional
+    fun saveBoardReply(boardDto: BoardDto) {
+        val oldBoardEntity = boardRepository.findById(boardDto.boardId)
+        val portalBoardEntity = PortalBoardEntity (
+            boardId = "",
+            boardAdminId = boardDto.boardAdminId,
+            boardSeq = boardRepository.findMaxBoardSeq(boardDto.boardAdminId) + 1,
+            boardGroupNo = oldBoardEntity.get().boardGroupNo,
+            boardLevelNo = oldBoardEntity.get().boardLevelNo + 1,
+            boardOrderSeq = oldBoardEntity.get().boardOrderSeq + 1,
+            boardCategoryId = boardDto.boardCategoryId,
+            boardTitle = boardDto.boardTitle,
+            boardConents = boardDto.boardConents
+        )
+        val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
+        boardRepository.updateBoardOrderSeq(savedPortalBoardEntity.boardAdminId, savedPortalBoardEntity.boardGroupNo, savedPortalBoardEntity.boardOrderSeq, savedPortalBoardEntity.boardSeq)
+        aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardDto.fileSeqList))
+    }
 }
