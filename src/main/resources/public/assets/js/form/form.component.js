@@ -565,7 +565,7 @@
         let datetimePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
         let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat;
 
-        if (attr.values != undefined && attr.values.length > 0 ) {
+        if (target.hasAttribute('data-isToken') && attr.values != undefined && attr.values.length > 0 ) {
             let dateValue = attr.values[0].value.split('|');
             if (dateValue[0] !== '') {
                 datetimeDefault = aliceJs.changeDateFormat(dateValue[1], datetimePlaceholder, dateValue[0], aliceForm.options.lang);
