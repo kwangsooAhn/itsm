@@ -10,6 +10,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -189,6 +197,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -339,6 +355,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -453,6 +477,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -585,6 +617,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -717,6 +757,14 @@
                 "code": "",
                 "unit": "" ,
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -791,6 +839,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -842,6 +898,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -883,6 +947,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1013,6 +1085,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1143,6 +1223,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1273,6 +1361,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1376,6 +1472,14 @@
                 "code": "",
                 "unit": "",
                 "validate": ""
+            },
+            {
+                "id": "topic",
+                "name": "Topic",
+                "value": "N",
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [

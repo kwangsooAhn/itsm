@@ -810,8 +810,7 @@
      */
     function getData(type) {
         let refineAttr = { display: {} };
-        let defaultAttr = JSON.parse(JSON.stringify(aliceForm.options.componentAttribute[type]));
-        //let defaultAttr = Object.assign({}, aliceForm.options.componentAttribute[type]);
+        let defaultAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[type]);
         Object.keys(defaultAttr).forEach(function(group) {
             if (group === 'option') { //옵션 json 구조 변경
                 let options = [];
