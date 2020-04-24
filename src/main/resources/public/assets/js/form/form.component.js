@@ -649,7 +649,7 @@
                     editor: (attr.displayType !== 'readonly')
                 }
             };
-            if (atarget.hasAttribute('data-isToken') && ttr.values !== undefined && attr.values.length > 0) {
+            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
                 fileOptions.extra.fileDataIds = attr.values[0].value;
             }
             fileUploader.init(fileOptions);
