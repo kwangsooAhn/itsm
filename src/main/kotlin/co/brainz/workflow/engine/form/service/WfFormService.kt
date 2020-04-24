@@ -16,11 +16,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonParser
-import org.mapstruct.factory.Mappers
-import org.springframework.stereotype.Service
 import java.util.Optional
 import java.util.UUID
 import kotlin.collections.set
+import org.mapstruct.factory.Mappers
+import org.springframework.stereotype.Service
 
 @Service
 class WfFormService(
@@ -42,7 +42,7 @@ class WfFormService(
         var status = listOf<String>()
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
-        //val formEntityList = formRepository.findFormEntityList(search, search)
+        // val formEntityList = formRepository.findFormEntityList(search, search)
         val formEntityList = if (status.isEmpty()) {
             wfFormRepository.findFormListOrFormSearchList(search)
         } else {
@@ -130,7 +130,6 @@ class WfFormService(
             form = formViewDto,
             components = components
         )
-
     }
 
     /**
@@ -188,7 +187,7 @@ class WfFormService(
      */
     fun saveFormData(wfFormComponentSaveDto: WfFormComponentSaveDto) {
 
-        //Delete component, attribute
+        // Delete component, attribute
         val componentEntities = wfComponentRepository.findByFormId(wfFormComponentSaveDto.form.id)
         val componentIds: MutableList<String> = mutableListOf()
         for (component in componentEntities) {
@@ -198,7 +197,7 @@ class WfFormService(
             wfComponentRepository.deleteComponentEntityByComponentIdIn(componentIds)
         }
 
-        //Update Form
+        // Update Form
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val wfFormData: Optional<WfFormEntity> =
             wfFormRepository.findWfFormEntityByFormId(wfFormComponentSaveDto.form.id)
@@ -210,7 +209,7 @@ class WfFormService(
             wfFormData.get().updateUserKey = wfFormComponentSaveDto.form.updateUserKey
             val resultFormEntity = wfFormRepository.save(wfFormData.get())
 
-            //Insert component, attribute
+            // Insert component, attribute
             val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
             for (component in wfFormComponentSaveDto.components) {
                 var mappingId = ""
@@ -231,7 +230,7 @@ class WfFormService(
                 )
                 val resultComponentEntity = wfComponentRepository.save(componentEntity)
 
-                //wf_comp_data 저장
+                // wf_comp_data 저장
                 for ((key, value) in component) {
                     if (key != "id" && key != "type" && key != "common") {
                         val componentDataEntity = WfComponentDataEntity(
@@ -248,7 +247,6 @@ class WfFormService(
                 wfComponentDataRepository.saveAll(wfComponentDataEntities)
             }
         }
-
     }
 
     /**
