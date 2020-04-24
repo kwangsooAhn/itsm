@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
     <title>FAQ 리스트</title>
@@ -26,17 +26,12 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-<script type="text/javascript">
+    <script type="text/javascript">
 window.onload = function() {
-    search();
+    loadXMLDoc();
 }
 
-let keyword = document.getElementById("searchKeyword");
-keyword.addEventListener('change', function(event){
-    search(event.target.value);
-});
-
-function search(val) {
+function loadXMLDoc() {
     const opt = {
         method: "GET",
         url: "/faqs/list",
@@ -46,7 +41,6 @@ function search(val) {
     };
     aliceJs.sendXhr(opt);
 }
-
 </script>
 </th:block>
 </html>
