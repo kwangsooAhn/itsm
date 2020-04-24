@@ -40,7 +40,7 @@ workflowUtil.compareJson = function(obj1, obj2) {
     }
     return Object.keys(obj1).every(function(key) {
         if ((typeof obj1[key] === 'object') && (typeof obj2[key] === 'object')) {
-            return this.compareJson(obj1[key], obj2[key]);
+            return workflowUtil.compareJson(obj1[key], obj2[key]);
         } else {
             return obj1[key] === obj2[key];
         }

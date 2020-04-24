@@ -193,19 +193,20 @@
             (list || this.undo_list).push(data);
             console.log(this.redo_list);
             console.log(this.undo_list);
+            console.log(editor.data.components)
         },
         undo: function() {
             if (this.undo_list.length) {
                 let restoreData = this.undo_list.pop();
                 this.saveHistory(restoreData, this.redo_list, true);
-                redrawComponent(restoreData, 'undo');
+                restoreComponent(restoreData, 'undo');
             }
         },
         redo: function() {
             if (this.redo_list.length) {
                 let restoreData = this.redo_list.pop();
                 this.saveHistory(restoreData, this.undo_list, true);
-                redrawComponent(restoreData, 'redo');
+                restoreComponent(restoreData, 'redo');
             }
         }
     };
@@ -216,17 +217,40 @@
      * @param restoreData 데이터
      * @param type 타입(undo, redo)
      */
-    function redrawComponent(restoreData, type) {
-        const restoreComponent = function (originData, changeData) {
+    function restoreComponent(restoreData, type) {
+        const restore = function (originData, changeData) {
+            let lastIndex = component.getLastIndex();
             if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete
                 if (!Object.keys(changeData).length) { // delete component
-                    // TODO: delete component
+                    deleteComponent(originData.id, false);
                 } else { // add component
-                    // TODO: add component
+                    let defaultComponentAttr = component.getData(changeData.type);
+                    let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, changeData);
+                    let element = component.draw(changeData.type, formPanel, mergeComponentAttr);
+                    setComponentData(mergeComponentAttr);
+
+                    const compOrder = changeData.display.order;
+                    element.domElem.setAttribute('data-index', compOrder);
+                    element.domElem.setAttribute('tabIndex', compOrder);
+                    let targetComp = editor.data.components.filter(function(c) { return c.display.order === compOrder; });
+                    document.getElementById(targetComp[0].id).parentNode.insertBefore(element.domElem, document.getElementById(targetComp[0].id));
+
+                    component.setLastIndex(lastIndex + 1);
                 }
             } else { // modify component
-                // TODO: modify component
+                let element = component.draw(changeData.type, formPanel, changeData);
+                setComponentData(changeData);
+
+                let targetElement = document.getElementById(changeData.id);
+                element.domElem.setAttribute('data-index', changeData.display.order);
+                element.domElem.setAttribute('tabIndex', changeData.display.order);
+
+                targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                targetElement.innerHTML = '';
+                targetElement.remove();
             }
+            let firstComp = document.querySelectorAll('.component').item(0);
+            reorderComponent(firstComp, 1, component.getLastIndex());
         };
         restoreData.forEach(function(data) {
             let originData = data[1],
@@ -235,7 +259,7 @@
                 originData = data[0];
                 changeData = data[1];
             }
-            restoreComponent(originData, changeData);
+            restore(originData, changeData);
         });
     }
 
@@ -311,7 +335,7 @@
             elem.parentNode.insertBefore(replaceComp.domElem, elem);
             elem.innerHTML = '';
             elem.remove();
-            
+
             let compIdx = component.getLastIndex();
             component.setLastIndex(compIdx - 1);
             addEditboxDown(componentId, function(editboxId) {
@@ -363,8 +387,9 @@
     /**
      * 컴포넌트 삭제
      * @param {String} elemId 선택한 element Id
+     * @param {Boolean} isSaveHistory 이력저장여부
      */
-    function deleteComponent(elemId) {
+    function deleteComponent(elemId, isSaveHistory) {
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
@@ -384,14 +409,16 @@
             }
         }
         //컴포넌트 없을 경우 editbox 컴포넌트 신규 추가.
-        if (document.querySelectorAll('.component').length === 0) {
-            let editbox = component.draw(defaultComponent, formPanel);
-            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
-            setComponentData(editbox.attr);
-            editbox.domElem.querySelector('[contenteditable=true]').focus();
-            showComponentProperties(editbox.id);
+        if (isSaveHistory) {
+            if (document.querySelectorAll('.component').length === 0) {
+                let editbox = component.draw(defaultComponent, formPanel);
+                histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
+                setComponentData(editbox.attr);
+                editbox.domElem.querySelector('[contenteditable=true]').focus();
+                showComponentProperties(editbox.id);
+            }
+            history.saveHistory(histories);
         }
-        history.saveHistory(histories);
     }
 
     /**
@@ -589,11 +616,13 @@
          * @param {Number} index 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
          */
         const changePropertiesValue = function(value, group, field, index) {
+            let originCompAttr = JSON.parse(JSON.stringify(compAttr));
             if (typeof index === 'undefined') {
                 compAttr[group][field] = value;
             } else {
                 compAttr[group][index][field] = value;
             }
+            history.saveHistory([{0: originCompAttr, 1: JSON.parse(JSON.stringify(compAttr))}]);
             redrawComponent();
         };
         /**
@@ -1342,6 +1371,7 @@
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
     exports.reorderComponent = reorderComponent;
+    exports.history = history;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

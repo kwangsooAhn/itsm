@@ -497,6 +497,14 @@
             //재정렬
             editor.reorderComponent(dragComponent, sortIdx, lastCompIdx);
             componentDragOff();
+
+            // add history
+            let targetComponentData = editor.data.components.filter(function(comp) { return comp.id === targetComponent.id; });
+            let dragData = JSON.parse(JSON.stringify(targetComponentData[0]));
+            dragData.display.order = dragIdx;
+            let sortData = JSON.parse(JSON.stringify(targetComponentData[0]));
+            sortData.display.order = sortIdx;
+            history.saveHistory([{0: dragData, 1: sortData}]);
         }
     }
 
@@ -530,7 +538,7 @@
                 editor.copyComponent(clickedComponent.id);
                 break;
             case 'delete': //컴포넌트 삭제
-                editor.deleteComponent(clickedComponent.id);
+                editor.deleteComponent(clickedComponent.id, true);
                 break;
             case 'addEditboxUp': //위에 editbox 컴포넌트 추가
                 editor.addEditboxUp(clickedComponent.id);
@@ -539,7 +547,7 @@
                 editor.addEditboxDown(clickedComponent.id);
                 break;
             default:
-                editor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
+                editor.addComponent(elem.getAttribute('data-action'), clickedComponent.id, true);
         }
         menuOff();
         itemInContext = null;
