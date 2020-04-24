@@ -128,15 +128,17 @@ class WfInstanceService(
      * 인스턴스ID[instanceId]로 마지막 토큰 정보를 조회한다.
      */
     fun getInstanceLatestToken(instanceId: String): WfTokenDto {
-        val instanceEntity = wfInstanceRepository.getOne(instanceId)
-        val tokenEntity = wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instanceEntity)
-
-        val tokenDto = wfTokenMapper.toTokenDto(tokenEntity)
-        val tokenDatas = mutableListOf<WfTokenDataDto>()
-        tokenEntity.tokenDatas?.forEach {
-            tokenDatas.add(wfTokenMapper.toTokenDataDto(it))
+        var tokenDto = WfTokenDto()
+        wfInstanceRepository.findById(instanceId).ifPresent { instance ->
+            wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance).ifPresent { token ->
+                tokenDto = wfTokenMapper.toTokenDto(token)
+                val tokenDatas = mutableListOf<WfTokenDataDto>()
+                token.tokenDatas?.forEach { tokenData ->
+                    tokenDatas.add(wfTokenMapper.toTokenDataDto(tokenData))
+                }
+                tokenDto.data = tokenDatas
+            }
         }
-        tokenDto.data = tokenDatas
 
         logger.debug("Latest token: {}", tokenDto)
         return tokenDto
