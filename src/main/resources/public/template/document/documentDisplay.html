@@ -85,30 +85,30 @@
 
     /* Display data setting */
     function setDisplaySelect(obj, componentId, displayData) {
-        var displaySelect = document.createElement('select');
-        var elementId = displayData.elementId;
-        var displayData = displayData.display;
+        const displaySelect = document.createElement('select');
+        const elementId = displayData.elementId;
+        const displayDetail = displayData.display;
 
         let values = ['editable', 'editableRequired', 'readonly', 'hidden'];
 
         for (let i = 0; i < values.length; i++) {
-            var option = document.createElement("option");
+            var option = document.createElement('option');
             option.text = i18n.get('document.display.' + values[i]);
             option.value = values[i];
-            if (values[i] == displayData) {
+            if (values[i] === displayDetail) {
                 option.setAttribute('selected', 'true');
             }
             displaySelect.add(option);
         }
         displaySelect.setAttribute('id',componentId + '_' + elementId);
-        displaySelect.setAttribute('name', 'displays')
+        displaySelect.setAttribute('name', 'displays');
         obj.appendChild(displaySelect);
     }
 
     /* Display data save */
     function onSave() {
-        var obj = {};
-        var arrDisplay = [];
+        const obj = {};
+        const arrDisplay = [];
         Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
             var objDisplay = {};
             var strArr = item.id.split('_');
