@@ -24,5 +24,4 @@ interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
      * 로그인 시 사용자 역할리스트 조회
     */
     fun findByRoleIdIn(roleId: List<String>): Set<AliceRoleEntity>
-
 }

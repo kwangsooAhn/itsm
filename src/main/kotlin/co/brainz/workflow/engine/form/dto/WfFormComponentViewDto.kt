@@ -4,7 +4,7 @@ import co.brainz.workflow.engine.token.dto.WfActionDto
 import java.io.Serializable
 
 data class WfFormComponentViewDto(
-        val form: WfFormDto,
-        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf(),
-        val actions: MutableList<WfActionDto>? = mutableListOf()
-): Serializable
+    val form: WfFormDto,
+    val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf(),
+    val actions: MutableList<WfActionDto>? = mutableListOf()
+) : Serializable

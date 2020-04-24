@@ -253,6 +253,7 @@ form:
     copy: "복사"
     addAbove: "새로만들기-위"
     addBelow: "새로만들기-아래"
+    customCodeTarget: "대상 선택"
   status:
     edit: "편집"
     publish: "발행"

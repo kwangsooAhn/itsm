@@ -253,6 +253,7 @@ form:
     copy: "Copy"
     addAbove: "Add above"
     addBelow: "Add below"
+    customCodeTarget: "Target Select"
   status:
     edit: "Editing"
     publish: "Publish"
