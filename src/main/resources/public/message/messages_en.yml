@@ -384,6 +384,14 @@ token:
     assignee: "Assignee"
     history: "History"
     relatedInstance: "Related Documents"
+
+# Code
+code:
+  label:
+    code: "Code"
+    pCode: "Parent Code"
+    codeValue: "Code Value"
+
 # Custom Code
 custom.code:
   label:

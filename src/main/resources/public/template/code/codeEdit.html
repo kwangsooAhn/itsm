@@ -4,14 +4,15 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title>코드관리</title>
+    <title>코드 관리</title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto auto auto;">
-        <h1 th:text="코드관리"></h1>
+        <h1 th:text="#{menu.setting.auth}">></h1>
         <div align="right">
-            <button type="button" id="btnCreate" name="btnCreate" th:onclick="|javascript:onCreate()|" th:text="추가"></button>
+            <button sec:authorize="hasAuthority('code.create')" type="button" id="btnCreate" name="btnCreate"
+                    th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
         </div>
         <hr>
         <div style="height:275px; width:inherit; display:-webkit-inline-box;">
@@ -30,27 +31,27 @@
                     <col width="35%">
                 </colgroup>
                 <tr>
-                    <th class="required" th:text="코드"></th>
+                    <th class="required" th:text="#{code.label.code}"></th>
                     <td><input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/></td>
-                    <th class="required" th:text="부모코드"></th>
+                    <th class="required" th:text="#{code.label.pCode}"></th>
                     <td><input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/></td>
                 </tr>
                 <tr>
-                    <th th:text="코드값"></th>
+                    <th th:text="#{code.label.codeValue}"></th>
                     <td colspan="3">
                         <textarea id="txtCodeDesc" name="txtCodeDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${codeDetail?.codeValue}"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <th th:text="등록자"></th>
+                    <th th:text="#{common.label.createUserName}"></th>
                     <td><span id="spanCreateUserName" name="spanCreateUserName" th:text="${codeDetail?.createUserName}"></span></td>
-                    <th th:text="수정자"></th>
+                    <th th:text="#{common.label.updateUserName}"></th>
                     <td><span id="spanUpdateUserName" name="spanUpdateUserName" th:text="${authDetail?.updateUserName}"></span></td>
                 </tr>
                 <tr>
-                    <th th:text="등록일"></th>
+                    <th th:text="#{common.label.createDate}"></th>
                     <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(codeDetail?.createDt,dateformat)}"></span></td>
-                    <th th:text="수정일"></th>
+                    <th th:text="#{common.label.updateDate}"></th>
                     <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(codeDetail?.updateDt,dateformat)}"></span></td>
                 </tr>
             </table>
@@ -60,16 +61,16 @@
         <table style="float:right">
             <tr>
                 <td>
-                    <button type="button" id="btnDelete" name="btnDelete"
-                            th:onclick="|javascript:onDelete()|" th:text="삭제"></button>
+                    <button sec:authorize="hasAuthority('code.delete')" type="button" id="btnDelete" name="btnDelete"
+                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
                 </td>
                 <td>
-                    <button type="button" id="btnUpdate" name="btnUpdate"
-                            th:onclick="|javascript:onSave('put')|" th:text="수정"></button>
+                    <button sec:authorize="hasAuthority('code.update')" type="button" id="btnUpdate" name="btnUpdate"
+                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 </td>
                 <td>
-                    <button type="button" id="btnRegist" name="btnRegist"
-                            th:onclick="|javascript:onSave('post')|" th:text="등록"></button>
+                    <button sec:authorize="hasAuthority('code.create')" type="button" id="btnRegist" name="btnRegist"
+                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 </td>
             </tr>
         </table>

@@ -384,6 +384,14 @@ token:
     assignee: "담당자"
     history: "처리 이력"
     relatedInstance: "관련 문서"
+
+# Code
+code:
+  label:
+    code: "코드"
+    pCode: "부모 코드"
+    codeValue: "코드 값"
+
 # Custom Code
 custom.code:
   label:
