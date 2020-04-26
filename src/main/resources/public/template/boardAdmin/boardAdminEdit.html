@@ -74,11 +74,13 @@
                         <input type="radio" name="boardUseYn" th:value="false" th:checked="${boardAdmin?.boardUseYn == false} ? checked" th:text="#{board.label.unused}"/>
                     </td>
                     <td><label th:text="#{board.label.order}"></td>
-                    <td><input id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/></td>
+                    <td><input id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}"
+                               style="width: 15%;" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                    </td>
                 </tr>
                 <tr>
                     <td><label th:text="#{board.label.desc}"></td>
-                    <td colspan="3"><textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7" style="width: 750px; resize: none;" th:text="${boardAdmin?.boardAdminDesc}"></textarea></td>
+                    <td colspan="3"><textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea></td>
                 </tr>
                 <tr>
                     <td><label th:text="#{board.label.replyYn}"></td>
@@ -106,7 +108,9 @@
                         <input type="radio" name="attachYn" th:value="false" th:checked="${boardAdmin?.attachYn == false} ? checked" onchange="setDisplay('attachFileSize', false)" th:text="#{board.label.unused}"/>
                     </td>
                     <td><label th:text="#{board.label.attachFileSize}"></td>
-                    <td><input id="attachFileSize" name="attachFileSize" type="text" th:value="${boardAdmin?.attachFileSize}" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/></td>
+                    <td><input id="attachFileSize" name="attachFileSize" type="text" style="width: 15%;"
+                               th:value="${boardAdmin?.attachFileSize}" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
+                    </td>
                 </tr>
                 <tr>
                     <td><label th:text="#{common.label.createUserName}"></td>
@@ -162,7 +166,9 @@
         //게시판 관리 저장
         function saveBoardAdmin(method) {
             if (isEmpty('boardAdminTitle', 'board.msg.inputBoardTitle')) return;
-
+            if (getRadioCheckValue('attachYn')) {
+                if (isExistInScope('attachFileSize', 1, 1024, 'board.msg.inputAttachFileSize')) return;
+            }
             const data = {
                 boardAdminTitle: document.getElementById('boardAdminTitle').value,
                 boardAdminDesc: document.getElementById('boardAdminDesc').value,

@@ -26,9 +26,6 @@
             width: 90%;
             height: 24px;
         }
-        table textarea {
-            width: 100%;
-        }
     </style>
 </head>
 <body>
@@ -118,6 +115,7 @@
         const boardId = /*[[${boardInfo?.boardId}]]*/;
         const boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
         const attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
+        const attachFileSize  = /*[[${boardAdminInfo?.attachFileSize}]]*/;
         const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         const replyYn = /*[[${replyYn}]]*/;
@@ -125,9 +123,9 @@
         window.onload = function() {
             if (attachYn) {
                 if (!replyYn) {
-                    fileUploader.init({extra: {formId: 'boardForm', ownId: boardId}});
+                    fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
                 } else {
-                    fileUploader.init({extra: {formId: 'boardForm', ownId: ''}});
+                    fileUploader.init({extra: {formId: 'boardForm', ownId: '', dropZoneMaxFileSize: attachFileSize}});
                 }
             }
             if (categoryYn) {

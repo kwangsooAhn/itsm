@@ -64,7 +64,7 @@
                 <td><label th:text="#{board.label.attachFileYn}"></td>
                 <td><label th:text="${boardAdmin.attachYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
                 <td><label th:text="#{board.label.attachFileSize}"></td>
-                <td colspan="3"><label th:text="${boardAdmin?.attachFileSize}"/></td>
+                <td colspan="3"><label th:text="${boardAdmin?.attachFileSize}"/> MB</td>
             </tr>
             <tr>
                 <td><label th:text="#{common.label.createUserName}"></td>

@@ -60,9 +60,11 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/list")
     fun getBoardList(boardSearchDto: BoardSearchDto, model: Model): String {
-        val boardAdminInfo : BoardAdminDto = boardService.getBoardAdmin(boardSearchDto.boardAdminId)
-        model.addAttribute("boardAdminInfo", boardAdminInfo)
-        model.addAttribute("boardList", boardService.getBoardList(boardSearchDto , boardAdminInfo))
+        if (boardSearchDto.boardAdminId !="") {
+            val boardAdminInfo : BoardAdminDto = boardService.getBoardAdmin(boardSearchDto.boardAdminId)
+            model.addAttribute("boardAdminInfo", boardAdminInfo)
+            model.addAttribute("boardList", boardService.getBoardList(boardSearchDto , boardAdminInfo))
+        }
         return boardListPage
     }
 

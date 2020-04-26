@@ -473,6 +473,7 @@ board:
     roleName: "역할 명"
     replyYn: "답글"
     commentYn: "댓글"
+    comment: "댓글"
     attachFileYn: "첨부파일"
     attachFileSize: "첨부파일 용량"
     use: "사용"
@@ -485,7 +486,7 @@ board:
   msg:
     inputBoardTitle: "게시판명을 입력해주세요."
     inputSortSize: "정렬순서를 100 이하로 넣어주세요."
-    inputAttachFileSize: "첨부파일 용량을 1000 이하로 넣어주세요."
+    inputAttachFileSize: "첨부파일 용량을 0MB 이상 1024MB 이하로 넣어주세요."
     inputCategoryName: "카테고리명을 입력해주세요."
     inputBoardComments: "댓글을 입력해주세요."
     inputBoardEditComments: "댓글 저장부터 해주세요."

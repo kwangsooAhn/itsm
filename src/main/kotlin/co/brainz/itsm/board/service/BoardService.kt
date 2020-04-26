@@ -34,8 +34,10 @@ class BoardService(private val boardRepository: BoardRepository,
      *
      * @return MutableList<PortalBoardAdminEntity>
      */
-    fun getBoardAdminList(): MutableList<PortalBoardAdminEntity> {
-        return boardAdminRepository.findAllByBoardUseYnTrueOrderByBoardAdminSortAsc()
+    fun getBoardAdminList(): MutableList<PortalBoardAdminEntity>? {
+        return if (boardAdminRepository.count() > 0 ) {
+            boardAdminRepository.findAllByBoardUseYnTrueOrderByBoardAdminSortAsc()
+        } else null
     }
 
     /**
