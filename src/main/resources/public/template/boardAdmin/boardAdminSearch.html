@@ -73,7 +73,7 @@
                     if (method === 'get') {
                         document.getElementById('boardAdminList').innerHTML = response.responseText;
                     } else {
-                        aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
+                        aliceJs.alert(i18n.get('common.msg.delete.success'), function() {
                             getBoardAdminList();
                         });
                     }

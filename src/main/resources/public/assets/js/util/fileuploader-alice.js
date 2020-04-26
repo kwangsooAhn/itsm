@@ -14,7 +14,6 @@ const fileUploader = (function () {
     let extraParam, dropZoneFilesId, dropZoneUploadedFilesId, dropZoneMaxFileSize;
     const setExtraParam = function (param) {
         extraParam = param;
-        console.log(extraParam.dropZoneMaxFileSize);
     };
 
     const createDropZone = function () {

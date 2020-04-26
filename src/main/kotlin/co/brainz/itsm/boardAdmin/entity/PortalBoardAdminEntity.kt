@@ -1,13 +1,17 @@
 package co.brainz.itsm.boardAdmin.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.itsm.board.entity.PortalBoardEntity
 import org.hibernate.annotations.GenericGenerator
+import javax.persistence.OneToMany
 import java.io.Serializable
-import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
+import javax.persistence.Column
+import javax.persistence.CascadeType
+import javax.persistence.FetchType
 
 @Entity
 @Table(name = "portal_board_admin")
@@ -43,4 +47,12 @@ class PortalBoardAdminEntity(
 
         @Column(name = "attach_file_size")
         var attachFileSize: Long?
+
 ): Serializable, AliceMetaEntity()
+{
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardAdmin", cascade = [CascadeType.REMOVE])
+        val board: MutableList<PortalBoardEntity>? = mutableListOf()
+
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardAdmin", cascade = [CascadeType.REMOVE])
+        val category: MutableList<PortalBoardCategoryEntity>? = mutableListOf()
+}

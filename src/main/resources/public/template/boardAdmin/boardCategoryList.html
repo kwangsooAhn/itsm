@@ -43,7 +43,7 @@
             <tr th:unless="${#arrays.isEmpty(boardCategoryList)}" th:each="boardCategory: ${boardCategoryList}">
                 <td th:text="${boardCategory.boardCategoryName}"></td>
                 <td th:text="${boardCategory.boardCategorySort}"></td>
-                <td>
+                <td align="center">
                     <button sec:authorize="hasAuthority('board.admin.delete')" th:text="#{common.btn.delete}"
                             th:attr="onclick=|deleteBoardCategory('${boardCategory.boardCategoryId}')|"></button>
                 </td>

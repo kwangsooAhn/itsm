@@ -8,6 +8,9 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
+import javax.persistence.ManyToOne
+import javax.persistence.FetchType
+import javax.persistence.JoinColumn
 
 @Entity
 @Table(name = "portal_board_comment")
@@ -17,8 +20,9 @@ class PortalBoardCommentEntity(
         @Column(name = "board_comment_id", length = 128)
         var boardCommentId: String,
 
-        @Column(name = "board_id", length = 128)
-        var boardId: String,
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "board_id")
+        val commentBoard: PortalBoardEntity,
 
         @Column(name = "board_comment_conents", length = 512)
         var boardCommentConents: String

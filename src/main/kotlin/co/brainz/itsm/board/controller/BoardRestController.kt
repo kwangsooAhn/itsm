@@ -1,7 +1,7 @@
 package co.brainz.itsm.board.controller
 
 import co.brainz.itsm.board.dto.BoardCommentDto
-import co.brainz.itsm.board.dto.BoardDto
+import co.brainz.itsm.board.dto.BoardSaveDto
 import co.brainz.itsm.board.service.BoardService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,21 +18,21 @@ class BoardRestController(private val boardService: BoardService) {
     /**
      * 게시판 신규 등록.
      *
-     * @param BoardDto
+     * @param boardSaveDto
      */
     @PostMapping("")
-    fun createBoard(@RequestBody BoardDto: BoardDto) {
-        boardService.saveBoard(BoardDto)
+    fun createBoard(@RequestBody boardSaveDto: BoardSaveDto) {
+        boardService.saveBoard(boardSaveDto)
     }
 
     /**
      * 게시판 수정.
      *
-     * @param BoardDto
+     * @param boardSaveDto
      */
     @PutMapping("")
-    fun updateBoard(@RequestBody BoardDto: BoardDto) {
-        boardService.saveBoard(BoardDto)
+    fun updateBoard(@RequestBody boardSaveDto: BoardSaveDto) {
+        boardService.saveBoard(boardSaveDto)
     }
 
     /**
@@ -78,10 +78,10 @@ class BoardRestController(private val boardService: BoardService) {
     /**
      * 게시판 답글 삭제.
      *
-     * @param boardDto
+     * @param boardSaveDto
      */
     @PostMapping("/reply")
-    fun createBoardAnswer(@RequestBody boardDto: BoardDto) {
-        boardService.saveBoardReply(boardDto)
+    fun createBoardAnswer(@RequestBody boardSaveDto: BoardSaveDto) {
+        boardService.saveBoardReply(boardSaveDto)
     }
 }
