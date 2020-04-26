@@ -89,7 +89,7 @@
                 </tbody>
             </table>
             <div align="right">
-                <button style="margin-right: 5px;" onclick="location.href='/boards/search'" th:text="#{common.btn.list}"></button>
+                <button style="margin-right: 5px;" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
                 <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
                         th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')
                                and ${boardInfo?.boardId} and ${replyYn} == false"
@@ -121,6 +121,7 @@
         const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         const replyYn = /*[[${replyYn}]]*/;
+
         window.onload = function() {
             if (attachYn) {
                 if (!replyYn) {
@@ -129,8 +130,8 @@
                     fileUploader.init({extra: {formId: 'boardForm', ownId: ''}});
                 }
             }
-            if (boardId !== null && commentYn) {
-                getBoardCommentList();
+            if (categoryYn) {
+                document.getElementById('boardCategory').value = /*[[${boardInfo?.boardCategoryId}]]*/;
             }
             initTextEditor(false);
         };
@@ -151,7 +152,7 @@
             };
 
             let textEditor = new Quill('#boardConents', textEditorOptions);
-            if (boardId != "") {
+            if (boardId !== "" && replyYn === false) {
                 textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardConents}]]*/));
             }
         }
@@ -186,7 +187,11 @@
             } else if (kind === 'reply') {
                 restSubmit(method, '/rest/boards/reply', data);
             }
+        }
 
+        //조회 화면 이동
+        function searchBoard() {
+            location.href= '/boards/search/param?boardAdminId='+boardAdminId;
         }
 
         //REST API
@@ -206,7 +211,7 @@
                 callbackFunc: function(response) {
                     if (method === 'put' || method === 'post' || method === 'delete') {
                         aliceJs.alert(resultMsg, function () {
-                            location.href = '/boards/search';
+                            searchBoard();
                         });
                     } else if (method === 'get') {
                         document.getElementById('boardCommentList').innerHTML = response.responseText;

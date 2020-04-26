@@ -42,8 +42,13 @@
         const format = /*[[${#authentication.details.timeFormat}]]*/'';
         const lang = /*[[${#authentication.details.lang}]]*/'';
         const formatArray = format.split(' ');
+        const boardAdminId = /*[[${boardAdminId}]]*/;
 
         window.onload = function() {
+            if (boardAdminId != null) {
+                document.getElementById('boardAdmin').value = boardAdminId;
+                getBoardList();
+            }
             const dateFormat = formatArray[0].toUpperCase();
             dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
             dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
@@ -62,7 +67,7 @@
                     changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
                     aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
                 } else {
-                    getDownloadList();
+                    getBoardList();
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
@@ -70,7 +75,7 @@
                     changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
                     aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
-                    getDownloadList();
+                    getBoardList();
                 }
             }
         }

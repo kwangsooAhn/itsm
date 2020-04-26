@@ -36,6 +36,22 @@ class BoardController(private val boardService: BoardService) {
     }
 
     /**
+     * 게시판 조회조건 포함 리스트 호출 화면.
+     *
+     * @param model
+     * @return String
+     */
+    @GetMapping("/search/param")
+    fun getBoardSearchParam(boardSearchDto: BoardSearchDto, model: Model): String {
+        model.addAttribute("boardAdminList", boardService.getBoardAdminList())
+        model.addAttribute("fromDt", LocalDateTime.now().minusMonths(1))
+        model.addAttribute("toDt", LocalDateTime.now())
+        model.addAttribute("boardAdminId", boardSearchDto.boardAdminId)
+        return boardSearchPage
+    }
+
+
+    /**
      * 게시판 리스트 화면.
      *
      * @param boardSearchDto

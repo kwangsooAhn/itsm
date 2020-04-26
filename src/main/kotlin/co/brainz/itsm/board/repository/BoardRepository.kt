@@ -11,9 +11,11 @@ import java.time.LocalDateTime
 interface BoardRepository: JpaRepository<PortalBoardEntity, String> {
 
     @Query("SELECT b FROM PortalBoardEntity b " +
-            "INNER JOIN PortalBoardAdminEntity ba ON b.boardAdminId = ba.boardAdminId" +
+            " INNER JOIN PortalBoardAdminEntity ba ON b.boardAdminId = ba.boardAdminId" +
+            " LEFT OUTER JOIN PortalBoardCategoryEntity bc on b.boardCategoryId = bc.boardCategoryId " +
             " WHERE b.boardAdminId = :boardAdminId " +
             " AND (LOWER(b.boardTitle) LIKE LOWER(CONCAT('%', :search, '%')) " +
+            " OR LOWER(bc.boardCategoryName) LIKE LOWER(CONCAT('%', :search, '%')) " +
             " OR LOWER(b.createUser.userName) LIKE LOWER(CONCAT('%', :search, '%'))) " +
             " AND b.createDt BETWEEN :fromDt AND :toDt ORDER BY b.boardGroupNo DESC, b.boardLevelNo ASC, b.boardOrderSeq ASC")
     fun findByBoardList(boardAdminId: String, search: String, fromDt: LocalDateTime, toDt: LocalDateTime): List<PortalBoardEntity>

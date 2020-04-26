@@ -88,20 +88,20 @@
                 </tr>
             </table>
             <div align="right">
-                <button style="margin-right: 5px;" onclick="location.href='/boards/search'" th:text="#{common.btn.list}"></button>
+                <button style="margin-right: 5px;" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
                 <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
                         th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
-                        th:onclick ="'location.href =\'' + @{/boards/{id}/edit(id=${boardInfo.boardId})}+'\''"
+                        th:onclick ="'location.href =\'' + @{/boards/{id}/edit(id=${boardInfo?.boardId})}+'\''"
                         th:text="#{common.btn.modify}">
                 </button>
                 <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
                         th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
-                        th:onclick ="'location.href =\'' + @{/boards/{id}/replay/edit(id=${boardInfo.boardId})}+'\''"
+                        th:onclick ="'location.href =\'' + @{/boards/{id}/replay/edit(id=${boardInfo?.boardId})}+'\''"
                         th:text="#{board.btn.reply}">
                 </button>
                 <button sec:authorize="hasAuthority('board.delete')" style="margin-right: 5px;"
                         th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
-                        onclick="deleteBoard('delete')"
+                        th:onclick="deleteBoard('delete')"
                         th:text="#{common.btn.delete}">
                 </button>
             </div>
@@ -118,6 +118,7 @@
         const attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
         const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
+
         window.onload = function() {
             if (attachYn) {
                 fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, editor: false}});
@@ -128,6 +129,7 @@
             initTextEditor(true);
         };
 
+        //웹에디터 초기화
         function initTextEditor(flag) {
             let textEditorOptions = {
                 modules: {toolbar: false},
@@ -141,33 +143,12 @@
             }
         }
 
-        //게시판 저장
-        function saveBoard(method) {
-            if (isEmpty('boardTitle', 'board.msg.inputBoardTitle')) return;
-            let fileSeqList = [];
-            document.getElementsByName('fileSeq').forEach(function(elem) {
-                fileSeqList.push(elem.value);
-            });
-
-            let boardCategoryId = '';
-            if (categoryYn) {
-                boardCategoryId = document.getElementById('boardCategory').value;
-            }
-            const data = {
-                boardAdminId: boardAdminId,
-                boardTitle: document.getElementById('boardTitle').value,
-                boardConents: document.getElementById('boardConents').value,
-                fileSeqList: fileSeqList,
-                boardCategoryId: boardCategoryId
-            };
-
-            if (method === 'put') {
-                data.boardId = boardId;
-            }
-            restSubmit(method, '/rest/boards', data);
+        //조회 화면 이동
+        function searchBoard() {
+            location.href= '/boards/search/param?boardAdminId='+boardAdminId;
         }
 
-        //게시판  삭제
+        //게시판 삭제
         function deleteBoard(method) {
             restSubmit(method, '/rest/boards/' + boardId);
         }
@@ -230,7 +211,7 @@
                             if (url.indexOf('/rest/boards/comments') != -1) {
                                 location.reload();
                             } else {
-                                location.href = '/boards/search';
+                                searchBoard();
                             }
                         });
                     } else if (method === 'get') {
