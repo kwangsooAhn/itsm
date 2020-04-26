@@ -1,5 +1,7 @@
 package co.brainz.itsm.form.controller
 
+import co.brainz.itsm.customCode.dto.CustomCodeDataDto
+import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.form.service.FormService
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -20,7 +22,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/forms")
-class FormRestController(private val formService: FormService) {
+class FormRestController(private val formService: FormService,
+                         private val customCodeService: CustomCodeService) {
 
     @PostMapping("")
     fun createForm(@RequestParam(value = "saveType", defaultValue = "") saveType: String,
@@ -55,6 +58,14 @@ class FormRestController(private val formService: FormService) {
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String): ResponseEntity<String> {
         return formService.deleteForm(formId)
+    }
+
+    /**
+     * 커스텀 코드 목록 조회.
+     */
+    @GetMapping("/custom-code/{customCodeId}/list")
+    fun getCustomCodes(@PathVariable customCodeId: String): List<CustomCodeDataDto> {
+        return customCodeService.getCustomCodeData(customCodeId)
     }
 
 }
