@@ -5,15 +5,15 @@ import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import java.time.LocalDateTime
 
 data class BoardViewDto(
-        var boardId: String = "",
-        var boardAdmin: PortalBoardAdminEntity,
-        var boardCategoryId: String? = "",
-        var boardCategoryName: String? = "",
-        var boardTitle: String? = "",
-        var boardConents: String? = "",
-        var fileSeqList: List<Long>? = null,
-        var createDt: LocalDateTime? = null,
-        var createUser: AliceUserEntity? = null,
-        var updateDt: LocalDateTime? = null,
-        var updateUser: AliceUserEntity? = null
+    var boardId: String = "",
+    var boardAdmin: PortalBoardAdminEntity,
+    var boardCategoryId: String? = "",
+    var boardCategoryName: String? = "",
+    var boardTitle: String? = "",
+    var boardConents: String? = "",
+    var fileSeqList: List<Long>? = null,
+    var createDt: LocalDateTime? = null,
+    var createUser: AliceUserEntity? = null,
+    var updateDt: LocalDateTime? = null,
+    var updateUser: AliceUserEntity? = null
 )

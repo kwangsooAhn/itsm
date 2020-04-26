@@ -4,12 +4,12 @@ import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.dto.BoardViewDto
 import co.brainz.itsm.board.service.BoardService
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
+import java.time.LocalDateTime
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import java.time.LocalDateTime
 
 @Controller
 @RequestMapping("/boards")
@@ -50,7 +50,6 @@ class BoardController(private val boardService: BoardService) {
         return boardSearchPage
     }
 
-
     /**
      * 게시판 리스트 화면.
      *
@@ -73,7 +72,7 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/{boardId}/view")
     fun getBoardView(@PathVariable boardId: String, model: Model): String {
-        val boardDtoInfo : BoardViewDto = boardService.getBoard(boardId, "view")
+        val boardDtoInfo: BoardViewDto = boardService.getBoard(boardId, "view")
         model.addAttribute("boardInfo", boardDtoInfo)
         model.addAttribute("boardAdminInfo", boardDtoInfo.boardAdmin)
         return boardViewPage
@@ -88,7 +87,7 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("{boardAdminId}/new")
     fun getBoardNew(@PathVariable boardAdminId: String, model: Model): String {
-        val boardAdminInfo : BoardAdminDto = boardService.getBoardAdmin(boardAdminId)
+        val boardAdminInfo: BoardAdminDto = boardService.getBoardAdmin(boardAdminId)
         if (boardAdminInfo.categoryYn) {
             model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardAdminInfo.boardAdminId))
         }
@@ -106,9 +105,9 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/{boardId}/edit")
     fun getBoardEdit(@PathVariable boardId: String, model: Model): String {
-        val boardDtoInfo : BoardViewDto = boardService.getBoard(boardId, "edit")
+        val boardDtoInfo: BoardViewDto = boardService.getBoard(boardId, "edit")
         if (boardDtoInfo.boardAdmin.categoryYn) {
-            model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardDtoInfo.boardAdmin.boardAdminId))
+            model.addAttribute("boardCategoryInfo", boardDtoInfo.boardAdmin.category)
         }
         model.addAttribute("boardAdminInfo", boardDtoInfo.boardAdmin)
         model.addAttribute("boardInfo", boardDtoInfo)
@@ -138,7 +137,7 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/{boardId}/replay/edit")
     fun getBoardReplayEdit(@PathVariable boardId: String, model: Model): String {
-        val boardDtoInfo : BoardViewDto = boardService.getBoard(boardId, "reply")
+        val boardDtoInfo: BoardViewDto = boardService.getBoard(boardId, "reply")
         if (boardDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardDtoInfo.boardAdmin.boardAdminId))
         }
@@ -147,5 +146,4 @@ class BoardController(private val boardService: BoardService) {
         model.addAttribute("replyYn", true)
         return boardEditPage
     }
-
 }

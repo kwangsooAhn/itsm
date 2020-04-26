@@ -1,6 +1,5 @@
 package co.brainz.itsm.board.service
 
-import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.board.dto.BoardCommentDto
@@ -11,25 +10,29 @@ import co.brainz.itsm.board.dto.BoardViewDto
 import co.brainz.itsm.board.entity.PortalBoardCommentEntity
 import co.brainz.itsm.board.entity.PortalBoardEntity
 import co.brainz.itsm.board.entity.PortalBoardReadEntity
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.repository.BoardCommentRepository
 import co.brainz.itsm.board.repository.BoardReadRepository
 import co.brainz.itsm.board.repository.BoardRepository
+import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
 import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
+import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
+import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
 import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
 import co.brainz.itsm.utility.ConvertParam
-import org.springframework.stereotype.Service
 import javax.transaction.Transactional
+import org.springframework.stereotype.Service
 
 @Service
-class BoardService(private val boardRepository: BoardRepository,
-                   private val boardReadRepository : BoardReadRepository,
-                   private val boardCommentRepository: BoardCommentRepository,
-                   private val boardAdminRepository: BoardAdminRepository,
-                   private val boardCategoryRepository: BoardCategoryRepository,
-                   private val aliceFileService: AliceFileService,
-                   private val convertParam: ConvertParam) {
+class BoardService(
+    private val boardRepository: BoardRepository,
+    private val boardReadRepository: BoardReadRepository,
+    private val boardCommentRepository: BoardCommentRepository,
+    private val boardAdminRepository: BoardAdminRepository,
+    private val boardCategoryRepository: BoardCategoryRepository,
+    private val aliceFileService: AliceFileService,
+    private val convertParam: ConvertParam
+) {
 
     /**
      * 게시판 관리 목록
@@ -37,7 +40,7 @@ class BoardService(private val boardRepository: BoardRepository,
      * @return MutableList<PortalBoardAdminEntity>
      */
     fun getBoardAdminList(): MutableList<PortalBoardAdminEntity>? {
-        return if (boardAdminRepository.count() > 0 ) {
+        return if (boardAdminRepository.count() > 0) {
             boardAdminRepository.findAllByBoardUseYnTrueOrderByBoardAdminSortAsc()
         } else null
     }
@@ -58,7 +61,7 @@ class BoardService(private val boardRepository: BoardRepository,
                 var categoryName = ""
                 var readCount = 0L
 
-                if (boardReadRepository.countByBoardId(PortalBoardEntity.boardId) > 0 ) {
+                if (boardReadRepository.countByBoardId(PortalBoardEntity.boardId) > 0) {
                     readCount = boardReadRepository.findByBoardId(PortalBoardEntity.boardId)[0].boardReadCount!!
                 }
 
@@ -67,15 +70,15 @@ class BoardService(private val boardRepository: BoardRepository,
                         categoryName = PortalBoardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
                     }
                 }
-                boardDtoList.add (
-                    BoardDto (
+                boardDtoList.add(
+                    BoardDto(
                         boardId = PortalBoardEntity.boardId,
                         boardAdminId = PortalBoardEntity.boardAdmin.boardAdminId,
                         boardCategoryName = categoryName,
                         boardSeq = PortalBoardEntity.boardSeq,
                         boardTitle = PortalBoardEntity.boardTitle,
                         boardConents = PortalBoardEntity.boardConents,
-                        boardGroupNo =PortalBoardEntity.boardGroupNo,
+                        boardGroupNo = PortalBoardEntity.boardGroupNo,
                         boardLevelNo = PortalBoardEntity.boardLevelNo,
                         boardOrderSeq = PortalBoardEntity.boardOrderSeq,
                         replyCount = PortalBoardEntity.commentBoard?.count()?.toLong(),
@@ -102,7 +105,7 @@ class BoardService(private val boardRepository: BoardRepository,
         }
         val updatePortalBoardEntity = boardRepository.findById(boardSaveDto.boardId).orElse(null)
         val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
-        val portalBoardEntity = PortalBoardEntity (
+        val portalBoardEntity = PortalBoardEntity(
                 boardId = boardSaveDto.boardId,
                 boardAdmin = portalBoardAdminEntity,
                 boardCategoryId = boardSaveDto.boardCategoryId,
@@ -125,10 +128,10 @@ class BoardService(private val boardRepository: BoardRepository,
     @Transactional
     fun saveBoardComment(boardCommentDto: BoardCommentDto) {
         val boardPortalBoardEntity = boardRepository.findById(boardCommentDto.boardId).orElse(null)
-        val portalBoardCommentEntity = PortalBoardCommentEntity (
+        val portalBoardCommentEntity = PortalBoardCommentEntity(
             boardCommentId = boardCommentDto.boardCommentId,
             commentBoard = boardPortalBoardEntity,
-            boardCommentConents =  boardCommentDto.boardCommentConents
+            boardCommentConents = boardCommentDto.boardCommentConents
         )
         boardCommentRepository.save(portalBoardCommentEntity)
     }
@@ -155,16 +158,16 @@ class BoardService(private val boardRepository: BoardRepository,
             categoryName = boardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
         }
 
-        return BoardViewDto (
+        return BoardViewDto(
             boardId = boardEntity.boardId,
             boardAdmin = boardEntity.boardAdmin,
             boardCategoryId = boardEntity.boardCategoryId,
             boardCategoryName = categoryName,
-            boardTitle = if (type == "reply") "RE : "+boardEntity.boardTitle else boardEntity.boardTitle,
+            boardTitle = if (type == "reply") "RE : " + boardEntity.boardTitle else boardEntity.boardTitle,
             boardConents = if (type == "reply") "" else boardEntity.boardConents,
             createDt = if (type == "reply") null else boardEntity.createDt,
             createUser = if (type == "reply") null else boardEntity.createUser,
-            updateDt =if (type == "reply") null else boardEntity.updateDt,
+            updateDt = if (type == "reply") null else boardEntity.updateDt,
             updateUser = if (type == "reply") null else boardEntity.updateUser
         )
     }
@@ -175,9 +178,9 @@ class BoardService(private val boardRepository: BoardRepository,
      * @param boardAdminId
      * @return BoardAdminDto
      */
-    fun getBoardAdmin(boardAdminId: String) : BoardAdminDto {
+    fun getBoardAdmin(boardAdminId: String): BoardAdminDto {
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
-        return BoardAdminDto (
+        return BoardAdminDto(
             boardAdminId = boardAdminEntity.boardAdminId,
             boardAdminTitle = boardAdminEntity.boardAdminTitle,
             boardAdminDesc = boardAdminEntity.boardAdminDesc,
@@ -203,12 +206,7 @@ class BoardService(private val boardRepository: BoardRepository,
             boardReadRepository.deleteById(boardId)
         }
 
-        val boardComment = boardCommentRepository.findByBoardId(boardId)
-        if (boardComment.isNotEmpty()) {
-            boardCommentRepository.deleteByBoardId(boardId)
-        }
-
-        val boardFile = aliceFileService.getList(boardId,"")
+        val boardFile = aliceFileService.getList(boardId, "")
         if (boardFile.isEmpty()) {
             aliceFileService.delete(boardId)
         }
@@ -235,8 +233,8 @@ class BoardService(private val boardRepository: BoardRepository,
     fun getBoardCommentList(boardId: String): List<BoardCommentDto> {
         val boardCommentDtoList = mutableListOf<BoardCommentDto>()
         boardCommentRepository.findByBoardIdOrderByCreateDtDesc(boardId).forEach { PortalBoardCommentEntity ->
-            boardCommentDtoList.add (
-                BoardCommentDto (
+            boardCommentDtoList.add(
+                BoardCommentDto(
                     boardCommentId = PortalBoardCommentEntity.boardCommentId,
                     boardId = PortalBoardCommentEntity.commentBoard.boardId,
                     commentBoard = PortalBoardCommentEntity.commentBoard,
@@ -260,8 +258,8 @@ class BoardService(private val boardRepository: BoardRepository,
     fun getBoardCategoryList(boardAdminId: String): List<BoardCategoryDto> {
         val boardCategoryDtoList = mutableListOf<BoardCategoryDto>()
         boardCategoryRepository.findByBoardAdminOrderByBoardCategorySortAsc(boardAdminId).forEach { PortalBoardCategoryEntity ->
-            boardCategoryDtoList.add (
-                BoardCategoryDto (
+            boardCategoryDtoList.add(
+                BoardCategoryDto(
                     boardCategoryId = PortalBoardCategoryEntity.boardCategoryId,
                     boardAdmin = PortalBoardCategoryEntity.boardAdmin,
                     boardCategoryName = PortalBoardCategoryEntity.boardCategoryName,
@@ -278,7 +276,7 @@ class BoardService(private val boardRepository: BoardRepository,
     @Transactional
     fun saveBoardReply(boardSaveDto: BoardSaveDto) {
         val oldBoardEntity = boardRepository.findById(boardSaveDto.boardId).orElse(null)
-        val portalBoardEntity = PortalBoardEntity (
+        val portalBoardEntity = PortalBoardEntity(
             boardId = "",
             boardAdmin = oldBoardEntity.boardAdmin,
             boardCategoryId = boardSaveDto.boardCategoryId,

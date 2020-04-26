@@ -103,5 +103,4 @@ class BoardAdminController(private val boardAdminService: BoardAdminService) {
         model.addAttribute("boardCategoryList", boardAdminService.getBoardCategoryList(boardAdminId))
         return boardCategoryListPage
     }
-
 }

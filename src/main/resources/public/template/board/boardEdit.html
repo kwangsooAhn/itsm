@@ -128,7 +128,7 @@
                     fileUploader.init({extra: {formId: 'boardForm', ownId: '', dropZoneMaxFileSize: attachFileSize}});
                 }
             }
-            if (categoryYn) {
+            if (categoryYn && /*[[${boardInfo?.boardCategoryId}]]*/ !== '') {
                 document.getElementById('boardCategory').value = /*[[${boardInfo?.boardCategoryId}]]*/;
             }
             initTextEditor(false);

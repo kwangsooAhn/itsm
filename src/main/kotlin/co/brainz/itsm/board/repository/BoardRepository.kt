@@ -1,14 +1,14 @@
 package co.brainz.itsm.board.repository
 
 import co.brainz.itsm.board.entity.PortalBoardEntity
+import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
-interface BoardRepository: JpaRepository<PortalBoardEntity, String> {
+interface BoardRepository : JpaRepository<PortalBoardEntity, String> {
 
     @Query("SELECT b FROM PortalBoardEntity b " +
             " LEFT OUTER JOIN PortalBoardCategoryEntity bc on b.boardCategoryId = bc.boardCategoryId " +
@@ -23,7 +23,7 @@ interface BoardRepository: JpaRepository<PortalBoardEntity, String> {
     fun countByBoardAdminId(boardAdminId: String): Long
 
     @Query("SELECT MAX(b.boardSeq) as boardSeq FROM PortalBoardEntity b WHERE b.boardAdmin.boardAdminId = :boardAdminId")
-    fun findMaxBoardSeq(boardAdminId: String) : Long
+    fun findMaxBoardSeq(boardAdminId: String): Long
 
     @Modifying
     @Query("UPDATE PortalBoardEntity b SET b.boardOrderSeq =  b.boardOrderSeq + 1 " +

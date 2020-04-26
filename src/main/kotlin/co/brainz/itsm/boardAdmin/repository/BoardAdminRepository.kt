@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface BoardAdminRepository: JpaRepository<PortalBoardAdminEntity, String> {
+interface BoardAdminRepository : JpaRepository<PortalBoardAdminEntity, String> {
     @Query("SELECT pbm FROM PortalBoardAdminEntity pbm WHERE (LOWER(pbm.boardAdminTitle) LIKE LOWER(CONCAT('%', :search, '%')) " +
                   " OR LOWER(pbm.createUser.userName) LIKE LOWER(CONCAT('%', :search,'%'))) " +
                   " ORDER BY pbm.boardAdminId DESC")

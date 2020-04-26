@@ -1,7 +1,7 @@
 package co.brainz.itsm.boardAdmin.controller
 
-import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
+import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.service.BoardAdminService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -64,5 +64,4 @@ class BoardAdminRestController(private val boardAdminService: BoardAdminService)
     fun deleteBoardCategory(@PathVariable boardCategoryId: String) {
         boardAdminService.deleteBoardCategory(boardCategoryId)
     }
-
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface BoardCommentRepository: JpaRepository<PortalBoardCommentEntity, String> {
+interface BoardCommentRepository : JpaRepository<PortalBoardCommentEntity, String> {
     @Query("SELECT c FROM PortalBoardCommentEntity c WHERE c.commentBoard.boardId = :boardId")
     fun findByBoardId(boardId: String): List<PortalBoardCommentEntity>
 

@@ -1,17 +1,19 @@
 package co.brainz.itsm.boardAdmin.service
 
-import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
-import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
+import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
-import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
+import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
-import org.springframework.stereotype.Service
+import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
 import javax.transaction.Transactional
+import org.springframework.stereotype.Service
 
 @Service
-class BoardAdminService(private val boardAdminRepository: BoardAdminRepository,
-                        private val boardCategoryRepository: BoardCategoryRepository) {
+class BoardAdminService(
+    private val boardAdminRepository: BoardAdminRepository,
+    private val boardCategoryRepository: BoardCategoryRepository
+) {
 
     /**
      * 게시판 관리 목록 조회.
@@ -22,12 +24,12 @@ class BoardAdminService(private val boardAdminRepository: BoardAdminRepository,
     fun getBoardAdminList(search: String): List<BoardAdminDto> {
         val boardAdminDtoList = mutableListOf<BoardAdminDto>()
         boardAdminRepository.findByBoardAdminList(search).forEach { PortalBoardAdminEntity ->
-            val boardBoardCount= PortalBoardAdminEntity.board?.count() ?: 0
+            val boardBoardCount = PortalBoardAdminEntity.board?.count() ?: 0
             var enabled = true
             if (boardBoardCount > 0) {
                 enabled = false
             }
-            boardAdminDtoList.add (
+            boardAdminDtoList.add(
                 BoardAdminDto(
                     boardAdminId = PortalBoardAdminEntity.boardAdminId,
                     boardAdminTitle = PortalBoardAdminEntity.boardAdminTitle,
@@ -58,7 +60,7 @@ class BoardAdminService(private val boardAdminRepository: BoardAdminRepository,
      */
     @Transactional
     fun saveBoardAdmin(boardAdminDto: BoardAdminDto) {
-        val portalBoardAdminEntity = PortalBoardAdminEntity (
+        val portalBoardAdminEntity = PortalBoardAdminEntity(
             boardAdminId = boardAdminDto.boardAdminId,
             boardAdminTitle = boardAdminDto.boardAdminTitle,
             boardAdminDesc = boardAdminDto.boardAdminDesc,
@@ -86,7 +88,7 @@ class BoardAdminService(private val boardAdminRepository: BoardAdminRepository,
         if (boardAdminEntity.board?.count() ?: 0 > 0) {
             enabled = false
         }
-        return BoardAdminDto (
+        return BoardAdminDto(
             boardAdminId = boardAdminEntity.boardAdminId,
             boardAdminTitle = boardAdminEntity.boardAdminTitle,
             boardAdminDesc = boardAdminEntity.boardAdminDesc,
@@ -122,12 +124,12 @@ class BoardAdminService(private val boardAdminRepository: BoardAdminRepository,
      * @return List<BoardCategoryDto>
      */
     fun getBoardCategoryList(boardAdminId: String): List<BoardCategoryDto>? {
-        val boardCategoryList =  boardCategoryRepository.findByBoardAdminOrderByBoardCategorySortAsc(boardAdminId)
+        val boardCategoryList = boardCategoryRepository.findByBoardAdminOrderByBoardCategorySortAsc(boardAdminId)
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         val boardCategoryDtoList = mutableListOf<BoardCategoryDto>()
         for (boardCategory in boardCategoryList) {
-            boardCategoryDtoList.add (
-                BoardCategoryDto (
+            boardCategoryDtoList.add(
+                BoardCategoryDto(
                     boardCategoryId = boardCategory.boardCategoryId,
                     boardAdmin = boardAdminEntity,
                     boardCategoryName = boardCategory.boardCategoryName,
@@ -146,7 +148,7 @@ class BoardAdminService(private val boardAdminRepository: BoardAdminRepository,
     @Transactional
     fun saveBoardCategory(boardCategoryDto: BoardCategoryDto) {
         val boardAdminEntity = boardAdminRepository.findById(boardCategoryDto.boardAdminId).orElse(null)
-        val portalBoardCategoryEntity = PortalBoardCategoryEntity (
+        val portalBoardCategoryEntity = PortalBoardCategoryEntity(
             boardCategoryId = boardCategoryDto.boardCategoryId,
             boardAdmin = boardAdminEntity,
             boardCategoryName = boardCategoryDto.boardCategoryName,
