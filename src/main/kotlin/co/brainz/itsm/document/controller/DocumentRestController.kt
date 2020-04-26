@@ -1,6 +1,7 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -68,7 +69,23 @@ class DocumentRestController(private val documentService: DocumentService) {
      * @param restTemplateDocumentDto
      * */
     @PutMapping("/{documentId}")
-    fun updateDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
+    fun updateDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         return documentService.updateDocument(restTemplateDocumentDto)
+    }
+
+    /**
+     * 신청서 편집 데이터 조회.
+     */
+    @GetMapping("/{documentId}/display")
+    fun getDocumentDisplay(@PathVariable documentId: String): String {
+        return documentService.findDocumentDisplay(documentId)
+    }
+
+    /**
+     * 신청서 편집 데이터 저장.
+     */
+    @PutMapping("/{documentId}/display")
+    fun updateDocumentDisplay(@RequestBody documentDisplay: RestTemplateDocumentDataDto): Boolean {
+        return documentService.updateDocumentDisplay(documentDisplay)
     }
 }

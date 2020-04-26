@@ -8,17 +8,17 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-<div class="container">
-    <div sec:authorize="hasAuthority('faq.create')" class="button" style="float:right">
-        <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
+    <div class="container">
+        <div sec:authorize="hasAuthority('faq.create')" class="button" style="float:right">
+            <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
+        </div>
+        <div id="faqList">
+        </div>
     </div>
-    <div id="faqList">
-    </div>
-</div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-<script type="text/javascript">
+    <script type="text/javascript">
 window.onload = function() {
     loadXMLDoc();
 }

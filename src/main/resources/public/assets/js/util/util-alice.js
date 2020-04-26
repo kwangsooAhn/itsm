@@ -646,16 +646,28 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
 };
 
 /**
+ * Object 객체이며 true, 아니면 false를 반환
+ * @param item 대상
+ * @returns {Boolean} boolean
+ */
+aliceJs.isObject = function (item) {
+    return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
+};
+/**
  * Merge a `source` object to a `target` recursively
  * @param target target 객체
  * @param source source 객제
  */
 aliceJs.mergeObject = function (target, source) {
-    for (let key of Object.keys(source)) {
-        if (source[key] instanceof Object) {
-            Object.assign(source[key], aliceJs.mergeObject(target[key], source[key]));
-        }
+    if (aliceJs.isObject(target) && aliceJs.isObject(source)) {
+        Object.keys(source).forEach(key => {
+            if (aliceJs.isObject(source[key])) {
+                if (!target[key]) { Object.assign(target, { [key]: {} }); }
+                aliceJs.mergeObject(target[key], source[key]);
+            } else {
+                Object.assign(target, { [key]: source[key] });
+            }
+        });
     }
-    Object.assign(target || {}, source);
     return target;
 };

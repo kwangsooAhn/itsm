@@ -2,8 +2,11 @@ package co.brainz.workflow.engine
 
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
+import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.document.service.WfDocumentService
+import co.brainz.workflow.engine.element.repository.WfElementDataRepository
+import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
@@ -23,7 +26,10 @@ class WfEngine(
     private val wfProcessRepository: WfProcessRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository,
+    private val wfElementRepository: WfElementRepository,
+    private val wfElementDataRepository: WfElementDataRepository,
     private val wfDocumentRepository: WfDocumentRepository,
+    private val wfDocumentDataRepository: WfDocumentDataRepository,
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
@@ -54,9 +60,14 @@ class WfEngine(
             wfFormService,
             wfActionService,
             wfDocumentRepository,
+            wfDocumentDataRepository,
             wfInstanceRepository,
             wfProcessRepository,
-            wfFormRepository
+            wfFormRepository,
+            wfComponentRepository,
+            wfComponentDataRepository,
+            wfElementRepository,
+            wfElementDataRepository
         )
     }
 
@@ -79,4 +90,5 @@ class WfEngine(
             wfTokenElementService
         )
     }
+
 }
