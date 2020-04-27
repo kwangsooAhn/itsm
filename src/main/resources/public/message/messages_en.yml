@@ -452,8 +452,8 @@ download:
 #board
 board:
   btn:
-    category: "Category"
-    reply: "Reply"
+    category: "CATEGORY"
+    reply: "REPLY"
   label:
     board: "Board"
     add: "Board Add"
@@ -477,15 +477,17 @@ board:
     comment: "Comment"
     attachFileYn: "Attach File Yes or No"
     attachFileSize: "Attach File Size"
+    use: "Use"
+    unused: "UnUsed"
     number: "Number"
     title: "Title"
     commentCount: "Number of Comment"
     readCount: "Number of Read"
     contents: "Contents"
-    msg:
-      inputBoardTitle: "Please enter the board name."
-      inputSortSize: "Please enter a sorting order of 100 or less."
-      inputAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
-      inputCategoryName: "Please enter the category name."
-      inputBoardComments: "Please enter the board comments."
-      inputBoardEditComments: "Please save comments."
+  msg:
+    inputBoardTitle: "Please enter the board name."
+    inputSortSize: "Please enter a sorting order of 100 or less."
+    inputAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
+    inputCategoryName: "Please enter the category name."
+    inputBoardComments: "Please enter the board comments."
+    inputBoardEditComments: "Please save comments."

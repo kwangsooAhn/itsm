@@ -16,7 +16,6 @@ import co.brainz.itsm.board.repository.BoardRepository
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
 import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
-import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
 import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
 import co.brainz.itsm.utility.ConvertParam
@@ -78,8 +77,8 @@ class BoardService(
                         boardSeq = PortalBoardEntity.boardSeq,
                         boardTitle = PortalBoardEntity.boardTitle,
                         boardConents = PortalBoardEntity.boardConents,
-                        boardGroupNo = PortalBoardEntity.boardGroupNo,
-                        boardLevelNo = PortalBoardEntity.boardLevelNo,
+                        boardGroupId = PortalBoardEntity.boardGroupId,
+                        boardLevelId = PortalBoardEntity.boardLevelId,
                         boardOrderSeq = PortalBoardEntity.boardOrderSeq,
                         replyCount = PortalBoardEntity.commentBoard?.count()?.toLong(),
                         readCount = readCount,
@@ -100,9 +99,8 @@ class BoardService(
         val boardAdminId = boardSaveDto.boardAdminId
         val boardCount = boardRepository.countByBoardAdminId(boardAdminId)
         var boardSeq = 0L
-        if (boardCount > 0) {
-            boardSeq = boardRepository.findMaxBoardSeq(boardAdminId)
-        }
+        if (boardCount > 0) boardSeq = boardRepository.findMaxBoardSeq(boardAdminId)
+
         val updatePortalBoardEntity = boardRepository.findById(boardSaveDto.boardId).orElse(null)
         val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         val portalBoardEntity = PortalBoardEntity(
@@ -110,8 +108,8 @@ class BoardService(
                 boardAdmin = portalBoardAdminEntity,
                 boardCategoryId = boardSaveDto.boardCategoryId,
                 boardSeq = boardSeq + 1,
-                boardGroupNo = boardSeq + 1,
-                boardLevelNo = updatePortalBoardEntity?.boardLevelNo ?: 0,
+                boardGroupId = boardSeq + 1,
+                boardLevelId = updatePortalBoardEntity?.boardLevelId ?: 0,
                 boardOrderSeq = updatePortalBoardEntity?.boardOrderSeq ?: 0,
                 boardTitle = boardSaveDto.boardTitle,
                 boardConents = boardSaveDto.boardConents
@@ -281,14 +279,14 @@ class BoardService(
             boardAdmin = oldBoardEntity.boardAdmin,
             boardCategoryId = boardSaveDto.boardCategoryId,
             boardSeq = boardRepository.findMaxBoardSeq(oldBoardEntity.boardAdmin.boardAdminId) + 1,
-            boardGroupNo = oldBoardEntity.boardGroupNo,
-            boardLevelNo = oldBoardEntity.boardLevelNo + 1,
+            boardGroupId = oldBoardEntity.boardGroupId,
+            boardLevelId = oldBoardEntity.boardLevelId + 1,
             boardOrderSeq = oldBoardEntity.boardOrderSeq + 1,
             boardTitle = boardSaveDto.boardTitle,
             boardConents = boardSaveDto.boardConents
         )
         val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
-        boardRepository.updateBoardOrderSeq(savedPortalBoardEntity.boardAdmin.boardAdminId, savedPortalBoardEntity.boardGroupNo, savedPortalBoardEntity.boardOrderSeq, savedPortalBoardEntity.boardSeq)
+        boardRepository.updateBoardOrderSeq(savedPortalBoardEntity.boardAdmin.boardAdminId, savedPortalBoardEntity.boardGroupId, savedPortalBoardEntity.boardOrderSeq, savedPortalBoardEntity.boardSeq)
         aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardSaveDto.fileSeqList))
     }
 }

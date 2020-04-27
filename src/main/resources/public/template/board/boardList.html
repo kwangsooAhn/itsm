@@ -52,8 +52,8 @@
                 <td style="text-align:center" th:text="${board.boardSeq}"></td>
                 <td style="text-align:center" th:text="${board.boardCategoryName}"></td>
                 <td style="text-align:left">
-                    <div th:if="${board.boardLevelNo} > 0" th:each="depth : ${#numbers.sequence(1, board.boardLevelNo)}"
-                         th:text="${board.boardLevelNo} == ${depth} ? 'L' : '&nbsp;&nbsp;&nbsp;&nbsp;'" style="float:left;"></div>
+                    <div th:if="${board.boardLevelId} > 0" th:each="depth : ${#numbers.sequence(1, board.boardLevelId)}"
+                         th:text="${board.boardLevelId} == ${depth} ? 'L' : '&nbsp;&nbsp;&nbsp;&nbsp;'" style="float:left;"></div>
                     <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
                 </td>
                 <td style="text-align:center" th:text="${board.replyCount}"></td>
