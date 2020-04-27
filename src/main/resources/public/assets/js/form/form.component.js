@@ -682,7 +682,7 @@
                     <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' ${attr.displayType === 'editableRequired' ? 'required' : ''} readonly custom-data='${defaultCustomData}'/>
+                    <input id='custom-code' type='text' ${attr.displayType === 'editableRequired' ? 'required' : ''} readonly custom-data='${defaultCustomData}'/>
                     <input type='button' id='codeBtn' value='${attr.display["button-text"]}'>
                 </div>
             </div>

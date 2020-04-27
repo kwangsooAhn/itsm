@@ -174,13 +174,19 @@
                 case 'radio':
                 case 'chkbox':
                     if (!selectCheck(requiredObj)) {
-                        alertMsg(requiredObj, i18n.get('document.msg.requiredSelect'));
+                        alertMsg(requiredObj.firstChild.firstChild, i18n.get('document.msg.requiredSelect'));
                         return true;
                     }
                     break;
                 case 'fileupload':
-                    if (requiredObj.getElementsByTagName('input').length === 0) {
+                    if (requiredObj.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
                         alertMsg(requiredObj, i18n.get('document.msg.requiredFileupload'));
+                        return true;
+                    }
+                    break;
+                case 'custom-code':
+                    if (requiredObj.value === '') {
+                        alertMsg(requiredObj, i18n.get('document.msg.requiredSelect'));
                         return true;
                     }
                     break;

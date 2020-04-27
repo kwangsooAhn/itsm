@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.token.service
 
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
+import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
@@ -129,7 +130,12 @@ class WfTokenService(
                         values.add(valueMap)
                     }
                 }
-                var displayType = WfDocumentConstants.DisplayType.EDITABLE.value
+                var displayType = when (tokenMstEntity.get().element.elementType) {
+                    WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
+                        WfDocumentConstants.DisplayType.EDITABLE.value
+                    }
+                    else -> WfDocumentConstants.DisplayType.READONLY.value
+                }
                 for (documentDataEntity in documentDataEntities) {
                     if (documentDataEntity.componentId == componentEntity.componentId) {
                         displayType = documentDataEntity.display
