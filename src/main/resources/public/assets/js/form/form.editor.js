@@ -234,8 +234,6 @@
                     let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, JSON.parse(JSON.stringify(changeData)));
                     let element = component.draw(changeData.type, formPanel, mergeComponentAttr);
                     const compOrder = Number(changeData.display.order) - 1;
-                    console.log(changeData)
-                    console.log(compOrder)
                     let targetElement = formPanel.querySelectorAll('.component').item(compOrder);
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
                     setComponentData(element.attr);
