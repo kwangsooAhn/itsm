@@ -27,26 +27,26 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
-window.onload = function() {
-    loadXMLDoc('');
-}
-
-function getCategory(obj) {
-    let category = obj.value;
-    loadXMLDoc(category);
-}
-
-function loadXMLDoc(param) {
-    const opt = {
-        method: 'GET',
-        url: '/faqs/list?searchValue=' + param,
-        callbackFunc: function(response) {
-            document.getElementById('faqList').innerHTML = response.responseText;
-            document.getElementById('faqGroup').open = true;
+        window.onload = function() {
+            loadXMLDoc('');
         }
-    };
-    aliceJs.sendXhr(opt);
-}
+
+        function getCategory(obj) {
+            let category = obj.value;
+            loadXMLDoc(category);
+        }
+
+        function loadXMLDoc(param) {
+            const opt = {
+                method: 'GET',
+                url: '/faqs/list?searchValue=' + param,
+                callbackFunc: function(response) {
+                    document.getElementById('faqList').innerHTML = response.responseText;
+                    document.getElementsByClassName('faqGroup')[0].open = true;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
 </script>
 </th:block>
 </html>

@@ -65,6 +65,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/{faqId}/view")
     fun getFaqView(@PathVariable faqId: String, model: Model): String {
+        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
         model.addAttribute("faq", faqService.findOne(faqId))
         return faqViewPage
     }
