@@ -11,8 +11,8 @@
 	</page_setting>
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
-	<x>-312</x>
-	<y>1890</y>
+	<x>-316</x>
+	<y>2389</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -197,7 +197,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2019-08-26 13:08:23</creation_date>
-			<updated_date>2020-04-27 00:14:28</updated_date>
+			<updated_date>2020-04-27 09:28:48</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
@@ -500,7 +500,7 @@
 			<char_semantics>false</char_semantics>
 			<description></description>
 			<logical_name>게시판 답글 시퀀스 부모 번호</logical_name>
-			<physical_name>board_group_no</physical_name>
+			<physical_name>board_group_id</physical_name>
 			<type>bigint</type>
 		</word>
 		<word>
@@ -532,7 +532,7 @@
 			<char_semantics>false</char_semantics>
 			<description></description>
 			<logical_name>게시판 답글 계층 번호</logical_name>
-			<physical_name>board_level_no</physical_name>
+			<physical_name>board_level_id</physical_name>
 			<type>bigint</type>
 		</word>
 		<word>
@@ -2043,7 +2043,7 @@
 			<connections>
 				<relation>
 					<id>0</id>
-					<source>5</source>
+					<source>9</source>
 					<target>0</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2065,7 +2065,7 @@
 				</relation>
 				<relation>
 					<id>1</id>
-					<source>9</source>
+					<source>5</source>
 					<target>0</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2096,7 +2096,7 @@
 				<normal_column>
 					<id>4</id>
 					<referenced_column>38</referenced_column>
-					<relation>1</relation>
+					<relation>0</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -2130,7 +2130,7 @@
 				<normal_column>
 					<id>5</id>
 					<referenced_column>19</referenced_column>
-					<relation>0</relation>
+					<relation>1</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -6699,8 +6699,8 @@
 			<width>355</width>
 				<font_name>맑은 고딕</font_name>
 				<font_size>9</font_size>
-			<x>732</x>
-			<y>2535</y>
+			<x>723</x>
+			<y>2472</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -7203,12 +7203,12 @@
 		</table>
 		<table>
 			<id>25</id>
-			<height>85</height>
+			<height>86</height>
 			<width>343</width>
 				<font_name>맑은 고딕</font_name>
 				<font_size>9</font_size>
-			<x>744</x>
-			<y>2796</y>
+			<x>729</x>
+			<y>2736</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
