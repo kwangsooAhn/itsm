@@ -133,7 +133,7 @@
     function saveForm() {
         data = JSON.parse(JSON.stringify(editor.data));
         let lastCompIndex = component.getLastIndex();
-        data.components = data.components.filter(function(comp) { 
+        data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
 
@@ -193,9 +193,6 @@
                 this.redo_list = [];
             }
             (list || this.undo_list).push(data);
-            console.log(this.redo_list);
-            console.log(this.undo_list);
-            console.log(editor.data.components)
         },
         undo: function() {
             if (this.undo_list.length) {
@@ -238,23 +235,18 @@
 
                     const compOrder = Number(changeData.display.order);
                     let targetElement = document.querySelectorAll('.component').item(compOrder - 1);
-                    console.log(targetElement)
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
 
                     setComponentData(mergeComponentAttr);
                 }
             } else { // modify component
-                let element = component.draw(changeData.type, formPanel, changeData);
+                let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
                 setComponentData(changeData);
-
                 let targetElement = document.getElementById(changeData.id);
-                console.log(originData)
                 if (originData.display.order !== changeData.display.order) {
                     let components = document.querySelectorAll('.component');
-                    console.log((changeData.display.order))
-                    let nextElement = components.item(Number(changeData.display.order) - 1);
-                    console.log(nextElement)
-                    nextElement.parentNode.insertBefore(element.domElem, nextElement);
+                    let nextElement = components.item(changeData.display.order);
+                    targetElement.parentNode.insertBefore(element.domElem, nextElement);
                 } else {
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
                 }
@@ -270,7 +262,7 @@
                 originData = data[0];
                 changeData = data[1];
             }
-            restore(originData, changeData);
+            restore(JSON.parse(JSON.stringify(originData)), JSON.parse(JSON.stringify(changeData)));
         });
     }
 
@@ -348,9 +340,8 @@
             let addCompAttr = editor.data.components.filter(function(comp) { return comp.id === componentId; });
             histories.push({0: replaceEditbox[0], 1: addCompAttr[0]});
 
-            addEditboxDown(componentId, function(editboxId) {
-                let addEditbox = editor.data.components.filter(function(comp) { return comp.id === editboxId; });
-                histories.push({0: {}, 1: addEditbox[0]});
+            addEditboxDown(componentId, function(attr) {
+                histories.push({0: {}, 1: JSON.parse(JSON.stringify(attr))});
                 history.saveHistory(histories);
             });
         } else {
@@ -458,28 +449,24 @@
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
-        let elemIdx = Number(elem.getAttribute('data-index')) + 1;
         let editbox = null;
         if (elem.nextSibling !== null) {
             editbox = component.draw(defaultComponent, formPanel);
             setComponentData(editbox.attr);
             elem.parentNode.insertBefore(editbox.domElem, elem.nextSibling);
-            editbox.domElem.setAttribute('data-index', elemIdx);
-            editbox.domElem.setAttribute('tabIndex', elemIdx);
-
-            // 컴포넌트 순서 재정렬
-            reorderComponent();
         } else { //마지막에 추가된 경우
             editbox = component.draw(defaultComponent, formPanel);
             setComponentData(editbox.attr);
             elem.parentNode.appendChild(editbox.domElem);
         }
+        // 컴포넌트 순서 재정렬
+        reorderComponent();
 
         editbox.domElem.querySelector('[contenteditable=true]').focus();
         showComponentProperties(editbox.id);
 
         if (typeof callbackFunc === 'function') {
-            callbackFunc(editbox.id);
+            callbackFunc(editbox.attr);
         } else {
             history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))}]);
         }
@@ -487,7 +474,6 @@
 
     /**
      * 컴포넌트 재정렬
-     * @param {Object} elem 선택한 element
      */
     function reorderComponent() {
         const components = document.querySelectorAll('.component');
@@ -584,27 +570,22 @@
          * 컴포넌트를 다시 그린다.
          */
         const redrawComponent = function() {
-            const originDisplayOrder = compAttr.display.order;
             let element = component.draw(compAttr.type, formPanel, compAttr);
             if (element) {
                 let compAttr = element.attr;
                 compAttr.id = id;
-                compAttr.display.order = originDisplayOrder;
                 setComponentData(compAttr);
 
                 let targetElement = document.getElementById(id);
                 element.domElem.id = id;
-                element.domElem.setAttribute('data-index', originDisplayOrder);
-                element.domElem.setAttribute('tabIndex', originDisplayOrder);
-                
+
                 targetElement.parentNode.insertBefore(element.domElem, targetElement);
                 targetElement.innerHTML = '';
                 targetElement.remove();
-                
-                let compIdx = component.getLastIndex();
-                component.setLastIndex(compIdx - 1);
 
                 element.domElem.classList.add('selected');
+
+                reorderComponent();
             }
         };
 
@@ -625,6 +606,7 @@
             history.saveHistory([{0: originCompAttr, 1: JSON.parse(JSON.stringify(compAttr))}]);
             redrawComponent();
         };
+
         /**
          * date, time, datetime default 포멧 변경시,
          * default 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
