@@ -1,6 +1,7 @@
 package co.brainz.itsm.code.controller
 
 import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.dto.CodeDtoHeechan
 import co.brainz.itsm.code.service.CodeService
 import org.springframework.web.bind.annotation.*
 
@@ -20,7 +21,7 @@ class CodeRestController(private val codeService: CodeService) {
      * 코드 데이터 상세 정보 조회
      */
     @GetMapping("/{code}")
-    fun getCodes(@PathVariable code: String): CodeDto {
+    fun getCodes(@PathVariable code: String): CodeDtoHeechan {
         return codeService.getDetailCodes(code)
     }
 

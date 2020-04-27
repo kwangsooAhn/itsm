@@ -1,6 +1,8 @@
 package co.brainz.itsm.code.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
+import org.hibernate.annotations.NotFound
+import org.hibernate.annotations.NotFoundAction
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity

@@ -1,6 +1,7 @@
 package co.brainz.itsm.code.service
 
 import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.dto.CodeDtoHeechan
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.mapper.CodeMapper
 import co.brainz.itsm.code.repository.CodeRepository
@@ -33,8 +34,9 @@ class CodeService(private val codeRepository: CodeRepository) {
     /**
      * 코드 데이터 상세 정보 조회
      */
-    fun getDetailCodes(code: String): CodeDto {
-        return codeMapper.toCodeDto(codeRepository.findById(code).orElse(CodeEntity()))
+    fun getDetailCodes(code: String): CodeDtoHeechan {
+        // return codeMapper.toCodeDto(codeRepository.findById(code).orElse(CodeEntity()))
+        return codeRepository.findTest(code)
     }
 
     /**
