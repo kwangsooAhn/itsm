@@ -217,6 +217,7 @@
      * @param type 타입(undo, redo)
      */
     function restoreComponent(restoreData, type) {
+        editor.showFormProperties();
         const restore = function (originData, changeData) {
             if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete
                 if (!Object.keys(changeData).length) { // delete component
@@ -230,28 +231,30 @@
                     }
                 } else { // add component
                     let defaultComponentAttr = component.getData(changeData.type);
-                    let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, changeData);
+                    let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, JSON.parse(JSON.stringify(changeData)));
                     let element = component.draw(changeData.type, formPanel, mergeComponentAttr);
-
-                    const compOrder = Number(changeData.display.order);
-                    let targetElement = document.querySelectorAll('.component').item(compOrder - 1);
+                    const compOrder = Number(changeData.display.order) - 1;
+                    let targetElement = formPanel.querySelectorAll('.component').item(compOrder);
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
-
-                    setComponentData(mergeComponentAttr);
+                    setComponentData(element.attr);
                 }
             } else { // modify component
                 let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
-                setComponentData(changeData);
-                let targetElement = document.getElementById(changeData.id);
+                let compAttr = element.attr;
+                setComponentData(compAttr);
+                let targetElement = document.getElementById(compAttr.id);
                 if (originData.display.order !== changeData.display.order) {
-                    let components = document.querySelectorAll('.component');
-                    let nextElement = components.item(changeData.display.order);
-                    targetElement.parentNode.insertBefore(element.domElem, nextElement);
+                    targetElement.innerHTML = '';
+                    targetElement.remove();
+                    reorderComponent();
+                    const compOrder = Number(changeData.display.order) - 1;
+                    let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
+                    nextElement.parentNode.insertBefore(element.domElem, nextElement);
                 } else {
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                    targetElement.innerHTML = '';
+                    targetElement.remove();
                 }
-                targetElement.innerHTML = '';
-                targetElement.remove();
             }
             reorderComponent();
         };
