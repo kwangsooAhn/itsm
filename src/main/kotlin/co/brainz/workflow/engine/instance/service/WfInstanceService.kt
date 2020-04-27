@@ -7,15 +7,27 @@ import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
+import co.brainz.workflow.engine.token.dto.WfTokenDataDto
+import co.brainz.workflow.engine.token.dto.WfTokenDto
+import co.brainz.workflow.engine.token.mapper.WfTokenMapper
+import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.mapstruct.factory.Mappers
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
-import org.springframework.stereotype.Service
 
 @Service
-class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) {
+class WfInstanceService(
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfTokenRepository: WfTokenRepository
+) {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
+    private val wfTokenMapper: WfTokenMapper = Mappers.getMapper(WfTokenMapper::class.java)
 
     /**
      * Search Instances.
@@ -45,11 +57,10 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
     }
 
     /**
-     * Search Instance.
+     * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.
      *
-     * @param tokenId
      */
-    fun instance(tokenId: String): WfInstanceViewDto {
+    fun instance(instanceId: String): WfInstanceViewDto {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
@@ -78,11 +89,10 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      * @param instanceId
      */
     fun completeInstance(instanceId: String) {
-        val instanceEntity = wfInstanceRepository.findInstanceEntityByInstanceId(instanceId)
-        if (instanceEntity.isPresent) {
-            instanceEntity.get().instanceStatus = WfInstanceConstants.Status.FINISH.code
-            instanceEntity.get().instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-            wfInstanceRepository.save(instanceEntity.get())
+        wfInstanceRepository.findByInstanceId(instanceId)?.let {
+            it.instanceStatus = WfInstanceConstants.Status.FINISH.code
+            it.instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            wfInstanceRepository.save(it)
         }
     }
 
@@ -92,7 +102,7 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      * @param parameters
      */
     fun instancesStatusCount(parameters: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
-        var userKey: String = ""
+        var userKey = ""
         if (parameters["userKey"] != null) {
             userKey = parameters["userKey"].toString()
         }
@@ -111,5 +121,25 @@ class WfInstanceService(private val wfInstanceRepository: WfInstanceRepository) 
      */
     fun getInstancesHistory(instanceId: String): List<WfInstanceHistoryDto> {
         return wfInstanceRepository.findInstanceHistory(instanceId)
+    }
+
+    /**
+     * 인스턴스ID[instanceId]로 마지막 토큰 정보를 조회한다.
+     */
+    fun getInstanceLatestToken(instanceId: String): WfTokenDto {
+        var tokenDto = WfTokenDto()
+        wfInstanceRepository.findByInstanceId(instanceId)?.let { instance ->
+            wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance)?.let { token ->
+                tokenDto = wfTokenMapper.toTokenDto(token)
+                val tokenDatas = mutableListOf<WfTokenDataDto>()
+                token.tokenDatas?.forEach { tokenData ->
+                    tokenDatas.add(wfTokenMapper.toTokenDataDto(tokenData))
+                }
+                tokenDto.data = tokenDatas
+            }
+        }
+
+        logger.debug("Latest token: {}", tokenDto)
+        return tokenDto
     }
 }

@@ -1,9 +1,9 @@
 package co.brainz.workflow.provider.dto
 
-import java.io.Serializable
-import java.net.InetAddress
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
+import java.io.Serializable
+import java.net.InetAddress
 
 data class RestTemplateUrlDto(
     val callUrl: String = "",
