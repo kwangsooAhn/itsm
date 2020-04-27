@@ -193,8 +193,6 @@
                 this.redo_list = [];
             }
             (list || this.undo_list).push(data);
-            console.log(this.redo_list)
-            console.log(this.undo_list)
         },
         undo: function() {
             if (this.undo_list.length) {
