@@ -136,6 +136,7 @@
         data.components = data.components.filter(function(comp) { 
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
+
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/data',
@@ -1131,11 +1132,9 @@
                             propertyValue.setAttribute('type', 'checkbox');
                             propertyValue.classList.add('property-field-value');
                             propertyValue.name = fieldArr.id;
-                            propertyValue.value = fieldArr.value;
-                            propertyValue.checked = (fieldArr.value === 'Y');
+                            propertyValue.checked = fieldArr.value;
                             propertyValue.addEventListener('change', function(e) {
-                                e.target.value = (e.target.checked) ? 'Y' : 'N';
-                                changePropertiesValue((e.target.value === 'Y'), group, fieldArr.id);
+                                changePropertiesValue(e.target.checked, group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
                             break;

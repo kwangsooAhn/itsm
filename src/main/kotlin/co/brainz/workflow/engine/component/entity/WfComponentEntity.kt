@@ -27,7 +27,7 @@ data class WfComponentEntity(
         var mappingId: String,
 
         @Column(name = "is_topic")
-        var topicYn: Boolean = true,
+        var topicYn: Boolean = false,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "form_id")

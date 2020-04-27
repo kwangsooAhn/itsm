@@ -14,7 +14,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -201,7 +201,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -359,7 +359,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -481,7 +481,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -621,7 +621,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -761,7 +761,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -843,7 +843,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -902,7 +902,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -951,7 +951,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -1089,7 +1089,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -1227,7 +1227,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -1365,7 +1365,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -1476,7 +1476,7 @@
             {
                 "id": "is-topic",
                 "name": "Topic Use",
-                "value": "N",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
