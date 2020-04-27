@@ -531,7 +531,7 @@
                 editor.copyComponent(clickedComponent.id);
                 break;
             case 'delete': //컴포넌트 삭제
-                editor.deleteComponent(clickedComponent.id, true);
+                editor.deleteComponent(clickedComponent.id);
                 break;
             case 'addEditboxUp': //위에 editbox 컴포넌트 추가
                 editor.addEditboxUp(clickedComponent.id);
@@ -540,7 +540,7 @@
                 editor.addEditboxDown(clickedComponent.id);
                 break;
             default:
-                editor.addComponent(elem.getAttribute('data-action'), clickedComponent.id, true);
+                editor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
         }
         menuOff();
         itemInContext = null;
