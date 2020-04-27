@@ -17,11 +17,11 @@ import co.brainz.workflow.engine.token.entity.WfTokenDataEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
-import java.time.LocalDateTime
-import java.time.ZoneId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Service
 class WfTokenElementService(
@@ -49,7 +49,7 @@ class WfTokenElementService(
         instance?.let { wfFolderService.createFolder(instance) }
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId!!)
-        val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
+        val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
         wfTokenDto.elementType = startElement.elementType
         wfTokenDto.elementId = startElement.elementId
         when (startElement.elementType) {
@@ -314,7 +314,7 @@ class WfTokenElementService(
                 wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
 
                 // Call Document Start Element
-                val startElement = wfElementService.getStartElement(wfDocumentEntity.process!!.processId)
+                val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
                 wfTokenDto.elementType = startElement.elementType
                 wfTokenDto.elementId = startElement.elementId
                 when (startElement.elementType) {

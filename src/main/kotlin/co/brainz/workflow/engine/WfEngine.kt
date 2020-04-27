@@ -78,7 +78,7 @@ class WfEngine(
      * Instance Engine.
      */
     fun instance(): WfInstanceService {
-        return WfInstanceService(wfInstanceRepository)
+        return WfInstanceService(wfInstanceRepository, wfTokenRepository)
     }
 
     /**
