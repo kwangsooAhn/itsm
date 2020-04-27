@@ -445,3 +445,10 @@ download:
     inputDownloadTitle: "Please enter a title."
     selectAfterDate: "Please select after {0} date."
     selectBeforeDate: "Please select before {0} date."
+
+#Comment
+comment:
+  label:
+    createUser: "Create User"
+    createDt: "Create Date Time"
+    content: "Content"

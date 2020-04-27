@@ -1,10 +1,13 @@
 package co.brainz.workflow.engine.comment.dto
 
 import java.io.Serializable
+import java.time.LocalDateTime
 
 class WfCommentDto(
-    val instanceId: String? = null,
-    val tokenId: String? = null,
-    val comment: String? = null,
-    val createUserKey: String
+    var instanceId: String? = null,
+    var tokenId: String? = null,
+    var commentId: String? = null,
+    var content: String? = null,
+    var createUserKey: String? = null,
+    var createDt: LocalDateTime? = null
 ) : Serializable

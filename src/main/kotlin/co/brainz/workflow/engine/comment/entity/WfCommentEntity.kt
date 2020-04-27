@@ -25,13 +25,13 @@ data class WfCommentEntity(
     @JoinColumn(name = "instance_id")
     var instance: WfInstanceEntity? = null,
 
-    @Column(name = "comment_value")
-    val commentValue: String? = null,
+    @Column(name = "content")
+    val content: String? = null,
 
     @Column(name = "create_dt")
     val createDt: LocalDateTime,
 
     @Column(name = "create_user_key", length = 128)
-    val createUserKey: String
+    var createUserKey: String = ""
 
 ) : Serializable

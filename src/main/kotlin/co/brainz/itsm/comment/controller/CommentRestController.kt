@@ -2,6 +2,8 @@ package co.brainz.itsm.comment.controller
 
 import co.brainz.itsm.comment.service.CommentService
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -17,5 +19,10 @@ class CommentRestController(
     @PostMapping("/{tokenId}")
     fun setComment(@PathVariable tokenId: String, @RequestBody restTemplateCommentDto: RestTemplateCommentDto): Boolean {
         return commentService.setComment(restTemplateCommentDto)
+    }
+
+    @DeleteMapping("/{tokenId}")
+    fun deleteComment(@PathVariable tokenId: String): ResponseEntity<String> {
+        return commentService.deleteComment(tokenId)
     }
 }

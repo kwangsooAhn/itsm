@@ -3,6 +3,7 @@ package co.brainz.itsm.token.controller
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.comment.service.CommentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.token.service.TokenService
@@ -21,7 +22,8 @@ class TokenController(
     private val userService: UserService,
     private val tokenService: TokenService,
     private val instanceService: InstanceService,
-    private val folderService: FolderService
+    private val folderService: FolderService,
+    private val commentService: CommentService
 ) {
 
     private val statusPage: String = "redirect:/certification/status"
@@ -71,6 +73,7 @@ class TokenController(
         model.addAttribute("tokenId", tokenId)
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
+        model.addAttribute("commentList", commentService.getComments(tokenId))
         return tokenEditPage
     }
 }

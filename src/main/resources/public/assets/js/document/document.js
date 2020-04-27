@@ -476,6 +476,8 @@
 
     /**
      * Comment Object.
+     *
+     * @param tokenId
      */
     function addCommentBox(tokenId) {
         commentContainer = document.getElementById('comment-container');
@@ -501,10 +503,16 @@
         commentContainer.appendChild(commentButtonContainer);
     }
 
+    /**
+     * Save Comment.
+     *
+     * @param tokenId
+     * @param comment
+     */
     function saveComment(tokenId, comment) {
         let data = {
             tokenId: tokenId,
-            comment: comment
+            content: comment
         }
         const opt = {
             method: 'POST',
@@ -516,6 +524,28 @@
                     location.reload();
                 } else {
                     aliceJs.alert(i18n.get('common.msg.fail'));
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    /**
+     * Delete Comment.
+     *
+     * @param commentId
+     */
+    function deleteComment(commentId) {
+        const opt = {
+            method: 'DELETE',
+            url: '/rest/comments/' + commentId,
+            callbackFunc: function(xhr) {
+                if (xhr.responseText) {
+                    aliceJs.alert(i18n.get('common.msg.delete.success'), function() {
+                        location.reload();
+                    });
+                } else {
+                    aliceJs.alert(i18n.get('common.msg.save.fail'));
                 }
             }
         };
@@ -597,6 +627,7 @@
     exports.initToken = initToken;
     exports.save = save;
     exports.saveComment = saveComment;
+    exports.deleteComment = deleteComment;
     exports.drawDocument = drawDocument;
     exports.getDocument = getDocument;
 

@@ -67,7 +67,9 @@ object RestTemplateConstants {
      * @param method
      */
     enum class Comment(val url: String, val method: String) {
-        POST_COMMENT("/rest/wf/comments/{tokenId}", "POST")
+        POST_COMMENT("/rest/wf/comments/{tokenId}", "POST"),
+        GET_COMMENT("/rest/wf/comments/{tokenId}", "GET"),
+        DELETE_COMMENT("/rest/wf/comments/{commentId}", "DELETE")
     }
 
     /**
