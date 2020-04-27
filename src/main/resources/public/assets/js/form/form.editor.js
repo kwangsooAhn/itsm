@@ -12,6 +12,34 @@
     'use strict';
     
     const defaultComponent = 'editbox';
+    const history = {
+        redo_list: [],
+        undo_list: [],
+        saveHistory: function(data, list, keep_redo) {
+            if (data.length === 1 && workflowUtil.compareJson(data[0][0], data[0][1])) { // data check
+                return;
+            }
+            keep_redo = keep_redo || false;
+            if (!keep_redo) {
+                this.redo_list = [];
+            }
+            (list || this.undo_list).push(data);
+        },
+        undo: function() {
+            if (this.undo_list.length) {
+                let restoreData = this.undo_list.pop();
+                this.saveHistory(restoreData, this.redo_list, true);
+                restoreComponent(restoreData, 'undo');
+            }
+        },
+        redo: function() {
+            if (this.redo_list.length) {
+                let restoreData = this.redo_list.pop();
+                this.saveHistory(restoreData, this.undo_list, true);
+                restoreComponent(restoreData, 'redo');
+            }
+        }
+    };
 
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
@@ -180,35 +208,6 @@
             params: JSON.stringify(data)
         });
     }
-
-    const history = {
-        redo_list: [],
-        undo_list: [],
-        saveHistory: function(data, list, keep_redo) {
-            if (data.length === 1 && workflowUtil.compareJson(data[0][0], data[0][1])) { // data check
-                return;
-            }
-            keep_redo = keep_redo || false;
-            if (!keep_redo) {
-                this.redo_list = [];
-            }
-            (list || this.undo_list).push(data);
-        },
-        undo: function() {
-            if (this.undo_list.length) {
-                let restoreData = this.undo_list.pop();
-                this.saveHistory(restoreData, this.redo_list, true);
-                restoreComponent(restoreData, 'undo');
-            }
-        },
-        redo: function() {
-            if (this.redo_list.length) {
-                let restoreData = this.redo_list.pop();
-                this.saveHistory(restoreData, this.undo_list, true);
-                restoreComponent(restoreData, 'redo');
-            }
-        }
-    };
 
     /**
      * 컴포넌트를 다시 그리고, 데이터 수정를 수정 한다.
