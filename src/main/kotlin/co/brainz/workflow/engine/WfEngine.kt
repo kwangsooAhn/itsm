@@ -85,6 +85,7 @@ class WfEngine(
         return WfTokenService(
             wfTokenRepository,
             wfTokenDataRepository,
+            wfDocumentDataRepository,
             wfFormService,
             wfActionService,
             wfTokenElementService

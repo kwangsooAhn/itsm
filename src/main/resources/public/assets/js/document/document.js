@@ -416,7 +416,7 @@
                 //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
                 let componentAttr = components[i];
                 let compType = (componentAttr.attributes === undefined) ? componentAttr.type : componentAttr.attributes.type;
-                if (compType === 'editbox' || componentAttr.displayType === 'hidden') { continue; }
+                if (compType === 'editbox') { continue; }
                 let defaultComponentAttr = component.getData(compType);
                 let mergeComponentAttr = null;
                 if (componentAttr.attributes === undefined) { //신청서

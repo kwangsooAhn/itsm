@@ -11,4 +11,15 @@ class WfDocumentConstants {
         USE("document.status.use"),
         DESTROY("document.status.destroy")
     }
+
+    /**
+     * Display Type.
+     *
+     */
+    enum class DisplayType(val value: String) {
+        EDITABLE("editable"),
+        EDITABLE_REQUIRED("editableRequired"),
+        READONLY("readonly"),
+        HIDDEN("hidden")
+    }
 }

@@ -65,8 +65,8 @@ class WfDocumentService(
                     documentName = document.documentName,
                     documentDesc = document.documentDesc,
                     documentStatus = document.documentStatus,
-                    processId = document.process!!.processId,
-                    formId = document.form!!.formId,
+                    processId = document.process.processId,
+                    formId = document.form.formId,
                     createDt = document.createDt,
                     createUserKey = document.createUserKey,
                     updateDt = document.updateDt,
@@ -91,8 +91,8 @@ class WfDocumentService(
                 documentName = document.documentName,
                 documentDesc = document.documentDesc,
                 documentStatus = document.documentStatus,
-                processId = document.process!!.processId,
-                formId = document.form!!.formId,
+                processId = document.process.processId,
+                formId = document.form.formId,
                 createDt = document.createDt,
                 createUserKey = document.createUserKey,
                 updateDt = document.updateDt,
@@ -108,7 +108,7 @@ class WfDocumentService(
      */
     fun getDocumentData(documentId: String): WfFormComponentViewDto? {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form!!.formId)
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId)
         val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (component in formEntity.get().components!!) {
@@ -119,18 +119,15 @@ class WfDocumentService(
             map["componentId"] = component.componentId
             map["attributes"] = attributes
             map["values"] = values
-            //TODO: 실 데이터로 변경.
-            map["displayType"] = when (attributes["type"]) {
-                "text", "textarea", "select", "radio", "checkbox", "label", "image", "divider", "date", "time", "datetime", "fileupload", "custom-code" -> "editable"
-                else -> "readonly" //readonly, editable, editable_required, hidden
-            }
+            //TODO: 추후 동적으로 변경할 수 있도록 구현해야 함.
+            map["displayType"] = WfDocumentConstants.DisplayType.EDITABLE.value
             components.add(map)
         }
 
         return WfFormComponentViewDto(
                 form = formViewDto,
                 components = components,
-                actions = wfActionService.actionInit(documentEntity.process!!.processId)
+                actions = wfActionService.actionInit(documentEntity.process.processId)
         )
     }
 
