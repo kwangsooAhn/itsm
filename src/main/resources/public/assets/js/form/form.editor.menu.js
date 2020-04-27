@@ -478,25 +478,26 @@
         }
         let targetComponent = clickInsideElement(e, 'component');
         if (targetComponent && dragComponent !== targetComponent) {
-            //같은 위치에 drag 하고자하는 경우 
+            //같은 위치에 drag 하고자 하는 경우
             let dragIdx = Number(dragComponent.getAttribute('data-index'));
             if (targetComponent !== lastComponent && Number(targetComponent.getAttribute('data-index')) === (dragIdx + 1)) { return false; }
             
-            let targetIdx = Number(targetComponent.getAttribute('data-index'));
-            let lastCompIdx = component.getLastIndex();
             let dragComponentHTML = e.dataTransfer.getData('text/html');
             targetComponent.parentNode.removeChild(dragComponent);
             targetComponent.insertAdjacentHTML('beforebegin', dragComponentHTML);
             
             dragComponent = targetComponent.previousSibling;
-            let sortIdx = (dragIdx >= targetIdx) ? targetIdx - 1 : dragIdx - 1;
-            if (targetComponent === lastComponent) { sortIdx = dragIdx - 1; } //마지막 추가시
-            
             dragComponent.parentNode.removeChild(lastComponent);
             lastComponent = null;
             //재정렬
-            editor.reorderComponent(dragComponent, sortIdx, lastCompIdx);
+            editor.reorderComponent();
             componentDragOff();
+
+            // add history
+            let dragComponentData = editor.data.components.filter(function(comp) { return comp.id === dragComponent.id; });
+            let beforeDragData = JSON.parse(JSON.stringify(dragComponentData[0]));
+            beforeDragData.display.order = dragIdx;
+            editor.history.saveHistory([{0: JSON.parse(JSON.stringify(beforeDragData)), 1: JSON.parse(JSON.stringify(dragComponentData[0]))}]);
         }
     }
 

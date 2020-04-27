@@ -24,11 +24,11 @@
             <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
             <label th:text="#{common.btn.saveAs}"></label>
         </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="#">
+        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.undo();">
             <img th:src="@{/assets/media/icons/form/topmenu/undo.png}"/>
             <label th:text="#{form.label.undo}"></label>
         </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="#">
+        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.redo();">
             <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
             <label th:text="#{form.label.redo}"></label>
         </a>
