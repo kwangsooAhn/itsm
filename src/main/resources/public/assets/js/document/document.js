@@ -365,7 +365,6 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
-
         // 2020-04-06 kbh
         // 프로세스 넘기려고 부득이하게 하드코딩함. merge 된 후 삭제 예정
         //tokenObject.documentId = 'beom'
@@ -400,6 +399,7 @@
             data.components = data.components.filter(function(comp) { return comp.type !== 'editbox'; }); //미리보기시 editbox 제외
         }
         documentContainer = document.getElementById('document-container');
+        documentContainer.setAttribute('data-isToken', (data.token !== undefined)); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
         let components = (data.token === undefined) ? data.components : data.token.components;
         if (components.length > 0) {
