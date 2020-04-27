@@ -103,7 +103,10 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * @return Boolean
      */
     @PutMapping("/{documentId}/display")
-    fun updateDocumentDisplay(@RequestBody documentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
+    fun updateDocumentDisplay(
+        @RequestBody documentDisplaySaveDto: WfDocumentDisplaySaveDto,
+        @PathVariable documentId: String
+    ): Boolean {
         return wfEngine.document().updateDocumentDisplay(documentDisplaySaveDto)
     }
 }

@@ -1,11 +1,11 @@
 package co.brainz.workflow.engine.process.service
 
-public class WfProcessManager {
+class WfProcessManager {
 
     private lateinit var accessList: MutableList<Any>
 
     fun createQuery(): WfProcessManager {
-        accessList.clear();
+        accessList.clear()
         return this
     }
 

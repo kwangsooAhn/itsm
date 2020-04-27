@@ -12,9 +12,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -199,9 +199,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -357,9 +357,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -479,9 +479,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -619,9 +619,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -759,9 +759,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -841,9 +841,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -900,9 +900,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -949,9 +949,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -1087,9 +1087,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -1225,9 +1225,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -1363,9 +1363,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
@@ -1474,9 +1474,9 @@
                 "validate": ""
             },
             {
-                "id": "topic",
-                "name": "Topic",
-                "value": "N",
+                "id": "is-topic",
+                "name": "Topic Use",
+                "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": ""
