@@ -64,8 +64,8 @@ menu:
   setting.process: "Process"
   setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
-  help.board: "board"
-  setting.board.admin: "board manage"
+  help.board: "Board"
+  setting.board.admin: "Board manage"
 
 # Auth
 auth:

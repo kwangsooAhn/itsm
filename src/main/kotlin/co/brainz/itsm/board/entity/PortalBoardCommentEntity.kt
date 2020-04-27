@@ -24,7 +24,7 @@ class PortalBoardCommentEntity(
     @JoinColumn(name = "board_id")
     val commentBoard: PortalBoardEntity,
 
-    @Column(name = "board_comment_conents", length = 512)
-    var boardCommentConents: String
+    @Column(name = "board_comment_contents", length = 512)
+    var boardCommentContents: String
 
 ) : Serializable, AliceMetaEntity()

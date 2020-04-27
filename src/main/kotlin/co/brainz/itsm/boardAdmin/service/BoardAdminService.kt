@@ -76,7 +76,7 @@ class BoardAdminService(
     }
 
     /**
-     * 게시판 관리 상세 조회.
+     * 게시판 관리 상세 조회
      *
      * @param boardAdminId
      * @return BoardAdminDto
@@ -158,7 +158,7 @@ class BoardAdminService(
     }
 
     /**
-     * 카테고리 삭제.
+     * 카테고리 삭제
      *
      * @param boardCategoryId
      */

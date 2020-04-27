@@ -76,12 +76,12 @@ class BoardRestController(private val boardService: BoardService) {
     }
 
     /**
-     * 게시판 답글 삭제.
+     * 게시판 답글 등록.
      *
      * @param boardSaveDto
      */
     @PostMapping("/reply")
-    fun createBoardAnswer(@RequestBody boardSaveDto: BoardSaveDto) {
+    fun createBoardReply(@RequestBody boardSaveDto: BoardSaveDto) {
         boardService.saveBoardReply(boardSaveDto)
     }
 }

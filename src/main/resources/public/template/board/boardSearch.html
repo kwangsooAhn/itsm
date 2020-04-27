@@ -18,7 +18,7 @@
                             th:text="#{${boardAdmin.boardAdminTitle}}"></option>
                 </select>
                 <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
-                       th:placeholder="#{board.label.searchBoardPlaceholder}">
+                       th:placeholder="#{board.label.searchBoardPlaceholder}"/>
                 <input type="text" id="fromDt" readonly="readonly"
                        th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                        th:value="${#temporals.format(fromDt, dateformat)}"/>
@@ -45,7 +45,7 @@
         const boardAdminId = /*[[${boardAdminId}]]*/;
 
         window.onload = function() {
-            if (boardAdminId != null) {
+            if (boardAdminId !== null) {
                 document.getElementById('boardAdmin').value = boardAdminId;
                 getBoardList();
             }
@@ -95,17 +95,17 @@
 
         //게시판 관리 등록
         function openBoardAdd() {
-            location.href='/boards/'+document.getElementById('boardAdmin').value+'/new';
+            location.href = '/boards/'+document.getElementById('boardAdmin').value+'/new';
         }
 
         //게시판 관리 수정
         function openBoardEdit(boardsId) {
-            location.href='/boards/'+boardsId+'/edit';
+            location.href = '/boards/'+boardsId+'/edit';
         }
 
         //게시판 상세 조회
         function openBoardView(boardsId) {
-            location.href='/boards/'+boardsId+'/view';
+            location.href = '/boards/'+boardsId+'/view';
         }
 
         //REST API
@@ -115,7 +115,8 @@
                 url: url,
                 callbackFunc: function(response) {
                     document.getElementById('boardList').innerHTML = response.responseText;
-                }
+                },
+                showProgressbar: false
             };
             aliceJs.sendXhr(opt);
         }

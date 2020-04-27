@@ -14,9 +14,9 @@
             <h1 th:text="#{board.label.manager}"></h1>
             <div style="margin-top: 10px">
                 <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
-                       th:placeholder="#{board.label.searchPlaceholder}">
+                       th:placeholder="#{board.label.searchPlaceholder}"/>
                 <button style="float: right" onclick="openBoardAdminAdd();"
-                        sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.register}" ></button>
+                        sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.register}"></button>
             </div>
         </div>
         <hr>
@@ -41,17 +41,17 @@
 
         //게시판 관리 등록
         function openBoardAdminAdd() {
-            location.href='/board-admin/new';
+            location.href = '/board-admin/new';
         }
 
         //게시판 관리 수정
         function openBoardAdminEdit(boardAdminId) {
-            location.href='/board-admin/'+boardAdminId+'/edit';
+            location.href = '/board-admin/'+ boardAdminId +'/edit';
         }
 
         //게시판 상세 조회
         function openBoardAdminView(boardAdminId) {
-            location.href='/board-admin/'+boardAdminId+'/view';
+            location.href = '/board-admin/'+ boardAdminId +'/view';
         }
 
         //게시판 관리 삭제
@@ -61,7 +61,7 @@
 
         //게시판 카테고리 등록/수정
         function openCategoryEdit(boardAdminId) {
-            location.href='/board-admin/category/'+boardAdminId+'/edit';
+            location.href = '/board-admin/category/'+boardAdminId+'/edit';
         }
 
         //REST API
@@ -77,7 +77,8 @@
                             getBoardAdminList();
                         });
                     }
-                }
+                },
+                showProgressbar: false
             };
             aliceJs.sendXhr(opt);
         }

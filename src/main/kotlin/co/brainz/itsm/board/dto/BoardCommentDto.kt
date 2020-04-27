@@ -8,7 +8,7 @@ data class BoardCommentDto(
     var boardCommentId: String = "",
     var boardId: String = "",
     var commentBoard: PortalBoardEntity?,
-    var boardCommentConents: String = "",
+    var boardCommentContents: String = "",
     var createDt: LocalDateTime? = null,
     var createUser: AliceUserEntity? = null,
     var updateDt: LocalDateTime? = null,

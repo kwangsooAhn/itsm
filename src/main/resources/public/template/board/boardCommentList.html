@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
     <style>
@@ -36,7 +38,7 @@
         <tr th:unless="${#arrays.isEmpty(boardCommentList)}" th:each="boardComment: ${boardCommentList}">
             <td style="text-align:left">
                  <label style="width: 95%" th:id="${boardComment.boardCommentId}" th:name="${boardComment.boardCommentId}"
-                        th:text="${boardComment.boardCommentConents}"></label>
+                        th:text="${boardComment.boardCommentContents}"></label>
             </td>
             <td style="text-align:center" th:text="${boardComment.createUser.userName}"></td>
             <td style="text-align:center" th:with="dateformat=${#authentication.details.timeFormat}"

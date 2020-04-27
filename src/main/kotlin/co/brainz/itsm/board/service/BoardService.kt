@@ -131,7 +131,7 @@ class BoardService(
         val portalBoardCommentEntity = PortalBoardCommentEntity(
             boardCommentId = boardCommentDto.boardCommentId,
             commentBoard = boardPortalBoardEntity,
-            boardCommentConents = boardCommentDto.boardCommentConents
+            boardCommentContents = boardCommentDto.boardCommentContents
         )
         boardCommentRepository.save(portalBoardCommentEntity)
     }
@@ -240,7 +240,7 @@ class BoardService(
                     boardCommentId = PortalBoardCommentEntity.boardCommentId,
                     boardId = PortalBoardCommentEntity.commentBoard.boardId,
                     commentBoard = PortalBoardCommentEntity.commentBoard,
-                    boardCommentConents = PortalBoardCommentEntity.boardCommentConents,
+                    boardCommentContents = PortalBoardCommentEntity.boardCommentContents,
                     createDt = PortalBoardCommentEntity.createDt,
                     createUser = PortalBoardCommentEntity.createUser,
                     updateDt = PortalBoardCommentEntity.updateDt,

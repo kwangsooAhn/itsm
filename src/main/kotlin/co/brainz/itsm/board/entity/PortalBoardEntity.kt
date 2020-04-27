@@ -49,6 +49,6 @@ class PortalBoardEntity(
     var boardConents: String?
 
 ) : Serializable, AliceMetaEntity() {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "commentBoard", cascade = [CascadeType.REMOVE])
-        val commentBoard: MutableList<PortalBoardCommentEntity>? = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "commentBoard", cascade = [CascadeType.REMOVE])
+    val commentBoard: MutableList<PortalBoardCommentEntity>? = mutableListOf()
 }
