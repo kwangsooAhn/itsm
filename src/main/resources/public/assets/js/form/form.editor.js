@@ -193,6 +193,8 @@
                 this.redo_list = [];
             }
             (list || this.undo_list).push(data);
+            console.log(this.redo_list)
+            console.log(this.undo_list)
         },
         undo: function() {
             if (this.undo_list.length) {
@@ -234,6 +236,8 @@
                     let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, JSON.parse(JSON.stringify(changeData)));
                     let element = component.draw(changeData.type, formPanel, mergeComponentAttr);
                     const compOrder = Number(changeData.display.order) - 1;
+                    console.log(changeData)
+                    console.log(compOrder)
                     let targetElement = formPanel.querySelectorAll('.component').item(compOrder);
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
                     setComponentData(element.attr);
@@ -341,7 +345,7 @@
             reorderComponent();
 
             let addCompAttr = editor.data.components.filter(function(comp) { return comp.id === componentId; });
-            histories.push({0: replaceEditbox[0], 1: addCompAttr[0]});
+            histories.push({0: JSON.parse(JSON.stringify(replaceEditbox[0])), 1: JSON.parse(JSON.stringify(addCompAttr[0]))});
 
             addEditboxDown(componentId, function(attr) {
                 histories.push({0: {}, 1: JSON.parse(JSON.stringify(attr))});
@@ -372,20 +376,20 @@
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
                 copyData.id = workflowUtil.generateUUID();
                 let comp = component.draw(copyData.type, formPanel, copyData);
-                history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(copyData))}]);
                 setComponentData(comp.attr);
                 elem.parentNode.insertBefore(comp.domElem, elem.nextSibling);
-                comp.domElem.setAttribute('data-index', elemIdx);
-                comp.domElem.setAttribute('tabIndex', elemIdx);
+                //재정렬
+                reorderComponent();
                 if (copyData.type === 'editbox') {
                     comp.domElem.querySelector('[contenteditable=true]').focus();
                 }
                 showComponentProperties(comp.id);
+
+                let copyCompAttr = editor.data.components.filter(function(c) { return c.id === comp.id; });
+                history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(copyCompAttr[0]))}]);
                 break;
             }
         }
-        //재정렬
-        reorderComponent();
     }
 
     /**
@@ -428,19 +432,18 @@
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
-        let elemIdx = Number(elem.getAttribute('data-index'));
         let editbox = component.draw(defaultComponent, formPanel);
-        history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))}]);
         setComponentData(editbox.attr);
         elem.parentNode.insertBefore(editbox.domElem, elem);
-        editbox.domElem.setAttribute('data-index', elemIdx);
-        editbox.domElem.setAttribute('tabIndex', elemIdx);
 
         // 컴포넌트 순서 재정렬
         reorderComponent();
 
         editbox.domElem.querySelector('[contenteditable=true]').focus();
         showComponentProperties(editbox.id);
+
+        let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.id === editbox.id; });
+        history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
     }
 
     /**
@@ -471,7 +474,8 @@
         if (typeof callbackFunc === 'function') {
             callbackFunc(editbox.attr);
         } else {
-            history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))}]);
+            let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.id === editbox.id; });
+            history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
         }
     }
 
