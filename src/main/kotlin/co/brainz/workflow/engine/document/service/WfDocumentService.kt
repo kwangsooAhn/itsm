@@ -24,8 +24,8 @@ import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
-import org.mapstruct.factory.Mappers
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
+import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -33,17 +33,17 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class WfDocumentService(
-        private val wfFormService: WfFormService,
-        private val wfActionService: WfActionService,
-        private val wfDocumentRepository: WfDocumentRepository,
-        private val wfDocumentDataRepository: WfDocumentDataRepository,
-        private val wfInstanceRepository: WfInstanceRepository,
-        private val wfProcessRepository: WfProcessRepository,
-        private val wfFormRepository: WfFormRepository,
-        private val wfComponentRepository: WfComponentRepository,
-        private val wfComponentDataRepository: WfComponentDataRepository,
-        private val wfElementRepository: WfElementRepository,
-        private val wfElementDataRepository: WfElementDataRepository
+    private val wfFormService: WfFormService,
+    private val wfActionService: WfActionService,
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val wfDocumentDataRepository: WfDocumentDataRepository,
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfProcessRepository: WfProcessRepository,
+    private val wfFormRepository: WfFormRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val wfComponentDataRepository: WfComponentDataRepository,
+    private val wfElementRepository: WfElementRepository,
+    private val wfElementDataRepository: WfElementDataRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -61,16 +61,16 @@ class WfDocumentService(
         val documentEntities = wfDocumentRepository.findAll()
         for (document in documentEntities) {
             val documentDto = WfDocumentDto(
-                    documentId = document.documentId,
-                    documentName = document.documentName,
-                    documentDesc = document.documentDesc,
-                    documentStatus = document.documentStatus,
-                    processId = document.process!!.processId,
-                    formId = document.form!!.formId,
-                    createDt = document.createDt,
-                    createUserKey = document.createUserKey,
-                    updateDt = document.updateDt,
-                    updateUserKey = document.updateUserKey
+                documentId = document.documentId,
+                documentName = document.documentName,
+                documentDesc = document.documentDesc,
+                documentStatus = document.documentStatus,
+                processId = document.process!!.processId,
+                formId = document.form!!.formId,
+                createDt = document.createDt,
+                createUserKey = document.createUserKey,
+                updateDt = document.updateDt,
+                updateUserKey = document.updateUserKey
             )
             documents.add(documentDto)
         }
@@ -87,16 +87,16 @@ class WfDocumentService(
     fun getDocument(documentId: String): WfDocumentDto {
         val document = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         return WfDocumentDto(
-                documentId = document.documentId,
-                documentName = document.documentName,
-                documentDesc = document.documentDesc,
-                documentStatus = document.documentStatus,
-                processId = document.process!!.processId,
-                formId = document.form!!.formId,
-                createDt = document.createDt,
-                createUserKey = document.createUserKey,
-                updateDt = document.updateDt,
-                updateUserKey = document.updateUserKey
+            documentId = document.documentId,
+            documentName = document.documentName,
+            documentDesc = document.documentDesc,
+            documentStatus = document.documentStatus,
+            processId = document.process!!.processId,
+            formId = document.form!!.formId,
+            createDt = document.createDt,
+            createUserKey = document.createUserKey,
+            updateDt = document.updateDt,
+            updateUserKey = document.updateUserKey
         )
     }
 
@@ -128,9 +128,9 @@ class WfDocumentService(
         }
 
         return WfFormComponentViewDto(
-                form = formViewDto,
-                components = components,
-                actions = wfActionService.actionInit(documentEntity.process!!.processId)
+            form = formViewDto,
+            components = components,
+            actions = wfActionService.actionInit(documentEntity.process!!.processId)
         )
     }
 
@@ -153,14 +153,14 @@ class WfDocumentService(
         val form = WfFormEntity(formId = formId)
         val process = WfProcessEntity(processId = processId)
         val documentEntity = WfDocumentEntity(
-                documentId = documentDto.documentId,
-                documentName = documentDto.documentName,
-                documentDesc = documentDto.documentDesc,
-                form = form,
-                process = process,
-                createDt = documentDto.createDt,
-                createUserKey = documentDto.createUserKey,
-                documentStatus = documentDto.documentStatus
+            documentId = documentDto.documentId,
+            documentName = documentDto.documentName,
+            documentDesc = documentDto.documentDesc,
+            form = form,
+            process = process,
+            createDt = documentDto.createDt,
+            createUserKey = documentDto.createUserKey,
+            documentStatus = documentDto.documentStatus
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -168,13 +168,13 @@ class WfDocumentService(
         createDocumentDisplay(dataEntity)
 
         return WfDocumentDto(
-                documentId = dataEntity.documentId,
-                documentName = dataEntity.documentName,
-                documentDesc = dataEntity.documentDesc,
-                formId = dataEntity.form.formId,
-                processId = dataEntity.process.processId,
-                createDt = dataEntity.createDt,
-                createUserKey = dataEntity.createUserKey
+            documentId = dataEntity.documentId,
+            documentName = dataEntity.documentName,
+            documentDesc = dataEntity.documentDesc,
+            formId = dataEntity.form.formId,
+            processId = dataEntity.process.processId,
+            createDt = dataEntity.createDt,
+            createUserKey = dataEntity.createUserKey
         )
     }
 
@@ -250,9 +250,9 @@ class WfDocumentService(
         for (component in componentEntities) {
             for (element in elementEntities) {
                 val documentDataEntity = WfDocumentDataEntity(
-                        documentId = documentEntity.documentId,
-                        componentId = component.componentId,
-                        elementId = element.elementId
+                    documentId = documentEntity.documentId,
+                    componentId = component.componentId,
+                    elementId = element.elementId
                 )
                 wfDocumentDataEntities.add(documentDataEntity)
             }
@@ -301,9 +301,9 @@ class WfDocumentService(
             components.add(componentMap)
         }
         return WfDocumentDisplayViewDto(
-                documentId = documentId,
-                elements = elementEntities,
-                components = components
+            documentId = documentId,
+            elements = elementEntities,
+            components = components
         )
     }
 
