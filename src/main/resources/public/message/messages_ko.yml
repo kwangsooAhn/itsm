@@ -166,6 +166,9 @@ faq:
   msg: "자주 묻는 질문과 답변입니다."
   category:
     all: "전체"
+    techSupport: "기술지원"
+    setting: "설정"
+    etc: "기타"
 
 # NOTICE
 notice:

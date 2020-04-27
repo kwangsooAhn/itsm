@@ -4,10 +4,8 @@
 <head>
     <style>
         #faqGroup {
-            background-color: #f1f9ff;
             font-weight: 700;
             font-size: 1.25rem;
-            height: 30px;
             width: 100%;
         }
         #faqTitle {
@@ -20,25 +18,17 @@
             font-style: italic;
             color: #6c757d;
         }
-        #editBtn {
-            float: right;
-            display: inline-block;
-            border: 1px solid #007bff;
-
-        }
     </style>
 </head>
 <body>
 
 <!--test-->
-<details th:each="faqGroup :${faqGroupList}">
-    <summary id="faqGroup" th:text="${faqGroup}">카테고리</summary>
+<details id="faqGroup" th:each="faqGroup :${faqGroupList}">
+    <summary th:text="#{${faqGroup}}"></summary>
     <details id="faqTitle" th:each="faqT : ${faqs}" th:if="${faqT.faqGroup} == ${faqGroup}" th:value="${faqT.faqId}">
         <summary th:text="${faqT.faqTitle}"></summary>
         <div th:id="${faqT.faqId}">
             <div th:each="faqC : ${faqs}" th:if="${faqC.faqId} == ${faqT.faqId}" >
-                <a id="editBtn" sec:authorize="hasAuthority('faq.update')"
-                                th:href="@{/faqs/{id}/edit(id=${faqT.faqId})}" th:text="#{faq.edit}"></a>
                 <p id="faqContent" th:text="${faqC.faqContent}"></p>
             </div>
         </div>
@@ -69,8 +59,7 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
     window.onload = function() {
-        const faq = document.querySelectorAll('details');
-        console.log(faq);
+
     }
     </script>
 </th:block>

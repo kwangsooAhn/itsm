@@ -166,6 +166,9 @@ faq:
   msg: "Frequently asked questions and answers."
   category:
     all: "All"
+    techSupport: "Technical Support"
+    setting: "Setting"
+    etc: "ETC"
 
 # NOTICE
 notice:

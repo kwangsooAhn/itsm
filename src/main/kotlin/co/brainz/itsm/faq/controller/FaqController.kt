@@ -50,8 +50,12 @@ class FaqController(private val faqService: FaqService) {
      * FAQ 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("/list")
-    fun getFaqList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
+    fun getFaqList(searchValue: String, model: Model): String {
+        if (searchValue.isNullOrEmpty()) {
+            model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
+        } else {
+            model.addAttribute("faqGroupList", faqService.findFaqGroups(searchValue))
+        }
         model.addAttribute("faqs", faqService.findAll())
         return faqListPage
     }
