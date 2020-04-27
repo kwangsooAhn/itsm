@@ -60,7 +60,7 @@ class WfInstanceService(
     fun instance(instanceId: String): WfInstanceViewDto {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         return mapper.convertValue(
-            wfInstanceRepository.findInstanceEntityByInstanceId(instanceId),
+            wfInstanceRepository.findByInstanceId(instanceId),
             WfInstanceViewDto::class.java
         )
     }
