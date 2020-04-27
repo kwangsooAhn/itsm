@@ -31,9 +31,6 @@ class WfInstanceService(
 
     /**
      * Search Instances.
-     *
-     * @param parameters
-     * @return List<WfInstanceViewDto>
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<WfInstanceViewDto> {
         var status = ""
@@ -61,14 +58,15 @@ class WfInstanceService(
      *
      */
     fun instance(instanceId: String): WfInstanceViewDto {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        return mapper.convertValue(
+            wfInstanceRepository.findByInstanceId(instanceId),
+            WfInstanceViewDto::class.java
+        )
     }
 
     /**
      * Instance Create.
-     *
-     * @param wfInstanceDto
-     * @return InstanceEntity
      */
     fun createInstance(wfInstanceDto: WfInstanceDto): WfInstanceEntity {
         val instanceEntity = WfInstanceEntity(
@@ -85,8 +83,6 @@ class WfInstanceService(
 
     /**
      * Instance Complete.
-     *
-     * @param instanceId
      */
     fun completeInstance(instanceId: String) {
         wfInstanceRepository.findByInstanceId(instanceId)?.let {
@@ -98,8 +94,6 @@ class WfInstanceService(
 
     /**
      * Instance Status Count
-     *
-     * @param parameters
      */
     fun instancesStatusCount(parameters: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
         var userKey = ""
