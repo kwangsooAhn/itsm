@@ -12,6 +12,34 @@
     'use strict';
     
     const defaultComponent = 'editbox';
+    const history = {
+        redo_list: [],
+        undo_list: [],
+        saveHistory: function(data, list, keep_redo) {
+            if (data.length === 1 && workflowUtil.compareJson(data[0][0], data[0][1])) { // data check
+                return;
+            }
+            keep_redo = keep_redo || false;
+            if (!keep_redo) {
+                this.redo_list = [];
+            }
+            (list || this.undo_list).push(data);
+        },
+        undo: function() {
+            if (this.undo_list.length) {
+                let restoreData = this.undo_list.pop();
+                this.saveHistory(restoreData, this.redo_list, true);
+                restoreComponent(restoreData, 'undo');
+            }
+        },
+        redo: function() {
+            if (this.redo_list.length) {
+                let restoreData = this.redo_list.pop();
+                this.saveHistory(restoreData, this.undo_list, true);
+                restoreComponent(restoreData, 'redo');
+            }
+        }
+    };
 
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
@@ -133,7 +161,7 @@
     function saveForm() {
         data = JSON.parse(JSON.stringify(editor.data));
         let lastCompIndex = component.getLastIndex();
-        data.components = data.components.filter(function(comp) { 
+        data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
 
@@ -182,17 +210,76 @@
     }
 
     /**
+     * 컴포넌트를 다시 그리고, 데이터 수정를 수정 한다.
+     *
+     * @param restoreData 데이터
+     * @param type 타입(undo, redo)
+     */
+    function restoreComponent(restoreData, type) {
+        editor.showFormProperties();
+        const restore = function (originData, changeData) {
+            if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete
+                if (!Object.keys(changeData).length) { // delete component
+                    let element = document.getElementById(originData.id);
+                    element.remove();
+                    for (let i = 0, len = editor.data.components.length; i < len; i++) {
+                        if (originData.id === editor.data.components[i].id) {
+                            editor.data.components.splice(i, 1);
+                            break;
+                        }
+                    }
+                } else { // add component
+                    let defaultComponentAttr = component.getData(changeData.type);
+                    let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, JSON.parse(JSON.stringify(changeData)));
+                    let element = component.draw(changeData.type, formPanel, mergeComponentAttr);
+                    const compOrder = Number(changeData.display.order) - 1;
+                    let targetElement = formPanel.querySelectorAll('.component').item(compOrder);
+                    targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                    setComponentData(element.attr);
+                }
+            } else { // modify component
+                let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
+                let compAttr = element.attr;
+                setComponentData(compAttr);
+                let targetElement = document.getElementById(compAttr.id);
+                if (originData.display.order !== changeData.display.order) {
+                    targetElement.innerHTML = '';
+                    targetElement.remove();
+                    reorderComponent();
+                    const compOrder = Number(changeData.display.order) - 1;
+                    let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
+                    nextElement.parentNode.insertBefore(element.domElem, nextElement);
+                } else {
+                    targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                    targetElement.innerHTML = '';
+                    targetElement.remove();
+                }
+            }
+            reorderComponent();
+        };
+        restoreData.forEach(function(data) {
+            let originData = data[1],
+                changeData = data[0];
+            if (type === 'redo') {
+                originData = data[0];
+                changeData = data[1];
+            }
+            restore(JSON.parse(JSON.stringify(originData)), JSON.parse(JSON.stringify(changeData)));
+        });
+    }
+
+    /**
      * 작업 취소
      */
     function undoForm() {
-        //TODO: 작업 취소
+        history.undo();
     }
 
     /**
      * 작업 재실행
      */
     function redoForm() {
-        //TODO: 작업 재실행
+        history.redo();
     }
     
     /**
@@ -237,28 +324,35 @@
      */
     function addComponent(type, componentId) {
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
+            let histories = [];
             let elem = document.getElementById(componentId);
+            let replaceEditbox = editor.data.components.filter(function(comp) { return comp.id === componentId; });
             let replaceComp = component.draw(type, formPanel);
             let compAttr = replaceComp.attr;
             compAttr.id = componentId;
-            compAttr.display.order = Number(elem.getAttribute('data-index'));
             setComponentData(compAttr);
-            
+
             replaceComp.domElem.id = componentId;
-            replaceComp.domElem.setAttribute('data-index', compAttr.display.order);
-            replaceComp.domElem.setAttribute('tabIndex', compAttr.display.order);
             elem.parentNode.insertBefore(replaceComp.domElem, elem);
             elem.innerHTML = '';
             elem.remove();
-            
-            let compIdx = component.getLastIndex();
-            component.setLastIndex(compIdx - 1);
-            addEditboxDown(componentId);
+
+            reorderComponent();
+
+            let addCompAttr = editor.data.components.filter(function(comp) { return comp.id === componentId; });
+            histories.push({0: JSON.parse(JSON.stringify(replaceEditbox[0])), 1: JSON.parse(JSON.stringify(addCompAttr[0]))});
+
+            addEditboxDown(componentId, function(attr) {
+                histories.push({0: {}, 1: JSON.parse(JSON.stringify(attr))});
+                history.saveHistory(histories);
+            });
         } else {
             let editbox = component.draw(defaultComponent, formPanel);
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
+
+            reorderComponent();
         }
     }
 
@@ -279,19 +373,18 @@
                 let comp = component.draw(copyData.type, formPanel, copyData);
                 setComponentData(comp.attr);
                 elem.parentNode.insertBefore(comp.domElem, elem.nextSibling);
-                comp.domElem.setAttribute('data-index', elemIdx);
-                comp.domElem.setAttribute('tabIndex', elemIdx);
+                //재정렬
+                reorderComponent();
                 if (copyData.type === 'editbox') {
                     comp.domElem.querySelector('[contenteditable=true]').focus();
                 }
                 showComponentProperties(comp.id);
+
+                let copyCompAttr = editor.data.components.filter(function(c) { return c.id === comp.id; });
+                history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(copyCompAttr[0]))}]);
                 break;
             }
         }
-        //재정렬
-        let lastCompIdx = component.getLastIndex();
-        editor.data.components[lastCompIdx - 1].display.order = elemIdx;
-        reorderComponent(elem, elemIdx, lastCompIdx);
     }
 
     /**
@@ -302,15 +395,12 @@
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
-        //재정렬
-        let elemIdx = Number(elem.getAttribute('data-index'));
-        let lastCompIdx = component.getLastIndex() - 1;
-        component.setLastIndex(lastCompIdx);
-        reorderComponent(elem, elemIdx, lastCompIdx);
+        let histories = [];
         //삭제
         elem.remove();
         for (let i = 0; i < editor.data.components.length; i++) {
             if (elemId === editor.data.components[i].id) {
+                histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
             }
@@ -318,10 +408,15 @@
         //컴포넌트 없을 경우 editbox 컴포넌트 신규 추가.
         if (document.querySelectorAll('.component').length === 0) {
             let editbox = component.draw(defaultComponent, formPanel);
+            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
         }
+        //재정렬
+        reorderComponent();
+        // 이력저장
+        history.saveHistory(histories);
     }
 
     /**
@@ -332,78 +427,72 @@
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
-        let elemIdx = Number(elem.getAttribute('data-index'));
         let editbox = component.draw(defaultComponent, formPanel);
         setComponentData(editbox.attr);
         elem.parentNode.insertBefore(editbox.domElem, elem);
-        editbox.domElem.setAttribute('data-index', elemIdx);
-        editbox.domElem.setAttribute('tabIndex', elemIdx);
 
-        //신규 추가된 editbox 컴포넌트 아래에 존재하는 컴포넌트들 순서 재정렬
-        let lastCompIdx = component.getLastIndex();
-        editor.data.components[lastCompIdx - 1].display.order = elemIdx;
-        reorderComponent(elem, elemIdx, lastCompIdx);
+        // 컴포넌트 순서 재정렬
+        reorderComponent();
 
-        if(editbox !== null) {
-            editbox.domElem.querySelector('[contenteditable=true]').focus();
-            showComponentProperties(editbox.id);
-        }
+        editbox.domElem.querySelector('[contenteditable=true]').focus();
+        showComponentProperties(editbox.id);
+
+        let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.id === editbox.id; });
+        history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
     }
 
     /**
      * elemId 선택한 element Id를 기준으로 아래에 editbox 추가 후 data의 display order 변경
      * @param {String} elemId 선택한 element Id
+     * @param {Function} callbackFunc callback function
      */
-    function addEditboxDown(elemId) {
+    function addEditboxDown(elemId, callbackFunc) {
         let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
-        let elemIdx = Number(elem.getAttribute('data-index')) + 1;
         let editbox = null;
         if (elem.nextSibling !== null) {
             editbox = component.draw(defaultComponent, formPanel);
             setComponentData(editbox.attr);
             elem.parentNode.insertBefore(editbox.domElem, elem.nextSibling);
-            editbox.domElem.setAttribute('data-index', elemIdx);
-            editbox.domElem.setAttribute('tabIndex', elemIdx);
-
-            //신규 추가된 editbox 컴포넌트 아래에 존재하는 컴포넌트들 순서 재정렬
-            let lastCompIdx = component.getLastIndex();
-            editor.data.components[lastCompIdx - 1].display.order = elemIdx;
-            reorderComponent(elem, elemIdx, lastCompIdx);
         } else { //마지막에 추가된 경우
             editbox = component.draw(defaultComponent, formPanel);
             setComponentData(editbox.attr);
             elem.parentNode.appendChild(editbox.domElem);
         }
+        // 컴포넌트 순서 재정렬
+        reorderComponent();
 
-        if(editbox !== null) {
-            editbox.domElem.querySelector('[contenteditable=true]').focus();
-            showComponentProperties(editbox.id);
+        editbox.domElem.querySelector('[contenteditable=true]').focus();
+        showComponentProperties(editbox.id);
+
+        if (typeof callbackFunc === 'function') {
+            callbackFunc(editbox.attr);
+        } else {
+            let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.id === editbox.id; });
+            history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
         }
     }
 
     /**
      * 컴포넌트 재정렬
-     * @param {Object} elem 선택한 element
-     * @param {Number} elemIdx 선택한 element data index
-     * @param {Number} lastCompIdx 컴포넌트 last index
      */
-    function reorderComponent(elem, elemIdx, lastCompIdx) {
-        for (let i = elem.parentNode.children.length - 1; i >= elemIdx; i--) {
-            let childNode = elem.parentNode.children[i];
-            childNode.setAttribute('data-index', lastCompIdx);
-            childNode.setAttribute('tabIndex', lastCompIdx);
+    function reorderComponent() {
+        const components = document.querySelectorAll('.component');
+        for (let i = 0, len = components.length; i < len; i++) {
+            let elem = components[i];
+            elem.setAttribute('data-index', String(i + 1));
+            elem.setAttribute('tabIndex', String(i + 1));
             //데이터 display 순서 변경
             for (let j = 0, len = editor.data.components.length; j < len; j++) {
                 let comp = editor.data.components[j];
-                if (comp.id === childNode.id) {
-                    comp.display.order = lastCompIdx;
+                if (comp.id === elem.id) {
+                    comp.display.order = i + 1;
                     break;
                 }
             }
-            lastCompIdx--;
         }
+        component.setLastIndex(components.length);
     }
 
     /**
@@ -483,27 +572,22 @@
          * 컴포넌트를 다시 그린다.
          */
         const redrawComponent = function() {
-            const originDisplayOrder = compAttr.display.order;
             let element = component.draw(compAttr.type, formPanel, compAttr);
             if (element) {
                 let compAttr = element.attr;
                 compAttr.id = id;
-                compAttr.display.order = originDisplayOrder;
                 setComponentData(compAttr);
 
                 let targetElement = document.getElementById(id);
                 element.domElem.id = id;
-                element.domElem.setAttribute('data-index', originDisplayOrder);
-                element.domElem.setAttribute('tabIndex', originDisplayOrder);
-                
+
                 targetElement.parentNode.insertBefore(element.domElem, targetElement);
                 targetElement.innerHTML = '';
                 targetElement.remove();
-                
-                let compIdx = component.getLastIndex();
-                component.setLastIndex(compIdx - 1);
 
                 element.domElem.classList.add('selected');
+
+                reorderComponent();
             }
         };
 
@@ -515,13 +599,16 @@
          * @param {Number} index 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
          */
         const changePropertiesValue = function(value, group, field, index) {
+            let originCompAttr = JSON.parse(JSON.stringify(compAttr));
             if (typeof index === 'undefined') {
                 compAttr[group][field] = value;
             } else {
                 compAttr[group][index][field] = value;
             }
+            history.saveHistory([{0: originCompAttr, 1: JSON.parse(JSON.stringify(compAttr))}]);
             redrawComponent();
         };
+
         /**
          * date, time, datetime default 포멧 변경시,
          * default 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
@@ -1339,6 +1426,7 @@
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
     exports.reorderComponent = reorderComponent;
+    exports.history = history;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
