@@ -161,6 +161,7 @@
         data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
+
         aliceJs.sendXhr({
             method: 'POST',
             url: '/rest/forms' + '?saveType=saveas',
@@ -958,7 +959,7 @@
                                     contentType: 'application/json; charset=utf-8',
                                     showProgressbar: false
                                 });
-                            }
+                            };
                             customCodeSelect.addEventListener('change', function() { changeCustomCode(); });
                             changeCustomCode(fieldValueArr[0] === 'code' ? fieldValueArr[1] : null);
 
@@ -1134,14 +1135,9 @@
                             propertyValue.checked = (fieldArr.value === 'Y');
                             propertyValue.addEventListener('change', function(e) {
                                 e.target.value = (e.target.checked) ? 'Y' : 'N';
-                                changePropertiesValue(e.target.value, group, fieldArr.id);
+                                changePropertiesValue((e.target.value === 'Y'), group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
-
-                            let lblElem = document.createElement('label');
-                            lblElem.setAttribute('for', fieldArr.id);
-                            lblElem.textContent = fieldArr.name;
-                            fieldGroupDiv.appendChild(lblElem);
                             break;
                     }
                 });
@@ -1251,6 +1247,7 @@
      */
     function drawForm(data) {
         editor.data = JSON.parse(data);
+
         if (editor.data.components.length > 0) {
             if (editor.data.components.length > 2) {
                 editor.data.components.sort(function (a, b) { //컴포넌트 재정렬
