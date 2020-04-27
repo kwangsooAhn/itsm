@@ -27,7 +27,7 @@
                        th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                        th:value="${#temporals.format(toDt, dateformat)}"/>
                 <button sec:authorize="hasAuthority('board.create')"
-                        style="float: right" onclick="openBoardAdd();" th:text="#{common.btn.register}" >
+                        style="float: right" th:onclick="openBoardAdd();" th:text="#{common.btn.register}" >
                 </button>
             </div>
         </div>

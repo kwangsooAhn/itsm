@@ -139,7 +139,10 @@ class BoardController(private val boardService: BoardService) {
     fun getBoardReplayEdit(@PathVariable boardId: String, model: Model): String {
         val boardDtoInfo: BoardViewDto = boardService.getBoard(boardId, "reply")
         if (boardDtoInfo.boardAdmin.categoryYn) {
-            model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardDtoInfo.boardAdmin.boardAdminId))
+            model.addAttribute(
+                "boardCategoryInfo",
+                boardService.getBoardCategoryList(boardDtoInfo.boardAdmin.boardAdminId)
+            )
         }
         model.addAttribute("boardAdminInfo", boardDtoInfo.boardAdmin)
         model.addAttribute("boardInfo", boardDtoInfo)
