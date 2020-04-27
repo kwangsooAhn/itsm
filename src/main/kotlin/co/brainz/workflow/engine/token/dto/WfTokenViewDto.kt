@@ -4,6 +4,7 @@ import java.io.Serializable
 
 data class WfTokenViewDto(
     val tokenId: String,
+    val instanceId: String,
     val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf(),
     val actions: MutableList<WfActionDto> = mutableListOf()
 ) : Serializable

@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.instance.controller
 
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.engine.comment.dto.WfCommentDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
@@ -62,5 +63,10 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     @GetMapping("/{instanceId}/latest")
     fun getInstanceLatestToken(@PathVariable instanceId: String): WfTokenDto {
         return wfEngine.instance().getInstanceLatestToken(instanceId)
+    }
+
+    @GetMapping("/{instanceId}/comments")
+    fun getInstanceComments(@PathVariable instanceId: String): MutableList<WfCommentDto> {
+        return wfEngine.instance().getInstanceComments(instanceId)
     }
 }

@@ -141,6 +141,7 @@ class WfTokenService(
 
         return WfTokenViewDto(
             tokenId = tokenMstEntity.get().tokenId,
+            instanceId = tokenMstEntity.get().instance.instanceId,
             components = componentList,
             actions = wfActionService.actions(tokenMstEntity.get().element.elementId)
         )

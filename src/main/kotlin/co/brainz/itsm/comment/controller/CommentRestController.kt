@@ -16,13 +16,13 @@ class CommentRestController(
     private val commentService: CommentService
 ) {
 
-    @PostMapping("/{tokenId}")
-    fun setComment(@PathVariable tokenId: String, @RequestBody restTemplateCommentDto: RestTemplateCommentDto): Boolean {
+    @PostMapping("")
+    fun setComment(@RequestBody restTemplateCommentDto: RestTemplateCommentDto): Boolean {
         return commentService.setComment(restTemplateCommentDto)
     }
 
-    @DeleteMapping("/{tokenId}")
-    fun deleteComment(@PathVariable tokenId: String): ResponseEntity<String> {
-        return commentService.deleteComment(tokenId)
+    @DeleteMapping("/{commentId}")
+    fun deleteComment(@PathVariable commentId: String): ResponseEntity<String> {
+        return commentService.deleteComment(commentId)
     }
 }

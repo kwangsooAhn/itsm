@@ -469,17 +469,17 @@
         }
 
         //Add Comment Box
-        if (data.tokenId !== undefined) {
-            addCommentBox(data.tokenId);
+        if (data.instanceId !== undefined) {
+            addCommentBox(data.instanceId);
         }
     }
 
     /**
      * Comment Object.
      *
-     * @param tokenId
+     * @param instanceId
      */
-    function addCommentBox(tokenId) {
+    function addCommentBox(instanceId) {
         commentContainer = document.getElementById('comment-container');
 
         let commentBoxContainer = document.createElement('div');
@@ -494,7 +494,7 @@
         commentButton.type = 'button';
         commentButton.innerText = i18n.get('common.btn.register');
         commentButton.addEventListener('click', function () {
-            aliceDocument.saveComment(tokenId, commentBoxTextarea.value);
+            aliceDocument.saveComment(instanceId, commentBoxTextarea.value);
         });
 
         commentBoxContainer.appendChild(commentBoxTextarea);
@@ -506,17 +506,17 @@
     /**
      * Save Comment.
      *
-     * @param tokenId
+     * @param instanceId
      * @param comment
      */
-    function saveComment(tokenId, comment) {
+    function saveComment(instanceId, comment) {
         let data = {
-            tokenId: tokenId,
+            instanceId: instanceId,
             content: comment
         }
         const opt = {
             method: 'POST',
-            url: '/rest/comments/' + tokenId,
+            url: '/rest/comments',
             params: JSON.stringify(data),
             contentType: 'application/json',
             callbackFunc: function(xhr) {
@@ -576,7 +576,8 @@
     /**
      * init Token.
      *
-     * @param tokenId 문서 id
+     * @param tokenId 문서 토큰 id
+     * @param instanceId 문서 id
      */
     function initToken(tokenId) {
         console.info('document editor initialization. [Token ID: ' + tokenId + ']');

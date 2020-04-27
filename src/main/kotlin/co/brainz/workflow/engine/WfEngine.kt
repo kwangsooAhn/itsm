@@ -98,7 +98,7 @@ class WfEngine(
      * Comment Engine.
      */
     fun comment(): WfCommentService {
-        return WfCommentService(wfCommentRepository, wfTokenRepository)
+        return WfCommentService(wfCommentRepository, wfInstanceRepository)
     }
 
 }

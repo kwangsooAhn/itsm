@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine.instance.service
 
+import co.brainz.workflow.engine.comment.dto.WfCommentDto
+import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceDto
@@ -28,6 +30,7 @@ class WfInstanceService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val wfTokenMapper: WfTokenMapper = Mappers.getMapper(WfTokenMapper::class.java)
+    private val wfCommentMapper: WfCommentMapper = Mappers.getMapper(WfCommentMapper::class.java)
 
     /**
      * Search Instances.
@@ -135,5 +138,18 @@ class WfInstanceService(
 
         logger.debug("Latest token: {}", tokenDto)
         return tokenDto
+    }
+
+    /**
+     * Get Instance Comments.
+     */
+    fun getInstanceComments(instanceId: String): MutableList<WfCommentDto> {
+        val commentList: MutableList<WfCommentDto> = mutableListOf()
+        val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)
+        instanceEntity?.comments?.forEach { comment ->
+            commentList.add(wfCommentMapper.toCommentDto(comment))
+        }
+
+        return commentList
     }
 }
