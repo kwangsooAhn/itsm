@@ -26,6 +26,9 @@ data class WfComponentEntity(
         @Column(name = "mapping_id", length = 128)
         var mappingId: String,
 
+        @Column(name = "is_topic")
+        var isTopic: Boolean = false,
+
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "form_id")
         val form: WfFormEntity
