@@ -146,7 +146,7 @@ class WfFormService(
 
         val common = LinkedHashMap<String, Any>()
         common["mapping-id"] = component.mappingId
-        common["is-topic"] = component.topicYn
+        common["is-topic"] = component.isTopic
         attributes["common"] = common
 
         for (attribute in component.attributes!!) {
@@ -214,7 +214,7 @@ class WfFormService(
             val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
             for (component in wfFormComponentSaveDto.components) {
                 var mappingId = ""
-                var topicYn = false
+                var isTopic = false
                 if (component["common"] != null) {
                     val common: java.util.LinkedHashMap<*, *>? =
                         mapper.convertValue(component["common"], LinkedHashMap::class.java)
@@ -223,7 +223,7 @@ class WfFormService(
                             mappingId = common["mapping-id"] as String
                         }
                         if (common.containsKey("is-topic")) {
-                            topicYn = common["is-topic"] as Boolean
+                            isTopic = common["is-topic"] as Boolean
                         }
                     }
                 }
@@ -231,7 +231,7 @@ class WfFormService(
                     componentId = component["id"] as String,
                     componentType = component["type"] as String,
                     mappingId = mappingId,
-                    topicYn = topicYn,
+                    isTopic = isTopic,
                     form = resultFormEntity
                 )
                 val resultComponentEntity = wfComponentRepository.save(componentEntity)
