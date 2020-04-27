@@ -11,35 +11,12 @@
     <h1 th:text="#{menu.help.faq}">FAQ</h1>
     <p th:text="#{faq.msg}">자주 묻는 질문과 답변입니다.</p>
     <div id="faqSearch" style="margin: 30px 0;">
-        <select align="left" id="searchKeyword" onchange="getCategory(this)">
+        <select align="left" id="searchKeyword" onchange="loadXMLDoc(this.value)">
             <option th:text="#{faq.category.all}" value="" selected>전체</option>
             <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup}}" th:value="${faqGroup}"></option>
         </select>
     </div>
     <div id="faqList">
-    </div>
-    <!--기존 데이터-->
-    <form id="faqForm" method="post" hidden>
-        <table>
-            <tr>
-                <th th:text="'*' + #{faq.title}">제목</th>
-                <td th:text="${faq?.faqTitle}"></td>
-            </tr>
-            <tr>
-                <th th:text="'*' + #{faq.contents}">내용</th>
-                <td th:text="${faq?.faqContent}"></td>
-            </tr>
-            <tr>
-                <th th:text="#{common.label.attachFile}">첨부파일</th>
-                <td>
-                    <div id="dropZoneFiles"></div>
-                    <div id="dropZoneUploadedFiles"></div>
-                </td>
-            </tr>
-        </table>
-    </form>
-    <div class="button" align="right" hidden>
-        <button type="button" onclick="location.href='/faqs/search'" th:text="#{faq.list}">목록</button>
     </div>
 </div>
 </th:block>
@@ -50,11 +27,6 @@
             loadXMLDoc('');
         }
 
-        function getCategory(obj) {
-            let category = obj.value;
-            loadXMLDoc(category);
-        }
-
         function loadXMLDoc(param) {
             const opt = {
                 method: 'GET',
@@ -63,13 +35,13 @@
                     document.getElementById('faqList').innerHTML = response.responseText;
                     if (param === '') {
                         const group = document.getElementsByClassName('faqGroup');
+                        const title = document.getElementsByClassName('faqTitle');
                         for (let i = 0; i < group.length; i++) {
                             if (group[i].id === '[[${faq?.faqGroup}]]') {
                                 group[i].open = true;
                                 break;
                             }
                         }
-                        const title = document.getElementsByClassName('faqTitle');
                         for (let i = 0; i < title.length; i++) {
                             if (title[i].id === '[[${faq?.faqId}]]') {
                                 title[i].open = true;
