@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "awf_code_copy")
+@Table(name = "awf_code")
 data class CodeEntity(
     @Id @Column(name = "code")
     var code: String = "",
