@@ -4,15 +4,15 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class WfDocumentDto(
-        val documentId: String,
-        val documentName: String,
-        val documentDesc: String? = null,
-        val documentStatus: String? = null,
-        val documentNumberingRuleId: String,
-        val processId: String,
-        val formId: String,
-        val createUserKey: String? = null,
-        val createDt: LocalDateTime? = null,
-        val updateUserKey: String? = null,
-        val updateDt: LocalDateTime? = null
+    val documentId: String,
+    val documentName: String,
+    val documentDesc: String? = null,
+    val documentStatus: String? = null,
+    val documentNumberingRuleId: String,
+    val processId: String,
+    val formId: String,
+    val createUserKey: String? = null,
+    val createDt: LocalDateTime? = null,
+    val updateUserKey: String? = null,
+    val updateDt: LocalDateTime? = null
 ) : Serializable

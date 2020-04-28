@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AliceNumberingPatternRepository: JpaRepository<AliceNumberingPatternEntity, String> {
-    
+interface AliceNumberingPatternRepository : JpaRepository<AliceNumberingPatternEntity, String> {
+
 }

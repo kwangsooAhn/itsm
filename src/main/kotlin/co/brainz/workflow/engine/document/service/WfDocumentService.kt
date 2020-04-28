@@ -292,7 +292,7 @@ class WfDocumentService(
             }
             val componentMap = LinkedHashMap<String, Any>()
             val componentData = wfComponentDataRepository.findComponentDataByComponentId(component.componentId, "label")
-            val attributeValue = if (componentData.size > 0) {
+            val attributeValue = if (componentData.isNotEmpty()) {
                 // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
                 componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
             } else {

@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping("/documents")
 class DocumentController(
-        private val documentService: DocumentService,
-        private val codeService: CodeService,
-        private val customCodeService: CustomCodeService,
-        private val numberingService: AliceNumberingService
+    private val documentService: DocumentService,
+    private val codeService: CodeService,
+    private val customCodeService: CustomCodeService,
+    private val numberingService: AliceNumberingService
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"
@@ -27,7 +27,6 @@ class DocumentController(
     private val documentPublishPage: String = "document/documentPublish"
     private val documentEditPage: String = "document/documentEdit"
     private val documentDisplayPage: String = "document/documentDisplay"
-
     private val documentCustomCodePage: String = "document/customCodeData"
 
     /**

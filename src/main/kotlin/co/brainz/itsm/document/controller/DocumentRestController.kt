@@ -71,8 +71,10 @@ class DocumentRestController(
      * @param restTemplateDocumentDto
      * */
     @PutMapping("/{documentId}")
-    fun updateDocument(@PathVariable documentId: String,
-                       @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
+    fun updateDocument(
+        @PathVariable documentId: String,
+        @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto
+    ): String? {
         return documentService.updateDocument(restTemplateDocumentDto)
     }
 
@@ -88,8 +90,10 @@ class DocumentRestController(
      * 신청서 편집 데이터 저장.
      */
     @PutMapping("/{documentId}/display")
-    fun updateDocumentDisplay(@PathVariable documentId: String,
-                              @RequestBody documentDisplay: RestTemplateDocumentDataDto): Boolean {
+    fun updateDocumentDisplay(
+        @PathVariable documentId: String,
+        @RequestBody documentDisplay: RestTemplateDocumentDataDto
+    ): Boolean {
         return documentService.updateDocumentDisplay(documentDisplay)
     }
 }

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/numbering")
-class AliceNumberingRestController(private val aliecNumberingService: AliceNumberingService) {
+class AliceNumberingRestController(private val aliceNumberingService: AliceNumberingService) {
 
     @GetMapping("/{numberingId}")
     fun getNewNumbering(@PathVariable numberingId: String): String {
-        return aliecNumberingService.getNewNumbering(numberingId)
+        return aliceNumberingService.getNewNumbering(numberingId)
     }
 }

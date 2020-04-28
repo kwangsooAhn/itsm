@@ -45,7 +45,7 @@ class AliceNumberingService(
         val aliceNumberingRuleEntity = aliceNumberingRuleRepository.findById(numberingId)
         var newNumbering = ""
         if (aliceNumberingRuleEntity.isPresent) {
-            val latestValue = aliceNumberingRuleEntity.get().latestValue?:""
+            val latestValue = aliceNumberingRuleEntity.get().latestValue ?: ""
             var latestPatternValues: MutableList<String> = mutableListOf()
             val newPatternValues: MutableList<String> = mutableListOf()
             if (latestValue.isNotEmpty()) {
@@ -61,7 +61,12 @@ class AliceNumberingService(
                     when (pattern.patternType) {
                         AliceNumberingConstants.PatternType.TEXT.code -> newPatternValues.add(getPattenText(patternMap))
                         AliceNumberingConstants.PatternType.DATE.code -> newPatternValues.add(getPatternDate(patternMap))
-                        AliceNumberingConstants.PatternType.SEQUENCE.code -> newPatternValues.add(getPatternSequence(patternMap, latestPatternValue))
+                        AliceNumberingConstants.PatternType.SEQUENCE.code -> newPatternValues.add(
+                            getPatternSequence(
+                                patternMap,
+                                latestPatternValue
+                            )
+                        )
                     }
                 }
                 newNumbering = newPatternValues.joinToString(separator = "-")
@@ -81,7 +86,7 @@ class AliceNumberingService(
      * @return String
      */
     private fun getPattenText(valueMap: Map<*, *>): String {
-        return (valueMap[AliceNumberingConstants.PatternValueId.TEXT_VALUE.value]?:"") as String
+        return (valueMap[AliceNumberingConstants.PatternValueId.TEXT_VALUE.value] ?: "") as String
     }
 
     /**
@@ -92,7 +97,7 @@ class AliceNumberingService(
      */
     private fun getPatternDate(valueMap: Map<*, *>): String {
         var pattern = ""
-        val patternCode = (valueMap[AliceNumberingConstants.PatternValueId.DATE_CODE.value]?:"") as String
+        val patternCode = (valueMap[AliceNumberingConstants.PatternValueId.DATE_CODE.value] ?: "") as String
         val codeList = codeService.selectCodeByParent(AliceNumberingConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
         codeList.forEach { code ->
             if (code.code == patternCode) {
@@ -115,17 +120,16 @@ class AliceNumberingService(
      * @return String
      */
     private fun getPatternSequence(valueMap: Map<*, *>, latestPatternValue: String): String {
-        var value = ""
         val digit = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_DIGIT.value]
-                ?: AliceNumberingConstants.DEFAULT_DIGIT) as Int
-        var latestSequenceValue = latestPatternValue.toIntOrNull()?:0
+            ?: AliceNumberingConstants.DEFAULT_DIGIT) as Int
+        var latestSequenceValue = latestPatternValue.toIntOrNull() ?: 0
         //check digit size and latestPatternValue size
         if (digit != latestPatternValue.length) {
             latestSequenceValue = 0
         }
         val startWith = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_START_WITH.value]
-                ?: AliceNumberingConstants.DEFAULT_START_WITH) as Int
-        value = when (latestSequenceValue) {
+            ?: AliceNumberingConstants.DEFAULT_START_WITH) as Int
+        var value = when (latestSequenceValue) {
             0 -> startWith.toString()
             else -> (latestSequenceValue + 1).toString()
         }
@@ -135,7 +139,7 @@ class AliceNumberingService(
         }
 
         when (((valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_FULL_FILL.value]
-                ?: AliceNumberingConstants.DEFAULT_FUL_FILL) as String == "Y")) {
+            ?: AliceNumberingConstants.DEFAULT_FUL_FILL) as String == "Y")) {
             true -> {
                 value = value.padStart(digit, '0')
             }
