@@ -16,12 +16,11 @@ import co.brainz.itsm.board.repository.BoardRepository
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
 import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
-import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
 import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
 import co.brainz.itsm.utility.ConvertParam
-import javax.transaction.Transactional
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class BoardService(
@@ -56,8 +55,8 @@ class BoardService(
         val fromDt = convertParam.convertToSearchLocalDateTime(boardSearchDto.fromDt, "fromDt")
         val toDt = convertParam.convertToSearchLocalDateTime(boardSearchDto.toDt, "toDt")
 
-        boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt).forEach {
-            PortalBoardEntity ->
+        boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt)
+            .forEach { PortalBoardEntity ->
                 var categoryName = ""
                 var readCount = 0L
 
@@ -67,7 +66,9 @@ class BoardService(
 
                 if (PortalBoardEntity.boardAdmin.categoryYn) {
                     if (PortalBoardEntity.boardCategoryId != "") {
-                        categoryName = PortalBoardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
+                        categoryName = PortalBoardEntity.boardCategoryId?.let {
+                            boardCategoryRepository.findById(it).get().boardCategoryName
+                        }.toString()
                     }
                 }
                 boardDtoList.add(
@@ -77,9 +78,9 @@ class BoardService(
                         boardCategoryName = categoryName,
                         boardSeq = PortalBoardEntity.boardSeq,
                         boardTitle = PortalBoardEntity.boardTitle,
-                        boardConents = PortalBoardEntity.boardConents,
-                        boardGroupNo = PortalBoardEntity.boardGroupNo,
-                        boardLevelNo = PortalBoardEntity.boardLevelNo,
+                        boardContents = PortalBoardEntity.boardContents,
+                        boardGroupId = PortalBoardEntity.boardGroupId,
+                        boardLevelId = PortalBoardEntity.boardLevelId,
                         boardOrderSeq = PortalBoardEntity.boardOrderSeq,
                         replyCount = PortalBoardEntity.commentBoard?.count()?.toLong(),
                         readCount = readCount,
@@ -100,21 +101,20 @@ class BoardService(
         val boardAdminId = boardSaveDto.boardAdminId
         val boardCount = boardRepository.countByBoardAdminId(boardAdminId)
         var boardSeq = 0L
-        if (boardCount > 0) {
-            boardSeq = boardRepository.findMaxBoardSeq(boardAdminId)
-        }
+        if (boardCount > 0) boardSeq = boardRepository.findMaxBoardSeq(boardAdminId)
+
         val updatePortalBoardEntity = boardRepository.findById(boardSaveDto.boardId).orElse(null)
         val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         val portalBoardEntity = PortalBoardEntity(
-                boardId = boardSaveDto.boardId,
-                boardAdmin = portalBoardAdminEntity,
-                boardCategoryId = boardSaveDto.boardCategoryId,
-                boardSeq = boardSeq + 1,
-                boardGroupNo = boardSeq + 1,
-                boardLevelNo = updatePortalBoardEntity?.boardLevelNo ?: 0,
-                boardOrderSeq = updatePortalBoardEntity?.boardOrderSeq ?: 0,
-                boardTitle = boardSaveDto.boardTitle,
-                boardConents = boardSaveDto.boardConents
+            boardId = boardSaveDto.boardId,
+            boardAdmin = portalBoardAdminEntity,
+            boardCategoryId = boardSaveDto.boardCategoryId,
+            boardSeq = boardSeq + 1,
+            boardGroupId = boardSeq + 1,
+            boardLevelId = updatePortalBoardEntity?.boardLevelId ?: 0,
+            boardOrderSeq = updatePortalBoardEntity?.boardOrderSeq ?: 0,
+            boardTitle = boardSaveDto.boardTitle,
+            boardContents = boardSaveDto.boardContents
         )
         val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
         aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardSaveDto.fileSeqList))
@@ -131,7 +131,7 @@ class BoardService(
         val portalBoardCommentEntity = PortalBoardCommentEntity(
             boardCommentId = boardCommentDto.boardCommentId,
             commentBoard = boardPortalBoardEntity,
-            boardCommentConents = boardCommentDto.boardCommentConents
+            boardCommentContents = boardCommentDto.boardCommentContents
         )
         boardCommentRepository.save(portalBoardCommentEntity)
     }
@@ -155,7 +155,9 @@ class BoardService(
         val boardEntity = boardRepository.findById(boardId).orElse(null)
         var categoryName = ""
         if (boardEntity.boardCategoryId != "") {
-            categoryName = boardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }.toString()
+            categoryName =
+                boardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }
+                    .toString()
         }
 
         return BoardViewDto(
@@ -164,7 +166,7 @@ class BoardService(
             boardCategoryId = boardEntity.boardCategoryId,
             boardCategoryName = categoryName,
             boardTitle = if (type == "reply") "RE : " + boardEntity.boardTitle else boardEntity.boardTitle,
-            boardConents = if (type == "reply") "" else boardEntity.boardConents,
+            boardContents = if (type == "reply") "" else boardEntity.boardContents,
             createDt = if (type == "reply") null else boardEntity.createDt,
             createUser = if (type == "reply") null else boardEntity.createUser,
             updateDt = if (type == "reply") null else boardEntity.updateDt,
@@ -238,7 +240,7 @@ class BoardService(
                     boardCommentId = PortalBoardCommentEntity.boardCommentId,
                     boardId = PortalBoardCommentEntity.commentBoard.boardId,
                     commentBoard = PortalBoardCommentEntity.commentBoard,
-                    boardCommentConents = PortalBoardCommentEntity.boardCommentConents,
+                    boardCommentContents = PortalBoardCommentEntity.boardCommentContents,
                     createDt = PortalBoardCommentEntity.createDt,
                     createUser = PortalBoardCommentEntity.createUser,
                     updateDt = PortalBoardCommentEntity.updateDt,
@@ -257,16 +259,17 @@ class BoardService(
      */
     fun getBoardCategoryList(boardAdminId: String): List<BoardCategoryDto> {
         val boardCategoryDtoList = mutableListOf<BoardCategoryDto>()
-        boardCategoryRepository.findByBoardAdminOrderByBoardCategorySortAsc(boardAdminId).forEach { PortalBoardCategoryEntity ->
-            boardCategoryDtoList.add(
-                BoardCategoryDto(
-                    boardCategoryId = PortalBoardCategoryEntity.boardCategoryId,
-                    boardAdmin = PortalBoardCategoryEntity.boardAdmin,
-                    boardCategoryName = PortalBoardCategoryEntity.boardCategoryName,
-                    boardCategorySort = PortalBoardCategoryEntity.boardCategorySort
+        boardCategoryRepository.findByBoardAdminOrderByBoardCategorySortAsc(boardAdminId)
+            .forEach { PortalBoardCategoryEntity ->
+                boardCategoryDtoList.add(
+                    BoardCategoryDto(
+                        boardCategoryId = PortalBoardCategoryEntity.boardCategoryId,
+                        boardAdmin = PortalBoardCategoryEntity.boardAdmin,
+                        boardCategoryName = PortalBoardCategoryEntity.boardCategoryName,
+                        boardCategorySort = PortalBoardCategoryEntity.boardCategorySort
+                    )
                 )
-            )
-        }
+            }
         return boardCategoryDtoList
     }
 
@@ -281,14 +284,17 @@ class BoardService(
             boardAdmin = oldBoardEntity.boardAdmin,
             boardCategoryId = boardSaveDto.boardCategoryId,
             boardSeq = boardRepository.findMaxBoardSeq(oldBoardEntity.boardAdmin.boardAdminId) + 1,
-            boardGroupNo = oldBoardEntity.boardGroupNo,
-            boardLevelNo = oldBoardEntity.boardLevelNo + 1,
+            boardGroupId = oldBoardEntity.boardGroupId,
+            boardLevelId = oldBoardEntity.boardLevelId + 1,
             boardOrderSeq = oldBoardEntity.boardOrderSeq + 1,
             boardTitle = boardSaveDto.boardTitle,
-            boardConents = boardSaveDto.boardConents
+            boardContents = boardSaveDto.boardContents
         )
         val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
-        boardRepository.updateBoardOrderSeq(savedPortalBoardEntity.boardAdmin.boardAdminId, savedPortalBoardEntity.boardGroupNo, savedPortalBoardEntity.boardOrderSeq, savedPortalBoardEntity.boardSeq)
+        boardRepository.updateBoardOrderSeq(
+            savedPortalBoardEntity.boardAdmin.boardAdminId, savedPortalBoardEntity.boardGroupId,
+            savedPortalBoardEntity.boardOrderSeq, savedPortalBoardEntity.boardSeq
+        )
         aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardSaveDto.fileSeqList))
     }
 }

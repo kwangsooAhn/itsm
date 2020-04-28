@@ -16,11 +16,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonParser
+import org.mapstruct.factory.Mappers
+import org.springframework.stereotype.Service
 import java.util.Optional
 import java.util.UUID
 import kotlin.collections.set
-import org.mapstruct.factory.Mappers
-import org.springframework.stereotype.Service
 
 @Service
 class WfFormService(
@@ -146,6 +146,7 @@ class WfFormService(
 
         val common = LinkedHashMap<String, Any>()
         common["mapping-id"] = component.mappingId
+        common["is-topic"] = component.isTopic
         attributes["common"] = common
 
         for (attribute in component.attributes!!) {
@@ -213,6 +214,7 @@ class WfFormService(
             val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
             for (component in wfFormComponentSaveDto.components) {
                 var mappingId = ""
+                var isTopic = false
                 if (component["common"] != null) {
                     val common: java.util.LinkedHashMap<*, *>? =
                         mapper.convertValue(component["common"], LinkedHashMap::class.java)
@@ -220,12 +222,16 @@ class WfFormService(
                         if (common.containsKey("mapping-id")) {
                             mappingId = common["mapping-id"] as String
                         }
+                        if (common.containsKey("is-topic")) {
+                            isTopic = common["is-topic"] as Boolean
+                        }
                     }
                 }
                 val componentEntity = WfComponentEntity(
                     componentId = component["id"] as String,
                     componentType = component["type"] as String,
                     mappingId = mappingId,
+                    isTopic = isTopic,
                     form = resultFormEntity
                 )
                 val resultComponentEntity = wfComponentRepository.save(componentEntity)

@@ -11,7 +11,7 @@
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId, dropZoneMaxFileSize;
+    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId;
     const setExtraParam = function (param) {
         extraParam = param;
     };

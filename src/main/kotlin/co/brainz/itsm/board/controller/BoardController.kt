@@ -2,14 +2,14 @@ package co.brainz.itsm.board.controller
 
 import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.dto.BoardViewDto
-import co.brainz.itsm.board.service.BoardService
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
-import java.time.LocalDateTime
+import co.brainz.itsm.board.service.BoardService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import java.time.LocalDateTime
 
 @Controller
 @RequestMapping("/boards")
@@ -139,7 +139,10 @@ class BoardController(private val boardService: BoardService) {
     fun getBoardReplayEdit(@PathVariable boardId: String, model: Model): String {
         val boardDtoInfo: BoardViewDto = boardService.getBoard(boardId, "reply")
         if (boardDtoInfo.boardAdmin.categoryYn) {
-            model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardDtoInfo.boardAdmin.boardAdminId))
+            model.addAttribute(
+                "boardCategoryInfo",
+                boardService.getBoardCategoryList(boardDtoInfo.boardAdmin.boardAdminId)
+            )
         }
         model.addAttribute("boardAdminInfo", boardDtoInfo.boardAdmin)
         model.addAttribute("boardInfo", boardDtoInfo)

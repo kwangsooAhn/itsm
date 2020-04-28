@@ -33,11 +33,11 @@ class PortalBoardEntity(
     @Column(name = "board_seq", insertable = true, updatable = false)
     var boardSeq: Long,
 
-    @Column(name = "board_group_no", insertable = true, updatable = false)
-    var boardGroupNo: Long,
+    @Column(name = "board_group_id", insertable = true, updatable = false)
+    var boardGroupId: Long,
 
-    @Column(name = "board_level_no")
-    var boardLevelNo: Long,
+    @Column(name = "board_level_id")
+    var boardLevelId: Long,
 
     @Column(name = "board_order_seq")
     var boardOrderSeq: Long,
@@ -45,10 +45,10 @@ class PortalBoardEntity(
     @Column(name = "board_title", length = 512)
     var boardTitle: String?,
 
-    @Column(name = "board_conents")
-    var boardConents: String?
+    @Column(name = "board_contents")
+    var boardContents: String?
 
 ) : Serializable, AliceMetaEntity() {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "commentBoard", cascade = [CascadeType.REMOVE])
-        val commentBoard: MutableList<PortalBoardCommentEntity>? = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "commentBoard", cascade = [CascadeType.REMOVE])
+    val commentBoard: MutableList<PortalBoardCommentEntity>? = mutableListOf()
 }

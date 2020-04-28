@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{board.label.manager}"></title>
@@ -41,42 +42,42 @@
                 <td colspan="3"><label th:text="${boardAdmin.boardAdminTitle}"/></td>
             </tr>
             <tr>
-                <td><label th:text="#{board.label.useYn}"></td>
-                <td><label th:text="${boardAdmin.boardUseYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
-                <td><label th:text="#{board.label.order}"></td>
-                <td><label th:text="${boardAdmin?.boardAdminSort}"/></td>
+                <td><label th:text="#{board.label.useYn}"></label></td>
+                <td><label th:text="${boardAdmin.boardUseYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
+                <td><label th:text="#{board.label.order}"></label></td>
+                <td><label th:text="${boardAdmin?.boardAdminSort}"></label></td>
             </tr>
             <tr>
-                <td><label th:text="#{board.label.desc}"></td>
-                <td colspan="3"><label th:text="${boardAdmin?.boardAdminDesc}"/></td>
+                <td><label th:text="#{board.label.desc}"></label></td>
+                <td colspan="3"><label th:text="${boardAdmin?.boardAdminDesc}"></label></td>
             </tr>
             <tr>
-                <td><label th:text="#{board.label.replyYn}"></td>
-                <td><label th:text="${boardAdmin.replyYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
-                <td><label th:text="#{board.label.commentYn}"></td>
-                <td><label th:text="${boardAdmin.commentYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
+                <td><label th:text="#{board.label.replyYn}"></label></td>
+                <td><label th:text="${boardAdmin.replyYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
+                <td><label th:text="#{board.label.commentYn}"></label></td>
+                <td><label th:text="${boardAdmin.commentYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
             </tr>
             <tr>
-                <td><label th:text="#{board.label.category}"></td>
-                <td colspan="3"><label th:text="${boardAdmin.categoryYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
+                <td><label th:text="#{board.label.category}"></label></td>
+                <td colspan="3"><label th:text="${boardAdmin.categoryYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
             </tr>
             <tr>
-                <td><label th:text="#{board.label.attachFileYn}"></td>
-                <td><label th:text="${boardAdmin.attachYn == true} ? #{board.label.use} : #{board.label.unused}"/></td>
-                <td><label th:text="#{board.label.attachFileSize}"></td>
-                <td colspan="3"><label th:text="${boardAdmin?.attachFileSize}"/> MB</td>
+                <td><label th:text="#{board.label.attachFileYn}"></label></td>
+                <td><label th:text="${boardAdmin.attachYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
+                <td><label th:text="#{board.label.attachFileSize}"></label></td>
+                <td colspan="3"><label th:text="${boardAdmin?.attachFileSize}"></label> MB</td>
             </tr>
             <tr>
-                <td><label th:text="#{common.label.createUserName}"></td>
+                <td><label th:text="#{common.label.createUserName}"></label></td>
                 <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardAdmin?.createUser} ? ${boardAdmin.createUser.userName} : ''"></span></td>
-                <td><label th:text="#{common.label.createDate}"></th>
+                <td><label th:text="#{common.label.createDate}"></label></td>
                 <td><span id="spanCreateDt" name="spanCreateDt"
                           th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.createDt,dateformat)}"></span></td>
             </tr>
             <tr>
-                <td><label th:text="#{common.label.updateUserName}"></th>
+                <td><label th:text="#{common.label.updateUserName}"></label></td>
                 <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></span></td>
-                <td><label th:text="#{common.label.updateDate}"></th>
+                <td><label th:text="#{common.label.updateDate}"></label></td>
                 <td><span id="spanUpdateDt" name="spanUpdateDt"
                           th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.updateDt,dateformat)}"></span></td>
             </tr>
@@ -111,7 +112,8 @@
                     aliceJs.alert(i18n.get('common.msg.delete.success'), function() {
                         window.location.href = '/board-admin/search';
                     });
-                }
+                },
+                showProgressbar: false
             };
             aliceJs.sendXhr(opt);
         }

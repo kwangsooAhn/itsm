@@ -65,64 +65,64 @@
             <tbody>
                 <tr>
                     <td><label th:text="#{board.label.name}"></label><span class="required"></span></td>
-                    <td colspan="3"><input type="text" id="boardAdminTitle" maxlength="100" th:value="${boardAdmin?.boardAdminTitle}"></td>
+                    <td colspan="3"><input type="text" id="boardAdminTitle" maxlength="100" th:value="${boardAdmin?.boardAdminTitle}"/></td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{board.label.useYn}"></td>
+                    <td><label th:text="#{board.label.useYn}"></label></td>
                     <td>
                         <input type="radio" name="boardUseYn" th:value="true" th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true} ? checked" th:text="#{board.label.use}"/>
                         <input type="radio" name="boardUseYn" th:value="false" th:checked="${boardAdmin?.boardUseYn == false} ? checked" th:text="#{board.label.unused}"/>
                     </td>
-                    <td><label th:text="#{board.label.order}"></td>
+                    <td><label th:text="#{board.label.order}"></label></td>
                     <td><input id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}"
                                style="width: 15%;" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
                     </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{board.label.desc}"></td>
+                    <td><label th:text="#{board.label.desc}"></label></td>
                     <td colspan="3"><textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea></td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{board.label.replyYn}"></td>
+                    <td><label th:text="#{board.label.replyYn}"></label></td>
                     <td>
                         <input type="radio" name="replyYn" th:value="true" th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true} ? checked" th:text="#{board.label.use}"/>
                         <input type="radio" name="replyYn" th:value="false" th:checked="${boardAdmin?.replyYn == false} ? checked" th:text="#{board.label.unused}"/>
                     </td>
-                    <td><label th:text="#{board.label.commentYn}"></td>
+                    <td><label th:text="#{board.label.commentYn}"></label></td>
                     <td>
                         <input type="radio" name="commentYn" th:value="true" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true} ? checked" th:text="#{board.label.use}"/>
                         <input type="radio" name="commentYn" th:value="false" th:checked="${boardAdmin?.commentYn == false} ? checked" th:text="#{board.label.unused}"/>
                     </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{board.label.category}"></td>
+                    <td><label th:text="#{board.label.category}"></label></td>
                     <td colspan="3">
                         <input type="radio" name="categoryYn" th:value="true" th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true} ? checked" th:text="#{board.label.use}"/>
                         <input type="radio" name="categoryYn" th:value="false" th:checked="${boardAdmin?.categoryYn == false} ? checked" th:text="#{board.label.unused}"/>
                     </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{board.label.attachFileYn}"></td>
+                    <td><label th:text="#{board.label.attachFileYn}"></label></td>
                     <td>
                         <input type="radio" name="attachYn" th:value="true" th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true} ? checked" onchange="setDisplay('attachFileSize', true)" th:text="#{board.label.use}"/>
                         <input type="radio" name="attachYn" th:value="false" th:checked="${boardAdmin?.attachYn == false} ? checked" onchange="setDisplay('attachFileSize', false)" th:text="#{board.label.unused}"/>
                     </td>
-                    <td><label th:text="#{board.label.attachFileSize}"></td>
+                    <td><label th:text="#{board.label.attachFileSize}"></label></td>
                     <td><input id="attachFileSize" name="attachFileSize" type="text" style="width: 15%;"
                                th:value="${boardAdmin?.attachFileSize}" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
                     </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{common.label.createUserName}"></td>
+                    <td><label th:text="#{common.label.createUserName}"></label></td>
                     <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardAdmin?.createUser} ? ${boardAdmin.createUser.userName} : ''"></span></td>
-                    <td><label th:text="#{common.label.createDate}"></td>
+                    <td><label th:text="#{common.label.createDate}"></label></td>
                     <td><span id="spanCreateDt" name="spanCreateDt"
                               th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.createDt,dateformat)}"></span></td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{common.label.updateUserName}"></td>
+                    <td><label th:text="#{common.label.updateUserName}"></label></td>
                     <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></span></td>
-                    <td><label th:text="#{common.label.updateDate}"></td>
+                    <td><label th:text="#{common.label.updateDate}"></label></td>
                     <td><span id="spanUpdateDt" name="spanUpdateDt"
                               th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardAdmin?.updateDt,dateformat)}"></span></td>
                 </tr>
@@ -144,8 +144,8 @@
         //radio checked 값 확인
         function getRadioCheckValue(name) {
             let radioObject =  document.getElementsByName(''+ name +'');
-            for (let i =0; i<radioObject.length; i++) {
-                if(radioObject[i].checked == true) {
+            for (let i = 0; i<radioObject.length; i++) {
+                if(radioObject[i].checked === true) {
                     return radioObject[i].value;
                 }
             }
@@ -198,7 +198,8 @@
                     aliceJs.alert(i18n.get('common.msg.save'), function() {
                         location.href = '/board-admin/search';
                     });
-                }
+                },
+                showProgressbar: false
             };
             aliceJs.sendXhr(opt);
         }

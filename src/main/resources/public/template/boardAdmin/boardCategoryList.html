@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
     <style>
@@ -8,9 +10,6 @@
             border: 1px solid;
             border-collapse: collapse;
             text-align: center;
-        }
-        table tr td:nth-child(3) {
-            text-align: left;
         }
         table th {
             border: 1px solid;
@@ -43,7 +42,7 @@
             <tr th:unless="${#arrays.isEmpty(boardCategoryList)}" th:each="boardCategory: ${boardCategoryList}">
                 <td th:text="${boardCategory.boardCategoryName}"></td>
                 <td th:text="${boardCategory.boardCategorySort}"></td>
-                <td align="center">
+                <td>
                     <button sec:authorize="hasAuthority('board.admin.delete')" th:text="#{common.btn.delete}"
                             th:attr="onclick=|deleteBoardCategory('${boardCategory.boardCategoryId}')|"></button>
                 </td>

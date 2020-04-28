@@ -57,9 +57,9 @@
                         </td>
                     </tr>
                     <tr style="height: 250px;">
-                        <td><label th:text="#{board.label.contents}"></td>
+                        <td><label th:text="#{board.label.contents}"></label></td>
                         <td colspan="3">
-                            <div id="boardConents" style="height: 80%"></div>
+                            <div id="boardContents" style="height: 80%"></div>
                         </td>
                     </tr>
                     <tr th:if="${boardAdminInfo.attachYn}">
@@ -70,16 +70,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.createUserName}"></td>
+                        <td><label th:text="#{common.label.createUserName}"></label></td>
                         <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
-                        <td><label th:text="#{common.label.createDate}"></td>
+                        <td><label th:text="#{common.label.createDate}"></label></td>
                         <td><span id="spanCreateDt" name="spanCreateDt"
                                   th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardInfo?.createDt,dateformat)}"></span></td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.updateUserName}"></td>
+                        <td><label th:text="#{common.label.updateUserName}"></label></td>
                         <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
-                        <td><label th:text="#{common.label.updateDate}"></td>
+                        <td><label th:text="#{common.label.updateDate}"></label></td>
                         <td><span id="spanUpdateDt" name="spanUpdateDt"
                                   th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardInfo?.updateDt,dateformat)}"></span></td>
                     </tr>
@@ -149,9 +149,9 @@
                 readOnly: flag
             };
 
-            let textEditor = new Quill('#boardConents', textEditorOptions);
+            let textEditor = new Quill('#boardContents', textEditorOptions);
             if (boardId !== "" && replyYn === false) {
-                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardConents}]]*/));
+                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
             }
         }
 
@@ -167,12 +167,12 @@
             if (categoryYn) {
                 boardCategoryId = document.getElementById('boardCategory').value;
             }
-            let boardConents = Quill.find(document.getElementById('boardConents'));
+            let boardContents = Quill.find(document.getElementById('boardContents'));
 
             const data = {
                 boardAdminId: boardAdminId,
                 boardTitle: document.getElementById('boardTitle').value,
-                boardConents: JSON.stringify(boardConents.getContents()),
+                boardContents: JSON.stringify(boardContents.getContents()),
                 fileSeqList: fileSeqList,
                 boardCategoryId: boardCategoryId
             };
@@ -189,7 +189,7 @@
 
         //조회 화면 이동
         function searchBoard() {
-            location.href= '/boards/search/param?boardAdminId='+boardAdminId;
+            location.href = '/boards/search/param?boardAdminId='+boardAdminId;
         }
 
         //REST API
@@ -214,7 +214,8 @@
                     } else if (method === 'get') {
                         document.getElementById('boardCommentList').innerHTML = response.responseText;
                     }
-                }
+                },
+                showProgressbar: false
             };
             aliceJs.sendXhr(opt);
         }

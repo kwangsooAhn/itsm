@@ -49,9 +49,9 @@ class PortalBoardAdminEntity(
     var attachFileSize: Long?
 
 ) : Serializable, AliceMetaEntity() {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardAdmin", cascade = [CascadeType.REMOVE])
-        val board: MutableList<PortalBoardEntity>? = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardAdmin", cascade = [CascadeType.REMOVE])
+    val board: MutableList<PortalBoardEntity>? = mutableListOf()
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardAdmin", cascade = [CascadeType.REMOVE])
-        val category: MutableList<PortalBoardCategoryEntity>? = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardAdmin", cascade = [CascadeType.REMOVE])
+    val category: MutableList<PortalBoardCategoryEntity>? = mutableListOf()
 }

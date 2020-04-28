@@ -50,9 +50,9 @@
                         </td>
                     </tr>
                     <tr style="height: 250px;">
-                        <td><label th:text="#{board.label.contents}"></td>
+                        <td><label th:text="#{board.label.contents}"></label></td>
                         <td colspan="3" style="height: 80%;">
-                            <div id="boardConents" style="height: 100%;"></div>
+                            <div id="boardContents" style="height: 100%;"></div>
                         </td>
                     </tr>
                     <tr th:if="${boardAdminInfo.attachYn}">
@@ -63,16 +63,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.createUserName}"></td>
+                        <td><label th:text="#{common.label.createUserName}"></label></td>
                         <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
-                        <td><label th:text="#{common.label.createDate}"></td>
+                        <td><label th:text="#{common.label.createDate}"></label></td>
                         <td><span id="spanCreateDt" name="spanCreateDt"
                                   th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardInfo?.createDt,dateformat)}"></span></td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.updateUserName}"></td>
+                        <td><label th:text="#{common.label.updateUserName}"></label></td>
                         <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
-                        <td><label th:text="#{common.label.updateDate}"></td>
+                        <td><label th:text="#{common.label.updateDate}"></label></td>
                         <td><span id="spanUpdateDt" name="spanUpdateDt"
                                   th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardInfo?.updateDt,dateformat)}"></span></td>
                     </tr>
@@ -80,8 +80,8 @@
             </table>
             <table th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
                 <tr>
-                    <td><label th:text="#{board.label.comment}"></td>
-                    <td><input type="text" id="boardComments" name="boardComments" maxlength="500"></td>
+                    <td><label th:text="#{board.label.comment}"></label></td>
+                    <td><input type="text" id="boardComments" name="boardComments" maxlength="500"/></td>
                     <td><div align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></div></td>
                 </tr>
                 <tr>
@@ -138,15 +138,15 @@
                 readOnly: flag
             };
 
-            let textEditor = new Quill('#boardConents', textEditorOptions);
-            if (boardId != "") {
-                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardConents}]]*/));
+            let textEditor = new Quill('#boardContents', textEditorOptions);
+            if (boardId !== "") {
+                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
             }
         }
 
         //조회 화면 이동
         function searchBoard() {
-            location.href= '/boards/search/param?boardAdminId='+boardAdminId;
+            location.href = '/boards/search/param?boardAdminId=' + boardAdminId;
         }
 
         //게시판 삭제
@@ -159,7 +159,7 @@
             if (isEmpty('boardComments', 'board.msg.inputBoardComments')) return;
             const data = {
                 boardId: boardId,
-                boardCommentConents: document.getElementById('boardComments').value
+                boardCommentContents: document.getElementById('boardComments').value
             };
             restSubmit(method, '/rest/boards/comments', data);
         }
@@ -188,7 +188,7 @@
             const data = {
                 boardCommentId: boardCommentId,
                 boardId: boardId,
-                boardCommentConents: document.getElementById('editComments').value
+                boardCommentContents: document.getElementById('editComments').value
             };
             restSubmit(method, '/rest/boards/comments', data);
         }
@@ -209,7 +209,7 @@
                 callbackFunc: function(response) {
                     if (method === 'put' || method === 'post' || method === 'delete') {
                         aliceJs.alert(resultMsg, function () {
-                            if (url.indexOf('/rest/boards/comments') != -1) {
+                            if (url.indexOf('/rest/boards/comments') !== -1) {
                                 location.reload();
                             } else {
                                 searchBoard();
@@ -218,7 +218,8 @@
                     } else if (method === 'get') {
                         document.getElementById('boardCommentList').innerHTML = response.responseText;
                     }
-                }
+                },
+                showProgressbar: false
             };
             aliceJs.sendXhr(opt);
         }
