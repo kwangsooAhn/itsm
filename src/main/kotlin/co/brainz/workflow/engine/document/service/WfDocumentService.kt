@@ -2,6 +2,8 @@ package co.brainz.workflow.engine.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.itsm.numbering.repository.NumberingRuleRepository
+import co.brainz.itsm.numbering.service.NumberingService
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
@@ -43,7 +45,8 @@ class WfDocumentService(
     private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
-    private val wfElementDataRepository: WfElementDataRepository
+    private val wfElementDataRepository: WfElementDataRepository,
+    private val numberingRuleRepository: NumberingRuleRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -65,12 +68,13 @@ class WfDocumentService(
                 documentName = document.documentName,
                 documentDesc = document.documentDesc,
                 documentStatus = document.documentStatus,
-                processId = document.process!!.processId,
-                formId = document.form!!.formId,
+                processId = document.process.processId,
+                formId = document.form.formId,
                 createDt = document.createDt,
                 createUserKey = document.createUserKey,
                 updateDt = document.updateDt,
-                updateUserKey = document.updateUserKey
+                updateUserKey = document.updateUserKey,
+                documentNumberingRuleId = document.numberingRule.numberingId
             )
             documents.add(documentDto)
         }
@@ -91,12 +95,13 @@ class WfDocumentService(
             documentName = document.documentName,
             documentDesc = document.documentDesc,
             documentStatus = document.documentStatus,
-            processId = document.process!!.processId,
-            formId = document.form!!.formId,
+            processId = document.process.processId,
+            formId = document.form.formId,
             createDt = document.createDt,
             createUserKey = document.createUserKey,
             updateDt = document.updateDt,
-            updateUserKey = document.updateUserKey
+            updateUserKey = document.updateUserKey,
+            documentNumberingRuleId = document.numberingRule.numberingId
         )
     }
 
@@ -160,7 +165,10 @@ class WfDocumentService(
             process = process,
             createDt = documentDto.createDt,
             createUserKey = documentDto.createUserKey,
-            documentStatus = documentDto.documentStatus
+            documentStatus = documentDto.documentStatus,
+            numberingRule = numberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
+
+        //nubering은 awf에서 사용하기 때문에... wf에 서 사용하는건 아닌것 같다..
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -174,7 +182,8 @@ class WfDocumentService(
             formId = dataEntity.form.formId,
             processId = dataEntity.process.processId,
             createDt = dataEntity.createDt,
-            createUserKey = dataEntity.createUserKey
+            createUserKey = dataEntity.createUserKey,
+            documentNumberingRuleId = dataEntity.numberingRule.numberingId
         )
     }
 

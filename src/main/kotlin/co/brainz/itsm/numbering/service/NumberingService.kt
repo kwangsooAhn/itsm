@@ -2,10 +2,13 @@ package co.brainz.itsm.numbering.service
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.numbering.constants.NumberingConstants
+import co.brainz.itsm.numbering.dto.NumberingRuleDto
+import co.brainz.itsm.numbering.mapper.NumberingRuleMapper
 import co.brainz.itsm.numbering.repository.NumberingRuleRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -14,6 +17,7 @@ import java.time.format.DateTimeFormatter
 class NumberingService(private val numberingRuleRepository: NumberingRuleRepository,
                        private val codeService: CodeService) {
 
+    private val numberingRuleMapper = Mappers.getMapper(NumberingRuleMapper::class.java)
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
@@ -123,6 +127,23 @@ class NumberingService(private val numberingRuleRepository: NumberingRuleReposit
         }
 
         return value
+    }
+
+    /**
+     * Get Numbering Rule.
+     */
+    fun getNumberingRules(): MutableList<NumberingRuleDto> {
+        val numberingRules: MutableList<NumberingRuleDto> = mutableListOf()
+        val numberingRuleEntities = numberingRuleRepository.findAll()
+        for (numberingRule in numberingRuleEntities) {
+            numberingRules.add(numberingRuleMapper.toNumberingRuleDto(numberingRule))
+        }
+
+        return numberingRules
+    }
+
+    fun getNumberingRule(numberingRuleId: String): NumberingRuleDto {
+        return numberingRuleMapper.toNumberingRuleDto(numberingRuleRepository.findById(numberingRuleId).get())
     }
 
 }

@@ -4,6 +4,7 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.itsm.numbering.service.NumberingService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +18,8 @@ import javax.servlet.http.HttpServletRequest
 class DocumentController(
         private val documentService: DocumentService,
         private val codeService: CodeService,
-        private val customCodeService: CustomCodeService
+        private val customCodeService: CustomCodeService,
+        private val numberingService: NumberingService
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"
@@ -61,6 +63,7 @@ class DocumentController(
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
+        model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
 
         return documentEditPage
     }

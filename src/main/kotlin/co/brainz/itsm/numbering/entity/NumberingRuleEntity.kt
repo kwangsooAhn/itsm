@@ -1,5 +1,6 @@
 package co.brainz.itsm.numbering.entity
 
+import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import javax.persistence.CascadeType
@@ -33,4 +34,7 @@ data class NumberingRuleEntity(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "numberingRule", cascade = [CascadeType.REMOVE])
     @OrderBy("pattern_order asc")
     val patterns: MutableList<NumberingPatternEntity>? = mutableListOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "numberingRule")
+    val document: MutableList<WfDocumentEntity>? = mutableListOf()
 }
