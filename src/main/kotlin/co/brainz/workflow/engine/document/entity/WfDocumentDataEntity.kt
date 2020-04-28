@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.document.entity
 
+import co.brainz.workflow.engine.document.constants.WfDocumentConstants
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -25,7 +26,7 @@ data class WfDocumentDataEntity(
     val elementId: String,
 
     @Column(name = "display", length = 100)
-    var display: String = "editable"
+    val display: String = WfDocumentConstants.DisplayType.EDITABLE.value
 
 ) : Serializable
 

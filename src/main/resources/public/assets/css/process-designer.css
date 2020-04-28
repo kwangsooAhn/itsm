@@ -10078,6 +10078,7 @@ body {
   font-weight: bold;
   font-size: 0.813rem;
   dominant-baseline: text-before-edge;
+  user-select: none;
 }
 .alice-process-drawing-board .connector text.selected {
   fill: #0c4dcd;
@@ -10142,6 +10143,7 @@ body {
   font-size: 0.813rem;
   text-anchor: middle;
   dominant-baseline: middle;
+  user-select: none;
 }
 .alice-process-drawing-board g.guides-container line.guides-line {
   stroke: darkgray;

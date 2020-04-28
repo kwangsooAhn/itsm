@@ -19,6 +19,9 @@ const fileUploader = (function () {
     const createDropZone = function () {
         /*<![CDATA[*/
 
+        if (extraParam.dropZoneMaxFileSize === undefined) {
+            extraParam.dropZoneMaxFileSize = 100;
+        }
         if (extraParam.dropZoneFilesId === undefined) {
             extraParam.dropZoneFilesId = 'dropZoneFiles';
         }
@@ -117,7 +120,7 @@ const fileUploader = (function () {
         const myDropZone = new Dropzone(''+ dropzoneId +'', {
             paramName: "file", // file 매개변수명
             params: extraParam || null, // 추가 매개변수
-            maxFilesize: 3, // 첨부파일 용량 제한
+            maxFilesize: extraParam.dropZoneMaxFileSize, // 첨부파일 용량 제한
             url: '/fileupload',
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
             maxFiles: null, // 첨부파일 개수 제한

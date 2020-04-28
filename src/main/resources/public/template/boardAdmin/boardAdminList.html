@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        table tr td:nth-child(3) {
+            text-align: left;
+        }
+        table th {
+            border: 1px solid;
+        }
+        table td {
+            border-top: 1px solid #e7e7e7;
+            border-left: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table>
+        <colgroup>
+            <col width="20%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">
+            <col width="15%">
+            <col width="10%">
+            <col width="15%">
+            <col width="5%">
+            <col width="5%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th th:text="#{board.label.name}"></th>
+                <th th:text="#{board.label.category}"></th>
+                <th th:text="#{board.label.count}"></th>
+                <th th:text="#{common.label.createUserName}"></th>
+                <th th:text="#{common.label.createDate}"></th>
+                <th th:text="#{common.label.updateUserName}"></th>
+                <th th:text="#{common.label.updateDate}"></th>
+                <th th:text="#{common.label.modify}"></th>
+                <th th:text="#{common.label.delete}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${#arrays.isEmpty(boardAdminList)}">
+                <td colspan="9" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr th:unless="${#arrays.isEmpty(boardAdminList)}" th:each="boardAdmin: ${boardAdminList}">
+                <td style="text-align:left">
+                    <a th:href="@{/board-admin/{id}/view(id=${boardAdmin.boardAdminId})}" th:text="${boardAdmin.boardAdminTitle}"></a>
+                </td>
+                <td th:if="${boardAdmin.categoryYn} == true">
+                    <button th:text="#{board.btn.category}" th:attr="onclick=|openCategoryEdit('${boardAdmin.boardAdminId}')|"></button>
+                </td>
+                <td th:if="${boardAdmin.categoryYn} == false"></td>
+                <td style="text-align:center" th:text="${boardAdmin.boardBoardCount}"></td>
+                <td th:text="${boardAdmin.createUser.userName}"></td>
+                <td th:with="dateformat=${#authentication.details.timeFormat}"
+                    th:text="${boardAdmin.createDt} ? ${#temporals.format(boardAdmin.createDt, dateformat)} : ${boardAdmin.createDt}"></td>
+                <td th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></td>
+                <td th:with="dateformat=${#authentication.details.timeFormat}"
+                    th:text="${boardAdmin.updateDt} ? ${#temporals.format(boardAdmin.updateDt, dateformat)} : ''"></td>
+                <td>
+                    <button sec:authorize="hasAuthority('board.admin.update')"  th:text="#{common.btn.modify}"
+                            th:attr="onclick=|openBoardAdminEdit('${boardAdmin.boardAdminId}')|"></button>
+                </td>
+                <td>
+                    <button sec:authorize="hasAuthority('board.admin.delete')"  th:text="#{common.btn.delete}"
+                            th:disabled="${!boardAdmin.enabled}"
+                            th:attr="onclick=|deleteBoardAdmin('${boardAdmin.boardAdminId}')|"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

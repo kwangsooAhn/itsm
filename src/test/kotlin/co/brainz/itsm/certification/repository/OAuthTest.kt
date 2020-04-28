@@ -78,5 +78,4 @@ class OAuthTest {
         assertThat(oAuthDto.email).isEmpty()
     }
 */
-
 }

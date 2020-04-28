@@ -25,7 +25,6 @@ import java.time.LocalDateTime
 import java.util.TimeZone
 import java.util.UUID*/
 
-
 // @RunWith(SpringRunner::class)
 // @SpringBootTest
 // @AutoConfigureMockMvc
@@ -108,5 +107,4 @@ class UserTest {
             .andDo(MockMvcResultHandlers.print())
     }
 */
-
 }

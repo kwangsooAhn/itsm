@@ -1,5 +1,8 @@
 package co.brainz.workflow.engine.token.service
 
+import co.brainz.workflow.engine.document.constants.WfDocumentConstants
+import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
+import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 class WfTokenService(
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfDocumentDataRepository: WfDocumentDataRepository,
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
     private val wfTokenElementService: WfTokenElementService
@@ -107,8 +111,12 @@ class WfTokenService(
      */
     fun getTokenData(tokenId: String): WfTokenViewDto {
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
-        val componentEntities = tokenMstEntity.get().instance.document.form!!.components
+        val componentEntities = tokenMstEntity.get().instance.document.form.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
+        val documentDataEntities = wfDocumentDataRepository.findByDocumentIdAndElementId(
+                tokenMstEntity.get().instance.document.documentId,
+                tokenMstEntity.get().element.elementId
+        )
 
         val componentList: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         if (componentEntities != null) {
@@ -122,16 +130,23 @@ class WfTokenService(
                         values.add(valueMap)
                     }
                 }
+                var displayType = when (tokenMstEntity.get().element.elementType) {
+                    WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
+                        WfDocumentConstants.DisplayType.EDITABLE.value
+                    }
+                    else -> WfDocumentConstants.DisplayType.READONLY.value
+                }
+                for (documentDataEntity in documentDataEntities) {
+                    if (documentDataEntity.componentId == componentEntity.componentId) {
+                        displayType = documentDataEntity.display
+                    }
+                }
 
                 val component = LinkedHashMap<String, Any>()
                 component["componentId"] = componentEntity.componentId
                 component["attributes"] = attributes
                 component["values"] = values
-                // TODO: 실 데이터로 변경.
-                component["displayType"] = when (attributes["type"]) {
-                    "text", "textarea", "select", "radio", "checkbox", "label", "image", "divider", "date", "time", "datetime", "fileupload", "custom-code" -> "editable"
-                    else -> "readonly" // readonly, editable, editable_required, hidden
-                }
+                component["displayType"] = displayType
                 componentList.add(component)
             }
         }
@@ -141,6 +156,7 @@ class WfTokenService(
 
         return WfTokenViewDto(
             tokenId = tokenMstEntity.get().tokenId,
+            instanceId = tokenMstEntity.get().instance.instanceId,
             components = componentList,
             actions = wfActionService.actions(tokenMstEntity.get().element.elementId)
         )

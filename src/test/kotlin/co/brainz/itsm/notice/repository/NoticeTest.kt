@@ -14,11 +14,11 @@ import java.time.LocalDateTime
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.service.NoticeService*/
 
-//@RunWith(SpringJUnit4ClassRunner::class)
-//@SpringBootTest
-//@AutoConfigureTestDatabase(replace = Replace.NONE)
+// @RunWith(SpringJUnit4ClassRunner::class)
+// @SpringBootTest
+// @AutoConfigureTestDatabase(replace = Replace.NONE)
 class NoticeTest() {
-    
+
 /*    @Autowired
     lateinit var noticeRepository: NoticeRepository
     
