@@ -1221,6 +1221,25 @@
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
                             break;
+                        case 'image':
+                            propertyValue = document.createElement('input');
+                            propertyValue.classList.add('property-field-value');
+                            propertyValue.setAttribute('type', 'text');
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            validateCheck(propertyValue, fieldArr.validate);
+                            propertyValue.addEventListener('focusout', function() {
+                                changePropertiesValue(this.value, group, fieldArr.id);
+                            }, false);
+                            fieldGroupDiv.appendChild(propertyValue);
+
+                            let propertyBtn = document.createElement('button');
+                            propertyBtn.type = 'button';
+                            propertyBtn.innerText = 'select';
+                            propertyBtn.addEventListener('click', function(e) {
+                                window.open('/forms/image-upload', 'imageUploadPop', 'width=600, height=600');
+                            }, false);
+                            fieldGroupDiv.appendChild(propertyBtn);
+                            break;
                     }
                 });
             }

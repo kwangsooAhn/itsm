@@ -2777,6 +2777,7 @@ var Dropzone = function (_Emitter) {
   }, {
     key: "submitRequest",
     value: function submitRequest(xhr, formData, files) {
+      console.log(formData);
       xhr.send(formData);
     }
 

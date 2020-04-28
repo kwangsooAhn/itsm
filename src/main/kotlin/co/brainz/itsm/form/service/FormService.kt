@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.time.LocalDateTime
 
 @Service
@@ -112,5 +114,22 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val responseBody = restTemplate.get(urlDto)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormComponentDataDto::class.java))
+    }
+
+    fun getFormImageList(): MutableList<MutableMap<String, Any>>{
+        var absolutePath = Paths.get("").toAbsolutePath().toString()
+        var dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
+        val fileList = mutableListOf<MutableMap<String, Any>>()
+        Files.walk(dir)
+                .filter{ it -> Files.isRegularFile(it) }
+                //.filter { it -> it.toString().endsWith(".jpg") }  //TODO: 이미지만 필터 ([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)
+                .forEach { it ->
+                    val fileMap: MutableMap<String, Any> = mutableMapOf()
+                    fileMap["fname"] = it.fileName //파일명
+                    fileMap["imgPath"] = Paths.get(RestTemplateConstants.RESOURCES_DIR).toUri().relativize(it.toUri()).toString()   //상대 경로
+                    fileMap["type"] = "file"
+                    fileList.add(fileMap)
+                }
+        return fileList
     }
 }

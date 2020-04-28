@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{form.component.image}"></title>
+    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
+</head>
+<body>
+    <form action="/file-upload" class="dropzone" id="image-dropzone">
+        <div class="container">
+            <input name="file" type="file" multiple />
+        </div>
+    </form>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        console.log('[(${data})]');
+        //fileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
+    };
+    /*]]>*/
+</script>
+</html>
