@@ -135,13 +135,16 @@
 
         /** save **/
         function onSave(flag) {
-            const jsonData = JSON.stringify({
+            const jsonData = {
                 code: document.getElementById('txtCode').value,
                 pCode: document.getElementById('txtPCode').value,
                 codeValue: document.getElementById('txtCodeDesc').value
-            });
+            };
 
-            if (isOrOperator(isNull('txtCode',null), isEmpty('txtCode',null), 'code.msg.codeNotExist')) return false;
+            if (jsonData.code === null || jsonData.code === '') {
+                aliceJs.alert([[#{code.msg.codeNotExist}]]);
+                return false;
+            }
 
             if (flag === 'post') {
                 url = '/rest/codes';
@@ -152,7 +155,7 @@
             const opt = {
                 method: flag,
                 url: url,
-                params: jsonData,
+                params: JSON.stringify(jsonData),
                 contentType: 'application/json',
                 callbackFunc: function() {
                     aliceJs.alert([[#{common.msg.save}]], function() {
