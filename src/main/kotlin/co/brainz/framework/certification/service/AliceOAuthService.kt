@@ -11,10 +11,6 @@ import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
-import java.time.LocalDateTime
-import java.util.Optional
-import java.util.TimeZone
-import javax.transaction.Transactional
 import org.apache.commons.codec.binary.Base64
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -36,6 +32,10 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
+import java.time.LocalDateTime
+import java.util.Optional
+import java.util.TimeZone
+import javax.transaction.Transactional
 
 @Service
 class OAuthService(

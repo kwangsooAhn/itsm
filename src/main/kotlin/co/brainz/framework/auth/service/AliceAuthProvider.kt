@@ -5,7 +5,6 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
-import java.security.PrivateKey
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import java.security.PrivateKey
 
 /**
  * 로그인 요청을 인증하는 클래스
