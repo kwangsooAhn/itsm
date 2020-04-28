@@ -34,7 +34,7 @@ class WfTokenElementService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentRepository: WfDocumentRepository,
     private val wfFolderService: WfFolderService,
-    private val numberingService: AliceNumberingService
+    private val aliceNumberingService: AliceNumberingService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -46,7 +46,7 @@ class WfTokenElementService(
      */
     fun initToken(wfTokenDto: WfTokenDto) {
         val documentDto = wfTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
-        val documentNo = documentDto?.numberingRule?.numberingId?.let { numberingService.getNewNumbering(it) }.orEmpty()
+        val documentNo = documentDto?.numberingRule?.numberingId?.let { aliceNumberingService.getNewNumbering(it) }.orEmpty()
         val instanceDto = documentDto?.let { WfInstanceDto(instanceId = "", document = it, documentNo = documentNo) }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
         instance?.let { wfFolderService.createFolder(instance) }
@@ -312,7 +312,7 @@ class WfTokenElementService(
                     document = wfDocumentEntity,
                     instanceStatus = WfInstanceConstants.Status.RUNNING.code,
                     pTokenId = saveTokenEntity.tokenId,
-                    documentNo = numberingService.getNewNumbering(wfDocumentEntity.numberingRule.numberingId)
+                    documentNo = aliceNumberingService.getNewNumbering(wfDocumentEntity.numberingRule.numberingId)
                 )
                 val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
                 wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
