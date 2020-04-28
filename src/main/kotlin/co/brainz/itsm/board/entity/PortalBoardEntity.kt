@@ -45,8 +45,8 @@ class PortalBoardEntity(
     @Column(name = "board_title", length = 512)
     var boardTitle: String?,
 
-    @Column(name = "board_conents")
-    var boardConents: String?
+    @Column(name = "board_contents")
+    var boardContents: String?
 
 ) : Serializable, AliceMetaEntity() {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "commentBoard", cascade = [CascadeType.REMOVE])

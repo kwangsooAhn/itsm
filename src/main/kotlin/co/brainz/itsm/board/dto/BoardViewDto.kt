@@ -10,7 +10,7 @@ data class BoardViewDto(
     var boardCategoryId: String? = "",
     var boardCategoryName: String? = "",
     var boardTitle: String? = "",
-    var boardConents: String? = "",
+    var boardContents: String? = "",
     var fileSeqList: List<Long>? = null,
     var createDt: LocalDateTime? = null,
     var createUser: AliceUserEntity? = null,

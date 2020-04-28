@@ -1,6 +1,7 @@
 package co.brainz.itsm.boardAdmin.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
+import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -10,7 +11,6 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
-import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "portal_board_category")

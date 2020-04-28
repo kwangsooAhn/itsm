@@ -52,7 +52,7 @@
                     <tr style="height: 250px;">
                         <td><label th:text="#{board.label.contents}"></label></td>
                         <td colspan="3" style="height: 80%;">
-                            <div id="boardConents" style="height: 100%;"></div>
+                            <div id="boardContents" style="height: 100%;"></div>
                         </td>
                     </tr>
                     <tr th:if="${boardAdminInfo.attachYn}">
@@ -138,9 +138,9 @@
                 readOnly: flag
             };
 
-            let textEditor = new Quill('#boardConents', textEditorOptions);
+            let textEditor = new Quill('#boardContents', textEditorOptions);
             if (boardId !== "") {
-                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardConents}]]*/));
+                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
             }
         }
 

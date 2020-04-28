@@ -19,8 +19,8 @@ import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
 import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
 import co.brainz.itsm.utility.ConvertParam
-import javax.transaction.Transactional
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class BoardService(
@@ -78,7 +78,7 @@ class BoardService(
                         boardCategoryName = categoryName,
                         boardSeq = PortalBoardEntity.boardSeq,
                         boardTitle = PortalBoardEntity.boardTitle,
-                        boardConents = PortalBoardEntity.boardConents,
+                        boardContents = PortalBoardEntity.boardContents,
                         boardGroupId = PortalBoardEntity.boardGroupId,
                         boardLevelId = PortalBoardEntity.boardLevelId,
                         boardOrderSeq = PortalBoardEntity.boardOrderSeq,
@@ -114,7 +114,7 @@ class BoardService(
             boardLevelId = updatePortalBoardEntity?.boardLevelId ?: 0,
             boardOrderSeq = updatePortalBoardEntity?.boardOrderSeq ?: 0,
             boardTitle = boardSaveDto.boardTitle,
-            boardConents = boardSaveDto.boardConents
+            boardContents = boardSaveDto.boardContents
         )
         val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
         aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardSaveDto.fileSeqList))
@@ -166,7 +166,7 @@ class BoardService(
             boardCategoryId = boardEntity.boardCategoryId,
             boardCategoryName = categoryName,
             boardTitle = if (type == "reply") "RE : " + boardEntity.boardTitle else boardEntity.boardTitle,
-            boardConents = if (type == "reply") "" else boardEntity.boardConents,
+            boardContents = if (type == "reply") "" else boardEntity.boardContents,
             createDt = if (type == "reply") null else boardEntity.createDt,
             createUser = if (type == "reply") null else boardEntity.createUser,
             updateDt = if (type == "reply") null else boardEntity.updateDt,
@@ -288,7 +288,7 @@ class BoardService(
             boardLevelId = oldBoardEntity.boardLevelId + 1,
             boardOrderSeq = oldBoardEntity.boardOrderSeq + 1,
             boardTitle = boardSaveDto.boardTitle,
-            boardConents = boardSaveDto.boardConents
+            boardContents = boardSaveDto.boardContents
         )
         val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
         boardRepository.updateBoardOrderSeq(

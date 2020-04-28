@@ -59,7 +59,7 @@
                     <tr style="height: 250px;">
                         <td><label th:text="#{board.label.contents}"></label></td>
                         <td colspan="3">
-                            <div id="boardConents" style="height: 80%"></div>
+                            <div id="boardContents" style="height: 80%"></div>
                         </td>
                     </tr>
                     <tr th:if="${boardAdminInfo.attachYn}">
@@ -149,9 +149,9 @@
                 readOnly: flag
             };
 
-            let textEditor = new Quill('#boardConents', textEditorOptions);
+            let textEditor = new Quill('#boardContents', textEditorOptions);
             if (boardId !== "" && replyYn === false) {
-                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardConents}]]*/));
+                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
             }
         }
 
@@ -167,12 +167,12 @@
             if (categoryYn) {
                 boardCategoryId = document.getElementById('boardCategory').value;
             }
-            let boardConents = Quill.find(document.getElementById('boardConents'));
+            let boardContents = Quill.find(document.getElementById('boardContents'));
 
             const data = {
                 boardAdminId: boardAdminId,
                 boardTitle: document.getElementById('boardTitle').value,
-                boardConents: JSON.stringify(boardConents.getContents()),
+                boardContents: JSON.stringify(boardContents.getContents()),
                 fileSeqList: fileSeqList,
                 boardCategoryId: boardCategoryId
             };
