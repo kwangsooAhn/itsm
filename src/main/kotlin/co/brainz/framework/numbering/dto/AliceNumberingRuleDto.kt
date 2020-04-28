@@ -1,8 +1,8 @@
-package co.brainz.itsm.numbering.dto
+package co.brainz.framework.numbering.dto
 
 import java.io.Serializable
 
-data class NumberingRuleDto(
+data class AliceNumberingRuleDto(
     var numberingId: String = "",
     var numberingName: String = "",
     var numberingDesc: String? = null,

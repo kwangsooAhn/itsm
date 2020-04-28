@@ -4,7 +4,7 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.itsm.numbering.service.NumberingService
+import co.brainz.framework.numbering.service.AliceNumberingService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +19,7 @@ class DocumentController(
         private val documentService: DocumentService,
         private val codeService: CodeService,
         private val customCodeService: CustomCodeService,
-        private val numberingService: NumberingService
+        private val numberingService: AliceNumberingService
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"

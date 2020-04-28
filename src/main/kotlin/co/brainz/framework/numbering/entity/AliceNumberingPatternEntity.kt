@@ -1,4 +1,4 @@
-package co.brainz.itsm.numbering.entity
+package co.brainz.framework.numbering.entity
 
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
@@ -13,7 +13,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_numbering_pattern")
-data class NumberingPatternEntity(
+data class AliceNumberingPatternEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "pattern_id", length = 128)
@@ -33,6 +33,6 @@ data class NumberingPatternEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "numbering_id")
-    val numberingRule: NumberingRuleEntity
+    val numberingRule: AliceNumberingRuleEntity
 
 ) : Serializable

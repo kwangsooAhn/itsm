@@ -1,6 +1,6 @@
 package co.brainz.workflow.engine.token.service
 
-import co.brainz.itsm.numbering.service.NumberingService
+import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementDataEntity
@@ -34,7 +34,7 @@ class WfTokenElementService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentRepository: WfDocumentRepository,
     private val wfFolderService: WfFolderService,
-    private val numberingService: NumberingService
+    private val numberingService: AliceNumberingService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -311,7 +311,8 @@ class WfTokenElementService(
                     instanceId = "",
                     document = wfDocumentEntity,
                     instanceStatus = WfInstanceConstants.Status.RUNNING.code,
-                    pTokenId = saveTokenEntity.tokenId
+                    pTokenId = saveTokenEntity.tokenId,
+                    documentNo = numberingService.getNewNumbering(wfDocumentEntity.numberingRule.numberingId)
                 )
                 val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
                 wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)

@@ -2,8 +2,7 @@ package co.brainz.workflow.engine.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
-import co.brainz.itsm.numbering.repository.NumberingRuleRepository
-import co.brainz.itsm.numbering.service.NumberingService
+import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
@@ -46,7 +45,7 @@ class WfDocumentService(
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
     private val wfElementDataRepository: WfElementDataRepository,
-    private val numberingRuleRepository: NumberingRuleRepository
+    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -163,7 +162,7 @@ class WfDocumentService(
             createDt = documentDto.createDt,
             createUserKey = documentDto.createUserKey,
             documentStatus = documentDto.documentStatus,
-            numberingRule = numberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
+            numberingRule = aliceNumberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -200,7 +199,7 @@ class WfDocumentService(
         wfDocumentEntity.updateDt = documentDto.updateDt
         wfDocumentEntity.form = form
         wfDocumentEntity.process = process
-        wfDocumentEntity.numberingRule = numberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
+        wfDocumentEntity.numberingRule = aliceNumberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
         wfDocumentRepository.save(wfDocumentEntity)
 
         when (documentDto.documentStatus) {

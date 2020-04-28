@@ -1,10 +1,10 @@
-package co.brainz.itsm.numbering.service
+package co.brainz.framework.numbering.service
 
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.numbering.constants.NumberingConstants
-import co.brainz.itsm.numbering.dto.NumberingRuleDto
-import co.brainz.itsm.numbering.mapper.NumberingRuleMapper
-import co.brainz.itsm.numbering.repository.NumberingRuleRepository
+import co.brainz.framework.numbering.constants.AliceNumberingConstants
+import co.brainz.framework.numbering.dto.AliceNumberingRuleDto
+import co.brainz.framework.numbering.mapper.AliceNumberingRuleMapper
+import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -14,13 +14,26 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Service
-class NumberingService(
-    private val numberingRuleRepository: NumberingRuleRepository,
+class AliceNumberingService(
+    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
     private val codeService: CodeService
 ) {
 
-    private val numberingRuleMapper = Mappers.getMapper(NumberingRuleMapper::class.java)
+    private val aliceNumberingRuleMapper = Mappers.getMapper(AliceNumberingRuleMapper::class.java)
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
+    /**
+     * Get Numbering Rule.
+     */
+    fun getNumberingRules(): MutableList<AliceNumberingRuleDto> {
+        val aliceNumberingRules: MutableList<AliceNumberingRuleDto> = mutableListOf()
+        val aliceNumberingRuleEntities = aliceNumberingRuleRepository.findAll()
+        for (aliceNumberingRule in aliceNumberingRuleEntities) {
+            aliceNumberingRules.add(aliceNumberingRuleMapper.toAliceNumberingRuleDto(aliceNumberingRule))
+        }
+
+        return aliceNumberingRules
+    }
 
     /**
      * Get New Numbering.
@@ -29,16 +42,16 @@ class NumberingService(
      * @return String
      */
     fun getNewNumbering(numberingId: String): String {
-        val numberingRuleEntity = numberingRuleRepository.findById(numberingId)
+        val aliceNumberingRuleEntity = aliceNumberingRuleRepository.findById(numberingId)
         var newNumbering = ""
-        if (numberingRuleEntity.isPresent) {
-            val latestValue = numberingRuleEntity.get().latestValue?:""
+        if (aliceNumberingRuleEntity.isPresent) {
+            val latestValue = aliceNumberingRuleEntity.get().latestValue?:""
             var latestPatternValues: MutableList<String> = mutableListOf()
             val newPatternValues: MutableList<String> = mutableListOf()
             if (latestValue.isNotEmpty()) {
                 latestPatternValues = latestValue.split("-") as MutableList<String>
             }
-            numberingRuleEntity.get().patterns?.forEachIndexed { index, pattern ->
+            aliceNumberingRuleEntity.get().patterns?.forEachIndexed { index, pattern ->
                 var latestPatternValue = ""
                 if (latestPatternValues.size > 0 && latestPatternValues.size >= index) {
                     latestPatternValue = latestPatternValues[index]
@@ -46,16 +59,16 @@ class NumberingService(
                 if (pattern.patternValue.isNotEmpty()) {
                     val patternMap = mapper.readValue(pattern.patternValue, Map::class.java)
                     when (pattern.patternType) {
-                        NumberingConstants.PatternType.TEXT.code -> newPatternValues.add(getPattenText(patternMap))
-                        NumberingConstants.PatternType.DATE.code -> newPatternValues.add(getPatternDate(patternMap))
-                        NumberingConstants.PatternType.SEQUENCE.code -> newPatternValues.add(getPatternSequence(patternMap, latestPatternValue))
+                        AliceNumberingConstants.PatternType.TEXT.code -> newPatternValues.add(getPattenText(patternMap))
+                        AliceNumberingConstants.PatternType.DATE.code -> newPatternValues.add(getPatternDate(patternMap))
+                        AliceNumberingConstants.PatternType.SEQUENCE.code -> newPatternValues.add(getPatternSequence(patternMap, latestPatternValue))
                     }
                 }
                 newNumbering = newPatternValues.joinToString(separator = "-")
             }
             //Update Numbering
-            numberingRuleEntity.get().latestValue = newNumbering
-            numberingRuleRepository.save(numberingRuleEntity.get())
+            aliceNumberingRuleEntity.get().latestValue = newNumbering
+            aliceNumberingRuleRepository.save(aliceNumberingRuleEntity.get())
         }
 
         return newNumbering
@@ -68,7 +81,7 @@ class NumberingService(
      * @return String
      */
     private fun getPattenText(valueMap: Map<*, *>): String {
-        return (valueMap[NumberingConstants.PatternValueId.TEXT_VALUE.value]?:"") as String
+        return (valueMap[AliceNumberingConstants.PatternValueId.TEXT_VALUE.value]?:"") as String
     }
 
     /**
@@ -79,15 +92,15 @@ class NumberingService(
      */
     private fun getPatternDate(valueMap: Map<*, *>): String {
         var pattern = ""
-        val patternCode = (valueMap[NumberingConstants.PatternValueId.DATE_CODE.value]?:"") as String
-        val codeList = codeService.selectCodeByParent(NumberingConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
+        val patternCode = (valueMap[AliceNumberingConstants.PatternValueId.DATE_CODE.value]?:"") as String
+        val codeList = codeService.selectCodeByParent(AliceNumberingConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
         codeList.forEach { code ->
             if (code.code == patternCode) {
                 pattern = code.codeValue!!
             }
         }
         if (pattern.isEmpty()) {
-            pattern = NumberingConstants.DEFAULT_DATE_FORMAT
+            pattern = AliceNumberingConstants.DEFAULT_DATE_FORMAT
         }
         val formatter = DateTimeFormatter.ofPattern(pattern)
 
@@ -103,15 +116,15 @@ class NumberingService(
      */
     private fun getPatternSequence(valueMap: Map<*, *>, latestPatternValue: String): String {
         var value = ""
-        val digit = (valueMap[NumberingConstants.PatternValueId.SEQUENCE_DIGIT.value]
-                ?:NumberingConstants.DEFAULT_DIGIT) as Int
+        val digit = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_DIGIT.value]
+                ?: AliceNumberingConstants.DEFAULT_DIGIT) as Int
         var latestSequenceValue = latestPatternValue.toIntOrNull()?:0
         //check digit size and latestPatternValue size
         if (digit != latestPatternValue.length) {
             latestSequenceValue = 0
         }
-        val startWith = (valueMap[NumberingConstants.PatternValueId.SEQUENCE_START_WITH.value]
-                ?:NumberingConstants.DEFAULT_START_WITH) as Int
+        val startWith = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_START_WITH.value]
+                ?: AliceNumberingConstants.DEFAULT_START_WITH) as Int
         value = when (latestSequenceValue) {
             0 -> startWith.toString()
             else -> (latestSequenceValue + 1).toString()
@@ -121,27 +134,14 @@ class NumberingService(
             value = "1"
         }
 
-        when (((valueMap[NumberingConstants.PatternValueId.SEQUENCE_FULL_FILL.value]
-                ?:NumberingConstants.DEFAULT_FUL_FILL) as String == "Y")) {
+        when (((valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_FULL_FILL.value]
+                ?: AliceNumberingConstants.DEFAULT_FUL_FILL) as String == "Y")) {
             true -> {
                 value = value.padStart(digit, '0')
             }
         }
 
         return value
-    }
-
-    /**
-     * Get Numbering Rule.
-     */
-    fun getNumberingRules(): MutableList<NumberingRuleDto> {
-        val numberingRules: MutableList<NumberingRuleDto> = mutableListOf()
-        val numberingRuleEntities = numberingRuleRepository.findAll()
-        for (numberingRule in numberingRuleEntities) {
-            numberingRules.add(numberingRuleMapper.toNumberingRuleDto(numberingRule))
-        }
-
-        return numberingRules
     }
 
 }
