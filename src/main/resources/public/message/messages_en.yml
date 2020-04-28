@@ -25,6 +25,8 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
+    modify: "Modify"
+    delete: "Delete"
     createUserName: "Create User Name"
     updateUserName: "Create Update Name"
     createDate: "Create Date"
@@ -32,6 +34,7 @@ common:
     attachFile: "Attach file"
     notSelect: "Not Select"
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
+    comment: "Comment"
   msg:
     save: "Saved"
     save.fail: "Fail"
@@ -163,6 +166,12 @@ faq:
   title: "Title"
   contents: "Contents"
   edit: "Edit"
+  msg: "Frequently asked questions and answers."
+  category:
+    all: "All"
+    techSupport: "Technical Support"
+    setting: "Setting"
+    etc: "ETC"
 
 # NOTICE
 notice:
@@ -444,3 +453,52 @@ download:
     inputDownloadTitle: "Please enter a title."
     selectAfterDate: "Please select after {0} date."
     selectBeforeDate: "Please select before {0} date."
+
+#board
+board:
+  btn:
+    category: "CATEGORY"
+    reply: "REPLY"
+  label:
+    board: "Board"
+    add: "Board Add"
+    edit: "Board Edit"
+    reply: "Board Reply"
+    manager: "Board Manager"
+    detail: "Board Detail"
+    searchPlaceholder: "Title / CreateUserName"
+    searchBoardPlaceholder: "Category/ Title / CreateUserName"
+    name: "Board Name"
+    category: "Category"
+    count: "Number of posts"
+    order: "Sort Order"
+    categoryName: "Category Name"
+    useYn: "Use Yes or NO"
+    desc: "Board desc"
+    writeAuth: "Write permission"
+    roleName: "Role name"
+    replyYn: "Reply Yes or No"
+    commentYn: "Comment Yes or No"
+    comment: "Comment"
+    attachFileYn: "Attach File Yes or No"
+    attachFileSize: "Attach File Size"
+    use: "Use"
+    unused: "UnUsed"
+    number: "Number"
+    title: "Title"
+    commentCount: "Number of Comment"
+    readCount: "Number of Read"
+    contents: "Contents"
+  msg:
+    inputBoardTitle: "Please enter the board name."
+    inputSortSize: "Please enter a sorting order of 100 or less."
+    inputAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
+    inputCategoryName: "Please enter the category name."
+    inputBoardComments: "Please enter the board comments."
+    inputBoardEditComments: "Please save comments."
+#Comment
+comment:
+  label:
+    createUser: "Create User"
+    createDt: "Create Date Time"
+    content: "Content"

@@ -42,4 +42,5 @@ class TokenRestController(private val tokenService: TokenService) {
     fun putToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         return tokenService.putToken(restTemplateTokenDto)
     }
+
 }

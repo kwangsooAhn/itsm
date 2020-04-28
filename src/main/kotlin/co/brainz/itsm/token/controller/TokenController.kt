@@ -71,6 +71,9 @@ class TokenController(
         model.addAttribute("tokenId", tokenId)
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
+        val instanceId = instanceService.getInstanceId(tokenId)!!
+        model.addAttribute("instanceId", instanceId)
+        model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
         return tokenEditPage
     }
 }

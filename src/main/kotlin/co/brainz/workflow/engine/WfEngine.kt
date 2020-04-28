@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine
 
+import co.brainz.workflow.engine.comment.repository.WfCommentRepository
+import co.brainz.workflow.engine.comment.service.WfCommentService
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
@@ -35,7 +37,8 @@ class WfEngine(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
-    private val wfTokenElementService: WfTokenElementService
+    private val wfTokenElementService: WfTokenElementService,
+    private val wfCommentRepository: WfCommentRepository
 ) {
 
     /**
@@ -90,6 +93,13 @@ class WfEngine(
             wfActionService,
             wfTokenElementService
         )
+    }
+
+    /**
+     * Comment Engine.
+     */
+    fun comment(): WfCommentService {
+        return WfCommentService(wfCommentRepository, wfInstanceRepository)
     }
 
 }
