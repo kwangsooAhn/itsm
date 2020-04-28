@@ -402,6 +402,8 @@ code:
     code: "Code"
     pCode: "Parent Code"
     codeValue: "Code Value"
+  msg:
+    codeNotExist: "Please enter a code."
 
 # Custom Code
 custom.code:

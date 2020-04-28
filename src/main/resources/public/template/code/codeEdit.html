@@ -33,7 +33,7 @@
                 <tr>
                     <th class="required" th:text="#{code.label.code}"></th>
                     <td><input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/></td>
-                    <th class="required" th:text="#{code.label.pCode}"></th>
+                    <th th:text="#{code.label.pCode}"></th>
                     <td><input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/></td>
                 </tr>
                 <tr>
@@ -140,6 +140,8 @@
                 pCode: document.getElementById('txtPCode').value,
                 codeValue: document.getElementById('txtCodeDesc').value
             });
+
+            if (isOrOperator(isNull('txtCode',null), isEmpty('txtCode',null), 'code.msg.codeNotExist')) return false;
 
             if (flag === 'post') {
                 url = '/rest/codes';
