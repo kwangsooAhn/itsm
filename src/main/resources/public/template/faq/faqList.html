@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <style>
+        .faqGroup {
+            font-weight: 700;
+            font-size: 1.25rem;
+            width: 100%;
+        }
+        .faqTitle {
+            font-weight: 400;
+            font-size: 1rem;
+            border-bottom: 1px solid #7fc4fd;
+            margin-left: 2rem;
+        }
+        .faqContent {
+            margin-left: 2rem;
+            display: inline-block;
+            font-style: italic;
+            color: #6c757d;
+        }
+        #highlight {
+            background-color: #f1f9ff;
+        }
+    </style>
+</head>
 <body>
-<table class="table table-hover" style="text-align: center">
-    <colgroup>
-        <col width="30%">
-        <col width="70%">
-    </colgroup>
-    <thead>
-    <tr>
-        <th th:text="#{faq.group}">그룹</th>
-        <th th:text="#{faq.title}">제목</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody id="faqs">
-    <tr th:each="faq : ${faqs}">
-        <td th:text="${faq.faqGroup}"></td>
-        <td><a th:href="@{/faqs/{id}/view(id=${faq.faqId})}" th:text="${faq.faqTitle}"></a></td>
-        <td><a sec:authorize="hasAuthority('faq.update')" th:href="@{/faqs/{id}/edit(id=${faq.faqId})}" th:text="#{faq.edit}">편집</a></td>
-    </tr>
-    </tbody>
-</table>
+<details class="faqGroup" th:each="faqGroup :${faqGroupList}" th:id="${faqGroup}">
+    <summary th:text="#{${faqGroup}}"></summary>
+    <details class="faqTitle" th:each="faqT :${faqs}" th:if="${faqT.faqGroup} == ${faqGroup}" th:id="${faqT.faqId}">
+        <summary th:text="${faqT.faqTitle}"></summary>
+        <div th:each="faqC : ${faqs}" th:if="${faqC.faqId} == ${faqT.faqId}" >
+            <p class="faqContent" th:text="${faqC.faqContent}"></p>
+        </div>
+    </details>
+</details>
 </body>
 </html>

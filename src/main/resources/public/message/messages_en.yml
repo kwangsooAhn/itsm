@@ -164,6 +164,12 @@ faq:
   title: "Title"
   contents: "Contents"
   edit: "Edit"
+  msg: "Frequently asked questions and answers."
+  category:
+    all: "All"
+    techSupport: "Technical Support"
+    setting: "Setting"
+    etc: "ETC"
 
 # NOTICE
 notice:
