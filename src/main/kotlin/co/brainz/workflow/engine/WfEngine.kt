@@ -40,8 +40,7 @@ class WfEngine(
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
     private val wfTokenElementService: WfTokenElementService,
-    private val wfCommentRepository: WfCommentRepository
-    private val wfTokenElementService: WfTokenElementService,
+    private val wfCommentRepository: WfCommentRepository,
     private val numberingRuleRepository: NumberingRuleRepository
 ) {
 
