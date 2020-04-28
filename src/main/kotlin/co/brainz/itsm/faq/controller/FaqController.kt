@@ -9,6 +9,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * ### FAQ 관련 뷰 화면 호출 처리용 클래스.
@@ -50,8 +51,8 @@ class FaqController(private val faqService: FaqService) {
      * FAQ 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("/list")
-    fun getFaqList(searchValue: String, model: Model): String {
-        if (searchValue.isNullOrEmpty()) {
+    fun getFaqList(@RequestParam(value = "searchValue", defaultValue = "") searchValue: String, model: Model): String {
+        if (searchValue.isEmpty()) {
             model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
         } else {
             model.addAttribute("faqGroupList", faqService.findFaqGroups(searchValue))
