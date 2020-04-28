@@ -174,7 +174,7 @@
                 case 'radio':
                 case 'chkbox':
                     if (!selectCheck(requiredObj)) {
-                        alertMsg(requiredObj.firstChild.firstChild, i18n.get('document.msg.requiredSelect'));
+                        alertMsg(requiredObj.querySelector('input'), i18n.get('document.msg.requiredSelect'));
                         return true;
                     }
                     break;
