@@ -15,9 +15,9 @@ class WfCommentService(
 ) {
 
     /**
-     * Save Comment.
+     * Insert Comment.
      */
-    fun postComment(wfCommentDto: WfCommentDto): Boolean {
+    fun insertComment(wfCommentDto: WfCommentDto): Boolean {
         val wfCommentEntity = WfCommentEntity(
             commentId = "",
             content = wfCommentDto.content,

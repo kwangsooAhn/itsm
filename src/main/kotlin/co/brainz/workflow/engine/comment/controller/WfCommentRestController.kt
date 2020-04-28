@@ -16,8 +16,8 @@ class WfCommentRestController(
 ) {
 
     @PostMapping("")
-    fun postComment(@RequestBody wfCommentDto: WfCommentDto): Boolean {
-        return wfEngine.comment().postComment(wfCommentDto)
+    fun insertComment(@RequestBody wfCommentDto: WfCommentDto): Boolean {
+        return wfEngine.comment().insertComment(wfCommentDto)
     }
 
     @DeleteMapping("/{commentId}")

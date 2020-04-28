@@ -513,7 +513,7 @@
         let data = {
             instanceId: instanceId,
             content: comment
-        }
+        };
         const opt = {
             method: 'POST',
             url: '/rest/comments',
