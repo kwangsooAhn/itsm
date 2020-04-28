@@ -32,6 +32,7 @@ common:
     attachFile: "첨부파일"
     notSelect: "선택 안 함"
     lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
+    comment: 코멘트
   msg:
     save: "저장되었습니다"
     save.fail: "실패되었습니다."
@@ -444,3 +445,10 @@ download:
     inputDownloadTitle: "제목을 입력해주세요."
     selectAfterDate: "{0} 날짜 이후로 선택해주세요."
     selectBeforeDate: "{0} 날짜 이전으로 선택해주세요."
+
+#Comment
+comment:
+  label:
+    createUser: "작성자"
+    createDt: "작성일시"
+    content: "내용"

@@ -7,6 +7,7 @@
 
     let documentContainer = null;
     let buttonContainer = null;
+    let commentContainer = null;
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -472,6 +473,89 @@
         } else if (data.token.components !== undefined) {
             addButton(data.token.actions);
         }
+
+        //Add Comment Box
+        if (data.instanceId !== undefined) {
+            addCommentBox(data.instanceId);
+        }
+    }
+
+    /**
+     * Comment Object.
+     *
+     * @param instanceId
+     */
+    function addCommentBox(instanceId) {
+        commentContainer = document.getElementById('comment-container');
+
+        let commentBoxContainer = document.createElement('div');
+        let commentButtonContainer = document.createElement('div');
+        commentBoxContainer.classList.add('field');
+        commentBoxContainer.style.width = '90%';
+        commentButtonContainer.classList.add('field');
+        commentButtonContainer.style.width = '10%';
+
+        let commentBoxTextarea = document.createElement('textarea');
+        let commentButton = document.createElement('button');
+        commentButton.type = 'button';
+        commentButton.innerText = i18n.get('common.btn.register');
+        commentButton.addEventListener('click', function () {
+            aliceDocument.saveComment(instanceId, commentBoxTextarea.value);
+        });
+
+        commentBoxContainer.appendChild(commentBoxTextarea);
+        commentButtonContainer.appendChild(commentButton);
+        commentContainer.appendChild(commentBoxContainer);
+        commentContainer.appendChild(commentButtonContainer);
+    }
+
+    /**
+     * Save Comment.
+     *
+     * @param instanceId
+     * @param comment
+     */
+    function saveComment(instanceId, comment) {
+        let data = {
+            instanceId: instanceId,
+            content: comment
+        };
+        const opt = {
+            method: 'POST',
+            url: '/rest/comments',
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(xhr) {
+                if (xhr.responseText) {
+                    location.reload();
+                } else {
+                    aliceJs.alert(i18n.get('common.msg.fail'));
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    /**
+     * Delete Comment.
+     *
+     * @param commentId
+     */
+    function deleteComment(commentId) {
+        const opt = {
+            method: 'DELETE',
+            url: '/rest/comments/' + commentId,
+            callbackFunc: function(xhr) {
+                if (xhr.responseText) {
+                    aliceJs.alert(i18n.get('common.msg.delete.success'), function() {
+                        location.reload();
+                    });
+                } else {
+                    aliceJs.alert(i18n.get('common.msg.save.fail'));
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
     }
 
     /**
@@ -498,7 +582,8 @@
     /**
      * init Token.
      *
-     * @param tokenId 문서 id
+     * @param tokenId 문서 토큰 id
+     * @param instanceId 문서 id
      */
     function initToken(tokenId) {
         console.info('document editor initialization. [Token ID: ' + tokenId + ']');
@@ -548,6 +633,8 @@
     exports.init = init;
     exports.initToken = initToken;
     exports.save = save;
+    exports.saveComment = saveComment;
+    exports.deleteComment = deleteComment;
     exports.drawDocument = drawDocument;
     exports.getDocument = getDocument;
 

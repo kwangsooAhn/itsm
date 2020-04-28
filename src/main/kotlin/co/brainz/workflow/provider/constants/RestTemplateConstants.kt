@@ -61,6 +61,17 @@ object RestTemplateConstants {
     }
 
     /**
+     * Comment Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class Comment(val url: String, val method: String) {
+        POST_COMMENT("/rest/wf/comments", "POST"),
+        DELETE_COMMENT("/rest/wf/comments/{commentId}", "DELETE")
+    }
+
+    /**
      * Workflow Url.
      *
      * @param url
@@ -86,7 +97,8 @@ object RestTemplateConstants {
      */
     enum class Instance(val url: String, val method: String) {
         GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
-        GET_RELATED_INSTANCE("/rest/wf/folders", "GET")
+        GET_RELATED_INSTANCE("/rest/wf/folders", "GET"),
+        GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET")
     }
 
     /**
