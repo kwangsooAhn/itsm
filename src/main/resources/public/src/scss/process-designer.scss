@@ -252,6 +252,7 @@ body {
                     size: 0.813rem; // 13px
                 }
                 dominant-baseline: text-before-edge;
+                user-select: none;
             }
 
             text.selected {
@@ -340,6 +341,7 @@ body {
                 }
                 text-anchor: middle;
                 dominant-baseline: middle;
+                user-select: none;
             }
         }
 
