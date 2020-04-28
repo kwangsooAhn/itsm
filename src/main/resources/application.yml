@@ -19,9 +19,9 @@ spring:
         enabled: true
         encoding: UTF-8
     # multipart max upload size
-    servlet: 
-        multipart.max-file-size: 2MB
-        multipart.max-request-size: 2MB
+    servlet:
+        multipart.max-file-size: 1024MB
+        multipart.max-request-size: 1024MB
     # developer option. hot swap
     devtools: 
         livereload.enabled: true

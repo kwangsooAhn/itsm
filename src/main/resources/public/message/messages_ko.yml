@@ -25,6 +25,8 @@ common:
     addFile: "파일 추가"
     success: "성공"
     fail: "실패"
+    modify: "수정"
+    delete: "삭제"
     createUserName: "등록자"
     updateUserName: "수정자"
     createDate: "등록일시"
@@ -63,6 +65,8 @@ menu:
   setting.process: "프로세스"
   setting.custom.code: "사용자 정의 코드"
   editMyInfo: "자기 정보 수정"
+  help.board: "게시판"
+  setting.board.admin: "게시판 관리"
 
 # auth
 auth:
@@ -452,6 +456,48 @@ download:
     selectAfterDate: "{0} 날짜 이후로 선택해주세요."
     selectBeforeDate: "{0} 날짜 이전으로 선택해주세요."
 
+#board
+board:
+  btn:
+    category: "카테고리"
+    reply: "답글"
+  label:
+    board: "게시판"
+    add: "게시판 등록"
+    edit: "게시판 수정"
+    reply: "게시판 답글"
+    manager: "게시판 관리"
+    detail: "게시판 상세"
+    searchPlaceholder: "제목 / 등록자"
+    searchBoardPlaceholder: "카테고리 / 제목 / 등록자"
+    name: "게시판 명"
+    category: "카테고리"
+    count: "게시물수"
+    order: "정렬순서"
+    categoryName: "카테고리 명"
+    useYn: "사용여부"
+    desc: "게시판 설명"
+    writeAuth: "쓰기권한"
+    roleName: "역할 명"
+    replyYn: "답글"
+    commentYn: "댓글"
+    comment: "댓글"
+    attachFileYn: "첨부파일"
+    attachFileSize: "첨부파일 용량"
+    use: "사용"
+    unused: "미사용"
+    number: "번호"
+    title: "제목"
+    commentCount: "댓글 수"
+    readCount: "조회 수"
+    contents: "내용"
+  msg:
+    inputBoardTitle: "게시판명을 입력해주세요."
+    inputSortSize: "정렬순서를 100 이하로 넣어주세요."
+    inputAttachFileSize: "첨부파일 용량을 0MB 이상 1024MB 이하로 넣어주세요."
+    inputCategoryName: "카테고리명을 입력해주세요."
+    inputBoardComments: "댓글을 입력해주세요."
+    inputBoardEditComments: "댓글 저장부터 해주세요."
 #Comment
 comment:
   label:

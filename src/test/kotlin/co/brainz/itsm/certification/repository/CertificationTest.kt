@@ -7,6 +7,8 @@ import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.certification.service.AliceKeyGeneratorService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceEncryptionUtil
+import java.time.LocalDateTime
+import java.util.TimeZone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -23,8 +25,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
-import java.time.LocalDateTime
-import java.util.TimeZone
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(properties = ["classpath:application.properties"])
@@ -46,30 +46,30 @@ class CertificationTest {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
         securityContext = SecurityContextHolder.getContext()
         val userDto: AliceUserEntity = aliceCertificationService.findByUserId(userId)
-        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userKey, userDto.userId, userDto.userName, userDto.email, "", "", "", "", userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), userDto.oauthKey, emptySet(), emptySet(), emptySet(), TimeZone.getDefault().id, "en","YYYY-MM-DD HH:MM", "defualt")
+        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userKey, userDto.userId, userDto.userName, userDto.email, "", "", "", "", userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), userDto.oauthKey, emptySet(), emptySet(), emptySet(), TimeZone.getDefault().id, "en", "YYYY-MM-DD HH:MM", "defualt")
         val usernamePasswordAuthenticationToken: UsernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
         usernamePasswordAuthenticationToken.details = aliceUserDto
         securityContext.authentication = usernamePasswordAuthenticationToken
     }
 
     fun userStatusInit() {
-        //Check user exists.
+        // Check user exists.
         val userDto: AliceUserEntity = aliceCertificationService.findByUserId(userId)
         assertThat(userDto.email).isEqualTo(email)
 
-        //User status init.
-        val status : String = AliceUserConstants.Status.SIGNUP.code
+        // User status init.
+        val status: String = AliceUserConstants.Status.SIGNUP.code
         val certificationCode: String = ""
         val aliceCertificationDto: AliceCertificationDto = AliceCertificationDto(userId, email, certificationCode, status)
         aliceCertificationService.updateUser(aliceCertificationDto)
 
-        //Check user status init.
+        // Check user status init.
         mvc.perform(get("/certification/status"))
                 .andExpect(status().isOk)
                 .andExpect(model().attribute("validCode", AliceUserConstants.Status.SIGNUP.value))
     }
 
-    //Send Mail
+    // Send Mail
     @Test
     fun sendCertifiedMail() {
         userStatusInit()
@@ -77,7 +77,7 @@ class CertificationTest {
         aliceCertificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, null, null)
     }
 
-    //Valid CertificationCode
+    // Valid CertificationCode
     @Test
     fun userMailValid() {
         userStatusInit()
@@ -86,11 +86,10 @@ class CertificationTest {
         val aliceCertificationDto: AliceCertificationDto = AliceCertificationDto(userId, email, certificationKey, AliceUserConstants.Status.SIGNUP.code)
         aliceCertificationService.updateUser(aliceCertificationDto)
 
-        val uid: String = "${certificationKey}:${userId}:${email}"
+        val uid: String = "$certificationKey:$userId:$email"
         val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
                 .andExpect(status().isOk)
                 .andExpect(model().attribute("validCode", AliceUserConstants.Status.CERTIFIED.value))
     }
-
 }
