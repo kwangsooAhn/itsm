@@ -44,6 +44,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/new")
     fun getFaqNew(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
         return faqEditPage
     }
 
@@ -76,6 +77,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/{faqId}/edit")
     fun getFaqEdit(@PathVariable faqId: String, model: Model): String {
+        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
         if (faqId != "") {
             model.addAttribute("faq", faqService.findOne(faqId))
         }

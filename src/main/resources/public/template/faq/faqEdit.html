@@ -8,30 +8,35 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="container">
+    <div class="container" style="width: 70%; margin: 50px auto;">
+        <h1 th:text="#{menu.help.faq}"></h1>
+        <p th:text="#{faq.msg.description}"></p>
+        <hr>
         <form id="faqForm" method="post" onsubmit="return false">
             <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
             <table>
+                <colgroup>
+                    <col width="20%">
+                    <col width="*">
+                </colgroup>
                 <tr>
-                    <th th:text="'*' + #{faq.group}">*그룹</th>
-                    <td><input id="faqGroup" name="faqGroup" type="text" th:value="${faq?.faqGroup}" maxlength="100"
-                               required="required"/></td>
+                    <th class="required" th:text="#{faq.group}">*그룹</th>
+                    <td>
+                        <select id="faqGroup" name="faqGroup">
+                            <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup}}"
+                                    th:value="${faqGroup}" th:selected="${faqGroup} == ${faq?.faqGroup}">
+                            </option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
-                    <th th:text="'*' + #{faq.title}">*제목</th>
+                    <th class="required" th:text="#{faq.title}">제목</th>
                     <td><input id="faqTitle" name="faqTitle" type="text" th:value="${faq?.faqTitle}" maxlength="200"
                                required="required"/></td>
                 </tr>
                 <tr>
-                    <th th:text="'*' + #{faq.contents}">*내용</th>
+                    <th class="required" th:text="#{faq.contents}">내용</th>
                     <td><textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea></td>
-                </tr>
-                <tr>
-                    <th th:text="#{common.label.attachFile}">첨부파일</th>
-                    <td>
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
-                    </td>
                 </tr>
             </table>
 
@@ -53,6 +58,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
@@ -68,23 +74,19 @@
                     restSubmit("delete", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]");
                 });
             }
-
-            fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
         }
 
         function restSubmit(method, url) {
             const formData = new FormData(document.getElementById("faqForm"));
             var object = {};
 
+            if (!validation()) {
+                return false;
+            }
+
             formData.forEach(function(value, key) {
                 object[key] = value;
             });
-
-            delFileCheck();
-
-            const fileSeq = [];
-            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(Number(elm.value)));
-            object['fileSeq'] = fileSeq;
 
             const opt = {
                 method: method,
@@ -98,6 +100,12 @@
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        function validation() {
+            if (isEmpty('faqTitle', 'faq.msg.titleNotExist')) { return false; }
+            if (isEmpty('faqContent', 'faq.msg.contentNotExist')) { return false; }
+            return true;
         }
         /*]]>*/
     </script>
