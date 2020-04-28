@@ -9,6 +9,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * ### FAQ 관련 뷰 화면 호출 처리용 클래스.
@@ -34,6 +35,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/search")
     fun getFaqSearch(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
         return faqSearchPage
     }
 
@@ -49,7 +51,12 @@ class FaqController(private val faqService: FaqService) {
      * FAQ 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("/list")
-    fun getFaqList(request: HttpServletRequest, model: Model): String {
+    fun getFaqList(@RequestParam(value = "searchValue", defaultValue = "") searchValue: String, model: Model): String {
+        if (searchValue.isEmpty()) {
+            model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
+        } else {
+            model.addAttribute("faqGroupList", faqService.findFaqGroups(searchValue))
+        }
         model.addAttribute("faqs", faqService.findAll())
         return faqListPage
     }
@@ -59,6 +66,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/{faqId}/view")
     fun getFaqView(@PathVariable faqId: String, model: Model): String {
+        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
         model.addAttribute("faq", faqService.findOne(faqId))
         return faqViewPage
     }

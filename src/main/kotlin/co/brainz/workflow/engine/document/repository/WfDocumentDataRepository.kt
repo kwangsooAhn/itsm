@@ -20,4 +20,5 @@ interface WfDocumentDataRepository: JpaRepository<WfDocumentDataEntity, String> 
     )
     fun findByDocumentId(documentId: String): List<WfDocumentDataEntity>
 
+    fun findByDocumentIdAndElementId(documentId: String, elementId: String): List<WfDocumentDataEntity>
 }

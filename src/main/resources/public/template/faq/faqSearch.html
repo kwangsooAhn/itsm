@@ -8,31 +8,37 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="container">
-        <div sec:authorize="hasAuthority('faq.create')" class="button" style="float:right">
-            <button type="button" onclick="location.href='/faqs/new'" th:text="#{faq.add}">추가</button>
-        </div>
-        <div id="faqList">
-        </div>
+<div class="container" style="width: 70%; margin: 50px auto;">
+    <h1 th:text="#{menu.help.faq}"></h1>
+    <p th:text="#{faq.msg}"></p>
+    <div id="faqSearch" style="margin: 30px 0;">
+        <select align="left" id="searchKeyword" onchange="loadXMLDoc(this.value)">
+            <option th:text="#{faq.category.all}" value="" selected></option>
+            <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup}}" th:value="${faqGroup}"></option>
+        </select>
     </div>
+    <div id="faqList">
+    </div>
+</div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
-window.onload = function() {
-    loadXMLDoc();
-}
-
-function loadXMLDoc() {
-    const opt = {
-        method: "GET",
-        url: "/faqs/list",
-        callbackFunc: function(response) {
-            document.getElementById("faqList").innerHTML = response.responseText;
+        window.onload = function() {
+            loadXMLDoc('');
         }
-    };
-    aliceJs.sendXhr(opt);
-}
-</script>
+
+        function loadXMLDoc(param) {
+            const opt = {
+                method: 'GET',
+                url: '/faqs/list?searchValue=' + param,
+                callbackFunc: function(response) {
+                    document.getElementById('faqList').innerHTML = response.responseText;
+                    document.getElementsByClassName('faqGroup')[0].open = true;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+    </script>
 </th:block>
 </html>

@@ -34,6 +34,7 @@ common:
     attachFile: "첨부파일"
     notSelect: "선택 안 함"
     lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
+    comment: 코멘트
   msg:
     save: "저장되었습니다"
     save.fail: "실패되었습니다."
@@ -167,6 +168,12 @@ faq:
   title: "제목"
   contents: "내용"
   edit: "수정"
+  msg: "자주 묻는 질문과 답변입니다."
+  category:
+    all: "전체"
+    techSupport: "기술지원"
+    setting: "설정"
+    etc: "기타"
 
 # NOTICE
 notice:
@@ -491,3 +498,9 @@ board:
     inputCategoryName: "카테고리명을 입력해주세요."
     inputBoardComments: "댓글을 입력해주세요."
     inputBoardEditComments: "댓글 저장부터 해주세요."
+#Comment
+comment:
+  label:
+    createUser: "작성자"
+    createDt: "작성일시"
+    content: "내용"
