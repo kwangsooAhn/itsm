@@ -31,3 +31,27 @@
         pointer-events: none;
     }
 }
+
+.comment {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    background-color: #ffffff;
+    .field {
+        display: flex;
+        height: 3.563rem;
+        textarea {
+            width: 100%;
+            resize: vertical;
+        }
+        button {
+            flex: 1 1 auto;
+            line-height: 1rem;
+            padding: 0 0.625rem;
+            white-space: nowrap;
+        }
+    }
+}

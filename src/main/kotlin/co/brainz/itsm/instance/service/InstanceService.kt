@@ -4,6 +4,7 @@ import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
@@ -60,4 +61,23 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
 
         return tokenDto.instanceId
     }
+
+    fun getInstanceComments(instanceId: String): List<RestTemplateCommentDto> {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Instance.GET_INSTANCE_COMMENTS.url.replace(
+                restTemplate.getKeyRegex(),
+                instanceId
+            )
+        )
+        val responseBody = restTemplate.get(url)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
+        val restTemplateComments: List<RestTemplateCommentDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateCommentDto::class.java))
+        for (comment in restTemplateComments) {
+            comment.createDt = comment.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
+        }
+
+        return restTemplateComments
+    }
+
 }

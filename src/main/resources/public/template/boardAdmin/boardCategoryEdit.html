@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{board.label.category}"></title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table label {
+            margin: 0;
+        }
+        table tr td {
+            border: 1px solid;
+            height: 50px;
+        }
+        table input {
+            width: 90%;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{board.label.category}"></h1>
+            <hr>
+            <div>
+                 <table>
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <td><label th:text="#{board.label.name}"></label></td>
+                        <td><label th:text="${boardAdmin.boardAdminTitle}"/></td>
+                        <td><label th:text="#{board.label.categoryName}"></label><span class="required"></span></td>
+                        <td><input type="text" id="boardCategoryName" maxlength="100"/></td>
+                        <td><label th:text="#{board.label.order}"></label></td>
+                        <td><input type="text" id="boardCategorySort" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/></td>
+                        <td align="center"><button onclick="saveBoardCategory('post')" th:text="#{common.btn.add}"></button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="boardCategoryList" style="margin-top: 60px"></div>
+        <div align="right">
+            <button style="margin-right: 5px;" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            getCategoryList();
+        }
+
+        //input type number 최대값 확인
+        function maxLengthCheck(object) {
+            if (object.value.length > object.maxLength) {
+                object.value = object.value.slice(0, object.maxLength);
+            }
+        }
+
+        //카테고리 관리 조회
+        function getCategoryList() {
+            const urlParam = 'boardAdminId=' + /*[[${boardAdmin?.boardAdminId}]]*/;
+            restSubmit('get', '/board-admin/category/list?' + urlParam);
+        }
+
+        //카테고리 관리 저장
+        function saveBoardCategory(method) {
+            if (isEmpty('boardCategoryName', 'board.msg.inputCategoryName')) return;
+
+            const data = {
+                boardAdminId : /*[[${boardAdmin?.boardAdminId}]]*/,
+                boardCategoryName : document.getElementById('boardCategoryName').value,
+                boardCategorySort : document.getElementById('boardCategorySort').value
+            };
+
+            restSubmit(method, '/rest/board-admin/category', data);
+        }
+
+        //카테고리 관리 삭제
+        function deleteBoardCategory(boardCategoryId) {
+            restSubmit('delete', '/rest/board-admin/category/' + boardCategoryId);
+        }
+
+        //REST API
+        function restSubmit(method, url, data) {
+            let resultMsg = '';
+            if (method === 'post' || method === 'put') {
+                resultMsg = i18n.get('common.msg.save');
+            } else {
+                resultMsg = i18n.get('common.msg.delete.success');
+            }
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    if (method === 'get') {
+                        document.getElementById('boardCategoryList').innerHTML = response.responseText;
+                    } else {
+                        aliceJs.alert(resultMsg, function () {
+                            getCategoryList();
+                        });
+                    }
+                },
+                showProgressbar: false
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /*]]>*/
+    </script>
+</th:block>
+</html>

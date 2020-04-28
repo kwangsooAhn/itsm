@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.edit}"></title>
+    <title th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.add}"></title>
+    <title th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table label {
+            margin: 0;
+        }
+        table td {
+            border: 1px solid;
+            height: 50px;
+        }
+        table input, select {
+            width: 90%;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.edit}"></h1>
+            <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.add}"></h1>
+            <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
+        </div>
+        <hr>
+        <form id="boardForm" method="post" onsubmit="return false">
+            <table>
+                <colgroup>
+                    <col width="20%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="30%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td><label th:text="#{board.label.board}"></label><span class="required"></span></td>
+                        <td colspan="3">
+                            <select th:if="${boardAdminInfo.categoryYn}" id="boardCategory" style="width: 230px; height: 30px">
+                                <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
+                                        th:text="#{${boardCategory.boardCategoryName}}"></option>
+                            </select>
+                            <input type="text" id="boardTitle" maxlength="100" th:value="${boardInfo?.boardTitle}">
+                        </td>
+                    </tr>
+                    <tr style="height: 250px;">
+                        <td><label th:text="#{board.label.contents}"></label></td>
+                        <td colspan="3">
+                            <div id="boardContents" style="height: 80%"></div>
+                        </td>
+                    </tr>
+                    <tr th:if="${boardAdminInfo.attachYn}">
+                        <td><label th:text="#{common.label.attachFile}"></label></td>
+                        <td colspan="3">
+                            <div id="dropZoneFiles"></div>
+                            <div id="dropZoneUploadedFiles"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label th:text="#{common.label.createUserName}"></label></td>
+                        <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
+                        <td><label th:text="#{common.label.createDate}"></label></td>
+                        <td><span id="spanCreateDt" name="spanCreateDt"
+                                  th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardInfo?.createDt,dateformat)}"></span></td>
+                    </tr>
+                    <tr>
+                        <td><label th:text="#{common.label.updateUserName}"></label></td>
+                        <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
+                        <td><label th:text="#{common.label.updateDate}"></label></td>
+                        <td><span id="spanUpdateDt" name="spanUpdateDt"
+                                  th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardInfo?.updateDt,dateformat)}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div align="right">
+                <button style="margin-right: 5px;" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
+                <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
+                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')
+                               and ${boardInfo?.boardId} and ${replyYn} == false"
+                        onclick ="saveBoard('put', 'normal')"
+                        th:text="#{common.btn.modify}">
+                </button>
+                <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
+                        th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
+                        onclick="saveBoard('post', 'normal')"
+                        th:text="#{common.btn.save}">
+                </button>
+                <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
+                        th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                        onclick="saveBoard('post', 'reply')"
+                        th:text="#{board.btn.reply}">
+                </button>
+            </div>
+        </form>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        const boardId = /*[[${boardInfo?.boardId}]]*/;
+        const boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
+        const attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
+        const attachFileSize  = /*[[${boardAdminInfo?.attachFileSize}]]*/;
+        const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
+        const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
+        const replyYn = /*[[${replyYn}]]*/;
+
+        window.onload = function() {
+            if (attachYn) {
+                if (!replyYn) {
+                    fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
+                } else {
+                    fileUploader.init({extra: {formId: 'boardForm', ownId: '', dropZoneMaxFileSize: attachFileSize}});
+                }
+            }
+            if (categoryYn && /*[[${boardInfo?.boardCategoryId}]]*/ !== '') {
+                document.getElementById('boardCategory').value = /*[[${boardInfo?.boardCategoryId}]]*/;
+            }
+            initTextEditor(false);
+        };
+
+        function initTextEditor(flag) {
+            let textEditorOptions = {
+                modules: {
+                    toolbar: [
+                        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                        ['bold', 'italic', 'underline'],
+                        [{'color': []}, {'background': []}],
+                        [{'align': []}, { 'list': 'bullet' }],
+                        ['image']
+                    ]
+                },
+                theme: 'snow',
+                readOnly: flag
+            };
+
+            let textEditor = new Quill('#boardContents', textEditorOptions);
+            if (boardId !== "" && replyYn === false) {
+                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
+            }
+        }
+
+        //게시판 저장
+        function saveBoard(method, kind) {
+            if (isEmpty('boardTitle', 'board.msg.inputBoardTitle')) return;
+            let fileSeqList = [];
+            document.getElementsByName('fileSeq').forEach(function(elem) {
+                fileSeqList.push(elem.value);
+            });
+
+            let boardCategoryId = '';
+            if (categoryYn) {
+                boardCategoryId = document.getElementById('boardCategory').value;
+            }
+            let boardContents = Quill.find(document.getElementById('boardContents'));
+
+            const data = {
+                boardAdminId: boardAdminId,
+                boardTitle: document.getElementById('boardTitle').value,
+                boardContents: JSON.stringify(boardContents.getContents()),
+                fileSeqList: fileSeqList,
+                boardCategoryId: boardCategoryId
+            };
+
+            if (method === 'put' || kind === 'reply') {
+                data.boardId = boardId;
+            }
+            if (kind === 'normal') {
+                restSubmit(method, '/rest/boards', data);
+            } else if (kind === 'reply') {
+                restSubmit(method, '/rest/boards/reply', data);
+            }
+        }
+
+        //조회 화면 이동
+        function searchBoard() {
+            location.href = '/boards/search/param?boardAdminId='+boardAdminId;
+        }
+
+        //REST API
+        function restSubmit(method, url, data) {
+            let resultMsg = '';
+            if (method === 'put' || method === 'post') {
+                resultMsg = i18n.get('common.msg.save');
+            } else if (method === 'delete') {
+                resultMsg = i18n.get('common.msg.delete');
+            }
+            delFileCheck();
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    if (method === 'put' || method === 'post' || method === 'delete') {
+                        aliceJs.alert(resultMsg, function () {
+                            searchBoard();
+                        });
+                    } else if (method === 'get') {
+                        document.getElementById('boardCommentList').innerHTML = response.responseText;
+                    }
+                },
+                showProgressbar: false
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

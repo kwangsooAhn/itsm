@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{board.label.board}"></title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{board.label.board}"></h1>
+            <div style="margin-top: 10px">
+                <select id="boardAdmin" style="width: 230px; height: 30px">
+                    <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
+                            th:text="#{${boardAdmin.boardAdminTitle}}"></option>
+                </select>
+                <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
+                       th:placeholder="#{board.label.searchBoardPlaceholder}"/>
+                <input type="text" id="fromDt" readonly="readonly"
+                       th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
+                       th:value="${#temporals.format(fromDt, dateformat)}"/>
+                <span>~</span>
+                <input type="text" id="toDt" readonly="readonly"
+                       th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
+                       th:value="${#temporals.format(toDt, dateformat)}"/>
+                <button sec:authorize="hasAuthority('board.create')"
+                        style="float: right" th:onclick="openBoardAdd();" th:text="#{common.btn.register}" >
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div id="boardList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const format = /*[[${#authentication.details.timeFormat}]]*/'';
+        const lang = /*[[${#authentication.details.lang}]]*/'';
+        const formatArray = format.split(' ');
+        const boardAdminId = /*[[${boardAdminId}]]*/;
+
+        window.onload = function() {
+            if (boardAdminId !== null) {
+                document.getElementById('boardAdmin').value = boardAdminId;
+                getBoardList();
+            }
+            const dateFormat = formatArray[0].toUpperCase();
+            dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
+            dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
+            document.getElementById('boardAdmin').addEventListener('change', function() { getBoardList(); });
+            document.getElementById('search').addEventListener('keyup', function() { getBoardList(); });
+            getBoardList();
+        };
+
+        function setDatePicker(element, picker) {
+            if (typeof picker === 'undefined') {
+                return false;
+            }
+            if (element.id === 'fromDt') {
+                const toDtValue = document.getElementById('toDt').value;
+                if (changeDateFormatYYYYMMDD(toDtValue, formatArray[0]) <
+                    changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
+                    aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                } else {
+                    getBoardList();
+                }
+            } else {
+                const fromDtValue = document.getElementById('fromDt').value;
+                if (changeDateFormatYYYYMMDD(fromDtValue, formatArray[0]) >
+                    changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
+                    aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                } else {
+                    getBoardList();
+                }
+            }
+        }
+
+        //게시판 조회
+        function getBoardList() {
+            const searchOpt = {
+                boardAdminId: document.getElementById('boardAdmin').value,
+                search: document.getElementById('search').value.trim(),
+                fromDt: changeDateFormatYYYYMMDD(document.getElementById('fromDt').value, formatArray[0]),
+                toDt: changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])
+            };
+            const urlParam = 'boardAdminId=' + searchOpt.boardAdminId + '&search=' + searchOpt.search +
+                '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
+            restSubmit('get', '/boards/list?' + urlParam);
+        }
+
+        //게시판 관리 등록
+        function openBoardAdd() {
+            location.href = '/boards/'+document.getElementById('boardAdmin').value+'/new';
+        }
+
+        //게시판 관리 수정
+        function openBoardEdit(boardsId) {
+            location.href = '/boards/'+boardsId+'/edit';
+        }
+
+        //게시판 상세 조회
+        function openBoardView(boardsId) {
+            location.href = '/boards/'+boardsId+'/view';
+        }
+
+        //REST API
+        function restSubmit(method, url) {
+            const opt = {
+                method: method,
+                url: url,
+                callbackFunc: function(response) {
+                    document.getElementById('boardList').innerHTML = response.responseText;
+                },
+                showProgressbar: false
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

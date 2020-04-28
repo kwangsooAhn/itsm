@@ -95,11 +95,11 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}'
-                    ${attr.displayType === 'editable_required' ? 'required' : ''} max-length='${attr.validate["length-max"]}'
+                    ${attr.displayType === 'editableRequired' ? 'required' : ''} max-length='${attr.validate["length-max"]}'
                     min-length='${attr.validate["length-min"]}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
                 </div>
             </div>
@@ -133,17 +133,17 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                 ${textEditorUseYn ?
                     `<div style='width: 100%;'>
                         <div id='editor' class='editor-container'
-                        style='height: ${textEditorHeight}px;' ${attr.displayType === 'editable_required' ? 'required' : ''}
+                        style='height: ${textEditorHeight}px;' ${attr.displayType === 'editableRequired' ? 'required' : ''}
                         max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'></div>
                     </div>` :
                     `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
-                    ${attr.displayType === 'editable_required' ? 'required' : ''}
+                    ${attr.displayType === 'editableRequired' ? 'required' : ''}
                     max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
@@ -191,10 +191,10 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <select ${attr.displayType === 'editable_required' ? 'required' : ''}></select>
+                    <select ${attr.displayType === 'editableRequired' ? 'required' : ''}></select>
                 </div>
             </div>
         `);
@@ -232,9 +232,9 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
-                <div class='field' style='flex-basis: 100%;' id='radio' ${attr.displayType === 'editable_required' ? "required" : ""}></div>
+                <div class='field' style='flex-basis: 100%;' id='radio' ${attr.displayType === 'editableRequired' ? "required" : ""}></div>
             </div>
         `);
         let fieldLastEle = comp.querySelector('#radio');
@@ -301,9 +301,9 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
-                <div class='field' style='flex-basis: 100%;' id='chkbox' ${attr.displayType === 'editable_required' ? "required" : ""}></div>
+                <div class='field' style='flex-basis: 100%;' id='chkbox' ${attr.displayType === 'editableRequired' ? "required" : ""}></div>
             </div>
         `);
         let fieldLastEle = comp.querySelector('#chkbox');
@@ -451,10 +451,10 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                        <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.displayType === 'editable_required' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -534,10 +534,10 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                        <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.displayType === 'editable_required' ? 'required' : ''} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
+                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
                     </div>
                 </div>
             `);
@@ -594,10 +594,10 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                        <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.displayType === 'editable_required' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='datetime-${attr.id}' placeholder='${datetimePlaceholder}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -626,9 +626,9 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
-                <div class='field' style='flex-basis: 100%;' id='fileupload' ${attr.displayType === 'editable_required' ? 'required' : ''}>
+                <div class='field' style='flex-basis: 100%;' id='fileupload' ${attr.displayType === 'editableRequired' ? 'required' : ''}>
                     <div id='dropZoneFiles-${attr.id}'></div> 
                     <div id='dropZoneUploadedFiles-${attr.id}' class='dropbox'></div>
                 </div>
@@ -709,10 +709,10 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.displayType === "editable_required" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' ${attr.displayType === 'editable_required' ? 'required' : ''} readonly custom-data='${defaultCustomData}' value="${textDefaultValue}"/>
+                    <input type='text' id='custom-code' ${attr.displayType === 'editableRequired' ? 'required' : ''} readonly custom-data='${defaultCustomData}' value="${textDefaultValue}"/>
                     <input type='button' id='codeBtn' value='${attr.display["button-text"]}'>
                 </div>
             </div>
@@ -851,6 +851,8 @@
             componentConstructor.domElem.setAttribute('tabIndex', getLastIndex());
             if (compAttr.displayType === 'readonly') {
                 componentConstructor.domElem.setAttribute('data-readonly', true);
+            } else if (compAttr.displayType === 'hidden') {
+                componentConstructor.domElem.style.display = 'none';
             }
 
             //공통 : 라벨 위치 조정
