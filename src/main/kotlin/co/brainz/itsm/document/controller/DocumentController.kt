@@ -86,6 +86,7 @@ class DocumentController(
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
+        model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
 
         return documentEditPage
     }

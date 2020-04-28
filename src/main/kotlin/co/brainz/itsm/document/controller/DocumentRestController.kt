@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/documents")
-class DocumentRestController(private val documentService: DocumentService) {
+class DocumentRestController(
+    private val documentService: DocumentService
+) {
 
     /**
      * 신청서의 문서 데이터 조회.
@@ -69,7 +71,8 @@ class DocumentRestController(private val documentService: DocumentService) {
      * @param restTemplateDocumentDto
      * */
     @PutMapping("/{documentId}")
-    fun updateDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
+    fun updateDocument(@PathVariable documentId: String,
+                       @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         return documentService.updateDocument(restTemplateDocumentDto)
     }
 
@@ -85,7 +88,8 @@ class DocumentRestController(private val documentService: DocumentService) {
      * 신청서 편집 데이터 저장.
      */
     @PutMapping("/{documentId}/display")
-    fun updateDocumentDisplay(@RequestBody documentDisplay: RestTemplateDocumentDataDto): Boolean {
+    fun updateDocumentDisplay(@PathVariable documentId: String,
+                              @RequestBody documentDisplay: RestTemplateDocumentDataDto): Boolean {
         return documentService.updateDocumentDisplay(documentDisplay)
     }
 }

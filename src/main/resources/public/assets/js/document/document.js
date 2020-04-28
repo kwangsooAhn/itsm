@@ -537,6 +537,7 @@
         document.getElementById('document_form').value = documentData.formId;
         document.getElementById('document_process').value = documentData.processId;
         document.getElementById('document_status').value = documentData.documentStatus;
+        document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
     }
 
     exports.init = init;

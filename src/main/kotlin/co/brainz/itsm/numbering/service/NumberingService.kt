@@ -14,8 +14,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Service
-class NumberingService(private val numberingRuleRepository: NumberingRuleRepository,
-                       private val codeService: CodeService) {
+class NumberingService(
+    private val numberingRuleRepository: NumberingRuleRepository,
+    private val codeService: CodeService
+) {
 
     private val numberingRuleMapper = Mappers.getMapper(NumberingRuleMapper::class.java)
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -140,10 +142,6 @@ class NumberingService(private val numberingRuleRepository: NumberingRuleReposit
         }
 
         return numberingRules
-    }
-
-    fun getNumberingRule(numberingRuleId: String): NumberingRuleDto {
-        return numberingRuleMapper.toNumberingRuleDto(numberingRuleRepository.findById(numberingRuleId).get())
     }
 
 }

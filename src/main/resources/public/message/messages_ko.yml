@@ -359,7 +359,7 @@ document:
     form: "문서양식"
     process: "프로세스"
     status: "신청서 상태"
-    numbering: "문서번호규칙"
+    numberingRule: "문서번호규칙"
   display:
     editable: "수정가능"
     editableRequired: "수정가능(필수값)"

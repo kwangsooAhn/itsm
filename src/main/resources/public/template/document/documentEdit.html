@@ -88,7 +88,7 @@
                 documentDesc: document.getElementById('document_desc').value,
                 formId: documentForm.options[documentForm.selectedIndex].value,
                 processId: documentProcess.options[documentProcess.selectedIndex].value,
-                documentNumberingRule: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
+                documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
                 documentStatus: documentStatus.options[documentStatus.selectedIndex].value
             };
             let parameter = '';
@@ -102,8 +102,7 @@
 
     //빈 값 체크
     function emptyValidation() {
-        if (isEmpty('document_name', 'document.msg.nameNotExist')) { return false; }
-        return true;
+        return !isEmpty('document_name', 'document.msg.nameNotExist');
     }
 
     //REST API

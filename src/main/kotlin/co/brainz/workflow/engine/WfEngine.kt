@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine
 
+import co.brainz.itsm.numbering.repository.NumberingRuleRepository
+import co.brainz.itsm.numbering.service.NumberingService
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
@@ -35,7 +37,8 @@ class WfEngine(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
-    private val wfTokenElementService: WfTokenElementService
+    private val wfTokenElementService: WfTokenElementService,
+    private val numberingRuleRepository: NumberingRuleRepository
 ) {
 
     /**
@@ -67,7 +70,8 @@ class WfEngine(
             wfComponentRepository,
             wfComponentDataRepository,
             wfElementRepository,
-            wfElementDataRepository
+            wfElementDataRepository,
+            numberingRuleRepository
         )
     }
 

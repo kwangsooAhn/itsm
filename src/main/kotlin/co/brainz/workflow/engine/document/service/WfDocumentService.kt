@@ -167,8 +167,6 @@ class WfDocumentService(
             createUserKey = documentDto.createUserKey,
             documentStatus = documentDto.documentStatus,
             numberingRule = numberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
-
-        //nubering은 awf에서 사용하기 때문에... wf에 서 사용하는건 아닌것 같다..
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -205,6 +203,7 @@ class WfDocumentService(
         wfDocumentEntity.updateDt = documentDto.updateDt
         wfDocumentEntity.form = form
         wfDocumentEntity.process = process
+        wfDocumentEntity.numberingRule = numberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
         wfDocumentRepository.save(wfDocumentEntity)
 
         when (documentDto.documentStatus) {

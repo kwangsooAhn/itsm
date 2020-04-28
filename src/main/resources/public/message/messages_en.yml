@@ -359,7 +359,7 @@ document:
     form: "Form"
     process: "Process"
     status: "Status"
-    numbering: "Document Numbering Rule"
+    numberingRule: "Document Numbering Rule"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
