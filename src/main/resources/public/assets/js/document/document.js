@@ -237,7 +237,7 @@
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
             if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
-                componentDataType === 'fileupload') {
+                componentDataType === 'fileupload' || componentDataType === 'custom-code') {
                 let componentId = componentElements[eIndex].getAttribute('id');
                 let componentValue = '';
                 let componentChildObject = {};
@@ -297,7 +297,7 @@
                             }
                         }
                         break;
-                    case 'fileupload' :
+                    case 'fileupload':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
                             if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
@@ -317,8 +317,11 @@
                             }
                         }
                         break;
-                    case 'custom-code' :
-                        //TODO 사용자 정의 코드 구현
+                    case 'custom-code':
+                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        componentValue = componentChild.item(0).getAttribute('custom-data');
+                        break;
+                    default:
                         break;
                 }
                 componentChildObject.componentId = componentId;
@@ -362,7 +365,6 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
-
         // 2020-04-06 kbh
         // 프로세스 넘기려고 부득이하게 하드코딩함. merge 된 후 삭제 예정
         //tokenObject.documentId = 'beom'
@@ -397,6 +399,7 @@
             data.components = data.components.filter(function(comp) { return comp.type !== 'editbox'; }); //미리보기시 editbox 제외
         }
         documentContainer = document.getElementById('document-container');
+        documentContainer.setAttribute('data-isToken', (data.token !== undefined)); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
         let components = (data.token === undefined) ? data.components : data.token.components;
         if (components.length > 0) {
@@ -532,7 +535,7 @@
         document.getElementById('document_name').value = documentData.documentName;
         document.getElementById('document_desc').value = documentData.documentDesc;
         document.getElementById('document_form').value = documentData.formId;
-        document.getElementById('document_process').value = documentData.procId;
+        document.getElementById('document_process').value = documentData.processId;
         document.getElementById('document_status').value = documentData.documentStatus;
     }
 

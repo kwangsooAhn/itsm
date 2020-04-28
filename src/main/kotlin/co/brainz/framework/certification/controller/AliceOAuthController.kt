@@ -18,9 +18,11 @@ import javax.servlet.http.HttpServletResponse
 
 @Controller
 @RequestMapping("/oauth")
-class AliceOAuthController(private val oAuthService: OAuthService,
-                           private val oAuthServiceGoogle: AliceOAuthServiceGoogle,
-                           private val oAuthServiceKakao: AliceOAuthServiceKakao) {
+class AliceOAuthController(
+    private val oAuthService: OAuthService,
+    private val oAuthServiceGoogle: AliceOAuthServiceGoogle,
+    private val oAuthServiceKakao: AliceOAuthServiceKakao
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val redirectPage: String = "redirect:/"
@@ -42,7 +44,12 @@ class AliceOAuthController(private val oAuthService: OAuthService,
     }
 
     @GetMapping("/{platform}/callback")
-    fun callback(request: HttpServletRequest, @RequestParam(value="code") code: String, @PathVariable platform: String, model: Model): String {
+    fun callback(
+        request: HttpServletRequest,
+        @RequestParam(value = "code") code: String,
+        @PathVariable platform: String,
+        model: Model
+    ): String {
 
         var oAuthDto = AliceOAuthDto()
         when (platform) {

@@ -27,7 +27,7 @@
                 width: 100%; 
                 resize: vertical;
             }
-            button {
+            input[type=button] {
                 flex: 1 1 auto;
                 height: 1.563rem;    //25px
                 line-height: 1rem;   //16px

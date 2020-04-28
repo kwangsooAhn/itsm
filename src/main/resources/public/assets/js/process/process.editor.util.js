@@ -49,25 +49,6 @@
             };
         },
         /**
-         * 두 개의 json 데이터가 동일한 지 비교한 후 boolean 을 리턴 한다.
-         *
-         * @param obj1 비교 대상 JSON 데이터 1
-         * @param obj2 비교 대상 JSON 데이터 2
-         * @return {boolean} 데이터 일치 여부 (true: 일치, false: 불일치)
-         */
-        compareJson: function(obj1, obj2) {
-            if (!Object.keys(obj2).every(function(key) { return obj1.hasOwnProperty(key); })) {
-                return false;
-            }
-            return Object.keys(obj1).every(function(key) {
-                if ((typeof obj1[key] === 'object') && (typeof obj2[key] === 'object')) {
-                    return utils.compareJson(obj1[key], obj2[key]);
-                } else {
-                    return obj1[key] === obj2[key];
-                }
-            });
-        },
-        /**
          * 두 개의 좌표 사이의 거리를 구한다.
          *
          * @param a 시작좌표
@@ -89,7 +70,7 @@
         redo_list: [],
         undo_list: [],
         saveHistory: function(data, list, keep_redo) {
-            if (data.length === 1 && utils.compareJson(data[0][0], data[0][1])) { // data check
+            if (data.length === 1 && workflowUtil.compareJson(data[0][0], data[0][1])) { // data check
                 //console.debug('These two json data are the same.');
                 return;
             }

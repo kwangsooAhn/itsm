@@ -1,25 +1,25 @@
 package co.brainz.itsm.role.service
 
+import co.brainz.framework.auth.dto.AliceAuthSimpleDto
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapEntity
+import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
-import org.springframework.stereotype.Service
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
-import co.brainz.itsm.role.repository.RoleRepository
-import co.brainz.framework.auth.dto.AliceAuthSimpleDto
-import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
-import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.itsm.role.dto.RoleListDto
+import co.brainz.itsm.role.repository.RoleRepository
+import org.springframework.stereotype.Service
 
 @Service
 class RoleService(
-        private val roleRepository: RoleRepository,
-        private val authRepository: AliceAuthRepository,
-        private val roleAuthMapRepository: AliceRoleAuthMapRepository,
-        private val userRoleMapRepository: AliceUserRoleMapRepository
+    private val roleRepository: RoleRepository,
+    private val authRepository: AliceAuthRepository,
+    private val roleAuthMapRepository: AliceRoleAuthMapRepository,
+    private val userRoleMapRepository: AliceUserRoleMapRepository
 ) {
     /**
      * 상단 전체 역할정보를 가져온다.
@@ -62,13 +62,13 @@ class RoleService(
      */
     fun insertRole(roleInfo: RoleDto): String {
         val role = AliceRoleEntity(
-                roleId = roleInfo.roleId.toString(),
-                roleName = roleInfo.roleName.toString(),
-                roleDesc = roleInfo.roleDesc.toString()
+            roleId = roleInfo.roleId.toString(),
+            roleName = roleInfo.roleName.toString(),
+            roleDesc = roleInfo.roleDesc.toString()
         )
         val result = roleRepository.save(role)
 
-        authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach {auth ->
+        authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach { auth ->
             roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
 
@@ -105,7 +105,13 @@ class RoleService(
         val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
 
         roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
-            authList.add(AliceAuthSimpleDto(roleAuthMap.auth.authId, roleAuthMap.auth.authName, roleAuthMap.auth.authDesc))
+            authList.add(
+                AliceAuthSimpleDto(
+                    roleAuthMap.auth.authId,
+                    roleAuthMap.auth.authName,
+                    roleAuthMap.auth.authDesc
+                )
+            )
         }
 
         return RoleDto(

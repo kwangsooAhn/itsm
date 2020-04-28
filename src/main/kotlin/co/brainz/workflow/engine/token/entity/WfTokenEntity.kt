@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -42,4 +43,8 @@ data class WfTokenEntity(
     @JoinColumn(name = "instance_id")
     val instance: WfInstanceEntity
 
-) : Serializable
+) : Serializable {
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tokenId")
+    val tokenDatas: List<WfTokenDataEntity>? = mutableListOf()
+}

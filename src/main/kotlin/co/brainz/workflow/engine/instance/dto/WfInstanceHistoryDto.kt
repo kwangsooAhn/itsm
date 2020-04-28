@@ -10,5 +10,4 @@ data class WfInstanceHistoryDto(
     val elementType: String?,
     val assigneeId: String?,
     val assigneeName: String?
-) : Serializable {
-}
+) : Serializable

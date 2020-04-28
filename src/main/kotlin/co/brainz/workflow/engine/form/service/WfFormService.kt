@@ -42,7 +42,7 @@ class WfFormService(
         var status = listOf<String>()
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
-        //val formEntityList = formRepository.findFormEntityList(search, search)
+        // val formEntityList = formRepository.findFormEntityList(search, search)
         val formEntityList = if (status.isEmpty()) {
             wfFormRepository.findFormListOrFormSearchList(search)
         } else {
@@ -130,7 +130,6 @@ class WfFormService(
             form = formViewDto,
             components = components
         )
-
     }
 
     /**
@@ -147,6 +146,7 @@ class WfFormService(
 
         val common = LinkedHashMap<String, Any>()
         common["mapping-id"] = component.mappingId
+        common["is-topic"] = component.isTopic
         attributes["common"] = common
 
         for (attribute in component.attributes!!) {
@@ -188,7 +188,7 @@ class WfFormService(
      */
     fun saveFormData(wfFormComponentSaveDto: WfFormComponentSaveDto) {
 
-        //Delete component, attribute
+        // Delete component, attribute
         val componentEntities = wfComponentRepository.findByFormId(wfFormComponentSaveDto.form.id)
         val componentIds: MutableList<String> = mutableListOf()
         for (component in componentEntities) {
@@ -198,7 +198,7 @@ class WfFormService(
             wfComponentRepository.deleteComponentEntityByComponentIdIn(componentIds)
         }
 
-        //Update Form
+        // Update Form
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val wfFormData: Optional<WfFormEntity> =
             wfFormRepository.findWfFormEntityByFormId(wfFormComponentSaveDto.form.id)
@@ -210,10 +210,11 @@ class WfFormService(
             wfFormData.get().updateUserKey = wfFormComponentSaveDto.form.updateUserKey
             val resultFormEntity = wfFormRepository.save(wfFormData.get())
 
-            //Insert component, attribute
+            // Insert component, attribute
             val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
             for (component in wfFormComponentSaveDto.components) {
                 var mappingId = ""
+                var isTopic = false
                 if (component["common"] != null) {
                     val common: java.util.LinkedHashMap<*, *>? =
                         mapper.convertValue(component["common"], LinkedHashMap::class.java)
@@ -221,17 +222,21 @@ class WfFormService(
                         if (common.containsKey("mapping-id")) {
                             mappingId = common["mapping-id"] as String
                         }
+                        if (common.containsKey("is-topic")) {
+                            isTopic = common["is-topic"] as Boolean
+                        }
                     }
                 }
                 val componentEntity = WfComponentEntity(
                     componentId = component["id"] as String,
                     componentType = component["type"] as String,
                     mappingId = mappingId,
+                    isTopic = isTopic,
                     form = resultFormEntity
                 )
                 val resultComponentEntity = wfComponentRepository.save(componentEntity)
 
-                //wf_comp_data 저장
+                // wf_comp_data 저장
                 for ((key, value) in component) {
                     if (key != "id" && key != "type" && key != "common") {
                         val componentDataEntity = WfComponentDataEntity(
@@ -248,7 +253,6 @@ class WfFormService(
                 wfComponentDataRepository.saveAll(wfComponentDataEntities)
             }
         }
-
     }
 
     /**

@@ -8,7 +8,6 @@ import java.security.PublicKey
 import java.security.spec.RSAPublicKeySpec
 import javax.crypto.Cipher
 
-
 /**
  * RSA key 생성 및 암호화, 복호화하는 클래스
  */
@@ -81,5 +80,4 @@ class AliceCryptoRsa {
         val decryptedBytes = cipher.doFinal(encryptedBytes)
         return String(decryptedBytes, Charsets.UTF_8)
     }
-
 }
