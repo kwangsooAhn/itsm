@@ -56,5 +56,4 @@ class CodeRestController(private val codeService: CodeService) {
     fun deleteCode(@PathVariable code: String) {
         return codeService.deleteCode(code)
     }
-
 }
