@@ -10,7 +10,7 @@
 <th:block layout:fragment="content">
 <div class="container" style="width: 70%; margin: 50px auto;">
     <h1 th:text="#{menu.help.faq}"></h1>
-    <p th:text="#{faq.msg}"></p>
+    <p th:text="#{faq.msg.description}"></p>
     <div id="faqSearch" style="margin: 30px 0;">
         <select align="left" id="searchKeyword" onchange="loadXMLDoc(this.value)">
             <option th:text="#{faq.category.all}" value="" selected></option>
