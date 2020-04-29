@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping("/documents")
 class DocumentController(
-        private val documentService: DocumentService,
-        private val codeService: CodeService,
-        private val customCodeService: CustomCodeService
+    private val documentService: DocumentService,
+    private val codeService: CodeService,
+    private val customCodeService: CustomCodeService
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"
@@ -98,13 +98,12 @@ class DocumentController(
         return documentDisplayPage
     }
 
-
     /**
      * 사용자 정의 코드 데이터 조회.
      */
     @RequestMapping("/custom-code/{customCodeId}/data", method = [RequestMethod.POST, RequestMethod.GET])
     fun getCustomCodeData(@PathVariable customCodeId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("customCodeData", request.getParameter("customCodeData")?:"")
+        model.addAttribute("customCodeData", request.getParameter("customCodeData") ?: "")
         model.addAttribute("customCodeDataList", customCodeService.getCustomCodeData(customCodeId))
         return documentCustomCodePage
     }

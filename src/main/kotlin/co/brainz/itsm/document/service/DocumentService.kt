@@ -21,9 +21,11 @@ import org.springframework.util.LinkedMultiValueMap
 import java.time.LocalDateTime
 
 @Service
-class DocumentService(private val restTemplate: RestTemplateProvider,
-                      private val formService: FormService,
-                      private val processService: ProcessService) {
+class DocumentService(
+    private val restTemplate: RestTemplateProvider,
+    private val formService: FormService,
+    private val processService: ProcessService
+) {
 
     /**
      * 신청서 리스트 조회.
@@ -32,7 +34,7 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      */
     fun findDocumentList(): List<RestTemplateDocumentDto> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url)
-        val responseBody = restTemplate.get(url) //providerDocument.getDocuments()
+        val responseBody = restTemplate.get(url) // providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         val restTemplateDocuments: List<RestTemplateDocumentDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentDto::class.java))
@@ -71,7 +73,7 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
-        //TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
+        // TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
         restTemplateDocumentDto.documentStatus = RestTemplateConstants.DocumentStatus.USE.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
         val responseBody = restTemplate.create(url, restTemplateDocumentDto)
@@ -92,14 +94,14 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * @return Boolean
      */
     fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
-        val documentId = restTemplateDocumentDto.documentId?:""
+        val documentId = restTemplateDocumentDto.documentId ?: ""
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
         val responseEntity = restTemplate.update(url, restTemplateDocumentDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {documentId}
+            true -> { documentId }
             false -> ""
         }
     }
@@ -165,5 +167,4 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
         val responseEntity = restTemplate.update(urlDto, documentDisplay)
         return responseEntity.body.toString().isNotEmpty()
     }
-
 }

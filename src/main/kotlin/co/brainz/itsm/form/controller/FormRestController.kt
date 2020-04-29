@@ -3,8 +3,8 @@ package co.brainz.itsm.form.controller
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.form.service.FormService
-import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -22,12 +22,16 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/forms")
-class FormRestController(private val formService: FormService,
-                         private val customCodeService: CustomCodeService) {
+class FormRestController(
+    private val formService: FormService,
+    private val customCodeService: CustomCodeService
+) {
 
     @PostMapping("")
-    fun createForm(@RequestParam(value = "saveType", defaultValue = "") saveType: String,
-                   @RequestBody jsonData: Any): String {
+    fun createForm(
+        @RequestParam(value = "saveType", defaultValue = "") saveType: String,
+        @RequestBody jsonData: Any
+    ): String {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
@@ -67,5 +71,4 @@ class FormRestController(private val formService: FormService,
     fun getCustomCodes(@PathVariable customCodeId: String): List<CustomCodeDataDto> {
         return customCodeService.getCustomCodeData(customCodeId)
     }
-
 }

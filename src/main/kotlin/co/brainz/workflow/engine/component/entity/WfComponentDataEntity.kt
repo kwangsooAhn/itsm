@@ -15,24 +15,24 @@ import javax.persistence.Table
 @IdClass(WfComponentDataPk::class)
 data class WfComponentDataEntity(
 
-        @Id
-        @Column(name = "component_id", length = 128)
-        val componentId: String,
+    @Id
+    @Column(name = "component_id", length = 128)
+    val componentId: String,
 
-        @Id
-        @Column(name = "attribute_id", length = 100)
-        val attributeId: String,
+    @Id
+    @Column(name = "attribute_id", length = 100)
+    val attributeId: String,
 
-        @Column(name = "attribute_value", length = 512)
-        val attributeValue: String,
+    @Column(name = "attribute_value", length = 512)
+    val attributeValue: String,
 
-        @ManyToOne(fetch = FetchType.LAZY, optional = false)
-        @JoinColumn(name = "component_id", nullable = false, insertable = false, updatable = false)
-        val attributes: WfComponentEntity
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "component_id", nullable = false, insertable = false, updatable = false)
+    val attributes: WfComponentEntity
 
 ) : Serializable
 
 data class WfComponentDataPk(
-        val componentId: String = "",
-        val attributeId: String = ""
+    val componentId: String = "",
+    val attributeId: String = ""
 ) : Serializable

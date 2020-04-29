@@ -119,7 +119,7 @@ class WfDocumentService(
             map["componentId"] = component.componentId
             map["attributes"] = attributes
             map["values"] = values
-            //TODO: 추후 동적으로 변경할 수 있도록 구현해야 함.
+            // TODO: 추후 동적으로 변경할 수 있도록 구현해야 함.
             map["displayType"] = WfDocumentConstants.DisplayType.EDITABLE.value
             components.add(map)
         }

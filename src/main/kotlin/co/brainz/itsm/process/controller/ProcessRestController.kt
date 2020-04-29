@@ -42,8 +42,10 @@ class ProcessRestController(private val processService: ProcessService) {
      * 프로세스 신규 등록 or 다른 이름 저장.
      */
     @PostMapping("")
-    fun createProcess(@RequestParam(value = "saveType", defaultValue = "") saveType: String,
-                      @RequestBody jsonData: Any): String {
+    fun createProcess(
+        @RequestParam(value = "saveType", defaultValue = "") saveType: String,
+        @RequestBody jsonData: Any
+    ): String {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
@@ -77,5 +79,4 @@ class ProcessRestController(private val processService: ProcessService) {
         params["status"] = status
         return processService.getProcesses(params)
     }
-
 }

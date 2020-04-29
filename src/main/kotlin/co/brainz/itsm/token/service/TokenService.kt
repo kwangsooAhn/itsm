@@ -103,5 +103,4 @@ class TokenService(
         )
         return restTemplate.get(url)
     }
-
 }

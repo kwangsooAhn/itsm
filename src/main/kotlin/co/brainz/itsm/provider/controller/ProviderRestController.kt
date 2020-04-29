@@ -34,7 +34,5 @@ class ProviderRestController(private val restTemplate: RestTemplateProvider) {
 
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKENS.url, parameters = params)
         return restTemplate.get(url)
-
     }
-
 }

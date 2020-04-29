@@ -69,7 +69,7 @@ class FormController(private val formService: FormService) {
      */
     @RequestMapping("/{formId}/preview", method = [RequestMethod.POST, RequestMethod.GET])
     fun getFormEditPreview(@PathVariable formId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("data", request.getParameter("data")?:"")
+        model.addAttribute("data", request.getParameter("data") ?: "")
         return formEditPreviewPage
     }
 
@@ -82,5 +82,4 @@ class FormController(private val formService: FormService) {
         model.addAttribute("isView", true)
         return formDesignerEditPage
     }
-
 }

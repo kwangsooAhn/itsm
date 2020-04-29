@@ -54,7 +54,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     fun createProcess(restTemplateProcessDto: RestTemplateProcessDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
-        restTemplateProcessDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateProcessDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
@@ -72,7 +72,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
      */
     fun updateProcessData(wfProcessElementDto: WfProcessElementDto): Boolean {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val processId = wfProcessElementDto.process?.id?:""
+        val processId = wfProcessElementDto.process?.id ?: ""
         wfProcessElementDto.process?.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         wfProcessElementDto.process?.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(restTemplate.getKeyRegex(), processId))
@@ -106,6 +106,6 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
      */
     fun deleteProcess(processId: String): ResponseEntity<String> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.DELETE_PROCESS.url.replace(restTemplate.getKeyRegex(), processId))
-        return  restTemplate.delete(url)
+        return restTemplate.delete(url)
     }
 }

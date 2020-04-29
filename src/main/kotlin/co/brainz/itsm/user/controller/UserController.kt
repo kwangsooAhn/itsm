@@ -20,9 +20,11 @@ import javax.servlet.http.HttpServletRequest
  */
 @Controller
 @RequestMapping("/users")
-class UserController(private val codeService: CodeService,
-                     private val userService: UserService,
-                     private val roleService: RoleService) {
+class UserController(
+    private val codeService: CodeService,
+    private val userService: UserService,
+    private val roleService: RoleService
+) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userPage: String = "user/user"
@@ -65,7 +67,7 @@ class UserController(private val codeService: CodeService,
         val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
 
-        users.userRoleMapEntities.forEach {userRoleMap ->
+        users.userRoleMapEntities.forEach { userRoleMap ->
             roleEntities.add(userRoleMap.role)
         }
 
@@ -88,7 +90,7 @@ class UserController(private val codeService: CodeService,
                 returnUrl = userEditSelfPage
             }
             "userEdit" -> {
-                returnUrl =  userEditPage
+                returnUrl = userEditPage
             }
         }
 

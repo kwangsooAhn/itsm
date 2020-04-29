@@ -5,6 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface NumberingRuleRepository: JpaRepository<NumberingRuleEntity, String> {
-
-}
+interface NumberingRuleRepository : JpaRepository<NumberingRuleEntity, String>

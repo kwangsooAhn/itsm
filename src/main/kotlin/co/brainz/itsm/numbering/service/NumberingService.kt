@@ -11,8 +11,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Service
-class NumberingService(private val numberingRuleRepository: NumberingRuleRepository,
-                       private val codeService: CodeService) {
+class NumberingService(
+    private val numberingRuleRepository: NumberingRuleRepository,
+    private val codeService: CodeService
+) {
 
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -26,7 +28,7 @@ class NumberingService(private val numberingRuleRepository: NumberingRuleReposit
         val numberingRuleEntity = numberingRuleRepository.findById(numberingId)
         var newNumbering = ""
         if (numberingRuleEntity.isPresent) {
-            val latestValue = numberingRuleEntity.get().latestValue?:""
+            val latestValue = numberingRuleEntity.get().latestValue ?: ""
             var latestPatternValues: MutableList<String> = mutableListOf()
             val newPatternValues: MutableList<String> = mutableListOf()
             if (latestValue.isNotEmpty()) {
@@ -47,7 +49,7 @@ class NumberingService(private val numberingRuleRepository: NumberingRuleReposit
                 }
                 newNumbering = newPatternValues.joinToString(separator = "-")
             }
-            //Update Numbering
+            // Update Numbering
             numberingRuleEntity.get().latestValue = newNumbering
             numberingRuleRepository.save(numberingRuleEntity.get())
         }
@@ -62,7 +64,7 @@ class NumberingService(private val numberingRuleRepository: NumberingRuleReposit
      * @return String
      */
     private fun getPattenText(valueMap: Map<*, *>): String {
-        return (valueMap[NumberingConstants.PatternValueId.TEXT_VALUE.value]?:"") as String
+        return (valueMap[NumberingConstants.PatternValueId.TEXT_VALUE.value] ?: "") as String
     }
 
     /**
@@ -73,7 +75,7 @@ class NumberingService(private val numberingRuleRepository: NumberingRuleReposit
      */
     private fun getPatternDate(valueMap: Map<*, *>): String {
         var pattern = ""
-        val patternCode = (valueMap[NumberingConstants.PatternValueId.DATE_CODE.value]?:"") as String
+        val patternCode = (valueMap[NumberingConstants.PatternValueId.DATE_CODE.value] ?: "") as String
         val codeList = codeService.selectCodeByParent(NumberingConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
         codeList.forEach { code ->
             if (code.code == patternCode) {
@@ -98,25 +100,25 @@ class NumberingService(private val numberingRuleRepository: NumberingRuleReposit
     private fun getPatternSequence(valueMap: Map<*, *>, latestPatternValue: String): String {
         var value = ""
         val digit = (valueMap[NumberingConstants.PatternValueId.SEQUENCE_DIGIT.value]
-                ?:NumberingConstants.DEFAULT_DIGIT) as Int
-        var latestSequenceValue = latestPatternValue.toIntOrNull()?:0
-        //check digit size and latestPatternValue size
+                ?: NumberingConstants.DEFAULT_DIGIT) as Int
+        var latestSequenceValue = latestPatternValue.toIntOrNull() ?: 0
+        // check digit size and latestPatternValue size
         if (digit != latestPatternValue.length) {
             latestSequenceValue = 0
         }
         val startWith = (valueMap[NumberingConstants.PatternValueId.SEQUENCE_START_WITH.value]
-                ?:NumberingConstants.DEFAULT_START_WITH) as Int
+                ?: NumberingConstants.DEFAULT_START_WITH) as Int
         value = when (latestSequenceValue) {
             0 -> startWith.toString()
             else -> (latestSequenceValue + 1).toString()
         }
-        //check over digit
+        // check over digit
         if (digit < value.length) {
             value = "1"
         }
 
         when (((valueMap[NumberingConstants.PatternValueId.SEQUENCE_FULL_FILL.value]
-                ?:NumberingConstants.DEFAULT_FUL_FILL) as String == "Y")) {
+                ?: NumberingConstants.DEFAULT_FUL_FILL) as String == "Y")) {
             true -> {
                 value = value.padStart(digit, '0')
             }
@@ -124,5 +126,4 @@ class NumberingService(private val numberingRuleRepository: NumberingRuleReposit
 
         return value
     }
-
 }

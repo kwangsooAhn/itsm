@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
 @Repository
-interface DownloadRepository: JpaRepository<DownloadEntity, String> {
+interface DownloadRepository : JpaRepository<DownloadEntity, String> {
     @Query("SELECT DISTINCT d FROM DownloadEntity d " +
            "LEFT JOIN AliceFileOwnMapEntity m ON d.downloadId = m.ownId LEFT JOIN m.fileLocEntity l " +
            "WHERE d.downloadCategory = :category " +

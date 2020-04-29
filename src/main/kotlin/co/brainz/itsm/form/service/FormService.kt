@@ -3,10 +3,10 @@ package co.brainz.itsm.form.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.form.dto.FormComponentDataDto
-import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -44,7 +44,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateFormDto.status = RestTemplateConstants.FormStatus.EDIT.value
         restTemplateFormDto.createUserKey = aliceUserDto.userKey
-        restTemplateFormDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateFormDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         restTemplateFormDto.updateDt = restTemplateFormDto.updateDt?.let { AliceTimezoneUtils().toGMT(it) }
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM.url)
         val responseEntity = restTemplate.create(url, restTemplateFormDto)
@@ -88,7 +88,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     fun makeFormComponentSaveDto(formData: String): RestTemplateFormComponentSaveDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
         val forms = mapper.convertValue(map["form"], RestTemplateFormDto::class.java)
-        val components:MutableList<LinkedHashMap<String, Any>>  = mapper.convertValue(map["components"], TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
+        val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(map["components"], TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java))
 
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val formSaveDto = RestTemplateFormDto(

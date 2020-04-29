@@ -1,7 +1,6 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -33,7 +32,6 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.text.SimpleDateFormat
 import java.util.Calendar
-
 
 /**
  * 파일 서비스 클래스
@@ -164,7 +162,7 @@ class AliceFileService(
     fun uploadFiles(fileDataId: String) {
         val fileDataId = fileDataId.split(',')
         for (index in fileDataId.indices) {
-            val fileLocEntity= aliceFileLocRepository.getOne(fileDataId[index].toLong())
+            val fileLocEntity = aliceFileLocRepository.getOne(fileDataId[index].toLong())
             val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
             val tempPath = getDir("temp", fileLocEntity.randomName)
             Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
@@ -207,7 +205,7 @@ class AliceFileService(
         } else if (fileDataId != "") {
             val fileDataId = fileDataId.split(',')
             for (index in fileDataId.indices) {
-                val aliceFileLocEntity= aliceFileLocRepository.getOne(fileDataId[index].toLong())
+                val aliceFileLocEntity = aliceFileLocRepository.getOne(fileDataId[index].toLong())
                 val fileLocDto = AliceFileLocDto(
                         fileSeq = aliceFileLocEntity.fileSeq,
                         fileOwner = aliceFileLocEntity.fileOwner,

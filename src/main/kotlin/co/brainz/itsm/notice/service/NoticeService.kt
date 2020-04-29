@@ -23,7 +23,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     fun findNoticeList(): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findAllByOrderByCreateDtDesc().forEach {noticeEntity ->
+        noticeRepository.findAllByOrderByCreateDtDesc().forEach { noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
@@ -31,7 +31,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     fun findTopNoticeList(): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findTopNoticeList().forEach {noticeEntity ->
+        noticeRepository.findTopNoticeList().forEach { noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
@@ -39,7 +39,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findNoticeSearch(searchValue, fromDt, toDt).forEach {noticeEntity ->
+        noticeRepository.findNoticeSearch(searchValue, fromDt, toDt).forEach { noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
@@ -47,7 +47,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     fun findTopNoticeSearch(searchValue: String): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findTopNoticeSearch(searchValue).forEach {noticeEntity ->
+        noticeRepository.findTopNoticeSearch(searchValue).forEach { noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
@@ -66,7 +66,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     // 최초 로그인 시 팝업용 공지사항 리스트 조회
     fun findNoticePopUp(): MutableList<NoticePopupListDto> {
         val noticePopupListDto = mutableListOf<NoticePopupListDto>()
-        noticeRepository.findNoticePopUp().forEach {noticeEntity ->
+        noticeRepository.findNoticePopUp().forEach { noticeEntity ->
             noticePopupListDto.add(noticeMapper.toNoticePopupListDto(noticeEntity))
         }
         return noticePopupListDto

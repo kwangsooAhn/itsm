@@ -3,7 +3,6 @@ package co.brainz.itsm.customCode.service
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
-import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.dto.CustomCodeDto
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
 import co.brainz.itsm.customCode.entity.CustomCodeColumnEntity
@@ -13,6 +12,7 @@ import co.brainz.itsm.customCode.mapper.CustomCodeColumnMapper
 import co.brainz.itsm.customCode.mapper.CustomCodeMapper
 import co.brainz.itsm.customCode.mapper.CustomCodeTableMapper
 import co.brainz.itsm.customCode.repository.CustomCodeColumnRepository
+import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeTableRepository
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.role.repository.RoleRepository
@@ -23,12 +23,14 @@ import org.springframework.stereotype.Service
 import javax.persistence.Column
 
 @Service
-class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
-                        private val customCodeTableRepository: CustomCodeTableRepository,
-                        private val customCodeColumnRepository: CustomCodeColumnRepository,
-                        private val roleRepository: RoleRepository,
-                        private val userRepository: UserRepository,
-                        private val formService: FormService) {
+class CustomCodeService(
+    private val customCodeRepository: CustomCodeRepository,
+    private val customCodeTableRepository: CustomCodeTableRepository,
+    private val customCodeColumnRepository: CustomCodeColumnRepository,
+    private val roleRepository: RoleRepository,
+    private val userRepository: UserRepository,
+    private val formService: FormService
+) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
     private val customCodeTableMapper: CustomCodeTableMapper = Mappers.getMapper(CustomCodeTableMapper::class.java)

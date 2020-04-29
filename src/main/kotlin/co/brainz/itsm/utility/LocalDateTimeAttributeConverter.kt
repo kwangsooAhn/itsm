@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.persistence.AttributeConverter
 
-class LocalDateTimeAttributeConverter(): AttributeConverter<LocalDateTime, Timestamp> {
+class LocalDateTimeAttributeConverter() : AttributeConverter<LocalDateTime, Timestamp> {
 
     override fun convertToDatabaseColumn(locDateTime: LocalDateTime?): Timestamp? {
         return if (locDateTime == null) {
@@ -33,5 +33,4 @@ class LocalDateTimeAttributeConverter(): AttributeConverter<LocalDateTime, Times
             }
         }
     }
-
 }

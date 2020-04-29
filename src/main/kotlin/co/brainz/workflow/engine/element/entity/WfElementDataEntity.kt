@@ -37,4 +37,3 @@ data class WfElementDataPk(
     val attributeId: String = "",
     val attributeValue: String = ""
 ) : Serializable
-

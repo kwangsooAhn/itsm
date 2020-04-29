@@ -8,5 +8,5 @@ data class WfInstanceDto(
     val document: WfDocumentEntity,
     val instanceStatus: String? = null,
     val pTokenId: String? = null
-    //val tokens: List<WfTokenDto>? = null
+    // val tokens: List<WfTokenDto>? = null
 ) : Serializable

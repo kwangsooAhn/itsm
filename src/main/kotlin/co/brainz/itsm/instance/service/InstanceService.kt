@@ -79,5 +79,4 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
 
         return restTemplateComments
     }
-
 }

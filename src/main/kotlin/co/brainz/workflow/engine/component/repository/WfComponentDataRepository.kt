@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WfComponentDataRepository: JpaRepository<WfComponentDataEntity, String> {
+interface WfComponentDataRepository : JpaRepository<WfComponentDataEntity, String> {
     @Query("SELECT cd FROM WfComponentEntity c, WfComponentDataEntity cd " +
                  "WHERE c.componentId = cd.componentId AND c.componentType = :componentType")
     fun findByComponentDataList(componentType: String?): List<WfComponentDataEntity>

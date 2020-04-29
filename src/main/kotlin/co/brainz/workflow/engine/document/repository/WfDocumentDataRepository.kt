@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-interface WfDocumentDataRepository: JpaRepository<WfDocumentDataEntity, String> {
+interface WfDocumentDataRepository : JpaRepository<WfDocumentDataEntity, String> {
 
     @Transactional
     fun deleteByDocumentId(documentId: String): Int
