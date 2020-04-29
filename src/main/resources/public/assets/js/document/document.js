@@ -13,6 +13,9 @@
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
 
+    let documentData = '';
+    let fileDataIds = '';
+
     /**
      * alert message.
      *
@@ -102,7 +105,7 @@
      */
     function addButton(buttonData) {
         const buttonEle = document.createElement('div');
-        buttonEle.style.marginTop = '10px';
+        buttonEle.style.margin = '10px';
         buttonEle.style.textAlign = 'center';
         if (buttonData !== undefined && buttonData !== '') {
             buttonData.forEach(function(element) {
@@ -216,29 +219,12 @@
     }
 
     /**
-     * save document.
+     * ComponentData 조회.
+     *
      */
-    function save(v_kind) {
-        // validation check
-        if (v_kind !== 'save') {
-            if (requiredCheck()) {
-                return false;
-            }
-        }
-
-        let tokenObject = {};
+    function getComponentData() {
         let componentArrayList = [];
-        let fileDataIds = '';
-
-        //documentId 값을 구한다.
-        const documentElements = document.getElementById('documentId');
-        if (documentElements !== null && documentElements !== undefined) {
-            tokenObject.documentId = documentElements.getAttribute('data-id');
-        } else {
-            tokenObject.documentId = "";
-        }
-
-        //ComponentsInfo
+        fileDataIds = '';
         const componentElements = documentContainer.getElementsByClassName('component');
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
@@ -336,6 +322,28 @@
                 componentArrayList.push(componentChildObject);
             }
         }
+        return componentArrayList;
+    }
+
+    /**
+     * save document.
+     */
+    function save(v_kind) {
+        // validation check
+        if (v_kind !== 'save') {
+            if (requiredCheck()) {
+                return false;
+            }
+        }
+        let tokenObject = {};
+
+        //documentId 값을 구한다.
+        const documentElements = document.getElementById('documentId');
+        if (documentElements !== null && documentElements !== undefined) {
+            tokenObject.documentId = documentElements.getAttribute('data-id');
+        } else {
+            tokenObject.documentId = "";
+        }
 
         //tokenObject init (RestTemplateTokenDto)
         const tokenElements = document.getElementById('tokenId');
@@ -354,8 +362,9 @@
             tokenObject.assigneeType = '';
         }
 
-        if (componentArrayList.length > 0) {
-            tokenObject.data = componentArrayList;
+        const componentData = getComponentData();
+        if (componentData.length > 0) {
+            tokenObject.data = componentData;
         } else {
             tokenObject.data = '';
         }
@@ -475,7 +484,7 @@
         }
 
         //Add Comment Box
-        if (data.instanceId !== undefined) {
+        if (data.instanceId !== undefined && !data.isPrint) {
             addCommentBox(data.instanceId);
         }
     }
@@ -570,10 +579,10 @@
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/documents/data/' + documentId,
-            callbackFunc: function(xhr) {
-                let jsonData = JSON.parse(xhr.responseText);
-                jsonData.documentId = documentId;
-                drawDocument(jsonData);
+            callbackFunc: function (xhr) {
+                documentData = JSON.parse(xhr.responseText);
+                documentData.documentId = documentId;
+                drawDocument(documentData);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -583,7 +592,6 @@
      * init Token.
      *
      * @param tokenId 문서 토큰 id
-     * @param instanceId 문서 id
      */
     function initToken(tokenId) {
         console.info('document editor initialization. [Token ID: ' + tokenId + ']');
@@ -592,10 +600,10 @@
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/tokens/data/' + tokenId,
-            callbackFunc: function(xhr) {
-                let jsonData = JSON.parse(xhr.responseText);
-                jsonData.tokenId = tokenId;
-                drawDocument(jsonData);
+            callbackFunc: function (xhr) {
+                documentData = JSON.parse(xhr.responseText);
+                documentData.tokenId = tokenId;
+                drawDocument(documentData);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -630,6 +638,43 @@
         document.getElementById('document_status').value = documentData.documentStatus;
     }
 
+    /**
+     * Print document.
+     *
+     * @param url
+     */
+    function print(url) {
+        let form = document.createElement('form');
+        form.action = url;
+        form.method = 'post';
+        form.target = 'result';
+        let input = document.createElement('textarea');
+        input.name = 'data';
+        let componentData = getComponentData();
+        documentData.isPrint = true;
+        documentData.components = documentData.components.filter(function (comp) {
+            componentData.forEach(function (array) {
+                if (comp.componentId === array.componentId) {
+                    if (typeof comp.values[0] === 'undefined') {
+                        comp.values.push({value: array.value});
+                    } else {
+                        comp.values[0].value = array.value;
+                    }
+                }
+            });
+            if (comp.displayType !== 'hidden') {
+                comp.displayType = 'readonly';
+            }
+            return comp;
+        });
+        input.value = JSON.stringify(documentData);
+        form.appendChild(input);
+        form.style.display = 'none';
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+
     exports.init = init;
     exports.initToken = initToken;
     exports.save = save;
@@ -637,6 +682,7 @@
     exports.deleteComment = deleteComment;
     exports.drawDocument = drawDocument;
     exports.getDocument = getDocument;
+    exports.print = print;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

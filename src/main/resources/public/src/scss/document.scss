@@ -32,6 +32,15 @@
     }
 }
 
+.print-container .component[data-readonly=true] .group {
+    pointer-events: none;
+}
+
+.print-btn-container {
+    margin: 0.625rem;
+    text-align: right;
+}
+
 .comment {
     display: flex;
     align-items: center;

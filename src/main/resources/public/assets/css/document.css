@@ -10837,6 +10837,15 @@ a.text-dark:hover, a.text-dark:focus {
   pointer-events: none;
 }
 
+.print-container .component[data-readonly=true] .group {
+  pointer-events: none;
+}
+
+.print-btn-container {
+  margin: 0.625rem;
+  text-align: right;
+}
+
 .comment {
   display: -webkit-box;
   display: -ms-flexbox;
