@@ -322,6 +322,10 @@
                 calcDist = Math.sqrt(dx * dx + dy * dy),
                 x = Number(targetCoords[0]) + dx * distance / calcDist,
                 y = Number(targetCoords[1]) + dy * distance / calcDist;
+            if (calcDist === 0) {
+                x = Number(targetCoords[0]);
+                y = Number(targetCoords[1]);
+            }
             return [x, y];
         };
 
@@ -551,31 +555,51 @@
                         .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
                 }
             } else {
-                if (selectedElement === elem) {
-                    return;
-                }
                 let selectedNodes = d3.selectAll('.node.selected').nodes();
-                if (d3.event.sourceEvent.ctrlKey && selectedNodes.length > 0) {
-                    elem.classed('selected', true);
-                    mousedownElement = null;
-                    selectedElement = null;
-                    svg.selectAll('.connector').classed('selected', false);
-                    svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
-                    svg.selectAll('.alice-tooltip').remove();
-                    aliceProcessEditor.setElementMenu();
-                } else {
-                    removeElementSelected();
-                    mousedownElement = elem;
-                    selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
-                    selectedElement.classed('selected', true);
-                    if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
-                        d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
-                            elem.style.opacity = '1';
-                        });
+                let isSelectedElem = false;
+                selectedNodes.forEach(function(node) {
+                    if (node.id === elem.node().id) {
+                        isSelectedElem = true;
                     }
-                    aliceProcessEditor.setElementMenu(elem);
-                }
+                });
+                console.log(isSelectedElem)
                 elemContainer.style('cursor', 'move');
+                if (!isSelectedElem) {
+                    if (d3.event.sourceEvent.ctrlKey && selectedNodes.length > 0) {
+                        console.log('ddd')
+                        elem.classed('selected', true);
+                        mousedownElement = null;
+                        selectedElement = null;
+                        svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
+                        svg.selectAll('.alice-tooltip').remove();
+                        aliceProcessEditor.setElementMenu();
+                    } else {
+                        removeElementSelected();
+                        mousedownElement = elem;
+                        selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
+                        selectedElement.classed('selected', true);
+                        if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
+                            d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
+                                elem.style.opacity = '1';
+                            });
+                        }
+                        aliceProcessEditor.setElementMenu(elem);
+                    }
+                } else if (isSelectedElem && d3.event.sourceEvent.ctrlKey) {
+                    elem.classed('selected', false);
+                    selectedNodes = d3.selectAll('.node.selected').nodes();
+                    if (selectedNodes.length === 1) {
+                        mousedownElement = d3.select(selectedNodes[0]);
+                        selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
+                        aliceProcessEditor.setElementMenu(selectedElement);
+                        if (selectedElement.classed('resizable')) {
+                            d3.select(selectedElement.node().parentNode).selectAll('.pointer').style('opacity', 1);
+                        }
+                    } else if (selectedNodes.length === 0) {
+                        svg.selectAll('.alice-tooltip').remove();
+                    }
+                    elemContainer.style('cursor', 'default');
+                }
             }
         },
         mouseup: function() {
@@ -592,9 +616,7 @@
                 }
 
                 if (mousedownElement.node().id !== mouseoverElement.node().id) {
-                    mouseoverElement
-                        .classed('selected', false);
-
+                    mouseoverElement.classed('selected', false);
                     if (checkAvailableLink()) {
                         elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N'});
                         selectedElement = null;
@@ -603,29 +625,32 @@
                 }
                 resetMouseVars();
             } else {
+                let histories = [];
                 const selectedNodes = d3.selectAll('.node.selected').nodes();
-                if (d3.select(d3.event.sourceEvent.target.parentNode).select('.node').node().id === dragElement.node().id) {
-                    selectedNodes.forEach(function(node) {
-                        aliceProcessEditor.changeDisplayValue(node.id);
-                    });
+                selectedNodes.forEach(function(node) {
+                    let history = aliceProcessEditor.changeDisplayValue(node.id, false);
+                    histories.push(history);
+                });
 
-                    if (selectedNodes.length > 1) {
-                        elements.links.forEach(function(l) {
-                            let isExistSource = false,
-                                isExistTarget = false;
-                            selectedNodes.forEach(function(node) {
-                                if (l.sourceId === node.id) {
-                                    isExistSource = true;
-                                } else if (l.targetId === node.id) {
-                                    isExistTarget = true;
-                                }
-                            });
-                            if (isExistSource && isExistTarget) {
-                                aliceProcessEditor.changeDisplayValue(l.id);
+                if (selectedNodes.length > 1) {
+                    elements.links.forEach(function(l) {
+                        let isExistSource = false,
+                            isExistTarget = false;
+                        selectedNodes.forEach(function(node) {
+                            if (l.sourceId === node.id) {
+                                isExistSource = true;
+                            } else if (l.targetId === node.id) {
+                                isExistTarget = true;
                             }
                         });
-                    }
+                        if (isExistSource && isExistTarget) {
+                            let history = aliceProcessEditor.changeDisplayValue(l.id, false);
+                            histories.push(history);
+                        }
+                    });
                 }
+                aliceProcessEditor.history.saveHistory(histories);
+
                 dragElement = null;
                 elemContainer.style('cursor', 'pointer');
 
@@ -934,7 +959,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.typeElement = elementContainer.append('rect')
+        elementContainer.append('rect')
             .attr('class', 'element-type')
             .attr('width', typeImageSize)
             .attr('height', typeImageSize)
@@ -945,7 +970,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.textElement = elementContainer.append('text')
+        elementContainer.append('text')
             .attr('x', x)
             .attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
@@ -982,7 +1007,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.typeElement = elementContainer.append('rect')
+        elementContainer.append('rect')
             .attr('class', 'element-type')
             .attr('width', typeImageSize)
             .attr('height', typeImageSize)
@@ -993,7 +1018,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.textElement = elementContainer.append('text')
+        elementContainer.append('text')
             .attr('x', x)
             .attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
@@ -1027,7 +1052,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.typeElement = elementContainer.append('rect')
+        elementContainer.append('rect')
             .attr('class', 'element-type')
             .attr('width', typeImageSize)
             .attr('height', typeImageSize)
@@ -1038,7 +1063,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.textElement = elementContainer.append('text')
+        elementContainer.append('text')
             .attr('x', x)
             .attr('y', y + (radius * 2))
             .on('mouseover', elementMouseEventHandler.mouseover)
@@ -1074,7 +1099,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.typeElement = elementContainer.append('rect')
+        elementContainer.append('rect')
             .attr('class', 'element-type')
             .attr('width', typeImageSize)
             .attr('height', typeImageSize)
@@ -1085,7 +1110,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.textElement = elementContainer.append('text')
+        elementContainer.append('text')
             .attr('x', x)
             .attr('y', y + size + 10)
             .on('mouseover', elementMouseEventHandler.mouseover)
@@ -1109,11 +1134,13 @@
         const self = this;
         self.width = width ? width : 360;
         self.height = height ? height : 240;
+        self.defaultType = 'groupArtifact'
         const minWidth = 120, minHeight = 80;
         const calcX = x - (self.width / 2),
               calcY = y - (self.height / 2);
 
         const groupDrag = d3.drag()
+            .filter(function() { return d3.event.button === 0 || d3.event.button === 2; })
             .on('start', elementMouseEventHandler.mousedown)
             .on('drag', function() {
                 if (isDrawConnector) {
@@ -1122,13 +1149,21 @@
                     dragElement = self.nodeElement;
                     svg.selectAll('.alice-tooltip').remove();
                     d3.select(self.nodeElement.node().parentNode).raise();
-                    const mouseX = snapToGrid(d3.event.dx),
-                          mouseY = snapToGrid(d3.event.dy);
-                    for (let i = 0, len = self.rectData.length; i < len; i++) {
-                        self.rectData[i].x += mouseX;
-                        self.rectData[i].y += mouseY;
+
+                    let selectedNodes = d3.selectAll('.node.selected').nodes();
+                    if (selectedNodes.length > 1) {
+                        selectedNodes.forEach(function(node) {
+                            dragged(d3.select(node), d3.event.dx, d3.event.dy);
+                        });
+                    } else {
+                        const mouseX = snapToGrid(d3.event.dx),
+                            mouseY = snapToGrid(d3.event.dy);
+                        for (let i = 0, len = self.rectData.length; i < len; i++) {
+                            self.rectData[i].x += mouseX;
+                            self.rectData[i].y += mouseY;
+                        }
+                        updateRect();
                     }
-                    updateRect();
                 }
             })
             .on('end', elementMouseEventHandler.mouseup);
@@ -1260,6 +1295,7 @@
         const self = this;
         const width = 30, height = 30;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.defaultType = 'annotationArtifact';
 
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
@@ -1272,7 +1308,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.textElement = elementContainer.append('text')
+        elementContainer.append('text')
             .attr('x', x).attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1308,7 +1344,6 @@
                     y = snapToGrid(d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y);
                 let _this = d3.select(this);
                 let node;
-                let type = '';
                 if (_this.classed('event')) {
                     node = new EventElement(x, y);
                 } else if (_this.classed('task')) {
@@ -1319,13 +1354,11 @@
                     node = new GatewayElement(x, y);
                 } else if (_this.classed('group')) {
                     node = new GroupElement(x, y);
-                    type = 'groupArtifact';
                 } else if (_this.classed('annotation')) {
                     node = new AnnotationElement(x, y);
-                    type = 'annotationArtifact';
                 }
                 if (node) {
-                    _this.classed(node.defaultType || type, true);
+                    _this.classed(node.defaultType, true);
                     aliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
