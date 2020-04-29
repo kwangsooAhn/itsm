@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.process.service.simulation.element.impl
 
 import co.brainz.workflow.engine.element.entity.WfElementEntity
+import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSimulationElement
 
 /**
@@ -8,11 +9,17 @@ import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSim
  *
  * 엘리먼트의 in, out 화살표가 1개씩만 존재한다.
  */
-class WfProcessSimulationTask : WfProcessSimulationElement() {
+class WfProcessSimulationTask(elementRepository: WfElementRepository) : WfProcessSimulationElement(elementRepository) {
     override fun validate(element: WfElementEntity): Boolean {
 
 
 
+
+
         return false
+    }
+
+    override fun failInfo(): String {
+        TODO("Not yet implemented")
     }
 }

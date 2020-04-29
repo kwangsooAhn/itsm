@@ -22,8 +22,8 @@ class WfProcessSimulationMaker {
      * 전체 엘리먼트를 저장하고 사용할 변수들을 초기화한다.
      */
     fun init(elementEntities: MutableList<WfElementEntity>) {
-        this.connectedElements = mutableListOf<WfElementEntity>()
-        this.gatewaySnapshot = ArrayDeque<MutableList<WfElementEntity>>()
+        this.connectedElements = mutableListOf()
+        this.gatewaySnapshot = ArrayDeque()
         this.elementEntities = elementEntities
     }
 
