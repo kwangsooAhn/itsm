@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
 @Service
-class DownloadService(private val downloadRepository: DownloadRepository,
-                      private val aliceFileService: AliceFileService,
-                      private val convertParam: ConvertParam) {
+class DownloadService(
+    private val downloadRepository: DownloadRepository,
+    private val aliceFileService: AliceFileService,
+    private val convertParam: ConvertParam
+) {
 
     private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
 
@@ -28,9 +30,14 @@ class DownloadService(private val downloadRepository: DownloadRepository,
     fun getDownloadList(downloadSearchDto: DownloadSearchDto): List<DownloadDto> {
         val fromDt = convertParam.convertToSearchLocalDateTime(downloadSearchDto.fromDt, "fromDt")
         val toDt = convertParam.convertToSearchLocalDateTime(downloadSearchDto.toDt, "toDt")
-        val downloadEntity = when(downloadSearchDto.category) {
+        val downloadEntity = when (downloadSearchDto.category) {
             "all" -> downloadRepository.findByDownloadList(downloadSearchDto.search, fromDt, toDt)
-            else -> downloadRepository.findByDownloadList(downloadSearchDto.category, downloadSearchDto.search, fromDt, toDt)
+            else -> downloadRepository.findByDownloadList(
+                downloadSearchDto.category,
+                downloadSearchDto.search,
+                fromDt,
+                toDt
+            )
         }
         val downloadList = mutableListOf<DownloadDto>()
         downloadEntity.forEach {

@@ -1,4 +1,4 @@
-package co.brainz.itsm.numbering.entity
+package co.brainz.framework.numbering.entity
 
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
@@ -14,7 +14,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_numbering_rule")
-data class NumberingRuleEntity(
+data class AliceNumberingRuleEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "numbering_id", length = 128)
@@ -32,5 +32,5 @@ data class NumberingRuleEntity(
 ) : Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "numberingRule", cascade = [CascadeType.REMOVE])
     @OrderBy("pattern_order asc")
-    val patterns: MutableList<NumberingPatternEntity>? = mutableListOf()
+    val patterns: MutableList<AliceNumberingPatternEntity>? = mutableListOf()
 }

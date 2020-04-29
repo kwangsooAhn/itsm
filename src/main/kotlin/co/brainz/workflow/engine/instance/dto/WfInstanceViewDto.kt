@@ -9,5 +9,6 @@ data class WfInstanceViewDto(
     val documentName: String,
     val documentDesc: String?,
     val createDt: LocalDateTime,
-    val userKey: String
+    val userKey: String,
+    val documentNo: String?
 ) : Serializable

@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.document.entity
 
+import co.brainz.framework.numbering.entity.AliceNumberingRuleEntity
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
@@ -52,7 +53,11 @@ data class WfDocumentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    var form: WfFormEntity
+    var form: WfFormEntity,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "numbering_id")
+    var numberingRule: AliceNumberingRuleEntity
 
 ) : Serializable {
 

@@ -9,5 +9,6 @@ data class RestTemplateInstanceViewDto(
     val documentName: String,
     val documentDesc: String? = null,
     var createDt: LocalDateTime,
-    val userKey: String
+    val userKey: String,
+    val documentNo: String? = null
 ) : Serializable

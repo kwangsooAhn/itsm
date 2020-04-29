@@ -81,6 +81,8 @@ class WfInstanceService(
         if (wfInstanceDto.pTokenId != null) {
             instanceEntity.pTokenId = wfInstanceDto.pTokenId
         }
+        instanceEntity.documentNo = wfInstanceDto.documentNo
+
         return wfInstanceRepository.save(instanceEntity)
     }
 

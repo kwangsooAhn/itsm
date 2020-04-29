@@ -166,7 +166,10 @@ faq:
   title: "Title"
   contents: "Contents"
   edit: "Edit"
-  msg: "Frequently asked questions and answers."
+  msg:
+    description: "Frequently asked questions and answers."
+    titleNotExitst: "Please enter FAQ title."
+    contentNotExitst: "Please enter FAQ content."
   category:
     all: "All"
     techSupport: "Technical Support"
@@ -368,6 +371,7 @@ document:
     form: "Form"
     process: "Process"
     status: "Status"
+    numberingRule: "Document Numbering Rule"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
