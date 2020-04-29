@@ -731,26 +731,26 @@
             isDrawRight = false,
             isDrawTop = false,
             isDrawBottom = false;
-        const elements = aliceProcessEditor.data.elements.filter(function(e) { return e.type !== 'arrowConnector' && e.id !== elem.node().id; });
-        elements.forEach(function(e) {
-            let left = e.display['position-x'] - (e.display.width / 2),
-                right = e.display['position-x'] + (e.display.width / 2),
-                top = e.display['position-y'] - (e.display.height / 2),
-                bottom = e.display['position-y'] + (e.display.height / 2);
-            if (e.type.indexOf('Gateway') > -1) {
-                left = e.display['position-x'] - (gatewayDist / 2);
-                right = e.display['position-x'] + (gatewayDist / 2);
-                top = e.display['position-y'] - (gatewayDist / 2);
-                bottom = e.display['position-y'] + (gatewayDist / 2);
+
+        d3.selectAll('.node:not(.selected)').nodes().forEach(function(node) {
+            const element = aliceProcessEditor.data.elements.filter(function(e) { return e.id === node.id; })[0];
+            let left = element.display['position-x'] - (element.display.width / 2),
+                right = element.display['position-x'] + (element.display.width / 2),
+                top = element.display['position-y'] - (element.display.height / 2),
+                bottom = element.display['position-y'] + (element.display.height / 2);
+            if (element.type.indexOf('Gateway') > -1) {
+                left = element.display['position-x'] - (gatewayDist / 2);
+                right = element.display['position-x'] + (gatewayDist / 2);
+                top = element.display['position-y'] - (gatewayDist / 2);
+                bottom = element.display['position-y'] + (gatewayDist / 2);
             }
-            isDrawCenterX = isDrawCenterX || Math.abs(elementBbox.cx - e.display['position-x']) < errorRange;
-            isDrawCenterY = isDrawCenterY || Math.abs(elementBbox.cy - e.display['position-y']) < errorRange;
+            isDrawCenterX = isDrawCenterX || Math.abs(elementBbox.cx - element.display['position-x']) < errorRange;
+            isDrawCenterY = isDrawCenterY || Math.abs(elementBbox.cy - element.display['position-y']) < errorRange;
             isDrawLeft = isDrawLeft || Math.abs(elemLeft - left) < errorRange;
             isDrawRight = isDrawRight || Math.abs(elemRight - right) < errorRange;
             isDrawTop = isDrawTop || Math.abs(elemTop - top) < errorRange;
             isDrawBottom = isDrawBottom || Math.abs(elemBottom - bottom) < errorRange;
         });
-        //console.debug('center-x: %s, center-y: %s, left: %s, right: %s, top: %s, bottom: %s', isDrawCenterX, isDrawCenterY, isDrawLeft, isDrawRight, isDrawTop, isDrawBottom);
 
         const drawingBoard = document.querySelector('.alice-process-drawing-board'),
               gTransform = d3.zoomTransform(d3.select('g.guides-container').node());
@@ -1200,7 +1200,6 @@
                                     if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
                                         rectData[0].y += mouseY;
                                     }
-                                    d3.select(this).attr('cx', rectData[0].x).attr('cy', rectData[0].y);
                                     break;
                                 case 2:
                                     if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
@@ -1209,7 +1208,6 @@
                                     if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
                                         rectData[1].y += mouseY;
                                     }
-                                    d3.select(this).attr('cx', rectData[1].x).attr('cy', rectData[1].y);
                                     break;
                                 case 3:
                                     if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
@@ -1218,7 +1216,6 @@
                                     if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
                                         rectData[0].y += mouseY;
                                     }
-                                    d3.select(this).attr('cx', rectData[1].x).attr('cy', rectData[0].y);
                                     break;
                                 case 4:
                                     if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
@@ -1227,7 +1224,6 @@
                                     if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
                                         rectData[1].y += mouseY;
                                     }
-                                    d3.select(this).attr('cx', rectData[0].x).attr('cy', rectData[1].y);
                                     break;
                             }
                             self.nodeElement
@@ -1240,6 +1236,15 @@
                                 .attr('x', rectData[0].x + ((rectData[1].x - rectData[0].x) / 2))
                                 .attr('y', rectData[0].y + 10);
                             changeTextToElement(self.nodeElement.node().id);
+
+                            let pointArray =
+                                [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
+                                    [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
+                            pointArray.forEach(function(point, i) {
+                                self['pointElement' + (i + 1)]
+                                    .attr('cx', point[0])
+                                    .attr('cy', point[1]);
+                            });
                         }
                     })
                     .on('end', function() {
