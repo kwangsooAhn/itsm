@@ -19,9 +19,11 @@ import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/notices")
-class NoticeController(private val userService: UserService,
-                       private val noticeService: NoticeService,
-                       private val convertParam: ConvertParam) {
+class NoticeController(
+    private val userService: UserService,
+    private val noticeService: NoticeService,
+    private val convertParam: ConvertParam
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeSearchPage: String = "notice/noticeSearch"

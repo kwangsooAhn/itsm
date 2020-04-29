@@ -76,7 +76,8 @@ class AliceCryptoRsa {
     fun decrypt(privateKey: PrivateKey, encryptString: String): String {
         val cipher = Cipher.getInstance("RSA")
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
-        val encryptedBytes = ByteArray(encryptString.length / 2) { encryptString.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
+        val encryptedBytes =
+            ByteArray(encryptString.length / 2) { encryptString.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
         val decryptedBytes = cipher.doFinal(encryptedBytes)
         return String(decryptedBytes, Charsets.UTF_8)
     }
