@@ -2,22 +2,132 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title th:text="#{form.component.image}"></title>
     <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
     <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
+    <!-- 임시 style -->
+    <style>
+        .dropzone {
+            height: 650px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .dropzone img {
+            width: 100%;
+            height: 100%;
+        }
+        .dropzone .dz-message { text-align: center; font-size: 26px; margin: 240px 0;}
+        .dropzone .note { display: block; font-size: 16px; }
+        .btn-container {
+            float: right;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <form action="/file-upload" class="dropzone" id="image-dropzone">
-        <div class="container">
-            <input name="file" type="file" multiple />
+    <div class="container">
+        <div class="dropzone" id="image-dropzone">
+            <div class="dz-message">
+                Drop images here to upload
+                <span class="note">(Images must be smaller than <strong>3MB</strong>)</span>
+            </div>
         </div>
-    </form>
+    </div>
+    <div class="btn-container">
+        <button type="button" th:text="#{form.btn.upload}" onclick=""></button>
+        <button type="button" th:text="#{common.btn.check}" onclick=""></button>
+        <button type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
+    </div>
 </body>
 <script type="text/javascript">
     /*<![CDATA[*/
+    const selectedImagePath = "";
+    Dropzone.autoDiscover = false;
+
     window.onload = function() {
-        console.log('[(${data})]');
-        //fileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
+        const imageDropzone = new Dropzone('div#image-dropzone', {
+            paramName: "file", // file 매개변수명
+            params: {}, // 추가 매개변수
+            url: "/rest/forms/imageUpload",
+            method: "post",
+            maxFilesize: 3, // 파일 용량 제한
+            maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
+            maxFiles: null, // 첨부파일 개수 제한
+            autoProcessQueue: true, //자동업로드, processQueue() 사용
+            uploadMultiple: true,  //여러 개의 사진 업로드 허용
+            addRemoveLinks: false,
+            acceptedFiles: ".jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF",
+            autoQueue: true, // Make sure the files aren't queued until manually added
+            clickable: false, // Define the element that should be used as click trigger to select files.
+            headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
+            },
+            fallback: function() { // 지원하지 않는 IE 10 미만일 경우
+                //document.getElementById('trueForm').style.display = "none";
+            },
+            init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
+                let _self = this;
+                let imageList = JSON.parse('[(${data})]');
+                if (imageList) {
+                    for (let i = 0; i < imageList.length; i++) {
+                        let imageFile = imageList[i];
+                        let mockFile = {
+                            name: imageFile['fname'],
+                            size: Number(imageFile['fsize']),
+                            url: imageFile['imgUrl'], //절대경로
+                            accepted: true,
+                            status: Dropzone.ADDED,
+                            isNew: false
+                        };
+                        _self.emit("addedfile", mockFile);
+                        _self.options.thumbnail.call(_self, mockFile,  '/' + imageFile['imgPath']);
+                        _self.emit('complete', mockFile);
+                        _self.files.push(mockFile);
+                    }
+                }
+                //TODO: dropzone 이벤트 등록
+                /*_self.on("addedfile", function (file) {
+                    //file.previewElement.querySelector(".start").onclick = function() { _this.enqueueFile(file); };
+                });
+
+                _self.on("removedfile", function (file) {
+                });
+
+                _self.on("sending", function (file, xhr, formData) {
+                });
+
+                _self.on("success", function (file, response) {
+                });
+
+                _self.on("error", function (file, errorMsg, xhr) {
+                });
+
+                _self.on("complete", function (file) {
+                });
+
+                _self.on("queuecomplete", function (progress) {
+                });
+
+                _self.on("canceled", function () {
+                });*/
+
+                _self.on("maxfilesexceeded", function (file, maxFiles) {
+                    _self.removeFile(file);
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesexceeded', maxFiles));
+                });
+
+                _self.on("maxfilesizeexceeded", function (file, maxFileSize) {
+                    _self.removeFile(file);
+                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize));
+                });
+
+            },
+            accept: function(file, done) {
+                done();
+            }
+        });
     };
     /*]]>*/
 </script>

@@ -1236,7 +1236,7 @@
                             propertyBtn.type = 'button';
                             propertyBtn.innerText = 'select';
                             propertyBtn.addEventListener('click', function(e) {
-                                window.open('/forms/image-upload', 'imageUploadPop', 'width=600, height=600');
+                                window.open('/forms/imageUpload/view', 'imageUploadPop', 'width=1200, height=700');
                             }, false);
                             fieldGroupDiv.appendChild(propertyBtn);
                             break;

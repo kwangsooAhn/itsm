@@ -11125,7 +11125,7 @@ body {
   margin: 0 1.25rem 0 0.3125rem;
 }
 
-.alice-form-properties-panel .property-field input[type=button] {
+.alice-form-properties-panel .property-field button {
   height: 1.25rem;
   line-height: 1rem;
   margin-left: 0.125rem;
@@ -11136,6 +11136,7 @@ body {
   height: 1.563rem;
   background-color: #f8f9fa;
   outline: 0;
+  margin-left: 0;
   margin-right: 0.125rem;
   border: 0.0625rem solid #4C5264;
 }

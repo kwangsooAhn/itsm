@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -116,20 +118,21 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, FormComponentDataDto::class.java))
     }
 
-    fun getFormImageList(): MutableList<MutableMap<String, Any>>{
-        var absolutePath = Paths.get("").toAbsolutePath().toString()
-        var dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
-        val fileList = mutableListOf<MutableMap<String, Any>>()
+    fun getFormImageList(): String{
+        val absolutePath = Paths.get("").toAbsolutePath().toString()
+        val dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
+        val fileList = JsonArray()
         Files.walk(dir)
                 .filter{ it -> Files.isRegularFile(it) }
                 //.filter { it -> it.toString().endsWith(".jpg") }  //TODO: 이미지만 필터 ([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)
                 .forEach { it ->
-                    val fileMap: MutableMap<String, Any> = mutableMapOf()
-                    fileMap["fname"] = it.fileName //파일명
-                    fileMap["imgPath"] = Paths.get(RestTemplateConstants.RESOURCES_DIR).toUri().relativize(it.toUri()).toString()   //상대 경로
-                    fileMap["type"] = "file"
-                    fileList.add(fileMap)
+                    val fileJson = JsonObject()
+                    fileJson.addProperty("fname", it.fileName.toString())
+                    fileJson.addProperty("imgPath", Paths.get(RestTemplateConstants.RESOURCES_DIR).toUri().relativize(it.toUri()).toString())   //상대 경로
+                    fileJson.addProperty("imgUrl", it.toUri().toURL().toString())
+                    fileJson.addProperty("fsize", it.toFile().length())
+                    fileList.add(fileJson)
                 }
-        return fileList
+        return fileList.toString()
     }
 }

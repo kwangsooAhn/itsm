@@ -266,7 +266,7 @@ body {
             label {
                 margin: 0 1.25rem 0 0.3125rem;    //0px 20px 0px 5px
             }
-            input[type=button] {
+            button {
                 height: 1.25rem;    //20px
                 line-height: 1rem;   //16px
                 margin-left: 0.125rem; //2px
@@ -277,6 +277,7 @@ body {
                     height: 1.563rem;
                     background-color: #f8f9fa;
                     outline: 0;
+                    margin-left: 0;
                     margin-right: 0.125rem;    //2px
                     border: 0.0625rem solid #4C5264;
                 }

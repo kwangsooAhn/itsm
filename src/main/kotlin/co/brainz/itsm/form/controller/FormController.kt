@@ -4,10 +4,7 @@ import co.brainz.itsm.form.service.FormService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -87,9 +84,9 @@ class FormController(private val formService: FormService) {
     }
 
     /**
-     * 이미지 업로드 팝업 화면.
+     * 이미지 컴포넌트 팝업 화면.
      */
-    @GetMapping("/image-upload")
+    @GetMapping("/imageUpload/view")
     fun getImageUploadPopup(request: HttpServletRequest, model: Model): String {
         model.addAttribute("data", formService.getFormImageList())
         return imageUploadPopupPage

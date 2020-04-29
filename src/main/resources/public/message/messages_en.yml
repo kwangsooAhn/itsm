@@ -278,6 +278,8 @@ form:
     datetime: "Date Time"
     fileupload: "Fileupload"
     customCode: "Custom Code"
+  btn:
+    upload: "Upload"
   lang:
     ko: "Korean"
   msg:
