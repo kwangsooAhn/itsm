@@ -8,7 +8,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         }
@@ -22,7 +22,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
             {"id": "timer-date", "name": "Timer Date", "type": "inputbox", "default": "", "required": "Y"},
             {"id": "timer-cycle", "name": "Timer Cycle", "type": "inputbox", "default": "", "required": "Y"}
@@ -38,7 +38,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
             {"id": "target-document-list", "name": "Target Document", "type": "inputbox", "default": "", "required": "Y"}
           ]
@@ -53,7 +53,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         }
@@ -69,7 +69,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
             {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
             {
@@ -96,7 +96,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
             {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
             {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": "", "required": "N"},
@@ -113,7 +113,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
             {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"},
             {"id": "script", "name": "Script", "type": "inputbox", "default": "", "required": "Y"},
@@ -132,7 +132,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
             {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "", "required": "Y"}
           ]
@@ -147,7 +147,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
             {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "", "required": "Y"}
           ]
@@ -162,7 +162,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
             {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "", "required": "Y"}
           ]
@@ -179,7 +179,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"},
             {"id": "is-default", "name": "is Default", "type": "checkbox", "default": "", "required": "N"},
             {"id": "condition-value", "name": "Condition", "type": "inputbox", "default": "", "required": "N"},
@@ -208,7 +208,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "Sub Process", "required": "Y"},
             {
               "id": "sub-document-id", "name": "Sub Process", "type": "select", "default": "", "required": "Y",
@@ -230,7 +230,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Annotation", "type": "textarea", "default": "Annotation", "required": "Y"}
           ]
         }
@@ -244,7 +244,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "id", "name": "ID", "type": "inputbox-readonly", "default": "", "required": "Y"},
+            {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Group", "required": "Y"},
             {"id": "line-color", "name": "Line Color", "type": "rgb", "default": "#000000", "required": "Y"},
             {"id": "background-color", "name": "Background Color", "type": "rgb", "default": "", "required": "N"},
