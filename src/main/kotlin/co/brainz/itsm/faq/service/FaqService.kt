@@ -73,7 +73,7 @@ class FaqService(private val faqRepository: FaqRepository) {
         faqEntity.faqTitle = faqDto.faqTitle
         faqEntity.faqContent = faqDto.faqContent
 
-        val savedFaqEntity = faqRepository.save(faqEntity)
+        faqRepository.save(faqEntity)
     }
 
     /**

@@ -62,7 +62,7 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            if ("[[${faq?.faqId}]]" == "") {
+            if ("[[${faq?.faqId}]]" === "") {
                 document.getElementById("btnRegist").addEventListener("click", function () {
                     restSubmit("post", "[[@{/rest/faqs}]]");
                 });
@@ -74,7 +74,7 @@
                     restSubmit("delete", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]");
                 });
             }
-        }
+        };
 
         function restSubmit(method, url) {
             const formData = new FormData(document.getElementById("faqForm"));
