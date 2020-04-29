@@ -17,7 +17,7 @@ class AliceException : Exception {
         this.errorInfo = ""
     }
 
-    constructor(error: AliceErrorConstants, message: String?, errorInfo:Any) : super(message) {
+    constructor(error: AliceErrorConstants, message: String?, errorInfo: Any) : super(message) {
         this.err = error
         this.errorInfo = errorInfo
     }

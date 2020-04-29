@@ -17,12 +17,16 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/rest/forms")
-class FormRestController(private val formService: FormService,
-                         private val customCodeService: CustomCodeService) {
+class FormRestController(
+    private val formService: FormService,
+    private val customCodeService: CustomCodeService
+) {
 
     @PostMapping("")
-    fun createForm(@RequestParam(value = "saveType", defaultValue = "") saveType: String,
-                   @RequestBody jsonData: Any): String {
+    fun createForm(
+        @RequestParam(value = "saveType", defaultValue = "") saveType: String,
+        @RequestBody jsonData: Any
+    ): String {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {

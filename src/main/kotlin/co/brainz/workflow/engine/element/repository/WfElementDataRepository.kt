@@ -16,13 +16,15 @@ interface WfElementDataRepository : JpaRepository<WfElementDataEntity, WfElement
         endId: String = WfElementConstants.AttributeId.TARGET_ID.value
     ): WfElementDataEntity
 
-    @Query("SELECT e.elementId as elementId, ed.attributeValue as attributeValue " +
-            "FROM WfElementEntity e, WfElementDataEntity ed " +
-            "WHERE e.processId = :processId " +
-            "AND e.elementId = ed.element.elementId " +
-            "AND e.elementType = :elementType " +
-            "AND ed.attributeId = :attributeId " +
-            "ORDER BY e.elementId DESC")
+    @Query(
+        "SELECT e.elementId as elementId, ed.attributeValue as attributeValue " +
+                "FROM WfElementEntity e, WfElementDataEntity ed " +
+                "WHERE e.processId = :processId " +
+                "AND e.elementId = ed.element.elementId " +
+                "AND e.elementType = :elementType " +
+                "AND ed.attributeId = :attributeId " +
+                "ORDER BY e.elementId DESC"
+    )
     fun findElementDataByProcessId(
         processId: String,
         elementType: String = WfElementConstants.ElementType.USER_TASK.value,

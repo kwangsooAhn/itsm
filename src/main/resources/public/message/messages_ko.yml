@@ -168,7 +168,10 @@ faq:
   title: "제목"
   contents: "내용"
   edit: "수정"
-  msg: "자주 묻는 질문과 답변입니다."
+  msg:
+    description: "자주 묻는 질문과 답변입니다."
+    titleNotExist: "제목을 입력하세요."
+    contentNotExist: "내용을 입력하세요."
   category:
     all: "전체"
     techSupport: "기술지원"
@@ -372,6 +375,7 @@ document:
     form: "문서양식"
     process: "프로세스"
     status: "신청서 상태"
+    numberingRule: "문서번호규칙"
   display:
     editable: "수정가능"
     editableRequired: "수정가능(필수값)"

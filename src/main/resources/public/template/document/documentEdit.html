@@ -46,6 +46,17 @@
             </td>
         </tr>
         <tr>
+            <th class="required" th:text="#{document.label.numberingRule}"></th>
+            <td>
+                <select id="document_numbering_rule" style="width:75%" th:disabled="${documentId}">
+                    <option th:each="numberingRule:${numberingRuleList}"
+                            th:id="${numberingRule.numberingId}"
+                            th:value="${numberingRule.numberingId}"
+                            th:text="#{${numberingRule.numberingName}}" ></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <th th:text="#{document.label.status}"></th>
             <td>
                 <select id="document_status" style="width:75%" th:disabled="!${documentId}">
@@ -71,11 +82,13 @@
             let documentForm = document.getElementById('document_form');
         	let documentProcess = document.getElementById('document_process');
         	let documentStatus = document.getElementById('document_status');
+        	let documentNumberingRule = document.getElementById('document_numbering_rule');
             const documentInfo = {
                 documentName: document.getElementById('document_name').value,
                 documentDesc: document.getElementById('document_desc').value,
                 formId: documentForm.options[documentForm.selectedIndex].value,
                 processId: documentProcess.options[documentProcess.selectedIndex].value,
+                documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
                 documentStatus: documentStatus.options[documentStatus.selectedIndex].value
             };
             let parameter = '';
@@ -89,8 +102,7 @@
 
     //빈 값 체크
     function emptyValidation() {
-        if (isEmpty('document_name', 'document.msg.nameNotExist')) { return false; }
-        return true;
+        return !isEmpty('document_name', 'document.msg.nameNotExist');
     }
 
     //REST API

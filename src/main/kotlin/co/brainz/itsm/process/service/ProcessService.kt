@@ -32,7 +32,10 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     fun getProcesses(params: LinkedMultiValueMap<String, String>): List<WfProcessDto> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url, parameters = params)
         val responseBody = restTemplate.get(url)
-        val wfProcessList: List<WfProcessDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, WfProcessDto::class.java))
+        val wfProcessList: List<WfProcessDto> = mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, WfProcessDto::class.java)
+        )
         for (item in wfProcessList) {
             item.createDt = item.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
             item.updateDt = item.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
@@ -44,7 +47,12 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
      * 프로세스 데이터 조회.
      */
     fun getProcessData(processId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESS_DATA.url.replace(restTemplate.getKeyRegex(), processId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Process.GET_PROCESS_DATA.url.replace(
+                restTemplate.getKeyRegex(),
+                processId
+            )
+        )
         return restTemplate.get(url)
     }
 
@@ -54,7 +62,7 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     fun createProcess(restTemplateProcessDto: RestTemplateProcessDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
-        restTemplateProcessDto.createDt =  AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateProcessDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
@@ -72,10 +80,15 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
      */
     fun updateProcessData(wfProcessElementDto: WfProcessElementDto): Boolean {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val processId = wfProcessElementDto.process?.id?:""
+        val processId = wfProcessElementDto.process?.id ?: ""
         wfProcessElementDto.process?.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         wfProcessElementDto.process?.updateUserKey = userDetails.userKey
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(restTemplate.getKeyRegex(), processId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(
+                restTemplate.getKeyRegex(),
+                processId
+            )
+        )
         val responseEntity = restTemplate.update(url, wfProcessElementDto)
         return responseEntity.body.toString().isNotEmpty()
     }
@@ -105,7 +118,12 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
      * 프로세스 1건 데이터 삭제.
      */
     fun deleteProcess(processId: String): ResponseEntity<String> {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.DELETE_PROCESS.url.replace(restTemplate.getKeyRegex(), processId))
-        return  restTemplate.delete(url)
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Process.DELETE_PROCESS.url.replace(
+                restTemplate.getKeyRegex(),
+                processId
+            )
+        )
+        return restTemplate.delete(url)
     }
 }

@@ -13,8 +13,10 @@ import java.time.LocalDateTime
 
 @Controller
 @RequestMapping("/downloads")
-class DownloadController(private val codeService: CodeService,
-                         private val downloadService: DownloadService) {
+class DownloadController(
+    private val codeService: CodeService,
+    private val downloadService: DownloadService
+) {
 
     private val downloadSearchPage: String = "download/downloadSearch"
     private val downloadListPage: String = "download/downloadList"

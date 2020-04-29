@@ -11,7 +11,7 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
     fun findByInstanceId(instanceId: String): WfInstanceEntity?
 
     @Query(
-        "select t.tokenId as tokenId, i.instanceId as instanceId, d.documentName as documentName, d.documentDesc as documentDesc, i.instanceStartDt as createDt, t.assigneeId as userKey " +
+        "select t.tokenId as tokenId, i.instanceId as instanceId, d.documentName as documentName, d.documentDesc as documentDesc, i.instanceStartDt as createDt, t.assigneeId as userKey, i.documentNo as documentNo " +
                 "from WfDocumentEntity d, WfInstanceEntity i, WfTokenEntity t " +
                 "where d.documentId = i.document.documentId " +
                 "and i.instanceId = t.instance.instanceId " +
