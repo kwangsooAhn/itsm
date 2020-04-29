@@ -10,6 +10,7 @@ import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import co.brainz.workflow.engine.process.mapper.WfProcessMapper
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
+import co.brainz.workflow.engine.process.service.simulation.WfProcessSimulator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -22,7 +23,10 @@ import java.util.UUID
 
 @Service
 @Transactional
-class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
+class WfProcessService(
+    private val wfProcessRepository: WfProcessRepository,
+    private val wfProcessSimulator: WfProcessSimulator
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val processMapper = Mappers.getMapper(WfProcessMapper::class.java)
@@ -107,8 +111,8 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      */
     fun deleteProcess(processId: String): Boolean {
         val processEntity = wfProcessRepository.findByProcessId(processId)
-        if (processEntity.processStatus == WfProcessConstants.Status.PUBLISH.code
-            || processEntity.processStatus == WfProcessConstants.Status.DESTROY.code
+        if (processEntity.processStatus == WfProcessConstants.Status.PUBLISH.code ||
+            processEntity.processStatus == WfProcessConstants.Status.DESTROY.code
         ) {
             return false
         } else {
@@ -194,7 +198,6 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
             processEntity.updateDt = wfJsonProcessDto.updateDt
             processEntity.elementEntities.addAll(elementEntities)
             wfProcessRepository.save(processEntity)
-
         }
         return true
     }
@@ -254,5 +257,15 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
         )
         updateProcessData(newProcessElementDto)
         return processDto
+    }
+
+    /**
+     * [processId] 에 해당하는 프로세스 시뮬레이션을 실행한다.
+     */
+    fun getProcessSimulation(processId: String): Boolean {
+        //
+        wfProcessSimulator.getSimulation(processId)
+
+        return false
     }
 }

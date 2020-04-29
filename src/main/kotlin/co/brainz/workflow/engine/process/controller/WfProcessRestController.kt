@@ -101,8 +101,8 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
     /**
      * [processId] 프로세스의 디자인이 정상인지 점검한다.
      */
-    @GetMapping("/{processId}/inspection")
-    fun getProcessInspection(@PathVariable processId: String): Boolean {
-        return wfEngine.process().getProcessInspection(processId)
+    @GetMapping("/{processId}/simulation")
+    fun getProcessSimulation(@PathVariable processId: String): Boolean {
+        return wfEngine.process().getProcessSimulation(processId)
     }
 }

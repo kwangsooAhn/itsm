@@ -16,6 +16,7 @@ import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.WfProcessService
+import co.brainz.workflow.engine.process.service.simulation.WfProcessSimulator
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.engine.token.service.WfTokenElementService
@@ -38,7 +39,8 @@ class WfEngine(
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
     private val wfTokenElementService: WfTokenElementService,
-    private val wfCommentRepository: WfCommentRepository
+    private val wfCommentRepository: WfCommentRepository,
+    private val wfProcessSimulator: WfProcessSimulator
 ) {
 
     /**
@@ -52,7 +54,7 @@ class WfEngine(
      * Process Engine.
      */
     fun process(): WfProcessService {
-        return WfProcessService(wfProcessRepository)
+        return WfProcessService(wfProcessRepository, wfProcessSimulator)
     }
 
     /**
