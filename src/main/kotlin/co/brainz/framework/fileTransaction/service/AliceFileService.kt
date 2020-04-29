@@ -164,7 +164,7 @@ class AliceFileService(
     fun uploadFiles(fileDataId: String) {
         val fileDataId = fileDataId.split(',')
         for (index in fileDataId.indices) {
-            val fileLocEntity= aliceFileLocRepository.getOne(fileDataId[index].toLong())
+            val fileLocEntity = aliceFileLocRepository.getOne(fileDataId[index].toLong())
             val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
             val tempPath = getDir("temp", fileLocEntity.randomName)
             Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
@@ -189,38 +189,38 @@ class AliceFileService(
             for (fileOwnMapEntity in fileOwnMapEntities) {
                 val fileLocEntity = fileOwnMapEntity.fileLocEntity
                 val fileLocDto = AliceFileLocDto(
-                        fileSeq = fileLocEntity.fileSeq,
-                        fileOwner = fileLocEntity.fileOwner,
-                        fileSize = fileLocEntity.fileSize,
-                        originName = fileLocEntity.originName,
-                        randomName = fileLocEntity.randomName,
-                        sort = fileLocEntity.sort,
-                        uploaded = fileLocEntity.uploaded,
-                        uploadedLocation = fileLocEntity.uploadedLocation
+                    fileSeq = fileLocEntity.fileSeq,
+                    fileOwner = fileLocEntity.fileOwner,
+                    fileSize = fileLocEntity.fileSize,
+                    originName = fileLocEntity.originName,
+                    randomName = fileLocEntity.randomName,
+                    sort = fileLocEntity.sort,
+                    uploaded = fileLocEntity.uploaded,
+                    uploadedLocation = fileLocEntity.uploadedLocation
                 )
                 val fileOwnMapDto = AliceFileOwnMapDto(
-                        ownId = fileOwnMapEntity.ownId,
-                        fileLocDto = fileLocDto
+                    ownId = fileOwnMapEntity.ownId,
+                    fileLocDto = fileLocDto
                 )
                 aliceFileOwnMapList.add(fileOwnMapDto)
             }
         } else if (fileDataId != "") {
             val fileDataId = fileDataId.split(',')
             for (index in fileDataId.indices) {
-                val aliceFileLocEntity= aliceFileLocRepository.getOne(fileDataId[index].toLong())
+                val aliceFileLocEntity = aliceFileLocRepository.getOne(fileDataId[index].toLong())
                 val fileLocDto = AliceFileLocDto(
-                        fileSeq = aliceFileLocEntity.fileSeq,
-                        fileOwner = aliceFileLocEntity.fileOwner,
-                        fileSize = aliceFileLocEntity.fileSize,
-                        originName = aliceFileLocEntity.originName,
-                        randomName = aliceFileLocEntity.randomName,
-                        sort = aliceFileLocEntity.sort,
-                        uploaded = aliceFileLocEntity.uploaded,
-                        uploadedLocation = aliceFileLocEntity.uploadedLocation
+                    fileSeq = aliceFileLocEntity.fileSeq,
+                    fileOwner = aliceFileLocEntity.fileOwner,
+                    fileSize = aliceFileLocEntity.fileSize,
+                    originName = aliceFileLocEntity.originName,
+                    randomName = aliceFileLocEntity.randomName,
+                    sort = aliceFileLocEntity.sort,
+                    uploaded = aliceFileLocEntity.uploaded,
+                    uploadedLocation = aliceFileLocEntity.uploadedLocation
                 )
                 val fileOwnMapDto = AliceFileOwnMapDto(
-                        ownId = "",
-                        fileLocDto = fileLocDto
+                    ownId = "",
+                    fileLocDto = fileLocDto
                 )
                 aliceFileOwnMapList.add(fileOwnMapDto)
             }

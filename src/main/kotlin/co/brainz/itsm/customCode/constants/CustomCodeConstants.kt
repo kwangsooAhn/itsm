@@ -33,8 +33,8 @@ object CustomCodeConstants {
     /**
      * 사용자 정의 코드 테이블
      */
-     enum class TableName(val code: String) {
-         ROLE("awf_role"),
-         USER("awf_user")
-     }
+    enum class TableName(val code: String) {
+        ROLE("awf_role"),
+        USER("awf_user")
+    }
 }

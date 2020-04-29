@@ -23,12 +23,14 @@ import org.springframework.stereotype.Service
 import javax.persistence.Column
 
 @Service
-class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
-                        private val customCodeTableRepository: CustomCodeTableRepository,
-                        private val customCodeColumnRepository: CustomCodeColumnRepository,
-                        private val roleRepository: RoleRepository,
-                        private val userRepository: UserRepository,
-                        private val formService: FormService) {
+class CustomCodeService(
+    private val customCodeRepository: CustomCodeRepository,
+    private val customCodeTableRepository: CustomCodeTableRepository,
+    private val customCodeColumnRepository: CustomCodeColumnRepository,
+    private val roleRepository: RoleRepository,
+    private val userRepository: UserRepository,
+    private val formService: FormService
+) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
     private val customCodeTableMapper: CustomCodeTableMapper = Mappers.getMapper(CustomCodeTableMapper::class.java)
@@ -66,9 +68,18 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
     fun getCustomCode(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)
-        customCodeDto.targetTableName = customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable).customCodeTableName
-        customCodeDto.searchColumnName = getCustomCodeColumnName(customCodeDto.targetTable, customCodeDto.searchColumn, CustomCodeConstants.ColumnType.SEARCH.code)
-        customCodeDto.valueColumnName = getCustomCodeColumnName(customCodeDto.targetTable, customCodeDto.valueColumn, CustomCodeConstants.ColumnType.VALUE.code)
+        customCodeDto.targetTableName =
+            customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable).customCodeTableName
+        customCodeDto.searchColumnName = getCustomCodeColumnName(
+            customCodeDto.targetTable,
+            customCodeDto.searchColumn,
+            CustomCodeConstants.ColumnType.SEARCH.code
+        )
+        customCodeDto.valueColumnName = getCustomCodeColumnName(
+            customCodeDto.targetTable,
+            customCodeDto.valueColumn,
+            CustomCodeConstants.ColumnType.VALUE.code
+        )
         return customCodeDto
     }
 
@@ -155,11 +166,13 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
      * @return String
      */
     fun getCustomCodeColumnName(customCodeTable: String, customCodeColumn: String, customCodeType: String): String {
-        return customCodeColumnRepository.findById(CustomCodeColumnPk(
+        return customCodeColumnRepository.findById(
+            CustomCodeColumnPk(
                 customCodeTable = customCodeTable,
                 customCodeColumn = customCodeColumn,
                 customCodeType = customCodeType
-        )).orElse(CustomCodeColumnEntity()).customCodeColumnName
+            )
+        ).orElse(CustomCodeColumnEntity()).customCodeColumnName
     }
 
     /**
@@ -177,7 +190,8 @@ class CustomCodeService(private val customCodeRepository: CustomCodeRepository,
                 isContinue = false
             }
             if (isContinue) {
-                val existCustomCode = customCodeRepository.findById(customCodeDto.customCodeId).orElse(CustomCodeEntity())
+                val existCustomCode =
+                    customCodeRepository.findById(customCodeDto.customCodeId).orElse(CustomCodeEntity())
                 isContinue = (customCodeDto.customCodeName != existCustomCode.customCodeName)
             }
         }

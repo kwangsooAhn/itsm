@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-interface WfDocumentRepository: JpaRepository<WfDocumentEntity, String> {
+interface WfDocumentRepository : JpaRepository<WfDocumentEntity, String> {
 
     fun findDocumentEntityByDocumentId(documentId: String): WfDocumentEntity
 
