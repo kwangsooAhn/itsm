@@ -23,8 +23,8 @@
                     <th class="required" th:text="#{faq.group}">*그룹</th>
                     <td>
                         <select id="faqGroup" name="faqGroup">
-                            <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup}}"
-                                    th:value="${faqGroup}" th:selected="${faqGroup} == ${faq?.faqGroup}">
+                            <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup.code}}"
+                                    th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
                             </option>
                         </select>
                     </td>

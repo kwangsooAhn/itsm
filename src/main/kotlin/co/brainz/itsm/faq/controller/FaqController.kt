@@ -1,5 +1,7 @@
 package co.brainz.itsm.faq.controller
 
+import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.service.FaqService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam
  */
 @Controller
 @RequestMapping("/faqs")
-class FaqController(private val faqService: FaqService) {
+class FaqController(private val faqService: FaqService, private val codeService: CodeService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val faqSearchPage: String = "faq/faqSearch"
@@ -44,7 +46,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/new")
     fun getFaqNew(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
+        model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE))
         return faqEditPage
     }
 
@@ -77,7 +79,7 @@ class FaqController(private val faqService: FaqService) {
      */
     @GetMapping("/{faqId}/edit")
     fun getFaqEdit(@PathVariable faqId: String, model: Model): String {
-        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
+        model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE))
         if (faqId != "") {
             model.addAttribute("faq", faqService.findOne(faqId))
         }
