@@ -534,7 +534,7 @@
             mouseoverElement = null;
             elem.classed('selected', false);
         },
-        mousedown: function () {
+        mousedown: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
 
@@ -1578,11 +1578,11 @@
                 aliceProcessEditor.changeElementType(node.nodeElement, element.type);
                 break;
             case 'task':
-                node = new TaskElement(x, y, element.display.width, element.display.height);
+                node = new TaskElement(x, y);
                 aliceProcessEditor.changeElementType(node.nodeElement, element.type);
                 break;
             case 'subprocess':
-                node = new SubprocessElement(x, y, element.display.width, element.display.height);
+                node = new SubprocessElement(x, y);
                 break;
             case 'gateway':
                 node = new GatewayElement(x, y);
@@ -1645,18 +1645,12 @@
                 element['end-id'] = target.id;
                 let linkData = {id: nodeId, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default']};
                 if (element.display) {
-                    if (typeof element.display['mid-point'] !== 'undefined') {
-                        linkData.midPoint = element.display['mid-point'];
-                    }
-                    if (typeof element.display['source-point'] !== 'undefined') {
-                        linkData.sourcePoint = element.display['source-point'];
-                    }
-                    if (typeof element.display['target-point'] !== 'undefined') {
-                        linkData.targetPoint = element.display['target-point'];
-                    }
-                    if (typeof element.display['text-point'] !== 'undefined') {
-                        linkData.textPoint = element.display['text-point'];
-                    }
+                    Object.keys(element.display).forEach(function(key) {
+                        if (typeof element.display[key] !== 'undefined') {
+                            let keyCamelCased = key.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+                            linkData[keyCamelCased] = element.display[key];
+                        }
+                    });
                 }
                 elements.links.push(linkData);
             }
