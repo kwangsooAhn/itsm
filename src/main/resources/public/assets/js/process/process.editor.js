@@ -935,11 +935,13 @@
                 if (!dragElement) {
                     dragElement = d3.select(d3.event.sourceEvent.target.parentNode).select('.node');
                 }
-                const dx = d3.event.dx,
-                      dy = d3.event.dy;
-                d3.selectAll('.node.selected').each(function() {
-                    dragged(d3.select(this), dx, dy);
-                });
+                if (dragElement.classed('selected')) {
+                    const dx = d3.event.dx,
+                          dy = d3.event.dy;
+                    d3.selectAll('.node.selected').each(function() {
+                        dragged(d3.select(this), dx, dy);
+                    });
+                }
             }
         })
         .on('end', elementMouseEventHandler.mouseup);
