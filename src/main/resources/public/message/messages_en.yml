@@ -65,6 +65,8 @@ menu:
   setting.process: "Process"
   setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
+  help.board: "Help"
+  setting.board.admin: "Board management"
 
 # Auth
 auth:
@@ -315,6 +317,7 @@ process:
   msg:
     alert:
       nameNotExist: "Please enter a process name."
+      simulation: "Simulation check is complete."
 
 # Portal
 portal:
