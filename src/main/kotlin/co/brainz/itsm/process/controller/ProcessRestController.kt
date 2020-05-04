@@ -79,4 +79,12 @@ class ProcessRestController(private val processService: ProcessService) {
         params["status"] = status
         return processService.getProcesses(params)
     }
+
+    /**
+     * 프로세스 시뮬레이션
+     */
+    @GetMapping("/{processId}/simulation")
+    fun getProcessSimulation(@PathVariable processId: String): String {
+        return processService.getProcessSimulation(processId)
+    }
 }

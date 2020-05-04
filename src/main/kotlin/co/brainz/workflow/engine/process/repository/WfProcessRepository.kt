@@ -19,5 +19,5 @@ interface WfProcessRepository : JpaRepository<WfProcessEntity, String> {
             "END, COALESCE(m.updateDt, m.createDt) DESC")
     fun findByProcessListOrProcessSearchList(value: String?): List<WfProcessEntity>
     fun findByProcessStatusInOrderByProcessName(processStatus: List<String>): List<WfProcessEntity>
-    fun findByProcessId(processId: String): WfProcessEntity
+    fun findByProcessId(processId: String): WfProcessEntity?
 }

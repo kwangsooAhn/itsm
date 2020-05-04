@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.process.service.simulation.element.impl
 
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementRepository
+import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSimulationElement
 
 /**
@@ -9,7 +10,8 @@ import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSim
  *
  * start 또는 end 이벤트는 1개만 존재해야한다.
  */
-class WfProcessSimulationEvent(repository: WfElementRepository) : WfProcessSimulationElement(repository) {
+class WfProcessSimulationEvent(wfElementRepository: WfElementRepository, wfProcessRepository: WfProcessRepository) :
+    WfProcessSimulationElement(wfElementRepository, wfProcessRepository) {
 
     override fun validate(element: WfElementEntity): Boolean {
         val process = element.processEntity
@@ -17,10 +19,16 @@ class WfProcessSimulationEvent(repository: WfElementRepository) : WfProcessSimul
             process?.elementEntities?.filter {
                 it.elementType == element.elementType
             }
-        return findElements?.size == 1
+
+        val isOnlyOne = findElements?.size == 1
+        if (!isOnlyOne) {
+            setFailedMessage("There should be only one start/end event.")
+        }
+
+        return isOnlyOne
     }
 
     override fun failInfo(): String {
-        return "Event simulation failed"
+        return "Event simulation failed. $elementInformation"
     }
 }

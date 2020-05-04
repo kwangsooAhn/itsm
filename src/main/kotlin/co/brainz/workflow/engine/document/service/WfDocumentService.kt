@@ -202,7 +202,11 @@ class WfDocumentService(
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
-                val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.processId)
+                val wfProcessEntity =
+                    wfProcessRepository.findByProcessId(documentDto.processId) ?: throw AliceException(
+                        AliceErrorConstants.ERR_00005,
+                        AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+                    )
                 if (wfProcessEntity.processStatus != WfProcessConstants.Status.USE.code) {
                     wfProcessEntity.processStatus = WfProcessConstants.Status.USE.code
                     wfProcessRepository.save(wfProcessEntity)

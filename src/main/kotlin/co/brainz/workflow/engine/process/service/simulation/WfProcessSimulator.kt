@@ -15,29 +15,47 @@ class WfProcessSimulator(
     private val wfProcessSimulationMaker: WfProcessSimulationMaker,
     private val wfProcessSimulationFactory: WfProcessSimulationFactory
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun getSimulation(processId: String): Boolean {
-        logger.info("Simulation start")
+        logger.info("Simulation start...")
 
         val process = wfProcessRepository.getOne(processId)
         val elementEntities = process.elementEntities
 
-        // 초기화 후 시뮬레이션을 위한 엘리먼트 연결하기
+        // 시뮬레이션을 위한 엘리먼트 연결한다.
         wfProcessSimulationMaker.init(elementEntities)
-        val simulationElements = wfProcessSimulationMaker.getElements()
+        val simulations = wfProcessSimulationMaker.getElements()
 
-        // 엘리먼트 검증하기
-        simulationElements.forEach {
-            val simulator = wfProcessSimulationFactory.getProcessSimulation(it.elementType)
-            val result = simulator.getValidation(it)
-
-            if (!result) {
-                logger.info("Simulation failed. throw exception.")
-                throw AliceException(AliceErrorConstants.ERR_00005, simulator.failInfo())
+        if (logger.isDebugEnabled) {
+            simulations.forEach { simulationElements ->
+                simulationElements.forEach {
+                    logger.debug("Simulation elements - {}:{}:{}", it.elementType, it.elementId, it.elementName)
+                }
             }
         }
+
+        // 연결된 시뮬레이션 라인과 총 엘리먼트의 개수를 비교한다.
+        // arrowConnector의 start-id, end-id 를 가지고 연결된 라인이므로 잘 그려진 프로세스이면 사이즈는 항상 같다.
+        if (elementEntities.size != wfProcessSimulationMaker.getElementSize()) {
+            logger.error("Simulation failed. size error.")
+            throw AliceException(AliceErrorConstants.ERR_00005, "Simulation failed. size error.")
+        }
+        logger.info("Simulation validate - Element size success.")
+
+        // 시뮬레이션 라인을 하나씩 검증한다.
+        simulations.forEach { simulationElements ->
+            simulationElements.forEach {
+                val simulator = wfProcessSimulationFactory.getProcessSimulation(it.elementType)
+                val result = simulator.getValidation(it)
+
+                if (!result) {
+                    logger.info("Simulation failed. throw exception.")
+                    throw AliceException(AliceErrorConstants.ERR_00005, simulator.failInfo())
+                }
+            }
+        }
+        logger.info("Simulation validate - All validation complete.")
 
         logger.info("Simulation end.")
         return true
