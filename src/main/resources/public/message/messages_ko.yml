@@ -315,9 +315,9 @@ process:
     use: "사용"
     destroy: "폐기"
   msg:
+    simulation: "시뮬레이션 점검이 완료되었습니다."
     alert:
       nameNotExist: "프로세스 이름을 입력해주세요."
-      simulation: "시뮬레이션 점검이 완료되었습니다."
 
 # Portal
 portal:

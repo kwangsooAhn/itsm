@@ -315,9 +315,9 @@ process:
     use: "Use"
     destroy: "Destroy"
   msg:
+    simulation: "Simulation check is complete."
     alert:
       nameNotExist: "Please enter a process name."
-      simulation: "Simulation check is complete."
 
 # Portal
 portal:

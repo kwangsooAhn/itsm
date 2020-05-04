@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.process.service.simulation
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -30,7 +31,12 @@ class WfProcessSimulator(
         if (logger.isDebugEnabled) {
             simulations.forEach { simulationElements ->
                 simulationElements.forEach {
-                    logger.debug("Simulation elements - {}:{}:{}", it.elementType, it.elementId, it.elementName)
+                    logger.debug(
+                        "Simulation elements - {}:{}:{}",
+                        it.elementType,
+                        it.getElementDataValue(WfElementConstants.AttributeId.ID.value),
+                        it.getElementDataValue(WfElementConstants.AttributeId.NAME.value)
+                    )
                 }
             }
         }

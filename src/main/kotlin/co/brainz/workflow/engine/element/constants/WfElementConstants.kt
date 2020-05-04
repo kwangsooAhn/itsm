@@ -41,7 +41,8 @@ object WfElementConstants {
         REJECT_ID("reject-id"),
         SUB_DOCUMENT_ID("sub-document-id"),
         TARGET_DOCUMENT_LIST("target-document-list"),
-        NAME("name")
+        NAME("name"),
+        ID("id")
     }
 
     /**

@@ -80,8 +80,8 @@
         //프로세스 시뮬레이션
         function processSimulation(processId) {
             restSubmit('GET', '/rest/processes/' + encodeURIComponent(processId) + '/simulation', function(result) {
-                if (result == 'true') {
-                    aliceJs.alert('[[#{common.msg.delete.success}]]');
+                if (result === 'true') {
+                    aliceJs.alert('[[#{process.msg.simulation}]]');
                 }
             }, true);
         }
