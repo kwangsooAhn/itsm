@@ -25,10 +25,21 @@ class WfProcessSimulationFactory(
         return when (elementType) {
             WfElementConstants.ElementType.COMMON_START_EVENT.value,
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> WfProcessSimulationEvent()
+
             WfElementConstants.ElementType.ARROW_CONNECTOR.value -> WfProcessSimulationArrow(elementRepository)
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> WfProcessSimulationGateway(elementRepository)
+
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value,
+            WfElementConstants.ElementType.PARALLEL_GATEWAY.value,
+            WfElementConstants.ElementType.INCLUSIVE_GATEWAY.value -> WfProcessSimulationGateway(elementRepository)
+
             WfElementConstants.ElementType.SUB_PROCESS.value -> WfProcessSimulationSubProcess(documentRepository)
-            WfElementConstants.ElementType.USER_TASK.value -> WfProcessSimulationTask()
+
+            WfElementConstants.ElementType.USER_TASK.value,
+            WfElementConstants.ElementType.MANUAL_TASK.value,
+            WfElementConstants.ElementType.SEND_TASK.value,
+            WfElementConstants.ElementType.RECEIVE_TASK.value,
+            WfElementConstants.ElementType.SCRIPT_TASK.value -> WfProcessSimulationTask()
+
             else -> throw AliceException(
                 AliceErrorConstants.ERR_00005,
                 "Not found simulation. Check simulation factory class."
