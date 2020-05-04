@@ -1,8 +1,6 @@
 package co.brainz.workflow.engine.process.service.simulation.element.impl
 
 import co.brainz.workflow.engine.element.entity.WfElementEntity
-import co.brainz.workflow.engine.element.repository.WfElementRepository
-import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSimulationElement
 
 /**
@@ -10,8 +8,7 @@ import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSim
  *
  * start 또는 end 이벤트는 1개만 존재해야한다.
  */
-class WfProcessSimulationEvent(wfElementRepository: WfElementRepository, wfProcessRepository: WfProcessRepository) :
-    WfProcessSimulationElement(wfElementRepository, wfProcessRepository) {
+class WfProcessSimulationEvent() : WfProcessSimulationElement() {
 
     override fun validate(element: WfElementEntity): Boolean {
         val process = element.processEntity

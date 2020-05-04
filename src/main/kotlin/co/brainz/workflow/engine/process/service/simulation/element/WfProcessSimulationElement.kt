@@ -1,19 +1,17 @@
 package co.brainz.workflow.engine.process.service.simulation.element
 
 import co.brainz.workflow.engine.element.entity.WfElementEntity
-import co.brainz.workflow.engine.element.repository.WfElementRepository
-import co.brainz.workflow.engine.process.repository.WfProcessRepository
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+//import org.slf4j.LoggerFactory
 
 /**
  * 시뮬레이션 엘리먼트 추상 클래스
  */
-abstract class WfProcessSimulationElement(
-    protected val wfElementRepository: WfElementRepository,
-    protected val wfProcessRepository: WfProcessRepository
-) {
+abstract class WfProcessSimulationElement {
 
-    protected val logger = LoggerFactory.getLogger(this::class.java)
+    protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
     protected var elementInformation = ""
 
     /**

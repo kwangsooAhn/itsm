@@ -3,14 +3,12 @@ package co.brainz.workflow.engine.process.service.simulation.element.impl
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementRepository
-import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSimulationElement
 
 /**
  * 시뮬레이션 검증 - arrow connector
  */
-class WfProcessSimulationArrow(wfElementRepository: WfElementRepository, wfProcessRepository: WfProcessRepository) :
-    WfProcessSimulationElement(wfElementRepository, wfProcessRepository) {
+class WfProcessSimulationArrow(private val wfElementRepository: WfElementRepository) : WfProcessSimulationElement() {
 
     override fun validate(element: WfElementEntity): Boolean {
         // sourceElement가 gatewary일 때는 connector의 condition 값이 있어야 한다.

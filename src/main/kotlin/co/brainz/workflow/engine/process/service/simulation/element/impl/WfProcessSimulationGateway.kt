@@ -3,14 +3,12 @@ package co.brainz.workflow.engine.process.service.simulation.element.impl
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementRepository
-import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSimulationElement
 
 /**
  * 시뮬레이션 검증 - gateway
  */
-class WfProcessSimulationGateway(wfElementRepository: WfElementRepository, wfProcessRepository: WfProcessRepository) :
-    WfProcessSimulationElement(wfElementRepository, wfProcessRepository) {
+class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepository) : WfProcessSimulationElement() {
     override fun validate(element: WfElementEntity): Boolean {
 
         // condition item 은 값이 있어야한다.
