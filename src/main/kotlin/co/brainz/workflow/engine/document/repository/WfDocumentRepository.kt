@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 interface WfDocumentRepository : JpaRepository<WfDocumentEntity, String> {
 
     fun findDocumentEntityByDocumentId(documentId: String): WfDocumentEntity
-    fun findByDocument(documentId: String): WfDocumentEntity?
+    fun findByDocumentId(documentId: String): WfDocumentEntity?
 
     @Transactional
     fun deleteByDocumentId(documentId: String): Int
