@@ -40,6 +40,13 @@
         function gotoLoginPage() {
             clearTimeout(timer);
             const logoutForm = document.getElementById('logoutForm');
+            if ('[[${referer}]]' !== '') {
+                let prev = document.createElement('input');
+                prev.setAttribute('type', 'hidden');
+                prev.setAttribute('name', 'referer');
+                prev.setAttribute('value', [[${referer}]]);
+                logoutForm.appendChild(prev);
+            }
             if (window.opener) {
                 window.opener.name = 'alice_web';
                 logoutForm.target = window.opener.name;

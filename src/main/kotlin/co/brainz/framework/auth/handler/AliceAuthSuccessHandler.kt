@@ -8,7 +8,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.LocaleResolver
 
@@ -19,7 +19,9 @@ import org.springframework.web.servlet.LocaleResolver
  * 로그인 성공시 default url ("/") 로 리다이렉트한다.
  */
 @Component
-class AliceAuthSuccessHandler(private val localeResolver: LocaleResolver) : SimpleUrlAuthenticationSuccessHandler() {
+class AliceAuthSuccessHandler(
+    private val localeResolver: LocaleResolver
+) : SavedRequestAwareAuthenticationSuccessHandler() {
 
     private val thisLogger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -43,6 +45,21 @@ class AliceAuthSuccessHandler(private val localeResolver: LocaleResolver) : Simp
         localeResolver.setLocale(request, response, Locale(aliceUserDto.lang))
 
         // TODO 로그인 실패 카운트 0 으로 초기화 및 이력 업데이트
-        super.onAuthenticationSuccess(request, response, authentication)
+
+        //Check Referer
+        when (val session = request.session) {
+            null -> {
+                super.onAuthenticationSuccess(request, response, authentication)
+            }
+            else -> {
+                val redirectUrl = session.getAttribute("referer")
+                if (redirectUrl != null) {
+                    session.removeAttribute("referer")
+                    redirectStrategy.sendRedirect(request, response, redirectUrl.toString())
+                } else {
+                    super.onAuthenticationSuccess(request, response, authentication)
+                }
+            }
+        }
     }
 }

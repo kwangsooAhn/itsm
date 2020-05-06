@@ -2,6 +2,7 @@ package co.brainz.itsm.configuration
 
 import co.brainz.framework.auth.handler.AliceAuthFailureHandler
 import co.brainz.framework.auth.handler.AliceAuthSuccessHandler
+import co.brainz.framework.auth.handler.AliceLogoutSuccessHandler
 import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.configuration.AliceWebSecurityConfigurerAdapter
 import org.slf4j.LoggerFactory
@@ -15,8 +16,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 class AliceWebSecurityConfig(
     authProvider: AliceAuthProvider,
     authSuccessHandler: AliceAuthSuccessHandler,
-    authFailureHandler: AliceAuthFailureHandler
-) : AliceWebSecurityConfigurerAdapter(authProvider, authSuccessHandler, authFailureHandler) {
+    authFailureHandler: AliceAuthFailureHandler,
+    logoutSuccessHandler: AliceLogoutSuccessHandler
+) : AliceWebSecurityConfigurerAdapter(authProvider, authSuccessHandler, authFailureHandler, logoutSuccessHandler) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun ignoreConfigure(web: WebSecurity) {

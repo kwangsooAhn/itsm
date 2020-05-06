@@ -44,6 +44,11 @@ class AliceLoginController(
         val aliceUserEntity: AliceUserEntity?
         var clientIp: String? = request.getHeader("X-Forwarded-For")
 
+        //Set Referer
+        if (request.session.getAttribute("referer") != null) {
+            request.session.setAttribute("referer", request.session.getAttribute("referer"))
+        }
+
         if (ipAccessControlValue == "true") {
             val ipList = aliceIpVerificationService.getIpList()
 
@@ -94,6 +99,7 @@ class AliceLoginController(
      */
     @GetMapping("/sessionInValid")
     fun sessionExpired(session: HttpSession, request: HttpServletRequest, model: Model): String {
+        model.addAttribute("referer", request.getHeader("Referer"))
         model.addAttribute("counter", 3)
         return invalidSessionPage
     }
