@@ -31,7 +31,6 @@ interface WfElementRepository : JpaRepository<WfElementEntity, String> {
         elementType: String = WfElementConstants.ElementType.USER_TASK.value
     ): MutableList<WfElementEntity>
 
-
     fun findByProcessIdAndElementType(processId: String, elementType: String): WfElementEntity
 
     fun findWfElementEntityByElementId(elementId: String): WfElementEntity

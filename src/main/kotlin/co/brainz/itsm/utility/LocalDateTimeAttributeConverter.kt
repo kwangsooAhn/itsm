@@ -38,5 +38,4 @@ class LocalDateTimeAttributeConverter() : AttributeConverter<LocalDateTime, Time
             }
         }
     }
-
 }

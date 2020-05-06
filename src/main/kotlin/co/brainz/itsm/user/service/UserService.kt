@@ -35,13 +35,15 @@ import java.util.Optional
  * 사용자 관리 서비스
  */
 @Service
-class UserService(private val aliceCertificationRepository: AliceCertificationRepository,
-                  private val aliceCryptoRsa: AliceCryptoRsa,
-                  private val roleRepository: RoleRepository,
-                  private val userRepository: UserRepository,
-                  private val userAliceTimezoneRepository: AliceTimezoneRepository,
-                  private val codeService: CodeService,
-                  private val userRoleMapRepository: AliceUserRoleMapRepository) {
+class UserService(
+    private val aliceCertificationRepository: AliceCertificationRepository,
+    private val aliceCryptoRsa: AliceCryptoRsa,
+    private val roleRepository: RoleRepository,
+    private val userRepository: UserRepository,
+    private val userAliceTimezoneRepository: AliceTimezoneRepository,
+    private val codeService: CodeService,
+    private val userRoleMapRepository: AliceUserRoleMapRepository
+) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -51,7 +53,7 @@ class UserService(private val aliceCertificationRepository: AliceCertificationRe
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(searchValue: String): MutableList<UserDto> {
-        val codeList= codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
+        val codeList = codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
         val aliceUserEntities = userRepository.findAll(UserSpecification(codeList, searchValue))
         val userList: MutableList<UserDto> = mutableListOf()
         aliceUserEntities.forEach {
@@ -107,7 +109,7 @@ class UserService(private val aliceCertificationRepository: AliceCertificationRe
 
                 if (targetEntity.password != userUpdateDto.password) {
                     val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                    userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
+                    userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
                 }
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
@@ -170,7 +172,7 @@ class UserService(private val aliceCertificationRepository: AliceCertificationRe
      */
     fun updateDataInput(userUpdateDto: UserUpdateDto): AliceUserEntity {
         val targetEntity = userRepository.findByUserKey(userUpdateDto.userKey)
-        userUpdateDto.userId.let { targetEntity.userId = userUpdateDto.userId}
+        userUpdateDto.userId.let { targetEntity.userId = userUpdateDto.userId }
         userUpdateDto.userName?.let { targetEntity.userName = userUpdateDto.userName!! }
         userUpdateDto.email?.let { targetEntity.email = userUpdateDto.email!! }
         userUpdateDto.position?.let { targetEntity.position = userUpdateDto.position!! }

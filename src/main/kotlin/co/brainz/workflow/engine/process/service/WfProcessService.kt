@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine.process.service
 
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.process.constants.WfProcessConstants
@@ -10,6 +12,7 @@ import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import co.brainz.workflow.engine.process.mapper.WfProcessMapper
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
+import co.brainz.workflow.engine.process.service.simulation.WfProcessSimulator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -22,7 +25,10 @@ import java.util.UUID
 
 @Service
 @Transactional
-class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
+class WfProcessService(
+    private val wfProcessRepository: WfProcessRepository,
+    private val wfProcessSimulator: WfProcessSimulator
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val processMapper = Mappers.getMapper(WfProcessMapper::class.java)
@@ -57,7 +63,12 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      * 프로세스 조회
      */
     fun getProcess(processId: String): WfProcessDto {
-        val wfProcessDto = processMapper.toWfProcessDto(wfProcessRepository.findByProcessId(processId))
+        val wfProcessDto = wfProcessRepository.findByProcessId(processId)?.let { processMapper.toWfProcessDto(it) }
+            ?: throw AliceException(
+                AliceErrorConstants.ERR_00005,
+                AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+            )
+
         when (wfProcessDto.status) {
             WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> wfProcessDto.enabled = true
         }
@@ -69,7 +80,10 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      */
     fun getProcessData(processId: String): WfProcessElementDto {
         val processEntity = wfProcessRepository.findByProcessId(processId)
-        val wfProcessDto = processMapper.toWfProcessDto(processEntity)
+        val wfProcessDto = processEntity?.let { processMapper.toWfProcessDto(it) } ?: throw AliceException(
+            AliceErrorConstants.ERR_00005,
+            AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+        )
         val wfElementDto = mutableListOf<WfElementDto>()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -106,9 +120,12 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      * 프로세스 1건 데이터 삭제.
      */
     fun deleteProcess(processId: String): Boolean {
-        val processEntity = wfProcessRepository.findByProcessId(processId)
-        if (processEntity.processStatus == WfProcessConstants.Status.PUBLISH.code
-            || processEntity.processStatus == WfProcessConstants.Status.DESTROY.code
+        val processEntity = wfProcessRepository.findByProcessId(processId) ?: throw AliceException(
+            AliceErrorConstants.ERR_00005,
+            AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+        )
+        if (processEntity.processStatus == WfProcessConstants.Status.PUBLISH.code ||
+            processEntity.processStatus == WfProcessConstants.Status.DESTROY.code
         ) {
             return false
         } else {
@@ -121,7 +138,10 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
      * 프로세스 변경.
      */
     fun updateProcess(wfProcessDto: WfProcessDto): Boolean {
-        val processEntity = wfProcessRepository.findByProcessId(wfProcessDto.id)
+        val processEntity = wfProcessRepository.findByProcessId(wfProcessDto.id) ?: throw AliceException(
+            AliceErrorConstants.ERR_00005,
+            AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+        )
         processEntity.processName = wfProcessDto.name.toString()
         processEntity.processStatus = wfProcessDto.status.toString()
         processEntity.processDesc = wfProcessDto.description
@@ -144,7 +164,10 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
         if (wfJsonProcessDto != null) {
 
             // process master 조회한다.
-            val processEntity = wfProcessRepository.findByProcessId(wfJsonProcessDto.id)
+            val processEntity = wfProcessRepository.findByProcessId(wfJsonProcessDto.id) ?: throw AliceException(
+                AliceErrorConstants.ERR_00005,
+                AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+            )
 
             // element data 삭제한다.
             processEntity.elementEntities.forEach {
@@ -194,7 +217,6 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
             processEntity.updateDt = wfJsonProcessDto.updateDt
             processEntity.elementEntities.addAll(elementEntities)
             wfProcessRepository.save(processEntity)
-
         }
         return true
     }
@@ -254,5 +276,12 @@ class WfProcessService(private val wfProcessRepository: WfProcessRepository) {
         )
         updateProcessData(newProcessElementDto)
         return processDto
+    }
+
+    /**
+     * [processId] 에 해당하는 프로세스 시뮬레이션을 실행한다.
+     */
+    fun getProcessSimulation(processId: String): Boolean {
+        return wfProcessSimulator.getSimulation(processId)
     }
 }

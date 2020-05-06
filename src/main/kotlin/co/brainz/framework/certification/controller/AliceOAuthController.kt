@@ -38,7 +38,6 @@ class AliceOAuthController(
             AliceUserConstants.Platform.KAKAO.value -> {
                 platformUrl = oAuthServiceKakao.platformUrl()
             }
-
         }
         response.sendRedirect(platformUrl)
     }

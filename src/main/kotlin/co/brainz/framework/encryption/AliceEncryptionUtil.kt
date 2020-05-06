@@ -89,7 +89,7 @@ class AliceEncryptionUtil {
         return enStr
     }
 
-    //AES 256 복호화
+    // AES 256 복호화
     @Throws(
         java.io.UnsupportedEncodingException::class,
         NoSuchAlgorithmException::class,
