@@ -37,55 +37,6 @@ class WfProcessSimulationMaker {
     }
 
     /**
-     * 시작 엘리먼트를 리턴한다.
-     */
-    private fun getStartElement(): WfElementEntity {
-        return this.elementEntities.first {
-            it.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value
-        }
-    }
-
-    /**
-     * 종료 엘리먼트를 리턴한다.
-     */
-    private fun getEndElement(): WfElementEntity {
-        return this.elementEntities.first {
-            it.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value
-        }
-    }
-
-    /**
-     * 특정 프로세스의 전체 엘리먼트 중에서 현재[current] 엘리먼트를 start-id 로 가지는 arrowConnector 를 조회한다.
-     */
-    private fun getArrowConnectElement(current: WfElementEntity): WfElementEntity {
-        return this.elementEntities.first {
-            current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
-                    && !removedDuplicationElements.contains(it)
-        }
-    }
-
-    /**
-     * 특정 프로세스의 전체 엘리먼트 중에서 현재[arrowConnector] 엘리먼트의 end-id를 가지는 엘리먼트를 조회한다.
-     */
-    private fun getTargetElement(arrowConnector: WfElementEntity): WfElementEntity {
-        val targetElementId = arrowConnector.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
-            ?: throw AliceException(AliceErrorConstants.ERR_00005, "ArrowConnector end-id is null.")
-
-        return this.elementEntities.first {
-            it.elementId == targetElementId
-        }
-    }
-
-    /**
-     * 엘리먼트를 서로 연결한다. (시작 ~ 종료까지)
-     *
-     */
-    private fun connectElement(element: WfElementEntity) {
-        connectedElements.add(element)
-        removedDuplicationElements.add(element)
-    }
-
-    /**
      * 시뮬레이션을 위해 연결된 엘리먼트의 개수를 리턴한다.
      * 여러개의 시뮬레이션 라인 중 중복을 제거한 총 엘리먼트 개수이다.
      */
@@ -136,4 +87,53 @@ class WfProcessSimulationMaker {
         return simulationElements
     }
 
+
+    /**
+     * 시작 엘리먼트를 리턴한다.
+     */
+    private fun getStartElement(): WfElementEntity {
+        return this.elementEntities.first {
+            it.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value
+        }
+    }
+
+    /**
+     * 종료 엘리먼트를 리턴한다.
+     */
+    private fun getEndElement(): WfElementEntity {
+        return this.elementEntities.first {
+            it.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value
+        }
+    }
+
+    /**
+     * 특정 프로세스의 전체 엘리먼트 중에서 현재[current] 엘리먼트를 start-id 로 가지는 arrowConnector 를 조회한다.
+     */
+    private fun getArrowConnectElement(current: WfElementEntity): WfElementEntity {
+        return this.elementEntities.first {
+            current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+                    && !removedDuplicationElements.contains(it)
+        }
+    }
+
+    /**
+     * 특정 프로세스의 전체 엘리먼트 중에서 현재[arrowConnector] 엘리먼트의 end-id를 가지는 엘리먼트를 조회한다.
+     */
+    private fun getTargetElement(arrowConnector: WfElementEntity): WfElementEntity {
+        val targetElementId = arrowConnector.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
+            ?: throw AliceException(AliceErrorConstants.ERR_00005, "ArrowConnector end-id is null.")
+
+        return this.elementEntities.first {
+            it.elementId == targetElementId
+        }
+    }
+
+    /**
+     * 엘리먼트를 서로 연결한다. (시작 ~ 종료까지)
+     *
+     */
+    private fun connectElement(element: WfElementEntity) {
+        connectedElements.add(element)
+        removedDuplicationElements.add(element)
+    }
 }
