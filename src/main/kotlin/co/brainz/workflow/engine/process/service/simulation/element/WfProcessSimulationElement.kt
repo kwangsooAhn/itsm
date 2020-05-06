@@ -4,8 +4,6 @@ import co.brainz.workflow.engine.element.entity.WfElementEntity
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-//import org.slf4j.LoggerFactory
-
 /**
  * 시뮬레이션 엘리먼트 추상 클래스
  */
