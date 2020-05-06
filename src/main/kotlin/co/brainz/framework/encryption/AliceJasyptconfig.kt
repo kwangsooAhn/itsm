@@ -11,9 +11,9 @@ public open class JasyptConfig {
     @Bean("jasyptStringEncryptor")
     public open fun StringEncryptor(): StringEncryptor {
 
-        var key = AliceSecurityConstant.keyValue
-        var encryptor: PooledPBEStringEncryptor = PooledPBEStringEncryptor()
-        var config: SimpleStringPBEConfig = SimpleStringPBEConfig()
+        val key = AliceSecurityConstant.keyValue
+        val encryptor: PooledPBEStringEncryptor = PooledPBEStringEncryptor()
+        val config: SimpleStringPBEConfig = SimpleStringPBEConfig()
         config.password = key
 
         // config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
@@ -23,7 +23,7 @@ public open class JasyptConfig {
         config.setPoolSize("1")
         config.providerName = "SunJCE" // 암호화 알고리즘 제공자
         config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator") // slat 함수
-        config.setStringOutputType("base64") // encoding 방법
+        config.stringOutputType = "base64" // encoding 방법
         encryptor.setConfig(config)
 
         return encryptor
