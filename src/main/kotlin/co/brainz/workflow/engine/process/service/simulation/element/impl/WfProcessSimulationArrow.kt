@@ -16,12 +16,9 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
         val emptyCondition =
             element.getElementDataValue(WfElementConstants.AttributeId.CONDITION_VALUE.value)?.isBlank() ?: true
         val sourceElement = wfElementRepository.getOne(sourceElementId!!)
-        if ((sourceElement.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value
-                    || sourceElement.elementType == WfElementConstants.ElementType.PARALLEL_GATEWAY.value
-                    || sourceElement.elementType == WfElementConstants.ElementType.INCLUSIVE_GATEWAY.value)
-            && emptyCondition
-        ) {
-            setFailedMessage("connector is empty.")
+
+        if (WfElementConstants.ElementType.getAtomic(sourceElement.elementType) == WfElementConstants.ElementType.GATEWAY && emptyCondition) {
+            setFailedMessage("connector condition value is empty.")
             return false
         }
 
