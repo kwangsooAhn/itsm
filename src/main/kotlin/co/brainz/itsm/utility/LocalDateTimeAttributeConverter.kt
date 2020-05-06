@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.persistence.AttributeConverter
 
-class LocalDateTimeAttributeConverter(): AttributeConverter<LocalDateTime, Timestamp> {
+class LocalDateTimeAttributeConverter() : AttributeConverter<LocalDateTime, Timestamp> {
 
     override fun convertToDatabaseColumn(locDateTime: LocalDateTime?): Timestamp? {
         return if (locDateTime == null) {
@@ -14,9 +14,13 @@ class LocalDateTimeAttributeConverter(): AttributeConverter<LocalDateTime, Times
         } else {
             val timezone = AliceTimezoneUtils().timezone()
             return if (timezone.isNotEmpty()) {
-                Timestamp.valueOf(locDateTime.atZone(ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime())
+                Timestamp.valueOf(
+                    locDateTime.atZone(ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime()
+                )
             } else {
-                Timestamp.valueOf(locDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime())
+                Timestamp.valueOf(
+                    locDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime()
+                )
             }
         }
     }
@@ -27,7 +31,8 @@ class LocalDateTimeAttributeConverter(): AttributeConverter<LocalDateTime, Times
         } else {
             val timezone = AliceTimezoneUtils().timezone()
             return if (timezone.isNotEmpty()) {
-                sqlTimestamp.toLocalDateTime()?.atZone(ZoneId.of("UTC"))?.withZoneSameInstant(ZoneId.of(timezone))?.toLocalDateTime()
+                sqlTimestamp.toLocalDateTime()?.atZone(ZoneId.of("UTC"))?.withZoneSameInstant(ZoneId.of(timezone))
+                    ?.toLocalDateTime()
             } else {
                 sqlTimestamp.toLocalDateTime()
             }

@@ -10,25 +10,36 @@ import java.time.LocalDateTime
 @Repository
 interface BoardRepository : JpaRepository<PortalBoardEntity, String> {
 
-    @Query("SELECT b FROM PortalBoardEntity b " +
-            " LEFT OUTER JOIN PortalBoardCategoryEntity bc on b.boardCategoryId = bc.boardCategoryId " +
-            " WHERE b.boardAdmin.boardAdminId = :boardAdminId " +
-            " AND (LOWER(b.boardTitle) LIKE LOWER(CONCAT('%', :search, '%')) " +
-            " OR LOWER(bc.boardCategoryName) LIKE LOWER(CONCAT('%', :search, '%')) " +
-            " OR LOWER(b.createUser.userName) LIKE LOWER(CONCAT('%', :search, '%'))) " +
-            " AND b.createDt BETWEEN :fromDt AND :toDt ORDER BY b.boardGroupId DESC, b.boardOrderSeq ASC")
-    fun findByBoardList(boardAdminId: String, search: String, fromDt: LocalDateTime, toDt: LocalDateTime): List<PortalBoardEntity>
+    @Query(
+        "SELECT b FROM PortalBoardEntity b " +
+                " LEFT OUTER JOIN PortalBoardCategoryEntity bc on b.boardCategoryId = bc.boardCategoryId " +
+                " WHERE b.boardAdmin.boardAdminId = :boardAdminId " +
+                " AND (LOWER(b.boardTitle) LIKE LOWER(CONCAT('%', :search, '%')) " +
+                " OR LOWER(bc.boardCategoryName) LIKE LOWER(CONCAT('%', :search, '%')) " +
+                " OR LOWER(b.createUser.userName) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+                " AND b.createDt BETWEEN :fromDt AND :toDt ORDER BY b.boardGroupId DESC, b.boardOrderSeq ASC"
+    )
+    fun findByBoardList(
+        boardAdminId: String,
+        search: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime
+    ): List<PortalBoardEntity>
 
     @Query("SELECT COUNT(b.boardSeq) FROM PortalBoardEntity b WHERE b.boardAdmin.boardAdminId = :boardAdminId")
     fun countByBoardAdminId(boardAdminId: String): Long
 
-    @Query("SELECT MAX(b.boardSeq) as boardSeq " +
-            " FROM PortalBoardEntity b WHERE b.boardAdmin.boardAdminId = :boardAdminId")
+    @Query(
+        "SELECT MAX(b.boardSeq) as boardSeq " +
+                " FROM PortalBoardEntity b WHERE b.boardAdmin.boardAdminId = :boardAdminId"
+    )
     fun findMaxBoardSeq(boardAdminId: String): Long
 
     @Modifying
-    @Query("UPDATE PortalBoardEntity b SET b.boardOrderSeq =  b.boardOrderSeq + 1 " +
-            " WHERE b.boardAdmin.boardAdminId = :boardAdminId " +
-            " AND b.boardGroupId = :boardGroupId AND b.boardOrderSeq >= :boardOrderSeq AND b.boardSeq <> :boardSeq")
+    @Query(
+        "UPDATE PortalBoardEntity b SET b.boardOrderSeq =  b.boardOrderSeq + 1 " +
+                " WHERE b.boardAdmin.boardAdminId = :boardAdminId " +
+                " AND b.boardGroupId = :boardGroupId AND b.boardOrderSeq >= :boardOrderSeq AND b.boardSeq <> :boardSeq"
+    )
     fun updateBoardOrderSeq(boardAdminId: String, boardGroupId: Long, boardOrderSeq: Long, boardSeq: Long)
 }

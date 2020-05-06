@@ -22,9 +22,10 @@
 <div>
     <table class="table-hover">
         <colgroup>
+            <col width="15%">
             <col width="20%">
-            <col width="45%">
-            <col width="30%">
+            <col width="35%">
+            <col width="25%">
             <col width="5%">
         </colgroup>
         <tbody>
@@ -32,6 +33,7 @@
                 <td colspan="4" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
+                <td th:text="${token.documentNo}"></td>
                 <td th:text="${token.documentName}"></td>
                 <td th:text="${token.documentDesc}"></td>
                 <td th:with="dateformat=${#authentication.details.timeFormat}"

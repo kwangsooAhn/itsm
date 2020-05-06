@@ -1,7 +1,5 @@
 package co.brainz.itsm.faq.service
 
-import co.brainz.framework.fileTransaction.dto.AliceFileDto
-import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.entity.FaqEntity
@@ -19,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
  * @author Jung heechan
  */
 @Service
-class FaqService(private val faqRepository: FaqRepository, private val aliceFileService: AliceFileService) {
+class FaqService(private val faqRepository: FaqRepository) {
 
     val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
 
@@ -75,8 +73,7 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
         faqEntity.faqTitle = faqDto.faqTitle
         faqEntity.faqContent = faqDto.faqContent
 
-        val savedFaqEntity = faqRepository.save(faqEntity)
-        aliceFileService.upload(AliceFileDto(savedFaqEntity.faqId, faqDto.fileSeq))
+        faqRepository.save(faqEntity)
     }
 
     /**
@@ -85,6 +82,5 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
     @Transactional
     fun delete(faqId: String) {
         faqRepository.deleteById(faqId)
-        aliceFileService.delete(faqId)
     }
 }

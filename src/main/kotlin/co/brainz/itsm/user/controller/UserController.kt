@@ -20,9 +20,11 @@ import javax.servlet.http.HttpServletRequest
  */
 @Controller
 @RequestMapping("/users")
-class UserController(private val codeService: CodeService,
-                     private val userService: UserService,
-                     private val roleService: RoleService) {
+class UserController(
+    private val codeService: CodeService,
+    private val userService: UserService,
+    private val roleService: RoleService
+) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userPage: String = "user/user"
@@ -51,13 +53,22 @@ class UserController(private val codeService: CodeService,
      * 사용자 정보 수정 화면 및 자기정보 수정 화면을 호출한다.
      */
     @GetMapping("/{userKey}/{target}")
-    fun getUserEdit(@PathVariable userKey: String, @PathVariable target: String, request: HttpServletRequest, model: Model): String {
+    fun getUserEdit(
+        @PathVariable userKey: String,
+        @PathVariable target: String,
+        request: HttpServletRequest,
+        model: Model
+    ): String {
         var returnUrl = ""
         val users = userService.selectUserKey(userKey)
         val roleEntities = mutableSetOf<AliceRoleEntity>()
         val timeFormat = users.timeFormat.split(' ')
         val usersDate = timeFormat[0].toString()
-        val usersTime = if (timeFormat.size == 3) { timeFormat[1] + ' ' + timeFormat[2] } else { timeFormat[1] }
+        val usersTime = if (timeFormat.size == 3) {
+            timeFormat[1] + ' ' + timeFormat[2]
+        } else {
+            timeFormat[1]
+        }
 
         val themeList = codeService.selectCodeByParent(UserConstants.PTHEMECODE.value)
         val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
@@ -65,7 +76,7 @@ class UserController(private val codeService: CodeService,
         val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
 
-        users.userRoleMapEntities.forEach {userRoleMap ->
+        users.userRoleMapEntities.forEach { userRoleMap ->
             roleEntities.add(userRoleMap.role)
         }
 
@@ -88,7 +99,7 @@ class UserController(private val codeService: CodeService,
                 returnUrl = userEditSelfPage
             }
             "userEdit" -> {
-                returnUrl =  userEditPage
+                returnUrl = userEditPage
             }
         }
 

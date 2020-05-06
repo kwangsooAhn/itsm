@@ -1,6 +1,6 @@
-package co.brainz.itsm.numbering.constants
+package co.brainz.framework.numbering.constants
 
-object NumberingConstants {
+object AliceNumberingConstants {
 
     const val DEFAULT_START_WITH = 1
     const val DEFAULT_FUL_FILL = "Y"

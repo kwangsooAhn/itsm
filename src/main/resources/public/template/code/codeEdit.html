@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title>코드 관리</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto auto auto;">
+        <h1 th:text="#{menu.setting.code}">></h1>
+        <div align="right">
+            <button sec:authorize="hasAuthority('code.create')" type="button" id="btnCreate" name="btnCreate"
+                    th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
+        </div>
+        <hr>
+        <div style="height:275px; width:inherit; display:-webkit-inline-box;">
+            <div style="width:20%; height:inherit; border:1px solid; margin-right:1rem; overflow:overlay;">
+                <ul th:each="codeList : ${codeList}">
+                    <li name="codeList" th:text="${codeList.code}" th:id="${codeList.code}" style="cursor: pointer;"></li>
+                </ul>
+            </div>
+            <table border="1">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <tr>
+                    <th class="required" th:text="#{code.label.code}"></th>
+                    <td><input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/></td>
+                    <th th:text="#{code.label.pCode}"></th>
+                    <td><input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/></td>
+                </tr>
+                <tr>
+                    <th th:text="#{code.label.codeValue}"></th>
+                    <td colspan="3">
+                        <textarea id="txtCodeDesc" name="txtCodeDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${codeDetail?.codeValue}"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th th:text="#{common.label.createUserName}"></th>
+                    <td><span id="spanCreateUserName" name="spanCreateUserName" th:text="${codeDetail?.createUserName}"></span></td>
+                    <th th:text="#{common.label.updateUserName}"></th>
+                    <td><span id="spanUpdateUserName" name="spanUpdateUserName" th:text="${authDetail?.updateUserName}"></span></td>
+                </tr>
+                <tr>
+                    <th th:text="#{common.label.createDate}"></th>
+                    <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(codeDetail?.createDt,dateformat)}"></span></td>
+                    <th th:text="#{common.label.updateDate}"></th>
+                    <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(codeDetail?.updateDt,dateformat)}"></span></td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+        <!-- buttons -->
+        <table style="float:right">
+            <tr>
+                <td>
+                    <button sec:authorize="hasAuthority('code.delete')" type="button" id="btnDelete" name="btnDelete"
+                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                </td>
+                <td>
+                    <button sec:authorize="hasAuthority('code.update')" type="button" id="btnUpdate" name="btnUpdate"
+                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                </td>
+                <td>
+                    <button sec:authorize="hasAuthority('code.create')" type="button" id="btnRegist" name="btnRegist"
+                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.addEventListener('load', function() {
+            var first = document.querySelector('li[name=codeList]');
+            onGetDetail(first.getAttribute('id'));
+
+            var codeList = document.querySelectorAll('li[name=codeList]');
+            for(var i = 0; i < codeList.length; i++) {
+                codeList[i].addEventListener('click', function() {
+                    onGetDetail(this.id);
+                });
+            }
+
+            function onGetDetail(codeId) {
+                document.getElementById('btnUpdate').style.display = 'block';
+                document.getElementById('btnRegist').style.display = 'none';
+                document.getElementById('btnDelete').style.display = 'block';
+
+                const opt = {
+                    method: 'get',
+                    url: '/rest/codes/' + codeId,
+                    callbackFunc: function(response) {
+                       var responseJson = JSON.parse(response.responseText);
+
+                        document.getElementById('txtCode').value = responseJson.code;
+                        document.getElementById('txtCode').setAttribute('readonly','true');
+                        document.getElementById('txtPCode').value = responseJson.pcode;
+                        document.getElementById('txtCodeDesc').value = responseJson.codeValue;
+                        document.getElementById('spanCreateUserName').innerHTML = responseJson.createUserName;
+                        document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
+                        document.getElementById('spanUpdateUserName').innerHTML = responseJson.updateUserName;
+                        document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
+                    }
+                };
+
+                aliceJs.sendXhr(opt);
+            }
+        });
+
+        /** create **/
+        function onCreate() {
+            document.getElementById('btnDelete').style.display = 'none';
+            document.getElementById('btnUpdate').style.display = 'none';
+            document.getElementById('btnRegist').style.display = 'block';
+            document.getElementById('txtCode').value = '';
+            document.getElementById('txtCode').removeAttribute('readonly');
+            document.getElementById('txtPCode').value = '';
+            document.getElementById('txtCodeDesc').value = '';
+            document.getElementById('spanCreateUserName').innerHTML = '';
+            document.getElementById('spanCreateDt').innerHTML = '';
+            document.getElementById('spanUpdateUserName').innerHTML = '';
+            document.getElementById('spanUpdateDt').innerHTML = '';
+        }
+
+        /** save **/
+        function onSave(flag) {
+            const jsonData = {
+                code: document.getElementById('txtCode').value,
+                pCode: document.getElementById('txtPCode').value,
+                codeValue: document.getElementById('txtCodeDesc').value
+            };
+
+            if (jsonData.code === null || jsonData.code === '') {
+                aliceJs.alert([[#{code.msg.codeNotExist}]]);
+                return false;
+            }
+
+            if (jsonData.pCode !== null || jsonData.pCode !== '') {
+                var codeList = document.querySelectorAll('li[name=codeList]');
+                for(var i = 0; i < codeList.length; i++) {
+                    if (codeList[i].id === jsonData.pCode) {
+                        if (flag === 'post') {
+                            url = '/rest/codes';
+                        } else {
+                            url = '/rest/codes/' + document.getElementById('txtCode').value;
+                        }
+
+                        const opt = {
+                            method: flag,
+                            url: url,
+                            params: JSON.stringify(jsonData),
+                            contentType: 'application/json',
+                            callbackFunc: function() {
+                                aliceJs.alert([[#{common.msg.save}]], function() {
+                                    window.location.href ='/codes/edit';
+                                });
+                            }
+                        };
+                        aliceJs.sendXhr(opt);
+                        return true;
+                    }
+                }
+                aliceJs.alert([[#{code.msg.pCodeNotExist}]]);
+                return false;
+            }
+        }
+
+        /** delete **/
+        function onDelete() {
+            const opt = {
+                method: 'delete',
+                url: '/rest/codes/' + document.getElementById('txtCode').value,
+                callbackFunc: function() {
+                    aliceJs.alert([[#{common.msg.delete.success}]], function() {
+                        window.location.href ='/codes/edit';
+                    });
+                }
+            };
+
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>
