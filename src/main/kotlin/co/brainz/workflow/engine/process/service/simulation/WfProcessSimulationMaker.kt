@@ -92,28 +92,31 @@ class WfProcessSimulationMaker {
      * 시작 엘리먼트를 리턴한다.
      */
     private fun getStartElement(): WfElementEntity {
-        return this.elementEntities.first {
-            it.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value
+        lateinit var element: WfElementEntity
+        try {
+            element = this.elementEntities.first {
+                it.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value
+            }
+        } catch (e: NoSuchElementException) {
+            throw AliceException(AliceErrorConstants.ERR_00005, "Start element not found.")
         }
-    }
-
-    /**
-     * 종료 엘리먼트를 리턴한다.
-     */
-    private fun getEndElement(): WfElementEntity {
-        return this.elementEntities.first {
-            it.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value
-        }
+        return element
     }
 
     /**
      * 특정 프로세스의 전체 엘리먼트 중에서 현재[current] 엘리먼트를 start-id 로 가지는 arrowConnector 를 조회한다.
      */
     private fun getArrowConnectElement(current: WfElementEntity): WfElementEntity {
-        return this.elementEntities.first {
-            current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
-                    && !removedDuplicationElements.contains(it)
+        lateinit var element: WfElementEntity
+        try {
+            element = this.elementEntities.first {
+                current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+                        && !removedDuplicationElements.contains(it)
+            }
+        } catch (e: NoSuchElementException) {
+            throw AliceException(AliceErrorConstants.ERR_00005, "ArrowConnector element not found.")
         }
+        return element
     }
 
     /**
