@@ -14,12 +14,6 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
-import java.net.Inet4Address
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
-import java.security.PrivateKey
-import java.time.LocalDateTime
-import java.util.TimeZone
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
@@ -29,6 +23,12 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import java.net.Inet4Address
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import java.util.TimeZone
 
 /**
  * @since 1.0
@@ -193,7 +193,7 @@ class AliceCertificationService(
             "${aliceCertificationDto.certificationCode}:${aliceCertificationDto.userId}:${aliceCertificationDto.email}"
         val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
         val urlEncryptUid: String = URLEncoder.encode(encryptUid, StandardCharsets.UTF_8)
-        return "${senderProtocol}://${host}:${senderPort}/certification/valid?uid=${urlEncryptUid}"
+        return "$senderProtocol://$host:$senderPort/certification/valid?uid=$urlEncryptUid"
     }
 
     fun makeMailInfo(aliceCertificationDto: AliceCertificationDto): AliceMailDto {

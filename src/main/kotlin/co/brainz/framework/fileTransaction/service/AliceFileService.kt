@@ -1,7 +1,6 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -33,7 +32,6 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.text.SimpleDateFormat
 import java.util.Calendar
-
 
 /**
  * 파일 서비스 클래스

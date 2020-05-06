@@ -1030,6 +1030,37 @@
                         elementObject.readOnly = true;
                         propertyContainer.appendChild(elementObject);
                         break;
+                    case 'inputbox-copy':
+                        elementObject = document.createElement('input');
+                        elementObject.className = 'copy';
+                        elementObject.readOnly = true;
+                        propertyContainer.appendChild(elementObject);
+
+                        let copyBtnContainer = document.createElement('div');
+                        copyBtnContainer.className = 'clipboard-tooltip';
+                        let copyBtn = document.createElement('span');
+                        copyBtn.className = 'clipboard-tooltip-button';
+                        copyBtn.addEventListener('click', function() {
+                            elementObject.select();
+                            elementObject.setSelectionRange(0, 99999);
+                            document.execCommand('copy');
+
+                            let tooltip = document.getElementById('clipboard-tooltip-text');
+                            tooltip.textContent = 'Copy Success';
+                        });
+                        copyBtn.addEventListener('mouseout', function() {
+                            let tooltip = document.getElementById('clipboard-tooltip-text');
+                            tooltip.textContent = 'Copy to clipboard';
+                        });
+                        let tooltip = document.createElement('span');
+                        tooltip.id = 'clipboard-tooltip-text';
+                        tooltip.className = 'clipboard-tooltip-text';
+                        tooltip.textContent = 'Copy to clipboard';
+                        copyBtn.appendChild(tooltip);
+                        copyBtnContainer.appendChild(copyBtn);
+
+                        propertyContainer.appendChild(copyBtnContainer);
+                        break;
                     case 'textarea':
                         elementObject = document.createElement('textarea');
                         elementObject.style.resize = 'none';

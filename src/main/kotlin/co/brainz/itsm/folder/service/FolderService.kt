@@ -38,5 +38,4 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
 
         return relatedInstance
     }
-
 }
