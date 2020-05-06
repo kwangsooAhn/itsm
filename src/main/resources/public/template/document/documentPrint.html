@@ -11,20 +11,20 @@
 <body>
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
-        <div style="margin: 15px 60px; height: 45px;">
+        <div class="print-header">
             <img src="/assets/media/icons/logo_blue.png">
-            <span id="printInfo" style="float: right" th:align="right"></span>
+            <span id="printInfo"></span>
         </div>
-        <hr style="border-top: 1px solid">
-        <div id="document-container" class="print-container"></div>
+        <hr class="print-hr">
+        <div id="document-container" class="print-body"></div>
     </form>
 </th:block>
 </body>
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
-    <script type="text/javascript">
+    <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
-        window.onload = function () {
+        window.onload = function() {
             const dateTimeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat;
             const dateTime = aliceJs.changeDateFormat(
                 dateTimeFormat + ' 24',
@@ -36,9 +36,9 @@
             printInfo.innerHTML = aliceForm.options.sessionInfo.userName + ' ['
                 + aliceForm.options.sessionInfo.email + ']<br>' + dateTime;
 
-            aliceDocument.drawDocument(JSON.parse(JSON.stringify('[(${data})]')));
+            aliceDocument.drawDocument(JSON.parse(/*[[${data}]]*/''));
 
-            setTimeout(function () {
+            setTimeout(function() {
                 window.print();
             }, 500);
         };

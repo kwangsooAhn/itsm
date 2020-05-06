@@ -3,7 +3,7 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="form/formCore">
 <head>
-    <title th:text="#{document.token.print}"></title>
+    <title th:text="#{token.label.print}"></title>
     <th:block layout:fragment="css">
         <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
     </th:block>
@@ -11,49 +11,49 @@
 <body>
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
-        <div style="margin: 15px 60px; height: 45px;">
+        <div class="print-header">
             <img src="/assets/media/icons/logo_blue.png">
-            <span id="printInfo" style="float: right" th:align="right"></span>
+            <span id="printInfo"></span>
         </div>
-        <hr style="border-top: 1px solid">
-        <div id="document-container" class="print-container"></div>
+        <hr class="print-hr">
+        <div id="document-container" class="print-body"></div>
     </form>
-    <hr style="border-top: 1px solid">
-    <div style="margin: 15px 60px; height: 45px;">
-    <h1 th:text="#{token.label.history}"></h1>
-    <table class="table" style="text-align: center">
-        <colgroup>
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
-        </colgroup>
-        <thead>
-        <tr>
-            <th th:text="#{token.label.startDt}">시작일시</th>
-            <th th:text="#{token.label.endDt}">완료일시</th>
-            <th th:text="#{token.label.elementName}">업무</th>
-            <th th:text="#{token.label.assignee}">담당자</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody id="history">
-        <tr th:each="tokenHistory : ${instanceHistory}">
-            <td th:with="dateformat=${#authentication.details.timeFormat}"
-                th:text="${#temporals.format(tokenHistory.tokenStartDt, dateformat)}"></td>
-            <td th:with="dateformat=${#authentication.details.timeFormat}"
-                th:text="${#temporals.format(tokenHistory.tokenEndDt, dateformat)}"></td>
-            <td th:text="${tokenHistory.elementName}"></td>
-            <td th:text="${tokenHistory.assigneeName}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <hr class="print-hr">
+    <div class="print-history">
+        <h1 th:text="#{token.label.history}"></h1>
+        <table class="table" style="text-align: center">
+            <colgroup>
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th th:text="#{token.label.startDt}"></th>
+                    <th th:text="#{token.label.endDt}"></th>
+                    <th th:text="#{token.label.elementName}"></th>
+                    <th th:text="#{token.label.assignee}"></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="history">
+                <tr th:each="tokenHistory : ${instanceHistory}">
+                    <td th:with="dateformat=${#authentication.details.timeFormat}"
+                        th:text="${#temporals.format(tokenHistory.tokenStartDt, dateformat)}"></td>
+                    <td th:with="dateformat=${#authentication.details.timeFormat}"
+                        th:text="${#temporals.format(tokenHistory.tokenEndDt, dateformat)}"></td>
+                    <td th:text="${tokenHistory.elementName}"></td>
+                    <td th:text="${tokenHistory.assigneeName}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
-    <script type="text/javascript">
+    <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         window.onload = function () {
             const dateTimeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat;
@@ -67,7 +67,7 @@
             printInfo.innerHTML = aliceForm.options.sessionInfo.userName + ' ['
                 + aliceForm.options.sessionInfo.email + ']<br>' + dateTime;
 
-            aliceDocument.drawDocument(JSON.parse(JSON.stringify('[(${data})]')));
+            aliceDocument.drawDocument(JSON.parse(/*[[${data}]]*/''));
 
             setTimeout(function () {
                 window.print();

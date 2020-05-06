@@ -484,7 +484,7 @@
         }
 
         //Add Comment Box
-        if (data.instanceId !== undefined && !data.isPrint) {
+        if (data.instanceId !== undefined) {
             addCommentBox(data.instanceId);
         }
     }
@@ -496,26 +496,27 @@
      */
     function addCommentBox(instanceId) {
         commentContainer = document.getElementById('comment-container');
+        if (commentContainer !== null) {
+            let commentBoxContainer = document.createElement('div');
+            let commentButtonContainer = document.createElement('div');
+            commentBoxContainer.classList.add('field');
+            commentBoxContainer.style.width = '90%';
+            commentButtonContainer.classList.add('field');
+            commentButtonContainer.style.width = '10%';
 
-        let commentBoxContainer = document.createElement('div');
-        let commentButtonContainer = document.createElement('div');
-        commentBoxContainer.classList.add('field');
-        commentBoxContainer.style.width = '90%';
-        commentButtonContainer.classList.add('field');
-        commentButtonContainer.style.width = '10%';
+            let commentBoxTextarea = document.createElement('textarea');
+            let commentButton = document.createElement('button');
+            commentButton.type = 'button';
+            commentButton.innerText = i18n.get('common.btn.register');
+            commentButton.addEventListener('click', function () {
+                aliceDocument.saveComment(instanceId, commentBoxTextarea.value);
+            });
 
-        let commentBoxTextarea = document.createElement('textarea');
-        let commentButton = document.createElement('button');
-        commentButton.type = 'button';
-        commentButton.innerText = i18n.get('common.btn.register');
-        commentButton.addEventListener('click', function () {
-            aliceDocument.saveComment(instanceId, commentBoxTextarea.value);
-        });
-
-        commentBoxContainer.appendChild(commentBoxTextarea);
-        commentButtonContainer.appendChild(commentButton);
-        commentContainer.appendChild(commentBoxContainer);
-        commentContainer.appendChild(commentButtonContainer);
+            commentBoxContainer.appendChild(commentBoxTextarea);
+            commentButtonContainer.appendChild(commentButton);
+            commentContainer.appendChild(commentBoxContainer);
+            commentContainer.appendChild(commentButtonContainer);
+        }
     }
 
     /**
@@ -645,21 +646,19 @@
      */
     function print(url) {
         let form = document.createElement('form');
-        form.action = url;
+        form.action = url + '/print';
         form.method = 'post';
         form.target = 'result';
-        let input = document.createElement('textarea');
-        input.name = 'data';
+        let textarea = document.createElement('textarea');
+        textarea.name = 'data';
         let componentData = getComponentData();
-        documentData.isPrint = true;
-        documentData.components = documentData.components.filter(function (comp) {
-            componentData.forEach(function (array) {
+        documentData.components = documentData.components.filter(function(comp) {
+            componentData.forEach(function(array) {
                 if (comp.componentId === array.componentId) {
                     if (typeof comp.values[0] === 'undefined') {
-                        comp.values.push({value: array.value});
-                    } else {
-                        comp.values[0].value = array.value;
+                        comp.values.push({value: ''});
                     }
+                    comp.values[0].value = array.value;
                 }
             });
             if (comp.displayType !== 'hidden') {
@@ -667,8 +666,8 @@
             }
             return comp;
         });
-        input.value = JSON.stringify(documentData);
-        form.appendChild(input);
+        textarea.value = JSON.stringify(documentData);
+        form.appendChild(textarea);
         form.style.display = 'none';
         document.body.appendChild(form);
 

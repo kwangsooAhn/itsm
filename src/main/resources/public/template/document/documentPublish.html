@@ -11,8 +11,8 @@
 <body>
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
-        <div class="print-btn-container">
-            <button type="button" th:onclick="aliceDocument.print('/documents/' + [[${documentId}]] + '/print')"
+        <div class="print-btn">
+            <button type="button" th:onclick="aliceDocument.print('/documents/' + [[${documentId}]])"
                     th:text="#{common.label.print}"></button>
         </div>
         <div class="drawing-board" id="document-container"></div>
