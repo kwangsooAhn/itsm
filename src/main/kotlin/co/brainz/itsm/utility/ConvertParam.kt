@@ -33,5 +33,4 @@ class ConvertParam {
             throw IllegalArgumentException("When you use the parameter type of a method incorrectly")
         }
     }
-
 }

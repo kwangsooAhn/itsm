@@ -154,5 +154,4 @@ class WfTokenActionService(
     fun deleteTokenData(tokenId: String) {
         wfTokenDataRepository.deleteTokenDataEntityByTokenId(tokenId)
     }
-
 }

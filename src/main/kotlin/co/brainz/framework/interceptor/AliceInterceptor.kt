@@ -61,7 +61,7 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInte
                 }
                 throw AliceException(
                     AliceErrorConstants.ERR_00003,
-                    AliceErrorConstants.ERR_00003.message + "(URL: ${requestUrl})"
+                    AliceErrorConstants.ERR_00003.message + "(URL: $requestUrl)"
                 )
             }
         }

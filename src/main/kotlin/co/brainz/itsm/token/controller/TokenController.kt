@@ -40,7 +40,7 @@ class TokenController(
      */
     @GetMapping("/search")
     fun getTokenSearch(request: HttpServletRequest): String {
-        //사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
+        // 사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userKey = aliceUserDto.userKey
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)

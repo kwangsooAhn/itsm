@@ -16,5 +16,4 @@ enum class AliceErrorConstants(
     ERR_00004(AliceHttpStatusConstants.BAD_REQUEST.status, "ERR-00004", "The file extension is not allowed"),
     ERR_00005(AliceHttpStatusConstants.NOT_FOUND.status, "ERR-00005", "Not found resource")
     ;
-
 }

@@ -42,7 +42,7 @@ class ProcessController(private val processService: ProcessService) {
      */
     @GetMapping("/new")
     fun getProcessNew(request: HttpServletRequest, model: Model): String {
-        //TODO 템플릿 정보 가져오기
+        // TODO 템플릿 정보 가져오기
 
         return processEditPage
     }

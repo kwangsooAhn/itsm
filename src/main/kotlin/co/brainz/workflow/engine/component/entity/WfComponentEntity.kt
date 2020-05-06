@@ -37,4 +37,3 @@ data class WfComponentEntity(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "attributes", cascade = [CascadeType.REMOVE])
     val attributes: MutableList<WfComponentDataEntity>? = mutableListOf()
 }
-
