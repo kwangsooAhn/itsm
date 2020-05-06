@@ -18,6 +18,14 @@
         </div>
         </tbody>
     </table>
+    <nav style="text-align: center;">
+        <ul class="container"
+            th:with="start= 1, last=(${totalPages} > 0 ? ${totalPages} : 1)">
+            <li th:each="page: ${#numbers.sequence(start, last)}" style="display:inline-block;">
+                <a th:text="${page}" th:onclick="restSubmit('get',[[@{/portal/list/?page={page}(page=${page})}]])" style="padding:10px;"></a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>
