@@ -9,14 +9,14 @@ import org.mapstruct.Mappings
 @Mapper
 interface DownloadMapper {
     @Mappings(
-            Mapping(source = "createUser.userName", target = "createUserName"),
-            Mapping(source = "updateUser.userName", target = "updateUserName")
+        Mapping(source = "createUser.userName", target = "createUserName"),
+        Mapping(source = "updateUser.userName", target = "updateUserName")
     )
     fun toDownloadDto(downloadEntity: DownloadEntity): DownloadDto
 
     @Mappings(
-            Mapping(target = "createDt", ignore = true),
-            Mapping(target = "updateDt", ignore = true)
+        Mapping(target = "createDt", ignore = true),
+        Mapping(target = "updateDt", ignore = true)
     )
     fun toDownloadEntity(downloadDto: DownloadDto): DownloadEntity
 }

@@ -24,7 +24,8 @@ interface WfElementRepository : JpaRepository<WfElementEntity, String> {
         "SELECT elem " +
                 "FROM WfElementEntity elem " +
                 "WHERE elem.processId = :processId " +
-                "AND elem.elementType = :elementType")
+                "AND elem.elementType = :elementType"
+    )
     fun findUserTaskByProcessId(
         processId: String,
         elementType: String = WfElementConstants.ElementType.USER_TASK.value

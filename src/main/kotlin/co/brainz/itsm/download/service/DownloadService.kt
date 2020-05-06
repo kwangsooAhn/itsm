@@ -32,7 +32,12 @@ class DownloadService(
         val toDt = convertParam.convertToSearchLocalDateTime(downloadSearchDto.toDt, "toDt")
         val downloadEntity = when (downloadSearchDto.category) {
             "all" -> downloadRepository.findByDownloadList(downloadSearchDto.search, fromDt, toDt)
-            else -> downloadRepository.findByDownloadList(downloadSearchDto.category, downloadSearchDto.search, fromDt, toDt)
+            else -> downloadRepository.findByDownloadList(
+                downloadSearchDto.category,
+                downloadSearchDto.search,
+                fromDt,
+                toDt
+            )
         }
         val downloadList = mutableListOf<DownloadDto>()
         downloadEntity.forEach {

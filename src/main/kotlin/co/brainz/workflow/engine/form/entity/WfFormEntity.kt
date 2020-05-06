@@ -45,9 +45,9 @@ data class WfFormEntity(
     var updateUserKey: String? = null
 
 ) : Serializable {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "form", cascade = [CascadeType.REMOVE])
-        val components: MutableList<WfComponentEntity>? = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "form", cascade = [CascadeType.REMOVE])
+    val components: MutableList<WfComponentEntity>? = mutableListOf()
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "form")
-        val document: MutableList<WfDocumentEntity>? = mutableListOf()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "form")
+    val document: MutableList<WfDocumentEntity>? = mutableListOf()
 }

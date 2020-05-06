@@ -68,9 +68,18 @@ class CustomCodeService(
     fun getCustomCode(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)
-        customCodeDto.targetTableName = customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable).customCodeTableName
-        customCodeDto.searchColumnName = getCustomCodeColumnName(customCodeDto.targetTable, customCodeDto.searchColumn, CustomCodeConstants.ColumnType.SEARCH.code)
-        customCodeDto.valueColumnName = getCustomCodeColumnName(customCodeDto.targetTable, customCodeDto.valueColumn, CustomCodeConstants.ColumnType.VALUE.code)
+        customCodeDto.targetTableName =
+            customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable).customCodeTableName
+        customCodeDto.searchColumnName = getCustomCodeColumnName(
+            customCodeDto.targetTable,
+            customCodeDto.searchColumn,
+            CustomCodeConstants.ColumnType.SEARCH.code
+        )
+        customCodeDto.valueColumnName = getCustomCodeColumnName(
+            customCodeDto.targetTable,
+            customCodeDto.valueColumn,
+            CustomCodeConstants.ColumnType.VALUE.code
+        )
         return customCodeDto
     }
 
@@ -157,11 +166,13 @@ class CustomCodeService(
      * @return String
      */
     fun getCustomCodeColumnName(customCodeTable: String, customCodeColumn: String, customCodeType: String): String {
-        return customCodeColumnRepository.findById(CustomCodeColumnPk(
+        return customCodeColumnRepository.findById(
+            CustomCodeColumnPk(
                 customCodeTable = customCodeTable,
                 customCodeColumn = customCodeColumn,
                 customCodeType = customCodeType
-        )).orElse(CustomCodeColumnEntity()).customCodeColumnName
+            )
+        ).orElse(CustomCodeColumnEntity()).customCodeColumnName
     }
 
     /**
@@ -179,7 +190,8 @@ class CustomCodeService(
                 isContinue = false
             }
             if (isContinue) {
-                val existCustomCode = customCodeRepository.findById(customCodeDto.customCodeId).orElse(CustomCodeEntity())
+                val existCustomCode =
+                    customCodeRepository.findById(customCodeDto.customCodeId).orElse(CustomCodeEntity())
                 isContinue = (customCodeDto.customCodeName != existCustomCode.customCodeName)
             }
         }

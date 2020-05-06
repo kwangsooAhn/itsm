@@ -18,10 +18,14 @@ class DashboardService(private val restTemplate: RestTemplateProvider) {
      *
      * @return
      */
-   fun getStatusCountList(params: LinkedMultiValueMap<String, String>): List<RestTemplateInstanceCountDto> {
-        var url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES_COUNT.url, parameters = params)
+    fun getStatusCountList(params: LinkedMultiValueMap<String, String>): List<RestTemplateInstanceCountDto> {
+        val url =
+            RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES_COUNT.url, parameters = params)
         val responseBody = restTemplate.get(url)
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        return mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceCountDto::class.java))
+        return mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceCountDto::class.java)
+        )
     }
 }
