@@ -62,8 +62,6 @@ class WfProcessSimulator(
             }
         }
         logger.info("Simulation validate - All validation complete.")
-
-        logger.info("Simulation end.")
         return true
     }
 }
