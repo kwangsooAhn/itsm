@@ -1,6 +1,8 @@
 package co.brainz.workflow.engine.element.constants
 
 object WfElementConstants {
+
+
     /**
      * Element Type.
      */
@@ -22,7 +24,26 @@ object WfElementConstants {
         SUB_PROCESS("subprocess"),
         ANNOTATION_ARTIFACT("annotationArtifact"),
         GROUP_ARTIFACT("groupArtifact"),
-        SIGNAL_SEND("signalSend")
+        SIGNAL_SEND("signalSend"),
+
+        // 상위 호환, 예를 들어 TASK - user, manual, send task등 모두 포함하는 상위 개념이다
+        TASK("atomicTask"),
+        GATEWAY("atomicGateway"),
+        EVENT("atomicEvent")
+        ;
+
+        companion object {
+            fun getAtomic(value: String): ElementType? {
+                return when (value) {
+                    USER_TASK.value, MANUAL_TASK.value, SEND_TASK.value, RECEIVE_TASK.value, SCRIPT_TASK.value -> TASK
+                    EXCLUSIVE_GATEWAY.value, PARALLEL_GATEWAY.value, INCLUSIVE_GATEWAY.value -> GATEWAY
+                    COMMON_START_EVENT.value, COMMON_END_EVENT.value -> EVENT
+                    ARROW_CONNECTOR.value -> ARROW_CONNECTOR
+                    SUB_PROCESS.value -> SUB_PROCESS
+                    else -> null
+                }
+            }
+        }
     }
 
     /**

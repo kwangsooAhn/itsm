@@ -22,24 +22,13 @@ class WfProcessSimulationFactory(
     private val documentRepository: WfDocumentRepository
 ) {
     fun getProcessSimulation(elementType: String): WfProcessSimulationElement {
-        return when (elementType) {
-            WfElementConstants.ElementType.COMMON_START_EVENT.value,
-            WfElementConstants.ElementType.COMMON_END_EVENT.value -> WfProcessSimulationEvent()
-
-            WfElementConstants.ElementType.ARROW_CONNECTOR.value -> WfProcessSimulationArrow(elementRepository)
-
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value,
-            WfElementConstants.ElementType.PARALLEL_GATEWAY.value,
-            WfElementConstants.ElementType.INCLUSIVE_GATEWAY.value -> WfProcessSimulationGateway(elementRepository)
-
-            WfElementConstants.ElementType.SUB_PROCESS.value -> WfProcessSimulationSubProcess(documentRepository)
-
-            WfElementConstants.ElementType.USER_TASK.value,
-            WfElementConstants.ElementType.MANUAL_TASK.value,
-            WfElementConstants.ElementType.SEND_TASK.value,
-            WfElementConstants.ElementType.RECEIVE_TASK.value,
-            WfElementConstants.ElementType.SCRIPT_TASK.value -> WfProcessSimulationTask()
-
+        val type = WfElementConstants.ElementType.getAtomic(elementType)
+        return when (type) {
+            WfElementConstants.ElementType.EVENT -> WfProcessSimulationEvent()
+            WfElementConstants.ElementType.ARROW_CONNECTOR -> WfProcessSimulationArrow(elementRepository)
+            WfElementConstants.ElementType.GATEWAY -> WfProcessSimulationGateway(elementRepository)
+            WfElementConstants.ElementType.SUB_PROCESS -> WfProcessSimulationSubProcess(documentRepository)
+            WfElementConstants.ElementType.TASK -> WfProcessSimulationTask()
             else -> throw AliceException(
                 AliceErrorConstants.ERR_00005,
                 "Not found simulation. Check simulation factory class."
