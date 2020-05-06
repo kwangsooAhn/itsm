@@ -10856,7 +10856,11 @@ a.text-dark:hover, a.text-dark:focus {
   text-align: right;
 }
 
-.print-body .component[data-readonly=true] .group {
+.print-body .component {
+  page-break-inside: avoid;
+}
+
+.print-body .component .group {
   pointer-events: none;
 }
 

@@ -13,7 +13,7 @@
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
 
-    let documentData = '';
+    let dataForPrint = ''; // 프린트 출력용 저장 데이터
     let fileDataIds = '';
 
     /**
@@ -362,9 +362,9 @@
             tokenObject.assigneeType = '';
         }
 
-        const componentData = getComponentData();
-        if (componentData.length > 0) {
-            tokenObject.data = componentData;
+        const componentArrayList = getComponentData();
+        if (componentArrayList.length > 0) {
+            tokenObject.data = componentArrayList;
         } else {
             tokenObject.data = '';
         }
@@ -580,10 +580,10 @@
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/documents/data/' + documentId,
-            callbackFunc: function (xhr) {
-                documentData = JSON.parse(xhr.responseText);
-                documentData.documentId = documentId;
-                drawDocument(documentData);
+            callbackFunc: function(xhr) {
+                dataForPrint = JSON.parse(xhr.responseText);
+                dataForPrint.documentId = documentId;
+                drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -601,10 +601,10 @@
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/tokens/data/' + tokenId,
-            callbackFunc: function (xhr) {
-                documentData = JSON.parse(xhr.responseText);
-                documentData.tokenId = tokenId;
-                drawDocument(documentData);
+            callbackFunc: function(xhr) {
+                dataForPrint = JSON.parse(xhr.responseText);
+                dataForPrint.tokenId = tokenId;
+                drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -647,13 +647,14 @@
     function print(url) {
         let form = document.createElement('form');
         form.action = url + '/print';
+        form.name = 'print';
         form.method = 'post';
-        form.target = 'result';
+        form.target = '_blank';
         let textarea = document.createElement('textarea');
         textarea.name = 'data';
-        let componentData = getComponentData();
-        documentData.components = documentData.components.filter(function(comp) {
-            componentData.forEach(function(array) {
+        let componentArrayList = getComponentData();
+        dataForPrint.components = dataForPrint.components.filter(function(comp) {
+            componentArrayList.forEach(function(array) {
                 if (comp.componentId === array.componentId) {
                     if (typeof comp.values[0] === 'undefined') {
                         comp.values.push({value: ''});
@@ -666,7 +667,7 @@
             }
             return comp;
         });
-        textarea.value = JSON.stringify(documentData);
+        textarea.value = JSON.stringify(dataForPrint);
         form.appendChild(textarea);
         form.style.display = 'none';
         document.body.appendChild(form);

@@ -50,8 +50,13 @@
     }
 }
 
-.print-body .component[data-readonly=true] .group {
-    pointer-events: none;
+.print-body {
+    .component {
+        page-break-inside: avoid;
+        .group {
+            pointer-events: none;
+        }
+    }
 }
 
 .print-history {
