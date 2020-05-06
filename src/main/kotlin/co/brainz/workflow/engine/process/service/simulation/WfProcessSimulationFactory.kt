@@ -22,8 +22,7 @@ class WfProcessSimulationFactory(
     private val documentRepository: WfDocumentRepository
 ) {
     fun getProcessSimulation(elementType: String): WfProcessSimulationElement {
-        val type = WfElementConstants.ElementType.getAtomic(elementType)
-        return when (type) {
+        return when (WfElementConstants.ElementType.getAtomic(elementType)) {
             WfElementConstants.ElementType.EVENT -> WfProcessSimulationEvent()
             WfElementConstants.ElementType.ARROW_CONNECTOR -> WfProcessSimulationArrow(elementRepository)
             WfElementConstants.ElementType.GATEWAY -> WfProcessSimulationGateway(elementRepository)
