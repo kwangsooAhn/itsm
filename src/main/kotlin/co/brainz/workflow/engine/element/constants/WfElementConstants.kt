@@ -26,15 +26,17 @@ object WfElementConstants {
         GROUP_ARTIFACT("groupArtifact"),
         SIGNAL_SEND("signalSend"),
 
-        // 상위 호환, 예를 들어 TASK - user, manual, send task등 모두 포함하는 상위 개념이다
+        // 상위 호환, 엘리먼트 타입의 종류를 하나로 묶어서 구분하도록 한다.
+        // 예를 들어 TASK - user, manual, send task등 모두 포함하는 상위 개념이다
         TASK("atomicTask"),
         GATEWAY("atomicGateway"),
         EVENT("atomicEvent")
         ;
 
+        // 엘리먼트 타입이 어떤 종류인지 해당 종류를 리턴한다.
         companion object {
-            fun getAtomic(value: String): ElementType? {
-                return when (value) {
+            fun getAtomic(elementType: String): ElementType? {
+                return when (elementType) {
                     USER_TASK.value, MANUAL_TASK.value, SEND_TASK.value, RECEIVE_TASK.value, SCRIPT_TASK.value -> TASK
                     EXCLUSIVE_GATEWAY.value, PARALLEL_GATEWAY.value, INCLUSIVE_GATEWAY.value -> GATEWAY
                     COMMON_START_EVENT.value, COMMON_END_EVENT.value -> EVENT
