@@ -404,6 +404,7 @@ code:
     codeValue: "코드 값"
   msg:
     codeNotExist: "코드를 입력해주세요."
+    pCodeNotExist: "부모 코드가 존재하지 않습니다."
 
 # Custom Code
 custom.code:

@@ -37,7 +37,7 @@ class CodeRestController(private val codeService: CodeService) {
      */
     @PostMapping("/", "")
     fun createCode(@RequestBody codeDetailDto: CodeDetailDto) {
-        return codeService.saveCode(codeDetailDto)
+        return codeService.createCode(codeDetailDto)
 
     }
 
@@ -46,7 +46,7 @@ class CodeRestController(private val codeService: CodeService) {
      */
     @PutMapping("/{code}")
     fun updateCode(@RequestBody codeDetailDto: CodeDetailDto) {
-        return codeService.saveCode(codeDetailDto)
+        return codeService.createCode(codeDetailDto)
     }
 
     /**

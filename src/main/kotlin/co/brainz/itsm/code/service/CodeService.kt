@@ -41,14 +41,14 @@ class CodeService(private val codeRepository: CodeRepository) {
     /**
      * 코드 데이터 저장, 수정
      */
-    fun saveCode(codeDetailDto: CodeDetailDto) {
+    fun createCode(codeDetailDto: CodeDetailDto) {
         var pCode = codeDetailDto.pCode
 
         var codeEntity = CodeEntity (
-                codeDetailDto.code,
-                codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = pCode!!)),
-                codeDetailDto.codeValue,
-                codeDetailDto.editable
+            codeDetailDto.code,
+            codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = pCode!!)),
+            codeDetailDto.codeValue,
+            codeDetailDto.editable
         )
         codeRepository.save(codeEntity)
     }

@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 data class CodeDetailDto (
     var code: String = "",
-    var pCode: String? = null,
+    var pCode: String? = "",
     var codeValue: String? = null,
     var editable: Boolean? = true,
     var createDt: LocalDateTime? = null,

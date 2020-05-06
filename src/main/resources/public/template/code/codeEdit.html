@@ -17,10 +17,8 @@
         <hr>
         <div style="height:275px; width:inherit; display:-webkit-inline-box;">
             <div style="width:20%; height:inherit; border:1px solid; margin-right:1rem; overflow:overlay;">
-                <ul>
-                    <li th:each="codeList : ${codeList}">
-                        <a name="alink" th:text="${codeList.code}" th:id="${codeList.code}" style="cursor: pointer;"></a>
-                    </li>
+                <ul th:each="codeList : ${codeList}">
+                    <li name="codeList" th:text="${codeList.code}" th:id="${codeList.code}" style="cursor: pointer;"></li>
                 </ul>
             </div>
             <table border="1">
@@ -82,10 +80,10 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.addEventListener('load', function() {
-            var first = document.querySelector('a[name=alink]');
+            var first = document.querySelector('li[name=codeList]');
             onGetDetail(first.getAttribute('id'));
 
-            var codeList = document.querySelectorAll('a[name=alink]');
+            var codeList = document.querySelectorAll('li[name=codeList]');
             for(var i = 0; i < codeList.length; i++) {
                 codeList[i].addEventListener('click', function() {
                     onGetDetail(this.id);
@@ -146,25 +144,34 @@
                 return false;
             }
 
-            if (flag === 'post') {
-                url = '/rest/codes';
-            } else {
-                url = '/rest/codes/' + document.getElementById('txtCode').value;
-            }
+            if (jsonData.pCode !== null || jsonData.pCode !== '') {
+                var codeList = document.querySelectorAll('li[name=codeList]');
+                for(var i = 0; i < codeList.length; i++) {
+                    if (codeList[i].id === jsonData.pCode) {
+                        if (flag === 'post') {
+                            url = '/rest/codes';
+                        } else {
+                            url = '/rest/codes/' + document.getElementById('txtCode').value;
+                        }
 
-            const opt = {
-                method: flag,
-                url: url,
-                params: JSON.stringify(jsonData),
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alert([[#{common.msg.save}]], function() {
-                        window.location.href ='/codes/edit';
-                    });
+                        const opt = {
+                            method: flag,
+                            url: url,
+                            params: JSON.stringify(jsonData),
+                            contentType: 'application/json',
+                            callbackFunc: function() {
+                                aliceJs.alert([[#{common.msg.save}]], function() {
+                                    window.location.href ='/codes/edit';
+                                });
+                            }
+                        };
+                        aliceJs.sendXhr(opt);
+                        return true;
+                    }
                 }
-            };
-
-            aliceJs.sendXhr(opt);
+                aliceJs.alert([[#{code.msg.pCodeNotExist}]]);
+                return false;
+            }
         }
 
         /** delete **/
