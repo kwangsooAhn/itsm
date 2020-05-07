@@ -475,7 +475,7 @@ download:
   category:
     all: "전체"
     companyPolicy: "회사 규정"
-    ect: "기타"
+    etc: "기타"
   msg:
     selectDownloadCategory: "카테고리를 선택해주세요."
     inputDownloadTitle: "제목을 입력해주세요."
