@@ -17,8 +17,8 @@
         <div class="container">
             <div class="pull-right" id="portalPartB" style="margin:0px auto; margin-top:150px; text-align:center; display:block;">
                 <div id = "portalPartD" style="padding-bottom:20px; font-size:x-large; font-weight:bold;" th:text="#{portal.label.topPhrase}"></div>
-                <input type="text" id="searchValue" name="searchValue" style="width:500px; height:40px; font-size:20px;" onKeydown="javascript:if(event.keyCode == 13) restSubmit('get', '/portal/list'); "/>
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/portal/list')" style="height:40px;" th:text="#{portal.label.search}"></button>
+                <input type="text" id="searchValue" name="searchValue" style="width:500px; height:40px; font-size:20px;" onKeydown="javascript:if(event.keyCode == 13) restSubmit('get', '/portal/list?page=0'); "/>
+                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/portal/list?page=0')" style="height:40px;" th:text="#{portal.label.search}"></button>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[ */
-        function restSubmit(method, url, isSearch) {
+        function restSubmit(method, url) {
             document.getElementById('portalPartA').classList.remove('navbar');
             document.getElementById('portalPartA').classList.remove('navbar-expand-lg');
             document.getElementById('portalPartA').classList.remove('bg-primary');
@@ -66,7 +66,7 @@
                 searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
             };
 
-            const getUrl = url + '?searchValue=' + data.searchValue;
+            const getUrl = url + '&searchValue=' + data.searchValue;
             const opt = {
                 method: method,
                 url: getUrl,
