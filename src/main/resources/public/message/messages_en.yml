@@ -475,7 +475,7 @@ download:
   category:
     all: "All"
     companyPolicy: "Company Policy"
-    ect: "Ect"
+    etc: "Etc"
   msg:
     selectDownloadCategory: "Please select a category."
     inputDownloadTitle: "Please enter a title."
