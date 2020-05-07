@@ -20,7 +20,7 @@
     </table>
     <nav style="text-align: center;">
         <ul class="container"
-            th:with="start=${T(Math).floor(pageNumber/10)*10 + 1}, last=(${start + 9 < totalPages ? start + 9 : totalPages})">
+            th:with="start=${T(Math).floor(pageNumber / 10) * 10 + 1}, last=(${start + 9 < totalPages ? start + 9 : totalPages})">
             <li th:if="${hasPrevious}" style="display:inline-block;">
                 <a th:onclick="restSubmit('get',[[@{/portal/list/?page=0}]])" aria-label="First">
                     <span aria-hidden="true">First</span>
