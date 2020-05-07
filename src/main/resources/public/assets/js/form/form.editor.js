@@ -1441,6 +1441,7 @@
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
     exports.reorderComponent = reorderComponent;
+    exports.history = history;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

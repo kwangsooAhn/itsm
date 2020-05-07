@@ -148,7 +148,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
         val fileList = JsonArray()
         Files.walk(dir)
-                .filter{ it -> Files.isRegularFile(it) }
+                .filter { it -> Files.isRegularFile(it) }
                 //.filter { it -> it.toString().endsWith(".jpg") }  //TODO: 이미지만 필터 ([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)
                 .forEach { it ->
                     val fileJson = JsonObject()

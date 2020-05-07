@@ -27,6 +27,7 @@ class FormController(private val formService: FormService) {
     private val formEditPage: String = "form/formEdit"
     private val formDesignerEditPage: String = "form/formDesignerEdit"
     private val formEditPreviewPage: String = "form/formEditPreview"
+    private val imageUploadPopupPage: String = "form/imageUploadPopup"
 
     /**
      * 폼 리스트 검색 호출 화면.

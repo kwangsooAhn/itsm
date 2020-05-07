@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -43,29 +43,29 @@
 </body>
 <script type="text/javascript">
     /*<![CDATA[*/
-    const selectedImagePath = "";
+    const selectedImagePath = '';
     Dropzone.autoDiscover = false;
 
     window.onload = function() {
         const imageDropzone = new Dropzone('div#image-dropzone', {
-            paramName: "file", // file 매개변수명
+            paramName: 'file', // file 매개변수명
             params: {}, // 추가 매개변수
-            url: "/rest/forms/imageUpload",
-            method: "post",
+            url: '/rest/forms/imageUpload',
+            method: 'post',
             maxFilesize: 3, // 파일 용량 제한
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
             maxFiles: null, // 첨부파일 개수 제한
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             uploadMultiple: true,  //여러 개의 사진 업로드 허용
             addRemoveLinks: false,
-            acceptedFiles: ".jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF",
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF',
             autoQueue: true, // Make sure the files aren't queued until manually added
             clickable: false, // Define the element that should be used as click trigger to select files.
             headers: {
-                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
+                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content')
             },
             fallback: function() { // 지원하지 않는 IE 10 미만일 경우
-                //document.getElementById('trueForm').style.display = "none";
+                //document.getElementById('trueForm').style.display = 'none';
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _self = this;
@@ -81,44 +81,44 @@
                             status: Dropzone.ADDED,
                             isNew: false
                         };
-                        _self.emit("addedfile", mockFile);
+                        _self.emit('addedfile', mockFile);
                         _self.options.thumbnail.call(_self, mockFile,  '/' + imageFile['imgPath']);
                         _self.emit('complete', mockFile);
                         _self.files.push(mockFile);
                     }
                 }
                 //TODO: dropzone 이벤트 등록
-                /*_self.on("addedfile", function (file) {
-                    //file.previewElement.querySelector(".start").onclick = function() { _this.enqueueFile(file); };
+                /*_self.on('addedfile', function (file) {
+                    //file.previewElement.querySelector('.start').onclick = function() { _this.enqueueFile(file); };
                 });
 
-                _self.on("removedfile", function (file) {
+                _self.on('removedfile', function (file) {
                 });
 
-                _self.on("sending", function (file, xhr, formData) {
+                _self.on('sending', function (file, xhr, formData) {
                 });
 
-                _self.on("success", function (file, response) {
+                _self.on('success', function (file, response) {
                 });
 
-                _self.on("error", function (file, errorMsg, xhr) {
+                _self.on('error', function (file, errorMsg, xhr) {
                 });
 
-                _self.on("complete", function (file) {
+                _self.on('complete', function (file) {
                 });
 
-                _self.on("queuecomplete", function (progress) {
+                _self.on('queuecomplete', function (progress) {
                 });
 
-                _self.on("canceled", function () {
+                _self.on('canceled', function () {
                 });*/
 
-                _self.on("maxfilesexceeded", function (file, maxFiles) {
+                _self.on('maxfilesexceeded', function (file, maxFiles) {
                     _self.removeFile(file);
                     aliceJs.alert(i18n.get('fileupload.msg.maxfilesexceeded', maxFiles));
                 });
 
-                _self.on("maxfilesizeexceeded", function (file, maxFileSize) {
+                _self.on('maxfilesizeexceeded', function (file, maxFileSize) {
                     _self.removeFile(file);
                     aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize));
                 });
