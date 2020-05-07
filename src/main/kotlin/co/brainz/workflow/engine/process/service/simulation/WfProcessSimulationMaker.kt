@@ -4,9 +4,9 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
-import java.util.ArrayDeque
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.ArrayDeque
 
 /**
  * 프로세스 시뮬레이션을 위한 엘리먼트 연결.
@@ -110,7 +110,7 @@ class WfProcessSimulationMaker {
         try {
             element = this.elementEntities.first {
                 current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value) &&
-                    !removedDuplicationElements.contains(it)
+                        !removedDuplicationElements.contains(it)
             }
         } catch (e: NoSuchElementException) {
             throw AliceException(AliceErrorConstants.ERR_00005, "ArrowConnector element not found.")
