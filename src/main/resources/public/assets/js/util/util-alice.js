@@ -650,7 +650,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
  * @param item 대상
  * @returns {Boolean} boolean
  */
-aliceJs.isObject = function (item) {
+aliceJs.isObject = function(item) {
     return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
 };
 /**
@@ -658,14 +658,14 @@ aliceJs.isObject = function (item) {
  * @param target target 객체
  * @param source source 객제
  */
-aliceJs.mergeObject = function (target, source) {
+aliceJs.mergeObject = function(target, source) {
     if (aliceJs.isObject(target) && aliceJs.isObject(source)) {
-        Object.keys(source).forEach(key => {
+        Object.keys(source).forEach(function(key) {
             if (aliceJs.isObject(source[key])) {
                 if (!target[key]) { Object.assign(target, { [key]: {} }); }
                 aliceJs.mergeObject(target[key], source[key]);
             } else {
-                Object.assign(target, { [key]: source[key] });
+                Object.assign(target, JSON.parse(JSON.stringify({ [key]: source[key] })));
             }
         });
     }
