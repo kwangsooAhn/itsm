@@ -55,20 +55,26 @@ class FaqService(private val faqRepository: FaqRepository) {
     }
 
     /**
-     * FAQ 등록/변경
+     * FAQ 등록
      */
     @Transactional
-    fun save(faqDto: FaqDto) {
-        val faqEntity = if (faqDto.faqId.isNotBlank()) {
-            faqRepository.getOne(faqDto.faqId)
-        } else {
-            FaqEntity(
-                faqDto.faqId,
-                faqDto.faqGroup,
-                faqDto.faqTitle,
-                faqDto.faqContent
-            )
-        }
+    fun createFaq(faqDto: FaqDto) {
+        val faqEntity = FaqEntity(
+            faqGroup = faqDto.faqGroup,
+            faqTitle = faqDto.faqTitle,
+            faqContent = faqDto.faqContent
+        )
+
+        faqRepository.save(faqEntity)
+    }
+
+    /**
+     * FAQ 변경
+     */
+    @Transactional
+    fun updateFaq(faqId: String, faqDto: FaqDto) {
+        val faqEntity = faqRepository.getOne(faqId)
+
         faqEntity.faqGroup = faqDto.faqGroup
         faqEntity.faqTitle = faqDto.faqTitle
         faqEntity.faqContent = faqDto.faqContent
@@ -80,7 +86,7 @@ class FaqService(private val faqRepository: FaqRepository) {
      * FAQ 삭제
      */
     @Transactional
-    fun delete(faqId: String) {
+    fun deleteFaq(faqId: String) {
         faqRepository.deleteById(faqId)
     }
 }
