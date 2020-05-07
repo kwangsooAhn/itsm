@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @RequestMapping("/roles")
 @Controller
-public class RoleController(private val roleService: RoleService) {
+class RoleController(private val roleService: RoleService) {
 
     private val logger = LoggerFactory.getLogger(RoleController::class.java)
     private val roleEditPage: String = "role/roleEdit"
