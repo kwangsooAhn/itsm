@@ -87,7 +87,6 @@ class WfProcessSimulationMaker {
         return simulationElements
     }
 
-
     /**
      * 시작 엘리먼트를 리턴한다.
      */
@@ -110,8 +109,8 @@ class WfProcessSimulationMaker {
         lateinit var element: WfElementEntity
         try {
             element = this.elementEntities.first {
-                current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
-                        && !removedDuplicationElements.contains(it)
+                current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value) &&
+                    !removedDuplicationElements.contains(it)
             }
         } catch (e: NoSuchElementException) {
             throw AliceException(AliceErrorConstants.ERR_00005, "ArrowConnector element not found.")

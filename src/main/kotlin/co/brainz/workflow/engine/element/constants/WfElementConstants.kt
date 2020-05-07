@@ -2,7 +2,6 @@ package co.brainz.workflow.engine.element.constants
 
 object WfElementConstants {
 
-
     /**
      * Element Type.
      */

@@ -31,7 +31,6 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
             conditionValues.add(conditionValue)
         }
 
-
         // 게이트웨이에서 나가는 조건으로 map_id를 이용하는 경우 해당 map_id가 문서에 있는지 체크한다. ${}
         // TODO 발행전에는 document를 만들수가 없다. 내용 확인하고 추가.
 //        val regexComponentMappingId = WfElementConstants.RegexCondition.MAPPINGID.value.toRegex()
@@ -47,5 +46,4 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
     override fun failInfo(): String {
         return "Gateway simulation failed. $elementInformation"
     }
-
 }
