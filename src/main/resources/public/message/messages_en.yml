@@ -35,6 +35,7 @@ common:
     notSelect: "Not Select"
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
     comment: "Comment"
+    print: "Print"
   msg:
     save: "Saved"
     save.fail: "Fail"
@@ -380,6 +381,7 @@ document:
     process: "Process"
     status: "Status"
     numberingRule: "Document Numbering Rule"
+    print: "Service Request Print"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -411,6 +413,7 @@ token:
     assignee: "Assignee"
     history: "History"
     relatedInstance: "Related Documents"
+    print: "Process Document Print"
 
 # Code
 code:

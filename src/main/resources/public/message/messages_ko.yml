@@ -34,7 +34,8 @@ common:
     attachFile: "첨부파일"
     notSelect: "선택 안 함"
     lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
-    comment: 코멘트
+    comment: "코멘트"
+    print: "인쇄"
   msg:
     save: "저장되었습니다"
     save.fail: "실패되었습니다."
@@ -380,6 +381,7 @@ document:
     process: "프로세스"
     status: "신청서 상태"
     numberingRule: "문서번호규칙"
+    print: "신청서 인쇄"
   display:
     editable: "수정가능"
     editableRequired: "수정가능(필수값)"
@@ -411,6 +413,7 @@ token:
     assignee: "담당자"
     history: "처리 이력"
     relatedInstance: "관련 문서"
+    print: "처리할 문서 인쇄"
 
 # Code
 code:

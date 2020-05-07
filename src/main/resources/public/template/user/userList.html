@@ -8,7 +8,7 @@
 </head>
 <body>
 <div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(users)}">
-    <table>
+    <table class="table-hover">
         <thead>
         <tr>
             <th th:text="#{user.key}">사용자키</th>
