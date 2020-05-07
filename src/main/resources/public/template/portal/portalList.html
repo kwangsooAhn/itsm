@@ -20,10 +20,31 @@
     </table>
     <nav style="text-align: center;">
         <ul class="container"
-            th:with="start= 1, last=(${totalPages} > 0 ? ${totalPages} : 1)">
-            <li th:each="page: ${#numbers.sequence(start, last)}" style="display:inline-block;">
-                <a th:text="${page}" th:onclick="restSubmit('get',[[@{/portal/list/?page={page}(page=${page})}]])" style="padding:10px;"></a>
+            th:with="start=${T(Math).floor(pageNumber/10)*10 + 1}, last=(${start + 9 < totalPages ? start + 9 : totalPages})">
+            <li th:if="${hasPrevious}" style="display:inline-block;">
+                <a th:onclick="restSubmit('get',[[@{/portal/list/?page=0}]])" aria-label="First">
+                    <span aria-hidden="true">First</span>
+                </a>
             </li>
+            <li th:if="${hasPrevious}" style="display:inline-block;">
+                <a th:onclick="restSubmit('get',[[@{/portal/list/?page={page}(page=${pageNumber} - 1)}]])" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+            <li th:if="${totalCount} > 0" th:each="page: ${#numbers.sequence(start, last)}" style="display:inline-block;" th:class="${page == pageNumber + 1} ? 'active'">
+                <a th:text="${page}" th:onclick="restSubmit('get',[[@{/portal/list/?page={page}(page=${page} - 1)}]])" style="padding:10px;"></a>
+            </li>
+            <li th:if="${hasBefore}"  style="display:inline-block;">
+                <a th:onclick="restSubmit('get',[[@{/portal/list/?page={page}(page=${pageNumber} + 1)}]])" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            <li th:if="${hasBefore}" style="display:inline-block;">
+                <a th:onclick="restSubmit('get',[[@{/portal/list/?page={page}(page=${totalPages} - 1)}]])" aria-label="Last">
+                    <span aria-hidden="true">Last</span>
+                </a>
+            </li>
+
         </ul>
     </nav>
 </div>
