@@ -9,11 +9,11 @@ import co.brainz.itsm.notice.dto.NoticePopupListDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.mapper.NoticeMapper
 import co.brainz.itsm.notice.repository.NoticeRepository
+import java.time.LocalDateTime
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 @Service
 class NoticeService(private val noticeRepository: NoticeRepository, private val aliceFileService: AliceFileService) {
@@ -87,13 +87,13 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
             noticeDto.topNoticeStrtDt,
             noticeDto.topNoticeEndDt
         )
-        val resltNoticeEntity = noticeRepository.save(noticeEntity)
-        aliceFileService.upload(AliceFileDto(resltNoticeEntity.noticeNo, noticeDto.fileSeq))
+        val resultNoticeEntity = noticeRepository.save(noticeEntity)
+        aliceFileService.upload(AliceFileDto(resultNoticeEntity.noticeNo, noticeDto.fileSeq))
     }
 
     @Transactional
-    fun updateNotice(noticeDto: NoticeDto) {
-        val noticeEntity = noticeRepository.findByNoticeNo(noticeDto.noticeNo)
+    fun updateNotice(noticeId: String, noticeDto: NoticeDto) {
+        val noticeEntity = noticeRepository.findByNoticeNo(noticeId)
         noticeEntity.noticeTitle = noticeDto.noticeTitle
         noticeEntity.noticeContents = noticeDto.noticeContents
         noticeEntity.popStrtDt = noticeDto.popStrtDt
