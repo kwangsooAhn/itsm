@@ -145,7 +145,8 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun getFormImageList(): String{
         val absolutePath = Paths.get("").toAbsolutePath().toString()
-        val dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
+        var dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
         val fileList = JsonArray()
         Files.walk(dir)
                 .filter { it -> Files.isRegularFile(it) }
