@@ -88,8 +88,13 @@ class ProcessRestController(private val processService: ProcessService) {
     /**
      * 프로세스 시뮬레이션
      */
-    @GetMapping("/{processId}/simulation")
-    fun getProcessSimulation(@PathVariable processId: String): String {
-        return processService.getProcessSimulation(processId)
+    @PutMapping("/{processId}/simulation")
+    fun getProcessSimulation(@RequestBody wfProcessElementDto: WfProcessElementDto): String {
+        val updated = processService.updateProcessData(wfProcessElementDto)
+        return if (updated) {
+            processService.getProcessSimulation(wfProcessElementDto.process!!.id)
+        } else {
+            "false"
+        }
     }
 }
