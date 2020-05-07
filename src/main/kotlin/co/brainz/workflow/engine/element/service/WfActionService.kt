@@ -14,9 +14,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class WfActionService(private val wfElementService: WfElementService,
-                      private val wfElementRepository: WfElementRepository,
-                      private val wfElementDataRepository: WfElementDataRepository) {
+class WfActionService(
+    private val wfElementService: WfElementService,
+    private val wfElementRepository: WfElementRepository,
+    private val wfElementDataRepository: WfElementDataRepository
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -85,7 +87,7 @@ class WfActionService(private val wfElementService: WfElementService,
      */
     private fun preActions(): MutableList<WfActionDto> {
         val preActions: MutableList<WfActionDto> = mutableListOf()
-        //SAVE
+        // SAVE
         preActions.add(WfActionDto(name = "저장", value = WfElementConstants.Action.SAVE.value))
         return preActions
     }
@@ -98,7 +100,7 @@ class WfActionService(private val wfElementService: WfElementService,
      */
     private fun postActions(element: WfElementEntity): MutableList<WfActionDto> {
         val postActions: MutableList<WfActionDto> = mutableListOf()
-        //REJECT: 현재 element 속성에 반려가 존재할 경우
+        // REJECT: 현재 element 속성에 반려가 존재할 경우
         element.elementDataEntities.forEach {
             if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.isNotEmpty()) {
                 postActions.add(WfActionDto(name = "반려", value = WfElementConstants.Action.REJECT.value))
@@ -179,5 +181,4 @@ class WfActionService(private val wfElementService: WfElementService,
         }
         return actionList
     }
-
 }

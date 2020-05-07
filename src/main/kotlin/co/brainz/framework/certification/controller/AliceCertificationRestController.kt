@@ -22,7 +22,12 @@ class AliceCertificationRestController(private val aliceCertificationService: Al
     fun setUser(@RequestBody aliceSignUpDto: AliceSignUpDto): String {
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.USER_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
-            aliceCertificationService.sendMail(aliceSignUpDto.userId, aliceSignUpDto.email, AliceUserConstants.SendMailStatus.CREATE_USER.code, null)
+            aliceCertificationService.sendMail(
+                aliceSignUpDto.userId,
+                aliceSignUpDto.email,
+                AliceUserConstants.SendMailStatus.CREATE_USER.code,
+                null
+            )
         }
         return result
     }
@@ -30,6 +35,11 @@ class AliceCertificationRestController(private val aliceCertificationService: Al
     @GetMapping("/sendCertifiedMail")
     fun sendCertifiedMail() {
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        aliceCertificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, AliceUserConstants.SendMailStatus.CREATE_USER.code, null)
+        aliceCertificationService.sendMail(
+            aliceUserDto.userId,
+            aliceUserDto.email,
+            AliceUserConstants.SendMailStatus.CREATE_USER.code,
+            null
+        )
     }
 }

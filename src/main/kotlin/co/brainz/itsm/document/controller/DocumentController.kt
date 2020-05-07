@@ -4,10 +4,12 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.framework.numbering.service.AliceNumberingService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import javax.servlet.http.HttpServletRequest
@@ -15,9 +17,10 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping("/documents")
 class DocumentController(
-        private val documentService: DocumentService,
-        private val codeService: CodeService,
-        private val customCodeService: CustomCodeService
+    private val documentService: DocumentService,
+    private val codeService: CodeService,
+    private val customCodeService: CustomCodeService,
+    private val numberingService: AliceNumberingService
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"
@@ -25,8 +28,8 @@ class DocumentController(
     private val documentPublishPage: String = "document/documentPublish"
     private val documentEditPage: String = "document/documentEdit"
     private val documentDisplayPage: String = "document/documentDisplay"
-
     private val documentCustomCodePage: String = "document/customCodeData"
+    private val documentPrintPage: String = "document/documentPrint"
 
     /**
      * 신청서 리스트 호출 화면.
@@ -61,6 +64,7 @@ class DocumentController(
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
+        model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
 
         return documentEditPage
     }
@@ -83,6 +87,7 @@ class DocumentController(
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
+        model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
 
         return documentEditPage
     }
@@ -104,8 +109,17 @@ class DocumentController(
      */
     @RequestMapping("/custom-code/{customCodeId}/data", method = [RequestMethod.POST, RequestMethod.GET])
     fun getCustomCodeData(@PathVariable customCodeId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("customCodeData", request.getParameter("customCodeData")?:"")
+        model.addAttribute("customCodeData", request.getParameter("customCodeData") ?: "")
         model.addAttribute("customCodeDataList", customCodeService.getCustomCodeData(customCodeId))
         return documentCustomCodePage
+    }
+
+    /**
+     * 신청서 인쇄 화면.
+     */
+    @PostMapping("/{documentId}/print")
+    fun getDocumentPrint(@PathVariable documentId: String, model: Model, request: HttpServletRequest): String {
+        model.addAttribute("data", request.getParameter("data") ?: "")
+        return documentPrintPage
     }
 }

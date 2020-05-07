@@ -19,31 +19,31 @@ class NoticeRestController(private val noticeService: NoticeService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    //Notice insert
+    // Notice insert
     @PostMapping("/", "")
     fun insertNotice(@RequestBody noticeDto: NoticeDto) {
         noticeService.insertNotice(noticeDto)
     }
 
-    //Notice update
+    // Notice update
     @PutMapping("/{noticeId}")
-    fun updateNotice(@RequestBody noticeDto: NoticeDto) {
-        noticeService.updateNotice(noticeDto)
+    fun updateNotice(@PathVariable noticeId: String, @RequestBody noticeDto: NoticeDto) {
+        noticeService.updateNotice(noticeId, noticeDto)
     }
 
-    //Notice delete
+    // Notice delete
     @DeleteMapping("/{noticeId}")
     fun deleteNotice(@PathVariable noticeId: String) {
         noticeService.delete(noticeId)
     }
 
-    //공지사항 세부 조회
+    // 공지사항 세부 조회
     @GetMapping("/{noticeId}")
     fun getNotice(@PathVariable noticeId: String): NoticeDto {
         return noticeService.findNoticeByNoticeNo(noticeId)
     }
 
-    //공지사항 리스트 데이터 조회
+    // 공지사항 리스트 데이터 조회
     @GetMapping("/", "")
     fun getNoticeList(): MutableList<NoticeListDto> {
         return noticeService.findNoticeList()

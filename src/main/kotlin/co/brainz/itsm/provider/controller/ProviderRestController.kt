@@ -15,13 +15,23 @@ class ProviderRestController(private val restTemplate: RestTemplateProvider) {
 
     @GetMapping("/tokens/{tokenId}")
     fun getToken(@PathVariable tokenId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN.url.replace(restTemplate.getKeyRegex(), tokenId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Token.GET_TOKEN.url.replace(
+                restTemplate.getKeyRegex(),
+                tokenId
+            )
+        )
         return restTemplate.get(url)
     }
 
     @GetMapping("/tokens/{tokenId}/data")
     fun getTokenData(@PathVariable tokenId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(restTemplate.getKeyRegex(), tokenId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(
+                restTemplate.getKeyRegex(),
+                tokenId
+            )
+        )
         return restTemplate.get(url)
     }
 
@@ -34,7 +44,5 @@ class ProviderRestController(private val restTemplate: RestTemplateProvider) {
 
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.GET_TOKENS.url, parameters = params)
         return restTemplate.get(url)
-
     }
-
 }

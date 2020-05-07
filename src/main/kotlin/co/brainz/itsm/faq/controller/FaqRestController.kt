@@ -4,6 +4,7 @@ import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.service.FaqService
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
 
 /**
  * ### FAQ 관련 데이터 조회 처리용 클래스.
@@ -51,22 +51,22 @@ class FaqRestController(private val faqService: FaqService) {
      */
     @PostMapping("/", "")
     fun insertFaq(@RequestBody faqDto: FaqDto) {
-        faqService.save(faqDto)
+        faqService.createFaq(faqDto)
     }
 
     /**
      * FAQ 수정 처리
      */
     @PutMapping("/{faqId}")
-    fun updateFaq(@RequestBody faqDto: FaqDto) {
-        faqService.save(faqDto)
+    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto) {
+        faqService.updateFaq(faqId, faqDto)
     }
 
     /**
      * FAQ 삭제 처리
      */
     @DeleteMapping("/{faqId}")
-    fun deleteFaq(request: HttpServletRequest, @PathVariable faqId: String) {
-        faqService.delete(faqId)
+    fun deleteFaq(@PathVariable faqId: String) {
+        faqService.deleteFaq(faqId)
     }
 }

@@ -42,12 +42,19 @@ class ProcessRestController(private val processService: ProcessService) {
      * 프로세스 신규 등록 or 다른 이름 저장.
      */
     @PostMapping("")
-    fun createProcess(@RequestParam(value = "saveType", defaultValue = "") saveType: String,
-                      @RequestBody jsonData: Any): String {
+    fun createProcess(
+        @RequestParam(value = "saveType", defaultValue = "") saveType: String,
+        @RequestBody jsonData: Any
+    ): String {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            RestTemplateConstants.ProcessSaveType.SAVE_AS.code -> processService.saveAsProcess(mapper.convertValue(jsonData, WfProcessElementDto::class.java))
+            RestTemplateConstants.ProcessSaveType.SAVE_AS.code -> processService.saveAsProcess(
+                mapper.convertValue(
+                    jsonData,
+                    WfProcessElementDto::class.java
+                )
+            )
             else -> processService.createProcess(mapper.convertValue(jsonData, RestTemplateProcessDto::class.java))
         }
     }
@@ -78,4 +85,11 @@ class ProcessRestController(private val processService: ProcessService) {
         return processService.getProcesses(params)
     }
 
+    /**
+     * 프로세스 시뮬레이션
+     */
+    @GetMapping("/{processId}/simulation")
+    fun getProcessSimulation(@PathVariable processId: String): String {
+        return processService.getProcessSimulation(processId)
+    }
 }

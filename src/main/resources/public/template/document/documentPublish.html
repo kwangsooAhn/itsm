@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="form/formCore">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="form/formCore">
 <head>
     <title th:text="#{document.label.write}"></title>
     <th:block layout:fragment="css">
-    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
+        <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
     </th:block>
 </head>
 <body>
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
-    <div class="drawing-board" id="document-container"></div>
-    <div id="button-container"></div>
+        <div class="print-btn">
+            <button type="button" th:onclick="aliceDocument.print('/documents/' + [[${documentId}]])"
+                    th:text="#{common.label.print}"></button>
+        </div>
+        <div class="drawing-board" id="document-container"></div>
+        <div id="button-container"></div>
     </form>
 </th:block>
 </body>

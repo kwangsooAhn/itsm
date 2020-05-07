@@ -535,7 +535,7 @@
     function getRefineAttribute(compDate) {
         let detailAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[compDate.type]);
         Object.keys(compDate).forEach(function(comp) {
-            if (compDate[comp] !== null && typeof(compDate[comp]) === 'object' && detailAttr.hasOwnProperty(comp))  {
+            if (aliceJs.isObject(compDate[comp]) && detailAttr.hasOwnProperty(comp))  {
                 Object.keys(compDate[comp]).forEach(function(attr) {
                     Object.keys(detailAttr[comp]).forEach(function(d) {
                         if (attr === detailAttr[comp][d].id) {
@@ -545,8 +545,7 @@
                 });
             }
         });
-        
-        return JSON.stringify(detailAttr);
+        return detailAttr;
     }
     
     /**
@@ -563,7 +562,6 @@
         
         selectedComponentId = id; 
         document.getElementById(id).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
-        
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
         
@@ -646,9 +644,7 @@
                 }
             }
         };
-
-        let detailAttr = JSON.parse(getRefineAttribute(compAttr));
-
+        let detailAttr = getRefineAttribute(compAttr);
         //제목 출력
         let compTitleAttr = component.getTitle(compAttr.type);
         let compTitleElem = document.createElement('div');
@@ -1224,6 +1220,25 @@
                                 changePropertiesValue(e.target.checked, group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
+                            break;
+                        case 'image':
+                            propertyValue = document.createElement('input');
+                            propertyValue.classList.add('property-field-value');
+                            propertyValue.setAttribute('type', 'text');
+                            propertyValue.setAttribute('value', fieldArr.value);
+                            validateCheck(propertyValue, fieldArr.validate);
+                            propertyValue.addEventListener('focusout', function() {
+                                changePropertiesValue(this.value, group, fieldArr.id);
+                            }, false);
+                            fieldGroupDiv.appendChild(propertyValue);
+
+                            let propertyBtn = document.createElement('button');
+                            propertyBtn.type = 'button';
+                            propertyBtn.innerText = 'select';
+                            propertyBtn.addEventListener('click', function(e) {
+                                window.open('/forms/imageUpload/view', 'imageUploadPop', 'width=1200, height=700');
+                            }, false);
+                            fieldGroupDiv.appendChild(propertyBtn);
                             break;
                     }
                 });

@@ -39,6 +39,7 @@ object RestTemplateConstants {
         GET_PROCESSES("/rest/wf/processes", "GET"),
         GET_PROCESS("/rest/wf/processes/{processId}", "GET"),
         GET_PROCESS_DATA("/rest/wf/processes/{processId}/data", "GET"),
+        GET_PROCESS_SIMULATION("/rest/wf/processes/{processId}/simulation", "GET"),
         POST_PROCESS("/rest/wf/processes", "POST"),
         POST_PROCESS_SAVE_AS("/rest/wf/processes?saveType=saveas", "POST"),
         PUT_PROCESS("/rest/wf/processes/{processId}", "PUT"),
@@ -163,4 +164,10 @@ object RestTemplateConstants {
         WAITING("waiting"),
         FINISH("finish")
     }
+
+    /**
+     * 이미지 컴포넌트 디렉터리.
+     */
+    const val RESOURCES_DIR: String = "src/main/resources/public"
+    const val FORM_IMAGE_DIR: String = "assets/media/image/form"
 }

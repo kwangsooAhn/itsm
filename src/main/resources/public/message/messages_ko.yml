@@ -25,6 +25,8 @@ common:
     addFile: "파일 추가"
     success: "성공"
     fail: "실패"
+    modify: "수정"
+    delete: "삭제"
     createUserName: "등록자"
     updateUserName: "수정자"
     createDate: "등록일시"
@@ -32,7 +34,8 @@ common:
     attachFile: "첨부파일"
     notSelect: "선택 안 함"
     lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
-    comment: 코멘트
+    comment: "코멘트"
+    print: "인쇄"
   msg:
     save: "저장되었습니다"
     save.fail: "실패되었습니다."
@@ -59,10 +62,13 @@ menu:
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
   setting.auth: "권한 관리"
+  setting.code: "코드 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
   setting.custom.code: "사용자 정의 코드"
   editMyInfo: "자기 정보 수정"
+  help.board: "게시판"
+  setting.board.admin: "게시판 관리"
 
 # auth
 auth:
@@ -106,6 +112,10 @@ auth:
   document.create: "신청서 등록"
   token.read: "처리할 문서 조회"
   token.create: "처리할 문서 등록"
+  code.read: "코드 조회"
+  code.create: "코드 등록"
+  code.update: "코드 수정"
+  code.delete: "코드 삭제"
   custom.code.read: "사용자 정의 코드 조회"
   custom.code.create: "사용자 정의 코드 등록"
   custom.code.update: "사용자 정의 코드 수정"
@@ -164,7 +174,10 @@ faq:
   title: "제목"
   contents: "내용"
   edit: "수정"
-  msg: "자주 묻는 질문과 답변입니다."
+  msg:
+    description: "자주 묻는 질문과 답변입니다."
+    titleNotExist: "제목을 입력하세요."
+    contentNotExist: "내용을 입력하세요."
   category:
     all: "전체"
     techSupport: "기술지원"
@@ -276,6 +289,8 @@ form:
     datetime: "Date Time"
     fileupload: "Fileupload"
     customCode: "Custom Code"
+  btn:
+    upload: "업로드"
   lang:
     ko: "한국어"
   msg:
@@ -311,6 +326,7 @@ process:
     use: "사용"
     destroy: "폐기"
   msg:
+    simulation: "시뮬레이션 점검이 완료되었습니다."
     alert:
       nameNotExist: "프로세스 이름을 입력해주세요."
 
@@ -366,6 +382,8 @@ document:
     form: "문서양식"
     process: "프로세스"
     status: "신청서 상태"
+    numberingRule: "문서번호규칙"
+    print: "신청서 인쇄"
   display:
     editable: "수정가능"
     editableRequired: "수정가능(필수값)"
@@ -397,6 +415,18 @@ token:
     assignee: "담당자"
     history: "처리 이력"
     relatedInstance: "관련 문서"
+    print: "처리할 문서 인쇄"
+
+# Code
+code:
+  label:
+    code: "코드"
+    pCode: "부모 코드"
+    codeValue: "코드 값"
+  msg:
+    codeNotExist: "코드를 입력해주세요."
+    pCodeNotExist: "부모 코드가 존재하지 않습니다."
+
 # Custom Code
 custom.code:
   label:
@@ -445,13 +475,55 @@ download:
   category:
     all: "전체"
     companyPolicy: "회사 규정"
-    ect: "기타"
+    etc: "기타"
   msg:
     selectDownloadCategory: "카테고리를 선택해주세요."
     inputDownloadTitle: "제목을 입력해주세요."
     selectAfterDate: "{0} 날짜 이후로 선택해주세요."
     selectBeforeDate: "{0} 날짜 이전으로 선택해주세요."
 
+#board
+board:
+  btn:
+    category: "카테고리"
+    reply: "답글"
+  label:
+    board: "게시판"
+    add: "게시판 등록"
+    edit: "게시판 수정"
+    reply: "게시판 답글"
+    manager: "게시판 관리"
+    detail: "게시판 상세"
+    searchPlaceholder: "제목 / 등록자"
+    searchBoardPlaceholder: "카테고리 / 제목 / 등록자"
+    name: "게시판 명"
+    category: "카테고리"
+    count: "게시물수"
+    order: "정렬순서"
+    categoryName: "카테고리 명"
+    useYn: "사용여부"
+    desc: "게시판 설명"
+    writeAuth: "쓰기권한"
+    roleName: "역할 명"
+    replyYn: "답글"
+    commentYn: "댓글"
+    comment: "댓글"
+    attachFileYn: "첨부파일"
+    attachFileSize: "첨부파일 용량"
+    use: "사용"
+    unused: "미사용"
+    number: "번호"
+    title: "제목"
+    commentCount: "댓글 수"
+    readCount: "조회 수"
+    contents: "내용"
+  msg:
+    inputBoardTitle: "게시판명을 입력해주세요."
+    inputSortSize: "정렬순서를 100 이하로 넣어주세요."
+    inputAttachFileSize: "첨부파일 용량을 0MB 이상 1024MB 이하로 넣어주세요."
+    inputCategoryName: "카테고리명을 입력해주세요."
+    inputBoardComments: "댓글을 입력해주세요."
+    inputBoardEditComments: "댓글 저장부터 해주세요."
 #Comment
 comment:
   label:

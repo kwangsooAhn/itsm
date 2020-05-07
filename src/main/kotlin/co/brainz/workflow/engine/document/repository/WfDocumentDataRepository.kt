@@ -7,16 +7,16 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-interface WfDocumentDataRepository: JpaRepository<WfDocumentDataEntity, String> {
+interface WfDocumentDataRepository : JpaRepository<WfDocumentDataEntity, String> {
 
     @Transactional
     fun deleteByDocumentId(documentId: String): Int
 
     @Query(
-            "SELECT dd " +
-            "FROM WfDocumentDataEntity dd " +
-            "WHERE dd.documentId = :documentId " +
-            "ORDER BY dd.componentId, dd.elementId DESC"
+        "SELECT dd " +
+                "FROM WfDocumentDataEntity dd " +
+                "WHERE dd.documentId = :documentId " +
+                "ORDER BY dd.componentId, dd.elementId DESC"
     )
     fun findByDocumentId(documentId: String): List<WfDocumentDataEntity>
 

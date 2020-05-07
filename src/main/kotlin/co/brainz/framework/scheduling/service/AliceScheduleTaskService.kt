@@ -36,7 +36,6 @@ public class AliceScheduleTaskService {
         jdbcTemplate.isResultsMapCaseInsensitive = true
     }
 
-
     /**
      * task 추가.
      *

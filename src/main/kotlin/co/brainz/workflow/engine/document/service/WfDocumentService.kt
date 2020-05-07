@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
@@ -43,7 +44,8 @@ class WfDocumentService(
     private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
-    private val wfElementDataRepository: WfElementDataRepository
+    private val wfElementDataRepository: WfElementDataRepository,
+    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -70,7 +72,8 @@ class WfDocumentService(
                 createDt = document.createDt,
                 createUserKey = document.createUserKey,
                 updateDt = document.updateDt,
-                updateUserKey = document.updateUserKey
+                updateUserKey = document.updateUserKey,
+                documentNumberingRuleId = document.numberingRule.numberingId
             )
             documents.add(documentDto)
         }
@@ -96,7 +99,8 @@ class WfDocumentService(
             createDt = document.createDt,
             createUserKey = document.createUserKey,
             updateDt = document.updateDt,
-            updateUserKey = document.updateUserKey
+            updateUserKey = document.updateUserKey,
+            documentNumberingRuleId = document.numberingRule.numberingId
         )
     }
 
@@ -119,7 +123,7 @@ class WfDocumentService(
             map["componentId"] = component.componentId
             map["attributes"] = attributes
             map["values"] = values
-            //TODO: 추후 동적으로 변경할 수 있도록 구현해야 함.
+            // TODO: 추후 동적으로 변경할 수 있도록 구현해야 함.
             map["displayType"] = WfDocumentConstants.DisplayType.EDITABLE.value
             components.add(map)
         }
@@ -157,7 +161,8 @@ class WfDocumentService(
             process = process,
             createDt = documentDto.createDt,
             createUserKey = documentDto.createUserKey,
-            documentStatus = documentDto.documentStatus
+            documentStatus = documentDto.documentStatus,
+            numberingRule = aliceNumberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -171,7 +176,8 @@ class WfDocumentService(
             formId = dataEntity.form.formId,
             processId = dataEntity.process.processId,
             createDt = dataEntity.createDt,
-            createUserKey = dataEntity.createUserKey
+            createUserKey = dataEntity.createUserKey,
+            documentNumberingRuleId = dataEntity.numberingRule.numberingId
         )
     }
 
@@ -193,6 +199,7 @@ class WfDocumentService(
         wfDocumentEntity.updateDt = documentDto.updateDt
         wfDocumentEntity.form = form
         wfDocumentEntity.process = process
+        wfDocumentEntity.numberingRule = aliceNumberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
         wfDocumentRepository.save(wfDocumentEntity)
 
         when (documentDto.documentStatus) {
@@ -202,7 +209,11 @@ class WfDocumentService(
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
-                val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.processId)
+                val wfProcessEntity =
+                    wfProcessRepository.findByProcessId(documentDto.processId) ?: throw AliceException(
+                        AliceErrorConstants.ERR_00005,
+                        AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+                    )
                 if (wfProcessEntity.processStatus != WfProcessConstants.Status.USE.code) {
                     wfProcessEntity.processStatus = WfProcessConstants.Status.USE.code
                     wfProcessRepository.save(wfProcessEntity)
@@ -285,7 +296,7 @@ class WfDocumentService(
             }
             val componentMap = LinkedHashMap<String, Any>()
             val componentData = wfComponentDataRepository.findComponentDataByComponentId(component.componentId, "label")
-            val attributeValue = if (componentData.size > 0) {
+            val attributeValue = if (componentData.isNotEmpty()) {
                 // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
                 componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
             } else {

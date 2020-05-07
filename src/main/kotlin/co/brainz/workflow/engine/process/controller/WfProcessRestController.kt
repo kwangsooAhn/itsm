@@ -71,7 +71,7 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * 프로세스 1건 수정.
      */
     @PutMapping("/{processId}")
-    fun updateProcess(@RequestBody wfProcessDto: WfProcessDto): Boolean {
+    fun updateProcess(@PathVariable processId: String, @RequestBody wfProcessDto: WfProcessDto): Boolean {
         return wfEngine.process().updateProcess(wfProcessDto)
     }
 
@@ -81,7 +81,10 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * @return Boolean result
      */
     @PutMapping("/{processId}/data")
-    fun updateProcessData(@RequestBody wfProcessElementDto: WfProcessElementDto): Boolean {
+    fun updateProcessData(
+        @PathVariable processId: String,
+        @RequestBody wfProcessElementDto: WfProcessElementDto
+    ): Boolean {
         return wfEngine.process().updateProcessData(wfProcessElementDto)
     }
 
@@ -93,5 +96,13 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
     @DeleteMapping("/{processId}")
     fun deleteProcess(@PathVariable processId: String): Boolean {
         return wfEngine.process().deleteProcess(processId)
+    }
+
+    /**
+     * [processId] 프로세스의 디자인이 정상인지 점검한다.
+     */
+    @GetMapping("/{processId}/simulation")
+    fun getProcessSimulation(@PathVariable processId: String): Boolean {
+        return wfEngine.process().getProcessSimulation(processId)
     }
 }

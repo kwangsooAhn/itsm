@@ -854,7 +854,7 @@
                 "id": "path",
                 "name": "Image Path",
                 "value": "https://placehold.it/720X100",
-                "type": "inputbox",
+                "type": "image",
                 "code": "",
                 "unit": "",
                 "validate": ""

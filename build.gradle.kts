@@ -103,29 +103,29 @@ tasks.jacocoTestReport {
     reports {
         xml.isEnabled = false
         csv.isEnabled = false
-        html.destination = file("${buildDir}/jacocoHtml")
+        html.destination = file("$buildDir/jacocoHtml")
     }
 }
 
 // DETEKT
 detekt {
-    toolVersion = "1.1.1"                             
-    input = files(                                    
+    toolVersion = "1.1.1"
+    input = files(
         "src/main/kotlin",
         "src/test/kotlin"
     )
-    parallel = false                                  
-    buildUponDefaultConfig = false                    
-    disableDefaultRuleSets = false                    
-    debug = false                                     
-    ignoreFailures = true                            
+    parallel = false
+    buildUponDefaultConfig = false
+    disableDefaultRuleSets = false
+    debug = false
+    ignoreFailures = true
     reports {
         xml {
-            enabled = true                            
+            enabled = true
             destination = file("$buildDir/reports/detekt/detekt.xml")
         }
         html {
-            enabled = true                                
+            enabled = true
             destination = file("$buildDir/reports/detekt/detekt.html")
         }
     }

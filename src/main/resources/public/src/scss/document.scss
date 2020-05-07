@@ -32,6 +32,37 @@
     }
 }
 
+.print-btn {
+    margin: 0.625rem;
+    text-align: right;
+}
+
+.print-hr {
+    border-top: 1px solid;
+}
+
+.print-header {
+    margin: 0.9375rem 3.75rem;
+    height: 45px;
+    span {
+        float: right;
+        text-align: right;
+    }
+}
+
+.print-body {
+    .component {
+        page-break-inside: avoid;
+        .group {
+            pointer-events: none;
+        }
+    }
+}
+
+.print-history {
+    margin: 0.9375rem 3.75rem;
+}
+
 .comment {
     display: flex;
     align-items: center;

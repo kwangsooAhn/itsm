@@ -9,11 +9,11 @@ import co.brainz.itsm.notice.dto.NoticePopupListDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.mapper.NoticeMapper
 import co.brainz.itsm.notice.repository.NoticeRepository
+import java.time.LocalDateTime
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 @Service
 class NoticeService(private val noticeRepository: NoticeRepository, private val aliceFileService: AliceFileService) {
@@ -23,7 +23,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     fun findNoticeList(): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findAllByOrderByCreateDtDesc().forEach {noticeEntity ->
+        noticeRepository.findAllByOrderByCreateDtDesc().forEach { noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
@@ -31,7 +31,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     fun findTopNoticeList(): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findTopNoticeList().forEach {noticeEntity ->
+        noticeRepository.findTopNoticeList().forEach { noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
@@ -39,7 +39,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findNoticeSearch(searchValue, fromDt, toDt).forEach {noticeEntity ->
+        noticeRepository.findNoticeSearch(searchValue, fromDt, toDt).forEach { noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
@@ -47,7 +47,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     fun findTopNoticeSearch(searchValue: String): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findTopNoticeSearch(searchValue).forEach {noticeEntity ->
+        noticeRepository.findTopNoticeSearch(searchValue).forEach { noticeEntity ->
             noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
         }
         return noticeListDto
@@ -66,7 +66,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     // 최초 로그인 시 팝업용 공지사항 리스트 조회
     fun findNoticePopUp(): MutableList<NoticePopupListDto> {
         val noticePopupListDto = mutableListOf<NoticePopupListDto>()
-        noticeRepository.findNoticePopUp().forEach {noticeEntity ->
+        noticeRepository.findNoticePopUp().forEach { noticeEntity ->
             noticePopupListDto.add(noticeMapper.toNoticePopupListDto(noticeEntity))
         }
         return noticePopupListDto
@@ -87,13 +87,13 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
             noticeDto.topNoticeStrtDt,
             noticeDto.topNoticeEndDt
         )
-        val resltNoticeEntity = noticeRepository.save(noticeEntity)
-        aliceFileService.upload(AliceFileDto(resltNoticeEntity.noticeNo, noticeDto.fileSeq))
+        val resultNoticeEntity = noticeRepository.save(noticeEntity)
+        aliceFileService.upload(AliceFileDto(resultNoticeEntity.noticeNo, noticeDto.fileSeq))
     }
 
     @Transactional
-    fun updateNotice(noticeDto: NoticeDto) {
-        val noticeEntity = noticeRepository.findByNoticeNo(noticeDto.noticeNo)
+    fun updateNotice(noticeId: String, noticeDto: NoticeDto) {
+        val noticeEntity = noticeRepository.findByNoticeNo(noticeId)
         noticeEntity.noticeTitle = noticeDto.noticeTitle
         noticeEntity.noticeContents = noticeDto.noticeContents
         noticeEntity.popStrtDt = noticeDto.popStrtDt

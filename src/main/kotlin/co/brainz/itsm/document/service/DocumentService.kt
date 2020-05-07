@@ -21,9 +21,11 @@ import org.springframework.util.LinkedMultiValueMap
 import java.time.LocalDateTime
 
 @Service
-class DocumentService(private val restTemplate: RestTemplateProvider,
-                      private val formService: FormService,
-                      private val processService: ProcessService) {
+class DocumentService(
+    private val restTemplate: RestTemplateProvider,
+    private val formService: FormService,
+    private val processService: ProcessService
+) {
 
     /**
      * 신청서 리스트 조회.
@@ -35,7 +37,10 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
         val responseBody = restTemplate.get(url) //providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-        val restTemplateDocuments: List<RestTemplateDocumentDto> = mapper.readValue(responseBody, mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentDto::class.java))
+        val restTemplateDocuments: List<RestTemplateDocumentDto> = mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentDto::class.java)
+        )
         for (document in restTemplateDocuments) {
             document.createDt = document.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
             document.updateDt = document.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
@@ -47,7 +52,12 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * 신청서 조회.
      */
     fun findDocument(documentId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(
+                restTemplate.getKeyRegex(),
+                documentId
+            )
+        )
         return restTemplate.get(url)
     }
 
@@ -57,7 +67,12 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * @return String
      */
     fun findDocumentData(documentId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT_DATA.url.replace(restTemplate.getKeyRegex(), documentId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT_DATA.url.replace(
+                restTemplate.getKeyRegex(),
+                documentId
+            )
+        )
         return restTemplate.get(url)
     }
 
@@ -92,14 +107,21 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * @return Boolean
      */
     fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
-        val documentId = restTemplateDocumentDto.documentId?:""
+        val documentId = restTemplateDocumentDto.documentId ?: ""
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(
+                restTemplate.getKeyRegex(),
+                documentId
+            )
+        )
         val responseEntity = restTemplate.update(url, restTemplateDocumentDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {documentId}
+            true -> {
+                documentId
+            }
             false -> ""
         }
     }
@@ -111,7 +133,12 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * @return Boolean
      */
     fun deleteDocument(documentId: String): ResponseEntity<String> {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.DELETE_DOCUMENT.url.replace(restTemplate.getKeyRegex(), documentId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Workflow.DELETE_DOCUMENT.url.replace(
+                restTemplate.getKeyRegex(),
+                documentId
+            )
+        )
         return restTemplate.delete(url)
     }
 
@@ -150,7 +177,12 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * @return List<DocumentDto>
      */
     fun findDocumentDisplay(documentId: String): String {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_DISPLAY.url.replace(restTemplate.getKeyRegex(), documentId))
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_DISPLAY.url.replace(
+                restTemplate.getKeyRegex(),
+                documentId
+            )
+        )
         return restTemplate.get(url)
     }
 
@@ -161,7 +193,12 @@ class DocumentService(private val restTemplate: RestTemplateProvider,
      * @return Boolean
      */
     fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDataDto): Boolean {
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENTS_DISPLAY.url.replace(restTemplate.getKeyRegex(), documentDisplay.documentId.toString()))
+        val urlDto = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENTS_DISPLAY.url.replace(
+                restTemplate.getKeyRegex(),
+                documentDisplay.documentId.toString()
+            )
+        )
         val responseEntity = restTemplate.update(urlDto, documentDisplay)
         return responseEntity.body.toString().isNotEmpty()
     }

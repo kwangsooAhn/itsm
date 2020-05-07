@@ -750,12 +750,14 @@
      * 변경된 element display 속성 값을 저장한다.
      *
      * @param id element ID
+     * @param isSaveHistory 이력저장여부
+     * @return {{0: JSON, 1: JSON}} 이력정보
      */
-    function changeDisplayValue(id) {
+    function changeDisplayValue(id, isSaveHistory) {
         let elementData = aliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
         if (elementData.length) {
             const originElementData = JSON.parse(JSON.stringify(elementData[0])),
-                nodeElement = d3.select(document.getElementById(id));
+                  nodeElement = d3.select(document.getElementById(id));
             if (nodeElement.classed('connector')) {
                 const linkData = nodeElement.node().__data__;
                 elementData[0].display = {};
@@ -775,18 +777,23 @@
                 const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
                 elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
             }
-            aliceProcessEditor.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+
+            let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
+            if (isSaveHistory !== false) {
+                aliceProcessEditor.history.saveHistory([historyData]);
+            }
+            return historyData;
         }
     }
 
     /**
-     * 변경된 element data 속성 값을 저장한다.
+     * 변경된 element data 속성 값을 저장 한다.
      *
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.alice-process-properties-panel');
-        const propertyObjects = container.querySelectorAll('input, select, textarea');
+        const container = document.querySelector('.alice-process-properties-panel'),
+              propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
@@ -1029,6 +1036,37 @@
                         elementObject = document.createElement('input');
                         elementObject.readOnly = true;
                         propertyContainer.appendChild(elementObject);
+                        break;
+                    case 'inputbox-copy':
+                        elementObject = document.createElement('input');
+                        elementObject.className = 'copy';
+                        elementObject.readOnly = true;
+                        propertyContainer.appendChild(elementObject);
+
+                        let copyBtnContainer = document.createElement('div');
+                        copyBtnContainer.className = 'clipboard-tooltip';
+                        let copyBtn = document.createElement('span');
+                        copyBtn.className = 'clipboard-tooltip-button';
+                        copyBtn.addEventListener('click', function() {
+                            elementObject.select();
+                            elementObject.setSelectionRange(0, 99999);
+                            document.execCommand('copy');
+
+                            let tooltip = document.getElementById('clipboard-tooltip-text');
+                            tooltip.textContent = 'Copy Success';
+                        });
+                        copyBtn.addEventListener('mouseout', function() {
+                            let tooltip = document.getElementById('clipboard-tooltip-text');
+                            tooltip.textContent = 'Copy to clipboard';
+                        });
+                        let tooltip = document.createElement('span');
+                        tooltip.id = 'clipboard-tooltip-text';
+                        tooltip.className = 'clipboard-tooltip-text';
+                        tooltip.textContent = 'Copy to clipboard';
+                        copyBtn.appendChild(tooltip);
+                        copyBtnContainer.appendChild(copyBtn);
+
+                        propertyContainer.appendChild(copyBtnContainer);
                         break;
                     case 'textarea':
                         elementObject = document.createElement('textarea');

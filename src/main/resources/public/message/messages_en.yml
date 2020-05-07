@@ -25,6 +25,8 @@ common:
     addFile: "Add files"
     success: "Success"
     fail: "Fail"
+    modify: "Modify"
+    delete: "Delete"
     createUserName: "Create User Name"
     updateUserName: "Create Update Name"
     createDate: "Create Date"
@@ -33,6 +35,7 @@ common:
     notSelect: "Not Select"
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
     comment: "Comment"
+    print: "Print"
   msg:
     save: "Saved"
     save.fail: "Fail"
@@ -59,10 +62,13 @@ menu:
   setting.user: "Users management"
   setting.role: "Role management"
   setting.auth: "Auth management"
+  setting.code: "Code management"
   setting.form: "Form"
   setting.process: "Process"
   setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
+  help.board: "Help"
+  setting.board.admin: "Board management"
 
 # Auth
 auth:
@@ -106,6 +112,10 @@ auth:
   document.create: "document create"
   token.read: "token read"
   token.create: "token create"
+  code.read: "code read"
+  code.create: "code create"
+  code.update: "code update"
+  code.delete: "code delete"
   custom.code.read: "custom.code read"
   custom.code.create: "custom.code create"
   custom.code.update: "custom.code update"
@@ -164,7 +174,10 @@ faq:
   title: "Title"
   contents: "Contents"
   edit: "Edit"
-  msg: "Frequently asked questions and answers."
+  msg:
+    description: "Frequently asked questions and answers."
+    titleNotExitst: "Please enter FAQ title."
+    contentNotExitst: "Please enter FAQ content."
   category:
     all: "All"
     techSupport: "Technical Support"
@@ -276,6 +289,8 @@ form:
     datetime: "Date Time"
     fileupload: "Fileupload"
     customCode: "Custom Code"
+  btn:
+    upload: "Upload"
   lang:
     ko: "Korean"
   msg:
@@ -311,6 +326,7 @@ process:
     use: "Use"
     destroy: "Destroy"
   msg:
+    simulation: "Simulation check is complete."
     alert:
       nameNotExist: "Please enter a process name."
 
@@ -366,6 +382,8 @@ document:
     form: "Form"
     process: "Process"
     status: "Status"
+    numberingRule: "Document Numbering Rule"
+    print: "Service Request Print"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -397,6 +415,18 @@ token:
     assignee: "Assignee"
     history: "History"
     relatedInstance: "Related Documents"
+    print: "Process Document Print"
+
+# Code
+code:
+  label:
+    code: "Code"
+    pCode: "Parent Code"
+    codeValue: "Code Value"
+  msg:
+    codeNotExist: "Please enter a code."
+    pCodeNotExist: "Parent code does not exist"
+
 # Custom Code
 custom.code:
   label:
@@ -445,13 +475,55 @@ download:
   category:
     all: "All"
     companyPolicy: "Company Policy"
-    ect: "Ect"
+    etc: "Etc"
   msg:
     selectDownloadCategory: "Please select a category."
     inputDownloadTitle: "Please enter a title."
     selectAfterDate: "Please select after {0} date."
     selectBeforeDate: "Please select before {0} date."
 
+#board
+board:
+  btn:
+    category: "CATEGORY"
+    reply: "REPLY"
+  label:
+    board: "Board"
+    add: "Board Add"
+    edit: "Board Edit"
+    reply: "Board Reply"
+    manager: "Board Manager"
+    detail: "Board Detail"
+    searchPlaceholder: "Title / CreateUserName"
+    searchBoardPlaceholder: "Category/ Title / CreateUserName"
+    name: "Board Name"
+    category: "Category"
+    count: "Number of posts"
+    order: "Sort Order"
+    categoryName: "Category Name"
+    useYn: "Use Yes or NO"
+    desc: "Board desc"
+    writeAuth: "Write permission"
+    roleName: "Role name"
+    replyYn: "Reply Yes or No"
+    commentYn: "Comment Yes or No"
+    comment: "Comment"
+    attachFileYn: "Attach File Yes or No"
+    attachFileSize: "Attach File Size"
+    use: "Use"
+    unused: "UnUsed"
+    number: "Number"
+    title: "Title"
+    commentCount: "Number of Comment"
+    readCount: "Number of Read"
+    contents: "Contents"
+  msg:
+    inputBoardTitle: "Please enter the board name."
+    inputSortSize: "Please enter a sorting order of 100 or less."
+    inputAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
+    inputCategoryName: "Please enter the category name."
+    inputBoardComments: "Please enter the board comments."
+    inputBoardEditComments: "Please save comments."
 #Comment
 comment:
   label:
