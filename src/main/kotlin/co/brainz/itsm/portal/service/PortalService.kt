@@ -19,7 +19,7 @@ class PortalService(private val noticeRepository: NoticeRepository) {
     fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto, pageableValue: Pageable): MutableList<PortalDto> {
 
         var pageable = pageableValue
-        var page = if (pageable.pageNumber == 0) 0 else pageable.pageNumber - 1 // page는 index 처럼 0부터 시작
+        val page = if (pageable.pageNumber == 0) 0 else pageable.pageNumber - 1
         pageable = PageRequest.of(page, 10)
 
         return noticeRepository.findPortalListOrSearchList(portalSearchDto.searchValue, pageable)

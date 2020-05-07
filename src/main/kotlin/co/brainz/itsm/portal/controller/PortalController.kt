@@ -3,6 +3,7 @@ package co.brainz.itsm.portal.controller
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.service.PortalService
 import javax.servlet.http.HttpServletRequest
+import kotlin.math.ceil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Pageable
@@ -33,7 +34,7 @@ class PortalController(private val portalService: PortalService) {
      */
     @GetMapping("/list")
     fun getPortalList(portalSearchDto: PortalSearchDto, model: Model, @PageableDefault pageableValue: Pageable): String {
-        var totalPages = Math.ceil(portalService.findTotalCount(portalSearchDto)*1.0/10)
+        val totalPages = ceil(portalService.findTotalCount(portalSearchDto) * 1.0 / 10)
 
         model.addAttribute("totalPages", totalPages)
         model.addAttribute("portalList", portalService.findPortalListOrSearchList(portalSearchDto, pageableValue))
