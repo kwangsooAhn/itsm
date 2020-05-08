@@ -16,9 +16,9 @@ class AliceLogoutSuccessHandler : LogoutSuccessHandler {
         if (authentication != null && authentication.details != null) {
             request.session.invalidate()
         }
-        //Set Referer
-        if (request.getParameter("referer") != null) {
-            request.session.setAttribute("referer", request.getParameter("referer"))
+        //Set redirectUrl
+        if (request.getParameter("redirectUrl") != null) {
+            request.session.setAttribute("redirectUrl", request.getParameter("redirectUrl"))
         }
         response.status = HttpServletResponse.SC_OK
         response.sendRedirect("/login")

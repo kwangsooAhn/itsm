@@ -40,11 +40,11 @@
         function gotoLoginPage() {
             clearTimeout(timer);
             const logoutForm = document.getElementById('logoutForm');
-            if ('[[${referer}]]' !== '') {
+            if (!window.opener && '[[${redirectUrl}]]' !== '') {
                 let prev = document.createElement('input');
                 prev.setAttribute('type', 'hidden');
-                prev.setAttribute('name', 'referer');
-                prev.setAttribute('value', [[${referer}]]);
+                prev.setAttribute('name', 'redirectUrl');
+                prev.setAttribute('value', [[${redirectUrl}]]);
                 logoutForm.appendChild(prev);
             }
             if (window.opener) {

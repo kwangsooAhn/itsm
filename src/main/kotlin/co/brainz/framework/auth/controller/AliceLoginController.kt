@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import javax.servlet.http.HttpServletResponse
 
 /**
  * 로그인 처리 클래스
@@ -44,9 +46,9 @@ class AliceLoginController(
         val aliceUserEntity: AliceUserEntity?
         var clientIp: String? = request.getHeader("X-Forwarded-For")
 
-        //Set Referer
-        if (request.session.getAttribute("referer") != null) {
-            request.session.setAttribute("referer", request.session.getAttribute("referer"))
+        //Set redirectUrl
+        if (request.session.getAttribute("redirectUrl") != null) {
+            request.session.setAttribute("redirectUrl", request.session.getAttribute("redirectUrl"))
         }
 
         if (ipAccessControlValue == "true") {
@@ -98,8 +100,10 @@ class AliceLoginController(
      * Invalid Session 상태에서 redirect 되는 페이지.
      */
     @GetMapping("/sessionInValid")
-    fun sessionExpired(session: HttpSession, request: HttpServletRequest, model: Model): String {
-        model.addAttribute("referer", request.getHeader("Referer"))
+    fun sessionExpired(request: HttpServletRequest, response: HttpServletResponse, model: Model): String {
+        if (HttpSessionRequestCache().getRequest(request, response) != null) {
+            model.addAttribute("redirectUrl", HttpSessionRequestCache().getRequest(request, response).redirectUrl)
+        }
         model.addAttribute("counter", 3)
         return invalidSessionPage
     }
