@@ -1,7 +1,5 @@
 package co.brainz.itsm.form.controller
 
-import co.brainz.itsm.customCode.dto.CustomCodeDataDto
-import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.form.service.FormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -27,8 +25,7 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/rest/forms")
 class FormRestController(
-    private val formService: FormService,
-    private val customCodeService: CustomCodeService
+    private val formService: FormService
 ) {
 
     @PostMapping("")
@@ -66,14 +63,6 @@ class FormRestController(
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String): ResponseEntity<String> {
         return formService.deleteForm(formId)
-    }
-
-    /**
-     * 커스텀 코드 목록 조회.
-     */
-    @GetMapping("/custom-code/{customCodeId}/list")
-    fun getCustomCodes(@PathVariable customCodeId: String): List<CustomCodeDataDto> {
-        return customCodeService.getCustomCodeData(customCodeId)
     }
 
     /**

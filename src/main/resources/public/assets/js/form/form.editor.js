@@ -1028,7 +1028,7 @@
                                 // load custom code data.
                                 aliceJs.sendXhr({
                                     method: 'GET',
-                                    url: '/rest/forms/custom-code/' + customCodeSelect.value + '/list',
+                                    url: '/rest/custom-codes/' + customCodeSelect.value,
                                     callbackFunc: function(xhr) {
                                         let customCodeData = JSON.parse(xhr.responseText);
                                         customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
