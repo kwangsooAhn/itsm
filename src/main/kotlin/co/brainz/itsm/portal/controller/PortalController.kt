@@ -39,7 +39,7 @@ class PortalController(private val portalService: PortalService) {
         val pageNumber = pageableValue.pageNumber
         val pageSize = pageableValue.pageSize
         val hasPrevious = pageableValue.hasPrevious()
-        val hasBefore = (totalCount.toDouble()/pageSize) > pageNumber + 1
+        val hasBefore = (totalCount.toDouble() / pageSize) > pageNumber + 1
 
         model.addAttribute("hasPrevious", hasPrevious)
         model.addAttribute("hasBefore", hasBefore)
