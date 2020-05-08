@@ -78,9 +78,8 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
     /**
      * 프로세스 업데이트
      */
-    fun updateProcessData(wfProcessElementDto: WfProcessElementDto): Boolean {
+    fun updateProcessData(processId: String, wfProcessElementDto: WfProcessElementDto): Boolean {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val processId = wfProcessElementDto.process?.id ?: ""
         wfProcessElementDto.process?.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
         wfProcessElementDto.process?.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(

@@ -249,7 +249,7 @@
         aliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/processes/' + aliceProcessEditor.data.process.id,
+            url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(i18n.get('common.msg.save'));
