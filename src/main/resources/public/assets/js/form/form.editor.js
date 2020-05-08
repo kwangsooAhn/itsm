@@ -167,7 +167,7 @@
 
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/forms/data',
+            url: '/rest/forms/' + data.form.id + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
                     aliceJs.alert(i18n.get('common.msg.save'));
@@ -1414,7 +1414,7 @@
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/forms/data/' + formId,
+            url: '/rest/forms/' + formId + '/data',
             callbackFunc: function(xhr) {
                 drawForm(xhr.responseText);
             },
