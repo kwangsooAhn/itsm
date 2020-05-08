@@ -4,8 +4,6 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.service.AliceIpVerificationService
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpSession
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -15,6 +13,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
