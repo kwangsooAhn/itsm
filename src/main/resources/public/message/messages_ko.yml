@@ -34,7 +34,8 @@ common:
     attachFile: "첨부파일"
     notSelect: "선택 안 함"
     lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
-    comment: 코멘트
+    comment: "코멘트"
+    print: "인쇄"
   msg:
     save: "저장되었습니다"
     save.fail: "실패되었습니다."
@@ -61,6 +62,7 @@ menu:
   setting.user: "사용자 관리"
   setting.role: "역할 관리"
   setting.auth: "권한 관리"
+  setting.code: "코드 관리"
   setting.form: "문서양식"
   setting.process: "프로세스"
   setting.custom.code: "사용자 정의 코드"
@@ -110,6 +112,10 @@ auth:
   document.create: "신청서 등록"
   token.read: "처리할 문서 조회"
   token.create: "처리할 문서 등록"
+  code.read: "코드 조회"
+  code.create: "코드 등록"
+  code.update: "코드 수정"
+  code.delete: "코드 삭제"
   custom.code.read: "사용자 정의 코드 조회"
   custom.code.create: "사용자 정의 코드 등록"
   custom.code.update: "사용자 정의 코드 수정"
@@ -283,6 +289,8 @@ form:
     datetime: "Date Time"
     fileupload: "Fileupload"
     customCode: "Custom Code"
+  btn:
+    upload: "업로드"
   lang:
     ko: "한국어"
   msg:
@@ -375,6 +383,7 @@ document:
     process: "프로세스"
     status: "신청서 상태"
     numberingRule: "문서번호규칙"
+    print: "신청서 인쇄"
   display:
     editable: "수정가능"
     editableRequired: "수정가능(필수값)"
@@ -406,6 +415,18 @@ token:
     assignee: "담당자"
     history: "처리 이력"
     relatedInstance: "관련 문서"
+    print: "처리할 문서 인쇄"
+
+# Code
+code:
+  label:
+    code: "코드"
+    pCode: "부모 코드"
+    codeValue: "코드 값"
+  msg:
+    codeNotExist: "코드를 입력해주세요."
+    pCodeNotExist: "부모 코드가 존재하지 않습니다."
+
 # Custom Code
 custom.code:
   label:
@@ -454,7 +475,7 @@ download:
   category:
     all: "전체"
     companyPolicy: "회사 규정"
-    ect: "기타"
+    etc: "기타"
   msg:
     selectDownloadCategory: "카테고리를 선택해주세요."
     inputDownloadTitle: "제목을 입력해주세요."

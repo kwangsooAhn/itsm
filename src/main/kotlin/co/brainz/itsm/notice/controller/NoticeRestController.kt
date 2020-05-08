@@ -27,8 +27,8 @@ class NoticeRestController(private val noticeService: NoticeService) {
 
     // Notice update
     @PutMapping("/{noticeId}")
-    fun updateNotice(@RequestBody noticeDto: NoticeDto) {
-        noticeService.updateNotice(noticeDto)
+    fun updateNotice(@PathVariable noticeId: String, @RequestBody noticeDto: NoticeDto) {
+        noticeService.updateNotice(noticeId, noticeDto)
     }
 
     // Notice delete

@@ -70,8 +70,10 @@
         redo_list: [],
         undo_list: [],
         saveHistory: function(data, list, keep_redo) {
-            if (data.length === 1 && workflowUtil.compareJson(data[0][0], data[0][1])) { // data check
-                //console.debug('These two json data are the same.');
+            data = data.filter(function(d) { // data check
+                return !workflowUtil.compareJson(d[0], d[1]);
+            })
+            if (data.length === 0) {
                 return;
             }
             keep_redo = keep_redo || false;

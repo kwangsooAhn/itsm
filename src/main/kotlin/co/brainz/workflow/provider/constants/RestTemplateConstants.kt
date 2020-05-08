@@ -164,4 +164,10 @@ object RestTemplateConstants {
         WAITING("waiting"),
         FINISH("finish")
     }
+
+    /**
+     * 이미지 컴포넌트 디렉터리.
+     */
+    const val RESOURCES_DIR: String = "src/main/resources/public"
+    const val FORM_IMAGE_DIR: String = "assets/media/image/form"
 }
