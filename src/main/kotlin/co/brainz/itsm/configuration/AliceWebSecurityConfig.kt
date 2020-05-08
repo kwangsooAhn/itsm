@@ -24,7 +24,6 @@ class AliceWebSecurityConfig(
     override fun ignoreConfigure(web: WebSecurity) {
         web.ignoring().antMatchers("/assets/**", "/favicon.ico")
         logger.debug("> web configure <")
-
     }
 
     override fun authorizeRequestConfigure(http: HttpSecurity) {

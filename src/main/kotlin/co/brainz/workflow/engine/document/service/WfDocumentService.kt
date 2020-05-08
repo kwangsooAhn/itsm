@@ -123,7 +123,7 @@ class WfDocumentService(
             map["componentId"] = component.componentId
             map["attributes"] = attributes
             map["values"] = values
-            //TODO: 추후 동적으로 변경할 수 있도록 구현해야 함.
+            // TODO: 추후 동적으로 변경할 수 있도록 구현해야 함.
             map["displayType"] = WfDocumentConstants.DisplayType.EDITABLE.value
             components.add(map)
         }
@@ -209,7 +209,11 @@ class WfDocumentService(
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
-                val wfProcessEntity = wfProcessRepository.findByProcessId(documentDto.processId)
+                val wfProcessEntity =
+                    wfProcessRepository.findByProcessId(documentDto.processId) ?: throw AliceException(
+                        AliceErrorConstants.ERR_00005,
+                        AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+                    )
                 if (wfProcessEntity.processStatus != WfProcessConstants.Status.USE.code) {
                     wfProcessEntity.processStatus = WfProcessConstants.Status.USE.code
                     wfProcessRepository.save(wfProcessEntity)

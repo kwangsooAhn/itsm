@@ -20,7 +20,7 @@
 </head>
 <body>
     <div>
-        <table>
+        <table class="table-hover">
             <colgroup>
                 <col width="25%">
                 <col width="25%">
@@ -31,7 +31,7 @@
             </colgroup>
             <tbody>
                 <tr th:if="${#arrays.isEmpty(processList)}">
-                    <td colspan="6" th:text="#{common.msg.noData}"></td>
+                    <td colspan="7" th:text="#{common.msg.noData}"></td>
                 </tr>
                 <tr th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
                     <td><a sec:authorize="hasAnyAuthority('process.create', 'process.update')"
@@ -56,6 +56,11 @@
                         <button sec:authorize="hasAuthority('process.delete')"
                                 th:text="#{common.btn.delete}" th:disabled="${!process.enabled}"
                                 th:attr="onclick=|deleteProcess('${process.id}')|"></button>
+                    </td>
+                    <td>
+                        <button sec:authorize="hasAuthority('process.update')"
+                                th:text="시뮬레이션" th:disabled="${!process.enabled}"
+                                th:attr="onclick=|processSimulation('${process.id}')|"></button>
                     </td>
                 </tr>
             </tbody>

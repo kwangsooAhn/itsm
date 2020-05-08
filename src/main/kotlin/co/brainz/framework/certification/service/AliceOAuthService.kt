@@ -226,7 +226,7 @@ class AliceOAuthServiceKakao : AliceOAuthServiceIF {
 
     override fun platformUrl(): String {
         val responseType = "code"
-        return "${authorizeUri}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}"
+        return "$authorizeUri?client_id=$clientId&redirect_uri=$redirectUri&response_type=$responseType"
     }
 
     override fun setParameters(code: String): MultiValueMap<String, String> {

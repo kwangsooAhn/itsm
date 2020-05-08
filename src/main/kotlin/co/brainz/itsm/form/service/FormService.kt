@@ -3,19 +3,23 @@ package co.brainz.itsm.form.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.form.dto.FormComponentDataDto
-import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.time.LocalDateTime
 
 @Service
@@ -137,5 +141,24 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, FormComponentDataDto::class.java)
         )
+    }
+
+    fun getFormImageList(): String{
+        val absolutePath = Paths.get("").toAbsolutePath().toString()
+        var dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+        val fileList = JsonArray()
+        Files.walk(dir)
+                .filter { it -> Files.isRegularFile(it) }
+                //.filter { it -> it.toString().endsWith(".jpg") }  //TODO: 이미지만 필터 ([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)
+                .forEach { it ->
+                    val fileJson = JsonObject()
+                    fileJson.addProperty("fname", it.fileName.toString())
+                    fileJson.addProperty("imgPath", Paths.get(RestTemplateConstants.RESOURCES_DIR).toUri().relativize(it.toUri()).toString())   //상대 경로
+                    fileJson.addProperty("imgUrl", it.toUri().toURL().toString())
+                    fileJson.addProperty("fsize", it.toFile().length())
+                    fileList.add(fileJson)
+                }
+        return fileList.toString()
     }
 }

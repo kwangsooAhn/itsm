@@ -16,4 +16,3 @@ interface WfTokenDataRepository : JpaRepository<WfTokenDataEntity, String> {
         componentId: String
     ): WfTokenDataEntity
 }
-

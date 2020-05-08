@@ -3,7 +3,6 @@ package co.brainz.itsm.customCode.service
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
-import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.dto.CustomCodeDto
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
 import co.brainz.itsm.customCode.entity.CustomCodeColumnEntity
@@ -13,6 +12,7 @@ import co.brainz.itsm.customCode.mapper.CustomCodeColumnMapper
 import co.brainz.itsm.customCode.mapper.CustomCodeMapper
 import co.brainz.itsm.customCode.mapper.CustomCodeTableMapper
 import co.brainz.itsm.customCode.repository.CustomCodeColumnRepository
+import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeTableRepository
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.role.repository.RoleRepository

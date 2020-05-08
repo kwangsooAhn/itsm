@@ -13,11 +13,8 @@ open class AliceMenuService {
     @Autowired
     lateinit var aliceMenuRepository: AliceMenuRepository
 
-
-    //@Throws(EmptyResultDataAccessException::class)
+    // @Throws(EmptyResultDataAccessException::class)
     fun getMenuList(authList: MutableList<String>): List<AliceMenuEntity> {
         return aliceMenuRepository.findByMenuIdIn(authList)
     }
-
-
 }

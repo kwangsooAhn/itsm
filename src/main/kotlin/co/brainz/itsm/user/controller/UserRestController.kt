@@ -45,7 +45,6 @@ class UserRestController(
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
-
     /**
      * 사용자를 등록한다.
      */
@@ -80,9 +79,11 @@ class UserRestController(
      * 사용자가 자신의 정보를 업데이트한다.
      */
     @PutMapping("/{userKey}/userEditSelf")
-    fun updateUserEditSelf(@RequestBody user: UserUpdateDto,
-                           request: HttpServletRequest,
-                           response: HttpServletResponse): String {
+    fun updateUserEditSelf(
+        @RequestBody user: UserUpdateDto,
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ): String {
         val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
         when (result) {
             AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {

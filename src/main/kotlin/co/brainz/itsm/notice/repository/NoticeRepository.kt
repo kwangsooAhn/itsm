@@ -3,6 +3,7 @@ package co.brainz.itsm.notice.repository
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.portal.dto.PortalDto
 import java.time.LocalDateTime
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -27,6 +28,8 @@ interface NoticeRepository : JpaRepository<NoticeEntity, String> {
 
     fun findByNoticeNo(noticeNo: String): NoticeEntity
 
-    @Query(name = "portalSearchMapping", nativeQuery = true)
-    fun findPortalListOrSearchList(searchValue: String): MutableList<PortalDto>
+    @Query(name = "portalSearchMapping",
+           nativeQuery = true
+    )
+    fun findPortalListOrSearchList(searchValue: String, pageable: Pageable?): MutableList<PortalDto>
 }

@@ -322,6 +322,10 @@
                 calcDist = Math.sqrt(dx * dx + dy * dy),
                 x = Number(targetCoords[0]) + dx * distance / calcDist,
                 y = Number(targetCoords[1]) + dy * distance / calcDist;
+            if (calcDist === 0) {
+                x = Number(targetCoords[0]);
+                y = Number(targetCoords[1]);
+            }
             return [x, y];
         };
 
@@ -530,9 +534,10 @@
             mouseoverElement = null;
             elem.classed('selected', false);
         },
-        mousedown: function () {
+        mousedown: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
+
             if (isDrawConnector) {
                 resetMouseVars();
                 removeElementSelected();
@@ -550,20 +555,49 @@
                         .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
                 }
             } else {
-                if (selectedElement === elem) {
-                    return;
-                }
-                removeElementSelected();
-                mousedownElement = elem;
-                selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
-                selectedElement.classed('selected', true);
-                if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
-                    d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
-                        elem.style.opacity = 1;
-                    });
-                }
+                let selectedNodes = d3.selectAll('.node.selected').nodes();
+                let isSelectedElem = false;
+                selectedNodes.forEach(function(node) {
+                    if (node.id === elem.node().id) {
+                        isSelectedElem = true;
+                    }
+                });
                 elemContainer.style('cursor', 'move');
-                aliceProcessEditor.setElementMenu(elem);
+                if (!isSelectedElem) {
+                    if (d3.event.sourceEvent.ctrlKey && selectedNodes.length > 0) {
+                        elem.classed('selected', true);
+                        mousedownElement = null;
+                        selectedElement = null;
+                        svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
+                        svg.selectAll('.alice-tooltip').remove();
+                        aliceProcessEditor.setElementMenu();
+                    } else {
+                        removeElementSelected();
+                        mousedownElement = elem;
+                        selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
+                        selectedElement.classed('selected', true);
+                        if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
+                            d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
+                                elem.style.opacity = '1';
+                            });
+                        }
+                        aliceProcessEditor.setElementMenu(elem);
+                    }
+                } else if (isSelectedElem && d3.event.sourceEvent.ctrlKey) {
+                    elem.classed('selected', false);
+                    selectedNodes = d3.selectAll('.node.selected').nodes();
+                    if (selectedNodes.length === 1) {
+                        mousedownElement = d3.select(selectedNodes[0]);
+                        selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
+                        aliceProcessEditor.setElementMenu(selectedElement);
+                        if (selectedElement.classed('resizable')) {
+                            d3.select(selectedElement.node().parentNode).selectAll('.pointer').style('opacity', 1);
+                        }
+                    } else if (selectedNodes.length === 0) {
+                        svg.selectAll('.alice-tooltip').remove();
+                    }
+                    elemContainer.style('cursor', 'default');
+                }
             }
         },
         mouseup: function() {
@@ -580,9 +614,7 @@
                 }
 
                 if (mousedownElement.node().id !== mouseoverElement.node().id) {
-                    mouseoverElement
-                        .classed('selected', false);
-
+                    mouseoverElement.classed('selected', false);
                     if (checkAvailableLink()) {
                         elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N'});
                         selectedElement = null;
@@ -591,10 +623,36 @@
                 }
                 resetMouseVars();
             } else {
+                let histories = [];
+                const selectedNodes = d3.selectAll('.node.selected').nodes();
+                selectedNodes.forEach(function(node) {
+                    let history = aliceProcessEditor.changeDisplayValue(node.id, false);
+                    histories.push(history);
+                });
+
+                if (selectedNodes.length > 1) {
+                    elements.links.forEach(function(l) {
+                        let isExistSource = false,
+                            isExistTarget = false;
+                        selectedNodes.forEach(function(node) {
+                            if (l.sourceId === node.id) {
+                                isExistSource = true;
+                            } else if (l.targetId === node.id) {
+                                isExistTarget = true;
+                            }
+                        });
+                        if (isExistSource && isExistTarget) {
+                            let history = aliceProcessEditor.changeDisplayValue(l.id, false);
+                            histories.push(history);
+                        }
+                    });
+                }
+                aliceProcessEditor.history.saveHistory(histories);
+
                 dragElement = null;
                 elemContainer.style('cursor', 'pointer');
-                aliceProcessEditor.changeDisplayValue(elem.node().id);
-                if (svg.select('.alice-tooltip').node() === null) {
+
+                if (svg.select('.alice-tooltip').node() === null && selectedNodes.length === 1) {
                     aliceProcessEditor.setActionTooltipItem(elem);
                 }
                 svg.selectAll('line.guides-line').style('stroke-width', 0);
@@ -673,26 +731,26 @@
             isDrawRight = false,
             isDrawTop = false,
             isDrawBottom = false;
-        const elements = aliceProcessEditor.data.elements.filter(function(e) { return e.type !== 'arrowConnector' && e.id !== elem.node().id; });
-        elements.forEach(function(e) {
-            let left = e.display['position-x'] - (e.display.width / 2),
-                right = e.display['position-x'] + (e.display.width / 2),
-                top = e.display['position-y'] - (e.display.height / 2),
-                bottom = e.display['position-y'] + (e.display.height / 2);
-            if (e.type.indexOf('Gateway') > -1) {
-                left = e.display['position-x'] - (gatewayDist / 2);
-                right = e.display['position-x'] + (gatewayDist / 2);
-                top = e.display['position-y'] - (gatewayDist / 2);
-                bottom = e.display['position-y'] + (gatewayDist / 2);
+
+        d3.selectAll('.node:not(.selected)').nodes().forEach(function(node) {
+            const element = aliceProcessEditor.data.elements.filter(function(e) { return e.id === node.id; })[0];
+            let left = element.display['position-x'] - (element.display.width / 2),
+                right = element.display['position-x'] + (element.display.width / 2),
+                top = element.display['position-y'] - (element.display.height / 2),
+                bottom = element.display['position-y'] + (element.display.height / 2);
+            if (element.type.indexOf('Gateway') > -1) {
+                left = element.display['position-x'] - (gatewayDist / 2);
+                right = element.display['position-x'] + (gatewayDist / 2);
+                top = element.display['position-y'] - (gatewayDist / 2);
+                bottom = element.display['position-y'] + (gatewayDist / 2);
             }
-            isDrawCenterX = isDrawCenterX || Math.abs(elementBbox.cx - e.display['position-x']) < errorRange;
-            isDrawCenterY = isDrawCenterY || Math.abs(elementBbox.cy - e.display['position-y']) < errorRange;
+            isDrawCenterX = isDrawCenterX || Math.abs(elementBbox.cx - element.display['position-x']) < errorRange;
+            isDrawCenterY = isDrawCenterY || Math.abs(elementBbox.cy - element.display['position-y']) < errorRange;
             isDrawLeft = isDrawLeft || Math.abs(elemLeft - left) < errorRange;
             isDrawRight = isDrawRight || Math.abs(elemRight - right) < errorRange;
             isDrawTop = isDrawTop || Math.abs(elemTop - top) < errorRange;
             isDrawBottom = isDrawBottom || Math.abs(elemBottom - bottom) < errorRange;
         });
-        //console.debug('center-x: %s, center-y: %s, left: %s, right: %s, top: %s, bottom: %s', isDrawCenterX, isDrawCenterY, isDrawLeft, isDrawRight, isDrawTop, isDrawBottom);
 
         const drawingBoard = document.querySelector('.alice-process-drawing-board'),
               gTransform = d3.zoomTransform(d3.select('g.guides-container').node());
@@ -759,86 +817,370 @@
     }
 
     /**
-     * Resizable rectangle element.
+     * Drag the action element.
+     *
+     * @param nodeElement 드래그 대상 element
+     * @param dx position x
+     * @param dy position y
+     */
+    function dragged(nodeElement, dx, dy) {
+        svg.selectAll('.alice-tooltip').remove();
+        const gElement = d3.select(nodeElement.node().parentNode),
+              typeElement = gElement.select('.element-type'),
+              textElement = gElement.select('text');
+
+        let mouseX = snapToGrid(Number(nodeElement.attr('x')) + dx),
+            mouseY = snapToGrid(Number(nodeElement.attr('y')) + dy);
+
+        if (nodeElement.classed('event')) {
+            mouseX = snapToGrid(Number(nodeElement.attr('cx')) + dx);
+            mouseY = snapToGrid(Number(nodeElement.attr('cy')) + dy);
+            nodeElement
+                .attr('cx', mouseX)
+                .attr('cy', mouseY);
+        } else {
+            nodeElement
+                .attr('x', mouseX)
+                .attr('y', mouseY);
+            textElement
+                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
+                .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2));
+        }
+
+        if (nodeElement.classed('task')) {
+            typeElement
+                .attr('x', Number(nodeElement.attr('x')) + 10)
+                .attr('y', Number(nodeElement.attr('y')) + 10);
+        } else if (nodeElement.classed('subprocess')) {
+            typeElement
+                .attr('x', mouseX + (Number(nodeElement.attr('width')) / 2) - (Number(typeElement.attr('width')) / 2))
+                .attr('y', mouseY + Number(nodeElement.attr('height')) - Number(typeElement.attr('height')) - 5);
+        } else if (nodeElement.classed('event')) {
+            typeElement
+                .attr('x', mouseX - (Number(typeElement.attr('width')) / 2))
+                .attr('y', mouseY - (Number(typeElement.attr('height')) / 2));
+            textElement
+                .attr('x', mouseX)
+                .attr('y', mouseY + (20 * 2));
+        } else if (nodeElement.classed('gateway')) {
+            nodeElement.attr('transform', 'rotate(45, ' + (mouseX + (Number(nodeElement.attr('width')) / 2)) + ', ' + (mouseY + (Number(nodeElement.attr('height')) / 2))+ ')')
+            typeElement
+                .attr('x', mouseX + (Number(nodeElement.attr('width')) / 2) - (Number(typeElement.attr('width')) / 2))
+                .attr('y', mouseY + (Number(nodeElement.attr('height')) / 2) - (Number(typeElement.attr('height')) / 2));
+            textElement
+                .attr('x', mouseX + (Number(nodeElement.attr('width')) / 2))
+                .attr('y', mouseY + (Number(nodeElement.attr('height')) / 2) + Number(nodeElement.attr('height')) + 10);
+        } else if (nodeElement.classed('group')) {
+            textElement.attr('y', mouseY + 10);
+            let rectData = [
+                {x: Number(nodeElement.attr('x')), y: Number(nodeElement.attr('y'))},
+                {x: Number(nodeElement.attr('x')) + Number(nodeElement.attr('width')), y: Number(nodeElement.attr('y')) + Number(nodeElement.attr('height'))}
+            ];
+            let pointArray =
+                [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
+                    [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
+            pointArray.forEach(function(point, i) {
+                d3.select(gElement.selectAll('circle').nodes()[i])
+                    .attr('cx', point[0])
+                    .attr('cy', point[1]);
+            });
+        }
+
+        if (dragElement.node().id === nodeElement.node().id) {
+            elements.links.forEach(function(l) {
+                let isExistSource = false,
+                    isExistTarget = false;
+                d3.selectAll('.node.selected').each(function() {
+                    let nodeId =  d3.select(this).node().id;
+                    if (l.sourceId === nodeId) {
+                        isExistSource = true;
+                    } else if (l.targetId === nodeId) {
+                        isExistTarget = true;
+                    }
+                });
+                if (isExistSource && isExistTarget) {
+                    if (typeof l.midPoint !== 'undefined') {
+                        l.midPoint = [snapToGrid(l.midPoint[0] + dx), snapToGrid(l.midPoint[1] + dy)];
+                    }
+                    if (typeof l.sourcePoint !== 'undefined') {
+                        l.sourcePoint = [snapToGrid(l.sourcePoint[0] + dx), snapToGrid(l.sourcePoint[1] + dy)];
+                    }
+                    if (typeof l.targetPoint !== 'undefined') {
+                        l.targetPoint = [snapToGrid(l.targetPoint[0] + dx), snapToGrid(l.targetPoint[1] + dy)];
+                    }
+                    if (typeof l.textPoint !== 'undefined') {
+                        l.textPoint = [snapToGrid(l.textPoint[0] + dx), snapToGrid(l.textPoint[1] + dy)];
+                    }
+                }
+            });
+
+            gElement.raise();
+            drawGuides(dragElement);
+            drawConnectors();
+        }
+    }
+
+    /**
+     * element drag event.
+     *
+     * @type {EventEmitter}
+     */
+    const drag = d3.drag()
+        .filter(function() { return d3.event.button === 0 || d3.event.button === 2; })
+        .on('start', elementMouseEventHandler.mousedown)
+        .on('drag', function() {
+            if (isDrawConnector) {
+                elementMouseEventHandler.mousedrag();
+            } else {
+                if (!dragElement) {
+                    dragElement = d3.select(d3.event.sourceEvent.target.parentNode).select('.node');
+                }
+                if (dragElement.classed('selected')) {
+                    const dx = d3.event.dx,
+                          dy = d3.event.dy;
+                    d3.selectAll('.node.selected').each(function() {
+                        dragged(d3.select(this), dx, dy);
+                    });
+                }
+            }
+        })
+        .on('end', elementMouseEventHandler.mouseup);
+
+    /**
+     * Task element.
      *
      * @param x drop할 마우스 x좌표
      * @param y drop할 마우스 y좌표
-     * @param type element type
-     * @param width element width
-     * @param height element height
+     * @returns {TaskElement}
      * @constructor
      */
-    function RectResizableElement(x, y, type, width, height) {
+    function TaskElement(x, y) {
         const self = this;
-        self.width = width ? width : 120;
-        self.height = height ? height : 80;
-        self.radius = 8;
-        const minWidth = 80, minHeight = 60;
-        const calcX = x - (self.width / 2),
-              calcY = y - (self.height / 2),
-              typeImageSize = 20;
+        const width = 120, height = 80, radius = 8, typeImageSize = 20;
+        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.defaultType = aliceProcessEditor.getElementDefaultType('task');
 
-        const drag = d3.drag()
-            .on('start', elementMouseEventHandler.mousedown)
-            .on('drag', function() {
-                if (isDrawConnector) {
-                    elementMouseEventHandler.mousedrag();
-                } else {
-                    dragElement = self.nodeElement;
-                    svg.selectAll('.alice-tooltip').remove();
-                    d3.select(self.nodeElement.node().parentNode).raise();
-                    const mouseX = snapToGrid(d3.event.dx),
-                          mouseY = snapToGrid(d3.event.dy);
-                    for (let i = 0, len = self.rectData.length; i < len; i++) {
-                        self.rectData[i].x += mouseX;
-                        self.rectData[i].y += mouseY;
-                    }
-                    drawGuides(self.nodeElement);
-                    updateRect();
-                }
-            })
-            .on('end', elementMouseEventHandler.mouseup);
-        let elementContainer = elementsContainer.append('g').attr('class', 'element');
-        if (type === 'group') {
-            elementContainer = groupArtifactContainer.append('g').attr('class', 'element');
-        }
-        self.rectData = [{ x: calcX, y: calcY }, { x: calcX + self.width, y: calcY + self.height }];
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
-            .attr('width', self.width)
-            .attr('height', self.height)
-            .attr('x', self.rectData[0].x)
-            .attr('y', self.rectData[0].y)
-            .attr('rx', self.radius)
-            .attr('ry', self.radius)
-            .attr('class', 'node resizable')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
+            .attr('rx', radius)
+            .attr('ry', radius)
+            .attr('class', 'node task ' + self.defaultType)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        if (type !== 'group') {
-            self.typeElement = elementContainer.append('rect')
-                .attr('class', 'element-type')
-                .attr('width', typeImageSize)
-                .attr('height', typeImageSize)
-                .on('mouseover', elementMouseEventHandler.mouseover)
-                .on('mouseout', elementMouseEventHandler.mouseout)
-                .call(drag);
-        }
+        elementContainer.append('rect')
+            .attr('class', 'element-type')
+            .attr('width', typeImageSize)
+            .attr('height', typeImageSize)
+            .attr('x', x - (width / 2) + 10)
+            .attr('y', y - (height / 2) + 10)
+            .style('fill', 'url(#task-' + self.defaultType + '-element)')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
 
-        self.textElement = elementContainer.append('text')
+        elementContainer.append('text')
             .attr('x', x)
             .attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        ['nw-resize', 'se-resize', 'ne-resize', 'sw-resize'].forEach(function(cursor, i) {
+        return self;
+    }
+
+    /**
+     * Subprocess element.
+     *
+     * @param x drop할 마우스 x좌표
+     * @param y drop할 마우스 y좌표
+     * @returns {SubprocessElement}
+     * @constructor
+     */
+    function SubprocessElement(x, y) {
+        const self = this;
+        const width = 120, height = 80, radius = 8, typeImageSize = 20;
+        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.defaultType = aliceProcessEditor.getElementDefaultType('subprocess');
+
+        self.nodeElement = elementContainer.append('rect')
+            .attr('id', workflowUtil.generateUUID())
+            .attr('width', width)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
+            .attr('rx', radius)
+            .attr('ry', radius)
+            .attr('class', 'node subprocess ' + self.defaultType)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        elementContainer.append('rect')
+            .attr('class', 'element-type')
+            .attr('width', typeImageSize)
+            .attr('height', typeImageSize)
+            .attr('x', x - (typeImageSize / 2))
+            .attr('y', y + (height / 2) - typeImageSize - 5)
+            .style('fill', 'url(#subprocess-' + self.defaultType + '-element)')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        elementContainer.append('text')
+            .attr('x', x)
+            .attr('y', y)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        return self;
+    }
+
+    /**
+     * event element.
+     *
+     * @param x drop할 마우스 x좌표
+     * @param y drop할 마우스 y좌표
+     * @returns {EventElement}
+     * @constructor
+     */
+    function EventElement(x, y) {
+        const self = this;
+        const radius = 20, typeImageSize = 20;
+        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.defaultType = aliceProcessEditor.getElementDefaultType('event');
+
+        self.nodeElement = elementContainer.append('circle')
+            .attr('id', workflowUtil.generateUUID())
+            .attr('r', radius)
+            .attr('cx', x)
+            .attr('cy', y)
+            .attr('class', 'node event ' + self.defaultType)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        elementContainer.append('rect')
+            .attr('class', 'element-type')
+            .attr('width', typeImageSize)
+            .attr('height', typeImageSize)
+            .attr('x', x - (typeImageSize / 2))
+            .attr('y', y - (typeImageSize / 2))
+            .style('fill', 'url(#event-' + self.defaultType + '-element)')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        elementContainer.append('text')
+            .attr('x', x)
+            .attr('y', y + (radius * 2))
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        return self;
+    }
+
+    /**
+     * gateway element.
+     *
+     * @param x drop할 마우스 x좌표
+     * @param y drop할 마우스 y좌표
+     * @returns {GatewayElement}
+     * @constructor
+     */
+    function GatewayElement(x, y) {
+        const self = this;
+        const size = 40, typeImageSize = 20;
+        const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.defaultType = aliceProcessEditor.getElementDefaultType('gateway');
+
+        self.nodeElement = elementContainer.append('rect')
+            .attr('id', workflowUtil.generateUUID())
+            .attr('width', size)
+            .attr('height', size)
+            .attr('x', x - (size / 2))
+            .attr('y', y - (size / 2))
+            .attr('transform', 'rotate(45, ' + x + ', ' + y + ')')
+            .attr('class', 'node gateway ' + self.defaultType)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        elementContainer.append('rect')
+            .attr('class', 'element-type')
+            .attr('width', typeImageSize)
+            .attr('height', typeImageSize)
+            .attr('x', x - (typeImageSize / 2))
+            .attr('y', y - (typeImageSize / 2))
+            .style('fill', 'url(#gateway-' + self.defaultType + '-element)')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        elementContainer.append('text')
+            .attr('x', x)
+            .attr('y', y + size + 10)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        return self;
+    }
+
+    /**
+     * Group element.
+     *
+     * @param x drop할 마우스 x좌표
+     * @param y drop할 마우스 y좌표
+     * @param width element width
+     * @param height element height
+     * @returns {GroupElement}
+     * @constructor
+     */
+    function GroupElement(x, y, width, height) {
+        const self = this;
+        self.width = width ? width : 360;
+        self.height = height ? height : 240;
+        self.defaultType = 'groupArtifact'
+        const minWidth = 120, minHeight = 80;
+        const calcX = x - (self.width / 2),
+              calcY = y - (self.height / 2);
+
+        let elementContainer = groupArtifactContainer.append('g').attr('class', 'element');
+        self.nodeElement = elementContainer.append('rect')
+            .attr('id', workflowUtil.generateUUID())
+            .attr('width', self.width)
+            .attr('height', self.height)
+            .attr('x', calcX)
+            .attr('y', calcY)
+            .attr('class', 'node resizable artifact group')
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        self.textElement = elementContainer.append('text')
+            .attr('x', x)
+            .attr('y', calcY + 10)
+            .on('mouseover', elementMouseEventHandler.mouseover)
+            .on('mouseout', elementMouseEventHandler.mouseout)
+            .call(drag);
+
+        [{x: calcX, y: calcY, cursor: 'nw-resize'}, {x: calcX + self.width, y: calcY + self.height, cursor: 'se-resize'},
+            {x: calcX + self.width, y: calcY, cursor: 'ne-resize'}, {x: calcX, y: calcY + self.height, cursor: 'sw-resize'}].forEach(function(p, i) {
             self['pointElement' + (i + 1)] = elementContainer.append('circle')
                 .attr('class', 'pointer')
                 .attr('r', displayOptions.pointerRadius)
+                .attr('cx', p.x)
+                .attr('cy', p.y)
                 .style('opacity', 0)
-                .on('mouseover', function() { self['pointElement' + (i + 1)].style('cursor', cursor); })
+                .on('mouseover', function() { self['pointElement' + (i + 1)].style('cursor', p.cursor); })
                 .on('mouseout', function() { self['pointElement' + (i + 1)].style('cursor', 'default'); })
                 .call(d3.drag()
                     .on('start', function() {
@@ -848,7 +1190,10 @@
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
                             const mouseX = snapToGrid(d3.event.dx),
                                   mouseY = snapToGrid(d3.event.dy);
-                            const rectData = self.rectData;
+                            let rectData = [
+                                {x: Number(self.nodeElement.attr('x')), y: Number(self.nodeElement.attr('y'))},
+                                {x: Number(self.nodeElement.attr('x')) + Number(self.nodeElement.attr('width')), y: Number(self.nodeElement.attr('y')) + Number(self.nodeElement.attr('height'))}
+                            ];
                             switch (i + 1) {
                                 case 1:
                                     if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
@@ -883,8 +1228,25 @@
                                     }
                                     break;
                             }
+                            self.nodeElement
+                                .attr('x', rectData[0].x)
+                                .attr('y', rectData[0].y)
+                                .attr('width', rectData[1].x - rectData[0].x)
+                                .attr('height', rectData[1].y - rectData[0].y);
+
+                            self.textElement
+                                .attr('x', rectData[0].x + ((rectData[1].x - rectData[0].x) / 2))
+                                .attr('y', rectData[0].y + 10);
                             changeTextToElement(self.nodeElement.node().id);
-                            updateRect();
+
+                            let pointArray =
+                                [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
+                                    [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
+                            pointArray.forEach(function(point, i) {
+                                self['pointElement' + (i + 1)]
+                                    .attr('cx', point[0])
+                                    .attr('cy', point[1]);
+                            });
                         }
                     })
                     .on('end', function() {
@@ -894,258 +1256,7 @@
                 );
         });
 
-        /**
-         * element 위치, 크기 등 update.
-         */
-        function updateRect() {
-            const rectData = self.rectData;
-
-            let updateX = rectData[0].x,
-                updateY = rectData[0].y,
-                updateWidth = rectData[1].x - rectData[0].x,
-                updateHeight = rectData[1].y - rectData[0].y;
-            self.nodeElement
-                .attr('x', updateX)
-                .attr('y', updateY)
-                .attr('width', updateWidth)
-                .attr('height', updateHeight);
-
-            if (self.nodeElement.classed('task')) {
-                self.typeElement
-                    .attr('x', updateX + (typeImageSize / 2))
-                    .attr('y', updateY + (typeImageSize / 2));
-            } else if (self.nodeElement.classed('subprocess')) {
-                self.typeElement
-                    .attr('x', updateX + (updateWidth / 2) - (typeImageSize / 2))
-                    .attr('y', updateY + updateHeight - typeImageSize - 3);
-            }
-            self.textElement.attr('x', updateX + (updateWidth / 2));
-            if (self.nodeElement.classed('group')) {
-                self.textElement.attr('y', updateY + 10);
-            } else {
-                self.textElement.attr('y', updateY + (updateHeight / 2));
-            }
-
-            let pointArray =
-                [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
-                    [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
-            pointArray.forEach(function(point, i) {
-                self['pointElement' + (i + 1)]
-                    .attr('cx', point[0])
-                    .attr('cy', point[1]);
-            });
-            drawConnectors();
-        }
-        updateRect();
-    }
-
-    /**
-     * Task element.
-     *
-     * @param x drop할 마우스 x좌표
-     * @param y drop할 마우스 y좌표
-     * @param width element width
-     * @param height element height
-     * @returns {TaskElement}
-     * @constructor
-     */
-    function TaskElement(x, y, width, height) {
-        this.base = RectResizableElement;
-        this.base(x, y, 'task', width, height);
-        const defaultType = aliceProcessEditor.getElementDefaultType('task');
-        this.nodeElement
-            .classed('task', true)
-            .classed(defaultType, true);
-        this.typeElement
-            .attr('x', this.rectData[0].x + 10)
-            .attr('y', this.rectData[0].y + 10)
-            .style('fill', 'url(#task-' + defaultType + '-element)');
-        return this;
-    }
-
-    /**
-     * Subprocess element.
-     *
-     * @param x drop할 마우스 x좌표
-     * @param y drop할 마우스 y좌표
-     * @param width element width
-     * @param height element height
-     * @returns {SubprocessElement}
-     * @constructor
-     */
-    function SubprocessElement(x, y, width, height) {
-        this.base = RectResizableElement;
-        this.base(x, y, 'subprocess', width, height);
-        this.nodeElement.classed('subprocess', true);
-        const defaultType = aliceProcessEditor.getElementDefaultType('subprocess');
-        this.typeElement
-            .attr('x', (this.rectData[0].x + (this.width / 2) - 10))
-            .attr('y', (this.rectData[0].y + this.height - 20 - 3))
-            .style('fill', 'url(#subprocess-' + defaultType + '-element)');
-        return this;
-    }
-
-    /**
-     * event element.
-     *
-     * @param x drop할 마우스 x좌표
-     * @param y drop할 마우스 y좌표
-     * @returns {EventElement}
-     * @constructor
-     */
-    function EventElement(x, y) {
-        const self = this;
-        const radius = 20, typeImageSize = 20;
-
-        const drag = d3.drag()
-            .on('start', elementMouseEventHandler.mousedown)
-            .on('drag', function() {
-                if (isDrawConnector) {
-                    elementMouseEventHandler.mousedrag();
-                } else {
-                    dragElement = self.nodeElement;
-                    svg.selectAll('.alice-tooltip').remove();
-                    d3.select(self.nodeElement.node().parentNode).raise();
-                    const mouseX = snapToGrid(d3.event.x),
-                          mouseY = snapToGrid(d3.event.y);
-                    self.nodeElement
-                        .attr('cx', mouseX)
-                        .attr('cy', mouseY);
-                    self.typeElement
-                        .attr('x', mouseX - (typeImageSize / 2))
-                        .attr('y', mouseY - (typeImageSize / 2));
-                    self.textElement
-                        .attr('x', mouseX)
-                        .attr('y', mouseY + (radius * 2));
-                    drawGuides(self.nodeElement);
-                    drawConnectors();
-                }
-            })
-            .on('end', elementMouseEventHandler.mouseup);
-
-        const elementContainer = elementsContainer.append('g').attr('class', 'element');
-        const defaultType = aliceProcessEditor.getElementDefaultType('event');
-
-        self.nodeElement = elementContainer.append('circle')
-            .attr('id', workflowUtil.generateUUID())
-            .attr('r', radius)
-            .attr('cx', x)
-            .attr('cy', y)
-            .attr('class', 'node event ' + defaultType)
-            .on('mouseover', elementMouseEventHandler.mouseover)
-            .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(drag);
-        self.typeElement = elementContainer.append('rect')
-            .attr('class', 'element-type')
-            .attr('width', typeImageSize)
-            .attr('height', typeImageSize)
-            .attr('x', x - (typeImageSize / 2))
-            .attr('y', y - (typeImageSize / 2))
-            .style('fill', 'url(#event-' + defaultType + '-element)')
-            .on('mouseover', elementMouseEventHandler.mouseover)
-            .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(drag);
-        self.textElement = elementContainer.append('text')
-            .attr('x', x)
-            .attr('y', y + (radius * 2))
-            .on('mouseover', elementMouseEventHandler.mouseover)
-            .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(drag);
-
         return self;
-    }
-
-    /**
-     * gateway element.
-     *
-     * @param x drop할 마우스 x좌표
-     * @param y drop할 마우스 y좌표
-     * @returns {GatewayElement}
-     * @constructor
-     */
-    function GatewayElement(x, y) {
-        const self = this;
-        const size = 40, typeImageSize = 20;
-
-        const drag = d3.drag()
-            .on('start', elementMouseEventHandler.mousedown)
-            .on('drag', function() {
-                if (isDrawConnector) {
-                    elementMouseEventHandler.mousedrag();
-                } else {
-                    dragElement = self.nodeElement;
-                    svg.selectAll('.alice-tooltip').remove();
-                    d3.select(self.nodeElement.node().parentNode).raise();
-                    const mouseX = snapToGrid(d3.event.x),
-                          mouseY = snapToGrid(d3.event.y);
-                    self.nodeElement
-                        .attr('x', mouseX - (size / 2))
-                        .attr('y', mouseY - (size / 2))
-                        .attr('transform', 'rotate(45, ' + mouseX + ', ' + mouseY + ')');
-                    self.typeElement
-                        .attr('x', mouseX - (typeImageSize / 2))
-                        .attr('y', mouseY - (typeImageSize / 2));
-                    self.textElement
-                        .attr('x', mouseX)
-                        .attr('y', mouseY + size + 10);
-                    drawGuides(self.nodeElement);
-                    drawConnectors();
-                }
-            })
-            .on('end', elementMouseEventHandler.mouseup);
-
-        const elementContainer = elementsContainer.append('g').attr('class', 'element');
-        const defaultType = aliceProcessEditor.getElementDefaultType('gateway');
-
-        self.nodeElement = elementContainer.append('rect')
-            .attr('id', workflowUtil.generateUUID())
-            .attr('width', size)
-            .attr('height', size)
-            .attr('x', x - (size / 2))
-            .attr('y', y - (size / 2))
-            .attr('transform', 'rotate(45, ' + x + ', ' + y + ')')
-            .attr('class', 'node gateway ' + defaultType)
-            .on('mouseover', elementMouseEventHandler.mouseover)
-            .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(drag);
-        self.typeElement = elementContainer.append('rect')
-            .attr('class', 'element-type')
-            .attr('width', typeImageSize)
-            .attr('height', typeImageSize)
-            .attr('x', x - (typeImageSize / 2))
-            .attr('y', y - (typeImageSize / 2))
-            .style('fill', 'url(#gateway-' + defaultType + '-element)')
-            .on('mouseover', elementMouseEventHandler.mouseover)
-            .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(drag);
-        self.textElement = elementContainer.append('text')
-            .attr('x', x)
-            .attr('y', y + size + 10)
-            .on('mouseover', elementMouseEventHandler.mouseover)
-            .on('mouseout', elementMouseEventHandler.mouseout)
-            .call(drag);
-
-        return self;
-    }
-
-    /**
-     * Group element.
-     *
-     * @param x drop할 마우스 x좌표
-     * @param y drop할 마우스 y좌표
-     * @param width element width
-     * @param height element height
-     * @returns {GroupElement}
-     * @constructor
-     */
-    function GroupElement(x, y, width, height) {
-        this.base = RectResizableElement;
-        this.base(x, y, 'group', width, height);
-        this.nodeElement
-            .classed('artifact', true)
-            .classed('group', true);
-        this.textElement.attr('y', this.rectData[0].y + 10);
-        return this;
     }
 
     /**
@@ -1159,31 +1270,9 @@
     function AnnotationElement(x, y) {
         const self = this;
         const width = 30, height = 30;
-
-        const drag = d3.drag()
-            .on('start', elementMouseEventHandler.mousedown)
-            .on('drag', function() {
-                if (isDrawConnector) {
-                    elementMouseEventHandler.mousedrag();
-                } else {
-                    dragElement = self.nodeElement;
-                    svg.selectAll('.alice-tooltip').remove();
-                    d3.select(self.nodeElement.node().parentNode).raise();
-                    const mouseX = snapToGrid(d3.event.x),
-                          mouseY = snapToGrid(d3.event.y);
-                    self.nodeElement
-                        .attr('x', mouseX - (width / 2))
-                        .attr('y', mouseY - (height / 2));
-                    self.textElement
-                        .attr('x', mouseX)
-                        .attr('y', mouseY);
-                    drawGuides(self.nodeElement);
-                    drawConnectors();
-                }
-            })
-            .on('end', elementMouseEventHandler.mouseup);
-
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
+        self.defaultType = 'annotationArtifact';
+
         self.nodeElement = elementContainer.append('rect')
             .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
@@ -1195,7 +1284,7 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        self.textElement = elementContainer.append('text')
+        elementContainer.append('text')
             .attr('x', x).attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1231,28 +1320,21 @@
                     y = snapToGrid(d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y);
                 let _this = d3.select(this);
                 let node;
-                let type = '';
                 if (_this.classed('event')) {
                     node = new EventElement(x, y);
-                    type = aliceProcessEditor.getElementDefaultType('event');
                 } else if (_this.classed('task')) {
                     node = new TaskElement(x, y);
-                    type = aliceProcessEditor.getElementDefaultType('task');
                 } else if (_this.classed('subprocess')) {
                     node = new SubprocessElement(x, y);
-                    type = aliceProcessEditor.getElementDefaultType('subprocess');
                 } else if (_this.classed('gateway')) {
                     node = new GatewayElement(x, y);
-                    type = aliceProcessEditor.getElementDefaultType('gateway');
                 } else if (_this.classed('group')) {
                     node = new GroupElement(x, y);
-                    type = 'groupArtifact';
                 } else if (_this.classed('annotation')) {
                     node = new AnnotationElement(x, y);
-                    type = 'annotationArtifact';
                 }
                 if (node) {
-                    _this.classed(type, true);
+                    _this.classed(node.defaultType, true);
                     aliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
@@ -1498,11 +1580,11 @@
                 aliceProcessEditor.changeElementType(node.nodeElement, element.type);
                 break;
             case 'task':
-                node = new TaskElement(x, y, element.display.width, element.display.height);
+                node = new TaskElement(x, y);
                 aliceProcessEditor.changeElementType(node.nodeElement, element.type);
                 break;
             case 'subprocess':
-                node = new SubprocessElement(x, y, element.display.width, element.display.height);
+                node = new SubprocessElement(x, y);
                 break;
             case 'gateway':
                 node = new GatewayElement(x, y);
@@ -1565,18 +1647,12 @@
                 element['end-id'] = target.id;
                 let linkData = {id: nodeId, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default']};
                 if (element.display) {
-                    if (typeof element.display['mid-point'] !== 'undefined') {
-                        linkData.midPoint = element.display['mid-point'];
-                    }
-                    if (typeof element.display['source-point'] !== 'undefined') {
-                        linkData.sourcePoint = element.display['source-point'];
-                    }
-                    if (typeof element.display['target-point'] !== 'undefined') {
-                        linkData.targetPoint = element.display['target-point'];
-                    }
-                    if (typeof element.display['text-point'] !== 'undefined') {
-                        linkData.textPoint = element.display['text-point'];
-                    }
+                    Object.keys(element.display).forEach(function(key) {
+                        if (typeof element.display[key] !== 'undefined') {
+                            let keyCamelCased = key.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+                            linkData[keyCamelCased] = element.display[key];
+                        }
+                    });
                 }
                 elements.links.push(linkData);
             }

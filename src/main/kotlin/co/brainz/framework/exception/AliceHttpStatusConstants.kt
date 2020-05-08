@@ -70,5 +70,4 @@ enum class AliceHttpStatusConstants(val status: Int, val reasonPhrase: String) {
             return phrase
         }
     }
-
 }

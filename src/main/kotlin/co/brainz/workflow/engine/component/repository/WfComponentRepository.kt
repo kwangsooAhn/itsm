@@ -14,6 +14,4 @@ interface WfComponentRepository : JpaRepository<WfComponentEntity, String> {
     fun deleteComponentEntityByComponentIdIn(componentIds: MutableList<String>)
 
     fun findByComponentIdInAndMappingId(componentIds: List<String>, mappingId: String): WfComponentEntity
-
 }
-

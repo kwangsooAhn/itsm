@@ -10,5 +10,4 @@ data class WfFolderDto(
     val instanceEndDt: LocalDateTime?,
     val instanceCreateUserKey: String?,
     val instanceCreateUserName: String?
-) : Serializable {
-}
+) : Serializable

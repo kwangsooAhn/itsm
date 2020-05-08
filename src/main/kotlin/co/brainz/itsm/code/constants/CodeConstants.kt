@@ -6,4 +6,3 @@ package co.brainz.itsm.code.constants
 object CodeConstants {
     const val SEARCH_RANGE_VALUE: Long = 30
 }
-

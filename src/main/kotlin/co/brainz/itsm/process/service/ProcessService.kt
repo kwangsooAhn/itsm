@@ -126,4 +126,17 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
         )
         return restTemplate.delete(url)
     }
+
+    /**
+     * 프로세스 시뮬레이션
+     */
+    fun getProcessSimulation(processId: String): String {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Process.GET_PROCESS_SIMULATION.url.replace(
+                restTemplate.getKeyRegex(),
+                processId
+            )
+        )
+        return restTemplate.get(url)
+    }
 }
