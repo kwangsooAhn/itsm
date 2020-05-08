@@ -1,6 +1,9 @@
 package co.brainz.framework.auth.handler
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import java.util.Locale
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
@@ -8,9 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.LocaleResolver
-import java.util.Locale
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 /**
  * 로그인 요청 인증 성공 처리 클래스
