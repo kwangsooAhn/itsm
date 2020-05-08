@@ -11,6 +11,10 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.service.UserService
+import java.util.Locale
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,10 +28,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.LocaleResolver
-import java.util.Locale
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import kotlin.random.Random
 
 /**
  * 사용자 관리 데이터 처리 클래스
@@ -70,7 +70,7 @@ class UserRestController(
     /**
      * 사용자가 다른 사용자의 정보를 업데이트한다.
      */
-    @PutMapping("/{userKey}/userEdit")
+    @PutMapping("/{userKey}/all")
     fun updateUserEdit(@RequestBody user: UserUpdateDto): String {
         return userService.updateUserEdit(user, AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code)
     }
@@ -78,7 +78,7 @@ class UserRestController(
     /**
      * 사용자가 자신의 정보를 업데이트한다.
      */
-    @PutMapping("/{userKey}/userEditSelf")
+    @PutMapping("/{userKey}/info")
     fun updateUserEditSelf(
         @RequestBody user: UserUpdateDto,
         request: HttpServletRequest,
@@ -101,7 +101,7 @@ class UserRestController(
         return result
     }
 
-     /**
+    /**
      * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
      */
     fun createNewAuthentication(User: UserUpdateDto): Authentication {
