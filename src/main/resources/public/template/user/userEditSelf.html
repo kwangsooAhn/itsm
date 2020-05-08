@@ -80,7 +80,7 @@
                                                               th:text="${themeData.codeValue}"></option></select></td>
             </tbody>
         </table>
-        <button style="margin-top: 25px;" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/userEditSelf(userKey=${users.userKey})}]])"
+        <button style="margin-top: 25px;" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"
                                           th:text="#{user.editUserInfo}"></button>
     </div>
     <br>
