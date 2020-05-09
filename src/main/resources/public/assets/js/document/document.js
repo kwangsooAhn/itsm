@@ -579,7 +579,7 @@
         // document data search.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/documents/data/' + documentId,
+            url: '/rest/documents/' + documentId + '/data',
             callbackFunc: function(xhr) {
                 dataForPrint = JSON.parse(xhr.responseText);
                 dataForPrint.documentId = documentId;
