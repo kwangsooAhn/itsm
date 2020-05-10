@@ -1162,14 +1162,15 @@
                             propertyValue.setAttribute('name', group + '.' + fieldArr.id);
                             let dateTimePickerValue = '';
                             if (fieldArr.value != '') {
-                                let dateTimePickerFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
+                                let dateTimePickerFormat = aliceForm.options.dateTimeFormat;
                                 dateTimePickerValue = fieldArr.value.split('|');
+                                console.log(dateTimePickerValue)
                                 if (dateTimePickerValue[1] === undefined) {
                                     dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
                                 } else {
                                     let dummyDateTime = '';
                                     if (fieldArr.type === 'timepicker') {
-                                        dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat) + ' ';
+                                        dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
                                     }
                                     dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, dummyDateTime + dateTimePickerValue[0], aliceForm.options.lang);
                                     if (fieldArr.type === 'timepicker') {
