@@ -4,7 +4,8 @@ import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.document.dto.WfDocumentDisplaySaveDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDisplayViewDto
 import co.brainz.workflow.engine.document.dto.WfDocumentDto
-import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
+import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
+import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/rest/wf/documents")
@@ -44,10 +44,10 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * 신청서 데이터 조회.
      *
      * @param documentId
-     * @return FormComponentViewDto
+     * @return RestTemplateFormComponentViewDto
      */
     @GetMapping("/{documentId}/data")
-    fun getDocumentData(@PathVariable documentId: String): WfFormComponentViewDto? {
+    fun getDocumentData(@PathVariable documentId: String): RestTemplateFormComponentViewDto? {
         return wfEngine.document().getDocumentData(documentId)
     }
 
