@@ -29,7 +29,7 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
     /**
      * 커스텀 코드 목록 조회.
      */
-    @GetMapping("/custom-code/{customCodeId}")
+    @GetMapping("/{customCodeId}")
     fun getCustomCodes(@PathVariable customCodeId: String): List<CustomCodeDataDto> {
         return customCodeService.getCustomCodeData(customCodeId)
     }
