@@ -54,6 +54,10 @@
     let clientIp = /*[[${clientIp}]]*/;
     let ipSeparator = ".*";
     window.onload = function() {
+        if (window.opener) {
+            opener.location.reload();
+            window.close();
+        }
         keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
         keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
         const authFailedCode = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
