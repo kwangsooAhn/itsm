@@ -47,11 +47,11 @@ class TokenService(
      * @param restTemplateTokenDto
      * @return Boolean
      */
-    fun putToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+    fun putToken(tokenId: String, restTemplateTokenDto: RestTemplateTokenDto): Boolean {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Token.PUT_TOKEN.url.replace(
                 restTemplate.getKeyRegex(),
-                restTemplateTokenDto.tokenId
+                tokenId
             )
         )
         val responseEntity = restTemplate.update(url, restTemplateTokenDto)

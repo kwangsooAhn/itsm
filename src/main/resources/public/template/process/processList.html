@@ -57,11 +57,6 @@
                                 th:text="#{common.btn.delete}" th:disabled="${!process.enabled}"
                                 th:attr="onclick=|deleteProcess('${process.id}')|"></button>
                     </td>
-                    <td>
-                        <button sec:authorize="hasAuthority('process.update')"
-                                th:text="시뮬레이션" th:disabled="${!process.enabled}"
-                                th:attr="onclick=|processSimulation('${process.id}')|"></button>
-                    </td>
                 </tr>
             </tbody>
         </table>

@@ -31,7 +31,7 @@ class ProcessRestController(private val processService: ProcessService) {
     /**
      * 프로세스 불러오기.
      */
-    @GetMapping("/data/{processId}")
+    @GetMapping("/{processId}/data")
     fun getProcessData(@PathVariable processId: String): String {
         val processData = processService.getProcessData(processId)
         logger.debug("get process data. {}", processData)
@@ -62,9 +62,9 @@ class ProcessRestController(private val processService: ProcessService) {
     /**
      * 프로세스 업데이트.
      */
-    @PutMapping("/{processId}")
-    fun updateProcess(@RequestBody wfProcessElementDto: WfProcessElementDto): Boolean {
-        return processService.updateProcessData(wfProcessElementDto)
+    @PutMapping("/{processId}/data")
+    fun updateProcess(@RequestBody wfProcessElementDto: WfProcessElementDto, @PathVariable processId: String): Boolean {
+        return processService.updateProcessData(processId, wfProcessElementDto)
     }
 
     /**
@@ -88,8 +88,16 @@ class ProcessRestController(private val processService: ProcessService) {
     /**
      * 프로세스 시뮬레이션
      */
-    @GetMapping("/{processId}/simulation")
-    fun getProcessSimulation(@PathVariable processId: String): String {
-        return processService.getProcessSimulation(processId)
+    @PutMapping("/{processId}/simulation")
+    fun getProcessSimulation(
+        @RequestBody wfProcessElementDto: WfProcessElementDto,
+        @PathVariable processId: String
+    ): String {
+        val updated = processService.updateProcessData(processId, wfProcessElementDto)
+        return if (updated) {
+            processService.getProcessSimulation(wfProcessElementDto.process!!.id)
+        } else {
+            "false"
+        }
     }
 }

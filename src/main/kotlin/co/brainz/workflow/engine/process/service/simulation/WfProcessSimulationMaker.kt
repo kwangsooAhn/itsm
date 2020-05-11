@@ -110,7 +110,7 @@ class WfProcessSimulationMaker {
         try {
             element = this.elementEntities.first {
                 current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value) &&
-                    !removedDuplicationElements.contains(it)
+                        !removedDuplicationElements.contains(it)
             }
         } catch (e: NoSuchElementException) {
             throw AliceException(AliceErrorConstants.ERR_00005, "ArrowConnector element not found.")

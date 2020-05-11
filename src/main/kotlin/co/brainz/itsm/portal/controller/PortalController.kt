@@ -34,10 +34,20 @@ class PortalController(private val portalService: PortalService) {
      */
     @GetMapping("/list")
     fun getPortalList(portalSearchDto: PortalSearchDto, model: Model, @PageableDefault pageableValue: Pageable): String {
-        val totalPages = ceil(portalService.findTotalCount(portalSearchDto) * 1.0 / 10)
+        val totalCount = portalService.findTotalCount(portalSearchDto)
+        val totalPages = ceil(totalCount * 1.0 / 10).toInt()
+        val pageNumber = pageableValue.pageNumber
+        val pageSize = pageableValue.pageSize
+        val hasPrevious = pageableValue.hasPrevious()
+        val hasBefore = (totalCount.toDouble() / pageSize) > pageNumber + 1
 
+        model.addAttribute("hasPrevious", hasPrevious)
+        model.addAttribute("hasBefore", hasBefore)
+        model.addAttribute("pageNumber", pageNumber)
         model.addAttribute("totalPages", totalPages)
+        model.addAttribute("totalCount", totalCount)
         model.addAttribute("portalList", portalService.findPortalListOrSearchList(portalSearchDto, pageableValue))
+
         return portalListPage
     }
 }
