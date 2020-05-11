@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_folder")
+@Table(name = "wf_folder_copy")
 @IdClass(WfFolderPk::class)
 data class WfFolderEntity(
     @Id

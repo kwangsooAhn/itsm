@@ -416,6 +416,7 @@ token:
     history: "History"
     relatedInstance: "Related Documents"
     print: "Process Document Print"
+    searchPlaceholder: "Related Document Name / Assignee"
 
 # Code
 code:
