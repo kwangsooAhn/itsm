@@ -79,13 +79,10 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return restTemplate.delete(urlDto)
     }
 
-    fun saveFormData(formData: String): Boolean {
+    fun saveFormData(formId: String, formData: String): Boolean {
         val formComponentSaveDto = makeFormComponentSaveDto(formData)
         val urlDto = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(
-                restTemplate.getKeyRegex(),
-                formComponentSaveDto.form.id
-            )
+            callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId)
         )
         val responseEntity = restTemplate.update(urlDto, formComponentSaveDto)
         return responseEntity.body.toString().isNotEmpty()
