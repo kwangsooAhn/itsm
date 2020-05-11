@@ -45,11 +45,6 @@ class AliceLoginController(
         val aliceUserEntity: AliceUserEntity?
         var clientIp: String? = request.getHeader("X-Forwarded-For")
 
-        //Set redirectUrl
-        if (request.session.getAttribute("redirectUrl") != null) {
-            request.session.setAttribute("redirectUrl", request.session.getAttribute("redirectUrl"))
-        }
-
         if (ipAccessControlValue == "true") {
             val ipList = aliceIpVerificationService.getIpList()
 
