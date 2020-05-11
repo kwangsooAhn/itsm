@@ -1,6 +1,5 @@
 package co.brainz.workflow.engine.instance.service
 
-import co.brainz.workflow.engine.comment.dto.WfCommentDto
 import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
@@ -13,14 +12,16 @@ import co.brainz.workflow.engine.token.dto.WfTokenDataDto
 import co.brainz.workflow.engine.token.dto.WfTokenDto
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
+import java.time.ZoneId
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.time.ZoneId
+
 
 @Service
 class WfInstanceService(
@@ -145,8 +146,8 @@ class WfInstanceService(
     /**
      * Get Instance Comments.
      */
-    fun getInstanceComments(instanceId: String): MutableList<WfCommentDto> {
-        val commentList: MutableList<WfCommentDto> = mutableListOf()
+    fun getInstanceComments(instanceId: String): MutableList<RestTemplateCommentDto> {
+        val commentList: MutableList<RestTemplateCommentDto> = mutableListOf()
         val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)
         instanceEntity?.comments?.forEach { comment ->
             commentList.add(wfCommentMapper.toCommentDto(comment))

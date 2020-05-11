@@ -1,11 +1,11 @@
 package co.brainz.workflow.engine.instance.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.engine.comment.dto.WfCommentDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
 import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.engine.token.dto.WfTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -66,7 +66,7 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     }
 
     @GetMapping("/{instanceId}/comments")
-    fun getInstanceComments(@PathVariable instanceId: String): MutableList<WfCommentDto> {
+    fun getInstanceComments(@PathVariable instanceId: String): MutableList<RestTemplateCommentDto> {
         return wfEngine.instance().getInstanceComments(instanceId)
     }
 }
