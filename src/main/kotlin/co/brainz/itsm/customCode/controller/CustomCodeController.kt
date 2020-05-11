@@ -7,6 +7,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 
 @Controller
 @RequestMapping("/custom-codes")
@@ -84,7 +85,7 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
     /**
      * 사용자 정의 코드 데이터 조회 팝업 화면.
      */
-    @GetMapping("/{customCodeId}/search")
+    @RequestMapping("/{customCodeId}/search", method = [RequestMethod.POST, RequestMethod.GET])
     fun getCustomCodeData(@PathVariable customCodeId: String, model: Model, request: HttpServletRequest): String {
         model.addAttribute("customCodeData", request.getParameter("customCodeData") ?: "")
         model.addAttribute("customCodeDataList", customCodeService.getCustomCodeData(customCodeId))
