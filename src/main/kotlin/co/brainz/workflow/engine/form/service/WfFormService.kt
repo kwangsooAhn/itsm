@@ -5,7 +5,6 @@ import co.brainz.workflow.engine.component.entity.WfComponentEntity
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.form.constants.WfFormConstants
-import co.brainz.workflow.engine.form.dto.WfFormComponentDataDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentSaveDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.dto.WfFormDto
@@ -118,7 +117,7 @@ class WfFormService(
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
         val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
         for (component in formEntity.get().components!!) {
             val attributes = LinkedHashMap<String, Any>()
             attributes["id"] = component.componentId
@@ -306,28 +305,4 @@ class WfFormService(
         return formDto
     }
 
-    /**
-     * Get Component Data.
-     *
-     * @param componentType
-     * @return List<WfFormComponentDataDto>
-     */
-    fun getFormComponentData(componentType: String): List<WfFormComponentDataDto> {
-        val componentDataList = mutableListOf<WfFormComponentDataDto>()
-        val componentDataEntityList = if (componentType == "") {
-            wfComponentDataRepository.findAll()
-        } else {
-            wfComponentDataRepository.findByComponentDataList(componentType)
-        }
-        for (componentDataEntity in componentDataEntityList) {
-            componentDataList.add(
-                WfFormComponentDataDto(
-                    componentId = componentDataEntity.componentId,
-                    attributeId = componentDataEntity.attributeId,
-                    attributeValue = componentDataEntity.attributeValue
-                )
-            )
-        }
-        return componentDataList
-    }
 }

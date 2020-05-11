@@ -127,19 +127,6 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         )
     }
 
-    fun getFormComponentDataList(componentType: String): List<FormComponentDataDto> {
-        val params = LinkedMultiValueMap<String, String>()
-        params.add("componentType", componentType)
-        val urlDto =
-            RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORM_COMPONENT_DATA.url, parameters = params)
-        val responseBody = restTemplate.get(urlDto)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        return mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, FormComponentDataDto::class.java)
-        )
-    }
-
     fun getFormImageList(): String{
         val absolutePath = Paths.get("").toAbsolutePath().toString()
         var dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
