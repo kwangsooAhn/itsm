@@ -16,19 +16,14 @@ class TokenRestController(private val tokenService: TokenService) {
 
     /**
      * 처리할 문서 데이터 조회.
-     *
-     * @param tokenId
      * */
-    @GetMapping("/data/{tokenId}")
+    @GetMapping("/{tokenId}/data")
     fun getToken(@PathVariable tokenId: String): String {
         return tokenService.findToken(tokenId)
     }
 
     /**
      * Post Token 처리.
-     *
-     * @param restTemplateTokenDto
-     * @return Boolean
      */
     @PostMapping("/data")
     fun postToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
@@ -38,8 +33,8 @@ class TokenRestController(private val tokenService: TokenService) {
     /**
      * Put Token 처리.
      */
-    @PutMapping("/data")
-    fun putToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
-        return tokenService.putToken(restTemplateTokenDto)
+    @PutMapping("/{tokenId}/data")
+    fun putToken(@RequestBody restTemplateTokenDto: RestTemplateTokenDto, @PathVariable tokenId: String): Boolean {
+        return tokenService.putToken(tokenId, restTemplateTokenDto)
     }
 }

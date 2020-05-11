@@ -372,10 +372,13 @@
         tokenObject.action = v_kind;
 
         let method = '';
+        let url = '';
         if (tokenObject.tokenId === '') {
             method = 'post';
+            url = '/rest/tokens/data'
         } else {
             method = 'put';
+            url = '/rest/tokens/' + tokenObject.tokenId + '/data'
         }
 
         if (fileDataIds !== '') {
@@ -387,7 +390,7 @@
         //tokenObject.elementId = 'a12c2f06debf788570a6b08a5ece73ac'
         const opt = {
             method: method,
-            url: '/rest/tokens/data',
+            url: url,
             params: JSON.stringify(tokenObject),
             contentType: 'application/json',
             callbackFunc: function(xhr) {
@@ -600,7 +603,7 @@
         // token data search.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/tokens/data/' + tokenId,
+            url: '/rest/tokens/' + tokenId + '/data',
             callbackFunc: function(xhr) {
                 dataForPrint = JSON.parse(xhr.responseText);
                 dataForPrint.tokenId = tokenId;
