@@ -2,9 +2,9 @@ package co.brainz.workflow.engine.process.controller
 
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.process.constants.WfProcessConstants
-import co.brainz.workflow.engine.process.dto.ProcessDto
-import co.brainz.workflow.engine.process.dto.WfProcessDto
-import co.brainz.workflow.engine.process.dto.WfProcessElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -27,7 +27,7 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * 프로세스 목록 조회.
      */
     @GetMapping("")
-    fun getProcesses(@RequestParam parameters: LinkedHashMap<String, Any>): MutableList<WfProcessDto> {
+    fun getProcesses(@RequestParam parameters: LinkedHashMap<String, Any>): MutableList<RestTemplateProcessViewDto> {
         return wfEngine.process().selectProcessList(parameters)
     }
 
@@ -41,13 +41,13 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
     fun insertProcess(
         @RequestParam(value = "saveType", defaultValue = "") saveType: String,
         @RequestBody jsonData: Any
-    ): ProcessDto {
+    ): RestTemplateProcessDto {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
             WfProcessConstants.SaveType.SAVE_AS.code -> wfEngine.process()
-                .saveAsProcess(mapper.convertValue(jsonData, WfProcessElementDto::class.java))
-            else -> wfEngine.process().insertProcess(mapper.convertValue(jsonData, ProcessDto::class.java))
+                .saveAsProcess(mapper.convertValue(jsonData, RestTemplateProcessElementDto::class.java))
+            else -> wfEngine.process().insertProcess(mapper.convertValue(jsonData, RestTemplateProcessDto::class.java))
         }
     }
 
@@ -55,7 +55,7 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * 프로세스 단건 조회.
      */
     @GetMapping("/{processId}")
-    fun getProcess(@PathVariable processId: String): WfProcessDto {
+    fun getProcess(@PathVariable processId: String): RestTemplateProcessViewDto {
         return wfEngine.process().getProcess(processId)
     }
 
@@ -63,7 +63,7 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * 프로세스 데이터 조회.
      */
     @GetMapping("/{processId}/data")
-    fun getProcessData(@PathVariable processId: String): WfProcessElementDto {
+    fun getProcessData(@PathVariable processId: String): RestTemplateProcessElementDto {
         return wfEngine.process().getProcessData(processId)
     }
 
@@ -71,21 +71,24 @@ class WfProcessRestController(private val wfEngine: WfEngine) {
      * 프로세스 1건 수정.
      */
     @PutMapping("/{processId}")
-    fun updateProcess(@PathVariable processId: String, @RequestBody wfProcessDto: WfProcessDto): Boolean {
-        return wfEngine.process().updateProcess(wfProcessDto)
+    fun updateProcess(
+        @PathVariable processId: String,
+        @RequestBody restTemplateProcessViewDto: RestTemplateProcessViewDto
+    ): Boolean {
+        return wfEngine.process().updateProcess(restTemplateProcessViewDto)
     }
 
     /**
      * 프로세스 1건 데이터 수정.
-     * @param wfProcessElementDto
+     * @param restTemplateProcessElementDto
      * @return Boolean result
      */
     @PutMapping("/{processId}/data")
     fun updateProcessData(
         @PathVariable processId: String,
-        @RequestBody wfProcessElementDto: WfProcessElementDto
+        @RequestBody restTemplateProcessElementDto: RestTemplateProcessElementDto
     ): Boolean {
-        return wfEngine.process().updateProcessData(wfProcessElementDto)
+        return wfEngine.process().updateProcessData(restTemplateProcessElementDto)
     }
 
     /**
