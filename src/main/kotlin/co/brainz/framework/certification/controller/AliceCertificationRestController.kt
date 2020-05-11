@@ -32,7 +32,7 @@ class AliceCertificationRestController(private val aliceCertificationService: Al
         return result
     }
 
-    @GetMapping("/sendCertifiedMail")
+    @GetMapping("/certifiedMail")
     fun sendCertifiedMail() {
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         aliceCertificationService.sendMail(

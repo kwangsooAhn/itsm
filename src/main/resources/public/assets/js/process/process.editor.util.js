@@ -249,7 +249,7 @@
         aliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/processes/' + aliceProcessEditor.data.process.id,
+            url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(i18n.get('common.msg.save'));
@@ -386,8 +386,22 @@
      * simulation workflow.
      */
     function simulationWorkflow() {
-        //TODO: 처리로직
         console.log('clicked simulation button.');
+        aliceProcessEditor.resetElementPosition();
+        aliceJs.sendXhr({
+            method: 'put',
+            url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/simulation',
+            callbackFunc: function(xhr) {
+                if (xhr.responseText === 'true') {
+                    aliceJs.alert(i18n.get('process.msg.simulation'));
+                    isEdited = false;
+                } else {
+                    aliceJs.alert(i18n.get('common.label.fail'));
+                }
+            },
+            contentType: 'application/json; charset=utf-8',
+            params: JSON.stringify(aliceProcessEditor.data)
+        });
     }
 
     /**
