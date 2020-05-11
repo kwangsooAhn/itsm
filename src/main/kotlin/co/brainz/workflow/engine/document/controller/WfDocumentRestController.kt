@@ -1,10 +1,11 @@
 package co.brainz.workflow.engine.document.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.engine.document.dto.WfDocumentDisplaySaveDto
-import co.brainz.workflow.engine.document.dto.WfDocumentDisplayViewDto
-import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/rest/wf/documents")
@@ -22,10 +22,10 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
     /**
      * 신청서 리스트 조회.
      *
-     * @return List<DocumentDto>
+     * @return List<RestTemplateDocumentDto>
      */
     @GetMapping("")
-    fun getDocuments(): List<WfDocumentDto> {
+    fun getDocuments(): List<RestTemplateDocumentDto> {
         return wfEngine.document().documents()
     }
 
@@ -33,10 +33,10 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * 신청서 1건 조회.
      *
      * @param documentId
-     * @return WfDocumentDto
+     * @return RestTemplateDocumentDto
      */
     @GetMapping("/{documentId}")
-    fun getDocument(@PathVariable documentId: String): WfDocumentDto {
+    fun getDocument(@PathVariable documentId: String): RestTemplateDocumentDto {
         return wfEngine.document().getDocument(documentId)
     }
 
@@ -54,24 +54,27 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
     /**
      * 신청서 등록.
      *
-     * @param documentDto
-     * @return WfDocumentDto
+     * @param restTemplateDocumentDto
+     * @return RestTemplateDocumentDto
      */
     @PostMapping("")
-    fun createDocument(@RequestBody documentDto: WfDocumentDto): WfDocumentDto {
-        return wfEngine.document().createDocument(documentDto)
+    fun createDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): RestTemplateDocumentDto {
+        return wfEngine.document().createDocument(restTemplateDocumentDto)
     }
 
     /**
      * 신청서 수정.
      *
-     * @param documentDto
+     * @param restTemplateDocumentDto
      * @return Boolean
      */
     @Transactional
     @PutMapping("/{documentId}")
-    fun updateDocument(@PathVariable documentId: String, @RequestBody documentDto: WfDocumentDto): Boolean {
-        return wfEngine.document().updateDocument(documentDto)
+    fun updateDocument(
+        @PathVariable documentId: String,
+        @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto
+    ): Boolean {
+        return wfEngine.document().updateDocument(restTemplateDocumentDto)
     }
 
     /**
@@ -89,24 +92,24 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * 신청서 양식 정보 조회.
      *
      * @param documentId
-     * @return WfDocumentDisplayViewDto
+     * @return RestTemplateDocumentDisplayViewDto
      */
     @GetMapping("/{documentId}/display")
-    fun getDocumentDisplay(@PathVariable documentId: String): WfDocumentDisplayViewDto {
+    fun getDocumentDisplay(@PathVariable documentId: String): RestTemplateDocumentDisplayViewDto {
         return wfEngine.document().getDocumentDisplay(documentId)
     }
 
     /**
      * 신청서 양식 정보 수정.
      *
-     * @param documentDisplaySaveDto
+     * @param restTemplateDocumentDisplaySaveDto
      * @return Boolean
      */
     @PutMapping("/{documentId}/display")
     fun updateDocumentDisplay(
-        @RequestBody documentDisplaySaveDto: WfDocumentDisplaySaveDto,
+        @RequestBody restTemplateDocumentDisplaySaveDto: RestTemplateDocumentDisplaySaveDto,
         @PathVariable documentId: String
     ): Boolean {
-        return wfEngine.document().updateDocumentDisplay(documentDisplaySaveDto)
+        return wfEngine.document().updateDocumentDisplay(restTemplateDocumentDisplaySaveDto)
     }
 }
