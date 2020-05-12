@@ -1339,7 +1339,7 @@
                 });
             } else {
                 validateCheck(propertyValue, fieldArr.validate);
-                propertyValue.addEventListener('focusout', function(e) {
+                propertyValue.addEventListener('change', function(e) {
                     editor.data.form[fieldArr.id] = this.value;
                     history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
                 }, false);
