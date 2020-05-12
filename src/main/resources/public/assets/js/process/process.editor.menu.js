@@ -1083,7 +1083,7 @@
                         break;
                     case 'select':
                         elementObject = document.createElement('select');
-                        let optionList = property['sub-list'];
+                        let optionList = JSON.parse(JSON.stringify(property['sub-list']));
                         if (property.id === 'sub-document-id') {
                             documents.forEach(function(d) {
                                 optionList.push({id: d.documentId, name: d.documentName});
