@@ -1,10 +1,10 @@
 package co.brainz.workflow.engine.instance.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.engine.comment.dto.WfCommentDto
-import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
-import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
-import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateCommentDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,7 +23,7 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
      * @return List<InstanceViewDto>
      */
     @GetMapping("")
-    fun getProcessInstances(@RequestParam parameters: LinkedHashMap<String, Any>): List<WfInstanceViewDto> {
+    fun getProcessInstances(@RequestParam parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
         return wfEngine.instance().instances(parameters)
     }
 
@@ -34,7 +34,7 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
      * @return WfInstanceViewDto
      */
     @GetMapping("/{instanceId}")
-    fun getProcessInstance(@PathVariable instanceId: String): WfInstanceViewDto {
+    fun getProcessInstance(@PathVariable instanceId: String): RestTemplateInstanceViewDto {
         return wfEngine.instance().instance(instanceId)
     }
 
@@ -42,10 +42,10 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
      * Process Instance Status Count.
      *
      * @param param
-     * @return List<WfInstanceCountDto>
+     * @return List<RestTemplateInstanceCountDto>
      */
     @GetMapping("/count")
-    fun getProcessInstancesStatusCount(@RequestParam param: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
+    fun getProcessInstancesStatusCount(@RequestParam param: LinkedHashMap<String, Any>): List<RestTemplateInstanceCountDto> {
         return wfEngine.instance().instancesStatusCount(param)
     }
 
@@ -53,7 +53,7 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
      * Instance history.
      */
     @GetMapping("/{instanceId}/history")
-    fun getInstancesHistory(@PathVariable instanceId: String): List<WfInstanceHistoryDto> {
+    fun getInstancesHistory(@PathVariable instanceId: String): List<RestTemplateInstanceHistoryDto> {
         return wfEngine.instance().getInstancesHistory(instanceId)
     }
 
@@ -66,7 +66,7 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     }
 
     @GetMapping("/{instanceId}/comments")
-    fun getInstanceComments(@PathVariable instanceId: String): MutableList<WfCommentDto> {
+    fun getInstanceComments(@PathVariable instanceId: String): MutableList<RestTemplateCommentDto> {
         return wfEngine.instance().getInstanceComments(instanceId)
     }
 }

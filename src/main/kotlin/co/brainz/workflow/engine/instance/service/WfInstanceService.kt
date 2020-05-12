@@ -1,18 +1,18 @@
 package co.brainz.workflow.engine.instance.service
 
-import co.brainz.workflow.engine.comment.dto.WfCommentDto
 import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
-import co.brainz.workflow.engine.instance.dto.WfInstanceCountDto
-import co.brainz.workflow.engine.instance.dto.WfInstanceDto
-import co.brainz.workflow.engine.instance.dto.WfInstanceHistoryDto
-import co.brainz.workflow.engine.instance.dto.WfInstanceViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateCommentDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -35,7 +35,7 @@ class WfInstanceService(
     /**
      * Search Instances.
      */
-    fun instances(parameters: LinkedHashMap<String, Any>): List<WfInstanceViewDto> {
+    fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
         var status = ""
         var userKey = ""
 
@@ -48,9 +48,9 @@ class WfInstanceService(
 
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val tokenDataList = wfInstanceRepository.findInstances(status, userKey)
-        val tokens = mutableListOf<WfInstanceViewDto>()
+        val tokens = mutableListOf<RestTemplateInstanceViewDto>()
         for (tokenData in tokenDataList) {
-            tokens.add(mapper.convertValue(tokenData, WfInstanceViewDto::class.java))
+            tokens.add(mapper.convertValue(tokenData, RestTemplateInstanceViewDto::class.java))
         }
 
         return tokens
@@ -60,28 +60,28 @@ class WfInstanceService(
      * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.
      *
      */
-    fun instance(instanceId: String): WfInstanceViewDto {
+    fun instance(instanceId: String): RestTemplateInstanceViewDto {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         return mapper.convertValue(
             wfInstanceRepository.findByInstanceId(instanceId),
-            WfInstanceViewDto::class.java
+            RestTemplateInstanceViewDto::class.java
         )
     }
 
     /**
      * Instance Create.
      */
-    fun createInstance(wfInstanceDto: WfInstanceDto): WfInstanceEntity {
+    fun createInstance(restTemplateInstanceDto: RestTemplateInstanceDto): WfInstanceEntity {
         val instanceEntity = WfInstanceEntity(
             instanceId = "",
-            instanceStatus = wfInstanceDto.instanceStatus ?: WfInstanceConstants.Status.RUNNING.code,
-            document = wfInstanceDto.document,
+            instanceStatus = restTemplateInstanceDto.instanceStatus ?: WfInstanceConstants.Status.RUNNING.code,
+            document = restTemplateInstanceDto.document,
             instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
-        if (wfInstanceDto.pTokenId != null) {
-            instanceEntity.pTokenId = wfInstanceDto.pTokenId
+        if (restTemplateInstanceDto.pTokenId != null) {
+            instanceEntity.pTokenId = restTemplateInstanceDto.pTokenId
         }
-        instanceEntity.documentNo = wfInstanceDto.documentNo
+        instanceEntity.documentNo = restTemplateInstanceDto.documentNo
 
         return wfInstanceRepository.save(instanceEntity)
     }
@@ -100,16 +100,16 @@ class WfInstanceService(
     /**
      * Instance Status Count
      */
-    fun instancesStatusCount(parameters: LinkedHashMap<String, Any>): List<WfInstanceCountDto> {
+    fun instancesStatusCount(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceCountDto> {
         var userKey = ""
         if (parameters["userKey"] != null) {
             userKey = parameters["userKey"].toString()
         }
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val instanceStatusCountList = wfInstanceRepository.findInstancesCount(userKey)
-        val counts = mutableListOf<WfInstanceCountDto>()
+        val counts = mutableListOf<RestTemplateInstanceCountDto>()
         for (instanceStatusCount in instanceStatusCountList) {
-            counts.add(mapper.convertValue(instanceStatusCount, WfInstanceCountDto::class.java))
+            counts.add(mapper.convertValue(instanceStatusCount, RestTemplateInstanceCountDto::class.java))
         }
 
         return counts
@@ -118,7 +118,7 @@ class WfInstanceService(
     /**
      * Instance history
      */
-    fun getInstancesHistory(instanceId: String): List<WfInstanceHistoryDto> {
+    fun getInstancesHistory(instanceId: String): List<RestTemplateInstanceHistoryDto> {
         return wfInstanceRepository.findInstanceHistory(instanceId)
     }
 
@@ -145,8 +145,8 @@ class WfInstanceService(
     /**
      * Get Instance Comments.
      */
-    fun getInstanceComments(instanceId: String): MutableList<WfCommentDto> {
-        val commentList: MutableList<WfCommentDto> = mutableListOf()
+    fun getInstanceComments(instanceId: String): MutableList<RestTemplateCommentDto> {
+        val commentList: MutableList<RestTemplateCommentDto> = mutableListOf()
         val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)
         instanceEntity?.comments?.forEach { comment ->
             commentList.add(wfCommentMapper.toCommentDto(comment))
