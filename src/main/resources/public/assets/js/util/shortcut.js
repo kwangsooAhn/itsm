@@ -63,12 +63,12 @@
                 }
             }
             if (type === 'down' && splitKey.length === matches &&
-                    pressKey['ctrl'] === maskKey['ctrl'] &&
-                    pressKey['shift'] === maskKey['shift'] &&
-                    pressKey['alt'] === maskKey['alt'] &&
-                    !checkIsInput(e.target)) {
+                    pressKey.ctrl === maskKey.ctrl &&
+                    pressKey.shift === maskKey.shift &&
+                    pressKey.alt === maskKey.alt &&
+                    !checkIsInput(e.target) && keyMap[key].command !== '') {
                 e.preventDefault();
-                ( new Function('return ' + keyMap[key]) )();
+                ( new Function('return ' + keyMap[key].command) )();
             }
         });
     }

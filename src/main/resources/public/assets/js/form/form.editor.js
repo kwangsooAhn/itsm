@@ -389,15 +389,13 @@
      */
     function copyComponent(elemId) {
         let copyElemId = elemId || selectedComponentId;
-        console.log(copyElemId);
         let elem = document.getElementById(copyElemId);
-        console.log(elem);
         if (elem === null) { return; }
 
         //복사
         let elemIdx = Number(elem.getAttribute('data-index')) + 1;
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (elemId === editor.data.components[i].id) {
+            if (copyElemId === editor.data.components[i].id) {
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
                 copyData.id = workflowUtil.generateUUID();
                 let comp = component.draw(copyData.type, formPanel, copyData);
@@ -424,14 +422,14 @@
     function deleteComponent(elemId) {
         let delElemId = elemId || selectedComponentId;
         let elem = document.getElementById(delElemId);
-        console.log(elem);
         if (elem === null) { return; }
 
         let histories = [];
         //삭제
         elem.remove();
+        selectedComponentId = '';
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (elemId === editor.data.components[i].id) {
+            if (delElemId === editor.data.components[i].id) {
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
@@ -458,7 +456,6 @@
     function addEditboxUp(elemId) {
         let addElemId = elemId || selectedComponentId;
         let elem = document.getElementById(addElemId);
-        console.log(elem);
         if (elem === null) { return; }
 
         let editbox = component.draw(defaultComponent, formPanel);
@@ -483,7 +480,6 @@
         if (firstComponent.getAttribute('data-type') === defaultComponent) {
             firstComponent.querySelector('[contenteditable=true]').focus();
         }
-        console.log(firstComponent);
         showComponentProperties(firstComponent.id);
     }
 
@@ -503,8 +499,8 @@
      */
     function selectComponentProperties() {
         if (selectedComponentId === '') { return false; }
-        console.log(selectedComponentId);
-        //propertiesPanel
+
+        propertiesPanel.getElementsByTagName('input')[0].focus();
     }
 
     /**
@@ -1472,7 +1468,7 @@
         //단축키 초기화 및 등록
         shortcut.init();
         for (let i = 0; i < shortcuts.length; i++) {
-            shortcut.add(shortcuts[i].keys, shortcuts[i].command)
+            shortcut.add(shortcuts[i].keys, shortcuts[i].command);
         }
 
         //load custom-code list.
