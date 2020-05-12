@@ -1,6 +1,5 @@
 package co.brainz.workflow.provider.dto
 
-import co.brainz.workflow.provider.dto.RestTemplateActionDto
 import java.io.Serializable
 
 data class RestTemplateFormComponentViewDto(
