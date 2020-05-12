@@ -573,7 +573,6 @@
         } else {
             if (datetimeDefaultArr[0] === 'now') {
                 datetimeDefault = aliceJs.getTimeStamp(timeFormat);
-                console.log(datetimeDefault)
                 datetimeDefault = aliceJs.changeDateFormat(timeFormat, datetimePlaceholder, datetimeDefault, aliceForm.options.lang);
             } else if (datetimeDefaultArr[0] === 'datetimepicker') {
                 if (datetimeDefaultArr[1] !== '') {

@@ -1164,7 +1164,6 @@
                             if (fieldArr.value != '') {
                                 let dateTimePickerFormat = aliceForm.options.dateTimeFormat;
                                 dateTimePickerValue = fieldArr.value.split('|');
-                                console.log(dateTimePickerValue)
                                 if (dateTimePickerValue[1] === undefined) {
                                     dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
                                 } else {
