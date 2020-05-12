@@ -28,8 +28,30 @@ abstract class WfProcessSimulationElement {
         val attrId = element.getElementDataValue("id")
         val attrName = element.getElementDataValue("name")
         logger.info("Simulation validate - ElementId:{}, attrId:{}, attrName:{}", elementId, attrId, attrName)
-        elementInformation = "<br>AttrId: " + element.elementId + "<br>AttrName: " + element.getElementDataValue("name")
-        return validate(element)
+        elementInformation = "<br>AttrId: $element.elementId <br>AttrName: ${element.getElementDataValue("name")}"
+        return if (commonValidate(element)) {
+            validate(element)
+        } else {
+            false
+        }
+    }
+
+    /**
+     * Common Validate (Required value).
+     *
+     * @param element
+     * @return Boolean
+     */
+    private fun commonValidate(element: WfElementEntity): Boolean {
+        var validate = true
+        element.elementDataEntities.forEach { elementData ->
+            if (elementData.attributeRequired && elementData.attributeValue.isEmpty()) {
+                validate = false
+                setFailedMessage("Required value is empty.")
+                return@forEach
+            }
+        }
+        return validate
     }
 
     /**
