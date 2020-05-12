@@ -4,21 +4,21 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.service.ProcessService
-import co.brainz.workflow.engine.process.dto.WfProcessDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
-import java.time.LocalDateTime
 
 @Service
 class DocumentService(
@@ -159,9 +159,9 @@ class DocumentService(
     /**
      * Get Process List.
      *
-     * @return List<WfProcessDto>
+     * @return List<RestTemplateProcessViewDto>
      */
-    fun getProcessList(): List<WfProcessDto> {
+    fun getProcessList(): List<RestTemplateProcessViewDto> {
         val processParams = LinkedMultiValueMap<String, String>()
         val processStatus = ArrayList<String>()
         processStatus.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
