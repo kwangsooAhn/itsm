@@ -741,7 +741,7 @@
             let searchBtn = comp.querySelector('#codeBtn');
             searchBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                let url = '/documents/custom-code/' + attr.display['custom-code'] + '/data';
+                let url = '/custom-codes/' + attr.display['custom-code'] + '/search';
                 window.open(url, 'customCodePop', 'width=500, height=600');
                 let customCodeData = {
                     componentId: attr.id,

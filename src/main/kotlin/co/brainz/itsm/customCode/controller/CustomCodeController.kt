@@ -1,11 +1,13 @@
 package co.brainz.itsm.customCode.controller
 
 import co.brainz.itsm.customCode.service.CustomCodeService
+import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 
 @Controller
 @RequestMapping("/custom-codes")
@@ -15,6 +17,7 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
     private val customCodeListPage: String = "custom-code/customCodeList"
     private val customCodeEditPage: String = "custom-code/customCodeEdit"
     private val customCodeViewPage: String = "custom-code/customCodeView"
+    private val documentCustomCodePage: String = "custom-code/customCodePopup"
 
     /**
      * 사용자 정의 코드 리스트 호출 화면.
@@ -77,5 +80,15 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
         model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
         model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
         return customCodeEditPage
+    }
+
+    /**
+     * 사용자 정의 코드 데이터 조회 팝업 화면.
+     */
+    @RequestMapping("/{customCodeId}/search", method = [RequestMethod.POST, RequestMethod.GET])
+    fun getCustomCodeData(@PathVariable customCodeId: String, model: Model, request: HttpServletRequest): String {
+        model.addAttribute("customCodeData", request.getParameter("customCodeData") ?: "")
+        model.addAttribute("customCodeDataList", customCodeService.getCustomCodeData(customCodeId))
+        return documentCustomCodePage
     }
 }

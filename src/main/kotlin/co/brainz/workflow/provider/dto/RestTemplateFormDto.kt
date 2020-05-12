@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 data class RestTemplateFormDto(
     var id: String = "",
     var name: String = "",
-    var status: String = "",
+    var status: String? = "",
     var desc: String? = null,
     var editable: Boolean = false,
     var createUserKey: String? = null,
