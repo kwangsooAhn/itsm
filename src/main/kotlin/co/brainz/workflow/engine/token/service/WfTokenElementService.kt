@@ -9,7 +9,6 @@ import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.folder.service.WfFolderService
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
-import co.brainz.workflow.engine.instance.dto.WfInstanceDto
 import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.dto.WfTokenDataDto
@@ -18,11 +17,12 @@ import co.brainz.workflow.engine.token.entity.WfTokenDataEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
+import java.time.LocalDateTime
+import java.time.ZoneId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Service
 class WfTokenElementService(
@@ -46,8 +46,10 @@ class WfTokenElementService(
      */
     fun initToken(wfTokenDto: WfTokenDto) {
         val documentDto = wfTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
-        val documentNo = documentDto?.numberingRule?.numberingId?.let { aliceNumberingService.getNewNumbering(it) }.orEmpty()
-        val instanceDto = documentDto?.let { WfInstanceDto(instanceId = "", document = it, documentNo = documentNo) }
+        val documentNo =
+            documentDto?.numberingRule?.numberingId?.let { aliceNumberingService.getNewNumbering(it) }.orEmpty()
+        val instanceDto =
+            documentDto?.let { RestTemplateInstanceDto(instanceId = "", document = it, documentNo = documentNo) }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
         instance?.let { wfFolderService.createFolder(instance) }
 
@@ -307,7 +309,7 @@ class WfTokenElementService(
                     WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value
                 )
                 val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-                val wfInstanceDto = WfInstanceDto(
+                val wfInstanceDto = RestTemplateInstanceDto(
                     instanceId = "",
                     document = wfDocumentEntity,
                     instanceStatus = WfInstanceConstants.Status.RUNNING.code,

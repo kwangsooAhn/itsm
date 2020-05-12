@@ -1,5 +1,6 @@
 package co.brainz.itsm.customCode.controller
 
+import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
 import co.brainz.itsm.customCode.service.CustomCodeService
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -23,6 +24,14 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
     @GetMapping("")
     fun getCustomCodeList(): List<CustomCodeDto> {
         return customCodeService.getCustomCodeList()
+    }
+
+    /**
+     * 커스텀 코드 목록 조회.
+     */
+    @GetMapping("/{customCodeId}")
+    fun getCustomCodes(@PathVariable customCodeId: String): List<CustomCodeDataDto> {
+        return customCodeService.getCustomCodeData(customCodeId)
     }
 
     /**

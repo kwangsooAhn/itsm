@@ -167,7 +167,7 @@
 
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/forms/data',
+            url: '/rest/forms/' + data.form.id + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
                     aliceJs.alert(i18n.get('common.msg.save'));
@@ -1028,7 +1028,7 @@
                                 // load custom code data.
                                 aliceJs.sendXhr({
                                     method: 'GET',
-                                    url: '/rest/forms/custom-code/' + customCodeSelect.value + '/list',
+                                    url: '/rest/custom-codes/' + customCodeSelect.value,
                                     callbackFunc: function(xhr) {
                                         let customCodeData = JSON.parse(xhr.responseText);
                                         customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
@@ -1414,7 +1414,7 @@
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/forms/data/' + formId,
+            url: '/rest/forms/' + formId + '/data',
             callbackFunc: function(xhr) {
                 drawForm(xhr.responseText);
             },

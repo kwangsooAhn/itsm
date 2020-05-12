@@ -1,10 +1,10 @@
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessService
-import co.brainz.workflow.engine.process.dto.WfProcessDto
-import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -31,7 +31,7 @@ class ProcessRestController(private val processService: ProcessService) {
     /**
      * 프로세스 불러오기.
      */
-    @GetMapping("/data/{processId}")
+    @GetMapping("/{processId}/data")
     fun getProcessData(@PathVariable processId: String): String {
         val processData = processService.getProcessData(processId)
         logger.debug("get process data. {}", processData)
@@ -52,7 +52,7 @@ class ProcessRestController(private val processService: ProcessService) {
             RestTemplateConstants.ProcessSaveType.SAVE_AS.code -> processService.saveAsProcess(
                 mapper.convertValue(
                     jsonData,
-                    WfProcessElementDto::class.java
+                    RestTemplateProcessElementDto::class.java
                 )
             )
             else -> processService.createProcess(mapper.convertValue(jsonData, RestTemplateProcessDto::class.java))
@@ -62,9 +62,12 @@ class ProcessRestController(private val processService: ProcessService) {
     /**
      * 프로세스 업데이트.
      */
-    @PutMapping("/{processId}")
-    fun updateProcess(@RequestBody wfProcessElementDto: WfProcessElementDto): Boolean {
-        return processService.updateProcessData(wfProcessElementDto)
+    @PutMapping("/{processId}/data")
+    fun updateProcess(
+        @RequestBody restTemplateProcessElementDto: RestTemplateProcessElementDto,
+        @PathVariable processId: String
+    ): Boolean {
+        return processService.updateProcessData(processId, restTemplateProcessElementDto)
     }
 
     /**
@@ -79,7 +82,12 @@ class ProcessRestController(private val processService: ProcessService) {
      * 프로세스 목록 조회.
      */
     @GetMapping("/", "")
-    fun getProcessList(@RequestParam(value = "status", defaultValue = "") status: String): List<WfProcessDto> {
+    fun getProcessList(
+        @RequestParam(
+            value = "status",
+            defaultValue = ""
+        ) status: String
+    ): List<RestTemplateProcessViewDto> {
         val params = LinkedMultiValueMap<String, String>()
         params["status"] = status
         return processService.getProcesses(params)
@@ -89,10 +97,13 @@ class ProcessRestController(private val processService: ProcessService) {
      * 프로세스 시뮬레이션
      */
     @PutMapping("/{processId}/simulation")
-    fun getProcessSimulation(@RequestBody wfProcessElementDto: WfProcessElementDto): String {
-        val updated = processService.updateProcessData(wfProcessElementDto)
+    fun getProcessSimulation(
+        @RequestBody restTemplateProcessElementDto: RestTemplateProcessElementDto,
+        @PathVariable processId: String
+    ): String {
+        val updated = processService.updateProcessData(processId, restTemplateProcessElementDto)
         return if (updated) {
-            processService.getProcessSimulation(wfProcessElementDto.process!!.id)
+            processService.getProcessSimulation(restTemplateProcessElementDto.process!!.id)
         } else {
             "false"
         }
