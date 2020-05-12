@@ -1157,7 +1157,7 @@
                             };
                             if (id === aliceProcessEditor.data.process.id) {
                                 keyupHandler = function() {
-                                    document.querySelector('.process-name').textContent = this.value;
+                                    aliceProcessEditor.changeProcessName(this.value);
                                 };
                             }
                             elementObject.addEventListener('keyup', keyupHandler);
@@ -1250,7 +1250,7 @@
                 callbackFunc: function(xhr) {
                     console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
-                    document.querySelector('.process-name').textContent = aliceProcessEditor.data.process.name;
+                    aliceProcessEditor.changeProcessName();
                     const elements = aliceProcessEditor.data.elements;
                     setElementMenu();
                     aliceProcessEditor.drawProcess(elements);

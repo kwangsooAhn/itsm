@@ -5,20 +5,8 @@
 }(this, (function (exports) {
     'use strict';
 
+    let savedData = {};
     let isEdited = false;
-    let observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            //console.log(mutation);
-            isEdited = true;
-        });
-    });
-
-    let observerConfig = {
-        childList: true,
-        characterData: true,
-        subtree: true
-    };
-
     window.addEventListener('beforeunload', function(event) {
         if (isEdited) {
             event.returnValue = '';
@@ -76,19 +64,23 @@
             if (data.length === 0) {
                 return;
             }
+
             keep_redo = keep_redo || false;
             if (!keep_redo) {
                 this.redo_list = [];
             }
             (list || this.undo_list).push(data);
+
+            isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
+            changeProcessName();
         },
         undo: function() {
             aliceProcessEditor.removeElementSelected();
             aliceProcessEditor.setElementMenu();
             if (this.undo_list.length) {
                 let restoreData = this.undo_list.pop();
-                this.saveHistory(restoreData, this.redo_list, true);
                 redrawProcess(restoreData, 'undo');
+                this.saveHistory(restoreData, this.redo_list, true);
             }
         },
         redo: function() {
@@ -96,11 +88,23 @@
             aliceProcessEditor.setElementMenu();
             if (this.redo_list.length) {
                 let restoreData = this.redo_list.pop();
-                this.saveHistory(restoreData, this.undo_list, true);
                 redrawProcess(restoreData, 'redo');
+                this.saveHistory(restoreData, this.undo_list, true);
             }
         }
     };
+
+    /**
+     * 프로세스명 변경
+     *
+     * @param text 프로세스명
+     */
+    function changeProcessName(text) {
+        if (typeof text !== 'undefined') {
+            isEdited = true;
+        }
+        document.querySelector('.process-name').textContent = (isEdited ? '*' : '') + (text ? text : aliceProcessEditor.data.process.name);
+    }
 
     /**
      * 프로세스를 다시 그리고, 데이터 수정를 수정한다.
@@ -163,7 +167,7 @@
             } else if (typeof changeData.type === 'undefined') { // modify process data
                 aliceProcessEditor.data.process = changeData;
                 if (originData.name !== changeData.type) { // modify type
-                    document.querySelector('.process-name').textContent = changeData.name;
+                    changeProcessName();
                 }
                 aliceProcessEditor.setElementMenu();
             } else { // modify element
@@ -254,6 +258,8 @@
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(i18n.get('common.msg.save'));
                     isEdited = false;
+                    savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                    changeProcessName();
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -340,6 +346,8 @@
                     if (xhr.responseText !== '') {
                         aliceJs.alert(i18n.get('common.msg.save'), function() {
                             isEdited = false;
+                            savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                            changeProcessName();
                             opener.location.reload();
                             location.href = '/processes/' + xhr.responseText + '/edit';
                         });
@@ -394,7 +402,6 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(i18n.get('process.msg.simulation'));
-                    isEdited = false;
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -474,11 +481,13 @@
 
         // start observer
         isEdited = false;
-        observer.observe(document.querySelector('.alice-process-drawing-board'), observerConfig);
+        savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+        changeProcessName();
     }
 
     exports.utils = utils;
     exports.history = history;
+    exports.changeProcessName = changeProcessName;
     exports.initUtil = initUtil;
     Object.defineProperty(exports, '__esModule',{value: true});
 })));
