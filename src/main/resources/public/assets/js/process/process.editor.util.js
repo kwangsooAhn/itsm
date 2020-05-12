@@ -71,6 +71,14 @@
             }
             (list || this.undo_list).push(data);
 
+            // 엘리먼트 정렬
+            aliceProcessEditor.data.elements.sort(function(a, b) {
+                return a.id < b.id ? -1 : 1;
+            });
+            savedData.elements.sort(function(a, b) {
+                return a.id < b.id ? -1 : 1;
+            });
+
             isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
             changeProcessName();
         },
@@ -166,7 +174,7 @@
                 }
             } else if (typeof changeData.type === 'undefined') { // modify process data
                 aliceProcessEditor.data.process = changeData;
-                if (originData.name !== changeData.type) { // modify type
+                if (originData.name !== changeData.name) { // modify name
                     changeProcessName();
                 }
                 aliceProcessEditor.setElementMenu();
@@ -345,9 +353,6 @@
                 callbackFunc: function(xhr) {
                     if (xhr.responseText !== '') {
                         aliceJs.alert(i18n.get('common.msg.save'), function() {
-                            isEdited = false;
-                            savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
-                            changeProcessName();
                             opener.location.reload();
                             location.href = '/processes/' + xhr.responseText + '/edit';
                         });
@@ -391,10 +396,9 @@
     }
 
     /**
-     * simulation workflow.
+     * simulation process.
      */
-    function simulationWorkflow() {
-        console.log('clicked simulation button.');
+    function simulationProcess() {
         aliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
             method: 'put',
@@ -461,7 +465,7 @@
             document.getElementById('btnSaveAs').addEventListener('click', saveAsProcess);
         }
         if (document.getElementById('btnSimulation') !== null) {
-            document.getElementById('btnSimulation').addEventListener('click', simulationWorkflow);
+            document.getElementById('btnSimulation').addEventListener('click', simulationProcess);
         }
         if (document.getElementById('btnUndo') !== null) {
             document.getElementById('btnUndo').addEventListener('click', undoProcess);
