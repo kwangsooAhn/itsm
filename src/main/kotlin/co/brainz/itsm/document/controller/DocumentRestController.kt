@@ -24,7 +24,7 @@ class DocumentRestController(
      *
      * @param documentId
      * */
-    @GetMapping("/data/{documentId}")
+    @GetMapping("/{documentId}/data")
     fun getDocumentData(@PathVariable documentId: String): String {
         return documentService.findDocumentData(documentId)
     }

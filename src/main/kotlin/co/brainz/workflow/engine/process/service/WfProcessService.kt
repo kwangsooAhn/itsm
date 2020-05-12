@@ -5,23 +5,23 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.process.constants.WfProcessConstants
-import co.brainz.workflow.engine.process.dto.ProcessDto
-import co.brainz.workflow.engine.process.dto.WfElementDto
-import co.brainz.workflow.engine.process.dto.WfProcessDto
-import co.brainz.workflow.engine.process.dto.WfProcessElementDto
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import co.brainz.workflow.engine.process.mapper.WfProcessMapper
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.simulation.WfProcessSimulator
+import co.brainz.workflow.provider.dto.RestTemplateElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import java.util.UUID
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Service
 @Transactional
@@ -36,12 +36,12 @@ class WfProcessService(
     /**
      * 프로세스 목록 조회
      */
-    fun selectProcessList(parameters: LinkedHashMap<String, Any>): MutableList<WfProcessDto> {
+    fun selectProcessList(parameters: LinkedHashMap<String, Any>): MutableList<RestTemplateProcessViewDto> {
         var search = ""
         var status = listOf<String>()
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
-        val processDtoList = mutableListOf<WfProcessDto>()
+        val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
         val processList = if (status.isEmpty()) {
             wfProcessRepository.findByProcessListOrProcessSearchList(search)
         } else {
@@ -52,18 +52,18 @@ class WfProcessService(
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
             }
-            val wfProcessDto = processMapper.toWfProcessDto(it)
-            wfProcessDto.enabled = enabled
-            processDtoList.add(wfProcessDto)
+            val processViewDto = processMapper.toProcessViewDto(it)
+            processViewDto.enabled = enabled
+            processViewDtoList.add(processViewDto)
         }
-        return processDtoList
+        return processViewDtoList
     }
 
     /**
      * 프로세스 조회
      */
-    fun getProcess(processId: String): WfProcessDto {
-        val wfProcessDto = wfProcessRepository.findByProcessId(processId)?.let { processMapper.toWfProcessDto(it) }
+    fun getProcess(processId: String): RestTemplateProcessViewDto {
+        val wfProcessDto = wfProcessRepository.findByProcessId(processId)?.let { processMapper.toProcessViewDto(it) }
             ?: throw AliceException(
                 AliceErrorConstants.ERR_00005,
                 AliceErrorConstants.ERR_00005.message + "[Process Entity]"
@@ -78,13 +78,13 @@ class WfProcessService(
     /**
      * 프로세스 데이터 조회
      */
-    fun getProcessData(processId: String): WfProcessElementDto {
+    fun getProcessData(processId: String): RestTemplateProcessElementDto {
         val processEntity = wfProcessRepository.findByProcessId(processId)
-        val wfProcessDto = processEntity?.let { processMapper.toWfProcessDto(it) } ?: throw AliceException(
+        val wfProcessDto = processEntity?.let { processMapper.toProcessViewDto(it) } ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[Process Entity]"
         )
-        val wfElementDto = mutableListOf<WfElementDto>()
+        val restTemplateElementDtoList = mutableListOf<RestTemplateElementDto>()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         for (elementEntity in processEntity.elementEntities) {
@@ -94,18 +94,19 @@ class WfProcessService(
                 mutableMapOf(),
                 { it.attributeId },
                 { it.attributeValue })
-            wfElementDto.add(elDto)
+            restTemplateElementDtoList.add(elDto)
         }
-        return WfProcessElementDto(wfProcessDto, wfElementDto)
+        return RestTemplateProcessElementDto(wfProcessDto, restTemplateElementDtoList)
     }
 
     /**
      * 프로세스 신규 등록
      */
-    fun insertProcess(processDto: ProcessDto): ProcessDto {
-        val wfProcessEntity: WfProcessEntity = wfProcessRepository.save(processMapper.toProcessEntity(processDto))
+    fun insertProcess(restTemplateProcessDto: RestTemplateProcessDto): RestTemplateProcessDto {
+        val wfProcessEntity: WfProcessEntity =
+            wfProcessRepository.save(processMapper.toProcessEntity(restTemplateProcessDto))
 
-        return ProcessDto(
+        return RestTemplateProcessDto(
             processId = wfProcessEntity.processId,
             processName = wfProcessEntity.processName,
             processDesc = wfProcessEntity.processDesc,
@@ -137,16 +138,16 @@ class WfProcessService(
     /**
      * 프로세스 변경.
      */
-    fun updateProcess(wfProcessDto: WfProcessDto): Boolean {
-        val processEntity = wfProcessRepository.findByProcessId(wfProcessDto.id) ?: throw AliceException(
+    fun updateProcess(restTemplateProcessViewDto: RestTemplateProcessViewDto): Boolean {
+        val processEntity = wfProcessRepository.findByProcessId(restTemplateProcessViewDto.id) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[Process Entity]"
         )
-        processEntity.processName = wfProcessDto.name.toString()
-        processEntity.processStatus = wfProcessDto.status.toString()
-        processEntity.processDesc = wfProcessDto.description
-        processEntity.updateUserKey = wfProcessDto.updateUserKey
-        processEntity.updateDt = wfProcessDto.updateDt
+        processEntity.processName = restTemplateProcessViewDto.name.toString()
+        processEntity.processStatus = restTemplateProcessViewDto.status.toString()
+        processEntity.processDesc = restTemplateProcessViewDto.description
+        processEntity.updateUserKey = restTemplateProcessViewDto.updateUserKey
+        processEntity.updateDt = restTemplateProcessViewDto.updateDt
         wfProcessRepository.save(processEntity)
         return true
     }
@@ -154,11 +155,11 @@ class WfProcessService(
     /**
      * 프로세스 정보 변경.
      */
-    fun updateProcessData(wfProcessElementDto: WfProcessElementDto): Boolean {
+    fun updateProcessData(restTemplateProcessElementDto: RestTemplateProcessElementDto): Boolean {
 
         // 클라이언트에서 요청한 프로세스 정보.
-        val wfJsonProcessDto = wfProcessElementDto.process
-        val wfJsonElementsDto = wfProcessElementDto.elements
+        val wfJsonProcessDto = restTemplateProcessElementDto.process
+        val wfJsonElementsDto = restTemplateProcessElementDto.elements
 
         // DB에 저장된 프로세스 정보를 가져와서 클라이언트에서 요청한 정보로 치환후 DB에 저장한다.
         if (wfJsonProcessDto != null) {
@@ -224,22 +225,22 @@ class WfProcessService(
     /**
      * 프로세스 다음 이름 저장.
      */
-    fun saveAsProcess(wfProcessElementDto: WfProcessElementDto): ProcessDto {
-        val processDataDto = ProcessDto(
-            processName = wfProcessElementDto.process?.name.toString(),
-            processDesc = wfProcessElementDto.process?.description,
-            createDt = wfProcessElementDto.process?.createDt,
-            processStatus = wfProcessElementDto.process?.status.toString(),
-            createUserKey = wfProcessElementDto.process?.createUserKey,
-            updateDt = wfProcessElementDto.process?.updateDt,
-            updateUserKey = wfProcessElementDto.process?.updateUserKey
+    fun saveAsProcess(restTemplateProcessElementDto: RestTemplateProcessElementDto): RestTemplateProcessDto {
+        val processDataDto = RestTemplateProcessDto(
+            processName = restTemplateProcessElementDto.process?.name.toString(),
+            processDesc = restTemplateProcessElementDto.process?.description,
+            createDt = restTemplateProcessElementDto.process?.createDt,
+            processStatus = restTemplateProcessElementDto.process?.status.toString(),
+            createUserKey = restTemplateProcessElementDto.process?.createUserKey,
+            updateDt = restTemplateProcessElementDto.process?.updateDt,
+            updateUserKey = restTemplateProcessElementDto.process?.updateUserKey
         )
         val processDto = insertProcess(processDataDto)
-        if (wfProcessElementDto.process?.status == WfProcessConstants.Status.DESTROY.code) {
+        if (restTemplateProcessElementDto.process?.status == WfProcessConstants.Status.DESTROY.code) {
             processDto.processStatus = WfProcessConstants.Status.EDIT.code
             processDto.enabled = true
         }
-        val newProcess = WfProcessDto(
+        val newProcess = RestTemplateProcessViewDto(
             id = processDto.processId,
             name = processDto.processName,
             createUserKey = processDto.createUserKey,
@@ -248,12 +249,12 @@ class WfProcessService(
             enabled = processDto.enabled,
             description = processDto.processDesc
         )
-        val newElements: MutableList<WfElementDto> = mutableListOf()
+        val newElements: MutableList<RestTemplateElementDto> = mutableListOf()
         val elementKeyMap: MutableMap<String, String> = mutableMapOf()
-        wfProcessElementDto.elements?.forEach { element ->
+        restTemplateProcessElementDto.elements?.forEach { element ->
             elementKeyMap[element.id] = UUID.randomUUID().toString().replace("-", "")
         }
-        wfProcessElementDto.elements?.forEach { element ->
+        restTemplateProcessElementDto.elements?.forEach { element ->
             val dataMap: MutableMap<String, Any>? = element.data
             if (dataMap != null) {
                 for ((key, value) in dataMap) {
@@ -262,15 +263,15 @@ class WfProcessService(
                     }
                 }
             }
-            val wfElementDto = WfElementDto(
+            val restTemplateElementDto = RestTemplateElementDto(
                 id = elementKeyMap[element.id]!!,
                 data = dataMap,
                 type = element.type,
                 display = element.display
             )
-            newElements.add(wfElementDto)
+            newElements.add(restTemplateElementDto)
         }
-        val newProcessElementDto = WfProcessElementDto(
+        val newProcessElementDto = RestTemplateProcessElementDto(
             process = newProcess,
             elements = newElements
         )

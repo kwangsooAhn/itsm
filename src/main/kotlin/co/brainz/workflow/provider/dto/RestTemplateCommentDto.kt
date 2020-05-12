@@ -4,10 +4,10 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class RestTemplateCommentDto(
-    val tokenId: String? = null,
-    val instanceId: String? = null,
-    val commentId: String? = null,
-    val content: String? = null,
+    var tokenId: String? = null,
+    var instanceId: String? = null,
+    var commentId: String? = null,
+    var content: String? = null,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null
 ) : Serializable
