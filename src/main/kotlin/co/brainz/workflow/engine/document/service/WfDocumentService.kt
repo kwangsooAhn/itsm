@@ -6,9 +6,6 @@ import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
-import co.brainz.workflow.engine.document.dto.WfDocumentDisplaySaveDto
-import co.brainz.workflow.engine.document.dto.WfDocumentDisplayViewDto
-import co.brainz.workflow.engine.document.dto.WfDocumentDto
 import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
@@ -25,6 +22,9 @@ import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -55,14 +55,14 @@ class WfDocumentService(
     /**
      * Search Documents.
      *
-     * @return List<DocumentDto>
+     * @return List<RestTemplateDocumentDto>
      */
-    fun documents(): List<WfDocumentDto> {
+    fun documents(): List<RestTemplateDocumentDto> {
 
-        val documents = mutableListOf<WfDocumentDto>()
+        val documents = mutableListOf<RestTemplateDocumentDto>()
         val documentEntities = wfDocumentRepository.findAll()
         for (document in documentEntities) {
-            val documentDto = WfDocumentDto(
+            val documentDto = RestTemplateDocumentDto(
                 documentId = document.documentId,
                 documentName = document.documentName,
                 documentDesc = document.documentDesc,
@@ -85,11 +85,11 @@ class WfDocumentService(
      * Search Document.
      *
      * @param documentId
-     * @return WfDocumentDto
+     * @return RestTemplateDocumentDto
      */
-    fun getDocument(documentId: String): WfDocumentDto {
+    fun getDocument(documentId: String): RestTemplateDocumentDto {
         val document = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        return WfDocumentDto(
+        return RestTemplateDocumentDto(
             documentId = document.documentId,
             documentName = document.documentName,
             documentDesc = document.documentDesc,
@@ -138,12 +138,12 @@ class WfDocumentService(
     /**
      * Create Document.
      *
-     * @param documentDto
-     * @return WfDocumentDto
+     * @param restTemplateDocumentDto
+     * @return RestTemplateDocumentDto
      */
-    fun createDocument(documentDto: WfDocumentDto): WfDocumentDto {
-        val formId = documentDto.formId
-        val processId = documentDto.processId
+    fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): RestTemplateDocumentDto {
+        val formId = restTemplateDocumentDto.formId
+        val processId = restTemplateDocumentDto.processId
         val selectedForm = wfFormRepository.getOne(formId)
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
@@ -154,22 +154,22 @@ class WfDocumentService(
         val form = WfFormEntity(formId = formId)
         val process = WfProcessEntity(processId = processId)
         val documentEntity = WfDocumentEntity(
-            documentId = documentDto.documentId,
-            documentName = documentDto.documentName,
-            documentDesc = documentDto.documentDesc,
+            documentId = restTemplateDocumentDto.documentId,
+            documentName = restTemplateDocumentDto.documentName,
+            documentDesc = restTemplateDocumentDto.documentDesc,
             form = form,
             process = process,
-            createDt = documentDto.createDt,
-            createUserKey = documentDto.createUserKey,
-            documentStatus = documentDto.documentStatus,
-            numberingRule = aliceNumberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
+            createDt = restTemplateDocumentDto.createDt,
+            createUserKey = restTemplateDocumentDto.createUserKey,
+            documentStatus = restTemplateDocumentDto.documentStatus,
+            numberingRule = aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
         // 신청서 양식 정보 초기화
         createDocumentDisplay(dataEntity)
 
-        return WfDocumentDto(
+        return RestTemplateDocumentDto(
             documentId = dataEntity.documentId,
             documentName = dataEntity.documentName,
             documentDesc = dataEntity.documentDesc,
@@ -184,34 +184,34 @@ class WfDocumentService(
     /**
      * Update Document.
      *
-     * @param documentDto
+     * @param restTemplateDocumentDto
      * @return Boolean
      */
-    fun updateDocument(documentDto: WfDocumentDto): Boolean {
+    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
 
-        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
-        val form = WfFormEntity(formId = documentDto.formId)
-        val process = WfProcessEntity(processId = documentDto.processId)
-        wfDocumentEntity.documentName = documentDto.documentName
-        wfDocumentEntity.documentDesc = documentDto.documentDesc
-        wfDocumentEntity.documentStatus = documentDto.documentStatus
-        wfDocumentEntity.updateUserKey = documentDto.updateUserKey
-        wfDocumentEntity.updateDt = documentDto.updateDt
+        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateDocumentDto.documentId)
+        val form = WfFormEntity(formId = restTemplateDocumentDto.formId)
+        val process = WfProcessEntity(processId = restTemplateDocumentDto.processId)
+        wfDocumentEntity.documentName = restTemplateDocumentDto.documentName
+        wfDocumentEntity.documentDesc = restTemplateDocumentDto.documentDesc
+        wfDocumentEntity.documentStatus = restTemplateDocumentDto.documentStatus
+        wfDocumentEntity.updateUserKey = restTemplateDocumentDto.updateUserKey
+        wfDocumentEntity.updateDt = restTemplateDocumentDto.updateDt
         wfDocumentEntity.form = form
         wfDocumentEntity.process = process
         wfDocumentEntity.numberingRule =
-            aliceNumberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
+            aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
         wfDocumentRepository.save(wfDocumentEntity)
 
-        when (documentDto.documentStatus) {
+        when (restTemplateDocumentDto.documentStatus) {
             WfDocumentConstants.Status.USE.code -> {
-                val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(documentDto.formId).get()
+                val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(restTemplateDocumentDto.formId).get()
                 if (wfFormEntity.formStatus != WfFormConstants.FormStatus.USE.value) {
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
                 val wfProcessEntity =
-                    wfProcessRepository.findByProcessId(documentDto.processId) ?: throw AliceException(
+                    wfProcessRepository.findByProcessId(restTemplateDocumentDto.processId) ?: throw AliceException(
                         AliceErrorConstants.ERR_00005,
                         AliceErrorConstants.ERR_00005.message + "[Process Entity]"
                     )
@@ -276,9 +276,9 @@ class WfDocumentService(
      * Search Document Display data.
      *
      * @param documentId
-     * @return WfDocumentDisplayViewDto
+     * @return RestTemplateDocumentDisplayViewDto
      */
-    fun getDocumentDisplay(documentId: String): WfDocumentDisplayViewDto {
+    fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
         val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
@@ -309,7 +309,7 @@ class WfDocumentService(
             componentMap["displayValue"] = displayValue
             components.add(componentMap)
         }
-        return WfDocumentDisplayViewDto(
+        return RestTemplateDocumentDisplayViewDto(
             documentId = documentId,
             elements = elementEntities,
             components = components
@@ -319,13 +319,13 @@ class WfDocumentService(
     /**
      * Update Document Display data.
      *
-     * @param wfDocumentDisplaySaveDto
+     * @param restTemplateDocumentDisplaySaveDto
      * @return Boolean
      */
-    fun updateDocumentDisplay(wfDocumentDisplaySaveDto: WfDocumentDisplaySaveDto): Boolean {
-        val documentId = wfDocumentDisplaySaveDto.documentId
+    fun updateDocumentDisplay(restTemplateDocumentDisplaySaveDto: RestTemplateDocumentDisplaySaveDto): Boolean {
+        val documentId = restTemplateDocumentDisplaySaveDto.documentId
         wfDocumentDataRepository.deleteByDocumentId(documentId)
-        val displays = wfDocumentDisplaySaveDto.displays
+        val displays = restTemplateDocumentDisplaySaveDto.displays
         displays.forEach {
             wfDocumentDataRepository.save(
                 WfDocumentDataEntity(
