@@ -1240,15 +1240,17 @@
               }
 
               var timeString = "".concat(Util.renderNumber(value.hour), ":").concat(Util.renderNumber(value.minute));
-              //if (this.dateType == DMY || this.dateType == MDY) {
+              /*if (this.dateType == DMY || this.dateType == MDY) {
                 txt += timeString.concat(" ", am);
-              /*} else {
+              } else {
+              */
                 if (am.length == 0) {
                   txt += timeString;
                 } else {
                   txt += am.concat(" ", timeString);
                 }
-              }*/
+              //}
+
             }
             return txt;
           }

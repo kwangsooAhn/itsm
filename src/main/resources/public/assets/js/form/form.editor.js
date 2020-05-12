@@ -941,21 +941,21 @@
                                 }
                                 let labelName = option.name.split('{0}');
 
-                                if (option.id ==='datetimepicker') {
-                                    if (optionDefaultArr[1] !=='') {
-                                        let nowTimeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' '+  aliceForm.options.hourType;
+                                if (option.id === 'datetimepicker') {
+                                    if (optionDefaultArr[1] !== '') {
+                                        let nowTimeFormat = aliceForm.options.dateTimeFormat;
                                         optionDefaultArr[1] = aliceJs.changeDateFormat(optionDefaultArr[2], nowTimeFormat, optionDefaultArr[1], aliceForm.options.lang);
                                     }
                                 } else if (option.id ==='timepicker') {
-                                    if (optionDefaultArr[1] !=='') {
-                                        let timeFormat = aliceForm.options.dateFormat +' ' +aliceForm.options.timeFormat +' ' +aliceForm.options.hourType;
-                                        let beforeFormt = aliceForm.options.dateFormat +' ' +aliceForm.options.timeFormat +' ' + '24';
+                                    if (optionDefaultArr[1] !== '') {
+                                        let timeFormat = aliceForm.options.dateTimeFormat;
+                                        let beforeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' a';
                                         let timeDefault = '';
-                                        timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat +' ' +aliceForm.options.timeFormat);
-                                        timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, aliceForm.options.lang);
+                                        timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
+                                        timeDefault = aliceJs.changeDateFormat(beforeFormat, timeFormat, timeDefault + ' ' + optionDefaultArr[1], aliceForm.options.lang);
                                         let timeNow = timeDefault.split(' ');
                                         if (timeNow.length > 2) {
-                                            optionDefaultArr[1] = timeNow[1] +' '+timeNow[2];
+                                            optionDefaultArr[1] = timeNow[1] + ' ' + timeNow[2];
                                         } else {
                                             optionDefaultArr[1] = timeNow[1];
                                         }

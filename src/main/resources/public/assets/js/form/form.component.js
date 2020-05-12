@@ -504,17 +504,20 @@
                 timeDefault = (timeNow.length > 2) ? (timeNow[1] + ' ' + timeNow[2]) : timeNow[1];
             } else if (timeDefaultArr[0] === 'timepicker') {
                 timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat) + ' ' + timeDefaultArr[1];
-                timeDefault = aliceJs.changeDateFormat(timeDefaultArr[2], timeFormat, timeDefault, aliceForm.options.lang);
+                timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, aliceForm.options.lang);
                 let timePicker = timeDefault.split(' ');
                 if (timePicker.length === 3) {
                     timeDefault = timePicker[1] + ' '+ timePicker[2];
                 } else if (timePicker.length === 2) {
                     timeDefault = timePicker[1];
                 } else if (timePicker.length === 1) {
-                    timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat);
-                    timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, aliceForm.options.lang);
-                    timePicker = timeDefault.split(' ');
-                    timeDefault = timePicker[1];
+                    timeDefault = '';
+                    if (timeDefaultArr[1] !== '') {
+                        timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat);
+                        timeDefault = aliceJs.changeDateFormat(timeFormat, timeFormat, timeDefault, aliceForm.options.lang);
+                        timePicker = timeDefault.split(' ');
+                        timeDefault = timePicker[1];
+                    }
                 }
             } else if (timeDefaultArr[0] === 'time') {
                 timeDefault = aliceJs.getTimeStamp(beforeFormat, '', timeDefaultArr[1]);
