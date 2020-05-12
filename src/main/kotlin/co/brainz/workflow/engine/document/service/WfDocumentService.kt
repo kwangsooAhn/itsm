@@ -14,7 +14,6 @@ import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.constants.WfFormConstants
-import co.brainz.workflow.engine.form.dto.WfFormComponentViewDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
 import co.brainz.workflow.engine.form.repository.WfFormRepository
@@ -26,6 +25,7 @@ import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -108,9 +108,9 @@ class WfDocumentService(
      * Search Document Data.
      *
      * @param documentId
-     * @return WfFormComponentViewDto?
+     * @return RestTemplateFormComponentViewDto?
      */
-    fun getDocumentData(documentId: String): WfFormComponentViewDto? {
+    fun getDocumentData(documentId: String): RestTemplateFormComponentViewDto? {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId)
         val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
@@ -128,7 +128,7 @@ class WfDocumentService(
             components.add(map)
         }
 
-        return WfFormComponentViewDto(
+        return RestTemplateFormComponentViewDto(
             form = formViewDto,
             components = components,
             actions = wfActionService.actionInit(documentEntity.process.processId)
