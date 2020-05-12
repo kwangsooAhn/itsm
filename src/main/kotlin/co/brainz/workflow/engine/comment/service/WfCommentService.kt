@@ -4,9 +4,9 @@ import co.brainz.workflow.engine.comment.entity.WfCommentEntity
 import co.brainz.workflow.engine.comment.repository.WfCommentRepository
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
-import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
+import org.springframework.stereotype.Service
 
 @Service
 class WfCommentService(
