@@ -6,11 +6,11 @@ import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
-import co.brainz.workflow.engine.token.dto.WfTokenDataDto
-import co.brainz.workflow.engine.token.dto.WfTokenDto
-import co.brainz.workflow.engine.token.dto.WfTokenViewDto
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -35,7 +35,7 @@ class WfTokenService(
      * @param parameters
      * @return List<LinkedHashMap<String, Any>>
      */
-    fun getTokens(parameters: LinkedHashMap<String, Any>): List<WfTokenDto> {
+    fun getTokens(parameters: LinkedHashMap<String, Any>): List<RestTemplateTokenDto> {
         var assignee = ""
         var tokenStatus = ""
         if (parameters["assignee"] != null) {
@@ -49,11 +49,11 @@ class WfTokenService(
             tokenStatus
         )
 
-        val returnValue: MutableList<WfTokenDto> = mutableListOf()
+        val returnValue: MutableList<RestTemplateTokenDto> = mutableListOf()
 
         for (tokenEntity in tokenEntities) {
             returnValue.add(
-                WfTokenDto(
+                RestTemplateTokenDto(
                     tokenId = tokenEntity.tokenId,
                     elementId = tokenEntity.element.elementId,
                     tokenStatus = tokenEntity.tokenStatus,
@@ -73,19 +73,19 @@ class WfTokenService(
      * @param tokenId
      * @return LinkedHashMap<String, Any>
      */
-    fun getToken(tokenId: String): WfTokenDto {
+    fun getToken(tokenId: String): RestTemplateTokenDto {
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
-        val componentList: MutableList<WfTokenDataDto> = mutableListOf()
+        val componentList: MutableList<RestTemplateTokenDataDto> = mutableListOf()
         for (tokenDataEntity in tokenDataEntities) {
-            val tokenDataDto = WfTokenDataDto(
+            val tokenDataDto = RestTemplateTokenDataDto(
                 componentId = tokenDataEntity.componentId,
                 value = tokenDataEntity.value
             )
             componentList.add(tokenDataDto)
         }
 
-        return WfTokenDto(
+        return RestTemplateTokenDto(
             tokenId = tokenEntity.get().tokenId,
             elementId = tokenEntity.get().element.elementId,
             assigneeId = tokenEntity.get().assigneeId,
@@ -104,7 +104,7 @@ class WfTokenService(
      * @param tokenId
      * @return LinkedHashMap<String, Any>
      */
-    fun getTokenData(tokenId: String): WfTokenViewDto {
+    fun getTokenData(tokenId: String): RestTemplateTokenViewDto {
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val componentEntities = tokenMstEntity.get().instance.document.form.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
@@ -149,7 +149,7 @@ class WfTokenService(
         val componentsMap = LinkedHashMap<String, Any>()
         componentsMap["components"] = componentList
 
-        return WfTokenViewDto(
+        return RestTemplateTokenViewDto(
             tokenId = tokenMstEntity.get().tokenId,
             instanceId = tokenMstEntity.get().instance.instanceId,
             components = componentList,
@@ -160,19 +160,19 @@ class WfTokenService(
     /**
      * (POST) Init Token.
      *
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      */
-    fun initToken(wfTokenDto: WfTokenDto) {
-        wfTokenElementService.initToken(wfTokenDto)
+    fun initToken(restTemplateTokenDto: RestTemplateTokenDto) {
+        wfTokenElementService.initToken(restTemplateTokenDto)
     }
 
     /**
      * (PUT) Set Token Action.
      *
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      */
-    fun setToken(wfTokenDto: WfTokenDto) {
-        wfTokenElementService.setTokenAction(wfTokenDto)
+    fun setToken(restTemplateTokenDto: RestTemplateTokenDto) {
+        wfTokenElementService.setTokenAction(restTemplateTokenDto)
     }
 
     /**

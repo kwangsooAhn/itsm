@@ -4,16 +4,16 @@ import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
-import co.brainz.workflow.engine.token.dto.WfTokenDto
 import co.brainz.workflow.engine.token.entity.WfTokenDataEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import java.time.LocalDateTime
+import java.time.ZoneId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Service
 class WfTokenActionService(
@@ -28,31 +28,31 @@ class WfTokenActionService(
      * Token Process (End Token).
      *
      * @param wfTokenEntity
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      */
-    fun setProcess(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+    fun setProcess(wfTokenEntity: WfTokenEntity, restTemplateTokenDto: RestTemplateTokenDto) {
         wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-        wfTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
-        wfTokenDto.assigneeId = wfTokenEntity.assigneeId
-        updateToken(wfTokenEntity, wfTokenDto)
+        restTemplateTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
+        restTemplateTokenDto.assigneeId = wfTokenEntity.assigneeId
+        updateToken(wfTokenEntity, restTemplateTokenDto)
         // 현재 Element 의 데이터를 갱신 (다음 Element 로 넘어가는 데이터와 동일한 값으로 업데이트)
-        deleteTokenData(wfTokenDto.tokenId)
-        createTokenData(wfTokenDto, wfTokenDto.tokenId)
+        deleteTokenData(restTemplateTokenDto.tokenId)
+        createTokenData(restTemplateTokenDto, restTemplateTokenDto.tokenId)
     }
 
     /**
      * Token Save.
      *
      * @param wfTokenEntity
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      * @return Boolean
      */
-    fun save(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto): Boolean {
-        wfTokenDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
-        wfTokenDto.assigneeId = wfTokenEntity.assigneeId
-        updateToken(wfTokenEntity, wfTokenDto)
-        deleteTokenData(wfTokenDto.tokenId)
-        createTokenData(wfTokenDto, wfTokenDto.tokenId)
+    fun save(wfTokenEntity: WfTokenEntity, restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        restTemplateTokenDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
+        restTemplateTokenDto.assigneeId = wfTokenEntity.assigneeId
+        updateToken(wfTokenEntity, restTemplateTokenDto)
+        deleteTokenData(restTemplateTokenDto.tokenId)
+        createTokenData(restTemplateTokenDto, restTemplateTokenDto.tokenId)
         return true
     }
 
@@ -60,11 +60,15 @@ class WfTokenActionService(
      * Token Reject.
      *
      * @param wfTokenEntity
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      * @param values
      * @return Boolean
      */
-    fun setReject(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto, values: HashMap<String, Any>): Boolean {
+    fun setReject(
+        wfTokenEntity: WfTokenEntity,
+        restTemplateTokenDto: RestTemplateTokenDto,
+        values: HashMap<String, Any>
+    ): Boolean {
         // TODO: 확인 필요
         wfTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
         wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
@@ -88,27 +92,27 @@ class WfTokenActionService(
      * Token Withdraw.
      *
      * @param wfTokenEntity
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      */
-    fun setWithdraw(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
+    fun setWithdraw(wfTokenEntity: WfTokenEntity, restTemplateTokenDto: RestTemplateTokenDto) {
     }
 
     /**
      * Token Create.
      *
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      * @return TokenEntity
      */
-    fun createToken(wfInstance: WfInstanceEntity, wfTokenDto: WfTokenDto): WfTokenEntity {
+    fun createToken(wfInstance: WfInstanceEntity, restTemplateTokenDto: RestTemplateTokenDto): WfTokenEntity {
         val tokenEntity = WfTokenEntity(
             tokenId = "",
-            element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId),
-            tokenStatus = wfTokenDto.tokenStatus ?: WfTokenConstants.Status.RUNNING.code,
+            element = wfElementRepository.findWfElementEntityByElementId(restTemplateTokenDto.elementId),
+            tokenStatus = restTemplateTokenDto.tokenStatus ?: WfTokenConstants.Status.RUNNING.code,
             tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-            assigneeId = wfTokenDto.assigneeId,
+            assigneeId = restTemplateTokenDto.assigneeId,
             instance = wfInstance
         )
-        if (wfTokenDto.tokenStatus == WfTokenConstants.Status.FINISH.code) {
+        if (restTemplateTokenDto.tokenStatus == WfTokenConstants.Status.FINISH.code) {
             tokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         }
         return wfTokenRepository.save(tokenEntity)
@@ -117,12 +121,12 @@ class WfTokenActionService(
     /**
      * Token Data Insert.
      *
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      * @param tokenId
      */
-    fun createTokenData(wfTokenDto: WfTokenDto, tokenId: String) {
+    fun createTokenData(restTemplateTokenDto: RestTemplateTokenDto, tokenId: String) {
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        for (tokenDataDto in wfTokenDto.data!!) {
+        for (tokenDataDto in restTemplateTokenDto.data!!) {
             val tokenDataEntity = WfTokenDataEntity(
                 tokenId = tokenId,
                 componentId = tokenDataDto.componentId,
@@ -138,11 +142,11 @@ class WfTokenActionService(
     /**
      * Token Update.
      *
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      */
-    fun updateToken(wfTokenEntity: WfTokenEntity, wfTokenDto: WfTokenDto) {
-        wfTokenEntity.assigneeId = wfTokenDto.assigneeId
-        wfTokenEntity.tokenStatus = wfTokenDto.tokenStatus ?: WfTokenConstants.Status.RUNNING.code
+    fun updateToken(wfTokenEntity: WfTokenEntity, restTemplateTokenDto: RestTemplateTokenDto) {
+        wfTokenEntity.assigneeId = restTemplateTokenDto.assigneeId
+        wfTokenEntity.tokenStatus = restTemplateTokenDto.tokenStatus ?: WfTokenConstants.Status.RUNNING.code
         wfTokenRepository.save(wfTokenEntity)
     }
 
