@@ -1,9 +1,9 @@
-package co.brainz.workflow.engine.folder.dto
+package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class WfFolderDto(
+data class RestTemplateFolderDto(
     val instanceId: String?,
     val documentName: String?,
     val instanceStartDt: LocalDateTime?,

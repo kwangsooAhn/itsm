@@ -1,14 +1,14 @@
 package co.brainz.workflow.engine.form.mapper
 
-import co.brainz.workflow.engine.form.dto.WfFormDto
 import co.brainz.workflow.engine.form.entity.WfFormEntity
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Mappings
 
 @Mapper
 interface WfFormMapper {
-    fun toFormDto(wfFormEntity: WfFormEntity): WfFormDto
+    fun toFormDto(wfFormEntity: WfFormEntity): RestTemplateFormDto
 
     @Mappings(
         Mapping(source = "formId", target = "id"),
@@ -16,5 +16,5 @@ interface WfFormMapper {
         Mapping(source = "formDesc", target = "desc"),
         Mapping(source = "formStatus", target = "status")
     )
-    fun toFormViewDto(wfFormEntity: WfFormEntity): WfFormDto
+    fun toFormViewDto(wfFormEntity: WfFormEntity): RestTemplateFormDto
 }

@@ -1,7 +1,7 @@
 package co.brainz.workflow.engine.comment.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.engine.comment.dto.WfCommentDto
+import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,8 +16,8 @@ class WfCommentRestController(
 ) {
 
     @PostMapping("")
-    fun insertComment(@RequestBody wfCommentDto: WfCommentDto): Boolean {
-        return wfEngine.comment().insertComment(wfCommentDto)
+    fun insertComment(@RequestBody restTemplateCommentDto: RestTemplateCommentDto): Boolean {
+        return wfEngine.comment().insertComment(restTemplateCommentDto)
     }
 
     @DeleteMapping("/{commentId}")
