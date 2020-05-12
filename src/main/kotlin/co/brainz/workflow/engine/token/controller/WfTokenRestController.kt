@@ -1,8 +1,9 @@
 package co.brainz.workflow.engine.token.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.engine.token.dto.WfTokenDto
-import co.brainz.workflow.engine.token.dto.WfTokenViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
+import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/rest/wf/tokens")
@@ -21,10 +21,10 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      * 토큰 목록 조회.
      *
      * @param parameters
-     * @return List<TokenDto>
+     * @return List<RestTemplateTokenDto>
      */
     @GetMapping("")
-    fun getTokens(@RequestParam parameters: LinkedHashMap<String, Any>): List<WfTokenDto> {
+    fun getTokens(@RequestParam parameters: LinkedHashMap<String, Any>): List<RestTemplateTokenDto> {
         return wfEngine.token().getTokens(parameters)
     }
 
@@ -32,10 +32,10 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      * 토큰 일반정보 조회.
      *
      * @param tokenId
-     * @return TokenDto
+     * @return RestTemplateTokenDto
      */
     @GetMapping("/{tokenId}")
-    fun getToken(@PathVariable tokenId: String): WfTokenDto {
+    fun getToken(@PathVariable tokenId: String): RestTemplateTokenDto {
         return wfEngine.token().getToken(tokenId)
     }
 
@@ -43,23 +43,23 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      * 토큰 상세정보 조회.
      *
      * @param tokenId
-     * @return TokenViewDto
+     * @return RestTemplateTokenViewDto
      */
     @GetMapping("/{tokenId}/data")
-    fun getTokenData(@PathVariable tokenId: String): WfTokenViewDto {
+    fun getTokenData(@PathVariable tokenId: String): RestTemplateTokenViewDto {
         return wfEngine.token().getTokenData(tokenId)
     }
 
     /**
      * Post Token Gate.
      *
-     * @param wfTokenDto
+     * @param restTemplateTokenDto
      * @return Any
      */
     @Transactional
     @PostMapping("")
-    fun postTokenGate(@RequestBody wfTokenDto: WfTokenDto) {
-        return wfEngine.token().initToken(wfTokenDto)
+    fun postTokenGate(@RequestBody restTemplateTokenDto: RestTemplateTokenDto) {
+        return wfEngine.token().initToken(restTemplateTokenDto)
     }
 
     /**
@@ -67,7 +67,7 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      */
     @Transactional
     @PutMapping("/{tokenId}")
-    fun putTokenGate(@RequestBody wfTokenDto: WfTokenDto) {
-        return wfEngine.token().setToken(wfTokenDto)
+    fun putTokenGate(@RequestBody restTemplateTokenDto: RestTemplateTokenDto) {
+        return wfEngine.token().setToken(restTemplateTokenDto)
     }
 }

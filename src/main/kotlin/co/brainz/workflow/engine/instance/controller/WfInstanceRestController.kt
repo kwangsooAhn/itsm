@@ -1,11 +1,11 @@
 package co.brainz.workflow.engine.instance.controller
 
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.engine.token.dto.WfTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -61,7 +61,7 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
      * 인스턴스ID [instanceId]로 마지막 토큰 정보를 조회한다.
      */
     @GetMapping("/{instanceId}/latest")
-    fun getInstanceLatestToken(@PathVariable instanceId: String): WfTokenDto {
+    fun getInstanceLatestToken(@PathVariable instanceId: String): RestTemplateTokenDto {
         return wfEngine.instance().getInstanceLatestToken(instanceId)
     }
 

@@ -5,8 +5,8 @@ import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
-import co.brainz.workflow.engine.token.dto.WfTokenDto
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -43,10 +43,10 @@ class WfElementService(
     /**
      * 다음 엘리먼트 정보 가져오기
      *
-     * @param wfTokenDto 종료된 엘리먼트의 토큰
+     * @param restTemplateTokenDto 종료된 엘리먼트의 토큰
      */
-    fun getNextElement(wfTokenDto: WfTokenDto): WfElementEntity {
-        val connector = this.getConnector(wfTokenDto)
+    fun getNextElement(restTemplateTokenDto: RestTemplateTokenDto): WfElementEntity {
+        val connector = this.getConnector(restTemplateTokenDto)
         // 컨넥터 엘리먼트가 가지고 있는 타겟 엘리먼트 아이디 조회
         val nextElementId = wfElementDataRepository.findByElementAndAttributeId(connector).attributeValue
         return wfElementRepository.getOne(nextElementId)
@@ -56,10 +56,10 @@ class WfElementService(
      * 컨넥터 엘리먼트를 조회.
      * 종료된 엘리먼트의 다음 엘리먼트 지정을 위한 컨넥터를 찾아서 리턴한다.
      *
-     * @param wfTokenDto 종료된 엘리먼트의 토큰
+     * @param restTemplateTokenDto 종료된 엘리먼트의 토큰
      */
-    private fun getConnector(wfTokenDto: WfTokenDto): WfElementEntity {
-        val elementId = wfTokenDto.elementId
+    private fun getConnector(restTemplateTokenDto: RestTemplateTokenDto): WfElementEntity {
+        val elementId = restTemplateTokenDto.elementId
         lateinit var selectedConnector: WfElementEntity
 
         // 컨넥터를 가져와서
@@ -79,7 +79,7 @@ class WfElementService(
                         wfElementRepository.getOne(gateWayElementId),
                         WfElementConstants.AttributeId.CONDITION_ITEM.value
                     ).attributeValue.trim()
-                    val item = this.getMatchesRegex(conditionItem, wfTokenDto)
+                    val item = this.getMatchesRegex(conditionItem, restTemplateTokenDto)
 
                     // 컨넥터의 condition-value를 가져와서 symbol, value 로 분리한다.
                     val conditionValue = wfElementDataRepository.findByElementAndAttributeId(
@@ -88,7 +88,7 @@ class WfElementService(
                     ).attributeValue
                     val conditionValues = conditionValue.split("\\s+".toRegex())
                     val symbol = conditionValues[0]
-                    val value = this.getMatchesRegex(conditionValues[1], wfTokenDto)
+                    val value = this.getMatchesRegex(conditionValues[1], restTemplateTokenDto)
 
                     // symbol이 뭐냐에 따라 condition-item 과 condition-value가 일치하는 컨넥터 1개를 찾는다.
                     when (symbol) {
@@ -128,16 +128,16 @@ class WfElementService(
      * 프로세스 디자이너에서 condition에 사용하는 문법 구조에 해당하는 실제 데이터를 가져온다.
      * 일반, 엘리먼트 mappingid(${value}), 클라이언트에서 넘어오는 버튼(#{action}) 등
      */
-    private fun getMatchesRegex(stringForRegex: String, wfTokenDto: WfTokenDto): String {
+    private fun getMatchesRegex(stringForRegex: String, restTemplateTokenDto: RestTemplateTokenDto): String {
         val regexGeneral = WfElementConstants.RegexCondition.GENERAL.value.toRegex()
         val regexComponentMappingId = WfElementConstants.RegexCondition.MAPPINGID.value.toRegex()
         val regexConstant = WfElementConstants.RegexCondition.CONSTANT.value.toRegex()
         return when {
             stringForRegex.matches(regexComponentMappingId) -> {
                 val mappingId = stringForRegex.trim().replace("\${", "").replace("}", "")
-                val tokenId = wfTokenDto.tokenId
-                val tokenDatas = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
-                val componentIds = tokenDatas.map { tokenData ->
+                val tokenId = restTemplateTokenDto.tokenId
+                val tokenDataList = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
+                val componentIds = tokenDataList.map { tokenData ->
                     tokenData.componentId
                 }
                 val wfComponentEntity =
@@ -155,8 +155,8 @@ class WfElementService(
             stringForRegex.matches(regexConstant) -> {
                 var action = ""
                 val actionId = stringForRegex.trim().replace("#{", "").replace("}", "")
-                if (wfTokenDto.action == actionId) {
-                    action = wfTokenDto.action
+                if (restTemplateTokenDto.action == actionId) {
+                    action = restTemplateTokenDto.action
                 }
                 action
             }
