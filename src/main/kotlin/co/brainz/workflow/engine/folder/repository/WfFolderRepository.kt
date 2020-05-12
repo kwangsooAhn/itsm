@@ -20,5 +20,5 @@ interface WfFolderRepository : JpaRepository<WfFolderEntity, String> {
                 "or :searchValue is null or :searchValue = '') " +
                 "ORDER BY i.instanceStartDt"
     )
-    fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateFolderDto>
+    fun findRelatedDocumentListByTokenId(tokenId: String, searchValue: String): List<RestTemplateFolderDto>
 }
