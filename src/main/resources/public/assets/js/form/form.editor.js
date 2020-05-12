@@ -1172,7 +1172,7 @@
                                     if (fieldArr.type === 'timepicker') {
                                         dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
                                     }
-                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, dummyDateTime + dateTimePickerValue[0], aliceForm.options.lang);
+                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, (dummyDateTime !== '' ? dummyDateTime + ' ' : '') + dateTimePickerValue[0], aliceForm.options.lang);
                                     if (fieldArr.type === 'timepicker') {
                                         dateTimePickerValue = dateTimePickerValue.split(' ')[1];
                                     }
