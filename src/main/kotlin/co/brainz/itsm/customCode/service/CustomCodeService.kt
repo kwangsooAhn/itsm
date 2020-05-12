@@ -20,7 +20,6 @@ import co.brainz.itsm.user.repository.UserRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.readValue
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
@@ -126,20 +125,10 @@ class CustomCodeService(
      * @return List<String>
      */
     fun getUsedCustomCodeIdList(): List<String> {
-        val usedCustomCodeIdList = mutableListOf<String>()
-
         val parameters = LinkedMultiValueMap<String, String>()
         parameters["componentType"] = CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE
         parameters["componentAttribute"] = CustomCodeConstants.ATTRIBUTE_ID_DISPLAY
-        val componentDataList = componentService.getComponentDataList(parameters)
-
-        componentDataList.forEach {
-            val component: MutableMap<String, Any> = om.readValue(it.attributeValue)
-            val data: Any? = component[CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE]
-            data?.let { usedCustomCodeIdList.add(data.toString()) }
-        }
-
-        return usedCustomCodeIdList
+        return componentService.getComponentDataCustomCodeIds(parameters)
     }
 
     /**

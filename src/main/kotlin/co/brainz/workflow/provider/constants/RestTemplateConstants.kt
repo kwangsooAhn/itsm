@@ -25,7 +25,8 @@ object RestTemplateConstants {
      */
     enum class Component(val url: String, val method: String) {
         GET_COMPONENT("/rest/wf/components", "GET"),
-        GET_COMPONENT_DATA("/rest/wf/components/data", "GET")
+        GET_COMPONENT_DATA("/rest/wf/components/data", "GET"),
+        GET_COMPONENT_CUSTOM_CODE_IDS("/rest/wf/components/custom-code-ids/data", "GET")
     }
 
     /**
