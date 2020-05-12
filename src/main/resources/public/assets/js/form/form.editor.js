@@ -40,6 +40,23 @@
             }
         }
     };
+    const shortcuts = [
+        { 'keys': 'ctrl+s', 'command': 'editor.save(false);' },               //폼 양식 저장
+        { 'keys': 'ctrl+alt+s', 'command': 'editor.saveAs();' },              //폼 양식 다른이름으로 저장
+        { 'keys': 'ctrl+z', 'command': 'editor.undo();' },                    //폼 편집 화면 작업 취소'
+        { 'keys': 'ctrl+y', 'command': 'editor.redo();' },                    //폼 편집 화면 작업 재실행
+        { 'keys': 'ctrl+i', 'command': 'editor.importForm();' },              //폼 양식 가져오기
+        { 'keys': 'ctrl+e', 'command': 'editor.exportForm();' },              //폼 양식 내보내기
+        { 'keys': 'ctrl+p', 'command': 'editor.preview();' },                 //폼 양식 미리보기
+        { 'keys': 'ctrl+q', 'command': 'editor.save(true);' },                //폼 양식 저장하고 나가기
+        { 'keys': 'insert', 'command': 'editor.copyComponent();' },           //컴포넌트를 복사하여 바로 아래 추가
+        { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();' },  //컴포넌트 삭제
+        { 'keys': 'ctrl+up', 'command': 'editor.addEditboxUp();' },           //위에 컴포넌트 새로 만들기
+        { 'keys': 'ctrl+down', 'command': 'editor.addEditboxDown();' },       //아래 컴포넌트 새로 만들기
+        { 'keys': 'ctrl+home', 'command': 'editor.selectFirstComponent();' }, //첫번째 컴포넌트 선택
+        { 'keys': 'ctrl+end', 'command': 'editor.selectLastComponent();' },   //마지막 컴포넌트 선택
+        { 'keys': 'alt+e', 'command': 'editor.selectComponentProperties();' } //컴포넌트 세부 속성 편집: 제일 처음으로 이동
+    ];
 
     let isEdited = false;
     let observer = new MutationObserver(function(mutations) {
@@ -57,6 +74,7 @@
     window.addEventListener('beforeunload', function (event) {
         if (isEdited) event.returnValue = '';
     });
+
     let data = {};                 //저장용 데이터
 
     let formPanel = null,
@@ -157,8 +175,10 @@
 
     /**
      * 폼 저장
+     *
+     * @param {String} flag 저장후  닫을지 여부
      */
-    function saveForm() {
+    function saveForm(flag) {
         data = JSON.parse(JSON.stringify(editor.data));
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) {
@@ -170,8 +190,15 @@
             url: '/rest/forms/' + data.form.id + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    aliceJs.alert(i18n.get('common.msg.save'));
                     isEdited = false;
+                    if (flag) {
+                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                            opener.location.reload();
+                            window.close();
+                        });
+                    } else {
+                        aliceJs.alert(i18n.get('common.msg.save'));
+                    }
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -357,11 +384,14 @@
     }
 
     /**
-     * 컴포넌트 복사
+     * 컴포넌트 복사 - 바로 아래
      * @param {String} elemId 선택한 element Id
      */
     function copyComponent(elemId) {
-        let elem = document.getElementById(elemId);
+        let copyElemId = elemId || selectedComponentId;
+        console.log(copyElemId);
+        let elem = document.getElementById(copyElemId);
+        console.log(elem);
         if (elem === null) { return; }
 
         //복사
@@ -392,7 +422,9 @@
      * @param {String} elemId 선택한 element Id
      */
     function deleteComponent(elemId) {
-        let elem = document.getElementById(elemId);
+        let delElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(delElemId);
+        console.log(elem);
         if (elem === null) { return; }
 
         let histories = [];
@@ -424,7 +456,9 @@
      * @param {String} elemId 선택한 element Id
      */
     function addEditboxUp(elemId) {
-        let elem = document.getElementById(elemId);
+        let addElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(addElemId);
+        console.log(elem);
         if (elem === null) { return; }
 
         let editbox = component.draw(defaultComponent, formPanel);
@@ -442,12 +476,45 @@
     }
 
     /**
+     * 첫번째 컴포넌트 선택
+     */
+    function selectFirstComponent() {
+        let firstComponent = formPanel.firstElementChild;
+        if (firstComponent.getAttribute('data-type') === defaultComponent) {
+            firstComponent.querySelector('[contenteditable=true]').focus();
+        }
+        console.log(firstComponent);
+        showComponentProperties(firstComponent.id);
+    }
+
+    /**
+     * 마지막 컴포넌트 선택 : 컴포넌트가 1개 밖에 없을 경우 첫번째 컴포넌트 선택됨
+     */
+    function selectLastComponent() {
+        let lastComponent = formPanel.lastElementChild;
+        if (lastComponent.getAttribute('data-type') === defaultComponent) {
+            lastComponent.querySelector('[contenteditable=true]').focus();
+        }
+        showComponentProperties(lastComponent.id);
+    }
+
+    /**
+     * 컴포넌트 세부 속성 편집: 제일 처음으로 이동
+     */
+    function selectComponentProperties() {
+        if (selectedComponentId === '') { return false; }
+        console.log(selectedComponentId);
+        //propertiesPanel
+    }
+
+    /**
      * elemId 선택한 element Id를 기준으로 아래에 editbox 추가 후 data의 display order 변경
      * @param {String} elemId 선택한 element Id
      * @param {Function} callbackFunc callback function
      */
     function addEditboxDown(elemId, callbackFunc) {
-        let elem = document.getElementById(elemId);
+        let addElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
         let editbox = null;
@@ -1399,7 +1466,14 @@
         formPanel.setAttribute('data-readonly', true);
 
         propertiesPanel = document.getElementById('panel-properties');
+        //컨텍스트 메뉴 초기화
         context.init();
+
+        //단축키 초기화 및 등록
+        shortcut.init();
+        for (let i = 0; i < shortcuts.length; i++) {
+            shortcut.add(shortcuts[i].keys, shortcuts[i].command)
+        }
 
         //load custom-code list.
         aliceJs.sendXhr({
@@ -1428,11 +1502,14 @@
     exports.undo = undoForm;
     exports.redo = redoForm;
     exports.preview = previewForm;
-    exports.exportform = exportForm;
-    exports.importform = exportForm;
+    exports.exportForm = exportForm;
+    exports.importForm = exportForm;
     exports.addComponent = addComponent;
     exports.copyComponent = copyComponent;
     exports.deleteComponent = deleteComponent;
+    exports.selectFirstComponent = selectFirstComponent;
+    exports.selectLastComponent = selectLastComponent;
+    exports.reorderComponent = reorderComponent;
     exports.addEditboxUp = addEditboxUp;
     exports.addEditboxDown = addEditboxDown;
     exports.getComponentIndex = getComponentIndex;
@@ -1440,7 +1517,7 @@
     exports.showFormProperties = showFormProperties;
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
-    exports.reorderComponent = reorderComponent;
+    exports.selectComponentProperties = selectComponentProperties;
     exports.history = history;
 
     Object.defineProperty(exports, '__esModule', { value: true });

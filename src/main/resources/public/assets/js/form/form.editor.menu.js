@@ -10,8 +10,10 @@
     (factory((global.context = global.context || {})));
 }(this, (function (exports) {
     'use strict';
+
     const keycode = { arrowUp: 38, arrowDown: 40, enter: 13, ctrl: 17 };
-    let menu = null,           //컨텍스트 메뉴
+    let formDesigner = null,
+        menu = null,           //컨텍스트 메뉴
         itemInContext = null,  //해당 element가 컨텍스트 메뉴를 출력하는 객체인지 여부 판단
         searchItems = [],      //'/' 검색시 일치하는 item 리스트
         selectedItem = null,   //컨텍스트 메뉴 오픈 시 선택된  item
@@ -20,6 +22,7 @@
         flag = 0,              //0:menu off, 1:menu on
         dragComponent = null,
         lastComponent = null;  // 드래그시, 마지막 번째에 drag 되기 위해 추가된 컴포넌트 > drop 이후 삭제 됨
+
 
     /**
      * context menu on
@@ -551,6 +554,7 @@
      */
     function init() {
         menu = document.getElementById('context-menu');
+        //formDesigner = document.getElementById('form-designer');
         itemInContext = menu;
         menu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
             let d = -e.deltaY || e.detail;
