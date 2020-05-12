@@ -2,6 +2,7 @@ package co.brainz.framework.configuration
 
 import co.brainz.framework.auth.handler.AliceAuthFailureHandler
 import co.brainz.framework.auth.handler.AliceAuthSuccessHandler
+import co.brainz.framework.auth.handler.AliceLogoutSuccessHandler
 import co.brainz.framework.auth.service.AliceAuthProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -16,7 +17,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 abstract class AliceWebSecurityConfigurerAdapter(
     private val authProvider: AliceAuthProvider,
     private val authSuccessHandler: AliceAuthSuccessHandler,
-    private val authFailureHandler: AliceAuthFailureHandler
+    private val authFailureHandler: AliceAuthFailureHandler,
+    private val logoutSuccessHandler: AliceLogoutSuccessHandler
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(web: WebSecurity) {
@@ -56,8 +58,8 @@ abstract class AliceWebSecurityConfigurerAdapter(
             .failureHandler(authFailureHandler)
             .and()
             .logout()
+            .logoutSuccessHandler(logoutSuccessHandler)
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/login")
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
             .and()

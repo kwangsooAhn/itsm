@@ -1,7 +1,5 @@
 package co.brainz.itsm.form.controller
 
-import co.brainz.itsm.customCode.dto.CustomCodeDataDto
-import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.form.service.FormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -20,15 +18,14 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestPart
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/rest/forms")
 class FormRestController(
-    private val formService: FormService,
-    private val customCodeService: CustomCodeService
+    private val formService: FormService
 ) {
 
     @PostMapping("")
@@ -47,7 +44,7 @@ class FormRestController(
     /**
      * 문서양식 불러오기.
      */
-    @GetMapping("/data/{formId}")
+    @GetMapping("/{formId}/data")
     fun getFormData(@PathVariable formId: String): String {
         return formService.getFormData(formId)
     }
@@ -55,9 +52,9 @@ class FormRestController(
     /**
      * 문서양식 저장.
      */
-    @PutMapping("/data")
-    fun saveFormData(@RequestBody formData: String): Boolean {
-        return formService.saveFormData(formData)
+    @PutMapping("/{formId}/data")
+    fun saveFormData(@RequestBody formData: String, @PathVariable formId: String): Boolean {
+        return formService.saveFormData(formId, formData)
     }
 
     /**
@@ -69,21 +66,14 @@ class FormRestController(
     }
 
     /**
-     * 커스텀 코드 목록 조회.
-     */
-    @GetMapping("/custom-code/{customCodeId}/list")
-    fun getCustomCodes(@PathVariable customCodeId: String): List<CustomCodeDataDto> {
-        return customCodeService.getCustomCodeData(customCodeId)
-    }
-    /**
      * 이미지 컴포넌트 이미지 파일 업로드.
      */
     @PostMapping("/imageUpload")
     fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): ResponseEntity<Map<String, Any>> {
         val response: ResponseEntity<Map<String, Any>>
         val map: MutableMap<String, Any> = mutableMapOf()
-        //TODO resoures/public/assets/media/image/form 경로에 파일업로드
-        //map["file"] = formService.upload(multipartFile)
+        // TODO resoures/public/assets/media/image/form 경로에 파일업로드
+        // map["file"] = formService.upload(multipartFile)
 
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")

@@ -1,12 +1,13 @@
 package co.brainz.workflow.engine.folder.service
 
 import co.brainz.workflow.engine.folder.constants.WfFolderConstants
-import co.brainz.workflow.engine.folder.dto.WfFolderDto
+import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
 import co.brainz.workflow.engine.folder.repository.WfFolderRepository
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
-import org.springframework.stereotype.Service
 import java.util.UUID
+import org.springframework.stereotype.Service
+
 
 @Service
 class WfFolderService(
@@ -39,7 +40,7 @@ class WfFolderService(
         )
     }
 
-    fun getRelatedInstanceList(tokenId: String): List<WfFolderDto> {
+    fun getRelatedInstanceList(tokenId: String): List<RestTemplateFolderDto> {
         return wfFolderRepository.findRelatedDocumentListByTokenId(tokenId)
     }
 }

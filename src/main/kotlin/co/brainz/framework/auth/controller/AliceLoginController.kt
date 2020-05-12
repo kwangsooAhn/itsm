@@ -5,12 +5,13 @@ import co.brainz.framework.auth.service.AliceIpVerificationService
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpSession
+import javax.servlet.http.HttpServletResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -93,7 +94,10 @@ class AliceLoginController(
      * Invalid Session 상태에서 redirect 되는 페이지.
      */
     @GetMapping("/sessionInValid")
-    fun sessionExpired(session: HttpSession, request: HttpServletRequest, model: Model): String {
+    fun sessionExpired(request: HttpServletRequest, response: HttpServletResponse, model: Model): String {
+        if (HttpSessionRequestCache().getRequest(request, response) != null) {
+            model.addAttribute("redirectUrl", HttpSessionRequestCache().getRequest(request, response).redirectUrl)
+        }
         model.addAttribute("counter", 3)
         return invalidSessionPage
     }
