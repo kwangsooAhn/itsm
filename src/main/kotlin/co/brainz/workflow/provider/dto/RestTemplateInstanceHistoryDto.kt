@@ -8,7 +8,6 @@ data class RestTemplateInstanceHistoryDto(
     var tokenEndDt: LocalDateTime?,
     val elementName: String?,
     val elementType: String?,
-    val assigneeType: String?,
     val assigneeId: String?,
     val assigneeName: String?
 ) : Serializable
