@@ -107,7 +107,7 @@ class DocumentService(
      * @return Boolean
      */
     fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
-        val documentId = restTemplateDocumentDto.documentId ?: ""
+        val documentId = restTemplateDocumentDto.documentId
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
