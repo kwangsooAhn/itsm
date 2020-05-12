@@ -5,13 +5,13 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class RestTemplateDocumentDto(
-    val documentId: String? = "",
-    val documentName: String? = "",
+    val documentId: String = "",
+    val documentName: String = "",
     val documentDesc: String? = null,
     var documentStatus: String? = null,
-    val processId: String? = "",
-    val formId: String? = "",
-    val documentNumberingRuleId: String? = "",
+    val processId: String = "",
+    val formId: String = "",
+    val documentNumberingRuleId: String = "",
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
