@@ -15,7 +15,7 @@ class WfFolderController(private val wfFolderService: WfFolderService) {
      * Get related instance list
      */
     @GetMapping("")
-    fun getRelatedInstanceList(@RequestParam tokenId: String): List<WfFolderDto> {
-        return wfFolderService.getRelatedInstanceList(tokenId)
+    fun getRelatedInstanceList(@RequestParam tokenId: String, @RequestParam searchValue: String): List<WfFolderDto> {
+        return wfFolderService.getRelatedInstanceList(tokenId, searchValue)
     }
 }

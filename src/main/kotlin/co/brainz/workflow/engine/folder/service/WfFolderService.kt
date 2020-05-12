@@ -39,7 +39,7 @@ class WfFolderService(
         )
     }
 
-    fun getRelatedInstanceList(tokenId: String): List<WfFolderDto> {
-        return wfFolderRepository.findRelatedDocumentListByTokenId(tokenId)
+    fun getRelatedInstanceList(tokenId: String, searchValue: String): List<WfFolderDto> {
+        return wfFolderRepository.findRelatedDocumentListByTokenId(tokenId, searchValue)
     }
 }

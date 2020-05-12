@@ -48,12 +48,14 @@
     </table>
 
     <h1 th:text="#{token.label.relatedInstance}"></h1>
+    <button type="button" th:onclick="openTokenPopUp([[${tokenId}]])" th:text="#{common.btn.add}" style="float:right;">추가</button>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
             <col width="25%">
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
+            <col width="20%">
+            <col width="20%">
+            <col width="20%">
+            <col width="10%">
         </colgroup>
         <thead>
         <tr>
@@ -72,6 +74,9 @@
             <td th:with="dateformat=${#authentication.details.timeFormat}"
                 th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
             <td th:text="${rInstance.instanceCreateUserKey}"></td>
+            <td>
+                <button type="button" th:onclick="" th:text="#{common.btn.delete}">삭제</button>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -112,6 +117,15 @@
         /*<![CDATA[*/
         window.onload = function() {
             aliceDocument.initToken('[[${tokenId}]]');
+        };
+
+        /** open pop up **/
+        function openTokenPopUp(tokenId) {
+            window.open('/tokens/' + tokenId + '/view-pop', tokenId, 'width=1000, height=500');
+        };
+
+        /** delete **/
+        function deleteFolderList(id) {
         };
         /*]]>*/
     </script>

@@ -30,6 +30,8 @@ class TokenController(
     private val tokenListPage: String = "token/tokenList"
     private val tokenEditPage: String = "token/tokenEdit"
     private val tokenPrintPage: String = "token/tokenPrint"
+    private val tokenPopUpPage: String = "/token/tokenPopUp"
+    private val tokenRelatedDocList: String = "/token/tokenRelatedDocList"
 
     /**
      * 처리할 문서 리스트 호출 화면.
@@ -72,7 +74,7 @@ class TokenController(
     fun getDocumentEdit(@PathVariable tokenId: String, model: Model): String {
         model.addAttribute("tokenId", tokenId)
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
-        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
+        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId, null))
         val instanceId = instanceService.getInstanceId(tokenId)!!
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
@@ -87,5 +89,25 @@ class TokenController(
         model.addAttribute("data", request.getParameter("data") ?: "")
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         return tokenPrintPage
+    }
+
+    /**
+     * 관련문서 팝업 생성
+     */
+    @GetMapping("/{tokenId}/view-pop")
+    fun getTokenPopUp(@PathVariable tokenId: String, model: Model): String {
+        model.addAttribute("tokenId", tokenId)
+        return tokenPopUpPage
+    }
+
+    /**
+     * 관련문서 팝업 문서 리스트 출력
+     */
+    @GetMapping("/{tokenId}/view-pop/list")
+    fun getTokenRelatedDocList(@PathVariable tokenId: String, request: HttpServletRequest, model: Model): String {
+        val searchValue = request.getParameter("search") ?: ""
+
+        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId, searchValue))
+        return tokenRelatedDocList
     }
 }

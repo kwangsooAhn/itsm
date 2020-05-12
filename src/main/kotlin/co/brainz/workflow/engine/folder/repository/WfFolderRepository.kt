@@ -15,7 +15,10 @@ interface WfFolderRepository : JpaRepository<WfFolderEntity, String> {
                 "                     WHERE st.tokenId = :tokenId " +
                 "                       AND st.instance = sf.instance) " +
                 "AND f.instance = i " +
+                "AND (lower(i.document.documentName) like lower(concat('%', :searchValue, '%')) " +
+                "or lower(i.instanceCreateUserKey) like lower(concat('%', :searchValue, '%')) " +
+                "or :searchValue is null or :searchValue = '') " +
                 "ORDER BY i.instanceStartDt"
     )
-    fun findRelatedDocumentListByTokenId(tokenId: String): List<WfFolderDto>
+    fun findRelatedDocumentListByTokenId(tokenId: String, searchValue: String): List<WfFolderDto>
 }

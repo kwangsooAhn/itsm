@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="table table-hover" style="text-align: center">
+    <colgroup>
+        <col width="10%">
+        <col width="25%">
+        <col width="20%">
+        <col width="20%">
+        <col width="20%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th></th>
+        <th th:text="#{document.label.name}">업무</th>
+        <th th:text="#{token.label.startDt}">시작일시</th>
+        <th th:text="#{token.label.endDt}">완료일시</th>
+        <th th:text="#{token.label.assignee}">담당자</th>
+    </tr>
+    </thead>
+    <tbody id="relatedInstance">
+    <tr th:each="rInstance : ${relatedInstance}">
+        <td>
+            <input type="checkbox" th:id="${rInstance.instanceId}" th:name="${rInstance.instanceId}" th:value="${rInstance.instanceId}">
+        </td>
+        <td th:text="${rInstance.documentName}"></td>
+        <td th:with="dateformat=${#authentication.details.timeFormat}"
+            th:text="${#temporals.format(rInstance.instanceStartDt, dateformat)}"></td>
+        <td th:with="dateformat=${#authentication.details.timeFormat}"
+            th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
+        <td th:text="${rInstance.instanceCreateUserKey}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
