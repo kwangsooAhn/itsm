@@ -23,7 +23,7 @@ abstract class WfProcessSimulationElement {
     /**
      * 공통 메서드
      */
-    fun getValidation(element: WfElementEntity): Boolean {
+    fun validation(element: WfElementEntity): Boolean {
         val elementId = element.elementId
         val attrId = element.getElementDataValue("id")
         val attrName = element.getElementDataValue("name")
