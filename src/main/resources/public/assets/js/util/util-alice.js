@@ -570,8 +570,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
             day = beforeDateArray[0];
         }
 
-        //배열이 2개까지 있다면 12시간(오전,오후,AM,PM)을 가지고 있다고 생각한다.
-        if (dateArray[2] !== undefined && dateArray[2] !== null && dateArray[2] !== '') {
+        if (dateArray[2] !== undefined) {
             if (dateArray[1] === '오전' || dateArray[1] === '오후' || dateArray[1] === 'AM' || dateArray[1] === 'PM') {
                 beforeHourArray = dateArray[2].split(':');
             } else if (dateArray[2] === '오전' || dateArray[2] === '오후' || dateArray[2] === 'AM' || dateArray[2] === 'PM') {
@@ -579,7 +578,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
             }
             hour = beforeHourArray[0];
             min = beforeHourArray[1];
-        } else if (dateArray[1] !== undefined && dateArray[1] !== null && dateArray[1] !== '') {
+        } else if (dateArray[1] !== undefined) {
             beforeHourArray = dateArray[1].split(':');
             hour = beforeHourArray[0];
             min = beforeHourArray[1];
@@ -596,49 +595,46 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
         }
 
         if (hour !== '' && hour !== undefined && min !== '' && min !== undefined) {
-            if (beforeFormatArray[2] != undefined && afterFormatArray[2] != undefined) {
-                //이전, 이후 모두 12시간
-                if (beforeFormatArray[2] === '12' && afterFormatArray[2] === '12') {
-                    if (userLang === 'en') {
-                        if (dateArray[1] === '오전') {
-                            dateArray[1] = 'AM';
-                        } else if (dateArray[1] === '오후') {
-                            dateArray[1] = 'PM';
-                        }
-                    } else if (userLang === 'ko') {
-                        if (dateArray[1] === 'AM') {
-                            dateArray[1] = '오전';
-                        } else if (dateArray[1] === 'PM') {
-                            dateArray[1] = '오후';
-                        }
+            if (beforeFormatArray[2] !== undefined && beforeFormatArray[2] === 'a' && afterFormatArray[2] !== undefined && afterFormatArray[2] === 'a') {
+                if (userLang === 'en') {
+                    if (dateArray[1] === '오전') {
+                        dateArray[1] = 'AM';
+                    } else if (dateArray[1] === '오후') {
+                        dateArray[1] = 'PM';
                     }
-                    returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' ' + dateArray[1];
-                } else if (beforeFormatArray[2] === '12' && afterFormatArray[2] === '24') {
-                    if (dateArray[1] === 'PM' || dateArray[1] === '오후') {
-                        hour = eval(parseInt(hour) + 12);
-                        if (hour === 24) {
-                            hour = 23;
-                        }
+                } else if (userLang === 'ko') {
+                    if (dateArray[1] === 'AM') {
+                        dateArray[1] = '오전';
+                    } else if (dateArray[1] === 'PM') {
+                        dateArray[1] = '오후';
                     }
-                    returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2);
-                } else if (beforeFormatArray[2] === '24' && afterFormatArray[2] === '12') {
-                    if (hour > 11) {
-                        hour = eval(hour - 12);
-                        if (userLang === 'en') {
-                            returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' PM';
-                        } else if (userLang === 'ko') {
-                            returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' 오후';
-                        }
-                    } else {
-                        if (userLang === 'en') {
-                            returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' AM';
-                        } else if (userLang === 'ko') {
-                            returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' 오전';
-                        }
-                    }
-                } else if (beforeFormatArray[2] === '24' && afterFormatArray[2] === '24') {
-                    returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2);
                 }
+                returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' ' + dateArray[1];
+            } else if (beforeFormatArray[2] !== undefined && beforeFormatArray[2] === 'a') {
+                if (dateArray[1] === 'PM' || dateArray[1] === '오후') {
+                    hour = eval(parseInt(hour) + 12);
+                    if (hour === 24) {
+                        hour = 23;
+                    }
+                }
+                returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2);
+            } else if (afterFormatArray[2] !== undefined && afterFormatArray[2] === 'a') {
+                if (hour > 11) {
+                    hour = eval(hour - 12);
+                    if (userLang === 'en') {
+                        returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' PM';
+                    } else if (userLang === 'ko') {
+                        returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' 오후';
+                    }
+                } else {
+                    if (userLang === 'en') {
+                        returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' AM';
+                    } else if (userLang === 'ko') {
+                        returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2) + ' 오전';
+                    }
+                }
+            } else {
+                returnDate = returnDate + ' ' + aliceJs.parseZero(hour, 2) + ':' + aliceJs.parseZero(min, 2);
             }
         }
     }

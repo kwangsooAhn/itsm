@@ -1122,7 +1122,7 @@
                         break;
                     case 'select':
                         elementObject = document.createElement('select');
-                        let optionList = property['sub-list'];
+                        let optionList = JSON.parse(JSON.stringify(property['sub-list']));
                         if (property.id === 'sub-document-id') {
                             documents.forEach(function(d) {
                                 optionList.push({id: d.documentId, name: d.documentName});
@@ -1196,7 +1196,7 @@
                             };
                             if (id === aliceProcessEditor.data.process.id) {
                                 keyupHandler = function() {
-                                    document.querySelector('.process-name').textContent = this.value;
+                                    aliceProcessEditor.changeProcessName(this.value);
                                 };
                             }
                             elementObject.addEventListener('keyup', keyupHandler);
@@ -1289,6 +1289,7 @@
                 callbackFunc: function(xhr) {
                     console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
+                    aliceProcessEditor.changeProcessName();
                     aliceProcessEditor.data.elements.forEach(function(elements) {
                         const category = getElementCategory(elements.type);
                         elements['required'] = getAttributeRequired(category, elements.type);

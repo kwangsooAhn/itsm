@@ -16,8 +16,17 @@ object RestTemplateConstants {
         POST_FORM_SAVE_AS("/rest/wf/forms?saveType=saveas", "POST"),
         PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
         PUT_FORM_DATA("/rest/wf/forms/{formId}/data", "PUT"),
-        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE"),
-        GET_FORM_COMPONENT_DATA("/rest/wf/forms/components", "GET")
+        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
+    }
+
+    /**
+     *  컴포넌트를 조회하기 위한 [url]과 [method] 호출 목록
+     *
+     */
+    enum class Component(val url: String, val method: String) {
+        GET_COMPONENT("/rest/wf/components", "GET"),
+        GET_COMPONENT_DATA("/rest/wf/components/data", "GET"),
+        GET_COMPONENT_CUSTOM_CODE_IDS("/rest/wf/components/custom-code-ids/data", "GET")
     }
 
     /**

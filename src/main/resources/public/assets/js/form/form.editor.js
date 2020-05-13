@@ -24,40 +24,34 @@
                 this.redo_list = [];
             }
             (list || this.undo_list).push(data);
+
+            isEdited = !workflowUtil.compareJson(editor.data, savedData);
+            changeFormName();
         },
         undo: function() {
             if (this.undo_list.length) {
                 let restoreData = this.undo_list.pop();
+                restoreForm(restoreData, 'undo');
                 this.saveHistory(restoreData, this.redo_list, true);
-                restoreComponent(restoreData, 'undo');
             }
         },
         redo: function() {
             if (this.redo_list.length) {
                 let restoreData = this.redo_list.pop();
+                restoreForm(restoreData, 'redo');
                 this.saveHistory(restoreData, this.undo_list, true);
-                restoreComponent(restoreData, 'redo');
             }
         }
     };
 
     let isEdited = false;
-    let observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            isEdited = true;
-        });
-    });
-
-    let observerConfig = {
-        attributes: true,
-        childList: true,
-        characterData: true
-    };
-
     window.addEventListener('beforeunload', function (event) {
-        if (isEdited) event.returnValue = '';
+        if (isEdited) {
+            event.returnValue = '';
+        }
     });
     let data = {};                 //저장용 데이터
+    let savedData = {};
 
     let formPanel = null,
         propertiesPanel = null,
@@ -170,8 +164,10 @@
             url: '/rest/forms/' + data.form.id + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    aliceJs.alert(i18n.get('common.msg.save'));
                     isEdited = false;
+                    savedData = JSON.parse(JSON.stringify(editor.data));
+                    changeFormName();
+                    aliceJs.alert(i18n.get('common.msg.save'));
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -210,15 +206,14 @@
     }
 
     /**
-     * 컴포넌트를 다시 그리고, 데이터 수정를 수정 한다.
+     * 폼을 다시 그리고, 데이터 수정를 수정 한다.
      *
      * @param restoreData 데이터
      * @param type 타입(undo, redo)
      */
-    function restoreComponent(restoreData, type) {
-        editor.showFormProperties();
+    function restoreForm(restoreData, type) {
         const restore = function (originData, changeData) {
-            if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete
+            if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete component
                 if (!Object.keys(changeData).length) { // delete component
                     let element = document.getElementById(originData.id);
                     element.remove();
@@ -237,25 +232,33 @@
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
                     setComponentData(element.attr);
                 }
-            } else { // modify component
-                let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
-                let compAttr = element.attr;
-                setComponentData(compAttr);
-                let targetElement = document.getElementById(compAttr.id);
-                if (originData.display.order !== changeData.display.order) {
-                    targetElement.innerHTML = '';
-                    targetElement.remove();
+                reorderComponent();
+            } else { // modify
+                if (changeData.id === editor.data.form.id) { // form
+                    editor.data.form = changeData;
+                    if (originData.name !== changeData.name) { // modify name
+                        changeFormName();
+                    }
+                } else { // component
+                    let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
+                    let compAttr = element.attr;
+                    setComponentData(compAttr);
+                    let targetElement = document.getElementById(compAttr.id);
+                    if (originData.display.order !== changeData.display.order) {
+                        targetElement.innerHTML = '';
+                        targetElement.remove();
+                        reorderComponent();
+                        const compOrder = Number(changeData.display.order) - 1;
+                        let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
+                        nextElement.parentNode.insertBefore(element.domElem, nextElement);
+                    } else {
+                        targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                        targetElement.innerHTML = '';
+                        targetElement.remove();
+                    }
                     reorderComponent();
-                    const compOrder = Number(changeData.display.order) - 1;
-                    let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
-                    nextElement.parentNode.insertBefore(element.domElem, nextElement);
-                } else {
-                    targetElement.parentNode.insertBefore(element.domElem, targetElement);
-                    targetElement.innerHTML = '';
-                    targetElement.remove();
                 }
             }
-            reorderComponent();
         };
         restoreData.forEach(function(data) {
             let originData = data[1],
@@ -266,6 +269,7 @@
             }
             restore(JSON.parse(JSON.stringify(originData)), JSON.parse(JSON.stringify(changeData)));
         });
+        editor.showFormProperties();
     }
 
     /**
@@ -492,6 +496,10 @@
                 }
             }
         }
+        //컴포넌트 재정렬
+        editor.data.components.sort(function (a, b) {
+            return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;
+        });
         component.setLastIndex(components.length);
     }
 
@@ -941,21 +949,21 @@
                                 }
                                 let labelName = option.name.split('{0}');
 
-                                if (option.id ==='datetimepicker') {
-                                    if (optionDefaultArr[1] !=='') {
-                                        let nowTimeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' '+  aliceForm.options.hourType;
+                                if (option.id === 'datetimepicker') {
+                                    if (optionDefaultArr[1] !== '') {
+                                        let nowTimeFormat = aliceForm.options.dateTimeFormat;
                                         optionDefaultArr[1] = aliceJs.changeDateFormat(optionDefaultArr[2], nowTimeFormat, optionDefaultArr[1], aliceForm.options.lang);
                                     }
                                 } else if (option.id ==='timepicker') {
-                                    if (optionDefaultArr[1] !=='') {
-                                        let timeFormat = aliceForm.options.dateFormat +' ' +aliceForm.options.timeFormat +' ' +aliceForm.options.hourType;
-                                        let beforeFormt = aliceForm.options.dateFormat +' ' +aliceForm.options.timeFormat +' ' + '24';
+                                    if (optionDefaultArr[1] !== '') {
+                                        let timeFormat = aliceForm.options.dateTimeFormat;
+                                        let beforeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' a';
                                         let timeDefault = '';
-                                        timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat +' ' +aliceForm.options.timeFormat);
-                                        timeDefault = aliceJs.changeDateFormat(beforeFormt, timeFormat, timeDefault, aliceForm.options.lang);
+                                        timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
+                                        timeDefault = aliceJs.changeDateFormat(beforeFormat, timeFormat, timeDefault + ' ' + optionDefaultArr[1], aliceForm.options.lang);
                                         let timeNow = timeDefault.split(' ');
                                         if (timeNow.length > 2) {
-                                            optionDefaultArr[1] = timeNow[1] +' '+timeNow[2];
+                                            optionDefaultArr[1] = timeNow[1] + ' ' + timeNow[2];
                                         } else {
                                             optionDefaultArr[1] = timeNow[1];
                                         }
@@ -1162,16 +1170,16 @@
                             propertyValue.setAttribute('name', group + '.' + fieldArr.id);
                             let dateTimePickerValue = '';
                             if (fieldArr.value != '') {
-                                let dateTimePickerFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
+                                let dateTimePickerFormat = aliceForm.options.dateTimeFormat;
                                 dateTimePickerValue = fieldArr.value.split('|');
                                 if (dateTimePickerValue[1] === undefined) {
                                     dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
                                 } else {
                                     let dummyDateTime = '';
                                     if (fieldArr.type === 'timepicker') {
-                                        dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat) + ' ';
+                                        dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
                                     }
-                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, dummyDateTime + dateTimePickerValue[0], aliceForm.options.lang);
+                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, (dummyDateTime !== '' ? dummyDateTime + ' ' : '') + dateTimePickerValue[0], aliceForm.options.lang);
                                     if (fieldArr.type === 'timepicker') {
                                         dateTimePickerValue = dateTimePickerValue.split(' ')[1];
                                     }
@@ -1261,11 +1269,12 @@
      * 우측 properties panel에 폼 세부 속성 출력한다.
      */
     function showFormProperties() {
-        if (selectedComponentId === '') { return false; }
-        
         propertiesPanel.innerHTML = '';
+
         //기존 선택된 컴포넌트 css 삭제
-        document.getElementById(selectedComponentId).classList.remove('selected');
+        document.querySelectorAll('.component').forEach(function(comp) {
+            comp.classList.remove('selected');
+        });
         selectedComponentId = '';
         
         let formAttr = editor.data.form;
@@ -1279,6 +1288,8 @@
                 }
             });
         });
+
+        let formOriginAttr = JSON.parse(JSON.stringify(formAttr));
         
         //폼 속성 출력
         let groupDiv = document.createElement('div');
@@ -1324,12 +1335,13 @@
                 validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('keyup', function(e) {
                     editor.data.form.name = this.value;
-                    document.querySelector('.form-name').textContent = this.value;
+                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
                 });
             } else {
                 validateCheck(propertyValue, fieldArr.validate);
-                propertyValue.addEventListener('focusout', function(e) {
+                propertyValue.addEventListener('change', function(e) {
                     editor.data.form[fieldArr.id] = this.value;
+                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
                 }, false);
             }
             fieldGroupDiv.appendChild(propertyValue);
@@ -1368,6 +1380,7 @@
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editboxComponent = component.draw(defaultComponent, formPanel);
         setComponentData(editboxComponent.attr);
+        savedData = JSON.parse(JSON.stringify(editor.data));
 
         //폼 상세 정보 출력
         aliceJs.sendXhr({
@@ -1383,9 +1396,15 @@
         });
 
         isEdited = false;
-        observer.observe(document.getElementById('panel-form'), observerConfig);
         //폼 이름 출력
-        document.querySelector('.form-name').textContent = editor.data.form.name;
+         changeFormName();
+    }
+
+    /**
+     * 폼 이름 변경.
+     */
+    function changeFormName() {
+        document.querySelector('.form-name').textContent = (isEdited ? '*' : '') + editor.data.form.name;
     }
     
     /**

@@ -538,7 +538,7 @@
 
             var isDefaultAmPmType = false;
             if (this.hourType === $12 && (this.dateType === YMD || this.dateType === YDM)) {
-              isDefaultAmPmType = true;
+              //isDefaultAmPmType = true;
             }
 
             var hourIndex = isDefaultAmPmType ? 2 : 1;
@@ -1240,15 +1240,12 @@
               }
 
               var timeString = "".concat(Util.renderNumber(value.hour), ":").concat(Util.renderNumber(value.minute));
-              if (this.dateType == DMY || this.dateType == MDY) {
-                txt += timeString.concat(" ", am);
+              if (am.length == 0) {
+                txt += timeString;
               } else {
-                if (am.length == 0) {
-                  txt += timeString;
-                } else {
-                  txt += am.concat(" ", timeString);
-                }
+                txt += timeString.concat(" ", am);
               }
+
             }
             return txt;
           }
