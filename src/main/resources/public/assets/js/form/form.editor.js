@@ -430,11 +430,21 @@
         let elem = document.getElementById(delElemId);
         if (elem === null) { return; }
 
-        if (document.querySelectorAll('.component').length === 1) { return false; }
+        //삭제 후 다음 컴포넌트에 focus가 가며, 다음 컴포넌트가 존재하지 않을 경우 맨 첫번째 컴포넌트에 포커스가 이동한다.
+        let nextSelectedElem = elem.nextElementSibling;
+        if (nextSelectedElem === null && Number(elem.getAttribute('data-index')) === component.getLastIndex()) {
+            nextSelectedElem = formPanel.firstElementChild;
+        }
+
+        //editbox 컴포넌트 1개만 존재할 경우 삭제 로직을 타지 않는다.
+        if (document.querySelectorAll('.component').length === 1 &&
+                elem.getAttribute('data-type') === defaultComponent) { return false; }
+
 
         let histories = [];
         //컴포넌트 삭제
         elem.remove();
+        selectedComponentId = '';
         for (let i = 0; i < editor.data.components.length; i++) {
             if (delElemId === editor.data.components[i].id) {
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
@@ -442,8 +452,22 @@
                 break;
             }
         }
-        //폼 상세 속성 출력
-        showFormProperties();
+        //컴포넌트 없을 경우 editbox 컴포넌트 신규 추가.
+        if (document.querySelectorAll('.component').length === 0) {
+            let editbox = component.draw(defaultComponent, formPanel);
+            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
+            setComponentData(editbox.attr);
+            editbox.domElem.querySelector('[contenteditable=true]').focus();
+            showComponentProperties(editbox.id);
+        } else {
+            if (nextSelectedElem.getAttribute('data-index') === '1') {
+                formPanel.scrollTop = 0;
+            }
+            if (nextSelectedElem.getAttribute('data-type') === defaultComponent) {
+                nextSelectedElem.querySelector('[contenteditable=true]').focus();
+            }
+            showComponentProperties(nextSelectedElem.id);
+        }
         //재정렬
         reorderComponent();
         // 이력저장
