@@ -24,19 +24,22 @@
                 this.redo_list = [];
             }
             (list || this.undo_list).push(data);
+
+            isEdited = !workflowUtil.compareJson(editor.data, savedData);
+            changeFormName();
         },
         undo: function() {
             if (this.undo_list.length) {
                 let restoreData = this.undo_list.pop();
+                restoreForm(restoreData, 'undo');
                 this.saveHistory(restoreData, this.redo_list, true);
-                restoreComponent(restoreData, 'undo');
             }
         },
         redo: function() {
             if (this.redo_list.length) {
                 let restoreData = this.redo_list.pop();
+                restoreForm(restoreData, 'redo');
                 this.saveHistory(restoreData, this.undo_list, true);
-                restoreComponent(restoreData, 'redo');
             }
         }
     };
@@ -59,23 +62,14 @@
     ];
 
     let isEdited = false;
-    let observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            isEdited = true;
-        });
-    });
-
-    let observerConfig = {
-        attributes: true,
-        childList: true,
-        characterData: true
-    };
-
     window.addEventListener('beforeunload', function (event) {
-        if (isEdited) event.returnValue = '';
+        if (isEdited) {
+            event.returnValue = '';
+        }
     });
 
     let data = {};                 //저장용 데이터
+    let savedData = {};
 
     let formPanel = null,
         propertiesPanel = null,
@@ -191,6 +185,8 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
                     isEdited = false;
+                    savedData = JSON.parse(JSON.stringify(editor.data));
+                    changeFormName();
                     if (flag) {
                         aliceJs.alert(i18n.get('common.msg.save'), function () {
                             opener.location.reload();
@@ -237,15 +233,14 @@
     }
 
     /**
-     * 컴포넌트를 다시 그리고, 데이터 수정를 수정 한다.
+     * 폼을 다시 그리고, 데이터 수정를 수정 한다.
      *
      * @param restoreData 데이터
      * @param type 타입(undo, redo)
      */
-    function restoreComponent(restoreData, type) {
-        editor.showFormProperties();
+    function restoreForm(restoreData, type) {
         const restore = function (originData, changeData) {
-            if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete
+            if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete component
                 if (!Object.keys(changeData).length) { // delete component
                     let element = document.getElementById(originData.id);
                     element.remove();
@@ -264,25 +259,33 @@
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
                     setComponentData(element.attr);
                 }
-            } else { // modify component
-                let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
-                let compAttr = element.attr;
-                setComponentData(compAttr);
-                let targetElement = document.getElementById(compAttr.id);
-                if (originData.display.order !== changeData.display.order) {
-                    targetElement.innerHTML = '';
-                    targetElement.remove();
+                reorderComponent();
+            } else { // modify
+                if (changeData.id === editor.data.form.id) { // form
+                    editor.data.form = changeData;
+                    if (originData.name !== changeData.name) { // modify name
+                        changeFormName();
+                    }
+                } else { // component
+                    let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
+                    let compAttr = element.attr;
+                    setComponentData(compAttr);
+                    let targetElement = document.getElementById(compAttr.id);
+                    if (originData.display.order !== changeData.display.order) {
+                        targetElement.innerHTML = '';
+                        targetElement.remove();
+                        reorderComponent();
+                        const compOrder = Number(changeData.display.order) - 1;
+                        let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
+                        nextElement.parentNode.insertBefore(element.domElem, nextElement);
+                    } else {
+                        targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                        targetElement.innerHTML = '';
+                        targetElement.remove();
+                    }
                     reorderComponent();
-                    const compOrder = Number(changeData.display.order) - 1;
-                    let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
-                    nextElement.parentNode.insertBefore(element.domElem, nextElement);
-                } else {
-                    targetElement.parentNode.insertBefore(element.domElem, targetElement);
-                    targetElement.innerHTML = '';
-                    targetElement.remove();
                 }
             }
-            reorderComponent();
         };
         restoreData.forEach(function(data) {
             let originData = data[1],
@@ -293,6 +296,7 @@
             }
             restore(JSON.parse(JSON.stringify(originData)), JSON.parse(JSON.stringify(changeData)));
         });
+        editor.showFormProperties();
     }
 
     /**
@@ -384,18 +388,17 @@
     }
 
     /**
-     * 컴포넌트 복사 - 바로 아래
+     * 컴포넌트 복사
      * @param {String} elemId 선택한 element Id
      */
     function copyComponent(elemId) {
-        let copyElemId = elemId || selectedComponentId;
-        let elem = document.getElementById(copyElemId);
+        let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
         //복사
         let elemIdx = Number(elem.getAttribute('data-index')) + 1;
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (copyElemId === editor.data.components[i].id) {
+            if (elemId === editor.data.components[i].id) {
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
                 copyData.id = workflowUtil.generateUUID();
                 let comp = component.draw(copyData.type, formPanel, copyData);
@@ -420,16 +423,14 @@
      * @param {String} elemId 선택한 element Id
      */
     function deleteComponent(elemId) {
-        let delElemId = elemId || selectedComponentId;
-        let elem = document.getElementById(delElemId);
+        let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
         let histories = [];
         //삭제
         elem.remove();
-        selectedComponentId = '';
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (delElemId === editor.data.components[i].id) {
+            if (elemId === editor.data.components[i].id) {
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
@@ -454,8 +455,7 @@
      * @param {String} elemId 선택한 element Id
      */
     function addEditboxUp(elemId) {
-        let addElemId = elemId || selectedComponentId;
-        let elem = document.getElementById(addElemId);
+        let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
         let editbox = component.draw(defaultComponent, formPanel);
@@ -473,44 +473,12 @@
     }
 
     /**
-     * 첫번째 컴포넌트 선택
-     */
-    function selectFirstComponent() {
-        let firstComponent = formPanel.firstElementChild;
-        if (firstComponent.getAttribute('data-type') === defaultComponent) {
-            firstComponent.querySelector('[contenteditable=true]').focus();
-        }
-        showComponentProperties(firstComponent.id);
-    }
-
-    /**
-     * 마지막 컴포넌트 선택 : 컴포넌트가 1개 밖에 없을 경우 첫번째 컴포넌트 선택됨
-     */
-    function selectLastComponent() {
-        let lastComponent = formPanel.lastElementChild;
-        if (lastComponent.getAttribute('data-type') === defaultComponent) {
-            lastComponent.querySelector('[contenteditable=true]').focus();
-        }
-        showComponentProperties(lastComponent.id);
-    }
-
-    /**
-     * 컴포넌트 세부 속성 편집: 제일 처음으로 이동
-     */
-    function selectComponentProperties() {
-        if (selectedComponentId === '') { return false; }
-
-        propertiesPanel.getElementsByTagName('input')[0].focus();
-    }
-
-    /**
      * elemId 선택한 element Id를 기준으로 아래에 editbox 추가 후 data의 display order 변경
      * @param {String} elemId 선택한 element Id
      * @param {Function} callbackFunc callback function
      */
     function addEditboxDown(elemId, callbackFunc) {
-        let addElemId = elemId || selectedComponentId;
-        let elem = document.getElementById(addElemId);
+        let elem = document.getElementById(elemId);
         if (elem === null) { return; }
 
         let editbox = null;
@@ -555,6 +523,10 @@
                 }
             }
         }
+        //컴포넌트 재정렬
+        editor.data.components.sort(function (a, b) {
+            return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;
+        });
         component.setLastIndex(components.length);
     }
 
@@ -1324,11 +1296,12 @@
      * 우측 properties panel에 폼 세부 속성 출력한다.
      */
     function showFormProperties() {
-        if (selectedComponentId === '') { return false; }
-        
         propertiesPanel.innerHTML = '';
+
         //기존 선택된 컴포넌트 css 삭제
-        document.getElementById(selectedComponentId).classList.remove('selected');
+        document.querySelectorAll('.component').forEach(function(comp) {
+            comp.classList.remove('selected');
+        });
         selectedComponentId = '';
         
         let formAttr = editor.data.form;
@@ -1342,7 +1315,9 @@
                 }
             });
         });
-        
+
+        let formOriginAttr = JSON.parse(JSON.stringify(formAttr));
+
         //폼 속성 출력
         let groupDiv = document.createElement('div');
         groupDiv.setAttribute('id', 'form');
@@ -1387,12 +1362,13 @@
                 validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('keyup', function(e) {
                     editor.data.form.name = this.value;
-                    document.querySelector('.form-name').textContent = this.value;
+                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
                 });
             } else {
                 validateCheck(propertyValue, fieldArr.validate);
-                propertyValue.addEventListener('focusout', function(e) {
+                propertyValue.addEventListener('change', function(e) {
                     editor.data.form[fieldArr.id] = this.value;
+                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
                 }, false);
             }
             fieldGroupDiv.appendChild(propertyValue);
@@ -1431,6 +1407,7 @@
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editboxComponent = component.draw(defaultComponent, formPanel);
         setComponentData(editboxComponent.attr);
+        savedData = JSON.parse(JSON.stringify(editor.data));
 
         //폼 상세 정보 출력
         aliceJs.sendXhr({
@@ -1446,9 +1423,15 @@
         });
 
         isEdited = false;
-        observer.observe(document.getElementById('panel-form'), observerConfig);
         //폼 이름 출력
-        document.querySelector('.form-name').textContent = editor.data.form.name;
+         changeFormName();
+    }
+
+    /**
+     * 폼 이름 변경.
+     */
+    function changeFormName() {
+        document.querySelector('.form-name').textContent = (isEdited ? '*' : '') + editor.data.form.name;
     }
     
     /**

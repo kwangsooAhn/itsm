@@ -1315,27 +1315,33 @@
             .attr('draggable', 'true')
             .on('dragend', function() {
                 const svgOffset = svg.node().getBoundingClientRect(),
-                    gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+                      gTransform = d3.zoomTransform(d3.select('g.element-container').node());
                 let x = snapToGrid(d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x),
                     y = snapToGrid(d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y);
-                let _this = d3.select(this);
-                let node;
-                if (_this.classed('event')) {
-                    node = new EventElement(x, y);
-                } else if (_this.classed('task')) {
-                    node = new TaskElement(x, y);
-                } else if (_this.classed('subprocess')) {
-                    node = new SubprocessElement(x, y);
-                } else if (_this.classed('gateway')) {
-                    node = new GatewayElement(x, y);
-                } else if (_this.classed('group')) {
-                    node = new GroupElement(x, y);
-                } else if (_this.classed('annotation')) {
-                    node = new AnnotationElement(x, y);
-                }
-                if (node) {
-                    _this.classed(node.defaultType, true);
-                    aliceProcessEditor.addElementProperty(node.nodeElement);
+                const drawingBoard = document.querySelector('.alice-process-drawing-board');
+                if (d3.event.pageX - svgOffset.left - window.pageXOffset >= 0 &&
+                    d3.event.pageY - svgOffset.top - window.pageYOffset >= 0 &&
+                    d3.event.pageX - svgOffset.left - window.pageXOffset <= drawingBoard.offsetWidth &&
+                    d3.event.pageY - svgOffset.top - window.pageYOffset <= drawingBoard.offsetHeight) {
+                    let _this = d3.select(this);
+                    let node;
+                    if (_this.classed('event')) {
+                        node = new EventElement(x, y);
+                    } else if (_this.classed('task')) {
+                        node = new TaskElement(x, y);
+                    } else if (_this.classed('subprocess')) {
+                        node = new SubprocessElement(x, y);
+                    } else if (_this.classed('gateway')) {
+                        node = new GatewayElement(x, y);
+                    } else if (_this.classed('group')) {
+                        node = new GroupElement(x, y);
+                    } else if (_this.classed('annotation')) {
+                        node = new AnnotationElement(x, y);
+                    }
+                    if (node) {
+                        _this.classed(node.defaultType, true);
+                        aliceProcessEditor.addElementProperty(node.nodeElement);
+                    }
                 }
             });
     }

@@ -35,6 +35,12 @@ workflowUtil.generateUUID = function() {
  * @return {boolean} 데이터 일치 여부 (true: 일치, false: 불일치)
  */
 workflowUtil.compareJson = function(obj1, obj2) {
+    if (obj1 === null && obj2 === null) {
+        return true;
+    } else if (obj1 === null || obj2 === null) {
+        return false;
+    }
+
     if (!Object.keys(obj2).every(function(key) { return obj1.hasOwnProperty(key); })) {
         return false;
     }
