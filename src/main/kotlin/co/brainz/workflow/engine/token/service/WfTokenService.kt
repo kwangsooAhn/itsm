@@ -144,12 +144,7 @@ class WfTokenService(
                         values.add(valueMap)
                     }
                 }
-                var displayType = when (tokenMstEntity.get().element.elementType) {
-                    WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
-                        WfDocumentConstants.DisplayType.EDITABLE.value
-                    }
-                    else -> WfDocumentConstants.DisplayType.READONLY.value
-                }
+                var displayType = WfDocumentConstants.DisplayType.READONLY.value
                 for (documentDataEntity in documentDataEntities) {
                     if (documentDataEntity.componentId == componentEntity.componentId) {
                         displayType = documentDataEntity.display
