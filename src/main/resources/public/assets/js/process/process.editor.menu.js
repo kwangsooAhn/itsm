@@ -218,8 +218,11 @@
                     }
                 });
             });
+            let requiredData = getAttributeRequired(category, type);
             elementData[0].type = type;
             elementData[0].data = typeData;
+            elementData[0].data.id = elementId;
+            elementData[0].required = requiredData;
 
             changeElementType(element, type);
             d3.select('g.alice-tooltip').remove();
@@ -275,6 +278,8 @@
                     elemData.type = elemType;
                     elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
                     elemData.data = getAttributeData(elementsKeys[i], elemType);
+                    elemData.data.id = elemData.id;
+                    elemData.required = getAttributeRequired(elementsKeys[i], elemType);
                     break;
                 }
             }
@@ -283,12 +288,14 @@
             elemData.type = 'arrowConnector';
             elemData.display = {};
             elemData.data = getAttributeData('connector', 'arrowConnector');
+            elemData.data['id'] = elemData.id;
             elemData.data['start-id'] = data.sourceId;
             elemData.data['end-id'] = data.targetId;
             elements.forEach(function(e) {
                 if (e.id === data.sourceId) { elemData.data['start-name'] = e.data.name; }
                 if (e.id === data.targetId) { elemData.data['end-name'] = e.data.name; }
             });
+            elemData.required = getAttributeRequired('connector', 'arrowConnector');
         }
         if (elemData.data.name) {
             aliceProcessEditor.changeTextToElement(elementId, elemData.data.name);
@@ -322,6 +329,35 @@
             });
         }
         return data;
+    }
+
+    /**
+     * element의 속성 정보에서 required 정보를 추출하여 json 으로 리턴한다.
+     *
+     * @param category element category
+     * @param type element type
+     * @returns Object required JSON
+     */
+    function getAttributeRequired(category, type) {
+        const required = [];
+        let elementTypeList = elementsProperties[category];
+        if (!elementTypeList) {
+            console.error('No information found for category(%s), type(%s) in the configuration file.', category, type);
+            return data;
+        }
+        let elementTypeData = elementTypeList.filter(function(elem){ return elem.type === type; });
+        if (elementTypeData.length > 0) {
+            let attributeList = elementTypeData[0].attribute;
+            attributeList.forEach(function(attr) {
+                let items = attr.items;
+                items.forEach(function(item){
+                    if (item.required === 'Y')  {
+                        required.push(item.id);
+                    }
+                });
+            });
+        }
+        return required
     }
 
     /**
@@ -607,6 +643,7 @@
         let node = aliceProcessEditor.addElement(elemData);
         if (node) {
             elemData.id = node.nodeElement.attr('id');
+            elemData.data.id = elemData.id;
             aliceProcessEditor.data.elements.push(elemData);
 
             aliceProcessEditor.removeElementSelected();
@@ -650,10 +687,12 @@
 
         let category = getElementCategory(type);
         elemData.data = getAttributeData(category, type);
+        elemData.required = getAttributeRequired(category, type);
 
         let node = aliceProcessEditor.addElement(elemData);
         if (node) {
             elemData.id = node.nodeElement.attr('id');
+            elemData.data.id = elemData.id;
             const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
             elemData.display.width = bbox.width;
             elemData.display.height = bbox.height;
@@ -1251,6 +1290,10 @@
                     console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
                     aliceProcessEditor.changeProcessName();
+                    aliceProcessEditor.data.elements.forEach(function(elements) {
+                        const category = getElementCategory(elements.type);
+                        elements['required'] = getAttributeRequired(category, elements.type);
+                    });
                     const elements = aliceProcessEditor.data.elements;
                     setElementMenu();
                     aliceProcessEditor.drawProcess(elements);
