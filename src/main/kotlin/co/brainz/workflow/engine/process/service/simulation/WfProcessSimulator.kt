@@ -95,7 +95,7 @@ class WfProcessSimulator(
     }
 
     /**
-     * [arrowConnector] 엘리먼트의 end-id를 가지는 엘리먼트를 리턴.
+     *  엘리먼트[arrowConnector]의 end-id를 가지는 엘리먼트를 리턴.
      */
     private fun getTargetElement(arrowConnector: WfElementEntity): WfElementEntity {
         val targetElementId = arrowConnector.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
@@ -108,6 +108,8 @@ class WfProcessSimulator(
 
     /**
      * 엘리먼트 종류 마다 검증해야 할 내용 시뮬레이션 결과 리턴
+     *
+     * 점검할 엘리먼트들[removedDuplicationElements]은 별도로 저장한다.
      */
     private fun simulation(element: WfElementEntity): Boolean {
         removedDuplicationElements.add(element)
