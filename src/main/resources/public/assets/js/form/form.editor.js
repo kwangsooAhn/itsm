@@ -430,10 +430,10 @@
         let elem = document.getElementById(delElemId);
         if (elem === null) { return; }
 
-        //삭제 후 다음 컴포넌트에 focus가 가며, 다음 컴포넌트가 존재하지 않을 경우 맨 첫번째 컴포넌트에 포커스가 이동한다.
-        let nextSelectedElem = elem.nextElementSibling;
-        if (nextSelectedElem === null && Number(elem.getAttribute('data-index')) === component.getLastIndex()) {
-            nextSelectedElem = formPanel.firstElementChild;
+        //삭제 후 다음 컴포넌트에 focus가 가며, 이전 컴포넌트로 포커스가 이동한다. 첫번째 컴포넌트일 경우 바로 아래 컴포넌트로 focus가 간다.
+        let previousSelectedElem = elem.previousElementSibling;
+        if (previousSelectedElem === null && elem.getAttribute('data-index') === '1') {
+            previousSelectedElem = formPanel.nextElementSibling;
         }
 
         //editbox 컴포넌트 1개만 존재할 경우 삭제 로직을 타지 않는다.
@@ -460,13 +460,10 @@
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
         } else {
-            if (nextSelectedElem.getAttribute('data-index') === '1') {
-                formPanel.scrollTop = 0;
+            if (previousSelectedElem.getAttribute('data-type') === defaultComponent) {
+                previousSelectedElem.querySelector('[contenteditable=true]').focus();
             }
-            if (nextSelectedElem.getAttribute('data-type') === defaultComponent) {
-                nextSelectedElem.querySelector('[contenteditable=true]').focus();
-            }
-            showComponentProperties(nextSelectedElem.id);
+            showComponentProperties(previousSelectedElem.id);
         }
         //재정렬
         reorderComponent();
@@ -692,11 +689,23 @@
         propertiesPanel.innerHTML = '';
         
         if (selectedComponentId !== '') { //기존 선택된 컴포넌트 css 삭제
-            document.getElementById(selectedComponentId).classList.remove('selected');
+            if (document.getElementById(selectedComponentId).classList.contains('selected')) {
+                document.getElementById(selectedComponentId).classList.remove('selected');
+            }
         }
-        
-        selectedComponentId = id; 
-        document.getElementById(id).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
+
+        selectedComponentId = id;
+        let selectedComponentElem = document.getElementById(id);
+        if (selectedComponentElem === null) { return false; }
+
+        //현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
+        if (selectedComponentElem.getAttribute('data-type') === defaultComponent) {
+            showFormProperties(selectedComponentId);
+            return false;
+        }
+
+        selectedComponentElem.classList.add('selected'); //현재 선택된 컴포넌트 css 추가
+
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
         
@@ -1394,16 +1403,24 @@
     }
     /**
      * 우측 properties panel에 폼 세부 속성 출력한다.
+     *
+     * @param {String} elemId 선택한 element Id
      */
-    function showFormProperties() {
+    function showFormProperties(elemId) {
         propertiesPanel.innerHTML = '';
 
         //기존 선택된 컴포넌트 css 삭제
         document.querySelectorAll('.component').forEach(function(comp) {
             comp.classList.remove('selected');
         });
-        selectedComponentId = '';
-        
+
+        if (typeof elemId !== 'undefined' && elemId !== '') {
+            if (!document.getElementById(elemId).classList.contains('selected')) {
+                document.getElementById(elemId).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
+            }
+        } else {
+            selectedComponentId = '';
+        }
         let formAttr = editor.data.form;
         let detailAttr = formProperties.form;
 
@@ -1517,6 +1534,9 @@
                 formProperties = JSON.parse(xhr.responseText);
                 //첫번째 컴포넌트 선택
                 const firstComponent = document.getElementById('panel-form').querySelectorAll('.component')[0];
+                if (firstComponent.getAttribute('data-type') === defaultComponent) {
+                    firstComponent.querySelector('[contenteditable=true]').focus();
+                }
                 showComponentProperties(firstComponent.id);
             },
             contentType: 'application/json; charset=utf-8'
