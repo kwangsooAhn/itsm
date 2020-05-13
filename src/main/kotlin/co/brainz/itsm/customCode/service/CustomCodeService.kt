@@ -17,13 +17,10 @@ import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeTableRepository
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.repository.UserRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import javax.persistence.Column
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
-import javax.persistence.Column
 
 @Service
 class CustomCodeService(
@@ -38,7 +35,6 @@ class CustomCodeService(
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
     private val customCodeTableMapper: CustomCodeTableMapper = Mappers.getMapper(CustomCodeTableMapper::class.java)
     private val customCodeColumnMapper: CustomCodeColumnMapper = Mappers.getMapper(CustomCodeColumnMapper::class.java)
-    private val om: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 사용자 정의 코드 리스트 조회.
