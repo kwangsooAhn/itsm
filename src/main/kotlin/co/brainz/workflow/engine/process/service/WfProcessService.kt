@@ -196,14 +196,18 @@ class WfProcessService(
                     // element data entity 생성
                     val elementDataEntities = mutableListOf<WfElementDataEntity>()
                     it.data?.entries?.forEachIndexed { idx, data ->
-                        elementDataEntities.add(
-                            WfElementDataEntity(
-                                element = elementEntity,
-                                attributeId = data.key,
-                                attributeValue = data.value as String,
-                                attributeOrder = idx
-                            )
+                        val elementDataEntity = WfElementDataEntity(
+                            element = elementEntity,
+                            attributeId = data.key,
+                            attributeValue = data.value as String,
+                            attributeOrder = idx
                         )
+                        it.required?.forEach { required ->
+                            if (required == data.key) {
+                                elementDataEntity.attributeRequired = true
+                            }
+                        }
+                        elementDataEntities.add(elementDataEntity)
                     }
                     elementEntity.elementDataEntities.addAll(elementDataEntities)
                     elementEntities.add(elementEntity)
