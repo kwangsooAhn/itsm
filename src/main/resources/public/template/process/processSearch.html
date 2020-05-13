@@ -11,6 +11,8 @@
     <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{process.label.list}"></h1>
         <div align="right">
+            <button sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"
+                    onclick=""></button>
             <button sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.register}"
                     onclick="openProcessEdit();"></button>
             <input type="text" id="search" style="width: 270px" th:placeholder="#{process.label.searchPlaceholder}">

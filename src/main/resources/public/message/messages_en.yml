@@ -317,9 +317,10 @@ process:
     simulation: "Simulation"
     undo: "Undo"
     redo: "Redo"
+    imageDownload: "Image Download"
+  btn:
     import: "Import"
     export: "Export"
-    imageDownload: "Image Download"
   status:
     edit: "Edit"
     publish: "Publish"
