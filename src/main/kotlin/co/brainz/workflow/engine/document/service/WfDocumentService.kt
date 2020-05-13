@@ -10,9 +10,11 @@ import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
+import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
@@ -45,7 +47,8 @@ class WfDocumentService(
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
     private val wfElementDataRepository: WfElementDataRepository,
-    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository
+    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
+    private val wfElementService: WfElementService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -115,6 +118,23 @@ class WfDocumentService(
         val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId)
         val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+
+        //init display: get first UserTask display info (commonStart -> UserTask).
+        var documentDataEntities: List<WfDocumentDataEntity> = mutableListOf()
+        val startElement = wfElementService.getStartElement(documentEntity.process.processId)
+        when (startElement.elementType) {
+            WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
+                val startArrow = wfActionService.getArrowElements(startElement.elementId)[0]
+                val startUserTaskElementId = wfActionService.getNextElementId(startArrow)
+                when (wfActionService.getElement(startUserTaskElementId).elementType) {
+                    WfElementConstants.ElementType.USER_TASK.value -> {
+                        documentDataEntities =
+                            wfDocumentDataRepository.findByDocumentIdAndElementId(documentId, startUserTaskElementId)
+                    }
+                }
+            }
+        }
+
         for (component in formEntity.get().components!!) {
             val attributes = wfFormService.makeAttributes(component)
             val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
@@ -123,8 +143,13 @@ class WfDocumentService(
             map["componentId"] = component.componentId
             map["attributes"] = attributes
             map["values"] = values
-            // TODO: 추후 동적으로 변경할 수 있도록 구현해야 함.
-            map["displayType"] = WfDocumentConstants.DisplayType.EDITABLE.value
+            var displayType = WfDocumentConstants.DisplayType.EDITABLE.value
+            for (documentDataEntity in documentDataEntities) {
+                if (documentDataEntity.componentId == component.componentId) {
+                    displayType = documentDataEntity.display
+                }
+            }
+            map["displayType"] = displayType
             components.add(map)
         }
 
