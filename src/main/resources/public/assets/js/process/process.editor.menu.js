@@ -1294,7 +1294,6 @@
                         const category = getElementCategory(elements.type);
                         elements['required'] = getAttributeRequired(category, elements.type);
                     });
-                    document.querySelector('.process-name').textContent = aliceProcessEditor.data.process.name;
                     const elements = aliceProcessEditor.data.elements;
                     setElementMenu();
                     aliceProcessEditor.drawProcess(elements);
