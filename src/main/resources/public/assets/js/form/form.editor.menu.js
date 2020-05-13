@@ -10,6 +10,7 @@
     (factory((global.context = global.context || {})));
 }(this, (function (exports) {
     'use strict';
+
     const keycode = { arrowUp: 38, arrowDown: 40, enter: 13, ctrl: 17 };
     let menu = null,           //컨텍스트 메뉴
         itemInContext = null,  //해당 element가 컨텍스트 메뉴를 출력하는 객체인지 여부 판단
@@ -20,6 +21,7 @@
         flag = 0,              //0:menu off, 1:menu on
         dragComponent = null,
         lastComponent = null;  // 드래그시, 마지막 번째에 drag 되기 위해 추가된 컴포넌트 > drop 이후 삭제 됨
+
 
     /**
      * context menu on
@@ -34,13 +36,25 @@
 
         let controlMenu = document.getElementById('context-menu-control');
         let componentMenu = document.getElementById('context-menu-component');
-
         if (state === 1 && !controlMenu.classList.contains('active')) {
             controlMenu.classList.add('active');
             componentMenu.classList.remove('active');
         } else if (state === 2 && !componentMenu.classList.contains('active')) {
             componentMenu.classList.add('active');
             controlMenu.classList.remove('active');
+        }
+
+        //컴포넌트가 1개만 존재할 경우 삭제 할 수 없다.
+        let deleteMenu = controlMenu.querySelector('[data-action="delete"]');
+        if (document.querySelectorAll('.component').length === 1 &&
+            document.querySelector('.component').getAttribute('data-type') === 'editbox') {
+            if (!deleteMenu.classList.contains('disabled')) {
+                deleteMenu.classList.add('disabled');
+            }
+        } else {
+            if (deleteMenu.classList.contains('disabled')) {
+                deleteMenu.classList.remove('disabled');
+            }
         }
     }
 

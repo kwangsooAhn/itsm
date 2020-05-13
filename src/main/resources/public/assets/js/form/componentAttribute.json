@@ -6,7 +6,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -193,7 +193,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -351,7 +351,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -473,7 +473,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -613,7 +613,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -753,7 +753,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "" ,
                 "validate": ""
@@ -835,7 +835,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -894,7 +894,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -943,7 +943,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -1081,7 +1081,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -1219,7 +1219,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -1357,7 +1357,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -1468,7 +1468,7 @@
                 "id": "mapping-id",
                 "name": "Mapping Id",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
