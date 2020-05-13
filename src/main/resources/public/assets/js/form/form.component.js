@@ -454,7 +454,7 @@
                         <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat}' value='${dateDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat.toLowerCase()}' value='${dateDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
                     </div>
                 </div>
             `);
@@ -540,7 +540,7 @@
                         <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${aliceForm.options.timeFormat}' value='${timeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
+                        <input type='text' id='time-${attr.id}' placeholder='${(aliceForm.options.hourType === '12' ? aliceForm.options.timeFormat + ' a' : 'HH:mm')}' value='${timeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
                     </div>
                 </div>
             `);
