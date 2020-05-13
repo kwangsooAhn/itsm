@@ -433,7 +433,7 @@
         //삭제 후 다음 컴포넌트에 focus가 가며, 이전 컴포넌트로 포커스가 이동한다. 첫번째 컴포넌트일 경우 바로 아래 컴포넌트로 focus가 간다.
         let previousSelectedElem = elem.previousElementSibling;
         if (previousSelectedElem === null && elem.getAttribute('data-index') === '1') {
-            previousSelectedElem = formPanel.nextElementSibling;
+            previousSelectedElem = elem.nextElementSibling;
         }
 
         //editbox 컴포넌트 1개만 존재할 경우 삭제 로직을 타지 않는다.
