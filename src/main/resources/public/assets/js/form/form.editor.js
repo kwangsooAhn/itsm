@@ -60,7 +60,7 @@
         { 'keys': 'ctrl+end', 'command': 'editor.selectLastComponent();' },   //마지막 컴포넌트 선택
         { 'keys': 'up', 'command': 'editor.selectUpComponent();' },           //바로위 컴포넌트 선택
         { 'keys': 'down', 'command': 'editor.selectDownComponent();' },       //바로위 컴포넌트 선택
-        { 'keys': 'alt+e', 'command': 'editor.selectComponentProperties();' } //컴포넌트 세부 속성 편집: 제일 처음으로 이동
+        { 'keys': 'alt+e', 'command': 'editor.selectProperties();' }          //세부 속성 편집: 제일 처음으로 이동
     ];
 
     let isEdited = false;
@@ -430,8 +430,10 @@
         let elem = document.getElementById(delElemId);
         if (elem === null) { return; }
 
+        if (document.querySelectorAll('.component').length === 1) { return false; }
+
         let histories = [];
-        //삭제
+        //컴포넌트 삭제
         elem.remove();
         for (let i = 0; i < editor.data.components.length; i++) {
             if (delElemId === editor.data.components[i].id) {
@@ -440,16 +442,8 @@
                 break;
             }
         }
-        //컴포넌트 없을 경우 editbox 컴포넌트 신규 추가.
-        if (document.querySelectorAll('.component').length === 0) {
-            let editbox = component.draw(defaultComponent, formPanel);
-            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
-            setComponentData(editbox.attr);
-            editbox.domElem.querySelector('[contenteditable=true]').focus();
-            showComponentProperties(editbox.id);
-        } else {
-            showFormProperties();
-        }
+        //폼 상세 속성 출력
+        showFormProperties();
         //재정렬
         reorderComponent();
         // 이력저장
@@ -522,10 +516,10 @@
     }
 
     /**
-     * 컴포넌트 세부 속성 편집: 제일 처음으로 이동
+     * 세부 속성 편집: 제일 처음으로 이동
      */
-    function selectComponentProperties() {
-        if (selectedComponentId === '') { return false; }
+    function selectProperties() {
+        if (propertiesPanel.getElementsByTagName('input')[0] === null) { return false; }
 
         propertiesPanel.getElementsByTagName('input')[0].focus();
     }
@@ -1580,7 +1574,7 @@
     exports.showFormProperties = showFormProperties;
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
-    exports.selectComponentProperties = selectComponentProperties;
+    exports.selectProperties = selectProperties;
     exports.history = history;
 
     Object.defineProperty(exports, '__esModule', { value: true });

@@ -36,13 +36,28 @@
 
         let controlMenu = document.getElementById('context-menu-control');
         let componentMenu = document.getElementById('context-menu-component');
-
         if (state === 1 && !controlMenu.classList.contains('active')) {
             controlMenu.classList.add('active');
             componentMenu.classList.remove('active');
+            if (document.querySelectorAll('.component').length === 1) {
+                console.log(controlMenu.querySelector('[data-action="delete"]'));
+                controlMenu.querySelector('[data-action="delete"]').add('disabled');
+            }
         } else if (state === 2 && !componentMenu.classList.contains('active')) {
             componentMenu.classList.add('active');
             controlMenu.classList.remove('active');
+        }
+
+        //컴포넌트가 1개만 존재할 경우 삭제 할 수 없다.
+        let deleteMenu = controlMenu.querySelector('[data-action="delete"]');
+        if (document.querySelectorAll('.component').length === 1) {
+            if (!deleteMenu.classList.contains('disabled')) {
+                deleteMenu.classList.add('disabled');
+            }
+        } else {
+            if (deleteMenu.classList.contains('disabled')) {
+                deleteMenu.classList.remove('disabled');
+            }
         }
     }
 
