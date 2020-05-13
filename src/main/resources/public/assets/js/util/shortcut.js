@@ -14,6 +14,8 @@
     const metaKeyCode = {
         13: 'enter',
         27: 'esc',
+        33: 'pageup',
+        34: 'pagedown',
         35: 'end',
         36: 'home',
         37: 'left',

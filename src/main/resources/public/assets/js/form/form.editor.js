@@ -54,10 +54,12 @@
         { 'keys': 'ctrl+q', 'command': 'editor.save(true);' },                //폼 양식 저장하고 나가기
         { 'keys': 'insert', 'command': 'editor.copyComponent();' },           //컴포넌트를 복사하여 바로 아래 추가
         { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();' },  //컴포넌트 삭제
-        { 'keys': 'ctrl+up', 'command': 'editor.addEditboxUp();' },           //위에 컴포넌트 새로 만들기
-        { 'keys': 'ctrl+down', 'command': 'editor.addEditboxDown();' },       //아래 컴포넌트 새로 만들기
+        { 'keys': 'ctrl+pageup', 'command': 'editor.addEditboxUp();' },       //위에 컴포넌트 새로 만들기
+        { 'keys': 'ctrl+pagedown', 'command': 'editor.addEditboxDown();' },   //아래 컴포넌트 새로 만들기
         { 'keys': 'ctrl+home', 'command': 'editor.selectFirstComponent();' }, //첫번째 컴포넌트 선택
         { 'keys': 'ctrl+end', 'command': 'editor.selectLastComponent();' },   //마지막 컴포넌트 선택
+        { 'keys': 'up', 'command': 'editor.selectUpComponent();' },           //바로위 컴포넌트 선택
+        { 'keys': 'down', 'command': 'editor.selectDownComponent();' },       //바로위 컴포넌트 선택
         { 'keys': 'alt+e', 'command': 'editor.selectComponentProperties();' } //컴포넌트 세부 속성 편집: 제일 처음으로 이동
     ];
 
@@ -392,13 +394,14 @@
      * @param {String} elemId 선택한 element Id
      */
     function copyComponent(elemId) {
-        let elem = document.getElementById(elemId);
+        let copyElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(copyElemId);
         if (elem === null) { return; }
 
         //복사
         let elemIdx = Number(elem.getAttribute('data-index')) + 1;
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (elemId === editor.data.components[i].id) {
+            if (copyElemId === editor.data.components[i].id) {
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
                 copyData.id = workflowUtil.generateUUID();
                 let comp = component.draw(copyData.type, formPanel, copyData);
@@ -423,14 +426,15 @@
      * @param {String} elemId 선택한 element Id
      */
     function deleteComponent(elemId) {
-        let elem = document.getElementById(elemId);
+        let delElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(delElemId);
         if (elem === null) { return; }
 
         let histories = [];
         //삭제
         elem.remove();
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (elemId === editor.data.components[i].id) {
+            if (delElemId === editor.data.components[i].id) {
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
@@ -443,11 +447,87 @@
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
+        } else {
+            showFormProperties();
         }
         //재정렬
         reorderComponent();
         // 이력저장
         history.saveHistory(histories);
+    }
+    /**
+     * 첫번째 컴포넌트 선택
+     */
+    function selectFirstComponent() {
+        let firstComponent = formPanel.firstElementChild;
+        if (firstComponent.getAttribute('data-type') === defaultComponent) {
+            firstComponent.querySelector('[contenteditable=true]').focus();
+        }
+        formPanel.scrollTop = 0;
+        showComponentProperties(firstComponent.id);
+    }
+
+    /**
+     * 마지막 컴포넌트 선택 : 컴포넌트가 1개 밖에 없을 경우 첫번째 컴포넌트 선택됨
+     */
+    function selectLastComponent() {
+        let lastComponent = formPanel.lastElementChild;
+        if (lastComponent.getAttribute('data-type') === defaultComponent) {
+            lastComponent.querySelector('[contenteditable=true]').focus();
+        }
+        formPanel.scrollTop = formPanel.scrollHeight;
+        showComponentProperties(lastComponent.id);
+    }
+
+    /**
+     * 바로 위 컴포넌트 선택
+     */
+    function selectUpComponent() {
+        if (document.getElementById('context-menu').classList.contains('on')) { return false; }
+        if (selectedComponentId === '') { return false; }
+
+        let selectedElem = document.getElementById(selectedComponentId);
+        if (selectedElem !== null) {
+            let previousElem = selectedElem.previousElementSibling;
+            if (previousElem === null && selectedElem.getAttribute('data-index') === '1') {
+                formPanel.scrollTop = formPanel.scrollHeight;
+                previousElem = formPanel.lastElementChild;
+            }
+            if (previousElem.getAttribute('data-type') === defaultComponent) {
+                previousElem.querySelector('[contenteditable=true]').focus();
+            }
+            showComponentProperties(previousElem.id);
+        }
+    }
+
+    /**
+     * 바로 아래 컴포넌트 선택
+     */
+    function selectDownComponent() {
+        if (document.getElementById('context-menu').classList.contains('on')) { return false; }
+        if (selectedComponentId === '') { return false; }
+
+        let selectedElem = document.getElementById(selectedComponentId);
+        if (selectedElem !== null) {
+            let nextElem = selectedElem.nextElementSibling;
+            if (nextElem === null && Number(selectedElem.getAttribute('data-index')) === component.getLastIndex()) {
+                formPanel.scrollTop = 0;
+                nextElem = formPanel.firstElementChild;
+            }
+            if (nextElem.getAttribute('data-type') === defaultComponent) {
+                nextElem.querySelector('[contenteditable=true]').focus();
+            }
+            showComponentProperties(nextElem.id);
+        }
+    }
+
+    /**
+     * 컴포넌트 세부 속성 편집: 제일 처음으로 이동
+     */
+    function selectComponentProperties() {
+        if (selectedComponentId === '') { return false; }
+
+        propertiesPanel.getElementsByTagName('input')[0].focus();
     }
 
     /**
@@ -455,7 +535,8 @@
      * @param {String} elemId 선택한 element Id
      */
     function addEditboxUp(elemId) {
-        let elem = document.getElementById(elemId);
+        let addElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
         let editbox = component.draw(defaultComponent, formPanel);
@@ -478,7 +559,8 @@
      * @param {Function} callbackFunc callback function
      */
     function addEditboxDown(elemId, callbackFunc) {
-        let elem = document.getElementById(elemId);
+        let addElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
         let editbox = null;
@@ -1488,6 +1570,8 @@
     exports.deleteComponent = deleteComponent;
     exports.selectFirstComponent = selectFirstComponent;
     exports.selectLastComponent = selectLastComponent;
+    exports.selectUpComponent = selectUpComponent;
+    exports.selectDownComponent = selectDownComponent;
     exports.reorderComponent = reorderComponent;
     exports.addEditboxUp = addEditboxUp;
     exports.addEditboxDown = addEditboxDown;
