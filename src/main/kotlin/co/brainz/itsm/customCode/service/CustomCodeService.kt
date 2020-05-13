@@ -1,5 +1,6 @@
 package co.brainz.itsm.customCode.service
 
+import co.brainz.itsm.component.service.ComponentService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
@@ -14,13 +15,12 @@ import co.brainz.itsm.customCode.mapper.CustomCodeTableMapper
 import co.brainz.itsm.customCode.repository.CustomCodeColumnRepository
 import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeTableRepository
-import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.repository.UserRepository
-import com.fasterxml.jackson.databind.ObjectMapper
+import javax.persistence.Column
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
-import javax.persistence.Column
+import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class CustomCodeService(
@@ -29,7 +29,7 @@ class CustomCodeService(
     private val customCodeColumnRepository: CustomCodeColumnRepository,
     private val roleRepository: RoleRepository,
     private val userRepository: UserRepository,
-    private val formService: FormService
+    private val componentService: ComponentService
 ) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
@@ -121,15 +121,10 @@ class CustomCodeService(
      * @return List<String>
      */
     fun getUsedCustomCodeIdList(): List<String> {
-        val usedCustomCodeIdList = mutableListOf<String>()
-        val formComponentDataList = formService.getFormComponentDataList(CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE)
-        for (formComponentData in formComponentDataList) {
-            if (formComponentData.attributeId == CustomCodeConstants.ATTRIBUTE_ID_DISPLAY) {
-                val map = ObjectMapper().readValue(formComponentData.attributeValue, MutableMap::class.java)
-                map[CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE]?.let { usedCustomCodeIdList.add(it.toString()) }
-            }
-        }
-        return usedCustomCodeIdList
+        val parameters = LinkedMultiValueMap<String, String>()
+        parameters["componentType"] = CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE
+        parameters["componentAttribute"] = CustomCodeConstants.ATTRIBUTE_ID_DISPLAY
+        return componentService.getComponentDataCustomCodeIds(parameters)
     }
 
     /**

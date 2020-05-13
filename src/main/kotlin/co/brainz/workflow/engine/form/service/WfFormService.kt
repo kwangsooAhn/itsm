@@ -306,28 +306,4 @@ class WfFormService(
         return formDto
     }
 
-    /**
-     * Get Component Data.
-     *
-     * @param componentType
-     * @return List<RestTemplateFormComponentDataDto>
-     */
-    fun getFormComponentData(componentType: String): List<RestTemplateFormComponentDataDto> {
-        val componentDataList = mutableListOf<RestTemplateFormComponentDataDto>()
-        val componentDataEntityList = if (componentType == "") {
-            wfComponentDataRepository.findAll()
-        } else {
-            wfComponentDataRepository.findByComponentDataList(componentType)
-        }
-        for (componentDataEntity in componentDataEntityList) {
-            componentDataList.add(
-                RestTemplateFormComponentDataDto(
-                    componentId = componentDataEntity.componentId,
-                    attributeId = componentDataEntity.attributeId,
-                    attributeValue = componentDataEntity.attributeValue
-                )
-            )
-        }
-        return componentDataList
-    }
 }

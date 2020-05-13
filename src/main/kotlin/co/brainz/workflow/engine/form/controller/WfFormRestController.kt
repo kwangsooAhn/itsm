@@ -76,8 +76,4 @@ class WfFormRestController(private val wfEngine: WfEngine) {
         return wfEngine.form().deleteForm(formId)
     }
 
-    @GetMapping("/components")
-    fun getFormComponentData(request: HttpServletRequest): List<RestTemplateFormComponentDataDto> {
-        return wfEngine.form().getFormComponentData(request.getParameter("componentType") ?: "")
-    }
 }
