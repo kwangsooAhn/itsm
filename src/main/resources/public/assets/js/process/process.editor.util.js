@@ -289,7 +289,7 @@
         const nameLabel = document.createElement('label');
         nameLabel.className = 'gmodal-input-label';
         nameLabel.htmlFor = 'process_name';
-        nameLabel.textContent = 'Name';
+        nameLabel.textContent = i18n.get('process.label.name');
         nameContent.appendChild(nameLabel);
         const nameTextObject = document.createElement('input');
         nameTextObject.className = 'gmodal-input';
@@ -302,7 +302,7 @@
         const descLabel = document.createElement('label');
         descLabel.className = 'gmodal-input-label';
         descLabel.htmlFor = 'process_description';
-        descLabel.textContent = 'Description';
+        descLabel.textContent = i18n.get('process.label.description');
         descContent.appendChild(descLabel);
         const descTextareaObject = document.createElement('textarea');
         descTextareaObject.className = 'gmodal-input';
@@ -366,18 +366,18 @@
         };
 
         const saveAsModal = new gModal({
-            title: 'Save As Process',
+            title: i18n.get('common.btn.saveAs'),
             body: createDialogContent(),
             buttons: [
                 {
-                    content: 'Cancle',
+                    content: i18n.get('common.btn.cancel'),
                     classes: 'gmodal-button-red',
                     bindKey: false, /* no key! */
                     callback: function(modal) {
                         modal.hide();
                     }
                 }, {
-                    content: 'Save As',
+                    content: i18n.get('common.btn.save'),
                     classes: 'gmodal-button-green',
                     bindKey: false, /* no key! */
                     callback: function(modal) {

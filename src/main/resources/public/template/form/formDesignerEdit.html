@@ -9,6 +9,7 @@
     <meta http-equiv="pragma" content="no-cache"/>
     <th:block layout:fragment="css">
     <link th:href="@{/assets/css/form.editor.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
     </th:block>
 </head>
 <body>
@@ -20,7 +21,7 @@
             <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
             <label th:text="#{common.btn.save}"></label>
         </a>
-        <a th:if="${isView}" href="javascript:void(0);" onclick="editor.saveAs();">
+        <a href="javascript:void(0);" onclick="editor.saveAs();">
             <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
             <label th:text="#{common.btn.saveAs}"></label>
         </a>
@@ -37,7 +38,7 @@
             <img th:src="@{/assets/media/icons/form/topmenu/import.png}"/>
             <label th:text="#{form.label.import}"></label>
         </a>
-        <a href="javascript:void(0);" onclick="editor.exportForm();">
+        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.exportForm();">
             <img th:src="@{/assets/media/icons/form/topmenu/export.png}"/>
             <label th:text="#{form.label.export}"></label>
         </a>
@@ -138,6 +139,7 @@
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/process/workflow.util.js}"></script>
     <script th:src="@{/assets/js/util/shortcut.js}"></script>
+    <script th:src="@{/assets/vendors/gModal/js/gModal.min.js}"></script>
     <script th:src="@{/assets/js/form/form.editor.menu.js}"></script>
     <script th:src="@{/assets/js/form/form.editor.js}"></script>
     <script type="text/javascript">

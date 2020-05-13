@@ -207,31 +207,105 @@
     }
 
     /**
+     * 다른 이름으로 저장 content.
+     *
+     * @return {string} content html
+     */
+    function createDialogContent() {
+        return `
+                <div>
+                    <div>
+                        <label class="gmodal-input-label" for="form_name">${i18n.get('form.label.name')}<span class="required">*</span></label>
+                        <input class="gmodal-input" id="form_name">
+                    </div>
+                    <div>
+                        <label class="gmodal-input-label" for="process_description">${i18n.get('form.label.description')}</label>
+                        <textarea class="gmodal-input" rows="3" id="form_description"></textarea>
+                    </div>
+                    <div class="gmodal-required">${i18n.get('common.msg.requiredEnter')}</div>
+                </div>
+                `
+    }
+
+    /**
      * 다른 이름으로 저장.
      */
     function saveAsForm() {
-        data = JSON.parse(JSON.stringify(editor.data));
-        let lastCompIndex = component.getLastIndex();
-        data.components = data.components.filter(function(comp) {
-            return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
-        });
 
-        aliceJs.sendXhr({
-            method: 'POST',
-            url: '/rest/forms' + '?saveType=saveas',
-            callbackFunc: function(xhr) {
-                if (xhr.responseText !== '') {
-                    aliceJs.alert(i18n.get('common.msg.save'), function() {
-                        opener.location.reload();
-                        location.href = '/forms/' + xhr.responseText + '/edit';
-                    });
-                } else {
-                    aliceJs.alert(i18n.get('common.label.fail'));
+        /**
+         * 필수체크.
+         *
+         * @return {boolean} 체크성공여부
+         */
+        const checkRequired = function() {
+            let nameLabelElem = document.getElementById('form_name');
+            if (nameLabelElem.value.trim() === '') {
+                nameLabelElem.style.backgroundColor = '#ff000040';
+                document.querySelector('.gmodal-required').style.display = 'block';
+                return false;
+            }
+            nameLabelElem.style.backgroundColor = '';
+            document.querySelector('.gmodal-required').style.display = 'none';
+            return true;
+        };
+
+        /**
+         *  저장처리.
+         */
+        const saveAs = function() {
+            data = JSON.parse(JSON.stringify(editor.data));
+            let lastCompIndex = component.getLastIndex();
+            data.components = data.components.filter(function (comp) {
+                return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
+            });
+            data.form.name = document.getElementById('form_name').value;
+            data.form.desc = document.getElementById('form_description').value;
+            aliceJs.sendXhr({
+                method: 'POST',
+                url: '/rest/forms' + '?saveType=saveas',
+                callbackFunc: function (xhr) {
+                    if (xhr.responseText !== '') {
+                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                            opener.location.reload();
+                            location.href = '/forms/' + xhr.responseText + '/edit';
+                        });
+                    } else {
+                        aliceJs.alert(i18n.get('common.label.fail'));
+                    }
+                },
+                contentType: 'application/json; charset=utf-8',
+                params: JSON.stringify(data)
+            });
+        };
+
+        const saveAsModal = new gModal({
+            title: i18n.get('common.btn.saveAs'),
+            body: createDialogContent(),
+            buttons: [
+                {
+                    content: i18n.get('common.btn.cancel'),
+                    classes: 'gmodal-button-red',
+                    bindKey: false, /* no key! */
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }, {
+                    content: i18n.get('common.btn.save'),
+                    classes: 'gmodal-button-green',
+                    bindKey: false, /* no key! */
+                    callback: function(modal) {
+                        if (checkRequired()) {
+                            saveAs();
+                            modal.hide();
+                        }
+                    }
                 }
-            },
-            contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(data)
+            ],
+            close: {
+                closable: false,
+            }
         });
+        saveAsModal.show();
     }
 
     /**
@@ -1504,7 +1578,6 @@
      */
     function drawForm(data) {
         editor.data = JSON.parse(data);
-
         if (editor.data.components.length > 0) {
             if (editor.data.components.length > 2) {
                 editor.data.components.sort(function (a, b) { //컴포넌트 재정렬

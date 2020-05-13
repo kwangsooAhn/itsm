@@ -62,7 +62,7 @@
             
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/forms/' + formId + '/edit', 'formDesigner', 'width=' + _width + ',height=' + _height + ','+ specs);
+            window.open('/forms/' + formId + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
         function openFormDesignerView(formId) {
@@ -74,7 +74,7 @@
 
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/forms/' + formId + '/view', 'formDesigner', 'width=' + _width + ',height=' + _height + ','+ specs);
+            window.open('/forms/' + formId + '/view', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
     
         //REST API
