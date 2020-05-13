@@ -33,7 +33,7 @@
 
         // Related Document List Search
         function getTokenRelatedDocList(search, showProgressbar) {
-            restSubmit('get', '/tokens/[[${tokenId}]]/view-pop/list?search=' + search.trim(), function(result) {
+            restSubmit('get', '/tokens/view-pop/list?search=' + search.trim(), function(result) {
                 document.getElementById('tokenRelatedDocList').innerHTML = result;
             }, showProgressbar);
         }
@@ -51,9 +51,26 @@
             aliceJs.sendXhr(opt);
         }
 
-        // 부모창으로 값 넘기기
         function setParentText() {
-            alert("test");
+            var str = "";
+            var checked = document.querySelectorAll('input[name=chk]:checked');
+            var documentName = document.getElementsByName('documentName');
+            var instanceStartDt = document.getElementsByName('instanceStartDt');
+            var instanceEndDt = document.getElementsByName('instanceEndDt');
+            var instanceCreateUserKey = document.getElementsByName('instanceCreateUserKey');
+
+            for (var i = 0; i<checked.length; i++) {
+                var index = parseInt(checked[i].id);
+
+                str += documentName.item(index).innerHTML + ";";
+                str += instanceStartDt.item(index).innerHTML + ";";
+                str += instanceEndDt.item(index).innerHTML + ";";
+                str += instanceCreateUserKey.item(index).innerHTML + ";";
+                str += checked[i].value + "|";
+            }
+
+            opener.parent.scriberSet(str);
+            self.close();
         }
         /*]]>*/
     </script>

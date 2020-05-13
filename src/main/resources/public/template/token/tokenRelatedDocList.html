@@ -23,16 +23,16 @@
     </tr>
     </thead>
     <tbody id="relatedInstance">
-    <tr th:each="rInstance : ${relatedInstance}">
+    <tr th:each="rInstance, index : ${relatedInstance}">
         <td>
-            <input type="checkbox" th:id="${rInstance.instanceId}" th:name="${rInstance.instanceId}" th:value="${rInstance.instanceId}">
+            <input type="checkbox" th:id="${index.index}" th:name="chk" th:value="${rInstance.instanceId}">
         </td>
-        <td th:text="${rInstance.documentName}"></td>
-        <td th:with="dateformat=${#authentication.details.timeFormat}"
+        <td th:id="documentName" th:name="documentName" th:text="${rInstance.documentName}"></td>
+        <td th:id="instanceStartDt" th:name="instanceStartDt" th:with="dateformat=${#authentication.details.timeFormat}"
             th:text="${#temporals.format(rInstance.instanceStartDt, dateformat)}"></td>
-        <td th:with="dateformat=${#authentication.details.timeFormat}"
+        <td th:id="instanceEndDt" th:name="instanceEndDt" th:with="dateformat=${#authentication.details.timeFormat}"
             th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
-        <td th:text="${rInstance.instanceCreateUserKey}"></td>
+        <td th:id="instanceCreateUserKey" th:name="instanceCreateUserKey" th:text="${rInstance.instanceCreateUserKey}"></td>
     </tr>
     </tbody>
 </table>

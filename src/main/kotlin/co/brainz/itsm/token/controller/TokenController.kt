@@ -74,7 +74,7 @@ class TokenController(
     fun getDocumentEdit(@PathVariable tokenId: String, model: Model): String {
         model.addAttribute("tokenId", tokenId)
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
-        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId, null))
+        model.addAttribute("relatedInstance", folderService.getInstance(tokenId, null))
         val instanceId = instanceService.getInstanceId(tokenId)!!
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
@@ -94,20 +94,19 @@ class TokenController(
     /**
      * 관련문서 팝업 생성
      */
-    @GetMapping("/{tokenId}/view-pop")
-    fun getTokenPopUp(@PathVariable tokenId: String, model: Model): String {
-        model.addAttribute("tokenId", tokenId)
+    @GetMapping("/view-pop")
+    fun getTokenPopUp(): String {
         return tokenPopUpPage
     }
 
     /**
      * 관련문서 팝업 문서 리스트 출력
      */
-    @GetMapping("/{tokenId}/view-pop/list")
-    fun getTokenRelatedDocList(@PathVariable tokenId: String, request: HttpServletRequest, model: Model): String {
+    @GetMapping("/view-pop/list")
+    fun getTokenRelatedDocList(request: HttpServletRequest, model: Model): String {
         val searchValue = request.getParameter("search") ?: ""
 
-        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId, searchValue))
+        model.addAttribute("relatedInstance", folderService.getInstance(null ,searchValue))
         return tokenRelatedDocList
     }
 }

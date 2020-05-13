@@ -15,14 +15,20 @@ import org.springframework.util.LinkedMultiValueMap
 class FolderService(private val restTemplate: RestTemplateProvider) {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun getRelatedInstance(tokenId: String, searchValue: String?): List<RestTemplateRelatedInstanceDto>? {
+    fun getInstance(tokenId: String?, searchValue: String?): List<RestTemplateRelatedInstanceDto>? {
         var relatedInstance: MutableList<RestTemplateRelatedInstanceDto>? = null
         val params = LinkedMultiValueMap<String, String>()
         params["tokenId"] = tokenId
         params["searchValue"] = searchValue
 
-        val urlDto =
-            RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_RELATED_INSTANCE.url, parameters = params)
+        val urlDto = when (tokenId) {
+            null -> {
+                RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_ALL_INSTANCE.url, parameters = params)
+            }
+            else -> {
+                RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_RELATED_INSTANCE.url, parameters = params)
+            }
+        }
         val responseBody = restTemplate.get(urlDto)
 
         relatedInstance = mapper.readValue(
