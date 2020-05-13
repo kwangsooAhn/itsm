@@ -29,7 +29,7 @@
         Object.assign(options.sessionInfo, JSON.parse(userInfo));
         //사용자 정보에 따라 날짜 및 시간 포맷 추출.
         options.lang = options.sessionInfo.lang;
-        options.dateTimeFormat = options.sessionInfo.timeFormat
+        options.dateTimeFormat = options.sessionInfo.timeFormat;
         let formatArr = options.sessionInfo.timeFormat.split(' ');
         options.dateFormat = formatArr[0].toUpperCase();
         if (formatArr.length === 3) {
