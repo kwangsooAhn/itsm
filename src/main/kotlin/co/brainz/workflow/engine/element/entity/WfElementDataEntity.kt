@@ -28,7 +28,10 @@ data class WfElementDataEntity(
     var attributeValue: String = "",
 
     @Column(name = "attribute_order")
-    var attributeOrder: Int? = 0
+    var attributeOrder: Int? = 0,
+
+    @Column(name = "attribute_required")
+    var attributeRequired: Boolean = false
 
 ) : Serializable
 

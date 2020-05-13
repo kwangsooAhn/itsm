@@ -5,12 +5,14 @@ import co.brainz.workflow.engine.comment.repository.WfCommentRepository
 import co.brainz.workflow.engine.comment.service.WfCommentService
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
+import co.brainz.workflow.engine.component.service.WfComponentService
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.document.service.WfDocumentService
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
+import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
@@ -42,7 +44,8 @@ class WfEngine(
     private val wfTokenElementService: WfTokenElementService,
     private val wfCommentRepository: WfCommentRepository,
     private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
-    private val wfProcessSimulator: WfProcessSimulator
+    private val wfProcessSimulator: WfProcessSimulator,
+    private val wfElementService: WfElementService
 ) {
 
     /**
@@ -50,6 +53,13 @@ class WfEngine(
      */
     fun form(): WfFormService {
         return WfFormService(wfFormRepository, wfComponentRepository, wfComponentDataRepository)
+    }
+
+    /**
+     * component Engine.
+     */
+    fun component(): WfComponentService {
+        return WfComponentService(wfComponentRepository, wfComponentDataRepository)
     }
 
     /**
@@ -75,7 +85,8 @@ class WfEngine(
             wfComponentDataRepository,
             wfElementRepository,
             wfElementDataRepository,
-            aliceNumberingRuleRepository
+            aliceNumberingRuleRepository,
+            wfElementService
         )
     }
 

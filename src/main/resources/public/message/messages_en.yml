@@ -266,7 +266,7 @@ form:
     export: "Export"
     preview: "Preview"
     saveExist: "Save and Exist"
-    copy: "Copy"
+    copy: "Copy-Just below"
     addAbove: "Add above"
     addBelow: "Add below"
     customCodeTarget: "Target Select"

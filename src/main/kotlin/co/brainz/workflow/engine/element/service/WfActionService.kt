@@ -5,7 +5,7 @@ import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
-import co.brainz.workflow.engine.token.dto.WfActionDto
+import co.brainz.workflow.provider.dto.RestTemplateActionDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -27,22 +27,22 @@ class WfActionService(
      * Document Start Init Actions.
      *
      * @param processId
-     * @return MutableList<WfActionDto>
+     * @return MutableList<RestTemplateActionDto>
      */
-    fun actionInit(processId: String): MutableList<WfActionDto> {
+    fun actionInit(processId: String): MutableList<RestTemplateActionDto> {
         val startElement = wfElementService.getStartElement(processId)
         val startArrow = getArrowElements(startElement.elementId)[0]
         val registerElementId = getNextElementId(startArrow)
         return actions(registerElementId)
     }
 
-    fun actions(elementId: String): MutableList<WfActionDto> {
+    fun actions(elementId: String): MutableList<RestTemplateActionDto> {
         val currentElement = getElement(elementId)
         val arrow = getArrowElements(elementId)[0]
         val nextElementId = getNextElementId(arrow)
         val nextElement = getElement(nextElementId)
 
-        val actions: MutableList<WfActionDto> = mutableListOf()
+        val actions: MutableList<RestTemplateActionDto> = mutableListOf()
         actions.addAll(preActions())
         actions.addAll(typeActions(arrow, nextElement))
         actions.addAll(postActions(currentElement))
@@ -83,12 +83,12 @@ class WfActionService(
     /**
      * Pre Actions.
      *
-     * @return MutableList<WfActionDto>
+     * @return MutableList<RestTemplateActionDto>
      */
-    private fun preActions(): MutableList<WfActionDto> {
-        val preActions: MutableList<WfActionDto> = mutableListOf()
+    private fun preActions(): MutableList<RestTemplateActionDto> {
+        val preActions: MutableList<RestTemplateActionDto> = mutableListOf()
         // SAVE
-        preActions.add(WfActionDto(name = "저장", value = WfElementConstants.Action.SAVE.value))
+        preActions.add(RestTemplateActionDto(name = "저장", value = WfElementConstants.Action.SAVE.value))
         return preActions
     }
 
@@ -96,14 +96,14 @@ class WfActionService(
      * Post Actions.
      *
      * @param element
-     * @return MutableList<WfActionDto>
+     * @return MutableList<RestTemplateActionDto>
      */
-    private fun postActions(element: WfElementEntity): MutableList<WfActionDto> {
-        val postActions: MutableList<WfActionDto> = mutableListOf()
+    private fun postActions(element: WfElementEntity): MutableList<RestTemplateActionDto> {
+        val postActions: MutableList<RestTemplateActionDto> = mutableListOf()
         // REJECT: 현재 element 속성에 반려가 존재할 경우
         element.elementDataEntities.forEach {
             if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.isNotEmpty()) {
-                postActions.add(WfActionDto(name = "반려", value = WfElementConstants.Action.REJECT.value))
+                postActions.add(RestTemplateActionDto(name = "반려", value = WfElementConstants.Action.REJECT.value))
             }
         }
 
@@ -115,10 +115,10 @@ class WfActionService(
      *
      * @param arrow
      * @param nextElement
-     * @return MutableList<WfActionDto>
+     * @return MutableList<RestTemplateActionDto>
      */
-    private fun typeActions(arrow: WfElementEntity, nextElement: WfElementEntity): MutableList<WfActionDto> {
-        val typeActions: MutableList<WfActionDto> = mutableListOf()
+    private fun typeActions(arrow: WfElementEntity, nextElement: WfElementEntity): MutableList<RestTemplateActionDto> {
+        val typeActions: MutableList<RestTemplateActionDto> = mutableListOf()
         when (nextElement.elementType) {
             WfElementConstants.ElementType.USER_TASK.value -> {
                 typeActions.addAll(makeAction(arrow.elementDataEntities))
@@ -152,7 +152,7 @@ class WfActionService(
             }
         }
         if (typeActions.isEmpty()) {
-            typeActions.add(WfActionDto(name = "처리", value = WfElementConstants.Action.PROCESS.value))
+            typeActions.add(RestTemplateActionDto(name = "처리", value = WfElementConstants.Action.PROCESS.value))
         }
 
         return typeActions
@@ -162,10 +162,10 @@ class WfActionService(
      * Make Actions.
      *
      * @param dataEntities
-     * @return MutableList<WfActionDto>
+     * @return MutableList<RestTemplateActionDto>
      */
-    private fun makeAction(dataEntities: MutableList<WfElementDataEntity>): MutableList<WfActionDto> {
-        val actionList: MutableList<WfActionDto> = mutableListOf()
+    private fun makeAction(dataEntities: MutableList<WfElementDataEntity>): MutableList<RestTemplateActionDto> {
+        val actionList: MutableList<RestTemplateActionDto> = mutableListOf()
         var actionName = ""
         var actionValue = ""
         dataEntities.forEach {
@@ -177,7 +177,7 @@ class WfActionService(
             }
         }
         if (actionName.isNotEmpty() && actionValue.isNotEmpty()) {
-            actionList.add(WfActionDto(name = actionName, value = actionValue))
+            actionList.add(RestTemplateActionDto(name = actionName, value = actionValue))
         }
         return actionList
     }

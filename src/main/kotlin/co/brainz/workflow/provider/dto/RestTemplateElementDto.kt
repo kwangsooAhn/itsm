@@ -6,5 +6,6 @@ data class RestTemplateElementDto(
     var id: String = "",
     var type: String = "",
     var display: MutableMap<String, Any>? = null,
-    var data: MutableMap<String, Any>? = null
+    var data: MutableMap<String, Any>? = null,
+    var required: MutableList<String>? = null
 ) : Serializable
