@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.token.service
 
 import co.brainz.workflow.engine.document.constants.WfDocumentConstants
+import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.service.WfActionService
@@ -108,10 +109,28 @@ class WfTokenService(
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val componentEntities = tokenMstEntity.get().instance.document.form.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
-        val documentDataEntities = wfDocumentDataRepository.findByDocumentIdAndElementId(
-            tokenMstEntity.get().instance.document.documentId,
-            tokenMstEntity.get().element.elementId
-        )
+        var documentDataEntities: List<WfDocumentDataEntity> = mutableListOf()
+        when (tokenMstEntity.get().element.elementType) {
+            WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
+                val startArrow = wfActionService.getArrowElements(tokenMstEntity.get().element.elementId)[0]
+                val nextElementId = wfActionService.getNextElementId(startArrow)
+                when (wfActionService.getElement(nextElementId).elementType) {
+                    WfElementConstants.ElementType.USER_TASK.value -> {
+                        documentDataEntities =
+                            wfDocumentDataRepository.findByDocumentIdAndElementId(
+                                tokenMstEntity.get().instance.document.documentId,
+                                nextElementId
+                            )
+                    }
+                }
+            }
+            else -> {
+                documentDataEntities = wfDocumentDataRepository.findByDocumentIdAndElementId(
+                    tokenMstEntity.get().instance.document.documentId,
+                    tokenMstEntity.get().element.elementId
+                )
+            }
+        }
 
         val componentList: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         if (componentEntities != null) {
@@ -125,12 +144,7 @@ class WfTokenService(
                         values.add(valueMap)
                     }
                 }
-                var displayType = when (tokenMstEntity.get().element.elementType) {
-                    WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
-                        WfDocumentConstants.DisplayType.EDITABLE.value
-                    }
-                    else -> WfDocumentConstants.DisplayType.READONLY.value
-                }
+                var displayType = WfDocumentConstants.DisplayType.READONLY.value
                 for (documentDataEntity in documentDataEntities) {
                     if (documentDataEntity.componentId == componentEntity.componentId) {
                         displayType = documentDataEntity.display
