@@ -43,6 +43,25 @@
             }
         }
     };
+    const shortcuts = [
+        { 'keys': 'ctrl+s', 'command': 'editor.save(false);' },               //폼 양식 저장
+        { 'keys': 'ctrl+alt+s', 'command': 'editor.saveAs();' },              //폼 양식 다른이름으로 저장
+        { 'keys': 'ctrl+z', 'command': 'editor.undo();' },                    //폼 편집 화면 작업 취소'
+        { 'keys': 'ctrl+y', 'command': 'editor.redo();' },                    //폼 편집 화면 작업 재실행
+        { 'keys': 'ctrl+i', 'command': 'editor.importForm();' },              //폼 양식 가져오기
+        { 'keys': 'ctrl+e', 'command': 'editor.exportForm();' },              //폼 양식 내보내기
+        { 'keys': 'ctrl+p', 'command': 'editor.preview();' },                 //폼 양식 미리보기
+        { 'keys': 'ctrl+q', 'command': 'editor.save(true);' },                //폼 양식 저장하고 나가기
+        { 'keys': 'insert', 'command': 'editor.copyComponent();' },           //컴포넌트를 복사하여 바로 아래 추가
+        { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();' },  //컴포넌트 삭제
+        { 'keys': 'ctrl+pageup', 'command': 'editor.addEditboxUp();' },       //위에 컴포넌트 새로 만들기
+        { 'keys': 'ctrl+pagedown', 'command': 'editor.addEditboxDown();' },   //아래 컴포넌트 새로 만들기
+        { 'keys': 'ctrl+home', 'command': 'editor.selectFirstComponent();' }, //첫번째 컴포넌트 선택
+        { 'keys': 'ctrl+end', 'command': 'editor.selectLastComponent();' },   //마지막 컴포넌트 선택
+        { 'keys': 'up', 'command': 'editor.selectUpComponent();' },           //바로위 컴포넌트 선택
+        { 'keys': 'down', 'command': 'editor.selectDownComponent();' },       //바로위 컴포넌트 선택
+        { 'keys': 'alt+e', 'command': 'editor.selectProperties();' }          //세부 속성 편집: 제일 처음으로 이동
+    ];
 
     let isEdited = false;
     window.addEventListener('beforeunload', function (event) {
@@ -50,6 +69,7 @@
             event.returnValue = '';
         }
     });
+
     let data = {};                 //저장용 데이터
     let savedData = {};
 
@@ -151,8 +171,10 @@
 
     /**
      * 폼 저장
+     *
+     * @param {String} flag 저장후  닫을지 여부
      */
-    function saveForm() {
+    function saveForm(flag) {
         data = JSON.parse(JSON.stringify(editor.data));
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) {
@@ -167,7 +189,14 @@
                     isEdited = false;
                     savedData = JSON.parse(JSON.stringify(editor.data));
                     changeFormName();
-                    aliceJs.alert(i18n.get('common.msg.save'));
+                    if (flag) {
+                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                            opener.location.reload();
+                            window.close();
+                        });
+                    } else {
+                        aliceJs.alert(i18n.get('common.msg.save'));
+                    }
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
                 }
@@ -365,13 +394,14 @@
      * @param {String} elemId 선택한 element Id
      */
     function copyComponent(elemId) {
-        let elem = document.getElementById(elemId);
+        let copyElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(copyElemId);
         if (elem === null) { return; }
 
         //복사
         let elemIdx = Number(elem.getAttribute('data-index')) + 1;
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (elemId === editor.data.components[i].id) {
+            if (copyElemId === editor.data.components[i].id) {
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
                 copyData.id = workflowUtil.generateUUID();
                 let comp = component.draw(copyData.type, formPanel, copyData);
@@ -396,14 +426,27 @@
      * @param {String} elemId 선택한 element Id
      */
     function deleteComponent(elemId) {
-        let elem = document.getElementById(elemId);
+        let delElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(delElemId);
         if (elem === null) { return; }
 
+        //삭제 후 다음 컴포넌트에 focus가 가며, 이전 컴포넌트로 포커스가 이동한다. 첫번째 컴포넌트일 경우 바로 아래 컴포넌트로 focus가 간다.
+        let previousSelectedElem = elem.previousElementSibling;
+        if (previousSelectedElem === null && elem.getAttribute('data-index') === '1') {
+            previousSelectedElem = elem.nextElementSibling;
+        }
+
+        //editbox 컴포넌트 1개만 존재할 경우 삭제 로직을 타지 않는다.
+        if (document.querySelectorAll('.component').length === 1 &&
+                elem.getAttribute('data-type') === defaultComponent) { return false; }
+
+
         let histories = [];
-        //삭제
+        //컴포넌트 삭제
         elem.remove();
+        selectedComponentId = '';
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (elemId === editor.data.components[i].id) {
+            if (delElemId === editor.data.components[i].id) {
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
@@ -416,11 +459,90 @@
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             showComponentProperties(editbox.id);
+        } else {
+            if (previousSelectedElem.getAttribute('data-type') === defaultComponent) {
+                previousSelectedElem.querySelector('[contenteditable=true]').focus();
+            }
+            showComponentProperties(previousSelectedElem.id);
         }
         //재정렬
         reorderComponent();
         // 이력저장
         history.saveHistory(histories);
+    }
+    /**
+     * 첫번째 컴포넌트 선택
+     */
+    function selectFirstComponent() {
+        let firstComponent = formPanel.firstElementChild;
+        if (firstComponent.getAttribute('data-type') === defaultComponent) {
+            firstComponent.querySelector('[contenteditable=true]').focus();
+        }
+        formPanel.scrollTop = 0;
+        showComponentProperties(firstComponent.id);
+    }
+
+    /**
+     * 마지막 컴포넌트 선택 : 컴포넌트가 1개 밖에 없을 경우 첫번째 컴포넌트 선택됨
+     */
+    function selectLastComponent() {
+        let lastComponent = formPanel.lastElementChild;
+        if (lastComponent.getAttribute('data-type') === defaultComponent) {
+            lastComponent.querySelector('[contenteditable=true]').focus();
+        }
+        formPanel.scrollTop = formPanel.scrollHeight;
+        showComponentProperties(lastComponent.id);
+    }
+
+    /**
+     * 바로 위 컴포넌트 선택
+     */
+    function selectUpComponent() {
+        if (document.getElementById('context-menu').classList.contains('on')) { return false; }
+        if (selectedComponentId === '') { return false; }
+
+        let selectedElem = document.getElementById(selectedComponentId);
+        if (selectedElem !== null) {
+            let previousElem = selectedElem.previousElementSibling;
+            if (previousElem === null && selectedElem.getAttribute('data-index') === '1') {
+                formPanel.scrollTop = formPanel.scrollHeight;
+                previousElem = formPanel.lastElementChild;
+            }
+            if (previousElem.getAttribute('data-type') === defaultComponent) {
+                previousElem.querySelector('[contenteditable=true]').focus();
+            }
+            showComponentProperties(previousElem.id);
+        }
+    }
+
+    /**
+     * 바로 아래 컴포넌트 선택
+     */
+    function selectDownComponent() {
+        if (document.getElementById('context-menu').classList.contains('on')) { return false; }
+        if (selectedComponentId === '') { return false; }
+
+        let selectedElem = document.getElementById(selectedComponentId);
+        if (selectedElem !== null) {
+            let nextElem = selectedElem.nextElementSibling;
+            if (nextElem === null && Number(selectedElem.getAttribute('data-index')) === component.getLastIndex()) {
+                formPanel.scrollTop = 0;
+                nextElem = formPanel.firstElementChild;
+            }
+            if (nextElem.getAttribute('data-type') === defaultComponent) {
+                nextElem.querySelector('[contenteditable=true]').focus();
+            }
+            showComponentProperties(nextElem.id);
+        }
+    }
+
+    /**
+     * 세부 속성 편집: 제일 처음으로 이동
+     */
+    function selectProperties() {
+        if (propertiesPanel.getElementsByTagName('input')[0] === null) { return false; }
+
+        propertiesPanel.getElementsByTagName('input')[0].focus();
     }
 
     /**
@@ -428,7 +550,8 @@
      * @param {String} elemId 선택한 element Id
      */
     function addEditboxUp(elemId) {
-        let elem = document.getElementById(elemId);
+        let addElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
         let editbox = component.draw(defaultComponent, formPanel);
@@ -451,7 +574,8 @@
      * @param {Function} callbackFunc callback function
      */
     function addEditboxDown(elemId, callbackFunc) {
-        let elem = document.getElementById(elemId);
+        let addElemId = elemId || selectedComponentId;
+        let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
         let editbox = null;
@@ -565,11 +689,23 @@
         propertiesPanel.innerHTML = '';
         
         if (selectedComponentId !== '') { //기존 선택된 컴포넌트 css 삭제
-            document.getElementById(selectedComponentId).classList.remove('selected');
+            if (document.getElementById(selectedComponentId).classList.contains('selected')) {
+                document.getElementById(selectedComponentId).classList.remove('selected');
+            }
         }
-        
-        selectedComponentId = id; 
-        document.getElementById(id).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
+
+        selectedComponentId = id;
+        let selectedComponentElem = document.getElementById(id);
+        if (selectedComponentElem === null) { return false; }
+
+        //현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
+        if (selectedComponentElem.getAttribute('data-type') === defaultComponent) {
+            showFormProperties(selectedComponentId);
+            return false;
+        }
+
+        selectedComponentElem.classList.add('selected'); //현재 선택된 컴포넌트 css 추가
+
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
         
@@ -1267,16 +1403,24 @@
     }
     /**
      * 우측 properties panel에 폼 세부 속성 출력한다.
+     *
+     * @param {String} elemId 선택한 element Id
      */
-    function showFormProperties() {
+    function showFormProperties(elemId) {
         propertiesPanel.innerHTML = '';
 
         //기존 선택된 컴포넌트 css 삭제
         document.querySelectorAll('.component').forEach(function(comp) {
             comp.classList.remove('selected');
         });
-        selectedComponentId = '';
-        
+
+        if (typeof elemId !== 'undefined' && elemId !== '') {
+            if (!document.getElementById(elemId).classList.contains('selected')) {
+                document.getElementById(elemId).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
+            }
+        } else {
+            selectedComponentId = '';
+        }
         let formAttr = editor.data.form;
         let detailAttr = formProperties.form;
 
@@ -1290,7 +1434,7 @@
         });
 
         let formOriginAttr = JSON.parse(JSON.stringify(formAttr));
-        
+
         //폼 속성 출력
         let groupDiv = document.createElement('div');
         groupDiv.setAttribute('id', 'form');
@@ -1390,6 +1534,9 @@
                 formProperties = JSON.parse(xhr.responseText);
                 //첫번째 컴포넌트 선택
                 const firstComponent = document.getElementById('panel-form').querySelectorAll('.component')[0];
+                if (firstComponent.getAttribute('data-type') === defaultComponent) {
+                    firstComponent.querySelector('[contenteditable=true]').focus();
+                }
                 showComponentProperties(firstComponent.id);
             },
             contentType: 'application/json; charset=utf-8'
@@ -1418,7 +1565,14 @@
         formPanel.setAttribute('data-readonly', true);
 
         propertiesPanel = document.getElementById('panel-properties');
+        //컨텍스트 메뉴 초기화
         context.init();
+
+        //단축키 초기화 및 등록
+        shortcut.init();
+        for (let i = 0; i < shortcuts.length; i++) {
+            shortcut.add(shortcuts[i].keys, shortcuts[i].command);
+        }
 
         //load custom-code list.
         aliceJs.sendXhr({
@@ -1447,11 +1601,16 @@
     exports.undo = undoForm;
     exports.redo = redoForm;
     exports.preview = previewForm;
-    exports.exportform = exportForm;
-    exports.importform = exportForm;
+    exports.exportForm = exportForm;
+    exports.importForm = exportForm;
     exports.addComponent = addComponent;
     exports.copyComponent = copyComponent;
     exports.deleteComponent = deleteComponent;
+    exports.selectFirstComponent = selectFirstComponent;
+    exports.selectLastComponent = selectLastComponent;
+    exports.selectUpComponent = selectUpComponent;
+    exports.selectDownComponent = selectDownComponent;
+    exports.reorderComponent = reorderComponent;
     exports.addEditboxUp = addEditboxUp;
     exports.addEditboxDown = addEditboxDown;
     exports.getComponentIndex = getComponentIndex;
@@ -1459,7 +1618,7 @@
     exports.showFormProperties = showFormProperties;
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
-    exports.reorderComponent = reorderComponent;
+    exports.selectProperties = selectProperties;
     exports.history = history;
 
     Object.defineProperty(exports, '__esModule', { value: true });
