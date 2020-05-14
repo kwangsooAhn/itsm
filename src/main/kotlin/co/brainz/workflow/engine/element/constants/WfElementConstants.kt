@@ -29,7 +29,8 @@ object WfElementConstants {
         // 예를 들어 TASK - user, manual, send task등 모두 포함하는 상위 개념이다
         TASK("atomicTask"),
         GATEWAY("atomicGateway"),
-        EVENT("atomicEvent")
+        EVENT("atomicEvent"),
+        ARTIFACT("atomicArtifact")
         ;
 
         // 엘리먼트 타입이 어떤 종류인지 해당 종류를 리턴한다.
@@ -41,6 +42,7 @@ object WfElementConstants {
                     COMMON_START_EVENT.value, COMMON_END_EVENT.value -> EVENT
                     ARROW_CONNECTOR.value -> ARROW_CONNECTOR
                     SUB_PROCESS.value -> SUB_PROCESS
+                    ANNOTATION_ARTIFACT.value, GROUP_ARTIFACT.value -> ARTIFACT
                     else -> null
                 }
             }
