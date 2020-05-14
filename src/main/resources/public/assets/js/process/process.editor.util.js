@@ -354,6 +354,7 @@
                     if (xhr.responseText !== '') {
                         aliceJs.alert(i18n.get('common.msg.save'), function() {
                             opener.location.reload();
+                            window.name = 'process_' + xhr.responseText + '_edit';
                             location.href = '/processes/' + xhr.responseText + '/edit';
                         });
                     } else {

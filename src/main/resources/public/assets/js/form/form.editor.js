@@ -269,6 +269,7 @@
                     if (xhr.responseText !== '') {
                         aliceJs.alert(i18n.get('common.msg.save'), function () {
                             opener.location.reload();
+                            window.name = 'form_' + xhr.responseText + '_edit';
                             location.href = '/forms/' + xhr.responseText + '/edit';
                         });
                     } else {

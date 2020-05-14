@@ -33,7 +33,7 @@
             <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
             <label th:text="#{form.label.redo}"></label>
         </a>
-        <span class="separator"></span>
+        <span th:if="${#strings.isEmpty(isView)}" class="separator"></span>
         <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.importForm();">
             <img th:src="@{/assets/media/icons/form/topmenu/import.png}"/>
             <label th:text="#{form.label.import}"></label>
