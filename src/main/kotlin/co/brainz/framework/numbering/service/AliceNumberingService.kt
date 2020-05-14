@@ -144,14 +144,16 @@ class AliceNumberingService(
         if (latestDate != null) {
             val initialInterval = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_INITIAL_INTERVAL.value]
                 ?: AliceNumberingConstants.DEFAULT_INITIAL_INTERVAL) as String
-            val formatPattern = when (initialInterval) {
-                AliceNumberingConstants.INTERVAL.DAY.value -> DateTimeFormatter.ofPattern("yyyyMMdd")
-                AliceNumberingConstants.INTERVAL.MONTH.value -> DateTimeFormatter.ofPattern("yyyyMM")
-                AliceNumberingConstants.INTERVAL.YEAR.value -> DateTimeFormatter.ofPattern("yyyy")
-                else -> DateTimeFormatter.ofPattern("yyyyMMdd")
-            }
-            if (currentDateTime.format(formatPattern) != latestDate.format(formatPattern)) {
-                latestSequenceValue = 0
+            if (initialInterval != AliceNumberingConstants.INTERVAL.NONE.value) {
+                val formatPattern = when (initialInterval) {
+                    AliceNumberingConstants.INTERVAL.DAY.value -> DateTimeFormatter.ofPattern("yyyyMMdd")
+                    AliceNumberingConstants.INTERVAL.MONTH.value -> DateTimeFormatter.ofPattern("yyyyMM")
+                    AliceNumberingConstants.INTERVAL.YEAR.value -> DateTimeFormatter.ofPattern("yyyy")
+                    else -> DateTimeFormatter.ofPattern("yyyyMMdd")
+                }
+                if (currentDateTime.format(formatPattern) != latestDate.format(formatPattern)) {
+                    latestSequenceValue = 0
+                }
             }
         }
 
