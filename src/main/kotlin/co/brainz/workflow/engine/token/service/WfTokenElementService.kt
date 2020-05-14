@@ -60,11 +60,19 @@ class WfTokenElementService(
         restTemplateTokenDto.elementId = startElement.elementId
         when (startElement.elementType) {
             WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
+                //Add commonStart token
                 restTemplateTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
+                val commonStartToken = wfTokenActionService.createToken(instance!!, restTemplateTokenDto)
+                restTemplateTokenDto.tokenId = commonStartToken.tokenId
+                //Add userTask token
+                val arrows = wfActionService.getArrowElements(commonStartToken.element.elementId)
+                val nextElementId = wfActionService.getNextElementId(arrows[0])
+                val nextElement = wfActionService.getElement(nextElementId)
+                val newTokenEntity = setNextTokenEntity(nextElement, commonStartToken)
+                val saveStartToken = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
+                restTemplateTokenDto.tokenId = saveStartToken.tokenId
             }
         }
-        val startToken = wfTokenActionService.createToken(instance!!, restTemplateTokenDto)
-        restTemplateTokenDto.tokenId = startToken.tokenId
         setTokenAction(restTemplateTokenDto)
     }
 

@@ -21,7 +21,6 @@ import java.util.UUID
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
-
 @Service
 class WfFormService(
     private val wfFormRepository: WfFormRepository,

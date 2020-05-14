@@ -287,6 +287,6 @@ class WfProcessService(
      * [processId] 에 해당하는 프로세스 시뮬레이션을 실행한다.
      */
     fun getProcessSimulation(processId: String): Boolean {
-        return wfProcessSimulator.getSimulation(processId)
+        return wfProcessSimulator.getProcessSimulation(processId)
     }
 }
