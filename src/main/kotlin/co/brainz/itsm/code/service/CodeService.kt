@@ -5,11 +5,12 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.mapper.CodeMapper
 import co.brainz.itsm.code.repository.CodeRepository
+import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
 @Service
-class CodeService(private val codeRepository: CodeRepository) {
+class CodeService(private val codeRepository: CodeRepository, private val customCodeRepository: CustomCodeRepository) {
 
     private val codeMapper: CodeMapper = Mappers.getMapper(CodeMapper::class.java)
 
@@ -35,7 +36,9 @@ class CodeService(private val codeRepository: CodeRepository) {
      * 코드 데이터 상세 정보 조회
      */
     fun getDetailCodes(code: String): CodeDetailDto {
-        return codeRepository.findCodeDetail(code)
+        val codeDetailDto = codeRepository.findCodeDetail(code)
+        codeDetailDto.enabled = !customCodeRepository.existsByPCode(codeDetailDto.code)
+        return codeDetailDto
     }
 
     /**

@@ -435,13 +435,22 @@ custom.code:
     targetTable: "대상 테이블명"
     searchColumn: "검색 컬럼명"
     valueColumn: "값 컬럼명"
+    type: "타입"
+    type.table: "테이블"
+    type.code: "코드"
+    condition: "조건"
+    pCode: "부모 코드"
   msg:
     inputCustomCodeName: "사용자 정의 코드명을 입력해주세요."
     inputTableTarget: "대상 테이블명을 입력해주세요."
     inputSearchColumn: "검색 컬럼명을 입력해주세요."
     inputValueColumn: "값 컬럼명을 입력해주세요."
+    inputPCode: "부모 코드를 입력해주세요."
+    addCondition: "{0}개 이하만 추가 가능합니다."
+    selectNotDuplicateSearchColumn: "조건 항목에 검색 컬럼을 중복 없이 선택해주세요."
     customCodeUsed: "사용 중인 사용자 정의 코드입니다."
     customCodeNameDuplication: "동일한 사용자 정의 코드명이 존재합니다."
+    pCodeNotExist: "존재하지 않는 코드입니다."
 
 # Dashboard
 dashboard:

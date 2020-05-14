@@ -1,5 +1,6 @@
 package co.brainz.itsm.customCode.service
 
+import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.component.service.ComponentService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
@@ -29,7 +30,8 @@ class CustomCodeService(
     private val customCodeColumnRepository: CustomCodeColumnRepository,
     private val roleRepository: RoleRepository,
     private val userRepository: UserRepository,
-    private val componentService: ComponentService
+    private val componentService: ComponentService,
+    private val codeRepository: CodeRepository
 ) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
@@ -68,18 +70,22 @@ class CustomCodeService(
     fun getCustomCode(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)
-        customCodeDto.targetTableName =
-            customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable).customCodeTableName
-        customCodeDto.searchColumnName = getCustomCodeColumnName(
-            customCodeDto.targetTable,
-            customCodeDto.searchColumn,
-            CustomCodeConstants.ColumnType.SEARCH.code
-        )
-        customCodeDto.valueColumnName = getCustomCodeColumnName(
-            customCodeDto.targetTable,
-            customCodeDto.valueColumn,
-            CustomCodeConstants.ColumnType.VALUE.code
-        )
+        when (customCodeDto.type) {
+            CustomCodeConstants.Type.TABLE.code -> {
+                customCodeDto.targetTableName =
+                    customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable!!).customCodeTableName
+                customCodeDto.searchColumnName = getCustomCodeColumnName(
+                    customCodeDto.targetTable!!,
+                    customCodeDto.searchColumn!!,
+                    CustomCodeConstants.ColumnType.SEARCH.code
+                )
+                customCodeDto.valueColumnName = getCustomCodeColumnName(
+                    customCodeDto.targetTable!!,
+                    customCodeDto.valueColumn!!,
+                    CustomCodeConstants.ColumnType.VALUE.code
+                )
+            }
+        }
         return customCodeDto
     }
 
@@ -146,8 +152,12 @@ class CustomCodeService(
      *
      * @return MutableList<CustomCodeColumnDto>
      */
-    fun getCustomCodeColumnList(): MutableList<CustomCodeColumnDto> {
-        val customCodeColumnEntityList = customCodeColumnRepository.findByOrderByCustomCodeColumnNameAsc()
+    fun getCustomCodeColumnList(targetTable: String? = null): MutableList<CustomCodeColumnDto> {
+        val customCodeColumnEntityList = if (targetTable == null) {
+            customCodeColumnRepository.findByOrderByCustomCodeColumnNameAsc()
+        } else {
+            customCodeColumnRepository.findByCustomCodeTable(targetTable)
+        }
         val customCodeColumnList = mutableListOf<CustomCodeColumnDto>()
         for (customCodeColumnEntity in customCodeColumnEntityList) {
             customCodeColumnList.add(customCodeColumnMapper.toCustomCodeColumnDto(customCodeColumnEntity))
@@ -190,8 +200,14 @@ class CustomCodeService(
                 isContinue = (customCodeDto.customCodeName != existCustomCode.customCodeName)
             }
         }
-        if (isContinue && customCodeRepository.existsByCustomCodeName(customCodeDto.customCodeName)) {
+        if (isContinue && customCodeRepository.existsByCustomCodeName(customCodeDto.customCodeName!!)) {
             code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION.code
+            isContinue = false
+        }
+        if (isContinue && customCodeDto.type == CustomCodeConstants.Type.CODE.code &&
+            !codeRepository.existsByCodeAndPCodeAndEditableTrue(customCodeDto.pCode!!)
+        ) {
+            code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST.code
         }
         return code
     }
@@ -212,7 +228,6 @@ class CustomCodeService(
                 dataList = roleRepository.findByOrderByRoleNameAsc().toMutableList()
             }
             CustomCodeConstants.TableName.USER.code -> {
-                print("USER")
                 dataList = userRepository.findByOrderByUserNameAsc().toMutableList()
             }
         }

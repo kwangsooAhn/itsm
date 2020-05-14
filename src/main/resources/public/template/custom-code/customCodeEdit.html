@@ -8,20 +8,54 @@
     <style>
         table {
             width: 100%;
-            border: 1px solid;
             border-collapse: collapse;
-            margin-bottom: 20px;
+        }
+        table td:nth-child(1) {
+            width: 35%;
+        }
+        table td:nth-child(2) {
+            width: 65%;
         }
         table label {
             margin: 0;
         }
+        table#type-common-container tr:last-child td {
+            border-bottom: 0;
+        }
         table td {
             border: 1px solid;
             height: 50px;
+            padding: 12px 10px;
+            vertical-align: top;
         }
-        table input, select {
+        table input[type="text"], table select {
             width: 100%;
-            height: 24px;
+            height: 25px;
+        }
+        table div input[type="text"], table div select {
+            width: 46%;
+        }
+        table td button {
+            width: 1.563rem;
+            height: 1.563rem;
+            outline: 0;
+            border: 0.0625rem solid #4C5264;
+            float: right;
+        }
+        table td button[class*="plus"]::before {
+            content: '+';
+        }
+        table td button[class*="minus"]::before {
+            content: '-';
+        }
+        table td span[class*="equal"]::before {
+            content: '=';
+        }
+        table td span {
+            margin: 0 12px;
+        }
+        table td#condition div {
+            margin: 12px 0;
         }
     </style>
 </head>
@@ -32,21 +66,42 @@
             <h1 th:text="#{custom.code.label.title}"></h1>
         </div>
         <hr>
-        <table>
-            <colgroup>
-                <col width="35%">
-                <col width="65%">
-            </colgroup>
-            <tbody>
+        <div id="container" style="margin-bottom: 20px;">
+            <!-- 타입: 공통-->
+            <table id="type-common-container">
+                <tbody>
                 <tr>
-                    <td><label th:text="#{custom.code.label.customCodeName}"></label><span class="required"></span></td>
-                    <td><input type="text" id="custom_code_name" required="required" maxlength="100"
-                               th:value="${customCode?.customCodeName}"></td>
+                    <td class="required" th:text="#{custom.code.label.customCodeName}"></td>
+                    <td>
+                        <input type="text" id="customCodeName" required="required" maxlength="100"
+                               th:value="${customCode?.customCodeName}">
+                    </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{custom.code.label.targetTable}"></label><span class="required"></span></td>
+                    <td class="required" th:text="#{custom.code.label.type}"></td>
                     <td>
-                        <select id="target_table">
+                        <label>
+                            <input id="table" name="type" type="radio"
+                                   th:checked="${customCode?.type == null || customCode?.type == 'table'}"
+                                   th:text="#{custom.code.label.type.table}" onclick="changeContainer('table')">
+                        </label>
+                        <label>
+                            <input id="code" name="type" type="radio"
+                                   th:checked="${customCode?.type == 'code'}"
+                                   th:text="#{custom.code.label.type.code}" onclick="changeContainer('code')">
+                        </label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 타입: table-->
+            <table id="type-table-container"
+                   th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
+                <tbody>
+                <tr>
+                    <td class="required" th:text="#{custom.code.label.targetTable}"></td>
+                    <td>
+                        <select id="targetTable">
                             <option th:each="customCodeTable: ${customCodeTableList}"
                                     th:value="${customCodeTable.customCodeTable}"
                                     th:text="|${customCodeTable.customCodeTableName}(${customCodeTable.customCodeTable})|"
@@ -56,15 +111,32 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{custom.code.label.searchColumn}"></label><span class="required"></span></td>
-                    <td><select id="search_column"></select></td>
+                    <td class="required" th:text="#{custom.code.label.searchColumn}"></td>
+                    <td><select id="searchColumn"></select></td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{custom.code.label.valueColumn}"></label><span class="required"></span></td>
-                    <td><select id="value_column"></select></td>
+                    <td class="required" th:text="#{custom.code.label.valueColumn}"></td>
+                    <td><select id="valueColumn"></select></td>
                 </tr>
-            </tbody>
-        </table>
+                <tr>
+                    <td>
+                        <label th:text="#{custom.code.label.condition}"></label>
+                        <button class="plus" onclick="addCondition()"></button>
+                    </td>
+                    <td id="condition" style="padding: 0 10px;"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 타입: 코드 -->
+            <table id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
+                <tbody>
+                <tr>
+                    <td class="required" th:text="#{custom.code.label.pCode}"></td>
+                    <td><input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div align="right">
             <button style="margin-right: 5px;" onclick="location.href='/custom-codes/search'"
                     th:text="#{common.btn.list}"></button>
@@ -84,19 +156,23 @@
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_CUSTOM_CODE_USED = '1';
         const STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION = '2';
+        const STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST = '3';
 
         window.onload = function() {
-            const targetTable = document.getElementById('target_table');
-            initSelectBox(targetTable.value);
+            const targetTable = document.getElementById('targetTable');
+            const condition = document.getElementById('condition');
             targetTable.addEventListener('change', function () {
-                initSelectBox(this.value);
+                initColumnSelectBox(this.value);
+                while (condition.hasChildNodes()) { condition.removeChild(condition.firstChild); }
             });
+            initColumnSelectBox(targetTable.value);
+            initCondition();
         };
 
-        //select box 초기화
-        function initSelectBox(value) {
-            const searchColumn = document.getElementById('search_column');
-            const valueColumn = document.getElementById('value_column');
+        //column select box 초기화
+        function initColumnSelectBox(value) {
+            const searchColumn = document.getElementById('searchColumn');
+            const valueColumn = document.getElementById('valueColumn');
 
             //remove Child
             while (searchColumn.hasChildNodes()) { searchColumn.removeChild(searchColumn.firstChild); }
@@ -121,30 +197,122 @@
                             option.selected = (valueColumnValue === customCodeColumn.customCodeColumn);
                             valueColumn.append(option);
                             break;
-                        default:
-                            break;
                     }
                 }
             }
         }
 
+        //condition 초기화
+        function initCondition() {
+            const condition = JSON.parse(/*[[${customCode?.condition}]]*/'');
+            if (condition !== null) {
+                Object.keys(condition).forEach(function (data) {
+                    drawCondition({key: data, value: condition[data]});
+                })
+            }
+        }
+
+        //Add Condition
+        function addCondition() {
+            const searchColumnLength = document.getElementById('searchColumn').childNodes.length;
+            if (document.getElementById('condition').childNodes.length < searchColumnLength) {
+                drawCondition();
+            } else {
+                aliceJs.alert(i18n.get('custom.code.msg.addCondition', searchColumnLength));
+            }
+        }
+
+        function drawCondition(param) {
+            const div = document.createElement('div');
+            const keySelect = document.createElement('select');
+            //copy search column
+            const searchColumn = document.getElementById('searchColumn');
+            for (let i = 0; i < searchColumn.length; i++) {
+                let option = searchColumn[i].cloneNode(true);
+                option.selected = (typeof param !== 'undefined') ? (param.key === option.value) : '';
+                keySelect.appendChild(option);
+            }
+            const equalSpan = document.createElement('span');
+            equalSpan.classList.add('equal');
+            const valueInput = document.createElement('input');
+            valueInput.type = 'text';
+            valueInput.maxLength = 100;
+            valueInput.value = (typeof param !== 'undefined') ? param.value : '';
+            const minusBtn = document.createElement('button');
+            minusBtn.classList.add('minus');
+            minusBtn.addEventListener('click', function () {
+                minusBtn.parentNode.remove();
+            });
+
+            div.appendChild(keySelect);
+            div.appendChild(equalSpan);
+            div.appendChild(valueInput);
+            div.appendChild(minusBtn);
+            document.getElementById('condition').appendChild(div);
+        }
+
+        //Change Container
+        function changeContainer(type) {
+            if (type === 'table') {
+                document.getElementById('type-table-container').style.display = '';
+                document.getElementById('type-code-container').style.display = 'none';
+            } else if (type === 'code') {
+                document.getElementById('type-table-container').style.display = 'none';
+                document.getElementById('type-code-container').style.display = '';
+            }
+        }
+
+        //Get Type Id
+        function getTypeId() {
+            let type = document.getElementsByName('type');
+            for (let i = 0; i < type.length; i++) {
+                if (type[i].checked) {
+                    return type[i].id;
+                }
+            }
+        }
+
         //empty Check
-        function emptyCheck() {
-            if (isEmpty('custom_code_name', 'custom.code.msg.inputCustomCodeName')) { return false; }
-            if (isEmpty('target_table', 'custom.code.msg.inputTableTarget')) { return false; }
-            if (isEmpty('search_column', 'custom.code.msg.inputSearchColumn')) { return false; }
-            return !isEmpty('value_column', 'custom.code.msg.inputValueColumn');
+        function emptyCheck(type) {
+            if (type === 'table') {
+                if (isEmpty('customCodeName', 'custom.code.msg.inputCustomCodeName')) { return false; }
+                if (isEmpty('targetTable', 'custom.code.msg.inputTableTarget')) { return false; }
+                if (isEmpty('searchColumn', 'custom.code.msg.inputSearchColumn')) { return false; }
+                return !isEmpty('valueColumn', 'custom.code.msg.inputValueColumn');
+            } else {
+                if (isEmpty('customCodeName', 'custom.code.msg.inputCustomCodeName')) { return false; }
+                return !isEmpty('pCode', 'custom.code.msg.inputPCode');
+            }
         }
 
         //insert/update Custom Code
         function saveCustomCode(method) {
-            if (emptyCheck()) {
-                const data = {
-                    customCodeName: document.getElementById('custom_code_name').value,
-                    targetTable: document.getElementById('target_table').value,
-                    searchColumn: document.getElementById('search_column').value,
-                    valueColumn: document.getElementById('value_column').value,
+            const type = getTypeId();
+            if (emptyCheck(type)) {
+                let data = {
+                    customCodeName: document.getElementById('customCodeName').value,
+                    type: type,
                 };
+                if (type === 'table') {
+                    data.targetTable = document.getElementById('targetTable').value;
+                    data.searchColumn = document.getElementById('searchColumn').value;
+                    data.valueColumn = document.getElementById('valueColumn').value;
+
+                    let conditionData = {};
+                    let div = document.getElementById('condition').childNodes;
+                    for (let i = 0; i < div.length; i++) {
+                        let selectValue = div[i].getElementsByTagName('select')[0].value;
+                        if (typeof conditionData[selectValue] === 'undefined') {
+                            conditionData[selectValue] = div[i].getElementsByTagName('input')[0].value;
+                        } else {
+                            aliceJs.alert(i18n.get('custom.code.msg.selectNotDuplicateSearchColumn'));
+                            return false;
+                        }
+                    }
+                    data.condition = JSON.stringify(conditionData);
+                } else {
+                    data.pCode = document.getElementById('pCode').value;
+                }
                 if (method === 'put') {
                     data.customCodeId = /*[[${customCode?.customCodeId}]]*/'';
                 }
@@ -162,18 +330,21 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alert(/*[[#{common.msg.save}]]*/'', function () {
+                            aliceJs.alert(i18n.get('common.msg.save'), function () {
                                 location.href = '/custom-codes/search';
                             });
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_USED:
-                            aliceJs.alert(/*[[#{custom.code.msg.customCodeUsed}]]*/'');
+                            aliceJs.alert(i18n.get('custom.code.msg.customCodeUsed'));
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                            aliceJs.alert(/*[[#{custom.code.msg.customCodeNameDuplication}]]*/'');
+                            aliceJs.alert(i18n.get('custom.code.msg.customCodeNameDuplication'));
+                            break;
+                        case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
+                            aliceJs.alert(i18n.get('custom.code.msg.pCodeNotExist'));
                             break;
                         default :
-                            aliceJs.alert(/*[[#{common.msg.save.fail}]]*/'');
+                            aliceJs.alert(i18n.get('common.msg.save.fail'));
                             break;
                     }
                 }

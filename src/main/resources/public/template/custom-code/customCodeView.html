@@ -6,21 +6,36 @@
     <title th:text="#{custom.code.label.title}"></title>
     <meta charset="UTF-8">
     <style>
+        div#container {
+            margin-bottom: 20px;
+        }
         table {
             width: 100%;
-            border: 1px solid;
             border-collapse: collapse;
-            margin-bottom: 20px;
+        }
+        table td:nth-child(1) {
+            width: 35%;
+        }
+        table td:nth-child(2) {
+            width: 65%;
         }
         table label {
             margin: 0;
         }
+        table#type-common-container tr:last-child td {
+            border-bottom: 0;
+        }
         table td {
             border: 1px solid;
             height: 50px;
+            padding: 12px 10px;
+            vertical-align: top;
         }
-        table input {
-            width: 100%;
+        table td span {
+            margin: 0 12px;
+        }
+        table td span[class*="equal"]::before {
+            content: '=';
         }
     </style>
 </head>
@@ -31,34 +46,92 @@
             <h1 th:text="#{custom.code.label.title}"></h1>
         </div>
         <hr>
-        <table>
-            <colgroup>
-                <col width="35%">
-                <col width="65%">
-            </colgroup>
-            <tbody>
-            <tr>
-                <td><label th:text="#{custom.code.label.customCodeName}"></label></td>
-                <td th:text="${customCode.customCodeName}"></td>
-            </tr>
-            <tr>
-                <td><label th:text="#{custom.code.label.targetTable}"></label></td>
-                <td th:text="|${customCode.targetTableName}(${customCode.targetTable})|"></td>
-            </tr>
-            <tr>
-                <td><label th:text="#{custom.code.label.searchColumn}"></label></td>
-                <td th:text="|${customCode.searchColumnName}(${customCode.searchColumn})|"></td>
-            </tr>
-            <tr>
-                <td><label th:text="#{custom.code.label.valueColumn}"></label></td>
-                <td th:text="|${customCode.valueColumnName}(${customCode.valueColumn})|"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div id="container">
+            <!-- 타입: 공통-->
+            <table id="type-common-container">
+                <tbody>
+                <tr>
+                    <td th:text="#{custom.code.label.customCodeName}"></td>
+                    <td th:text="${customCode.customCodeName}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{custom.code.label.type}"></td>
+                    <td th:text="#{|custom.code.label.type.${customCode.type}|}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 타입: table-->
+            <table id="type-table-container" th:if="${customCode.type == 'table'}">
+                <tbody>
+                <tr>
+                    <td th:text="#{custom.code.label.targetTable}"></td>
+                    <td th:text="|${customCode.targetTableName}(${customCode.targetTable})|"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{custom.code.label.searchColumn}"></td>
+                    <td th:text="|${customCode.searchColumnName}(${customCode.searchColumn})|"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{custom.code.label.valueColumn}"></td>
+                    <td th:text="|${customCode.valueColumnName}(${customCode.valueColumn})|"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{custom.code.label.condition}"></td>
+                    <td id="condition"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 타입: 코드 -->
+            <table id="type-code-container" th:if="${customCode.type == 'code'}">
+                <tbody>
+                <tr>
+                    <td th:text="#{custom.code.label.pCode}"></td>
+                    <td th:text="${customCode.pCode}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div align="right">
             <button onclick="location.href='/custom-codes/search'" th:text="#{common.btn.list}"></button>
         </div>
     </div>
 </th:block>
 </body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            if (/*[[${customCode.type == 'table'}]]*/'') {
+                const condition = JSON.parse(/*[[${customCode.condition}]]*/'');
+                Object.keys(condition).forEach(function (data) {
+                    const div = document.createElement('div');
+                    const keyLabel = document.createElement('label');
+                    keyLabel.innerText = getColumnName(data);
+                    const equalSpan = document.createElement('span');
+                    equalSpan.classList.add('equal');
+                    const valueLabel = document.createElement('label');
+                    valueLabel.innerText = condition[data];
+
+                    div.appendChild(keyLabel);
+                    div.appendChild(equalSpan);
+                    div.appendChild(valueLabel);
+                    document.getElementById('condition').appendChild(div);
+                });
+            }
+        };
+
+        //Get Column Name
+        function getColumnName(column) {
+            const customCodeColumnList = /*[[${customCodeColumnList}]]*/'';
+            for (let i = 0; i < customCodeColumnList.length; i++) {
+                if (customCodeColumnList[i].customCodeColumn === column) {
+                    return customCodeColumnList[i].customCodeColumnName + '(' + column +')';
+                }
+            }
+            return column;
+        }
+        /*]]>*/
+    </script>
+</th:block>
 </html>

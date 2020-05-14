@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CustomCodeColumnRepository : JpaRepository<CustomCodeColumnEntity, CustomCodeColumnPk> {
     fun findByOrderByCustomCodeColumnNameAsc(): List<CustomCodeColumnEntity>
+    fun findByCustomCodeTable(customCodeTable: String?): List<CustomCodeColumnEntity>
 }

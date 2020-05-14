@@ -19,7 +19,16 @@ object CustomCodeConstants {
         STATUS_VALID_SUCCESS("-1"),
         STATUS_SUCCESS("0"),
         STATUS_ERROR_CUSTOM_CODE_USED("1"),
-        STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION("2")
+        STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION("2"),
+        STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST("3")
+    }
+
+    /**
+     * 사용자 정의 코드 타입.
+     */
+    enum class Type(val code: String) {
+        TABLE("table"),
+        CODE("code")
     }
 
     /**
