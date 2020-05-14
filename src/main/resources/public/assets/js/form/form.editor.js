@@ -175,7 +175,7 @@
      */
     function saveForm(flag) {
         //view 모드이면 단축키로 저장되지 않는다.
-        if (isView) { return; }
+        if (isView) { return false; }
 
         data = JSON.parse(JSON.stringify(editor.data));
         let lastCompIndex = component.getLastIndex();
@@ -1633,14 +1633,14 @@
      * init.
      *
      * @param {String} formId 폼 아이디
-     * @param {Boolean} flag view = true, edit = false
+     * @param {String} flag view 모드 = false, edit 모드 = true
      */
     function init(formId, flag) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         formPanel = document.getElementById('panel-form');
         formPanel.setAttribute('data-readonly', true);
 
-        if (typeof flag !== 'undefined') { isView = flag; }
+        if (flag === 'true') { isView = false; }
 
         propertiesPanel = document.getElementById('panel-properties');
         //컨텍스트 메뉴 초기화

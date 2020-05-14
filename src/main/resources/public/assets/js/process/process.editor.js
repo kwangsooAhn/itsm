@@ -1673,11 +1673,11 @@
      * process designer 초기화.
      *
      * @param processId 프로세스 ID
-     * @param {Boolean} flag view = true, edit = false
+     * @param flag view 모드 = false, edit 모드 = true
      */
     function init(processId, flag) {
         console.info('process editor initialization. [PROCESS ID: ' + processId + ']');
-        if (typeof flag !== 'undefined') { isView = flag; }
+        if (flag === 'true') { isView = false; }
 
         workflowUtil.polyfill();
         initProcessEdit();
