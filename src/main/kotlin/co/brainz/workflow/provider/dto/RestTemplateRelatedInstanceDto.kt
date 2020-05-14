@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 data class RestTemplateRelatedInstanceDto(
     val folderId: String?,
     val instanceId: String?,
+    val relatedType: String?,
     val documentName: String?,
     var instanceStartDt: LocalDateTime?,
     var instanceEndDt: LocalDateTime?,

@@ -16,23 +16,21 @@
     <thead>
     <tr>
         <th></th>
-        <th th:text="#{document.label.name}">업무</th>
-        <th th:text="#{token.label.startDt}">시작일시</th>
-        <th th:text="#{token.label.endDt}">완료일시</th>
-        <th th:text="#{token.label.assignee}">담당자</th>
+        <th th:text="#{document.label.name}"></th>
+        <th th:text="#{token.label.startDt}"></th>
+        <th th:text="#{token.label.endDt}"></th>
+        <th th:text="#{token.label.assignee}"></th>
     </tr>
     </thead>
     <tbody id="relatedInstance">
     <tr th:each="rInstance, index : ${relatedInstance}">
-        <td>
-            <input type="checkbox" th:id="${index.index}" th:name="chk" th:value="${rInstance.instanceId}">
-        </td>
-        <td th:id="documentName" th:name="documentName" th:text="${rInstance.documentName}"></td>
-        <td th:id="instanceStartDt" th:name="instanceStartDt" th:with="dateformat=${#authentication.details.timeFormat}"
+        <td><input type="checkbox" th:id="${index.index}" th:name="chk" th:value="${rInstance.instanceId}"></td>
+        <td th:text="${rInstance.documentName}"></td>
+        <td th:with="dateformat=${#authentication.details.timeFormat}"
             th:text="${#temporals.format(rInstance.instanceStartDt, dateformat)}"></td>
-        <td th:id="instanceEndDt" th:name="instanceEndDt" th:with="dateformat=${#authentication.details.timeFormat}"
+        <td th:with="dateformat=${#authentication.details.timeFormat}"
             th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
-        <td th:id="instanceCreateUserKey" th:name="instanceCreateUserKey" th:text="${rInstance.instanceCreateUserKey}"></td>
+        <td th:text="${rInstance.instanceCreateUserKey}"></td>
     </tr>
     </tbody>
 </table>

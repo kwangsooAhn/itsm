@@ -3,7 +3,6 @@ package co.brainz.workflow.engine.folder.service
 import co.brainz.workflow.engine.folder.constants.WfFolderConstants
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
-import co.brainz.workflow.engine.folder.entity.WfFolderPk
 import co.brainz.workflow.engine.folder.repository.WfFolderRepository
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
@@ -51,14 +50,16 @@ class WfFolderService(
         return wfFolderRepository.findAllDocumentList(searchValue)
     }
 
-    fun createFolderData(restTemplateFolderDto: RestTemplateFolderDto) {
-        var wfFolderEntity = WfFolderEntity (
-            folderId = restTemplateFolderDto.folderId!!,
-            instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId!!)!!,
-            relatedType = WfFolderConstants.RelatedType.REFERENCE.code
-        )
+    fun createFolderData(restTemplateFolderDto: List<RestTemplateFolderDto>) {
+        restTemplateFolderDto.forEach { restTemplateFolderDto ->
+            var wfFolderEntity = WfFolderEntity (
+                folderId = restTemplateFolderDto.folderId!!,
+                instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId!!)!!,
+                relatedType = WfFolderConstants.RelatedType.REFERENCE.code
+            )
 
-        wfFolderRepository.save(wfFolderEntity)
+            wfFolderRepository.save(wfFolderEntity)
+        }
     }
 
     fun deleteFolderData(restTemplateFolderDto: RestTemplateFolderDto) {

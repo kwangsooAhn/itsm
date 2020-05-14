@@ -48,7 +48,7 @@
     </table>
 
     <h1 th:text="#{token.label.relatedInstance}"></h1>
-    <button type="button" th:onclick="openTokenPopUp([[${tokenId}]])" th:text="#{common.btn.add}" style="float:right;">추가</button>
+    <button th:onclick="openPopUp([[${folderId}]])" th:text="#{common.btn.add}" style="float:right;"></button>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
             <col width="25%">
@@ -74,11 +74,12 @@
             <td th:with="dateformat=${#authentication.details.timeFormat}"
                 th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
             <td th:text="${rInstance.instanceCreateUserKey}"></td>
-            <td><button type="button" th:onclick="deleteRow(this)" th:text="#{common.btn.delete}">삭제</button></td>
+            <td th:if="${rInstance.relatedType} != 'origin'">
+                <button th:onclick="onRelatedInstanceDelete([[${rInstance.instanceId}]])" th:text="#{common.btn.delete}"></button>
+            </td>
         </tr>
         </tbody>
     </table>
-    <button th:onclick="saveRelatedInstance()">저장</button>
     <h1 th:text="#{common.label.comment}"></h1>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
@@ -118,64 +119,34 @@
             aliceDocument.initToken('[[${tokenId}]]');
         };
 
-        /** open Pop Up**/
-        function openTokenPopUp(tokenId) {
-            window.open('/tokens/view-pop', tokenId, 'width=1000, height=500');
-        };
+        function openPopUp(folderId) {
+            window.open('/tokens/' + folderId + '/view-pop', folderId, 'width=1000, height=500');
+        }
 
-        /**
-         * save relatecdInstance
-         *
-         * @param folderId
-         * @Param instanceId
-         */
-        function saveRelatedInstance() {
-            let data = {
-                folderId: "bdce2cdc8345495d9eb19ed05fe6aa55",
-                instanceId: "40288a9171aa51f90171aa78dd8b0001"
-            }
+        function onRelatedInstanceDelete(instanceId) {
+            const jsonData = {
+                folderId: '[[${folderId}]]',
+                instanceId: instanceId
+            };
+
+            restSubmit('DELETE', '/rest/wf/folders', function () {
+                location.reload();
+            }, jsonData, false);
+        }
+
+        function restSubmit(method, url, result, data, showProgressbar) {
             const opt = {
-                method: 'POST',
-                url: '/rest/wf/folders',
+                method: method,
+                url: url,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
-                callbackFunc: function(xhr) {
-                    if (xhr.responseText) {
-                        location.reload();
-                    } else {
-                        aliceJs.alert(i18n.get('common.msg.fail'));
-                    }
+                showProgressbar: showProgressbar,
+                callbackFunc: function(response) {
+                    result(response.responseText);
                 }
             };
             aliceJs.sendXhr(opt);
         }
-
-        /** create Row **/
-        function scriberSet(str) {
-            var strArray = str.split("|");
-
-            for (var i = 0; i < strArray.length-1; i++) {
-                var tbody = document.getElementById('relatedInstance');
-                var row = tbody.insertRow(tbody.rows.length-1);
-                var strPair = strArray[i].split(";");
-
-                row.insertCell(0).innerHTML = strPair[0];
-                row.insertCell(1).innerHTML = strPair[1];
-                row.insertCell(2).innerHTML = strPair[2];
-                row.insertCell(3).innerHTML = strPair[3];
-                row.insertCell(4).innerHTML = '<button type="button" th:onclick="deleteRow(this)" th:text="#{common.btn.delete}">삭제</button>';
-            }
-        };
-
-        /** 오류 발견 **/
-        /** delete Row**/
-        function deleteRow(el) {
-            var tbl = el.parentNode.parentNode.parentNode;
-            var row = el.parentNode.parentNode.rowIndex;
-
-            console.log(row);
-            tbl.deleteRow(row);
-        };
         /*]]>*/
     </script>
 </th:block>

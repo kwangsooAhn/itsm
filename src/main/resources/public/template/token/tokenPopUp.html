@@ -3,15 +3,19 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Title</title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <h1 th:text="#{token.label.relatedInstance}" style="text-align:left;"></h1>
+    <h1 th:text="#{token.label.relatedInstance}" style="text-align: left;"></h1>
     <input type="text" id="search" style="width: 270px" th:placeholder="#{token.label.searchPlaceholder}">
-    <div id = tokenRelatedDocList></div>
-    <div style="float:right;">
-        <button type="button" th:onclick="setParentText()" th:text="#{common.btn.add}">추가</button>
+    <hr>
+    <div id = AllDocList></div>
+    <hr>
+    <div style="text-align: center;">
+        <button th:onclick="onSave()" style="display: inline-block;" th:text="#{common.btn.add}"></button>
     </div>
 </th:block>
 </body>
@@ -24,53 +28,49 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            getTokenRelatedDocList(document.getElementById('search').value, true);
+            getAllDocList(document.getElementById('search').value, true);
         };
 
         document.getElementById('search').onkeyup = function() {
-            getTokenRelatedDocList(this.value, false);
+            getAllDocList(this.value, false);
         };
 
-        // Related Document List Search
-        function getTokenRelatedDocList(search, showProgressbar) {
+        function getAllDocList(search, showProgressbar) {
             restSubmit('get', '/tokens/view-pop/list?search=' + search.trim(), function(result) {
-                document.getElementById('tokenRelatedDocList').innerHTML = result;
-            }, showProgressbar);
+                document.getElementById('AllDocList').innerHTML = result;
+            },null ,showProgressbar);
         }
 
-        //rest Api
-        function restSubmit(method, url, result, showProgressbar) {
+        function onSave() {
+            var checked = document.querySelectorAll('input[name=chk]:checked');
+            var jsonArray = new Array();
+
+            for (var i = 0; i<checked.length; i++) {
+                var jsonObject = new Object();
+
+                jsonObject.folderId = '[[${folderId}]]';
+                jsonObject.instanceId = checked[i].value;
+                jsonArray.push(jsonObject);
+            }
+
+            restSubmit('POST', '/rest/wf/folders', function() {
+                opener.location.reload();
+                window.close();
+            },jsonArray ,false);
+        }
+
+        function restSubmit(method, url, result, data, showProgressbar) {
             const opt = {
                 method: method,
                 url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     result(response.responseText);
                 }
             };
             aliceJs.sendXhr(opt);
-        }
-
-        function setParentText() {
-            var str = "";
-            var checked = document.querySelectorAll('input[name=chk]:checked');
-            var documentName = document.getElementsByName('documentName');
-            var instanceStartDt = document.getElementsByName('instanceStartDt');
-            var instanceEndDt = document.getElementsByName('instanceEndDt');
-            var instanceCreateUserKey = document.getElementsByName('instanceCreateUserKey');
-
-            for (var i = 0; i<checked.length; i++) {
-                var index = parseInt(checked[i].id);
-
-                str += documentName.item(index).innerHTML + ";";
-                str += instanceStartDt.item(index).innerHTML + ";";
-                str += instanceEndDt.item(index).innerHTML + ";";
-                str += instanceCreateUserKey.item(index).innerHTML + ";";
-                str += checked[i].value + "|";
-            }
-
-            opener.parent.scriberSet(str);
-            self.close();
         }
         /*]]>*/
     </script>

@@ -76,6 +76,8 @@ class TokenController(
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         model.addAttribute("relatedInstance", folderService.getInstance(tokenId, null))
         val instanceId = instanceService.getInstanceId(tokenId)!!
+        val folderId = folderService.getInstance(tokenId, null)?.get(0)?.folderId
+        model.addAttribute("folderId", folderId)
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
         return tokenEditPage
@@ -94,8 +96,9 @@ class TokenController(
     /**
      * 관련문서 팝업 생성
      */
-    @GetMapping("/view-pop")
-    fun getTokenPopUp(): String {
+    @GetMapping("/{folderId}/view-pop")
+    fun getTokenPopUp(@PathVariable folderId: String, model: Model): String {
+        model.addAttribute("folderId", folderId)
         return tokenPopUpPage
     }
 
