@@ -5,6 +5,7 @@
       layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{process.label.list}"></title>
+    <script th:src="@{/assets/js/process/process.util.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -12,7 +13,7 @@
         <h1 th:text="#{process.label.list}"></h1>
         <div align="right">
             <button sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"
-                    onclick=""></button>
+                    onclick="aliceProcessUtil.import();"></button>
             <button sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.register}"
                     onclick="openProcessEdit();"></button>
             <input type="text" id="search" style="width: 270px" th:placeholder="#{process.label.searchPlaceholder}">
