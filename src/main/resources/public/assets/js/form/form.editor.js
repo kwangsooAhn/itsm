@@ -69,14 +69,13 @@
             event.returnValue = '';
         }
     });
-
+    let isView = true;            //view 인지여부
     let data = {};                 //저장용 데이터
     let savedData = {};
 
     let formPanel = null,
         propertiesPanel = null,
         selectedComponentId = '', //선택된 컴포넌트 ID
-        //data = {},                //저장용 데이터
         formProperties = {},      //좌측 properties panel에 출력되는 폼 정보
         customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
 
@@ -175,6 +174,9 @@
      * @param {String} flag 저장후  닫을지 여부
      */
     function saveForm(flag) {
+        //view 모드이면 단축키로 저장되지 않는다.
+        if (isView) { return; }
+
         data = JSON.parse(JSON.stringify(editor.data));
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) {
@@ -1631,11 +1633,14 @@
      * init.
      *
      * @param {String} formId 폼 아이디
+     * @param {Boolean} flag view = true, edit = false
      */
-    function init(formId) {
+    function init(formId, flag) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         formPanel = document.getElementById('panel-form');
         formPanel.setAttribute('data-readonly', true);
+
+        if (typeof flag !== 'undefined') { isView = flag; }
 
         propertiesPanel = document.getElementById('panel-properties');
         //컨텍스트 메뉴 초기화

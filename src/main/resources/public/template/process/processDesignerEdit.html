@@ -83,7 +83,7 @@
 <script type="text/javascript">
     window.onload = function() {
         i18n.add(function(){
-            aliceProcessEditor.init('[[${processId}]]');
+            aliceProcessEditor.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
     };
 </script>

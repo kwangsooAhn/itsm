@@ -31,6 +31,8 @@
     let isDrawConnector = false,
         isMovableDrawingboard = false;
 
+    let isView = true;            //view 인지여부
+
     /**
      * reset mouse variables.
      */
@@ -1671,9 +1673,11 @@
      * process designer 초기화.
      *
      * @param processId 프로세스 ID
+     * @param {Boolean} flag view = true, edit = false
      */
-    function init(processId) {
+    function init(processId, flag) {
         console.info('process editor initialization. [PROCESS ID: ' + processId + ']');
+        if (typeof flag !== 'undefined') { isView = flag; }
 
         workflowUtil.polyfill();
         initProcessEdit();
