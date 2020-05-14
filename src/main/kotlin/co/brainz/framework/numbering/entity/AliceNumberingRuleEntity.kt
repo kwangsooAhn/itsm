@@ -2,6 +2,7 @@ package co.brainz.framework.numbering.entity
 
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
+import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -25,6 +26,9 @@ data class AliceNumberingRuleEntity(
 
     @Column(name = "numbering_desc")
     val numberingDesc: String? = null,
+
+    @Column(name = "latest_date")
+    var latestDate: LocalDateTime? = null,
 
     @Column(name = "latest_value")
     var latestValue: String? = null
