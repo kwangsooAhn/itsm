@@ -23,8 +23,8 @@ class WfFolderController(private val wfFolderService: WfFolderService) {
     }
 
     @GetMapping("/list")
-    fun getAllInstanceList(@RequestParam searchValue: String): List<RestTemplateFolderDto> {
-        return wfFolderService.getAllInstanceList(searchValue)
+    fun getAllInstanceList(@RequestParam tokenId: String, @RequestParam searchValue: String): List<RestTemplateFolderDto> {
+        return wfFolderService.getAllInstanceList(tokenId, searchValue)
     }
 
     @PostMapping("")

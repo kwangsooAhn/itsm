@@ -28,15 +28,15 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            getAllDocList(document.getElementById('search').value, true);
+            getAllDocList(document.getElementById('search').value, '[[${tokenId}]]', true);
         };
 
         document.getElementById('search').onkeyup = function() {
-            getAllDocList(this.value, false);
+            getAllDocList(this.value, '[[${tokenId}]]',  false);
         };
 
-        function getAllDocList(search, showProgressbar) {
-            restSubmit('get', '/tokens/view-pop/list?search=' + search.trim(), function(result) {
+        function getAllDocList(search, tokenId, showProgressbar) {
+            restSubmit('get', '/tokens/view-pop/list?search=' + search.trim() + '&tokenId=' + tokenId, function(result) {
                 document.getElementById('AllDocList').innerHTML = result;
             },null ,showProgressbar);
         }

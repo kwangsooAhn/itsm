@@ -46,8 +46,8 @@ class WfFolderService(
         return wfFolderRepository.findRelatedDocumentListByTokenId(tokenId)
     }
 
-    fun getAllInstanceList(searchValue: String): List<RestTemplateFolderDto> {
-        return wfFolderRepository.findAllDocumentList(searchValue)
+    fun getAllInstanceList(tokenId: String, searchValue: String): List<RestTemplateFolderDto> {
+        return wfFolderRepository.findAllDocumentList(tokenId, searchValue)
     }
 
     fun createFolderData(restTemplateFolderDto: List<RestTemplateFolderDto>) {

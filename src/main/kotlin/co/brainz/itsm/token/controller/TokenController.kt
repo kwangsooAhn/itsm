@@ -7,6 +7,7 @@ import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
+import co.brainz.workflow.provider.constants.RestTemplateConstants
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -74,9 +75,9 @@ class TokenController(
     fun getDocumentEdit(@PathVariable tokenId: String, model: Model): String {
         model.addAttribute("tokenId", tokenId)
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
-        model.addAttribute("relatedInstance", folderService.getInstance(tokenId, null))
+        model.addAttribute("relatedInstance", folderService.getInstance(tokenId, null, RestTemplateConstants.Instance.GET_RELATED_INSTANCE.url))
         val instanceId = instanceService.getInstanceId(tokenId)!!
-        val folderId = folderService.getInstance(tokenId, null)?.get(0)?.folderId
+        val folderId = folderService.getInstance(tokenId, null, RestTemplateConstants.Instance.GET_RELATED_INSTANCE.url)?.get(0)?.folderId
         model.addAttribute("folderId", folderId)
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
@@ -97,7 +98,10 @@ class TokenController(
      * 관련문서 팝업 생성
      */
     @GetMapping("/{folderId}/view-pop")
-    fun getTokenPopUp(@PathVariable folderId: String, model: Model): String {
+    fun getTokenPopUp(@PathVariable folderId: String, request: HttpServletRequest, model: Model): String {
+        val tokenId = request.getParameter("tokenId")
+
+        model.addAttribute("tokenId", tokenId)
         model.addAttribute("folderId", folderId)
         return tokenPopUpPage
     }
@@ -108,8 +112,9 @@ class TokenController(
     @GetMapping("/view-pop/list")
     fun getTokenRelatedDocList(request: HttpServletRequest, model: Model): String {
         val searchValue = request.getParameter("search") ?: ""
+        val tokenId = request.getParameter("tokenId")
 
-        model.addAttribute("relatedInstance", folderService.getInstance(null ,searchValue))
+        model.addAttribute("relatedInstance", folderService.getInstance(tokenId ,searchValue, RestTemplateConstants.Instance.GET_ALL_INSTANCE.url))
         return tokenRelatedDocList
     }
 }
