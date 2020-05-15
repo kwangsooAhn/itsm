@@ -1,5 +1,6 @@
 package co.brainz.itsm.document.controller
 
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
@@ -53,8 +54,8 @@ class DocumentRestController(
      * 신청서 목록 조회.
      */
     @GetMapping("/", "")
-    fun getDocuments(): List<RestTemplateDocumentDto> {
-        return documentService.findDocumentList()
+    fun getDocuments(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+        return documentService.findDocumentList(restTemplateDocumentSearchListDto)
     }
 
     /**

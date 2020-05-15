@@ -10,8 +10,17 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{document.label.list}"></h1>
-        <div sec:authorize="hasAuthority('document.create')" class="button" align="right">
+        <form id="searchDocumentsFrm">
+            <div>
+                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchDocuments}"/>
+                <label for="searchDocumentStatus"></label><input type="text" id="searchDocumentStatus" name="searchDocumentStatus" th:placeholder="#{document.label.searchDocumentStatus}"/>
+                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.searchProcessName}"/>
+                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.searchFormName}"/>
+            </div>
+        </form>
+        <div sec:authorize="hasAuthority('document.create')" class="button">
             <button type="button" onclick="createDocument()" th:text="#{common.btn.register}"></button>
+            <button type="button" onclick="kbhTest()">김범호테스트</button>
         </div>
         <hr>
         <div id="documentList" style="margin-top: 20px"></div>
@@ -22,10 +31,16 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            restSubmit('GET', '/documents/list', function(result){
+            restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result){
                 document.getElementById('documentList').innerHTML = result;
             });
         };
+
+        function kbhTest() {
+            restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result){
+                document.getElementById('documentList').innerHTML = result;
+            });
+        }
 
         function openDocument(documentId) {
             window.open('/documents/' + documentId + '/publish', '_blank', 'width=800, height=805');
