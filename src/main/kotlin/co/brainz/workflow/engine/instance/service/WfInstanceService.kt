@@ -46,11 +46,24 @@ class WfInstanceService(
             userKey = parameters["userKey"].toString()
         }
 
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tokenDataList = wfInstanceRepository.findInstances(status, userKey)
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        for (tokenData in tokenDataList) {
-            tokens.add(mapper.convertValue(tokenData, RestTemplateInstanceViewDto::class.java))
+        val instanceList = wfInstanceRepository.findInstances(status, userKey)
+        for (instance in instanceList) {
+            tokens.add(
+                RestTemplateInstanceViewDto(
+                    tokenId = instance.tokenEntity.tokenId,
+                    instanceId = instance.instanceEntity.instanceId,
+                    documentName = instance.documentEntity.documentName,
+                    documentDesc = instance.documentEntity.documentDesc,
+                    createDt = instance.instanceEntity.instanceStartDt,
+                    assigneeUserKey = instance.tokenEntity.assigneeId,
+                    assigneeUserName = "",
+                    createUserKey = instance.instanceEntity.instanceCreateUser!!.userKey,
+                    createUserName = instance.instanceEntity.instanceCreateUser!!.userName,
+                    documentId = instance.documentEntity.documentId,
+                    documentNo = instance.instanceEntity.documentNo
+                )
+            )
         }
 
         return tokens

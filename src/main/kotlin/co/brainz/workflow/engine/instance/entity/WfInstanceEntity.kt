@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.instance.entity
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.engine.comment.entity.WfCommentEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
@@ -34,9 +35,15 @@ data class WfInstanceEntity(
 
     @Column(name = "instance_end_dt", insertable = false)
     var instanceEndDt: LocalDateTime? = null,
+/*
 
     @Column(name = "instance_create_user_key", length = 128)
     var instanceCreateUserKey: String? = null,
+*/
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instance_create_user_key")
+    var instanceCreateUser: AliceUserEntity? = null,
 
     @Column(name = "p_token_id", length = 128)
     var pTokenId: String? = null,
