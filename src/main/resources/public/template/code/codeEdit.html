@@ -94,13 +94,14 @@
                 document.getElementById('btnUpdate').style.display = 'block';
                 document.getElementById('btnRegist').style.display = 'none';
                 document.getElementById('btnDelete').style.display = 'block';
+                document.getElementById('btnUpdate').disabled = false;
+                document.getElementById('btnDelete').disabled = false;
 
                 const opt = {
                     method: 'get',
                     url: '/rest/codes/' + codeId,
                     callbackFunc: function(response) {
-                       var responseJson = JSON.parse(response.responseText);
-
+                        var responseJson = JSON.parse(response.responseText);
                         document.getElementById('txtCode').value = responseJson.code;
                         document.getElementById('txtCode').setAttribute('readonly','true');
                         document.getElementById('txtPCode').value = responseJson.pcode;
@@ -109,6 +110,10 @@
                         document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
                         document.getElementById('spanUpdateUserName').innerHTML = responseJson.updateUserName;
                         document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
+                        if (!responseJson.enabled) {
+                            document.getElementById('btnUpdate').disabled = true;
+                            document.getElementById('btnDelete').disabled = true;
+                        }
                     }
                 };
 

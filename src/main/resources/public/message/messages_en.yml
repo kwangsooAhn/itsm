@@ -435,13 +435,22 @@ custom.code:
     targetTable: "Target Table Name"
     searchColumn: "Search Column Name"
     valueColumn: "Value Column Name"
+    type: "Type"
+    type.table: "Table"
+    type.code: "Code"
+    condition: "Condition"
+    pCode: "Parent Code"
   msg:
     inputCustomCodeName: "Please enter a custom code name."
     inputTableTarget: "Please enter a table target name."
     inputSearchColumn: "Please enter a search column name."
     inputValueColumn: "Please enter a value column name."
+    inputPCode: "Please enter your parental code."
+    addCondition: "Only {0} or less can be added."
+    selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
     customCodeUsed: "The Custom code is being used."
     customCodeNameDuplication: "The same custom code name exists."
+    pCodeNotExist: "The parent code does not exist."
 
 # Dashboard
 dashboard:

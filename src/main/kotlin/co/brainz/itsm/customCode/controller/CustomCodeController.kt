@@ -1,5 +1,6 @@
 package co.brainz.itsm.customCode.controller
 
+import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.service.CustomCodeService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -63,7 +64,14 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
      */
     @GetMapping("/{customCodeId}/view")
     fun getCustomCodeView(@PathVariable customCodeId: String, model: Model): String {
-        model.addAttribute("customCode", customCodeService.getCustomCode(customCodeId))
+        val customCodeDto = customCodeService.getCustomCode(customCodeId)
+        model.addAttribute("customCode", customCodeDto)
+        if (customCodeDto.type == CustomCodeConstants.Type.TABLE.code) {
+            model.addAttribute(
+                "customCodeColumnList",
+                customCodeService.getCustomCodeColumnList(customCodeDto.targetTable)
+            )
+        }
         return customCodeViewPage
     }
 
