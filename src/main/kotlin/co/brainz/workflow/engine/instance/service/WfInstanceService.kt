@@ -1,10 +1,16 @@
 package co.brainz.workflow.engine.instance.service
 
 import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
+import co.brainz.workflow.engine.component.constants.WfComponentConstants
+import co.brainz.workflow.engine.component.repository.WfComponentRepository
+import co.brainz.workflow.engine.element.entity.WfElementEntity
+import co.brainz.workflow.engine.element.repository.WfElementRepository
+import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
+import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -25,6 +31,8 @@ import org.springframework.stereotype.Service
 @Service
 class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfTokenRepository: WfTokenRepository
 ) {
 
@@ -47,19 +55,39 @@ class WfInstanceService(
         }
 
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        val instanceList = wfInstanceRepository.findInstances(status, userKey)
-        for (instance in instanceList) {
+        val instances = wfInstanceRepository.findInstances(status, userKey)
+        val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+        for (instance in instances) {
+
+            val topics: MutableList<String> = mutableListOf()
+            val topicComponentList =
+                wfComponentRepository.findTopicComponentForDisplay(
+                    instance.documentEntity.form.formId,
+                    true,
+                    componentTypeForTopicDisplay
+                );
+
+            for (topicComponent in topicComponentList) {
+                topics.add(
+                    wfTokenDataRepository.findByTokenIdAndComponentId(
+                        instance.tokenEntity.tokenId,
+                        topicComponent.componentId
+                    ).value
+                )
+            }
+
             tokens.add(
                 RestTemplateInstanceViewDto(
                     tokenId = instance.tokenEntity.tokenId,
                     instanceId = instance.instanceEntity.instanceId,
                     documentName = instance.documentEntity.documentName,
                     documentDesc = instance.documentEntity.documentDesc,
+                    topics = topics,
                     createDt = instance.instanceEntity.instanceStartDt,
                     assigneeUserKey = instance.tokenEntity.assigneeId,
                     assigneeUserName = "",
-                    createUserKey = instance.instanceEntity.instanceCreateUser!!.userKey,
-                    createUserName = instance.instanceEntity.instanceCreateUser!!.userName,
+                    createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
+                    createUserName = instance.instanceEntity.instanceCreateUser?.userName,
                     documentId = instance.documentEntity.documentId,
                     documentNo = instance.instanceEntity.documentNo
                 )
