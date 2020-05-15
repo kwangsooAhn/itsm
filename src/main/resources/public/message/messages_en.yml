@@ -317,9 +317,12 @@ process:
     simulation: "Simulation"
     undo: "Undo"
     redo: "Redo"
+    imageDownload: "Image Download"
+    import: "Process Import"
+    importFile: "Import File"
+  btn:
     import: "Import"
     export: "Export"
-    imageDownload: "Image Download"
   status:
     edit: "Edit"
     publish: "Publish"
@@ -329,6 +332,7 @@ process:
     simulation: "Simulation check is complete."
     alert:
       nameNotExist: "Please enter a process name."
+      fileExtensionNotAllow: "IMPORT files are only allowed with XML extensions."
 
 # Portal
 portal:
