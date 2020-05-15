@@ -35,11 +35,11 @@
             <img th:src="@{/assets/media/icons/process/topmenu/save.png}"/>
             <label th:text="#{common.btn.saveAs}"/>
         </a>
-        <a href="#" id="btnSimulation">
+        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnSimulation">
             <img th:src="@{/assets/media/icons/process/topmenu/simulation.png}"/>
             <label th:text="#{process.label.simulation}"/>
         </a>
-        <span class="separator"></span>
+        <span th:if="${#strings.isEmpty(isView)}" class="separator"></span>
         <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnUndo">
             <img th:src="@{/assets/media/icons/process/topmenu/undo.png}"/>
             <label th:text="#{process.label.undo}"/>

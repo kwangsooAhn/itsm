@@ -318,6 +318,8 @@ process:
     undo: "작업취소"
     redo: "작업재실행"
     imageDownload: "이미지로 저장하기"
+    import: "프로세스 IMPORT"
+    importFile: "IMPORT 파일"
   btn:
     import: "가져오기"
     export: "내보내기"
@@ -330,6 +332,8 @@ process:
     simulation: "시뮬레이션 점검이 완료되었습니다."
     alert:
       nameNotExist: "프로세스 이름을 입력해주세요."
+      importFileNotExist: "IMPORT 파일을 선택해주세요."
+      fileExtensionNotAllow: "IMPORT 파일은 XML 확장자만 허용됩니다."
 
 # Portal
 portal:

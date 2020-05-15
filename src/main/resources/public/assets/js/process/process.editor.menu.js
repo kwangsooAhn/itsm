@@ -350,8 +350,8 @@
             let attributeList = elementTypeData[0].attribute;
             attributeList.forEach(function(attr) {
                 let items = attr.items;
-                items.forEach(function(item){
-                    if (item.required === 'Y')  {
+                items.forEach(function(item) {
+                    if (item.required === 'Y') {
                         required.push(item.id);
                     }
                 });
@@ -1293,7 +1293,7 @@
                     const elements = aliceProcessEditor.data.elements;
                     elements.forEach(function(element) {
                         const category = getElementCategory(element.type);
-                        element['required'] = getAttributeRequired(category, element.type);
+                        element.required = getAttributeRequired(category, element.type);
                     });
                     setElementMenu();
                     aliceProcessEditor.drawProcess(elements);

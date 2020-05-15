@@ -13,7 +13,7 @@
         <h1 th:text="#{process.label.list}"></h1>
         <div align="right">
             <button sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"
-                    onclick="aliceProcessUtil.import();"></button>
+                    onclick="openProcessImport();"></button>
             <button sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.register}"
                     onclick="openProcessEdit();"></button>
             <input type="text" id="search" style="width: 270px" th:placeholder="#{process.label.searchPlaceholder}">
@@ -78,6 +78,11 @@
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
             window.open('/processes/' + processId + '/view', 'process_' + processId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
+        }
+
+        //프로세스 IMPORT 화면 오픈
+        function openProcessImport() {
+            window.open('/processes/import', 'process_import', 'width=600, height=350');
         }
 
         //REST API
