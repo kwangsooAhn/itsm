@@ -45,9 +45,8 @@ class CodeService(private val codeRepository: CodeRepository, private val custom
      * 코드 데이터 저장, 수정
      */
     fun createCode(codeDetailDto: CodeDetailDto) {
-        var pCode = codeDetailDto.pCode
-
-        var codeEntity = CodeEntity (
+        val pCode = codeDetailDto.pCode
+        val codeEntity = CodeEntity(
             codeDetailDto.code,
             codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = pCode!!)),
             codeDetailDto.codeValue,
