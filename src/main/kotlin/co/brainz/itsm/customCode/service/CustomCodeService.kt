@@ -187,26 +187,26 @@ class CustomCodeService(
      * @return String
      */
     fun customCodeEditValid(customCodeDto: CustomCodeDto): String {
-        var isContinue = true
         var code = CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code
-        if (customCodeDto.customCodeId != "") {
-            if (getUsedCustomCodeIdList().indexOf(customCodeDto.customCodeId) != -1) {
-                code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
-                isContinue = false
-            }
-            if (isContinue) {
-                val existCustomCode =
-                    customCodeRepository.findById(customCodeDto.customCodeId).orElse(CustomCodeEntity())
-                isContinue = (customCodeDto.customCodeName != existCustomCode.customCodeName)
-            }
-        }
-        if (isContinue && customCodeRepository.existsByCustomCodeName(customCodeDto.customCodeName!!)) {
-            code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION.code
+        var isContinue = true
+        val customCodeId = customCodeDto.customCodeId
+        if (customCodeId != "" && getUsedCustomCodeIdList().indexOf(customCodeId) != -1) {
+            code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
             isContinue = false
         }
+        if (isContinue) {
+            var isExistName = false
+            if (customCodeId != "") {
+                val existCustomCode = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
+                isExistName = (customCodeDto.customCodeName == existCustomCode.customCodeName)
+            }
+            if (!isExistName && customCodeRepository.existsByCustomCodeName(customCodeDto.customCodeName!!)) {
+                code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION.code
+                isContinue = false
+            }
+        }
         if (isContinue && customCodeDto.type == CustomCodeConstants.Type.CODE.code &&
-            !codeRepository.existsByCodeAndPCodeAndEditableTrue(customCodeDto.pCode!!)
-        ) {
+                !codeRepository.existsByCodeAndPCodeAndEditableTrue(customCodeDto.pCode!!)) {
             code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST.code
         }
         return code
