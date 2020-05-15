@@ -350,8 +350,8 @@
             let attributeList = elementTypeData[0].attribute;
             attributeList.forEach(function(attr) {
                 let items = attr.items;
-                items.forEach(function(item){
-                    if (item.required === 'Y')  {
+                items.forEach(function(item) {
+                    if (item.required === 'Y') {
                         required.push(item.id);
                     }
                 });
@@ -1290,17 +1290,18 @@
                     console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
                     aliceProcessEditor.changeProcessName();
-                    aliceProcessEditor.data.elements.forEach(function(elements) {
-                        const category = getElementCategory(elements.type);
-                        elements['required'] = getAttributeRequired(category, elements.type);
-                    });
                     const elements = aliceProcessEditor.data.elements;
+                    elements.forEach(function(element) {
+                        const category = getElementCategory(element.type);
+                        element.required = getAttributeRequired(category, element.type);
+                    });
                     setElementMenu();
                     aliceProcessEditor.drawProcess(elements);
                 },
                 contentType: 'application/json; charset=utf-8'
             });
         };
+
         /**
          * load element attribute data.
          */

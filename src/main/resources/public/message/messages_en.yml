@@ -317,9 +317,12 @@ process:
     simulation: "Simulation"
     undo: "Undo"
     redo: "Redo"
+    imageDownload: "Image Download"
+    import: "Process Import"
+    importFile: "Import File"
+  btn:
     import: "Import"
     export: "Export"
-    imageDownload: "Image Download"
   status:
     edit: "Edit"
     publish: "Publish"
@@ -329,6 +332,7 @@ process:
     simulation: "Simulation check is complete."
     alert:
       nameNotExist: "Please enter a process name."
+      fileExtensionNotAllow: "IMPORT files are only allowed with XML extensions."
 
 # Portal
 portal:
@@ -435,13 +439,22 @@ custom.code:
     targetTable: "Target Table Name"
     searchColumn: "Search Column Name"
     valueColumn: "Value Column Name"
+    type: "Type"
+    type.table: "Table"
+    type.code: "Code"
+    condition: "Condition"
+    pCode: "Parent Code"
   msg:
     inputCustomCodeName: "Please enter a custom code name."
     inputTableTarget: "Please enter a table target name."
     inputSearchColumn: "Please enter a search column name."
     inputValueColumn: "Please enter a value column name."
+    inputPCode: "Please enter your parental code."
+    addCondition: "Only {0} or less can be added."
+    selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
     customCodeUsed: "The Custom code is being used."
     customCodeNameDuplication: "The same custom code name exists."
+    pCodeNotExist: "The parent code does not exist."
 
 # Dashboard
 dashboard:

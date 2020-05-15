@@ -233,17 +233,14 @@ class WfProcessService(
         val processDataDto = RestTemplateProcessDto(
             processName = restTemplateProcessElementDto.process?.name.toString(),
             processDesc = restTemplateProcessElementDto.process?.description,
+            processStatus = WfProcessConstants.Status.EDIT.code,
+            enabled = true,
             createDt = restTemplateProcessElementDto.process?.createDt,
-            processStatus = restTemplateProcessElementDto.process?.status.toString(),
             createUserKey = restTemplateProcessElementDto.process?.createUserKey,
             updateDt = restTemplateProcessElementDto.process?.updateDt,
             updateUserKey = restTemplateProcessElementDto.process?.updateUserKey
         )
         val processDto = insertProcess(processDataDto)
-        if (restTemplateProcessElementDto.process?.status == WfProcessConstants.Status.DESTROY.code) {
-            processDto.processStatus = WfProcessConstants.Status.EDIT.code
-            processDto.enabled = true
-        }
         val newProcess = RestTemplateProcessViewDto(
             id = processDto.processId,
             name = processDto.processName,
@@ -287,6 +284,6 @@ class WfProcessService(
      * [processId] 에 해당하는 프로세스 시뮬레이션을 실행한다.
      */
     fun getProcessSimulation(processId: String): Boolean {
-        return wfProcessSimulator.getSimulation(processId)
+        return wfProcessSimulator.getProcessSimulation(processId)
     }
 }
