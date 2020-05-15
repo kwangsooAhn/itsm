@@ -104,20 +104,22 @@
         window.onload = function() {
             if (/*[[${customCode.type == 'table'}]]*/'') {
                 const condition = JSON.parse(/*[[${customCode.condition}]]*/'');
-                Object.keys(condition).forEach(function (data) {
-                    const div = document.createElement('div');
-                    const keyLabel = document.createElement('label');
-                    keyLabel.innerText = getColumnName(data);
-                    const equalSpan = document.createElement('span');
-                    equalSpan.classList.add('equal');
-                    const valueLabel = document.createElement('label');
-                    valueLabel.innerText = condition[data];
+                if (condition != null) {
+                    Object.keys(condition).forEach(function (data) {
+                        const div = document.createElement('div');
+                        const keyLabel = document.createElement('label');
+                        keyLabel.innerText = getColumnName(data);
+                        const equalSpan = document.createElement('span');
+                        equalSpan.classList.add('equal');
+                        const valueLabel = document.createElement('label');
+                        valueLabel.innerText = condition[data];
 
-                    div.appendChild(keyLabel);
-                    div.appendChild(equalSpan);
-                    div.appendChild(valueLabel);
-                    document.getElementById('condition').appendChild(div);
-                });
+                        div.appendChild(keyLabel);
+                        div.appendChild(equalSpan);
+                        div.appendChild(valueLabel);
+                        document.getElementById('condition').appendChild(div);
+                    });
+                }
             }
         };
 
