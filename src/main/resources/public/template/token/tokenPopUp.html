@@ -12,7 +12,7 @@
     <h1 th:text="#{token.label.relatedInstance}" style="text-align: left;"></h1>
     <input type="text" id="search" style="width: 270px" th:placeholder="#{token.label.searchPlaceholder}">
     <hr>
-    <div id = AllDocList></div>
+    <div id = instanceList></div>
     <hr>
     <div style="text-align: center;">
         <button th:onclick="onSave()" style="display: inline-block;" th:text="#{common.btn.add}"></button>
@@ -28,16 +28,16 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            getAllDocList(document.getElementById('search').value, '[[${tokenId}]]', true);
+            getInstanceList(document.getElementById('search').value, true);
         };
 
         document.getElementById('search').onkeyup = function() {
-            getAllDocList(this.value, '[[${tokenId}]]',  false);
+            getInstanceList(this.value, false);
         };
 
-        function getAllDocList(search, tokenId, showProgressbar) {
-            restSubmit('get', '/tokens/view-pop/list?search=' + search.trim() + '&tokenId=' + tokenId, function(result) {
-                document.getElementById('AllDocList').innerHTML = result;
+        function getInstanceList(search, showProgressbar) {
+            restSubmit('get', '/tokens/view-pop/list?search=' + search.trim(), function(result) {
+                document.getElementById('instanceList').innerHTML = result;
             },null ,showProgressbar);
         }
 

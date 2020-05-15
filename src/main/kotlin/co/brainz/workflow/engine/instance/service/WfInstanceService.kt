@@ -12,6 +12,7 @@ import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -153,5 +154,12 @@ class WfInstanceService(
         }
 
         return commentList
+    }
+
+    /**
+     * Get Instance List
+     */
+    fun getInstanceList(searchValue: String): MutableList<RestTemplateInstanceListDto> {
+        return wfInstanceRepository.findInstanceList(searchValue)
     }
 }

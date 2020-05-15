@@ -82,6 +82,17 @@ object RestTemplateConstants {
     }
 
     /**
+     * Folder Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class Folder(val url: String, val method: String) {
+        POST_FOLDER("/rest/wf/folders", "POST"),
+        DELETE_FOLDER("/rest/wf/folders", "DELETE")
+    }
+
+    /**
      * Workflow Url.
      *
      * @param url
@@ -108,8 +119,8 @@ object RestTemplateConstants {
     enum class Instance(val url: String, val method: String) {
         GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
         GET_RELATED_INSTANCE("/rest/wf/folders", "GET"),
-        GET_ALL_INSTANCE("/rest/wf/folders/list", "GET"),
-        GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET")
+        GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET"),
+        GET_INSTANCE_LIST("/rest/wf/instances/list", "GET")
     }
 
     /**

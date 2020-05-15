@@ -5,6 +5,8 @@ import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.NotFound
+import org.hibernate.annotations.NotFoundAction
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -43,6 +45,7 @@ data class WfInstanceEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     val document: WfDocumentEntity,
 
     @Column(name = "document_no", length = 128)

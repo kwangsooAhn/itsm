@@ -3,6 +3,7 @@ package co.brainz.workflow.engine.instance.repository
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
@@ -44,4 +45,15 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
                 "ORDER BY t.tokenStartDt"
     )
     fun findInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto>
+
+    @Query(
+        "SELECT NEW co.brainz.workflow.provider.dto.RestTemplateInstanceListDto(" +
+                "i.instanceId, d.documentName, i.documentNo, i.instanceStartDt , i.instanceEndDt, i.instanceCreateUserKey) from WfDocumentEntity d, WfInstanceEntity i "  +
+                "WHERE d.documentId = i.document.documentId " +
+                "AND (lower(i.document.documentName) like lower(concat('%', :searchValue, '%')) " +
+                "or lower(i.instanceCreateUserKey) like lower(concat('%', :searchValue, '%')) " +
+                "or :searchValue is null or :searchValue = '') " +
+                "ORDER BY i.instanceStartDt"
+    )
+    fun findInstanceList(searchValue: String): MutableList<RestTemplateInstanceListDto>
 }

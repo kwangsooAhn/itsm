@@ -22,11 +22,6 @@ class WfFolderController(private val wfFolderService: WfFolderService) {
         return wfFolderService.getRelatedInstanceList(tokenId)
     }
 
-    @GetMapping("/list")
-    fun getAllInstanceList(@RequestParam tokenId: String, @RequestParam searchValue: String): List<RestTemplateFolderDto> {
-        return wfFolderService.getAllInstanceList(tokenId, searchValue)
-    }
-
     @PostMapping("")
     fun createFolderData(@RequestBody restTemplateFolderDto: List<RestTemplateFolderDto>) {
         return wfFolderService.createFolderData(restTemplateFolderDto)

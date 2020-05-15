@@ -7,30 +7,33 @@
 <body>
 <table class="table table-hover" style="text-align: center">
     <colgroup>
-        <col width="10%">
+        <col width="5%">
         <col width="25%">
         <col width="20%">
         <col width="20%">
         <col width="20%">
+        <col width="10%">
     </colgroup>
     <thead>
     <tr>
         <th></th>
+        <th th:text="#{document.label.no}"></th>
         <th th:text="#{document.label.name}"></th>
         <th th:text="#{token.label.startDt}"></th>
         <th th:text="#{token.label.endDt}"></th>
         <th th:text="#{token.label.assignee}"></th>
     </tr>
     </thead>
-    <tbody id="relatedInstance">
-    <tr th:each="rInstance, index : ${relatedInstance}">
-        <td><input type="checkbox" th:id="${index.index}" th:name="chk" th:value="${rInstance.instanceId}"></td>
-        <td th:text="${rInstance.documentName}"></td>
+    <tbody id="instanceList">
+    <tr th:each="instance, index : ${instanceList}">
+        <td><input type="checkbox" th:id="${index.index}" th:name="chk" th:value="${instance.instanceId}"></td>
+        <td th:text="${instance.documentNo}"></td>
+        <td th:text="${instance.documentName}"></td>
         <td th:with="dateformat=${#authentication.details.timeFormat}"
-            th:text="${#temporals.format(rInstance.instanceStartDt, dateformat)}"></td>
+            th:text="${#temporals.format(instance.instanceStartDt, dateformat)}"></td>
         <td th:with="dateformat=${#authentication.details.timeFormat}"
-            th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
-        <td th:text="${rInstance.instanceCreateUserKey}"></td>
+            th:text="${#temporals.format(instance.instanceEndDt, dateformat)}"></td>
+        <td th:text="${instance.instanceCreateUserKey}"></td>
     </tr>
     </tbody>
 </table>

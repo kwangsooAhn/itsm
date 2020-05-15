@@ -3,11 +3,13 @@ package co.brainz.itsm.folder.service
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
@@ -15,14 +17,13 @@ import org.springframework.util.LinkedMultiValueMap
 class FolderService(private val restTemplate: RestTemplateProvider) {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun getInstance(tokenId: String?, searchValue: String?, target: String): List<RestTemplateRelatedInstanceDto>? {
+    fun getRelatedInstance(tokenId: String): List<RestTemplateRelatedInstanceDto>? {
         var relatedInstance: MutableList<RestTemplateRelatedInstanceDto>? = null
         val params = LinkedMultiValueMap<String, String>()
         params["tokenId"] = tokenId
-        params["searchValue"] = searchValue
 
         val urlDto =
-            RestTemplateUrlDto(callUrl = target, parameters = params)
+            RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_RELATED_INSTANCE.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
 
         relatedInstance = mapper.readValue(
@@ -39,4 +40,20 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
 
         return relatedInstance
     }
+/*
+    fun createFolder(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
+
+    }
+
+    fun deleteFolder(restTemplateFolderDto: RestTemplateFolderDto): ResponseEntity<Map<String, Any>> {
+        val url = RestTemplateUrlDto(
+                callUrl = RestTemplateConstants.Comment.DELETE_COMMENT.url.replace(
+                        restTemplate.getKeyRegex(),
+                        restTemplateFolderDto.folderId!!,
+                        restTemplateFolderDto.instanceId
+                )
+        )
+
+        return restTemplate.delete(url)
+    }*/
 }

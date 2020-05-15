@@ -6,12 +6,14 @@ import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class InstanceService(private val restTemplate: RestTemplateProvider) {
@@ -78,5 +80,29 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
         }
 
         return restTemplateComments
+    }
+
+    fun getInstanceList(searchValue: String) : List<RestTemplateInstanceListDto>? {
+        var instanceList: MutableList<RestTemplateInstanceListDto>? = null
+        val params = LinkedMultiValueMap<String, String>()
+        params["searchValue"] = searchValue
+
+        val urlDto =
+            RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_INSTANCE_LIST.url, parameters = params)
+        val responseBody = restTemplate.get(urlDto)
+
+        instanceList = mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceListDto::class.java)
+        )
+
+        instanceList?.let { instanceList ->
+            for (instance in instanceList) {
+                instance.instanceStartDt = instance.instanceStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
+                instance.instanceEndDt = instance.instanceEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
+            }
+        }
+
+        return instanceList
     }
 }

@@ -18,18 +18,4 @@ interface WfFolderRepository : JpaRepository<WfFolderEntity, String> {
                 "ORDER BY i.instanceStartDt"
     )
     fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateFolderDto>
-
-    @Query(
-        "SELECT NEW co.brainz.workflow.provider.dto.RestTemplateFolderDto(" +
-                "f.folderId, f.instance.instanceId, f.relatedType, i.document.documentName, i.instanceStartDt, i.instanceEndDt, i.instanceCreateUserKey, i.instanceCreateUserKey) FROM WfFolderEntity f, WfInstanceEntity i " +
-                "WHERE f.folderId != (SELECT sf.folderId FROM WfFolderEntity sf, WfTokenEntity st " +
-                "                     WHERE st.tokenId = :tokenId " +
-                "                       AND st.instance = sf.instance) " +
-                "AND f.instance = i " +
-                "AND (lower(i.document.documentName) like lower(concat('%', :searchValue, '%')) " +
-                "or lower(i.instanceCreateUserKey) like lower(concat('%', :searchValue, '%')) " +
-                "or :searchValue is null or :searchValue = '') " +
-                "ORDER BY i.instanceStartDt"
-    )
-    fun findAllDocumentList(tokenId: String, searchValue: String): List<RestTemplateFolderDto>
 }
