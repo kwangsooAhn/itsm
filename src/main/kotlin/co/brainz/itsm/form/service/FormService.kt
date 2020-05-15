@@ -13,6 +13,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.time.LocalDateTime
@@ -20,10 +21,13 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 
 @Service
 class FormService(private val restTemplate: RestTemplateProvider) {
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun findForms(params: LinkedMultiValueMap<String, String>): List<RestTemplateFormDto> {
@@ -131,9 +135,10 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         var dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
         val fileList = JsonArray()
+        val imageRegex = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))\$)".toRegex()
         Files.walk(dir)
             .filter { Files.isRegularFile(it) }
-            //.filter { it -> it.toString().endsWith(".jpg") }  //TODO: 이미지만 필터 ([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)
+            .filter { it -> it.fileName.toString().matches(imageRegex) }
             .forEach {
                 val fileJson = JsonObject()
                 fileJson.addProperty("fname", it.fileName.toString())
@@ -146,5 +151,31 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 fileList.add(fileJson)
             }
         return fileList.toString()
+    }
+
+    fun upload(multipartFile: MultipartFile): String {
+        var rtn = ""
+        val absolutePath = Paths.get("").toAbsolutePath().toString()
+        var dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+        val destDir = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
+        try {
+            multipartFile.transferTo(destDir.toFile())
+            //파일 저장 후 경로를 담아서 전달한다.
+            val fileJson = JsonObject()
+            fileJson.addProperty("fname", destDir.fileName.toString())
+            fileJson.addProperty(
+                    "imgPath",
+                    Paths.get(RestTemplateConstants.RESOURCES_DIR).toUri().relativize(destDir.toUri()).toString()
+            )   //상대 경로
+            fileJson.addProperty("imgUrl", destDir.toUri().toURL().toString())
+            fileJson.addProperty("fsize", destDir.toFile().length())
+
+            rtn = fileJson.toString()
+        } catch (e: Exception) {
+            logger.error("File upload failed.");
+            logger.error("{}", e.message)
+        }
+        return rtn
     }
 }

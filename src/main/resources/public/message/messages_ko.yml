@@ -290,7 +290,7 @@ form:
     fileupload: "Fileupload"
     customCode: "Custom Code"
   btn:
-    upload: "업로드"
+    upload: "파일 업로드"
   lang:
     ko: "한국어"
   msg:
@@ -301,6 +301,8 @@ form:
       max: "{0} 이하로 입력해주세요."
       minLength: "{0}글자 이상 입력해주세요."
       maxLength: "{0}글자 이하로 입력해주세요."
+      fileuploadFailed: "파일업로드에 실패하였습니다."
+      fileSelect: "파일을 선택해주세요."
   preview:
     name: "문서양식 미리보기"
 

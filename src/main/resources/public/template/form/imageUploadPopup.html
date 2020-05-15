@@ -20,47 +20,168 @@
         }
         .dropzone .dz-message { text-align: center; font-size: 26px; margin: 240px 0;}
         .dropzone .note { display: block; font-size: 16px; }
+        .dropzone .dz-preview { cursor: pointer; }
+        .dropzone .dz-preview > *:not(button) { pointer-events: none; }
+        .dropzone .dz-preview .dz-details .dz-filename { padding-bottom: 10px; }
+        .dropzone .dz-preview .dz-selected-mark {
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 100%;
+            z-index: 500;
+            pointer-events: none;
+            margin-top: -12px;
+        }
+        .dropzone .dz-preview .dz-selected-mark .round-icon span {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            height: 28px;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 28px;
+        }
+        .dropzone .dz-preview .dz-selected-mark .round-icon span:after {
+            border: 2px solid #fff;
+            border-top: none;
+            border-right: none;
+            content: "";
+            height: 6px;
+            left: 7px;
+            opacity: 0;
+            position: absolute;
+            top: 8px;
+            transform: rotate(-45deg);
+            width: 12px;
+        }
+        .dropzone .dz-preview.selected .dz-selected-mark .round-icon span {
+            background-color: #66bb6a;
+            border-color: #66bb6a;
+        }
+        .dropzone .dz-preview.selected .dz-selected-mark .round-icon span:after {
+            opacity: 1;
+        }
         .btn-container {
-            float: right;
             margin-top: 10px;
+        }
+        .btn-upload-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .btn-check-wrapper {
+            display: inline-block;
+            float: right;
+        }
+        .btn-upload-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="dropzone" id="image-dropzone">
+    <div class="fileEditorable" id="dropZoneFiles">
+        <div class="dropzone" id="dropZoneFileUpload">
             <div class="dz-message">
                 Drop images here to upload
                 <span class="note">(Images must be smaller than <strong>3MB</strong>)</span>
             </div>
+            <div class="fallback">
+                <input name="file" type="file" multiple />
+            </div>
         </div>
-    </div>
-    <div class="btn-container">
-        <button type="button" th:text="#{form.btn.upload}" onclick=""></button>
-        <button type="button" th:text="#{common.btn.check}" onclick=""></button>
-        <button type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
+        <div class="btn-container">
+            <div class="btn-upload-wrapper">
+                <button type="button" th:text="#{form.btn.upload}" class="btn-upload"></button>
+            </div>
+            <div class="btn-check-wrapper">
+                <button type="button" th:text="#{common.btn.check}" onclick="selectedImageSave();"></button>
+                <button type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
+            </div>
+        </div>
     </div>
 </body>
 <script type="text/javascript">
     /*<![CDATA[*/
-    const selectedImagePath = '';
+    let selectedImagePreview = null;
     Dropzone.autoDiscover = false;
+    
+    function selectedImageSave() {
+        //이미지가 하나라도 선택되어 있지 않으면 알림창 출력
+        if (selectedImagePreview === null) {
+            aliceJs.alert(i18n.get('fileupload.msg.fileSelect'));
+            return false;
+        }
+        if (window.opener && !window.opener.closed) {
+            //let component = window.opener.document.getElementById(componentData.componentId);
+            //let componentChild =  component.querySelector('input[type="text"]');
+            //componentChild.value = componentValue;
+            //window.close();
+        }
+    }
+
+    function onImageSelectHandler(e) {
+        console.log(e.target);
+        //기존 선택된 이미지를 지운다.
+        if (selectedImagePreview !== null) {
+            if (selectedImagePreview.classList.contains('selected')) {
+                selectedImagePreview.classList.remove('selected');
+            }
+        }
+        if (!e.target.classList.contains('selected') && e.target.classList.contains('dz-preview')) {
+            e.target.classList.add('selected');
+        }
+        selectedImagePreview = e.target;
+    }
 
     window.onload = function() {
-        const imageDropzone = new Dropzone('div#image-dropzone', {
+        const imageDropzone = new Dropzone('#dropZoneFiles #dropZoneFileUpload', {
             paramName: 'file', // file 매개변수명
-            params: {}, // 추가 매개변수
+            params: { dropZoneFilesId: 'dropZoneFiles' }, // 추가 매개변수
             url: '/rest/forms/imageUpload',
             method: 'post',
+            enctype: "multipart/form-data",
             maxFilesize: 3, // 파일 용량 제한
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
             maxFiles: null, // 첨부파일 개수 제한
             autoProcessQueue: true, //자동업로드, processQueue() 사용
+            previewTemplate: `<div class="dz-preview dz-file-preview" id="dz-preview-template">
+                <div class="dz-image">
+                    <img data-dz-thumbnail />
+                </div>
+                <div class="dz-details">
+                    <div class="dz-filename"><span data-dz-name></span></div>
+                    <input type="hidden" id="dz-filepath" value="">
+                    <div class="dz-size" data-dz-size></div>
+                </div>
+                <div class="dz-progress">
+                    <span class="dz-upload" data-dz-uploadprogress></span>
+                </div>
+                <button type="button" class="dz-remove" data-dz-remove>DELETE</button>
+                <div class="dz-success-mark">
+                    <span>SUCCESS</span>
+                </div>
+                <div class="dz-error-mark">
+                    <span>FAILED</span>
+                </div>
+                <div class="dz-error-message">
+                    <span data-dz-errormessage></span>
+                </div>
+                <div class="dz-selected-mark">
+                    <div class="round-icon">
+                        <span></span>
+                    </div>
+                </div>
+            </div> `,
+            //thumbnailWidth: 80,
+            //thumbnailHeight: 80,
             uploadMultiple: true,  //여러 개의 사진 업로드 허용
-            addRemoveLinks: false,
+            addRemoveLinks: false, //업로드 취소 및 추가 삭제 미리 보기 그림 링크
             acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF',
             autoQueue: true, // Make sure the files aren't queued until manually added
-            clickable: false, // Define the element that should be used as click trigger to select files.
+            clickable: '.btn-upload', // Define the element that should be used as click trigger to select files.
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content')
             },
@@ -69,39 +190,35 @@
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _self = this;
-                let imageList = JSON.parse('[(${data})]');
-                if (imageList) {
-                    for (let i = 0; i < imageList.length; i++) {
-                        let imageFile = imageList[i];
-                        let mockFile = {
-                            name: imageFile['fname'],
-                            size: Number(imageFile['fsize']),
-                            url: imageFile['imgUrl'], //절대경로
-                            accepted: true,
-                            status: Dropzone.ADDED,
-                            isNew: false
-                        };
-                        _self.emit('addedfile', mockFile);
-                        _self.options.thumbnail.call(_self, mockFile,  '/' + imageFile['imgPath']);
-                        _self.emit('complete', mockFile);
-                        _self.files.push(mockFile);
-                    }
-                }
-                //TODO: dropzone 이벤트 등록
-                /*_self.on('addedfile', function (file) {
-                    //file.previewElement.querySelector('.start').onclick = function() { _this.enqueueFile(file); };
+
+                _self.on('addedfile', function (file) {
+                    console.log('============================ addedfile ');
+                    console.log(file);
+                    file.previewElement.querySelector('#dz-filepath').value = file.imgPath;
+                    file.previewElement.addEventListener('click', onImageSelectHandler, false);
                 });
 
                 _self.on('removedfile', function (file) {
+                    console.log('============================ removedfile');
+                    console.log(file);
                 });
 
                 _self.on('sending', function (file, xhr, formData) {
+                    formData.append("file", file);
                 });
 
                 _self.on('success', function (file, response) {
+                    if (response === '') { //업로드 실패
+                        _self.removeFile(file);
+                        aliceJs.alert(i18n.get('form.msg.alert.fileuploadFailed'));
+                    } else {
+                        console.log(response);
+                        file.previewElement.querySelector('#dz-filepath').value = '/' + response.imgPath;
+                    }
                 });
 
                 _self.on('error', function (file, errorMsg, xhr) {
+                    file.previewElement.querySelector('.dz-error-message').innerText = res.message;
                 });
 
                 _self.on('complete', function (file) {
@@ -109,9 +226,6 @@
 
                 _self.on('queuecomplete', function (progress) {
                 });
-
-                _self.on('canceled', function () {
-                });*/
 
                 _self.on('maxfilesexceeded', function (file, maxFiles) {
                     _self.removeFile(file);
@@ -123,6 +237,26 @@
                     aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize));
                 });
 
+                //기존 이미지가 존재하면?
+                let imageList = JSON.parse('[(${data})]');
+                if (imageList) {
+                    for (let i = 0; i < imageList.length; i++) {
+                        let imageFile = imageList[i];
+                        let mockFile = {
+                            name: imageFile['fname'],
+                            size: Number(imageFile['fsize']),
+                            url: imageFile['imgUrl'], //절대경로
+                            imgPath: '/' + imageFile['imgPath'], //상대경로
+                            accepted: true,
+                            status: Dropzone.ADDED,
+                            isNew: false
+                        };
+                        _self.emit('addedfile', mockFile);
+                        _self.emit('thumbnail', mockFile, '/' + imageFile['imgPath']);
+                        _self.emit('complete', mockFile);
+                        _self.files.push(mockFile);
+                    }
+                }
             },
             accept: function(file, done) {
                 done();

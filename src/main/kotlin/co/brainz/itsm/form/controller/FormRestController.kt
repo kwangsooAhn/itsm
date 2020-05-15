@@ -67,18 +67,10 @@ class FormRestController(
 
     /**
      * 이미지 컴포넌트 이미지 파일 업로드.
+     * 경로 : resoures/public/assets/media/image/form
      */
     @PostMapping("/imageUpload")
-    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): ResponseEntity<Map<String, Any>> {
-        val response: ResponseEntity<Map<String, Any>>
-        val map: MutableMap<String, Any> = mutableMapOf()
-        // TODO resoures/public/assets/media/image/form 경로에 파일업로드
-        // map["file"] = formService.upload(multipartFile)
-
-        val headers = HttpHeaders()
-        headers.add("Content-Type", "application/json; charset=utf-8")
-        response = ResponseEntity(map, headers, HttpStatus.OK)
-
-        return response
+    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): String {
+        return formService.upload(multipartFile)
     }
 }
