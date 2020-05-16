@@ -9,7 +9,6 @@ import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
@@ -40,20 +39,36 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
 
         return relatedInstance
     }
-/*
-    fun createFolder(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
 
-    }
-
-    fun deleteFolder(restTemplateFolderDto: RestTemplateFolderDto): ResponseEntity<Map<String, Any>> {
+    fun getFolderId(tokenId: String): String?  {
         val url = RestTemplateUrlDto(
-                callUrl = RestTemplateConstants.Comment.DELETE_COMMENT.url.replace(
-                        restTemplate.getKeyRegex(),
-                        restTemplateFolderDto.folderId!!,
-                        restTemplateFolderDto.instanceId
-                )
+            callUrl = RestTemplateConstants.Folder.GET_FOLDER.url.replace(
+                restTemplate.getKeyRegex(),
+                tokenId
+            )
         )
 
-        return restTemplate.delete(url)
-    }*/
+        val restTemplateFolderDto: RestTemplateFolderDto = mapper.readValue(
+            restTemplate.get(url),
+            mapper.typeFactory.constructType(RestTemplateFolderDto::class.java)
+        )
+
+        return restTemplateFolderDto.folderId
+    }
+
+    fun createFolder(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Folder.POST_FOLDER.url
+        )
+        val responseEntity = restTemplate.create(url, restTemplateFolderDto)
+        return responseEntity.body.toString().isNotEmpty()
+    }
+
+    fun deleteFolder(restTemplateFolderDto: RestTemplateFolderDto): Boolean {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Folder.DELETE_FOLDER.url
+        )
+        val responseEntity = restTemplate.delete(url, restTemplateFolderDto)
+        return responseEntity.body.toString().isNotEmpty()
+    }
 }

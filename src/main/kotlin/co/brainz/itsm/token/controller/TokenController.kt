@@ -76,7 +76,7 @@ class TokenController(
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
         val instanceId = instanceService.getInstanceId(tokenId)!!
-        val folderId = folderService.getRelatedInstance(tokenId)?.get(0)?.folderId
+        val folderId = folderService.getFolderId(tokenId)
         model.addAttribute("folderId", folderId)
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))

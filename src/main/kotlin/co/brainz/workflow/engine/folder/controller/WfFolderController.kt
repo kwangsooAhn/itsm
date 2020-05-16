@@ -4,6 +4,7 @@ import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.engine.folder.service.WfFolderService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,6 +21,11 @@ class WfFolderController(private val wfFolderService: WfFolderService) {
     @GetMapping("")
     fun getRelatedInstanceList(@RequestParam tokenId: String): List<RestTemplateFolderDto> {
         return wfFolderService.getRelatedInstanceList(tokenId)
+    }
+
+    @GetMapping("/{tokenId}")
+    fun getOriginFolder(@PathVariable tokenId: String): RestTemplateFolderDto {
+        return wfFolderService.getOriginFolder(tokenId)
     }
 
     @PostMapping("")

@@ -53,7 +53,7 @@
                 jsonArray.push(jsonObject);
             }
 
-            restSubmit('POST', '/rest/wf/folders', function() {
+            restSubmit('POST', '/rest/folders', function() {
                 opener.location.reload();
                 window.close();
             },jsonArray ,false);

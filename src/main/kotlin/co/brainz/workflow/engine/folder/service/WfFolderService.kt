@@ -6,6 +6,7 @@ import co.brainz.workflow.engine.folder.entity.WfFolderEntity
 import co.brainz.workflow.engine.folder.repository.WfFolderRepository
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
+import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import java.util.UUID
 import org.springframework.stereotype.Service
 
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service
 @Service
 class WfFolderService(
     private val wfFolderRepository: WfFolderRepository,
-    private val wfInstanceRepository: WfInstanceRepository
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfTokenRepository: WfTokenRepository
 ) {
     fun createFolder(instance: WfInstanceEntity) {
         wfFolderRepository.save(
@@ -40,6 +42,28 @@ class WfFolderService(
                 relatedType = WfFolderConstants.RelatedType.ORIGIN.code
             )
         )
+    }
+
+    fun getOriginFolder(tokenId: String): RestTemplateFolderDto {
+        val tokenEntity = wfTokenRepository.findById(tokenId)
+        var originFolder = tokenEntity.get().instance.folders
+        var restTemplateFolderDto: RestTemplateFolderDto? = null;
+        originFolder!!.forEach {
+            if (it.relatedType == WfFolderConstants.RelatedType.ORIGIN.code) {
+                    restTemplateFolderDto = RestTemplateFolderDto(
+                    folderId = it.folderId,
+                    instanceId = it.instance.instanceId,
+                    relatedType = it.relatedType,
+                    documentName = null,
+                    instanceStartDt = null,
+                    instanceEndDt = null,
+                    instanceCreateUserKey = null,
+                    instanceCreateUserName = null
+                )
+            }
+        }
+
+        return restTemplateFolderDto!!
     }
 
     fun getRelatedInstanceList(tokenId: String): List<RestTemplateFolderDto> {
