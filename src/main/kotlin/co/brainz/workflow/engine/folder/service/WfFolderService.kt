@@ -75,7 +75,8 @@ class WfFolderService(
             var wfFolderEntity = WfFolderEntity (
                 folderId = restTemplateFolderDto.folderId!!,
                 instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId!!)!!,
-                relatedType = WfFolderConstants.RelatedType.REFERENCE.code
+                relatedType = WfFolderConstants.RelatedType.REFERENCE.code,
+                createUserKey = restTemplateFolderDto.instanceCreateUserKey
             )
 
             wfFolderRepository.save(wfFolderEntity)

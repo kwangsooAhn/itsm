@@ -1,5 +1,6 @@
 package co.brainz.itsm.folder.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -9,6 +10,7 @@ import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
@@ -57,6 +59,12 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
     }
 
     fun createFolder(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+
+        for(i in restTemplateFolderDto) {
+            i.instanceCreateUserKey = aliceUserDto.userKey
+        }
+
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Folder.POST_FOLDER.url
         )

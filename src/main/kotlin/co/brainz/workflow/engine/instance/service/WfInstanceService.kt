@@ -159,7 +159,7 @@ class WfInstanceService(
     /**
      * Get Instance List
      */
-    fun getInstanceList(searchValue: String): MutableList<RestTemplateInstanceListDto> {
-        return wfInstanceRepository.findInstanceList(searchValue)
+    fun getInstanceSearchList(searchValue: String): MutableList<RestTemplateInstanceListDto> {
+        return wfInstanceRepository.findInstanceSearchList(searchValue)
     }
 }

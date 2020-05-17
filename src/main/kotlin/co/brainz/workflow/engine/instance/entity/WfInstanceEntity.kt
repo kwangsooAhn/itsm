@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.instance.entity
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.engine.comment.entity.WfCommentEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
@@ -49,7 +50,11 @@ data class WfInstanceEntity(
     val document: WfDocumentEntity,
 
     @Column(name = "document_no", length = 128)
-    var documentNo: String? = null
+    var documentNo: String? = null,
+
+    @ManyToOne(targetEntity = AliceUserEntity::class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "instance_create_user_key", insertable = false, updatable = false)
+    var aliceUserEntity: AliceUserEntity? = null
 
 ) : Serializable {
 
