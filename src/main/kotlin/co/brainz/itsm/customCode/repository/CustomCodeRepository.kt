@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository
 interface CustomCodeRepository : JpaRepository<CustomCodeEntity, String> {
     fun findByOrderByCustomCodeNameAsc(): List<CustomCodeEntity>
     fun existsByCustomCodeName(customCodeName: String): Boolean
+    fun existsByPCode(pCode: String): Boolean
 }

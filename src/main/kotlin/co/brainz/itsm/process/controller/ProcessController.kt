@@ -17,6 +17,7 @@ class ProcessController(private val processService: ProcessService) {
     private val processListPage: String = "process/processList"
     private val processEditPage: String = "process/processEdit"
     private val processDesignerEditPage: String = "process/processDesignerEdit"
+    private val processImportPage: String = "process/processImport"
 
     /**
      * 프로세스 리스트 검색 호출 화면.
@@ -64,5 +65,13 @@ class ProcessController(private val processService: ProcessService) {
         model.addAttribute("processId", processId)
         model.addAttribute("isView", true)
         return processDesignerEditPage
+    }
+
+    /**
+     * 프로세스 Import 화면.
+     */
+    @GetMapping("/import")
+    fun getProcessImport(request: HttpServletRequest, model: Model): String {
+        return processImportPage
     }
 }

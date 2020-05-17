@@ -35,11 +35,11 @@
             <img th:src="@{/assets/media/icons/process/topmenu/save.png}"/>
             <label th:text="#{common.btn.saveAs}"/>
         </a>
-        <a href="#" id="btnSimulation">
+        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnSimulation">
             <img th:src="@{/assets/media/icons/process/topmenu/simulation.png}"/>
             <label th:text="#{process.label.simulation}"/>
         </a>
-        <span class="separator"></span>
+        <span th:if="${#strings.isEmpty(isView)}" class="separator"></span>
         <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnUndo">
             <img th:src="@{/assets/media/icons/process/topmenu/undo.png}"/>
             <label th:text="#{process.label.undo}"/>
@@ -47,15 +47,6 @@
         <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnRedo">
             <img th:src="@{/assets/media/icons/process/topmenu/redo.png}"/>
             <label th:text="#{process.label.redo}"/>
-        </a>
-        <span th:if="${#strings.isEmpty(isView)}" class="separator"></span>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnImport">
-            <img th:src="@{/assets/media/icons/process/topmenu/import.png}"/>
-            <label th:text="#{process.label.import}"/>
-        </a>
-        <a href="#" id="btnExport">
-            <img th:src="@{/assets/media/icons/process/topmenu/export.png}"/>
-            <label th:text="#{process.label.export}"/>
         </a>
         <span class="separator"></span>
         <a href="#" id="btnDownload">
@@ -83,7 +74,7 @@
 <script type="text/javascript">
     window.onload = function() {
         i18n.add(function(){
-            aliceProcessEditor.init('[[${processId}]]');
+            aliceProcessEditor.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
     };
 </script>

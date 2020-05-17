@@ -84,8 +84,17 @@
             callbackFunc: function(response) {
                 opener.location.reload();
                 window.close();
-                const specs = "left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no";
-                window.open('/forms/' + response.responseText + '/edit', 'formDesigner', 'width=1500,height=920,' + specs);
+
+                const _width = 1500,
+                    _height = 920;
+                //중앙 배치
+                const _left = Math.ceil((window.screen.width - _width) / 2);
+                const _top = Math.ceil((window.screen.height - _height) / 4);
+
+                let specs = 'left=' + _left + ',top=' + _top;
+                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                window.open('/forms/' + response.responseText + '/edit', 'form_' + response.responseText + '_edit',
+                    'width=' + _width + ',height=' + _height + ','+ specs);
             }
         };
         aliceJs.sendXhr(opt);

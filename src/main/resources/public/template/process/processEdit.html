@@ -93,7 +93,8 @@
 
                 let specs = 'left=' + _left + ',top=' + _top;
                 specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                window.open('/processes/' + response.responseText + '/edit', '_blank', 'width=' + _width + ',height=' + _height + ','+ specs);
+                window.open('/processes/' + response.responseText + '/edit', 'process_' + response.responseText + '_edit',
+                    'width=' + _width + ',height=' + _height + ','+ specs);
             }
         };
         aliceJs.sendXhr(opt);

@@ -25,7 +25,8 @@
                 <col width="25%">
                 <col width="25%">
                 <col width="20%">
-                <col width="20%">
+                <col width="12%">
+                <col width="8%">
                 <col width="5%">
                 <col width="5%">
             </colgroup>
@@ -47,6 +48,11 @@
                         th:with="dateformat=${#authentication.details.timeFormat}"
                         th:text="|${#temporals.format(process.updateDt,dateformat)} ${process.updateUserKey}|"></td>
                     <td th:text="#{${process.status}}"></td>
+                    <td>
+                        <button sec:authorize="hasAnyAuthority('process.create', 'process.update')"
+                                th:text="#{process.btn.export}" th:disabled="${!process.enabled}"
+                                th:attr="onclick=|aliceProcessUtil.export('${process.id}')|"></button>
+                    </td>
                     <td>
                         <button sec:authorize="hasAuthority('process.update')"
                                 th:text="#{common.btn.modify}" th:disabled="${!process.enabled}"
