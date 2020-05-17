@@ -33,7 +33,7 @@
             th:text="${#temporals.format(instance.instanceStartDt, dateformat)}"></td>
         <td th:with="dateformat=${#authentication.details.timeFormat}"
             th:text="${#temporals.format(instance.instanceEndDt, dateformat)}"></td>
-        <td th:text="${instance.instanceCreateUserName}"></td>
+        <td th:text="${instance.instanceCreateUserKey}"></td>
     </tr>
     </tbody>
 </table>
