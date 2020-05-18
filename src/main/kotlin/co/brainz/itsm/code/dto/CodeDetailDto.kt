@@ -3,7 +3,7 @@ package co.brainz.itsm.code.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class CodeDetailDto (
+data class CodeDetailDto(
     var code: String = "",
     var pCode: String? = "",
     var codeValue: String? = null,
@@ -11,5 +11,6 @@ data class CodeDetailDto (
     var createDt: LocalDateTime? = null,
     var createUserName: String? = null,
     var updateDt: LocalDateTime? = null,
-    var updateUserName: String? = null
-): Serializable
+    var updateUserName: String? = null,
+    var enabled: Boolean? = true
+) : Serializable

@@ -27,16 +27,16 @@
     <table class="table-hover">
         <colgroup>
             <col width="35%">
-            <col width="20%">
             <col width="15%">
-            <col width="20%">
+            <col width="15%">
+            <col width="25%">
             <col width="5%">
             <col width="5%">
         </colgroup>
         <thead>
             <tr>
                 <th th:text="#{custom.code.label.customCodeName}"></th>
-                <th th:text="#{custom.code.label.targetTable}"></th>
+                <th th:text="#{custom.code.label.type}"></th>
                 <th th:text="#{common.label.createUserName}"></th>
                 <th th:text="#{common.label.lastUpdateDateAndUpdateUserName}"></th>
                 <th th:text="#{common.btn.modify}"></th>
@@ -50,7 +50,7 @@
             <tr th:unless="${#arrays.isEmpty(customCodeList)}" th:each="customCode: ${customCodeList}">
                 <td><a th:text="${customCode.customCodeName}"
                        th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a></td>
-                <td th:text="|${customCode.targetTableName}(${customCode.targetTable})|"></td>
+                <td th:text="#{|custom.code.label.type.${customCode.type}|}"></td>
                 <td th:text="${customCode.createUserName}"></td>
                 <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}"
                     th:with="dateformat=${#authentication.details.timeFormat}"
