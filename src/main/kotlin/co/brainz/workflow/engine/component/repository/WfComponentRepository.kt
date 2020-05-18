@@ -14,4 +14,14 @@ interface WfComponentRepository : JpaRepository<WfComponentEntity, String> {
     fun deleteComponentEntityByComponentIdIn(componentIds: MutableList<String>)
 
     fun findByComponentIdInAndMappingId(componentIds: List<String>, mappingId: String): WfComponentEntity
+
+    @Query(
+        "SELECT c FROM WfComponentEntity c WHERE c.form.formId = :formId AND c.isTopic = :isTopic " +
+                "AND c.componentType IN :componentTypes"
+    )
+    fun findTopicComponentForDisplay(
+        formId: String,
+        isTopic: Boolean,
+        componentTypes: List<String>
+    ): List<WfComponentEntity>
 }
