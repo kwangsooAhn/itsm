@@ -90,10 +90,16 @@ class WfProcessService(
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
             elDto.display = elementEntity.displayInfo.let { mapper.readValue(it) }
-            elDto.data = elementEntity.elementDataEntities.associateByTo(
-                mutableMapOf(),
-                { it.attributeId },
-                { it.attributeValue })
+            val combineDuplicateKey: MutableMap<String, Any> = mutableMapOf()
+            elementEntity.elementDataEntities.forEach {
+                if (combineDuplicateKey[it.attributeId] == null) {
+                    combineDuplicateKey[it.attributeId] = it.attributeValue
+                } else {
+                    combineDuplicateKey[it.attributeId] =
+                        (combineDuplicateKey[it.attributeId] as String) + "," + it.attributeValue
+                }
+            }
+            elDto.data = combineDuplicateKey
             restTemplateElementDtoList.add(elDto)
         }
         return RestTemplateProcessElementDto(wfProcessDto, restTemplateElementDtoList)
@@ -196,18 +202,21 @@ class WfProcessService(
                     // element data entity 생성
                     val elementDataEntities = mutableListOf<WfElementDataEntity>()
                     it.data?.entries?.forEachIndexed { idx, data ->
-                        val elementDataEntity = WfElementDataEntity(
-                            element = elementEntity,
-                            attributeId = data.key,
-                            attributeValue = data.value as String,
-                            attributeOrder = idx
-                        )
-                        it.required?.forEach { required ->
-                            if (required == data.key) {
-                                elementDataEntity.attributeRequired = true
+                        val dataValues = (data.value as String).split(",")
+                        for (value in dataValues) {
+                            val elementDataEntity = WfElementDataEntity(
+                                element = elementEntity,
+                                attributeId = data.key,
+                                attributeValue = value,
+                                attributeOrder = idx
+                            )
+                            it.required?.forEach { required ->
+                                if (required == data.key) {
+                                    elementDataEntity.attributeRequired = true
+                                }
                             }
+                            elementDataEntities.add(elementDataEntity)
                         }
-                        elementDataEntities.add(elementDataEntity)
                     }
                     elementEntity.elementDataEntities.addAll(elementDataEntities)
                     elementEntities.add(elementEntity)
