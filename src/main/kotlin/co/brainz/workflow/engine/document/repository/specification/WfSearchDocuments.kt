@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.document.repository.specification
 
+import co.brainz.framework.specification.AliceSpecification
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.process.entity.WfProcessEntity
@@ -35,7 +36,6 @@ class WfSearchDocuments(private val searchDto: RestTemplateDocumentSearchListDto
 
         // 서치를 시작해 보자 가즈아 ~ !!!
         val predicate: MutableList<Predicate> = mutableListOf()
-
         // 신청서 이름, 설명으로 조회
         if (documentNameOrDescription != "") {
             val searchDocument: MutableList<Predicate> = mutableListOf()
@@ -46,14 +46,14 @@ class WfSearchDocuments(private val searchDto: RestTemplateDocumentSearchListDto
 
         // 신청서에 연결된 프로세스 이름으로 조회
         if (processName != "") {
-            val relatedProcess: Join<WfDocumentEntity, WfProcessEntity> = root.join("process")
-            predicate.add(super.like(cb, relatedProcess.get("processName"), processName))
+            val process: Join<WfDocumentEntity, WfProcessEntity> = root.join("process")
+            predicate.add(super.like(cb, process.get("processName"), processName))
         }
 
         // 신청서에 연결된 문서양식 이름으로 조회
         if (formName != "") {
-            val relatedForm: Join<WfDocumentEntity, WfFormEntity> = root.join("form")
-            predicate.add(super.like(cb, relatedForm.get("formName"), formName))
+            val form: Join<WfDocumentEntity, WfFormEntity> = root.join("form")
+            predicate.add(super.like(cb, form.get("formName"), formName))
         }
 
         return cb.and(*predicate.toTypedArray())

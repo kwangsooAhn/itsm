@@ -12,10 +12,9 @@
         <h1 th:text="#{document.label.list}"></h1>
         <form id="searchDocumentsFrm">
             <div>
-                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchDocuments}"/>
-                <label for="searchDocumentStatus"></label><input type="text" id="searchDocumentStatus" name="searchDocumentStatus" th:placeholder="#{document.label.searchDocumentStatus}"/>
-                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.searchProcessName}"/>
-                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.searchFormName}"/>
+                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchDocuments}" class="search"/>
+                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.searchProcessName}" class="search"/>
+                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.searchFormName}" class="search"/>
             </div>
         </form>
         <div sec:authorize="hasAuthority('document.create')" class="button">
@@ -31,12 +30,14 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result){
-                document.getElementById('documentList').innerHTML = result;
+            document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
+                search.addEventListener('keyup', function() {
+                    documentSearches();
+                });
             });
         };
 
-        function kbhTest() {
+        function documentSearches() {
             restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result){
                 document.getElementById('documentList').innerHTML = result;
             });
