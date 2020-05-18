@@ -36,7 +36,7 @@
                 <td th:text="${token.documentNo}"></td>
                 <td th:text="${token.documentName}"></td>
                 <td>
-                    <span th:unless="${#arrays.isEmpty(token.topics)}" th:each="topic: ${token.topics}"}>
+                    <span th:unless="${#arrays.isEmpty(token.topics)}" th:each="topic: ${token.topics}">
                         <p th:text="${topic}"></p>
                     </span>
                 </td>
