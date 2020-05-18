@@ -26,8 +26,8 @@
         {
             type: 'delete', parent: 'action',
             url: iconDirectory + '/tooltip/delete.png',
-            action: function(el) {
-                deleteElement(el);
+            action: function() {
+                deleteElements();
             }
         },
         {
@@ -576,16 +576,30 @@
     }
 
     /**
+     * 선택한 대상을 삭제 한다.
+     */
+    function deleteElements() {
+        let selectedNodes = d3.selectAll('.node.selected').nodes();
+        let histories = [];
+        selectedNodes.forEach(function(node) {
+            let history = deleteElement(d3.select(node));
+            histories = [].concat(history, histories);
+        });
+        aliceProcessEditor.history.saveHistory(histories);
+    }
+
+    /**
      * element 를 저장 데이터 및 화면에서 제거한다.
      *
      * @param elem 대상 element
      */
     function deleteElement(elem) {
+        const histories = [];
         d3.select('g.alice-tooltip').remove();
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
+              elements = aliceProcessEditor.data.elements;
 
-        const histories = [];
+
         elements.forEach(function(e, i) {
             if (elementId === e.id) {
                 let originElementData = JSON.parse(JSON.stringify(e));
@@ -625,8 +639,8 @@
                 }
             }
         }
-        aliceProcessEditor.history.saveHistory(histories);
         aliceProcessEditor.setElementMenu();
+        return histories;
     }
 
     /**
@@ -1189,15 +1203,42 @@
                         elementObject.value = id;
                     }
 
+                    let changeEventHandler = function() {
+                        changePropertiesDataValue(id);
+                        if (property.id === 'is-default') {
+                            let conditionAttrObject = propertiesContainer.querySelector('input[name=condition]');
+                            if (conditionAttrObject) {
+                                conditionAttrObject.disabled = this.checked;
+                                d3.select(document.getElementById(id)).classed('is-default', this.checked);
+                                let sourceId;
+                                aliceProcessEditor.elements.links.forEach(function(l) {
+                                    if (l.id === id) {
+                                        l.isDefault = conditionAttrObject.disabled ? 'Y' : 'N';
+                                        sourceId = l.sourceId;
+                                    }
+                                });
+                                aliceProcessEditor.elements.links.forEach(function(l) {
+                                    if (l.sourceId === sourceId && l.id !== id && l.isDefault === 'Y') {
+                                        d3.select(document.getElementById(l.id)).classed('is-default', false);
+                                        l.isDefault = 'N';
+                                        aliceProcessEditor.data.elements.forEach(function(e) {
+                                            if (e.id === l.id) {
+                                                e.data['is-default'] = 'N';
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }
+
                     switch (property.id) {
                         case 'name':
                             let keyupHandler = function() {
                                 aliceProcessEditor.changeTextToElement(id, this.value);
                             };
                             if (id === aliceProcessEditor.data.process.id) {
-                                keyupHandler = function() {
-                                    aliceProcessEditor.changeProcessName(this.value);
-                                };
+                                keyupHandler = changeEventHandler;
                             }
                             elementObject.addEventListener('keyup', keyupHandler);
                             break;
@@ -1222,35 +1263,8 @@
                             break;
                     }
 
-                    if (property.id !== 'id') {
-                        elementObject.addEventListener('change', function() {
-                            changePropertiesDataValue(id);
-                            if (property.id === 'is-default') {
-                                let conditionAttrObject = propertiesContainer.querySelector('input[name=condition]');
-                                if (conditionAttrObject) {
-                                    conditionAttrObject.disabled = this.checked;
-                                    d3.select(document.getElementById(id)).classed('is-default', this.checked);
-                                    let sourceId;
-                                    aliceProcessEditor.elements.links.forEach(function(l) {
-                                        if (l.id === id) {
-                                            l.isDefault = conditionAttrObject.disabled ? 'Y' : 'N';
-                                            sourceId = l.sourceId;
-                                        }
-                                    });
-                                    aliceProcessEditor.elements.links.forEach(function(l) {
-                                        if (l.sourceId === sourceId && l.id !== id && l.isDefault === 'Y') {
-                                            d3.select(document.getElementById(l.id)).classed('is-default', false);
-                                            l.isDefault = 'N';
-                                            aliceProcessEditor.data.elements.forEach(function(e) {
-                                                if (e.id === l.id) {
-                                                    e.data['is-default'] = 'N';
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            }
-                        });
+                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id !== 'name')) {
+                        elementObject.addEventListener('change', changeEventHandler);
                     }
                 }
             }
@@ -1400,5 +1414,6 @@
     exports.changeDisplayValue = changeDisplayValue;
     exports.changeElementType = changeElementType;
     exports.resetElementPosition = resetElementPosition;
+    exports.deleteElements = deleteElements;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
