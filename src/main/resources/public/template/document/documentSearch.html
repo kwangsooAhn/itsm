@@ -32,15 +32,16 @@
         window.onload = function() {
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', function() {
-                    documentSearches();
+                    documentSearches(false);
                 });
             });
+            documentSearches();
         };
 
-        function documentSearches() {
+        function documentSearches(isShowProgressBar) {
             restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result){
                 document.getElementById('documentList').innerHTML = result;
-            });
+            }, isShowProgressBar);
         }
 
         function openDocument(documentId) {
@@ -68,10 +69,11 @@
         }
 
         //REST API
-        function restSubmit(method, url, result) {
+        function restSubmit(method, url, result, isShowProgressbar) {
             const opt = {
                 method: method,
                 url: url,
+                showProgressbar: isShowProgressbar,
                 callbackFunc: function(response) {
                     result(response.responseText);
                 }
