@@ -1,6 +1,7 @@
 package co.brainz.workflow.engine.component.constants
 
 object WfComponentConstants {
+    // topicDisplay 가 true 이면 목록 화면에 출력하는 대상 component type.
     enum class ComponentType(val code: String, val topicDisplay: Boolean) {
         TEXT("text", true),
         TEXT_AREA("textarea", false),
@@ -17,6 +18,7 @@ object WfComponentConstants {
         CUSTOM_CODE("custom-code", false);
 
         companion object {
+            // 목록 화면에 출력 대상이 되는 component type list 를 반환.
             fun getComponentTypeForTopicDisplay(): ArrayList<String> {
                 val topicComponentTypeForDisplay = ArrayList<String>()
                 enumValues<ComponentType>().forEach {

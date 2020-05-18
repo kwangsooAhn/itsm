@@ -5,7 +5,6 @@ import co.brainz.workflow.engine.comment.entity.WfCommentEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -17,6 +16,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "wf_instance")
@@ -35,11 +35,6 @@ data class WfInstanceEntity(
 
     @Column(name = "instance_end_dt", insertable = false)
     var instanceEndDt: LocalDateTime? = null,
-/*
-
-    @Column(name = "instance_create_user_key", length = 128)
-    var instanceCreateUserKey: String? = null,
-*/
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instance_create_user_key")

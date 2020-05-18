@@ -3,22 +3,19 @@ package co.brainz.workflow.engine.instance.service
 import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
 import co.brainz.workflow.engine.component.constants.WfComponentConstants
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
-import co.brainz.workflow.engine.element.entity.WfElementEntity
-import co.brainz.workflow.engine.element.repository.WfElementRepository
-import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -60,13 +57,16 @@ class WfInstanceService(
         for (instance in instances) {
 
             val topics: MutableList<String> = mutableListOf()
+
+            // 문서 별로 목록에 출력하는 topic 컴포넌트 리스트를 구함.
             val topicComponentList =
                 wfComponentRepository.findTopicComponentForDisplay(
                     instance.documentEntity.form.formId,
                     true,
                     componentTypeForTopicDisplay
-                );
+                )
 
+            // topic 컴포넌트의 실제 값들을 조회.
             for (topicComponent in topicComponentList) {
                 topics.add(
                     wfTokenDataRepository.findByTokenIdAndComponentId(
