@@ -8,6 +8,8 @@ data class RestTemplateRelatedInstanceDto(
     val instanceId: String?,
     val relatedType: String?,
     val documentName: String?,
+    val createUserKey: String?,
+    val createDt: LocalDateTime? = null,
     var instanceStartDt: LocalDateTime?,
     var instanceEndDt: LocalDateTime?,
     val instanceCreateUserKey: String?,

@@ -419,10 +419,11 @@ token:
     endDt: "완료 일시"
     elementName: "업무명"
     assignee: "담당자"
+    createUser: "작성자"
     history: "처리 이력"
     relatedInstance: "관련 문서"
     print: "처리할 문서 인쇄"
-    searchPlaceholder: "신청서 이름 / 담당자"
+    searchPlaceholder: "신청서 이름 / 작성자"
 
 # Code
 code:

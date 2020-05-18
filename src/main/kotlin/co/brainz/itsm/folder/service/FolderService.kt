@@ -62,7 +62,7 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
 
         for(i in restTemplateFolderDto) {
-            i.instanceCreateUserKey = aliceUserDto.userKey
+            i.createUserKey = aliceUserDto.userKey
         }
 
         val url = RestTemplateUrlDto(

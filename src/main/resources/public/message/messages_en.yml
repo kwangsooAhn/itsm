@@ -418,10 +418,11 @@ token:
     endDt: "Finish Date"
     elementName: "Task Name"
     assignee: "Assignee"
+    createUser: "Create User"
     history: "History"
     relatedInstance: "Related Documents"
     print: "Process Document Print"
-    searchPlaceholder: "Related Document Name / Assignee"
+    searchPlaceholder: "Related Document Name / Create User"
 
 # Code
 code:
