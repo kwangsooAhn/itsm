@@ -1,5 +1,7 @@
 package co.brainz.itsm.customCode.service
 
+import co.brainz.itsm.code.repository.CodeRepository
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.component.service.ComponentService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
@@ -16,9 +18,16 @@ import co.brainz.itsm.customCode.repository.CustomCodeColumnRepository
 import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeTableRepository
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.role.specification.RoleCustomCodeSpecification
 import co.brainz.itsm.user.repository.UserRepository
+import co.brainz.itsm.user.specification.UserCustomCodeSpecification
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import javax.persistence.Column
 import org.mapstruct.factory.Mappers
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
@@ -29,7 +38,9 @@ class CustomCodeService(
     private val customCodeColumnRepository: CustomCodeColumnRepository,
     private val roleRepository: RoleRepository,
     private val userRepository: UserRepository,
-    private val componentService: ComponentService
+    private val componentService: ComponentService,
+    private val codeRepository: CodeRepository,
+    private val codeService: CodeService
 ) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
@@ -68,18 +79,22 @@ class CustomCodeService(
     fun getCustomCode(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)
-        customCodeDto.targetTableName =
-            customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable).customCodeTableName
-        customCodeDto.searchColumnName = getCustomCodeColumnName(
-            customCodeDto.targetTable,
-            customCodeDto.searchColumn,
-            CustomCodeConstants.ColumnType.SEARCH.code
-        )
-        customCodeDto.valueColumnName = getCustomCodeColumnName(
-            customCodeDto.targetTable,
-            customCodeDto.valueColumn,
-            CustomCodeConstants.ColumnType.VALUE.code
-        )
+        when (customCodeDto.type) {
+            CustomCodeConstants.Type.TABLE.code -> {
+                customCodeDto.targetTableName =
+                    customCodeTableRepository.findByCustomCodeTable(customCodeDto.targetTable!!).customCodeTableName
+                customCodeDto.searchColumnName = getCustomCodeColumnName(
+                    customCodeDto.targetTable!!,
+                    customCodeDto.searchColumn!!,
+                    CustomCodeConstants.ColumnType.SEARCH.code
+                )
+                customCodeDto.valueColumnName = getCustomCodeColumnName(
+                    customCodeDto.targetTable!!,
+                    customCodeDto.valueColumn!!,
+                    CustomCodeConstants.ColumnType.VALUE.code
+                )
+            }
+        }
         return customCodeDto
     }
 
@@ -146,8 +161,12 @@ class CustomCodeService(
      *
      * @return MutableList<CustomCodeColumnDto>
      */
-    fun getCustomCodeColumnList(): MutableList<CustomCodeColumnDto> {
-        val customCodeColumnEntityList = customCodeColumnRepository.findByOrderByCustomCodeColumnNameAsc()
+    fun getCustomCodeColumnList(targetTable: String? = null): MutableList<CustomCodeColumnDto> {
+        val customCodeColumnEntityList = if (targetTable == null) {
+            customCodeColumnRepository.findByOrderByCustomCodeColumnNameAsc()
+        } else {
+            customCodeColumnRepository.findByCustomCodeTable(targetTable)
+        }
         val customCodeColumnList = mutableListOf<CustomCodeColumnDto>()
         for (customCodeColumnEntity in customCodeColumnEntityList) {
             customCodeColumnList.add(customCodeColumnMapper.toCustomCodeColumnDto(customCodeColumnEntity))
@@ -177,21 +196,28 @@ class CustomCodeService(
      * @return String
      */
     fun customCodeEditValid(customCodeDto: CustomCodeDto): String {
-        var isContinue = true
         var code = CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code
-        if (customCodeDto.customCodeId != "") {
-            if (getUsedCustomCodeIdList().indexOf(customCodeDto.customCodeId) != -1) {
-                code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
+        var isContinue = true
+        val customCodeId = customCodeDto.customCodeId
+        if (customCodeId != "" && getUsedCustomCodeIdList().indexOf(customCodeId) != -1) {
+            code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
+            isContinue = false
+        }
+        if (isContinue) {
+            var isExistName = false
+            if (customCodeId != "") {
+                val existCustomCode = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
+                isExistName = (customCodeDto.customCodeName == existCustomCode.customCodeName)
+            }
+            if (!isExistName && customCodeRepository.existsByCustomCodeName(customCodeDto.customCodeName!!)) {
+                code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION.code
                 isContinue = false
             }
-            if (isContinue) {
-                val existCustomCode =
-                    customCodeRepository.findById(customCodeDto.customCodeId).orElse(CustomCodeEntity())
-                isContinue = (customCodeDto.customCodeName != existCustomCode.customCodeName)
-            }
         }
-        if (isContinue && customCodeRepository.existsByCustomCodeName(customCodeDto.customCodeName)) {
-            code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION.code
+        if (isContinue && customCodeDto.type == CustomCodeConstants.Type.CODE.code &&
+            !codeRepository.existsByCodeAndPCodeAndEditableTrue(customCodeDto.pCode!!)
+        ) {
+            code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST.code
         }
         return code
     }
@@ -203,17 +229,32 @@ class CustomCodeService(
      * @return List<CustomCodeDataDto>
      */
     fun getCustomCodeData(customCodeId: String): List<CustomCodeDataDto> {
-        val customDataList: MutableList<CustomCodeDataDto> = mutableListOf()
-        // TODO: 동적 쿼리로 가져오도록 소스 리팩토링 필요
         val customCode = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
+        return if (customCode.type == CustomCodeConstants.Type.TABLE.code) {
+            getTableTypeData(customCode)
+        } else {
+            getCodeTypeData(customCode)
+        }
+    }
+
+    /**
+     * 타입이 테이블인 데이터 조회.
+     *
+     * @param customCode CustomCodeEntity
+     * @return MutableList<CustomCodeDataDto>
+     */
+    fun getTableTypeData(customCode: CustomCodeEntity): MutableList<CustomCodeDataDto> {
+        // TODO: 동적 쿼리로 가져오도록 소스 리팩토링 필요
+        val customDataList = mutableListOf<CustomCodeDataDto>()
         var dataList = mutableListOf<Any>()
+        val condition = jsonToMapByCondition(customCode.condition)
+        val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
         when (customCode.targetTable) {
             CustomCodeConstants.TableName.ROLE.code -> {
-                dataList = roleRepository.findByOrderByRoleNameAsc().toMutableList()
+                dataList = roleRepository.findAll(RoleCustomCodeSpecification(condition), sort).toMutableList()
             }
             CustomCodeConstants.TableName.USER.code -> {
-                print("USER")
-                dataList = userRepository.findByOrderByUserNameAsc().toMutableList()
+                dataList = userRepository.findAll(UserCustomCodeSpecification(condition), sort).toMutableList()
             }
         }
         if (dataList.size > 0) {
@@ -239,5 +280,55 @@ class CustomCodeService(
             }
         }
         return customDataList
+    }
+
+    /**
+     * 타입이 코드인 데이터 조회.
+     *
+     * @param customCode CustomCodeEntity
+     * @return MutableList<CustomCodeDataDto>
+     */
+    fun getCodeTypeData(customCode: CustomCodeEntity): MutableList<CustomCodeDataDto> {
+        val customDataList = mutableListOf<CustomCodeDataDto>()
+        val dataList = customCode.pCode?.let { codeService.getCodeListByCustomCode(it) }
+        dataList?.forEach {
+            customDataList.add(CustomCodeDataDto(key = it.code, value = it.codeValue!!))
+        }
+        return customDataList
+    }
+
+    /**
+     * Json to Map.
+     *
+     * @param condition 조건
+     * @return MutableMap<String, Any>
+     */
+    fun jsonToMapByCondition(condition: String?): MutableMap<String, Any> {
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val jsonToMap: MutableMap<String, Any>? = condition?.let {
+            mapper.readValue(it)
+        }
+        val result = mutableMapOf<String, Any>()
+        jsonToMap?.forEach {
+            result[toCamelCase(it.key)] = it.value
+        }
+        return result
+    }
+
+    /**
+     * To Camel Case.
+     *
+     * @param text
+     * @return String
+     */
+    fun toCamelCase(text: String): String {
+        var camelText = text
+        while (camelText.indexOf("_") > -1) {
+            camelText = camelText.replaceFirst(
+                "_([a-zA-Z])".toRegex(),
+                camelText[camelText.indexOf("_") + 1].toUpperCase().toString()
+            )
+        }
+        return camelText
     }
 }

@@ -7,6 +7,7 @@ object AliceNumberingConstants {
     const val DEFAULT_DIGIT = 3
     const val DEFAULT_DATE_FORMAT = "yyyyMMdd"
     const val DEFAULT_DATE_FORMAT_PARENT_CODE = "numbering.pattern.format"
+    const val DEFAULT_INITIAL_INTERVAL = "day"
 
     /**
      * Numbering Pattern Type.
@@ -29,6 +30,19 @@ object AliceNumberingConstants {
         DATE_CODE("code"),
         SEQUENCE_DIGIT("digit"),
         SEQUENCE_START_WITH("start-with"),
-        SEQUENCE_FULL_FILL("full-fill")
+        SEQUENCE_FULL_FILL("full-fill"),
+        SEQUENCE_INITIAL_INTERVAL("initial-interval")
+    }
+
+    /**
+     * Interval Type.
+     *
+     * @param value
+     */
+    enum class INTERVAL(val value: String) {
+        NONE("none"),
+        DAY("day"),
+        MONTH("month"),
+        YEAR("year")
     }
 }

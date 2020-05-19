@@ -5,16 +5,26 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.mapper.CodeMapper
 import co.brainz.itsm.code.repository.CodeRepository
+import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
 @Service
-class CodeService(private val codeRepository: CodeRepository) {
+class CodeService(private val codeRepository: CodeRepository, private val customCodeRepository: CustomCodeRepository) {
 
     private val codeMapper: CodeMapper = Mappers.getMapper(CodeMapper::class.java)
 
     fun selectCodeByParent(code: String): MutableList<CodeEntity> {
         return codeRepository.findByPCode(codeRepository.findById(code).orElse(CodeEntity(code = code)))
+    }
+
+    /**
+     * 커스텀 코드 관련 코드 리스트 조회.
+     */
+    fun getCodeListByCustomCode(code: String): MutableList<CodeEntity> {
+        return codeRepository.findByPCodeAndEditableTrueOrderByCodeValue(
+            codeRepository.findById(code).orElse(CodeEntity(code = code))
+        )
     }
 
     /**
@@ -35,16 +45,17 @@ class CodeService(private val codeRepository: CodeRepository) {
      * 코드 데이터 상세 정보 조회
      */
     fun getDetailCodes(code: String): CodeDetailDto {
-        return codeRepository.findCodeDetail(code)
+        val codeDetailDto = codeRepository.findCodeDetail(code)
+        codeDetailDto.enabled = !customCodeRepository.existsByPCode(codeDetailDto.code)
+        return codeDetailDto
     }
 
     /**
      * 코드 데이터 저장, 수정
      */
     fun createCode(codeDetailDto: CodeDetailDto) {
-        var pCode = codeDetailDto.pCode
-
-        var codeEntity = CodeEntity (
+        val pCode = codeDetailDto.pCode
+        val codeEntity = CodeEntity(
             codeDetailDto.code,
             codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = pCode!!)),
             codeDetailDto.codeValue,

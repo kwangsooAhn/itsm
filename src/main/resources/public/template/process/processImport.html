@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{process.label.import}"></title>
+    <th:block th:replace="layout/fragments/commonHead"></th:block>
+    <script th:src="@{/assets/js/process/process.util.js}"></script>
+    <!-- 임시 style -->
+    <style>
+        body {
+            margin: 30px 50px;
+        }
+        table th {
+            text-align: left;
+        }
+        table td > input, textarea, select {
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <th th:text="|#{process.label.name} *|"></th>
+        </tr>
+        <tr>
+            <td><input type="text" id="process_name" maxlength="50" required="required" tabindex="1"/></td>
+        </tr>
+        <tr>
+            <th th:text="#{process.label.description}"></th>
+        </tr>
+        <tr>
+            <td><textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
+        </tr>
+        <tr>
+            <th th:text="#{process.label.importFile}"></th>
+        </tr>
+        <tr>
+            <td><input type="file" id="process_file" accept=".xml" tabindex="3"/></td>
+        </tr>
+    </table>
+</div>
+<div>
+    <button th:text="#{common.btn.save}" onclick="javascript:importProcess();"></button>
+    <button th:text="#{common.btn.cancel}" onclick="javascript:window.close();"></button>
+</div>
+</body>
+<script th:src="@{/assets/js/util/validation-alice.js}"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        aliceProcessUtil.initImport('process_file');
+    }
+
+    function importProcess() {
+        if (validation()) {
+            const processInfo = {
+                processName: document.getElementById('process_name').value,
+                processDesc: document.getElementById('process_desc').value
+            };
+            aliceProcessUtil.import(processInfo, function(result) {
+                if (result) {
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        opener.location.reload();
+                        window.close();
+                    });
+                } else {
+                    aliceJs.alert(i18n.get('common.label.fail'));
+                }
+            });
+
+        }
+    }
+
+    function validation() {
+        // 필수 체크
+        if (isEmpty('process_name', 'process.msg.alert.nameNotExist')) { return false; }
+        if (isEmpty('process_file', 'process.msg.alert.importFileNotExist')) { return false; }
+        // 확장자 체크
+        let filename = document.getElementById('process_file').value;
+        if (filename.split('.').pop().toUpperCase() !== 'XML') {
+            aliceJs.alert('process.msg.alert.fileExtensionNotAllow');
+            return false;
+        }
+        return true;
+    }
+</script>
+</html>

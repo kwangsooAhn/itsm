@@ -35,9 +35,13 @@
             <tr th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
                 <td th:text="${token.documentNo}"></td>
                 <td th:text="${token.documentName}"></td>
-                <td th:text="${token.documentDesc}"></td>
+                <td>
+                    <span th:unless="${#arrays.isEmpty(token.topics)}" th:each="topic: ${token.topics}">
+                        <p th:text="${topic}"></p>
+                    </span>
+                </td>
                 <td th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="|${#temporals.format(token.createDt, dateformat)} ${token.userKey}|"></td>
+                    th:text="|${#temporals.format(token.createDt, dateformat)} ${token.createUserName}|"></td>
                 <td>
                     <button sec:authorize="hasAuthority('token.create')"
                             th:attr="onclick=|openTokenEdit('${token.tokenId}')|"
