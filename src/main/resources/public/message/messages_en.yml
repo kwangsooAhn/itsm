@@ -389,6 +389,10 @@ document:
     status: "Status"
     numberingRule: "Document Numbering Rule"
     print: "Service Request Print"
+    searchDocuments: "Document name / Document description"
+    searchDocumentStatus: "Document stauts"
+    searchProcessName: "Process"
+    searchFormName: "Form"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"

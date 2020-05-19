@@ -10,6 +10,7 @@ import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.document.repository.specification.WfSearchDocuments
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
@@ -27,6 +28,7 @@ import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -60,15 +62,9 @@ class WfDocumentService(
      *
      * @return List<RestTemplateDocumentDto>
      */
-    fun documents(parameters: LinkedHashMap<String, Any>): List<RestTemplateDocumentDto> {
-        var status = listOf<String>()
-        if (parameters["status"] != null) status = parameters["status"].toString().split(",")
+    fun documents(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
         val documents = mutableListOf<RestTemplateDocumentDto>()
-        val documentEntities = if (status.isEmpty()) {
-            wfDocumentRepository.findAll()
-        } else {
-            wfDocumentRepository.findByDocumentStatusOrderByDocumentName(status)
-        }
+        val documentEntities = wfDocumentRepository.findAll(WfSearchDocuments(searchListDto))
         for (document in documentEntities) {
             val documentDto = RestTemplateDocumentDto(
                 documentId = document.documentId,
