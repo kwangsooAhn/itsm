@@ -19,7 +19,6 @@
         </form>
         <div sec:authorize="hasAuthority('document.create')" class="button">
             <button type="button" onclick="createDocument()" th:text="#{common.btn.register}"></button>
-            <button type="button" onclick="kbhTest()">김범호테스트</button>
         </div>
         <hr>
         <div id="documentList" style="margin-top: 20px"></div>
