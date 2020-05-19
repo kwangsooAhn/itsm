@@ -16,8 +16,6 @@
                  th:value="${#temporals.format(minusCurrentDate, dateformat)}"/>
                 <input type="text" id="toDt" name="toDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                  th:value="${#temporals.format(currentDate, dateformat)}"/>
-                <!-- submit -->
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/notices/list', true)" th:text="#{notice.search}"></button>
             </div>
         </form>
         <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
@@ -36,12 +34,39 @@
 
         window.onload = function() {
             dateFormat = formatArray[0].toUpperCase();
-            restSubmit('get', '/notices/list', true);
+            restSubmit('get', '/notices/list', true, true);
             // initialization date picker
-            dateTimePicker.initDatePicker('fromDt', dateFormat, lang);
-            dateTimePicker.initDatePicker('toDt', dateFormat, lang);
+            dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
+            dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
         }
-        
+
+        function setDatePicker(element, picker) {
+            if (typeof picker === 'undefined') {
+                return false;
+            }
+            if (element.id === 'fromDt') {
+                const toDtValue = document.getElementById('toDt').value;
+                if (changeDateFormatYYYYMMDD(toDtValue, formatArray[0]) <
+                    changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
+                    aliceJs.alert(i18n.get("notice.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                } else {
+                    restSubmit('get', '/notices/list', true, false);
+                }
+            } else {
+                const fromDtValue = document.getElementById('fromDt').value;
+                if (changeDateFormatYYYYMMDD(fromDtValue, formatArray[0]) >
+                    changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
+                    aliceJs.alert(i18n.get("notice.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                } else {
+                    restSubmit('get', '/notices/list', true, false);
+                }
+            }
+        }
+
+        document.getElementById('searchValue').onkeyup = function() {
+            restSubmit('get', '/notices/list', true, false);
+        };
+
         function validation() {
             if (isEmpty('fromDt', 'notice.msg.fromDtNotExist')) return false;
             if (isEmpty('toDt', 'notice.msg.toDtNotExist')) return false;
@@ -58,7 +83,7 @@
             window.open(id + '/view-pop?value=true', id, 'width=500, height=500');
         }
 
-        function restSubmit(method, url, isSearch) {
+        function restSubmit(method, url, isSearch, showProgressbar) {
             if (isSearch && !validation()) {
                 return false;
             }
@@ -74,6 +99,7 @@
             const opt = {
                 method: method,
                 url: getUrl,
+                showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     document.getElementById('noticeList').innerHTML = response.responseText;
                 }
