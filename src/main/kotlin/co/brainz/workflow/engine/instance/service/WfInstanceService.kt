@@ -1,18 +1,21 @@
 package co.brainz.workflow.engine.instance.service
 
 import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
+import co.brainz.workflow.engine.component.constants.WfComponentConstants
+import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
+import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -25,6 +28,8 @@ import org.springframework.stereotype.Service
 @Service
 class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfTokenRepository: WfTokenRepository
 ) {
 
@@ -46,11 +51,47 @@ class WfInstanceService(
             userKey = parameters["userKey"].toString()
         }
 
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tokenDataList = wfInstanceRepository.findInstances(status, userKey)
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        for (tokenData in tokenDataList) {
-            tokens.add(mapper.convertValue(tokenData, RestTemplateInstanceViewDto::class.java))
+        val instances = wfInstanceRepository.findInstances(status, userKey)
+        val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+        for (instance in instances) {
+
+            val topics: MutableList<String> = mutableListOf()
+
+            // 문서 별로 목록에 출력하는 topic 컴포넌트 리스트를 구함.
+            val topicComponentList =
+                wfComponentRepository.findTopicComponentForDisplay(
+                    instance.documentEntity.form.formId,
+                    true,
+                    componentTypeForTopicDisplay
+                )
+
+            // topic 컴포넌트의 실제 값들을 조회.
+            for (topicComponent in topicComponentList) {
+                topics.add(
+                    wfTokenDataRepository.findByTokenIdAndComponentId(
+                        instance.tokenEntity.tokenId,
+                        topicComponent.componentId
+                    ).value
+                )
+            }
+
+            tokens.add(
+                RestTemplateInstanceViewDto(
+                    tokenId = instance.tokenEntity.tokenId,
+                    instanceId = instance.instanceEntity.instanceId,
+                    documentName = instance.documentEntity.documentName,
+                    documentDesc = instance.documentEntity.documentDesc,
+                    topics = topics,
+                    createDt = instance.instanceEntity.instanceStartDt,
+                    assigneeUserKey = instance.tokenEntity.assigneeId,
+                    assigneeUserName = "",
+                    createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
+                    createUserName = instance.instanceEntity.instanceCreateUser?.userName,
+                    documentId = instance.documentEntity.documentId,
+                    documentNo = instance.instanceEntity.documentNo
+                )
+            )
         }
 
         return tokens

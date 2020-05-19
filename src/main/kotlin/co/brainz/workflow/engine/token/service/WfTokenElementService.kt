@@ -124,12 +124,33 @@ class WfTokenElementService(
                 wfElementEntity,
                 restTemplateTokenDto
             )
+            WfElementConstants.ElementType.MANUAL_TASK.value -> setManualTaskAction(
+                wfTokenEntity,
+                wfElementEntity,
+                restTemplateTokenDto
+            )
             WfElementConstants.ElementType.SIGNAL_SEND.value -> setSignalSend(
                 wfTokenEntity,
                 wfElementEntity,
                 restTemplateTokenDto
             )
         }
+    }
+
+    /**
+     * Action - ManualTask.
+     *
+     * @param wfTokenEntity
+     * @param wfElementEntity
+     * @param restTemplateTokenDto
+     */
+    private fun setManualTaskAction(
+        wfTokenEntity: WfTokenEntity,
+        wfElementEntity: WfElementEntity,
+        restTemplateTokenDto: RestTemplateTokenDto
+    ) {
+        wfTokenActionService.setProcess(wfTokenEntity, restTemplateTokenDto)
+        goToNext(wfTokenEntity, wfElementEntity, restTemplateTokenDto)
     }
 
     /**
@@ -271,6 +292,11 @@ class WfTokenElementService(
                     }
                 }
             }
+            WfElementConstants.ElementType.MANUAL_TASK.value -> {
+                nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
+                nextTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
+                nextTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            }
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
                 nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
                 nextTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
@@ -321,6 +347,13 @@ class WfTokenElementService(
             WfElementConstants.ElementType.USER_TASK.value -> {
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
                 setNextTokenSave(newTokenEntity, restTemplateTokenDto)
+            }
+            WfElementConstants.ElementType.MANUAL_TASK.value -> {
+                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
+                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
+                restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
+                val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
+                goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)

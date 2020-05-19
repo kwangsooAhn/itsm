@@ -190,7 +190,6 @@ notice:
   user: "User"
   popUp:  "PopUp"
   createDt: "CreateDt"
-  search: "Search"
   regist: "Regist"
   contents: "Contents"
   popUpNoticeSettings: "PopUp Notice Settings"
@@ -224,6 +223,8 @@ notice:
     fromDtNotExist: "Please enter a search start date"
     toDtNotExist: "Please enter a search end date"
     checkSearchRange: "Search start date is greater than end date"
+    selectAfterDate: "Please select after {0} "
+    selectBeforeDate: "Please select before {0}"
 
 # LOGIN
 login:

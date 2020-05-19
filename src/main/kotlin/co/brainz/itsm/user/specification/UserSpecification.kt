@@ -1,4 +1,4 @@
-package co.brainz.itsm.user.entity
+package co.brainz.itsm.user.specification
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.entity.CodeEntity

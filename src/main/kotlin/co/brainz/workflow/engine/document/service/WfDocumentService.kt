@@ -60,10 +60,15 @@ class WfDocumentService(
      *
      * @return List<RestTemplateDocumentDto>
      */
-    fun documents(): List<RestTemplateDocumentDto> {
-
+    fun documents(parameters: LinkedHashMap<String, Any>): List<RestTemplateDocumentDto> {
+        var status = listOf<String>()
+        if (parameters["status"] != null) status = parameters["status"].toString().split(",")
         val documents = mutableListOf<RestTemplateDocumentDto>()
-        val documentEntities = wfDocumentRepository.findAll()
+        val documentEntities = if (status.isEmpty()) {
+            wfDocumentRepository.findAll()
+        } else {
+            wfDocumentRepository.findByDocumentStatusOrderByDocumentName(status)
+        }
         for (document in documentEntities) {
             val documentDto = RestTemplateDocumentDto(
                 documentId = document.documentId,

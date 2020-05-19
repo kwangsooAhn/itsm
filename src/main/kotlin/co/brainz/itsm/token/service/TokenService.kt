@@ -84,7 +84,7 @@ class TokenService(
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceViewDto::class.java)
         )
         for (token in tokens) {
-            token.createDt = token.createDt.let { AliceTimezoneUtils().toTimezone(it) }
+            token.createDt = token.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
         }
         return tokens
     }
