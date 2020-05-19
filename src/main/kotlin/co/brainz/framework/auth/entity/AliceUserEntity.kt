@@ -41,16 +41,16 @@ data class AliceUserEntity(
     var tryLoginCount: Int = 0,
 
     @Column(name = "position", length = 128)
-    var position: String? = null,
+    var position: String? = "",
 
     @Column(name = "department", length = 128)
-    var department: String? = null,
+    var department: String? = "",
 
     @Column(name = "office_number", length = 128)
-    var officeNumber: String? = null,
+    var officeNumber: String? = "",
 
     @Column(name = "mobile_number", length = 128)
-    var mobileNumber: String? = null,
+    var mobileNumber: String? = "",
 
     @Column(name = "status", length = 100)
     var status: String = AliceUserConstants.Status.CERTIFIED.code,

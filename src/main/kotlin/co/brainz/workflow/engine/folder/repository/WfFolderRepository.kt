@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 interface WfFolderRepository : JpaRepository<WfFolderEntity, String> {
     @Query(
         "SELECT NEW co.brainz.workflow.provider.dto.RestTemplateFolderDto(" +
-                "f.instance.instanceId, i.document.documentName, i.instanceStartDt, i.instanceEndDt, i.instanceCreateUserKey, i.instanceCreateUserKey) FROM WfFolderEntity f, WfInstanceEntity i " +
+                "f.instance.instanceId, i.document.documentName, i.instanceStartDt, i.instanceEndDt, i.instanceCreateUser.userKey, i.instanceCreateUser.userName) FROM WfFolderEntity f, WfInstanceEntity i " +
                 "WHERE f.folderId = (SELECT sf.folderId FROM WfFolderEntity sf, WfTokenEntity st " +
                 "                     WHERE st.tokenId = :tokenId " +
                 "                       AND st.instance = sf.instance) " +

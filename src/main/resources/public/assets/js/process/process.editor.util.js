@@ -17,7 +17,7 @@
 
     const utils = {
         /**
-         * 해당 element 의 중앙 x,y 좌표와 넓이,높이를 리턴한다.
+         * 해당 element 의 중앙 x,y 좌표와 넓이,높이를 리턴 한다.
          *
          * @param selection
          * @returns {{x: number, width: number, y: number, height: number}}
@@ -431,22 +431,6 @@
     }
 
     /**
-     * import process.
-     */
-    function importProcess() {
-        //TODO: 처리로직
-        console.log('clicked import button.');
-    }
-
-    /**
-     * export process.
-     */
-    function exportProcess() {
-        //TODO: 처리로직
-        console.log('clicked export button.');
-    }
-
-    /**
      * download process image.
      */
     function downloadProcessImage() {
@@ -473,12 +457,6 @@
         }
         if (document.getElementById('btnRedo') !== null) {
             document.getElementById('btnRedo').addEventListener('click', redoProcess);
-        }
-        if (document.getElementById('btnImport') !== null) {
-            document.getElementById('btnImport').addEventListener('click', importProcess);
-        }
-        if (document.getElementById('btnExport') !== null) {
-            document.getElementById('btnExport').addEventListener('click', exportProcess);
         }
         if (document.getElementById('btnDownload') !== null) {
             document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
