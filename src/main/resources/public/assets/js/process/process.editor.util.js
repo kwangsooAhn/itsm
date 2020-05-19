@@ -57,6 +57,7 @@
         undo: undoProcess,
         redo: redoProcess,
         simulation: simulationProcess,
+        download: downloadProcessImage,
         focus: focusPropertiesPanel
     };
 
@@ -447,10 +448,11 @@
 
         const shortcuts = [
             { 'keys': 'ctrl+s', 'command': 'aliceProcessEditor.utils.save();' },               // 저장
-            { 'keys': 'ctrl+alt+s', 'command': 'aliceProcessEditor.utils.saveAs();' },         // 다른이름으로 저장
+            { 'keys': 'ctrl+shift+s', 'command': 'aliceProcessEditor.utils.saveAs();' },       // 다른이름으로 저장
             { 'keys': 'ctrl+z', 'command': 'aliceProcessEditor.utils.undo();' },               // 작업 취소
-            { 'keys': 'ctrl+y', 'command': 'aliceProcessEditor.utils.redo();' },               // 작업 재실행
+            { 'keys': 'ctrl+shift+z', 'command': 'aliceProcessEditor.utils.redo();' },         // 작업 재실행
             { 'keys': 'ctrl+p', 'command': 'aliceProcessEditor.utils.simulation();' },         // 미리보기(시뮬레이션)
+            { 'keys': 'ctrl+d', 'command': 'aliceProcessEditor.utils.download();' },           // 이미지다운로드
             { 'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();' },    // 엘리먼트 삭제
             { 'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();' }                // 세부 속성 편집: 제일 처음으로 이동
         ];
