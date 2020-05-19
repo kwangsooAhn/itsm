@@ -8,9 +8,11 @@ import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
 
 @Service
 class DocumentService(
@@ -27,13 +30,23 @@ class DocumentService(
     private val processService: ProcessService
 ) {
 
+    private val objMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * 신청서 리스트 조회.
      *
      * @return List<DocumentDto>
      */
-    fun findDocumentList(): List<RestTemplateDocumentDto> {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url)
+    fun findDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+        val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
+        multiVal.setAll(
+            objMapper.convertValue<Map<String, String>>(
+                restTemplateDocumentSearchListDto,
+                object : TypeReference<Map<String, String>>() {}
+            )
+        )
+
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url, parameters = multiVal)
         val responseBody = restTemplate.get(url) //providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -202,5 +215,4 @@ class DocumentService(
         val responseEntity = restTemplate.update(urlDto, documentDisplay)
         return responseEntity.body.toString().isNotEmpty()
     }
-
 }

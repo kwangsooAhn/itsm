@@ -10,5 +10,5 @@ data class RestTemplateUrlDto(
     val port: String = "",
     val protocol: String = "",
     val serverUrl: String = InetAddress.getLocalHost().hostAddress,
-    val parameters: MultiValueMap<String, String> = LinkedMultiValueMap<String, String>()
+    val parameters: MultiValueMap<String, String> = LinkedMultiValueMap()
 ) : Serializable

@@ -4,12 +4,18 @@
     <title th:text="#{form.label.customCodeTarget}"></title>
     <!-- 임시 style -->
     <style>
+        input[type="text"] {
+            width: 99%;
+            height: 20px;
+            margin: 7px 0;
+        }
         table {
+            width: 100%;
             border: 1px solid #BCC5D3;
         }
         tbody {
             display: block;
-            max-height: 540px;
+            max-height: 502px;
             overflow: auto;
         }
         td {
@@ -23,20 +29,23 @@
 </head>
 <body>
 <div>
+    <input type="text" id="search" th:placeholder="#{common.searchWord}">
     <table>
         <colgroup>
             <col width="20%">
             <col width="80%">
         </colgroup>
         <tbody>
-            <tr th:if="${#arrays.isEmpty(customCodeDataList)}">
-                <td colspan="2" th:text="#{common.msg.noData}"></td>
-            </tr>
             <tr th:unless="${#arrays.isEmpty(customCodeDataList)}" th:each="customCode: ${customCodeDataList}">
                 <td><input type="checkbox" th:id="${customCode.key}" th:value="${customCode.value}"/></td>
                 <td th:text="${customCode.value}"></td>
             </tr>
         </tbody>
+        <tfoot th:style="${#arrays.isEmpty(customCodeDataList)} ? '' : 'display: none'">
+            <tr>
+                <td colspan="2" th:text="#{common.msg.noData}"></td>
+            </tr>
+        </tfoot>
     </table>
     <div class="btn-container">
         <button type="button" th:text="#{common.btn.check}" onclick="customCodeDataSave();"></button>
@@ -48,18 +57,16 @@
     /*<![CDATA[*/
     let componentData = {};
     function customCodeDataSave() {
-        let checkElems = document.getElementsByTagName('input');
+        let checkElems = document.querySelectorAll('tr:not([style*="display: none"]) input:checked');
         let componentValue = '';
         let componentDataValue = '';
         for (let i = 0, len = checkElems.length; i < len; i++) {
-            if (checkElems[i].checked) {
-                if (componentValue === '' && componentValue.indexOf('/') === -1) {
-                    componentDataValue = checkElems[i].id + '|' + checkElems[i].value;
-                    componentValue = checkElems[i].value;
-                } else {
-                    componentDataValue += (',' + checkElems[i].id + '|' + checkElems[i].value);
-                    componentValue += '/' + checkElems[i].value;
-                }
+            if (componentValue === '' && componentValue.indexOf('/') === -1) {
+                componentDataValue = checkElems[i].id + '|' + checkElems[i].value;
+                componentValue = checkElems[i].value;
+            } else {
+                componentDataValue += (',' + checkElems[i].id + '|' + checkElems[i].value);
+                componentValue += '/' + checkElems[i].value;
             }
         }
         if (window.opener && !window.opener.closed) {
@@ -68,7 +75,6 @@
             componentChild.value = componentValue;
             componentChild.setAttribute('custom-data', componentDataValue);
             window.close();
-
         }
     }
     window.onload = function() {
@@ -81,6 +87,21 @@
                 checkboxElem.checked = true;
             }
         }
+        document.getElementById('search').addEventListener('keyup', function () {
+            let dataList = document.querySelectorAll('input[type="checkbox"]');
+            for (let i = 0; i < dataList.length; i++) {
+                if (dataList[i].value.toLowerCase().indexOf(this.value.toLowerCase()) > -1) {
+                    dataList[i].parentElement.parentElement.style.display = '';
+                } else {
+                    dataList[i].parentElement.parentElement.style.display = 'none';
+                }
+            }
+            if (document.querySelectorAll('tbody tr:not([style*="display: none"])').length === 0) {
+                document.getElementsByTagName('tfoot')[0].style.display = '';
+            } else {
+                document.getElementsByTagName('tfoot')[0].style.display = 'none';
+            }
+        });
     };
     /*]]>*/
 </script>
