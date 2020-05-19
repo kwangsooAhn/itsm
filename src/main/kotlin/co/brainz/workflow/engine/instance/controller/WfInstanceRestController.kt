@@ -72,7 +72,7 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     }
 
     @GetMapping("/list")
-    fun getInstanceList(@RequestParam searchValue: String): MutableList<RestTemplateInstanceListDto> {
-        return wfEngine.instance().getInstanceSearchList(searchValue)
+    fun getInstanceList(@RequestParam instanceId: String, @RequestParam searchValue: String): MutableList<RestTemplateInstanceListDto> {
+        return wfEngine.instance().getInstanceSearchList(instanceId, searchValue)
     }
 }

@@ -96,8 +96,10 @@ class TokenController(
     /**
      * 관련문서 팝업 생성
      */
-    @GetMapping("/{folderId}/view-pop")
-    fun getTokenPopUp(@PathVariable folderId: String, request: HttpServletRequest, model: Model): String {
+    @GetMapping("/{tokenId}/view-pop")
+    fun getTokenPopUp(@PathVariable tokenId: String, request: HttpServletRequest, model: Model): String {
+        val folderId = folderService.getFolderId(tokenId)
+        model.addAttribute("tokenId", tokenId)
         model.addAttribute("folderId", folderId)
         return tokenPopUpPage
     }
@@ -107,9 +109,12 @@ class TokenController(
      */
     @GetMapping("/view-pop/list")
     fun getInstanceList(request: HttpServletRequest, model: Model): String {
+        val tokenId = request.getParameter("tokenId") ?: ""
         val searchValue = request.getParameter("search") ?: ""
+        val instanceId = instanceService.getInstanceId(tokenId)!!
 
-        model.addAttribute("instanceList", instanceService.getInstanceList(searchValue))
+
+        model.addAttribute("instanceList", instanceService.getInstanceList(instanceId, searchValue))
         return tokenInstanceListPage
     }
 }

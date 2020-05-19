@@ -36,7 +36,7 @@
         };
 
         function getInstanceList(search, showProgressbar) {
-            restSubmit('get', '/tokens/view-pop/list?search=' + search.trim(), function(result) {
+            restSubmit('get', '/tokens/view-pop/list?search=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
                 document.getElementById('instanceList').innerHTML = result;
             },null ,showProgressbar);
         }

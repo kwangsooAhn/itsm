@@ -82,9 +82,10 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
         return restTemplateComments
     }
 
-    fun getInstanceList(searchValue: String) : List<RestTemplateInstanceListDto>? {
+    fun getInstanceList(instanceId: String, searchValue: String) : List<RestTemplateInstanceListDto>? {
         var instanceList: MutableList<RestTemplateInstanceListDto>? = null
         val params = LinkedMultiValueMap<String, String>()
+        params["instanceId"] = instanceId
         params["searchValue"] = searchValue
 
         val urlDto =
