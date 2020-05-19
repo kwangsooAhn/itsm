@@ -1677,8 +1677,7 @@
      */
     function init(processId, flag) {
         console.info('process editor initialization. [PROCESS ID: ' + processId + ']');
-        if (flag === 'true') { isView = false; }
-
+        if (flag === 'true') { aliceProcessEditor.isView = false; }
         workflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
@@ -1686,6 +1685,7 @@
     }
 
     exports.init = init;
+    exports.isView = isView;
     exports.elements = elements;
     exports.drawProcess = drawProcess;
     exports.addElement = addElement;
