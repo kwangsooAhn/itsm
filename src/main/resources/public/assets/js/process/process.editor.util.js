@@ -256,6 +256,7 @@
      * save process.
      */
     function saveProcess() {
+        if (aliceProcessEditor.isView) { return false; }
         console.debug(aliceProcessEditor.data);
         aliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
@@ -453,6 +454,7 @@
             { 'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();' },    // 엘리먼트 삭제
             { 'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();' }                // 세부 속성 편집: 제일 처음으로 이동
         ];
+
         for (let i = 0; i < shortcuts.length; i++) {
             shortcut.add(shortcuts[i].keys, shortcuts[i].command);
         }
