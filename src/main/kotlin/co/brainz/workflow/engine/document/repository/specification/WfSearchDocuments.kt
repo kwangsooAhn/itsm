@@ -28,6 +28,7 @@ class WfSearchDocuments(private val searchDto: RestTemplateDocumentSearchListDto
         val documentNameOrDescription = searchDto.searchDocuments ?: ""
         val processName = searchDto.searchProcessName ?: ""
         val formName = searchDto.searchFormName ?: ""
+        val documentStatus = searchDto.searchDocumentStatus ?: ""
 
         root.fetch<WfDocumentEntity, AliceNumberingRuleEntity>("numberingRule")
         val process = root.fetch<WfDocumentEntity, WfProcessEntity>("process") as Join<*, *>
@@ -41,6 +42,10 @@ class WfSearchDocuments(private val searchDto: RestTemplateDocumentSearchListDto
             searchDocument.add(super.like(cb, root.get("documentName"), documentNameOrDescription))
             searchDocument.add(super.like(cb, root.get("documentDesc"), documentNameOrDescription))
             predicate.add(cb.or(*searchDocument.toTypedArray()))
+        }
+
+        if (documentStatus != "") {
+            predicate.add(cb.equal(root.get<String>("documentStatus"), documentStatus))
         }
 
         // 신청서에 연결된 프로세스 이름으로 조회
