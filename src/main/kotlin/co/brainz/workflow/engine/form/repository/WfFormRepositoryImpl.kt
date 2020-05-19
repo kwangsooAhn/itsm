@@ -1,16 +1,26 @@
 package co.brainz.workflow.engine.form.repository
 
-// import co.brainz.workflow.form.entity.QFormEntity
-// import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import co.brainz.workflow.engine.form.entity.QWfFormEntity
+import co.brainz.workflow.engine.form.entity.WfFormEntity
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import org.springframework.stereotype.Repository
 
-// @Repository
-// class FormRepositoryImpl: QuerydslRepositorySupport(FormEntity::class.java), FormRepositoryCustom {
-class WfFormRepositoryImpl {
+@Repository
+class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java), WfFormRepositoryCustom {
 
-    /*override fun findFormEntityList(formName: String, formDesc: String): List<FormEntity> {
-        val table = QFormEntity.formEntity
-        return from(table)
-                .where(table.formName.containsIgnoreCase(formName).or(table.formDesc.containsIgnoreCase(formDesc)))
-                .fetch()
-    }*/
+    override fun findFormEntityList(search: String, status: List<String>): List<WfFormEntity> {
+        val form = QWfFormEntity.wfFormEntity
+        val query = from(form)
+        if (search.isNotEmpty()) {
+            query.where(form.formName.containsIgnoreCase(search).or(form.formDesc.containsIgnoreCase(search)))
+        }
+        if (status.isNotEmpty()) {
+            query.where(form.formStatus.`in`(status))
+                .orderBy(form.formName.asc())
+        } else {
+            query.orderBy(form.updateDt.desc())
+                .orderBy(form.createDt.desc())
+        }
+        return query.fetch()
+    }
 }

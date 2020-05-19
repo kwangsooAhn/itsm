@@ -40,15 +40,15 @@ class WfFormService(
         var status = listOf<String>()
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
-        // val formEntityList = formRepository.findFormEntityList(search, search)
-        val formEntityList = if (status.isEmpty()) {
-            wfFormRepository.findFormListOrFormSearchList(search)
-        } else {
-            wfFormRepository.findByFormStatusInOrderByFormName(status)
-        }
+        val formEntityList = wfFormRepository.findFormEntityList(search, status)
         val formList = mutableListOf<RestTemplateFormDto>()
-        for (item in formEntityList) {
-            formList.add(formEntityToDto(item))
+        formEntityList.forEach { formEntity ->
+            val restTemplateDto = wfFormMapper.toFormViewDto(formEntity)
+            when (restTemplateDto.status) {
+                WfFormConstants.FormStatus.EDIT.value,
+                WfFormConstants.FormStatus.PUBLISH.value -> restTemplateDto.editable = true
+            }
+            formList.add(restTemplateDto)
         }
 
         return formList
@@ -279,28 +279,5 @@ class WfFormService(
         saveFormData(restTemplateFormComponentSaveDto)
 
         return wfFormDto
-    }
-
-    /**
-     * Entity -> Dto.
-     *
-     * @param wfFormEntity
-     * @return RestTemplateFormDto
-     */
-    fun formEntityToDto(wfFormEntity: WfFormEntity): RestTemplateFormDto {
-        val formDto = RestTemplateFormDto(
-            id = wfFormEntity.formId,
-            name = wfFormEntity.formName,
-            status = wfFormEntity.formStatus,
-            desc = wfFormEntity.formDesc,
-            createUserKey = wfFormEntity.createUserKey,
-            createDt = wfFormEntity.createDt,
-            updateUserKey = wfFormEntity.updateUserKey,
-            updateDt = wfFormEntity.updateDt
-        )
-        when (wfFormEntity.formStatus) {
-            WfFormConstants.FormStatus.EDIT.value, WfFormConstants.FormStatus.PUBLISH.value -> formDto.editable = true
-        }
-        return formDto
     }
 }
