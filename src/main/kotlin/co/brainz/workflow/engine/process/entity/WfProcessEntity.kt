@@ -57,5 +57,5 @@ data class WfProcessEntity(
     var elementEntities: MutableList<WfElementEntity> = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "process")
-    var process: MutableList<WfDocumentEntity> = mutableListOf()
+    var document: MutableList<WfDocumentEntity> = mutableListOf()
 }

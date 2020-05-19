@@ -1,10 +1,10 @@
 package co.brainz.itsm.document.controller
 
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import org.springframework.http.ResponseEntity
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -55,15 +54,8 @@ class DocumentRestController(
      * 신청서 목록 조회.
      */
     @GetMapping("/", "")
-    fun getDocuments(
-            @RequestParam(
-                    value = "status",
-                    defaultValue = ""
-            ) status: String
-    ): List<RestTemplateDocumentDto> {
-        val params = LinkedMultiValueMap<String, String>()
-        params["status"] = status
-        return documentService.findDocumentList(params)
+    fun getDocuments(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+        return documentService.findDocumentList(restTemplateDocumentSearchListDto)
     }
 
     /**
