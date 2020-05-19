@@ -77,9 +77,7 @@
                 th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
             <td th:text="${rInstance.instanceCreateUserName}"></td>
             <td>
-                <button th:if="${rInstance.relatedType} != 'origin'" th:onclick="onRelatedInstanceDelete([[${rInstance.instanceId}]])"
-                        th:text="#{common.btn.delete}">
-                </button>
+                <button th:onclick="onRelatedInstanceDelete([[${rInstance.instanceId}]])" th:text="#{common.btn.delete}"></button>
             </td>
         </tr>
         </tbody>

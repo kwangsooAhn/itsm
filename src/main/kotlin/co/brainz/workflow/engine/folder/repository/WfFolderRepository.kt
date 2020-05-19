@@ -15,6 +15,7 @@ interface WfFolderRepository : JpaRepository<WfFolderEntity, String> {
                 "                     WHERE st.tokenId = :tokenId " +
                 "                       AND st.instance = sf.instance) " +
                 "AND f.instance = i " +
+                "AND f.relatedType = 'reference' " +
                 "ORDER BY i.instanceStartDt"
     )
     fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateFolderDto>
