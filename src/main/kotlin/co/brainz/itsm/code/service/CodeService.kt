@@ -19,6 +19,15 @@ class CodeService(private val codeRepository: CodeRepository, private val custom
     }
 
     /**
+     * 커스텀 코드 관련 코드 리스트 조회.
+     */
+    fun getCodeListByCustomCode(code: String): MutableList<CodeEntity> {
+        return codeRepository.findByPCodeAndEditableTrueOrderByCodeValue(
+            codeRepository.findById(code).orElse(CodeEntity(code = code))
+        )
+    }
+
+    /**
      * 코드 데이터 전체 목록 조회
      */
     fun getCodeList(): MutableList<CodeDto> {
