@@ -52,7 +52,7 @@ import org.hibernate.annotations.GenericGenerator
             "from portal_faq " +
             "where (lower(faq_title) like lower(concat('%', :searchValue, '%'))) " +
             "union all " +
-            "select download_category, download_title, create_dt, update_dt, 'download' table_name " +
+            "select download_title, download_category, create_dt, update_dt, 'download' table_name " +
             "from awf_download " +
             "where (lower(download_title) like lower(concat('%', :searchValue, '%'))) " +
             "order by create_dt desc",

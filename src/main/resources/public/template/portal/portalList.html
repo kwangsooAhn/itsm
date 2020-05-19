@@ -11,7 +11,7 @@
             <tr th:each="portalList : ${portalList}">
                 <dl>
                     <dt th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></dt>
-                    <dd style="padding-left:15px;" th:if="${portalList.portalContent != null}" th:text="${portalList.portalContent}"></dd>
+                    <dd style="padding-left:15px;" th:if="${portalList.portalContent != null && portalList.tableName != 'download'}" th:text="${portalList.portalContent}"></dd>
                     <dd></dd>
                 </dl>
             </tr>
