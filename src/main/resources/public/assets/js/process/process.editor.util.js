@@ -51,7 +51,14 @@
                 dist = 1;
             }
             return dist;
-        }
+        },
+        save: saveProcess,
+        saveAs: saveAsProcess,
+        undo: undoProcess,
+        redo: redoProcess,
+        simulation: simulationProcess,
+        download: downloadProcessImage,
+        focus: focusPropertiesPanel
     };
 
     const history = {
@@ -104,14 +111,9 @@
 
     /**
      * 프로세스명 변경
-     *
-     * @param text 프로세스명
      */
-    function changeProcessName(text) {
-        if (typeof text !== 'undefined') {
-            isEdited = true;
-        }
-        document.querySelector('.process-name').textContent = (isEdited ? '*' : '') + (text ? text : aliceProcessEditor.data.process.name);
+    function changeProcessName() {
+        document.querySelector('.process-name').textContent = (isEdited ? '*' : '') + aliceProcessEditor.data.process.name;
     }
 
     /**
@@ -137,7 +139,6 @@
                         for (let i = 0, len = links.length; i < len; i++) {
                             if (links[i].id === originData.id) {
                                 aliceProcessEditor.elements.links.splice(i, 1);
-                                aliceProcessEditor.setConnectors(true);
                                 break;
                             }
                         }
@@ -169,7 +170,6 @@
                         }
                         links.push(link);
                         aliceProcessEditor.data.elements.push(changeData);
-                        aliceProcessEditor.setConnectors(true);
                     }
                 }
             } else if (typeof changeData.type === 'undefined') { // modify process data
@@ -197,7 +197,6 @@
                         if (node) {
                             d3.select(element.node().parentNode).remove();
                             node.nodeElement.attr('id', changeData.id);
-                            aliceProcessEditor.setConnectors(true);
                         }
                     }
                 } else {
@@ -228,7 +227,6 @@
                                 } else {
                                     delete links[i].textPoint;
                                 }
-                                aliceProcessEditor.setConnectors(true);
                                 break;
                             }
                         }
@@ -251,12 +249,14 @@
             }
             restoreProcess(originData, changeData);
         });
+        aliceProcessEditor.setConnectors(true);
     }
 
     /**
      * save process.
      */
     function saveProcess() {
+        if (aliceProcessEditor.isView) { return false; }
         console.debug(aliceProcessEditor.data);
         aliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
@@ -439,6 +439,38 @@
     }
 
     /**
+     * set shortcut.
+     */
+    function setShortcut() {
+        shortcut.init();
+
+        const shortcuts = [
+            { 'keys': 'ctrl+s', 'command': 'aliceProcessEditor.utils.save();' },               // 저장
+            { 'keys': 'ctrl+shift+s', 'command': 'aliceProcessEditor.utils.saveAs();' },       // 다른 이름으로 저장
+            { 'keys': 'ctrl+z', 'command': 'aliceProcessEditor.utils.undo();' },               // 작업 취소
+            { 'keys': 'ctrl+shift+z', 'command': 'aliceProcessEditor.utils.redo();' },         // 작업 재실행
+            { 'keys': 'ctrl+p', 'command': 'aliceProcessEditor.utils.simulation();' },         // 미리보기(시뮬레이션)
+            { 'keys': 'ctrl+d', 'command': 'aliceProcessEditor.utils.download();' },           // 이미지 다운로드
+            { 'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();' },    // 엘리먼트 삭제
+            { 'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();' }                // 세부 속성 편집: 제일 처음으로 이동
+        ];
+
+        for (let i = 0; i < shortcuts.length; i++) {
+            shortcut.add(shortcuts[i].keys, shortcuts[i].command);
+        }
+    }
+
+    /**
+     * focus properties panel.
+     */
+    function focusPropertiesPanel() {
+        let panel = document.querySelector('.alice-process-properties-panel');
+        let items = panel.querySelectorAll('input:not([readonly]), select');
+        if (items.length == 0) { return false; }
+        items[0].focus();
+    }
+
+    /**
      * init workflow util.
      */
     function initUtil() {
@@ -465,6 +497,7 @@
         // start observer
         isEdited = false;
         savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+        setShortcut();
         changeProcessName();
     }
 
