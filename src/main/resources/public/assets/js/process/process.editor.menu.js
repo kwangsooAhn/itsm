@@ -579,7 +579,7 @@
      * 선택한 대상을 삭제 한다.
      */
     function deleteElements() {
-        let selectedNodes = d3.selectAll('.node.selected').nodes();
+        let selectedNodes = d3.selectAll('.node.selected, .connector.selected').nodes();
         let histories = [];
         selectedNodes.forEach(function(node) {
             let history = deleteElement(d3.select(node));
