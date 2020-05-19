@@ -32,8 +32,8 @@ class DocumentService(
      *
      * @return List<DocumentDto>
      */
-    fun findDocumentList(): List<RestTemplateDocumentDto> {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url)
+    fun findDocumentList(params: LinkedMultiValueMap<String, String>): List<RestTemplateDocumentDto> {
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url, parameters = params)
         val responseBody = restTemplate.get(url) //providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 

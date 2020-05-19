@@ -1348,7 +1348,7 @@
 
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/documents',
+            url: '/rest/documents?status=document.status.use',
             callbackFunc: function(xhr) {
                 documents = JSON.parse(xhr.responseText);
             },
