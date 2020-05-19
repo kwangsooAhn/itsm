@@ -7,6 +7,7 @@ import co.brainz.framework.numbering.service.AliceNumberingService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -45,7 +46,8 @@ class DocumentController(
      */
     @GetMapping("/list")
     fun getDocumentList(model: Model): String {
-        model.addAttribute("documentList", documentService.findDocumentList())
+        val params = LinkedMultiValueMap<String, String>()
+        model.addAttribute("documentList", documentService.findDocumentList(params))
         return documentListPage
     }
 
