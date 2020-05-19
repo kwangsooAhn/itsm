@@ -62,5 +62,5 @@ data class WfDocumentEntity(
 ) : Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
-    val document: MutableList<WfInstanceEntity>? = mutableListOf()
+    val instance: MutableList<WfInstanceEntity>? = mutableListOf()
 }
