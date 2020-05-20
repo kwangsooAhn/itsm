@@ -394,163 +394,323 @@ body {
             border: 0.125rem solid darkgray;  // 2px
         }
 
-        div.properties {
-            display: flex;
-            flex-wrap: wrap;
-            padding-left: 1.5rem; // 24px
+        div.properties-container {
 
-            font: {
-                size: 0.813rem; // 13px
-            }
+            div.properties {
+                display: flex;
+                flex-wrap: wrap;
+                padding-left: 1.5rem; // 24px
 
-            margin: {
-                top: 1rem;  // 16px
-                bottom: 0;
-            }
-
-            label {
-                display: inline-block;
-                width: 5.313rem;  // 85px
-                vertical-align: top;
-            }
-
-            label.required {
-                width: 0.5rem;  // 8px
-                color: #ff0000;
-            }
-
-            input:not([type=checkbox]), select, textarea {
-                width: 11.25rem; // 180px
-                height: 1.563rem; //25px
-            }
-
-            input:read-only {
-                background-color: #f6f6f7;
-                border: {
-                    width: 0;
+                font: {
+                    size: 0.813rem; // 13px
                 }
-            }
 
-            input.color {
-                width: 9.375rem; // 150px
-            }
+                margin: {
+                    top: 1rem;  // 16px
+                    bottom: 0;
+                }
 
-            input.copy {
-                width: 9.375rem; // 150px
-            }
+                label {
+                    display: inline-block;
+                    width: 5.313rem;  // 85px
+                    vertical-align: top;
+                }
 
-            textarea {
-                height: 5.625rem;  // 90px
-            }
+                label.required {
+                    width: 0.5rem;  // 8px
+                    color: #ff0000;
+                }
 
-            select.candidate {
-                width: 8.125rem; // 130px
-            }
+                input:not([type=checkbox]), select, textarea {
+                    width: 11.25rem; // 180px
+                    height: 1.563rem; //25px
+                }
 
-            button {
-                width: 3.125rem;  // 50px
-                height: 1.563rem; //25px
-            }
-
-            table {
-                margin-left: 5.813rem; // 93px
-                width: 11.25rem; // 180px
-                border: black solid 0.063rem;
-
-                th {
-                    background-color: lightgrey;
-                    text-align: center;
-                    font: {
-                        weight: bold;
+                input:read-only {
+                    background-color: #f6f6f7;
+                    border: {
+                        width: 0;
                     }
                 }
-                td {
-                    padding: {
-                        left: 0.313rem;
-                    };
 
-                    span.remove {
+                input.color {
+                    width: 9.375rem; // 150px
+                }
+
+                input.copy {
+                    width: 9.375rem; // 150px
+                }
+
+                textarea {
+                    height: 5.625rem;  // 90px
+                }
+
+                select.candidate {
+                    width: 8.125rem; // 130px
+                }
+
+                button {
+                    width: 3.125rem;  // 50px
+                    height: 1.563rem; //25px
+                }
+
+                table {
+                    margin-left: 5.813rem; // 93px
+                    width: 11.25rem; // 180px
+                    border: black solid 0.063rem;
+
+                    th {
+                        background-color: lightgrey;
+                        text-align: center;
+                        font: {
+                            weight: bold;
+                        }
+                    }
+                    td {
+                        padding: {
+                            left: 0.313rem;
+                        };
+
+                        span.remove {
+                            display: inline-block;
+                            background-image: url("../media/icons/icon_delete.png");
+                            width: 0.938rem;  // 15px
+                            height: 0.938rem; // 15px
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                span.selected-color {
+                    display: inline-block;
+                    width: 1.563rem;    //25px
+                    height: 1.563rem;
+                    margin-right: 0.3125rem; //5px
+                    border: 0.0625rem solid #000000;
+                    cursor: pointer;
+                }
+
+                div.color-palette {
+                    background-color: #d3d3d3;
+                    width: 11.25rem; // 180px
+                    margin: {
+                        left: 5.813rem; // 93px
+                    };
+                    div {
                         display: inline-block;
-                        background-image: url("../media/icons/icon_delete.png");
-                        width: 0.938rem;  // 15px
-                        height: 0.938rem; // 15px
+                        width: 1.25rem;    //20px
+                        height: 1.25rem;
+                        margin: 0.3125rem; //5px
                         cursor: pointer;
                     }
                 }
-            }
 
-            span.selected-color {
-                display: inline-block;
-                width: 1.563rem;    //25px
-                height: 1.563rem;
-                margin-right: 0.3125rem; //5px
-                border: 0.0625rem solid #000000;
-                cursor: pointer;
-            }
-
-            div.color-palette {
-                background-color: #d3d3d3;
-                width: 11.25rem; // 180px
-                margin: {
-                    left: 5.813rem; // 93px
-                };
-                div {
+                .clipboard-tooltip {
+                    position: relative;
                     display: inline-block;
-                    width: 1.25rem;    //20px
-                    height: 1.25rem;
-                    margin: 0.3125rem; //5px
                     cursor: pointer;
+                    margin-left: 0.625rem;  //10px
+
+                    .clipboard-tooltip-button {
+                        display: inline-block;
+                        width: 1.25rem;    //20px
+                        height: 1.25rem;    //20px
+                        background-image: url("../media/icons/process/editor/icon_copy.png");
+                    }
+
+                    .clipboard-tooltip-text {
+                        visibility: hidden;
+                        width: 8.75rem;  //140px
+                        background-color: #555;
+                        color: #fff;
+                        text-align: center;
+                        border-radius: 0.375rem;  //6px
+                        padding: 0.313rem;  //5px
+                        position: absolute;
+                        z-index: 1;
+                        bottom: 120%;
+                        left: 50%;
+                        margin-left: -8.125rem;  // -130px
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                    }
+
+                    .clipboard-tooltip-text::after {
+                        content: "";
+                        position: absolute;
+                        top: 100%;
+                        left: 50%;
+                        margin-left: -0.313rem;  //-5px
+                        border-width: 0.313rem;  //5px
+                        border-style: solid;
+                        border-color: #555 transparent transparent transparent;
+                    }
+                }
+
+                .clipboard-tooltip:hover {
+                    .clipboard-tooltip-text {
+                        visibility: visible;
+                        opacity: 1;
+                    }
                 }
             }
 
-            .clipboard-tooltip {
-                position: relative;
+        }
+
+        div.process-info-container {
+            position: absolute;
+            bottom: 0;
+            height: 22.5rem; // 360px
+
+            div.minimap {
                 display: inline-block;
-                cursor: pointer;
-                margin-left: 0.625rem;  //10px
+                width: calc(#{$process-properties-panel-width - (0.063rem * 2)});
+                height: 11.25rem;
 
-                .clipboard-tooltip-button {
+                svg {
                     display: inline-block;
-                    width: 1.25rem;    //20px
-                    height: 1.25rem;    //20px
-                    background-image: url("../media/icons/process/editor/icon_copy.png");
                 }
 
-                .clipboard-tooltip-text {
-                    visibility: hidden;
-                    width: 8.75rem;  //140px
-                    background-color: #555;
-                    color: #fff;
-                    text-align: center;
-                    border-radius: 0.375rem;  //6px
-                    padding: 0.313rem;  //5px
-                    position: absolute;
-                    z-index: 1;
-                    bottom: 120%;
-                    left: 50%;
-                    margin-left: -8.125rem;  // -130px
-                    opacity: 0;
-                    transition: opacity 0.3s;
+                path.connector {
+                    fill: none;
+                    stroke: #000;
+                    stroke-width: 2;
+                    cursor: default;
+                }
+                path.connector.selected {
+                    stroke-dasharray: 10,2;
+                    stroke-width: 3;
+                }
+                path.connector.is-default {
+                    stroke-width: 4;
+                }
+                path.connector.drag-line {
+                    pointer-events: none;
+                }
+                path.connector.hidden {
+                    stroke-width: 0;
+                }
+                path.painted-connector {
+                    fill: none;
+                    stroke: none;
+                    stroke-width: 20;
+                    pointer-events: stroke;
                 }
 
-                .clipboard-tooltip-text::after {
-                    content: "";
-                    position: absolute;
-                    top: 100%;
-                    left: 50%;
-                    margin-left: -0.313rem;  //-5px
-                    border-width: 0.313rem;  //5px
-                    border-style: solid;
-                    border-color: #555 transparent transparent transparent;
+                .connector {
+                    text {
+                        fill: #000000;
+                        font: {
+                            weight: bold;
+                            size: 0.813rem; // 13px
+                        }
+                        dominant-baseline: text-before-edge;
+                        user-select: none;
+                    }
+
+                    text.selected {
+                        fill: #0c4dcd;
+                    }
+
+                    circle.pointer {
+                        cursor: move;
+                    }
+                }
+
+                defs {
+                    marker {
+                        path {
+                            fill: #000000;
+                        }
+                    }
+                }
+
+                g.alice-tooltip {
+                    rect.tooltip-container {
+                        fill: #f6f6f7;
+                        stroke: #bcc5d3;
+                        stroke-width: 0.5;
+                    }
+                    rect.action-tooltip-item:hover,
+                    rect.element-tooltip-item:hover {
+                        cursor: pointer;
+                    }
+                }
+
+                .grid path {
+                    display: none;
+                }
+
+                .grid line {
+                    stroke: lightgrey;
+                    stroke-width: 0.5;
+                    stroke-opacity: 1;
+                    shape-rendering: crispEdges;
+                }
+
+                .element {
+                    .node {
+                        fill: #ffffff;
+                        opacity: 1;
+                        stroke: #000000;
+                        stroke-width: 1;
+                    }
+
+                    .node.event.commonEnd,
+                    .node.event.messageEnd {
+                        stroke-width: 3;
+                    }
+
+                    .node.selected {
+                        stroke: #5887f9;
+                        stroke-width: 2;
+                    }
+
+                    .node.selected.event.commonEnd,
+                    .node.selected.event.messageEnd {
+                        stroke-width: 4;
+                    }
+
+                    .node.reject-element {
+                        stroke: #ff0000;
+                        stroke-width: 2;
+                    }
+
+                    .group {
+                        fill-opacity: 0;
+                        stroke-dasharray: 5,5;
+                    }
+
+                    .annotation {
+                        fill-opacity: 0;
+                        stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
+                    }
+
+                    text {
+                        fill: #000000;
+                        font: {
+                            weight: bold;
+                            size: 0.813rem; // 13px
+                        }
+                        text-anchor: middle;
+                        dominant-baseline: middle;
+                        user-select: none;
+                    }
+                }
+
+                g.guides-container {
+                    line.guides-line {
+                        stroke: darkgray;
+                        stroke-width: 0;
+                    }
                 }
             }
 
-            .clipboard-tooltip:hover {
-                .clipboard-tooltip-text {
-                    visibility: visible;
-                    opacity: 1;
-                }
+            div.info {
+                width: calc(#{$process-properties-panel-width - (0.063rem * 2)});
+                height: 6.563rem; // 105px
             }
         }
+
     }
 }

@@ -227,7 +227,7 @@
             changeElementType(element, type);
             d3.select('g.alice-tooltip').remove();
             setElementMenu(element);
-            aliceProcessEditor.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
             console.debug('edited element [%s]!!', type);
         }
     }
@@ -301,7 +301,7 @@
             aliceProcessEditor.changeTextToElement(elementId, elemData.data.name);
         }
         elements.push(elemData);
-        aliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+        aliceProcessEditor.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
     }
 
     /**
@@ -585,7 +585,7 @@
             let history = deleteElement(d3.select(node));
             histories = [].concat(history, histories);
         });
-        aliceProcessEditor.history.saveHistory(histories);
+        aliceProcessEditor.utils.history.saveHistory(histories);
     }
 
     /**
@@ -661,7 +661,7 @@
             aliceProcessEditor.data.elements.push(elemData);
 
             aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
             aliceProcessEditor.setElementMenu();
         }
     }
@@ -719,8 +719,8 @@
             aliceProcessEditor.setConnectors();
 
             const connectorElementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
-            aliceProcessEditor.history.undo_list.pop(); // remove add connector history.
-            aliceProcessEditor.history.saveHistory([
+            aliceProcessEditor.utils.history.undo_list.pop(); // remove add connector history.
+            aliceProcessEditor.utils.history.saveHistory([
                 {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
                 {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
             ]);
@@ -833,7 +833,7 @@
 
             let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
             if (isSaveHistory !== false) {
-                aliceProcessEditor.history.saveHistory([historyData]);
+                aliceProcessEditor.utils.history.saveHistory([historyData]);
             }
             return historyData;
         }
@@ -845,7 +845,7 @@
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.alice-process-properties-panel'),
+        const container = document.querySelector('.alice-process-properties-panel .properties-container'),
               propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
@@ -853,7 +853,7 @@
                 let propertyObject = propertyObjects[i];
                 aliceProcessEditor.data.process[propertyObject.name] = propertyObject.value;
             }
-            aliceProcessEditor.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(aliceProcessEditor.data.process))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(aliceProcessEditor.data.process))}]);
         } else {
             let elementData = aliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
             if (elementData.length) {
@@ -876,7 +876,7 @@
                 }
 
                 const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
-                aliceProcessEditor.history.saveHistory([{0: originElementData, 1: changeElementData}]);
+                aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: changeElementData}]);
 
                 if (originElementData.data.name !== changeElementData.data.name) {
                     let connectors = aliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
@@ -1042,7 +1042,7 @@
      * @param elemData 속성데이터
      */
     function makePropertiesItem(id, properties, elemData) {
-        const propertiesContainer = document.querySelector('.alice-process-properties-panel');
+        const propertiesContainer = document.querySelector('.alice-process-properties-panel .properties-container');
         propertiesContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
         if (id !== aliceProcessEditor.data.process.id) {
@@ -1303,7 +1303,6 @@
                 callbackFunc: function(xhr) {
                     console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
-                    aliceProcessEditor.changeProcessName();
                     const elements = aliceProcessEditor.data.elements;
                     elements.forEach(function(element) {
                         const category = getElementCategory(element.type);

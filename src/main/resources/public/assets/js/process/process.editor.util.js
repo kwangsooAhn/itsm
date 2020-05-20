@@ -15,6 +15,54 @@
         }
     });
 
+    const history = {
+        redo_list: [],
+        undo_list: [],
+        saveHistory: function(data, list, keep_redo) {
+            data = data.filter(function(d) { // data check
+                return !workflowUtil.compareJson(d[0], d[1]);
+            });
+            if (data.length === 0) {
+                return;
+            }
+            keep_redo = keep_redo || false;
+            if (!keep_redo) {
+                this.redo_list = [];
+            }
+            (list || this.undo_list).push(data);
+
+            // 엘리먼트 정렬
+            aliceProcessEditor.data.elements.sort(function(a, b) {
+                return a.id < b.id ? -1 : 1;
+            });
+            savedData.elements.sort(function(a, b) {
+                return a.id < b.id ? -1 : 1;
+            });
+
+            isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
+            changeProcessName();
+            setProcessInformation();
+        },
+        undo: function() {
+            aliceProcessEditor.removeElementSelected();
+            aliceProcessEditor.setElementMenu();
+            if (this.undo_list.length) {
+                let restoreData = this.undo_list.pop();
+                redrawProcess(restoreData, 'undo');
+                this.saveHistory(restoreData, this.redo_list, true);
+            }
+        },
+        redo: function() {
+            aliceProcessEditor.removeElementSelected();
+            aliceProcessEditor.setElementMenu();
+            if (this.redo_list.length) {
+                let restoreData = this.redo_list.pop();
+                redrawProcess(restoreData, 'redo');
+                this.saveHistory(restoreData, this.undo_list, true);
+            }
+        }
+    };
+
     const utils = {
         /**
          * 해당 element 의 중앙 x,y 좌표와 넓이,높이를 리턴 한다.
@@ -58,55 +106,8 @@
         redo: redoProcess,
         simulation: simulationProcess,
         download: downloadProcessImage,
-        focus: focusPropertiesPanel
-    };
-
-    const history = {
-        redo_list: [],
-        undo_list: [],
-        saveHistory: function(data, list, keep_redo) {
-            data = data.filter(function(d) { // data check
-                return !workflowUtil.compareJson(d[0], d[1]);
-            })
-            if (data.length === 0) {
-                return;
-            }
-
-            keep_redo = keep_redo || false;
-            if (!keep_redo) {
-                this.redo_list = [];
-            }
-            (list || this.undo_list).push(data);
-
-            // 엘리먼트 정렬
-            aliceProcessEditor.data.elements.sort(function(a, b) {
-                return a.id < b.id ? -1 : 1;
-            });
-            savedData.elements.sort(function(a, b) {
-                return a.id < b.id ? -1 : 1;
-            });
-
-            isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
-            changeProcessName();
-        },
-        undo: function() {
-            aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.setElementMenu();
-            if (this.undo_list.length) {
-                let restoreData = this.undo_list.pop();
-                redrawProcess(restoreData, 'undo');
-                this.saveHistory(restoreData, this.redo_list, true);
-            }
-        },
-        redo: function() {
-            aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.setElementMenu();
-            if (this.redo_list.length) {
-                let restoreData = this.redo_list.pop();
-                redrawProcess(restoreData, 'redo');
-                this.saveHistory(restoreData, this.undo_list, true);
-            }
-        }
+        focus: focusPropertiesPanel,
+        history: history
     };
 
     /**
@@ -471,6 +472,80 @@
     }
 
     /**
+     * 오른쪽 하단에 프로세스 정보를 표시한다.
+     */
+    function setProcessInformation() {
+
+        let drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
+
+        const nodeTopArray = [],
+              nodeRightArray = [],
+              nodeBottomArray = [],
+              nodeLeftArray = [];
+        const nodes = drawingBoard.select('svg').selectAll('.node, .pointer, text').nodes();
+        nodes.forEach(function(node) {
+            let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
+            nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
+            nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
+            nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
+            nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
+        });
+        const svgBBox = aliceProcessEditor.utils.getBoundingBoxCenter(drawingBoard.select('svg'));
+        let viewBox = [0, 0, svgBBox.width, svgBBox.height];
+        if (nodes.length > 0) {
+            const margin = 100;
+            viewBox = [
+                d3.min(nodeLeftArray) - margin,
+                d3.min(nodeTopArray) - margin,
+                Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 2),
+                Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 2)
+            ];
+        }
+        console.log('x: %s, y: %s, width: %s, height: %s', viewBox[0], viewBox[1], viewBox[2], viewBox[3]);
+        let content = drawingBoard.html();
+        d3.select('.minimap').html(content);
+        const minimapSvg = d3.select('.minimap').select('svg');
+        minimapSvg.attr('width', 318).attr('height', 180).attr('viewBox', viewBox.join(' '));
+        minimapSvg.selectAll('.grid').remove();
+        minimapSvg.selectAll('.tick').remove();
+
+        const elements = aliceProcessEditor.data.elements;
+        let categories = [];
+        elements.forEach(function(elem) {
+            categories.push(aliceProcessEditor.getElementCategory(elem.type));
+        });
+
+        let uniqList =  categories.reduce(function(a, b) {
+            if (a.indexOf(b) < 0 ) { a.push(b); }
+            return a;
+        },[]);
+        const countList = [];
+        uniqList.forEach(function(item) {
+            let count = 0;
+            categories.forEach(function(category) {
+                if (item === category) {
+                    count++;
+                }
+            })
+            countList.push({category: item, count: count});
+        });
+        let infoContainer = document.querySelector('.alice-process-properties-panel .info');
+        infoContainer.innerHTML = '';
+        let infoTbl = document.createElement('table');
+        countList.forEach(function(countInfo) {
+            let row = document.createElement('tr');
+            let categoryColumn = document.createElement('td');
+            categoryColumn.textContent = countInfo.category;
+            row.appendChild(categoryColumn);
+            let countColumn = document.createElement('td');
+            countColumn.textContent = countInfo.count;
+            row.appendChild(countColumn);
+            infoTbl.appendChild(row);
+        });
+        infoContainer.appendChild(infoTbl);
+    }
+
+    /**
      * init workflow util.
      */
     function initUtil() {
@@ -499,11 +574,10 @@
         savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
         setShortcut();
         changeProcessName();
+        setProcessInformation();
     }
 
     exports.utils = utils;
-    exports.history = history;
-    exports.changeProcessName = changeProcessName;
     exports.initUtil = initUtil;
     Object.defineProperty(exports, '__esModule',{value: true});
 })));

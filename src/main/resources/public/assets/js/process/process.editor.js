@@ -55,7 +55,7 @@
     }
 
     /**
-     * 선택된 element 를 해제한다.
+     * 선택된 element 를 해제 한다.
      */
     function removeElementSelected() {
         selectedElement = null;
@@ -649,7 +649,7 @@
                         }
                     });
                 }
-                aliceProcessEditor.history.saveHistory(histories);
+                aliceProcessEditor.utils.history.saveHistory(histories);
 
                 dragElement = null;
                 elemContainer.style('cursor', 'pointer');
@@ -1471,7 +1471,7 @@
                           nodeBottomArray = [],
                           nodeLeftArray = [];
                     const nodes = svg.selectAll('.node').nodes();
-                    nodes.forEach(function(node){
+                    nodes.forEach(function(node) {
                         let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
                         nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
                         nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
