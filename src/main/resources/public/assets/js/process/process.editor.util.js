@@ -536,7 +536,7 @@
                 if (item === category) {
                     count++;
                 }
-            })
+            });
             countList.push({category: item, count: count});
         });
         let infoContainer = document.querySelector('.alice-process-properties-panel .info');
