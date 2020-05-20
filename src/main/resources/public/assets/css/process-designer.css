@@ -10177,6 +10177,10 @@ body {
   margin-left: 0.938rem;
   border: 0.125rem solid darkgray;
 }
+.alice-process-properties-panel div.properties-container {
+  height: calc(100vh - 2.5rem - 22.5rem);
+  overflow: auto;
+}
 .alice-process-properties-panel div.properties-container div.properties {
   display: flex;
   flex-wrap: wrap;
@@ -10315,6 +10319,11 @@ body {
   border: 0.063rem solid #4C5264;
   margin-right: 0.938rem;
   margin-left: 0.938rem;
+}
+.alice-process-properties-panel div.process-info-container div.minimap rect.minimap-guide {
+  fill: #4d4d4d;
+  fill-opacity: 0.1;
+  stroke-width: 0;
 }
 .alice-process-properties-panel div.process-info-container div.minimap path.connector {
   fill: none;

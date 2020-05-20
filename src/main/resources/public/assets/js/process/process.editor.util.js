@@ -467,7 +467,7 @@
     function focusPropertiesPanel() {
         let panel = document.querySelector('.alice-process-properties-panel');
         let items = panel.querySelectorAll('input:not([readonly]), select');
-        if (items.length == 0) { return false; }
+        if (items.length === 0) { return false; }
         items[0].focus();
     }
 
@@ -486,6 +486,13 @@
         });
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
         minimapSvg.selectAll('.selected').classed('selected', false);
+        minimapSvg.append('rect')
+            .attr('class', 'minimap-guide')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', drawingBoard.node().offsetWidth)
+            .attr('height', drawingBoard.node().offsetHeight);
+
 
         const nodeTopArray = [],
               nodeRightArray = [],
@@ -537,7 +544,6 @@
         infoContainer.querySelectorAll('label').forEach(function(label) {
             label.textContent = '0';
         });
-        console.log(countList)
         countList.forEach(function(countInfo) {
             infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
         });

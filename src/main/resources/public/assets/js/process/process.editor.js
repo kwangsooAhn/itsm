@@ -1512,6 +1512,8 @@
                     .attr('transform', d3.event.transform);
                 svg.select('g.guides-container')
                     .attr('transform', d3.event.transform);
+                d3.select('rect.minimap-guide')
+                    .attr('transform', 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')');
             })
             .on('end', function() {
                 svg.style('cursor', 'default');
