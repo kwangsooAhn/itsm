@@ -75,7 +75,39 @@
             <h3>Process Information</h3>
             <hr/>
             <div class="minimap"></div>
-            <div class="info"></div>
+            <div class="info">
+                <table>
+                    <colgroup>
+                        <col width="30%">
+                        <col width="20%">
+                        <col width="30%">
+                        <col width="20%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">Total Count : <label id="element_count"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Event</td>
+                            <td><label id="event_count"></label></td>
+                            <td>Task</td>
+                            <td><label id="task_count"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Gateway</td>
+                            <td><label id="gateway_count"></label></td>
+                            <td>Subprocess</td>
+                            <td><label id="subprocess_count"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Connector</td>
+                            <td><label id="connector_count"></label></td>
+                            <td>Artifact</td>
+                            <td><label id="artifact_count"></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

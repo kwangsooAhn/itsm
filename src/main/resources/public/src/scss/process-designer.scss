@@ -569,6 +569,11 @@ body {
 
                 svg {
                     display: inline-block;
+                    border: 0.063rem solid #4C5264;
+                    margin: {
+                        right: 0.938rem; // 15px
+                        left: 0.938rem; // 15px
+                    }
                 }
 
                 path.connector {
@@ -577,24 +582,8 @@ body {
                     stroke-width: 2;
                     cursor: default;
                 }
-                path.connector.selected {
-                    stroke-dasharray: 10,2;
-                    stroke-width: 3;
-                }
                 path.connector.is-default {
                     stroke-width: 4;
-                }
-                path.connector.drag-line {
-                    pointer-events: none;
-                }
-                path.connector.hidden {
-                    stroke-width: 0;
-                }
-                path.painted-connector {
-                    fill: none;
-                    stroke: none;
-                    stroke-width: 20;
-                    pointer-events: stroke;
                 }
 
                 .connector {
@@ -607,45 +596,6 @@ body {
                         dominant-baseline: text-before-edge;
                         user-select: none;
                     }
-
-                    text.selected {
-                        fill: #0c4dcd;
-                    }
-
-                    circle.pointer {
-                        cursor: move;
-                    }
-                }
-
-                defs {
-                    marker {
-                        path {
-                            fill: #000000;
-                        }
-                    }
-                }
-
-                g.alice-tooltip {
-                    rect.tooltip-container {
-                        fill: #f6f6f7;
-                        stroke: #bcc5d3;
-                        stroke-width: 0.5;
-                    }
-                    rect.action-tooltip-item:hover,
-                    rect.element-tooltip-item:hover {
-                        cursor: pointer;
-                    }
-                }
-
-                .grid path {
-                    display: none;
-                }
-
-                .grid line {
-                    stroke: lightgrey;
-                    stroke-width: 0.5;
-                    stroke-opacity: 1;
-                    shape-rendering: crispEdges;
                 }
 
                 .element {
@@ -659,21 +609,6 @@ body {
                     .node.event.commonEnd,
                     .node.event.messageEnd {
                         stroke-width: 3;
-                    }
-
-                    .node.selected {
-                        stroke: #5887f9;
-                        stroke-width: 2;
-                    }
-
-                    .node.selected.event.commonEnd,
-                    .node.selected.event.messageEnd {
-                        stroke-width: 4;
-                    }
-
-                    .node.reject-element {
-                        stroke: #ff0000;
-                        stroke-width: 2;
                     }
 
                     .group {
@@ -697,18 +632,26 @@ body {
                         user-select: none;
                     }
                 }
-
-                g.guides-container {
-                    line.guides-line {
-                        stroke: darkgray;
-                        stroke-width: 0;
-                    }
-                }
             }
 
             div.info {
                 width: calc(#{$process-properties-panel-width - (0.063rem * 2)});
                 height: 6.563rem; // 105px
+
+                table {
+                    font: {
+                        size: 0.813rem; // 13px
+                    }
+
+                    margin: {
+                        right: 0.938rem; // 15px
+                        left: 0.938rem; // 15px
+                    }
+
+                    label {
+                        height: 0.938rem; // 15px
+                    }
+                }
             }
         }
 

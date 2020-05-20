@@ -472,17 +472,26 @@
     }
 
     /**
-     * 오른쪽 하단에 프로세스 정보를 표시한다.
+     * 오른쪽 하단에 프로세스 정보를 표시 한다.
      */
     function setProcessInformation() {
-
         let drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
+        let content = drawingBoard.html();
+        d3.select('.minimap').html(content);
+        const minimapSvg = d3.select('.minimap').select('svg');
+        minimapSvg.attr('width', 288).attr('height', 178);
+        minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
+        minimapSvg.selectAll('text').nodes().forEach(function(node) {
+            if (node.textContent === '') { d3.select(node).remove(); }
+        });
+        minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
+        minimapSvg.selectAll('.selected').classed('selected', false);
 
         const nodeTopArray = [],
               nodeRightArray = [],
               nodeBottomArray = [],
               nodeLeftArray = [];
-        const nodes = drawingBoard.select('svg').selectAll('.node, .pointer, text').nodes();
+        const nodes = minimapSvg.selectAll('g.element, g.connector').nodes();
         nodes.forEach(function(node) {
             let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
             nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
@@ -502,12 +511,7 @@
             ];
         }
         console.log('x: %s, y: %s, width: %s, height: %s', viewBox[0], viewBox[1], viewBox[2], viewBox[3]);
-        let content = drawingBoard.html();
-        d3.select('.minimap').html(content);
-        const minimapSvg = d3.select('.minimap').select('svg');
-        minimapSvg.attr('width', 318).attr('height', 180).attr('viewBox', viewBox.join(' '));
-        minimapSvg.selectAll('.grid').remove();
-        minimapSvg.selectAll('.tick').remove();
+        minimapSvg.attr('viewBox', viewBox.join(' '));
 
         const elements = aliceProcessEditor.data.elements;
         let categories = [];
@@ -530,19 +534,14 @@
             countList.push({category: item, count: count});
         });
         let infoContainer = document.querySelector('.alice-process-properties-panel .info');
-        infoContainer.innerHTML = '';
-        let infoTbl = document.createElement('table');
-        countList.forEach(function(countInfo) {
-            let row = document.createElement('tr');
-            let categoryColumn = document.createElement('td');
-            categoryColumn.textContent = countInfo.category;
-            row.appendChild(categoryColumn);
-            let countColumn = document.createElement('td');
-            countColumn.textContent = countInfo.count;
-            row.appendChild(countColumn);
-            infoTbl.appendChild(row);
+        infoContainer.querySelectorAll('label').forEach(function(label) {
+            label.textContent = '0';
         });
-        infoContainer.appendChild(infoTbl);
+        console.log(countList)
+        countList.forEach(function(countInfo) {
+            infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
+        });
+        infoContainer.querySelector('#element_count').textContent = elements.length;
     }
 
     /**
