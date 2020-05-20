@@ -71,6 +71,14 @@ class FormRestController(
      */
     @PostMapping("/imageUpload")
     fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): String {
-        return formService.upload(multipartFile)
+        return formService.uploadFile(multipartFile)
+    }
+
+    /**
+     * 이미지 삭제
+     */
+    @DeleteMapping("/imageDelete")
+    fun deleteFile(@RequestBody jsonData: String): Boolean {
+        return formService.deleteFile(jsonData)
     }
 }

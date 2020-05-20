@@ -13,6 +13,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -152,7 +153,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return fileList.toString()
     }
 
-    fun upload(multipartFile: MultipartFile): String {
+    fun uploadFile(multipartFile: MultipartFile): String {
         var rtn = ""
         val absolutePath = Paths.get("").toAbsolutePath().toString()
         var dir = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, RestTemplateConstants.FORM_IMAGE_DIR)
@@ -176,5 +177,17 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             logger.error("{}", e.message)
         }
         return rtn
+    }
+
+    fun deleteFile(jsonData: String): Boolean {
+        var rtn = false
+        val map = mapper.readValue(jsonData, LinkedHashMap::class.java)
+        val absolutePath = Paths.get("").toAbsolutePath().toString()
+        var delFile = Paths.get(absolutePath, RestTemplateConstants.RESOURCES_DIR, map["imgPath"].toString())
+        if (Files.exists(delFile)) {
+            Files.delete(delFile)
+            rtn = true;
+        }
+        return rtn;
     }
 }

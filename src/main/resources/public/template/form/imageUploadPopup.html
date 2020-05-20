@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta http-equiv="expire" content="-1"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
     <title th:text="#{form.component.image}"></title>
     <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+    <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
     <!-- 임시 style -->
     <style>
@@ -22,13 +29,13 @@
         .dropzone .note { display: block; font-size: 16px; }
         .dropzone .dz-preview { cursor: pointer; }
         .dropzone .dz-preview > *:not(button) { pointer-events: none; }
+        .dropzone .dz-preview .dz-image { z-index: 0; }
         .dropzone .dz-preview .dz-details .dz-filename { padding-bottom: 10px; }
         .dropzone .dz-preview .dz-selected-mark {
             position: absolute;
             display: block;
             top: 0;
             left: 100%;
-            z-index: 500;
             pointer-events: none;
             margin-top: -12px;
         }
@@ -105,29 +112,56 @@
 </body>
 <script type="text/javascript">
     /*<![CDATA[*/
+    i18n.add();
+
+    const componentId = '[(${componentId})]';
     let selectedImagePreview = null;
+
     Dropzone.autoDiscover = false;
-    
+
     function selectedImageSave() {
         //이미지가 하나라도 선택되어 있지 않으면 알림창 출력
         if (selectedImagePreview === null) {
-            aliceJs.alert(i18n.get('fileupload.msg.fileSelect'));
+            aliceJs.alert(i18n.get('form.msg.alert.fileSelect'));
             return false;
         }
         if (window.opener && !window.opener.closed) {
-            //let component = window.opener.document.getElementById(componentData.componentId);
-            //let componentChild =  component.querySelector('input[type="text"]');
-            //componentChild.value = componentValue;
-            //window.close();
+            const pathGroupElem = window.opener.document.getElementById('panel-properties').querySelector('#path');
+            if (pathGroupElem) {
+                const pathElem =  pathGroupElem.querySelector('input[type="text"]');
+                if (pathElem) {
+                    pathElem.value = selectedImagePreview.querySelector('#dz-filepath').value;
+                    pathElem.dispatchEvent(new Event('change'));
+                    window.close();
+                }
+            }
         }
     }
 
+    function initSelectImage() {
+        if (!window.opener || window.opener.closed) { return false; }
+
+        let component = window.opener.document.getElementById(componentId);
+        let componentImgElem =  component.querySelector('img');
+        document.querySelectorAll('.dz-preview').forEach(function(elem) {
+            let thumbnailElem = elem.querySelector('.dz-image > img');
+            if (thumbnailElem !== null && componentImgElem.src === thumbnailElem.src) {
+                selectedImagePreview = elem;
+                elem.classList.add('selected');
+                return false;
+            }
+        });
+    }
+
     function onImageSelectHandler(e) {
-        console.log(e.target);
-        //기존 선택된 이미지를 지운다.
+        //기존 이미지 선택 해제
         if (selectedImagePreview !== null) {
             if (selectedImagePreview.classList.contains('selected')) {
                 selectedImagePreview.classList.remove('selected');
+                if (e.target === selectedImagePreview) {
+                    selectedImagePreview = null;
+                    return false;
+                }
             }
         }
         if (!e.target.classList.contains('selected') && e.target.classList.contains('dz-preview')) {
@@ -177,10 +211,10 @@
             </div> `,
             //thumbnailWidth: 80,
             //thumbnailHeight: 80,
-            uploadMultiple: true,  //여러 개의 사진 업로드 허용
+            uploadMultiple: true,  //여러장 사진 업로드 허용
             addRemoveLinks: false, //업로드 취소 및 추가 삭제 미리 보기 그림 링크
             acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF',
-            autoQueue: true, // Make sure the files aren't queued until manually added
+            autoQueue: false, // 자동 서버 업로드 막기
             clickable: '.btn-upload', // Define the element that should be used as click trigger to select files.
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content')
@@ -192,15 +226,79 @@
                 let _self = this;
 
                 _self.on('addedfile', function (file) {
-                    console.log('============================ addedfile ');
-                    console.log(file);
-                    file.previewElement.querySelector('#dz-filepath').value = file.imgPath;
-                    file.previewElement.addEventListener('click', onImageSelectHandler, false);
+                    //확장자 검사
+                    let isAccepted = false;
+                    let acceptedFileArr = _self.options.acceptedFiles.split(',');
+                    let fileExtention = file.name.split('.');
+                    if (fileExtention.length === 2) {
+                        fileExtention = fileExtention[1];
+                        if (acceptedFileArr.indexOf('.' + fileExtention) > 0) {
+                            isAccepted = true;
+                        }
+                    }
+                    if (!isAccepted) {
+                        if (file.previewElement != null && file.previewElement.parentNode != null) {
+                            file.previewElement.parentNode.removeChild(file.previewElement);
+                        }
+                        this.files.splice(-1, 1);
+                        aliceJs.alert('[[#{fileupload.msg.fileNameExtensionNotExist}]]');
+                    }
+
+                    let isDuplicated = false;  //중복된 파일명이 존재하면 업로드를 알림창을 띄운다.
+                    if (this.files.length > 0) {
+                        for (let i = 0, len = this.files.length - 1 ; i < len; i++) {
+                            if (this.files[i].name === file.name && this.files[i].size === file.size) {
+                                if (file.previewElement != null && file.previewElement.parentNode != null) {
+                                    file.previewElement.parentNode.removeChild(file.previewElement);
+                                }
+                                this.files.splice(-1, 1);
+                                aliceJs.alert('[[#{form.msg.alert.fileNameDuplication}]]');
+                                isDuplicated = true;
+                                break;
+                            }
+                        }
+                    }
+                    let maxFileSizeExceeded = false; //max file size 를 초과하는 경우 알림창을 띄운다.
+                    if (_self.options.maxFilesize && file.size > _self.options.maxFilesize * 1024 * 1024) {
+                        if (file.previewElement != null && file.previewElement.parentNode != null) {
+                            file.previewElement.parentNode.removeChild(file.previewElement);
+                            aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', _self.options.maxFilesize));
+                            maxFileSizeExceeded = true;
+                        }
+                        this.files.splice(-1, 1);
+                    }
+
+                    if (!isDuplicated && !maxFileSizeExceeded) {
+                        file.previewElement.querySelector('#dz-filepath').value = file.imgPath;
+                        file.previewElement.addEventListener('click', onImageSelectHandler, false);
+                        if (typeof file.isNew === 'undefined') {
+                            file.status = Dropzone.QUEUED;
+                            _self.processQueue(file);
+                        }
+                    }
                 });
 
                 _self.on('removedfile', function (file) {
-                    console.log('============================ removedfile');
-                    console.log(file);
+                    if (file.previewElement.classList.contains('selected')) {
+                        selectedImagePreview = null;
+                    }
+                    const opt = {
+                        method: 'DELETE',
+                        url: '/rest/forms/imageDelete',
+                        params: JSON.stringify(file),
+                        contentType: 'application/json',
+                        callbackFunc: function (response) {
+                            console.log(response);
+                            if (response.responseText === 'true') {
+                                aliceJs.alert('[[#{common.msg.delete.success}]]', function () {
+                                    location.reload();
+                                });
+                            } else {
+                                aliceJs.alert(i18n.get('common.msg.delete.fail'));
+                            }
+                        }
+                    };
+                    aliceJs.sendXhr(opt);
                 });
 
                 _self.on('sending', function (file, xhr, formData) {
@@ -209,35 +307,31 @@
 
                 _self.on('success', function (file, response) {
                     if (response === '') { //업로드 실패
-                        _self.removeFile(file);
+                        if (file.previewElement != null && file.previewElement.parentNode != null) {
+                            file.previewElement.parentNode.removeChild(file.previewElement);
+                        }
+                        this.files.splice(-1, 1);
                         aliceJs.alert(i18n.get('form.msg.alert.fileuploadFailed'));
                     } else {
-                        console.log(response);
-                        file.previewElement.querySelector('#dz-filepath').value = '/' + response.imgPath;
+                        file.url = response.imgUrl;
+                        file.imgPath = '/' + response.imgPath;
+                        file.previewElement.querySelector('#dz-filepath').value = file.imgPath;
                     }
                 });
 
-                _self.on('error', function (file, errorMsg, xhr) {
-                    file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                _self.on('error', function (file, message) {
+                    file.previewElement.querySelector('.dz-error-message').innerText = message;
                 });
 
-                _self.on('complete', function (file) {
-                });
+                _self.on('complete', function (file) {});
 
-                _self.on('queuecomplete', function (progress) {
-                });
+                _self.on('queuecomplete', function (progress) {});
 
-                _self.on('maxfilesexceeded', function (file, maxFiles) {
-                    _self.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesexceeded', maxFiles));
-                });
+                _self.on('maxfilesexceeded', function (file, maxFiles) {});
 
-                _self.on('maxfilesizeexceeded', function (file, maxFileSize) {
-                    _self.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize));
-                });
+                _self.on('maxfilesizeexceeded', function (file, maxFileSize) {});
 
-                //기존 이미지가 존재하면?
+                //기존 이미지가 존재하면 dropzone에 넣어준다.
                 let imageList = JSON.parse('[(${data})]');
                 if (imageList) {
                     for (let i = 0; i < imageList.length; i++) {
@@ -257,8 +351,10 @@
                         _self.files.push(mockFile);
                     }
                 }
+                //기존 이미지 선택
+                initSelectImage();
             },
-            accept: function(file, done) {
+            accept: function(file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
                 done();
             }
         });

@@ -1448,7 +1448,7 @@
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
                             validateCheck(propertyValue, fieldArr.validate);
-                            propertyValue.addEventListener('focusout', function() {
+                            propertyValue.addEventListener('change', function() {
                                 changePropertiesValue(this.value, group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
@@ -1457,7 +1457,7 @@
                             propertyBtn.type = 'button';
                             propertyBtn.innerText = 'select';
                             propertyBtn.addEventListener('click', function(e) {
-                                window.open('/forms/imageUpload/view', 'imageUploadPop', 'width=1200, height=700');
+                                window.open('/forms/imageUpload/' + id + '/view', 'imageUploadPop', 'width=1200, height=700');
                             }, false);
                             fieldGroupDiv.appendChild(propertyBtn);
                             break;

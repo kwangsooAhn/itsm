@@ -303,6 +303,7 @@ form:
       maxLength: "Please enter less than {0} characters."
       fileuploadFailed: "File upload failed."
       fileSelect: "Please select a file."
+      fileNameDuplication: "The same file name exists."
   preview:
     name: "Form Edit Preview"
 

@@ -93,6 +93,7 @@
         let componentMenu = document.getElementById('context-menu-component');
         let rslt = false;
         let tempText = searchText.replace('/', '');
+        tempText = tempText.trim().toLowerCase();
         searchItems = [];
         
         for (let i = 0, len = componentMenu.children.length; i < len; i++) {
@@ -111,8 +112,9 @@
                 rslt = true;
             } else {
                 let text = item.querySelector('label').textContent || item.querySelector('label').innerText;
-                
-                if (text.slice(0, tempText.length).toLowerCase() !== tempText.toLowerCase()) {
+                text = text.trim().toLowerCase();
+                console.log(text + '  :  ' + tempText);
+                if (text.slice(0, tempText.length) !== tempText) {
                     item.style.display = 'none';
                 } else {
                     item.style.display = 'block';
@@ -253,7 +255,9 @@
      */
     function onKeyDownHandler(e) {
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
-        isCtrlPressed = userKeyCode === keycode.ctrl;
+        isCtrlPressed = ( userKeyCode === keycode.ctrl );
+
+        if (e.ctrlKey) { e.preventDefault(); }
 
         if (flag === 1 && selectedItem) { //컨텍스트 메뉴를 오픈한체 키보드 ↑, ↓, enter 클릭시 동작
             let len = searchItems.length - 1;
@@ -301,7 +305,6 @@
      */
     function onKeyPressHandler(e) {
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
-
         if (userKeyCode === keycode.enter) {//editbox 에서 enter키를 입력하면 editbox를 아래 추가한다.
             if (flag === 0) {
                 e.preventDefault();
