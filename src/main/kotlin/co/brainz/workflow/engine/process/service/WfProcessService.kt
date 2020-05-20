@@ -23,6 +23,7 @@ import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.LinkedMultiValueMap
 
 @Service
 @Transactional
@@ -91,10 +92,13 @@ class WfProcessService(
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
             elDto.display = elementEntity.displayInfo.let { objMapper.readValue(it) }
-            elDto.data = elementEntity.elementDataEntities.associateByTo(
-                mutableMapOf(),
-                { it.attributeId },
-                { it.attributeValue })
+
+            val elementDataEntities = LinkedMultiValueMap<String, Any>()
+            elementEntity.elementDataEntities.forEach {
+                elementDataEntities.add(it.attributeId, it.attributeValue)
+            }
+            elDto.data = elementDataEntities.toMutableMap()
+
             restTemplateElementDtoList.add(elDto)
         }
         return RestTemplateProcessElementDto(wfProcessDto, restTemplateElementDtoList)
