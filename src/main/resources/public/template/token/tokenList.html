@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -22,32 +22,35 @@
 <div>
     <table class="table-hover">
         <colgroup>
+            <col width="1%">
             <col width="15%">
             <col width="20%">
-            <col width="35%">
+            <col width="34%">
             <col width="25%">
             <col width="5%">
         </colgroup>
         <tbody>
-            <tr th:if="${#arrays.isEmpty(tokenList)}">
-                <td colspan="4" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
-                <td th:text="${token.documentNo}"></td>
-                <td th:text="${token.documentName}"></td>
-                <td>
-                    <span th:unless="${#arrays.isEmpty(token.topics)}" th:each="topic: ${token.topics}">
-                        <p th:text="${topic}"></p>
-                    </span>
-                </td>
-                <td th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="|${#temporals.format(token.createDt, dateformat)} ${token.createUserName}|"></td>
-                <td>
-                    <button sec:authorize="hasAuthority('token.create')"
-                            th:attr="onclick=|openTokenEdit('${token.tokenId}')|"
-                            th:text="#{common.btn.write}"></button>
-                </td>
-            </tr>
+        <tr th:if="${#arrays.isEmpty(tokenList)}">
+            <td colspan="5" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
+
+            <td th:style="|background-color:${token.documentColor}|"></td>
+            <td th:text="${token.documentNo}"></td>
+            <td th:text="${token.documentName}"></td>
+            <td>
+                <span th:unless="${#arrays.isEmpty(token.topics)}" th:each="topic: ${token.topics}">
+                    <p th:text="${topic}"></p>
+                </span>
+            </td>
+            <td th:with="dateformat=${#authentication.details.timeFormat}"
+                th:text="|${#temporals.format(token.createDt, dateformat)} ${token.createUserName}|"></td>
+            <td>
+                <button sec:authorize="hasAuthority('token.create')"
+                        th:attr="onclick=|openTokenEdit('${token.tokenId}')|"
+                        th:text="#{common.btn.write}"></button>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

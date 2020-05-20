@@ -398,3 +398,29 @@ ul, li {
 .picker-wrapper {
     display: inline-block;
 }
+
+.selected-color {
+    display: inline-block;
+    width: 1.563rem;
+    height: 1.563rem;
+    margin-right: 0.3125rem;
+    border: 0.0625rem solid #000000;
+    cursor: pointer;
+}
+
+.color {
+    width: 9.375rem;
+}
+
+.color-palette {
+    background-color: #d3d3d3;
+    width: 11.25rem;
+    margin-left: 2.0rem;
+    div {
+        display: inline-block;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin: 0.3125rem;
+        cursor: pointer;
+    }
+}
