@@ -93,7 +93,7 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
     /**
      * 사용자 정의 코드 데이터 조회 팝업 화면.
      */
-    @RequestMapping("/{customCodeId}/search", method = [RequestMethod.POST, RequestMethod.GET])
+    @GetMapping("/{customCodeId}/search")
     fun getCustomCodeData(@PathVariable customCodeId: String, model: Model, request: HttpServletRequest): String {
         model.addAttribute("customCodeData", request.getParameter("customCodeData") ?: "")
         model.addAttribute("customCodeDataList", customCodeService.getCustomCodeData(customCodeId))

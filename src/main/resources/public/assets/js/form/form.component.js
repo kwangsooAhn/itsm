@@ -753,7 +753,7 @@
 
                 let form = document.createElement('form');
                 form.action = url;
-                form.method = 'POST';
+                form.method = 'GET';
                 form.target = 'customCodePop';
                 let inputElem = document.createElement('input');
                 inputElem.name = 'customCodeData';
