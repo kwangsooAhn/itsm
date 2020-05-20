@@ -37,11 +37,12 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInte
     private fun userAgentCheck(request: HttpServletRequest, response: HttpServletResponse): Boolean {
         val userAgent = request.getHeader("User-Agent")
 
-        if (userAgent != null && (userAgent.indexOf("MISE") != -1 || userAgent.indexOf("Trident") != -1)) {
+        return if (userAgent != null && (userAgent.indexOf("MISE") != -1 || userAgent.indexOf("Trident") != -1)) {
             response.sendRedirect("/portal/browserGuide")
-            return false
+
+            false
         } else {
-            return true
+            true
         }
     }
 
