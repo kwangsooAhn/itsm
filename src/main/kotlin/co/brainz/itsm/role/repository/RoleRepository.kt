@@ -2,11 +2,18 @@ package co.brainz.itsm.role.repository
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RoleRepository : JpaRepository<AliceRoleEntity, String> {
+interface RoleRepository : JpaRepository<AliceRoleEntity, String>, JpaSpecificationExecutor<AliceRoleEntity> {
+
+    /**
+     * 역할 전체 목록을 조회한다.
+     */
+    override fun findAll(): MutableList<AliceRoleEntity>
+
     /**
      * 역할별 상세 내용 조회
      */
