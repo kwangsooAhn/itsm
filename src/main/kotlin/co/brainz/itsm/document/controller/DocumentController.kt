@@ -1,9 +1,10 @@
 package co.brainz.itsm.document.controller
 
+import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.framework.numbering.service.AliceNumberingService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -44,8 +45,8 @@ class DocumentController(
      * @return String
      */
     @GetMapping("/list")
-    fun getDocumentList(model: Model): String {
-        model.addAttribute("documentList", documentService.findDocumentList())
+    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
+        model.addAttribute("documentList", documentService.findDocumentList(restTemplateDocumentSearchListDto))
         return documentListPage
     }
 

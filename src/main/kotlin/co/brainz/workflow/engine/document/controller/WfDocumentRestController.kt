@@ -4,6 +4,7 @@ import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
 import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -25,8 +26,8 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * @return List<RestTemplateDocumentDto>
      */
     @GetMapping("")
-    fun getDocuments(): List<RestTemplateDocumentDto> {
-        return wfEngine.document().documents()
+    fun getDocuments(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+        return wfEngine.document().documents(restTemplateDocumentSearchListDto)
     }
 
     /**

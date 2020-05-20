@@ -45,9 +45,9 @@
     };
     const shortcuts = [
         { 'keys': 'ctrl+s', 'command': 'editor.save(false);' },               //폼 양식 저장
-        { 'keys': 'ctrl+alt+s', 'command': 'editor.saveAs();' },              //폼 양식 다른이름으로 저장
+        { 'keys': 'ctrl+shift+s', 'command': 'editor.saveAs();' },            //폼 양식 다른이름으로 저장
         { 'keys': 'ctrl+z', 'command': 'editor.undo();' },                    //폼 편집 화면 작업 취소'
-        { 'keys': 'ctrl+y', 'command': 'editor.redo();' },                    //폼 편집 화면 작업 재실행
+        { 'keys': 'ctrl+shift+z', 'command': 'editor.redo();' },              //폼 편집 화면 작업 재실행
         { 'keys': 'ctrl+i', 'command': 'editor.importForm();' },              //폼 양식 가져오기
         { 'keys': 'ctrl+e', 'command': 'editor.exportForm();' },              //폼 양식 내보내기
         { 'keys': 'ctrl+p', 'command': 'editor.preview();' },                 //폼 양식 미리보기
@@ -1258,7 +1258,11 @@
                                         }
                                         let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
                                         if (targetRadio.checked) {
-                                            changePropertiesValue('code|' + customCodeDataSelect.value + '|' + customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text, group, fieldArr.id);
+                                            let val = 'code|' + customCodeDataSelect.value + '|';
+                                            if (customCodeDataSelect.selectedIndex !== -1) {
+                                                val += customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text;
+                                            }
+                                            changePropertiesValue(val, group, fieldArr.id);
                                         }
                                     },
                                     contentType: 'application/json; charset=utf-8',
@@ -1278,7 +1282,10 @@
                                     }
                                     let val = targetId !== 'none' ? targetId + '|' + this.parentNode.querySelector('select').value : targetId;
                                     if (targetRadio.checked && targetRadio.id !== 'none') {
-                                        val += ('|' + this.parentNode.querySelector('select').options[this.parentNode.querySelector('select').selectedIndex].text);
+                                        val += '|';
+                                        if (this.parentNode.querySelector('select').selectedIndex !== -1) {
+                                            val += this.parentNode.querySelector('select').options[this.parentNode.querySelector('select').selectedIndex].text;
+                                        }
                                     }
                                     changePropertiesValue(val, group, fieldArr.id);
                                 });
