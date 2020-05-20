@@ -517,7 +517,6 @@
                 Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 2)
             ];
         }
-        console.log('x: %s, y: %s, width: %s, height: %s', viewBox[0], viewBox[1], viewBox[2], viewBox[3]);
         minimapSvg.attr('viewBox', viewBox.join(' '));
 
         const elements = aliceProcessEditor.data.elements;
