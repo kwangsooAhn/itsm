@@ -17,6 +17,7 @@ class AliceInterceptorConfig(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(interceptor).addPathPatterns("/**")
+                .excludePathPatterns("/portal/browserGuide")
         registry.addInterceptor(localeChangeInterceptor)
     }
 }

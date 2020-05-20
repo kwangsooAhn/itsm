@@ -348,6 +348,11 @@ portal:
     topPhrase: "안녕하세요! 오늘은 어떻게 도와 드릴까요?"
     bottomPhrase: "원하는 걸 찾을 수 없나요?"
     bottomLeftPhrase: "문의하기"
+    chrome: "Chrome"
+    firefox: "Firefox"
+    msEdge: "MS Edge"
+    safari: "Safari"
+    browserGuidePhrase: "사용 중인 웹 브라우저를 지원하지 않습니다. 아래의 브라우저를 사용해 주세요."
 
 # Role
 role:
