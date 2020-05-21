@@ -89,7 +89,8 @@ class WfInstanceService(
                     createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
                     createUserName = instance.instanceEntity.instanceCreateUser?.userName,
                     documentId = instance.documentEntity.documentId,
-                    documentNo = instance.instanceEntity.documentNo
+                    documentNo = instance.instanceEntity.documentNo,
+                    documentColor = instance.documentEntity.documentColor
                 )
             )
         }
