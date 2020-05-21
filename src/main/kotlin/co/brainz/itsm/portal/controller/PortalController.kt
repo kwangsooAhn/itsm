@@ -20,12 +20,13 @@ class PortalController(private val portalService: PortalService) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val portalMainPage: String = "portal/portalMain"
     private val portalListPage: String = "portal/portalList"
+    private val portalBrowserGuidePage: String = "portal/portalBrowserGuide"
 
     /**
-     * FAQ 검색 화면 호출 처리
+     * 포탈 검색 화면 호출 처리
      */
     @GetMapping("/portalMain")
-    fun getFaqSearch(request: HttpServletRequest, model: Model): String {
+    fun getPortalSearch(request: HttpServletRequest, model: Model): String {
         return portalMainPage
     }
 
@@ -49,5 +50,10 @@ class PortalController(private val portalService: PortalService) {
         model.addAttribute("portalList", portalService.findPortalListOrSearchList(portalSearchDto, pageableValue))
 
         return portalListPage
+    }
+
+    @GetMapping("/browserGuide")
+    fun getPortalBrowserGuide(): String {
+        return portalBrowserGuidePage
     }
 }

@@ -348,6 +348,11 @@ portal:
     topPhrase: "Hi! How can we help you today?"
     bottomPhrase: "Can't find what you're looking for?"
     bottomLeftPhrase: "Contact us"
+    chrome: "Chrome"
+    firefox: "Firefox"
+    msEdge: "MS Edge"
+    safari: "Safari"
+    browserGuidePhrase: "Your web browser is not supported. Please use the browser below."
 
 # Role
 role:
