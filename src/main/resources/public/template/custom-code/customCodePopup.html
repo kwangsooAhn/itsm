@@ -57,18 +57,9 @@
     /*<![CDATA[*/
     let componentData = {};
     function customCodeDataSave() {
-        let checkElems = document.querySelectorAll('tr:not([style*="display: none"]) input:checked');
-        let componentValue = '';
-        let componentDataValue = '';
-        for (let i = 0, len = checkElems.length; i < len; i++) {
-            if (componentValue === '' && componentValue.indexOf('/') === -1) {
-                componentDataValue = checkElems[i].id + '|' + checkElems[i].value;
-                componentValue = checkElems[i].value;
-            } else {
-                componentDataValue += (',' + checkElems[i].id + '|' + checkElems[i].value);
-                componentValue += '/' + checkElems[i].value;
-            }
-        }
+        let checkElem = document.querySelector('tr:not([style*="display: none"]) input:checked');
+        let componentDataValue = checkElem.id + '|' + checkElem.value;
+        let componentValue = checkElem.value;
         if (window.opener && !window.opener.closed) {
             let component = window.opener.document.getElementById(componentData.componentId);
             let componentChild =  component.querySelector('input[type="text"]');
@@ -79,13 +70,10 @@
     }
     window.onload = function() {
         componentData = JSON.parse('[(${customCodeData})]');
-        let compDataList = componentData.componentValues.split(','); //key|value,key|value
-        for (let i = 0, len = compDataList.length; i < len; i++) {
-            let compDataMap = compDataList[i].split('|');
-            let radioElem = document.querySelector('input[id="' + compDataMap[0] + '"]');
-            if (radioElem) {
-                radioElem.checked = true;
-            }
+        let compDataMap = componentData.componentValues.split('|');
+        let radioElem = document.querySelector('input[id="' + compDataMap[0] + '"]');
+        if (radioElem) {
+            radioElem.checked = true;
         }
         document.getElementById('search').addEventListener('keyup', function () {
             let dataList = document.querySelectorAll('input[type="radio"]');
