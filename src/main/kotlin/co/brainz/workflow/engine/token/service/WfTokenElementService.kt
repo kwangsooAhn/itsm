@@ -43,12 +43,15 @@ class WfTokenElementService(
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
+    lateinit var assigneeId: String
+
     /**
      * Init Token.
      *
      * @param restTemplateTokenDto
      */
     fun initToken(restTemplateTokenDto: RestTemplateTokenDto) {
+        this.assigneeId = restTemplateTokenDto.assigneeId.toString()
         val documentDto =
             restTemplateTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
         val documentNo =
@@ -91,6 +94,7 @@ class WfTokenElementService(
      * @param restTemplateTokenDto
      */
     fun setTokenAction(restTemplateTokenDto: RestTemplateTokenDto) {
+        this.assigneeId = restTemplateTokenDto.assigneeId.toString()
         val wfTokenEntity = wfTokenRepository.findTokenEntityByTokenId(restTemplateTokenDto.tokenId).get()
         val elementType = wfTokenEntity.element.elementType
         logger.debug("Token Element Type : {}", elementType)
@@ -150,7 +154,6 @@ class WfTokenElementService(
         logger.debug("Token Action : {}", restTemplateTokenDto.action)
         when (restTemplateTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> {
-                restTemplateTokenDto.assigneeId = WfTokenConstants.SESSION_USER_KEY
                 wfTokenActionService.save(wfTokenEntity, restTemplateTokenDto)
             }
             WfElementConstants.Action.REJECT.value -> {
@@ -159,7 +162,6 @@ class WfTokenElementService(
                     wfTokenEntity.element.elementDataEntities,
                     WfElementConstants.AttributeId.REJECT_ID.value
                 )
-                restTemplateTokenDto.assigneeId = WfTokenConstants.SESSION_USER_KEY
                 wfTokenActionService.setReject(wfTokenEntity, restTemplateTokenDto, values)
             }
             WfElementConstants.Action.WITHDRAW.value -> wfTokenActionService.setWithdraw(
@@ -223,7 +225,7 @@ class WfTokenElementService(
         )
         when (element.elementType) {
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
-                token.assigneeId = WfTokenConstants.SESSION_USER_KEY
+                token.assigneeId = this.assigneeId
                 token.tokenStatus = WfTokenConstants.Status.FINISH.code
                 token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
             }
@@ -281,7 +283,6 @@ class WfTokenElementService(
                 val token = makeToken(nextElementEntity, wfTokenEntity.instance)
                 val saveToken = setNextTokenSave(token, restTemplateTokenDto)
                 restTemplateTokenDto.tokenId = saveToken.tokenId
-                val newElementEntity = wfActionService.getElement(saveToken.element.elementId)
                 goToNext(saveToken, restTemplateTokenDto)
             }
             WfElementConstants.ElementType.SUB_PROCESS.value -> {
@@ -441,10 +442,6 @@ class WfTokenElementService(
         return assignee
     }
 
-    private fun getSessionUser(): String {
-        return WfTokenConstants.SESSION_USER_KEY
-    }
-
     /**
      * Set token assignee or candidate.
      *
@@ -457,7 +454,7 @@ class WfTokenElementService(
             WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
                 var assigneeId = getAssignee(token.element, token)
                 if (assigneeId.isEmpty()) {
-                    assigneeId = getSessionUser()
+                    assigneeId = this.assigneeId
                 }
                 token.assigneeId = assigneeId
                 wfTokenRepository.save(token)
@@ -478,7 +475,7 @@ class WfTokenElementService(
                     }
                     wfCandidateRepository.saveAll(wfCandidateEntities)
                 } else {
-                    token.assigneeId = getSessionUser()
+                    token.assigneeId = this.assigneeId
                     wfTokenRepository.save(token)
                 }
             }

@@ -33,7 +33,6 @@ class WfTokenActionService(
     fun setProcess(wfTokenEntity: WfTokenEntity, restTemplateTokenDto: RestTemplateTokenDto) {
         wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         restTemplateTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
-        restTemplateTokenDto.assigneeId = WfTokenConstants.SESSION_USER_KEY
         updateToken(wfTokenEntity, restTemplateTokenDto)
         // 현재 Element 의 데이터를 갱신 (다음 Element 로 넘어가는 데이터와 동일한 값으로 업데이트)
         deleteTokenData(restTemplateTokenDto.tokenId)

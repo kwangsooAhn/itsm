@@ -24,6 +24,4 @@ object WfTokenConstants {
      * Mapping id expression.
      */
     const val mappingExpression: String = """[$][{][a-zA-Z0-9]+[}]"""
-
-    const val SESSION_USER_KEY = "40288ab26fa3219e016fa32231230000"
 }
