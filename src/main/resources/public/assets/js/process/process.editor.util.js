@@ -484,6 +484,7 @@
         minimapSvg.selectAll('text').nodes().forEach(function(node) {
             if (node.textContent === '') { d3.select(node).remove(); }
         });
+        let transform = d3.zoomTransform(drawingBoard.select('.element-container').node());
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
         minimapSvg.selectAll('.selected').classed('selected', false);
         minimapSvg.append('rect')
@@ -491,8 +492,8 @@
             .attr('x', 0)
             .attr('y', 0)
             .attr('width', drawingBoard.node().offsetWidth)
-            .attr('height', drawingBoard.node().offsetHeight);
-
+            .attr('height', drawingBoard.node().offsetHeight)
+            .attr('transform', 'translate(' + -transform.x + ',' + -transform.y + ')');
 
         const nodeTopArray = [],
               nodeRightArray = [],
