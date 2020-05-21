@@ -484,7 +484,6 @@
         minimapSvg.selectAll('text').nodes().forEach(function(node) {
             if (node.textContent === '') { d3.select(node).remove(); }
         });
-        let transform = d3.zoomTransform(drawingBoard.select('.element-container').node());
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
         minimapSvg.selectAll('.selected').classed('selected', false);
         minimapSvg.append('rect')
@@ -492,8 +491,7 @@
             .attr('x', 0)
             .attr('y', 0)
             .attr('width', drawingBoard.node().offsetWidth)
-            .attr('height', drawingBoard.node().offsetHeight)
-            .attr('transform', 'translate(' + -transform.x + ',' + -transform.y + ')');
+            .attr('height', drawingBoard.node().offsetHeight);
 
         const nodeTopArray = [],
               nodeRightArray = [],
@@ -507,8 +505,8 @@
             nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
             nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
         });
-        const svgBBox = aliceProcessEditor.utils.getBoundingBoxCenter(drawingBoard.select('svg'));
-        let viewBox = [0, 0, svgBBox.width, svgBBox.height];
+        let viewBox = [0, 0, drawingBoard.node().offsetWidth, drawingBoard.node().offsetHeight];
+        let minimapTranslate = '';
         if (nodes.length > 0) {
             const margin = 100;
             viewBox = [
@@ -517,8 +515,11 @@
                 Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 2),
                 Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 2)
             ];
+            let transform = d3.zoomTransform(drawingBoard.select('.element-container').node());
+            minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
         }
         minimapSvg.attr('viewBox', viewBox.join(' '));
+        minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
 
         const elements = aliceProcessEditor.data.elements;
         let categories = [];

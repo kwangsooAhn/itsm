@@ -1444,6 +1444,17 @@
             svg.selectAll('g.grid').selectAll('*').remove();
             verticalGrid.call(verticalAxis);
             horizontalGrid.call(horizontalAxis);
+
+            let nodes = d3.select('.minimap').select('svg').selectAll('g.element, g.connector').nodes();
+            let minimapTranslate = '';
+            if (nodes.length > 0) {
+                let transform = d3.zoomTransform(d3.select(drawingBoard).select('.element-container').node());
+                minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
+            }
+            d3.select('rect.minimap-guide')
+                .attr('width', drawingBoardWidth)
+                .attr('height', drawingBoardHeight)
+                .attr('transform', minimapTranslate);
         };
         window.onresize = setDrawingBoardGrid;
         window.onkeydown = function(e) {
@@ -1512,8 +1523,13 @@
                     .attr('transform', d3.event.transform);
                 svg.select('g.guides-container')
                     .attr('transform', d3.event.transform);
-                d3.select('rect.minimap-guide')
-                    .attr('transform', 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')');
+
+                let nodes = d3.select('.minimap').select('svg').selectAll('g.element, g.connector').nodes();
+                let minimapTranslate = '';
+                if (nodes.length > 0) {
+                    minimapTranslate = 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')';
+                }
+                d3.select('rect.minimap-guide').attr('transform', minimapTranslate);
             })
             .on('end', function() {
                 svg.style('cursor', 'default');
