@@ -26,11 +26,16 @@ class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepos
             val document = wfDocumentRepository.findByDocumentId(documentId)
                 ?: return setFailedMessage("Document does not exist. check signal target.")
 
-            if (document.process.processStatus != WfProcessConstants.Status.PUBLISH.code) {
+            val status = arrayListOf(
+                WfProcessConstants.Status.PUBLISH.code,
+                WfProcessConstants.Status.USE.code,
+                WfFormConstants.FormStatus.PUBLISH.value,
+                WfFormConstants.FormStatus.USE.value
+            )
+            if (!status.contains(document.process.processStatus)) {
                 return setFailedMessage("Process status has not published.")
             }
-
-            if (document.form.formStatus != WfFormConstants.FormStatus.PUBLISH.value) {
+            if (!status.contains(document.form.formStatus)) {
                 return setFailedMessage("Form status has not published.")
             }
         } else {
@@ -40,7 +45,7 @@ class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepos
                     it.elementType == element.elementType
                 }
 
-            if (!(findElements?.size == 1)) {
+            if (findElements?.size != 1) {
                 return setFailedMessage("There should be only one start/end event.")
             }
         }
