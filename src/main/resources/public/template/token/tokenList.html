@@ -34,7 +34,6 @@
             <td colspan="5" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
-
             <td th:style="|background-color:${token.documentColor}|"></td>
             <td th:text="${token.documentNo}"></td>
             <td th:text="${token.documentName}"></td>

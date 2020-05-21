@@ -147,7 +147,7 @@
 
         let elementObject = document.getElementById('document_color');
         elementObject.addEventListener('change', function() {
-            if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
+            if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
                 this.value = '';
             }
             selectedColorBox.style.backgroundColor = this.value;
