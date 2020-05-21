@@ -256,8 +256,7 @@
         }
 
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
-
+              elements = aliceProcessEditor.data.elements;
         let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;

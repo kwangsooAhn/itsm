@@ -258,7 +258,7 @@
         // draw links
         drawConnectors();
 
-        enter.call(function(d) { aliceProcessEditor.addElementProperty(d); });
+        enter.select('path.connector').call(function(d) { aliceProcessEditor.addElementProperty(d); });
     }
 
     /**
