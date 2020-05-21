@@ -4,6 +4,7 @@ import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
 import co.brainz.workflow.engine.component.constants.WfComponentConstants
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
+import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
@@ -52,7 +53,20 @@ class WfInstanceService(
         }
 
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        val instances = wfInstanceRepository.findInstances(status, userKey)
+
+        // TODO: wf_token.assignee_id 값에 설정된 경우
+        // TODO: wf_candidate 의 user에 등록된 경우
+        // TODO: wf_canddiate 의 group에 등록된 경우
+        // TODO: 조합해서 하나의 데이터로 만든다.
+
+        val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
+
+        val assigneeInstances = wfInstanceRepository.findInstances(status)
+        //val assigneeInstances = wfInstanceRepository.findInstances(status, userKey)
+        //val candidateInstances = wfInstanceRepository.
+
+        instances.addAll(assigneeInstances)
+
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         for (instance in instances) {
 
@@ -173,7 +187,7 @@ class WfInstanceService(
             wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance)?.let { token ->
                 tokenDto = wfTokenMapper.toTokenDto(token)
                 val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
-                token.tokenDatas?.forEach { tokenData ->
+                token.tokenData?.forEach { tokenData ->
                     tokenDataList.add(wfTokenMapper.toTokenDataDto(tokenData))
                 }
                 tokenDto.data = tokenDataList

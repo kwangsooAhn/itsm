@@ -16,10 +16,11 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
                 "FROM WfTokenEntity t, WfDocumentEntity d, WfInstanceEntity i " +
                 "where d.documentId = i.document.documentId " +
                 "and i.instanceId = t.instance.instanceId " +
-                "and t.tokenStatus = :status " +
-                "and t.assigneeId = :userKey"
+                "and t.tokenStatus = :status "
+                //"and t.assigneeId = :userKey"
     )
-    fun findInstances(status: String, userKey: String): List<WfInstanceListViewDto>
+    //fun findInstances(status: String, userKey: String): List<WfInstanceListViewDto>
+    fun findInstances(status: String): List<WfInstanceListViewDto>
 
     fun countByDocument(wfDocumentEntity: WfDocumentEntity): Int
 
