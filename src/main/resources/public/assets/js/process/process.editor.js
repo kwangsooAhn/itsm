@@ -734,7 +734,7 @@
             isDrawTop = false,
             isDrawBottom = false;
 
-        d3.selectAll('.node:not(.selected)').nodes().forEach(function(node) {
+        svg.selectAll('.node:not(.selected)').nodes().forEach(function(node) {
             const element = aliceProcessEditor.data.elements.filter(function(e) { return e.id === node.id; })[0];
             let left = element.display['position-x'] - (element.display.width / 2),
                 right = element.display['position-x'] + (element.display.width / 2),
@@ -1445,7 +1445,7 @@
             verticalGrid.call(verticalAxis);
             horizontalGrid.call(horizontalAxis);
 
-            let nodes = d3.select('.minimap').select('svg').selectAll('g.element, g.connector').nodes();
+            let nodes = d3.select('.minimap').selectAll('g.element, g.connector').nodes();
             let minimapTranslate = '';
             if (nodes.length > 0) {
                 let transform = d3.zoomTransform(d3.select(drawingBoard).select('.element-container').node());
@@ -1524,7 +1524,7 @@
                 svg.select('g.guides-container')
                     .attr('transform', d3.event.transform);
 
-                let nodes = d3.select('.minimap').select('svg').selectAll('g.element, g.connector').nodes();
+                let nodes = d3.select('.minimap').selectAll('g.element, g.connector').nodes();
                 let minimapTranslate = '';
                 if (nodes.length > 0) {
                     minimapTranslate = 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')';
