@@ -19,7 +19,7 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun getRelatedInstance(tokenId: String): List<RestTemplateRelatedInstanceDto>? {
-        var relatedInstance: MutableList<RestTemplateRelatedInstanceDto>? = null
+        lateinit var relatedInstance: MutableList<RestTemplateRelatedInstanceDto>
         val params = LinkedMultiValueMap<String, String>()
         params["tokenId"] = tokenId
 
@@ -32,7 +32,7 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateRelatedInstanceDto::class.java)
         )
 
-        relatedInstance?.let { relatedInstance ->
+        relatedInstance?.let {
             for (instance in relatedInstance) {
                 instance.instanceStartDt = instance.instanceStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
                 instance.instanceEndDt = instance.instanceEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
@@ -61,8 +61,8 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
     fun createFolder(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
 
-        for (restTemplateFolderDto in restTemplateFolderDto) {
-            restTemplateFolderDto.createUserKey = aliceUserDto.userKey
+        for (folder in restTemplateFolderDto) {
+            folder.createUserKey = aliceUserDto.userKey
         }
 
         val url = RestTemplateUrlDto(

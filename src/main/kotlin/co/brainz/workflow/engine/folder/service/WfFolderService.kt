@@ -48,10 +48,10 @@ class WfFolderService(
     fun getOriginFolder(tokenId: String): RestTemplateFolderDto {
         val tokenEntity = wfTokenRepository.findById(tokenId)
         val originFolder = tokenEntity.get().instance.folders
-        var restTemplateFolderDto: RestTemplateFolderDto? = null;
+        lateinit var restTemplateFolderDto: RestTemplateFolderDto
         originFolder!!.forEach {
             if (it.relatedType == WfFolderConstants.RelatedType.ORIGIN.code) {
-                    restTemplateFolderDto = RestTemplateFolderDto (
+                restTemplateFolderDto = RestTemplateFolderDto(
                     folderId = it.folderId,
                     instanceId = it.instance.instanceId,
                     relatedType = it.relatedType,
@@ -66,7 +66,7 @@ class WfFolderService(
             }
         }
 
-        return restTemplateFolderDto!!
+        return restTemplateFolderDto
     }
 
     fun getRelatedInstanceList(tokenId: String): List<RestTemplateFolderDto> {
@@ -74,12 +74,12 @@ class WfFolderService(
     }
 
     fun createFolderData(restTemplateFolderDto: List<RestTemplateFolderDto>) {
-        restTemplateFolderDto.forEach { restTemplateFolderDto ->
-            val wfFolderEntity = WfFolderEntity (
-                folderId = restTemplateFolderDto.folderId!!,
-                instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId)!!,
+        restTemplateFolderDto.forEach {
+            val wfFolderEntity = WfFolderEntity(
+                folderId = it.folderId!!,
+                instance = wfInstanceRepository.findByInstanceId(it.instanceId)!!,
                 relatedType = WfFolderConstants.RelatedType.REFERENCE.code,
-                createUserKey = restTemplateFolderDto.createUserKey,
+                createUserKey = it.createUserKey,
                 createDt = LocalDateTime.now()
             )
 
@@ -87,8 +87,8 @@ class WfFolderService(
         }
     }
 
-    fun deleteFolderData(folderId: String ,restTemplateFolderDto: RestTemplateFolderDto) {
-        val wfFolderEntity = WfFolderEntity (
+    fun deleteFolderData(folderId: String, restTemplateFolderDto: RestTemplateFolderDto) {
+        val wfFolderEntity = WfFolderEntity(
             folderId = folderId,
             instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId)!!
         )
