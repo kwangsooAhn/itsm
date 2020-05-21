@@ -103,9 +103,6 @@
 
                 setConnectors();
                 aliceProcessEditor.setElementMenu(selectedLink);
-            })
-            .call(function(d) {
-                aliceProcessEditor.addElementProperty(d);
             });
 
         /**
@@ -260,6 +257,8 @@
 
         // draw links
         drawConnectors();
+
+        enter.call(function(d) { aliceProcessEditor.addElementProperty(d); });
     }
 
     /**

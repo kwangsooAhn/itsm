@@ -288,7 +288,7 @@
             elemData.type = 'arrowConnector';
             elemData.display = {};
             elemData.data = getAttributeData('connector', 'arrowConnector');
-            elemData.data['id'] = elemData.id;
+            elemData.data.id = elemData.id;
             elemData.data['start-id'] = data.sourceId;
             elemData.data['end-id'] = data.targetId;
             elements.forEach(function(e) {
