@@ -8,9 +8,8 @@ import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import java.util.UUID
-import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-
+import org.springframework.stereotype.Service
 
 @Service
 class WfFolderService(
@@ -48,11 +47,11 @@ class WfFolderService(
 
     fun getOriginFolder(tokenId: String): RestTemplateFolderDto {
         val tokenEntity = wfTokenRepository.findById(tokenId)
-        var originFolder = tokenEntity.get().instance.folders
+        val originFolder = tokenEntity.get().instance.folders
         var restTemplateFolderDto: RestTemplateFolderDto? = null;
         originFolder!!.forEach {
             if (it.relatedType == WfFolderConstants.RelatedType.ORIGIN.code) {
-                    restTemplateFolderDto = RestTemplateFolderDto(
+                    restTemplateFolderDto = RestTemplateFolderDto (
                     folderId = it.folderId,
                     instanceId = it.instance.instanceId,
                     relatedType = it.relatedType,
@@ -76,7 +75,7 @@ class WfFolderService(
 
     fun createFolderData(restTemplateFolderDto: List<RestTemplateFolderDto>) {
         restTemplateFolderDto.forEach { restTemplateFolderDto ->
-            var wfFolderEntity = WfFolderEntity (
+            val wfFolderEntity = WfFolderEntity (
                 folderId = restTemplateFolderDto.folderId!!,
                 instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId!!)!!,
                 relatedType = WfFolderConstants.RelatedType.REFERENCE.code,
@@ -89,7 +88,7 @@ class WfFolderService(
     }
 
     fun deleteFolderData(restTemplateFolderDto: RestTemplateFolderDto) {
-        var wfFolderEntity = WfFolderEntity (
+        val wfFolderEntity = WfFolderEntity (
             folderId = restTemplateFolderDto.folderId!!,
             instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId!!)!!
         )

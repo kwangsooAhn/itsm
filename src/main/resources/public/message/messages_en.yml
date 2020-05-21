@@ -333,6 +333,7 @@ process:
     simulation: "Simulation check is complete."
     alert:
       nameNotExist: "Please enter a process name."
+      importFileNotExist: "Please select an import file."
       fileExtensionNotAllow: "IMPORT files are only allowed with XML extensions."
 
 # Portal

@@ -42,7 +42,7 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
         return relatedInstance
     }
 
-    fun getFolderId(tokenId: String): String?  {
+    fun getFolderId(tokenId: String): String? {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Folder.GET_FOLDER.url.replace(
                 restTemplate.getKeyRegex(),
@@ -61,8 +61,8 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
     fun createFolder(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
 
-        for(i in restTemplateFolderDto) {
-            i.createUserKey = aliceUserDto.userKey
+        for (restTemplateFolderDto in restTemplateFolderDto) {
+            restTemplateFolderDto.createUserKey = aliceUserDto.userKey
         }
 
         val url = RestTemplateUrlDto(

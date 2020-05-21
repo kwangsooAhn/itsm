@@ -83,7 +83,6 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
     }
 
     fun getInstanceList(instanceId: String, searchValue: String) : List<RestTemplateInstanceListDto>? {
-        var instanceList: MutableList<RestTemplateInstanceListDto>? = null
         val params = LinkedMultiValueMap<String, String>()
         params["instanceId"] = instanceId
         params["searchValue"] = searchValue
@@ -92,16 +91,14 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
             RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_INSTANCE_LIST.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
 
-        instanceList = mapper.readValue(
+        val instanceList: MutableList<RestTemplateInstanceListDto>? = mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceListDto::class.java)
         )
 
-        instanceList?.let { instanceList ->
-            for (instance in instanceList) {
-                instance.instanceStartDt = instance.instanceStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
-                instance.instanceEndDt = instance.instanceEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
-            }
+        instanceList?.forEach { instance ->
+            instance.instanceStartDt = instance.instanceStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
+            instance.instanceEndDt = instance.instanceEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
         }
 
         return instanceList

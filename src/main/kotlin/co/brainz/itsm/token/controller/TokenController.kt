@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/tokens")
@@ -96,9 +97,13 @@ class TokenController(
     /**
      * 관련문서 팝업 생성
      */
-    @GetMapping("/{tokenId}/view-pop")
-    fun getTokenPopUp(@PathVariable tokenId: String, request: HttpServletRequest, model: Model): String {
+    @GetMapping("/view-pop")
+    fun getTokenPopUp(
+        @RequestParam(value = "tokenId", defaultValue = "") tokenId: String,
+        model: Model
+    ): String {
         val folderId = folderService.getFolderId(tokenId)
+
         model.addAttribute("tokenId", tokenId)
         model.addAttribute("folderId", folderId)
         return tokenPopUpPage
@@ -108,11 +113,12 @@ class TokenController(
      * 관련문서 팝업 문서 리스트 출력
      */
     @GetMapping("/view-pop/list")
-    fun getInstanceList(request: HttpServletRequest, model: Model): String {
-        val tokenId = request.getParameter("tokenId") ?: ""
-        val searchValue = request.getParameter("search") ?: ""
+    fun getInstanceList(
+        @RequestParam(value = "tokenId", defaultValue = "") tokenId: String,
+        @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
+        model: Model
+    ): String {
         val instanceId = instanceService.getInstanceId(tokenId)!!
-
 
         model.addAttribute("instanceList", instanceService.getInstanceList(instanceId, searchValue))
         return tokenInstanceListPage
