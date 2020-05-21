@@ -18,7 +18,7 @@ class WfProcessSimulationSubProcess(private val wfDocumentRepository: WfDocument
         val documentId = element.getElementDataValue(WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value) ?: ""
         val document = wfDocumentRepository.findByDocumentId(documentId)
         if (document == null) {
-            setFailedMessage("process does not exist.")
+            setFailedMessage("Document does not exist.")
             return false
         }
 

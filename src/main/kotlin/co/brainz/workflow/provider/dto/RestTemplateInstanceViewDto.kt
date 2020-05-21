@@ -15,5 +15,6 @@ data class RestTemplateInstanceViewDto(
     val createUserKey: String? = "",
     val createUserName: String? = "",
     val documentId: String,
-    val documentNo: String? = null
+    val documentNo: String? = null,
+    val documentColor: String?
 ) : Serializable

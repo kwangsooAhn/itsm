@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-            layout:decorator="layout/defaultLayout">
+      layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{document.label.list}"></title>
 </head>
@@ -11,15 +11,13 @@
     <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{document.label.list}"></h1>
         <form id="searchDocumentsFrm">
-            <div>
+            <div class="pull-right">
                 <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchDocuments}" class="search"/>
                 <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.searchProcessName}" class="search"/>
                 <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.searchFormName}" class="search"/>
+                <button sec:authorize="hasAuthority('document.create')" type="button" onclick="createDocument()" th:text="#{common.btn.register}" style="text-align: left; float: right;"></button>
             </div>
         </form>
-        <div sec:authorize="hasAuthority('document.create')" class="button">
-            <button type="button" onclick="createDocument()" th:text="#{common.btn.register}"></button>
-        </div>
         <hr>
         <div id="documentList" style="margin-top: 20px"></div>
     </div>
@@ -48,11 +46,11 @@
         }
 
         function openDocumentEdit(documentId) {
-            window.open('/documents/' + documentId + '/edit', '_blank', 'width=625, height=400, left=1000, top=350');
+            window.open('/documents/' + documentId + '/edit', '_blank', 'width=625, height=500, left=1000, top=350');
         }
 
         function createDocument() {
-            window.open('/documents/new', '_blank', 'width=625, height=400, left=1000, top=350');
+            window.open('/documents/new', '_blank', 'width=625, height=500, left=1000, top=350');
         }
 
         function deleteDocument(documentId) {

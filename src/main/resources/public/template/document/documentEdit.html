@@ -27,7 +27,7 @@
             <th class="required" th:text="#{document.label.form}"></th>
             <td>
                 <select id="document_form" style="width:75%" th:disabled="${documentId}">
-                    <option th:each="form:${formList}" 
+                    <option th:each="form:${formList}"
                             th:id="${form?.id}"
                             th:value="${form?.id}"
                             th:text="#{${form?.name}}"></option>
@@ -65,6 +65,16 @@
                 </select>
             </td>
         </tr>
+        <tr>
+            <th class="required"  th:text="#{document.label.businessFlowColor}"></th>
+            <td>
+                <div>
+                    <input id="selected_color" name="selected_color" class="selected-color"/>
+                    <input id="document_color" name="document_color" class="color"/>
+                    <div id="document_colorPalette" name="document_colorPalette" class="color-palette"></div>
+                </div>
+            </td>
+        </tr>
     </table>
 </div>
 <hr>
@@ -75,21 +85,24 @@
 </div>
 </body>
 <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+<script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
 <script th:src="@{/assets/js/document/document.js}"></script>
+<script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
 <script type="text/javascript">
     function saveDocument(method) {
         if (emptyValidation()) {
             let documentForm = document.getElementById('document_form');
-        	let documentProcess = document.getElementById('document_process');
-        	let documentStatus = document.getElementById('document_status');
-        	let documentNumberingRule = document.getElementById('document_numbering_rule');
+            let documentProcess = document.getElementById('document_process');
+            let documentStatus = document.getElementById('document_status');
+            let documentNumberingRule = document.getElementById('document_numbering_rule');
             const documentInfo = {
                 documentName: document.getElementById('document_name').value,
                 documentDesc: document.getElementById('document_desc').value,
                 formId: documentForm.options[documentForm.selectedIndex].value,
                 processId: documentProcess.options[documentProcess.selectedIndex].value,
                 documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
-                documentStatus: documentStatus.options[documentStatus.selectedIndex].value
+                documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
+                documentColor: document.getElementById('document_color').value
             };
             let parameter = '';
             if (method === 'put') {
@@ -102,7 +115,9 @@
 
     //빈 값 체크
     function emptyValidation() {
-        return !isEmpty('document_name', 'document.msg.nameNotExist');
+        if (isEmpty('document_name', 'document.msg.nameNotExist')) return false;
+        if (isEmpty('document_color', 'document.msg.businessFlowColorNotExist')) return false;
+        return true;
     }
 
     //REST API
@@ -124,8 +139,27 @@
         };
         aliceJs.sendXhr(opt);
     }
+
+    //ColorPicker 초기화
+    function initColorPicker() {
+        let selectedColorBox = document.getElementById('selected_color');
+        selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
+
+        let elementObject = document.getElementById('document_color');
+        elementObject.addEventListener('change', function() {
+            if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
+                this.value = '';
+            }
+            selectedColorBox.style.backgroundColor = this.value;
+        });
+
+        let colorPaletteBox = document.getElementById('document_colorPalette');
+        colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox, 'documentPaletteColors');
+    }
+
     /*<![CDATA[*/
     window.onload = function() {
+        initColorPicker();
         if ('[[${documentId}]]' !== '') {
             i18n.add(function(){
                 aliceDocument.getDocument('[(${documentId})]');

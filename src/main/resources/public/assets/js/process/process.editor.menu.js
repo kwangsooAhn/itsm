@@ -862,6 +862,9 @@
                     let propertyObject = propertyObjects[i];
                     if (!propertyObject.name) { continue; }
                     let propertyValue = propertyObject.value;
+                    if (propertyObject.classList.contains('multiple')) {
+                        propertyValue = propertyObject.value.split(',');
+                    }
                     if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
                         propertyValue = propertyObject.checked ? 'Y' : 'N';
                         if (propertyObject.id === 'is-default') {
@@ -909,6 +912,7 @@
 
         if (assigneeTypeObject.value === 'assignee.type.assignee') {
             assigneeObject.style.display = 'inline-block';
+            assigneeObject.classList.remove('multiple');
             if (typeof value !== 'undefined') {
                 assigneeObject.value = value;
             }
@@ -929,10 +933,11 @@
      * @param inputObject 값을 넣는 input object(선택된 데이터가 콤마 구분으로 등록된다.)
      * @param dataList 선택 목록
      * @param dataKeys dropdown 의 value/text 키 값. 예시: { value: 'id', text: 'name' }
-     * @param value 선택된 값이 있을 경우 그 값을 전달한다.
+     * @param valueArr 선택된 값이 있을 경우 그 값을 전달한다.
      */
-    function setMultipleDatatable(inputObject, dataList, dataKeys, value) {
+    function setMultipleDatatable(inputObject, dataList, dataKeys, valueArr) {
         inputObject.style.display = 'none';
+        inputObject.classList.add('multiple');
         let dataSelect = document.createElement('select');
         dataSelect.className = 'candidate';
         for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
@@ -1020,12 +1025,11 @@
         userTable.appendChild(headRow);
         inputObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
 
-        if (typeof value !== 'undefined') {
-            const values = value.split(',');
-            for (let i = 0, len = values.length; i < len; i++) {
+        if (typeof valueArr !== 'undefined') {
+            for (let i = 0, len = valueArr.length; i < len; i++) {
                 for (let j = 0, dataLen = dataList.length; j < dataLen; j++) {
-                    if (values[i] === dataList[j][dataKeys.value]) {
-                        addDataRow(values[i], dataList[j][dataKeys.text]);
+                    if (valueArr[i] === dataList[j][dataKeys.value]) {
+                        addDataRow(valueArr[i], dataList[j][dataKeys.text]);
                         break;
                     }
                 }
