@@ -15,9 +15,10 @@ abstract class WfProcessSimulationElement {
     /**
      * 에러시 공통 처리
      */
-    protected fun setFailedMessage(failedMessage: String) {
+    protected fun setFailedMessage(failedMessage: String): Boolean {
         elementInformation = "$failedMessage $elementInformation"
         logger.error("{}", elementInformation)
+        return false
     }
 
     /**
