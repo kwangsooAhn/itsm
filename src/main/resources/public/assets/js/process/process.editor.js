@@ -209,6 +209,8 @@
                         svg.selectAll('.node').nodes().forEach(function(node) {
                             if (checkDuplicatePosition(node, d.midPoint)) {
                                 delete d.midPoint;
+                                delete d.sourcePoint;
+                                delete d.targetPoint;
                                 drawConnectors();
                             }
                         });
@@ -329,12 +331,11 @@
      * @return {boolean} true: duplicate, false: not duplicate
      */
     function checkDuplicatePosition(node, point) {
+        if (!node || !point) { return false; }
         let bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
-        if (bbox.x <= point[0] && (bbox.x + bbox.width) >= point[0] &&
-            bbox.y <= point[1] && (bbox.y + bbox.height) >= point[1]) {
-            return true;
-        }
-        return false;
+        return bbox.x <= point[0] && (bbox.x + bbox.width) >= point[0] &&
+            bbox.y <= point[1] && (bbox.y + bbox.height) >= point[1];
+
     }
 
     /**
@@ -434,10 +435,10 @@
                 [0, sourceHeight / 2], [-(sourceWidth / 2), 0]];
             const midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
             let linePath = '';
+            const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
+                  targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
             if (typeof d.midPoint !== 'undefined') {
                 midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
-                const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
-                      targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
                 if (d3.select(document.getElementById(d.id)).classed('selected')) {
                     sourcePoint.style('opacity', 1).style('cursor', 'move');
                     targetPoint.style('opacity', 1).style('cursor', 'move');
@@ -502,6 +503,8 @@
                 linePath = ['M', bestLine[0], 'L', bestLine[1]].join(' ');
                 let midPointCoords = getMidPointCoords(bestLine);
                 midPoint.attr('cx', midPointCoords[0]).attr('cy', midPointCoords[1]);
+                sourcePoint.style('opacity', 0).style('cursor', 'default');
+                targetPoint.style('opacity', 0).style('cursor', 'default');
             }
             return linePath;
         };
@@ -678,6 +681,8 @@
                         if (isExistSource || isExistTarget) {
                             if (typeof l.midPoint !== 'undefined' && checkDuplicatePosition(node, l.midPoint)) {
                                 delete l.midPoint;
+                                delete l.sourcePoint;
+                                delete l.targetPoint;
                                 drawConnectors();
                             }
                             if (typeof l.sourcePoint !== 'undefined' && checkDuplicatePosition(node, l.sourcePoint)) {
