@@ -15,7 +15,6 @@ import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSim
 class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepository) : WfProcessSimulationElement() {
 
     override fun validate(element: WfElementEntity): Boolean {
-        var result = false
         val process = element.processEntity
 
         // 시그널 이벤트
@@ -25,19 +24,14 @@ class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepos
                 element.getElementDataValue(WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value) ?: ""
 
             val document = wfDocumentRepository.findByDocumentId(documentId)
-            if (document == null) {
-                setFailedMessage("Document does not exist. check signal target.")
-                return false
-            }
+                ?: return setFailedMessage("Document does not exist. check signal target.")
 
             if (document.process.processStatus != WfProcessConstants.Status.PUBLISH.code) {
-                setFailedMessage("Process status has not published.")
-                return false
+                return setFailedMessage("Process status has not published.")
             }
 
             if (document.form.formStatus != WfFormConstants.FormStatus.PUBLISH.value) {
-                setFailedMessage("Form status has not published.")
-                return false
+                return setFailedMessage("Form status has not published.")
             }
         } else {
             // 시작 또는 종료 이벤트
@@ -46,13 +40,12 @@ class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepos
                     it.elementType == element.elementType
                 }
 
-            result = findElements?.size == 1
-            if (!result) {
-                setFailedMessage("There should be only one start/end event.")
+            if (!(findElements?.size == 1)) {
+                return setFailedMessage("There should be only one start/end event.")
             }
         }
 
-        return result
+        return true
     }
 
     override fun failInfo(): String {
