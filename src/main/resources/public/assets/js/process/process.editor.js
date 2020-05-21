@@ -31,7 +31,7 @@
     let isDrawConnector = false,
         isMovableDrawingboard = false;
 
-    let isView = true;            //view 인지여부
+    let isView = true;            //view 모드 여부
 
     /**
      * reset mouse variables.
