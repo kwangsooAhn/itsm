@@ -93,11 +93,20 @@ class WfProcessService(
             val elDto = processMapper.toWfElementDto(elementEntity)
             elDto.display = elementEntity.displayInfo.let { objMapper.readValue(it) }
 
-            val elementDataEntities = LinkedMultiValueMap<String, Any>()
+            // 싱글값인지 멀티값인지 확인
+            val elementData = mutableMapOf<String, Any>()
+            val refined = LinkedMultiValueMap<String, Any>()
             elementEntity.elementDataEntities.forEach {
-                elementDataEntities.add(it.attributeId, it.attributeValue)
+                refined.add(it.attributeId, it.attributeValue)
             }
-            elDto.data = elementDataEntities.toMutableMap()
+            refined.entries.forEach {
+                if (it.value.size > 1) {
+                    elementData[it.key] = it.value
+                } else {
+                    elementData[it.key] = it.value.first()
+                }
+            }
+            elDto.data = elementData
 
             restTemplateElementDtoList.add(elDto)
         }
