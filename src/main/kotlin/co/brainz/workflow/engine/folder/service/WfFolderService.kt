@@ -77,7 +77,7 @@ class WfFolderService(
         restTemplateFolderDto.forEach { restTemplateFolderDto ->
             val wfFolderEntity = WfFolderEntity (
                 folderId = restTemplateFolderDto.folderId!!,
-                instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId!!)!!,
+                instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId)!!,
                 relatedType = WfFolderConstants.RelatedType.REFERENCE.code,
                 createUserKey = restTemplateFolderDto.createUserKey,
                 createDt = LocalDateTime.now()
@@ -87,10 +87,10 @@ class WfFolderService(
         }
     }
 
-    fun deleteFolderData(restTemplateFolderDto: RestTemplateFolderDto) {
+    fun deleteFolderData(folderId: String ,restTemplateFolderDto: RestTemplateFolderDto) {
         val wfFolderEntity = WfFolderEntity (
-            folderId = restTemplateFolderDto.folderId!!,
-            instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId!!)!!
+            folderId = folderId,
+            instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId)!!
         )
 
         wfFolderRepository.delete(wfFolderEntity)

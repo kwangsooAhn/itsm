@@ -57,5 +57,5 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
                 "or :searchValue is null or :searchValue = '') " +
                 "ORDER BY i.instanceStartDt"
     )
-    fun findInstanceSearchList(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
+    fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
 }

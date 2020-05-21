@@ -33,8 +33,8 @@ class WfFolderController(private val wfFolderService: WfFolderService) {
         return wfFolderService.createFolderData(restTemplateFolderDto)
     }
 
-    @DeleteMapping("")
-    fun deleteFolderData(@RequestBody restTemplateFolderDto: RestTemplateFolderDto) {
-        return wfFolderService.deleteFolderData(restTemplateFolderDto)
+    @DeleteMapping("/{folderId}")
+    fun deleteFolderData(@PathVariable folderId: String, @RequestBody restTemplateFolderDto: RestTemplateFolderDto) {
+        return wfFolderService.deleteFolderData(folderId, restTemplateFolderDto)
     }
 }

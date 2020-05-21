@@ -28,14 +28,14 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            getInstanceList(document.getElementById('search').value, true);
+            getAllInstanceList(document.getElementById('search').value, true);
         };
 
         document.getElementById('search').onkeyup = function() {
-            getInstanceList(this.value, false);
+            getAllInstanceList(this.value, false);
         };
 
-        function getInstanceList(search, showProgressbar) {
+        function getAllInstanceList(search, showProgressbar) {
             restSubmit('get', '/tokens/view-pop/list?search=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
                 document.getElementById('instanceList').innerHTML = result;
             },null ,showProgressbar);

@@ -89,7 +89,7 @@ object RestTemplateConstants {
      */
     enum class Folder(val url: String, val method: String) {
         POST_FOLDER("/rest/wf/folders", "POST"),
-        DELETE_FOLDER("/rest/wf/folders", "DELETE"),
+        DELETE_FOLDER("/rest/wf/folders/{folderId}", "DELETE"),
         GET_FOLDER("/rest/wf/folders/{folderId}", "GET")
     }
 

@@ -72,9 +72,12 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
         return responseEntity.body.toString().isNotEmpty()
     }
 
-    fun deleteFolder(restTemplateFolderDto: RestTemplateFolderDto): Boolean {
+    fun deleteFolder(folderId: String, restTemplateFolderDto: RestTemplateFolderDto): Boolean {
         val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Folder.DELETE_FOLDER.url
+            callUrl = RestTemplateConstants.Folder.DELETE_FOLDER.url.replace(
+                restTemplate.getKeyRegex(),
+                folderId
+            )
         )
         val responseEntity = restTemplate.delete(url, restTemplateFolderDto)
         return responseEntity.body.toString().isNotEmpty()

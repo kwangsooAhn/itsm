@@ -97,13 +97,9 @@ class TokenController(
     /**
      * 관련문서 팝업 생성
      */
-    @GetMapping("/view-pop")
-    fun getTokenPopUp(
-        @RequestParam(value = "tokenId", defaultValue = "") tokenId: String,
-        model: Model
-    ): String {
+    @GetMapping("/{tokenId}/view-pop")
+    fun getTokenPopUp(@PathVariable tokenId: String, model: Model): String {
         val folderId = folderService.getFolderId(tokenId)
-
         model.addAttribute("tokenId", tokenId)
         model.addAttribute("folderId", folderId)
         return tokenPopUpPage
@@ -113,14 +109,14 @@ class TokenController(
      * 관련문서 팝업 문서 리스트 출력
      */
     @GetMapping("/view-pop/list")
-    fun getInstanceList(
+    fun getAllInstanceListAndSearch (
         @RequestParam(value = "tokenId", defaultValue = "") tokenId: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         model: Model
     ): String {
         val instanceId = instanceService.getInstanceId(tokenId)!!
 
-        model.addAttribute("instanceList", instanceService.getInstanceList(instanceId, searchValue))
+        model.addAttribute("instanceList", instanceService.getAllInstanceListAndSearch(instanceId, searchValue))
         return tokenInstanceListPage
     }
 }

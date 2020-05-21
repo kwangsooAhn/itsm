@@ -49,7 +49,7 @@
 
     <h1 th:text="#{token.label.relatedInstance}"></h1>
     <div>
-        <button th:onclick="openPopUp()" th:text="#{common.btn.add}" style="float:right;"></button>
+        <button th:onclick="openPopUp([[${tokenId}]])" th:text="#{common.btn.add}" style="float:right;"></button>
     </div>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
@@ -121,17 +121,16 @@
             aliceDocument.initToken('[[${tokenId}]]');
         };
 
-        function openPopUp() {
-            window.open('/tokens/view-pop?tokenId=[[${tokenId}]]', '[[${tokenId}]]', 'width=1300, height=500');
+        function openPopUp(tokenId) {
+            window.open('/tokens/' + tokenId + '/view-pop', tokenId, 'width=1300, height=500');
         }
 
         function onRelatedInstanceDelete(instanceId) {
             const jsonData = {
-                folderId: '[[${folderId}]]',
                 instanceId: instanceId
             };
 
-            restSubmit('DELETE', '/rest/folders', function () {
+            restSubmit('DELETE', '/rest/folders/[[${folderId}]]', function () {
                 location.reload();
             }, jsonData, false);
         }
