@@ -480,7 +480,7 @@
         d3.select('.minimap').html(content);
         const minimapSvg = d3.select('.minimap').select('svg');
         minimapSvg.attr('width', 288).attr('height', 178);
-        minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
+        minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
         minimapSvg.selectAll('text').nodes().forEach(function(node) {
             if (node.textContent === '') { d3.select(node).remove(); }
         });
