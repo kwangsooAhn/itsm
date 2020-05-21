@@ -307,7 +307,7 @@ class WfDocumentService(
     fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
-        val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
+        val componentEntities = wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
         val displayList = wfDocumentDataRepository.findByDocumentId(documentId)
 
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
