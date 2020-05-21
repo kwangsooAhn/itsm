@@ -39,7 +39,6 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInte
 
         return if (userAgent != null && (userAgent.indexOf("MISE") != -1 || userAgent.indexOf("Trident") != -1)) {
             response.sendRedirect("/portal/browserGuide")
-
             false
         } else {
             true
