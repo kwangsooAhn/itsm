@@ -25,9 +25,24 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInte
 
     @Throws(Exception::class)
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+        userAgentCheck(request, response)
         // URL 접근 확인
         urlAccessAuthCheck(request)
         return true
+    }
+
+    /**
+     * User Agent 체크, IE 브라우저 접근 제한
+     */
+    private fun userAgentCheck(request: HttpServletRequest, response: HttpServletResponse): Boolean {
+        val userAgent = request.getHeader("User-Agent")
+
+        return if (userAgent != null && (userAgent.indexOf("MISE") != -1 || userAgent.indexOf("Trident") != -1)) {
+            response.sendRedirect("/portal/browserGuide")
+            false
+        } else {
+            true
+        }
     }
 
     /**

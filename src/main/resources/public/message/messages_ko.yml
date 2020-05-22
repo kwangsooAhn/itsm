@@ -352,6 +352,11 @@ portal:
     topPhrase: "안녕하세요! 오늘은 어떻게 도와 드릴까요?"
     bottomPhrase: "원하는 걸 찾을 수 없나요?"
     bottomLeftPhrase: "문의하기"
+    chrome: "Chrome"
+    firefox: "Firefox"
+    msEdge: "MS Edge"
+    safari: "Safari"
+    browserGuidePhrase: "사용 중인 웹 브라우저를 지원하지 않습니다. 아래의 브라우저를 사용해 주세요."
 
 # Role
 role:
@@ -393,6 +398,7 @@ document:
     status: "신청서 상태"
     numberingRule: "문서번호규칙"
     print: "신청서 인쇄"
+    businessFlowColor: "업무 흐름 색상"
     searchDocuments: "문서이름 / 문서설명"
     searchDocumentStatus: "문서상태"
     searchProcessName: "프로세스"
@@ -416,6 +422,7 @@ document:
     requiredSelect: "필수 항목을 선택해주세요."
     requiredFileupload: "파일을 업로드해주세요."
     raunchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
+    businessFlowColorNotExist: "업무 흐름 색상을 입력해주세요."
 
 # token
 token:

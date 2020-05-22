@@ -351,6 +351,11 @@ portal:
     topPhrase: "Hi! How can we help you today?"
     bottomPhrase: "Can't find what you're looking for?"
     bottomLeftPhrase: "Contact us"
+    chrome: "Chrome"
+    firefox: "Firefox"
+    msEdge: "MS Edge"
+    safari: "Safari"
+    browserGuidePhrase: "Your web browser is not supported. Please use the browser below."
 
 # Role
 role:
@@ -392,6 +397,7 @@ document:
     status: "Status"
     numberingRule: "Document Numbering Rule"
     print: "Service Request Print"
+    businessFlowColor: "Business Flow Color"
     searchDocuments: "Document name / Document description"
     searchDocumentStatus: "Document stauts"
     searchProcessName: "Process"
@@ -415,6 +421,7 @@ document:
     requiredSelect: "Please select a required item."
     requiredFileupload: "Please upload a file."
     raunchedInstance: "There is an instance started and cannot be deleted."
+    businessFlowColorNotExist: "Please enter Business Flow Color."
 
 # token
 token:

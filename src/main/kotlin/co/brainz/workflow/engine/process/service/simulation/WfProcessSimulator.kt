@@ -115,7 +115,7 @@ class WfProcessSimulator(
         removedDuplicationElements.add(element)
 
         val simulationElement = when (WfElementConstants.ElementType.getAtomic(element.elementType)) {
-            WfElementConstants.ElementType.EVENT -> WfProcessSimulationEvent()
+            WfElementConstants.ElementType.EVENT -> WfProcessSimulationEvent(wfDocumentRepository)
             WfElementConstants.ElementType.ARROW_CONNECTOR -> WfProcessSimulationArrow(wfElementRepository)
             WfElementConstants.ElementType.GATEWAY -> WfProcessSimulationGateway(wfElementRepository)
             WfElementConstants.ElementType.SUB_PROCESS -> WfProcessSimulationSubProcess(wfDocumentRepository)

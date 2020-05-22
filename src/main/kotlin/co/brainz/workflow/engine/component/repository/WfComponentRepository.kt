@@ -11,6 +11,9 @@ interface WfComponentRepository : JpaRepository<WfComponentEntity, String> {
     @Query("select f from WfComponentEntity f where f.form.formId = :formId")
     fun findByFormId(formId: String): List<WfComponentEntity>
 
+    @Query("select f from WfComponentEntity f where f.form.formId = :formId and f.componentType <> :componentType")
+    fun findByFormIdAndComponentTypeNot(formId: String, componentType: String): List<WfComponentEntity>
+
     fun deleteComponentEntityByComponentIdIn(componentIds: MutableList<String>)
 
     fun findByComponentIdInAndMappingId(componentIds: List<String>, mappingId: String): WfComponentEntity

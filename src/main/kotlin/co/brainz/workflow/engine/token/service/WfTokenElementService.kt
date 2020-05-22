@@ -447,7 +447,13 @@ class WfTokenElementService(
                     }
 
                     // RestTemplateTokenDto 생성 후 토큰 실행!!
-                    initToken(RestTemplateTokenDto(documentId = document.documentId, data = tokenDataList))
+                    initToken(
+                        RestTemplateTokenDto(
+                            documentId = document.documentId,
+                            data = tokenDataList,
+                            action = WfElementConstants.Action.SAVE.value
+                        )
+                    )
                 }
                 goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
             }
