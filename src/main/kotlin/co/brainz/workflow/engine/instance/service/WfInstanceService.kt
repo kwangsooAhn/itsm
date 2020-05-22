@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.instance.service
 
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
 import co.brainz.workflow.engine.component.constants.WfComponentConstants
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
@@ -7,6 +8,7 @@ import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
+import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
@@ -31,7 +33,8 @@ class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfTokenRepository: WfTokenRepository
+    private val wfTokenRepository: WfTokenRepository,
+    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -54,18 +57,52 @@ class WfInstanceService(
 
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
 
-        // TODO: wf_token.assignee_id 값에 설정된 경우
-        // TODO: wf_candidate 의 user에 등록된 경우
-        // TODO: wf_canddiate 의 group에 등록된 경우
-        // TODO: 조합해서 하나의 데이터로 만든다.
-
         val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
+        val roleEntities = aliceUserRoleMapRepository.findByUserKey(userKey)
 
-        val assigneeInstances = wfInstanceRepository.findInstances(status)
-        //val assigneeInstances = wfInstanceRepository.findInstances(status, userKey)
-        //val candidateInstances = wfInstanceRepository.
-
-        instances.addAll(assigneeInstances)
+        val runningInstances = wfInstanceRepository.findInstances(status)
+        runningInstances.forEach { instance ->
+            if (instance.tokenEntity.tokenStatus == WfTokenConstants.Status.RUNNING.code) {
+                if (instance.tokenEntity.assigneeId == userKey) {
+                    instances.add(
+                        WfInstanceListViewDto(
+                            documentEntity = instance.documentEntity,
+                            instanceEntity = instance.instanceEntity,
+                            tokenEntity = instance.tokenEntity
+                        )
+                    )
+                }
+                instance.tokenEntity.candidate?.forEach { candidate ->
+                    when (candidate.candidateType) {
+                        WfTokenConstants.AssigneeType.USERS.code -> {
+                            if (candidate.candidateValue == userKey) {
+                                instances.add(
+                                    WfInstanceListViewDto(
+                                        documentEntity = instance.documentEntity,
+                                        instanceEntity = instance.instanceEntity,
+                                        tokenEntity = instance.tokenEntity
+                                    )
+                                )
+                            }
+                        }
+                        WfTokenConstants.AssigneeType.GROUPS.code -> {
+                            roleEntities.forEach roleForEach@{ role ->
+                                if (role.roleId == candidate.candidateValue) {
+                                    instances.add(
+                                        WfInstanceListViewDto(
+                                            documentEntity = instance.documentEntity,
+                                            instanceEntity = instance.instanceEntity,
+                                            tokenEntity = instance.tokenEntity
+                                        )
+                                    )
+                                    return@roleForEach
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         for (instance in instances) {
