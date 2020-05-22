@@ -93,7 +93,7 @@
         let componentMenu = document.getElementById('context-menu-component');
         let rslt = false;
         let tempText = searchText.replace('/', '');
-        tempText = tempText.trim().toLowerCase();
+        tempText = tempText.replace(/\s/gi, '').toLowerCase();
         searchItems = [];
         
         for (let i = 0, len = componentMenu.children.length; i < len; i++) {
@@ -112,9 +112,8 @@
                 rslt = true;
             } else {
                 let text = item.querySelector('label').textContent || item.querySelector('label').innerText;
-                text = text.trim().toLowerCase();
-                console.log(text + '  :  ' + tempText);
-                if (text.slice(0, tempText.length) !== tempText) {
+                text = text.replace(/\s/gi, '').toLowerCase();
+                if (text.indexOf(tempText) === -1) {
                     item.style.display = 'none';
                 } else {
                     item.style.display = 'block';

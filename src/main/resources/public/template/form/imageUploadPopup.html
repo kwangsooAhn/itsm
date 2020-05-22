@@ -14,7 +14,7 @@
     <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
-    <!-- 임시 style -->
+    <!-- TODO: 임시 style -->
     <style>
         .dropzone {
             height: 650px;
@@ -117,8 +117,11 @@
     const componentId = '[(${componentId})]';
     let selectedImagePreview = null;
 
-    Dropzone.autoDiscover = false;
+    Dropzone.autoDiscover = false; //dropzone 이 중복으로 등록되는 것을 막아줌
 
+    /**
+     *  이미지 선택 후 확인 버튼 클릭시 호출
+     */
     function selectedImageSave() {
         //이미지가 하나라도 선택되어 있지 않으면 알림창 출력
         if (selectedImagePreview === null) {
@@ -138,6 +141,9 @@
         }
     }
 
+    /**
+     * 팝업 오픈시 이미지 선택 초기화
+     */
     function initSelectImage() {
         if (!window.opener || window.opener.closed) { return false; }
 
@@ -153,6 +159,9 @@
         });
     }
 
+    /**
+     * 이미지를 선택 이벤트 핸들러
+     */
     function onImageSelectHandler(e) {
         //기존 이미지 선택 해제
         if (selectedImagePreview !== null) {
@@ -168,6 +177,23 @@
             e.target.classList.add('selected');
         }
         selectedImagePreview = e.target;
+    }
+
+    /**
+     * 특정 클래스 이름을 가진 요소 내부를 클릭했는지 확인
+     */
+    function clickInsideElement(e, className) {
+        let el = e.srcElement || e.target;
+        if (el.classList.contains(className)) {
+            return el;
+        } else {
+            while (el = el.parentNode) {
+                if (el.classList && el.classList.contains(className)) {
+                    return el;
+                }
+            }
+        }
+        return false;
     }
 
     window.onload = function() {
@@ -220,7 +246,7 @@
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content')
             },
             fallback: function() { // 지원하지 않는 IE 10 미만일 경우
-                //document.getElementById('trueForm').style.display = 'none';
+                document.getElementById('dropZoneFiles').style.display = 'none';
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _self = this;
@@ -268,7 +294,7 @@
                         this.files.splice(-1, 1);
                     }
 
-                    if (!isDuplicated && !maxFileSizeExceeded) {
+                    if (isAccepted && !isDuplicated && !maxFileSizeExceeded) {
                         file.previewElement.querySelector('#dz-filepath').value = file.imgPath;
                         file.previewElement.addEventListener('click', onImageSelectHandler, false);
                         if (typeof file.isNew === 'undefined') {
@@ -285,10 +311,9 @@
                     const opt = {
                         method: 'DELETE',
                         url: '/rest/forms/imageDelete',
-                        params: JSON.stringify(file),
+                        params: JSON.stringify({name: file.name, url: file.url}),
                         contentType: 'application/json',
                         callbackFunc: function (response) {
-                            console.log(response);
                             if (response.responseText === 'true') {
                                 aliceJs.alert('[[#{common.msg.delete.success}]]', function () {
                                     location.reload();
@@ -314,7 +339,7 @@
                         aliceJs.alert(i18n.get('form.msg.alert.fileuploadFailed'));
                     } else {
                         file.url = response.imgUrl;
-                        file.imgPath = '/' + response.imgPath;
+                        file.imgPath = response.imgPath;
                         file.previewElement.querySelector('#dz-filepath').value = file.imgPath;
                     }
                 });
@@ -337,16 +362,16 @@
                     for (let i = 0; i < imageList.length; i++) {
                         let imageFile = imageList[i];
                         let mockFile = {
-                            name: imageFile['fname'],
-                            size: Number(imageFile['fsize']),
+                            name: imageFile['fileName'],
+                            size: Number(imageFile['fileSize']),
                             url: imageFile['imgUrl'], //절대경로
-                            imgPath: '/' + imageFile['imgPath'], //상대경로
+                            imgPath: imageFile['imgPath'], //상대경로
                             accepted: true,
                             status: Dropzone.ADDED,
                             isNew: false
                         };
                         _self.emit('addedfile', mockFile);
-                        _self.emit('thumbnail', mockFile, '/' + imageFile['imgPath']);
+                        _self.emit('thumbnail', mockFile, imageFile['imgPath']);
                         _self.emit('complete', mockFile);
                         _self.files.push(mockFile);
                     }
@@ -358,6 +383,16 @@
                 done();
             }
         });
+
+        //dropzone 영역 클릭시 선택된 이미지 해제
+        document.getElementById('dropZoneFileUpload').addEventListener('click', function (e) {
+            if (clickInsideElement(e, 'dz-preview')) { return false; }
+
+            if (selectedImagePreview !== null && selectedImagePreview.classList.contains('selected')) {
+                selectedImagePreview.classList.remove('selected');
+                selectedImagePreview = null;
+            }
+        }, false);
     };
     /*]]>*/
 </script>
