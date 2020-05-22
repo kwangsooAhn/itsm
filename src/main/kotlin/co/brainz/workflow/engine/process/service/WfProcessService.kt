@@ -92,6 +92,9 @@ class WfProcessService(
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
             elDto.display = elementEntity.displayInfo.let { objMapper.readValue(it) }
+            if (elementEntity.notificationEmail) {
+                elDto.notification = "Y"
+            }
 
             // 싱글값인지 멀티값인지 확인
             val elementData = mutableMapOf<String, Any>()
@@ -201,7 +204,10 @@ class WfProcessService(
                     elementId = it.id,
                     processId = wfJsonProcessDto.id,
                     elementType = it.type,
-                    displayInfo = objMapper.writeValueAsString(it.display)
+                    displayInfo = objMapper.writeValueAsString(it.display),
+                    elementName = it.name,
+                    elementDesc = it.description,
+                    notificationEmail = (it.notification == "Y")
                 )
 
                 // element data entity 생성

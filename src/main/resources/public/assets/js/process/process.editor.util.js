@@ -260,7 +260,7 @@
         if (aliceProcessEditor.isView) { return false; }
         console.debug(aliceProcessEditor.data);
         aliceProcessEditor.resetElementPosition();
-        /*aliceJs.sendXhr({
+        aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/data',
             callbackFunc: function(xhr) {
@@ -275,7 +275,7 @@
             },
             contentType: 'application/json; charset=utf-8',
             params: JSON.stringify(aliceProcessEditor.data)
-        });*/
+        });
     }
 
     /**
