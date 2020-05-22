@@ -285,6 +285,9 @@ class WfProcessService(
             }
             val restTemplateElementDto = RestTemplateElementDto(
                 id = elementKeyMap[element.id]!!,
+                name = element.name,
+                description = element.description,
+                notification = element.notification,
                 data = dataMap,
                 type = element.type,
                 display = element.display
