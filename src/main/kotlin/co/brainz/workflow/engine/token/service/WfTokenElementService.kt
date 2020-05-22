@@ -77,6 +77,8 @@ class WfTokenElementService(
                 val nextElement = wfActionService.getElement(nextElementId)
                 when (nextElement.elementType) {
                     WfElementConstants.ElementType.USER_TASK.value -> {
+                        // 최초 신청서 작성자 : restTemplateTokenDto.assigneeId (작성자)
+                        // restTemplateTokenDto.assigneeId 값을 제거, 변경 하여 작성자 변경 가능
                         val userTaskToken =
                             setNextTokenSave(makeToken(nextElement, commonStartToken.instance), restTemplateTokenDto)
                         restTemplateTokenDto.tokenId = userTaskToken.tokenId
