@@ -49,7 +49,7 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
 
     @Query(
         "SELECT NEW co.brainz.workflow.provider.dto.RestTemplateInstanceListDto(" +
-                "i.instanceId, i.document.documentName, i.documentNo, i.instanceStartDt , i.instanceEndDt, i.instanceCreateUser.userKey, i.instanceCreateUser.userName) from WfInstanceEntity i left join i.instanceCreateUser " +
+                "i.instanceId, i.document.documentName, i.documentNo, i.instanceStartDt , i.instanceEndDt, i.instanceCreateUser.userKey, i.instanceCreateUser.userName) from WfInstanceEntity i left join i.instanceCreateUser inner join i.document " +
                 "WHERE i.instanceId != :instanceId " +
                 "AND (lower(i.document.documentName) like lower(concat('%', :searchValue, '%')) " +
                 "or lower(i.instanceCreateUser.userName) like lower(concat('%', :searchValue, '%')) " +
