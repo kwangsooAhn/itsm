@@ -49,12 +49,16 @@ class WfTokenElementService(
         val documentNo =
             documentDto?.numberingRule?.numberingId?.let { aliceNumberingService.getNewNumbering(it) }.orEmpty()
         val instanceDto =
-            documentDto?.let { RestTemplateInstanceDto(instanceId = "", document = it, documentNo = documentNo) }
+            documentDto?.let { RestTemplateInstanceDto(instanceId = "", document = it, documentNo = documentNo, pTokenId = restTemplateTokenDto.parentTokenId) }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
-        instance?.let { wfFolderService.createFolder(instance) }
-        restTemplateTokenDto.parentTokenId?.let {
-            val parentToken = wfTokenRepository.getOne(it)
-            wfFolderService.addInstance(parentToken.instance, instance!!)
+        instance?.let {
+            val folders = wfFolderService.createFolder(instance)
+            instance.folders = mutableListOf(folders)
+            instance.pTokenId?.let { id ->
+                val parentToken = wfTokenRepository.getOne(id)
+                wfFolderService.createRelatedFolder(parentToken.instance, instance)
+                wfFolderService.createRelatedFolder(instance, parentToken.instance)
+            }
         }
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateTokenDto.documentId!!)
@@ -258,7 +262,7 @@ class WfTokenElementService(
                 )
             )
         }
-        wfTokenDataRepository.saveAll(dataList)
+        saveTokenEntity.tokenDatas = wfTokenDataRepository.saveAll(dataList)
 
         return saveTokenEntity
     }
@@ -370,8 +374,6 @@ class WfTokenElementService(
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
                 val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
                 restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
-                val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
-                val tokenId = restTemplateTokenDto.tokenId
 
                 // sub-document-id 확인 후 신규 인스턴스와 토큰을 생성
                 val documentId = getAttributeValue(
@@ -379,19 +381,18 @@ class WfTokenElementService(
                     WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value
                 )
                 val makeDocumentTokens =
-                    wfTokenMappingValue.makeRestTemplateTokenDto(tokenId, mutableListOf(documentId))
+                    wfTokenMappingValue.makeRestTemplateTokenDto(saveTokenEntity, mutableListOf(documentId))
                 makeDocumentTokens.forEach {
                     initToken(it)
                 }
 
-                goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
+                //goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
             }
             WfElementConstants.ElementType.SIGNAL_SEND.value -> {
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
                 val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
                 restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
                 val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
-                val tokenId = restTemplateTokenDto.tokenId
 
                 // target-document-list 확인 후 신규 인스턴스와 토큰을 생성
                 val targetDocumentIds = mutableListOf<String>()
@@ -400,7 +401,7 @@ class WfTokenElementService(
                         targetDocumentIds.add(it.attributeValue)
                     }
                 }
-                val makeDocumentTokens = wfTokenMappingValue.makeRestTemplateTokenDto(tokenId, targetDocumentIds)
+                val makeDocumentTokens = wfTokenMappingValue.makeRestTemplateTokenDto(saveTokenEntity, targetDocumentIds)
                 makeDocumentTokens.forEach {
                     initToken(it)
                 }

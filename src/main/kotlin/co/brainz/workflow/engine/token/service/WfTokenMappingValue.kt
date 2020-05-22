@@ -2,7 +2,7 @@ package co.brainz.workflow.engine.token.service
 
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
-import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import co.brainz.workflow.engine.token.entity.WfTokenEntity
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.springframework.stereotype.Service
@@ -12,16 +12,15 @@ import org.springframework.stereotype.Service
  */
 @Service
 class WfTokenMappingValue(
-    private val tokenRepository: WfTokenRepository,
     private val documentRepository: WfDocumentRepository
 ) {
 
     /**
      * 생성 할 업무의 mappingId 와 일치하는 토큰데이터를 찾아 dto 를 리턴.
      */
-    fun makeRestTemplateTokenDto(tokenId: String, documentId: List<String>): List<RestTemplateTokenDto> {
+    fun makeRestTemplateTokenDto(token: WfTokenEntity, documentId: List<String>): List<RestTemplateTokenDto> {
 
-        val keyPairComponentIdToMappingId = this.getTokenDataByMappingId(tokenId)
+        val keyPairComponentIdToMappingId = this.getTokenDataByMappingId(token)
 
         val tokensDto = mutableListOf<RestTemplateTokenDto>()
         documentId.forEach {
@@ -40,7 +39,8 @@ class WfTokenMappingValue(
                 RestTemplateTokenDto(
                     documentId = document.documentId,
                     data = tokenDataList,
-                    action = WfElementConstants.Action.SAVE.value
+                    action = WfElementConstants.Action.SAVE.value,
+                    parentTokenId = token.tokenId
                 )
             )
         }
@@ -48,22 +48,21 @@ class WfTokenMappingValue(
     }
 
     /**
-     * 토큰아이디[tokenId]로 토큰 정보를 조회하여 mappingId 와 매핑된 토큰데이터를 리턴.
+     * 토큰 정보를 조회하여 mappingId 와 매핑된 토큰데이터를 리턴.
      */
-    private fun getTokenDataByMappingId(tokenId: String): MutableMap<String, String> {
+    private fun getTokenDataByMappingId(token: WfTokenEntity): MutableMap<String, String> {
 
         // 종료된 토큰의 componentId 별로 mappingId를 찾는다.
-        val token = tokenRepository.getOne(tokenId)
-        val component = token.instance.document.form.components!!.filter {
+        val component = token.instance.document?.form?.components?.filter {
             it.mappingId.isNotBlank()
         }
 
-        val keyPairComponentIdToMappingId = component.associateBy({ it.componentId }, { it.mappingId })
+        val keyPairComponentIdToMappingId = component?.associateBy({ it.componentId }, { it.mappingId })
 
         // mappingId 별로 실제 토큰에 저장된 value를 찾아 복제할 데이터를 생성한다.
         val keyPairMappingIdToTokenDataValue = mutableMapOf<String, String>()
         token.tokenDatas?.forEach {
-            if (keyPairComponentIdToMappingId[it.componentId] != null) {
+            if (keyPairComponentIdToMappingId?.get(it.componentId) != null) {
                 val mappingId = keyPairComponentIdToMappingId[it.componentId] as String
                 keyPairMappingIdToTokenDataValue[mappingId] = it.value
             }

@@ -17,8 +17,8 @@ class WfFolderService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfTokenRepository: WfTokenRepository
 ) {
-    fun createFolder(instance: WfInstanceEntity) {
-        wfFolderRepository.save(
+    fun createFolder(instance: WfInstanceEntity): WfFolderEntity {
+        return wfFolderRepository.save(
             WfFolderEntity(
                 folderId = UUID.randomUUID().toString().replace("-", ""),
                 instance = instance,
@@ -28,7 +28,7 @@ class WfFolderService(
         )
     }
 
-    fun addInstance(originInstance: WfInstanceEntity, addedInstance: WfInstanceEntity) {
+    fun createRelatedFolder(originInstance: WfInstanceEntity, relatedInstance: WfInstanceEntity) {
         lateinit var folderId: String
         originInstance.folders?.forEach {
             if (it.relatedType == WfFolderConstants.RelatedType.ORIGIN.code) {
@@ -40,7 +40,7 @@ class WfFolderService(
         wfFolderRepository.save(
             WfFolderEntity(
                 folderId = folderId,
-                instance = addedInstance,
+                instance = relatedInstance,
                 relatedType = WfFolderConstants.RelatedType.RELATED.code
             )
         )
