@@ -184,8 +184,8 @@
                 if (originData.type !== changeData.type) { // modify type
                     aliceProcessEditor.changeElementType(element, changeData.type);
                 }
-                if (originData.data.name !== changeData.data.name) { // modify name
-                    aliceProcessEditor.changeTextToElement(changeData.id, changeData.data.name);
+                if (originData.name !== changeData.name) { // modify name
+                    aliceProcessEditor.changeTextToElement(changeData.id, changeData.name);
                 }
                 if (changeData.type !== 'arrowConnector') {
                     if (originData.display['position-x'] !== changeData.display['position-x']
@@ -260,7 +260,7 @@
         if (aliceProcessEditor.isView) { return false; }
         console.debug(aliceProcessEditor.data);
         aliceProcessEditor.resetElementPosition();
-        aliceJs.sendXhr({
+        /*aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/data',
             callbackFunc: function(xhr) {
@@ -275,7 +275,7 @@
             },
             contentType: 'application/json; charset=utf-8',
             params: JSON.stringify(aliceProcessEditor.data)
-        });
+        });*/
     }
 
     /**
