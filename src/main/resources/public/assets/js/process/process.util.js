@@ -88,7 +88,11 @@
                         elementData.data[childNode.nodeName] = childNode.nodeValue;
                         let nodeValue = '';
                         if (childNode.childNodes && childNode.childNodes[0]) {
-                            nodeValue = childNode.childNodes[0].nodeValue;
+                            if (childNode.childNodes[0].nodeType === Node.CDATA_SECTION_NODE) {
+                                nodeValue = childNode.childNodes[0].nodeValue;
+                            } else {
+                                nodeValue = childNode.childNodes[0].nodeValue.split(',');
+                            }
                         }
                         elementData.data[childNode.nodeName] = nodeValue;
                     }
@@ -277,8 +281,13 @@
             keys.forEach(function(key) {
                 let attributeNode = xmlDoc.createElement(key);
                 if (element.data[key]) {
-                    let cdata = xmlDoc.createCDATASection(element.data[key]);
-                    attributeNode.appendChild(cdata);
+                    if (Array.isArray(element.data[key])) {
+                        let data = xmlDoc.createTextNode(element.data[key]);
+                        attributeNode.appendChild(data);
+                    } else {
+                        let cdata = xmlDoc.createCDATASection(element.data[key]);
+                        attributeNode.appendChild(cdata);
+                    }
                 }
                 elementNode.appendChild(attributeNode);
             });

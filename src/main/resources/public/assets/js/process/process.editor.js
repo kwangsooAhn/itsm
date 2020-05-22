@@ -31,7 +31,7 @@
     let isDrawConnector = false,
         isMovableDrawingboard = false;
 
-    let isView = true;            //view 인지여부
+    let isView = true;            //view 모드 여부
 
     /**
      * reset mouse variables.
@@ -103,9 +103,6 @@
 
                 setConnectors();
                 aliceProcessEditor.setElementMenu(selectedLink);
-            })
-            .call(function(d) {
-                aliceProcessEditor.addElementProperty(d);
             });
 
         /**
@@ -206,6 +203,14 @@
                 })
                 .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        svg.selectAll('.node').nodes().forEach(function(node) {
+                            if (checkDuplicatePosition(node, d.midPoint)) {
+                                delete d.midPoint;
+                                delete d.sourcePoint;
+                                delete d.targetPoint;
+                                drawConnectors();
+                            }
+                        });
                         aliceProcessEditor.setElementMenu(d3.select(document.getElementById(d.id)));
                         aliceProcessEditor.changeDisplayValue(d.id);
                     }
@@ -229,6 +234,12 @@
                 })
                 .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        svg.selectAll('.node').nodes().forEach(function(node) {
+                            if (checkDuplicatePosition(node, d.sourcePoint)) {
+                                delete d.sourcePoint;
+                                drawConnectors();
+                            }
+                        });
                         aliceProcessEditor.changeDisplayValue(d.id);
                     }
                 })
@@ -251,6 +262,12 @@
                 })
                 .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        svg.selectAll('.node').nodes().forEach(function(node) {
+                            if (checkDuplicatePosition(node, d.targetPoint)) {
+                                delete d.targetPoint;
+                                drawConnectors();
+                            }
+                        });
                         aliceProcessEditor.changeDisplayValue(d.id);
                     }
                 })
@@ -260,6 +277,8 @@
 
         // draw links
         drawConnectors();
+
+        enter.select('path.connector').call(function(d) { aliceProcessEditor.addElementProperty(d); });
     }
 
     /**
@@ -301,6 +320,21 @@
      */
     function getMidPointCoords(line) {
         return [(line[1][0] + line[0][0]) / 2, (line[1][1] + line[0][1]) / 2];
+    }
+
+    /**
+     * 중복 체크.
+     *
+     * @param node 엘리먼트 node
+     * @param point 포인트
+     * @return {boolean} true: duplicate, false: not duplicate
+     */
+    function checkDuplicatePosition(node, point) {
+        if (!node || !point) { return false; }
+        let bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
+        return bbox.x <= point[0] && (bbox.x + bbox.width) >= point[0] &&
+            bbox.y <= point[1] && (bbox.y + bbox.height) >= point[1];
+
     }
 
     /**
@@ -400,10 +434,10 @@
                 [0, sourceHeight / 2], [-(sourceWidth / 2), 0]];
             const midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
             let linePath = '';
+            const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
+                  targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
             if (typeof d.midPoint !== 'undefined') {
                 midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
-                const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
-                      targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
                 if (d3.select(document.getElementById(d.id)).classed('selected')) {
                     sourcePoint.style('opacity', 1).style('cursor', 'move');
                     targetPoint.style('opacity', 1).style('cursor', 'move');
@@ -468,6 +502,8 @@
                 linePath = ['M', bestLine[0], 'L', bestLine[1]].join(' ');
                 let midPointCoords = getMidPointCoords(bestLine);
                 midPoint.attr('cx', midPointCoords[0]).attr('cy', midPointCoords[1]);
+                sourcePoint.style('opacity', 0).style('cursor', 'default');
+                targetPoint.style('opacity', 0).style('cursor', 'default');
             }
             return linePath;
         };
@@ -632,23 +668,38 @@
                     histories.push(history);
                 });
 
-                if (selectedNodes.length > 1) {
-                    elements.links.forEach(function(l) {
-                        let isExistSource = false,
-                            isExistTarget = false;
-                        selectedNodes.forEach(function(node) {
-                            if (l.sourceId === node.id) {
-                                isExistSource = true;
-                            } else if (l.targetId === node.id) {
-                                isExistTarget = true;
+                elements.links.forEach(function(l) {
+                    let isExistSource = false,
+                        isExistTarget = false;
+                    selectedNodes.forEach(function(node) {
+                        if (l.sourceId === node.id) {
+                            isExistSource = true;
+                        } else if (l.targetId === node.id) {
+                            isExistTarget = true;
+                        }
+                        if (isExistSource || isExistTarget) {
+                            if (typeof l.midPoint !== 'undefined' && checkDuplicatePosition(node, l.midPoint)) {
+                                delete l.midPoint;
+                                delete l.sourcePoint;
+                                delete l.targetPoint;
+                                drawConnectors();
                             }
-                        });
-                        if (isExistSource && isExistTarget) {
-                            let history = aliceProcessEditor.changeDisplayValue(l.id, false);
-                            histories.push(history);
+                            if (typeof l.sourcePoint !== 'undefined' && checkDuplicatePosition(node, l.sourcePoint)) {
+                                delete l.sourcePoint;
+                                drawConnectors();
+                            }
+                            if (typeof l.targetPoint !== 'undefined' && checkDuplicatePosition(node, l.targetPoint)) {
+                                delete l.targetPoint;
+                                drawConnectors();
+                            }
                         }
                     });
-                }
+
+                    if (isExistSource && isExistTarget) {
+                        let history = aliceProcessEditor.changeDisplayValue(l.id, false);
+                        histories.push(history);
+                    }
+                });
                 aliceProcessEditor.utils.history.saveHistory(histories);
 
                 dragElement = null;
@@ -734,7 +785,7 @@
             isDrawTop = false,
             isDrawBottom = false;
 
-        d3.selectAll('.node:not(.selected)').nodes().forEach(function(node) {
+        svg.selectAll('.node:not(.selected)').nodes().forEach(function(node) {
             const element = aliceProcessEditor.data.elements.filter(function(e) { return e.id === node.id; })[0];
             let left = element.display['position-x'] - (element.display.width / 2),
                 right = element.display['position-x'] + (element.display.width / 2),
@@ -1444,6 +1495,17 @@
             svg.selectAll('g.grid').selectAll('*').remove();
             verticalGrid.call(verticalAxis);
             horizontalGrid.call(horizontalAxis);
+
+            let nodes = d3.select('.minimap').selectAll('g.element, g.connector').nodes();
+            let minimapTranslate = '';
+            if (nodes.length > 0) {
+                let transform = d3.zoomTransform(d3.select(drawingBoard).select('.element-container').node());
+                minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
+            }
+            d3.select('rect.minimap-guide')
+                .attr('width', drawingBoardWidth)
+                .attr('height', drawingBoardHeight)
+                .attr('transform', minimapTranslate);
         };
         window.onresize = setDrawingBoardGrid;
         window.onkeydown = function(e) {
@@ -1512,8 +1574,13 @@
                     .attr('transform', d3.event.transform);
                 svg.select('g.guides-container')
                     .attr('transform', d3.event.transform);
-                d3.select('rect.minimap-guide')
-                    .attr('transform', 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')');
+
+                let nodes = d3.select('.minimap').selectAll('g.element, g.connector').nodes();
+                let minimapTranslate = '';
+                if (nodes.length > 0) {
+                    minimapTranslate = 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')';
+                }
+                d3.select('rect.minimap-guide').attr('transform', minimapTranslate);
             })
             .on('end', function() {
                 svg.style('cursor', 'default');
@@ -1538,9 +1605,9 @@
         }
 
         groupArtifactContainer = svg.append('g').attr('class', 'group-artifact-container');
+        elementsContainer = svg.append('g').attr('class', 'element-container');
         const connectorContainer = svg.append('g').attr('class', 'connector-container');
         connectors = connectorContainer.selectAll('g.connector');
-        elementsContainer = svg.append('g').attr('class', 'element-container');
         const guidesContainer = svg.append('g').attr('class', 'guides-container');
         guidesContainer.selectAll('line')
             .data(['center-x','center-y','left','right','top','bottom'])
@@ -1553,7 +1620,7 @@
         svg.append('defs').append('marker')
             .attr('id', 'end-arrow')
             .attr('viewBox', '0 -5 10 10')
-            .attr('refX', 6)
+            .attr('refX', 10)
             .attr('markerWidth', 5)
             .attr('markerHeight', 8)
             .attr('orient', 'auto')
