@@ -46,8 +46,8 @@
     /**
      * snap to grid.
      *
-     * @param p
-     * @return {number}
+     * @param p current point
+     * @return {number} snap point
      */
     function snapToGrid(p) {
         const r = displayOptions.gridInterval;
@@ -197,7 +197,7 @@
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         svg.selectAll('.alice-tooltip').remove();
-                        d.midPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
+                        d.midPoint = [d3.event.x, d3.event.y];
                         drawConnectors();
                     }
                 })
@@ -228,7 +228,7 @@
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        d.sourcePoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
+                        d.sourcePoint = [d3.event.x, d3.event.y];
                         drawConnectors();
                     }
                 })
@@ -256,7 +256,7 @@
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        d.targetPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
+                        d.targetPoint = [d3.event.x, d3.event.y];
                         drawConnectors();
                     }
                 })
@@ -330,7 +330,7 @@
      * @return {boolean} true: duplicate, false: not duplicate
      */
     function checkDuplicatePosition(node, point) {
-        if (!node || !point) { return false; }
+        if (!node || !point || d3.select(node).classed('artifact')) { return false; }
         let bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
         return bbox.x <= point[0] && (bbox.x + bbox.width) >= point[0] &&
             bbox.y <= point[1] && (bbox.y + bbox.height) >= point[1];
@@ -882,12 +882,12 @@
               typeElement = gElement.select('.element-type'),
               textElement = gElement.select('text');
 
-        let mouseX = snapToGrid(Number(nodeElement.attr('x')) + dx),
-            mouseY = snapToGrid(Number(nodeElement.attr('y')) + dy);
+        let mouseX = Number(nodeElement.attr('x')) + dx,
+            mouseY = Number(nodeElement.attr('y')) + dy;
 
         if (nodeElement.classed('event')) {
-            mouseX = snapToGrid(Number(nodeElement.attr('cx')) + dx);
-            mouseY = snapToGrid(Number(nodeElement.attr('cy')) + dy);
+            mouseX = Number(nodeElement.attr('cx')) + dx;
+            mouseY = Number(nodeElement.attr('cy')) + dy;
             nodeElement
                 .attr('cx', mouseX)
                 .attr('cy', mouseY);
@@ -953,16 +953,16 @@
                 });
                 if (isExistSource && isExistTarget) {
                     if (typeof l.midPoint !== 'undefined') {
-                        l.midPoint = [snapToGrid(l.midPoint[0] + dx), snapToGrid(l.midPoint[1] + dy)];
+                        l.midPoint = [l.midPoint[0] + dx, l.midPoint[1] + dy];
                     }
                     if (typeof l.sourcePoint !== 'undefined') {
-                        l.sourcePoint = [snapToGrid(l.sourcePoint[0] + dx), snapToGrid(l.sourcePoint[1] + dy)];
+                        l.sourcePoint = [l.sourcePoint[0] + dx, l.sourcePoint[1] + dy];
                     }
                     if (typeof l.targetPoint !== 'undefined') {
-                        l.targetPoint = [snapToGrid(l.targetPoint[0] + dx), snapToGrid(l.targetPoint[1] + dy)];
+                        l.targetPoint = [l.targetPoint[0] + dx, l.targetPoint[1] + dy];
                     }
                     if (typeof l.textPoint !== 'undefined') {
-                        l.textPoint = [snapToGrid(l.textPoint[0] + dx), snapToGrid(l.textPoint[1] + dy)];
+                        l.textPoint = [l.textPoint[0] + dx, l.textPoint[1] + dy];
                     }
                 }
             });
@@ -1241,8 +1241,8 @@
                     })
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-                            const mouseX = snapToGrid(d3.event.dx),
-                                  mouseY = snapToGrid(d3.event.dy);
+                            const mouseX = d3.event.dx,
+                                  mouseY = d3.event.dy;
                             let rectData = [
                                 {x: Number(self.nodeElement.attr('x')), y: Number(self.nodeElement.attr('y'))},
                                 {x: Number(self.nodeElement.attr('x')) + Number(self.nodeElement.attr('width')), y: Number(self.nodeElement.attr('y')) + Number(self.nodeElement.attr('height'))}
