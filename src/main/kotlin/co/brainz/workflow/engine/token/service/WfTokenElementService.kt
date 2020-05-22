@@ -340,7 +340,7 @@ class WfTokenElementService(
                 val componentIdInTokenData = tokenData.map { it.componentId }
 
                 // 종료된 토큰의 componentId 별로 mappingId를 찾는다.
-                val component = token.instance.document.form.components!!.filter {
+                val component = token.instance.document!!.form.components!!.filter {
                     componentIdInTokenData.contains(it.componentId) && it.mappingId.isNotBlank()
                 }
                 val mappingIds = component.associateBy({ it.componentId }, { it.mappingId })
@@ -431,7 +431,7 @@ class WfTokenElementService(
         val assigneeMappingId =
             getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
         var componentMappingId = ""
-        token.instance.document.form.components?.forEach { component ->
+        token.instance.document!!.form.components?.forEach { component ->
             if (component.mappingId == assigneeMappingId) {
                 componentMappingId = component.componentId
             }

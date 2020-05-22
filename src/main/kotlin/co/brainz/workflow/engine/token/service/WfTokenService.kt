@@ -59,8 +59,8 @@ class WfTokenService(
                     elementId = tokenEntity.element.elementId,
                     tokenStatus = tokenEntity.tokenStatus,
                     assigneeId = tokenEntity.assigneeId,
-                    documentId = tokenEntity.instance.document.documentId,
-                    documentName = tokenEntity.instance.document.documentName
+                    documentId = tokenEntity.instance.document!!.documentId,
+                    documentName = tokenEntity.instance.document!!.documentName
                 )
             )
         }
@@ -93,8 +93,8 @@ class WfTokenService(
             tokenStatus = tokenEntity.get().tokenStatus,
             isComplete = tokenEntity.get().tokenStatus == WfTokenConstants.Status.FINISH.code,
             instanceId = tokenEntity.get().instance.instanceId,
-            documentId = tokenEntity.get().instance.document.documentId,
-            documentName = tokenEntity.get().instance.document.documentName,
+            documentId = tokenEntity.get().instance.document!!.documentId,
+            documentName = tokenEntity.get().instance.document!!.documentName,
             data = componentList
         )
     }
@@ -107,7 +107,7 @@ class WfTokenService(
      */
     fun getTokenData(tokenId: String): RestTemplateTokenViewDto {
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
-        val componentEntities = tokenMstEntity.get().instance.document.form.components
+        val componentEntities = tokenMstEntity.get().instance.document!!.form.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
         var documentDataEntities: List<WfDocumentDataEntity> = mutableListOf()
         when (tokenMstEntity.get().element.elementType) {
@@ -118,7 +118,7 @@ class WfTokenService(
                     WfElementConstants.ElementType.USER_TASK.value -> {
                         documentDataEntities =
                             wfDocumentDataRepository.findByDocumentIdAndElementId(
-                                tokenMstEntity.get().instance.document.documentId,
+                                tokenMstEntity.get().instance.document!!.documentId,
                                 nextElementId
                             )
                     }
@@ -126,7 +126,7 @@ class WfTokenService(
             }
             else -> {
                 documentDataEntities = wfDocumentDataRepository.findByDocumentIdAndElementId(
-                    tokenMstEntity.get().instance.document.documentId,
+                    tokenMstEntity.get().instance.document!!.documentId,
                     tokenMstEntity.get().element.elementId
                 )
             }

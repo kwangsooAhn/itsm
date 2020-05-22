@@ -388,6 +388,7 @@ document:
     reg: "신청서 등록"
     write: "신청서 작성"
     name: "신청서 이름"
+    docNo: "신청서 구분"
     description: "설명"
     display: "신청서 양식 편집"
     form: "문서양식"
@@ -430,9 +431,11 @@ token:
     endDt: "완료 일시"
     elementName: "업무명"
     assignee: "담당자"
+    createUser: "작성자"
     history: "처리 이력"
     relatedInstance: "관련 문서"
     print: "처리할 문서 인쇄"
+    searchPlaceholder: "신청서 이름 / 작성자"
 
 # Code
 code:

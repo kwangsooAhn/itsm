@@ -48,30 +48,37 @@
     </table>
 
     <h1 th:text="#{token.label.relatedInstance}"></h1>
+    <div>
+        <button th:onclick="openPopUp([[${tokenId}]])" th:text="#{common.btn.add}" style="float:right;"></button>
+    </div>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
             <col width="25%">
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
+            <col width="20%">
+            <col width="20%">
+            <col width="20%">
+            <col width="10%">
         </colgroup>
         <thead>
         <tr>
             <th th:text="#{document.label.name}">업무</th>
             <th th:text="#{token.label.startDt}">시작일시</th>
             <th th:text="#{token.label.endDt}">완료일시</th>
-            <th th:text="#{token.label.assignee}">담당자</th>
+            <th th:text="#{token.label.createUser}">작성자</th>
             <th></th>
         </tr>
         </thead>
         <tbody id="relatedInstance">
-        <tr th:each="rInstance : ${relatedInstance}">
+        <tr th:each="rInstance: ${relatedInstance}">
             <td th:text="${rInstance.documentName}"></td>
             <td th:with="dateformat=${#authentication.details.timeFormat}"
                 th:text="${#temporals.format(rInstance.instanceStartDt, dateformat)}"></td>
             <td th:with="dateformat=${#authentication.details.timeFormat}"
                 th:text="${#temporals.format(rInstance.instanceEndDt, dateformat)}"></td>
-            <td th:text="${rInstance.instanceCreateUserKey}"></td>
+            <td th:text="${rInstance.instanceCreateUserName}"></td>
+            <td>
+                <button th:onclick="onRelatedInstanceDelete([[${rInstance.instanceId}]])" th:text="#{common.btn.delete}"></button>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -113,6 +120,34 @@
         window.onload = function() {
             aliceDocument.initToken('[[${tokenId}]]');
         };
+
+        function openPopUp(tokenId) {
+            window.open('/tokens/' + tokenId + '/view-pop', tokenId, 'width=1300, height=500');
+        }
+
+        function onRelatedInstanceDelete(instanceId) {
+            const jsonData = {
+                instanceId: instanceId
+            };
+
+            restSubmit('DELETE', '/rest/folders/[[${folderId}]]', function () {
+                location.reload();
+            }, jsonData, false);
+        }
+
+        function restSubmit(method, url, result, data, showProgressbar) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                showProgressbar: showProgressbar,
+                callbackFunc: function(response) {
+                    result(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
         /*]]>*/
     </script>
 </th:block>

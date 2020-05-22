@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/tokens")
@@ -30,6 +31,8 @@ class TokenController(
     private val tokenListPage: String = "token/tokenList"
     private val tokenEditPage: String = "token/tokenEdit"
     private val tokenPrintPage: String = "token/tokenPrint"
+    private val tokenPopUpPage: String = "/token/tokenPopUp"
+    private val tokenInstanceListPage: String = "/token/tokenInstanceList"
 
     /**
      * 처리할 문서 리스트 호출 화면.
@@ -74,6 +77,8 @@ class TokenController(
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
         val instanceId = instanceService.getInstanceId(tokenId)!!
+        val folderId = folderService.getFolderId(tokenId)
+        model.addAttribute("folderId", folderId)
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
         return tokenEditPage
@@ -87,5 +92,31 @@ class TokenController(
         model.addAttribute("data", request.getParameter("data") ?: "")
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         return tokenPrintPage
+    }
+
+    /**
+     * 관련문서 팝업 생성
+     */
+    @GetMapping("/{tokenId}/view-pop")
+    fun getTokenPopUp(@PathVariable tokenId: String, model: Model): String {
+        val folderId = folderService.getFolderId(tokenId)
+        model.addAttribute("tokenId", tokenId)
+        model.addAttribute("folderId", folderId)
+        return tokenPopUpPage
+    }
+
+    /**
+     * 관련문서 팝업 문서 리스트 출력
+     */
+    @GetMapping("/view-pop/list")
+    fun getAllInstanceListAndSearch (
+        @RequestParam(value = "tokenId", defaultValue = "") tokenId: String,
+        @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
+        model: Model
+    ): String {
+        val instanceId = instanceService.getInstanceId(tokenId)!!
+
+        model.addAttribute("instanceList", instanceService.getAllInstanceListAndSearch(instanceId, searchValue))
+        return tokenInstanceListPage
     }
 }
