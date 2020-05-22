@@ -49,12 +49,11 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
 
     @Query(
         "SELECT NEW co.brainz.workflow.provider.dto.RestTemplateInstanceListDto(" +
-                "i.instanceId, d.documentName, i.documentNo, i.instanceStartDt , i.instanceEndDt, i.instanceCreateUser.userKey, i.instanceCreateUser.userName) from WfDocumentEntity d, WfInstanceEntity i left join i.instanceCreateUser  " +
-                "WHERE d.documentId = i.document.documentId " +
-                "AND i.instanceId != :instanceId " +
+                "i.instanceId, i.document.documentName, i.documentNo, i.instanceStartDt , i.instanceEndDt, i.instanceCreateUser.userKey, i.instanceCreateUser.userName) from WfInstanceEntity i left join i.instanceCreateUser " +
+                "WHERE i.instanceId != :instanceId " +
                 "AND (lower(i.document.documentName) like lower(concat('%', :searchValue, '%')) " +
                 "or lower(i.instanceCreateUser.userName) like lower(concat('%', :searchValue, '%')) " +
-                "or :searchValue is null or :searchValue = '') " +
+                "or :searchValue = '') " +
                 "ORDER BY i.instanceStartDt"
     )
     fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>

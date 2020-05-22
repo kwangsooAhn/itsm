@@ -88,7 +88,7 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
         params["searchValue"] = searchValue
 
         val urlDto =
-            RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_INSTANCE_LIST.url, parameters = params)
+            RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_INSTANCE_SEARCH.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
 
         val instanceList: MutableList<RestTemplateInstanceListDto>? = mapper.readValue(
