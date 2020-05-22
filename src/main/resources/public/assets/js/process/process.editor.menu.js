@@ -1272,7 +1272,7 @@
                             break;
                     }
 
-                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id !== 'name')) {
+                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id === 'name')) {
                         elementObject.addEventListener('change', changeEventHandler);
                     }
                 }

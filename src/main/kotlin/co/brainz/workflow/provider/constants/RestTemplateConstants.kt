@@ -82,6 +82,18 @@ object RestTemplateConstants {
     }
 
     /**
+     * Folder Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class Folder(val url: String, val method: String) {
+        POST_FOLDER("/rest/wf/folders", "POST"),
+        DELETE_FOLDER("/rest/wf/folders/{folderId}", "DELETE"),
+        GET_FOLDER("/rest/wf/folders/{folderId}", "GET")
+    }
+
+    /**
      * Workflow Url.
      *
      * @param url
@@ -108,7 +120,8 @@ object RestTemplateConstants {
     enum class Instance(val url: String, val method: String) {
         GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
         GET_RELATED_INSTANCE("/rest/wf/folders", "GET"),
-        GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET")
+        GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET"),
+        GET_INSTANCE_SEARCH("/rest/wf/instances/search", "GET")
     }
 
     /**
@@ -177,6 +190,6 @@ object RestTemplateConstants {
     /**
      * 이미지 컴포넌트 디렉터리.
      */
-    const val RESOURCES_DIR: String = "src/main/resources/public"
-    const val FORM_IMAGE_DIR: String = "assets/media/image/form"
+    const val BASE_DIR: String = "public"
+    const val FORM_IMAGE_DIR: String = "assets/media/image/form/"
 }

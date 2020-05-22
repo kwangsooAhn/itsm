@@ -438,7 +438,7 @@ class WfTokenElementService(
         val assigneeMappingId =
             getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
         var componentMappingId = ""
-        token.instance.document.form.components?.forEach { component ->
+        token.instance.document!!.form.components?.forEach { component ->
             if (component.mappingId == assigneeMappingId) {
                 componentMappingId = component.componentId
             }

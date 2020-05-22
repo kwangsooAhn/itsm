@@ -330,7 +330,7 @@
      * @return {boolean} true: duplicate, false: not duplicate
      */
     function checkDuplicatePosition(node, point) {
-        if (!node || !point) { return false; }
+        if (!node || !point || d3.select(node).classed('artifact')) { return false; }
         let bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
         return bbox.x <= point[0] && (bbox.x + bbox.width) >= point[0] &&
             bbox.y <= point[1] && (bbox.y + bbox.height) >= point[1];
@@ -670,7 +670,8 @@
 
                 elements.links.forEach(function(l) {
                     let isExistSource = false,
-                        isExistTarget = false;
+                        isExistTarget = false,
+                        isDeletedPoint = false;
                     selectedNodes.forEach(function(node) {
                         if (l.sourceId === node.id) {
                             isExistSource = true;
@@ -682,20 +683,23 @@
                                 delete l.midPoint;
                                 delete l.sourcePoint;
                                 delete l.targetPoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                             if (typeof l.sourcePoint !== 'undefined' && checkDuplicatePosition(node, l.sourcePoint)) {
                                 delete l.sourcePoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                             if (typeof l.targetPoint !== 'undefined' && checkDuplicatePosition(node, l.targetPoint)) {
                                 delete l.targetPoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                         }
                     });
 
-                    if (isExistSource && isExistTarget) {
+                    if ((isExistSource && isExistTarget) || isDeletedPoint) {
                         let history = aliceProcessEditor.changeDisplayValue(l.id, false);
                         histories.push(history);
                     }

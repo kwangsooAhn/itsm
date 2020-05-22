@@ -45,7 +45,7 @@ data class WfInstanceEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
-    val document: WfDocumentEntity,
+    val document: WfDocumentEntity? = null,
 
     @Column(name = "document_no", length = 128)
     var documentNo: String? = null
