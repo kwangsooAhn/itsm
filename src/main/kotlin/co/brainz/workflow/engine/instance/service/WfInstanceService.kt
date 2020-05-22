@@ -56,10 +56,8 @@ class WfInstanceService(
         }
 
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-
         val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
-        val roleEntities = aliceUserRoleMapRepository.findByUserKey(userKey)
-
+        val roleEntities = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
         val runningInstances = wfInstanceRepository.findInstances(status)
         runningInstances.forEach { instance ->
             if (instance.tokenEntity.tokenStatus == WfTokenConstants.Status.RUNNING.code) {

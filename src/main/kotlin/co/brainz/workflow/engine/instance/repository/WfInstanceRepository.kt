@@ -7,20 +7,9 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
-interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
+interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String>, WfInstanceRepositoryCustom {
 
     fun findByInstanceId(instanceId: String): WfInstanceEntity?
-
-    @Query(
-        "SELECT NEW co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto(t, d, i) " +
-                "FROM WfTokenEntity t, WfDocumentEntity d, WfInstanceEntity i " +
-                "where d.documentId = i.document.documentId " +
-                "and i.instanceId = t.instance.instanceId " +
-                "and t.tokenStatus = :status " +
-                "order by i.instanceStartDt desc"
-    )
-    fun findInstances(status: String): List<WfInstanceListViewDto>
-
     fun countByDocument(wfDocumentEntity: WfDocumentEntity): Int
 
     @Query(
