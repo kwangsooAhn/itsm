@@ -256,8 +256,6 @@
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
         isCtrlPressed = ( userKeyCode === keycode.ctrl );
 
-        if (e.ctrlKey) { e.preventDefault(); }
-
         if (flag === 1 && selectedItem) { //컨텍스트 메뉴를 오픈한체 키보드 ↑, ↓, enter 클릭시 동작
             let len = searchItems.length - 1;
 
