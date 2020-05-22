@@ -291,7 +291,7 @@ form:
     fileupload: "Fileupload"
     customCode: "Custom Code"
   btn:
-    upload: "Upload"
+    upload: "Upload a file"
   lang:
     ko: "Korean"
   msg:
@@ -302,6 +302,9 @@ form:
       max: "Please enter below {0}."
       minLength: "Please enter at least {0} characters."
       maxLength: "Please enter less than {0} characters."
+      fileuploadFailed: "File upload failed."
+      fileSelect: "Please select a file."
+      fileNameDuplication: "The same file name exists."
   preview:
     name: "Form Edit Preview"
 
@@ -333,6 +336,7 @@ process:
     simulation: "Simulation check is complete."
     alert:
       nameNotExist: "Please enter a process name."
+      importFileNotExist: "Please select an import file."
       fileExtensionNotAllow: "IMPORT files are only allowed with XML extensions."
 
 # Portal
@@ -387,6 +391,7 @@ document:
     reg: "Service Request Registration"
     write: "Service Request Write"
     name: "Service Request Name"
+    docNo: "Service Request No"
     description: "Service Request Description"
     display: "Service Request Display"
     form: "Form"
@@ -429,9 +434,11 @@ token:
     endDt: "Finish Date"
     elementName: "Task Name"
     assignee: "Assignee"
+    createUser: "Create User"
     history: "History"
     relatedInstance: "Related Documents"
     print: "Process Document Print"
+    searchPlaceholder: "Related Document Name / Create User"
 
 # Code
 code:
