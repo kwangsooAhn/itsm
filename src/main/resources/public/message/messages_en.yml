@@ -291,7 +291,7 @@ form:
     fileupload: "Fileupload"
     customCode: "Custom Code"
   btn:
-    upload: "Upload"
+    upload: "Upload a file"
   lang:
     ko: "Korean"
   msg:
@@ -302,6 +302,9 @@ form:
       max: "Please enter below {0}."
       minLength: "Please enter at least {0} characters."
       maxLength: "Please enter less than {0} characters."
+      fileuploadFailed: "File upload failed."
+      fileSelect: "Please select a file."
+      fileNameDuplication: "The same file name exists."
   preview:
     name: "Form Edit Preview"
 

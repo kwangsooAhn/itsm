@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -67,18 +65,18 @@ class FormRestController(
 
     /**
      * 이미지 컴포넌트 이미지 파일 업로드.
+     * 경로 : resoures/public/assets/media/image/form
      */
     @PostMapping("/imageUpload")
-    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): ResponseEntity<Map<String, Any>> {
-        val response: ResponseEntity<Map<String, Any>>
-        val map: MutableMap<String, Any> = mutableMapOf()
-        // TODO resoures/public/assets/media/image/form 경로에 파일업로드
-        // map["file"] = formService.upload(multipartFile)
+    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): String {
+        return formService.uploadFile(multipartFile)
+    }
 
-        val headers = HttpHeaders()
-        headers.add("Content-Type", "application/json; charset=utf-8")
-        response = ResponseEntity(map, headers, HttpStatus.OK)
-
-        return response
+    /**
+     * 이미지 삭제
+     */
+    @DeleteMapping("/imageDelete")
+    fun deleteFile(@RequestBody jsonData: String): Boolean {
+        return formService.deleteFile(jsonData)
     }
 }
