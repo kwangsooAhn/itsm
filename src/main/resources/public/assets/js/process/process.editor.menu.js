@@ -256,8 +256,7 @@
         }
 
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
-
+              elements = aliceProcessEditor.data.elements;
         let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;
@@ -288,7 +287,7 @@
             elemData.type = 'arrowConnector';
             elemData.display = {};
             elemData.data = getAttributeData('connector', 'arrowConnector');
-            elemData.data['id'] = elemData.id;
+            elemData.data.id = elemData.id;
             elemData.data['start-id'] = data.sourceId;
             elemData.data['end-id'] = data.targetId;
             elements.forEach(function(e) {
@@ -816,12 +815,18 @@
                 elementData[0].display = {};
                 if (typeof linkData.midPoint !== 'undefined') {
                     elementData[0].display['mid-point'] = linkData.midPoint;
+                } else {
+                    delete elementData[0].display['mid-point'];
                 }
                 if (typeof linkData.sourcePoint !== 'undefined') {
                     elementData[0].display['source-point'] = linkData.sourcePoint;
+                } else {
+                    delete elementData[0].display['source-point'];
                 }
                 if (typeof linkData.targetPoint !== 'undefined') {
                     elementData[0].display['target-point'] = linkData.targetPoint;
+                } else {
+                    delete elementData[0].display['target-point'];
                 }
                 if (typeof linkData.textPoint !== 'undefined') {
                     elementData[0].display['text-point'] = linkData.textPoint;
