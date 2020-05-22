@@ -330,7 +330,7 @@
                 });
 
                 _self.on('success', function (file, response) {
-                    if (response.fileName === '') { //업로드 실패
+                    if (response === '') { //업로드 실패
                         if (file.previewElement != null && file.previewElement.parentNode != null) {
                             file.previewElement.parentNode.removeChild(file.previewElement);
                         }
