@@ -202,7 +202,7 @@
             params: { dropZoneFilesId: 'dropZoneFiles' }, // 추가 매개변수
             url: '/rest/forms/imageUpload',
             method: 'post',
-            enctype: "multipart/form-data",
+            enctype: 'multipart/form-data',
             maxFilesize: 3, // 파일 용량 제한
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
             maxFiles: null, // 첨부파일 개수 제한
@@ -255,13 +255,12 @@
                     //확장자 검사
                     let isAccepted = false;
                     let acceptedFileArr = _self.options.acceptedFiles.split(',');
-                    let fileExtention = file.name.split('.');
-                    if (fileExtention.length === 2) {
-                        fileExtention = fileExtention[1];
-                        if (acceptedFileArr.indexOf('.' + fileExtention) > 0) {
-                            isAccepted = true;
-                        }
+                    let fileDotIdx = file.name.lastIndexOf('.');
+                    const fileExtension = file.name.substring(fileDotIdx, file.name.length);
+                    if (acceptedFileArr.indexOf(fileExtension) > -1) {
+                        isAccepted = true;
                     }
+
                     if (!isAccepted) {
                         if (file.previewElement != null && file.previewElement.parentNode != null) {
                             file.previewElement.parentNode.removeChild(file.previewElement);
@@ -327,11 +326,11 @@
                 });
 
                 _self.on('sending', function (file, xhr, formData) {
-                    formData.append("file", file);
+                    formData.append('file', file);
                 });
 
                 _self.on('success', function (file, response) {
-                    if (response === '') { //업로드 실패
+                    if (response.fileName === '') { //업로드 실패
                         if (file.previewElement != null && file.previewElement.parentNode != null) {
                             file.previewElement.parentNode.removeChild(file.previewElement);
                         }

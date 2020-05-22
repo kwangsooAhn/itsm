@@ -15,15 +15,15 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.ClassPathResource
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.time.LocalDateTime
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.multipart.MultipartFile
+import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
+import java.time.LocalDateTime
 
 @Service
 class FormService(private val restTemplate: RestTemplateProvider) {
@@ -135,7 +135,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
      *
      * @param rootDir 업로드할 경로
      */
-    private fun getDir(rootDir: String): Path {
+    private fun getImageBaseDir(rootDir: String): Path {
         val basePath = ClassPathResource(RestTemplateConstants.BASE_DIR).file.path.toString()
         var dir = Paths.get(basePath, rootDir)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
@@ -144,7 +144,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
 
     fun getFormImageList(): String {
-        val dir = getDir(RestTemplateConstants.FORM_IMAGE_DIR)
+        val dir = getImageBaseDir(RestTemplateConstants.FORM_IMAGE_DIR)
         val fileList = JsonArray()
         val imageRegex = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))\$)".toRegex()
         Files.walk(dir)
@@ -164,7 +164,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun uploadFile(multipartFile: MultipartFile): String {
         var rtn = ""
-        val dir = getDir(RestTemplateConstants.FORM_IMAGE_DIR)
+        val dir = getImageBaseDir(RestTemplateConstants.FORM_IMAGE_DIR)
         val destDir = Paths.get(dir.toString(), multipartFile.originalFilename)
         try {
             multipartFile.transferTo(destDir.toFile())
@@ -186,7 +186,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     fun deleteFile(jsonData: String): Boolean {
         var rtn = false
         val map = mapper.readValue(jsonData, LinkedHashMap::class.java)
-        val dir = getDir(RestTemplateConstants.FORM_IMAGE_DIR)
+        val dir = getImageBaseDir(RestTemplateConstants.FORM_IMAGE_DIR)
         var delFile = Paths.get(dir.toString(), map["name"].toString())
         if (Files.exists(delFile)) {
             Files.delete(delFile)
