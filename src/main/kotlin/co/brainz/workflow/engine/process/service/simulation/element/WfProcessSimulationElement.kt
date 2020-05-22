@@ -1,6 +1,8 @@
 package co.brainz.workflow.engine.process.service.simulation.element
 
 import co.brainz.workflow.engine.element.entity.WfElementEntity
+import co.brainz.workflow.engine.form.constants.WfFormConstants
+import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -19,6 +21,19 @@ abstract class WfProcessSimulationElement {
         elementInformation = "$failedMessage $elementInformation"
         logger.error("{}", elementInformation)
         return false
+    }
+
+    /**
+     * 시뮬레이션시 통과시킬 수 있는 상태값을 확인하여 boolean값 리턴.
+     */
+    protected fun checkProcessStatus(status: String): Boolean {
+        val checkStatus = arrayListOf(
+            WfProcessConstants.Status.PUBLISH.code,
+            WfProcessConstants.Status.USE.code,
+            WfFormConstants.FormStatus.PUBLISH.value,
+            WfFormConstants.FormStatus.USE.value
+        )
+        return checkStatus.contains(status)
     }
 
     /**

@@ -28,6 +28,7 @@ class WfFolderService(
         originInstance.folders?.forEach {
             if (it.relatedType == WfFolderConstants.RelatedType.ORIGIN.code) {
                 folderId = it.folderId
+                return@forEach
             }
         }
 
@@ -35,7 +36,7 @@ class WfFolderService(
             WfFolderEntity(
                 folderId = folderId,
                 instance = addedInstance,
-                relatedType = WfFolderConstants.RelatedType.ORIGIN.code
+                relatedType = WfFolderConstants.RelatedType.REFERENCE.code
             )
         )
     }
