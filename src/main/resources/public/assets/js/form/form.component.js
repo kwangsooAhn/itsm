@@ -379,7 +379,6 @@
      * @constructor
      */
     function Imagebox(attr, target) {
-        //TODO: 이미지 데이터 출력
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
