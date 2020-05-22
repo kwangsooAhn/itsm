@@ -52,6 +52,10 @@ class WfTokenElementService(
             documentDto?.let { RestTemplateInstanceDto(instanceId = "", document = it, documentNo = documentNo) }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
         instance?.let { wfFolderService.createFolder(instance) }
+        restTemplateTokenDto.parentTokenId?.let {
+            val parentToken = wfTokenRepository.getOne(it)
+            wfFolderService.addInstance(parentToken.instance, instance!!)
+        }
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateTokenDto.documentId!!)
         val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)

@@ -6,6 +6,7 @@ class WfFolderConstants {
      */
     enum class RelatedType(val code: String) {
         ORIGIN("origin"),
-        REFERENCE("reference")
+        REFERENCE("reference"),
+        RELATED("related")
     }
 }

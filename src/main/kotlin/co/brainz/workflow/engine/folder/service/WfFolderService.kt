@@ -36,7 +36,7 @@ class WfFolderService(
             WfFolderEntity(
                 folderId = folderId,
                 instance = addedInstance,
-                relatedType = WfFolderConstants.RelatedType.REFERENCE.code
+                relatedType = WfFolderConstants.RelatedType.RELATED.code
             )
         )
     }
