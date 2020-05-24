@@ -670,7 +670,8 @@
 
                 elements.links.forEach(function(l) {
                     let isExistSource = false,
-                        isExistTarget = false;
+                        isExistTarget = false,
+                        isDeletedPoint = false;
                     selectedNodes.forEach(function(node) {
                         if (l.sourceId === node.id) {
                             isExistSource = true;
@@ -682,20 +683,23 @@
                                 delete l.midPoint;
                                 delete l.sourcePoint;
                                 delete l.targetPoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                             if (typeof l.sourcePoint !== 'undefined' && checkDuplicatePosition(node, l.sourcePoint)) {
                                 delete l.sourcePoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                             if (typeof l.targetPoint !== 'undefined' && checkDuplicatePosition(node, l.targetPoint)) {
                                 delete l.targetPoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                         }
                     });
 
-                    if (isExistSource && isExistTarget) {
+                    if ((isExistSource && isExistTarget) || isDeletedPoint) {
                         let history = aliceProcessEditor.changeDisplayValue(l.id, false);
                         histories.push(history);
                     }
