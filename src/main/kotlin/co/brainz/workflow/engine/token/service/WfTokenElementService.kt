@@ -210,7 +210,8 @@ class WfTokenElementService(
                     wfElementEntity.elementDataEntities,
                     WfElementConstants.AttributeId.ASSIGNEE.value
                 )
-                wfTokenActionService.setReject(wfTokenEntity, restTemplateTokenDto, values)
+                val saveTokenEntity = wfTokenActionService.setReject(wfTokenEntity, restTemplateTokenDto, values)
+                saveNotification(saveTokenEntity)
             }
             WfElementConstants.Action.WITHDRAW.value -> wfTokenActionService.setWithdraw(
                 wfTokenEntity,

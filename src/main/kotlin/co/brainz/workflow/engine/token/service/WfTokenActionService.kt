@@ -68,7 +68,7 @@ class WfTokenActionService(
         wfTokenEntity: WfTokenEntity,
         restTemplateTokenDto: RestTemplateTokenDto,
         values: HashMap<String, Any>
-    ): Boolean {
+    ): WfTokenEntity {
         // TODO: 확인 필요
         wfTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
         wfTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
@@ -83,9 +83,7 @@ class WfTokenActionService(
             instance = wfTokenEntity.instance,
             tokenStartDt = LocalDateTime.now(ZoneId.of("UTC"))
         )
-        wfTokenRepository.save(rejectToken)
-
-        return true
+        return wfTokenRepository.save(rejectToken)
     }
 
     /**
