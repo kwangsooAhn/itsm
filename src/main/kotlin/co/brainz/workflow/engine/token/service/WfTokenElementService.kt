@@ -49,7 +49,14 @@ class WfTokenElementService(
         val documentNo =
             documentDto?.numberingRule?.numberingId?.let { aliceNumberingService.getNewNumbering(it) }.orEmpty()
         val instanceDto =
-            documentDto?.let { RestTemplateInstanceDto(instanceId = "", document = it, documentNo = documentNo, pTokenId = restTemplateTokenDto.parentTokenId) }
+            documentDto?.let {
+                RestTemplateInstanceDto(
+                    instanceId = "",
+                    document = it,
+                    documentNo = documentNo,
+                    pTokenId = restTemplateTokenDto.parentTokenId
+                )
+            }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
         instance?.let {
             val folders = wfFolderService.createFolder(instance)
@@ -401,7 +408,8 @@ class WfTokenElementService(
                         targetDocumentIds.add(it.attributeValue)
                     }
                 }
-                val makeDocumentTokens = wfTokenMappingValue.makeRestTemplateTokenDto(saveTokenEntity, targetDocumentIds)
+                val makeDocumentTokens =
+                    wfTokenMappingValue.makeRestTemplateTokenDto(saveTokenEntity, targetDocumentIds)
                 makeDocumentTokens.forEach {
                     initToken(it)
                 }
