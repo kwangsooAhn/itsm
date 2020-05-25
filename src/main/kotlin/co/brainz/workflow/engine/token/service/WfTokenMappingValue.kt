@@ -20,7 +20,7 @@ class WfTokenMappingValue(
      */
     fun makeRestTemplateTokenDto(token: WfTokenEntity, documentId: List<String>): List<RestTemplateTokenDto> {
 
-        val keyPairComponentIdToMappingId = this.getTokenDataByMappingId(token)
+        val keyPairMappingIdAndTokenData = this.getTokenDataByMappingId(token)
 
         val tokensDto = mutableListOf<RestTemplateTokenDto>()
         documentId.forEach {
@@ -28,8 +28,8 @@ class WfTokenMappingValue(
 
             val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
             document.form.components!!.forEach { component ->
-                if (component.mappingId.isNotBlank() && keyPairComponentIdToMappingId[component.mappingId] != null) {
-                    val value = keyPairComponentIdToMappingId[component.mappingId] as String
+                if (component.mappingId.isNotBlank() && keyPairMappingIdAndTokenData[component.mappingId] != null) {
+                    val value = keyPairMappingIdAndTokenData[component.mappingId] as String
                     val data = RestTemplateTokenDataDto(componentId = component.componentId, value = value)
                     tokenDataList.add(data)
                 }
@@ -48,6 +48,45 @@ class WfTokenMappingValue(
     }
 
     /**
+     * 서브프로세스에 필요한 토큰데이터를 생성하여 리턴
+     */
+    fun makeSubProcessTokenDataEntity(
+        subProcessToken: WfTokenEntity,
+        mainProcessToken: WfTokenEntity
+    ): List<RestTemplateTokenDataDto> {
+
+        val keyPairMappingIdAndTokenData = this.getTokenDataByMappingId(subProcessToken)
+
+        // 카피가 필요한 토큰데이터
+        val componentIdAndTokenData = mutableMapOf<String, String>()
+        mainProcessToken.instance.document!!.form.components!!.forEach {
+            if (it.mappingId.isNotBlank() && keyPairMappingIdAndTokenData[it.mappingId] != null) {
+                componentIdAndTokenData[it.componentId] = keyPairMappingIdAndTokenData[it.mappingId] as String
+            }
+        }
+
+        val tokenData = mutableListOf<RestTemplateTokenDataDto>()
+        mainProcessToken.tokenDatas?.forEach {
+            val componentId = it.componentId
+            val componentValue = if (componentIdAndTokenData[componentId] != null) {
+                componentIdAndTokenData[componentId] as String
+            } else {
+                it.value
+            }
+
+            tokenData.add(
+                RestTemplateTokenDataDto(
+                    componentId = componentId,
+                    value = componentValue
+                )
+            )
+
+        }
+
+        return tokenData
+    }
+
+    /**
      * 토큰 정보를 조회하여 mappingId 와 매핑된 토큰데이터를 리턴.
      */
     private fun getTokenDataByMappingId(token: WfTokenEntity): MutableMap<String, String> {
@@ -62,8 +101,9 @@ class WfTokenMappingValue(
         // mappingId 별로 실제 토큰에 저장된 value를 찾아 복제할 데이터를 생성한다.
         val keyPairMappingIdToTokenDataValue = mutableMapOf<String, String>()
         token.tokenDatas?.forEach {
-            if (keyPairComponentIdToMappingId?.get(it.componentId) != null) {
-                val mappingId = keyPairComponentIdToMappingId[it.componentId] as String
+            val componentId = it.componentId
+            if (keyPairComponentIdToMappingId?.get(componentId) != null) {
+                val mappingId = keyPairComponentIdToMappingId[componentId] as String
                 keyPairMappingIdToTokenDataValue[mappingId] = it.value
             }
         }

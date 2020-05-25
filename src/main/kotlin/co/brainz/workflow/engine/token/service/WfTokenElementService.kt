@@ -347,15 +347,25 @@ class WfTokenElementService(
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
                 wfTokenRepository.save(newTokenEntity)
                 wfInstanceService.completeInstance(wfTokenEntity.instance.instanceId)
+
+                // 서브프로세스 토큰 불러오기
                 if (!wfTokenEntity.instance.pTokenId.isNullOrEmpty()) {
                     val pTokenId = wfTokenEntity.instance.pTokenId!!
-                    val pTokenEntity = wfTokenRepository.findTokenEntityByTokenId(pTokenId).get()
-                    pTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
-                    pTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-                    val savePTokenEntity = wfTokenRepository.save(pTokenEntity)
-                    val newElementEntity = wfActionService.getElement(savePTokenEntity.element.elementId)
-                    // TODO: 문서의 양식이 다르기 때문에 데이터가 다르다. wfTokenDto 값을 현재 문서에 맞게 갱신하는 작업 필요 (mapping-id)
-                    goToNext(savePTokenEntity, newElementEntity, restTemplateTokenDto)
+                    val mainProcessToken = wfTokenRepository.findTokenEntityByTokenId(pTokenId).get()
+                    mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
+                    mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+
+                    restTemplateTokenDto.tokenId = mainProcessToken.tokenId
+                    restTemplateTokenDto.data = wfTokenMappingValue.makeSubProcessTokenDataEntity(
+                        wfTokenEntity,
+                        mainProcessToken
+                    )
+
+                    setNextTokenSave(mainProcessToken, restTemplateTokenDto)
+
+                    val newElementEntity = wfActionService.getElement(mainProcessToken.element.elementId)
+
+                    goToNext(mainProcessToken, newElementEntity, restTemplateTokenDto)
                 }
             }
             WfElementConstants.ElementType.USER_TASK.value -> {
