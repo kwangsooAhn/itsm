@@ -182,7 +182,6 @@
         data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
-
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/' + data.form.id + '/data',

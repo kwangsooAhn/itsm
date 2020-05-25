@@ -57,11 +57,21 @@
             }
         }
     }
+    /* all component list icon*/
+    .add-icon {
+        width:  1.875rem;    // 30px
+        height: 1.875rem;    // 30px
+        margin: 1.563rem 0 1.563rem 0.9375rem;    //25px 0 25px 15px
+        text-align: center;
+        content: '';
+        cursor: pointer;
+        font-size: 1.25rem;
+    }
     /* drag and drop icon */
     .move-icon { 
         width:  1.875rem;    // 30px
         height: 1.875rem;    // 30px
-        margin: 1.563rem 0.9375rem;    //25px 15px
+        margin: 1.563rem 0.9375rem;   //25px 15px
         text-align: center;
         content: '';
         cursor: move;
