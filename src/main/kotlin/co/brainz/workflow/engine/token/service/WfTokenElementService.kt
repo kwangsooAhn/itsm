@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine.token.service
 
+import co.brainz.framework.notification.dto.NotificationDto
+import co.brainz.framework.notification.service.NotificationService
 import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
@@ -18,11 +20,11 @@ import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import java.time.LocalDateTime
-import java.time.ZoneId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Service
 class WfTokenElementService(
@@ -34,7 +36,8 @@ class WfTokenElementService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentRepository: WfDocumentRepository,
     private val wfFolderService: WfFolderService,
-    private val aliceNumberingService: AliceNumberingService
+    private val aliceNumberingService: AliceNumberingService,
+    private val notificationService: NotificationService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -97,6 +100,7 @@ class WfTokenElementService(
                             }
                         }
                         wfTokenActionService.save(userTaskToken, restTemplateTokenDto)
+                        saveNotification(userTaskToken)
                     }
                 }
             }
@@ -346,11 +350,13 @@ class WfTokenElementService(
             }
             WfElementConstants.ElementType.USER_TASK.value -> {
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                setNextTokenSave(newTokenEntity, restTemplateTokenDto)
+                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
+                saveNotification(saveTokenEntity)
             }
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
                 val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
+                saveNotification(saveTokenEntity)
                 restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
                 val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
                 goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
@@ -506,5 +512,27 @@ class WfTokenElementService(
             element.elementDataEntities,
             WfElementConstants.AttributeId.ASSIGNEE.value
         ).split(",")[0]
+    }
+
+    /**
+     * Save Notification.
+     *
+     * @param token
+     */
+    fun saveNotification(token: WfTokenEntity) {
+        token.element.elementDataEntities.forEach {
+            if (it.attributeId == WfElementConstants.AttributeId.NOTIFICATION.value && it.attributeValue == "Y") {
+                val instance = token.instance
+                notificationService.insertNotification(
+                    NotificationDto(
+                        receivedUser = token.assigneeId!!,
+                        title = instance.document.documentName,
+                        message = instance.document.documentDesc,
+                        instanceId = instance.instanceId
+                    )
+                )
+                return@forEach
+            }
+        }
     }
 }

@@ -66,7 +66,8 @@ object WfElementConstants {
         SUB_DOCUMENT_ID("sub-document-id"),
         TARGET_DOCUMENT_LIST("target-document-list"),
         NAME("name"),
-        ID("id")
+        ID("id"),
+        NOTIFICATION("notification")
     }
 
     /**

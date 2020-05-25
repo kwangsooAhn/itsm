@@ -542,9 +542,17 @@ board:
     inputCategoryName: "Please enter the category name."
     inputBoardComments: "Please enter the board comments."
     inputBoardEditComments: "Please save comments."
+
 #Comment
 comment:
   label:
     createUser: "Create User"
     createDt: "Create Date Time"
     content: "Content"
+
+#Notification
+notification:
+  label: "Notification"
+  msg:
+    description: "Up to 50 displays."
+    noNotificationData: "No notifications."
