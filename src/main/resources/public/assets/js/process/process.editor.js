@@ -663,7 +663,9 @@
                 }
                 resetMouseVars();
             } else {
-                dragged(dragElement, snapToGrid(lastDraggedPosition[0]) - lastDraggedPosition[0], snapToGrid(lastDraggedPosition[1]) - lastDraggedPosition[1]);
+                if (dragElement) {
+                    dragged(dragElement, snapToGrid(lastDraggedPosition[0]) - lastDraggedPosition[0], snapToGrid(lastDraggedPosition[1]) - lastDraggedPosition[1]);
+                }
 
                 let histories = [];
                 const selectedNodes = d3.selectAll('.node.selected').nodes();
