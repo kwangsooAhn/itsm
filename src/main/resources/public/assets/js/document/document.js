@@ -641,6 +641,8 @@
         document.getElementById('document_process').value = documentData.processId;
         document.getElementById('document_status').value = documentData.documentStatus;
         document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
+        document.getElementById('document_color').value = documentData.documentColor;
+        document.getElementById('selected_color').style.backgroundColor = documentData.documentColor;
     }
 
     /**

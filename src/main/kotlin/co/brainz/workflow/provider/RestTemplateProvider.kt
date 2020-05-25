@@ -123,4 +123,10 @@ class RestTemplateProvider(private val restTemplate: RestTemplate) {
         val requestEntity = HttpEntity(null, null)
         return restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
     }
+
+    fun delete(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): ResponseEntity<String> {
+        val url = this.makeUri(restTemplateUrlDto)
+        val requestEntity = this.setHttpEntity(dto)
+        return restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
+    }
 }

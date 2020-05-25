@@ -35,6 +35,9 @@ data class WfDocumentEntity(
     @Column(name = "document_desc", length = 256)
     var documentDesc: String?,
 
+    @Column(name = "document_color", length = 128)
+    var documentColor: String?,
+
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 

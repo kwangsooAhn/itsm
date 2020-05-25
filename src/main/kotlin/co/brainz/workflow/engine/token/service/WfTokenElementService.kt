@@ -423,7 +423,7 @@ class WfTokenElementService(
 
                 // 종료된 토큰의 componentId 별로 mappingId를 찾는다.
                 val token = wfTokenRepository.getOne(tokenId)
-                val component = token.instance.document.form.components!!.filter {
+                val component = token.instance.document!!.form.components!!.filter {
                     componentIdInTokenData.contains(it.componentId) && it.mappingId.isNotBlank()
                 }
                 val mappingIds = component.associateBy({ it.componentId }, { it.mappingId })
@@ -453,7 +453,13 @@ class WfTokenElementService(
                     }
 
                     // RestTemplateTokenDto 생성 후 토큰 실행!!
-                    initToken(RestTemplateTokenDto(documentId = document.documentId, data = tokenDataList))
+                    initToken(
+                        RestTemplateTokenDto(
+                            documentId = document.documentId,
+                            data = tokenDataList,
+                            action = WfElementConstants.Action.SAVE.value
+                        )
+                    )
                 }
                 goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
             }
@@ -488,7 +494,7 @@ class WfTokenElementService(
         val assigneeMappingId =
             getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
         var componentMappingId = ""
-        token.instance.document.form.components?.forEach { component ->
+        token.instance.document!!.form.components?.forEach { component ->
             if (component.mappingId == assigneeMappingId) {
                 componentMappingId = component.componentId
             }

@@ -13,6 +13,7 @@ import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -89,7 +90,8 @@ class WfInstanceService(
                     createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
                     createUserName = instance.instanceEntity.instanceCreateUser?.userName,
                     documentId = instance.documentEntity.documentId,
-                    documentNo = instance.instanceEntity.documentNo
+                    documentNo = instance.instanceEntity.documentNo,
+                    documentColor = instance.documentEntity.documentColor
                 )
             )
         }
@@ -194,5 +196,12 @@ class WfInstanceService(
         }
 
         return commentList
+    }
+
+    /**
+     * Get Instance List
+     */
+    fun getAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto> {
+        return wfInstanceRepository.findAllInstanceListAndSearch(instanceId, searchValue)
     }
 }

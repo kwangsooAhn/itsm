@@ -227,7 +227,7 @@
             changeElementType(element, type);
             d3.select('g.alice-tooltip').remove();
             setElementMenu(element);
-            aliceProcessEditor.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
             console.debug('edited element [%s]!!', type);
         }
     }
@@ -256,8 +256,7 @@
         }
 
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
-
+              elements = aliceProcessEditor.data.elements;
         let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;
@@ -288,7 +287,7 @@
             elemData.type = 'arrowConnector';
             elemData.display = {};
             elemData.data = getAttributeData('connector', 'arrowConnector');
-            elemData.data['id'] = elemData.id;
+            elemData.data.id = elemData.id;
             elemData.data['start-id'] = data.sourceId;
             elemData.data['end-id'] = data.targetId;
             elements.forEach(function(e) {
@@ -301,7 +300,7 @@
             aliceProcessEditor.changeTextToElement(elementId, elemData.data.name);
         }
         elements.push(elemData);
-        aliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+        aliceProcessEditor.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
     }
 
     /**
@@ -585,7 +584,7 @@
             let history = deleteElement(d3.select(node));
             histories = [].concat(history, histories);
         });
-        aliceProcessEditor.history.saveHistory(histories);
+        aliceProcessEditor.utils.history.saveHistory(histories);
     }
 
     /**
@@ -661,7 +660,7 @@
             aliceProcessEditor.data.elements.push(elemData);
 
             aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
             aliceProcessEditor.setElementMenu();
         }
     }
@@ -719,8 +718,8 @@
             aliceProcessEditor.setConnectors();
 
             const connectorElementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
-            aliceProcessEditor.history.undo_list.pop(); // remove add connector history.
-            aliceProcessEditor.history.saveHistory([
+            aliceProcessEditor.utils.history.undo_list.pop(); // remove add connector history.
+            aliceProcessEditor.utils.history.saveHistory([
                 {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
                 {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
             ]);
@@ -816,12 +815,18 @@
                 elementData[0].display = {};
                 if (typeof linkData.midPoint !== 'undefined') {
                     elementData[0].display['mid-point'] = linkData.midPoint;
+                } else {
+                    delete elementData[0].display['mid-point'];
                 }
                 if (typeof linkData.sourcePoint !== 'undefined') {
                     elementData[0].display['source-point'] = linkData.sourcePoint;
+                } else {
+                    delete elementData[0].display['source-point'];
                 }
                 if (typeof linkData.targetPoint !== 'undefined') {
                     elementData[0].display['target-point'] = linkData.targetPoint;
+                } else {
+                    delete elementData[0].display['target-point'];
                 }
                 if (typeof linkData.textPoint !== 'undefined') {
                     elementData[0].display['text-point'] = linkData.textPoint;
@@ -833,7 +838,7 @@
 
             let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
             if (isSaveHistory !== false) {
-                aliceProcessEditor.history.saveHistory([historyData]);
+                aliceProcessEditor.utils.history.saveHistory([historyData]);
             }
             return historyData;
         }
@@ -845,7 +850,7 @@
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.alice-process-properties-panel'),
+        const container = document.querySelector('.alice-process-properties-panel .properties-container'),
               propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
@@ -853,7 +858,7 @@
                 let propertyObject = propertyObjects[i];
                 aliceProcessEditor.data.process[propertyObject.name] = propertyObject.value;
             }
-            aliceProcessEditor.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(aliceProcessEditor.data.process))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(aliceProcessEditor.data.process))}]);
         } else {
             let elementData = aliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
             if (elementData.length) {
@@ -863,6 +868,9 @@
                     let propertyObject = propertyObjects[i];
                     if (!propertyObject.name) { continue; }
                     let propertyValue = propertyObject.value;
+                    if (propertyObject.classList.contains('multiple')) {
+                        propertyValue = propertyObject.value.split(',');
+                    }
                     if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
                         propertyValue = propertyObject.checked ? 'Y' : 'N';
                         if (propertyObject.id === 'is-default') {
@@ -876,7 +884,7 @@
                 }
 
                 const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
-                aliceProcessEditor.history.saveHistory([{0: originElementData, 1: changeElementData}]);
+                aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: changeElementData}]);
 
                 if (originElementData.data.name !== changeElementData.data.name) {
                     let connectors = aliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
@@ -910,6 +918,7 @@
 
         if (assigneeTypeObject.value === 'assignee.type.assignee') {
             assigneeObject.style.display = 'inline-block';
+            assigneeObject.classList.remove('multiple');
             if (typeof value !== 'undefined') {
                 assigneeObject.value = value;
             }
@@ -930,10 +939,11 @@
      * @param inputObject 값을 넣는 input object(선택된 데이터가 콤마 구분으로 등록된다.)
      * @param dataList 선택 목록
      * @param dataKeys dropdown 의 value/text 키 값. 예시: { value: 'id', text: 'name' }
-     * @param value 선택된 값이 있을 경우 그 값을 전달한다.
+     * @param valueArr 선택된 값이 있을 경우 그 값을 전달한다.
      */
-    function setMultipleDatatable(inputObject, dataList, dataKeys, value) {
+    function setMultipleDatatable(inputObject, dataList, dataKeys, valueArr) {
         inputObject.style.display = 'none';
+        inputObject.classList.add('multiple');
         let dataSelect = document.createElement('select');
         dataSelect.className = 'candidate';
         for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
@@ -1021,12 +1031,11 @@
         userTable.appendChild(headRow);
         inputObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
 
-        if (typeof value !== 'undefined') {
-            const values = value.split(',');
-            for (let i = 0, len = values.length; i < len; i++) {
+        if (typeof valueArr !== 'undefined') {
+            for (let i = 0, len = valueArr.length; i < len; i++) {
                 for (let j = 0, dataLen = dataList.length; j < dataLen; j++) {
-                    if (values[i] === dataList[j][dataKeys.value]) {
-                        addDataRow(values[i], dataList[j][dataKeys.text]);
+                    if (valueArr[i] === dataList[j][dataKeys.value]) {
+                        addDataRow(valueArr[i], dataList[j][dataKeys.text]);
                         break;
                     }
                 }
@@ -1042,7 +1051,7 @@
      * @param elemData 속성데이터
      */
     function makePropertiesItem(id, properties, elemData) {
-        const propertiesContainer = document.querySelector('.alice-process-properties-panel');
+        const propertiesContainer = document.querySelector('.alice-process-properties-panel .properties-container');
         propertiesContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
         if (id !== aliceProcessEditor.data.process.id) {
@@ -1263,7 +1272,7 @@
                             break;
                     }
 
-                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id !== 'name')) {
+                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id === 'name')) {
                         elementObject.addEventListener('change', changeEventHandler);
                     }
                 }
@@ -1303,7 +1312,6 @@
                 callbackFunc: function(xhr) {
                     console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
-                    aliceProcessEditor.changeProcessName();
                     const elements = aliceProcessEditor.data.elements;
                     elements.forEach(function(element) {
                         const category = getElementCategory(element.type);
