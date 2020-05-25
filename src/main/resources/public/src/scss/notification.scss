@@ -4,7 +4,6 @@
     height: 32px;
     position: relative;
     display: inline-block;
-    cursor: pointer;
     .count {
         position: absolute;
         top: -7px;
@@ -15,6 +14,7 @@
         color: white;
         font-size: 12px;
         display: none;
+        cursor: pointer;
     }
     img, button {
         width: 24px;
@@ -22,6 +22,7 @@
         margin: 0;
         border: none;
         background-color: transparent;
+        cursor: pointer;
     }
     .notification-container {
         position: absolute;

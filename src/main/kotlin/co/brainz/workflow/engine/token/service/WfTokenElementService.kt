@@ -529,15 +529,17 @@ class WfTokenElementService(
         token.element.elementDataEntities.forEach {
             if (it.attributeId == WfElementConstants.AttributeId.NOTIFICATION.value && it.attributeValue == "Y") {
                 val instance = token.instance
-                notificationService.insertNotification(
-                    NotificationDto(
-                        receivedUser = token.assigneeId!!,
-                        title = instance.document.documentName,
-                        message = instance.document.documentDesc,
-                        instanceId = instance.instanceId
+                instance.document?.let { document ->
+                    notificationService.insertNotification(
+                        NotificationDto(
+                            receivedUser = token.assigneeId!!,
+                            title = document.documentName,
+                            message = document.documentDesc,
+                            instanceId = instance.instanceId
+                        )
                     )
-                )
-                return@forEach
+                    return@forEach
+                }
             }
         }
     }
