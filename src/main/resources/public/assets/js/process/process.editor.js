@@ -19,6 +19,8 @@
         connectors,
         dragLine;
 
+    let lastDraggedPosition = [];
+
     const elements = {
         links: []
     };
@@ -197,7 +199,7 @@
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         svg.selectAll('.alice-tooltip').remove();
-                        d.midPoint = [d3.event.x, d3.event.y];
+                        d.midPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                         drawConnectors();
                     }
                 })
@@ -228,7 +230,7 @@
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        d.sourcePoint = [d3.event.x, d3.event.y];
+                        d.sourcePoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                         drawConnectors();
                     }
                 })
@@ -256,7 +258,7 @@
             .call(d3.drag()
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        d.targetPoint = [d3.event.x, d3.event.y];
+                        d.targetPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                         drawConnectors();
                     }
                 })
@@ -661,6 +663,8 @@
                 }
                 resetMouseVars();
             } else {
+                dragged(dragElement, snapToGrid(lastDraggedPosition[0]) - lastDraggedPosition[0], snapToGrid(lastDraggedPosition[1]) - lastDraggedPosition[1]);
+
                 let histories = [];
                 const selectedNodes = d3.selectAll('.node.selected').nodes();
                 selectedNodes.forEach(function(node) {
@@ -903,6 +907,7 @@
                 .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
                 .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2));
         }
+        lastDraggedPosition = [mouseX, mouseY];
 
         if (nodeElement.classed('task')) {
             typeElement
