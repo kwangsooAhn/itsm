@@ -356,7 +356,7 @@ class WfTokenElementService(
                     mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
 
                     restTemplateTokenDto.tokenId = mainProcessToken.tokenId
-                    restTemplateTokenDto.data = wfTokenMappingValue.makeSubProcessTokenDataEntity(
+                    restTemplateTokenDto.data = wfTokenMappingValue.makeSubProcessTokenDataDto(
                         wfTokenEntity,
                         mainProcessToken
                     )

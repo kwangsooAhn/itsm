@@ -50,7 +50,7 @@ class WfTokenMappingValue(
     /**
      * 서브프로세스에 필요한 토큰데이터를 생성하여 리턴
      */
-    fun makeSubProcessTokenDataEntity(
+    fun makeSubProcessTokenDataDto(
         subProcessToken: WfTokenEntity,
         mainProcessToken: WfTokenEntity
     ): List<RestTemplateTokenDataDto> {
