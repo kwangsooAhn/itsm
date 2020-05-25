@@ -392,8 +392,6 @@ class WfTokenElementService(
                 makeDocumentTokens.forEach {
                     initToken(it)
                 }
-
-                //goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
             }
             WfElementConstants.ElementType.SIGNAL_SEND.value -> {
                 val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
