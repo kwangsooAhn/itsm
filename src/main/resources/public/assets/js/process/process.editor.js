@@ -152,7 +152,7 @@
                 let name = '';
                 const elements = aliceProcessEditor.data.elements;
                 elements.forEach(function(elem) {
-                    if (elem.id === d.id) { name = elem.data.name; }
+                    if (elem.id === d.id) { name = elem.name; }
                 });
                 return name;
             })
@@ -1421,27 +1421,29 @@
         if (typeof text === 'undefined') {
             const elements = aliceProcessEditor.data.elements;
             elements.forEach(function(elem) {
-                if (elem.id === elementId) { text = elem.data.name; }
+                if (elem.id === elementId) { text = elem.name; }
             });
         }
 
-        if (d3.select(elementNode).classed('connector')) {
-            d3.select(elementNode.parentNode).select('text').text(text);
-        } else {
-            const textElement = d3.select(elementNode.parentNode).select('text');
-            if (textElement.node()) {
-                textElement.text(text);
+        if (text) {
+            if (d3.select(elementNode).classed('connector')) {
+                d3.select(elementNode.parentNode).select('text').text(text);
+            } else {
+                const textElement = d3.select(elementNode.parentNode).select('text');
+                if (textElement.node()) {
+                    textElement.text(text);
 
-                // wrap text
-                const element = d3.select(elementNode);
-                if (text.length > 0 && element.classed('resizable')) {
-                    let textLength = textElement.node().getComputedTextLength(),
-                        displayText = textElement.text();
-                    const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(element);
-                    while (textLength > bbox.width && displayText.length > 0) {
-                        displayText = displayText.slice(0, -1);
-                        textElement.text(displayText + '...');
-                        textLength = textElement.node().getComputedTextLength();
+                    // wrap text
+                    const element = d3.select(elementNode);
+                    if (text.length > 0 && element.classed('resizable')) {
+                        let textLength = textElement.node().getComputedTextLength(),
+                            displayText = textElement.text();
+                        const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(element);
+                        while (textLength > bbox.width && displayText.length > 0) {
+                            displayText = displayText.slice(0, -1);
+                            textElement.text(displayText + '...');
+                            textLength = textElement.node().getComputedTextLength();
+                        }
                     }
                 }
             }
@@ -1698,7 +1700,7 @@
 
         if (node) {
             const nodeId = node.nodeElement.attr('id');
-            changeTextToElement(nodeId, element.data.name);
+            changeTextToElement(nodeId, element.name);
         }
 
         return node;

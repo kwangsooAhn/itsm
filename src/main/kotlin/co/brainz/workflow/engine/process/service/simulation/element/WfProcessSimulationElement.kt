@@ -26,10 +26,9 @@ abstract class WfProcessSimulationElement {
      */
     fun validation(element: WfElementEntity): Boolean {
         val elementId = element.elementId
-        val attrId = element.getElementDataValue("id")
-        val attrName = element.getElementDataValue("name")
-        logger.info("Simulation validate - ElementId:{}, attrId:{}, attrName:{}", elementId, attrId, attrName)
-        elementInformation = "<br>AttrId: $element.elementId <br>AttrName: ${element.getElementDataValue("name")}"
+        val elementName = element.elementName
+        logger.info("Simulation validate - ElementId:{}, ElementName:{}", elementId, elementName)
+        elementInformation = "<br>ElementId: $element.elementId <br>ElementName: ${element.elementName}}"
         return if (commonValidate(element)) {
             validate(element)
         } else {

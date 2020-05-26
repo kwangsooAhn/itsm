@@ -135,7 +135,10 @@ body {
                 pointer-events: none;
             }
             .component { padding-left: 0; }
-            .component:hover { .move-icon:after { content: '::'; } }
+            .component:hover { 
+                .move-icon:after { content: '::'; }
+                .add-icon:after { content: '+'; } 
+            }
             .component.selected { background-color: $form-component-selected-color; }
 
             .component[data-type]:not([data-type="editbox"]):hover { 
@@ -148,6 +151,9 @@ body {
             
             .component[data-type="editbox"]:hover { 
                 cursor: text; 
+            }
+            .component[data-type="editbox"] .move-icon {
+                margin: 1.563rem 0.9375rem 1.563rem 0;    //25px 15px 25px 0
             }
             
             .group[contenteditable=true]:empty::before {
