@@ -66,7 +66,7 @@ class WfTokenMappingValue(
         }
 
         val tokenData = mutableListOf<RestTemplateTokenDataDto>()
-        mainProcessToken.tokenDatas?.forEach {
+        mainProcessToken.tokenData?.forEach {
             val componentId = it.componentId
             val componentValue = if (componentIdAndTokenData[componentId] != null) {
                 componentIdAndTokenData[componentId] as String
@@ -100,7 +100,7 @@ class WfTokenMappingValue(
 
         // mappingId 별로 실제 토큰에 저장된 value를 찾아 복제할 데이터를 생성한다.
         val keyPairMappingIdToTokenDataValue = mutableMapOf<String, String>()
-        token.tokenDatas?.forEach {
+        token.tokenData?.forEach {
             val componentId = it.componentId
             if (keyPairComponentIdToMappingId?.get(componentId) != null) {
                 val mappingId = keyPairComponentIdToMappingId[componentId] as String

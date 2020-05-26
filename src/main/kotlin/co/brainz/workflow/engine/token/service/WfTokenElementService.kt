@@ -8,7 +8,6 @@ import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.folder.service.WfFolderService
-import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
@@ -288,12 +287,8 @@ class WfTokenElementService(
                         wfTokenEntity,
                         mainProcessToken
                     )
-
                     setNextTokenSave(mainProcessToken, restTemplateTokenDto)
-
-                    val newElementEntity = wfActionService.getElement(mainProcessToken.element.elementId)
-
-                    goToNext(mainProcessToken, newElementEntity, restTemplateTokenDto)
+                    goToNext(mainProcessToken, restTemplateTokenDto)
                 }
             }
             WfElementConstants.ElementType.USER_TASK.value -> {
@@ -315,9 +310,9 @@ class WfTokenElementService(
             }
             WfElementConstants.ElementType.SUB_PROCESS.value -> {
                 // nextElementEntity 는 현재 실행해야할 task의 엔티티다.
-                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
-                restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
+                val token = makeToken(nextElementEntity, wfTokenEntity.instance)
+                val saveToken = setNextTokenSave(token, restTemplateTokenDto)
+                restTemplateTokenDto.tokenId = saveToken.tokenId
 
                 // sub-document-id 확인 후 신규 인스턴스와 토큰을 생성
                 val documentId = getAttributeValue(
@@ -325,16 +320,15 @@ class WfTokenElementService(
                     WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value
                 )
                 val makeDocumentTokens =
-                    wfTokenMappingValue.makeRestTemplateTokenDto(saveTokenEntity, mutableListOf(documentId))
+                    wfTokenMappingValue.makeRestTemplateTokenDto(saveToken, mutableListOf(documentId))
                 makeDocumentTokens.forEach {
                     initToken(it)
                 }
             }
             WfElementConstants.ElementType.SIGNAL_SEND.value -> {
-                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
-                restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
-                val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
+                val token = makeToken(nextElementEntity, wfTokenEntity.instance)
+                val saveToken = setNextTokenSave(token, restTemplateTokenDto)
+                restTemplateTokenDto.tokenId = saveToken.tokenId
 
                 // target-document-list 확인 후 신규 인스턴스와 토큰을 생성
                 val targetDocumentIds = mutableListOf<String>()
@@ -344,12 +338,11 @@ class WfTokenElementService(
                     }
                 }
                 val makeDocumentTokens =
-                    wfTokenMappingValue.makeRestTemplateTokenDto(saveTokenEntity, targetDocumentIds)
+                    wfTokenMappingValue.makeRestTemplateTokenDto(saveToken, targetDocumentIds)
                 makeDocumentTokens.forEach {
                     initToken(it)
                 }
-
-                goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
+                goToNext(saveToken, restTemplateTokenDto)
             }
         }
     }
@@ -440,7 +433,7 @@ class WfTokenElementService(
                     val wfCandidateEntities = mutableListOf<WfCandidateEntity>()
                     candidates.forEach { candidate ->
                         val wfCandidateEntity = WfCandidateEntity(
-                            tokenId = token.tokenId,
+                            token = token,
                             candidateType = assigneeType,
                             candidateValue = candidate
                         )

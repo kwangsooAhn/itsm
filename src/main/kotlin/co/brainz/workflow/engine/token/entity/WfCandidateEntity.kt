@@ -3,8 +3,11 @@ package co.brainz.workflow.engine.token.entity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.IdClass
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
@@ -13,8 +16,9 @@ import javax.persistence.Table
 data class WfCandidateEntity(
 
     @Id
-    @Column(name = "token_id", length = 128, nullable = false)
-    val tokenId: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "token_id")
+    val token: WfTokenEntity,
 
     @Id
     @Column(name = "candidate_type", length = 100, nullable = false)
@@ -27,7 +31,7 @@ data class WfCandidateEntity(
 ) : Serializable
 
 data class WfCandidatePk(
-    val tokenId: String = "",
+    val token: String = "",
     val candidateType: String = "",
     val candidateValue: String = ""
 ) : Serializable
