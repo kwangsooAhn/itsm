@@ -17,11 +17,11 @@ data class WfCandidateEntity(
     val tokenId: String,
 
     @Id
-    @Column(name = "", length = 100, nullable = false)
+    @Column(name = "candidate_type", length = 100, nullable = false)
     val candidateType: String,
 
     @Id
-    @Column(name = "", length = 512, nullable = false)
+    @Column(name = "candidate_value", length = 512, nullable = false)
     val candidateValue: String
 
 ) : Serializable
