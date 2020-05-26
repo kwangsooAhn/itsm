@@ -3,8 +3,6 @@ package co.brainz.workflow.engine.process.service.simulation.element.impl
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
-import co.brainz.workflow.engine.form.constants.WfFormConstants
-import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSimulationElement
 
 /**
@@ -26,16 +24,10 @@ class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepos
             val document = wfDocumentRepository.findByDocumentId(documentId)
                 ?: return setFailedMessage("Document does not exist. check signal target.")
 
-            val status = arrayListOf(
-                WfProcessConstants.Status.PUBLISH.code,
-                WfProcessConstants.Status.USE.code,
-                WfFormConstants.FormStatus.PUBLISH.value,
-                WfFormConstants.FormStatus.USE.value
-            )
-            if (!status.contains(document.process.processStatus)) {
+            if (!super.checkProcessStatus(document.process.processStatus)) {
                 return setFailedMessage("Process status has not published.")
             }
-            if (!status.contains(document.form.formStatus)) {
+            if (!super.checkProcessStatus(document.form.formStatus!!)) {
                 return setFailedMessage("Form status has not published.")
             }
         } else {

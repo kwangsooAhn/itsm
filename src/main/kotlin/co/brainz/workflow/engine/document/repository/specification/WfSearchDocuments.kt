@@ -12,7 +12,6 @@ import javax.persistence.criteria.Join
 import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
 
-
 /**
  * 신청서 검색시 사용할 Specification 클래스
  */

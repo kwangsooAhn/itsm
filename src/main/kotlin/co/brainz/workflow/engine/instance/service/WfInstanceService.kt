@@ -1,11 +1,15 @@
 package co.brainz.workflow.engine.instance.service
 
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
 import co.brainz.workflow.engine.comment.service.WfCommentService
 import co.brainz.workflow.engine.component.constants.WfComponentConstants
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
+import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
+import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
@@ -32,6 +36,7 @@ class WfInstanceService(
     private val wfComponentRepository: WfComponentRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfTokenRepository: WfTokenRepository,
+    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val wfCommentService: WfCommentService
 ) {
 
@@ -53,7 +58,52 @@ class WfInstanceService(
         }
 
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        val instances = wfInstanceRepository.findInstances(status, userKey)
+        val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
+        val roleEntities = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
+        val runningInstances = wfInstanceRepository.findInstances(status)
+        runningInstances.forEach { instance ->
+            if (instance.tokenEntity.tokenStatus == WfTokenConstants.Status.RUNNING.code) {
+                if (instance.tokenEntity.assigneeId == userKey) {
+                    instances.add(
+                        WfInstanceListViewDto(
+                            documentEntity = instance.documentEntity,
+                            instanceEntity = instance.instanceEntity,
+                            tokenEntity = instance.tokenEntity
+                        )
+                    )
+                }
+                instance.tokenEntity.candidate?.forEach { candidate ->
+                    when (candidate.candidateType) {
+                        WfTokenConstants.AssigneeType.USERS.code -> {
+                            if (candidate.candidateValue == userKey) {
+                                instances.add(
+                                    WfInstanceListViewDto(
+                                        documentEntity = instance.documentEntity,
+                                        instanceEntity = instance.instanceEntity,
+                                        tokenEntity = instance.tokenEntity
+                                    )
+                                )
+                            }
+                        }
+                        WfTokenConstants.AssigneeType.GROUPS.code -> {
+                            roleEntities.forEach roleForEach@{ role ->
+                                if (role.roleId == candidate.candidateValue) {
+                                    instances.add(
+                                        WfInstanceListViewDto(
+                                            documentEntity = instance.documentEntity,
+                                            instanceEntity = instance.instanceEntity,
+                                            tokenEntity = instance.tokenEntity
+                                        )
+                                    )
+                                    return@roleForEach
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         for (instance in instances) {
 
@@ -174,7 +224,7 @@ class WfInstanceService(
             wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance)?.let { token ->
                 tokenDto = wfTokenMapper.toTokenDto(token)
                 val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
-                token.tokenDatas?.forEach { tokenData ->
+                token.tokenData?.forEach { tokenData ->
                     tokenDataList.add(wfTokenMapper.toTokenDataDto(tokenData))
                 }
                 tokenDto.data = tokenDataList

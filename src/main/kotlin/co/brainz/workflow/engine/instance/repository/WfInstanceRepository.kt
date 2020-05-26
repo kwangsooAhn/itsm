@@ -10,17 +10,6 @@ import org.springframework.data.jpa.repository.Query
 interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String>, WfInstanceRepositoryCustom {
 
     fun findByInstanceId(instanceId: String): WfInstanceEntity?
-
-    @Query(
-        "SELECT NEW co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto(t, d, i) " +
-                "FROM WfTokenEntity t, WfDocumentEntity d, WfInstanceEntity i " +
-                "where d.documentId = i.document.documentId " +
-                "and i.instanceId = t.instance.instanceId " +
-                "and t.tokenStatus = :status " +
-                "and t.assigneeId = :userKey"
-    )
-    fun findInstances(status: String, userKey: String): List<WfInstanceListViewDto>
-
     fun countByDocument(wfDocumentEntity: WfDocumentEntity): Int
 
     @Query(

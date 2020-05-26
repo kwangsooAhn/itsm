@@ -31,8 +31,8 @@ class AliceUserDetailsService(
         val authorities = mutableSetOf<SimpleGrantedAuthority>()
         val rolePrefix = "ROLE_"
 
-        aliceUserAuthDto.userKey?.let { userKey ->
-            aliceUserRoleMapRepository.findByUserKey(userKey).forEach { aliceRoleEntity ->
+        aliceUserAuthDto.userKey.let { userKey ->
+            aliceUserRoleMapRepository.findUserRoleByUserKey(userKey).forEach { aliceRoleEntity ->
                 authorities.add(SimpleGrantedAuthority(rolePrefix + aliceRoleEntity.roleId))
                 aliceRoleEntity.roleAuthMapEntities.forEach { roleAuthMap ->
                     authorities.add(SimpleGrantedAuthority(roleAuthMap.auth.authId))
@@ -40,8 +40,10 @@ class AliceUserDetailsService(
             }
         }
         aliceUserAuthDto.grantedAuthorises = authorities
-        aliceUserAuthDto.menus = aliceUserAuthDto.userKey?.let { aliceMenuRepository.findByUserKey(aliceUserAuthDto.userKey) }
-        aliceUserAuthDto.urls = aliceUserAuthDto.userKey?.let { aliceAuthRepository.findByUserKey(aliceUserAuthDto.userKey) }
+        aliceUserAuthDto.menus =
+            aliceUserAuthDto.userKey.let { aliceMenuRepository.findByUserKey(aliceUserAuthDto.userKey) }
+        aliceUserAuthDto.urls =
+            aliceUserAuthDto.userKey.let { aliceAuthRepository.findByUserKey(aliceUserAuthDto.userKey) }
         return aliceUserAuthDto
     }
 
