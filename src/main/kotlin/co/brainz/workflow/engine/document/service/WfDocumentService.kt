@@ -10,7 +10,6 @@ import co.brainz.workflow.engine.document.entity.WfDocumentDataEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDataRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
-import co.brainz.workflow.engine.document.repository.specification.WfSearchDocuments
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
@@ -65,7 +64,7 @@ class WfDocumentService(
     fun documents(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
         val documents = mutableListOf<RestTemplateDocumentDto>()
         // val documentEntities = wfDocumentRepository.findAll(WfSearchDocuments(searchListDto))
-        val documentEntities = wfDocumentRepository.findByDocuments(searchListDto)
+        val documentEntities = wfDocumentRepository.getDocumentsssss(searchListDto)
         for (document in documentEntities) {
             val documentDto = RestTemplateDocumentDto(
                 documentId = document.documentId,
