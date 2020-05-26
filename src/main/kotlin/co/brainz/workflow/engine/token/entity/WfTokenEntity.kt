@@ -2,7 +2,6 @@ package co.brainz.workflow.engine.token.entity
 
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -14,6 +13,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "wf_token")
@@ -46,7 +46,7 @@ data class WfTokenEntity(
 ) : Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tokenId")
-    val tokenData: List<WfTokenDataEntity>? = mutableListOf()
+    var tokenData: List<WfTokenDataEntity>? = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tokenId")
     val candidate: List<WfCandidateEntity>? = mutableListOf()

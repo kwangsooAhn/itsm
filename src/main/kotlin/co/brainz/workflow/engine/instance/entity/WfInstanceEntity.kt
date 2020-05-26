@@ -53,11 +53,11 @@ data class WfInstanceEntity(
 ) : Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
-    val tokens: MutableList<WfTokenEntity>? = mutableListOf()
+    var tokens: MutableList<WfTokenEntity>? = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
-    val folders: MutableList<WfFolderEntity>? = mutableListOf()
+    var folders: MutableList<WfFolderEntity>? = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
-    val comments: MutableList<WfCommentEntity>? = mutableListOf()
+    var comments: MutableList<WfCommentEntity>? = mutableListOf()
 }
