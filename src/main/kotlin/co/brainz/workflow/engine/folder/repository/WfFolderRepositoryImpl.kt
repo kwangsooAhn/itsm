@@ -42,7 +42,7 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
             .where(
                 folder.folderId.eq(queryTokenId)
             )
-            .where(folder.relatedType.eq("reference"))
+            .where(folder.relatedType.eq("reference").or(folder.relatedType.eq("related")))
             .orderBy(folder.instance.instanceStartDt.asc())
             .fetch()
     }
