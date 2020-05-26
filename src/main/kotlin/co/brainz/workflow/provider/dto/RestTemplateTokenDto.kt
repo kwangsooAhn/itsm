@@ -12,10 +12,10 @@ data class RestTemplateTokenDto(
     var elementType: String = "",
     var tokenStatus: String? = null,
     var assigneeId: String? = null,
-    var assigneeType: String? = null,
     var data: List<RestTemplateTokenDataDto>? = null,
     var fileDataIds: String? = null,
     val actions: List<RestTemplateActionDto>? = emptyList(),
     val action: String? = null,
-    val numberingId: String? = null
+    val numberingId: String? = null,
+    var parentTokenId: String? = null
 ) : Serializable
