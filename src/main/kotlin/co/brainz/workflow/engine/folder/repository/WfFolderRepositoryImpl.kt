@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.folder.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.workflow.engine.folder.entity.QWfFolderEntity
 import co.brainz.workflow.engine.folder.entity.WfFolderEntity
 import co.brainz.workflow.engine.token.entity.QWfTokenEntity
@@ -14,8 +15,13 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
 
     override fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateFolderDto> {
         val folder = QWfFolderEntity.wfFolderEntity
-        //val user = QAliceUserEntity.aliceUserEntity
+        val user = QAliceUserEntity.aliceUserEntity
         val token = QWfTokenEntity.wfTokenEntity
+        val queryTokenId = JPAExpressions.select(folder.folderId)
+            .from(folder, token)
+            .where(
+                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(folder.relatedType.eq("origin"))
+            )
         return from(folder)
             .select(
                 Projections.constructor(
@@ -28,24 +34,16 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
                     folder.createDt,
                     folder.instance.instanceStartDt,
                     folder.instance.instanceEndDt,
-                    folder.instance.instanceCreateUser.userKey,
-                    folder.instance.instanceCreateUser.userName
+                    user.userKey,
+                    user.userName
                 )
             )
-            .innerJoin(folder.instance)
+            .leftJoin(user).on(folder.instance.instanceCreateUser.userKey.eq(user.userKey))
             .where(
-                folder.folderId.eq(
-                    JPAExpressions.select(folder.folderId)
-                        .from(folder, token)
-                        .where(folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)))
-                )
+                folder.folderId.eq(queryTokenId)
             )
+            .where(folder.relatedType.eq("reference"))
             .orderBy(folder.instance.instanceStartDt.asc())
-            //instanceCreateUser 값이 없으면 안나온다....
-            //.innerJoin(token).on(token.tokenId.eq(tokenId))
-            //.innerJoin(folder.instance.)
-            //.leftJoin(user).on(folder.instance.instanceCreateUser.userKey.eq (user.userKey))
             .fetch()
     }
-
 }
