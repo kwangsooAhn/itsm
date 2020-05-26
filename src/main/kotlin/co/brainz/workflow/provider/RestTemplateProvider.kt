@@ -1,7 +1,5 @@
 package co.brainz.workflow.provider
 
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -71,29 +69,6 @@ class RestTemplateProvider(private val restTemplate: RestTemplate) {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
         return HttpEntity(dto, headers)
-    }
-
-    /**
-     * Token Data Converter (String -> Dto).
-     *
-     * @param jsonValue
-     * @return TokenDto
-     */
-    fun makeTokenData(jsonValue: String): RestTemplateTokenDto {
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val result: MutableMap<*, *>? = mapper.readValue(jsonValue, MutableMap::class.java)
-        val tokenMap = mapper.convertValue(result?.get("token"), Map::class.java)
-        val tokenDataList: MutableList<RestTemplateTokenDataDto> = mapper.convertValue(tokenMap["data"], mapper.typeFactory.constructCollectionType(MutableList::class.java, RestTemplateTokenDataDto::class.java))
-        return RestTemplateTokenDto(
-            tokenId = tokenMap["tokenId"] as String,
-            documentId = tokenMap["documentId"] as String,
-            elementId = tokenMap["elementId"] as String,
-            elementType = tokenMap["elementType"] as String,
-            isComplete = tokenMap["isComplete"] as Boolean,
-            assigneeId = tokenMap["assigneeId"]?.toString(),
-            assigneeType = tokenMap["assigneeType"]?.toString(),
-            data = tokenDataList
-        )
     }
 
     fun get(restTemplateUrlDto: RestTemplateUrlDto): String {
