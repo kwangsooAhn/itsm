@@ -10179,9 +10179,15 @@ body {
 }
 .alice-process-properties-panel div.properties-container {
   height: calc(100vh - 2.5rem - 22.5rem);
+}
+.alice-process-properties-panel div.properties-container div.element-title {
+  height: 1.875rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties {
+  height: calc(100vh - 2.5rem - 22.5rem - 1.875rem);
   overflow: auto;
 }
-.alice-process-properties-panel div.properties-container div.properties {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties {
   display: flex;
   flex-wrap: wrap;
   padding-left: 1.5rem;
@@ -10189,60 +10195,60 @@ body {
   margin-top: 1rem;
   margin-bottom: 0;
 }
-.alice-process-properties-panel div.properties-container div.properties label {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties label {
   display: inline-block;
   width: 5.313rem;
   vertical-align: top;
 }
-.alice-process-properties-panel div.properties-container div.properties label.required {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties label.required {
   width: 0.5rem;
   color: #ff0000;
 }
-.alice-process-properties-panel div.properties-container div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties-container div.properties select, .alice-process-properties-panel div.properties-container div.properties textarea {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties-container div.element-properties div.properties select, .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea {
   width: 11.25rem;
   height: 1.563rem;
 }
-.alice-process-properties-panel div.properties-container div.properties input:read-only {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:read-only {
   background-color: #f6f6f7;
   border-width: 0;
 }
-.alice-process-properties-panel div.properties-container div.properties input.color {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input.color {
   width: 9.375rem;
 }
-.alice-process-properties-panel div.properties-container div.properties input.copy {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input.copy {
   width: 9.375rem;
 }
-.alice-process-properties-panel div.properties-container div.properties textarea {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea {
   height: 5.625rem;
 }
-.alice-process-properties-panel div.properties-container div.properties select.candidate {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties select.candidate {
   width: 8.125rem;
 }
-.alice-process-properties-panel div.properties-container div.properties button {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties button {
   width: 3.125rem;
   height: 1.563rem;
 }
-.alice-process-properties-panel div.properties-container div.properties table {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table {
   margin-left: 5.813rem;
   width: 11.25rem;
   border: black solid 0.063rem;
 }
-.alice-process-properties-panel div.properties-container div.properties table th {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table th {
   background-color: lightgrey;
   text-align: center;
   font-weight: bold;
 }
-.alice-process-properties-panel div.properties-container div.properties table td {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table td {
   padding-left: 0.313rem;
 }
-.alice-process-properties-panel div.properties-container div.properties table td span.remove {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table td span.remove {
   display: inline-block;
   background-image: url("../media/icons/icon_delete.png");
   width: 0.938rem;
   height: 0.938rem;
   cursor: pointer;
 }
-.alice-process-properties-panel div.properties-container div.properties span.selected-color {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties span.selected-color {
   display: inline-block;
   width: 1.563rem;
   height: 1.563rem;
@@ -10250,31 +10256,31 @@ body {
   border: 0.0625rem solid #000000;
   cursor: pointer;
 }
-.alice-process-properties-panel div.properties-container div.properties div.color-palette {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette {
   background-color: #d3d3d3;
   width: 11.25rem;
   margin-left: 5.813rem;
 }
-.alice-process-properties-panel div.properties-container div.properties div.color-palette div {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette div {
   display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
   margin: 0.3125rem;
   cursor: pointer;
 }
-.alice-process-properties-panel div.properties-container div.properties .clipboard-tooltip {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
   margin-left: 0.625rem;
 }
-.alice-process-properties-panel div.properties-container div.properties .clipboard-tooltip .clipboard-tooltip-button {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-button {
   display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
   background-image: url("../media/icons/process/editor/icon_copy.png");
 }
-.alice-process-properties-panel div.properties-container div.properties .clipboard-tooltip .clipboard-tooltip-text {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text {
   visibility: hidden;
   width: 8.75rem;
   background-color: #555;
@@ -10290,7 +10296,7 @@ body {
   opacity: 0;
   transition: opacity 0.3s;
 }
-.alice-process-properties-panel div.properties-container div.properties .clipboard-tooltip .clipboard-tooltip-text::after {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -10300,7 +10306,7 @@ body {
   border-style: solid;
   border-color: #555 transparent transparent transparent;
 }
-.alice-process-properties-panel div.properties-container div.properties .clipboard-tooltip:hover .clipboard-tooltip-text {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip:hover .clipboard-tooltip-text {
   visibility: visible;
   opacity: 1;
 }
