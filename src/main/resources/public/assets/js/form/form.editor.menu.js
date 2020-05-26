@@ -418,7 +418,7 @@
                 itemInContext = clickInsideElement(e, 'component');
                 if (itemInContext) {
                     let box = itemInContext.querySelector('[contenteditable=true]');
-                    if (isCtrlPressed) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
+                    if (isCtrlPressed || e.target.classList.contains('add-icon')) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
                         if (box) {
                             menuOn(2);
                             setPositionMenu(e);
@@ -432,6 +432,7 @@
                         editor.showComponentProperties(itemInContext.id);
                     }
                 }
+                //
             }
         }
     }
@@ -441,6 +442,7 @@
      * @param {Object} e 이벤트객체
      */
     function onMouseDownHandler(e) {
+        if (e.target.classList.contains('add-icon')) { return false; }
         if (e.target.classList.contains('move-icon')) {
             e.target.parentNode.setAttribute('draggable', 'true');
         }

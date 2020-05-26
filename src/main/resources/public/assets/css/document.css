@@ -10812,7 +10812,8 @@ a.text-dark:hover, a.text-dark:focus {
   margin: 0.625rem;
 }
 
-.drawing-board .move-icon {
+.drawing-board .move-icon,
+.drawing-board .add-icon {
   display: none;
 }
 

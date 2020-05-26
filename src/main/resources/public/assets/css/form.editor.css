@@ -10910,6 +10910,10 @@ body {
   content: '::';
 }
 
+.alice-form-panel .drawing-board[data-readonly=true] .component:hover .add-icon:after {
+  content: '+';
+}
+
 .alice-form-panel .drawing-board[data-readonly=true] .component.selected {
   background-color: #f4f7f7;
 }
@@ -10924,6 +10928,10 @@ body {
 
 .alice-form-panel .drawing-board[data-readonly=true] .component[data-type="editbox"]:hover {
   cursor: text;
+}
+
+.alice-form-panel .drawing-board[data-readonly=true] .component[data-type="editbox"] .move-icon {
+  margin: 1.563rem 0.9375rem 1.563rem 0;
 }
 
 .alice-form-panel .drawing-board[data-readonly=true] .group[contenteditable=true]:empty::before {
