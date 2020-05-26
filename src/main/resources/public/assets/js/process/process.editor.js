@@ -19,6 +19,8 @@
         connectors,
         dragLine;
 
+    let lastDraggedPosition = [];
+
     const elements = {
         links: []
     };
@@ -46,8 +48,8 @@
     /**
      * snap to grid.
      *
-     * @param p
-     * @return {number}
+     * @param p current point
+     * @return {number} snap point
      */
     function snapToGrid(p) {
         const r = displayOptions.gridInterval;
@@ -330,7 +332,7 @@
      * @return {boolean} true: duplicate, false: not duplicate
      */
     function checkDuplicatePosition(node, point) {
-        if (!node || !point) { return false; }
+        if (!node || !point || d3.select(node).classed('artifact')) { return false; }
         let bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
         return bbox.x <= point[0] && (bbox.x + bbox.width) >= point[0] &&
             bbox.y <= point[1] && (bbox.y + bbox.height) >= point[1];
@@ -661,6 +663,10 @@
                 }
                 resetMouseVars();
             } else {
+                if (dragElement) {
+                    dragged(dragElement, snapToGrid(lastDraggedPosition[0]) - lastDraggedPosition[0], snapToGrid(lastDraggedPosition[1]) - lastDraggedPosition[1]);
+                }
+
                 let histories = [];
                 const selectedNodes = d3.selectAll('.node.selected').nodes();
                 selectedNodes.forEach(function(node) {
@@ -670,7 +676,8 @@
 
                 elements.links.forEach(function(l) {
                     let isExistSource = false,
-                        isExistTarget = false;
+                        isExistTarget = false,
+                        isDeletedPoint = false;
                     selectedNodes.forEach(function(node) {
                         if (l.sourceId === node.id) {
                             isExistSource = true;
@@ -682,20 +689,23 @@
                                 delete l.midPoint;
                                 delete l.sourcePoint;
                                 delete l.targetPoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                             if (typeof l.sourcePoint !== 'undefined' && checkDuplicatePosition(node, l.sourcePoint)) {
                                 delete l.sourcePoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                             if (typeof l.targetPoint !== 'undefined' && checkDuplicatePosition(node, l.targetPoint)) {
                                 delete l.targetPoint;
+                                isDeletedPoint = true;
                                 drawConnectors();
                             }
                         }
                     });
 
-                    if (isExistSource && isExistTarget) {
+                    if ((isExistSource && isExistTarget) || isDeletedPoint) {
                         let history = aliceProcessEditor.changeDisplayValue(l.id, false);
                         histories.push(history);
                     }
@@ -882,12 +892,12 @@
               typeElement = gElement.select('.element-type'),
               textElement = gElement.select('text');
 
-        let mouseX = snapToGrid(Number(nodeElement.attr('x')) + dx),
-            mouseY = snapToGrid(Number(nodeElement.attr('y')) + dy);
+        let mouseX = Number(nodeElement.attr('x')) + dx,
+            mouseY = Number(nodeElement.attr('y')) + dy;
 
         if (nodeElement.classed('event')) {
-            mouseX = snapToGrid(Number(nodeElement.attr('cx')) + dx);
-            mouseY = snapToGrid(Number(nodeElement.attr('cy')) + dy);
+            mouseX = Number(nodeElement.attr('cx')) + dx;
+            mouseY = Number(nodeElement.attr('cy')) + dy;
             nodeElement
                 .attr('cx', mouseX)
                 .attr('cy', mouseY);
@@ -899,6 +909,7 @@
                 .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
                 .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2));
         }
+        lastDraggedPosition = [mouseX, mouseY];
 
         if (nodeElement.classed('task')) {
             typeElement
@@ -953,16 +964,16 @@
                 });
                 if (isExistSource && isExistTarget) {
                     if (typeof l.midPoint !== 'undefined') {
-                        l.midPoint = [snapToGrid(l.midPoint[0] + dx), snapToGrid(l.midPoint[1] + dy)];
+                        l.midPoint = [l.midPoint[0] + dx, l.midPoint[1] + dy];
                     }
                     if (typeof l.sourcePoint !== 'undefined') {
-                        l.sourcePoint = [snapToGrid(l.sourcePoint[0] + dx), snapToGrid(l.sourcePoint[1] + dy)];
+                        l.sourcePoint = [l.sourcePoint[0] + dx, l.sourcePoint[1] + dy];
                     }
                     if (typeof l.targetPoint !== 'undefined') {
-                        l.targetPoint = [snapToGrid(l.targetPoint[0] + dx), snapToGrid(l.targetPoint[1] + dy)];
+                        l.targetPoint = [l.targetPoint[0] + dx, l.targetPoint[1] + dy];
                     }
                     if (typeof l.textPoint !== 'undefined') {
-                        l.textPoint = [snapToGrid(l.textPoint[0] + dx), snapToGrid(l.textPoint[1] + dy)];
+                        l.textPoint = [l.textPoint[0] + dx, l.textPoint[1] + dy];
                     }
                 }
             });
@@ -1241,8 +1252,8 @@
                     })
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
-                            const mouseX = snapToGrid(d3.event.dx),
-                                  mouseY = snapToGrid(d3.event.dy);
+                            const mouseX = d3.event.dx,
+                                  mouseY = d3.event.dy;
                             let rectData = [
                                 {x: Number(self.nodeElement.attr('x')), y: Number(self.nodeElement.attr('y'))},
                                 {x: Number(self.nodeElement.attr('x')) + Number(self.nodeElement.attr('width')), y: Number(self.nodeElement.attr('y')) + Number(self.nodeElement.attr('height'))}
