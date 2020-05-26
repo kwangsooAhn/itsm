@@ -134,11 +134,11 @@ class WfProcessService(
             }
 
             // target-document-list 는 List 타입으로 리턴
-            val attrIdtargetDocumentList = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
-            if (elementData[attrIdtargetDocumentList] != null) {
-                val targetDocumentList = elementData[attrIdtargetDocumentList]
+            val attrIdTargetDocumentList = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
+            if (elementData[attrIdTargetDocumentList] != null) {
+                val targetDocumentList = elementData[attrIdTargetDocumentList]
                 if (targetDocumentList is String) {
-                    elementData[attrIdtargetDocumentList] = mutableListOf(targetDocumentList)
+                    elementData[attrIdTargetDocumentList] = mutableListOf(targetDocumentList)
                 }
             }
 
