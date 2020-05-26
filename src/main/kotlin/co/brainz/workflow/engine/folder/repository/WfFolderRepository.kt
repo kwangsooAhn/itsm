@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WfFolderRepository : JpaRepository<WfFolderEntity, String> {
-    @Query(
+interface WfFolderRepository : JpaRepository<WfFolderEntity, String>, WfFolderRepositoryCustom {
+    /*@Query(
         "SELECT NEW co.brainz.workflow.provider.dto.RestTemplateFolderDto(" +
                 "f.folderId, f.instance.instanceId, f.relatedType, i.document.documentName, f.createUserKey, f.createDt, i.instanceStartDt, i.instanceEndDt, i.instanceCreateUser.userKey, i.instanceCreateUser.userName) FROM WfFolderEntity f, WfInstanceEntity i left join i.instanceCreateUser " +
                 "WHERE f.folderId = (SELECT sf.folderId FROM WfFolderEntity sf, WfTokenEntity st " +
@@ -18,5 +18,5 @@ interface WfFolderRepository : JpaRepository<WfFolderEntity, String> {
                 "AND f.relatedType = 'reference' " +
                 "ORDER BY i.instanceStartDt"
     )
-    fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateFolderDto>
+    fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateFolderDto>*/
 }
