@@ -92,11 +92,10 @@ class WfProcessService(
 
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
-            elDto.display = elementEntity.displayInfo.let { objMapper.readValue(it) }
+            elDto.display = objMapper.readValue(elementEntity.displayInfo)
             if (elementEntity.notificationEmail) {
                 elDto.notification = "Y"
             }
-            elDto.display = objMapper.readValue(elementEntity.displayInfo)
 
             // 엘리먼트 데이터가 싱글인지 멀티값인지에 따라 String 또는 mutableList 로 저장
             val elementData = mutableMapOf<String, Any>()
