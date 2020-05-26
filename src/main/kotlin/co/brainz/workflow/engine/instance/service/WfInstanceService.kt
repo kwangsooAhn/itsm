@@ -1,7 +1,6 @@
 package co.brainz.workflow.engine.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
-import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
 import co.brainz.workflow.engine.comment.service.WfCommentService
 import co.brainz.workflow.engine.component.constants.WfComponentConstants
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
