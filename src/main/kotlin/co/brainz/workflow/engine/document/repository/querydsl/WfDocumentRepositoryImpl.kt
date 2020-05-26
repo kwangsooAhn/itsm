@@ -13,23 +13,13 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(WfDocumentEntity::cla
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(document)
 
-
-
-        val x = super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
-        val t = super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)
-
-        super.filtered(searchDto.searchDocumentStatus)
-
-        super.likeIgnoreCase(document.process.processName, searchDto.searchProcessName)
-        super.likeIgnoreCase(document.form.formName, super.filtered(searchDto.searchFormName))
-
-
         query.where(
-            super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)),
-            document.documentStatus.eq(super.filtered(searchDto.searchDocumentStatus)),
+            super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
+                ?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)),
+            super.eq(document.documentStatus, searchDto.searchDocumentStatus),
             super.likeIgnoreCase(document.process.processName, searchDto.searchProcessName),
-            super.likeIgnoreCase(document.form.formName, super.filtered(searchDto.searchFormName))
-        ).orderBy(document.documentName.asc())
+            super.likeIgnoreCase(document.form.formName, searchDto.searchFormName)
+        )
 
         return query.fetch()
     }
