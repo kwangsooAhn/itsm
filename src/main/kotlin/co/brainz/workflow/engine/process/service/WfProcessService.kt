@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.process.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.process.constants.WfProcessConstants
@@ -9,6 +10,7 @@ import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import co.brainz.workflow.engine.process.mapper.WfProcessMapper
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.simulation.WfProcessSimulator
+import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.provider.dto.RestTemplateElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
@@ -23,7 +25,6 @@ import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.util.LinkedMultiValueMap
 
 @Service
 @Transactional
@@ -91,21 +92,56 @@ class WfProcessService(
 
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
-            elDto.display = elementEntity.displayInfo.let { objMapper.readValue(it) }
-
-            // 싱글값인지 멀티값인지 확인
-            val elementData = mutableMapOf<String, Any>()
-            val refined = LinkedMultiValueMap<String, Any>()
-            elementEntity.elementDataEntities.forEach {
-                refined.add(it.attributeId, it.attributeValue)
+            elDto.display = objMapper.readValue(elementEntity.displayInfo)
+            if (elementEntity.notificationEmail) {
+                elDto.notification = "Y"
             }
-            refined.entries.forEach {
-                if (it.value.size > 1) {
-                    elementData[it.key] = it.value
-                } else {
-                    elementData[it.key] = it.value.first()
+
+            // 엘리먼트 데이터가 싱글인지 멀티값인지에 따라 String 또는 mutableList 로 저장
+            val elementData = mutableMapOf<String, Any>()
+            elementEntity.elementDataEntities.forEach {
+                elementData[it.attributeId] = when (elementData[it.attributeId]) {
+                    is String -> {
+                        val data = mutableListOf(elementData[it.attributeId] as String)
+                        data.add(it.attributeValue)
+                        data
+                    }
+                    is MutableList<*> -> {
+                        val data =
+                            (elementData[it.attributeId] as MutableList<*>).filterIsInstance<String>().toMutableList()
+                        data.add(it.attributeValue)
+                        data
+                    }
+                    else -> {
+                        it.attributeValue
+                    }
                 }
             }
+
+            // assignee type 에 따라 assignee 값은 List 타입으로 리턴
+            val attrIdAssigneeType = WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
+            if (elementData[attrIdAssigneeType] != null) {
+                val assigneeType = elementData[attrIdAssigneeType] as String
+                if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
+                    assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
+                ) {
+                    val attrIdAssignee = WfElementConstants.AttributeId.ASSIGNEE.value
+                    val assignee = elementData[attrIdAssignee]
+                    if (assignee is String) {
+                        elementData[attrIdAssignee] = mutableListOf(assignee)
+                    }
+                }
+            }
+
+            // target-document-list 는 List 타입으로 리턴
+            val attrIdTargetDocumentList = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
+            if (elementData[attrIdTargetDocumentList] != null) {
+                val targetDocumentList = elementData[attrIdTargetDocumentList]
+                if (targetDocumentList is String) {
+                    elementData[attrIdTargetDocumentList] = mutableListOf(targetDocumentList)
+                }
+            }
+
             elDto.data = elementData
 
             restTemplateElementDtoList.add(elDto)
@@ -201,7 +237,10 @@ class WfProcessService(
                     elementId = it.id,
                     processId = wfJsonProcessDto.id,
                     elementType = it.type,
-                    displayInfo = objMapper.writeValueAsString(it.display)
+                    displayInfo = objMapper.writeValueAsString(it.display),
+                    elementName = it.name,
+                    elementDesc = it.description,
+                    notificationEmail = (it.notification == "Y")
                 )
 
                 // element data entity 생성
@@ -279,6 +318,9 @@ class WfProcessService(
             }
             val restTemplateElementDto = RestTemplateElementDto(
                 id = elementKeyMap[element.id]!!,
+                name = element.name,
+                description = element.description,
+                notification = element.notification,
                 data = dataMap,
                 type = element.type,
                 display = element.display

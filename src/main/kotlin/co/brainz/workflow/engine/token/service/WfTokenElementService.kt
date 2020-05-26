@@ -10,21 +10,22 @@ import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.folder.service.WfFolderService
-import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
+import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.service.WfInstanceService
 import co.brainz.workflow.engine.token.constants.WfTokenConstants
+import co.brainz.workflow.engine.token.entity.WfCandidateEntity
 import co.brainz.workflow.engine.token.entity.WfTokenDataEntity
 import co.brainz.workflow.engine.token.entity.WfTokenEntity
+import co.brainz.workflow.engine.token.repository.WfCandidateRepository
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import java.time.LocalDateTime
+import java.time.ZoneId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Service
 class WfTokenElementService(
@@ -37,10 +38,14 @@ class WfTokenElementService(
     private val wfDocumentRepository: WfDocumentRepository,
     private val wfFolderService: WfFolderService,
     private val aliceNumberingService: AliceNumberingService,
+    private val wfTokenMappingValue: WfTokenMappingValue,
+    private val wfCandidateRepository: WfCandidateRepository,
     private val notificationService: NotificationService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+
+    lateinit var assigneeId: String
 
     /**
      * Init Token.
@@ -48,14 +53,30 @@ class WfTokenElementService(
      * @param restTemplateTokenDto
      */
     fun initToken(restTemplateTokenDto: RestTemplateTokenDto) {
+        this.assigneeId = restTemplateTokenDto.assigneeId.toString()
         val documentDto =
             restTemplateTokenDto.documentId?.let { wfDocumentRepository.findDocumentEntityByDocumentId(it) }
         val documentNo =
             documentDto?.numberingRule?.numberingId?.let { aliceNumberingService.getNewNumbering(it) }.orEmpty()
         val instanceDto =
-            documentDto?.let { RestTemplateInstanceDto(instanceId = "", document = it, documentNo = documentNo) }
+            documentDto?.let {
+                RestTemplateInstanceDto(
+                    instanceId = "",
+                    document = it,
+                    documentNo = documentNo,
+                    pTokenId = restTemplateTokenDto.parentTokenId
+                )
+            }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
-        instance?.let { wfFolderService.createFolder(instance) }
+        instance?.let {
+            val folders = wfFolderService.createFolder(instance)
+            instance.folders = mutableListOf(folders)
+            instance.pTokenId?.let { id ->
+                val parentToken = wfTokenRepository.getOne(id)
+                wfFolderService.createRelatedFolder(parentToken.instance, instance)
+                wfFolderService.createRelatedFolder(instance, parentToken.instance)
+            }
+        }
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateTokenDto.documentId!!)
         val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
@@ -63,43 +84,22 @@ class WfTokenElementService(
         restTemplateTokenDto.elementId = startElement.elementId
         when (startElement.elementType) {
             WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
-                //Add commonStart token
+                // Add commonStart token
                 restTemplateTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
                 val commonStartToken = wfTokenActionService.createToken(instance!!, restTemplateTokenDto)
                 restTemplateTokenDto.tokenId = commonStartToken.tokenId
-                //Add userTask token
+                // Add userTask token
                 val arrows = wfActionService.getArrowElements(commonStartToken.element.elementId)
                 val nextElementId = wfActionService.getNextElementId(arrows[0])
                 val nextElement = wfActionService.getElement(nextElementId)
                 when (nextElement.elementType) {
                     WfElementConstants.ElementType.USER_TASK.value -> {
-                        val userTaskToken = setNextTokenSave(
-                            WfTokenEntity(
-                                tokenId = "",
-                                element = nextElement,
-                                tokenStatus = WfTokenConstants.Status.RUNNING.code,
-                                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-                                instance = commonStartToken.instance
-                            ), restTemplateTokenDto
-                        )
+                        // 최초 신청서 작성자 : restTemplateTokenDto.assigneeId (작성자)
+                        // restTemplateTokenDto.assigneeId 값을 제거, 변경 하여 작성자 변경 가능
+                        val userTaskToken =
+                            setNextTokenSave(makeToken(nextElement, commonStartToken.instance), restTemplateTokenDto)
                         restTemplateTokenDto.tokenId = userTaskToken.tokenId
-
-                        //Set userTask assginee
-                        when (getAttributeValue(
-                            nextElement.elementDataEntities,
-                            WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
-                        )) {
-                            WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
-                                userTaskToken.assigneeId = getAssignee(nextElement, userTaskToken)
-                            }
-                            WfTokenConstants.AssigneeType.USERS.code -> {
-                                userTaskToken.assigneeId = getAssigneeUser(nextElement)
-                            }
-                            WfTokenConstants.AssigneeType.GROUPS.code -> {
-                                // TODO: 담당자 그룹에 따른 처리
-                            }
-                        }
-                        wfTokenActionService.save(userTaskToken, restTemplateTokenDto)
+                        setCandidate(userTaskToken)
                         saveNotification(userTaskToken)
                     }
                 }
@@ -114,30 +114,19 @@ class WfTokenElementService(
      * @param restTemplateTokenDto
      */
     fun setTokenAction(restTemplateTokenDto: RestTemplateTokenDto) {
+        this.assigneeId = restTemplateTokenDto.assigneeId.toString()
         val wfTokenEntity = wfTokenRepository.findTokenEntityByTokenId(restTemplateTokenDto.tokenId).get()
-        val wfElementEntity = wfActionService.getElement(wfTokenEntity.element.elementId)
-        logger.debug("Token Element Type : {}", wfElementEntity.elementType)
-        when (wfElementEntity.elementType) {
-            WfElementConstants.ElementType.COMMON_START_EVENT.value -> setCommonAction(
-                wfTokenEntity,
-                wfElementEntity,
-                restTemplateTokenDto
-            )
-            WfElementConstants.ElementType.USER_TASK.value -> setUserTaskAction(
-                wfTokenEntity,
-                wfElementEntity,
-                restTemplateTokenDto
-            )
-            WfElementConstants.ElementType.MANUAL_TASK.value -> setManualTaskAction(
-                wfTokenEntity,
-                wfElementEntity,
-                restTemplateTokenDto
-            )
-            WfElementConstants.ElementType.SIGNAL_SEND.value -> setSignalSend(
-                wfTokenEntity,
-                wfElementEntity,
-                restTemplateTokenDto
-            )
+        val elementType = wfTokenEntity.element.elementType
+        logger.debug("Token Element Type : {}", elementType)
+        when (elementType) {
+            WfElementConstants.ElementType.COMMON_START_EVENT.value ->
+                setCommonAction(wfTokenEntity, restTemplateTokenDto)
+            WfElementConstants.ElementType.USER_TASK.value ->
+                setUserTaskAction(wfTokenEntity, restTemplateTokenDto)
+            WfElementConstants.ElementType.MANUAL_TASK.value ->
+                setManualTaskAction(wfTokenEntity, restTemplateTokenDto)
+            WfElementConstants.ElementType.SIGNAL_SEND.value ->
+                setSignalSend(wfTokenEntity, restTemplateTokenDto)
         }
     }
 
@@ -145,16 +134,14 @@ class WfTokenElementService(
      * Action - ManualTask.
      *
      * @param wfTokenEntity
-     * @param wfElementEntity
      * @param restTemplateTokenDto
      */
     private fun setManualTaskAction(
         wfTokenEntity: WfTokenEntity,
-        wfElementEntity: WfElementEntity,
         restTemplateTokenDto: RestTemplateTokenDto
     ) {
         wfTokenActionService.setProcess(wfTokenEntity, restTemplateTokenDto)
-        goToNext(wfTokenEntity, wfElementEntity, restTemplateTokenDto)
+        goToNext(wfTokenEntity, restTemplateTokenDto)
     }
 
     /**
@@ -162,7 +149,6 @@ class WfTokenElementService(
      */
     private fun setCommonAction(
         wfTokenEntity: WfTokenEntity,
-        wfElementEntity: WfElementEntity,
         restTemplateTokenDto: RestTemplateTokenDto
     ) {
         logger.debug("Token Action : {}", restTemplateTokenDto.action)
@@ -170,7 +156,7 @@ class WfTokenElementService(
             WfElementConstants.Action.SAVE.value -> wfTokenActionService.save(wfTokenEntity, restTemplateTokenDto)
             else -> {
                 wfTokenActionService.setProcess(wfTokenEntity, restTemplateTokenDto)
-                goToNext(wfTokenEntity, wfElementEntity, restTemplateTokenDto)
+                goToNext(wfTokenEntity, restTemplateTokenDto)
             }
         }
     }
@@ -179,36 +165,22 @@ class WfTokenElementService(
      * Action - UserTask.
      *
      * @param wfTokenEntity
-     * @param wfElementEntity
      * @param restTemplateTokenDto
      */
     private fun setUserTaskAction(
         wfTokenEntity: WfTokenEntity,
-        wfElementEntity: WfElementEntity,
         restTemplateTokenDto: RestTemplateTokenDto
     ) {
         logger.debug("Token Action : {}", restTemplateTokenDto.action)
         when (restTemplateTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> {
-                restTemplateTokenDto.assigneeId = getAttributeValue(
-                    wfElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE.value
-                )
                 wfTokenActionService.save(wfTokenEntity, restTemplateTokenDto)
             }
             WfElementConstants.Action.REJECT.value -> {
                 val values = HashMap<String, Any>()
                 values[WfElementConstants.AttributeId.REJECT_ID.value] = getAttributeValue(
-                    wfElementEntity.elementDataEntities,
+                    wfTokenEntity.element.elementDataEntities,
                     WfElementConstants.AttributeId.REJECT_ID.value
-                )
-                values[WfElementConstants.AttributeId.ASSIGNEE_TYPE.value] = getAttributeValue(
-                    wfElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
-                )
-                values[WfElementConstants.AttributeId.ASSIGNEE.value] = getAttributeValue(
-                    wfElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE.value
                 )
                 val saveTokenEntity = wfTokenActionService.setReject(wfTokenEntity, restTemplateTokenDto, values)
                 saveNotification(saveTokenEntity)
@@ -219,7 +191,7 @@ class WfTokenElementService(
             )
             else -> {
                 wfTokenActionService.setProcess(wfTokenEntity, restTemplateTokenDto)
-                goToNext(wfTokenEntity, wfElementEntity, restTemplateTokenDto)
+                goToNext(wfTokenEntity, restTemplateTokenDto)
             }
         }
     }
@@ -229,11 +201,10 @@ class WfTokenElementService(
      */
     private fun setSignalSend(
         wfTokenEntity: WfTokenEntity,
-        wfElementEntity: WfElementEntity,
         restTemplateTokenDto: RestTemplateTokenDto
     ) {
         wfTokenActionService.setProcess(wfTokenEntity, restTemplateTokenDto)
-        goToNext(wfTokenEntity, wfElementEntity, restTemplateTokenDto)
+        goToNext(wfTokenEntity, restTemplateTokenDto)
     }
 
     /**
@@ -260,63 +231,34 @@ class WfTokenElementService(
                 )
             )
         }
-        wfTokenDataRepository.saveAll(dataList)
+        saveTokenEntity.tokenData = wfTokenDataRepository.saveAll(dataList)
 
         return saveTokenEntity
     }
 
-    /**
-     * Set Next Token Entity.
-     *
-     * @param nextElementEntity
-     * @param wfTokenEntity
-     * @return WfTokenEntity
-     */
-    private fun setNextTokenEntity(nextElementEntity: WfElementEntity, wfTokenEntity: WfTokenEntity): WfTokenEntity {
-        val nextTokenEntity = WfTokenEntity(
+    private fun makeToken(element: WfElementEntity, instance: WfInstanceEntity): WfTokenEntity {
+        val token = WfTokenEntity(
             tokenId = "",
-            element = nextElementEntity,
+            element = element,
             tokenStatus = WfTokenConstants.Status.RUNNING.code,
             tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-            instance = wfTokenEntity.instance
+            instance = instance
         )
-        when (nextElementEntity.elementType) {
-            WfElementConstants.ElementType.USER_TASK.value -> {
-                when (getAttributeValue(
-                    nextElementEntity.elementDataEntities,
-                    WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
-                )) {
-                    WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
-                        nextTokenEntity.assigneeId = getAssignee(nextElementEntity, wfTokenEntity)
-                    }
-                    WfTokenConstants.AssigneeType.USERS.code -> {
-                        nextTokenEntity.assigneeId = getAssigneeUser(nextElementEntity)
-                    }
-                    WfTokenConstants.AssigneeType.GROUPS.code -> {
-                        // TODO: 담당자 그룹에 따른 처리
-                    }
-                }
-            }
+        when (element.elementType) {
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
-                nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
-                nextTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
-                nextTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+                token.assigneeId = this.assigneeId
+                token.tokenStatus = WfTokenConstants.Status.FINISH.code
+                token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
             }
-            WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
-                nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
-                nextTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
-                nextTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-            }
-            WfElementConstants.ElementType.SUB_PROCESS.value -> {
-                nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
-            }
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value, WfElementConstants.ElementType.SIGNAL_SEND.value -> {
-                nextTokenEntity.assigneeId = wfTokenEntity.assigneeId
-                nextTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
-                nextTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            WfElementConstants.ElementType.COMMON_END_EVENT.value,
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value,
+            WfElementConstants.ElementType.SIGNAL_SEND.value -> {
+                token.tokenStatus = WfTokenConstants.Status.FINISH.code
+                token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
             }
         }
-        return nextTokenEntity
+
+        return token
     }
 
     /**
@@ -327,142 +269,87 @@ class WfTokenElementService(
      */
     private fun goToNext(
         wfTokenEntity: WfTokenEntity,
-        wfElementEntity: WfElementEntity,
         restTemplateTokenDto: RestTemplateTokenDto
     ) {
-        restTemplateTokenDto.elementId = wfElementEntity.elementId
+        restTemplateTokenDto.elementId = wfTokenEntity.element.elementId
         val nextElementEntity = wfElementService.getNextElement(restTemplateTokenDto)
 
         when (nextElementEntity.elementType) {
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
-                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                wfTokenRepository.save(newTokenEntity)
+                val token = makeToken(nextElementEntity, wfTokenEntity.instance)
+                wfTokenRepository.save(token)
                 wfInstanceService.completeInstance(wfTokenEntity.instance.instanceId)
+
+                // 서브프로세스 토큰 불러오기
                 if (!wfTokenEntity.instance.pTokenId.isNullOrEmpty()) {
                     val pTokenId = wfTokenEntity.instance.pTokenId!!
-                    val pTokenEntity = wfTokenRepository.findTokenEntityByTokenId(pTokenId).get()
-                    pTokenEntity.tokenStatus = WfTokenConstants.Status.FINISH.code
-                    pTokenEntity.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-                    val savePTokenEntity = wfTokenRepository.save(pTokenEntity)
-                    val newElementEntity = wfActionService.getElement(savePTokenEntity.element.elementId)
-                    // TODO: 문서의 양식이 다르기 때문에 데이터가 다르다. wfTokenDto 값을 현재 문서에 맞게 갱신하는 작업 필요 (mapping-id)
-                    goToNext(savePTokenEntity, newElementEntity, restTemplateTokenDto)
+                    val mainProcessToken = wfTokenRepository.findTokenEntityByTokenId(pTokenId).get()
+                    mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
+                    mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+
+                    restTemplateTokenDto.tokenId = mainProcessToken.tokenId
+                    restTemplateTokenDto.data = wfTokenMappingValue.makeSubProcessTokenDataDto(
+                        wfTokenEntity,
+                        mainProcessToken
+                    )
+                    setNextTokenSave(mainProcessToken, restTemplateTokenDto)
+                    goToNext(mainProcessToken, restTemplateTokenDto)
                 }
             }
             WfElementConstants.ElementType.USER_TASK.value -> {
-                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
-                saveNotification(saveTokenEntity)
+                val token = makeToken(nextElementEntity, wfTokenEntity.instance)
+                val saveToken = setNextTokenSave(token, restTemplateTokenDto)
+                setCandidate(saveToken)
+                saveNotification(saveToken)
             }
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
-                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
-                saveNotification(saveTokenEntity)
-                restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
-                val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
-                goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
+                val token = makeToken(nextElementEntity, wfTokenEntity.instance)
+                val saveToken = setNextTokenSave(token, restTemplateTokenDto)
+                saveNotification(saveToken)
+                restTemplateTokenDto.tokenId = saveToken.tokenId
+                goToNext(saveToken, restTemplateTokenDto)
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
-                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
-                restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
-                val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
-                goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
+                val token = makeToken(nextElementEntity, wfTokenEntity.instance)
+                val saveToken = setNextTokenSave(token, restTemplateTokenDto)
+                restTemplateTokenDto.tokenId = saveToken.tokenId
+                goToNext(saveToken, restTemplateTokenDto)
             }
             WfElementConstants.ElementType.SUB_PROCESS.value -> {
-                // TODO: SubProcess 로 시작시 초기 데이터를 갱신해야한다. 데이터 구조가 다름. (wfTokenDto 를 mapping-id로 처리)
-                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
+                // nextElementEntity 는 현재 실행해야할 task의 엔티티다.
+                val token = makeToken(nextElementEntity, wfTokenEntity.instance)
+                val saveToken = setNextTokenSave(token, restTemplateTokenDto)
+                restTemplateTokenDto.tokenId = saveToken.tokenId
 
-                // New Instance
+                // sub-document-id 확인 후 신규 인스턴스와 토큰을 생성
                 val documentId = getAttributeValue(
                     nextElementEntity.elementDataEntities,
                     WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value
                 )
-                val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-                val wfInstanceDto = RestTemplateInstanceDto(
-                    instanceId = "",
-                    document = wfDocumentEntity,
-                    instanceStatus = WfInstanceConstants.Status.RUNNING.code,
-                    pTokenId = saveTokenEntity.tokenId,
-                    documentNo = aliceNumberingService.getNewNumbering(wfDocumentEntity.numberingRule.numberingId)
-                )
-                val wfInstanceEntity = wfInstanceService.createInstance(wfInstanceDto)
-                wfFolderService.addInstance(originInstance = wfTokenEntity.instance, addedInstance = wfInstanceEntity)
-
-                // Call Document Start Element
-                val startElement = wfElementService.getStartElement(wfDocumentEntity.process.processId)
-                restTemplateTokenDto.elementType = startElement.elementType
-                restTemplateTokenDto.elementId = startElement.elementId
-                when (startElement.elementType) {
-                    WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
-                        restTemplateTokenDto.tokenStatus = WfTokenConstants.Status.FINISH.code
-                    }
+                val makeDocumentTokens =
+                    wfTokenMappingValue.makeRestTemplateTokenDto(saveToken, mutableListOf(documentId))
+                makeDocumentTokens.forEach {
+                    initToken(it)
                 }
-                val startToken = wfTokenActionService.createToken(wfInstanceEntity, restTemplateTokenDto)
-                restTemplateTokenDto.tokenId = startToken.tokenId
-                goToNext(startToken, startElement, restTemplateTokenDto)
             }
             WfElementConstants.ElementType.SIGNAL_SEND.value -> {
-                val newTokenEntity = setNextTokenEntity(nextElementEntity, wfTokenEntity)
-                val saveTokenEntity = setNextTokenSave(newTokenEntity, restTemplateTokenDto)
-                restTemplateTokenDto.tokenId = saveTokenEntity.tokenId
-                val newElementEntity = wfActionService.getElement(saveTokenEntity.element.elementId)
-                val tokenId = restTemplateTokenDto.tokenId
+                val token = makeToken(nextElementEntity, wfTokenEntity.instance)
+                val saveToken = setNextTokenSave(token, restTemplateTokenDto)
+                restTemplateTokenDto.tokenId = saveToken.tokenId
 
-                // 종료된 토큰의 WfTokenDto.elementId 로 WfElementDataEntity 조회 후 target-document-list 확인
+                // target-document-list 확인 후 신규 인스턴스와 토큰을 생성
                 val targetDocumentIds = mutableListOf<String>()
-                nextElementEntity.elementDataEntities.forEach {
+                token.element.elementDataEntities.forEach {
                     if (it.attributeId == WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value) {
                         targetDocumentIds.add(it.attributeValue)
                     }
                 }
-
-                // 종료된 토큰의 데이터(tokenData)를 확인하여 컴포넌트ID를 모두 찾는다.
-                val tokenData = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
-                val componentIdInTokenData = tokenData.map { it.componentId }
-
-                // 종료된 토큰의 componentId 별로 mappingId를 찾는다.
-                val token = wfTokenRepository.getOne(tokenId)
-                val component = token.instance.document!!.form.components!!.filter {
-                    componentIdInTokenData.contains(it.componentId) && it.mappingId.isNotBlank()
+                val makeDocumentTokens =
+                    wfTokenMappingValue.makeRestTemplateTokenDto(saveToken, targetDocumentIds)
+                makeDocumentTokens.forEach {
+                    initToken(it)
                 }
-                val mappingIds = component.associateBy({ it.componentId }, { it.mappingId })
-
-                // mappingId 별로 실제 토큰에 저장된 value를 찾아 복제할 데이터를 생성한다.
-                val tokenDataForCopy = mutableMapOf<String, String>()
-                tokenData.forEach {
-                    if (mappingIds[it.componentId] != null) {
-                        val mappingId = mappingIds[it.componentId] as String
-                        tokenDataForCopy[mappingId] = it.value
-                    }
-                }
-
-                // target-document-list 별로 수행해야할 토큰을 리턴
-                targetDocumentIds.forEach { documentId ->
-                    val document = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-
-                    // 복제할 데이터에서 타켓 다큐먼트의 mappingId 와 일치하는 value를 찾고
-                    // WfTokenDataDto 를 생성한다.
-                    val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
-                    document.form.components!!.forEach { component ->
-                        if (component.mappingId.isNotBlank() && tokenDataForCopy[component.mappingId] != null) {
-                            val value = tokenDataForCopy[component.mappingId] as String
-                            val data = RestTemplateTokenDataDto(componentId = component.componentId, value = value)
-                            tokenDataList.add(data)
-                        }
-                    }
-
-                    // RestTemplateTokenDto 생성 후 토큰 실행!!
-                    initToken(
-                        RestTemplateTokenDto(
-                            documentId = document.documentId,
-                            data = tokenDataList,
-                            action = WfElementConstants.Action.SAVE.value
-                        )
-                    )
-                }
-                goToNext(saveTokenEntity, newElementEntity, restTemplateTokenDto)
+                goToNext(saveToken, restTemplateTokenDto)
             }
         }
     }
@@ -485,6 +372,26 @@ class WfTokenElementService(
     }
 
     /**
+     * Get AttributeValues.
+     *
+     * @param elementDataEntities
+     * @param attributeId
+     * @return MutableList<String> (attributeValue)
+     */
+    private fun getAttributeValues(
+        elementDataEntities: MutableList<WfElementDataEntity>,
+        attributeId: String
+    ): MutableList<String> {
+        val attributeValues: MutableList<String> = mutableListOf()
+        elementDataEntities.forEach { data ->
+            if (data.attributeId == attributeId) {
+                attributeValues.add(data.attributeValue)
+            }
+        }
+        return attributeValues
+    }
+
+    /**
      * Get Assignee.
      *
      * @param element
@@ -496,7 +403,7 @@ class WfTokenElementService(
             getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
         var componentMappingId = ""
         token.instance.document!!.form.components?.forEach { component ->
-            if (component.mappingId == assigneeMappingId) {
+            if (component.mappingId.isNotEmpty() && component.mappingId == assigneeMappingId) {
                 componentMappingId = component.componentId
             }
         }
@@ -509,16 +416,43 @@ class WfTokenElementService(
     }
 
     /**
-     * Get AssigneeUser.
+     * Set token assignee or candidate.
      *
-     * @param element
-     * @return String
+     * @param token
      */
-    private fun getAssigneeUser(element: WfElementEntity): String {
-        return getAttributeValue(
-            element.elementDataEntities,
-            WfElementConstants.AttributeId.ASSIGNEE.value
-        ).split(",")[0]
+    private fun setCandidate(token: WfTokenEntity) {
+        val assigneeType =
+            getAttributeValue(token.element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value)
+        when (assigneeType) {
+            WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
+                var assigneeId = getAssignee(token.element, token)
+                if (assigneeId.isEmpty()) {
+                    assigneeId = this.assigneeId
+                }
+                token.assigneeId = assigneeId
+                wfTokenRepository.save(token)
+            }
+            WfTokenConstants.AssigneeType.USERS.code,
+            WfTokenConstants.AssigneeType.GROUPS.code -> {
+                val candidates =
+                    getAttributeValues(token.element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+                if (candidates.isNotEmpty()) {
+                    val wfCandidateEntities = mutableListOf<WfCandidateEntity>()
+                    candidates.forEach { candidate ->
+                        val wfCandidateEntity = WfCandidateEntity(
+                            token = token,
+                            candidateType = assigneeType,
+                            candidateValue = candidate
+                        )
+                        wfCandidateEntities.add(wfCandidateEntity)
+                    }
+                    wfCandidateRepository.saveAll(wfCandidateEntities)
+                } else {
+                    token.assigneeId = this.assigneeId
+                    wfTokenRepository.save(token)
+                }
+            }
+        }
     }
 
     /**

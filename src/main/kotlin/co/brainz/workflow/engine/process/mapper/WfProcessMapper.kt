@@ -27,7 +27,9 @@ interface WfProcessMapper {
 
     @Mappings(
         Mapping(source = "elementId", target = "id"),
-        Mapping(source = "elementType", target = "type")
+        Mapping(source = "elementType", target = "type"),
+        Mapping(source = "elementName", target = "name"),
+        Mapping(source = "elementDesc", target = "description")
     )
     fun toWfElementDto(elementEntity: WfElementEntity): RestTemplateElementDto
 }

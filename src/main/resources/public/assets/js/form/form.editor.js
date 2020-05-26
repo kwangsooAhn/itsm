@@ -182,7 +182,6 @@
         data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
-
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/' + data.form.id + '/data',
@@ -981,6 +980,16 @@
                         propertyName.classList.add('property-field-name');
                         propertyName.textContent = fieldArr.name;
                         fieldGroupDiv.appendChild(propertyName);
+
+                        //도움말 추가
+                        if (typeof fieldArr.help !== 'undefined') {
+                            const helpTooltip = document.createElement('div');
+                            helpTooltip.classList.add('help-tooltip');
+                            const helpTootltipContent = document.createElement('p');
+                            helpTootltipContent.innerHTML = i18n.get(fieldArr.help);
+                            helpTooltip.appendChild(helpTootltipContent);
+                            propertyName.appendChild(helpTooltip);
+                        }
                     }
                     switch (fieldArr.type) {
                         case 'inputbox':

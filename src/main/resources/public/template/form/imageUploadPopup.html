@@ -266,7 +266,7 @@
                             file.previewElement.parentNode.removeChild(file.previewElement);
                         }
                         this.files.splice(-1, 1);
-                        aliceJs.alert('[[#{fileupload.msg.fileNameExtensionNotExist}]]');
+                        aliceJs.alert(i18n.get('fileupload.msg.fileNameExtensionNotExist'));
                     }
 
                     let isDuplicated = false;  //중복된 파일명이 존재하면 업로드를 알림창을 띄운다.
@@ -277,7 +277,7 @@
                                     file.previewElement.parentNode.removeChild(file.previewElement);
                                 }
                                 this.files.splice(-1, 1);
-                                aliceJs.alert('[[#{form.msg.alert.fileNameDuplication}]]');
+                                aliceJs.alert(i18n.get('form.msg.alert.fileNameDuplication'));
                                 isDuplicated = true;
                                 break;
                             }
@@ -314,7 +314,7 @@
                         contentType: 'application/json',
                         callbackFunc: function (response) {
                             if (response.responseText === 'true') {
-                                aliceJs.alert('[[#{common.msg.delete.success}]]', function () {
+                                aliceJs.alert(i18n.get('common.msg.delete.success'), function () {
                                     location.reload();
                                 });
                             } else {
