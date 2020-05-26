@@ -184,8 +184,8 @@
                 if (originData.type !== changeData.type) { // modify type
                     aliceProcessEditor.changeElementType(element, changeData.type);
                 }
-                if (originData.data.name !== changeData.data.name) { // modify name
-                    aliceProcessEditor.changeTextToElement(changeData.id, changeData.data.name);
+                if (originData.name !== changeData.name) { // modify name
+                    aliceProcessEditor.changeTextToElement(changeData.id, changeData.name);
                 }
                 if (changeData.type !== 'arrowConnector') {
                     if (originData.display['position-x'] !== changeData.display['position-x']

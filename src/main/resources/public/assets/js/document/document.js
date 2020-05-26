@@ -352,14 +352,18 @@
         } else {
             tokenObject.tokenId = '';
         }
+
+        let actionMsg = ''
         if (v_kind === 'save') {
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
             tokenObject.assigneeId = aliceForm.options.sessionInfo.userKey;
             tokenObject.assigneeType = defaultAssigneeTypeForSave;
+            actionMsg = i18n.get('common.msg.save');
         } else {
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
             tokenObject.assigneeId = '';
             tokenObject.assigneeType = '';
+            actionMsg = i18n.get('common.msg.process');
         }
 
         const componentArrayList = getComponentData();
@@ -395,7 +399,7 @@
             contentType: 'application/json',
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
-                    aliceJs.alert(i18n.get('common.msg.save'), function () {
+                    aliceJs.alert(actionMsg, function () {
                         opener.location.reload();
                         window.close();
                     });
