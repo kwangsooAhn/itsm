@@ -41,6 +41,12 @@ object AliceUserConstants {
     const val ADMIN_ID: String = "admin"
 
     /**
+     * 사용자 아바타  디렉터리
+     */
+    const val BASE_DIR: String = "public"
+    const val USER_AVATAR_IMAGE_DIR: String = "assets/media/image/avatar/"
+
+    /**
      * 사용자 상태.
      */
     enum class Status(val code: String, val value: Int) {

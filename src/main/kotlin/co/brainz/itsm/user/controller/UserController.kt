@@ -2,6 +2,7 @@ package co.brainz.itsm.user.controller
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -23,7 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 class UserController(
     private val codeService: CodeService,
     private val userService: UserService,
-    private val roleService: RoleService
+    private val roleService: RoleService,
+    private val aliceFileService: AliceFileService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -93,6 +95,13 @@ class UserController(
         model.addAttribute("timezoneList", timezoneList)
         model.addAttribute("dateList", dateList)
         model.addAttribute("timeList", timeList)
+
+
+        // 기본 이미지
+
+        //model.addAttribute("attachImage", "/assets/media/image/profile_sample.jpg")
+        //model.addAttribute("attachImage", aliceFileService.getList(userKey, ""))
+        model.addAttribute("attachImage","/assets/media/image/avatar/정현규1.jpg")
 
         when (target) {
             "editSelf" -> {

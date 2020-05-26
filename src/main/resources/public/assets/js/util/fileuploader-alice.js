@@ -33,17 +33,31 @@ const fileUploader = (function () {
             dropZoneUploadedFilesId = 'dropZoneUploadedFiles';
         }
 
+        if (extraParam.dropZoneUrl === undefined) {
+            extraParam.dropZoneUrl = '/fileupload'
+        }
+
+        if (extraParam.dropZoneMaxFiles === undefined ) {
+            extraParam.dropZoneMaxFiles = null
+        }
+
+        if (extraParam.clickable === undefined) {
+            extraParam.clickable = ".add-file-button"
+        }
+
         // 파일 추가 버튼 정의 및 추가
         const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
         dropZoneFiles.className = 'fileEditorable';
 
-        const addFileSpan = document.createElement('span');
-        addFileSpan.className = 'add-file-button';
-        const addFileBtn = document.createElement('button');
-        addFileBtn.innerText = 'ADD';
-        addFileBtn.setAttribute('type', 'button');
-        addFileSpan.appendChild(addFileBtn);
-        dropZoneFiles.appendChild(addFileSpan);
+        if (extraParam.clickable === ".add-file-button") {
+            const addFileSpan = document.createElement('span');
+            addFileSpan.className = 'add-file-button';
+            const addFileBtn = document.createElement('button');
+            addFileBtn.innerText = 'ADD';
+            addFileBtn.setAttribute('type', 'button');
+            addFileSpan.appendChild(addFileBtn);
+            dropZoneFiles.appendChild(addFileSpan);
+        }
 
         // 파일 드랍 영역 및 파일을 보여줄 장소 정의
         const fileDropZone = document.createElement('div');
@@ -115,21 +129,31 @@ const fileUploader = (function () {
         // 파일 업로드 영역에 드랍 영역 정의
         document.getElementById(''+ dropZoneFilesId +'').appendChild(fileDropZone);
 
+        if (extraParam.clickable == ".add-img-button") {
+            const addFileSpan = document.createElement('span');
+            addFileSpan.className = 'add-img-button';
+            const addFileBtn = document.createElement('button');
+            addFileBtn.innerText = '아바타 추가';
+            addFileBtn.setAttribute('type', 'button');
+            addFileSpan.appendChild(addFileBtn);
+            dropZoneFiles.appendChild(addFileSpan);
+        }
+
         // 파일 업로드 기능 정의
         let dropzoneId = '#'+dropZoneFilesId+' #dropZoneFileUpload';
         const myDropZone = new Dropzone(''+ dropzoneId +'', {
             paramName: "file", // file 매개변수명
             params: extraParam || null, // 추가 매개변수
             maxFilesize: extraParam.dropZoneMaxFileSize, // 첨부파일 용량 제한
-            url: '/fileupload',
+            url: extraParam.dropZoneUrl,
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
-            maxFiles: null, // 첨부파일 개수 제한
+            maxFiles: extraParam.dropZoneMaxFiles, // 첨부파일 개수 제한
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
             //acceptedFiles: "image/*",
             previewTemplate: fileView.innerHTML, // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
             autoQueue: true, // Make sure the files aren't queued until manually added
-            clickable: ".add-file-button", // Define the element that should be used as click trigger to select files.
+            clickable: extraParam.clickable, // Define the element that should be used as click trigger to select files.
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
             },

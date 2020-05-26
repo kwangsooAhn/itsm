@@ -1,5 +1,6 @@
 package co.brainz.framework.fileTransaction.controller
 
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
@@ -29,11 +30,15 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
      * 파일 추가시 임시폴더에 물리적으로 저장한다.
      */
     @PostMapping("/fileupload")
-    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): ResponseEntity<Map<String, Any>> {
+    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile, @RequestParam(value = "location", defaultValue = "") location: String): ResponseEntity<Map<String, Any>> {
         val response: ResponseEntity<Map<String, Any>>
         val map: MutableMap<String, Any> = mutableMapOf()
 
-        map["file"] = aliceFileService.uploadTemp(multipartFile)
+        if (location == "resources") {
+            map["file"] = aliceFileService.uploadResources(multipartFile, AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR)
+        } else {
+            map["file"] = aliceFileService.uploadTemp(multipartFile)
+        }
 
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")

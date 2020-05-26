@@ -142,6 +142,7 @@ user:
   time: "Time Format"
   lang: "Language"
   theme: "Theme"
+  avatar: "Avatar"
   reg: "Sign up"
   read: "User read"
   role: "User Role"

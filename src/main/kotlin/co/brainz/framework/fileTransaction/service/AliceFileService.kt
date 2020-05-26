@@ -1,6 +1,7 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -16,6 +17,7 @@ import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
+import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpHeaders
@@ -285,5 +287,22 @@ class AliceFileService(
             )
             throw AliceException(AliceErrorConstants.ERR, "File not found: " + fileLocEntity.originName)
         }
+    }
+
+    fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String) {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val fileNameExtension = File(multipartFile.originalFilename).extension.toUpperCase()
+        this.basePath = ClassPathResource(AliceUserConstants.BASE_DIR).file.path.toString()
+
+        var dir = Paths.get(this.basePath, AliceUserConstants.USER_AVATAR_IMAGE_DIR)
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+
+        val filePath = Paths.get(dir.toString() + File.separator + aliceUserDto.userKey)
+
+        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
+            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+        }
+
+        multipartFile.transferTo(filePath.toFile())
     }
 }
