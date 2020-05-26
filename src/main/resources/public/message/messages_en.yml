@@ -308,7 +308,15 @@ form:
       fileNameDuplication: "The same file name exists."
   preview:
     name: "Form Edit Preview"
-
+  help:
+    mapping-id: "It is not an attribute for external output, but is a key value that is set to use the value of the component in the workflow engine or other modules."
+    is-topic: "Please check if you want to display the component in the document list."
+    text-default: "You can directly enter the default values displayed on the component, or choose between automatic input. In case of automatic input, one of user's session information can be selected."
+    date-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date.<br/>'days after' means +, -date from current date.<br/>The last item is used to show a specific date as fixed."
+    time-default: "You can set the default value displayed on the component.<br/>'Now' prints the current time.<br/>'hours later' means +, -hour from current time.<br/>The last item is used to show a specific time as fixed."
+    datetime-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date time.<br/>'days/hours later' means +, - date/hour from current date time.<br/>The last item is used to show a specific date time as fixed."
+    custom-code: "You can select a custom code list of user-defined code sets."
+    custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
 # Process
 process:
   label:

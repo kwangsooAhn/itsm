@@ -9,7 +9,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -17,7 +18,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -138,7 +140,8 @@
                     }
                 ],
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.text-default"
             }
         ],
         "validate": [
@@ -196,7 +199,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -204,7 +208,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -354,7 +359,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -362,7 +368,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -476,7 +483,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -484,7 +492,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -616,7 +625,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -624,7 +634,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -756,7 +767,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "" ,
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -764,7 +776,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "display": [
@@ -838,7 +851,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -846,7 +860,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "display": [
@@ -897,7 +912,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -905,7 +921,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "display": [
@@ -946,7 +963,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -954,7 +972,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -1053,7 +1072,8 @@
                 "type": "radio-datetime",
                 "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "date", "name": "{0}days after", "validate": "number"}, {"id": "datepicker", "name": ""} ],
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.date-default"
             }
         ],
         "validate": [
@@ -1084,7 +1104,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -1092,7 +1113,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -1191,7 +1213,8 @@
                 "type": "radio-datetime",
                 "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "time", "name": "{0}hours later", "validate": "number"}, {"id": "timepicker", "name": ""} ],
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.time-default"
             }
         ],
         "validate": [
@@ -1222,7 +1245,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -1230,7 +1254,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -1329,7 +1354,8 @@
                 "type": "radio-datetime",
                 "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "datetime", "name": "{0}days{0}hours later", "validate": "number"}, {"id": "datetimepicker", "name": ""} ],
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.datetime-default"
             }
         ],
         "validate": [
@@ -1360,7 +1386,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -1368,7 +1395,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -1471,7 +1499,8 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "",
+                "help": "form.help.mapping-id"
             },
             {
                 "id": "is-topic",
@@ -1479,7 +1508,8 @@
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.is-topic"
             }
         ],
         "label": [
@@ -1577,7 +1607,8 @@
                 "value": "",
                 "type": "customcode",
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.custom-code"
             },
             {
                 "id": "default",
@@ -1595,7 +1626,8 @@
                     {"id": "code", "name": "Custom Code Data", "items" : []}
                 ],
                 "code": "",
-                "unit": ""
+                "unit": "",
+                "help": "form.help.custom-code-default"
             },
             {
                 "id": "button-text",
