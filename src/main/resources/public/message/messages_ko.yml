@@ -38,6 +38,7 @@ common:
     print: "인쇄"
   msg:
     save: "저장되었습니다"
+    process: "처리되었습니다."
     save.fail: "실패되었습니다."
     delete.success: "삭제되었습니다."
     delete.fail: "삭제를 실패했습니다."

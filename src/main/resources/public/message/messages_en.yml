@@ -38,6 +38,7 @@ common:
     print: "Print"
   msg:
     save: "Saved"
+    process: "It has been processed."
     save.fail: "Fail"
     delete.success: "Deleted."
     delete.fail: "Deletion failed."
