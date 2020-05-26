@@ -115,7 +115,7 @@ class WfProcessService(
                 }
             }
 
-            // assignee type 에 따라 assignee 값은 List 로 고정
+            // assignee type 에 따라 assignee 값은 List 타입으로 리턴
             val attrIdAssigneeType = WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
             if (elementData[attrIdAssigneeType] != null) {
                 val assigneeType = elementData[attrIdAssigneeType] as String
@@ -130,7 +130,7 @@ class WfProcessService(
                 }
             }
 
-            // target-document-list 는 List 로 고정
+            // target-document-list 는 List 타입으로 리턴
             val attrIdtargetDocumentList = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
             if (elementData[attrIdtargetDocumentList] != null) {
                 val targetDocumentList = elementData[attrIdtargetDocumentList]
