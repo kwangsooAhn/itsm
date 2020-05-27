@@ -21,8 +21,6 @@ class TokenService(
     private val aliceFileService: AliceFileService
 ) {
 
-    private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
     /**
      * Post Token 처리.
      *
@@ -30,6 +28,8 @@ class TokenService(
      * @return Boolean
      */
     fun postToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        restTemplateTokenDto.assigneeId = aliceUserDto.userKey
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN.url)
         val responseEntity = restTemplate.create(url, restTemplateTokenDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
@@ -54,6 +54,8 @@ class TokenService(
                 tokenId
             )
         )
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        restTemplateTokenDto.assigneeId = aliceUserDto.userKey
         val responseEntity = restTemplate.update(url, restTemplateTokenDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {

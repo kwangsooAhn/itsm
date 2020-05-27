@@ -36,7 +36,7 @@
             printInfo.innerHTML = aliceForm.options.sessionInfo.userName + ' ['
                 + aliceForm.options.sessionInfo.email + ']<br>' + dateTime;
 
-            aliceDocument.drawDocument(JSON.parse(/*[[${data}]]*/''));
+            aliceForm.initSync(aliceDocument.drawDocument, /*[[${data}]]*/);
 
             setTimeout(function() {
                 window.print();
