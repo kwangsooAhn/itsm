@@ -25,8 +25,9 @@
             <col width="1%">
             <col width="15%">
             <col width="20%">
-            <col width="34%">
-            <col width="25%">
+            <col width="24%">
+            <col width="20%">
+            <col width="15%">
             <col width="5%">
         </colgroup>
         <tbody>
@@ -41,6 +42,11 @@
                 <span th:unless="${#arrays.isEmpty(token.topics)}" th:each="topic: ${token.topics}">
                     <p th:text="${topic}"></p>
                 </span>
+            </td>
+            <td>
+<!--                <span th:unless="${#arrays.isEmpty(token.tags)}" th:each="tag: ${token.tags}">-->
+<!--                    <p th:text="${tag}"></p>-->
+<!--                </span>-->
             </td>
             <td th:with="dateformat=${#authentication.details.timeFormat}"
                 th:text="|${#temporals.format(token.createDt, dateformat)} ${token.createUserName}|"></td>

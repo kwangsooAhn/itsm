@@ -34,6 +34,7 @@ common:
     attachFile: "Attach file"
     notSelect: "Not Select"
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
+    tag: "Tag"
     comment: "Comment"
     print: "Print"
   msg:
@@ -47,6 +48,7 @@ common:
     unknownError: "An unknown error has occurred. Please contact the administrator."
     requiredEnter: "Please enter the required item."
     noData: "There is no data."
+    tag: "Insert tags."
 # Menu
 menu:
   service: "Service"

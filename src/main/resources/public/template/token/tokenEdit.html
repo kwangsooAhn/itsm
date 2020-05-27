@@ -6,6 +6,7 @@
     <title th:text="#{token.label.write}"></title>
     <th:block layout:fragment="css">
         <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
+        <link th:href="@{/assets/vendors/tagify/tagify.css}" rel="stylesheet"/>
     </th:block>
 </head>
 <body>
@@ -18,6 +19,11 @@
         <div class="drawing-board" id="document-container"></div>
         <div id="button-container"></div>
     </form>
+    <h1 th:text="#{common.label.tag}"></h1>
+    <div style="margin-bottom: 1rem;">
+        <input name="tags"/>
+    </div>
+
     <h1 th:text="#{token.label.history}"></h1>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
@@ -115,10 +121,20 @@
 </body>
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
+    <script th:src="@{/assets/vendors/tagify/tagify.min.js}"></script>
+
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
             aliceDocument.initToken('[[${tokenId}]]');
+
+            const tagInput = document.querySelector('input[name=tags]');
+            const tagify = new Tagify(tagInput, {
+                editTags        : 1,
+                whitelist       : ["서비스데스크","테스트"],
+                callbacks       : {},
+                placeholder     : [[#{common.msg.tag}]]
+            });
         };
 
         function openPopUp(tokenId) {
