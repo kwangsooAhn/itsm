@@ -1,5 +1,6 @@
 package co.brainz.workflow.provider.dto
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 
 data class RestTemplateTokenDto(
@@ -7,6 +8,7 @@ data class RestTemplateTokenDto(
     var documentId: String? = null,
     var documentName: String? = null,
     var instanceId: String? = null,
+    var instanceCreateUser: AliceUserEntity? = null,
     var isComplete: Boolean = true,
     var elementId: String = "",
     var elementType: String = "",
