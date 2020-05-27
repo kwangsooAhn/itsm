@@ -20,7 +20,7 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun getInstanceHistory(tokenId: String): List<RestTemplateInstanceHistoryDto>? {
-        var instanceHistory: MutableList<RestTemplateInstanceHistoryDto>? = null
+        val instanceHistoryDto = mutableListOf<RestTemplateInstanceHistoryDto>()
         getInstanceId(tokenId)?.let { instanceId ->
             val urlDto = RestTemplateUrlDto(
                 callUrl = RestTemplateConstants.Instance.GET_INSTANCE_HISTORY.url.replace(
@@ -29,23 +29,22 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
                 )
             )
             val responseBody = restTemplate.get(urlDto)
-            instanceHistory = mapper.readValue(
+            val instanceHistory: MutableList<RestTemplateInstanceHistoryDto>? = mapper.readValue(
                 responseBody,
                 mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceHistoryDto::class.java)
             )
-            instanceHistory?.let { instanceHistory ->
-                for (instance in instanceHistory) {
+            instanceHistory?.let { history ->
+                for (instance in history) {
                     if (InstanceConstants.InstanceHistory.isHistoryElement(instance.elementType)) {
                         instance.tokenStartDt = instance.tokenStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
                         instance.tokenEndDt = instance.tokenEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
-                    } else {
-                        instanceHistory.remove(instance)
+                        instanceHistoryDto.add(instance)
                     }
                 }
             }
         }
 
-        return instanceHistory
+        return instanceHistoryDto
     }
 
     fun getInstanceId(tokenId: String): String? {
