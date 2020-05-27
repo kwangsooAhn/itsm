@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.process.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.process.constants.WfProcessConstants
@@ -9,10 +10,12 @@ import co.brainz.workflow.engine.process.entity.WfProcessEntity
 import co.brainz.workflow.engine.process.mapper.WfProcessMapper
 import co.brainz.workflow.engine.process.repository.WfProcessRepository
 import co.brainz.workflow.engine.process.service.simulation.WfProcessSimulator
+import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.provider.dto.RestTemplateElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -32,6 +35,7 @@ class WfProcessService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val processMapper = Mappers.getMapper(WfProcessMapper::class.java)
+    private val objMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 프로세스 목록 조회
@@ -85,15 +89,61 @@ class WfProcessService(
             AliceErrorConstants.ERR_00005.message + "[Process Entity]"
         )
         val restTemplateElementDtoList = mutableListOf<RestTemplateElementDto>()
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
-            elDto.display = elementEntity.displayInfo.let { mapper.readValue(it) }
-            elDto.data = elementEntity.elementDataEntities.associateByTo(
-                mutableMapOf(),
-                { it.attributeId },
-                { it.attributeValue })
+            elDto.display = objMapper.readValue(elementEntity.displayInfo)
+            if (elementEntity.notificationEmail) {
+                elDto.notification = "Y"
+            }
+
+            // 엘리먼트 데이터가 싱글인지 멀티값인지에 따라 String 또는 mutableList 로 저장
+            val elementData = mutableMapOf<String, Any>()
+            elementEntity.elementDataEntities.forEach {
+                elementData[it.attributeId] = when (elementData[it.attributeId]) {
+                    is String -> {
+                        val data = mutableListOf(elementData[it.attributeId] as String)
+                        data.add(it.attributeValue)
+                        data
+                    }
+                    is MutableList<*> -> {
+                        val data =
+                            (elementData[it.attributeId] as MutableList<*>).filterIsInstance<String>().toMutableList()
+                        data.add(it.attributeValue)
+                        data
+                    }
+                    else -> {
+                        it.attributeValue
+                    }
+                }
+            }
+
+            // assignee type 에 따라 assignee 값은 List 타입으로 리턴
+            val attrIdAssigneeType = WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
+            if (elementData[attrIdAssigneeType] != null) {
+                val assigneeType = elementData[attrIdAssigneeType] as String
+                if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
+                    assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
+                ) {
+                    val attrIdAssignee = WfElementConstants.AttributeId.ASSIGNEE.value
+                    val assignee = elementData[attrIdAssignee]
+                    if (assignee is String) {
+                        elementData[attrIdAssignee] = mutableListOf(assignee)
+                    }
+                }
+            }
+
+            // target-document-list 는 List 타입으로 리턴
+            val attrIdTargetDocumentList = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
+            if (elementData[attrIdTargetDocumentList] != null) {
+                val targetDocumentList = elementData[attrIdTargetDocumentList]
+                if (targetDocumentList is String) {
+                    elementData[attrIdTargetDocumentList] = mutableListOf(targetDocumentList)
+                }
+            }
+
+            elDto.data = elementData
+
             restTemplateElementDtoList.add(elDto)
         }
         return RestTemplateProcessElementDto(wfProcessDto, restTemplateElementDtoList)
@@ -156,7 +206,6 @@ class WfProcessService(
      * 프로세스 정보 변경.
      */
     fun updateProcessData(restTemplateProcessElementDto: RestTemplateProcessElementDto): Boolean {
-
         // 클라이언트에서 요청한 프로세스 정보.
         val wfJsonProcessDto = restTemplateProcessElementDto.process
         val wfJsonElementsDto = restTemplateProcessElementDto.elements
@@ -180,26 +229,29 @@ class WfProcessService(
 
             // process data entity 생성.
             val elementEntities = mutableListOf<WfElementEntity>()
-            if (wfJsonElementsDto != null) {
-                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+            objMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
+            wfJsonElementsDto?.forEach {
 
-                wfJsonElementsDto.forEach {
+                // element master entity 생성
+                val elementEntity = WfElementEntity(
+                    elementId = it.id,
+                    processId = wfJsonProcessDto.id,
+                    elementType = it.type,
+                    displayInfo = objMapper.writeValueAsString(it.display),
+                    elementName = it.name,
+                    elementDesc = it.description,
+                    notificationEmail = (it.notification == "Y")
+                )
 
-                    // element master entity 생성
-                    val elementEntity = WfElementEntity(
-                        elementId = it.id,
-                        processId = wfJsonProcessDto.id,
-                        elementType = it.type,
-                        displayInfo = mapper.writeValueAsString(it.display)
-                    )
-
-                    // element data entity 생성
-                    val elementDataEntities = mutableListOf<WfElementDataEntity>()
-                    it.data?.entries?.forEachIndexed { idx, data ->
+                // element data entity 생성
+                val elementDataEntities = mutableListOf<WfElementDataEntity>()
+                it.data?.entries?.forEachIndexed { idx, data ->
+                    val values: MutableList<String> = objMapper.readValue(objMapper.writeValueAsString(data.value))
+                    values.forEach { value ->
                         val elementDataEntity = WfElementDataEntity(
                             element = elementEntity,
                             attributeId = data.key,
-                            attributeValue = data.value as String,
+                            attributeValue = value,
                             attributeOrder = idx
                         )
                         it.required?.forEach { required ->
@@ -209,9 +261,9 @@ class WfProcessService(
                         }
                         elementDataEntities.add(elementDataEntity)
                     }
-                    elementEntity.elementDataEntities.addAll(elementDataEntities)
-                    elementEntities.add(elementEntity)
                 }
+                elementEntity.elementDataEntities.addAll(elementDataEntities)
+                elementEntities.add(elementEntity)
             }
 
             // 프로세스 정보를 저장한다.
@@ -266,6 +318,9 @@ class WfProcessService(
             }
             val restTemplateElementDto = RestTemplateElementDto(
                 id = elementKeyMap[element.id]!!,
+                name = element.name,
+                description = element.description,
+                notification = element.notification,
                 data = dataMap,
                 type = element.type,
                 display = element.display

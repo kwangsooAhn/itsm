@@ -76,7 +76,8 @@ class WfDocumentService(
                 createUserKey = document.createUserKey,
                 updateDt = document.updateDt,
                 updateUserKey = document.updateUserKey,
-                documentNumberingRuleId = document.numberingRule.numberingId
+                documentNumberingRuleId = document.numberingRule.numberingId,
+                documentColor = document.documentColor
             )
             documents.add(documentDto)
         }
@@ -103,7 +104,8 @@ class WfDocumentService(
             createUserKey = document.createUserKey,
             updateDt = document.updateDt,
             updateUserKey = document.updateUserKey,
-            documentNumberingRuleId = document.numberingRule.numberingId
+            documentNumberingRuleId = document.numberingRule.numberingId,
+            documentColor = document.documentColor
         )
     }
 
@@ -187,7 +189,8 @@ class WfDocumentService(
             createDt = restTemplateDocumentDto.createDt,
             createUserKey = restTemplateDocumentDto.createUserKey,
             documentStatus = restTemplateDocumentDto.documentStatus,
-            numberingRule = aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
+            numberingRule = aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get(),
+            documentColor = restTemplateDocumentDto.documentColor
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -202,7 +205,8 @@ class WfDocumentService(
             processId = dataEntity.process.processId,
             createDt = dataEntity.createDt,
             createUserKey = dataEntity.createUserKey,
-            documentNumberingRuleId = dataEntity.numberingRule.numberingId
+            documentNumberingRuleId = dataEntity.numberingRule.numberingId,
+            documentColor = dataEntity.documentColor
         )
     }
 
@@ -226,6 +230,7 @@ class WfDocumentService(
         wfDocumentEntity.process = process
         wfDocumentEntity.numberingRule =
             aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
+        wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
         wfDocumentRepository.save(wfDocumentEntity)
 
         when (restTemplateDocumentDto.documentStatus) {
@@ -306,7 +311,7 @@ class WfDocumentService(
     fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
-        val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
+        val componentEntities = wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
         val displayList = wfDocumentDataRepository.findByDocumentId(documentId)
 
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()

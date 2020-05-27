@@ -4,23 +4,13 @@ import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
-interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
+interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String>, WfInstanceRepositoryCustom {
 
     fun findByInstanceId(instanceId: String): WfInstanceEntity?
-
-    @Query(
-        "SELECT NEW co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto(t, d, i) " +
-                "FROM WfTokenEntity t, WfDocumentEntity d, WfInstanceEntity i " +
-                "where d.documentId = i.document.documentId " +
-                "and i.instanceId = t.instance.instanceId " +
-                "and t.tokenStatus = :status " +
-                "and t.assigneeId = :userKey"
-    )
-    fun findInstances(status: String, userKey: String): List<WfInstanceListViewDto>
-
     fun countByDocument(wfDocumentEntity: WfDocumentEntity): Int
 
     @Query(
@@ -45,4 +35,15 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String> {
                 "ORDER BY t.tokenStartDt"
     )
     fun findInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto>
+
+    @Query(
+        "SELECT NEW co.brainz.workflow.provider.dto.RestTemplateInstanceListDto(" +
+                "i.instanceId, i.document.documentName, i.documentNo, i.instanceStartDt , i.instanceEndDt, i.instanceCreateUser.userKey, i.instanceCreateUser.userName) from WfInstanceEntity i left join i.instanceCreateUser inner join i.document " +
+                "WHERE i.instanceId != :instanceId " +
+                "AND (lower(i.document.documentName) like lower(concat('%', :searchValue, '%')) " +
+                "or lower(i.instanceCreateUser.userName) like lower(concat('%', :searchValue, '%')) " +
+                "or :searchValue = '') " +
+                "ORDER BY i.instanceStartDt"
+    )
+    fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
 }

@@ -37,7 +37,7 @@
         </colgroup>
         <tbody>
             <tr th:unless="${#arrays.isEmpty(customCodeDataList)}" th:each="customCode: ${customCodeDataList}">
-                <td><input type="checkbox" th:id="${customCode.key}" th:value="${customCode.value}"/></td>
+                <td><input type="radio" name="customCode" th:id="${customCode.key}" th:value="${customCode.value}"/></td>
                 <td th:text="${customCode.value}"></td>
             </tr>
         </tbody>
@@ -57,18 +57,9 @@
     /*<![CDATA[*/
     let componentData = {};
     function customCodeDataSave() {
-        let checkElems = document.querySelectorAll('tr:not([style*="display: none"]) input:checked');
-        let componentValue = '';
-        let componentDataValue = '';
-        for (let i = 0, len = checkElems.length; i < len; i++) {
-            if (componentValue === '' && componentValue.indexOf('/') === -1) {
-                componentDataValue = checkElems[i].id + '|' + checkElems[i].value;
-                componentValue = checkElems[i].value;
-            } else {
-                componentDataValue += (',' + checkElems[i].id + '|' + checkElems[i].value);
-                componentValue += '/' + checkElems[i].value;
-            }
-        }
+        let checkElem = document.querySelector('tr:not([style*="display: none"]) input:checked');
+        let componentDataValue = checkElem.id + '|' + checkElem.value;
+        let componentValue = checkElem.value;
         if (window.opener && !window.opener.closed) {
             let component = window.opener.document.getElementById(componentData.componentId);
             let componentChild =  component.querySelector('input[type="text"]');
@@ -79,16 +70,13 @@
     }
     window.onload = function() {
         componentData = JSON.parse('[(${customCodeData})]');
-        let compDataList = componentData.componentValues.split(','); //key|value,key|value
-        for (let i = 0, len = compDataList.length; i < len; i++) {
-            let compDataMap = compDataList[i].split('|');
-            let checkboxElem = document.querySelector('input[id="' + compDataMap[0] + '"]');
-            if (checkboxElem) {
-                checkboxElem.checked = true;
-            }
+        let compDataMap = componentData.componentValues.split('|');
+        let radioElem = document.querySelector('input[id="' + compDataMap[0] + '"]');
+        if (radioElem) {
+            radioElem.checked = true;
         }
         document.getElementById('search').addEventListener('keyup', function () {
-            let dataList = document.querySelectorAll('input[type="checkbox"]');
+            let dataList = document.querySelectorAll('input[type="radio"]');
             for (let i = 0; i < dataList.length; i++) {
                 if (dataList[i].value.toLowerCase().indexOf(this.value.toLowerCase()) > -1) {
                     dataList[i].parentElement.parentElement.style.display = '';

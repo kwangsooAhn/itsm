@@ -6,11 +6,9 @@
     'use strict';
 
     const data = {};
-
     const iconDirectory = '/assets/media/icons/process';
     const itemSize = 20;
     const itemMargin = 8;
-
     const assigneeTypeData = {
         users: [],
         groups: []
@@ -211,6 +209,9 @@
             const originElementData = JSON.parse(JSON.stringify(elementData[0]));
             const category = getElementCategory(type);
             let typeData = getAttributeData(category, type);
+            delete typeData.name;
+            delete typeData.notification;
+            delete typeData.description;
             Object.keys(typeData).forEach(function(newKey) {
                 Object.keys(elementData[0].data).forEach(function(oldKey) {
                     if (newKey === oldKey) {
@@ -218,16 +219,15 @@
                     }
                 });
             });
-            let requiredData = getAttributeRequired(category, type);
+            elementData[0].id = elementId;
             elementData[0].type = type;
             elementData[0].data = typeData;
-            elementData[0].data.id = elementId;
-            elementData[0].required = requiredData;
+            elementData[0].required = getAttributeRequired(category, type);
 
             changeElementType(element, type);
             d3.select('g.alice-tooltip').remove();
             setElementMenu(element);
-            aliceProcessEditor.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
             console.debug('edited element [%s]!!', type);
         }
     }
@@ -246,6 +246,27 @@
     }
 
     /**
+     * 엘리먼트 정보 JSON에 엘리먼트 정보를 추가하고, 속성 정보 JSON에서 해당 key를 제외한다.
+     *
+     * @param elementData 엘리먼트 정보 JSON
+     * @param attributeData 속성 정보 JSON
+     */
+    function setElementData(elementData, attributeData) {
+        const elementDataKeys = [
+                {key: 'name', default: ''},
+                {key: 'notification', default: 'N'},
+                {key: 'description', default: ''}
+            ];
+        elementDataKeys.forEach(function(e) {
+            elementData[e.key] = e.default;
+            if (typeof attributeData[e.key] !== 'undefined') {
+                elementData[e.key] = attributeData[e.key];
+                delete attributeData[e.key];
+            }
+        });
+    }
+
+    /**
      * 추가된 element properties 를 data 에 추가한다.
      *
      * @param elem 추가된 element
@@ -256,16 +277,14 @@
         }
 
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
-
+              elements = aliceProcessEditor.data.elements;
         let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;
         }
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem);
-        let elemData = {};
-        elemData.id = elementId;
+        const elemData = { id: elementId };
         if (elem.classed('node')) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
@@ -275,10 +294,12 @@
                     } else {
                         elemType = getElementDefaultType(elementsKeys[i]);
                     }
+                    let attributeData = getAttributeData(elementsKeys[i], elemType);
+                    setElementData(elemData, attributeData);
+                    console.log(attributeData)
                     elemData.type = elemType;
                     elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
-                    elemData.data = getAttributeData(elementsKeys[i], elemType);
-                    elemData.data.id = elemData.id;
+                    elemData.data = attributeData;
                     elemData.required = getAttributeRequired(elementsKeys[i], elemType);
                     break;
                 }
@@ -286,22 +307,24 @@
         } else {
             const data = elem.node().__data__;
             elemData.type = 'arrowConnector';
-            elemData.display = {};
-            elemData.data = getAttributeData('connector', 'arrowConnector');
-            elemData.data['id'] = elemData.id;
+
+            let attributeData = getAttributeData('connector', 'arrowConnector')
+            setElementData(elemData, attributeData);
+            elemData.data = attributeData;
             elemData.data['start-id'] = data.sourceId;
             elemData.data['end-id'] = data.targetId;
             elements.forEach(function(e) {
-                if (e.id === data.sourceId) { elemData.data['start-name'] = e.data.name; }
-                if (e.id === data.targetId) { elemData.data['end-name'] = e.data.name; }
+                if (e.id === data.sourceId) { elemData.data['start-name'] = e.name; }
+                if (e.id === data.targetId) { elemData.data['end-name'] = e.name; }
             });
+            elemData.display = {};
             elemData.required = getAttributeRequired('connector', 'arrowConnector');
         }
-        if (elemData.data.name) {
-            aliceProcessEditor.changeTextToElement(elementId, elemData.data.name);
+        if (elemData.name) {
+            aliceProcessEditor.changeTextToElement(elementId, elemData.name);
         }
         elements.push(elemData);
-        aliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+        aliceProcessEditor.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
     }
 
     /**
@@ -323,10 +346,11 @@
             let attributeList = elementTypeData[0].attribute;
             attributeList.forEach(function(attr) {
                 let items = attr.items;
-                items.forEach(function(item){
+                items.forEach(function(item) {
                     data[item.id] = item.default;
                 });
             });
+            delete data.id;
         }
         return data;
     }
@@ -357,7 +381,7 @@
                 });
             });
         }
-        return required
+        return required;
     }
 
     /**
@@ -539,7 +563,7 @@
      */
     function getElementData(elem) {
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
+              elements = aliceProcessEditor.data.elements;
         return elements.filter(function(e) { return e.id === elementId; })[0];
     }
 
@@ -585,7 +609,7 @@
             let history = deleteElement(d3.select(node));
             histories = [].concat(history, histories);
         });
-        aliceProcessEditor.history.saveHistory(histories);
+        aliceProcessEditor.utils.history.saveHistory(histories);
     }
 
     /**
@@ -657,11 +681,10 @@
         let node = aliceProcessEditor.addElement(elemData);
         if (node) {
             elemData.id = node.nodeElement.attr('id');
-            elemData.data.id = elemData.id;
             aliceProcessEditor.data.elements.push(elemData);
 
             aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
             aliceProcessEditor.setElementMenu();
         }
     }
@@ -677,9 +700,11 @@
 
         const targetElementData = getElementData(elem);
         const targetBbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem);
-        const elemData = {};
-        elemData.type = type;
-
+        let category = getElementCategory(type);
+        let attributeData = getAttributeData(category, type);
+        const elemData = { type: type };
+        setElementData(elemData, attributeData);
+        elemData.data = attributeData;
         let addDistance = 100,
             addElemWidth = 0;
         switch (type) {
@@ -698,15 +723,11 @@
             'position-x': targetBbox.cx + (targetBbox.width / 2) + addDistance + (addElemWidth / 2),
             'position-y': targetElementData.display['position-y']
         };
-
-        let category = getElementCategory(type);
-        elemData.data = getAttributeData(category, type);
         elemData.required = getAttributeRequired(category, type);
 
         let node = aliceProcessEditor.addElement(elemData);
         if (node) {
             elemData.id = node.nodeElement.attr('id');
-            elemData.data.id = elemData.id;
             const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
             elemData.display.width = bbox.width;
             elemData.display.height = bbox.height;
@@ -719,8 +740,8 @@
             aliceProcessEditor.setConnectors();
 
             const connectorElementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
-            aliceProcessEditor.history.undo_list.pop(); // remove add connector history.
-            aliceProcessEditor.history.saveHistory([
+            aliceProcessEditor.utils.history.undo_list.pop(); // remove add connector history.
+            aliceProcessEditor.utils.history.saveHistory([
                 {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
                 {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
             ]);
@@ -784,10 +805,19 @@
             const elements = aliceProcessEditor.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let property = elements.filter(function(attr) { return attr.id === elementId; })[0];
+                    let property = JSON.parse(JSON.stringify(elements.filter(function(attr) { return attr.id === elementId; })[0]));
                     let properties = elementsProperties[elementsKeys[i]];
                     let attributes = properties.filter(function(p) { return p.type === property.type; });
                     if (attributes.length > 0) {
+                        if (typeof property.name !== 'undefined') {
+                            property.data.name = property.name;
+                        }
+                        if (typeof property.notification !== 'undefined') {
+                            property.data.notification = property.notification;
+                        }
+                        if (typeof property.description !== 'undefined') {
+                            property.data.description = property.description;
+                        }
                         makePropertiesItem(elementId, attributes[0], property.data);
                     }
                     break;
@@ -816,12 +846,18 @@
                 elementData[0].display = {};
                 if (typeof linkData.midPoint !== 'undefined') {
                     elementData[0].display['mid-point'] = linkData.midPoint;
+                } else {
+                    delete elementData[0].display['mid-point'];
                 }
                 if (typeof linkData.sourcePoint !== 'undefined') {
                     elementData[0].display['source-point'] = linkData.sourcePoint;
+                } else {
+                    delete elementData[0].display['source-point'];
                 }
                 if (typeof linkData.targetPoint !== 'undefined') {
                     elementData[0].display['target-point'] = linkData.targetPoint;
+                } else {
+                    delete elementData[0].display['target-point'];
                 }
                 if (typeof linkData.textPoint !== 'undefined') {
                     elementData[0].display['text-point'] = linkData.textPoint;
@@ -833,7 +869,7 @@
 
             let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
             if (isSaveHistory !== false) {
-                aliceProcessEditor.history.saveHistory([historyData]);
+                aliceProcessEditor.utils.history.saveHistory([historyData]);
             }
             return historyData;
         }
@@ -845,7 +881,7 @@
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.alice-process-properties-panel'),
+        const container = document.querySelector('.alice-process-properties-panel .properties-container'),
               propertyObjects = container.querySelectorAll('input, select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
@@ -853,7 +889,7 @@
                 let propertyObject = propertyObjects[i];
                 aliceProcessEditor.data.process[propertyObject.name] = propertyObject.value;
             }
-            aliceProcessEditor.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(aliceProcessEditor.data.process))}]);
+            aliceProcessEditor.utils.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(aliceProcessEditor.data.process))}]);
         } else {
             let elementData = aliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
             if (elementData.length) {
@@ -863,6 +899,9 @@
                     let propertyObject = propertyObjects[i];
                     if (!propertyObject.name) { continue; }
                     let propertyValue = propertyObject.value;
+                    if (propertyObject.classList.contains('multiple')) {
+                        propertyValue = propertyObject.value.split(',');
+                    }
                     if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
                         propertyValue = propertyObject.checked ? 'Y' : 'N';
                         if (propertyObject.id === 'is-default') {
@@ -872,20 +911,27 @@
                             }
                         }
                     }
-                    elementData[0].data[propertyObject.name] = propertyValue;
+                    let filerKeys = ['id', 'name', 'notification', 'description'].filter(function(key) {
+                        return key === propertyObject.name;
+                    });
+                    if (filerKeys.length) {
+                        elementData[0][propertyObject.name] = propertyValue;
+                    } else {
+                        elementData[0].data[propertyObject.name] = propertyValue;
+                    }
                 }
 
                 const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
-                aliceProcessEditor.history.saveHistory([{0: originElementData, 1: changeElementData}]);
+                aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: changeElementData}]);
 
-                if (originElementData.data.name !== changeElementData.data.name) {
+                if (originElementData.name !== changeElementData.name) {
                     let connectors = aliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
                     for (let i = 0, len = connectors.length; i < len; i++) {
                         if (connectors[i].data['start-id'] === id) {
-                            connectors[i].data['start-name'] = elementData[0].data.name;
+                            connectors[i].data['start-name'] = elementData[0].name;
                         }
                         if (connectors[i].data['end-id'] === id) {
-                            connectors[i].data['end-name'] = elementData[0].data.name;
+                            connectors[i].data['end-name'] = elementData[0].name;
                         }
                     }
                 }
@@ -910,6 +956,7 @@
 
         if (assigneeTypeObject.value === 'assignee.type.assignee') {
             assigneeObject.style.display = 'inline-block';
+            assigneeObject.classList.remove('multiple');
             if (typeof value !== 'undefined') {
                 assigneeObject.value = value;
             }
@@ -930,10 +977,11 @@
      * @param inputObject 값을 넣는 input object(선택된 데이터가 콤마 구분으로 등록된다.)
      * @param dataList 선택 목록
      * @param dataKeys dropdown 의 value/text 키 값. 예시: { value: 'id', text: 'name' }
-     * @param value 선택된 값이 있을 경우 그 값을 전달한다.
+     * @param valueArr 선택된 값이 있을 경우 그 값을 전달한다.
      */
-    function setMultipleDatatable(inputObject, dataList, dataKeys, value) {
+    function setMultipleDatatable(inputObject, dataList, dataKeys, valueArr) {
         inputObject.style.display = 'none';
+        inputObject.classList.add('multiple');
         let dataSelect = document.createElement('select');
         dataSelect.className = 'candidate';
         for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
@@ -1021,12 +1069,11 @@
         userTable.appendChild(headRow);
         inputObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
 
-        if (typeof value !== 'undefined') {
-            const values = value.split(',');
-            for (let i = 0, len = values.length; i < len; i++) {
+        if (typeof valueArr !== 'undefined') {
+            for (let i = 0, len = valueArr.length; i < len; i++) {
                 for (let j = 0, dataLen = dataList.length; j < dataLen; j++) {
-                    if (values[i] === dataList[j][dataKeys.value]) {
-                        addDataRow(values[i], dataList[j][dataKeys.text]);
+                    if (valueArr[i] === dataList[j][dataKeys.value]) {
+                        addDataRow(valueArr[i], dataList[j][dataKeys.text]);
                         break;
                     }
                 }
@@ -1042,28 +1089,29 @@
      * @param elemData 속성데이터
      */
     function makePropertiesItem(id, properties, elemData) {
-        const propertiesContainer = document.querySelector('.alice-process-properties-panel');
-        propertiesContainer.innerHTML = '';
+        const propertiesContainer = document.querySelector('.alice-process-properties-panel .properties-container');
+        const elementContainer = propertiesContainer.querySelector('.element-properties');
+        elementContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
+        let propertiesPanelTitle = 'Process';
         if (id !== aliceProcessEditor.data.process.id) {
-            let elementName = document.createElement('h2');
-            elementName.textContent = properties.name;
-            propertiesContainer.appendChild(elementName);
+            propertiesPanelTitle = properties.name;
         }
+        propertiesContainer.querySelector('.element-title > h2').textContent = propertiesPanelTitle;
 
         for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
             let title = document.createElement('h3');
             title.textContent = propertiesDivision[idx].title;
-            propertiesContainer.appendChild(title);
+            elementContainer.appendChild(title);
             let divideLine = document.createElement('hr');
-            propertiesContainer.appendChild(divideLine);
+            elementContainer.appendChild(divideLine);
 
             const items = propertiesDivision[idx].items;
             for (let i = 0, attrLen = items.length; i < attrLen; i++) {
                 const property = items[i];
                 let propertyContainer = document.createElement('div');
                 propertyContainer.className = 'properties';
-                propertiesContainer.appendChild(propertyContainer);
+                elementContainer.appendChild(propertyContainer);
                 let requiredLabelObject = document.createElement('label');
                 requiredLabelObject.className = 'required';
                 requiredLabelObject.htmlFor =  property.id;
@@ -1206,7 +1254,7 @@
                     let changeEventHandler = function() {
                         changePropertiesDataValue(id);
                         if (property.id === 'is-default') {
-                            let conditionAttrObject = propertiesContainer.querySelector('input[name=condition]');
+                            let conditionAttrObject = elementContainer.querySelector('input[name=condition]');
                             if (conditionAttrObject) {
                                 conditionAttrObject.disabled = this.checked;
                                 d3.select(document.getElementById(id)).classed('is-default', this.checked);
@@ -1263,7 +1311,7 @@
                             break;
                     }
 
-                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id !== 'name')) {
+                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id === 'name')) {
                         elementObject.addEventListener('change', changeEventHandler);
                     }
                 }
@@ -1303,7 +1351,6 @@
                 callbackFunc: function(xhr) {
                     console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
-                    aliceProcessEditor.changeProcessName();
                     const elements = aliceProcessEditor.data.elements;
                     elements.forEach(function(element) {
                         const category = getElementCategory(element.type);

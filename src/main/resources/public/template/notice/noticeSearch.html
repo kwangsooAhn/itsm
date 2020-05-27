@@ -16,9 +16,9 @@
                  th:value="${#temporals.format(minusCurrentDate, dateformat)}"/>
                 <input type="text" id="toDt" name="toDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
                  th:value="${#temporals.format(currentDate, dateformat)}"/>
+                <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
             </div>
         </form>
-        <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
     </div>
     <div id="noticeList"></div>
 </th:block>

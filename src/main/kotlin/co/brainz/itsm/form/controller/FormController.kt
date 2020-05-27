@@ -87,8 +87,9 @@ class FormController(private val formService: FormService) {
     /**
      * 이미지 컴포넌트 팝업 화면.
      */
-    @GetMapping("/imageUpload/view")
-    fun getImageUploadPopup(request: HttpServletRequest, model: Model): String {
+    @GetMapping("/imageUpload/{componentId}/view")
+    fun getImageUploadPopup(@PathVariable componentId: String, model: Model): String {
+        model.addAttribute("componentId", componentId)
         model.addAttribute("data", formService.getFormImageList())
         return imageUploadPopupPage
     }

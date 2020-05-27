@@ -69,12 +69,55 @@
         <span class="move-icon" id="icon-move-drawingboard"></span>
     </div>
     <div class="alice-process-drawing-board"></div>
-    <div class="alice-process-properties-panel"></div>
+    <div class="alice-process-properties-panel">
+        <div class="properties-container">
+            <div class="element-title"><h2></h2></div>
+            <div class="element-properties"></div>
+        </div>
+        <div class="process-info-container">
+            <h3>Process Information</h3>
+            <hr/>
+            <div class="minimap"></div>
+            <div class="info">
+                <table>
+                    <colgroup>
+                        <col width="30%">
+                        <col width="20%">
+                        <col width="30%">
+                        <col width="20%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">Total Count : <label id="element_count"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Event</td>
+                            <td><label id="event_count"></label></td>
+                            <td>Task</td>
+                            <td><label id="task_count"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Gateway</td>
+                            <td><label id="gateway_count"></label></td>
+                            <td>Subprocess</td>
+                            <td><label id="subprocess_count"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Connector</td>
+                            <td><label id="connector_count"></label></td>
+                            <td>Artifact</td>
+                            <td><label id="artifact_count"></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        i18n.add(function(){
+        i18n.add(function() {
             aliceProcessEditor.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
     };

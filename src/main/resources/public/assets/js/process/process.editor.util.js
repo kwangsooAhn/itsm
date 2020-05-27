@@ -15,6 +15,54 @@
         }
     });
 
+    const history = {
+        redo_list: [],
+        undo_list: [],
+        saveHistory: function(data, list, keep_redo) {
+            data = data.filter(function(d) { // data check
+                return !workflowUtil.compareJson(d[0], d[1]);
+            });
+            if (data.length === 0) {
+                return;
+            }
+            keep_redo = keep_redo || false;
+            if (!keep_redo) {
+                this.redo_list = [];
+            }
+            (list || this.undo_list).push(data);
+
+            // 엘리먼트 정렬
+            aliceProcessEditor.data.elements.sort(function(a, b) {
+                return a.id < b.id ? -1 : 1;
+            });
+            savedData.elements.sort(function(a, b) {
+                return a.id < b.id ? -1 : 1;
+            });
+
+            isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
+            changeProcessName();
+            setProcessInformation();
+        },
+        undo: function() {
+            aliceProcessEditor.removeElementSelected();
+            aliceProcessEditor.setElementMenu();
+            if (this.undo_list.length) {
+                let restoreData = this.undo_list.pop();
+                redrawProcess(restoreData, 'undo');
+                this.saveHistory(restoreData, this.redo_list, true);
+            }
+        },
+        redo: function() {
+            aliceProcessEditor.removeElementSelected();
+            aliceProcessEditor.setElementMenu();
+            if (this.redo_list.length) {
+                let restoreData = this.redo_list.pop();
+                redrawProcess(restoreData, 'redo');
+                this.saveHistory(restoreData, this.undo_list, true);
+            }
+        }
+    };
+
     const utils = {
         /**
          * 해당 element 의 중앙 x,y 좌표와 넓이,높이를 리턴 한다.
@@ -58,55 +106,8 @@
         redo: redoProcess,
         simulation: simulationProcess,
         download: downloadProcessImage,
-        focus: focusPropertiesPanel
-    };
-
-    const history = {
-        redo_list: [],
-        undo_list: [],
-        saveHistory: function(data, list, keep_redo) {
-            data = data.filter(function(d) { // data check
-                return !workflowUtil.compareJson(d[0], d[1]);
-            })
-            if (data.length === 0) {
-                return;
-            }
-
-            keep_redo = keep_redo || false;
-            if (!keep_redo) {
-                this.redo_list = [];
-            }
-            (list || this.undo_list).push(data);
-
-            // 엘리먼트 정렬
-            aliceProcessEditor.data.elements.sort(function(a, b) {
-                return a.id < b.id ? -1 : 1;
-            });
-            savedData.elements.sort(function(a, b) {
-                return a.id < b.id ? -1 : 1;
-            });
-
-            isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
-            changeProcessName();
-        },
-        undo: function() {
-            aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.setElementMenu();
-            if (this.undo_list.length) {
-                let restoreData = this.undo_list.pop();
-                redrawProcess(restoreData, 'undo');
-                this.saveHistory(restoreData, this.redo_list, true);
-            }
-        },
-        redo: function() {
-            aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.setElementMenu();
-            if (this.redo_list.length) {
-                let restoreData = this.redo_list.pop();
-                redrawProcess(restoreData, 'redo');
-                this.saveHistory(restoreData, this.undo_list, true);
-            }
-        }
+        focus: focusPropertiesPanel,
+        history: history
     };
 
     /**
@@ -183,8 +184,8 @@
                 if (originData.type !== changeData.type) { // modify type
                     aliceProcessEditor.changeElementType(element, changeData.type);
                 }
-                if (originData.data.name !== changeData.data.name) { // modify name
-                    aliceProcessEditor.changeTextToElement(changeData.id, changeData.data.name);
+                if (originData.name !== changeData.name) { // modify name
+                    aliceProcessEditor.changeTextToElement(changeData.id, changeData.name);
                 }
                 if (changeData.type !== 'arrowConnector') {
                     if (originData.display['position-x'] !== changeData.display['position-x']
@@ -449,7 +450,7 @@
             { 'keys': 'ctrl+shift+s', 'command': 'aliceProcessEditor.utils.saveAs();' },       // 다른 이름으로 저장
             { 'keys': 'ctrl+z', 'command': 'aliceProcessEditor.utils.undo();' },               // 작업 취소
             { 'keys': 'ctrl+shift+z', 'command': 'aliceProcessEditor.utils.redo();' },         // 작업 재실행
-            { 'keys': 'ctrl+p', 'command': 'aliceProcessEditor.utils.simulation();' },         // 미리보기(시뮬레이션)
+            { 'keys': 'ctrl+e', 'command': 'aliceProcessEditor.utils.simulation();' },         // 미리보기(시뮬레이션)
             { 'keys': 'ctrl+d', 'command': 'aliceProcessEditor.utils.download();' },           // 이미지 다운로드
             { 'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();' },    // 엘리먼트 삭제
             { 'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();' }                // 세부 속성 편집: 제일 처음으로 이동
@@ -466,8 +467,88 @@
     function focusPropertiesPanel() {
         let panel = document.querySelector('.alice-process-properties-panel');
         let items = panel.querySelectorAll('input:not([readonly]), select');
-        if (items.length == 0) { return false; }
+        if (items.length === 0) { return false; }
         items[0].focus();
+    }
+
+    /**
+     * 오른쪽 하단에 프로세스 정보를 표시 한다.
+     */
+    function setProcessInformation() {
+        let drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
+        let content = drawingBoard.html();
+        d3.select('.minimap').html(content);
+        const minimapSvg = d3.select('.minimap').select('svg');
+        minimapSvg.attr('width', 288).attr('height', 178);
+        minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
+        minimapSvg.selectAll('text').nodes().forEach(function(node) {
+            if (node.textContent === '') { d3.select(node).remove(); }
+        });
+        minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
+        minimapSvg.selectAll('.selected').classed('selected', false);
+        minimapSvg.append('rect')
+            .attr('class', 'minimap-guide')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', drawingBoard.node().offsetWidth)
+            .attr('height', drawingBoard.node().offsetHeight);
+
+        const nodeTopArray = [],
+              nodeRightArray = [],
+              nodeBottomArray = [],
+              nodeLeftArray = [];
+        const nodes = minimapSvg.selectAll('g.element, g.connector').nodes();
+        nodes.forEach(function(node) {
+            let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
+            nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
+            nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
+            nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
+            nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
+        });
+        let viewBox = [0, 0, drawingBoard.node().offsetWidth, drawingBoard.node().offsetHeight];
+        let minimapTranslate = '';
+        if (nodes.length > 0) {
+            const margin = 100;
+            viewBox = [
+                d3.min(nodeLeftArray) - margin,
+                d3.min(nodeTopArray) - margin,
+                Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 2),
+                Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 2)
+            ];
+            let transform = d3.zoomTransform(drawingBoard.select('.element-container').node());
+            minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
+        }
+        minimapSvg.attr('viewBox', viewBox.join(' '));
+        minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
+
+        const elements = aliceProcessEditor.data.elements;
+        let categories = [];
+        elements.forEach(function(elem) {
+            categories.push(aliceProcessEditor.getElementCategory(elem.type));
+        });
+
+        let uniqList =  categories.reduce(function(a, b) {
+            if (a.indexOf(b) < 0 ) { a.push(b); }
+            return a;
+        },[]);
+        const countList = [];
+        uniqList.forEach(function(item) {
+            let count = 0;
+            categories.forEach(function(category) {
+                if (item === category) {
+                    count++;
+                }
+            });
+            countList.push({category: item, count: count});
+        });
+        let infoContainer = document.querySelector('.alice-process-properties-panel .info');
+        infoContainer.querySelectorAll('label').forEach(function(label) {
+            label.textContent = '0';
+        });
+        countList.forEach(function(countInfo) {
+            infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
+        });
+        infoContainer.querySelector('#element_count').textContent = elements.length;
     }
 
     /**
@@ -499,11 +580,10 @@
         savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
         setShortcut();
         changeProcessName();
+        setProcessInformation();
     }
 
     exports.utils = utils;
-    exports.history = history;
-    exports.changeProcessName = changeProcessName;
     exports.initUtil = initUtil;
     Object.defineProperty(exports, '__esModule',{value: true});
 })));

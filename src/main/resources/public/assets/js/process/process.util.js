@@ -75,10 +75,7 @@
                 let processNodeAttributes = processNode.attributes;
                 for (let j = 0, attrLen = processNodeAttributes.length; j < attrLen; j++) {
                     let attr = processNodeAttributes[j];
-                    if (attr.nodeName === 'id') {
-                        elementData.id = attr.nodeValue;
-                    }
-                    elementData.data[attr.nodeName] = attr.nodeValue;
+                    elementData[attr.nodeName] = attr.nodeValue;
                 }
 
                 let processNodeChildList = processNode.childNodes;
@@ -88,7 +85,11 @@
                         elementData.data[childNode.nodeName] = childNode.nodeValue;
                         let nodeValue = '';
                         if (childNode.childNodes && childNode.childNodes[0]) {
-                            nodeValue = childNode.childNodes[0].nodeValue;
+                            if (childNode.childNodes[0].nodeType === Node.CDATA_SECTION_NODE) {
+                                nodeValue = childNode.childNodes[0].nodeValue;
+                            } else {
+                                nodeValue = childNode.childNodes[0].nodeValue.split(',');
+                            }
                         }
                         elementData.data[childNode.nodeName] = nodeValue;
                     }
@@ -266,19 +267,20 @@
         elements.forEach(function(element) {
             let elementNode = xmlDoc.createElement(element.type);
             elementNode.setAttribute('id', element.id);
-            if (typeof element.data.name !== 'undefined') {
-                elementNode.setAttribute('name', element.data.name);
-            }
-            if (typeof element.data.description !== 'undefined') {
-                elementNode.setAttribute('description', element.data.description);
-            }
+            elementNode.setAttribute('name', element.name);
+            elementNode.setAttribute('notification', element.data.notification);
+            elementNode.setAttribute('description', element.data.description);
             let keys = Object.keys(element.data);
-            keys = keys.filter(function(key) { return key !== 'name' && key !== 'description'; });
             keys.forEach(function(key) {
                 let attributeNode = xmlDoc.createElement(key);
                 if (element.data[key]) {
-                    let cdata = xmlDoc.createCDATASection(element.data[key]);
-                    attributeNode.appendChild(cdata);
+                    if (Array.isArray(element.data[key])) {
+                        let data = xmlDoc.createTextNode(element.data[key]);
+                        attributeNode.appendChild(data);
+                    } else {
+                        let cdata = xmlDoc.createCDATASection(element.data[key]);
+                        attributeNode.appendChild(cdata);
+                    }
                 }
                 elementNode.appendChild(attributeNode);
             });

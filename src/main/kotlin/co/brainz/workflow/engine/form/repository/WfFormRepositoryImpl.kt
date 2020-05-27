@@ -2,6 +2,8 @@ package co.brainz.workflow.engine.form.repository
 
 import co.brainz.workflow.engine.form.entity.QWfFormEntity
 import co.brainz.workflow.engine.form.entity.WfFormEntity
+import co.brainz.workflow.provider.constants.RestTemplateConstants
+import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -15,12 +17,20 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             query.where(form.formName.containsIgnoreCase(search).or(form.formDesc.containsIgnoreCase(search)))
         }
         if (status.isNotEmpty()) {
-            query.where(form.formStatus.`in`(status))
-                .orderBy(form.formName.asc())
+            query.where(form.formStatus.`in`(status)).orderBy(form.formName.asc())
         } else {
-            query.orderBy(form.updateDt.desc())
+            val statusNumber = CaseBuilder()
+                .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.EDIT.value)).then(1)
+                .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.PUBLISH.value)).then(2)
+                .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.USE.value)).then(3)
+                .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.DESTROY.value)).then(4)
+                .otherwise(5)
+            query.orderBy(statusNumber.asc())
+                .orderBy(form.updateDt.desc())
                 .orderBy(form.createDt.desc())
         }
+
         return query.fetch()
     }
 }
+

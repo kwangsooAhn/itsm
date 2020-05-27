@@ -49,8 +49,8 @@
         { 'keys': 'ctrl+z', 'command': 'editor.undo();' },                    //폼 편집 화면 작업 취소'
         { 'keys': 'ctrl+shift+z', 'command': 'editor.redo();' },              //폼 편집 화면 작업 재실행
         { 'keys': 'ctrl+i', 'command': 'editor.importForm();' },              //폼 양식 가져오기
-        { 'keys': 'ctrl+e', 'command': 'editor.exportForm();' },              //폼 양식 내보내기
-        { 'keys': 'ctrl+p', 'command': 'editor.preview();' },                 //폼 양식 미리보기
+        { 'keys': 'ctrl+b', 'command': 'editor.exportForm();' },              //폼 양식 내보내기
+        { 'keys': 'ctrl+e', 'command': 'editor.preview();' },                 //폼 양식 미리보기
         { 'keys': 'ctrl+q', 'command': 'editor.save(true);' },                //폼 양식 저장하고 나가기
         { 'keys': 'insert', 'command': 'editor.copyComponent();' },           //컴포넌트를 복사하여 바로 아래 추가
         { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();' },  //컴포넌트 삭제
@@ -182,7 +182,6 @@
         data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
-
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/' + data.form.id + '/data',
@@ -981,6 +980,16 @@
                         propertyName.classList.add('property-field-name');
                         propertyName.textContent = fieldArr.name;
                         fieldGroupDiv.appendChild(propertyName);
+
+                        //도움말 추가
+                        if (typeof fieldArr.help !== 'undefined') {
+                            const helpTooltip = document.createElement('div');
+                            helpTooltip.classList.add('help-tooltip');
+                            const helpTootltipContent = document.createElement('p');
+                            helpTootltipContent.innerHTML = i18n.get(fieldArr.help);
+                            helpTooltip.appendChild(helpTootltipContent);
+                            propertyName.appendChild(helpTooltip);
+                        }
                     }
                     switch (fieldArr.type) {
                         case 'inputbox':
@@ -1455,7 +1464,7 @@
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.setAttribute('value', fieldArr.value);
                             validateCheck(propertyValue, fieldArr.validate);
-                            propertyValue.addEventListener('focusout', function() {
+                            propertyValue.addEventListener('change', function() {
                                 changePropertiesValue(this.value, group, fieldArr.id);
                             }, false);
                             fieldGroupDiv.appendChild(propertyValue);
@@ -1464,7 +1473,7 @@
                             propertyBtn.type = 'button';
                             propertyBtn.innerText = 'select';
                             propertyBtn.addEventListener('click', function(e) {
-                                window.open('/forms/imageUpload/view', 'imageUploadPop', 'width=1200, height=700');
+                                window.open('/forms/imageUpload/' + id + '/view', 'imageUploadPop', 'width=1200, height=700');
                             }, false);
                             fieldGroupDiv.appendChild(propertyBtn);
                             break;

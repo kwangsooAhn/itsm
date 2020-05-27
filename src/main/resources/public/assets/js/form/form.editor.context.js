@@ -93,6 +93,7 @@
         let componentMenu = document.getElementById('context-menu-component');
         let rslt = false;
         let tempText = searchText.replace('/', '');
+        tempText = tempText.replace(/\s/gi, '').toLowerCase();
         searchItems = [];
         
         for (let i = 0, len = componentMenu.children.length; i < len; i++) {
@@ -111,8 +112,8 @@
                 rslt = true;
             } else {
                 let text = item.querySelector('label').textContent || item.querySelector('label').innerText;
-                
-                if (text.slice(0, tempText.length).toLowerCase() !== tempText.toLowerCase()) {
+                text = text.replace(/\s/gi, '').toLowerCase();
+                if (text.indexOf(tempText) === -1) {
                     item.style.display = 'none';
                 } else {
                     item.style.display = 'block';
@@ -253,7 +254,7 @@
      */
     function onKeyDownHandler(e) {
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
-        isCtrlPressed = userKeyCode === keycode.ctrl;
+        isCtrlPressed = ( userKeyCode === keycode.ctrl );
 
         if (flag === 1 && selectedItem) { //컨텍스트 메뉴를 오픈한체 키보드 ↑, ↓, enter 클릭시 동작
             let len = searchItems.length - 1;
@@ -301,7 +302,6 @@
      */
     function onKeyPressHandler(e) {
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
-
         if (userKeyCode === keycode.enter) {//editbox 에서 enter키를 입력하면 editbox를 아래 추가한다.
             if (flag === 0) {
                 e.preventDefault();
@@ -418,7 +418,7 @@
                 itemInContext = clickInsideElement(e, 'component');
                 if (itemInContext) {
                     let box = itemInContext.querySelector('[contenteditable=true]');
-                    if (isCtrlPressed) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
+                    if (isCtrlPressed || e.target.classList.contains('add-icon')) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
                         if (box) {
                             menuOn(2);
                             setPositionMenu(e);
@@ -432,6 +432,7 @@
                         editor.showComponentProperties(itemInContext.id);
                     }
                 }
+                //
             }
         }
     }
@@ -441,6 +442,7 @@
      * @param {Object} e 이벤트객체
      */
     function onMouseDownHandler(e) {
+        if (e.target.classList.contains('add-icon')) { return false; }
         if (e.target.classList.contains('move-icon')) {
             e.target.parentNode.setAttribute('draggable', 'true');
         }

@@ -39,7 +39,7 @@ object WfElementConstants {
                 return when (elementType) {
                     USER_TASK.value, MANUAL_TASK.value, SEND_TASK.value, RECEIVE_TASK.value, SCRIPT_TASK.value -> TASK
                     EXCLUSIVE_GATEWAY.value, PARALLEL_GATEWAY.value, INCLUSIVE_GATEWAY.value -> GATEWAY
-                    COMMON_START_EVENT.value, COMMON_END_EVENT.value -> EVENT
+                    COMMON_START_EVENT.value, COMMON_END_EVENT.value, SIGNAL_SEND.value -> EVENT
                     ARROW_CONNECTOR.value -> ARROW_CONNECTOR
                     SUB_PROCESS.value -> SUB_PROCESS
                     ANNOTATION_ARTIFACT.value, GROUP_ARTIFACT.value -> ARTIFACT
