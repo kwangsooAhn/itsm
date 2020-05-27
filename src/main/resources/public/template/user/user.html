@@ -38,6 +38,18 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
+
+        function imgError() {
+            var img = document.getElementsByTagName('img');
+            for (var i = 0; i < img.length; i++) {
+                img[i].onerror = function (e) {
+                    e.target.src = '/assets/media/image/profile_sample.jpg';
+                    return true;
+                };
+                console.log("imgError");
+            }
+        }
+
         /**
          * 검색창 입력시 동작
          */

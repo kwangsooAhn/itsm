@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import javax.servlet.http.HttpServletRequest
 
 /**
  * 파일 관련 컨트롤 클래스
@@ -30,14 +31,21 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
      * 파일 추가시 임시폴더에 물리적으로 저장한다.
      */
     @PostMapping("/fileupload")
-    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile, @RequestParam(value = "location", defaultValue = "") location: String): ResponseEntity<Map<String, Any>> {
+    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile,
+                   @RequestParam(required = false, value = "location", defaultValue = "") location: String,
+                   request: HttpServletRequest
+    ): ResponseEntity<Map<String, Any>> {
         val response: ResponseEntity<Map<String, Any>>
         val map: MutableMap<String, Any> = mutableMapOf()
 
-        if (location == "resources") {
-            map["file"] = aliceFileService.uploadResources(multipartFile, AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR)
-        } else {
-            map["file"] = aliceFileService.uploadTemp(multipartFile)
+        when (location) {
+            "resources" -> {
+                var fileName = request.getParameter("fileName") ?: null
+                map["file"] = aliceFileService.uploadResources(multipartFile, AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, fileName)
+            }
+            else -> {
+                map["file"] = aliceFileService.uploadTemp(multipartFile)
+            }
         }
 
         val headers = HttpHeaders()

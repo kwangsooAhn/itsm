@@ -5,99 +5,137 @@
       layout:decorator="layout/defaultLayout">
 <head>
     <meta charset="UTF-8">
+    <style>
+        .dropzone {
+            height: 180px;
+            width: 180px;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+        .dropzone img {
+            width: 100%;
+            height: 100%;
+        }
+        .btn-check-wrapper {
+            display: inline-block;
+            float: right;
+        }
+        .btn-upload-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .fileEditorable {
+            height: 180px;
+            width: 180px;
+        }
+    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div id="container" align="center">
         <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
         <input type="hidden" id="oldPassword" name="oldPassword" th:value="${users?.password}"/>
-        <table style="text-align: left;">
-            <tbody id="tbody">
-                <tr>
-                    <th th:text="#{user.id}+'*'"/>
-                    <td><input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
-                </tr>
-            </tbody>
-            <tbody id="passwordArea">
-                <tr>
-                    <th th:text="#{user.password}+'*'"/>
-                    <td><input type="password" id="password" name="password" maxlength="100" required="required"/>
-                </tr>
-                <tr>
-                    <th th:text="#{user.rePassword}+'*'"/>
-                    <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/>
-                </tr>
-            </tbody>
-            <tbody border="1">
-                <colgroup>
-                    <col width="120px">
-                    <col width="480px">
-                </colgroup>
-                <tr>
-                    <th th:text="#{user.name}+'*'"/>
-                    <td><input type="text" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
-                </tr>
-                <tr>
-                    <th th:text="#{user.email}+'*'"/>
-                    <td><input type="text" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required"/>
-                </tr>
-                <tr>
-                    <th th:text="#{user.position}"/>
-                    <td><input type="text" id="position" name="position" th:value="${users?.position}" maxlength="100"/>
-                </tr>
-                <tr>
-                    <th th:text="#{user.department}"/>
-                    <td><input type="text" id="department" name="department" th:value="${users?.department}" maxlength="100"/>
-                </tr>
-                <tr>
-                    <th th:text="#{user.officeNumber}"/>
-                    <td><input type="text" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
-                </tr>
-                <tr>
-                    <th th:text="#{user.mobileNumber}"/>
-                    <td><input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
-                </tr>
-                <tr>
-                    <th th:text="#{user.timezone}+'*'"/>
-                    <td><select name="timezone" id="timezone"><option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}"
-                                                                      th:text="${tzData.timezoneId}"></option></select></td>
-                </tr>
-                <tr>
-                    <th th:text="#{user.timeFormat}+'*'"/></th>
-                    <td>
-                        <span th:text="#{user.date}"></span>
-                        <select name="date" id="date"><option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}"
-                                                              th:text="${dateData.codeValue}"></option></select>
-                        <span th:text="#{user.time}"></span>
-                        <select name="time" id="time"><option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}"
-                                                              th:text="${timeData.code}"></option></select>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{user.lang}+'*'"/>
-                    <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
-                                                              th:text="${itemData.codeValue}"></option></select></td>
-                </tr>
-                <tr>
-                    <th th:text="#{user.theme}+'*'"/>
-                    <td><select name="theme" id="theme"><option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}"
-                                                              th:text="${themeData.codeValue}"></option></select></td>
-                </tr>
-                <tr sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
-                    <th th:text="#{user.role}"></th>
-                    <td>
-                        <ui th:each="role : ${roles}">
-                            <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}"
-                                                                                                 th:checked="*{role.checked}">
-                            <label th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
-                        </ui>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]])" th:text="#{user.reg}"></button>
-        <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])"
-                                                                    th:text="#{user.editUserInfo}"></button>
+        <input type="hidden" id="avatarUUID" name="avatarUUID" th:value=""/>
+        <form id="userEditSelfForm" method="post" onsubmit ="return false">
+            <table style="text-align: left;">
+                <tbody id="tbody">
+                    <tr>
+                        <th th:text="#{user.id}+'*'"/>
+                        <td><input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
+                    </tr>
+                </tbody>
+                <tbody id="passwordArea">
+                    <tr>
+                        <th th:text="#{user.password}+'*'"/>
+                        <td><input type="password" id="password" name="password" maxlength="100" required="required"/>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.rePassword}+'*'"/>
+                        <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/>
+                    </tr>
+                </tbody>
+                <tbody border="1">
+                    <colgroup>
+                        <col width="120px">
+                        <col width="480px">
+                    </colgroup>
+                    <tr>
+                        <th th:text="#{user.name}+'*'"/>
+                        <td><input type="text" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.email}+'*'"/>
+                        <td><input type="text" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required"/>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.position}"/>
+                        <td><input type="text" id="position" name="position" th:value="${users?.position}" maxlength="100"/>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.department}"/>
+                        <td><input type="text" id="department" name="department" th:value="${users?.department}" maxlength="100"/>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.officeNumber}"/>
+                        <td><input type="text" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.mobileNumber}"/>
+                        <td><input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.timezone}+'*'"/>
+                        <td><select name="timezone" id="timezone"><option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}"
+                                                                          th:text="${tzData.timezoneId}"></option></select></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.timeFormat}+'*'"/></th>
+                        <td>
+                            <span th:text="#{user.date}"></span>
+                            <select name="date" id="date"><option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}"
+                                                                  th:text="${dateData.codeValue}"></option></select>
+                            <span th:text="#{user.time}"></span>
+                            <select name="time" id="time"><option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}"
+                                                                  th:text="${timeData.code}"></option></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.lang}+'*'"/>
+                        <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
+                                                                  th:text="${itemData.codeValue}"></option></select></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.theme}+'*'"/>
+                        <td><select name="theme" id="theme"><option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}"
+                                                                    th:text="${themeData.codeValue}"></option></select></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.avatar}"/>
+                        <td>
+                            <!--<img th:src="${attachImage}" th:border="1" th:width="200" th:height="200"/>-->
+                            <div id="dropZoneFiles"></div>
+                            <div id="dropZoneUploadedFiles"></div>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
+                        <th th:text="#{user.role}"></th>
+                        <td>
+                            <ui th:each="role : ${roles}">
+                                <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}"
+                                                                                                     th:checked="*{role.checked}">
+                                <label th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
+                            </ui>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]])" th:text="#{user.reg}"></button>
+            <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])"
+                                                                        th:text="#{user.editUserInfo}"></button>
+        </form>
     </div>
     <br>
     <br>
@@ -170,6 +208,15 @@
                     }
                 }
             }
+            document.getElementById('avatarUUID').value = uuid();
+            fileUploader.init({extra: {
+                    formId: 'userEditSelfForm',
+                    ownId: [[${users.userKey}]],
+                    dropZoneMaxFileSize: 0.1,
+                    dropZoneUrl: '/fileupload?location=resources&fileName=[[${users.userKey}]]',
+                    dropZoneMaxFiles: 1,
+                    clickable: '.add-img-button'
+            }});
         };
 
         function onlyNumber(event) {
@@ -244,7 +291,8 @@
                 lang: document.getElementById('lang').value,
                 theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
-                roles: arrRoleValue
+                roles: arrRoleValue,
+                fileSeq: document.getElementsByTagName('fileSeq').value
             };
 
             const opt = {
@@ -296,6 +344,13 @@
             if (isEmpty('email', 'user.msg.emailNotExist')) return false;
             if (!isValidEmail('email')) return false;
             return true;
+        }
+
+        function uuid() {
+            function s4() {
+                return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         }
         /*]]>*/
     </script>

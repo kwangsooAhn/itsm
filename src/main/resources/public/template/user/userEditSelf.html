@@ -36,7 +36,8 @@
     <div id="container" align="center">
     <input type="hidden" id="userKey" name="userKey" th:value="${users.userKey}"/>
     <input type="hidden" id="oldPassword" name="oldPassword" th:value="${users.password}"/>
-        <form id="userEditSelfForm" method="post" onsubmit ="return false"></form>
+    <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+        <form id="userEditSelfForm" method="post" onsubmit ="return false">
             <table style="text-align: left;">
                 <tbody id="tbody">
                     <tr>
@@ -196,11 +197,14 @@
                     }
                 }
             }
+
+            var avatarUUID = document.getElementById('avatarUUID').value.uuid();
+
             fileUploader.init({extra: {
                 formId: 'userEditSelfForm',
                 ownId: [[${users.userKey}]],
                 dropZoneMaxFileSize: 0.1,
-                dropZoneUrl: '/fileupload?location=resources',
+                dropZoneUrl: '/fileupload?location=resources&fileName=[[${users.userKey}]]&avatarUUID=',
                 dropZoneMaxFiles: 1,
                 clickable: '.add-img-button'
             }});
@@ -315,6 +319,13 @@
             if (isEmpty('email', 'user.msg.emailNotExist')) return false;
             if (!isValidEmail('email')) return false;
             return true;
+        }
+
+        function uuid() {
+            function s4() {
+                return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         }
         /*]]>*/
     </script>

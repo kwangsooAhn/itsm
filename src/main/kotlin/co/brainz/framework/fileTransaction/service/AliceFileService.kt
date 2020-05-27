@@ -289,15 +289,21 @@ class AliceFileService(
         }
     }
 
-    fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String) {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+    fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
         val fileNameExtension = File(multipartFile.originalFilename).extension.toUpperCase()
-        this.basePath = ClassPathResource(AliceUserConstants.BASE_DIR).file.path.toString()
-
-        var dir = Paths.get(this.basePath, AliceUserConstants.USER_AVATAR_IMAGE_DIR)
+        this.basePath = ClassPathResource(baseDir).file.path.toString()
+        var filePath: Path
+        var dir = Paths.get(this.basePath, location)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
 
-        val filePath = Paths.get(dir.toString() + File.separator + aliceUserDto.userKey)
+        filePath = when (fileName) {
+            null -> {
+                Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
+            }
+            else -> {
+                Paths.get(dir.toString() + File.separator + fileName.replace("\"", ""))
+            }
+        }
 
         if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
             throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")

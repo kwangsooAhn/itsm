@@ -19,5 +19,6 @@ data class UserUpdateDto(
     var lang: String?,
     var timeFormat: String?,
     var theme: String?,
-    var fileSeq: Long?
+    var fileSeq: Long?,
+    var avatarUUID: String?
 ) : Serializable

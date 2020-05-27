@@ -21,6 +21,7 @@
         <div class="signup-base">
             <p th:text="#{login.userSignUp}"></p>
             <table class="signup-form">
+                <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
                 <tr>
                     <th><a class="required" th:text="#{user.id}"></a></th>
                     <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
@@ -89,6 +90,7 @@
         window.onload = function() {
             i18n.add();
             hiddenProgressBar();
+            document.getElementById('avatarUUID').value = uuid();
         }
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
@@ -135,6 +137,13 @@
             if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
             if (isEmpty('email', 'user.msg.emailNotExist')) return false;
             return true;
+        }
+
+        function uuid() {
+            function s4() {
+                return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         }
 
         // 데이터 전송

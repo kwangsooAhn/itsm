@@ -14,6 +14,7 @@ const fileUploader = (function () {
     let extraParam, dropZoneFilesId, dropZoneUploadedFilesId;
     const setExtraParam = function (param) {
         extraParam = param;
+        console.log(extraParam);
     };
 
     const createDropZone = function () {
@@ -274,6 +275,7 @@ const fileUploader = (function () {
                     //document.querySelector("#total-progress").style.opacity = "1";
                     // And disable the start button
                     //file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+                    console.log(formData);
                 });
 
                 // Update the total progress bar

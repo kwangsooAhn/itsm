@@ -24,7 +24,8 @@
         <tr style="cursor: pointer" class="userRows" th:each="user : ${users}">
             <td th:text="${user.userKey}">사용자키</td>
             <td><label th:text="${user.userId}"></label><input type="hidden" name="userId" th:value="${user.userId}"></td>
-            <td><img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}" th:onerror="'this.src=\'' + @{/assets/media/image/profile_sample.jpg} + '\';'" alt="profile pic" />
+            <td><!--<img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}" th:onerror="'this.src=\'' + @{/assets/media/image/profile_sample.jpg} + '\';'" alt="profile pic" />-->
+                <img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}" width="50px" height="50px" border="1" onerror="this.onerror = null; this.src ='/assets/media/image/profile_sample.jpg';"  alt="profile pic" />
                 <a th:href="@{/users/{userKey}/edit(userKey=${user.userKey})}"><span th:text="${user.userName}">이름</span></a></td>
             <td th:text="${user.department}">부서</td>
             <td th:text="${user.position}">직책</td>

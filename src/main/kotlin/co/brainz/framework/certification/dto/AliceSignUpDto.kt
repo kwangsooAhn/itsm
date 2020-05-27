@@ -15,5 +15,6 @@ data class AliceSignUpDto(
     var timezone: String?,
     var lang: String?,
     var timeFormat: String?,
-    var theme: String?
+    var theme: String?,
+    var avatarUUID: String
 ) : Serializable
