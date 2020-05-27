@@ -45,7 +45,7 @@ data class WfInstanceEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
-    val document: WfDocumentEntity,
+    val document: WfDocumentEntity? = null,
 
     @Column(name = "document_no", length = 128)
     var documentNo: String? = null
@@ -53,11 +53,11 @@ data class WfInstanceEntity(
 ) : Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
-    val tokens: MutableList<WfTokenEntity>? = mutableListOf()
+    var tokens: MutableList<WfTokenEntity>? = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
-    val folders: MutableList<WfFolderEntity>? = mutableListOf()
+    var folders: MutableList<WfFolderEntity>? = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
-    val comments: MutableList<WfCommentEntity>? = mutableListOf()
+    var comments: MutableList<WfCommentEntity>? = mutableListOf()
 }

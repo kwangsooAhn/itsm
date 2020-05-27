@@ -10,7 +10,8 @@
     background: $white;
     overflow: auto;
     margin: 0.625rem;
-    .move-icon { display: none; }
+    .move-icon,
+    .add-icon { display: none; }
     .component[data-readonly=true] .group {
         pointer-events: none;
         div#fileupload {

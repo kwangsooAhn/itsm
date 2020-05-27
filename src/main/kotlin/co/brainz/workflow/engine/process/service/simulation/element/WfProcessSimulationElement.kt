@@ -1,6 +1,8 @@
 package co.brainz.workflow.engine.process.service.simulation.element
 
 import co.brainz.workflow.engine.element.entity.WfElementEntity
+import co.brainz.workflow.engine.form.constants.WfFormConstants
+import co.brainz.workflow.engine.process.constants.WfProcessConstants
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -22,14 +24,26 @@ abstract class WfProcessSimulationElement {
     }
 
     /**
+     * 시뮬레이션시 통과시킬 수 있는 상태값을 확인하여 boolean값 리턴.
+     */
+    protected fun checkProcessStatus(status: String): Boolean {
+        val checkStatus = arrayListOf(
+            WfProcessConstants.Status.PUBLISH.code,
+            WfProcessConstants.Status.USE.code,
+            WfFormConstants.FormStatus.PUBLISH.value,
+            WfFormConstants.FormStatus.USE.value
+        )
+        return checkStatus.contains(status)
+    }
+
+    /**
      * 공통 메서드
      */
     fun validation(element: WfElementEntity): Boolean {
         val elementId = element.elementId
-        val attrId = element.getElementDataValue("id")
-        val attrName = element.getElementDataValue("name")
-        logger.info("Simulation validate - ElementId:{}, attrId:{}, attrName:{}", elementId, attrId, attrName)
-        elementInformation = "<br>AttrId: $element.elementId <br>AttrName: ${element.getElementDataValue("name")}"
+        val elementName = element.elementName
+        logger.info("Simulation validate - ElementId:{}, ElementName:{}", elementId, elementName)
+        elementInformation = "<br>ElementId: $element.elementId <br>ElementName: ${element.elementName}}"
         return if (commonValidate(element)) {
             validate(element)
         } else {

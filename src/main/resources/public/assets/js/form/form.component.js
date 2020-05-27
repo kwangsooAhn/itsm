@@ -62,6 +62,7 @@
      */
     function Editbox(target) {
         let comp = utils.createComponentByTemplate(`
+            <div class='add-icon'></div>
             <div class='move-icon'></div>
             <div class='group' contenteditable='true' placeholder="${editboxPlaceholder}"></div>
         `);
