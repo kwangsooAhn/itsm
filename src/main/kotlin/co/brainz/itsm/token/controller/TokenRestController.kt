@@ -1,7 +1,9 @@
 package co.brainz.itsm.token.controller
 
 import co.brainz.itsm.token.service.TokenService
+import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -13,6 +15,14 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/tokens")
 class TokenRestController(private val tokenService: TokenService) {
+
+    /**
+     * 문서함 목록 조회.
+     * */
+    @GetMapping("")
+    fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto): List<RestTemplateInstanceViewDto> {
+        return tokenService.getTokenList(restTemplateTokenSearchListDto)
+    }
 
     /**
      * 처리할 문서 데이터 조회.

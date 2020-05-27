@@ -33,7 +33,6 @@ class TokenController(
 
     private val statusPage: String = "redirect:/certification/status"
     private val tokenSearchPage: String = "token/tokenSearch"
-    private val tokenListPage: String = "token/tokenList"
     private val tokenEditPage: String = "token/tokenEdit"
     private val tokenPrintPage: String = "token/tokenPrint"
     private val tokenPopUpPage: String = "/token/tokenPopUp"
@@ -60,18 +59,6 @@ class TokenController(
         val restTemplateDocumentSearchListDto = RestTemplateDocumentSearchListDto();
         model.addAttribute("documentList", documentService.findDocumentList(restTemplateDocumentSearchListDto))
         return tokenSearchPage
-    }
-
-    /**
-     * 처리할 문서 리스트 화면.
-     *
-     * @param model
-     * @return String
-     */
-    @GetMapping("/list")
-    fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto, model: Model): String {
-        model.addAttribute("tokenList", tokenService.getTokenList(restTemplateTokenSearchListDto))
-        return tokenListPage
     }
 
     /**
