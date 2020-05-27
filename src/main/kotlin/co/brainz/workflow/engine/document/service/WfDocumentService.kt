@@ -64,7 +64,7 @@ class WfDocumentService(
     fun documents(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
         val documents = mutableListOf<RestTemplateDocumentDto>()
         // val documentEntities = wfDocumentRepository.findAll(WfSearchDocuments(searchListDto))
-        val documentEntities = wfDocumentRepository.getDocumentsssss(searchListDto)
+        val documentEntities = wfDocumentRepository.findByDocuments(searchListDto)
         for (document in documentEntities) {
             val documentDto = RestTemplateDocumentDto(
                 documentId = document.documentId,

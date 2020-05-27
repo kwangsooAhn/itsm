@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class WfDocumentRepositoryImpl : QuerydslRepositorySupport(WfDocumentEntity::class.java), WfDocumentRepositoryCustom {
 
-    override fun getDocumentsssss(searchDto: RestTemplateDocumentSearchListDto): List<WfDocumentEntity> {
+    override fun findByDocuments(searchDto: RestTemplateDocumentSearchListDto): List<WfDocumentEntity> {
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(document)
 
