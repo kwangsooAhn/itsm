@@ -4,9 +4,9 @@ import java.io.Serializable
 
 data class RestTemplateTokenDto(
     var tokenId: String = "",
-    var documentId: String? = null,
+    var documentId: String = "",
     var documentName: String? = null,
-    var instanceId: String? = null,
+    var instanceId: String = "",
     var isComplete: Boolean = true,
     var elementId: String = "",
     var elementType: String = "",

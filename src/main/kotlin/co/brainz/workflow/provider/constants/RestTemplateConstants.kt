@@ -177,6 +177,15 @@ object RestTemplateConstants {
     }
 
     /**
+     * Instance Status.
+     */
+    enum class InstanceStatus(val value: String) {
+        RUNNING("running"),
+        WAITING("waiting"),
+        FINISH("finish")
+    }
+
+    /**
      * Token Status.
      *
      * @param value

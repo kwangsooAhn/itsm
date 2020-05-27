@@ -10,4 +10,6 @@ interface AliceUserRepository : JpaRepository<AliceUserEntity, String> {
     fun findByUserId(@Param("userId") userId: String): AliceUserEntity
 
     fun findByOauthKeyAndPlatform(oauthKey: String, platform: String): AliceUserEntity
+
+    fun findByUserKey(userKey: String): AliceUserEntity
 }
