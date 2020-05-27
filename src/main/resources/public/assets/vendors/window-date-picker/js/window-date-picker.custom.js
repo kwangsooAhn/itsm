@@ -410,7 +410,7 @@
     DAYS_ABBR: ['', '월', '화', '수', '목', '금', '토', '일'],
     MONTHS: ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     MONTHS_ABBR: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-    AM_PM: ['오전', '오후'],
+    AM_PM: ['오전', '오후', '오전', '오후'],
     BUTTONS: ['CANCEL', 'OK'],
     INVALID_DATE: 'Invalid Date'
   };
@@ -419,7 +419,7 @@
     DAYS_ABBR: ['', '月', '火', '水', '木', '金', '土', '日'],
     MONTHS: ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     MONTHS_ABBR: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-    AM_PM: ['午前', '午後'],
+    AM_PM: ['午前', '午後', '午前', '午後'],
     BUTTONS: ['CANCEL', 'OK'],
     INVALID_DATE: 'Invalid Date'
   };
