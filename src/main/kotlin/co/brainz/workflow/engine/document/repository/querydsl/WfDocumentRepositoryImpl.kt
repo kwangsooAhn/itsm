@@ -11,8 +11,7 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(WfDocumentEntity::cla
 
     override fun findByDocuments(searchDto: RestTemplateDocumentSearchListDto): List<WfDocumentEntity> {
         val document = QWfDocumentEntity.wfDocumentEntity
-        val query = from(document)
-
+        val query = from(document).join(document.process).join(document.form).fetchJoin()
         query.where(
             super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
                 ?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)),
@@ -20,7 +19,6 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(WfDocumentEntity::cla
             super.likeIgnoreCase(document.process.processName, searchDto.searchProcessName),
             super.likeIgnoreCase(document.form.formName, searchDto.searchFormName)
         )
-
         return query.fetch()
     }
 }
