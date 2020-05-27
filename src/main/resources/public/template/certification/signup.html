@@ -6,6 +6,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
     <title>회원가입 페이지</title>
 </head>
 <body>
@@ -18,49 +19,60 @@
             <a class="btn btn-primary" href="/login" id="sendLogin" th:text="#{login.sendLogin}"></a>
         </div>
         <img th:src="@{/assets/media/icons/logo.png}" alt="Alice">
-        <div class="signup-base">
-            <p th:text="#{login.userSignUp}"></p>
-            <table class="signup-form">
-                <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-                <tr>
-                    <th><a class="required" th:text="#{user.id}"></a></th>
-                    <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.password}"></a></th>
-                    <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.rePassword}"></a></th>
-                    <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a class="required" th:text="#{user.name}"></a></th>
-                    <td><input type="text" id="userName" name="userName" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a class="required" th:text="#{user.email}"></a></th>
-                    <td><input type="text" id="email" name="email" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a th:text="#{user.position}"></a></th>
-                    <td><input type="text" id="position" name="position" maxlength="100"></td>
-                </tr>
-                <tr>
-                    <th><a th:text="#{user.department}"></a></th>
-                    <td><input type="text" id="department" name="department" maxlength="100"></td>
-                </tr>
-                <tr>
-                    <th><a th:text="#{user.officeNumber}"></a></th>
-                    <td><input type="text" id="officeNumber" name="officeNumber" maxlength="100"></td>
-                </tr>
-                <tr>
-                    <th><a th:text="#{user.mobileNumber}"></a></th>
-                    <td><input type="text" id="mobileNumber" name="mobileNumber" maxlength="100"></td>
-                </tr>
-            </table>
-            <button class="btn btn-primary" id="userSignUp" th:text="#{login.doSignUp}" onclick="userRegister()"></button>
-        </div>
+            <div class="signup-base">
+                <p th:text="#{login.userSignUp}"></p>
+                <form id="signUpForm" method="post" onsubmit="return false">
+                    <table class="signup-form">
+                        <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+                        <tr>
+                            <th><a class="required" th:text="#{user.id}"></a></th>
+                            <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
+                        </tr>
+                        <tr>
+                            <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.password}"></a></th>
+                            <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
+                        </tr>
+                        <tr>
+                            <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.rePassword}"></a></th>
+                            <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
+                        </tr>
+                        <tr>
+                            <th><a class="required" th:text="#{user.name}"></a></th>
+                            <td><input type="text" id="userName" name="userName" maxlength="100" required="required"></td>
+                        </tr>
+                        <tr>
+                            <th><a class="required" th:text="#{user.email}"></a></th>
+                            <td><input type="text" id="email" name="email" maxlength="100" required="required"></td>
+                        </tr>
+                        <tr>
+                            <th><a th:text="#{user.position}"></a></th>
+                            <td><input type="text" id="position" name="position" maxlength="100"></td>
+                        </tr>
+                        <tr>
+                            <th><a th:text="#{user.department}"></a></th>
+                            <td><input type="text" id="department" name="department" maxlength="100"></td>
+                        </tr>
+                        <tr>
+                            <th><a th:text="#{user.officeNumber}"></a></th>
+                            <td><input type="text" id="officeNumber" name="officeNumber" maxlength="100"></td>
+                        </tr>
+                        <tr>
+                            <th><a th:text="#{user.mobileNumber}"></a></th>
+                            <td><input type="text" id="mobileNumber" name="mobileNumber" maxlength="100"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{user.avatar}"/>
+                            <td>
+                                <!--<img th:src="${attachImage}" th:border="1" th:width="200" th:height="200"/>-->
+                                <div id="dropZoneFiles"></div>
+                                <div id="dropZoneUploadedFiles"></div>
+                                <br/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <button class="btn btn-primary" id="userSignUp" th:text="#{login.doSignUp}" onclick="userRegister()"></button>
+            </div>
         <div id="password-guide">
             <pre>
             [ 비밀번호 생성 가이드 ]
@@ -85,12 +97,23 @@
     <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
+    <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
             i18n.add();
             hiddenProgressBar();
+
             document.getElementById('avatarUUID').value = uuid();
+            var avatarUUID = document.getElementById('avatarUUID').value;
+            fileUploader.init({extra: {
+                    formId: 'signUpForm',
+                    dropZoneMaxFileSize: 0.1,
+                    dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUID,
+                    dropZoneMaxFiles: 1,
+                    clickable: '.add-img-button'
+            }});
         }
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
@@ -122,7 +145,9 @@
                         position: document.getElementById("position").value,
                         department: document.getElementById("department").value,
                         officeNumber: document.getElementById("officeNumber").value,
-                        mobileNumber: document.getElementById("mobileNumber").value
+                        mobileNumber: document.getElementById("mobileNumber").value,
+                        fileSeq: document.getElementsByName('fileSeq').value,
+                        avatarUUID: document.getElementById('avatarUUID').value
                     };
                     // 등록
                     restSubmit("POST", "/certification/register",true,registerInfo);

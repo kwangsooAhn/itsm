@@ -198,13 +198,12 @@
                 }
             }
 
-            var avatarUUID = document.getElementById('avatarUUID').value.uuid();
-
+            document.getElementById('avatarUUID').value = uuid();
+            var avatarUUID = document.getElementById('avatarUUID').value;
             fileUploader.init({extra: {
                 formId: 'userEditSelfForm',
-                ownId: [[${users.userKey}]],
                 dropZoneMaxFileSize: 0.1,
-                dropZoneUrl: '/fileupload?location=resources&fileName=[[${users.userKey}]]&avatarUUID=',
+                dropZoneUrl: '/fileupload?target=avatar&fileName='+ avatarUUID,
                 dropZoneMaxFiles: 1,
                 clickable: '.add-img-button'
             }});
@@ -272,7 +271,8 @@
                 lang: document.getElementById('lang').value,
                 theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
-                fileSeq: document.getElementsByName('fileSeq').value
+                fileSeq: document.getElementsByName('fileSeq').value,
+                avatarUUID: document.getElementById('avatarUUID').value
             };
 
             const opt = {

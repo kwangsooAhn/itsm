@@ -37,7 +37,7 @@
     <div id="container" align="center">
         <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
         <input type="hidden" id="oldPassword" name="oldPassword" th:value="${users?.password}"/>
-        <input type="hidden" id="avatarUUID" name="avatarUUID" th:value=""/>
+        <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
         <form id="userEditSelfForm" method="post" onsubmit ="return false">
             <table style="text-align: left;">
                 <tbody id="tbody">
@@ -209,13 +209,13 @@
                 }
             }
             document.getElementById('avatarUUID').value = uuid();
+            var avatarUUID = document.getElementById('avatarUUID').value;
             fileUploader.init({extra: {
-                    formId: 'userEditSelfForm',
-                    ownId: [[${users.userKey}]],
-                    dropZoneMaxFileSize: 0.1,
-                    dropZoneUrl: '/fileupload?location=resources&fileName=[[${users.userKey}]]',
-                    dropZoneMaxFiles: 1,
-                    clickable: '.add-img-button'
+                formId: 'userEditSelfForm',
+                dropZoneMaxFileSize: 0.1,
+                dropZoneUrl: '/fileupload?target=avatar&fileName='+ avatarUUID,
+                dropZoneMaxFiles: 1,
+                clickable: '.add-img-button'
             }});
         };
 
@@ -292,7 +292,8 @@
                 theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 roles: arrRoleValue,
-                fileSeq: document.getElementsByTagName('fileSeq').value
+                fileSeq: document.getElementsByTagName('fileSeq').value,
+                avatarUUID: document.getElementById('avatarUUID').value
             };
 
             const opt = {

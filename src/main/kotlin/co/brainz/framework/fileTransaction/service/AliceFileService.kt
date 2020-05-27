@@ -301,7 +301,7 @@ class AliceFileService(
                 Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
             }
             else -> {
-                Paths.get(dir.toString() + File.separator + fileName.replace("\"", ""))
+                Paths.get(dir.toString() + File.separator + fileName)
             }
         }
 
@@ -310,5 +310,14 @@ class AliceFileService(
         }
 
         multipartFile.transferTo(filePath.toFile())
+    }
+
+    fun uploadAvatar(location: String, baseDir: String, userKey: String, avatarUUID: String) {
+        this.basePath = ClassPathResource(baseDir).file.path.toString()
+        val dir = Paths.get(this.basePath, location)
+        val tempPath = Paths.get(dir.toString() + File.separator + avatarUUID)
+        val filePath = Paths.get(dir.toString() + File.separator + userKey)
+
+        Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
     }
 }

@@ -9,6 +9,7 @@ import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.itsm.code.service.CodeService
@@ -42,7 +43,8 @@ class UserService(
     private val userRepository: UserRepository,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val codeService: CodeService,
-    private val userRoleMapRepository: AliceUserRoleMapRepository
+    private val userRoleMapRepository: AliceUserRoleMapRepository,
+    private val aliceFileService: AliceFileService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -113,7 +115,9 @@ class UserService(
                 }
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
+
                 userRepository.save(targetEntity)
+                aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, userUpdateDto.userKey, userUpdateDto.avatarUUID)
 
                 if (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     userEntity.userRoleMapEntities.forEach {
