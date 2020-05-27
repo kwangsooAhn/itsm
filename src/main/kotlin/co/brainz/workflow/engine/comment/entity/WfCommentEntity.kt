@@ -1,7 +1,7 @@
 package co.brainz.workflow.engine.comment.entity
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -12,6 +12,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "wf_comment")
@@ -31,7 +32,8 @@ data class WfCommentEntity(
     @Column(name = "create_dt")
     val createDt: LocalDateTime,
 
-    @Column(name = "create_user_key", length = 128)
-    var createUserKey: String = ""
+    @ManyToOne(targetEntity = AliceUserEntity::class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key")
+    var aliceUserEntity: AliceUserEntity? = null
 
 ) : Serializable
