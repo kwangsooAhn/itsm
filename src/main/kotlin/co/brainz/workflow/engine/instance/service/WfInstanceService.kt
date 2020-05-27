@@ -47,15 +47,17 @@ class WfInstanceService(
      * Search Instances.
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
-        var userKey = ""
-
-        if (parameters["userKey"] != null) {
-            userKey = parameters["userKey"].toString()
-        }
+        val tokenType = parameters["tokenType"].toString()
+        val userKey = parameters["userKey"].toString()
 
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
 
-        val instances = todoInstances(userKey)
+        val instances = when(tokenType) {
+            "token.type.requested" -> requestedInstances(userKey)
+            "token.type.progress" -> relatedInstances(RestTemplateConstants.InstanceStatus.RUNNING.value, userKey)
+            "token.type.completed" -> relatedInstances(RestTemplateConstants.InstanceStatus.FINISH.value, userKey)
+            else -> todoInstances(userKey)
+        }
 
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         for (instance in instances) {
@@ -101,6 +103,14 @@ class WfInstanceService(
         }
 
         return tokens
+    }
+
+    private fun requestedInstances(userKey: String): List<WfInstanceListViewDto> {
+        return mutableListOf();
+    }
+
+    private fun relatedInstances(status: String, userKey: String): List<WfInstanceListViewDto> {
+        return mutableListOf();
     }
 
     private fun todoInstances(userKey: String): List<WfInstanceListViewDto> {
