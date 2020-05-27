@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.token.service
 
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
 import co.brainz.framework.numbering.service.AliceNumberingService
@@ -40,7 +41,8 @@ class WfTokenElementService(
     private val aliceNumberingService: AliceNumberingService,
     private val wfTokenMappingValue: WfTokenMappingValue,
     private val wfCandidateRepository: WfCandidateRepository,
-    private val notificationService: NotificationService
+    private val notificationService: NotificationService,
+    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -100,7 +102,6 @@ class WfTokenElementService(
                             setNextTokenSave(makeToken(nextElement, commonStartToken.instance), restTemplateTokenDto)
                         restTemplateTokenDto.tokenId = userTaskToken.tokenId
                         setCandidate(userTaskToken)
-                        saveNotification(userTaskToken)
                     }
                 }
             }
@@ -182,8 +183,7 @@ class WfTokenElementService(
                     wfTokenEntity.element.elementDataEntities,
                     WfElementConstants.AttributeId.REJECT_ID.value
                 )
-                val saveTokenEntity = wfTokenActionService.setReject(wfTokenEntity, restTemplateTokenDto, values)
-                saveNotification(saveTokenEntity)
+                wfTokenActionService.setReject(wfTokenEntity, restTemplateTokenDto, values)
             }
             WfElementConstants.Action.WITHDRAW.value -> wfTokenActionService.setWithdraw(
                 wfTokenEntity,
@@ -300,7 +300,6 @@ class WfTokenElementService(
                 val token = makeToken(nextElementEntity, wfTokenEntity.instance)
                 val saveToken = setNextTokenSave(token, restTemplateTokenDto)
                 setCandidate(saveToken)
-                saveNotification(saveToken)
             }
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
                 val token = makeToken(nextElementEntity, wfTokenEntity.instance)
@@ -430,7 +429,7 @@ class WfTokenElementService(
                     assigneeId = this.assigneeId
                 }
                 token.assigneeId = assigneeId
-                wfTokenRepository.save(token)
+                saveNotification(wfTokenRepository.save(token))
             }
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {
@@ -446,10 +445,10 @@ class WfTokenElementService(
                         )
                         wfCandidateEntities.add(wfCandidateEntity)
                     }
-                    wfCandidateRepository.saveAll(wfCandidateEntities)
+                    saveNotification(token, wfCandidateRepository.saveAll(wfCandidateEntities))
                 } else {
                     token.assigneeId = this.assigneeId
-                    wfTokenRepository.save(token)
+                    saveNotification(wfTokenRepository.save(token))
                 }
             }
         }
@@ -459,23 +458,40 @@ class WfTokenElementService(
      * Save Notification.
      *
      * @param token
+     * @param candidates
      */
-    fun saveNotification(token: WfTokenEntity) {
-        token.element.elementDataEntities.forEach {
-            if (it.attributeId == WfElementConstants.AttributeId.NOTIFICATION.value && it.attributeValue == "Y") {
-                val instance = token.instance
-                instance.document?.let { document ->
-                    notificationService.insertNotification(
-                        NotificationDto(
-                            receivedUser = token.assigneeId!!,
-                            title = document.documentName,
-                            message = document.documentDesc,
-                            instanceId = instance.instanceId
-                        )
-                    )
-                    return@forEach
+    fun saveNotification(token: WfTokenEntity, candidates: List<WfCandidateEntity>? = null) {
+        if (token.element.notification) {
+            val notifications = mutableListOf<NotificationDto>()
+            val commonNotification = NotificationDto(
+                title = token.instance.document?.documentName!!,
+                message = "[" + token.element.elementName + "] " + token.instance.document.documentDesc,
+                instanceId = token.instance.instanceId
+            )
+
+            if (candidates != null) {
+                candidates.forEach { candidate ->
+                    when (candidate.candidateType) {
+                        WfTokenConstants.AssigneeType.USERS.code -> {
+                            val notification = commonNotification.copy()
+                            notification.receivedUser = candidate.candidateValue
+                            notifications.add(notification)
+                        }
+                        WfTokenConstants.AssigneeType.GROUPS.code -> {
+                            val users = aliceUserRoleMapRepository.findUserRoleMapByRoleId(candidate.candidateValue)
+                            users?.forEach {
+                                val notification = commonNotification.copy()
+                                notification.receivedUser = it.user.userKey
+                                notifications.add(notification)
+                            }
+                        }
+                    }
                 }
+            } else {
+                commonNotification.receivedUser = token.assigneeId!!
+                notifications.add(commonNotification)
             }
+            notificationService.insertNotificationList(notifications)
         }
     }
 }

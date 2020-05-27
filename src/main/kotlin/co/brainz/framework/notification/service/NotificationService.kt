@@ -2,6 +2,7 @@ package co.brainz.framework.notification.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.notification.dto.NotificationDto
+import co.brainz.framework.notification.entity.NotificationEntity
 import co.brainz.framework.notification.mapper.NotificationMapper
 import co.brainz.framework.notification.repository.NotificationRepository
 import org.mapstruct.factory.Mappers
@@ -33,13 +34,17 @@ class NotificationService(
     /**
      * 알림 Insert.
      */
-    fun insertNotification(notificationDto: NotificationDto) {
-        val userEntity = userRepository.findById(notificationDto.receivedUser).orElse(null)
-        userEntity?.let {
-            val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
-            notificationEntity.receivedUser = userEntity
-            notificationRepository.save(notificationEntity)
+    fun insertNotificationList(notificationDtoList: List<NotificationDto>) {
+        val notificationEntityList = mutableListOf<NotificationEntity>()
+        notificationDtoList.forEach { notificationDto ->
+            val userEntity = userRepository.findById(notificationDto.receivedUser).orElse(null)
+            userEntity?.let {
+                val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
+                notificationEntity.receivedUser = userEntity
+                notificationEntityList.add(notificationEntity)
+            }
         }
+        notificationRepository.saveAll(notificationEntityList)
     }
 
     /**
