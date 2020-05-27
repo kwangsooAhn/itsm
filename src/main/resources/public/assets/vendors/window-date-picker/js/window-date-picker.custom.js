@@ -401,7 +401,7 @@
     DAYS_ABBR: ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     MONTHS: ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     MONTHS_ABBR: ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    AM_PM: ['AM', 'PM', 'am', 'pm'],
+    AM_PM: ['AM', 'PM'],
     BUTTONS: ['CANCEL', 'OK'],
     INVALID_DATE: 'Invalid Date'
   };
@@ -410,7 +410,7 @@
     DAYS_ABBR: ['', '월', '화', '수', '목', '금', '토', '일'],
     MONTHS: ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     MONTHS_ABBR: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-    AM_PM: ['오전', '오후', '오전', '오후'],
+    AM_PM: ['오전', '오후'],
     BUTTONS: ['CANCEL', 'OK'],
     INVALID_DATE: 'Invalid Date'
   };
@@ -419,7 +419,7 @@
     DAYS_ABBR: ['', '月', '火', '水', '木', '金', '土', '日'],
     MONTHS: ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     MONTHS_ABBR: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-    AM_PM: ['午前', '午後', '午前', '午後'],
+    AM_PM: ['午前', '午後'],
     BUTTONS: ['CANCEL', 'OK'],
     INVALID_DATE: 'Invalid Date'
   };
@@ -1335,9 +1335,9 @@
                 // 2020-05-27 Jung Hee Chan
                 // 소문자 am,pm도 처리할 수 있게 변경.
                 if (this.hourType == $12) {
-                  if ((s[1] == this.LANG.AM_PM[1] || s[1] == this.LANG.AM_PM[3])  && hour != '12') {
+                  if ((s[1].toUpperCase() === this.LANG.AM_PM[1] || s[1].toUpperCase() === 'PM')  && hour != '12') {
                     hour = (parseInt(hour) + 12).toString();
-                  } else if ((s[1] == this.LANG.AM_PM[0] || s[1] == this.LANG.AM_PM[2]) && hour == '12') {
+                  } else if ((s[1].toUpperCase() === this.LANG.AM_PM[0] || s[1].toUpperCase() === 'AM') && hour == '12') {
                     hour = '0';
                   }
                 }

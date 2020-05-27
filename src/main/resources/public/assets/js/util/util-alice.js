@@ -664,6 +664,7 @@ aliceJs.convertToUserDateFormat = function(beforeDate, userDateFormat) {
  * @return {String} resultDatetime 변환된 결과 날짜,시간
  */
 aliceJs.convertToSystemDatetimeFormatWithTimezone = function(beforeDatetime, userDatetimeFormat, userTimezone) {
+    beforeDatetime = aliceJs.convertToSystemHourType(beforeDatetime);
     if (aliceJs.isEmpty(beforeDatetime) || aliceJs.isEmpty(userDatetimeFormat) || aliceJs.isEmpty(userTimezone) ||
             !moment.tz(beforeDatetime, userDatetimeFormat, userTimezone).isValid()) {
         return beforeDatetime;
@@ -711,6 +712,7 @@ aliceJs.convertToSystemDateFormat = function(beforeDate, userDateFormat) {
  * @return {String} resultDatetime 변환된 결과 시간
  */
 aliceJs.convertToSystemTimeFormat = function(beforeTime, userTimeFormat) {
+    beforeTime = aliceJs.convertToSystemHourType(beforeTime);
     if (aliceJs.isEmpty(beforeTime) || aliceJs.isEmpty(userTimeFormat) ||
         !moment(beforeTime, userTimeFormat).isValid()) {
         return beforeTime;
@@ -760,9 +762,26 @@ aliceJs.getCurrentDatetimeWithTimezoneAndFormat = function(userTimezone, userFor
  * @returns {boolean}
  */
 aliceJs.isEmpty = function(value) {
-    if(value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length )) {
-        return true;
-    } else {
-        return false;
+    return value === "" || value == null || (typeof value == "object" && !Object.keys(value).length);
+};
+
+/**
+ * 한글로 '오전','오후'로 표기된 내용을 DB에 넣기 위해 'AM','PM'으로 치환.
+ * 현재 다국어 처리와 관련해서
+ * DB -> 화면으로 가는 경우에는 picker에서 초기화할때 처리하지만 아래 2가지는 해결해야함.
+ * 1) 화면 -> DB로 가는 경우 : 여기서 변경 임시로 처리
+ * 2) DB -> 화면으로 가지만 picker가 동작하지 않는 경우 : #8548 일감으로 별도 처리
+ *
+ * 위의 2가지를 포함하여 개선 여지가 있음.
+ *
+ * @author Jung Hee Chan
+ * @since 2020-05-27
+ */
+aliceJs.convertToSystemHourType = function(value) {
+    if (value.indexOf('오후') !== -1) {
+        value = value.replace('오후', 'PM');
+    } else if (value.indexOf('오전') !== -1) {
+        value = value.replace('오전', 'AM');
     }
+    return value;
 };

@@ -128,6 +128,7 @@ const dateTimePicker = (function() {
         if (typeof lang !== 'undefined') {
             options.lang = lang;
         }
+
         let picker = initPicker(targetId, options);
         picker.el.addEventListener('wdp.close', () => {
             if (typeof callback === 'function') { 

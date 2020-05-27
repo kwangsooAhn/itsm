@@ -606,7 +606,7 @@
             let component = componentItem.attributes;
             if (component.type === 'datetime' || component.type === 'date' || component.type === 'time') {
                 // 1. 기본값 타입 중에서 직접 Calendar로 입력한 값인 경우는 변환
-                if (!(component.display.default.indexOf('picker') < 0)) {
+                if (component.display.default.indexOf('picker') !== -1) {
                     let displayDefaultValueArray = component.display.default.split('|'); // 속성 값을 파싱한 배열
                     switch(component.type) {
                         case 'datetime':
@@ -649,7 +649,7 @@
                     componentItem.values[0].value = componentValue;
                 }
             }
-        })
+        });
         return components;
     }
 
