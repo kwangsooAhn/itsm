@@ -118,7 +118,7 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            aliceDocument.initToken('[[${tokenId}]]');
+            aliceForm.initSync(aliceDocument.initToken, '[[${tokenId}]]');
         };
 
         function openPopUp(tokenId) {
