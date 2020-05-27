@@ -1,5 +1,9 @@
 const aliceJs = {};
 
+aliceJs.systemCalendarDatetimeFormat = 'YYYY-MM-DD HH:mm:ss';
+aliceJs.systemCalendarDateFormat = 'YYYY-MM-DD';
+aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
+
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
@@ -482,6 +486,9 @@ aliceJs.confirm = function(message, callbackFunc) {
 };
 
 /**
+ * Deprecated (2020-05-20, hcjung) : 현재 사용중인 부분들 리펙토링 후 삭제 예정.
+ * 현재 방식으로는 Client의 시간을 가져오는데 이건 사용하면 안됨.
+ *
  * 현재 시간을 format 형식에 따라 반환.
  * @param {String} format format
  * @param {String} day 날짜 간격(3 = 현재 날짜의 3일 후, -3 = 현재 날짜의 3일전을 의미)
@@ -507,6 +514,10 @@ aliceJs.getTimeStamp = function(format, day, time) {
 };
 
 /**
+ * Deprecated (2020-05-20, hcjung) : 현재 사용중인 부분들 리펙토링 후 삭제 예정.
+ * 이렇게 Low 레벨의 컨트롤을 할 필요는 없을 듯.
+ * moment 라이브러리 사용이 필요.
+ *
  * 시분초에 length가 변경될 경우 0 붙이는 함수이다.
  * 예를 들어 1월은 01월 3시 일경우 03시등으로 변경하기 위해 사용한다.
  * @param {Number} num 날짜, 시간 값
@@ -525,6 +536,9 @@ aliceJs.parseZero = function(num, digits) {
 };
 
 /**
+ * Deprecated (2020-05-20, hcjung) : 현재 사용중인 부분들 리펙토링 후 삭제 예정.
+ * moment 라이브러리 사용으로 불필요.
+ *
  * 사용자가 원하는 포맷으로 현재 시간을 format 형식에 따라 반환.
  * @param {String} 이전 날짜 포맷              EX) YYYY-MM-DD YY hh:mm 12
  * @param {String} 변경하고자 하는 날짜 포맷   EX) YYYY-MM-DD hh:mm 12
@@ -649,6 +663,7 @@ aliceJs.changeDateFormat = function(beforeFormat, afterFormat, dateValue, userLa
 aliceJs.isObject = function(item) {
     return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
 };
+
 /**
  * Merge a `source` object to a `target` recursively
  * @param target target 객체
@@ -666,4 +681,186 @@ aliceJs.mergeObject = function(target, source) {
         });
     }
     return target;
+};
+
+/**
+ * 시스템 기본 포맷으로 된 날짜와 시간 데이터를 사용자의 타임존과 포맷으로 변환.
+ *
+ * @author Jung Hee chan
+ * @since 2020-05-20
+ * @param {String} beforeDatetime 시스템 포맷으로 된 변경될 날짜
+ * @param {String} userDatetimeFormat 사용자 날짜, 시간 포맷
+ * @param {String} userTimezone 사용자 타임존
+ * @return {String} resultDatetime 변환된 결과 날짜와 시간
+ */
+aliceJs.convertToUserDatetimeFormatWithTimezone = function(beforeDatetime, userDatetimeFormat, userTimezone) {
+    if (aliceJs.isEmpty(beforeDatetime) || aliceJs.isEmpty(userDatetimeFormat) || aliceJs.isEmpty(userTimezone)
+        || !moment(beforeDatetime, aliceJs.systemCalendarDatetimeFormat).isValid()) {
+        return beforeDatetime;
+    }
+
+    // 콘솔에서 아래와 같이 테스트 가능.
+    // moment.tz('2020-05-22 17:33', 0).tz('America/Anchorage').format('MM-DD-YYYY hh:mm A');
+    let resultDatetime = moment.tz(beforeDatetime, aliceJs.systemCalendarDatetimeFormat, 0)
+        .tz(userTimezone)
+        .format(userDatetimeFormat);
+    return resultDatetime;
+}
+
+/**
+ * 시스템 공통 포맷의 시간 데이터를 사용자 시간 포맷으로 변경. 타임존 개념은 없음.
+ *
+ * @author Jung Hee chan
+ * @since 2020-05-20
+ * @param {String} beforeTime 사용자 포맷으로 된 변경될 원본 시간
+ * @param {String} userTimeFormat 사용자 시간 포맷
+ * @return {String} resultDatetime 변환된 결과 시간
+ */
+aliceJs.convertToUserTimeFormat = function(beforeTime, userTimeFormat) {
+    if (aliceJs.isEmpty(beforeTime) || aliceJs.isEmpty(userTimeFormat)
+        || !moment(beforeTime, aliceJs.systemCalendarTimeFormat).isValid()) {
+        return beforeTime;
+    }
+
+    // 콘솔에서 아래와 같이 테스트 가능.
+    // moment('17:33', 'HH:mm:ss').format('hh:mm A');
+    let resultTime = moment(beforeTime, aliceJs.systemCalendarTimeFormat)
+        .format(userTimeFormat);
+    return resultTime;
+}
+
+/**
+ * 시스템 공통 포맷의 날짜 데이터를 사용자 날짜 포맷으로 변경. 타임존 개념은 없음.
+ *
+ * @author Jung Hee chan
+ * @since 2020-05-20
+ * @param {String} beforeDate 사용자 포맷으로 된 변경될 원본 날짜
+ * @param {String} userDateFormat 사용자 날짜 포맷
+ * @return {String} resultDatetime 변환된 결과 날짜
+ */
+aliceJs.convertToUserDateFormat = function(beforeDate, userDateFormat) {
+    if (aliceJs.isEmpty(beforeDate) || aliceJs.isEmpty(userDateFormat)
+        || !moment(beforeDate, aliceJs.systemCalendarDateFormat).isValid()) {
+        return beforeDate;
+    }
+
+    // 콘솔에서 아래와 같이 테스트 가능.
+    // moment('2020-05-25', 'YYYY-MM-DD').format('MM-DD-YYYY');
+    let resultDate = moment(beforeDate, aliceJs.systemCalendarDateFormat)
+        .format(userDateFormat);
+    return resultDate;
+}
+
+/**
+ * 사용자의 포맷과 타임존으로 된 날짜와 시간을 시스템 기본 포맷으로 변환.
+ *
+ * @author Jung Hee chan
+ * @since 2020-05-20
+ * @param {String} beforeDatetime 사용자의 포맷과 타임존이 적용된 변경될 날짜,시간
+ * @param {String} userDatetimeFormat 사용자 날짜,시간 포맷
+ * @param {String} userTimezone 사용자 타임존
+ * @return {String} resultDatetime 변환된 결과 날짜,시간
+ */
+aliceJs.convertToSystemDatetimeFormatWithTimezone = function(beforeDatetime, userDatetimeFormat, userTimezone) {
+    if (aliceJs.isEmpty(beforeDatetime) || aliceJs.isEmpty(userDatetimeFormat) || aliceJs.isEmpty(userTimezone) ||
+            !moment.tz(beforeDatetime, userDatetimeFormat, userTimezone).isValid()) {
+        return beforeDatetime;
+    }
+
+    // 콘솔에서 아래와 같이 테스트 가능.
+    // moment.tz('05-22-2020 09:33 AM', 'MM-DD-YYYY hh:mm A', 'America/Anchorage').utc(0).format('YYYY-MM-DD HH:mm');
+    let resultDatetime = moment.tz(beforeDatetime, userDatetimeFormat, userTimezone)
+        .utc(0)
+        .format(aliceJs.systemCalendarDatetimeFormat);
+
+    return resultDatetime;
+}
+
+/**
+ * 사용자의 포맷으로 된 날짜를 시스템 기본 포맷으로 변환.
+ *
+ * @author Jung Hee chan
+ * @since 2020-05-20
+ * @param {String} beforeDatetime 사용자의 포맷이 적용된 변경될 날짜
+ * @param {String} userDatetimeFormat 사용자 날짜 포맷
+ * @return {String} resultDatetime 변환된 결과 날짜
+ */
+aliceJs.convertToSystemDateFormat = function(beforeDate, userDateFormat) {
+    if (aliceJs.isEmpty(beforeDate) || aliceJs.isEmpty(userDateFormat) ||
+        !moment(beforeDate, userDateFormat).isValid()) {
+        return beforeDate;
+    }
+
+    // 콘솔에서 아래와 같이 테스트 가능.
+    // moment('05-22-2020', 'MM-DD-YYYY').format('YYYY-MM-DD');
+    let resultDate = moment(beforeDate, userDateFormat)
+        .format(aliceJs.systemCalendarDateFormat);
+
+    return resultDate;
+}
+
+/**
+ * 사용자의 포맷으로 된 시간을 시스템 기본 포맷으로 변환.
+ *
+ * @author Jung Hee chan
+ * @since 2020-05-20
+ * @param {String} beforeTime 사용자의 포맷이 적용된 변경될 시간
+ * @param {String} userTimeFormat 사용자 시간 포맷
+ * @return {String} resultDatetime 변환된 결과 시간
+ */
+aliceJs.convertToSystemTimeFormat = function(beforeTime, userTimeFormat) {
+    if (aliceJs.isEmpty(beforeTime) || aliceJs.isEmpty(userTimeFormat) ||
+        !moment(beforeTime, userTimeFormat).isValid()) {
+        return beforeTime;
+    }
+
+    // 콘솔에서 아래와 같이 테스트 가능.
+    // moment('09:33 AM', 'hh:mm A').format('HH:mm');
+    let resultTime = moment(beforeTime, userTimeFormat)
+        .format(aliceJs.systemCalendarTimeFormat);
+
+    return resultTime;
+}
+
+/**
+ * 사용자의 타임존을 기준으로 현재시간을 사용자 날짜,시간 포맷으로 반환.
+ *
+ * @author Jung Hee chan
+ * @since 2020-05-20
+ *
+ * @param {String} userTimezone 사용자의 타임존 정보.
+ * @param {String} [userFormat=aliceJs.systemCalendarDatetimeFormat] 사용자의 날짜, 시간 포맷.
+ * @return {String} UTC+0 기준으로 변경된 시스템 기본 포맷의 현재 시간
+ */
+aliceJs.getCurrentDatetimeWithTimezoneAndFormat = function(userTimezone, userFormat) {
+    let resultDatetime;
+    let momentObject = moment().utc(0);
+    if (!aliceJs.isEmpty(userTimezone)) {
+        momentObject = moment.tz(userTimezone);
+    }
+
+    if (aliceJs.isEmpty(userFormat)) {
+        resultDatetime = momentObject.format(aliceJs.systemCalendarDatetimeFormat);
+    } else {
+        resultDatetime = momentObject.format(userFormat);
+    }
+    return resultDatetime;
+};
+
+/**
+ * 받은 값이 빈 값인지 체크.
+ * Array, Object, null, undefined 도 빈 값 체크.
+ *
+ * @author Jung Hee chan
+ * @since 2020-05-20
+ *
+ * @param {Object} value
+ * @returns {boolean}
+ */
+aliceJs.isEmpty = function(value) {
+    if(value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length )) {
+        return true;
+    } else {
+        return false;
+    }
 };

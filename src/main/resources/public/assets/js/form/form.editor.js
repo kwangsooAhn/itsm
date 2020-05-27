@@ -176,8 +176,12 @@
     function saveForm(flag) {
         //view 모드이면 단축키로 저장되지 않는다.
         if (isView) { return false; }
-
         data = JSON.parse(JSON.stringify(editor.data));
+
+        // 2020-05-22 Jung Hee Chan
+        // datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
+        data.components = reformatCalendarFormat('save', data.components);
+
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
@@ -815,7 +819,7 @@
          * @param {String} value 변경된 값
          * @param {String} group 변경된 그룹 key
          * @param {String} field 변경된 field key
-         * @param {Number} index 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
+         * @param {Number} [index] 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
          */
         const changePropertiesValue = function(value, group, field, index) {
             let originCompAttr = JSON.parse(JSON.stringify(compAttr));
@@ -845,21 +849,16 @@
                 
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
-                let timeformat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
                 if (changeValue === 'none' || changeValue === 'now') {
-                    changePropertiesValue(changeValue+'|'+ timeformat, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+                    changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 } else {
                     let inputCells = parentEl.querySelectorAll('input[type="text"]');
                     if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
-                        changeValue += ('|' + inputCells[0].value +'|'+ timeformat);
+                        changeValue += ('|' + inputCells[0].value);
                     } else {
                         for (let i = 0, len = inputCells.length; i < len; i++ ) {
                             changeValue += ('|' + inputCells[i].value);
                         }
-                        if (checkedRadio.value === 'time') {
-                            timeformat = aliceForm.options.timeFormat;
-                        }
-                        changeValue = changeValue +'|'+ timeformat;
                     }
                     changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
                 }
@@ -1162,27 +1161,6 @@
                                 }
                                 let labelName = option.name.split('{0}');
 
-                                if (option.id === 'datetimepicker') {
-                                    if (optionDefaultArr[1] !== '') {
-                                        let nowTimeFormat = aliceForm.options.dateTimeFormat;
-                                        optionDefaultArr[1] = aliceJs.changeDateFormat(optionDefaultArr[2], nowTimeFormat, optionDefaultArr[1], aliceForm.options.lang);
-                                    }
-                                } else if (option.id ==='timepicker') {
-                                    if (optionDefaultArr[1] !== '') {
-                                        let timeFormat = aliceForm.options.dateTimeFormat;
-                                        let beforeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' a';
-                                        let timeDefault = '';
-                                        timeDefault = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
-                                        timeDefault = aliceJs.changeDateFormat(beforeFormat, timeFormat, timeDefault + ' ' + optionDefaultArr[1], aliceForm.options.lang);
-                                        let timeNow = timeDefault.split(' ');
-                                        if (timeNow.length > 2) {
-                                            optionDefaultArr[1] = timeNow[1] + ' ' + timeNow[2];
-                                        } else {
-                                            optionDefaultArr[1] = timeNow[1];
-                                        }
-                                    }
-                                }
-
                                 propertyTemplate += `
                                     <div class='vertical-group'>
                                     <input type='radio' id='${option.id}' name='${group}.${fieldArr.id}' value='${option.id}'
@@ -1220,9 +1198,9 @@
                             if (compAttr.type === 'date') {
                                 dateTimePicker.initDatePicker('datepicker-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
                             } else if (compAttr.type === 'time') {
-                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, aliceForm.options.hourType, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
                             } else if (compAttr.type === 'datetime') {
-                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.hourType, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
                             }
                             break;
                         case 'radio-custom':
@@ -1390,7 +1368,7 @@
                             propertyValue.setAttribute('name', group + '.' + fieldArr.id);
                             let dateTimePickerValue = '';
                             if (fieldArr.value != '') {
-                                let dateTimePickerFormat = aliceForm.options.dateTimeFormat;
+                                let dateTimePickerFormat = aliceForm.options.datetimeFormat;
                                 dateTimePickerValue = fieldArr.value.split('|');
                                 if (dateTimePickerValue[1] === undefined) {
                                     dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
@@ -1410,9 +1388,9 @@
                             if (fieldArr.type === 'datepicker') {
                                 dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
                             } else if (fieldArr.type === 'timepicker') {
-                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, aliceForm.options.hourType, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
                             } else if (fieldArr.type === 'datetimepicker') {
-                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.hourType, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
                             }
                             break;
                         case 'customcode':
@@ -1636,7 +1614,7 @@
     function changeFormName() {
         document.querySelector('.form-name').textContent = (isEdited ? '*' : '') + editor.data.form.name;
     }
-    
+
     /**
      * init.
      *
@@ -1675,10 +1653,123 @@
             method: 'GET',
             url: '/rest/forms/' + formId + '/data',
             callbackFunc: function(xhr) {
-                drawForm(xhr.responseText);
+                let responseObject = JSON.parse(xhr.responseText);
+                responseObject.components = reformatCalendarFormat('read', responseObject.components);
+                drawForm(JSON.stringify(responseObject));
             },
             contentType: 'application/json; charset=utf-8'
         });
+    }
+
+    /**
+     * 날짜와 관련있는 컴포넌트들에 대해서 사용자의 타임존과 출력 포맷에 따라 변환.
+     * 폼 디자이너 모듈 Refactoring 시까지 임시로 사용할 가능성이 있음.
+     *
+     * @author Jung Hee Chan
+     * @since 2020-05-22
+     * @param {String} action save, read 중에서 1개. save인 경우는 시스템 공통 포맷으로, read인 경우 사용자 포맷으로 변환.
+     * @param {Object} components 변환 대상이 되는 컴포넌트 목록.
+     * @return {Object} resultComponents 변경된 결과
+     */
+    function reformatCalendarFormat(action, components) {
+        if (action !== 'save' && action !== 'read') {
+            return components;
+        }
+
+        components.forEach(function(component, idx) {
+            if (component.type === 'datetime' || component.type === 'date' || component.type === 'time') {
+                // 1. 기본값 타입 중에서 직접 Calendar로 입력한 값인 경우는 변환
+                if (!(component.display.default.indexOf('picker') < 0)) {
+                    let displayDefaultValueArray = component.display.default.split('|'); // 속성 값을 파싱한 배열
+                    if (action === 'save') {
+                        switch(component.type) {
+                            case 'datetime':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToSystemDatetimeFormatWithTimezone(displayDefaultValueArray[1],
+                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                break;
+                            case 'date':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToSystemDateFormat(displayDefaultValueArray[1],
+                                        aliceForm.options.dateFormat);
+                                break;
+                            case 'time':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToSystemTimeFormat(displayDefaultValueArray[1],
+                                        aliceForm.options.hourFormat);
+                                break;
+                        }
+                    } else if (action === 'read') {
+                        switch(component.type) {
+                            case 'datetime':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToUserDatetimeFormatWithTimezone(displayDefaultValueArray[1],
+                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                break;
+                            case 'date':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToUserDateFormat(displayDefaultValueArray[1],
+                                        aliceForm.options.dateFormat);
+                                break;
+                            case 'time':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToUserTimeFormat(displayDefaultValueArray[1],
+                                        aliceForm.options.hourFormat);
+                                break;
+                        }
+
+                    }
+                    components[idx].display.default = displayDefaultValueArray.join('|');
+                }
+
+                // 2. validate 용 date-min, date-max 변환
+                let validateItems = component.validate;
+                Object.keys(validateItems).forEach(function(validateItem) {
+                    if (!(validateItem.indexOf('date-') < 0)) {
+                        let validateItemValueArray = validateItems[validateItem].split('|'); // 속성 값을 파싱한 배열
+                        if (action === 'save') {
+                            switch(component.type) {
+                                case 'datetime':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToSystemDatetimeFormatWithTimezone(validateItemValueArray[0],
+                                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                    break;
+                                case 'date':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToSystemDateFormat(validateItemValueArray[0],
+                                            aliceForm.options.dateFormat);
+                                    break;
+                                case 'time':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToSystemDateFormat(validateItemValueArray[0],
+                                            aliceForm.options.hourFormat);
+                                    break;
+                            }
+                        } else if (action === 'read') {
+                            switch(component.type) {
+                                case 'datetime':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToUserDatetimeFormatWithTimezone(validateItemValueArray[0],
+                                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                    break;
+                                case 'date':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToUserDateFormat(validateItemValueArray[0],
+                                            aliceForm.options.dateFormat);
+                                    break;
+                                case 'time':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToUserTimeFormat(validateItemValueArray[0],
+                                            aliceForm.options.hourFormat);
+                                    break;
+                            }
+                        }
+                        components[idx].validate[validateItem] = validateItemValueArray.join('|')
+                    }
+                })
+            }
+        })
+        return components;
     }
     
     exports.init = init;

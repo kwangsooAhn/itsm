@@ -45,7 +45,7 @@ const dateTimePicker = (function() {
     }
 
     /**
-     * DateTimePicker 초기화 시 호출(Date Only).
+     * DatePicker 초기화 시 호출(Date Only).
      *
      * @param targetId Target element id
      * @param dateType date format (optional) - YYYY-MM-DD(default), YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
@@ -90,7 +90,7 @@ const dateTimePicker = (function() {
             options.dateType = dateType;
         }
         if (typeof hourType !== 'undefined') {
-            options.hourType = '' + hourType;
+            options.hourType = '' + getHourTypeForCalendar(hourType);
         }
         if (typeof lang !== 'undefined') {
             options.lang = '' + lang;
@@ -123,7 +123,7 @@ const dateTimePicker = (function() {
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'HOUR';
         if (typeof hourType !== 'undefined') {
-            options.hourType = hourType;
+            options.hourType = '' + getHourTypeForCalendar(hourType);
         }
         if (typeof lang !== 'undefined') {
             options.lang = lang;
@@ -134,6 +134,31 @@ const dateTimePicker = (function() {
                 callback(picker.inputEl);
             }
         });
+    }
+
+    /**
+     * 시스템 공통 포맷과 캘린더 라이브러리의 시간 포맷 차이를 처리하기 위한 함수.
+     * 시스템에서는 HH 와 hh 로 12,24시간 표기를 구분하는데
+     * 현재 사용하는 window-date-picker는 12,24 값으로 구분 함.
+     *
+     * @author Jung Hee Chan
+     * @since 2020-05-27
+     * @param {String} userHourType 사용자의 시간 설정 값.
+     * @return {String} 변경된 calendar hour 설정 값.
+     */
+    function getHourTypeForCalendar(userHourType) {
+            // 2020-05-22 Jung Hee Chan
+            // 기존 12,24 값 외에 Alice Datetime Format(HH:mm, hh:mm)도 받으면 처리하도록 함.
+        let calendarHourType = userHourType;
+        switch (userHourType.substr(0,2)) {
+            case 'HH' :
+                calendarHourType = '24';
+                break;
+            case 'hh' :
+                calendarHourType = '12';
+                break;
+        }
+        return calendarHourType;
     }
 
     return {
