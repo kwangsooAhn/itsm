@@ -2,32 +2,21 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
-import co.brainz.workflow.engine.comment.service.WfCommentService
-import co.brainz.workflow.engine.component.constants.WfComponentConstants
-import co.brainz.workflow.engine.component.repository.WfComponentRepository
-import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
-import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
-import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
-import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
-import co.brainz.workflow.engine.token.constants.WfTokenConstants
-import co.brainz.workflow.engine.token.mapper.WfTokenMapper
-import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
-import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.framework.numbering.service.AliceNumberingService
-import co.brainz.workflow.comment.mapper.WfCommentMapper
+import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.repository.WfComponentRepository
-import co.brainz.workflow.document.repository.WfDocumentRepository
-import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.mapper.WfTokenMapper
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
+import co.brainz.workflow.document.repository.WfDocumentRepository
+import co.brainz.workflow.folder.service.WfFolderService
+import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
@@ -52,7 +41,7 @@ class WfInstanceService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfTokenRepository: WfTokenRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
-    private val wfCommentService: WfCommentService
+    private val wfCommentService: WfCommentService,
     private val wfDocumentRepository: WfDocumentRepository,
     private val aliceNumberingService: AliceNumberingService,
     private val aliceUserRepository: AliceUserRepository,
@@ -186,7 +175,7 @@ class WfInstanceService(
     fun createInstance(restTemplateTokenDto: RestTemplateTokenDto): WfInstanceEntity {
         val document = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateTokenDto.documentId)
         val documentNo = aliceNumberingService.getNewNumbering(document.numberingRule.numberingId)
-        val user = restTemplateTokenDto.assigneeId?.let { aliceUserRepository.findByUserKey(it) }
+        val user = restTemplateTokenDto.assigneeId?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
         val instanceEntity = WfInstanceEntity(
             instanceId = "",
             documentNo = documentNo,

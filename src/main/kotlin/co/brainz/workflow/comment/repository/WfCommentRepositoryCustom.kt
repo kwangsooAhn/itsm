@@ -1,6 +1,6 @@
-package co.brainz.workflow.engine.comment.repository
+package co.brainz.workflow.comment.repository
 
-import co.brainz.workflow.engine.comment.entity.WfCommentEntity
+import co.brainz.workflow.comment.entity.WfCommentEntity
 
 interface WfCommentRepositoryCustom {
 

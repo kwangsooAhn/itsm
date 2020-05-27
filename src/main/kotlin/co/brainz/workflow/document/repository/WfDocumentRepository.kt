@@ -18,6 +18,4 @@ interface WfDocumentRepository : JpaRepository<WfDocumentEntity, String>, JpaSpe
     fun deleteByDocumentId(documentId: String): Int
 
     fun findByFormAndProcess(wfFormEntity: WfFormEntity, wfProcessEntity: WfProcessEntity): WfDocumentEntity?
-
-    fun findByDocumentStatusOrderByDocumentName(documentStatus: List<String>): List<WfDocumentEntity>
 }

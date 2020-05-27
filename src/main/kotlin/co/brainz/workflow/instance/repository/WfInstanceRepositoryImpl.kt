@@ -1,11 +1,11 @@
 package co.brainz.workflow.instance.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
-import co.brainz.workflow.engine.document.entity.QWfDocumentEntity
-import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
-import co.brainz.workflow.engine.instance.entity.QWfInstanceEntity
-import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
-import co.brainz.workflow.engine.token.entity.QWfTokenEntity
+import co.brainz.workflow.document.entity.QWfDocumentEntity
+import co.brainz.workflow.instance.dto.WfInstanceListViewDto
+import co.brainz.workflow.instance.entity.QWfInstanceEntity
+import co.brainz.workflow.instance.entity.WfInstanceEntity
+import co.brainz.workflow.token.entity.QWfTokenEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport

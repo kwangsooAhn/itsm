@@ -1,12 +1,7 @@
 package co.brainz.workflow.instance.repository
 
-import co.brainz.workflow.engine.document.entity.WfDocumentEntity
-import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
-import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
-import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query

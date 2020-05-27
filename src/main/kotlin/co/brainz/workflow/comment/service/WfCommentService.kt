@@ -1,11 +1,8 @@
 package co.brainz.workflow.comment.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.workflow.engine.comment.entity.WfCommentEntity
-import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
-import co.brainz.workflow.engine.comment.repository.WfCommentRepository
-import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
 import co.brainz.workflow.comment.entity.WfCommentEntity
+import co.brainz.workflow.comment.mapper.WfCommentMapper
 import co.brainz.workflow.comment.repository.WfCommentRepository
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto

@@ -1,4 +1,4 @@
-package co.brainz.workflow.engine.folder.repository
+package co.brainz.workflow.folder.repository
 
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 

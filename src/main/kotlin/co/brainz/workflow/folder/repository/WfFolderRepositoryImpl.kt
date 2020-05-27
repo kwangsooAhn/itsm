@@ -1,9 +1,9 @@
-package co.brainz.workflow.engine.folder.repository
+package co.brainz.workflow.folder.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
-import co.brainz.workflow.engine.folder.entity.QWfFolderEntity
-import co.brainz.workflow.engine.folder.entity.WfFolderEntity
-import co.brainz.workflow.engine.token.entity.QWfTokenEntity
+import co.brainz.workflow.folder.entity.QWfFolderEntity
+import co.brainz.workflow.folder.entity.WfFolderEntity
+import co.brainz.workflow.token.entity.QWfTokenEntity
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
@@ -11,7 +11,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.java), WfFolderRepositoryCustom {
+class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.java),
+    WfFolderRepositoryCustom {
 
     override fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateFolderDto> {
         val folder = QWfFolderEntity.wfFolderEntity

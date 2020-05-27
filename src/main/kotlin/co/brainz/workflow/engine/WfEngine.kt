@@ -5,11 +5,8 @@ import co.brainz.workflow.element.service.WfElementService
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.provider.dto.RestTemplateWorkflowDto
 import co.brainz.workflow.token.repository.WfTokenRepository
-import co.brainz.workflow.token.service.WfTokenService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 

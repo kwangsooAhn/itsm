@@ -55,8 +55,7 @@ class WfDocumentService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    private val wfFormMapper: WfFormMapper = Mappers.getMapper(
-        WfFormMapper::class.java)
+    private val wfFormMapper: WfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
 
     /**
      * Search Documents.
@@ -320,7 +319,8 @@ class WfDocumentService(
     fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
-        val componentEntities = wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
+        val componentEntities =
+            wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
         val displayList = wfDocumentDataRepository.findByDocumentId(documentId)
 
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()

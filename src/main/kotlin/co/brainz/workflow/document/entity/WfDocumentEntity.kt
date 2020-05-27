@@ -4,7 +4,6 @@ import co.brainz.framework.numbering.entity.AliceNumberingRuleEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -16,6 +15,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "wf_document")
