@@ -9,6 +9,7 @@ import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -68,8 +69,8 @@ class TokenController(
      * @return String
      */
     @GetMapping("/list")
-    fun getTokenList(model: Model): String {
-        model.addAttribute("tokenList", tokenService.getTokenList())
+    fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto, model: Model): String {
+        model.addAttribute("tokenList", tokenService.getTokenList(restTemplateTokenSearchListDto))
         return tokenListPage
     }
 

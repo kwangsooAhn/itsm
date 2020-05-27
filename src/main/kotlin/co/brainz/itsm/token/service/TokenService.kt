@@ -8,6 +8,7 @@ import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -75,13 +76,18 @@ class TokenService(
     /**
      * 처리할 문서 리스트 조회.
      *
+     * @param restTemplateTokenSearchListDto
      * @return List<tokenDto>
      */
-    fun getTokenList(): List<RestTemplateInstanceViewDto> {
+    fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto): List<RestTemplateInstanceViewDto> {
         val params = LinkedMultiValueMap<String, String>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         params.add("userKey", aliceUserDto.userKey)
-        params.add("status", RestTemplateConstants.TokenStatus.RUNNING.value)
+        params.add("tokenType", restTemplateTokenSearchListDto.searchTokenType)
+        params.add("documentId", restTemplateTokenSearchListDto.searchDocumentId)
+        params.add("searchValue", restTemplateTokenSearchListDto.searchValue)
+        params.add("fromDt", restTemplateTokenSearchListDto.searchFromDt)
+        params.add("toDt", restTemplateTokenSearchListDto.searchToDt)
 
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES.url, parameters = params)
         val responseBody = restTemplate.get(url)

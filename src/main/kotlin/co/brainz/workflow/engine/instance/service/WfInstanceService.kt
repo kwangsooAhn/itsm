@@ -12,6 +12,7 @@ import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
@@ -46,62 +47,15 @@ class WfInstanceService(
      * Search Instances.
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
-        var status = ""
         var userKey = ""
 
-        if (parameters["status"] != null) {
-            status = parameters["status"].toString()
-        }
         if (parameters["userKey"] != null) {
             userKey = parameters["userKey"].toString()
         }
 
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
-        val roleEntities = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
-        val runningInstances = wfInstanceRepository.findTodoInstances(status)
-        runningInstances.forEach { instance ->
-            if (instance.tokenEntity.tokenStatus == WfTokenConstants.Status.RUNNING.code) {
-                if (instance.tokenEntity.assigneeId == userKey) {
-                    instances.add(
-                        WfInstanceListViewDto(
-                            documentEntity = instance.documentEntity,
-                            instanceEntity = instance.instanceEntity,
-                            tokenEntity = instance.tokenEntity
-                        )
-                    )
-                }
-                instance.tokenEntity.candidate?.forEach { candidate ->
-                    when (candidate.candidateType) {
-                        WfTokenConstants.AssigneeType.USERS.code -> {
-                            if (candidate.candidateValue == userKey) {
-                                instances.add(
-                                    WfInstanceListViewDto(
-                                        documentEntity = instance.documentEntity,
-                                        instanceEntity = instance.instanceEntity,
-                                        tokenEntity = instance.tokenEntity
-                                    )
-                                )
-                            }
-                        }
-                        WfTokenConstants.AssigneeType.GROUPS.code -> {
-                            roleEntities.forEach roleForEach@{ role ->
-                                if (role.roleId == candidate.candidateValue) {
-                                    instances.add(
-                                        WfInstanceListViewDto(
-                                            documentEntity = instance.documentEntity,
-                                            instanceEntity = instance.instanceEntity,
-                                            tokenEntity = instance.tokenEntity
-                                        )
-                                    )
-                                    return@roleForEach
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+
+        val instances = todoInstances(userKey)
 
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         for (instance in instances) {
@@ -147,6 +101,57 @@ class WfInstanceService(
         }
 
         return tokens
+    }
+
+    private fun todoInstances(userKey: String): List<WfInstanceListViewDto> {
+        val status = RestTemplateConstants.TokenStatus.RUNNING.value
+        val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
+        val roleEntities = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
+        val runningInstances = wfInstanceRepository.findTodoInstances(status)
+        runningInstances.forEach { instance ->
+            if (instance.tokenEntity.tokenStatus == WfTokenConstants.Status.RUNNING.code) {
+                if (instance.tokenEntity.assigneeId == userKey) {
+                    instances.add(
+                            WfInstanceListViewDto(
+                                    documentEntity = instance.documentEntity,
+                                    instanceEntity = instance.instanceEntity,
+                                    tokenEntity = instance.tokenEntity
+                            )
+                    )
+                }
+                instance.tokenEntity.candidate?.forEach { candidate ->
+                    when (candidate.candidateType) {
+                        WfTokenConstants.AssigneeType.USERS.code -> {
+                            if (candidate.candidateValue == userKey) {
+                                instances.add(
+                                        WfInstanceListViewDto(
+                                                documentEntity = instance.documentEntity,
+                                                instanceEntity = instance.instanceEntity,
+                                                tokenEntity = instance.tokenEntity
+                                        )
+                                )
+                            }
+                        }
+                        WfTokenConstants.AssigneeType.GROUPS.code -> {
+                            roleEntities.forEach roleForEach@{ role ->
+                                if (role.roleId == candidate.candidateValue) {
+                                    instances.add(
+                                            WfInstanceListViewDto(
+                                                    documentEntity = instance.documentEntity,
+                                                    instanceEntity = instance.instanceEntity,
+                                                    tokenEntity = instance.tokenEntity
+                                            )
+                                    )
+                                    return@roleForEach
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return instances
     }
 
     /**
