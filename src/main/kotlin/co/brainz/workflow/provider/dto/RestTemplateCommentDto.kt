@@ -9,5 +9,6 @@ data class RestTemplateCommentDto(
     var commentId: String? = null,
     var content: String? = null,
     var createUserKey: String? = null,
+    var createUserName: String? = null,
     var createDt: LocalDateTime? = null
 ) : Serializable

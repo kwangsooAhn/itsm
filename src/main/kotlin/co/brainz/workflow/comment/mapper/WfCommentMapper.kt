@@ -9,7 +9,9 @@ import org.mapstruct.Mappings
 @Mapper
 interface WfCommentMapper {
     @Mappings(
-        Mapping(source = "instance.instanceId", target = "instanceId")
+        Mapping(source = "instance.instanceId", target = "instanceId"),
+        Mapping(source = "aliceUserEntity.userKey", target = "createUserKey"),
+        Mapping(source = "aliceUserEntity.userName", target = "createUserName")
     )
     fun toCommentDto(wfCommentEntity: WfCommentEntity): RestTemplateCommentDto
 }

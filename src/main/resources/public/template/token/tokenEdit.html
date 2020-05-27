@@ -102,7 +102,7 @@
         <tr th:each="comment : ${commentList}">
             <td th:with="dateformat=${#authentication.details.timeFormat}"
                 th:text="${#temporals.format(comment.createDt, dateformat)}"></td>
-            <td th:text="${comment.createUserKey}"></td>
+            <td th:text="${comment.createUserName}"></td>
             <td th:text="${comment.content}"></td>
             <td th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
                 <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|" th:text="#{common.btn.delete}"></button>
@@ -118,7 +118,7 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            aliceDocument.initToken('[[${tokenId}]]');
+            aliceForm.initSync(aliceDocument.initToken, '[[${tokenId}]]');
         };
 
         function openPopUp(tokenId) {
