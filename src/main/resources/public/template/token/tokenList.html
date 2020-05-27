@@ -23,11 +23,12 @@
     <table class="table-hover">
         <colgroup>
             <col width="1%">
-            <col width="15%">
-            <col width="20%">
-            <col width="34%">
             <col width="25%">
+            <col width="34%">
+            <col width="10%">
+            <col width="15%">
             <col width="5%">
+            <col width="10%">
         </colgroup>
         <tbody>
         <tr th:if="${#arrays.isEmpty(tokenList)}">
@@ -35,20 +36,21 @@
         </tr>
         <tr th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
             <td th:style="|background-color:${token.documentColor}|"></td>
-            <td th:text="${token.documentNo}"></td>
-            <td th:text="${token.documentName}"></td>
+            <td>
+                <th:block th:text="${token.documentName}"/>
+                <br/>
+                <th:block th:text="${token.documentNo}"/>
+            </td>
             <td>
                 <span th:unless="${#arrays.isEmpty(token.topics)}" th:each="topic: ${token.topics}">
                     <p th:text="${topic}"></p>
                 </span>
             </td>
+            <td th:text="${token.createUserName}"></td>
             <td th:with="dateformat=${#authentication.details.timeFormat}"
-                th:text="|${#temporals.format(token.createDt, dateformat)} ${token.createUserName}|"></td>
-            <td>
-                <button sec:authorize="hasAuthority('token.create')"
-                        th:attr="onclick=|openTokenEdit('${token.tokenId}')|"
-                        th:text="#{common.btn.write}"></button>
-            </td>
+                th:text="${#temporals.format(token.createDt, dateformat)}"></td>
+            <td th:text="${token.elementName}"></td>
+            <td></td>
         </tr>
         </tbody>
     </table>

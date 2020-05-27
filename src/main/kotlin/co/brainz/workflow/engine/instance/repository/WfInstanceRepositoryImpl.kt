@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceListViewDto::class.java),
     WfInstanceRepositoryCustom {
-    override fun findInstances(status: String): List<WfInstanceListViewDto> {
+    override fun findTodoInstances(status: String): List<WfInstanceListViewDto> {
         val instance = QWfInstanceEntity.wfInstanceEntity
         val token = QWfTokenEntity.wfTokenEntity
         val document = QWfDocumentEntity.wfDocumentEntity

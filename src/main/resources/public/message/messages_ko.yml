@@ -56,7 +56,7 @@ menu:
   help.notice: "공지사항"
   help.faq: "FAQ"
   help.document: "신청서"
-  help.token: "처리할 문서"
+  help.token: "문서함"
   help.dashboard: "대시보드"
   help.download: "자료실"
   setting: "설정"
@@ -448,6 +448,11 @@ token:
     relatedInstance: "관련 문서"
     print: "처리할 문서 인쇄"
     searchPlaceholder: "신청서 이름 / 작성자"
+  type:
+    todo: "처리할 문서"
+    requested: "신청한 문서"
+    progress: "진행중 문서"
+    completed: "완료된 문서"
 
 # Code
 code:

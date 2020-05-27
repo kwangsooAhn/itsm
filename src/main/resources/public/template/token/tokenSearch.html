@@ -1,29 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
-<head>
-    <title th:text="#{token.label.list}"></title>
-</head>
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{token.label.list}"></h1>
         <hr>
+        <div>
+            <form id="frmSearch">
+                <select name="searchTokenType" id="searchTokenType">
+                    <option value="token.type.todo" th:text="#{token.type.todo}" selected />
+                    <option value="token.type.requested" th:text="#{token.type.requested}" />
+                    <option value="token.type.progress" th:text="#{token.type.progress}" />
+                    <option value="token.type.completed" th:text="#{token.type.completed}" />
+                </select>
+                <select name="searchDocumentId" id="searchDocumentId">
+                    <option value="" selected="selected">전체 문서</option>
+                    <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
+                </select>
+                <input type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
+                <input type="text" name="searchFromDt" id="searchFromDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
+                       th:value="${#temporals.format(fromDt, dateformat)}" readonly="readonly" />
+                <input type="text" name="searchToDt" id="searchToDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
+                       th:value="${#temporals.format(toDt, dateformat)}" readonly="readonly" />
+            </form>
+        </div>
         <div id="tokenList" style="margin-top: 20px"></div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
-        window.onload = function() {
-            restSubmit('get', '/tokens/list');
+        /*<![CDATA[ */
+        let format = '[[${#authentication.details.timeFormat}]]';
+        let lang = '[[${#authentication.details.lang}]]';
+        let formatArray = format.split(' ');
+        let dateFormat = '';
+
+        window.onload = function () {
+            // initialization date picker/
+            dateFormat = formatArray[0].toUpperCase();
+            dateTimePicker.initDatePicker('searchFromDt', dateFormat, lang, setDatePicker);
+            dateTimePicker.initDatePicker('searchToDt', dateFormat, lang, setDatePicker);
+            // add search condition event handler.
+            document.getElementById('searchTokenType').addEventListener('change', searchTokenList, false);
+            document.getElementById('searchDocumentId').addEventListener('change', searchTokenList, false);
+            document.querySelectorAll('#frmSearch > input').forEach(function(inputElem) {
+                inputElem.addEventListener('keyup', searchTokenList, false);
+            });
+            searchTokenList();
         };
 
-        //REST API
-        function restSubmit(method, url) {
+        function setDatePicker() {
+
+        }
+
+        function searchTokenList() {
             const opt = {
-                method: method,
-                url: url,
+                method: 'get',
+                url: '/tokens/list?'+ aliceJs.serialize(document.getElementById('frmSearch')),
                 callbackFunc: function(response) {
                     document.getElementById('tokenList').innerHTML = response.responseText;
                 }
@@ -33,9 +68,9 @@
 
         //신청서 작성 화면 오픈.
         function openTokenEdit(tokenId) {
-            //TODO: 임시 size. 추후 변경 필요.
-            window.open('/tokens/' + tokenId + '/edit', '_blank', 'width=900, height=852');
+            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=900, height=852');
         }
+        /* ]]> */
     </script>
 </th:block>
 </body>

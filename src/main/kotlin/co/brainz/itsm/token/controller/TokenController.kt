@@ -3,10 +3,12 @@ package co.brainz.itsm.token.controller
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import java.time.LocalDateTime
 
 @Controller
 @RequestMapping("/tokens")
@@ -23,7 +26,8 @@ class TokenController(
     private val userService: UserService,
     private val tokenService: TokenService,
     private val instanceService: InstanceService,
-    private val folderService: FolderService
+    private val folderService: FolderService,
+    private val documentService: DocumentService
 ) {
 
     private val statusPage: String = "redirect:/certification/status"
@@ -42,7 +46,7 @@ class TokenController(
      * @return String
      */
     @GetMapping("/search")
-    fun getTokenSearch(request: HttpServletRequest): String {
+    fun getTokenSearch(request: HttpServletRequest, model: Model): String {
         // 사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userKey = aliceUserDto.userKey
@@ -50,6 +54,10 @@ class TokenController(
         if (userDto.status == AliceUserConstants.Status.SIGNUP.code || userDto.status == AliceUserConstants.Status.EDIT.code) {
             return statusPage
         }
+        model.addAttribute("fromDt", LocalDateTime.now().minusMonths(1))
+        model.addAttribute("toDt", LocalDateTime.now())
+        val restTemplateDocumentSearchListDto = RestTemplateDocumentSearchListDto();
+        model.addAttribute("documentList", documentService.findDocumentList(restTemplateDocumentSearchListDto))
         return tokenSearchPage
     }
 

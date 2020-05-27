@@ -4,5 +4,5 @@ import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
 
 interface WfInstanceRepositoryCustom {
 
-    fun findInstances(status: String): List<WfInstanceListViewDto>
+    fun findTodoInstances(status: String): List<WfInstanceListViewDto>
 }

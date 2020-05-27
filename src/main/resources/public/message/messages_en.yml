@@ -56,7 +56,7 @@ menu:
   help.notice: "Notice"
   help.faq: "FAQ"
   help.document: "Service Request"
-  help.token: "Process Document"
+  help.token: "My Document"
   help.dashboard: "Dashboard"
   help.download: "Download"
   setting: "settings"
@@ -448,6 +448,11 @@ token:
     relatedInstance: "Related Documents"
     print: "Process Document Print"
     searchPlaceholder: "Related Document Name / Create User"
+  type:
+    todo: "처리할 문서"
+    requested: "신청한 문서"
+    progress: "진행중 문서"
+    completed: "완료된 문서"
 
 # Code
 code:

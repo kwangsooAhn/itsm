@@ -59,7 +59,7 @@ class WfInstanceService(
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
         val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
         val roleEntities = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
-        val runningInstances = wfInstanceRepository.findInstances(status)
+        val runningInstances = wfInstanceRepository.findTodoInstances(status)
         runningInstances.forEach { instance ->
             if (instance.tokenEntity.tokenStatus == WfTokenConstants.Status.RUNNING.code) {
                 if (instance.tokenEntity.assigneeId == userKey) {
@@ -129,6 +129,7 @@ class WfInstanceService(
             tokens.add(
                 RestTemplateInstanceViewDto(
                     tokenId = instance.tokenEntity.tokenId,
+                    elementName = instance.tokenEntity.element.elementName,
                     instanceId = instance.instanceEntity.instanceId,
                     documentName = instance.documentEntity.documentName,
                     documentDesc = instance.documentEntity.documentDesc,
