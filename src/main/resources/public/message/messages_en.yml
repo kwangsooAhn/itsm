@@ -437,8 +437,8 @@ document:
 # token
 token:
   label:
-    list: "Process Document List"
-    write: "Process Document"
+    list: "My Document List"
+    write: "My Document"
     startDt: "Start Date"
     endDt: "Finish Date"
     elementName: "Task Name"
@@ -449,10 +449,10 @@ token:
     print: "Process Document Print"
     searchPlaceholder: "Related Document Name / Create User"
   type:
-    todo: "처리할 문서"
-    requested: "신청한 문서"
-    progress: "진행중 문서"
-    completed: "완료된 문서"
+    todo: "Document to process"
+    requested: "Application document"
+    progress: "Document in progress"
+    completed: "Completed Documents"
 
 # Code
 code:

@@ -437,7 +437,7 @@ document:
 # token
 token:
   label:
-    list: "처리할 문서 목록"
+    list: "문서함"
     write: "처리할 문서"
     startDt: "시작 일시"
     endDt: "완료 일시"

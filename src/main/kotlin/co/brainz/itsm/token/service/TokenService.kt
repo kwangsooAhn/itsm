@@ -17,6 +17,7 @@ import org.mapstruct.factory.Mappers
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
+import java.time.format.DateTimeFormatter
 
 @Service
 class TokenService(
@@ -88,6 +89,7 @@ class TokenService(
         params.add("searchValue", restTemplateTokenSearchListDto.searchValue)
         params.add("fromDt", restTemplateTokenSearchListDto.searchFromDt)
         params.add("toDt", restTemplateTokenSearchListDto.searchToDt)
+        params.add("dateFormat", aliceUserDto.timeFormat.split(" ")[0])
 
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES.url, parameters = params)
         val responseBody = restTemplate.get(url)

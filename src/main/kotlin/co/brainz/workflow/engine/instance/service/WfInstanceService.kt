@@ -48,15 +48,13 @@ class WfInstanceService(
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
         val tokenType = parameters["tokenType"].toString()
-        val userKey = parameters["userKey"].toString()
 
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-
         val instances = when(tokenType) {
-            "token.type.requested" -> requestedInstances(userKey)
-            "token.type.progress" -> relatedInstances(RestTemplateConstants.InstanceStatus.RUNNING.value, userKey)
-            "token.type.completed" -> relatedInstances(RestTemplateConstants.InstanceStatus.FINISH.value, userKey)
-            else -> todoInstances(userKey)
+            "token.type.requested" -> requestedInstances(parameters)
+            "token.type.progress" -> relatedInstances(RestTemplateConstants.InstanceStatus.RUNNING.value, parameters)
+            "token.type.completed" -> relatedInstances(RestTemplateConstants.InstanceStatus.FINISH.value, parameters)
+            else -> todoInstances(parameters)
         }
 
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
@@ -105,15 +103,33 @@ class WfInstanceService(
         return tokens
     }
 
-    private fun requestedInstances(userKey: String): List<WfInstanceListViewDto> {
-        return mutableListOf();
+    private fun requestedInstances(parameters: LinkedHashMap<String, Any>): List<WfInstanceListViewDto> {
+        return wfInstanceRepository.findRequestedInstances(
+                parameters["userKey"].toString(),
+                parameters["documentId"].toString(),
+                parameters["fromDt"].toString(),
+                parameters["toDt"].toString(),
+                parameters["dateFormat"].toString()
+        )
     }
 
-    private fun relatedInstances(status: String, userKey: String): List<WfInstanceListViewDto> {
-        return mutableListOf();
+    private fun relatedInstances(status: String, parameters: LinkedHashMap<String, Any>): List<WfInstanceListViewDto> {
+        return wfInstanceRepository.findRelationInstances(
+                status,
+                parameters["userKey"].toString(),
+                parameters["documentId"].toString(),
+                parameters["fromDt"].toString(),
+                parameters["toDt"].toString(),
+                parameters["dateFormat"].toString()
+        )
     }
 
-    private fun todoInstances(userKey: String): List<WfInstanceListViewDto> {
+    private fun todoInstances(parameters: LinkedHashMap<String, Any>): List<WfInstanceListViewDto> {
+        val userKey = parameters["userKey"].toString()
+        val searchValue = parameters["searchValue"].toString()
+        val documentId = parameters["documentId"].toString()
+        var fromDt = parameters["fromDt"].toString()
+        var toDt = parameters["toDt"].toString()
         val status = RestTemplateConstants.TokenStatus.RUNNING.value
         val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
         val roleEntities = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)

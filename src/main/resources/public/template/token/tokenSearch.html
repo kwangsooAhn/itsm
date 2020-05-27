@@ -40,20 +40,15 @@
         window.onload = function () {
             // initialization date picker/
             dateFormat = formatArray[0].toUpperCase();
-            dateTimePicker.initDatePicker('searchFromDt', dateFormat, lang, setDatePicker);
-            dateTimePicker.initDatePicker('searchToDt', dateFormat, lang, setDatePicker);
+            dateTimePicker.initDatePicker('searchFromDt', dateFormat, lang, searchTokenList);
+            dateTimePicker.initDatePicker('searchToDt', dateFormat, lang, searchTokenList);
             // add search condition event handler.
-            document.getElementById('searchTokenType').addEventListener('change', searchTokenList, false);
-            document.getElementById('searchDocumentId').addEventListener('change', searchTokenList, false);
-            document.querySelectorAll('#frmSearch > input').forEach(function(inputElem) {
-                inputElem.addEventListener('keyup', searchTokenList, false);
+            document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function(element) {
+                element.addEventListener('change', searchTokenList, false);
             });
+            document.getElementById('searchValue').addEventListener('keyup', searchTokenList, false);
             searchTokenList();
         };
-
-        function setDatePicker() {
-
-        }
 
         function searchTokenList() {
             const opt = {
