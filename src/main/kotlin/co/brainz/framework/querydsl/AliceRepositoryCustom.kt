@@ -3,7 +3,7 @@ package co.brainz.framework.querydsl
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.StringPath
 
-interface AliceQueryDsl {
+interface AliceRepositoryCustom {
 
     /**
      * like 쿼리
