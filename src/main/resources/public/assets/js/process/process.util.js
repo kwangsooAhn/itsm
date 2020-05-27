@@ -268,8 +268,8 @@
             let elementNode = xmlDoc.createElement(element.type);
             elementNode.setAttribute('id', element.id);
             elementNode.setAttribute('name', element.name);
-            elementNode.setAttribute('notification', element.data.notification);
-            elementNode.setAttribute('description', element.data.description);
+            elementNode.setAttribute('notification', element.notification);
+            elementNode.setAttribute('description', element.description);
             let keys = Object.keys(element.data);
             keys.forEach(function(key) {
                 let attributeNode = xmlDoc.createElement(key);

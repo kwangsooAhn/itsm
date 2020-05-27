@@ -35,18 +35,28 @@
         if (formatArr.length === 3) {
             options.hourType = '12';
         }
-        //컴포넌트 기본 속성인 '/assets/js/form/componentAttribute.json' 데이터를 조회하여 저장한다.
+    }
+
+    /**
+     * 컴포넌트 기본 속성인 '/assets/js/form/componentAttribute.json' 데이터를 조회 후
+     * callback 함수를 실행한다.
+     */
+    function initSync(callback) {
+        let params = Array.prototype.slice.call(arguments, 1);
+
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/form/componentAttribute.json',
             callbackFunc: function(xhr) {
                 options.componentAttribute = JSON.parse(xhr.responseText);
+                callback.apply(null, params);
             },
             contentType: 'application/json; charset=utf-8'
         });
     }
 
     exports.init = init;
+    exports.initSync = initSync;
     exports.options = options;
 
     Object.defineProperty(exports, '__esModule', { value: true });
