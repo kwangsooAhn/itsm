@@ -1,7 +1,7 @@
 package co.brainz.workflow.engine.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
-import co.brainz.workflow.engine.comment.mapper.WfCommentMapper
+import co.brainz.workflow.engine.comment.service.WfCommentService
 import co.brainz.workflow.engine.component.constants.WfComponentConstants
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
@@ -35,12 +35,12 @@ class WfInstanceService(
     private val wfComponentRepository: WfComponentRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfTokenRepository: WfTokenRepository,
-    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository
+    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
+    private val wfCommentService: WfCommentService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val wfTokenMapper: WfTokenMapper = Mappers.getMapper(WfTokenMapper::class.java)
-    private val wfCommentMapper: WfCommentMapper = Mappers.getMapper(WfCommentMapper::class.java)
 
     /**
      * Search Instances.
@@ -238,13 +238,7 @@ class WfInstanceService(
      * Get Instance Comments.
      */
     fun getInstanceComments(instanceId: String): MutableList<RestTemplateCommentDto> {
-        val commentList: MutableList<RestTemplateCommentDto> = mutableListOf()
-        val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)
-        instanceEntity?.comments?.forEach { comment ->
-            commentList.add(wfCommentMapper.toCommentDto(comment))
-        }
-
-        return commentList
+        return wfCommentService.getInstanceComments(instanceId)
     }
 
     /**
