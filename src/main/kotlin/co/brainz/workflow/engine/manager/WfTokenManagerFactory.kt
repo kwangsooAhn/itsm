@@ -9,8 +9,8 @@ import co.brainz.workflow.engine.manager.impl.WfCommonEndEventTokenManager
 import co.brainz.workflow.engine.manager.impl.WfCommonStartEventTokenManager
 import co.brainz.workflow.engine.manager.impl.WfUserTaskTokenManager
 import co.brainz.workflow.instance.repository.WfInstanceRepository
+import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
@@ -18,7 +18,8 @@ class WfTokenManagerFactory(
     private val wfElementService: WfElementService,
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfElementRepository: WfElementRepository,
-    private val wfTokenRepository: WfTokenRepository
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository
 ) {
 
     fun getTokenManager(elementType: String): WfTokenManager {
@@ -27,10 +28,23 @@ class WfTokenManagerFactory(
                 wfElementService,
                 wfInstanceRepository,
                 wfElementRepository,
-                wfTokenRepository
+                wfTokenRepository,
+                wfTokenDataRepository
             )
-            WfElementConstants.ElementType.COMMON_END_EVENT.value -> WfCommonEndEventTokenManager()
-            WfElementConstants.ElementType.USER_TASK.value -> WfUserTaskTokenManager()
+            WfElementConstants.ElementType.COMMON_END_EVENT.value -> WfCommonEndEventTokenManager(
+                wfElementService,
+                wfInstanceRepository,
+                wfElementRepository,
+                wfTokenRepository,
+                wfTokenDataRepository
+            )
+            WfElementConstants.ElementType.USER_TASK.value -> WfUserTaskTokenManager(
+                wfElementService,
+                wfInstanceRepository,
+                wfElementRepository,
+                wfTokenRepository,
+                wfTokenDataRepository
+            )
             else -> throw AliceException(AliceErrorConstants.ERR, "Element tokenManager not found.")
         }
     }
