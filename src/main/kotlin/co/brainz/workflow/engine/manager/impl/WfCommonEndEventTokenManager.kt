@@ -1,23 +1,21 @@
 package co.brainz.workflow.engine.manager.impl
 
 import co.brainz.workflow.element.repository.WfElementRepository
-import co.brainz.workflow.element.service.WfElementService
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.instance.repository.WfInstanceRepository
+import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.token.entity.WfTokenEntity
-import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
 import java.time.LocalDateTime
 import java.time.ZoneId
 
 class WfCommonEndEventTokenManager(
-    private val wfElementService: WfElementService,
+    private val wfInstanceService: WfInstanceService,
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfElementRepository: WfElementRepository,
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository
+    private val wfTokenRepository: WfTokenRepository
 ) : WfTokenManager {
 
     override fun createToken(restTemplateTokenDto: RestTemplateTokenDto): RestTemplateTokenDto {
@@ -47,10 +45,7 @@ class WfCommonEndEventTokenManager(
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
         wfTokenRepository.save(token)
 
-        val instance = wfInstanceRepository.findByInstanceId(restTemplateTokenDto.instanceId)!!
-        instance.instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-        instance.instanceStatus = RestTemplateConstants.InstanceStatus.FINISH.value
-        wfInstanceRepository.save(instance)
+        wfInstanceService.completeInstance(restTemplateTokenDto.instanceId)
 
         return restTemplateTokenDto
     }
