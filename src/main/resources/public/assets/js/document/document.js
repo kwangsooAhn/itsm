@@ -221,8 +221,14 @@
     /**
      * ComponentData 조회.
      *
+     * 2020-05-27 Jung Hee Chan : target 개념을 추가.
+     *   - getComponentData는 문서를 저장하는 경우와 출력하는 경우에 호출.
+     *   - 문서를 저장하는 경우는 날짜와 관련된 내용을 타임존, 포맷을 시스템 공통으로 변환.
+     *   - 출력을 하는 경우는 있는 값을 그대로 사용.
+     *
+     * @param {String} [target] 문서 출력을 위한 경우 'print'값을 받음. 이외의 값인 경우에는 저장으로 판단.
      */
-    function getComponentData() {
+    function getComponentData(target) {
         let componentArrayList = [];
         fileDataIds = '';
         const componentElements = documentContainer.getElementsByClassName('component');
@@ -243,18 +249,27 @@
                         break;
                     case 'date':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        let dateFormat = componentChild.item(0).placeholder;
-                        componentValue = componentChild.item(0).value + '|' + dateFormat;
+                        if (target === 'print') {
+                            componentValue = componentChild.item(0).value;
+                        } else {
+                            componentValue = aliceJs.convertToSystemDateFormat(componentChild.item(0).value, aliceForm.options.dateFormat);
+                        }
                         break;
                     case 'time':
-                        let timeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        componentValue = componentChild.item(0).value + '|' + timeFormat;
+                        if (target === 'print') {
+                            componentValue = componentChild.item(0).value;
+                        } else {
+                            componentValue = aliceJs.convertToSystemTimeFormat(componentChild.item(0).value, aliceForm.options.hourFormat);
+                        }
                         break;
                     case 'datetime':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        let datetimeFormat = componentChild.item(0).placeholder;
-                        componentValue = componentChild.item(0).value + '|' + datetimeFormat;
+                        if (target === 'print') {
+                            componentValue = componentChild.item(0).value;
+                        } else {
+                            componentValue = aliceJs.convertToSystemDatetimeFormatWithTimezone(componentChild.item(0).value, aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                        }
                         break;
                     case 'textarea':
                         componentChild = componentElements[eIndex].querySelector('.editor-container');
@@ -576,6 +591,69 @@
     }
 
     /**
+     * 날짜와 관련있는 컴포넌트들에 대해서 사용자의 타임존과 출력 포맷에 따라 변환.
+     * form.editor.js에 있는 같은 이름의 함수와 같은 역할을 한다.
+     * 현재는 전달받는 데이터 구조가 다르고 2개의 파일이 호출되는 시점이 달라서 각각 만들었으며
+     * 데이터 구조 통합 이후 form.core.js등으로 이동하는게 맞을 듯 하다.
+     *
+     * @author Jung Hee Chan
+     * @since 2020-05-25
+     * @param {Object} components 변환 대상이 되는 컴포넌트 목록.
+     * @return {Object} resultComponents 변경된 결과
+     */
+    function reformatCalendarFormat(action, components) {
+        components.forEach(function(componentItem, idx) {
+            let component = componentItem.attributes;
+            if (component.type === 'datetime' || component.type === 'date' || component.type === 'time') {
+                // 1. 기본값 타입 중에서 직접 Calendar로 입력한 값인 경우는 변환
+                if (component.display.default.indexOf('picker') !== -1) {
+                    let displayDefaultValueArray = component.display.default.split('|'); // 속성 값을 파싱한 배열
+                    switch(component.type) {
+                        case 'datetime':
+                            displayDefaultValueArray[1] =
+                                aliceJs.convertToUserDatetimeFormatWithTimezone(displayDefaultValueArray[1],
+                                    aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                            break;
+                        case 'date':
+                            displayDefaultValueArray[1] =
+                                aliceJs.convertToUserDateFormat(displayDefaultValueArray[1],
+                                    aliceForm.options.dateFormat);
+                            break;
+                        case 'time':
+                            displayDefaultValueArray[1] =
+                                aliceJs.convertToUserTimeFormat(displayDefaultValueArray[1],
+                                    aliceForm.options.hourFormat);
+                            break;
+                    }
+                    components[idx].attributes.display.default = displayDefaultValueArray.join('|');
+                }
+
+                // 2. 처리할 문서인 경우 저장된 값도 변경.
+                if (componentItem.values.length > 0) {
+                    let componentValue = componentItem.values[0].value;
+                    switch (component.type) {
+                        case 'datetime':
+                            componentValue =
+                                aliceJs.convertToUserDatetimeFormatWithTimezone(componentValue,
+                                    aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                            break;
+                        case 'date':
+                            componentValue =
+                                aliceJs.convertToUserDateFormat(componentValue, aliceForm.options.dateFormat);
+                            break;
+                        case 'time':
+                            componentValue =
+                                aliceJs.convertToUserTimeFormat(componentValue, aliceForm.options.hourFormat);
+                            break;
+                    }
+                    componentItem.values[0].value = componentValue;
+                }
+            }
+        });
+        return components;
+    }
+
+    /**
      * init document.
      *
      * @param documentId 문서 id
@@ -588,7 +666,11 @@
             method: 'GET',
             url: '/rest/documents/' + documentId + '/data',
             callbackFunc: function(xhr) {
-                dataForPrint = JSON.parse(xhr.responseText);
+                let responseObject = JSON.parse(xhr.responseText);
+                responseObject.components = reformatCalendarFormat('read', responseObject.components);
+
+                // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
+                dataForPrint = responseObject;
                 dataForPrint.documentId = documentId;
                 drawDocument(dataForPrint);
             },
@@ -609,7 +691,11 @@
             method: 'GET',
             url: '/rest/tokens/' + tokenId + '/data',
             callbackFunc: function(xhr) {
-                dataForPrint = JSON.parse(xhr.responseText);
+                let responseObject = JSON.parse(xhr.responseText);
+                responseObject.components = reformatCalendarFormat('read', responseObject.components);
+
+                // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
+                dataForPrint = responseObject;
                 dataForPrint.tokenId = tokenId;
                 drawDocument(dataForPrint);
             },
@@ -662,7 +748,7 @@
         form.target = '_blank';
         let textarea = document.createElement('textarea');
         textarea.name = 'data';
-        let componentArrayList = getComponentData();
+        let componentArrayList = getComponentData('print');
         dataForPrint.components = dataForPrint.components.filter(function(comp) {
             componentArrayList.forEach(function(array) {
                 if (comp.componentId === array.componentId) {
