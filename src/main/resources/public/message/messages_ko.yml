@@ -569,9 +569,17 @@ board:
     inputCategoryName: "카테고리명을 입력해주세요."
     inputBoardComments: "댓글을 입력해주세요."
     inputBoardEditComments: "댓글 저장부터 해주세요."
+
 #Comment
 comment:
   label:
     createUser: "작성자"
     createDt: "작성일시"
     content: "내용"
+
+#Notification
+notification:
+  label: "알림"
+  msg:
+    description: "최대 50개까지 표시됩니다."
+    noNotificationData: "알림이 없습니다."

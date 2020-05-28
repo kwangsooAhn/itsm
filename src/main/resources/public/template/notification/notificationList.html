@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div class="notification-header">
+        <span class="title" th:text="#{notification.label}"></span>
+        <span id="total"></span>
+        <span th:text="#{notification.msg.description}"></span>
+        <hr>
+    </div>
+    <div class="notification-body">
+        <div class="notification noData" th:if="${#arrays.isEmpty(notificationList)}" >
+            <span th:text="#{notification.msg.noNotificationData}"></span>
+        </div>
+        <div class="notification notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
+             th:each="notification: ${notificationList}"
+            th:id="${notification.notificationId}" th:attr="instance-id=${notification.instanceId}"
+            th:attrappend="is-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}">
+            <div>
+                <span class="title text-ellipsis" th:text="${notification.title}"
+                    th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.instanceId}]])"></span>
+                <span class="date" th:text="${#temporals.format(notification.createDt, dateformat)}"
+                    th:with="dateformat=${#authentication.details.timeFormat}"></span>
+                <button class="remove" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
+                <button class="check" th:style="${notification.confirmYn} ? 'display: none'"
+                    th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"></button>
+            </div>
+            <div>
+                <span class="message text-ellipsis" th:text="${notification.message}"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
