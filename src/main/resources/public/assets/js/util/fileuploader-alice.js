@@ -246,7 +246,10 @@ const fileUploader = (function () {
                     params: '',
                     async: false
                 };
-                aliceJs.sendXhr(opt);
+
+                if (extraParam.dropZoneUrl === '/fileupload') {
+                    aliceJs.sendXhr(opt);
+                }
 
                 //파일 확장자 목록 관련 출력
                 var fileNameExtensionList;
