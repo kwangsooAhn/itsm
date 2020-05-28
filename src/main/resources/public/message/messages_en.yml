@@ -47,6 +47,8 @@ common:
     unknownError: "An unknown error has occurred. Please contact the administrator."
     requiredEnter: "Please enter the required item."
     noData: "There is no data."
+    writeError: "Please write again."
+
 # Menu
 menu:
   service: "Service"
@@ -428,6 +430,8 @@ document:
     lengthMax: "Please enter less than {0} characters."
     dateMin: "Please select after {0} date."
     dateMax: "Please select before {0} date."
+    timeMin: "Please select after {0} time."
+    timeMax: "Please select before {0} time."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     requiredFileupload: "Please upload a file."

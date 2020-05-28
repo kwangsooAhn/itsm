@@ -10903,3 +10903,7 @@ a.text-dark:hover, a.text-dark:focus {
   padding: 0 0.625rem;
   white-space: nowrap;
 }
+
+.validate-error {
+  background-color: #ff000040;
+}

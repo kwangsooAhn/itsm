@@ -100,7 +100,7 @@
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}'
-                    ${attr.displayType === 'editableRequired' ? 'required' : ''} max-length='${attr.validate["length-max"]}'
+                    ${attr.displayType === 'editableRequired' ? 'required' : ''} maxlength='${attr.validate["length-max"]}' max-length='${attr.validate["length-max"]}'
                     min-length='${attr.validate["length-min"]}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
                 </div>
             </div>
@@ -145,7 +145,8 @@
                     </div>` :
                     `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
                     ${attr.displayType === 'editableRequired' ? 'required' : ''}
-                    max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'>${textAreaDefaultValue}</textarea>`
+                    maxlength='${attr.validate["length-max"]}' max-length='${attr.validate["length-max"]}'
+                    min-length='${attr.validate["length-min"]}'>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
             </div>
@@ -579,7 +580,8 @@
                         <span class='required' style='${attr.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${aliceForm.options.datetimeFormat}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='datetime-${attr.id}' placeholder='${aliceForm.options.datetimeFormat}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} 
+                        datetime-max='${attr.validate["datetime-max"]}' datetime-min='${attr.validate["datetime-min"]}'/>
                     </div>
                 </div>
             `);
