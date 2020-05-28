@@ -32,10 +32,10 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val document = QWfDocumentEntity.wfDocumentEntity
 
         val from = Expressions.dateTemplate(
-                LocalDateTime::class.java, "TO_TIMESTAMP({0} || ' 00:00:00', {1} || ' HH24:MI:SS')", fromDt, dateFormat)
+                LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", fromDt, dateFormat)
 
         val to = Expressions.dateTemplate(
-                LocalDateTime::class.java, "TO_TIMESTAMP({0} || ' 23:59:59', {1} || ' HH24:MI:SS')", toDt, dateFormat)
+                LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", toDt, dateFormat)
 
         val builder = BooleanBuilder()
         builder.and(instance.instanceStatus.eq(status))
@@ -79,10 +79,10 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val tokenSub = QWfTokenEntity("tokenSub")
 
         val from = Expressions.dateTemplate(
-                LocalDateTime::class.java, "TO_TIMESTAMP({0} || ' 00:00:00', {1} || ' HH24:MI:SS')", fromDt, dateFormat)
+                LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", fromDt, dateFormat)
 
         val to = Expressions.dateTemplate(
-                LocalDateTime::class.java, "TO_TIMESTAMP({0} || ' 23:59:59', {1} || ' HH24:MI:SS')", toDt, dateFormat)
+                LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", toDt, dateFormat)
 
         val builder = BooleanBuilder()
         builder.and(instance.instanceCreateUser.userKey.eq(userKey))
@@ -143,13 +143,12 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val document = QWfDocumentEntity.wfDocumentEntity
 
         val from = Expressions.dateTemplate(
-                LocalDateTime::class.java, "TO_TIMESTAMP({0} || ' 00:00:00', {1} || ' HH24:MI:SS')", fromDt, dateFormat)
+                LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", fromDt, dateFormat)
 
         val to = Expressions.dateTemplate(
-                LocalDateTime::class.java, "TO_TIMESTAMP({0} || ' 23:59:59', {1} || ' HH24:MI:SS')", toDt, dateFormat)
+                LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", toDt, dateFormat)
 
         val tokenSub = QWfTokenEntity("tokenSub")
-        val componentSub = QWfTokenEntity("componentSub")
         val builder = BooleanBuilder()
         builder.and(instance.instanceStatus.eq(status))
         builder.and(

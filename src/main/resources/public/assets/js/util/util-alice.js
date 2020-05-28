@@ -610,6 +610,24 @@ aliceJs.convertToUserDatetimeFormatWithTimezone = function(beforeDatetime, userD
 }
 
 /**
+ * 시스템 기본 포맷으로 된 날짜와 시간 데이터를 사용자의 포맷으로 변환.
+ *
+ * @since 2020-05-28
+ * @param {String} beforeDatetime 시스템 포맷으로 된 변경될 날짜
+ * @param {String} userDatetimeFormat 사용자 날짜, 시간 포맷
+ * @return {String} resultDatetime 변환된 결과 날짜와 시간
+ */
+aliceJs.convertToUserDatetimeFormat = function(beforeDatetime, userDatetimeFormat) {
+    if (aliceJs.isEmpty(beforeDatetime) || aliceJs.isEmpty(userDatetimeFormat)
+        || !moment(beforeDatetime, aliceJs.systemCalendarDatetimeFormat).isValid()) {
+        return beforeDatetime;
+    }
+
+    let resultDatetime = moment(beforeDatetime, aliceJs.systemCalendarDatetimeFormat).format(userDatetimeFormat);
+    return resultDatetime;
+}
+
+/**
  * 시스템 공통 포맷의 시간 데이터를 사용자 시간 포맷으로 변경. 타임존 개념은 없음.
  *
  * @author Jung Hee chan

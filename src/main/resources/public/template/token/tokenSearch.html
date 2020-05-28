@@ -158,10 +158,9 @@
                         <span class="document-topic">${token.topics.map(topic => `<p>${topic}</p>`).join('')}</span>
                         <span class="document-user">${token.createUserName}</span>
                         <span class="document-create-dt">
-                            ${aliceJs.convertToUserDatetimeFormatWithTimezone(
+                            ${aliceJs.convertToUserDatetimeFormat(
                                 token.createDt,
-                                '[[${#authentication.details.timeFormat}]]'.toUpperCase(),
-                                '[[${#authentication.details.timezone}]]'
+                                '[[${#authentication.details.timeFormat}]]'.toUpperCase()
                             )}
                         </span>
                         <span class="document-status">${token.elementName}</span>

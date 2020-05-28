@@ -266,7 +266,8 @@ class WfInstanceService(
             instanceId = "",
             instanceStatus = restTemplateInstanceDto.instanceStatus ?: WfInstanceConstants.Status.RUNNING.code,
             document = restTemplateInstanceDto.document,
-            instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
+            instanceStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+            instanceCreateUser = restTemplateInstanceDto.instanceCreateUser
         )
         if (restTemplateInstanceDto.pTokenId != null) {
             instanceEntity.pTokenId = restTemplateInstanceDto.pTokenId
