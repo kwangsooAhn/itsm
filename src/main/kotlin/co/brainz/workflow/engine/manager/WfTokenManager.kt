@@ -13,7 +13,7 @@ import co.brainz.workflow.token.repository.WfTokenRepository
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-abstract class WfTokenManager() {
+abstract class WfTokenManager {
 
     lateinit var wfTokenEntity: WfTokenEntity
 
