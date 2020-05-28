@@ -1,7 +1,7 @@
 {
     "editbox": {},
     "text": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -20,6 +20,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -191,7 +199,7 @@
         ]
     },
     "textarea": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -210,6 +218,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -351,7 +367,7 @@
         ]
     },
     "select": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -370,6 +386,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -475,7 +499,7 @@
         ]
     },
     "radio": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -494,6 +518,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -617,7 +649,7 @@
         ]
     },
     "checkbox": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -636,6 +668,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -759,7 +799,7 @@
         ]
     },
     "label": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -778,6 +818,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -843,7 +891,7 @@
         ]
     },
     "image": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -862,6 +910,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -904,7 +960,7 @@
         ]
     },
     "divider": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -923,6 +979,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -955,7 +1019,7 @@
         ]
     },
     "date": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -974,6 +1038,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1096,7 +1168,7 @@
         ]
     },
     "time": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -1115,6 +1187,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1237,7 +1317,7 @@
         ]
     },
     "datetime": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -1256,6 +1336,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1378,7 +1466,7 @@
         ]
     },
     "fileupload": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -1397,6 +1485,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1491,7 +1587,7 @@
         ]
     },
     "custom-code": {
-        "common": [
+        "data-attribute": [
             {
                 "id": "mapping-id",
                 "name": "Mapping Id",
@@ -1510,6 +1606,14 @@
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "display-type",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [

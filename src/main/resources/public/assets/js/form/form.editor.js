@@ -188,7 +188,7 @@
         });
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/forms/' + data.form.id + '/data',
+            url: '/rest/forms/' + data.id + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
                     isEdited = false;
@@ -263,8 +263,8 @@
             data.components = data.components.filter(function (comp) {
                 return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
             });
-            data.form.name = document.getElementById('form_name').value;
-            data.form.desc = document.getElementById('form_description').value;
+            data.name = document.getElementById('form_name').value;
+            data.desc = document.getElementById('form_description').value;
             aliceJs.sendXhr({
                 method: 'POST',
                 url: '/rest/forms' + '?saveType=saveas',
@@ -343,8 +343,8 @@
                 }
                 reorderComponent();
             } else { // modify
-                if (changeData.id === editor.data.form.id) { // form
-                    editor.data.form = changeData;
+                if (typeof changeData.type === 'undefined') {  // form
+                    editor.data = changeData;
                     if (originData.name !== changeData.name) { // modify name
                         changeFormName();
                     }
@@ -399,7 +399,7 @@
      * 미리보기
      */
     function previewForm() {
-        let url = '/forms/' + editor.data.form.id + '/preview';
+        let url = '/forms/' + editor.data.id + '/preview';
         const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
         window.open(url, 'result', 'width=800,height=805,' + specs);
 
@@ -972,6 +972,7 @@
                         fieldGroupDiv = document.createElement('div');
                         fieldGroupDiv.classList.add('property-field');
                         fieldGroupDiv.setAttribute('id', fieldArr.id);
+                        if (fieldArr.type === 'hidden') { fieldGroupDiv.style.display = 'none'; }
                         groupDiv.appendChild(fieldGroupDiv);
                     }
                     if (fieldArr.type !== 'button' && fieldArr.type !== 'table') { //속성명 출력
@@ -1492,9 +1493,8 @@
         } else {
             selectedComponentId = '';
         }
-        let formAttr = editor.data.form;
+        let formAttr = editor.data;
         let detailAttr = formProperties.form;
-
         //data + 기본 속성 = 세부 속성 재할당 
         Object.keys(formAttr).forEach(function(form) {
             Object.keys(detailAttr).forEach(function(idx) {
@@ -1503,8 +1503,6 @@
                 }
             });
         });
-
-        let formOriginAttr = JSON.parse(JSON.stringify(formAttr));
 
         //폼 속성 출력
         let groupDiv = document.createElement('div');
@@ -1549,14 +1547,16 @@
             if (fieldArr.id === 'name') {
                 validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('keyup', function(e) {
-                    editor.data.form.name = this.value;
-                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
+                    let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
+                    editor.data.name = this.value;
+                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
                 });
             } else {
                 validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('change', function(e) {
-                    editor.data.form[fieldArr.id] = this.value;
-                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
+                    let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
+                    editor.data[fieldArr.id] = this.value;
+                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
                 }, false);
             }
             fieldGroupDiv.appendChild(propertyValue);
@@ -1570,14 +1570,12 @@
 
      /**
      * 조회된 데이터 draw.
-     * 
-     * @param {Object} data 조회한 폼 및 컴포넌트 정보
      */
-    function drawForm(data) {
-        editor.data = JSON.parse(data);
+    function drawForm() {
+         //컴포넌트 재정렬
         if (editor.data.components.length > 0) {
             if (editor.data.components.length > 2) {
-                editor.data.components.sort(function (a, b) { //컴포넌트 재정렬
+                editor.data.components.sort(function (a, b) {
                     return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;  
                 });
             }
@@ -1596,7 +1594,7 @@
         setComponentData(editboxComponent.attr);
         savedData = JSON.parse(JSON.stringify(editor.data));
 
-        //폼 상세 정보 출력
+        //폼 기본 속성인 '/assets/js/form/formAttribute.json' 데이터를 조회 한다.
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/form/formAttribute.json',
@@ -1604,7 +1602,7 @@
                 formProperties = JSON.parse(xhr.responseText);
                 //첫번째 컴포넌트 선택
                 const firstComponent = document.getElementById('panel-form').querySelectorAll('.component')[0];
-                if (firstComponent.getAttribute('data-type') === defaultComponent) {
+                if (firstComponent.getAttribute('data-type') === defaultComponent) { //editbox 컴포넌트일 경우 input box 안에 포커싱
                     firstComponent.querySelector('[contenteditable=true]').focus();
                 }
                 showComponentProperties(firstComponent.id);
@@ -1621,53 +1619,7 @@
      * 폼 이름 변경.
      */
     function changeFormName() {
-        document.querySelector('.form-name').textContent = (isEdited ? '*' : '') + editor.data.form.name;
-    }
-
-    /**
-     * init.
-     *
-     * @param {String} formId 폼 아이디
-     * @param {String} flag view 모드 = false, edit 모드 = true
-     */
-    function init(formId, flag) {
-        console.info('form editor initialization. [FORM ID: ' + formId + ']');
-        formPanel = document.getElementById('panel-form');
-        formPanel.setAttribute('data-readonly', true);
-
-        if (flag === 'true') { isView = false; }
-
-        propertiesPanel = document.getElementById('panel-properties');
-        //컨텍스트 메뉴 초기화
-        context.init();
-
-        //단축키 초기화 및 등록
-        shortcut.init();
-        for (let i = 0; i < shortcuts.length; i++) {
-            shortcut.add(shortcuts[i].keys, shortcuts[i].command);
-        }
-
-        //load custom-code list.
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/custom-codes',
-            callbackFunc: function(xhr) {
-                customCodeList = JSON.parse(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
-        });
-
-        // load form data.
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/forms/' + formId + '/data',
-            callbackFunc: function(xhr) {
-                let responseObject = JSON.parse(xhr.responseText);
-                responseObject.components = reformatCalendarFormat('read', responseObject.components);
-                drawForm(JSON.stringify(responseObject));
-            },
-            contentType: 'application/json; charset=utf-8'
-        });
+        document.querySelector('.form-name').textContent = (isEdited ? '*' : '') + editor.data.name;
     }
 
     /**
@@ -1779,6 +1731,53 @@
             }
         })
         return components;
+    }
+
+    /**
+     * init.
+     *
+     * @param {String} formId 폼 아이디
+     * @param {String} flag view 모드 = false, edit 모드 = true
+     */
+    function init(formId, flag) {
+        console.info('form editor initialization. [FORM ID: ' + formId + ']');
+        formPanel = document.getElementById('panel-form');
+        formPanel.setAttribute('data-readonly', true);
+
+        if (flag === 'true') { isView = false; }
+
+        propertiesPanel = document.getElementById('panel-properties');
+        //컨텍스트 메뉴 초기화
+        context.init();
+
+        //단축키 초기화 및 등록
+        shortcut.init();
+        for (let i = 0; i < shortcuts.length; i++) {
+            shortcut.add(shortcuts[i].keys, shortcuts[i].command);
+        }
+
+        //load custom-code list.
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/custom-codes',
+            callbackFunc: function(xhr) {
+                customCodeList = JSON.parse(xhr.responseText);
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
+
+        // load form data.
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/rest/forms/' + formId + '/data',
+            callbackFunc: function(xhr) {
+                let responseObject = JSON.parse(xhr.responseText);
+                responseObject.components = reformatCalendarFormat('read', responseObject.components);
+                editor.data = responseObject;
+                drawForm();
+            },
+            contentType: 'application/json; charset=utf-8'
+        });
     }
     
     exports.init = init;

@@ -350,7 +350,7 @@
                 return false;
             }
         }
-        let tokenObject = {};
+        let tokenObject = { 'form': {} };
 
         //documentId 값을 구한다.
         const documentElements = document.getElementById('documentId');
@@ -368,7 +368,7 @@
             tokenObject.tokenId = '';
         }
 
-        let actionMsg = ''
+        let actionMsg = '';
         if (v_kind === 'save') {
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
             tokenObject.assigneeId = aliceForm.options.sessionInfo.userKey;
@@ -383,9 +383,7 @@
 
         const componentArrayList = getComponentData();
         if (componentArrayList.length > 0) {
-            tokenObject.data = componentArrayList;
-        } else {
-            tokenObject.data = '';
+            tokenObject.form.data = componentArrayList;
         }
 
         tokenObject.action = v_kind;
@@ -403,6 +401,7 @@
         if (fileDataIds !== '') {
             tokenObject.fileDataIds = fileDataIds;
         }
+
         // 2020-04-06 kbh
         // 프로세스 넘기려고 부득이하게 하드코딩함. merge 된 후 삭제 예정
         //tokenObject.documentId = 'beom'
@@ -434,37 +433,27 @@
     function drawDocument(data) {
         if (typeof data === 'string') {
             data = JSON.parse(data);
-            data.components = data.components.filter(function(comp) { return comp.type !== 'editbox'; }); //미리보기시 editbox 제외
         }
+        data.form.components = data.form.components.filter(function(comp) { return comp.type !== 'editbox'; }); //editbox 제외
+
         documentContainer = document.getElementById('document-container');
-        documentContainer.setAttribute('data-isToken', (data.token !== undefined)); //신청서 = false , 처리할 문서 = true
+        documentContainer.setAttribute('data-isToken', (data.tokenId !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
-        let components = (data.token === undefined) ? data.components : data.token.components;
-        if (components.length > 0) {
-            if (components.length > 2) {
-                components.sort(function (a, b) {
-                    if (a.attributes === undefined) {
-                        return a.display.order - b.display.order;
-                    } else {
-                        return a.attributes.display.order - b.attributes.display.order;
-                    }
+
+        if (data.form.components.length > 0) {
+            if (data.form.components.length > 2) {
+                data.form.components.sort(function (a, b) {
+                    return a.display.order - b.display.order;
                 });
             }
-            for (let i = 0, len = components.length; i < len; i++) {
+            for (let i = 0, len = data.form.components.length; i < len; i++) {
                 //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
-                let componentAttr = components[i];
-                let compType = (componentAttr.attributes === undefined) ? componentAttr.type : componentAttr.attributes.type;
-                if (compType === 'editbox') { continue; }
-                let defaultComponentAttr = component.getData(compType);
-                let mergeComponentAttr = null;
-                if (componentAttr.attributes === undefined) { //신청서
-                    mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
-                    componentAttr = mergeComponentAttr;
-                } else { //처리할 문서
-                    mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr.attributes);
-                    componentAttr.attributes = mergeComponentAttr;
-                }
-                component.draw(compType, documentContainer, componentAttr);
+                let componentAttr = data.form.components[i];
+                let defaultComponentAttr = component.getData(componentAttr.type);
+                let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
+                data.form.components[i] = mergeComponentAttr;
+
+                component.draw(componentAttr.type, documentContainer, mergeComponentAttr);
             }
             //유효성 검증 추가
             if (!documentContainer.hasAttribute('data-readonly')) {
@@ -499,10 +488,8 @@
         if (data.tokenId !== undefined) {
             addIdComponent('tokenId', data.tokenId);
         }
-        if (data.components !== undefined) {
+        if (data.actions !== undefined) {
             addButton(data.actions);
-        } else if (data.token.components !== undefined) {
-            addButton(data.token.actions);
         }
 
         //Add Comment Box
@@ -662,12 +649,15 @@
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
 
         // document data search.
+
+        console.log(documentId);
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/documents/' + documentId + '/data',
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
-                responseObject.components = reformatCalendarFormat('read', responseObject.components);
+                console.log(responseObject);
+                responseObject.form.components = reformatCalendarFormat('read', responseObject.form.components);
 
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
@@ -692,7 +682,7 @@
             url: '/rest/tokens/' + tokenId + '/data',
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
-                responseObject.components = reformatCalendarFormat('read', responseObject.components);
+                responseObject.form.components = reformatCalendarFormat('read', responseObject.form.components);
 
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
@@ -749,7 +739,7 @@
         let textarea = document.createElement('textarea');
         textarea.name = 'data';
         let componentArrayList = getComponentData('print');
-        dataForPrint.components = dataForPrint.components.filter(function(comp) {
+        dataForPrint.form.components = dataForPrint.form.components.filter(function(comp) {
             componentArrayList.forEach(function(array) {
                 if (comp.componentId === array.componentId) {
                     if (typeof comp.values[0] === 'undefined') {
@@ -758,8 +748,8 @@
                     comp.values[0].value = array.value;
                 }
             });
-            if (comp.displayType !== 'hidden') {
-                comp.displayType = 'readonly';
+            if (comp['data-attribute']['display-type'] !== 'hidden') {
+                comp['data-attribute']['display-type'] = 'readonly';
             }
             return comp;
         });
