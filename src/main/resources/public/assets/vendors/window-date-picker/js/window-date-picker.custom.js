@@ -1332,10 +1332,12 @@
                     hour = _s$0$split2[0],
                     minute = _s$0$split2[1];
 
+                // 2020-05-27 Jung Hee Chan
+                // 소문자 am,pm도 처리할 수 있게 변경.
                 if (this.hourType == $12) {
-                  if (s[1] == this.LANG.AM_PM[1] && hour != '12') {
+                  if ((s[1].toUpperCase() === this.LANG.AM_PM[1] || s[1].toUpperCase() === 'PM')  && hour != '12') {
                     hour = (parseInt(hour) + 12).toString();
-                  } else if (s[1] == this.LANG.AM_PM[0] && hour == '12') {
+                  } else if ((s[1].toUpperCase() === this.LANG.AM_PM[0] || s[1].toUpperCase() === 'AM') && hour == '12') {
                     hour = '0';
                   }
                 }

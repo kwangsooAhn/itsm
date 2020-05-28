@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-<link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
 <link th:href="@{/assets/theme/{theme}/alice-{theme}-theme.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
+<link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
+<link th:href="@{/assets/css/notification.css}" rel="stylesheet"/>
 <link th:href="@{/assets/vendors/window-date-picker/css/window-date-picker.css}" rel="stylesheet" />
 <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
 <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
 <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
+<link th:href="@{/assets/vendors/toastify/toastify.css}" rel="stylesheet"/>
 <script th:src="@{/assets/vendors/moment/moment.js}"></script>
 <script th:src="@{/assets/vendors/moment/moment-timezone-with-data.js}"></script>
 <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
@@ -21,6 +23,7 @@
 <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
 <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
 <script th:src="@{/assets/vendors/quill/quill.js}"></script>
+<script th:src="@{/assets/vendors/toastify/toastify-custom.js}"></script>
 <script type="text/javascript">
     i18n.add();
 
