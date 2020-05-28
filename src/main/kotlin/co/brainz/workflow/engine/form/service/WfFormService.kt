@@ -8,8 +8,8 @@ import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
 import co.brainz.workflow.engine.form.repository.WfFormRepository
+import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
-import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -108,24 +108,48 @@ class WfFormService(
     }
 
     /**
-     * Form Data Info.
+     * 폼을 기준으로 컴포넌트 상세 리스트를 반환.
+     * 폼 편집 및 신청서, 처리할 문서 등에서 모두 사용.
      *
      * @param formId
      * @return FormComponentDto
      */
-    fun formData(formId: String): RestTemplateFormComponentViewDto {
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
-        val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
+    fun getFormComponentList(formId: String): RestTemplateFormComponentListDto {
+        val dataAttribute = LinkedHashMap<String, Any>()
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-        for (component in formEntity.get().components!!) {
-            val attributes = LinkedHashMap<String, Any>()
-            attributes["id"] = component.componentId
-            attributes.putAll(makeAttributes(component))
-            components.add(attributes)
+        val dummyValues: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+
+        val componentEntityList = wfComponentRepository.findByFormId(formId)
+        for (componentEntity in componentEntityList) {
+            val component = LinkedHashMap<String, Any>()
+            component["id"] = componentEntity.componentId
+            component["type"] = componentEntity.componentType
+            component["values"] = dummyValues
+
+            dataAttribute["display-type"] = ""
+            dataAttribute["mapping-id"] = componentEntity.mappingId
+            dataAttribute["is-topic"] = componentEntity.isTopic
+            component["data-attribute"] = dataAttribute
+
+            val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+            val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
+
+            for (componentDataEntity in componentDataEntityList) {
+                val jsonElement = JsonParser().parse(componentDataEntity.attributeValue)
+                when (jsonElement.isJsonArray) {
+                    true -> component[componentDataEntity.attributeId] = mapper.readValue(
+                        componentDataEntity.attributeValue,
+                        mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
+                    )
+                    false -> component[componentDataEntity.attributeId] =
+                        mapper.readValue(componentDataEntity.attributeValue, LinkedHashMap::class.java)
+                }
+            }
+            components.add(component)
         }
 
-        return RestTemplateFormComponentViewDto(
-            form = formViewDto,
+        return RestTemplateFormComponentListDto(
+            id = formId,
             components = components
         )
     }
