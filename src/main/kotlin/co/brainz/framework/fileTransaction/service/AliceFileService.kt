@@ -291,7 +291,6 @@ class AliceFileService(
 
     fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
         this.basePath = ClassPathResource(baseDir).file.path.toString()
-
         val fileNameExtension = File(multipartFile.originalFilename).extension.toUpperCase()
         var filePath: Path
         var dir = Paths.get(this.basePath, location)

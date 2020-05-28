@@ -4,6 +4,7 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpHeaders
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import javax.servlet.http.HttpServletRequest
 
 /**
  * 파일 관련 컨트롤 클래스
@@ -34,10 +34,9 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
     fun uploadFile(@RequestPart("file") multipartFile: MultipartFile, request: HttpServletRequest): ResponseEntity<Map<String, Any>> {
         val response: ResponseEntity<Map<String, Any>>
         val map: MutableMap<String, Any> = mutableMapOf()
-        val target = request.getParameter("target") ?: null
 
-        when (target) {
-            "avatar" -> {
+        when (request.getParameter("target") ?: null) {
+            AliceUserConstants.AVATAR_ID -> {
                 var fileName = request.getParameter("fileName") ?: null
                 map["file"] = aliceFileService.uploadResources(multipartFile, AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, fileName)
             }

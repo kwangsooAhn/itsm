@@ -115,7 +115,6 @@ class UserService(
                 }
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
-
                 userRepository.save(targetEntity)
                 aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, userUpdateDto.userKey, userUpdateDto.avatarUUID)
 
