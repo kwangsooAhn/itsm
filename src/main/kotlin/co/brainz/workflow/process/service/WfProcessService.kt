@@ -93,7 +93,7 @@ class WfProcessService(
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
             elDto.display = objMapper.readValue(elementEntity.displayInfo)
-            if (elementEntity.notificationEmail) {
+            if (elementEntity.notification) {
                 elDto.notification = "Y"
             }
 
@@ -240,7 +240,7 @@ class WfProcessService(
                     displayInfo = objMapper.writeValueAsString(it.display),
                     elementName = it.name,
                     elementDesc = it.description,
-                    notificationEmail = (it.notification == "Y")
+                    notification = (it.notification == "Y")
                 )
 
                 // element data entity 생성

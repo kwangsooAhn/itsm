@@ -1,5 +1,8 @@
 package co.brainz.workflow.token.service
 
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.notification.dto.NotificationDto
+import co.brainz.framework.notification.service.NotificationService
 import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -37,7 +40,9 @@ class WfTokenElementService(
     private val wfFolderService: WfFolderService,
     private val aliceNumberingService: AliceNumberingService,
     private val wfTokenMappingValue: WfTokenMappingValue,
-    private val wfCandidateRepository: WfCandidateRepository
+    private val wfCandidateRepository: WfCandidateRepository,
+    private val notificationService: NotificationService,
+    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -299,6 +304,7 @@ class WfTokenElementService(
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
                 val token = makeToken(nextElementEntity, wfTokenEntity.instance)
                 val saveToken = setNextTokenSave(token, restTemplateTokenDto)
+                saveNotification(saveToken)
                 restTemplateTokenDto.tokenId = saveToken.tokenId
                 goToNext(saveToken, restTemplateTokenDto)
             }
@@ -423,7 +429,7 @@ class WfTokenElementService(
                     assigneeId = this.assigneeId
                 }
                 token.assigneeId = assigneeId
-                wfTokenRepository.save(token)
+                saveNotification(wfTokenRepository.save(token))
             }
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {
@@ -439,12 +445,53 @@ class WfTokenElementService(
                         )
                         wfCandidateEntities.add(wfCandidateEntity)
                     }
-                    wfCandidateRepository.saveAll(wfCandidateEntities)
+                    saveNotification(token, wfCandidateRepository.saveAll(wfCandidateEntities))
                 } else {
                     token.assigneeId = this.assigneeId
-                    wfTokenRepository.save(token)
+                    saveNotification(wfTokenRepository.save(token))
                 }
             }
+        }
+    }
+
+    /**
+     * Save Notification.
+     *
+     * @param token
+     * @param candidates
+     */
+    fun saveNotification(token: WfTokenEntity, candidates: List<WfCandidateEntity>? = null) {
+        if (token.element.notification) {
+            val notifications = mutableListOf<NotificationDto>()
+            val commonNotification = NotificationDto(
+                title = token.instance.document?.documentName!!,
+                message = "[" + token.element.elementName + "] " + token.instance.document.documentDesc,
+                instanceId = token.instance.instanceId
+            )
+
+            if (candidates != null) {
+                candidates.forEach { candidate ->
+                    when (candidate.candidateType) {
+                        WfTokenConstants.AssigneeType.USERS.code -> {
+                            val notification = commonNotification.copy()
+                            notification.receivedUser = candidate.candidateValue
+                            notifications.add(notification)
+                        }
+                        WfTokenConstants.AssigneeType.GROUPS.code -> {
+                            val users = aliceUserRoleMapRepository.findUserRoleMapByRoleId(candidate.candidateValue)
+                            users?.forEach {
+                                val notification = commonNotification.copy()
+                                notification.receivedUser = it.user.userKey
+                                notifications.add(notification)
+                            }
+                        }
+                    }
+                }
+            } else {
+                commonNotification.receivedUser = token.assigneeId!!
+                notifications.add(commonNotification)
+            }
+            notificationService.insertNotificationList(notifications)
         }
     }
 }
