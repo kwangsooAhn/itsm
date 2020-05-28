@@ -41,10 +41,13 @@ class WfTokenManagerFactory(
             }
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
                 WfCommonEndEventTokenManager(
+                    wfElementService,
                     wfInstanceService,
                     wfInstanceRepository,
                     wfElementRepository,
-                    wfTokenRepository
+                    wfTokenRepository,
+                    wfTokenDataRepository,
+                    wfCandidateRepository
                 )
             }
             WfElementConstants.ElementType.USER_TASK.value -> {

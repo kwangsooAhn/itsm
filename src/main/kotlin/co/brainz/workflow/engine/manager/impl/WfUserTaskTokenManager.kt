@@ -6,10 +6,8 @@ import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.element.service.WfElementService
 import co.brainz.workflow.engine.manager.WfTokenManager
-import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
@@ -18,63 +16,34 @@ import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 class WfUserTaskTokenManager(
-    private val wfElementService: WfElementService,
-    private val wfInstanceService: WfInstanceService,
-    private val wfInstanceRepository: WfInstanceRepository,
-    private val wfElementRepository: WfElementRepository,
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfCandidateRepository: WfCandidateRepository
-) : WfTokenManager {
+    override val wfElementService: WfElementService,
+    override val wfInstanceService: WfInstanceService,
+    override val wfInstanceRepository: WfInstanceRepository,
+    override val wfElementRepository: WfElementRepository,
+    override val wfTokenRepository: WfTokenRepository,
+    override val wfTokenDataRepository: WfTokenDataRepository,
+    override val wfCandidateRepository: WfCandidateRepository
+) : WfTokenManager() {
 
     lateinit var assigneeId: String
 
     override fun createToken(restTemplateTokenDto: RestTemplateTokenDto): RestTemplateTokenDto {
-        var token = WfTokenEntity(
-            tokenId = "",
-            tokenStatus = RestTemplateConstants.TokenStatus.RUNNING.value,
-            tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-            instance = wfInstanceRepository.findByInstanceId(restTemplateTokenDto.instanceId)!!,
-            element = wfElementRepository.findWfElementEntityByElementId(restTemplateTokenDto.elementId)
-        )
+        super.createToken(restTemplateTokenDto)
+        super.wfTokenEntity.tokenData = wfTokenDataRepository.saveAll(setTokenData(restTemplateTokenDto))
         this.assigneeId = restTemplateTokenDto.assigneeId.toString()
-        token = wfTokenRepository.save(token)
-        restTemplateTokenDto.tokenId = token.tokenId
-        restTemplateTokenDto.elementId = token.element.elementId
-        restTemplateTokenDto.elementType = token.element.elementType
-        token.tokenData = wfTokenDataRepository.saveAll(setTokenData(restTemplateTokenDto))
-        //assignee
-        setCandidate(token)
+        setCandidate(super.wfTokenEntity)
+
         return restTemplateTokenDto
     }
 
-    override fun createNextToken(restTemplateTokenDto: RestTemplateTokenDto): RestTemplateTokenDto {
-        val element = wfElementService.getNextElement(restTemplateTokenDto)
-        restTemplateTokenDto.elementId = element.elementId
-        restTemplateTokenDto.elementType = element.elementType
-        val tokenManager = WfTokenManagerFactory(
-            wfElementService,
-            wfInstanceService,
-            wfInstanceRepository,
-            wfElementRepository,
-            wfTokenRepository,
-            wfTokenDataRepository,
-            wfCandidateRepository
-        ).getTokenManager(restTemplateTokenDto.elementType)
-        return tokenManager.createToken(restTemplateTokenDto)
-    }
-
     override fun completeToken(restTemplateTokenDto: RestTemplateTokenDto): RestTemplateTokenDto {
-        val token = wfTokenRepository.findTokenEntityByTokenId(restTemplateTokenDto.tokenId).get()
-        token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-        token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
-        wfTokenRepository.save(token)
-        // 현재 Token Data 갱신
-        token.tokenData = wfTokenDataRepository.saveAll(setTokenData(restTemplateTokenDto))
+        super.completeToken(restTemplateTokenDto)
+        super.wfTokenEntity.tokenData = wfTokenDataRepository.saveAll(setTokenData(restTemplateTokenDto))
+        super.wfTokenEntity.assigneeId = restTemplateTokenDto.assigneeId
+        wfTokenRepository.save(super.wfTokenEntity)
+
         return restTemplateTokenDto
     }
 
