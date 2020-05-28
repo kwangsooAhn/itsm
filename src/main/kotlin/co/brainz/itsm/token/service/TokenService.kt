@@ -87,6 +87,7 @@ class TokenService(
         params.add("tokenType", restTemplateTokenSearchListDto.searchTokenType)
         params.add("documentId", restTemplateTokenSearchListDto.searchDocumentId)
         params.add("searchValue", restTemplateTokenSearchListDto.searchValue)
+        params.add("offset", restTemplateTokenSearchListDto.offset)
         params.add("fromDt", restTemplateTokenSearchListDto.searchFromDt)
         params.add("toDt", restTemplateTokenSearchListDto.searchToDt)
         params.add("dateFormat", aliceUserDto.timeFormat.split(" ")[0])

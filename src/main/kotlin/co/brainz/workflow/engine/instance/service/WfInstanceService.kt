@@ -104,36 +104,45 @@ class WfInstanceService(
     }
 
     private fun requestedInstances(parameters: LinkedHashMap<String, Any>): List<WfInstanceListViewDto> {
-        return wfInstanceRepository.findRequestedInstances(
+        val queryResults =  wfInstanceRepository.findRequestedInstances(
                 parameters["userKey"].toString(),
                 parameters["documentId"].toString(),
+                parameters["searchValue"].toString(),
                 parameters["fromDt"].toString(),
                 parameters["toDt"].toString(),
-                parameters["dateFormat"].toString()
+                parameters["dateFormat"].toString(),
+                parameters["offset"].toString().toLong()
         )
+        return queryResults.results
     }
 
     private fun relatedInstances(status: String, parameters: LinkedHashMap<String, Any>): List<WfInstanceListViewDto> {
-        return wfInstanceRepository.findRelationInstances(
+        val queryResults = wfInstanceRepository.findRelationInstances(
                 status,
                 parameters["userKey"].toString(),
                 parameters["documentId"].toString(),
+                parameters["searchValue"].toString(),
                 parameters["fromDt"].toString(),
                 parameters["toDt"].toString(),
-                parameters["dateFormat"].toString()
+                parameters["dateFormat"].toString(),
+                parameters["offset"].toString().toLong()
         )
+        return queryResults.results
     }
 
     private fun todoInstances(parameters: LinkedHashMap<String, Any>): List<WfInstanceListViewDto> {
         val userKey = parameters["userKey"].toString()
         val searchValue = parameters["searchValue"].toString()
-        val documentId = parameters["documentId"].toString()
-        var fromDt = parameters["fromDt"].toString()
-        var toDt = parameters["toDt"].toString()
         val status = RestTemplateConstants.TokenStatus.RUNNING.value
         val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
         val roleEntities = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
-        val runningInstances = wfInstanceRepository.findTodoInstances(status)
+        val runningInstances = wfInstanceRepository.findTodoInstances(
+                status,
+                parameters["documentId"].toString(),
+                parameters["fromDt"].toString(),
+                parameters["toDt"].toString(),
+                parameters["dateFormat"].toString()
+        )
         runningInstances.forEach { instance ->
             if (instance.tokenEntity.tokenStatus == WfTokenConstants.Status.RUNNING.code) {
                 if (instance.tokenEntity.assigneeId == userKey) {

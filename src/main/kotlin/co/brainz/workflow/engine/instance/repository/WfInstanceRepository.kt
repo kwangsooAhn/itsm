@@ -36,29 +36,4 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String>, WfInst
                 "ORDER BY i.instanceStartDt"
     )
     fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
-
-    @Query(
-            "SELECT NEW co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto(t, d, i) " +
-            "FROM WfTokenEntity t, WfDocumentEntity d, WfInstanceEntity i " +
-            "WHERE d.documentId = i.document.documentId " +
-            "AND i.instanceId = t.instance.instanceId " +
-            "AND t.tokenId = (SELECT MAX(tokenId) FROM WfTokenEntity WHERE instance.instanceId = t.instance.instanceId) " +
-            "AND i.instanceCreateUser.userKey = :userKey " +
-            "AND (COALESCE(:documentId, '') = '' or d.documentId = :documentId) " +
-            "AND i.instanceStartDt BETWEEN TO_DATE(:fromDt, 'YYYY-MM-DD') AND TO_DATE(:toDt, :dateFormat) + 1"
-    )
-    fun findRequestedInstances(userKey: String, documentId: String, fromDt: String, toDt: String, dateFormat: String): List<WfInstanceListViewDto>
-
-    @Query(
-            "SELECT NEW co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto(t, d, i) " +
-            "FROM WfTokenEntity t , WfDocumentEntity d, WfInstanceEntity i " +
-            "WHERE d.documentId = i.document.documentId " +
-            "AND i.instanceId = t.instance.instanceId " +
-            "AND i.instanceStatus = :status " +
-            "AND i.instanceId IN (SELECT t.instance.instanceId FROM WfTokenEntity t WHERE t.assigneeId = :userKey) " +
-            "AND t.tokenId = (SELECT MAX(tokenId) FROM WfTokenEntity WHERE instance.instanceId = t.instance.instanceId) " +
-            "AND (COALESCE(:documentId, '') = '' OR d.documentId = :documentId) " +
-            "AND i.instanceStartDt BETWEEN TO_DATE(:fromDt, 'YYYY-MM-DD') AND TO_DATE(:toDt, :dateFormat) + 1"
-    )
-    fun findRelationInstances(status: String, userKey: String, documentId: String, fromDt: String, toDt: String, dateFormat: String): List<WfInstanceListViewDto>
 }

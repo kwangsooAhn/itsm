@@ -121,7 +121,7 @@
             }
             aliceJs.sendXhr({
                 method: 'get',
-                url: '/rest/tokens?'+ aliceJs.serialize(document.getElementById('frmSearch')),
+                url: '/rest/tokens?'+ aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + tokenListElement.querySelectorAll('.document').length,
                 callbackFunc: function(response) {
                     const tokenList = JSON.parse(response.responseText);
                     tokenList.forEach(function(token) {
@@ -132,7 +132,6 @@
             });
         }
 
-        //신청서 작성 화면 오픈.
         function openTokenEdit(tokenId) {
             window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=900, height=852');
         }
