@@ -6,7 +6,7 @@ import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -37,7 +37,7 @@ class DocumentService(
      *
      * @return List<DocumentDto>
      */
-    fun findDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
         val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
         multiVal.setAll(
             objMapper.convertValue<Map<String, String>>(
@@ -64,7 +64,7 @@ class DocumentService(
     /**
      * 신청서 조회.
      */
-    fun findDocument(documentId: String): String {
+    fun getDocument(documentId: String): String {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(
                 restTemplate.getKeyRegex(),
@@ -79,7 +79,7 @@ class DocumentService(
      *
      * @return String
      */
-    fun findDocumentData(documentId: String): String {
+    fun getDocumentData(documentId: String): String {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT_DATA.url.replace(
                 restTemplate.getKeyRegex(),
@@ -189,7 +189,7 @@ class DocumentService(
      * @param documentId
      * @return List<DocumentDto>
      */
-    fun findDocumentDisplay(documentId: String): String {
+    fun getDocumentDisplay(documentId: String): String {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_DISPLAY.url.replace(
                 restTemplate.getKeyRegex(),
@@ -205,7 +205,7 @@ class DocumentService(
      * @param documentDisplay
      * @return Boolean
      */
-    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDataDto): Boolean {
+    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDisplayDto): Boolean {
         val urlDto = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENTS_DISPLAY.url.replace(
                 restTemplate.getKeyRegex(),
