@@ -36,6 +36,7 @@ common:
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
     comment: "Comment"
     print: "Print"
+    count: "total {0}"
   msg:
     save: "Saved"
     process: "It has been processed."
@@ -438,6 +439,7 @@ document:
 token:
   label:
     list: "My Document List"
+    all: "All Document"
     write: "My Document"
     startDt: "Start Date"
     endDt: "Finish Date"
@@ -447,7 +449,7 @@ token:
     history: "History"
     relatedInstance: "Related Documents"
     print: "Process Document Print"
-    searchPlaceholder: "Related Document Name / Create User"
+    searchPlaceholder: "Create User Name / Contents"
   type:
     todo: "Document to process"
     requested: "Application document"

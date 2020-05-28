@@ -110,12 +110,12 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
         return from(token)
                 .select(
-                        Projections.constructor(
-                                WfInstanceListViewDto::class.java,
-                                token,
-                                document,
-                                instance
-                        )
+                    Projections.constructor(
+                        WfInstanceListViewDto::class.java,
+                        token,
+                        document,
+                        instance
+                    )
                 )
                 .innerJoin(instance).on(token.instance.eq(instance))
                 .fetchJoin()
@@ -181,12 +181,12 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
         return from(token)
                 .select(
-                        Projections.constructor(
-                                WfInstanceListViewDto::class.java,
-                                token,
-                                document,
-                                instance
-                        )
+                    Projections.constructor(
+                        WfInstanceListViewDto::class.java,
+                        token,
+                        document,
+                        instance
+                    )
                 )
                 .innerJoin(instance).on(token.instance.eq(instance))
                 .fetchJoin()
