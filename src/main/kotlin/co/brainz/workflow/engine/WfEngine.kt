@@ -6,14 +6,10 @@ import co.brainz.workflow.element.service.WfElementService
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
-import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
-import co.brainz.workflow.token.service.WfTokenService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -66,9 +62,10 @@ class WfEngine(
 
         when (restTemplateTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> {
+
+                // Save Token & Token Data
                 val token = wfTokenRepository.findTokenEntityByTokenId(restTemplateTokenDto.tokenId).get()
                 token.assigneeId = restTemplateTokenDto.assigneeId
-                wfTokenRepository.save(token)
                 val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
                 for (tokenDataDto in restTemplateTokenDto.data!!) {
                     val tokenDataEntity = WfTokenDataEntity(
@@ -84,6 +81,7 @@ class WfEngine(
                 wfTokenRepository.save(token)
             }
             else -> {
+                // CommonEndEvent, GW, SubProcess 는 반복
                 do {
                     val token = wfTokenRepository.findTokenEntityByTokenId(restTemplateTokenDto.tokenId).get()
                     restTemplateTokenDto.instanceId = token.instance.instanceId
@@ -102,8 +100,6 @@ class WfEngine(
                 } while (!restTemplateTokenDto.isComplete)
             }
         }
-
-
 
         return true
     }
