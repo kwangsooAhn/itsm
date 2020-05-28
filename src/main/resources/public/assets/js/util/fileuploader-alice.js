@@ -45,6 +45,10 @@ const fileUploader = (function () {
             extraParam.clickable = ".add-file-button"
         }
 
+        if (extraParam.acceptedFiles === undefined) {
+            extraParam.acceptedFiles = null
+        }
+
         // 파일 추가 버튼 정의 및 추가
         const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
         dropZoneFiles.className = 'fileEditorable';
@@ -150,7 +154,7 @@ const fileUploader = (function () {
             maxFiles: extraParam.dropZoneMaxFiles, // 첨부파일 개수 제한
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
-            //acceptedFiles: "image/*",
+            acceptedFiles: extraParam.acceptedFiles,
             previewTemplate: fileView.innerHTML, // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
             autoQueue: true, // Make sure the files aren't queued until manually added
             clickable: extraParam.clickable, // Define the element that should be used as click trigger to select files.

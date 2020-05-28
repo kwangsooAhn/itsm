@@ -39,12 +39,12 @@ import org.springframework.web.context.request.ServletRequestAttributes
 class UserService(
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val roleRepository: RoleRepository,
-    private val userRepository: UserRepository,
-    private val userAliceTimezoneRepository: AliceTimezoneRepository,
+    private val aliceFileService: AliceFileService,
     private val codeService: CodeService,
+    private val userAliceTimezoneRepository: AliceTimezoneRepository,
+    private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
-    private val aliceFileService: AliceFileService
+    private val roleRepository: RoleRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)

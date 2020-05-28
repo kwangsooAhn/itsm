@@ -290,8 +290,9 @@ class AliceFileService(
     }
 
     fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
-        val fileNameExtension = File(multipartFile.originalFilename).extension.toUpperCase()
         this.basePath = ClassPathResource(baseDir).file.path.toString()
+
+        val fileNameExtension = File(multipartFile.originalFilename).extension.toUpperCase()
         var filePath: Path
         var dir = Paths.get(this.basePath, location)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
@@ -317,7 +318,19 @@ class AliceFileService(
         val dir = Paths.get(this.basePath, location)
         val tempPath = Paths.get(dir.toString() + File.separator + avatarUUID)
         val filePath = Paths.get(dir.toString() + File.separator + userKey)
+        val sampleFilePath = Paths.get(dir.toString() + File.separator + AliceUserConstants.SAMPLE_FILE_NAME)
+        val tempFile = File(tempPath.toString())
+        val uploadFile = File(filePath.toString())
 
-        Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+        when (tempFile.exists()) {
+            true -> {
+                Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+            }
+            false -> {
+                if (!uploadFile.exists()) {
+                    Files.copy(sampleFilePath, filePath)
+                }
+            }
+        }
     }
 }

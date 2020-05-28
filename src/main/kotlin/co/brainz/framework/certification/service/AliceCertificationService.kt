@@ -114,7 +114,7 @@ class AliceCertificationService(
                 }
 
                 user = aliceCertificationRepository.save(user)
-                aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, user.userKey, aliceSignUpDto.avatarUUID!!)
+                aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, user.userKey, aliceSignUpDto.avatarUUID)
 
                 when (target) {
                     AliceUserConstants.USER_ID -> {

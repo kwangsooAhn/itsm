@@ -21,8 +21,9 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("certification")
-class AliceCertificationRestController(private val aliceCertificationService: AliceCertificationService,
-                                       private val aliceFileService: AliceFileService
+class AliceCertificationRestController(
+    private val aliceCertificationService: AliceCertificationService,
+    private val aliceFileService: AliceFileService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)

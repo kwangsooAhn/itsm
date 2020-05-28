@@ -114,10 +114,9 @@
                     <tr>
                         <th th:text="#{user.avatar}"/>
                         <td>
-                            <!--<img th:src="${attachImage}" th:border="1" th:width="200" th:height="200"/>-->
-                            <div id="dropZoneFiles"></div>
-                            <div id="dropZoneUploadedFiles"></div>
-                            <br/>
+                            <div id="dropZoneFiles"></div><br/><br/>
+                            <div th:text="#{user.FileSizeLimit}"></div>
+                            <div th:text="#{user.FileExtensionAllowed}"></div>
                         </td>
                     </tr>
                     <tr sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
@@ -210,11 +209,13 @@
             }
             document.getElementById('avatarUUID').value = uuid();
             var avatarUUID = document.getElementById('avatarUUID').value;
-            fileUploader.init({extra: {
+            fileUploader.init(
+                {extra: {
                 formId: 'userEditSelfForm',
-                dropZoneMaxFileSize: 0.1,
+                dropZoneMaxFileSize: 0.2,
                 dropZoneUrl: '/fileupload?target=avatar&fileName='+ avatarUUID,
                 dropZoneMaxFiles: 1,
+                acceptedFiles:".png,.jpeg,.jpg,.gif",
                 clickable: '.add-img-button'
             }});
         };
