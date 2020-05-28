@@ -8,7 +8,7 @@ package co.brainz.framework.exception
  *
  * @since 2020-03-26 kbh
  */
-class AliceException : Exception {
+class AliceException : RuntimeException {
     private val err: AliceErrorConstants
     private var errorInfo: Any
 

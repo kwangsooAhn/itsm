@@ -15,8 +15,7 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
         val conditionItem = element.getElementDataValue(WfElementConstants.AttributeId.CONDITION_ITEM.value)
         val emptyCondition = conditionItem?.isBlank() ?: true
         if (emptyCondition) {
-            setFailedMessage("Condition item empty.")
-            return false
+            return setFailedMessage("Condition item empty.")
         }
 
         // 게이트웨이의 분기조건들은 서로 중첩되지 않아야 한다.
@@ -25,8 +24,7 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
         arrowConnector.forEach {
             val conditionValue = it.getElementDataValue(WfElementConstants.AttributeId.CONDITION_VALUE.value)
             if (conditionValues.contains(conditionValue)) {
-                setFailedMessage("Condition value duplicate.")
-                return false
+                return setFailedMessage("Condition value duplicate.")
             }
             conditionValues.add(conditionValue)
         }

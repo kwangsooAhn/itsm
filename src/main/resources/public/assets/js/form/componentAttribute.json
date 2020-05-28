@@ -1080,7 +1080,7 @@
             {
                 "id": "date-min",
                 "name": "Min Date",
-                "value": "1900-01-01|YYYY-MM-DD",
+                "value": "2000-01-01",
                 "type": "datepicker",
                 "code": "",
                 "unit": ""
@@ -1088,7 +1088,7 @@
             {
                 "id": "date-max",
                 "name": "Max Date",
-                "value": "2999-12-31|YYYY-MM-DD",
+                "value": "2030-12-31",
                 "type": "datepicker",
                 "code": "",
                 "unit": ""
@@ -1221,7 +1221,7 @@
             {
                 "id": "time-min",
                 "name": "Min Time",
-                "value": "00:00|YYYY-MM-DD HH:mm",
+                "value": "00:00",
                 "type": "timepicker",
                 "code": "",
                 "unit": ""
@@ -1229,7 +1229,7 @@
             {
                 "id": "time-max",
                 "name": "Max Time",
-                "value": "23:59|YYYY-MM-DD HH:mm",
+                "value": "23:59",
                 "type": "timepicker",
                 "code": "",
                 "unit": ""
@@ -1362,7 +1362,7 @@
             {
                 "id": "date-min",
                 "name": "Min Datetime",
-                "value": "1900-01-01 00:00|YYYY-MM-DD HH:mm",
+                "value": "2000-01-01 00:00",
                 "type": "datetimepicker",
                 "code": "",
                 "unit": ""
@@ -1370,7 +1370,7 @@
             {
                 "id": "date-max",
                 "name": "Max Datetime",
-                "value": "2999-12-31 23:59|YYYY-MM-DD HH:mm",
+                "value": "2030-12-31 23:59",
                 "type": "datetimepicker",
                 "code": "",
                 "unit": ""
