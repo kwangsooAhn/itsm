@@ -190,7 +190,7 @@ class WfTokenService(
      */
     fun setToken(restTemplateTokenDto: RestTemplateTokenDto) {
         //wfTokenElementService.setTokenAction(restTemplateTokenDto)
-        wfEngine.processToken(restTemplateTokenDto)
+        wfEngine.progressToken(wfEngine.toTokenDto(restTemplateTokenDto))
     }
 
     /**

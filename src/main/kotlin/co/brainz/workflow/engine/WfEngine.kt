@@ -3,6 +3,7 @@ package co.brainz.workflow.engine
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.element.service.WfElementService
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.instance.repository.WfInstanceRepository
@@ -36,7 +37,7 @@ class WfEngine(
 
         // StartToken Create & Complete
         val element = wfElementService.getStartElement(instance.document.process.processId)
-        var startTokenDto = restTemplateTokenDto.copy()
+        var startTokenDto = toTokenDto(restTemplateTokenDto)
         startTokenDto.instanceId = instance.instanceId
         startTokenDto.elementType = element.elementType
         startTokenDto.elementId = element.elementId
@@ -47,21 +48,21 @@ class WfEngine(
         // FirstToken Create
         val firstTokenDto = tokenManager.createNextToken(startTokenDto)
 
-        return processToken(firstTokenDto)
+        return progressToken(firstTokenDto)
     }
 
-    fun processToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+    fun progressToken(wfTokenDto: WfTokenDto): Boolean {
         logger.debug("Process Token")
 
-        when (restTemplateTokenDto.action) {
+        when (wfTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> {
                 // Save Token & Token Data
-                val token = wfTokenRepository.findTokenEntityByTokenId(restTemplateTokenDto.tokenId).get()
-                token.assigneeId = restTemplateTokenDto.assigneeId
+                val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
+                token.assigneeId = wfTokenDto.assigneeId
                 val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-                for (tokenDataDto in restTemplateTokenDto.data!!) {
+                for (tokenDataDto in wfTokenDto.data!!) {
                     val tokenDataEntity = WfTokenDataEntity(
-                        tokenId = restTemplateTokenDto.tokenId,
+                        tokenId = wfTokenDto.tokenId,
                         componentId = tokenDataDto.componentId,
                         value = tokenDataDto.value
                     )
@@ -75,14 +76,14 @@ class WfEngine(
             else -> {
                 // CommonEndEvent, GW, SubProcess 는 반복
                 do {
-                    val token = wfTokenRepository.findTokenEntityByTokenId(restTemplateTokenDto.tokenId).get()
-                    restTemplateTokenDto.instanceId = token.instance.instanceId
-                    restTemplateTokenDto.elementType = token.element.elementType
-                    restTemplateTokenDto.elementId = token.element.elementId
-                    val tokenManager = getTokenManager(restTemplateTokenDto.elementType)
-                    tokenManager.completeToken(restTemplateTokenDto)
-                    tokenManager.createNextToken(restTemplateTokenDto)
-                } while (!restTemplateTokenDto.isComplete)
+                    val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
+                    wfTokenDto.instanceId = token.instance.instanceId
+                    wfTokenDto.elementType = token.element.elementType
+                    wfTokenDto.elementId = token.element.elementId
+                    val tokenManager = getTokenManager(wfTokenDto.elementType)
+                    tokenManager.completeToken(wfTokenDto)
+                    tokenManager.createNextToken(wfTokenDto)
+                } while (wfTokenDto.isAutoComplete)
             }
         }
 
@@ -105,5 +106,21 @@ class WfEngine(
             wfTokenDataRepository,
             wfCandidateRepository
         ).getTokenManager(elementType)
+    }
+
+    /**
+     * RestTemplateTokenDto To WfTokenDto.
+     *
+     * @param restTemplateTokenDto
+     * @return WfTokenDto
+     */
+    fun toTokenDto(restTemplateTokenDto: RestTemplateTokenDto): WfTokenDto {
+        return WfTokenDto(
+            tokenId = restTemplateTokenDto.tokenId,
+            fileDataIds = restTemplateTokenDto.fileDataIds,
+            assigneeId = restTemplateTokenDto.assigneeId,
+            data = restTemplateTokenDto.data,
+            action = restTemplateTokenDto.action
+        )
     }
 }

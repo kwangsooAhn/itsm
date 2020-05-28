@@ -7,8 +7,8 @@ import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.token.repository.WfTokenDataRepository
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -47,8 +47,8 @@ class WfElementService(
      *
      * @param restTemplateTokenDto 종료된 엘리먼트의 토큰
      */
-    fun getNextElement(restTemplateTokenDto: RestTemplateTokenDto): WfElementEntity {
-        val connector = this.getConnector(restTemplateTokenDto)
+    fun getNextElement(wfTokenDto: WfTokenDto): WfElementEntity {
+        val connector = this.getConnector(wfTokenDto)
 
         // 컨넥터 엘리먼트가 가지고 있는 타겟 엘리먼트 아이디 조회
         val nextElementId = wfElementDataRepository.findByElementAndAttributeId(connector).attributeValue
@@ -61,8 +61,8 @@ class WfElementService(
      *
      * @param restTemplateTokenDto 종료된 엘리먼트의 토큰
      */
-    private fun getConnector(restTemplateTokenDto: RestTemplateTokenDto): WfElementEntity {
-        val elementId = restTemplateTokenDto.elementId
+    private fun getConnector(wfTokenDto: WfTokenDto): WfElementEntity {
+        val elementId = wfTokenDto.elementId
         var selectedConnector: WfElementEntity? = null
 
         // 컨넥터를 가져와서
@@ -82,7 +82,7 @@ class WfElementService(
                         wfElementRepository.getOne(gateWayElementId),
                         WfElementConstants.AttributeId.CONDITION_ITEM.value
                     ).attributeValue.trim()
-                    val item = this.getMatchesRegex(conditionItem, restTemplateTokenDto)
+                    val item = this.getMatchesRegex(conditionItem, wfTokenDto)
 
                     // 컨넥터의 condition-value를 가져와서 symbol, value 로 분리한다.
                     val conditionValue = wfElementDataRepository.findByElementAndAttributeId(
@@ -91,7 +91,7 @@ class WfElementService(
                     ).attributeValue
                     val conditionValues = conditionValue.split("\\s+".toRegex())
                     val symbol = conditionValues[0]
-                    val value = this.getMatchesRegex(conditionValues[1], restTemplateTokenDto)
+                    val value = this.getMatchesRegex(conditionValues[1], wfTokenDto)
 
                     // symbol이 뭐냐에 따라 condition-item 과 condition-value가 일치하는 컨넥터 1개를 찾는다.
                     when (symbol) {
@@ -154,14 +154,14 @@ class WfElementService(
      * 프로세스 디자이너에서 condition에 사용하는 문법 구조에 해당하는 실제 데이터를 가져온다.
      * 일반, 엘리먼트 mappingid(${value}), 클라이언트에서 넘어오는 버튼(#{action}) 등
      */
-    private fun getMatchesRegex(stringForRegex: String, restTemplateTokenDto: RestTemplateTokenDto): String {
+    private fun getMatchesRegex(stringForRegex: String, wfTokenDto: WfTokenDto): String {
         val regexGeneral = WfElementConstants.RegexCondition.GENERAL.value.toRegex()
         val regexComponentMappingId = WfElementConstants.RegexCondition.MAPPINGID.value.toRegex()
         val regexConstant = WfElementConstants.RegexCondition.CONSTANT.value.toRegex()
         return when {
             stringForRegex.matches(regexComponentMappingId) -> {
                 val mappingId = stringForRegex.trim().replace("\${", "").replace("}", "")
-                val tokenId = restTemplateTokenDto.tokenId
+                val tokenId = wfTokenDto.tokenId
                 val tokenDataList = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
                 val componentIds = tokenDataList.map { tokenData ->
                     tokenData.componentId
@@ -181,7 +181,7 @@ class WfElementService(
             stringForRegex.matches(regexConstant) -> {
                 var actionValue = ""
                 if (stringForRegex == WfElementConstants.AttributeValue.ACTION.value) {
-                    actionValue = restTemplateTokenDto.action ?: ""
+                    actionValue = wfTokenDto.action ?: ""
                 }
                 actionValue
             }

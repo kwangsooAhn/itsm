@@ -271,7 +271,7 @@ class WfTokenElementService(
         wfTokenEntity: WfTokenEntity,
         restTemplateTokenDto: RestTemplateTokenDto
     ) {
-        restTemplateTokenDto.elementId = wfTokenEntity.element.elementId
+        /*restTemplateTokenDto.elementId = wfTokenEntity.element.elementId
         val nextElementEntity = wfElementService.getNextElement(restTemplateTokenDto)
 
         when (nextElementEntity.elementType) {
@@ -350,7 +350,7 @@ class WfTokenElementService(
                 }
                 goToNext(saveToken, restTemplateTokenDto)
             }
-        }
+        }*/
     }
 
     /**

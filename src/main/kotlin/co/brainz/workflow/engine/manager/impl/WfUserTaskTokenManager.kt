@@ -5,10 +5,10 @@ import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.element.service.WfElementService
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
@@ -29,22 +29,22 @@ class WfUserTaskTokenManager(
 
     lateinit var assigneeId: String
 
-    override fun createToken(restTemplateTokenDto: RestTemplateTokenDto): RestTemplateTokenDto {
-        super.createToken(restTemplateTokenDto)
-        super.wfTokenEntity.tokenData = wfTokenDataRepository.saveAll(setTokenData(restTemplateTokenDto))
-        this.assigneeId = restTemplateTokenDto.assigneeId.toString()
+    override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
+        super.createToken(wfTokenDto)
+        super.wfTokenEntity.tokenData = wfTokenDataRepository.saveAll(setTokenData(wfTokenDto))
+        this.assigneeId = wfTokenDto.assigneeId.toString()
         setCandidate(super.wfTokenEntity)
 
-        return restTemplateTokenDto
+        return wfTokenDto
     }
 
-    override fun completeToken(restTemplateTokenDto: RestTemplateTokenDto): RestTemplateTokenDto {
-        super.completeToken(restTemplateTokenDto)
-        super.wfTokenEntity.tokenData = wfTokenDataRepository.saveAll(setTokenData(restTemplateTokenDto))
-        super.wfTokenEntity.assigneeId = restTemplateTokenDto.assigneeId
+    override fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
+        super.completeToken(wfTokenDto)
+        super.wfTokenEntity.tokenData = wfTokenDataRepository.saveAll(setTokenData(wfTokenDto))
+        super.wfTokenEntity.assigneeId = wfTokenDto.assigneeId
         wfTokenRepository.save(super.wfTokenEntity)
 
-        return restTemplateTokenDto
+        return wfTokenDto
     }
 
     /**
@@ -113,14 +113,14 @@ class WfUserTaskTokenManager(
     /**
      * Set Token Data.
      *
-     * @param restTemplateTokenDto
+     * @param wfTokenDto
      * @return MutableList<WfTokenDataEntity>
      */
-    private fun setTokenData(restTemplateTokenDto: RestTemplateTokenDto): MutableList<WfTokenDataEntity> {
+    private fun setTokenData(wfTokenDto: WfTokenDto): MutableList<WfTokenDataEntity> {
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        for (tokenDataDto in restTemplateTokenDto.data!!) {
+        for (tokenDataDto in wfTokenDto.data!!) {
             val tokenDataEntity = WfTokenDataEntity(
-                tokenId = restTemplateTokenDto.tokenId,
+                tokenId = wfTokenDto.tokenId,
                 componentId = tokenDataDto.componentId,
                 value = tokenDataDto.value
             )
