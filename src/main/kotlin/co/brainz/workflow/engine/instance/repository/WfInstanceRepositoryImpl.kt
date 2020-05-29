@@ -33,14 +33,14 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val searchDataCount: Long = WfTokenConstants.searchDataCount
 
     override fun findTodoInstances(
-            status: String,
-            userKey: String,
-            documentId: String,
-            searchValue: String,
-            fromDt: String,
-            toDt: String,
-            dateFormat: String,
-            offset: Long
+        status: String,
+        userKey: String,
+        documentId: String,
+        searchValue: String,
+        fromDt: String,
+        toDt: String,
+        dateFormat: String,
+        offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val candidateSub = QWfCandidateEntity("candidateSub")
@@ -49,71 +49,77 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt, dateFormat)
         builder.and(instance.instanceStatus.eq(status))
         builder.and(token.tokenStatus.eq(status))
-        builder.and(token.assigneeId.eq(userKey).or(token.tokenId.`in`(
-            JPAExpressions
-                    .select(candidateSub.token.tokenId)
-                    .from(candidateSub)
-                    .where(
-                        candidateSub.token.tokenId.eq(token.tokenId),
-                        candidateSub.candidateValue.eq(userKey).or(
-                            candidateSub.candidateValue.`in`(
-                                JPAExpressions
+        builder.and(
+            token.assigneeId.eq(userKey).or(
+                token.tokenId.`in`(
+                    JPAExpressions
+                        .select(candidateSub.token.tokenId)
+                        .from(candidateSub)
+                        .where(
+                            candidateSub.token.tokenId.eq(token.tokenId),
+                            candidateSub.candidateValue.eq(userKey).or(
+                                candidateSub.candidateValue.`in`(
+                                    JPAExpressions
                                         .select(roleSub.role.roleId)
                                         .from(roleSub)
                                         .where(roleSub.user.userKey.eq(userKey))
+                                )
                             )
                         )
-                    )
-        )))
+                )
+            )
+        )
 
         val query = getInstancesQuery()
         return query
-                .where(builder)
-                .orderBy(instance.instanceStartDt.desc())
-                .limit(searchDataCount)
-                .offset(offset)
-                .fetchResults()
+            .where(builder)
+            .orderBy(instance.instanceStartDt.desc())
+            .limit(searchDataCount)
+            .offset(offset)
+            .fetchResults()
     }
 
     override fun findRequestedInstances(
-            userKey: String,
-            documentId: String,
-            searchValue: String,
-            fromDt: String,
-            toDt: String,
-            dateFormat: String,
-            offset: Long
+        userKey: String,
+        documentId: String,
+        searchValue: String,
+        fromDt: String,
+        toDt: String,
+        dateFormat: String,
+        offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
 
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt, dateFormat)
         builder.and(instance.instanceCreateUser.userKey.eq(userKey))
-        builder.and(token.tokenId.eq(
-            JPAExpressions
+        builder.and(
+            token.tokenId.eq(
+                JPAExpressions
                     .select(tokenSub.tokenId.max())
                     .from(tokenSub)
-                    .where(tokenSub.instance.instanceId.eq(instance.instanceId)))
+                    .where(tokenSub.instance.instanceId.eq(instance.instanceId))
+            )
         )
 
         val query = getInstancesQuery()
         return query
-                .where(builder)
-                .orderBy(instance.instanceStartDt.desc())
-                .limit(searchDataCount)
-                .offset(offset)
-                .fetchResults()
+            .where(builder)
+            .orderBy(instance.instanceStartDt.desc())
+            .limit(searchDataCount)
+            .offset(offset)
+            .fetchResults()
     }
 
     override fun findRelationInstances(
-            status: String,
-            userKey: String,
-            documentId: String,
-            searchValue: String,
-            fromDt: String,
-            toDt: String,
-            dateFormat: String,
-            offset: Long
+        status: String,
+        userKey: String,
+        documentId: String,
+        searchValue: String,
+        fromDt: String,
+        toDt: String,
+        dateFormat: String,
+        offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
@@ -122,26 +128,28 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
-                        .select(tokenSub.tokenId.max())
-                        .from(tokenSub)
-                        .where(tokenSub.instance.instanceId.eq(instance.instanceId)))
+                    .select(tokenSub.tokenId.max())
+                    .from(tokenSub)
+                    .where(tokenSub.instance.instanceId.eq(instance.instanceId))
+            )
         )
         builder.and(
             instance.instanceId.`in`(
                 JPAExpressions
-                        .select(tokenSub.instance.instanceId)
-                        .from(tokenSub)
-                        .where(tokenSub.assigneeId.eq(userKey)))
+                    .select(tokenSub.instance.instanceId)
+                    .from(tokenSub)
+                    .where(tokenSub.assigneeId.eq(userKey))
+            )
         )
 
 
         val query = getInstancesQuery()
         return query
-                .where(builder)
-                .orderBy(instance.instanceStartDt.desc())
-                .limit(searchDataCount)
-                .offset(offset)
-                .fetchResults()
+            .where(builder)
+            .orderBy(instance.instanceStartDt.desc())
+            .limit(searchDataCount)
+            .offset(offset)
+            .fetchResults()
     }
 
     /**
@@ -149,29 +157,29 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
      */
     private fun getInstancesQuery(): JPQLQuery<WfInstanceListViewDto> {
         return from(token)
-                .select(
-                    Projections.constructor(
-                        WfInstanceListViewDto::class.java,
-                        token,
-                        document,
-                        instance
-                    )
+            .select(
+                Projections.constructor(
+                    WfInstanceListViewDto::class.java,
+                    token,
+                    document,
+                    instance
                 )
-                .innerJoin(instance).on(token.instance.eq(instance))
-                .fetchJoin()
-                .innerJoin(document).on(instance.document.eq(document))
-                .fetchJoin()
+            )
+            .innerJoin(instance).on(token.instance.eq(instance))
+            .fetchJoin()
+            .innerJoin(document).on(instance.document.eq(document))
+            .fetchJoin()
     }
 
     /**
      * 문서함 목록 공통 검색 조건.
      */
     private fun getInstancesWhereCondition(
-            documentId: String,
-            searchValue: String,
-            fromDt: String,
-            toDt: String,
-            dateFormat: String
+        documentId: String,
+        searchValue: String,
+        fromDt: String,
+        toDt: String,
+        dateFormat: String
     ): BooleanBuilder {
         val builder = BooleanBuilder()
         if (documentId.isNotEmpty()) {
@@ -184,34 +192,40 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
             builder.and(
                 instance.instanceCreateUser.userName.contains(searchValue)
-                        .or(token.tokenId.`in`(
+                    .or(
+                        token.tokenId.`in`(
                             JPAExpressions
-                                    .select(tokenDataSub.tokenId)
-                                    .from(tokenDataSub)
-                                    .where(
-                                        tokenDataSub.tokenId.eq(
-                                            JPAExpressions
-                                                    .select(tokenSub.tokenId.max())
-                                                    .from(tokenSub)
-                                                    .where(tokenSub.instance.instanceId.eq(instance.instanceId))),
-                                        tokenDataSub.componentId.`in`(
-                                            JPAExpressions
-                                                    .select(componentSub.componentId)
-                                                    .from(componentSub)
-                                                    .where(
-                                                            componentSub.form.formId.eq(document.form.formId),
-                                                            componentSub.isTopic.isTrue,
-                                                            componentSub.componentType.`in`(componentTypeForTopicDisplay)
-                                                    )
-                                        ),
-                                        tokenDataSub.value.contains(searchValue)
-                                    )
-                        )))
+                                .select(tokenDataSub.tokenId)
+                                .from(tokenDataSub)
+                                .where(
+                                    tokenDataSub.tokenId.eq(
+                                        JPAExpressions
+                                            .select(tokenSub.tokenId.max())
+                                            .from(tokenSub)
+                                            .where(tokenSub.instance.instanceId.eq(instance.instanceId))
+                                    ),
+                                    tokenDataSub.componentId.`in`(
+                                        JPAExpressions
+                                            .select(componentSub.componentId)
+                                            .from(componentSub)
+                                            .where(
+                                                componentSub.form.formId.eq(document.form.formId),
+                                                componentSub.isTopic.isTrue,
+                                                componentSub.componentType.`in`(componentTypeForTopicDisplay)
+                                            )
+                                    ),
+                                    tokenDataSub.value.contains(searchValue)
+                                )
+                        )
+                    )
+            )
         }
         val from = Expressions.dateTemplate(
-                LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", fromDt, dateFormat)
+            LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", fromDt, dateFormat
+        )
         val to = Expressions.dateTemplate(
-                LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", toDt, dateFormat)
+            LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", toDt, dateFormat
+        )
         builder.and(instance.instanceStartDt.between(from, to))
         return builder
     }
