@@ -19,9 +19,9 @@ import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
+import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::class.java),
