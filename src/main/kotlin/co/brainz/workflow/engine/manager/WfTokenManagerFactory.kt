@@ -5,7 +5,9 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.manager.impl.WfCommonEndEventTokenManager
 import co.brainz.workflow.engine.manager.impl.WfCommonStartEventTokenManager
+import co.brainz.workflow.engine.manager.impl.WfExclusiveGatewayTokenManager
 import co.brainz.workflow.engine.manager.impl.WfManualTaskTokenManager
+import co.brainz.workflow.engine.manager.impl.WfSignalSendTokenManager
 import co.brainz.workflow.engine.manager.impl.WfUserTaskTokenManager
 import org.springframework.stereotype.Component
 
@@ -27,6 +29,12 @@ class WfTokenManagerFactory(
             }
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
                 WfManualTaskTokenManager(constructorManager)
+            }
+            WfElementConstants.ElementType.SIGNAL_SEND.value -> {
+                WfSignalSendTokenManager(constructorManager)
+            }
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
+                WfExclusiveGatewayTokenManager(constructorManager)
             }
             else -> throw AliceException(AliceErrorConstants.ERR, "Element tokenManager not found.")
         }

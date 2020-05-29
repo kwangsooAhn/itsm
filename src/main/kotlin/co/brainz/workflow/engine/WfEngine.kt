@@ -41,10 +41,10 @@ class WfEngine(
         // FirstToken Create
         val firstTokenDto = tokenManager.createNextToken(startTokenDto)
 
-        return progressToken(firstTokenDto)
+        return progressWorkflow(firstTokenDto)
     }
 
-    fun progressToken(wfTokenDto: WfTokenDto): Boolean {
+    fun progressWorkflow(wfTokenDto: WfTokenDto): Boolean {
         logger.debug("Process Token")
 
         when (wfTokenDto.action) {
