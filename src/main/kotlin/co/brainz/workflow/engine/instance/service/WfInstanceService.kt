@@ -107,6 +107,7 @@ class WfInstanceService(
         for (instance in instances) {
 
             val topics: MutableList<String> = mutableListOf()
+            val tags:  MutableList<String> = mutableListOf()
 
             // 문서 별로 목록에 출력하는 topic 컴포넌트 리스트를 구함.
             val topicComponentList =
@@ -126,6 +127,9 @@ class WfInstanceService(
                 )
             }
 
+            // 관련 tag 리스트를 구함
+            // ...
+
             tokens.add(
                 RestTemplateInstanceViewDto(
                     tokenId = instance.tokenEntity.tokenId,
@@ -133,6 +137,7 @@ class WfInstanceService(
                     documentName = instance.documentEntity.documentName,
                     documentDesc = instance.documentEntity.documentDesc,
                     topics = topics,
+                    tags = tags,
                     createDt = instance.instanceEntity.instanceStartDt,
                     assigneeUserKey = instance.tokenEntity.assigneeId,
                     assigneeUserName = "",

@@ -9,6 +9,7 @@ data class RestTemplateInstanceViewDto(
     val documentName: String,
     val documentDesc: String? = "",
     val topics: MutableList<String>?,
+    val tags: MutableList<String>?,
     var createDt: LocalDateTime?,
     val assigneeUserKey: String? = "",
     val assigneeUserName: String? = "",

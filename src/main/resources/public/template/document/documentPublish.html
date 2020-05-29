@@ -20,7 +20,7 @@
         <div id="button-container"></div>
         <h1 th:text="#{common.label.tag}"></h1>
         <div style="margin-bottom: 1rem;">
-            <input name="tags"/>
+	        <input name="tags" value="sample tag"/>
         </div>
     </form>
 </th:block>
@@ -35,11 +35,19 @@
 
             const tagInput = document.querySelector('input[name=tags]');
             const tagify = new Tagify(tagInput, {
-                editTags        : 1,
-                maxTags         : 10,
-                whitelist       : ["서비스데스크","테스트"],
-                placeholder     : [[#{common.msg.tag}]]
+                loading	        : 'true',
+                callbacks       : { 'add'    : onAddTag,
+                                    'remove' : onRemoveTag },
+                placeholder     : '[[#{common.msg.tag}]]'
             });
+
+            function onAddTag(e) {
+                console.log(e.detail.data.value);
+            }
+
+            function onRemoveTag(e) {
+                console.log(e.detail.data.value);
+            }
         };
         /*]]>*/
     </script>

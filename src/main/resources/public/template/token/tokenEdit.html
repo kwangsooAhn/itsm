@@ -21,7 +21,7 @@
     </form>
     <h1 th:text="#{common.label.tag}"></h1>
     <div style="margin-bottom: 1rem;">
-        <input name="tags"/>
+        <input name="tags" value="sample tag"/>
     </div>
 
     <h1 th:text="#{token.label.history}"></h1>
@@ -130,12 +130,21 @@
 
             const tagInput = document.querySelector('input[name=tags]');
             const tagify = new Tagify(tagInput, {
-                editTags        : 1,
-                whitelist       : ["서비스데스크","테스트"],
-                callbacks       : {},
-                placeholder     : [[#{common.msg.tag}]]
+                loading	        : 'true',
+                callbacks       : { 'add'    : onAddTag,
+                                    'remove' : onRemoveTag },
+                placeholder     : '[[#{common.msg.tag}]]'
             });
+
+            function onAddTag(e) {
+                console.log(e.detail.data.value);
+            }
+
+            function onRemoveTag(e) {
+                console.log(e.detail.data.value);
+            }
         };
+
 
         function openPopUp(tokenId) {
             window.open('/tokens/' + tokenId + '/view-pop', tokenId, 'width=1300, height=500');
