@@ -1,10 +1,8 @@
 package co.brainz.workflow.engine.document.repository.querydsl
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
-import org.springframework.data.domain.Page
 
 interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
 
