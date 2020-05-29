@@ -3,29 +3,21 @@ package co.brainz.workflow.engine.manager.impl
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
-import co.brainz.workflow.element.repository.WfElementRepository
-import co.brainz.workflow.element.service.WfElementService
+import co.brainz.workflow.engine.manager.ConstructorManager
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
-import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
-import co.brainz.workflow.token.repository.WfCandidateRepository
-import co.brainz.workflow.token.repository.WfTokenDataRepository
-import co.brainz.workflow.token.repository.WfTokenRepository
 
 class WfUserTaskTokenManager(
-    override val wfElementService: WfElementService,
-    override val wfInstanceService: WfInstanceService,
-    override val wfInstanceRepository: WfInstanceRepository,
-    override val wfElementRepository: WfElementRepository,
-    override val wfTokenRepository: WfTokenRepository,
-    override val wfTokenDataRepository: WfTokenDataRepository,
-    override val wfCandidateRepository: WfCandidateRepository
-) : WfTokenManager() {
+    constructorManager: ConstructorManager
+) : WfTokenManager(constructorManager) {
+
+    private val wfTokenRepository = constructorManager.getTokenRepository()
+    private val wfTokenDataRepository = constructorManager.getTokenDataRepository()
+    private val wfCandidateRepository = constructorManager.getCandidateRepository()
 
     lateinit var assigneeId: String
 

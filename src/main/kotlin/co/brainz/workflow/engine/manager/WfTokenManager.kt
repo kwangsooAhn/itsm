@@ -1,29 +1,20 @@
 package co.brainz.workflow.engine.manager
 
-import co.brainz.workflow.element.repository.WfElementRepository
-import co.brainz.workflow.element.service.WfElementService
+import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
-import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.entity.WfTokenEntity
-import co.brainz.workflow.token.repository.WfCandidateRepository
-import co.brainz.workflow.token.repository.WfTokenDataRepository
-import co.brainz.workflow.token.repository.WfTokenRepository
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-abstract class WfTokenManager {
+abstract class WfTokenManager(private val constructorManager: ConstructorManager) {
 
     lateinit var wfTokenEntity: WfTokenEntity
 
-    abstract val wfElementService: WfElementService
-    abstract val wfInstanceService: WfInstanceService
-    abstract val wfInstanceRepository: WfInstanceRepository
-    abstract val wfElementRepository: WfElementRepository
-    abstract val wfTokenRepository: WfTokenRepository
-    abstract val wfTokenDataRepository: WfTokenDataRepository
-    abstract val wfCandidateRepository: WfCandidateRepository
+    private val wfElementService = constructorManager.getElementService()
+    private val wfElementRepository = constructorManager.getElementRepository()
+    private val wfInstanceRepository = constructorManager.getInstanceRepository()
+    private val wfTokenRepository = constructorManager.getTokenRepository()
 
     open fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
         val token = WfTokenEntity(
@@ -44,15 +35,12 @@ abstract class WfTokenManager {
         val element = wfElementService.getNextElement(wfTokenDto)
         wfTokenDto.elementId = element.elementId
         wfTokenDto.elementType = element.elementType
-        val tokenManager = WfTokenManagerFactory(
-            wfElementService,
-            wfInstanceService,
-            wfInstanceRepository,
-            wfElementRepository,
-            wfTokenRepository,
-            wfTokenDataRepository,
-            wfCandidateRepository
-        ).getTokenManager(wfTokenDto.elementType)
+        wfTokenDto.isAutoComplete = when (element.elementType) {
+            WfElementConstants.ElementType.COMMON_END_EVENT.value,
+            WfElementConstants.ElementType.MANUAL_TASK.value -> true
+            else -> false
+        }
+        val tokenManager = WfTokenManagerFactory(constructorManager).getTokenManager(wfTokenDto.elementType)
         return tokenManager.createToken(wfTokenDto)
     }
 
