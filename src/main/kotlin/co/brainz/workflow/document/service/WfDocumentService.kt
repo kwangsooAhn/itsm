@@ -10,7 +10,6 @@ import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
-import co.brainz.workflow.document.repository.specification.WfSearchDocuments
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
@@ -63,31 +62,7 @@ class WfDocumentService(
      * @return List<RestTemplateDocumentDto>
      */
     fun documents(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
-        val documents = mutableListOf<RestTemplateDocumentDto>()
-        val documentEntities = wfDocumentRepository.findAll(
-            WfSearchDocuments(
-                searchListDto
-            )
-        )
-        for (document in documentEntities) {
-            val documentDto = RestTemplateDocumentDto(
-                documentId = document.documentId,
-                documentName = document.documentName,
-                documentDesc = document.documentDesc,
-                documentStatus = document.documentStatus,
-                processId = document.process.processId,
-                formId = document.form.formId,
-                createDt = document.createDt,
-                createUserKey = document.createUserKey,
-                updateDt = document.updateDt,
-                updateUserKey = document.updateUserKey,
-                documentNumberingRuleId = document.numberingRule.numberingId,
-                documentColor = document.documentColor
-            )
-            documents.add(documentDto)
-        }
-
-        return documents
+        return wfDocumentRepository.findByDocuments(searchListDto)
     }
 
     /**

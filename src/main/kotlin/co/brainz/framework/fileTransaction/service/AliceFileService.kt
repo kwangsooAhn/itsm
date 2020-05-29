@@ -1,6 +1,7 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -16,6 +17,7 @@ import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
+import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpHeaders
@@ -284,6 +286,50 @@ class AliceFileService(
                 fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName
             )
             throw AliceException(AliceErrorConstants.ERR, "File not found: " + fileLocEntity.originName)
+        }
+    }
+
+    fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
+        this.basePath = ClassPathResource(baseDir).file.path.toString()
+        val fileNameExtension = File(multipartFile.originalFilename).extension.toUpperCase()
+        var filePath: Path
+        var dir = Paths.get(this.basePath, location)
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+
+        filePath = when (fileName) {
+            null -> {
+                Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
+            }
+            else -> {
+                Paths.get(dir.toString() + File.separator + fileName)
+            }
+        }
+
+        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
+            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+        }
+
+        multipartFile.transferTo(filePath.toFile())
+    }
+
+    fun uploadAvatar(location: String, baseDir: String, userKey: String, avatarUUID: String) {
+        this.basePath = ClassPathResource(baseDir).file.path.toString()
+        val dir = Paths.get(this.basePath, location)
+        val tempPath = Paths.get(dir.toString() + File.separator + avatarUUID)
+        val filePath = Paths.get(dir.toString() + File.separator + userKey)
+        val sampleFilePath = Paths.get(dir.toString() + File.separator + AliceUserConstants.SAMPLE_FILE_NAME)
+        val tempFile = File(tempPath.toString())
+        val uploadFile = File(filePath.toString())
+
+        when (tempFile.exists()) {
+            true -> {
+                Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+            }
+            false -> {
+                if (!uploadFile.exists()) {
+                    Files.copy(sampleFilePath, filePath)
+                }
+            }
         }
     }
 }
