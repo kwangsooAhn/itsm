@@ -1,6 +1,6 @@
-package co.brainz.workflow.engine.document.repository.querydsl
+package co.brainz.workflow.document.repository.querydsl
 
-import co.brainz.workflow.engine.document.entity.QWfDocumentEntity
+import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import com.querydsl.core.types.Projections

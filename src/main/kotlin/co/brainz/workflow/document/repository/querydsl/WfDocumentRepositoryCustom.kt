@@ -1,4 +1,4 @@
-package co.brainz.workflow.engine.document.repository.querydsl
+package co.brainz.workflow.document.repository.querydsl
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
