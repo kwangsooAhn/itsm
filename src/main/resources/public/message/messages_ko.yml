@@ -145,6 +145,7 @@ user:
   time: "시간 유형"
   lang: "언어"
   theme: "테마"
+  avatar: "아바타"
   reg: "사용자 등록"
   read: "사용자 조회"
   role: "사용자 역할"
@@ -154,6 +155,8 @@ user:
   editUserInfo: "회원 정보 수정"
   message: "이메일 변경 시, 인증 절차가 필요합니다."
   searchPlaceholder: "아이디 / 이름 / 직책 / 부서 / 사무실 번호 / 핸드폰 번호"
+  FileSizeLimit: "파일 크기 제한 : 200KB"
+  FileExtensionAllowed: "파일 허용 확장자 : gif, jpeg, jpg, png"
   msg:
     idNotExist: "아이디를 입력해주세요."
     passwordNotExist: "비밀번호를 입력해주세요."

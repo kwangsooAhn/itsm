@@ -10020,7 +10020,7 @@ ul, li {
   top: 50%;
   left: 50%;
   width: 100rem;
-  height: 45rem;
+  height: 54rem;
   margin: -22.5rem 0 0 -50rem;
   box-shadow: 0rem 0.625rem 1.875rem #4C52641A;
   border-radius: 1.25rem;
@@ -10072,7 +10072,7 @@ ul, li {
 .login-face {
   position: inherit;
   width: 35rem;
-  height: 45rem;
+  height: 54rem;
   color: #fff;
   background: #5887F9;
   border-radius: 1.25rem 0rem 0rem 1.25rem;
@@ -10136,7 +10136,7 @@ ul, li {
   /* 0px */
   left: 65rem;
   width: 35rem;
-  height: 45rem;
+  height: 54rem;
   color: #fff;
   background: #007bff;
   border-radius: 0 1.25rem 1.25rem 0;
