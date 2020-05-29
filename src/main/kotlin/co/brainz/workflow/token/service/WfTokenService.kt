@@ -1,8 +1,8 @@
 package co.brainz.workflow.token.service
 
 import co.brainz.workflow.document.constants.WfDocumentConstants
-import co.brainz.workflow.document.entity.WfDocumentDataEntity
-import co.brainz.workflow.document.repository.WfDocumentDataRepository
+import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
+import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.engine.WfEngine
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional
 class WfTokenService(
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfDocumentDataRepository: WfDocumentDataRepository,
+    private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
     private val wfTokenElementService: WfTokenElementService,
@@ -111,15 +111,15 @@ class WfTokenService(
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val componentEntities = tokenMstEntity.get().instance.document!!.form.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
-        var documentDataEntities: List<WfDocumentDataEntity> = mutableListOf()
+        var documentDisplayEntities: List<WfDocumentDisplayEntity> = mutableListOf()
         when (tokenMstEntity.get().element.elementType) {
             WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
                 val startArrow = wfActionService.getArrowElements(tokenMstEntity.get().element.elementId)[0]
                 val nextElementId = wfActionService.getNextElementId(startArrow)
                 when (wfActionService.getElement(nextElementId).elementType) {
                     WfElementConstants.ElementType.USER_TASK.value -> {
-                        documentDataEntities =
-                            wfDocumentDataRepository.findByDocumentIdAndElementId(
+                        documentDisplayEntities =
+                            wfDocumentDisplayRepository.findByDocumentIdAndElementId(
                                 tokenMstEntity.get().instance.document!!.documentId,
                                 nextElementId
                             )
@@ -127,7 +127,7 @@ class WfTokenService(
                 }
             }
             else -> {
-                documentDataEntities = wfDocumentDataRepository.findByDocumentIdAndElementId(
+                documentDisplayEntities = wfDocumentDisplayRepository.findByDocumentIdAndElementId(
                     tokenMstEntity.get().instance.document!!.documentId,
                     tokenMstEntity.get().element.elementId
                 )
@@ -147,9 +147,9 @@ class WfTokenService(
                     }
                 }
                 var displayType = WfDocumentConstants.DisplayType.READONLY.value
-                for (documentDataEntity in documentDataEntities) {
-                    if (documentDataEntity.componentId == componentEntity.componentId) {
-                        displayType = documentDataEntity.display
+                for (documentDisplayEntity in documentDisplayEntities) {
+                    if (documentDisplayEntity.componentId == componentEntity.componentId) {
+                        displayType = documentDisplayEntity.display
                     }
                 }
 

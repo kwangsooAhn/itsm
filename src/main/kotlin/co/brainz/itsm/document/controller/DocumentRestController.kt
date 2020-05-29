@@ -2,7 +2,7 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDataDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -27,7 +27,7 @@ class DocumentRestController(
      * */
     @GetMapping("/{documentId}/data")
     fun getDocumentData(@PathVariable documentId: String): String {
-        return documentService.findDocumentData(documentId)
+        return documentService.getDocumentData(documentId)
     }
 
     /**
@@ -55,7 +55,7 @@ class DocumentRestController(
      */
     @GetMapping("/", "")
     fun getDocuments(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
-        return documentService.findDocumentList(restTemplateDocumentSearchListDto)
+        return documentService.getDocumentList(restTemplateDocumentSearchListDto)
     }
 
     /**
@@ -63,7 +63,7 @@ class DocumentRestController(
      */
     @GetMapping("/{documentId}")
     fun getDocument(@PathVariable documentId: String): String {
-        return documentService.findDocument(documentId)
+        return documentService.getDocument(documentId)
     }
 
     /**
@@ -84,7 +84,7 @@ class DocumentRestController(
      */
     @GetMapping("/{documentId}/display")
     fun getDocumentDisplay(@PathVariable documentId: String): String {
-        return documentService.findDocumentDisplay(documentId)
+        return documentService.getDocumentDisplay(documentId)
     }
 
     /**
@@ -93,7 +93,7 @@ class DocumentRestController(
     @PutMapping("/{documentId}/display")
     fun updateDocumentDisplay(
         @PathVariable documentId: String,
-        @RequestBody documentDisplay: RestTemplateDocumentDataDto
+        @RequestBody documentDisplay: RestTemplateDocumentDisplayDto
     ): Boolean {
         return documentService.updateDocumentDisplay(documentDisplay)
     }

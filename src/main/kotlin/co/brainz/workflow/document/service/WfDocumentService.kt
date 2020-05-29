@@ -6,9 +6,9 @@ import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
-import co.brainz.workflow.document.entity.WfDocumentDataEntity
+import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import co.brainz.workflow.document.repository.WfDocumentDataRepository
+import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.document.repository.specification.WfSearchDocuments
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -41,7 +41,7 @@ class WfDocumentService(
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
     private val wfDocumentRepository: WfDocumentRepository,
-    private val wfDocumentDataRepository: WfDocumentDataRepository,
+    private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfProcessRepository: WfProcessRepository,
     private val wfFormRepository: WfFormRepository,
@@ -127,7 +127,7 @@ class WfDocumentService(
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
 
         //init display: get first UserTask display info (commonStart -> UserTask).
-        var documentDataEntities: List<WfDocumentDataEntity> = mutableListOf()
+        var documentDisplayEntities: List<WfDocumentDisplayEntity> = mutableListOf()
         val startElement = wfElementService.getStartElement(documentEntity.process.processId)
         when (startElement.elementType) {
             WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
@@ -135,8 +135,8 @@ class WfDocumentService(
                 val startUserTaskElementId = wfActionService.getNextElementId(startArrow)
                 when (wfActionService.getElement(startUserTaskElementId).elementType) {
                     WfElementConstants.ElementType.USER_TASK.value -> {
-                        documentDataEntities =
-                            wfDocumentDataRepository.findByDocumentIdAndElementId(documentId, startUserTaskElementId)
+                        documentDisplayEntities =
+                            wfDocumentDisplayRepository.findByDocumentIdAndElementId(documentId, startUserTaskElementId)
                     }
                 }
             }
@@ -151,9 +151,9 @@ class WfDocumentService(
             map["attributes"] = attributes
             map["values"] = values
             var displayType = WfDocumentConstants.DisplayType.EDITABLE.value
-            for (documentDataEntity in documentDataEntities) {
-                if (documentDataEntity.componentId == component.componentId) {
-                    displayType = documentDataEntity.display
+            for (documentDisplayEntity in documentDisplayEntities) {
+                if (documentDisplayEntity.componentId == component.componentId) {
+                    displayType = documentDisplayEntity.display
                 }
             }
             map["displayType"] = displayType
@@ -275,7 +275,7 @@ class WfDocumentService(
 
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
-            wfDocumentDataRepository.deleteByDocumentId(documentId)
+            wfDocumentDisplayRepository.deleteByDocumentId(documentId)
             wfDocumentRepository.deleteByDocumentId(documentId)
             true
         } else {
@@ -291,22 +291,22 @@ class WfDocumentService(
      * @param documentEntity
      */
     fun createDocumentDisplay(documentEntity: WfDocumentEntity) {
-        val wfDocumentDataEntities: MutableList<WfDocumentDataEntity> = mutableListOf()
+        val wfDocumentDisplayEntities: MutableList<WfDocumentDisplayEntity> = mutableListOf()
         val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
         val elementEntities = wfElementRepository.findUserTaskByProcessId(documentEntity.process.processId)
         for (component in componentEntities) {
             for (element in elementEntities) {
-                val documentDataEntity = WfDocumentDataEntity(
+                val documentDisplayEntity = WfDocumentDisplayEntity(
                     documentId = documentEntity.documentId,
                     componentId = component.componentId,
                     elementId = element.elementId
                 )
-                wfDocumentDataEntities.add(documentDataEntity)
+                wfDocumentDisplayEntities.add(documentDisplayEntity)
             }
         }
-        if (wfDocumentDataEntities.isNotEmpty()) {
-            logger.debug("documentData setting...")
-            wfDocumentDataRepository.saveAll(wfDocumentDataEntities)
+        if (wfDocumentDisplayEntities.isNotEmpty()) {
+            logger.debug("documentDisplay setting...")
+            wfDocumentDisplayRepository.saveAll(wfDocumentDisplayEntities)
         }
     }
 
@@ -321,7 +321,7 @@ class WfDocumentService(
         val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
         val componentEntities =
             wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
-        val displayList = wfDocumentDataRepository.findByDocumentId(documentId)
+        val displayList = wfDocumentDisplayRepository.findByDocumentId(documentId)
 
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (component in componentEntities) {
@@ -363,11 +363,11 @@ class WfDocumentService(
      */
     fun updateDocumentDisplay(restTemplateDocumentDisplaySaveDto: RestTemplateDocumentDisplaySaveDto): Boolean {
         val documentId = restTemplateDocumentDisplaySaveDto.documentId
-        wfDocumentDataRepository.deleteByDocumentId(documentId)
+        wfDocumentDisplayRepository.deleteByDocumentId(documentId)
         val displays = restTemplateDocumentDisplaySaveDto.displays
         displays.forEach {
-            wfDocumentDataRepository.save(
-                WfDocumentDataEntity(
+            wfDocumentDisplayRepository.save(
+                WfDocumentDisplayEntity(
                     documentId = documentId,
                     componentId = it.getValue("componentId").toString(),
                     elementId = it.getValue("elementId").toString(),

@@ -9,9 +9,9 @@ import javax.persistence.IdClass
 import javax.persistence.Table
 
 @Entity
-@Table(name = "wf_document_data")
-@IdClass(WfDocumentDataPkey::class)
-data class WfDocumentDataEntity(
+@Table(name = "wf_document_display")
+@IdClass(WfDocumentDisplayPkey::class)
+data class WfDocumentDisplayEntity(
 
     @Id
     @Column(name = "document_id")
@@ -30,7 +30,7 @@ data class WfDocumentDataEntity(
 
 ) : Serializable
 
-data class WfDocumentDataPkey(
+data class WfDocumentDisplayPkey(
     var documentId: String = "",
     var componentId: String = "",
     var elementId: String = ""
