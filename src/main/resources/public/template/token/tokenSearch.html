@@ -111,7 +111,7 @@
             document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function(element) {
                 element.addEventListener('change', () => searchTokenList(false), false);
             });
-            document.getElementById('searchValue').addEventListener('change', () => searchTokenList(false), false)
+            document.getElementById('searchValue').addEventListener('focusout', () => searchTokenList(false), false)
             document.getElementById('searchValue').addEventListener('keyup', (e) => {
                 if (e.keyCode === 13) {
                     e.preventDefault();
