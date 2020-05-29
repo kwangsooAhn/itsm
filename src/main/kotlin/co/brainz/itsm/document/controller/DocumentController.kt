@@ -46,7 +46,7 @@ class DocumentController(
      */
     @GetMapping("/list")
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
-        model.addAttribute("documentList", documentService.findDocumentList(restTemplateDocumentSearchListDto))
+        model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
         return documentListPage
     }
 
