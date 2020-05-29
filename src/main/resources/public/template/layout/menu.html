@@ -34,8 +34,8 @@
                 </div>
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" onclick="profile_menu();">
                     Hello, <span sec:authentication="details.userName"></span>
-                    <img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${#authentication.details.userKey})}"
-                         width="50px" height="50px" border="1" alt="profile pic" />
+                    <img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${#authentication.details.userKey})}" width="50px" height="50px" border="1"
+                         th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/avatar/profile_sample.jpg} + '\';'" alt="profile pic"/>
                     <span class="caret"></span>
                 </button>
                 <div id="profile-menu">
