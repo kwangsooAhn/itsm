@@ -96,12 +96,12 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}'
-                    ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''} max-length='${attr.validate["length-max"]}'
-                    min-length='${attr.validate["length-min"]}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate["regexp-msg"]}'/>
+                    ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} max-length='${attr.validate.lengthMax}'
+                    min-length='${attr.validate.lengthMin}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate.regexpMsg}'/>
                 </div>
             </div>
         `);
@@ -119,7 +119,7 @@
      */
     function Textarea(attr, target) {
         const defaultRowHeight = 26;
-        const textEditorUseYn = attr.display['editor-useYn'] === 'Y';
+        const textEditorUseYn = attr.display.editorUseYn === 'Y';
         const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
         let textAreaDefaultValue = '';
         //처리할 문서는 실 데이터를 출력한다.
@@ -134,18 +134,18 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                 ${textEditorUseYn ?
                     `<div style='width: 100%;'>
                         <div id='editor' class='editor-container'
-                        style='height: ${textEditorHeight}px;' ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''}
-                        max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'></div>
+                        style='height: ${textEditorHeight}px;' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''}
+                        max-length='${attr.validate.lengthMax}' min-length='${attr.validate.lengthMin}'></div>
                     </div>` :
                     `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
-                    ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''}
-                    max-length='${attr.validate["length-max"]}' min-length='${attr.validate["length-min"]}'>${textAreaDefaultValue}</textarea>`
+                    ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''}
+                    max-length='${attr.validate.lengthMax}' min-length='${attr.validate.lengthMin}'>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
             </div>
@@ -192,10 +192,10 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
-                    <select ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''}></select>
+                    <select ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''}></select>
                 </div>
             </div>
         `);
@@ -233,9 +233,9 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
-                <div class='field' style='flex-basis: 100%;' id='radio' ${attr["data-attribute"]["display-type"] === 'editableRequired' ? "required" : ""}></div>
+                <div class='field' style='flex-basis: 100%;' id='radio' ${attr.dataAttribute.displayType === 'editableRequired' ? "required" : ""}></div>
             </div>
         `);
         let fieldLastEle = comp.querySelector('#radio');
@@ -302,9 +302,9 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
-                <div class='field' style='flex-basis: 100%;' id='chkbox' ${attr["data-attribute"]["display-type"] === 'editableRequired' ? "required" : ""}></div>
+                <div class='field' style='flex-basis: 100%;' id='chkbox' ${attr.dataAttribute.displayType === 'editableRequired' ? "required" : ""}></div>
             </div>
         `);
         let fieldLastEle = comp.querySelector('#chkbox');
@@ -456,10 +456,10 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                        <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.id}' placeholder='${aliceForm.options.dateFormat.toLowerCase()}' value='${dateDefault}' ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='date-${attr.componentId}' placeholder='${aliceForm.options.dateFormat.toLowerCase()}' value='${dateDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate.dateMax}' date-min='${attr.validate.dateMin}'/>
                     </div>
                 </div>
             `);
@@ -468,7 +468,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDatePicker('date-' + attr.id, aliceForm.options.dateFormat, aliceForm.options.lang);
+            dateTimePicker.initDatePicker('date-' + attr.componentId, aliceForm.options.dateFormat, aliceForm.options.lang);
         }
     }
 
@@ -513,10 +513,10 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                        <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.id}' placeholder='${(aliceForm.options.hourType === '12' ? aliceForm.options.timeFormat + ' a' : 'HH:mm')}' value='${timeDefault}' ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''} time-max='${attr.validate["time-max"]}' time-min='${attr.validate["time-min"]}'/>
+                        <input type='text' id='time-${attr.componentId}' placeholder='${(aliceForm.options.hourType === '12' ? aliceForm.options.timeFormat + ' a' : 'HH:mm')}' value='${timeDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate.timeMax}' time-min='${attr.validate.timeMin}'/>
                     </div>
                 </div>
             `);
@@ -525,7 +525,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initTimePicker('time-' + attr.id, aliceForm.options.hourFormat, aliceForm.options.lang);
+            dateTimePicker.initTimePicker('time-' + attr.componentId, aliceForm.options.hourFormat, aliceForm.options.lang);
         }
     }
 
@@ -576,10 +576,10 @@
                         ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                         ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                         </div>
-                        <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                        <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.id}' placeholder='${aliceForm.options.datetimeFormat}' value='${datetimeDefault}' ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''} date-max='${attr.validate["date-max"]}' date-min='${attr.validate["date-min"]}'/>
+                        <input type='text' id='datetime-${attr.componentId}' placeholder='${aliceForm.options.datetimeFormat}' value='${datetimeDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate.dateMax}' date-min='${attr.validate.dateMin}'/>
                     </div>
                 </div>
             `);
@@ -587,7 +587,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDateTimePicker('datetime-' + attr.id, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang);
+            dateTimePicker.initDateTimePicker('datetime-' + attr.componentId, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang);
         }
     }
 
@@ -608,11 +608,11 @@
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
                     </div>
-                    <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
-                <div class='field' style='flex-basis: 100%;' id='fileupload' ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''}>
-                    <div id='dropZoneFiles-${attr.id}'></div> 
-                    <div id='dropZoneUploadedFiles-${attr.id}' class='dropbox'></div>
+                <div class='field' style='flex-basis: 100%;' id='fileupload' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''}>
+                    <div id='dropZoneFiles-${attr.componentId}'></div> 
+                    <div id='dropZoneUploadedFiles-${attr.componentId}' class='dropbox'></div>
                 </div>
             </div>
         `);
@@ -621,14 +621,14 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            document.getElementById('dropZoneUploadedFiles-' + attr.id).classList.remove('dropbox');
+            document.getElementById('dropZoneUploadedFiles-' + attr.componentId).classList.remove('dropbox');
             let fileOptions = {
                 extra: {
                     formId: 'frm',
                     ownId: '',
-                    dropZoneFilesId: 'dropZoneFiles-' + attr.id,
-                    dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.id,
-                    editor: (attr['data-attribute']['display-type'] !== 'readonly')
+                    dropZoneFilesId: 'dropZoneFiles-' + attr.componentId,
+                    dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.componentId,
+                    editor: (attr.dataAttribute.displayType !== 'readonly')
                 }
             };
             if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
@@ -691,11 +691,11 @@
                     ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
                     ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
                     ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr["data-attribute"]["display-type"] === "editableRequired" ? "" : "display: none;"}'>*</span>
+                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                 </div>
                 <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' id='custom-code' ${attr["data-attribute"]["display-type"] === 'editableRequired' ? 'required' : ''} readonly custom-data='${defaultCustomData}' value="${textDefaultValue}"/>
-                    <input type='button' id='codeBtn' value='${attr.display["button-text"]}'>
+                    <input type='text' id='custom-code' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} readonly custom-data='${defaultCustomData}' value="${textDefaultValue}"/>
+                    <input type='button' id='codeBtn' value='${attr.display["buttonText"]}'>
                 </div>
             </div>
         `);
@@ -723,10 +723,10 @@
             let searchBtn = comp.querySelector('#codeBtn');
             searchBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                let url = '/custom-codes/' + attr.display['custom-code'] + '/search';
+                let url = '/custom-codes/' + attr.display.customCode + '/search';
                 window.open(url, 'customCodePop', 'width=500, height=655');
                 let customCodeData = {
-                    componentId: attr.id,
+                    componentId: attr.componentId,
                     componentValues: customCodeTextElem.getAttribute('custom-data')
                 };
 
@@ -754,16 +754,16 @@
      * @return {Object} 생성된 컴포넌트 객체
      */
     function draw(compType, compTarget, compData) {
-        let compAttr = { 'data-attribute': { 'display-type': ''}, 'display': {} },
+        let compAttr = { 'display': {} },
             compId = '';
 
         if (compData !== undefined) { //기존 저장된 컴포넌트 속성이 존재할 경우
-            compId = compData.id;
+            compId = compData.componentId;
             compAttr = compData;
         } else {                     //신규 생성된 컴포넌트일 경우
             compId = workflowUtil.generateUUID();
             compAttr = getData(compType);
-            compAttr.id = compId;
+            compAttr.componentId = compId;
             compAttr.type = compType;
         }
         compAttr.display.order = ++componentIdx;
@@ -824,10 +824,10 @@
             componentConstructor.domElem.setAttribute('data-index', getLastIndex());
             componentConstructor.domElem.setAttribute('tabIndex', getLastIndex());
 
-            if (typeof compAttr['data-attribute'] !== 'undefined') {
-                if (compAttr['data-attribute']['display-type'] === 'readonly') {
+            if (typeof compAttr.dataAttribute !== 'undefined') {
+                if (compAttr.dataAttribute.displayType === 'readonly') {
                     componentConstructor.domElem.setAttribute('data-readonly', true);
-                } else if (compAttr['data-attribute']['display-type'] === 'hidden') {
+                } else if (compAttr.dataAttribute.displayType === 'hidden') {
                     componentConstructor.domElem.style.display = 'none';
                 }
             }
@@ -877,10 +877,13 @@
                 let attributeItem = '';
                 Object.keys(defaultAttr[group]).forEach(function(child) {
                     attributeItem = defaultAttr[group][child].id;
-                    if (attributeItem === 'date-min' || attributeItem === 'date-max') {
+                    if (attributeItem === 'dateMin' || attributeItem === 'dateMax') {
                         refineAttr[group][defaultAttr[group][child].id] = aliceJs.convertToUserDatetimeFormatWithTimezone(defaultAttr[group][child].value, aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                    } else if (attributeItem === 'timeMin' || attributeItem === 'timeMax') {
+                        refineAttr[group][defaultAttr[group][child].id] = aliceJs.convertToUserTimeFormat(defaultAttr[group][child].value,
+                            aliceForm.options.hourFormat);
                     } else {
-                    refineAttr[group][defaultAttr[group][child].id] = defaultAttr[group][child].value;
+                        refineAttr[group][defaultAttr[group][child].id] = defaultAttr[group][child].value;
                     }
                 });
             }

@@ -510,7 +510,7 @@
             componentDragOff();
 
             // add history
-            let dragComponentData = editor.data.components.filter(function(comp) { return comp.id === dragComponent.id; });
+            let dragComponentData = editor.data.components.filter(function(comp) { return comp.componentId === dragComponent.id; });
             let beforeDragData = JSON.parse(JSON.stringify(dragComponentData[0]));
             beforeDragData.display.order = dragIdx;
             editor.history.saveHistory([{0: JSON.parse(JSON.stringify(beforeDragData)), 1: JSON.parse(JSON.stringify(dragComponentData[0]))}]);
