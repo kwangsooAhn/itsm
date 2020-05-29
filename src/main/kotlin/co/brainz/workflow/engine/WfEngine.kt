@@ -1,6 +1,5 @@
 package co.brainz.workflow.engine
 
-import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
 import co.brainz.workflow.engine.comment.repository.WfCommentRepository
@@ -48,7 +47,6 @@ class WfEngine(
     private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
     private val wfProcessSimulator: WfProcessSimulator,
     private val wfElementService: WfElementService,
-    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceUserRepository: AliceUserRepository,
     private val wfCommentService: WfCommentService
 ) {
@@ -101,10 +99,7 @@ class WfEngine(
     fun instance(): WfInstanceService {
         return WfInstanceService(
             wfInstanceRepository,
-            wfComponentRepository,
-            wfTokenDataRepository,
             wfTokenRepository,
-            aliceUserRoleMapRepository,
             wfCommentService
         )
     }

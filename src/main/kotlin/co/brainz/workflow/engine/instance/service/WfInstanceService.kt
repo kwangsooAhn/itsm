@@ -1,16 +1,12 @@
 package co.brainz.workflow.engine.instance.service
 
-import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.workflow.engine.comment.service.WfCommentService
 import co.brainz.workflow.engine.component.constants.WfComponentConstants
-import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
-import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
-import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
@@ -24,6 +20,7 @@ import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
 import java.time.ZoneId
 import org.mapstruct.factory.Mappers
@@ -33,10 +30,7 @@ import org.springframework.stereotype.Service
 @Service
 class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
-    private val wfComponentRepository: WfComponentRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfTokenRepository: WfTokenRepository,
-    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val wfCommentService: WfCommentService
 ) {
 
@@ -47,179 +41,31 @@ class WfInstanceService(
      * Search Instances.
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
-        return when(parameters["tokenType"].toString()) {
+        val queryResults = when(parameters["tokenType"].toString()) {
             "token.type.requested" -> requestedInstances(parameters)
             "token.type.progress" -> relatedInstances(RestTemplateConstants.InstanceStatus.RUNNING.value, parameters)
             "token.type.completed" -> relatedInstances(RestTemplateConstants.InstanceStatus.FINISH.value, parameters)
             else -> todoInstances(parameters)
         }
-    }
 
-    /**
-     * 신청한 문서 조회.
-     */
-    private fun requestedInstances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
-        val queryResults =  wfInstanceRepository.findRequestedInstances(
-            parameters["userKey"].toString(),
-            parameters["documentId"].toString(),
-            parameters["searchValue"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString(),
-            parameters["offset"].toString().toLong()
-        )
-
+        val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
         for (instance in queryResults.results) {
-            tokens.add(
-                RestTemplateInstanceViewDto(
-                    tokenId = instance.tokenEntity.tokenId,
-                    elementName = instance.tokenEntity.element.elementName,
-                    instanceId = instance.instanceEntity.instanceId,
-                    documentName = instance.documentEntity.documentName,
-                    documentDesc = instance.documentEntity.documentDesc,
-                    topics = mutableListOf(),
-                    createDt = instance.instanceEntity.instanceStartDt,
-                    assigneeUserKey = instance.tokenEntity.assigneeId,
-                    assigneeUserName = "",
-                    createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
-                    createUserName = instance.instanceEntity.instanceCreateUser?.userName,
-                    documentId = instance.documentEntity.documentId,
-                    documentNo = instance.instanceEntity.documentNo,
-                    documentColor = instance.documentEntity.documentColor,
-                    totalCount = queryResults.total
-                )
-            )
-        }
 
-        return tokens
-    }
-
-    /**
-     * 진행중 / 완료된 문서 조회.
-     */
-    private fun relatedInstances(status: String, parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
-        val queryResults = wfInstanceRepository.findRelationInstances(
-            status,
-            parameters["userKey"].toString(),
-            parameters["documentId"].toString(),
-            parameters["searchValue"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString(),
-            parameters["offset"].toString().toLong()
-        )
-
-        val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        for (instance in queryResults.results) {
-            tokens.add(
-                RestTemplateInstanceViewDto(
-                    tokenId = instance.tokenEntity.tokenId,
-                    elementName = instance.tokenEntity.element.elementName,
-                    instanceId = instance.instanceEntity.instanceId,
-                    documentName = instance.documentEntity.documentName,
-                    documentDesc = instance.documentEntity.documentDesc,
-                    topics = mutableListOf(),
-                    createDt = instance.instanceEntity.instanceStartDt,
-                    assigneeUserKey = instance.tokenEntity.assigneeId,
-                    assigneeUserName = "",
-                    createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
-                    createUserName = instance.instanceEntity.instanceCreateUser?.userName,
-                    documentId = instance.documentEntity.documentId,
-                    documentNo = instance.instanceEntity.documentNo,
-                    documentColor = instance.documentEntity.documentColor,
-                    totalCount = queryResults.total
-                )
-            )
-        }
-
-        return tokens
-    }
-
-    /**
-     * 처리할 문서 조회.
-     */
-    private fun todoInstances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
-        val userKey = parameters["userKey"].toString()
-        val searchValue = parameters["searchValue"].toString()
-        val status = RestTemplateConstants.TokenStatus.RUNNING.value
-        val offset = parameters["offset"].toString().toInt()
-        val instances: MutableList<WfInstanceListViewDto> = mutableListOf()
-        val roleEntities = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
-        val runningInstances = wfInstanceRepository.findTodoInstances(
-            status,
-            parameters["documentId"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString()
-        )
-        runningInstances.forEach { instance ->
-            if (instance.tokenEntity.tokenStatus == WfTokenConstants.Status.RUNNING.code) {
-                if (instance.tokenEntity.assigneeId == userKey) {
-                    instances.add(
-                        WfInstanceListViewDto(
-                            documentEntity = instance.documentEntity,
-                            instanceEntity = instance.instanceEntity,
-                            tokenEntity = instance.tokenEntity
-                        )
-                    )
-                }
-                instance.tokenEntity.candidate?.forEach { candidate ->
-                    when (candidate.candidateType) {
-                        WfTokenConstants.AssigneeType.USERS.code -> {
-                            if (candidate.candidateValue == userKey) {
-                                instances.add(
-                                    WfInstanceListViewDto(
-                                        documentEntity = instance.documentEntity,
-                                        instanceEntity = instance.instanceEntity,
-                                        tokenEntity = instance.tokenEntity
-                                    )
-                                )
-                            }
-                        }
-                        WfTokenConstants.AssigneeType.GROUPS.code -> {
-                            roleEntities.forEach roleForEach@{ role ->
-                                if (role.roleId == candidate.candidateValue) {
-                                    instances.add(
-                                        WfInstanceListViewDto(
-                                            documentEntity = instance.documentEntity,
-                                            instanceEntity = instance.instanceEntity,
-                                            tokenEntity = instance.tokenEntity
-                                        )
-                                    )
-                                    return@roleForEach
-                                }
-                            }
-                        }
-                    }
+            val topicComponentIds = mutableListOf<String>()
+            instance.documentEntity.form.components?.forEach {
+                if (it.isTopic && componentTypeForTopicDisplay.indexOf(it.componentType) > -1) {
+                    topicComponentIds.add(it.componentId)
                 }
             }
-        }
 
-        val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
-        instancesLoop@for ((index, instance) in instances.withIndex()) {
-
-            if (index < offset) break@instancesLoop
-
-            val topics: MutableList<String> = mutableListOf()
-
-            // 문서 별로 목록에 출력하는 topic 컴포넌트 리스트를 구함.
-            val topicComponentList =
-                    wfComponentRepository.findTopicComponentForDisplay(
-                            instance.documentEntity.form.formId,
-                            true,
-                            componentTypeForTopicDisplay
-                    )
-
-            // topic 컴포넌트의 실제 값들을 조회.
-            for (topicComponent in topicComponentList) {
-                topics.add(
-                        wfTokenDataRepository.findByTokenIdAndComponentId(
-                                instance.tokenEntity.tokenId,
-                                topicComponent.componentId
-                        ).value
-                )
+            val topics = mutableListOf<String>()
+            if (topicComponentIds.size > 0) {
+                instance.tokenEntity.tokenData?.forEach {
+                    if (topicComponentIds.indexOf(it.componentId) > -1) {
+                        topics.add(it.value)
+                    }
+                }
             }
 
             tokens.add(
@@ -238,12 +84,59 @@ class WfInstanceService(
                     documentId = instance.documentEntity.documentId,
                     documentNo = instance.instanceEntity.documentNo,
                     documentColor = instance.documentEntity.documentColor,
-                    totalCount = instances.size.toLong()
+                    totalCount = queryResults.total
                 )
             )
         }
 
-        return tokens.take(7)
+        return tokens
+    }
+
+    /**
+     * 신청한 문서 조회.
+     */
+    private fun requestedInstances(parameters: LinkedHashMap<String, Any>): QueryResults<WfInstanceListViewDto> {
+        return wfInstanceRepository.findRequestedInstances(
+            parameters["userKey"].toString(),
+            parameters["documentId"].toString(),
+            parameters["searchValue"].toString(),
+            parameters["fromDt"].toString(),
+            parameters["toDt"].toString(),
+            parameters["dateFormat"].toString(),
+            parameters["offset"].toString().toLong()
+        )
+    }
+
+    /**
+     * 진행중 / 완료된 문서 조회.
+     */
+    private fun relatedInstances(status: String, parameters: LinkedHashMap<String, Any>): QueryResults<WfInstanceListViewDto> {
+        return wfInstanceRepository.findRelationInstances(
+            status,
+            parameters["userKey"].toString(),
+            parameters["documentId"].toString(),
+            parameters["searchValue"].toString(),
+            parameters["fromDt"].toString(),
+            parameters["toDt"].toString(),
+            parameters["dateFormat"].toString(),
+            parameters["offset"].toString().toLong()
+        )
+    }
+
+    /**
+     * 처리할 문서 조회.
+     */
+    private fun todoInstances(parameters: LinkedHashMap<String, Any>): QueryResults<WfInstanceListViewDto> {
+        return wfInstanceRepository.findTodoInstances(
+            RestTemplateConstants.TokenStatus.RUNNING.value,
+            parameters["userKey"].toString(),
+            parameters["documentId"].toString(),
+            parameters["searchValue"].toString(),
+            parameters["fromDt"].toString(),
+            parameters["toDt"].toString(),
+            parameters["dateFormat"].toString(),
+            parameters["offset"].toString().toLong()
+        )
     }
 
     /**

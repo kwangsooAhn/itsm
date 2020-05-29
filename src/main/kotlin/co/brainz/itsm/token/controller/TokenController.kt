@@ -6,10 +6,8 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
-import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -25,7 +23,6 @@ import java.time.LocalDateTime
 @RequestMapping("/tokens")
 class TokenController(
     private val userService: UserService,
-    private val tokenService: TokenService,
     private val instanceService: InstanceService,
     private val folderService: FolderService,
     private val documentService: DocumentService
@@ -56,8 +53,8 @@ class TokenController(
         }
         model.addAttribute("fromDt", LocalDateTime.now().minusMonths(1))
         model.addAttribute("toDt", LocalDateTime.now())
-        val restTemplateDocumentSearchListDto = RestTemplateDocumentSearchListDto();
-        model.addAttribute("documentList", documentService.findDocumentList(restTemplateDocumentSearchListDto))
+        val restTemplateDocumentSearchListDto = RestTemplateDocumentSearchListDto()
+        model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
         return tokenSearchPage
     }
 

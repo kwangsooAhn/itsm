@@ -81,7 +81,9 @@ class TokenService(
      * @param restTemplateTokenSearchListDto
      * @return List<tokenDto>
      */
-    fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto): List<RestTemplateInstanceViewDto> {
+    fun getTokenList(
+            restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto
+    ): List<RestTemplateInstanceViewDto> {
         val params = LinkedMultiValueMap<String, String>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         params.add("userKey", aliceUserDto.userKey)
@@ -90,8 +92,10 @@ class TokenService(
         params.add("searchValue", restTemplateTokenSearchListDto.searchValue)
         params.add("offset", restTemplateTokenSearchListDto.offset)
         val dateTimeFormatter = DateTimeFormatter.ofPattern(aliceUserDto.timeFormat.split(" ")[0] + " HH:mm:ss")
-        val fromGMT = AliceTimezoneUtils().toGMT(LocalDateTime.parse(restTemplateTokenSearchListDto.searchFromDt + " 00:00:00", dateTimeFormatter))
-        val toGMT = AliceTimezoneUtils().toGMT(LocalDateTime.parse(restTemplateTokenSearchListDto.searchToDt + " 23:59:59", dateTimeFormatter))
+        val fromGMT = AliceTimezoneUtils().toGMT(
+                LocalDateTime.parse(restTemplateTokenSearchListDto.searchFromDt + " 00:00:00", dateTimeFormatter))
+        val toGMT = AliceTimezoneUtils().toGMT(
+                LocalDateTime.parse(restTemplateTokenSearchListDto.searchToDt + " 23:59:59", dateTimeFormatter))
         params.add("fromDt", dateTimeFormatter.format(fromGMT))
         params.add("toDt", dateTimeFormatter.format(toGMT))
         params.add("dateFormat", aliceUserDto.timeFormat.split(" ")[0] + " HH24:MI:SS")

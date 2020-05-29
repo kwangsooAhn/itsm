@@ -24,4 +24,6 @@ object WfTokenConstants {
      * Mapping id expression.
      */
     const val mappingExpression: String = """[$][{][a-zA-Z0-9]+[}]"""
+
+    const val searchDataCount: Long = 7
 }

@@ -8,10 +8,13 @@ interface WfInstanceRepositoryCustom {
 
     fun findTodoInstances(
             status: String,
+            userKey: String,
             documentId: String,
+            searchValue: String,
             fromDt: String,
             toDt: String,
-            dateFormat: String): List<WfInstanceListViewDto>
+            dateFormat: String,
+            offset: Long): QueryResults<WfInstanceListViewDto>
 
     fun findRequestedInstances(
             userKey: String,
