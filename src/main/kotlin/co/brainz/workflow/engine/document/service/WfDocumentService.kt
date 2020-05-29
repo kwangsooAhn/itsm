@@ -29,6 +29,7 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
+import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -90,54 +91,19 @@ class WfDocumentService(
     }
 
     /**
-     * Search Document Data.
+     * 최초 신청서 작성용 데이터 반환.
      *
+     * @author Jung Hee Chan
+     * @since 2020-05-28
      * @param documentId
-     * @return RestTemplateFormComponentViewDto?
+     * @return RestTemplateFormDocumentDto
      */
-    fun getDocumentData(documentId: String): RestTemplateFormComponentViewDto? {
+    fun getInitDocument(documentId: String): RestTemplateRequestDocumentDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId)
-        val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
-        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
 
-        //init display: get first UserTask display info (commonStart -> UserTask).
-        var documentDisplayEntities: List<WfDocumentDisplayEntity> = mutableListOf()
-        val startElement = wfElementService.getStartElement(documentEntity.process.processId)
-        when (startElement.elementType) {
-            WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
-                val startArrow = wfActionService.getArrowElements(startElement.elementId)[0]
-                val startUserTaskElementId = wfActionService.getNextElementId(startArrow)
-                when (wfActionService.getElement(startUserTaskElementId).elementType) {
-                    WfElementConstants.ElementType.USER_TASK.value -> {
-                        documentDisplayEntities =
-                            wfDocumentDisplayRepository.findByDocumentIdAndElementId(documentId, startUserTaskElementId)
-                    }
-                }
-            }
-        }
-
-        for (component in formEntity.get().components!!) {
-            val attributes = wfFormService.makeAttributes(component)
-            val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-
-            val map = LinkedHashMap<String, Any>()
-            map["componentId"] = component.componentId
-            map["attributes"] = attributes
-            map["values"] = values
-            var displayType = WfDocumentConstants.DisplayType.EDITABLE.value
-            for (documentDisplayEntity in documentDisplayEntities) {
-                if (documentDisplayEntity.componentId == component.componentId) {
-                    displayType = documentDisplayEntity.display
-                }
-            }
-            map["displayType"] = displayType
-            components.add(map)
-        }
-
-        return RestTemplateFormComponentViewDto(
-            form = formViewDto,
-            components = components,
+        return RestTemplateRequestDocumentDto(
+            documentId = documentId,
+            form = wfFormService.getFormComponentList(documentEntity.form.formId),
             actions = wfActionService.actionInit(documentEntity.process.processId)
         )
     }

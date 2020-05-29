@@ -8,6 +8,7 @@ import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
 import co.brainz.workflow.engine.form.repository.WfFormRepository
+import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -116,40 +117,56 @@ class WfFormService(
      */
     fun getFormComponentList(formId: String): RestTemplateFormComponentListDto {
         val dataAttribute = LinkedHashMap<String, Any>()
-        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        val components: MutableList<ComponentDetail> = mutableListOf()
         val dummyValues: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
         val componentEntityList = wfComponentRepository.findByFormId(formId)
         for (componentEntity in componentEntityList) {
-            val component = LinkedHashMap<String, Any>()
-            component["id"] = componentEntity.componentId
-            component["type"] = componentEntity.componentType
-            component["values"] = dummyValues
+            dataAttribute["displayType"] = ""
+            dataAttribute["mappingId"] = componentEntity.mappingId
+            dataAttribute["isTopic"] = componentEntity.isTopic
 
-            dataAttribute["display-type"] = ""
-            dataAttribute["mapping-id"] = componentEntity.mappingId
-            dataAttribute["is-topic"] = componentEntity.isTopic
-            component["data-attribute"] = dataAttribute
+            val component = ComponentDetail(
+                componentId = componentEntity.componentId,
+                type = componentEntity.componentType,
+                values = dummyValues,
+                dataAttribute = dataAttribute
+            )
 
             val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
             val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
 
             for (componentDataEntity in componentDataEntityList) {
                 val jsonElement = JsonParser().parse(componentDataEntity.attributeValue)
+                var attributeValue = LinkedHashMap<String, Any>()
+
                 when (jsonElement.isJsonArray) {
-                    true -> component[componentDataEntity.attributeId] = mapper.readValue(
+                    true -> attributeValue["value"] = mapper.readValue(
                         componentDataEntity.attributeValue,
                         mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
                     )
-                    false -> component[componentDataEntity.attributeId] =
+                    false -> attributeValue["value"] =
                         mapper.readValue(componentDataEntity.attributeValue, LinkedHashMap::class.java)
+                }
+
+                when (componentDataEntity.attributeId) {
+                    "display" -> component.display = attributeValue["value"] as LinkedHashMap<String, Any>
+                    "label" -> component.label = attributeValue["value"] as LinkedHashMap<String, Any>
+                    "validate" -> component.validate = attributeValue["value"] as LinkedHashMap<String, Any>
                 }
             }
             components.add(component)
         }
 
         return RestTemplateFormComponentListDto(
-            id = formId,
+            formId = formId,
+            name = formEntity.get().formName,
+            status = formEntity.get().formStatus,
+            desc = formEntity.get().formDesc,
+            updateDt = formEntity.get().updateDt,
+            updateUserKey = formEntity.get().updateUserKey,
+            createDt = formEntity.get().createDt,
+            createUserKey = formEntity.get().createUserKey,
             components = components
         )
     }

@@ -6,6 +6,7 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
+import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -48,8 +49,9 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      * @return RestTemplateFormComponentViewDto
      */
     @GetMapping("/{documentId}/data")
-    fun getDocumentData(@PathVariable documentId: String): RestTemplateFormComponentViewDto? {
-        return wfEngine.document().getDocumentData(documentId)
+    fun getDocumentData(@PathVariable documentId: String): RestTemplateRequestDocumentDto {
+        //return wfEngine.document().getDocumentData(documentId)
+        return wfEngine.document().getInitDocument(documentId)
     }
 
     /**

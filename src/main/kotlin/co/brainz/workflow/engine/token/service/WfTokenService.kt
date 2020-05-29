@@ -106,68 +106,30 @@ class WfTokenService(
      * @return LinkedHashMap<String, Any>
      */
     fun getTokenData(tokenId: String): RestTemplateTokenViewDto {
-        val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
-        val componentEntities = tokenMstEntity.get().instance.document!!.form.components
-        val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
-        var documentDisplayEntities: List<WfDocumentDisplayEntity> = mutableListOf()
-        when (tokenMstEntity.get().element.elementType) {
-            WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
-                val startArrow = wfActionService.getArrowElements(tokenMstEntity.get().element.elementId)[0]
-                val nextElementId = wfActionService.getNextElementId(startArrow)
-                when (wfActionService.getElement(nextElementId).elementType) {
-                    WfElementConstants.ElementType.USER_TASK.value -> {
-                        documentDisplayEntities =
-                            wfDocumentDisplayRepository.findByDocumentIdAndElementId(
-                                tokenMstEntity.get().instance.document!!.documentId,
-                                nextElementId
-                            )
-                    }
+        // FormComponent
+        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
+        val formId = tokenEntity.get().instance.document!!.form.formId
+        val formData = wfFormService.getFormComponentList(formId)
+
+        for (componentEntity in formData.components) {
+            // values
+            val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
+            val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            for (tokenDataEntity in tokenDataEntities) {
+                if (tokenDataEntity.componentId == componentEntity.componentId) {
+                    val valueMap = LinkedHashMap<String, Any>()
+                    valueMap["value"] = tokenDataEntity.value
+                    values.add(valueMap)
                 }
             }
-            else -> {
-                documentDisplayEntities = wfDocumentDisplayRepository.findByDocumentIdAndElementId(
-                    tokenMstEntity.get().instance.document!!.documentId,
-                    tokenMstEntity.get().element.elementId
-                )
-            }
+            componentEntity.values = values
         }
-
-        val componentList: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-        if (componentEntities != null) {
-            for (componentEntity in componentEntities) {
-                val attributes = wfFormService.makeAttributes(componentEntity)
-                val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-                for (tokenDataEntity in tokenDataEntities) {
-                    if (tokenDataEntity.componentId == componentEntity.componentId) {
-                        val valueMap = LinkedHashMap<String, Any>()
-                        valueMap["value"] = tokenDataEntity.value
-                        values.add(valueMap)
-                    }
-                }
-                var displayType = WfDocumentConstants.DisplayType.READONLY.value
-                for (documentDisplayEntity in documentDisplayEntities) {
-                    if (documentDisplayEntity.componentId == componentEntity.componentId) {
-                        displayType = documentDisplayEntity.display
-                    }
-                }
-
-                val component = LinkedHashMap<String, Any>()
-                component["componentId"] = componentEntity.componentId
-                component["attributes"] = attributes
-                component["values"] = values
-                component["displayType"] = displayType
-                componentList.add(component)
-            }
-        }
-
-        val componentsMap = LinkedHashMap<String, Any>()
-        componentsMap["components"] = componentList
 
         return RestTemplateTokenViewDto(
-            tokenId = tokenMstEntity.get().tokenId,
-            instanceId = tokenMstEntity.get().instance.instanceId,
-            components = componentList,
-            actions = wfActionService.actions(tokenMstEntity.get().element.elementId)
+            tokenId = tokenId,
+            instanceId = tokenEntity.get().instance.instanceId,
+            form = formData,
+            actions = wfActionService.actions(tokenEntity.get().element.elementId)
         )
     }
 
