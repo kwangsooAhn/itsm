@@ -63,8 +63,7 @@ class AliceCertificationRestController(
 
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")
-        response = ResponseEntity(map, headers, HttpStatus.OK)
 
-        return response
+        return ResponseEntity(map, headers, HttpStatus.OK)
     }
 }

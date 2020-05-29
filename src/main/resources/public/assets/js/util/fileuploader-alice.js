@@ -37,12 +37,12 @@ const fileUploader = (function () {
             extraParam.dropZoneUrl = '/fileupload'
         }
 
-        if (extraParam.dropZoneMaxFiles === undefined ) {
+        if (extraParam.dropZoneMaxFiles === undefined) {
             extraParam.dropZoneMaxFiles = null
         }
 
         if (extraParam.clickable === undefined) {
-            extraParam.clickable = ".add-file-button"
+            extraParam.clickable = '.add-file-button'
         }
 
         if (extraParam.acceptedFiles === undefined) {
@@ -53,7 +53,7 @@ const fileUploader = (function () {
         const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
         dropZoneFiles.className = 'fileEditorable';
 
-        if (extraParam.clickable === ".add-file-button") {
+        if (extraParam.clickable === '.add-file-button') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-file-button';
             const addFileBtn = document.createElement('button');
@@ -133,7 +133,7 @@ const fileUploader = (function () {
         // 파일 업로드 영역에 드랍 영역 정의
         document.getElementById(''+ dropZoneFilesId +'').appendChild(fileDropZone);
 
-        if (extraParam.clickable == ".add-img-button") {
+        if (extraParam.clickable == '.add-img-button') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-img-button';
             const addFileBtn = document.createElement('button');
