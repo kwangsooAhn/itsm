@@ -31,7 +31,7 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            aliceDocument.init('[[${documentId}]]');
+            aliceForm.initSync(aliceDocument.init, '[[${documentId}]]');
 
             const tagInput = document.querySelector('input[name=tags]');
             const tagify = new Tagify(tagInput, {

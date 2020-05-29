@@ -161,9 +161,7 @@
     window.onload = function() {
         initColorPicker();
         if ('[[${documentId}]]' !== '') {
-            i18n.add(function(){
-                aliceDocument.getDocument('[(${documentId})]');
-            });
+            aliceDocument.getDocument('[(${documentId})]');
         }
     };
     /*]]>*/

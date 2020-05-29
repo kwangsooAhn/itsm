@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine.element.service
 
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.component.repository.WfComponentRepository
 import co.brainz.workflow.engine.element.constants.WfElementConstants
 import co.brainz.workflow.engine.element.entity.WfElementEntity
@@ -47,6 +49,7 @@ class WfElementService(
      */
     fun getNextElement(restTemplateTokenDto: RestTemplateTokenDto): WfElementEntity {
         val connector = this.getConnector(restTemplateTokenDto)
+
         // 컨넥터 엘리먼트가 가지고 있는 타겟 엘리먼트 아이디 조회
         val nextElementId = wfElementDataRepository.findByElementAndAttributeId(connector).attributeValue
         return wfElementRepository.getOne(nextElementId)
@@ -60,7 +63,7 @@ class WfElementService(
      */
     private fun getConnector(restTemplateTokenDto: RestTemplateTokenDto): WfElementEntity {
         val elementId = restTemplateTokenDto.elementId
-        lateinit var selectedConnector: WfElementEntity
+        var selectedConnector: WfElementEntity? = null
 
         // 컨넥터를 가져와서
         val connectorElements = wfElementRepository.findAllArrowConnectorElement(elementId)
@@ -106,10 +109,26 @@ class WfElementService(
                                 return@main
                             }
                         }
+                        "<" -> {
+                            val val1 = item.toInt()
+                            val val2 = value.toInt()
+                            if (val1 < val2) {
+                                selectedConnector = connectorElement
+                                return@main
+                            }
+                        }
                         ">=" -> {
                             val val1 = item.toInt()
                             val val2 = value.toInt()
                             if (val1 >= val2) {
+                                selectedConnector = connectorElement
+                                return@main
+                            }
+                        }
+                        ">" -> {
+                            val val1 = item.toInt()
+                            val val2 = value.toInt()
+                            if (val1 > val2) {
                                 selectedConnector = connectorElement
                                 return@main
                             }
@@ -120,8 +139,15 @@ class WfElementService(
         } else { // 그 외 connector 가 1개일 때
             selectedConnector = connectorElements[0]
         }
-        logger.debug("selectedConnector {}", selectedConnector)
-        return selectedConnector
+
+        if (selectedConnector == null) {
+            throw AliceException(
+                AliceErrorConstants.ERR,
+                "Not found arrowElement. check the element data. ex) condition"
+            )
+        }
+
+        return selectedConnector as WfElementEntity
     }
 
     /**
@@ -153,12 +179,11 @@ class WfElementService(
                 tokenData.value
             }
             stringForRegex.matches(regexConstant) -> {
-                var action = ""
-                val actionId = stringForRegex.trim().replace("#{", "").replace("}", "")
-                if (restTemplateTokenDto.action == actionId) {
-                    action = restTemplateTokenDto.action
+                var actionValue = ""
+                if (stringForRegex == WfElementConstants.AttributeValue.ACTION.value) {
+                    actionValue = restTemplateTokenDto.action ?: ""
                 }
-                action
+                actionValue
             }
             stringForRegex.matches(regexGeneral) -> {
                 stringForRegex.trim().replace("\"", "")
