@@ -32,8 +32,8 @@ data class WfElementEntity(
     @Column(name = "element_desc", length = 1024)
     val elementDesc: String = "",
 
-    @Column(name = "notify_email")
-    val notificationEmail: Boolean = false,
+    @Column(name = "notification")
+    val notification: Boolean = false,
 
     @Column(name = "element_config")
     val elementConfig: String = "",
