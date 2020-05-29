@@ -36,6 +36,7 @@ common:
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
     comment: "Comment"
     print: "Print"
+    count: "total {0}"
   msg:
     save: "Saved"
     process: "It has been processed."
@@ -56,7 +57,7 @@ menu:
   help.notice: "Notice"
   help.faq: "FAQ"
   help.document: "Service Request"
-  help.token: "Process Document"
+  help.token: "My Document"
   help.dashboard: "Dashboard"
   help.download: "Download"
   setting: "settings"
@@ -441,8 +442,9 @@ document:
 # token
 token:
   label:
-    list: "Process Document List"
-    write: "Process Document"
+    list: "My Document List"
+    all: "All Document"
+    write: "My Document"
     startDt: "Start Date"
     endDt: "Finish Date"
     elementName: "Task Name"
@@ -451,7 +453,12 @@ token:
     history: "History"
     relatedInstance: "Related Documents"
     print: "Process Document Print"
-    searchPlaceholder: "Related Document Name / Create User"
+    searchPlaceholder: "Create User Name / Contents"
+  type:
+    todo: "Document to process"
+    requested: "Application document"
+    progress: "Document in progress"
+    completed: "Completed Documents"
 
 # Code
 code:

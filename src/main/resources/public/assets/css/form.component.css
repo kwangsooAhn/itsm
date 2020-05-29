@@ -1,12 +1,8 @@
 @charset "UTF-8";
 /* 컴포넌트 CSS */
 .component {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   width: 100%;
   max-width: 100%;
   border: none;
@@ -15,49 +11,35 @@
   /* all component list icon*/
   /* drag and drop icon */
 }
-
 .component .group {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   width: 100%;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 .component .group .field .label {
   display: inline;
 }
-
-.component .group .field span[class*="required"] {
+.component .group .field span[class*=required] {
   padding-left: 0.3125rem;
   color: #fc5f6b;
   font-weight: bold;
 }
-
 .component .group .field input[type=text] {
   width: 100%;
   height: 1.563rem;
 }
-
 .component .group .field textarea {
   width: 100%;
   resize: vertical;
 }
-
 .component .group .field input[type=button] {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
   height: 1.563rem;
   line-height: 1rem;
   padding: 0 0.625rem;
   white-space: nowrap;
 }
-
 .component .group .field .dropbox {
   height: 9.375rem;
   line-height: 9.375rem;
@@ -66,40 +48,34 @@
   font-size: 1.25rem;
   color: #969696;
 }
-
 .component .group .field .ql-snow {
   border-color: #a9a9a9;
 }
-
 .component .group .field .ql-editor.ql-blank::before {
   content: attr(data-placeholder);
 }
-
 .component .group .field .quill-wrap .ql-active {
   border: 0.0625rem solid #ccc !important;
   border-radius: 0.25rem;
 }
-
 .component .group .field .quill-wrap button, .component .group .field .quill-wrap .ql-picker {
   margin-right: 0.125rem;
 }
-
 .component .add-icon {
   width: 1.875rem;
   height: 1.875rem;
   margin: 1.563rem 0 1.563rem 0.9375rem;
   text-align: center;
-  content: '';
+  content: "";
   cursor: pointer;
   font-size: 1.25rem;
 }
-
 .component .move-icon {
   width: 1.875rem;
   height: 1.875rem;
   margin: 1.563rem 0.9375rem;
   text-align: center;
-  content: '';
+  content: "";
   cursor: move;
   font-size: 1.25rem;
 }
@@ -116,7 +92,8 @@
 .component.over {
   border-top: 0.125rem dashed #BCC5D3;
 }
-
 .component.over * {
   pointer-events: none;
 }
+
+/*# sourceMappingURL=form.component.css.map */

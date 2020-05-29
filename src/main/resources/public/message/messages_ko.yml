@@ -36,6 +36,7 @@ common:
     lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
     comment: "코멘트"
     print: "인쇄"
+    count: "{0} 건"
   msg:
     save: "저장되었습니다"
     process: "처리되었습니다."
@@ -56,7 +57,7 @@ menu:
   help.notice: "공지사항"
   help.faq: "FAQ"
   help.document: "신청서"
-  help.token: "처리할 문서"
+  help.token: "문서함"
   help.dashboard: "대시보드"
   help.download: "자료실"
   setting: "설정"
@@ -440,7 +441,8 @@ document:
 # token
 token:
   label:
-    list: "처리할 문서 목록"
+    list: "문서함"
+    all: "전체 문서"
     write: "처리할 문서"
     startDt: "시작 일시"
     endDt: "완료 일시"
@@ -450,7 +452,12 @@ token:
     history: "처리 이력"
     relatedInstance: "관련 문서"
     print: "처리할 문서 인쇄"
-    searchPlaceholder: "신청서 이름 / 작성자"
+    searchPlaceholder: "작성자 / 내용"
+  type:
+    todo: "처리할 문서"
+    requested: "신청한 문서"
+    progress: "진행중 문서"
+    completed: "완료된 문서"
 
 # Code
 code:
