@@ -178,10 +178,11 @@ object RestTemplateConstants {
 
     /**
      * Instance Status.
+     *
+     * @param value
      */
     enum class InstanceStatus(val value: String) {
         RUNNING("running"),
-        WAITING("waiting"),
         FINISH("finish")
     }
 

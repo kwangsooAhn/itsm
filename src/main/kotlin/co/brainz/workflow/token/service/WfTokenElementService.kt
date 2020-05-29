@@ -66,7 +66,8 @@ class WfTokenElementService(
                     instanceId = "",
                     document = it,
                     documentNo = documentNo,
-                    pTokenId = restTemplateTokenDto.parentTokenId
+                    pTokenId = restTemplateTokenDto.parentTokenId,
+                    instanceCreateUser = restTemplateTokenDto.instanceCreateUser
                 )
             }
         val instance = instanceDto?.let { wfInstanceService.createInstance(it) }
@@ -328,6 +329,7 @@ class WfTokenElementService(
                 val makeDocumentTokens =
                     wfTokenMappingValue.makeRestTemplateTokenDto(saveToken, mutableListOf(documentId))
                 makeDocumentTokens.forEach {
+                    it.instanceCreateUser = restTemplateTokenDto.instanceCreateUser
                     //initToken(it)
                 }
             }
@@ -346,6 +348,7 @@ class WfTokenElementService(
                 val makeDocumentTokens =
                     wfTokenMappingValue.makeRestTemplateTokenDto(saveToken, targetDocumentIds)
                 makeDocumentTokens.forEach {
+                    it.instanceCreateUser = restTemplateTokenDto.instanceCreateUser
                     //initToken(it)
                 }
                 goToNext(saveToken, restTemplateTokenDto)
