@@ -1,8 +1,10 @@
 package co.brainz.framework.fileTransaction.controller
 
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpHeaders
@@ -29,11 +31,19 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
      * 파일 추가시 임시폴더에 물리적으로 저장한다.
      */
     @PostMapping("/fileupload")
-    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): ResponseEntity<Map<String, Any>> {
+    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile, request: HttpServletRequest): ResponseEntity<Map<String, Any>> {
         val response: ResponseEntity<Map<String, Any>>
         val map: MutableMap<String, Any> = mutableMapOf()
 
-        map["file"] = aliceFileService.uploadTemp(multipartFile)
+        when (request.getParameter("target") ?: null) {
+            AliceUserConstants.AVATAR_ID -> {
+                var fileName = request.getParameter("fileName") ?: null
+                map["file"] = aliceFileService.uploadResources(multipartFile, AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, fileName)
+            }
+            null -> {
+                map["file"] = aliceFileService.uploadTemp(multipartFile)
+            }
+        }
 
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")

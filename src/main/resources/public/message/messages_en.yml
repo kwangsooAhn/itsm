@@ -144,6 +144,7 @@ user:
   time: "Time Format"
   lang: "Language"
   theme: "Theme"
+  avatar: "Avatar"
   reg: "Sign up"
   read: "User read"
   role: "User Role"
@@ -153,6 +154,9 @@ user:
   editUserInfo: "Edit User Information"
   message: "When you change your email, you need to verify"
   searchPlaceholder: "ID / Name / Position / Department / Office Number / Mobile Number"
+  FileSizeLimit: "File Size Limit : 200KB"
+  FileExtensionAllowed: "File Extension Allowed : 200KB"
+
   msg:
     idNotExist: "Please enter your UserId"
     passwordNotExist: "Please enter your password"

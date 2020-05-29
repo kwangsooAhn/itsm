@@ -6,7 +6,35 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
     <title>회원가입 페이지</title>
+
+    <style>
+        .dropzone {
+            height: 180px;
+            width: 180px;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+        .dropzone img {
+            width: 100%;
+            height: 100%;
+        }
+        .btn-check-wrapper {
+            display: inline-block;
+            float: right;
+        }
+        .btn-upload-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .fileEditorable {
+            height: 180px;
+            width: 180px;
+        }
+    </style>
 </head>
 <body>
     <div id="divProgressBar" style="z-index: 1000; position: fixed; display: block; width: 100%; height: 100%; top: 50;  left: 0;  right: 0;  bottom: 0;  background-color: grey; opacity: 0.5; pointer-events: all;">
@@ -20,44 +48,55 @@
         <img th:src="@{/assets/media/icons/logo.png}" alt="Alice">
         <div class="signup-base">
             <p th:text="#{login.userSignUp}"></p>
-            <table class="signup-form">
-                <tr>
-                    <th><a class="required" th:text="#{user.id}"></a></th>
-                    <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.password}"></a></th>
-                    <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.rePassword}"></a></th>
-                    <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a class="required" th:text="#{user.name}"></a></th>
-                    <td><input type="text" id="userName" name="userName" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a class="required" th:text="#{user.email}"></a></th>
-                    <td><input type="text" id="email" name="email" maxlength="100" required="required"></td>
-                </tr>
-                <tr>
-                    <th><a th:text="#{user.position}"></a></th>
-                    <td><input type="text" id="position" name="position" maxlength="100"></td>
-                </tr>
-                <tr>
-                    <th><a th:text="#{user.department}"></a></th>
-                    <td><input type="text" id="department" name="department" maxlength="100"></td>
-                </tr>
-                <tr>
-                    <th><a th:text="#{user.officeNumber}"></a></th>
-                    <td><input type="text" id="officeNumber" name="officeNumber" maxlength="100"></td>
-                </tr>
-                <tr>
-                    <th><a th:text="#{user.mobileNumber}"></a></th>
-                    <td><input type="text" id="mobileNumber" name="mobileNumber" maxlength="100"></td>
-                </tr>
-            </table>
+            <form id="signUpForm" method="post" onsubmit="return false">
+                <table class="signup-form">
+                    <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+                    <tr>
+                        <th><a class="required" th:text="#{user.id}"></a></th>
+                        <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
+                    </tr>
+                    <tr>
+                        <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.password}"></a></th>
+                        <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
+                    </tr>
+                    <tr>
+                        <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.rePassword}"></a></th>
+                        <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
+                    </tr>
+                    <tr>
+                        <th><a class="required" th:text="#{user.name}"></a></th>
+                        <td><input type="text" id="userName" name="userName" maxlength="100" required="required"></td>
+                    </tr>
+                    <tr>
+                        <th><a class="required" th:text="#{user.email}"></a></th>
+                        <td><input type="text" id="email" name="email" maxlength="100" required="required"></td>
+                    </tr>
+                    <tr>
+                        <th><a th:text="#{user.position}"></a></th>
+                        <td><input type="text" id="position" name="position" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <th><a th:text="#{user.department}"></a></th>
+                        <td><input type="text" id="department" name="department" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <th><a th:text="#{user.officeNumber}"></a></th>
+                        <td><input type="text" id="officeNumber" name="officeNumber" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <th><a th:text="#{user.mobileNumber}"></a></th>
+                        <td><input type="text" id="mobileNumber" name="mobileNumber" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.avatar}"/>
+                        <td>
+                            <div id="dropZoneFiles"></div><br/><br/>
+                            <div th:text="#{user.FileSizeLimit}"></div>
+                            <div th:text="#{user.FileExtensionAllowed}"></div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
             <button class="btn btn-primary" id="userSignUp" th:text="#{login.doSignUp}" onclick="userRegister()"></button>
         </div>
         <div id="password-guide">
@@ -84,11 +123,24 @@
     <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
+    <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
             i18n.add();
             hiddenProgressBar();
+
+            document.getElementById('avatarUUID').value = uuid();
+            var avatarUUID = document.getElementById('avatarUUID').value;
+            fileUploader.init({extra: {
+                    formId: 'signUpForm',
+                    dropZoneMaxFileSize: 0.2,
+                    dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUID,
+                    dropZoneMaxFiles: 1,
+                    acceptedFiles:".png,.jpeg,.jpg,.gif",
+                    clickable: '.add-img-button'
+            }});
         }
         const STATUS_SUCCESS = "0";
         const STATUS_ERROR_USER_ID_DUPLICATION = "1";
@@ -120,7 +172,9 @@
                         position: document.getElementById("position").value,
                         department: document.getElementById("department").value,
                         officeNumber: document.getElementById("officeNumber").value,
-                        mobileNumber: document.getElementById("mobileNumber").value
+                        mobileNumber: document.getElementById("mobileNumber").value,
+                        fileSeq: document.getElementsByName('fileSeq').value,
+                        avatarUUID: document.getElementById('avatarUUID').value
                     };
                     // 등록
                     restSubmit("POST", "/certification/register",true,registerInfo);
@@ -135,6 +189,13 @@
             if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
             if (isEmpty('email', 'user.msg.emailNotExist')) return false;
             return true;
+        }
+
+        function uuid() {
+            function s4() {
+                return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         }
 
         // 데이터 전송
