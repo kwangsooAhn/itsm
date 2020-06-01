@@ -67,6 +67,7 @@ menu:
   setting.code: "Code management"
   setting.form: "Form"
   setting.process: "Process"
+  setting.document: "Workflow"
   setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
   help.board: "Help"
@@ -401,9 +402,11 @@ validation:
 # Document
 document:
   label:
+    adminList: "Workflow List"
     list: "Service Request List"
     reg: "Service Request Registration"
     write: "Service Request Write"
+    type: "Document Type"
     name: "Service Request Name"
     docNo: "Service Request No"
     description: "Service Request Description"

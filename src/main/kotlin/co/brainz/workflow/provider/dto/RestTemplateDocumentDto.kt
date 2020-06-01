@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 
 data class RestTemplateDocumentDto(
     val documentId: String = "",
+    val documentType: String = "",
     val documentName: String = "",
     val documentDesc: String? = null,
     var documentStatus: String? = null,
