@@ -1,5 +1,6 @@
 package co.brainz.workflow.provider.dto
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -27,9 +28,14 @@ class RestTemplateFormComponentListDto(
 class ComponentDetail(
     var componentId: String = "",
     val type: String = "",
-    var values: MutableList<LinkedHashMap<String, Any>>? = mutableListOf(),
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    var values: MutableList<LinkedHashMap<String, Any>>? = null,
     val dataAttribute: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
     var display: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
-    var label: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
-    var validate: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>()
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    var label: LinkedHashMap<String, Any>? = null,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    var validate: LinkedHashMap<String, Any>? = null,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    var option: MutableList<LinkedHashMap<String, Any>>? = null
 ) : Serializable

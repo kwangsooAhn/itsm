@@ -14,7 +14,6 @@ import co.brainz.workflow.engine.document.service.WfDocumentService
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
-import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
@@ -47,7 +46,6 @@ class WfEngine(
     private val wfCommentRepository: WfCommentRepository,
     private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
     private val wfProcessSimulator: WfProcessSimulator,
-    private val wfElementService: WfElementService,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceUserRepository: AliceUserRepository,
     private val wfCommentService: WfCommentService
@@ -90,8 +88,7 @@ class WfEngine(
             wfComponentDataRepository,
             wfElementRepository,
             wfElementDataRepository,
-            aliceNumberingRuleRepository,
-            wfElementService
+            aliceNumberingRuleRepository
         )
     }
 

@@ -13,7 +13,6 @@ import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
-import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
@@ -47,8 +46,7 @@ class WfDocumentService(
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
     private val wfElementDataRepository: WfElementDataRepository,
-    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
-    private val wfElementService: WfElementService
+    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)

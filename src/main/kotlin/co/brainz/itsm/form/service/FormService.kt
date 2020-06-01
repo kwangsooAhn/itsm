@@ -124,18 +124,40 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                         .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
                 )
             }
-            val dataAttribute: LinkedHashMap<String, Any> = mapper.convertValue(
-                component["dataAttribute"], LinkedHashMap::class.java
-            ) as LinkedHashMap<String, Any>
-            val display: LinkedHashMap<String, Any> = mapper.convertValue(
-                component["display"], LinkedHashMap::class.java
-            ) as LinkedHashMap<String, Any>
-            val label: LinkedHashMap<String, Any> = mapper.convertValue(
-                component["label"], LinkedHashMap::class.java
-            ) as LinkedHashMap<String, Any>
-            val validate: LinkedHashMap<String, Any> = mapper.convertValue(
-                component["validate"], LinkedHashMap::class.java
-            ) as LinkedHashMap<String, Any>
+
+            var dataAttribute: LinkedHashMap<String, Any> = linkedMapOf()
+            component["dataAttribute"]?.let {
+                dataAttribute =
+                    mapper.convertValue(
+                        component["dataAttribute"],
+                        LinkedHashMap::class.java
+                    ) as LinkedHashMap<String, Any>
+            }
+
+            var display: LinkedHashMap<String, Any> = linkedMapOf()
+            component["display"]?.let {
+                display =
+                    mapper.convertValue(component["display"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+            }
+
+            var label: LinkedHashMap<String, Any> = linkedMapOf()
+            component["label"]?.let {
+                label = mapper.convertValue(component["label"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+            }
+
+            var validate: LinkedHashMap<String, Any> = linkedMapOf()
+            component["validate"]?.let {
+                validate =
+                    mapper.convertValue(component["validate"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+            }
+
+            var option: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            component["option"]?.let {
+                option = mapper.convertValue(
+                    it, TypeFactory.defaultInstance()
+                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
+                )
+            }
 
             componentDetailList.add(
                 ComponentDetail(
@@ -145,13 +167,15 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                     dataAttribute = dataAttribute,
                     display = display,
                     label = label,
-                    validate = validate
+                    validate = validate,
+                    option = option
                 )
             )
+
+            val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         }
 
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-
         return RestTemplateFormComponentListDto(
             formId = map["formId"] as String,
             name = map["name"] as String,

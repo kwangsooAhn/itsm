@@ -128,8 +128,11 @@ class WfFormService(
             val component = ComponentDetail(
                 componentId = componentEntity.componentId,
                 type = componentEntity.componentType,
-                values = dummyValues,
-                dataAttribute = dataAttribute
+                values = null,
+                dataAttribute = dataAttribute,
+                label = null,
+                option = null,
+                validate = null
             )
 
             val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -152,6 +155,7 @@ class WfFormService(
                     "display" -> component.display = attributeValue["value"] as LinkedHashMap<String, Any>
                     "label" -> component.label = attributeValue["value"] as LinkedHashMap<String, Any>
                     "validate" -> component.validate = attributeValue["value"] as LinkedHashMap<String, Any>
+                    "option" -> component.option = attributeValue["value"] as MutableList<LinkedHashMap<String, Any>>
                 }
             }
             components.add(component)
@@ -283,21 +287,41 @@ class WfFormService(
                 )
                 wfComponentDataEntities.add(componentDataEntity)
 
-                componentDataEntity = WfComponentDataEntity(
-                    componentId = resultComponentEntity.componentId,
-                    attributeId = "label",
-                    attributeValue = mapper.writeValueAsString(component.label),
-                    attributes = resultComponentEntity
-                )
-                wfComponentDataEntities.add(componentDataEntity)
+                component.label?.let {
+                    if (it.size > 0) {
+                        componentDataEntity = WfComponentDataEntity(
+                            componentId = resultComponentEntity.componentId,
+                            attributeId = "label",
+                            attributeValue = mapper.writeValueAsString(it),
+                            attributes = resultComponentEntity
+                        )
+                        wfComponentDataEntities.add(componentDataEntity)
+                    }
+                }
 
-                componentDataEntity = WfComponentDataEntity(
-                    componentId = resultComponentEntity.componentId,
-                    attributeId = "validate",
-                    attributeValue = mapper.writeValueAsString(component.validate),
-                    attributes = resultComponentEntity
-                )
-                wfComponentDataEntities.add(componentDataEntity)
+                component.validate?.let {
+                    if (it.size > 0) {
+                        componentDataEntity = WfComponentDataEntity(
+                            componentId = resultComponentEntity.componentId,
+                            attributeId = "validate",
+                            attributeValue = mapper.writeValueAsString(it),
+                            attributes = resultComponentEntity
+                        )
+                        wfComponentDataEntities.add(componentDataEntity)
+                    }
+                }
+
+                component.option?.let {
+                    if (it.size > 0) {
+                        componentDataEntity = WfComponentDataEntity(
+                            componentId = resultComponentEntity.componentId,
+                            attributeId = "option",
+                            attributeValue = mapper.writeValueAsString(it),
+                            attributes = resultComponentEntity
+                        )
+                        wfComponentDataEntities.add(componentDataEntity)
+                    }
+                }
             }
             if (wfComponentDataEntities.isNotEmpty()) {
                 wfComponentDataRepository.saveAll(wfComponentDataEntities)
