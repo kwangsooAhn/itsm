@@ -36,6 +36,7 @@ common:
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
     comment: "Comment"
     print: "Print"
+    count: "total {0}"
   msg:
     save: "Saved"
     process: "It has been processed."
@@ -58,7 +59,7 @@ menu:
   help.notice: "Notice"
   help.faq: "FAQ"
   help.document: "Service Request"
-  help.token: "Process Document"
+  help.token: "My Document"
   help.dashboard: "Dashboard"
   help.download: "Download"
   setting: "settings"
@@ -145,6 +146,7 @@ user:
   time: "Time Format"
   lang: "Language"
   theme: "Theme"
+  avatar: "Avatar"
   reg: "Sign up"
   read: "User read"
   role: "User Role"
@@ -154,6 +156,9 @@ user:
   editUserInfo: "Edit User Information"
   message: "When you change your email, you need to verify"
   searchPlaceholder: "ID / Name / Position / Department / Office Number / Mobile Number"
+  FileSizeLimit: "File Size Limit : 200KB"
+  FileExtensionAllowed: "File Extension Allowed : 200KB"
+
   msg:
     idNotExist: "Please enter your UserId"
     passwordNotExist: "Please enter your password"
@@ -441,8 +446,9 @@ document:
 # token
 token:
   label:
-    list: "Process Document List"
-    write: "Process Document"
+    list: "My Document List"
+    all: "All Document"
+    write: "My Document"
     startDt: "Start Date"
     endDt: "Finish Date"
     elementName: "Task Name"
@@ -451,7 +457,12 @@ token:
     history: "History"
     relatedInstance: "Related Documents"
     print: "Process Document Print"
-    searchPlaceholder: "Related Document Name / Create User"
+    searchPlaceholder: "Create User Name / Contents"
+  type:
+    todo: "Document to process"
+    requested: "Application document"
+    progress: "Document in progress"
+    completed: "Completed Documents"
 
 # Code
 code:
