@@ -439,7 +439,7 @@ document:
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     requiredFileupload: "Please upload a file."
-    raunchedInstance: "There is an instance started and cannot be deleted."
+    launchedInstance: "There is an instance started and cannot be deleted."
     businessFlowColorNotExist: "Please enter Business Flow Color."
 
 # token
