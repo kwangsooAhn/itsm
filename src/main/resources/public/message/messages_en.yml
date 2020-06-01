@@ -311,6 +311,7 @@ form:
       fileuploadFailed: "File upload failed."
       fileSelect: "Please select a file."
       fileNameDuplication: "The same file name exists."
+      failedFormDelete: "The document failed to delete the form. <br/> Please make sure that the application issued."
   preview:
     name: "Form Edit Preview"
   help:

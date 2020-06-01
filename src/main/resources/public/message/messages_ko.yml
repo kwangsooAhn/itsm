@@ -310,6 +310,7 @@ form:
       fileuploadFailed: "파일업로드에 실패하였습니다."
       fileSelect: "파일을 선택해주세요."
       fileNameDuplication: "동일한 파일명이 존재합니다."
+      failedFormDelete: "문서양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인해주세요."
   preview:
     name: "문서양식 미리보기"
   help:
