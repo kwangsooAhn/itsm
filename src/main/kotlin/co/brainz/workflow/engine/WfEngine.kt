@@ -59,7 +59,7 @@ class WfEngine(
     }
 
     /**
-     * component Engine.=
+     * component Engine.
      */
     fun component(): WfComponentService {
         return WfComponentService(wfComponentRepository, wfComponentDataRepository)
