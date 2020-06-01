@@ -1,7 +1,9 @@
 package co.brainz.workflow.engine.token.controller
 
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.GetMapping
@@ -58,8 +60,18 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      */
     @Transactional
     @PostMapping("")
-    fun postTokenGate(@RequestBody restTemplateTokenDto: RestTemplateTokenDto) {
-        return wfEngine.token().initToken(restTemplateTokenDto)
+    fun postTokenGate(@RequestBody restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto) {
+        // 2020-05-29 Jung Hee Chan
+        // 기존 함수들의 영향도를 최소화하기 위해서 임시로 작성.
+        // 이 부분은 현재 진행되고 있는 WF 구조 변경에 따라 사라질 부분이라...
+        // 하지만 token쪽에 추가된 dto들은 계속 사용할 것 같음.
+        val dummyTokenDto = RestTemplateTokenDto(
+            assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
+            tokenId = restTemplateTokenDataUpdateDto.tokenId,
+            documentId = restTemplateTokenDataUpdateDto.documentId,
+            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>
+        )
+        return wfEngine.token().initToken(dummyTokenDto)
     }
 
     /**
@@ -67,7 +79,17 @@ class WfTokenRestController(private val wfEngine: WfEngine) {
      */
     @Transactional
     @PutMapping("/{tokenId}")
-    fun putTokenGate(@RequestBody restTemplateTokenDto: RestTemplateTokenDto) {
-        return wfEngine.token().setToken(restTemplateTokenDto)
+    fun putTokenGate(@RequestBody restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto) {
+        // 2020-05-29 Jung Hee Chan
+        // 기존 함수들의 영향도를 최소화하기 위해서 임시로 작성.
+        // 이 부분은 현재 진행되고 있는 WF 구조 변경에 따라 사라질 부분이라...
+        // 하지만 token쪽에 추가된 dto들은 계속 사용할 것 같음.
+        val dummyTokenDto = RestTemplateTokenDto(
+            assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
+            tokenId = restTemplateTokenDataUpdateDto.tokenId,
+            documentId = restTemplateTokenDataUpdateDto.documentId,
+            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>
+        )
+        return wfEngine.token().initToken(dummyTokenDto)
     }
 }
