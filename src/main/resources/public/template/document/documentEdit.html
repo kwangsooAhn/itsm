@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{help.document}"></title>
+    <title th:if="${documentId}" th:text="#{document.label.modify}"></title>
+    <title th:unless="${documentId}" th:text="#{document.label.register}"></title>
     <th:block th:replace="layout/fragments/commonHead"></th:block>
 </head>
 <body>

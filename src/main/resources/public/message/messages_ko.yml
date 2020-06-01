@@ -3,7 +3,7 @@ common:
   searchWord: "검색어를 입력하세요"
   btn:
     save: "저장"
-    saveAs: "다름 이름으로 저장"
+    saveAs: "다른 이름으로 저장"
     close: "닫기"
     logout: "로그아웃"
     delete: "삭제"
@@ -401,7 +401,8 @@ validation:
 document:
   label:
     list: "신청서 목록"
-    reg: "신청서 등록"
+    register: "신청서 등록"
+    modify: "신청서 수정"
     write: "신청서 작성"
     name: "신청서 이름"
     docNo: "신청서 구분"
@@ -435,7 +436,7 @@ document:
     requiredEnter: "필수 항목을 입력해주세요."
     requiredSelect: "필수 항목을 선택해주세요."
     requiredFileupload: "파일을 업로드해주세요."
-    raunchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
+    launchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
     businessFlowColorNotExist: "업무 흐름 색상을 입력해주세요."
 
 # token

@@ -402,7 +402,8 @@ validation:
 document:
   label:
     list: "Service Request List"
-    reg: "Service Request Registration"
+    register: "Service Request Registration"
+    modify: "Service Request Modify"
     write: "Service Request Write"
     name: "Service Request Name"
     docNo: "Service Request No"
@@ -436,7 +437,7 @@ document:
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     requiredFileupload: "Please upload a file."
-    raunchedInstance: "There is an instance started and cannot be deleted."
+    launchedInstance: "There is an instance started and cannot be deleted."
     businessFlowColorNotExist: "Please enter Business Flow Color."
 
 # token
