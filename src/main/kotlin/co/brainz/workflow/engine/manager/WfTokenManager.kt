@@ -7,7 +7,7 @@ import co.brainz.workflow.token.entity.WfTokenEntity
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-abstract class WfTokenManager(private val constructorManager: ConstructorManager) {
+abstract class WfTokenManager(val constructorManager: ConstructorManager) {
 
     lateinit var wfTokenEntity: WfTokenEntity
 

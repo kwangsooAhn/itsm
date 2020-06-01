@@ -5,6 +5,7 @@ import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
@@ -15,7 +16,6 @@ import co.brainz.workflow.token.repository.WfTokenRepository
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
-import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
@@ -165,17 +165,17 @@ class WfInstanceService(
     /**
      * Instance Create.
      */
-    fun createInstance(restTemplateTokenDto: RestTemplateTokenDto): WfInstanceEntity {
-        val document = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateTokenDto.documentId)
+    fun createInstance(wfTokenDto: WfTokenDto): WfInstanceEntity {
+        val document = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId)
         val documentNo = aliceNumberingService.getNewNumbering(document.numberingRule.numberingId)
-        val user = restTemplateTokenDto.assigneeId?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
+        val user = wfTokenDto.assigneeId?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
         val instanceEntity = WfInstanceEntity(
             instanceId = "",
             documentNo = documentNo,
             instanceStatus = RestTemplateConstants.InstanceStatus.RUNNING.value,
             instanceStartDt = LocalDateTime.now(ZoneId.of("UTC")),
             instanceCreateUser = user,
-            pTokenId = restTemplateTokenDto.parentTokenId,
+            pTokenId = wfTokenDto.parentTokenId,
             document = document
         )
         val instance = wfInstanceRepository.save(instanceEntity)
@@ -191,22 +191,6 @@ class WfInstanceService(
 
         return instance
     }
-
-   /* fun createInstance(restTemplateInstanceDto: RestTemplateInstanceDto): WfInstanceEntity {
-        val instanceEntity = WfInstanceEntity(
-            instanceId = "",
-            instanceStatus = restTemplateInstanceDto.instanceStatus
-                ?: WfInstanceConstants.Status.RUNNING.code,
-            document = restTemplateInstanceDto.document,
-            instanceStartDt = LocalDateTime.now(ZoneId.of("UTC"))
-        )
-        if (restTemplateInstanceDto.pTokenId != null) {
-            instanceEntity.pTokenId = restTemplateInstanceDto.pTokenId
-        }
-        instanceEntity.documentNo = restTemplateInstanceDto.documentNo
-
-        return wfInstanceRepository.save(instanceEntity)
-    }*/
 
     /**
      * Instance Complete.

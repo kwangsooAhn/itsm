@@ -179,7 +179,7 @@ class WfTokenService(
      * @param restTemplateTokenDto
      */
     fun initToken(restTemplateTokenDto: RestTemplateTokenDto) {
-        wfEngine.startWorkflow(restTemplateTokenDto)
+        wfEngine.startWorkflow(wfEngine.toTokenDto(restTemplateTokenDto))
         //wfTokenElementService.initToken(restTemplateTokenDto)
     }
 

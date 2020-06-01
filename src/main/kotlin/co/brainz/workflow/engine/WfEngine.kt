@@ -22,15 +22,15 @@ class WfEngine(
     private val wfTokenRepository = constructorManager.getTokenRepository()
     private val wfTokenDataRepository = constructorManager.getTokenDataRepository()
 
-    fun startWorkflow(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+    fun startWorkflow(wfTokenDto: WfTokenDto): Boolean {
         logger.debug("Start Workflow")
 
         // Create Instance
-        val instance = wfInstanceService.createInstance(restTemplateTokenDto)
+        val instance = wfInstanceService.createInstance(wfTokenDto)
 
         // StartToken Create & Complete
         val element = wfElementService.getStartElement(instance.document.process.processId)
-        var startTokenDto = toTokenDto(restTemplateTokenDto)
+        var startTokenDto = wfTokenDto
         startTokenDto.instanceId = instance.instanceId
         startTokenDto.elementType = element.elementType
         startTokenDto.elementId = element.elementId
@@ -73,6 +73,7 @@ class WfEngine(
                     wfTokenDto.instanceId = token.instance.instanceId
                     wfTokenDto.elementType = token.element.elementType
                     wfTokenDto.elementId = token.element.elementId
+                    wfTokenDto.documentId = token.instance.document.documentId
                     val tokenManager = getTokenManager(wfTokenDto.elementType)
                     tokenManager.completeToken(wfTokenDto)
                     tokenManager.createNextToken(wfTokenDto)
@@ -102,10 +103,12 @@ class WfEngine(
     fun toTokenDto(restTemplateTokenDto: RestTemplateTokenDto): WfTokenDto {
         return WfTokenDto(
             tokenId = restTemplateTokenDto.tokenId,
+            documentId = restTemplateTokenDto.documentId,
             fileDataIds = restTemplateTokenDto.fileDataIds,
             assigneeId = restTemplateTokenDto.assigneeId,
             data = restTemplateTokenDto.data,
-            action = restTemplateTokenDto.action
+            action = restTemplateTokenDto.action,
+            parentTokenId = restTemplateTokenDto.parentTokenId
         )
     }
 }

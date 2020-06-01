@@ -8,6 +8,7 @@ import co.brainz.workflow.engine.manager.impl.WfCommonStartEventTokenManager
 import co.brainz.workflow.engine.manager.impl.WfExclusiveGatewayTokenManager
 import co.brainz.workflow.engine.manager.impl.WfManualTaskTokenManager
 import co.brainz.workflow.engine.manager.impl.WfSignalSendTokenManager
+import co.brainz.workflow.engine.manager.impl.WfSubProcessTokenManager
 import co.brainz.workflow.engine.manager.impl.WfUserTaskTokenManager
 import org.springframework.stereotype.Component
 
@@ -29,6 +30,9 @@ class WfTokenManagerFactory(
             }
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
                 WfManualTaskTokenManager(constructorManager)
+            }
+            WfElementConstants.ElementType.SUB_PROCESS.value -> {
+                WfSubProcessTokenManager(constructorManager)
             }
             WfElementConstants.ElementType.SIGNAL_SEND.value -> {
                 WfSignalSendTokenManager(constructorManager)
