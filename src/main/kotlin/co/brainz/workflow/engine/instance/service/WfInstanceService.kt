@@ -12,6 +12,7 @@ import co.brainz.workflow.engine.token.constants.WfTokenConstants
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
+import co.brainz.workflow.engine.tag.service.WfTagService
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
@@ -36,7 +37,8 @@ class WfInstanceService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfTokenRepository: WfTokenRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
-    private val wfCommentService: WfCommentService
+    private val wfCommentService: WfCommentService,
+    private val wfTagService: WfTagService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)

@@ -26,31 +26,37 @@ import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.engine.token.service.WfTokenElementService
 import co.brainz.workflow.engine.token.service.WfTokenService
+import co.brainz.workflow.engine.tag.repository.WfTagRepository
+import co.brainz.workflow.engine.tag.repository.WfTagDataRepository
+import co.brainz.workflow.engine.tag.service.WfTagService
 import org.springframework.stereotype.Service
 
 @Service
 class WfEngine(
-    private val wfFormRepository: WfFormRepository,
-    private val wfProcessRepository: WfProcessRepository,
-    private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository,
-    private val wfElementRepository: WfElementRepository,
-    private val wfElementDataRepository: WfElementDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository,
-    private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
-    private val wfInstanceRepository: WfInstanceRepository,
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService,
-    private val wfTokenElementService: WfTokenElementService,
-    private val wfCommentRepository: WfCommentRepository,
-    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
-    private val wfProcessSimulator: WfProcessSimulator,
-    private val wfElementService: WfElementService,
-    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
-    private val aliceUserRepository: AliceUserRepository,
-    private val wfCommentService: WfCommentService
+	private val wfFormRepository: WfFormRepository,
+	private val wfProcessRepository: WfProcessRepository,
+	private val wfComponentRepository: WfComponentRepository,
+	private val wfComponentDataRepository: WfComponentDataRepository,
+	private val wfElementRepository: WfElementRepository,
+	private val wfElementDataRepository: WfElementDataRepository,
+	private val wfDocumentRepository: WfDocumentRepository,
+	private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
+	private val wfInstanceRepository: WfInstanceRepository,
+	private val wfTokenRepository: WfTokenRepository,
+	private val wfTokenDataRepository: WfTokenDataRepository,
+	private val wfFormService: WfFormService,
+	private val wfActionService: WfActionService,
+	private val wfTokenElementService: WfTokenElementService,
+	private val wfCommentRepository: WfCommentRepository,
+	private val wfTagRepository: WfTagRepository,
+	private val wfTagDataRepository: WfTagDataRepository,
+	private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
+	private val wfProcessSimulator: WfProcessSimulator,
+	private val wfElementService: WfElementService,
+	private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
+	private val aliceUserRepository: AliceUserRepository,
+	private val wfCommentService: WfCommentService,
+	private val wfTagService: WfTagService
 ) {
 
     /**
@@ -105,7 +111,8 @@ class WfEngine(
             wfTokenDataRepository,
             wfTokenRepository,
             aliceUserRoleMapRepository,
-            wfCommentService
+            wfCommentService,
+            wfTagService
         )
     }
 
@@ -128,5 +135,12 @@ class WfEngine(
      */
     fun comment(): WfCommentService {
         return WfCommentService(wfCommentRepository, wfInstanceRepository, aliceUserRepository)
+    }
+
+    /**
+     * Tag Engine.
+     */
+    fun tag(): WfTagService {
+        return WfTagService(wfTagRepository, wfTagDataRepository, wfInstanceRepository)
     }
 }

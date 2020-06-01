@@ -138,6 +138,15 @@
 
             function onAddTag(e) {
                 console.log(e.detail.data.value);
+                console.log('[[${instanceId}]]');
+                const jsonData = {
+                    tagContent: e.detail.data.value,
+                    instanceId: '[[${instanceId}]]'
+                };
+
+                restSubmit('POST', '/rest/tags', function () {
+                    location.reload();
+                }, jsonData, false);
             }
 
             function onRemoveTag(e) {

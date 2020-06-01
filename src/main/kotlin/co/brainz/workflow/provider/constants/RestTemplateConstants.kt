@@ -82,6 +82,17 @@ object RestTemplateConstants {
     }
 
     /**
+     * Tag Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class Tag(val url: String, val method: String) {
+        POST_TAG("/rest/wf/tags", "POST"),
+        DELETE_TAG("/rest/wf/tags/{tagId}", "DELETE")
+    }
+
+    /**
      * Folder Url.
      *
      * @param url
