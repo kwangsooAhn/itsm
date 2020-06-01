@@ -404,7 +404,8 @@ document:
   label:
     adminList: "Workflow List"
     list: "Service Request List"
-    reg: "Service Request Registration"
+    register: "Service Request Registration"
+    modify: "Service Request Modify"
     write: "Service Request Write"
     type: "Document Type"
     name: "Service Request Name"

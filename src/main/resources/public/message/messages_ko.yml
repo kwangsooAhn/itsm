@@ -3,7 +3,7 @@ common:
   searchWord: "검색어를 입력하세요"
   btn:
     save: "저장"
-    saveAs: "다름 이름으로 저장"
+    saveAs: "다른 이름으로 저장"
     close: "닫기"
     logout: "로그아웃"
     delete: "삭제"
@@ -403,7 +403,8 @@ document:
   label:
     adminList: "업무흐름 목록"
     list: "신청서 목록"
-    reg: "신청서 등록"
+    register: "신청서 등록"
+    modify: "신청서 수정"
     write: "신청서 작성"
     type: "업무흐름 구분"
     name: "신청서 이름"
