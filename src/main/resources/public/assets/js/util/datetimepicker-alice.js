@@ -62,9 +62,6 @@ const dateTimePicker = (function() {
         }
         let picker = initPicker(targetId, options);
         picker.el.addEventListener('wdp.change', () => {
-            if (typeof callback === 'function') {
-                callback(picker.inputEl);
-            }
             picker.closeDateContainer();
         });
         picker.el.addEventListener('wdp.close', () => {
