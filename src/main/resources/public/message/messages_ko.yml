@@ -48,7 +48,7 @@ common:
     unknownError: "알 수 없는 에러가 발생하였습니다. 관리자에게 문의해주세요."
     requiredEnter: "필수 항목을 입력해주세요."
     noData: "데이터가 없습니다."
-    writeError: "다시 작성해주세요."
+    checkDocument: "문서를 다시 확인해주세요."
 
 # Menu
 menu:

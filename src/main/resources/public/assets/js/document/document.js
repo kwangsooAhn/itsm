@@ -31,6 +31,12 @@
             case 'select':
                 componentTarget = componentElement.querySelector('select');
                 break;
+            case 'radio':
+                componentTarget = componentElement.querySelector('div#radio');
+                break;
+            case 'checkbox':
+                componentTarget = componentElement.querySelector('div#chkbox');
+                break;
             case 'fileupload':
                 componentTarget = componentElement.querySelector('#fileupload');
                 break;
@@ -53,16 +59,18 @@
         }
         const validateElement = document.querySelectorAll('.validate-error');
         if (validateElement.length !== 0) {
-            aliceJs.alert(i18n.get('common.msg.writeError'), function () {
-                if (validateElement[0].classList.contains('editor-container')) { // editor
+            aliceJs.alert(i18n.get('common.msg.checkDocument'), function () {
+                if (validateElement[0].classList.contains('editor-container')) {
                     validateElement[0].firstChild.focus();
+                } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
+                    validateElement[0].querySelector('input').focus();
                 } else {
                     validateElement[0].focus();
                 }
             });
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -98,37 +106,32 @@
                         break;
                     case 'date-min':
                     case 'date-max':
-                        let valueForDate = aliceJs.convertToSystemDateFormat(element.value, aliceForm.options.dateFormat);
-                        let nodeValueForDate = aliceJs.convertToUserDateFormat(nodeValue, aliceForm.options.dateFormat);
-                        console.log('[compare] : ' + valueForDate + ' vs ' + nodeValue);
-                        if (attribute.nodeName === 'date-min' && valueForDate < nodeValue) {
-                            message = i18n.get('document.msg.dateMin', nodeValueForDate);
-                        } else if (attribute.nodeName === 'date-max' && valueForDate > nodeValue) {
-                            message = i18n.get('document.msg.dateMax', nodeValueForDate);
+                        const dateValue = moment(element.value, aliceForm.options.dateFormat);
+                        const dateNodeValue = moment(nodeValue, aliceJs.systemCalendarDateFormat);
+                        if (attribute.nodeName === 'date-min' && dateValue.isBefore(dateNodeValue)) {
+                            message = i18n.get('document.msg.dateMin', dateNodeValue.format(aliceForm.options.dateFormat));
+                        } else if (attribute.nodeName === 'date-max' && dateValue.isAfter(dateNodeValue)) {
+                            message = i18n.get('document.msg.dateMax', dateNodeValue.format(aliceForm.options.dateFormat));
                         }
                         break;
                     case 'time-min':
                     case 'time-max':
-                        let inputValueForTime = aliceJs.convertToSystemTimeFormat(element.value, aliceForm.options.hourFormat);
-                        let nodeValueForTime = aliceJs.convertToUserTimeFormat(nodeValue, aliceForm.options.hourFormat);
-                        console.log('[compare] : ' + inputValueForTime + ' vs ' + nodeValue + ':00');
-                        if (attribute.nodeName === 'time-min' && inputValueForTime < nodeValue + ':00') {
-                            message = i18n.get('document.msg.timeMin', nodeValueForTime);
-                        } else if (attribute.nodeName === 'time-max' && element.value > nodeValue + ':00') {
-                            message = i18n.get('document.msg.timeMax', nodeValueForTime);
+                        const timeValue = moment(aliceJs.convertToSystemHourType(element.value), aliceForm.options.hourFormat);
+                        const timeNodeValue = moment(nodeValue, aliceJs.systemCalendarTimeFormat);
+                        if (attribute.nodeName === 'time-min' && timeValue.isBefore(timeNodeValue)) {
+                            message = i18n.get('document.msg.timeMin', timeNodeValue.format(aliceForm.options.hourFormat));
+                        } else if (attribute.nodeName === 'time-max' && timeValue.isAfter(timeNodeValue)) {
+                            message = i18n.get('document.msg.timeMax', timeNodeValue.format(aliceForm.options.hourFormat));
                         }
                         break;
                     case 'datetime-min':
                     case 'datetime-max':
-                        let inputValueForDatetime = aliceJs.convertToSystemDatetimeFormatWithTimezone(element.value,
-                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                        let nodeValueForDatetime = aliceJs.convertToUserDatetimeFormatWithTimezone(nodeValue,
-                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                        console.log('[compare] : ' + inputValueForDatetime + ' vs ' + nodeValue);
-                        if (attribute.nodeName === 'datetime-min' && inputValueForDatetime < nodeValue) {
-                            message = i18n.get('document.msg.dateMin', nodeValueForDatetime);
-                        } else if (attribute.nodeName === 'datetime-max' && inputValueForDatetime > nodeValue) {
-                            message = i18n.get('document.msg.dateMax', nodeValueForDatetime);
+                        const datetimeValue = moment(aliceJs.convertToSystemHourType(element.value), aliceForm.options.datetimeFormat);
+                        const datetimeNodeValue = moment(nodeValue, aliceJs.systemCalendarDatetimeFormat);
+                        if (attribute.nodeName === 'datetime-min' && datetimeValue.isBefore(datetimeNodeValue)) {
+                            message = i18n.get('document.msg.dateMin', datetimeNodeValue.format(aliceForm.options.datetimeFormat));
+                        } else if (attribute.nodeName === 'datetime-max' && datetimeValue.isAfter(datetimeNodeValue)) {
+                            message = i18n.get('document.msg.dateMax', datetimeNodeValue.format(aliceForm.options.datetimeFormat));
                         }
                         break;
                     case 'regexp':
@@ -196,7 +199,7 @@
                 break;
             case 'radio':
             case 'chkbox':
-                if (!selectCheck(element)) {
+                if (!checkSelect(element)) {
                     message = i18n.get('document.msg.requiredSelect');
                 }
                 break;
@@ -272,10 +275,10 @@
      *
      * @param element element
      */
-    function selectCheck(element) {
+    function checkSelect(element) {
         let elements = element.getElementsByTagName('input');
-        for (let j = 0; j < elements.length; j++) {
-            if (elements[j].checked) { return true; }
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i].checked) { return true; }
         }
         return false;
     }
@@ -544,7 +547,8 @@
                 const componentElements = document.querySelectorAll('.component');
                 for (let i = 0; i < componentElements.length; i++) {
                     let componentChild = getComponentTarget(componentElements[i]);
-                    if (componentChild === null || componentChild.id === 'fileupload') { continue; }
+                    if (componentChild === null || componentChild.id === 'fileupload' || componentChild.id === 'date'
+                        || componentChild.id === 'time' || componentChild.id === 'datetime') { continue; }
                     componentChild.addEventListener('focusout', function() {
                         checkValidate(this);
                     }, false);
@@ -837,6 +841,7 @@
     exports.deleteComment = deleteComment;
     exports.drawDocument = drawDocument;
     exports.getDocument = getDocument;
+    exports.checkValidate = checkValidate;
     exports.print = print;
 
     Object.defineProperty(exports, '__esModule', {value: true});

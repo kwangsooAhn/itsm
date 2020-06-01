@@ -48,7 +48,7 @@ common:
     unknownError: "An unknown error has occurred. Please contact the administrator."
     requiredEnter: "Please enter the required item."
     noData: "There is no data."
-    writeError: "Please write again."
+    checkDocument: "Please check the document again."
 
 # Menu
 menu:
