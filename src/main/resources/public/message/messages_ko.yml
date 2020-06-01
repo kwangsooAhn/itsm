@@ -48,6 +48,8 @@ common:
     unknownError: "알 수 없는 에러가 발생하였습니다. 관리자에게 문의해주세요."
     requiredEnter: "필수 항목을 입력해주세요."
     noData: "데이터가 없습니다."
+    checkDocument: "문서를 다시 확인해주세요."
+
 # Menu
 menu:
   service: "서비스"
@@ -440,6 +442,8 @@ document:
     lengthMax: "{0}글자 이하로 입력해주세요."
     dateMin: "{0} 날짜 이후로 선택해주세요."
     dateMax: "{0} 날짜 이전으로 선택해주세요."
+    timeMin: "{0} 시간 이후로 선택해주세요."
+    timeMax: "{0} 시간 이전으로 선택해주세요."
     requiredEnter: "필수 항목을 입력해주세요."
     requiredSelect: "필수 항목을 선택해주세요."
     requiredFileupload: "파일을 업로드해주세요."
