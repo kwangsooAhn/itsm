@@ -544,11 +544,12 @@
             }
             //유효성 검증 추가
             if (!documentContainer.hasAttribute('data-readonly')) {
+                const checkComponents = ['text', 'textarea', 'select', 'radio', 'checkbox'];
                 const componentElements = document.querySelectorAll('.component');
                 for (let i = 0; i < componentElements.length; i++) {
                     let componentChild = getComponentTarget(componentElements[i]);
-                    if (componentChild === null || componentChild.id === 'fileupload' || componentChild.id === 'date'
-                        || componentChild.id === 'time' || componentChild.id === 'datetime') { continue; }
+                    if (componentChild === null ||
+                        checkComponents.indexOf(componentElements[i].getAttribute('data-type')) === -1) { continue; }
                     componentChild.addEventListener('focusout', function() {
                         checkValidate(this);
                     }, false);
