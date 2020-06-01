@@ -32,7 +32,7 @@
         </colgroup>
         <tbody>
         <tr th:if="${#arrays.isEmpty(documentList)}">
-            <td colspan="5" th:text="#{common.msg.noData}"></td>
+            <td colspan="7" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
             <td th:style="|background-color:${document.documentColor}|"></td>
