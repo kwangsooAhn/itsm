@@ -12,6 +12,15 @@
             <col width="*">
         </colgroup>
         <tr>
+            <th class="required" th:text="#{document.label.type}"></th>
+            <td>
+                <select id="document_type" style="width:75%">
+                    <option value="application-form" th:text="#{document.type.applicationForm}" />
+                    <option value="workflow" th:text="#{document.type.workflow}" />
+                </select>
+            </td>
+        </tr>
+        <tr>
             <th class="required" th:text="#{document.label.name}"></th>
             <td>
                 <input id="document_name" type="text" maxlength="50" required="required" style="width:100%"/>
@@ -86,16 +95,17 @@
 </body>
 <script th:src="@{/assets/js/util/validation-alice.js}"></script>
 <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
-<script th:src="@{/assets/js/document/document.js}"></script>
 <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
 <script type="text/javascript">
     function saveDocument(method) {
         if (emptyValidation()) {
+            let documentType = document.getElementById('document_type');
             let documentForm = document.getElementById('document_form');
             let documentProcess = document.getElementById('document_process');
             let documentStatus = document.getElementById('document_status');
             let documentNumberingRule = document.getElementById('document_numbering_rule');
             const documentInfo = {
+                documentType: documentType.options[documentType.selectedIndex].value,
                 documentName: document.getElementById('document_name').value,
                 documentDesc: document.getElementById('document_desc').value,
                 formId: documentForm.options[documentForm.selectedIndex].value,
@@ -107,9 +117,9 @@
             let parameter = '';
             if (method === 'put') {
                 documentInfo.documentId = '[[${documentId}]]';
-                parameter = '/' + '[[${documentId}]]';
+                parameter = '/[[${documentId}]]';
             }
-            restSubmit(method, '/rest/documents' + parameter, documentInfo);
+            restSubmit(method, '/rest/documents-admin' + parameter, documentInfo);
         }
     }
 
@@ -133,7 +143,7 @@
                     opener.location.reload();
                     window.close();
                     const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-                    window.open('/documents/' + documentId + '/display', '_blank', 'width=1500,height=920,' + specs);
+                    window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1500,height=920,' + specs);
                 });
             }
         };
@@ -157,11 +167,36 @@
         colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox, 'documentPaletteColors');
     }
 
+
+    /**
+     * Set Document Data.
+     *
+     * @param documentData
+     */
+    function setData(documentData) {
+        document.getElementById('document_type').value = documentData.documentType;
+        document.getElementById('document_name').value = documentData.documentName;
+        document.getElementById('document_desc').value = documentData.documentDesc;
+        document.getElementById('document_form').value = documentData.formId;
+        document.getElementById('document_process').value = documentData.processId;
+        document.getElementById('document_status').value = documentData.documentStatus;
+        document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
+        document.getElementById('document_color').value = documentData.documentColor;
+        document.getElementById('selected_color').style.backgroundColor = documentData.documentColor;
+    }
+
     /*<![CDATA[*/
     window.onload = function() {
         initColorPicker();
         if ('[[${documentId}]]' !== '') {
-            aliceDocument.getDocument('[(${documentId})]');
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: '/rest/documents-admin/[[${documentId}]]',
+                contentType: 'application/json; charset=utf-8',
+                callbackFunc: function(xhr) {
+                    setData(JSON.parse(xhr.responseText));
+                }
+            });
         }
     };
     /*]]>*/

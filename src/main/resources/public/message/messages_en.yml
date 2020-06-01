@@ -69,6 +69,7 @@ menu:
   setting.code: "Code management"
   setting.form: "Form"
   setting.process: "Process"
+  setting.document: "Workflow"
   setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
   help.board: "Help"
@@ -403,9 +404,11 @@ validation:
 # Document
 document:
   label:
+    adminList: "Workflow List"
     list: "Service Request List"
     reg: "Service Request Registration"
     write: "Service Request Write"
+    type: "Document Type"
     name: "Service Request Name"
     docNo: "Service Request No"
     description: "Service Request Description"
@@ -440,7 +443,7 @@ document:
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     requiredFileupload: "Please upload a file."
-    raunchedInstance: "There is an instance started and cannot be deleted."
+    launchedInstance: "There is an instance started and cannot be deleted."
     businessFlowColorNotExist: "Please enter Business Flow Color."
 
 # token
