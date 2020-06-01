@@ -6,7 +6,7 @@ import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -24,30 +24,25 @@ class TokenService(
     /**
      * Post Token 처리.
      *
-     * @param restTemplateTokenDto
+     * @param restTemplateTokenDataUpdateDto
      * @return Boolean
      */
-    fun postToken(restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+    fun postToken(restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateTokenDto.assigneeId = aliceUserDto.userKey
+        restTemplateTokenDataUpdateDto.assigneeId = aliceUserDto.userKey
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN.url)
-        val responseEntity = restTemplate.create(url, restTemplateTokenDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
-                true
-            }
-            false -> false
-        }
+        val responseEntity = restTemplate.create(url, restTemplateTokenDataUpdateDto)
+
+        return responseEntity.body.toString().isNotEmpty()
     }
 
     /**
      * Put Token 처리.
      *
-     * @param restTemplateTokenDto
+     * @param restTemplateTokenDataUpdateDto
      * @return Boolean
      */
-    fun putToken(tokenId: String, restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+    fun putToken(tokenId: String, restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Token.PUT_TOKEN.url.replace(
                 restTemplate.getKeyRegex(),
@@ -55,15 +50,10 @@ class TokenService(
             )
         )
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateTokenDto.assigneeId = aliceUserDto.userKey
-        val responseEntity = restTemplate.update(url, restTemplateTokenDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                restTemplateTokenDto.fileDataIds?.let { aliceFileService.uploadFiles(it) }
-                true
-            }
-            false -> false
-        }
+        restTemplateTokenDataUpdateDto.assigneeId = aliceUserDto.userKey
+        val responseEntity = restTemplate.update(url, restTemplateTokenDataUpdateDto)
+
+        return responseEntity.body.toString().isNotEmpty()
     }
 
     /**

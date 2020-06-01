@@ -49,7 +49,6 @@ class WfDocumentRestController(private val wfEngine: WfEngine) {
      */
     @GetMapping("/{documentId}/data")
     fun getDocumentData(@PathVariable documentId: String): RestTemplateRequestDocumentDto {
-        //return wfEngine.document().getDocumentData(documentId)
         return wfEngine.document().getInitDocument(documentId)
     }
 

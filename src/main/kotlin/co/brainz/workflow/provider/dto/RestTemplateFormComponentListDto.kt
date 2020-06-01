@@ -27,7 +27,7 @@ class RestTemplateFormComponentListDto(
 class ComponentDetail(
     var componentId: String = "",
     val type: String = "",
-    var values: MutableList<LinkedHashMap<String, Any>> = mutableListOf(),
+    var values: MutableList<LinkedHashMap<String, Any>>? = mutableListOf(),
     val dataAttribute: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
     var display: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
     var label: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
