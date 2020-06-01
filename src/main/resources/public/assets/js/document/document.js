@@ -34,7 +34,7 @@
     /**
      * Validation Check.
      *
-     * @param elem element
+     * @param e element
      */
     function validateCheck(e) {
         const elem = e.srcElement || e.target;
@@ -704,38 +704,6 @@
     }
 
     /**
-     * Get Document.
-     *
-     * @param documentId
-     */
-    function getDocument(documentId) {
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/documents/' + documentId,
-            contentType: 'application/json; charset=utf-8',
-            callbackFunc: function(xhr) {
-                setData(JSON.parse(xhr.responseText));
-            }
-        });
-    }
-
-    /**
-     * Set Document Data.
-     *
-     * @param documentData
-     */
-    function setData(documentData) {
-        document.getElementById('document_name').value = documentData.documentName;
-        document.getElementById('document_desc').value = documentData.documentDesc;
-        document.getElementById('document_form').value = documentData.formId;
-        document.getElementById('document_process').value = documentData.processId;
-        document.getElementById('document_status').value = documentData.documentStatus;
-        document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
-        document.getElementById('document_color').value = documentData.documentColor;
-        document.getElementById('selected_color').style.backgroundColor = documentData.documentColor;
-    }
-
-    /**
      * Print document.
      *
      * @param url
@@ -777,7 +745,6 @@
     exports.saveComment = saveComment;
     exports.deleteComment = deleteComment;
     exports.drawDocument = drawDocument;
-    exports.getDocument = getDocument;
     exports.print = print;
 
     Object.defineProperty(exports, '__esModule', {value: true});
