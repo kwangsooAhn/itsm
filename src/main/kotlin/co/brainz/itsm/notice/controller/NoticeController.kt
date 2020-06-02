@@ -2,11 +2,12 @@ package co.brainz.itsm.notice.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.constants.CodeConstants
-import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.itsm.utility.ConvertParam
+import java.time.LocalDateTime
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -14,8 +15,6 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import java.time.LocalDateTime
-import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/notices")
@@ -47,24 +46,12 @@ class NoticeController(
      */
     @GetMapping("/list")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
-        var noticeList = mutableListOf<NoticeListDto>()
-        var topNoticeList = mutableListOf<NoticeListDto>()
+        val searchValue = noticeSearchDto.searchValue
+        val fromDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.fromDt, "fromDt")
+        val toDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.toDt, "toDt")
 
-        when (noticeSearchDto.isSearch) {
-            true -> {
-                val searchValue = noticeSearchDto.searchValue
-                val fromDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.fromDt, "fromDt")
-                val toDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.toDt, "toDt")
-                noticeList = noticeService.findNoticeSearch(searchValue, fromDt, toDt)
-                topNoticeList = noticeService.findTopNoticeSearch(searchValue)
-            }
-            false -> {
-                noticeList = noticeService.findNoticeList()
-                topNoticeList = noticeService.findTopNoticeList()
-            }
-        }
-        model.addAttribute("noticeList", noticeList)
-        model.addAttribute("topNoticeList", topNoticeList)
+        model.addAttribute("noticeList", noticeService.findNoticeSearch(searchValue, fromDt, toDt))
+        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue))
 
         return noticeListPage
     }
@@ -91,7 +78,6 @@ class NoticeController(
      */
     @GetMapping("/{noticeId}/edit")
     fun getNoticeForm(@PathVariable noticeId: String, model: Model): String {
-
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: AliceUserEntity = userService.selectUser(userId)
 
@@ -106,7 +92,6 @@ class NoticeController(
      */
     @GetMapping("/{noticeId}/view-pop")
     fun getNoticePopUp(@PathVariable noticeId: String, model: Model): String {
-
         model.addAttribute("noticePopUp", noticeService.findPopupNoticeByNoticeNo(noticeId))
         return noticePopUpPage
     }
