@@ -23,7 +23,7 @@ object AliceUserConstants {
     /**
      * 사용자 기본 날짜 포맷
      */
-    const val USER_TIME_FORMAT: String = "YYYY-MM-DD HH:mm"
+    const val USER_TIME_FORMAT: String = "yyyy-MM-dd HH:mm"
 
     /**
      * 사용자 기본 테마
