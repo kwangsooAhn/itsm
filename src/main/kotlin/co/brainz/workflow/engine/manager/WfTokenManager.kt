@@ -11,9 +11,6 @@ import java.time.ZoneId
 
 abstract class WfTokenManager(val constructorManager: ConstructorManager) {
 
-    lateinit var wfTokenEntity: WfTokenEntity
-
-
     private val wfElementService = constructorManager.getElementService()
     private val wfElementRepository = constructorManager.getElementRepository()
     private val wfInstanceRepository = constructorManager.getInstanceRepository()
@@ -27,10 +24,10 @@ abstract class WfTokenManager(val constructorManager: ConstructorManager) {
             instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
             element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
         )
-        this.wfTokenEntity = wfTokenRepository.save(token)
-        wfTokenDto.tokenId = this.wfTokenEntity.tokenId
-        wfTokenDto.elementId = this.wfTokenEntity.element.elementId
-        wfTokenDto.elementType = this.wfTokenEntity.element.elementType
+        val saveToken = wfTokenRepository.save(token)
+        wfTokenDto.tokenId = saveToken.tokenId
+        wfTokenDto.elementId = saveToken.element.elementId
+        wfTokenDto.elementType = saveToken.element.elementType
         return wfTokenDto
     }
 
@@ -51,7 +48,8 @@ abstract class WfTokenManager(val constructorManager: ConstructorManager) {
         val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
-        this.wfTokenEntity = wfTokenRepository.save(token)
+        wfTokenRepository.save(token)
+        wfTokenDto.tokenId = token.tokenId
         if (!token.instance.pTokenId.isNullOrEmpty()) {
             wfTokenDto.parentTokenId = token.instance.pTokenId
         }

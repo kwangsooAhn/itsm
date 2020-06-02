@@ -46,42 +46,57 @@ class WfEngine(
 
     fun progressWorkflow(wfTokenDto: WfTokenDto): Boolean {
         logger.debug("Process Token")
+        var token = wfTokenDto.copy()
 
         when (wfTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> {
-                // Save Token & Token Data
-                val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
-                token.assigneeId = wfTokenDto.assigneeId
-                val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-                for (tokenDataDto in wfTokenDto.data!!) {
-                    val tokenDataEntity = WfTokenDataEntity(
-                        tokenId = wfTokenDto.tokenId,
-                        componentId = tokenDataDto.componentId,
-                        value = tokenDataDto.value
-                    )
-                    tokenDataEntities.add(tokenDataEntity)
-                }
-                if (tokenDataEntities.isNotEmpty()) {
-                    wfTokenDataRepository.saveAll(tokenDataEntities)
-                }
-                wfTokenRepository.save(token)
+                actionSave(wfTokenDto)
             }
             else -> {
-                // CommonEndEvent, GW, SubProcess 는 반복
                 do {
-                    val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
-                    wfTokenDto.instanceId = token.instance.instanceId
-                    wfTokenDto.elementType = token.element.elementType
-                    wfTokenDto.elementId = token.element.elementId
-                    wfTokenDto.documentId = token.instance.document.documentId
-                    val tokenManager = getTokenManager(wfTokenDto.elementType)
-                    tokenManager.completeToken(wfTokenDto)
-                    tokenManager.createNextToken(wfTokenDto)
-                } while (wfTokenDto.isAutoComplete)
+                    val tokenDto = setTokenDtoValue(token)
+                    val tokenManager = getTokenManager(tokenDto.elementType)
+                    tokenManager.completeToken(tokenDto) //현재 토큰 종료처리
+                    token = tokenManager.createNextToken(tokenDto) //현재 토큰의 next에서 다음 token을 찾은 후 createToken 호출
+                } while (tokenDto.isAutoComplete) // 해당 토큰이 반복해서 실행되어야 하는 경우 (종료 토큰 생성후 반복하여 endDt 찍고 false 변경 종료)
             }
         }
 
         return true
+    }
+
+    /**
+     * Action - Save.
+     *
+     * @param wfTokenDto
+     */
+    private fun actionSave(wfTokenDto: WfTokenDto) {
+        // Save Token & Token Data
+        val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
+        token.assigneeId = wfTokenDto.assigneeId
+        val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
+        for (tokenDataDto in wfTokenDto.data!!) {
+            val tokenDataEntity = WfTokenDataEntity(
+                tokenId = wfTokenDto.tokenId,
+                componentId = tokenDataDto.componentId,
+                value = tokenDataDto.value
+            )
+            tokenDataEntities.add(tokenDataEntity)
+        }
+        if (tokenDataEntities.isNotEmpty()) {
+            wfTokenDataRepository.saveAll(tokenDataEntities)
+        }
+        wfTokenRepository.save(token)
+    }
+
+    private fun setTokenDtoValue(token: WfTokenDto): WfTokenDto {
+        //val token = wfTokenDto.copy()
+        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(token.tokenId).get()
+        token.instanceId = tokenEntity.instance.instanceId
+        token.elementType = tokenEntity.element.elementType
+        token.elementId = tokenEntity.element.elementId
+        token.documentId = tokenEntity.instance.document.documentId
+        return token
     }
 
     /**
