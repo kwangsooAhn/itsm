@@ -14,10 +14,10 @@
                 <input type="text" name="searchValue" id="searchValue" th:placeholder="#{notice.searchPlaceholder}"/>
                 <input type="text" id="fromDt" name="fromDt" readonly="readonly"
                     th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                 th:value="${#temporals.format(minusCurrentDate, dateformat)}"/>
+                    th:value="${#temporals.format(minusCurrentDate, dateformat)}"/>
                 <input type="text" id="toDt" name="toDt" readonly="readonly"
                     th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                 th:value="${#temporals.format(currentDate, dateformat)}"/>
+                    th:value="${#temporals.format(currentDate, dateformat)}"/>
                 <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;"
                     onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
             </div>
