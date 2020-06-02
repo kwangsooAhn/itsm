@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.token.controller
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.component.constants.WfComponentConstants
@@ -71,7 +72,8 @@ class WfTokenRestController(private val wfEngine: WfEngine, private val aliceFil
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
-            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>
+            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
+            instanceCreateUser = restTemplateTokenDataUpdateDto.assigneeId?.let { AliceUserEntity(userKey = it) }
         )
 
         // 2020-05-29 Jung Hee Chan
