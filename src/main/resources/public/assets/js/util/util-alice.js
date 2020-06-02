@@ -785,3 +785,16 @@ aliceJs.convertToSystemHourType = function(value) {
     }
     return value;
 };
+
+/**
+ * 두개의 배열의 값이 일치하는지 여부를 체크
+ * @param arr1 array 객체
+ * @param arr2 array 객제
+ */
+aliceJs.arraysMatch = function (arr1, arr2) {
+    if (arr1.length !== arr2.length) { return false; }
+    for (let i = 0, len = arr1.length; i < len; i++) {
+        if (arr1[i] !== arr2[i]) { return false; }
+    }
+    return true;
+};

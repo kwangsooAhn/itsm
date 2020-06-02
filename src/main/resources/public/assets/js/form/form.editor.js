@@ -75,7 +75,8 @@
 
     let formPanel = null,
         propertiesPanel = null,
-        selectedComponentId = '', //선택된 컴포넌트 ID
+        previousComponentIds = [], //이전에 선택한 컴포넌트
+        selectedComponentIds = [], //선택된 컴포넌트 ID
         formProperties = {},      //좌측 properties panel에 출력되는 폼 정보
         customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
 
@@ -463,8 +464,10 @@
             let editbox = component.draw(defaultComponent, formPanel);
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
-            showComponentProperties(editbox.id);
 
+            selectedComponentIds.length = 0;
+            selectedComponentIds.push(editbox.id);
+            showComponentProperties();
             reorderComponent();
         }
     }
@@ -474,7 +477,7 @@
      * @param {String} elemId 선택한 element Id
      */
     function copyComponent(elemId) {
-        let copyElemId = elemId || selectedComponentId;
+        let copyElemId = elemId || selectedComponentIds[0];
         let elem = document.getElementById(copyElemId);
         if (elem === null) { return; }
 
@@ -492,7 +495,10 @@
                 if (copyData.type === 'editbox') {
                     comp.domElem.querySelector('[contenteditable=true]').focus();
                 }
-                showComponentProperties(comp.id);
+                context.itemInContext = comp.domElem;
+                selectedComponentIds.length = 0;
+                selectedComponentIds.push(comp.id);
+                showComponentProperties();
 
                 let copyCompAttr = editor.data.components.filter(function(c) { return c.id === comp.id; });
                 history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(copyCompAttr[0]))}]);
@@ -506,7 +512,7 @@
      * @param {String} elemId 선택한 element Id
      */
     function deleteComponent(elemId) {
-        let delElemId = elemId || selectedComponentId;
+        let delElemId = elemId || selectedComponentIds[0];
         let elem = document.getElementById(delElemId);
         if (elem === null) { return; }
 
@@ -524,7 +530,7 @@
         let histories = [];
         //컴포넌트 삭제
         elem.remove();
-        selectedComponentId = '';
+        selectedComponentIds.length = 0;
         for (let i = 0; i < editor.data.components.length; i++) {
             if (delElemId === editor.data.components[i].id) {
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
@@ -538,13 +544,16 @@
             histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
-            showComponentProperties(editbox.id);
+            context.itemInContext = editbox.domElem;
+            selectedComponentIds.push(editbox.id);
         } else {
             if (previousSelectedElem.getAttribute('data-type') === defaultComponent) {
                 previousSelectedElem.querySelector('[contenteditable=true]').focus();
             }
-            showComponentProperties(previousSelectedElem.id);
+            context.itemInContext = previousSelectedElem;
+            selectedComponentIds.push(previousSelectedElem.id);
         }
+        showComponentProperties();
         //재정렬
         reorderComponent();
         // 이력저장
@@ -554,24 +563,28 @@
      * 첫번째 컴포넌트 선택
      */
     function selectFirstComponent() {
-        let firstComponent = formPanel.firstElementChild;
+        const firstComponent = formPanel.firstElementChild;
         if (firstComponent.getAttribute('data-type') === defaultComponent) {
             firstComponent.querySelector('[contenteditable=true]').focus();
         }
         formPanel.scrollTop = 0;
-        showComponentProperties(firstComponent.id);
+        selectedComponentIds.length = 0;
+        selectedComponentIds.push(firstComponent.id);
+        showComponentProperties();
     }
 
     /**
      * 마지막 컴포넌트 선택 : 컴포넌트가 1개 밖에 없을 경우 첫번째 컴포넌트 선택됨
      */
     function selectLastComponent() {
-        let lastComponent = formPanel.lastElementChild;
+        const lastComponent = formPanel.lastElementChild;
         if (lastComponent.getAttribute('data-type') === defaultComponent) {
             lastComponent.querySelector('[contenteditable=true]').focus();
         }
         formPanel.scrollTop = formPanel.scrollHeight;
-        showComponentProperties(lastComponent.id);
+        selectedComponentIds.length = 0;
+        selectedComponentIds.push(lastComponent.id);
+        showComponentProperties();
     }
 
     /**
@@ -579,9 +592,9 @@
      */
     function selectUpComponent() {
         if (document.getElementById('context-menu').classList.contains('on')) { return false; }
-        if (selectedComponentId === '') { return false; }
+        if (selectedComponentIds.length !== 1) { return false; }
 
-        let selectedElem = document.getElementById(selectedComponentId);
+        let selectedElem = document.getElementById(selectedComponentIds[0]);
         if (selectedElem !== null) {
             let previousElem = selectedElem.previousElementSibling;
             if (previousElem === null && selectedElem.getAttribute('data-index') === '1') {
@@ -591,7 +604,9 @@
             if (previousElem.getAttribute('data-type') === defaultComponent) {
                 previousElem.querySelector('[contenteditable=true]').focus();
             }
-            showComponentProperties(previousElem.id);
+            selectedComponentIds.length = 0;
+            selectedComponentIds.push(previousElem.id);
+            showComponentProperties();
         }
     }
 
@@ -600,9 +615,9 @@
      */
     function selectDownComponent() {
         if (document.getElementById('context-menu').classList.contains('on')) { return false; }
-        if (selectedComponentId === '') { return false; }
+        if (selectedComponentIds.length !== 1) { return false; }
 
-        let selectedElem = document.getElementById(selectedComponentId);
+        let selectedElem = document.getElementById(selectedComponentIds[0]);
         if (selectedElem !== null) {
             let nextElem = selectedElem.nextElementSibling;
             if (nextElem === null && Number(selectedElem.getAttribute('data-index')) === component.getLastIndex()) {
@@ -612,7 +627,9 @@
             if (nextElem.getAttribute('data-type') === defaultComponent) {
                 nextElem.querySelector('[contenteditable=true]').focus();
             }
-            showComponentProperties(nextElem.id);
+            selectedComponentIds.length = 0;
+            selectedComponentIds.push(nextElem.id);
+            showComponentProperties();
         }
     }
 
@@ -630,7 +647,7 @@
      * @param {String} elemId 선택한 element Id
      */
     function addEditboxUp(elemId) {
-        let addElemId = elemId || selectedComponentId;
+        let addElemId = elemId || selectedComponentId[0];
         let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
@@ -642,7 +659,9 @@
         reorderComponent();
 
         editbox.domElem.querySelector('[contenteditable=true]').focus();
-        showComponentProperties(editbox.id);
+        selectedComponentIds.length = 0;
+        selectedComponentIds.push(editbox.id);
+        showComponentProperties();
 
         let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.id === editbox.id; });
         history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
@@ -654,7 +673,7 @@
      * @param {Function} callbackFunc callback function
      */
     function addEditboxDown(elemId, callbackFunc) {
-        let addElemId = elemId || selectedComponentId;
+        let addElemId = elemId || selectedComponentId[0];
         let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
@@ -672,7 +691,9 @@
         reorderComponent();
 
         editbox.domElem.querySelector('[contenteditable=true]').focus();
-        showComponentProperties(editbox.id);
+        selectedComponentIds.length = 0;
+        selectedComponentIds.push(editbox.id);
+        showComponentProperties();
 
         if (typeof callbackFunc === 'function') {
             callbackFunc(editbox.attr);
@@ -742,51 +763,67 @@
     /**
      * 컴포넌트의 데이터를 전달받아서 우측 properties panel 출력용으로 컴포넌트 기본 속성을 정제하여 조회한다.
      * @param {Object} compDate 컴포넌트 데이터
-     * @return {String} detailAttr 정제한 컴포넌트 기본 속성 데이터
+     * @return {String} properties 정제한 컴포넌트 기본 속성 데이터
      */
     function getRefineAttribute(compDate) {
-        let detailAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[compDate.type]);
+        let refineAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[compDate.type]);
         Object.keys(compDate).forEach(function(comp) {
-            if (aliceJs.isObject(compDate[comp]) && detailAttr.hasOwnProperty(comp))  {
+            if (aliceJs.isObject(compDate[comp]) && refineAttr.hasOwnProperty(comp))  {
                 Object.keys(compDate[comp]).forEach(function(attr) {
-                    Object.keys(detailAttr[comp]).forEach(function(d) {
-                        if (attr === detailAttr[comp][d].id) {
-                            detailAttr[comp][d].value = compDate[comp][attr];
+                    Object.keys(refineAttr[comp]).forEach(function(d) {
+                        if (attr === refineAttr[comp][d].id) {
+                            refineAttr[comp][d].value = compDate[comp][attr];
                         }
                     });
                 });
             }
         });
-        return detailAttr;
+        return refineAttr;
     }
     
     /**
      * 우측 properties panel 세부 속성 출력
-     * @param {String} id 조회할 컴포넌트 ID
      */
-    function showComponentProperties(id) {
-        if (selectedComponentId === id) { return false; }
-        propertiesPanel.innerHTML = '';
-        
-        if (selectedComponentId !== '') { //기존 선택된 컴포넌트 css 삭제
-            if (document.getElementById(selectedComponentId).classList.contains('selected')) {
-                document.getElementById(selectedComponentId).classList.remove('selected');
-            }
-        }
+    function showComponentProperties() {
+        console.log(selectedComponentIds);
+        console.log(previousComponentIds);
+        if (selectedComponentIds.length === 0) { return false; }
+        if (aliceJs.arraysMatch(previousComponentIds, selectedComponentIds)) { return false; }
+        hideComponentProperties();
+        previousComponentIds = selectedComponentIds.slice();
 
-        selectedComponentId = id;
-        let selectedComponentElem = document.getElementById(id);
+        //하나만 선택되었고, 현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
+        let selectedComponentElem = document.getElementById(selectedComponentIds[0]);
         if (selectedComponentElem === null) { return false; }
-
-        //현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
-        if (selectedComponentElem.getAttribute('data-type') === defaultComponent) {
-            showFormProperties(selectedComponentId);
+        if (selectedComponentIds.length === 1 && selectedComponentElem.getAttribute('data-type') === defaultComponent) {
+            showFormProperties(selectedComponentIds[0]);
             return false;
         }
 
-        selectedComponentElem.classList.add('selected'); //현재 선택된 컴포넌트 css 추가
+        //현재 선택된 컴포넌트 css 추가
+        let selectedComponentTypes = [];
+        let isSameComponent = true;
+        let isHideComponent = false;
+        for (let i = 0, len = selectedComponentIds.length; i < len; i++) {
+            let selectedElem = document.getElementById(selectedComponentIds[i]);
+            if (selectedElem !== null) {
+                selectedElem.classList.add('selected');
+                const componentType = selectedElem.getAttribute('data-type');
+                if (i === 0) {
+                    selectedComponentTypes.push(componentType);
+                } else {
+                    if (selectedComponentTypes.indexOf(componentType) === -1) {
+                        isSameComponent = false; //동일한 컴포넌트가 아니다.
+                        selectedComponentTypes.push(componentType);
+                        if (componentType === 'label' || componentType === 'image' || componentType === 'divider' || componentType === 'editbox') {
+                            isHideComponent = true;
+                        }
+                    }
+                }
+            }
+        }
 
-        let compIdx = getComponentIndex(id);
+        let compIdx = getComponentIndex(selectedComponentIds[0]);
         if (compIdx === -1) { return false; }
         
         let compAttr = editor.data.components[compIdx];
@@ -863,17 +900,36 @@
                 }
             }
         };
-        let detailAttr = getRefineAttribute(compAttr);
-        //제목 출력
-        let compTitleAttr = component.getTitle(compAttr.type);
-        let compTitleElem = document.createElement('div');
-        compTitleElem.classList.add('property-title');
-        compTitleElem.textContent = compTitleAttr.name;
-        //TODO: 제목 icon 추가
-        propertiesPanel.appendChild(compTitleElem);
+
+        let properties = getRefineAttribute(compAttr);
+        //1. 컴포넌트가 2개 이상이면 dataAttribute 속성은 보여주지 않는다.
+        //2. 동일한 컴포넌트를 선택한 경우, dataAttribute 를 제외한 모든 속성이 출력된다.
+        if (selectedComponentIds.length > 1 && properties.hasOwnProperty('dataAttribute')) { delete properties.dataAttribute; }
+        //3. 서로 다른 컴포넌트이면, label과 display의 column 속성만 보여진다.
+        if (selectedComponentIds.length > 1 && !isSameComponent && !isHideComponent) {
+            if (properties.hasOwnProperty('display')) {
+                properties.display = properties.display.filter(function (c) {
+                    return c.id.includes('column');
+                });
+            }
+            if (properties.hasOwnProperty('option')) { delete properties.option;}
+            if (properties.hasOwnProperty('validate')) { delete properties.validate; }
+        }
+        //4. 서로 다른 컴포넌트이고, Divider, Image, Label가 포함되어 있다면 아무 속성도 출력하지 않는다.
+        if (selectedComponentIds.length > 1 && !isSameComponent && isHideComponent) { return false; }
+
+        //5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
+        if (selectedComponentIds.length === 1) {
+            const componentTitleAttr = component.getTitle(compAttr.type);
+            const componentTitleElem = document.createElement('div');
+            componentTitleElem.classList.add('property-title');
+            componentTitleElem.textContent = componentTitleAttr.name;
+            propertiesPanel.appendChild(componentTitleElem);
+        }
+        console.log(properties);
 
         //TODO: 세부 속성 출력 코드 리팩토링
-        Object.keys(detailAttr).forEach(function(group) {
+        /*Object.keys(properties).forEach(function(group) {
             let groupDiv = document.createElement('div');
             groupDiv.setAttribute('id', group);
             groupDiv.classList.add('property-group');
@@ -895,7 +951,7 @@
                     row.appendChild(cell);
 
                     const rowData = {};
-                    detailAttr.option[0].items.forEach(function(option, i) {
+                    properties.option[0].items.forEach(function(option, i) {
                         cell = document.createElement('td');
                         cell.id = option.id;
                         cell.innerHTML = tb.lastElementChild.children[i + 1].innerHTML;
@@ -949,9 +1005,9 @@
                 groupTb = document.createElement('table');
                 groupDiv.appendChild(groupTb);
             }
-            if (detailAttr[group] !== null && typeof(detailAttr[group]) === 'object')  { //세부 속성
-                Object.keys(detailAttr[group]).forEach(function(field) {
-                    let fieldArr = detailAttr[group][field];
+            if (properties[group] !== null && typeof(properties[group]) === 'object')  { //세부 속성
+                Object.keys(properties[group]).forEach(function(field) {
+                    let fieldArr = properties[group][field];
                     let fieldGroupDiv = null,
                         propertyName = null,
                         propertyValue = null;
@@ -1033,12 +1089,12 @@
                             propertyValue = document.createElement('select');
                             propertyValue.classList.add('property-field-value');
                             let propertyValueArr = fieldArr.value.split('|');
-                            /**
+                            /!**
                              * 사용자 입력을 받는 inputbox 또는  selectbox를 생성하고 이벤트를 등록한다.
                              *  none|직접입력값, select|userid|아이디, select|username|이름 등
                              * @param {String} type none, select 2가지 타입
                              * @param {String} defaultValue 기본 값
-                             */
+                             *!/
                             const setSubList = function(type, defaultValue) {
                                 let subListElem = null;
                                 if (type === 'none') {
@@ -1458,18 +1514,23 @@
                     }
                 });
             }
-        });
+        });*/
     }
     
     /**
      * 우측 properties panel 삭제한다.
      */
     function hideComponentProperties() {
-        if (selectedComponentId !== '') {
-            propertiesPanel.innerHTML = '';
+        propertiesPanel.innerHTML = '';
+        if (previousComponentIds.length > 0) {
             //기존 선택된 컴포넌트 css 삭제
-            document.getElementById(selectedComponentId).classList.remove('selected');
-            selectedComponentId = '';
+            const components = document.querySelectorAll('.component');
+            for (let i = 0, len = components.length; i < len; i++) {
+                let elem = components[i];
+                if (elem.classList.contains('selected')) {
+                    elem.classList.remove('selected');
+                }
+            }
         }
     }
     /**
@@ -1478,28 +1539,24 @@
      * @param {String} elemId 선택한 element Id
      */
     function showFormProperties(elemId) {
-        propertiesPanel.innerHTML = '';
-
-        //기존 선택된 컴포넌트 css 삭제
-        document.querySelectorAll('.component').forEach(function(comp) {
-            comp.classList.remove('selected');
-        });
-
+        hideComponentProperties();
+        console.log('========================');
         if (typeof elemId !== 'undefined' && elemId !== '') {
             if (!document.getElementById(elemId).classList.contains('selected')) {
                 document.getElementById(elemId).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
             }
         } else {
-            selectedComponentId = '';
+            selectedComponentIds.length = 0;
+            previousComponentIds.length = 0;
         }
         let formAttr = editor.data.form;
-        let detailAttr = formProperties.form;
+        let properties = formProperties.form;
 
         //data + 기본 속성 = 세부 속성 재할당 
         Object.keys(formAttr).forEach(function(form) {
-            Object.keys(detailAttr).forEach(function(idx) {
-                if (form === detailAttr[idx].id) {
-                    detailAttr[idx].value = formAttr[form];
+            Object.keys(properties).forEach(function(idx) {
+                if (form === properties[idx].id) {
+                    properties[idx].value = formAttr[form];
                 }
             });
         });
@@ -1513,8 +1570,8 @@
         groupDiv.textContent = 'form';
         propertiesPanel.appendChild(groupDiv);
         
-        Object.keys(detailAttr).forEach(function(idx) {
-            let fieldArr = detailAttr[idx];
+        Object.keys(properties).forEach(function(idx) {
+            let fieldArr = properties[idx];
             let fieldGroupDiv = document.createElement('div');
             fieldGroupDiv.classList.add('property-field');
             fieldGroupDiv.setAttribute('id', fieldArr.id);
@@ -1607,7 +1664,8 @@
                 if (firstComponent.getAttribute('data-type') === defaultComponent) {
                     firstComponent.querySelector('[contenteditable=true]').focus();
                 }
-                showComponentProperties(firstComponent.id);
+                selectedComponentIds.push(firstComponent.id);
+                showComponentProperties();
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -1806,6 +1864,7 @@
     exports.hideComponentProperties = hideComponentProperties;
     exports.selectProperties = selectProperties;
     exports.history = history;
+    exports.selectedComponentIds = selectedComponentIds;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

@@ -186,7 +186,7 @@
         let contextScrollTop = menu.scrollTop;
         let viewPort = contextScrollTop + contextHeight;
         let elem = menu.getElementsByClassName('active')[0];
-        let itemHeight = elem.firstElementChild.offsetHeight;
+        let itemHeight = elem.querySelector('.active').offsetHeight;
         let contextOffset = itemHeight * selectedItemIdx;
 
         if (contextOffset < contextScrollTop || (contextOffset + itemHeight) > viewPort) {
@@ -321,15 +321,9 @@
      * @param {Object} e 이벤트객체
      */
     function onKeyUpHandler(e) {
+        isCtrlPressed = false;
         if (clickInsideElement(e, 'alice-form-properties-panel')) { return false; }
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
-
-        if (isCtrlPressed && flag === 1 && itemInContext) {
-            menuOff();
-            itemInContext = null;
-        }
-        isCtrlPressed = false;
-
         if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return false; }
         if (selectedItem && userKeyCode === keycode.enter) {
             searchItems = [];
@@ -407,7 +401,7 @@
                 flag = 1;
                 menuOff();
                 
-                if (e.target.classList.contains('alice-form-panel') || e.target.classList.contains('drawing-board')) { 
+                if (e.target.classList.contains('alice-form-panel') || e.target.classList.contains('drawing-board')) {
                     editor.showFormProperties();
                 }
                 itemInContext = null;
@@ -418,7 +412,7 @@
                 itemInContext = clickInsideElement(e, 'component');
                 if (itemInContext) {
                     let box = itemInContext.querySelector('[contenteditable=true]');
-                    if (isCtrlPressed || e.target.classList.contains('add-icon')) { //Ctrl + editbox 클릭시 전체 컴포넌트 리스트 출력
+                    if (e.target.classList.contains('add-icon')) { //+ 아이콘 클릭시 전체 선택
                         if (box) {
                             menuOn(2);
                             setPositionMenu(e);
@@ -427,12 +421,17 @@
                             menuOff();
                         }
                     }
-                    
-                    if (itemInContext !== null) {
-                        editor.showComponentProperties(itemInContext.id);
+
+                    if (isCtrlPressed) {  //배열에 담음
+                        if (editor.selectedComponentIds.indexOf(itemInContext.id) === -1) {
+                            editor.selectedComponentIds.push(itemInContext.id);
+                        }
+                    } else { //배열 초기화 후 현재 선택된 컴포넌트만 표시
+                        editor.selectedComponentIds.length = 0;
+                        editor.selectedComponentIds.push(itemInContext.id);
                     }
+                    editor.showComponentProperties();
                 }
-                //
             }
         }
     }
@@ -593,6 +592,7 @@
     }
     
     exports.init = init;
+    exports.itemInContext = itemInContext;
     
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
