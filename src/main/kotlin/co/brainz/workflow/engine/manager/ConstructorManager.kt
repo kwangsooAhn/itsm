@@ -2,6 +2,7 @@ package co.brainz.workflow.engine.manager
 
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.element.service.WfElementService
+import co.brainz.workflow.engine.manager.service.WfTokenMappingValue
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.token.repository.WfCandidateRepository
@@ -17,7 +18,8 @@ class ConstructorManager(
     private val wfElementRepository: WfElementRepository,
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfCandidateRepository: WfCandidateRepository
+    private val wfCandidateRepository: WfCandidateRepository,
+    private val wfTokenMappingValue: WfTokenMappingValue
 ) {
 
     fun getElementService(): WfElementService {
@@ -46,5 +48,9 @@ class ConstructorManager(
 
     fun getCandidateRepository(): WfCandidateRepository {
         return this.wfCandidateRepository
+    }
+
+    fun getTokenMappingValue(): WfTokenMappingValue {
+        return this.wfTokenMappingValue
     }
 }

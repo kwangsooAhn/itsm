@@ -1,7 +1,8 @@
-package co.brainz.workflow.token.service
+package co.brainz.workflow.engine.manager.service
 
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -18,11 +19,11 @@ class WfTokenMappingValue(
     /**
      * 생성 할 업무의 mappingId 와 일치하는 토큰데이터를 찾아 dto 를 리턴.
      */
-    fun makeRestTemplateTokenDto(token: WfTokenEntity, documentId: List<String>): List<RestTemplateTokenDto> {
+    fun makeRestTemplateTokenDto(token: WfTokenEntity, documentId: List<String>): List<WfTokenDto> {
 
         val keyPairMappingIdAndTokenData = this.getTokenDataByMappingId(token)
 
-        val tokensDto = mutableListOf<RestTemplateTokenDto>()
+        val tokensDto = mutableListOf<WfTokenDto>()
         documentId.forEach {
             val document = documentRepository.findDocumentEntityByDocumentId(it)
 
@@ -36,7 +37,7 @@ class WfTokenMappingValue(
             }
 
             tokensDto.add(
-                RestTemplateTokenDto(
+                WfTokenDto(
                     documentId = document.documentId,
                     data = tokenDataList,
                     action = WfElementConstants.Action.SAVE.value,
@@ -92,7 +93,7 @@ class WfTokenMappingValue(
     private fun getTokenDataByMappingId(token: WfTokenEntity): MutableMap<String, String> {
 
         // 종료된 토큰의 componentId 별로 mappingId를 찾는다.
-        val component = token.instance.document?.form?.components?.filter {
+        val component = token.instance.document.form.components?.filter {
             it.mappingId.isNotBlank()
         }
 

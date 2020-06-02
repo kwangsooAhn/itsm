@@ -10,6 +10,7 @@ import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.element.service.WfElementService
+import co.brainz.workflow.engine.manager.service.WfTokenMappingValue
 import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.service.WfInstanceService
@@ -20,7 +21,6 @@ import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
-import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import java.time.LocalDateTime
 import java.time.ZoneId
