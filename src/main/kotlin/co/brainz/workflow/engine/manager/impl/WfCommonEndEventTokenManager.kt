@@ -20,10 +20,10 @@ class WfCommonEndEventTokenManager(
     override fun createNextToken(wfTokenDto: WfTokenDto): WfTokenDto {
         wfTokenDto.isAutoComplete = false //반복문을 종료한다.
 
-        // TODO: 호출받은 token이 종료되었을 경우.. 호출한 프로세스를 다음단계로 진행한다. (subprocess만 조건으로 줘야하나???)
-        if (!wfTokenDto.parentTokenId.isNullOrEmpty()) {
-            if (wfTokenDto.elementType == WfElementConstants.ElementType.SUB_PROCESS.value) {
-                val pTokenId = wfTokenDto.parentTokenId!!
+        if (!wfTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
+            val pTokenId = wfTokenDto.parentTokenId!!
+            val elementType = wfTokenRepository.findTokenEntityByTokenId(pTokenId).get().element.elementType
+            if (elementType == WfElementConstants.ElementType.SUB_PROCESS.value) {
                 var token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
                 token.tokenData = super.setTokenData(wfTokenDto)
                 val mainProcessToken = wfTokenRepository.findTokenEntityByTokenId(pTokenId).get()
