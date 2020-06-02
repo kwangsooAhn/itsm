@@ -4,6 +4,7 @@ import co.brainz.workflow.component.entity.WfComponentDataEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
+import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.mapper.WfFormMapper
@@ -24,7 +25,8 @@ import org.springframework.stereotype.Service
 class WfFormService(
     private val wfFormRepository: WfFormRepository,
     private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository
+    private val wfComponentDataRepository: WfComponentDataRepository,
+    private val wfDocumentRepository: WfDocumentRepository
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(
@@ -88,8 +90,14 @@ class WfFormService(
      *
      * @param formId
      */
-    fun deleteForm(formId: String) {
-        wfFormRepository.removeWfFormEntityByFormId(formId)
+    fun deleteForm(formId: String): Boolean {
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
+        val documentEntity = wfDocumentRepository.findByForm(formEntity)
+        if (documentEntity == null) {
+            wfFormRepository.removeWfFormEntityByFormId(formId)
+            return true
+        }
+        return false
     }
 
     /**

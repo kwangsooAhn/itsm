@@ -75,6 +75,7 @@ class WfDocumentService(
         val document = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         return RestTemplateDocumentDto(
             documentId = document.documentId,
+            documentType = document.documentType,
             documentName = document.documentName,
             documentDesc = document.documentDesc,
             documentStatus = document.documentStatus,
@@ -162,6 +163,7 @@ class WfDocumentService(
         val process = WfProcessEntity(processId = processId)
         val documentEntity = WfDocumentEntity(
             documentId = restTemplateDocumentDto.documentId,
+            documentType = restTemplateDocumentDto.documentType,
             documentName = restTemplateDocumentDto.documentName,
             documentDesc = restTemplateDocumentDto.documentDesc,
             form = form,
@@ -180,6 +182,7 @@ class WfDocumentService(
 
         return RestTemplateDocumentDto(
             documentId = dataEntity.documentId,
+            documentType = dataEntity.documentType,
             documentName = dataEntity.documentName,
             documentDesc = dataEntity.documentDesc,
             formId = dataEntity.form.formId,
@@ -200,10 +203,9 @@ class WfDocumentService(
     fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
 
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateDocumentDto.documentId)
-        val form =
-            WfFormEntity(formId = restTemplateDocumentDto.formId)
-        val process =
-            WfProcessEntity(processId = restTemplateDocumentDto.processId)
+        val form = WfFormEntity(formId = restTemplateDocumentDto.formId)
+        val process = WfProcessEntity(processId = restTemplateDocumentDto.processId)
+        wfDocumentEntity.documentType = restTemplateDocumentDto.documentType
         wfDocumentEntity.documentName = restTemplateDocumentDto.documentName
         wfDocumentEntity.documentDesc = restTemplateDocumentDto.documentDesc
         wfDocumentEntity.documentStatus = restTemplateDocumentDto.documentStatus

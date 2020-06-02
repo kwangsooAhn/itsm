@@ -13,6 +13,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.ResponseEntity
@@ -20,10 +24,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.multipart.MultipartFile
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.time.LocalDateTime
 
 @Service
 class FormService(private val restTemplate: RestTemplateProvider) {
@@ -139,7 +139,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val basePath = ClassPathResource(RestTemplateConstants.BASE_DIR).file.path.toString()
         var dir = Paths.get(basePath, rootDir)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
-        return dir;
+        return dir
     }
 
 
@@ -148,17 +148,17 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val fileList = JsonArray()
         val imageRegex = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))\$)".toRegex()
         Files.walk(dir)
-                .filter { Files.isRegularFile(it) }
-                .filter { it -> it.fileName.toString().matches(imageRegex) }
-                .forEach {
-                    val fileJson = JsonObject()
-                    fileJson.addProperty("fileName", it.fileName.toString())
-                    val relativePath = ClassPathResource(RestTemplateConstants.BASE_DIR).uri.relativize(it.toUri())
-                    fileJson.addProperty("imgPath", "/$relativePath")  //상대 경로 /asset/...
-                    fileJson.addProperty("imgUrl", it.toUri().toURL().toString()) // file://...
-                    fileJson.addProperty("fileSize", it.toFile().length())
-                    fileList.add(fileJson)
-                }
+            .filter { Files.isRegularFile(it) }
+            .filter { it -> it.fileName.toString().matches(imageRegex) }
+            .forEach {
+                val fileJson = JsonObject()
+                fileJson.addProperty("fileName", it.fileName.toString())
+                val relativePath = ClassPathResource(RestTemplateConstants.BASE_DIR).uri.relativize(it.toUri())
+                fileJson.addProperty("imgPath", "/$relativePath")  //상대 경로 /asset/...
+                fileJson.addProperty("imgUrl", it.toUri().toURL().toString()) // file://...
+                fileJson.addProperty("fileSize", it.toFile().length())
+                fileList.add(fileJson)
+            }
         return fileList.toString()
     }
 
@@ -177,7 +177,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             fileJson.addProperty("fileSize", destDir.toFile().length())
             rtn = fileJson.toString()
         } catch (e: Exception) {
-            logger.error("File upload failed.");
+            logger.error("File upload failed.")
             logger.error("{}", e.message)
         }
         return rtn
@@ -187,11 +187,11 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         var rtn = false
         val map = mapper.readValue(jsonData, LinkedHashMap::class.java)
         val dir = getImageBaseDir(RestTemplateConstants.FORM_IMAGE_DIR)
-        var delFile = Paths.get(dir.toString(), map["name"].toString())
+        val delFile = Paths.get(dir.toString(), map["name"].toString())
         if (Files.exists(delFile)) {
             Files.delete(delFile)
-            rtn = true;
+            rtn = true
         }
-        return rtn;
+        return rtn
     }
 }
