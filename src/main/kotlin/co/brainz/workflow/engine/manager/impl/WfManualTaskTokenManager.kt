@@ -13,13 +13,12 @@ class WfManualTaskTokenManager(
 
     override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
+        token.assigneeId = wfTokenDto.assigneeId
         val saveToken = wfTokenRepository.save(token)
         wfTokenDto.tokenId = saveToken.tokenId
         wfTokenDto.elementId = saveToken.element.elementId
         wfTokenDto.elementType = saveToken.element.elementType
 
-        token.assigneeId = wfTokenDto.assigneeId
-        wfTokenRepository.save(token)
         return wfTokenDto
     }
 

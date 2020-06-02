@@ -29,7 +29,8 @@ abstract class WfTokenManager(val constructorManager: ConstructorManager) {
         wfTokenDto.elementType = element.elementType
         wfTokenDto.isAutoComplete = when (element.elementType) {
             WfElementConstants.ElementType.COMMON_END_EVENT.value,
-            WfElementConstants.ElementType.MANUAL_TASK.value -> true
+            WfElementConstants.ElementType.MANUAL_TASK.value,
+            WfElementConstants.ElementType.SIGNAL_SEND.value -> true
             else -> false
         }
         val tokenManager = WfTokenManagerFactory(constructorManager).getTokenManager(wfTokenDto.elementType)
