@@ -82,7 +82,7 @@ class WfTokenRestController(private val wfEngine: WfEngine, private val aliceFil
         // fileupload 로직. 원래는 ITSM쪽에서 처리하고 있었으나... component type을 일일이 검증할 수 없어서 엔진에서 처리
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (wfEngine.component()
-                .getComponentTypeById(it.componentId) == (WfComponentConstants.ComponentType.FILEUPLOAD.code)) {
+                .getComponentTypeById(it.componentId) == (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -112,7 +112,7 @@ class WfTokenRestController(private val wfEngine: WfEngine, private val aliceFil
         // fileupload 로직. 원래는 ITSM쪽에서 처리하고 있었으나... component type을 일일이 검증할 수 없어서 엔진에서 처리
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (wfEngine.component()
-                .getComponentTypeById(it.componentId) == (WfComponentConstants.ComponentType.FILEUPLOAD.code)) {
+                .getComponentTypeById(it.componentId) == (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
