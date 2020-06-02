@@ -48,6 +48,8 @@ common:
     unknownError: "An unknown error has occurred. Please contact the administrator."
     requiredEnter: "Please enter the required item."
     noData: "There is no data."
+    checkDocument: "Please check the document again."
+
 # Menu
 menu:
   service: "Service"
@@ -312,6 +314,7 @@ form:
       fileuploadFailed: "File upload failed."
       fileSelect: "Please select a file."
       fileNameDuplication: "The same file name exists."
+      failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
   preview:
     name: "Form Edit Preview"
   help:
@@ -404,7 +407,8 @@ document:
   label:
     adminList: "Workflow List"
     list: "Service Request List"
-    reg: "Service Request Registration"
+    register: "Service Request Registration"
+    modify: "Service Request Modify"
     write: "Service Request Write"
     type: "Document Type"
     name: "Service Request Name"
@@ -436,6 +440,8 @@ document:
     lengthMax: "Please enter less than {0} characters."
     dateMin: "Please select after {0} date."
     dateMax: "Please select before {0} date."
+    timeMin: "Please select after {0} time."
+    timeMax: "Please select before {0} time."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     requiredFileupload: "Please upload a file."

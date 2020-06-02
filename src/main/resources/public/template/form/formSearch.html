@@ -40,10 +40,14 @@
     
         //폼 삭제
         function deleteForm(formId) {
-            restSubmit('DELETE', '/rest/forms/' + formId, function() {
-                aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
-                    location.reload();
-                });
+            restSubmit('DELETE', '/rest/forms/' + formId, function(result) {
+                if (result === 'true') {
+                    aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
+                        location.reload();
+                    });
+                } else {
+                    aliceJs.alert('[[#{form.msg.alert.failedFormDelete}]]');
+                }
             });
         }
     

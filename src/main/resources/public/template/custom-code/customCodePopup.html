@@ -53,6 +53,7 @@
     </div>
 </div>
 </body>
+<script th:src="@{/assets/js/document/document.js}"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
     let componentData = {};
@@ -65,6 +66,7 @@
             let componentChild =  component.querySelector('input[type="text"]');
             componentChild.value = componentValue;
             componentChild.setAttribute('custom-data', componentDataValue);
+            aliceDocument.checkValidate(componentChild);
             window.close();
         }
     }
