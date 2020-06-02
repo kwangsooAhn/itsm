@@ -926,15 +926,104 @@
             propertiesPanel.appendChild(componentTitleElem);
         }
         console.log(properties);
+        const defaultOption = properties.hasOwnProperty('option') ? properties.option[0].items : {};
+        const addOptionHandler = function(e) { //옵션 추가
+            const tb = e.target.parentNode.querySelector('table');
+            const row = document.createElement('tr');
+            const rowCount = tb.rows.length;
+            let cell = document.createElement('td');
+            cell.innerHTML = tb.lastElementChild.children[0].innerHTML;
+            row.appendChild(cell);
 
-        const drawProperties = function(parentProp, childProp) {
-            Object.keys(childProp).forEach(function(item) {
-                if (Array.isArray(childProp[item])) { //group 추가
-                    console.log(item);
-                    drawProperties(item, childProp[item]);
+            let rowData = {};
+            defaultOption.forEach(function(item, idx) {
+                cell = document.createElement('td');
+                cell.id = item.id;
+                cell.innerHTML = tb.lastElementChild.children[idx + 1].innerHTML;
+
+                const inputCell = cell.querySelector('input');
+                inputCell.addEventListener('change', function(e) {
+                    changePropertiesValue(this.value, tb.parentNode.id, item.id, rowCount - 1);
+                }, false);
+
+                if (item.id === 'seq') {
+                    inputCell.value = rowCount;
+                    inputCell.setAttribute('readonly', 'true');
+                    rowData[item.id] = rowCount;
+                } else {
+                    inputCell.value = item.value;
+                    rowData[item.id] = item.value;
+                }
+                row.appendChild(cell);
+            });
+            compAttr[tb.parentNode.id].push(rowData);
+            tb.appendChild(row);
+
+            redrawComponent();
+        };
+
+        const removeOptionHandler = function(e) { //옵션 삭제
+            const tb = e.target.parentNode.querySelector('table');
+            let minusCnt = 0;
+            let rowCount = tb.rows.length;
+            for (let i = 1; i < rowCount; i++) {
+                let row = tb.rows[i];
+                let chkbox = row.cells[0].childNodes[0];
+                let seqCell = row.cells[1].childNodes[0];
+                if (chkbox.checked && rowCount > 2) {
+                    tb.deleteRow(i);
+                    compAttr[tb.parentNode.id].splice(i - 1, 1);
+                    rowCount--;
+                    i--;
+                    minusCnt++;
+                } else if (seqCell.value !== i) {
+                    seqCell.value = i;
+                    compAttr[tb.parentNode.id][i - 1].seq = i;
+                }
+            }
+            if (minusCnt > 0) {
+                redrawComponent();
+            }
+        };
+
+        const drawGroup = function(type) {
+            const elem = document.createElement('div');
+            elem.setAttribute('id', type);
+            elem.classList.add('property-group');
+            const elemText = document.createTextNode(type);
+            elem.appendChild(elemText);
+
+            if (type === 'option') { // +,- 버튼과 테이블 추가
+                const plusBtn = document.createElement('button');
+                plusBtn.type = 'button';
+                plusBtn.classList.add('plus');
+                plusBtn.addEventListener('click', addOptionHandler, false);
+                elem.appendChild(plusBtn);
+
+                const minusBtn = document.createElement('button');
+                minusBtn.type = 'button';
+                minusBtn.classList.add('minus');
+                minusBtn.addEventListener('click', removeOptionHandler, false);
+                elem.appendChild(minusBtn);
+
+                const tbElem = document.createElement('table');
+                elem.appendChild(tbElem);
+            }
+            propertiesPanel.appendChild(elem);
+        };
+
+        const drawField = function() {
+
+        };
+
+        const drawProperties = function(group, field) {
+            Object.keys(field).forEach(function(item) {
+                if (Array.isArray(field[item])) { //group 추가
+                    drawGroup(item);
+                    drawProperties(item, field[item]);
                 } else { //field 추가
-                    console.log(parentProp);
-                    console.log(childProp[item]);
+                    console.log(group);
+                    console.log(field[item]);
                 }
             });
         };
