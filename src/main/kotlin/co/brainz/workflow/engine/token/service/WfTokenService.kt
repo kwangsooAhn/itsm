@@ -57,7 +57,7 @@ class WfTokenService(
                     tokenStatus = tokenEntity.tokenStatus,
                     assigneeId = tokenEntity.assigneeId,
                     documentId = tokenEntity.instance.document!!.documentId,
-                    documentName = tokenEntity.instance.document!!.documentName
+                    documentName = tokenEntity.instance.document.documentName
                 )
             )
         }
@@ -108,6 +108,12 @@ class WfTokenService(
         val formId = tokenEntity.get().instance.document!!.form.formId
         val formData = wfFormService.getFormComponentList(formId)
 
+        val documentDisplayList =
+            wfDocumentDisplayRepository.findByDocumentIdAndElementId(
+                tokenEntity.get().instance.document!!.documentId,
+                tokenEntity.get().element.elementId
+            )
+
         for (componentEntity in formData.components) {
             // values
             val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
@@ -120,6 +126,13 @@ class WfTokenService(
                 }
             }
             componentEntity.values = values
+
+            // displayType
+            for (documentDisplay in documentDisplayList) {
+                if (componentEntity.componentId == documentDisplay.componentId) {
+                    componentEntity.dataAttribute["displayType"] = documentDisplay.display
+                }
+            }
         }
 
         return RestTemplateTokenViewDto(

@@ -13,6 +13,7 @@ import co.brainz.workflow.engine.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
+import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.form.entity.WfFormEntity
 import co.brainz.workflow.engine.form.mapper.WfFormMapper
@@ -27,6 +28,7 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -37,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional
 class WfDocumentService(
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
+    private val wfElementService: WfElementService,
     private val wfDocumentRepository: WfDocumentRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfInstanceRepository: WfInstanceRepository,
@@ -50,8 +53,6 @@ class WfDocumentService(
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    private val wfFormMapper: WfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
 
     /**
      * Search Documents.
@@ -98,9 +99,23 @@ class WfDocumentService(
     fun getInitDocument(documentId: String): RestTemplateRequestDocumentDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
 
+        val form = wfFormService.getFormComponentList(documentEntity.form.formId)
+        val dummyTokenDto =
+            RestTemplateTokenDto(elementId = wfElementService.getStartElement(documentEntity.process.processId).elementId)
+        val firstElement = wfElementService.getNextElement(dummyTokenDto)
+        val documentDisplayList =
+            wfDocumentDisplayRepository.findByDocumentIdAndElementId(documentId, firstElement.elementId)
+        for (component in form.components) {
+            for (documentDisplay in documentDisplayList) {
+                if (component.componentId == documentDisplay.componentId) {
+                    component.dataAttribute["displayType"] = documentDisplay.display
+                }
+            }
+        }
+
         return RestTemplateRequestDocumentDto(
             documentId = documentId,
-            form = wfFormService.getFormComponentList(documentEntity.form.formId),
+            form = form,
             actions = wfActionService.actionInit(documentEntity.process.processId)
         )
     }
@@ -133,7 +148,8 @@ class WfDocumentService(
             createDt = restTemplateDocumentDto.createDt,
             createUserKey = restTemplateDocumentDto.createUserKey,
             documentStatus = restTemplateDocumentDto.documentStatus,
-            numberingRule = aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get(),
+            numberingRule = aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
+                .get(),
             documentColor = restTemplateDocumentDto.documentColor
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
@@ -257,7 +273,8 @@ class WfDocumentService(
     fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
-        val componentEntities = wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
+        val componentEntities =
+            wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
         val displayList = wfDocumentDisplayRepository.findByDocumentId(documentId)
 
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
@@ -272,7 +289,8 @@ class WfDocumentService(
                 }
             }
             val componentMap = LinkedHashMap<String, Any>()
-            val componentData = wfComponentDataRepository.findByComponentIdAndAttributeId(component.componentId, "label")
+            val componentData =
+                wfComponentDataRepository.findByComponentIdAndAttributeId(component.componentId, "label")
             val attributeValue = if (componentData.isNotEmpty()) {
                 // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
                 componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
