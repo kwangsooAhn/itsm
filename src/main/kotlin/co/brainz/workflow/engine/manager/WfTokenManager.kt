@@ -5,25 +5,17 @@ import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
-import co.brainz.workflow.token.entity.WfTokenEntity
 import java.time.LocalDateTime
 import java.time.ZoneId
 
 abstract class WfTokenManager(val constructorManager: ConstructorManager) {
 
     private val wfElementService = constructorManager.getElementService()
-    private val wfElementRepository = constructorManager.getElementRepository()
-    private val wfInstanceRepository = constructorManager.getInstanceRepository()
     private val wfTokenRepository = constructorManager.getTokenRepository()
+    private val wfTokenManagerService = constructorManager.getTokenManagerService()
 
     open fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = WfTokenEntity(
-            tokenId = "",
-            tokenStatus = RestTemplateConstants.TokenStatus.RUNNING.value,
-            tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-            instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
-            element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
-        )
+        val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
         val saveToken = wfTokenRepository.save(token)
         wfTokenDto.tokenId = saveToken.tokenId
         wfTokenDto.elementId = saveToken.element.elementId

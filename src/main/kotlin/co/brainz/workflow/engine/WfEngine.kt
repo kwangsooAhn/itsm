@@ -1,10 +1,12 @@
 package co.brainz.workflow.engine
 
 import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.ConstructorManager
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import org.slf4j.LoggerFactory
@@ -22,6 +24,12 @@ class WfEngine(
     private val wfTokenRepository = constructorManager.getTokenRepository()
     private val wfTokenDataRepository = constructorManager.getTokenDataRepository()
 
+    /**
+     * Start workflow.
+     *
+     * @param wfTokenDto
+     * @return Boolean
+     */
     fun startWorkflow(wfTokenDto: WfTokenDto): Boolean {
         logger.debug("Start Workflow")
 
@@ -30,10 +38,7 @@ class WfEngine(
 
         // StartToken Create & Complete
         val element = wfElementService.getStartElement(instance.document.process.processId)
-        var startTokenDto = wfTokenDto
-        startTokenDto.instanceId = instance.instanceId
-        startTokenDto.elementType = element.elementType
-        startTokenDto.elementId = element.elementId
+        var startTokenDto = setTokenDtoInitValue(wfTokenDto, instance, element)
         val tokenManager = getTokenManager(startTokenDto.elementType)
         startTokenDto = tokenManager.createToken(startTokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
@@ -44,10 +49,15 @@ class WfEngine(
         return progressWorkflow(firstTokenDto)
     }
 
+    /**
+     * Progress workflow.
+     *
+     * @param wfTokenDto
+     * @return Boolean
+     */
     fun progressWorkflow(wfTokenDto: WfTokenDto): Boolean {
         logger.debug("Process Token")
         var token = wfTokenDto.copy()
-
         when (wfTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> {
                 actionSave(wfTokenDto)
@@ -56,9 +66,9 @@ class WfEngine(
                 do {
                     val tokenDto = setTokenDtoValue(token)
                     val tokenManager = getTokenManager(tokenDto.elementType)
-                    tokenManager.completeToken(tokenDto) //현재 토큰 종료처리
-                    token = tokenManager.createNextToken(tokenDto) //현재 토큰의 next에서 다음 token을 찾은 후 createToken 호출
-                } while (tokenDto.isAutoComplete) // 해당 토큰이 반복해서 실행되어야 하는 경우 (종료 토큰 생성후 반복하여 endDt 찍고 false 변경 종료)
+                    tokenManager.completeToken(tokenDto)
+                    token = tokenManager.createNextToken(tokenDto)
+                } while (tokenDto.isAutoComplete)
             }
         }
 
@@ -89,8 +99,34 @@ class WfEngine(
         wfTokenRepository.save(token)
     }
 
+    /**
+     * Start workflow tokenDto init.
+     *
+     * @param wfTokenDto
+     * @param instance
+     * @param element
+     * @return token
+     */
+    private fun setTokenDtoInitValue(
+        wfTokenDto: WfTokenDto,
+        instance: WfInstanceEntity,
+        element: WfElementEntity
+    ): WfTokenDto {
+        val token = wfTokenDto.copy()
+        token.instanceId = instance.instanceId
+        token.elementType = element.elementType
+        token.elementId = element.elementId
+        token.documentId = instance.document.documentId
+        return token
+    }
+
+    /**
+     * Progress workflow tokenDto init.
+     *
+     * @param token
+     * @return wfTokenDto
+     */
     private fun setTokenDtoValue(token: WfTokenDto): WfTokenDto {
-        //val token = wfTokenDto.copy()
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(token.tokenId).get()
         token.instanceId = tokenEntity.instance.instanceId
         token.elementType = tokenEntity.element.elementType

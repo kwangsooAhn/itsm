@@ -19,19 +19,12 @@ class WfUserTaskTokenManager(
     private val wfTokenRepository = constructorManager.getTokenRepository()
     private val wfTokenDataRepository = constructorManager.getTokenDataRepository()
     private val wfCandidateRepository = constructorManager.getCandidateRepository()
-    private val wfInstanceRepository = constructorManager.getInstanceRepository()
-    private val wfElementRepository = constructorManager.getElementRepository()
+    private val wfTokenManagerService = constructorManager.getTokenManagerService()
 
     lateinit var assigneeId: String
 
     override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = WfTokenEntity(
-            tokenId = "",
-            tokenStatus = RestTemplateConstants.TokenStatus.RUNNING.value,
-            tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-            instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
-            element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
-        )
+        val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
         val saveToken = wfTokenRepository.save(token)
         wfTokenDto.tokenId = saveToken.tokenId
         wfTokenDto.elementId = saveToken.element.elementId
