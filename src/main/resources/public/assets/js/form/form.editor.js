@@ -790,7 +790,6 @@
         if (selectedComponentIds.length === 0) { return false; }
         if (aliceJs.arraysMatch(previousComponentIds, selectedComponentIds)) { return false; }
         hideComponentProperties();
-        previousComponentIds = selectedComponentIds.slice();
 
         //하나만 선택되었고, 현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
         let selectedComponentElem = document.getElementById(selectedComponentIds[0]);
@@ -927,6 +926,19 @@
             propertiesPanel.appendChild(componentTitleElem);
         }
         console.log(properties);
+
+        const drawProperties = function(parentProp, childProp) {
+            Object.keys(childProp).forEach(function(item) {
+                if (Array.isArray(childProp[item])) { //group 추가
+                    console.log(item);
+                    drawProperties(item, childProp[item]);
+                } else { //field 추가
+                    console.log(parentProp);
+                    console.log(childProp[item]);
+                }
+            });
+        };
+        drawProperties('', properties);
 
         //TODO: 세부 속성 출력 코드 리팩토링
         /*Object.keys(properties).forEach(function(group) {
@@ -1515,6 +1527,7 @@
                 });
             }
         });*/
+        previousComponentIds = selectedComponentIds.slice();
     }
     
     /**
