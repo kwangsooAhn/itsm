@@ -110,6 +110,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
+        val forms = mapper.convertValue(map["form"], RestTemplateFormDto::class.java)
         val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
             map["components"],
             TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
@@ -245,7 +246,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         var rtn = false
         val map = mapper.readValue(jsonData, LinkedHashMap::class.java)
         val dir = getImageBaseDir(RestTemplateConstants.FORM_IMAGE_DIR)
-        var delFile = Paths.get(dir.toString(), map["name"].toString())
+        val delFile = Paths.get(dir.toString(), map["name"].toString())
         if (Files.exists(delFile)) {
             Files.delete(delFile)
             rtn = true

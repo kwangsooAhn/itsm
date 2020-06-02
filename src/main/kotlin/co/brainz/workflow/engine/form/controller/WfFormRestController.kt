@@ -69,7 +69,7 @@ class WfFormRestController(private val wfEngine: WfEngine) {
 
     @Transactional
     @DeleteMapping("/{formId}")
-    fun deleteForm(@PathVariable formId: String) {
+    fun deleteForm(@PathVariable formId: String): Boolean {
         return wfEngine.form().deleteForm(formId)
     }
 }

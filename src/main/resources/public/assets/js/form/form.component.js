@@ -100,7 +100,7 @@
                 </div>
                 <div class='field' style='flex-basis: 100%;'>
                     <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}'
-                    ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} max-length='${attr.validate.lengthMax}'
+                    ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} max-length='${attr.validate.lengthMax}' maxlength='${attr.validate.lengthMax}'
                     min-length='${attr.validate.lengthMin}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate.regexpMsg}'/>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                         max-length='${attr.validate.lengthMax}' min-length='${attr.validate.lengthMin}'></div>
                     </div>` :
                     `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
-                    ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''}
+                    ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} maxlength='${attr.validate.lengthMax}'
                     max-length='${attr.validate.lengthMax}' min-length='${attr.validate.lengthMin}'>${textAreaDefaultValue}</textarea>`
                 }
                 </div>
@@ -468,7 +468,9 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDatePicker('date-' + attr.componentId, aliceForm.options.dateFormat, aliceForm.options.lang);
+            dateTimePicker.initDatePicker('date-' + attr.componentId, aliceForm.options.dateFormat, aliceForm.options.lang, function () {
+                aliceDocument.checkValidate(document.getElementById('date-' + attr.componentId));
+            });
         }
     }
 
@@ -490,7 +492,7 @@
             if (timeDefaultArr[0] === 'now') {
                 timeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.hourFormat);
             } else if (timeDefaultArr[0] === 'time') {
-                timeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.hourFormat)
+                timeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.hourFormat);
                 // 설정에 따른 시간 가감.
                 let momentObject = moment(timeDefault, aliceForm.options.hourFormat);
                 if (!aliceJs.isEmpty(timeDefaultArr[1])) {
@@ -525,7 +527,9 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initTimePicker('time-' + attr.componentId, aliceForm.options.hourFormat, aliceForm.options.lang);
+            dateTimePicker.initTimePicker('time-' + attr.componentId, aliceForm.options.hourFormat, aliceForm.options.lang, function () {
+                aliceDocument.checkValidate(document.getElementById('time-' + attr.componentId));
+            });
         }
     }
 
@@ -549,7 +553,7 @@
             if (datetimeDefaultArr[0] === 'now') {
                 datetimeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.datetimeFormat);
             } else if (datetimeDefaultArr[0] === 'datetime') {
-                datetimeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.datetimeFormat)
+                datetimeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.datetimeFormat);
                 // 설정에 따른 날짜와 시간 가감.
                 let momentObject = moment(datetimeDefault, aliceForm.options.datetimeFormat);
                 if (!aliceJs.isEmpty(datetimeDefaultArr[1])) {
@@ -579,7 +583,8 @@
                         <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.componentId}' placeholder='${aliceForm.options.datetimeFormat}' value='${datetimeDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate.dateMax}' date-min='${attr.validate.dateMin}'/>
+                        <input type='text' id='datetime-${attr.componentId}' placeholder='${aliceForm.options.datetimeFormat}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} 
+                        datetime-max='${attr.validate.datetimeMax}' datetime-min='${attr.validate.datetimeMin}'/>
                     </div>
                 </div>
             `);
@@ -587,7 +592,9 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDateTimePicker('datetime-' + attr.componentId, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang);
+            dateTimePicker.initDateTimePicker('datetime-' + attr.componentId, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, function () {
+                aliceDocument.checkValidate(document.getElementById('datetime-' + attr.componentId));
+            });
         }
     }
 

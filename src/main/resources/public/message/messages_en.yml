@@ -36,6 +36,7 @@ common:
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
     comment: "Comment"
     print: "Print"
+    count: "total {0}"
   msg:
     save: "Saved"
     process: "It has been processed."
@@ -47,6 +48,8 @@ common:
     unknownError: "An unknown error has occurred. Please contact the administrator."
     requiredEnter: "Please enter the required item."
     noData: "There is no data."
+    checkDocument: "Please check the document again."
+
 # Menu
 menu:
   service: "Service"
@@ -56,7 +59,7 @@ menu:
   help.notice: "Notice"
   help.faq: "FAQ"
   help.document: "Service Request"
-  help.token: "Process Document"
+  help.token: "My Document"
   help.dashboard: "Dashboard"
   help.download: "Download"
   setting: "settings"
@@ -66,6 +69,7 @@ menu:
   setting.code: "Code management"
   setting.form: "Form"
   setting.process: "Process"
+  setting.document: "Workflow"
   setting.custom.code: "Custom Code"
   editMyInfo: "Edit my info"
   help.board: "Help"
@@ -310,6 +314,7 @@ form:
       fileuploadFailed: "File upload failed."
       fileSelect: "Please select a file."
       fileNameDuplication: "The same file name exists."
+      failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
   preview:
     name: "Form Edit Preview"
   help:
@@ -400,9 +405,12 @@ validation:
 # Document
 document:
   label:
+    adminList: "Workflow List"
     list: "Service Request List"
-    reg: "Service Request Registration"
+    register: "Service Request Registration"
+    modify: "Service Request Modify"
     write: "Service Request Write"
+    type: "Document Type"
     name: "Service Request Name"
     docNo: "Service Request No"
     description: "Service Request Description"
@@ -432,17 +440,20 @@ document:
     lengthMax: "Please enter less than {0} characters."
     dateMin: "Please select after {0} date."
     dateMax: "Please select before {0} date."
+    timeMin: "Please select after {0} time."
+    timeMax: "Please select before {0} time."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     requiredFileupload: "Please upload a file."
-    raunchedInstance: "There is an instance started and cannot be deleted."
+    launchedInstance: "There is an instance started and cannot be deleted."
     businessFlowColorNotExist: "Please enter Business Flow Color."
 
 # token
 token:
   label:
-    list: "Process Document List"
-    write: "Process Document"
+    list: "My Document List"
+    all: "All Document"
+    write: "My Document"
     startDt: "Start Date"
     endDt: "Finish Date"
     elementName: "Task Name"
@@ -451,7 +462,12 @@ token:
     history: "History"
     relatedInstance: "Related Documents"
     print: "Process Document Print"
-    searchPlaceholder: "Related Document Name / Create User"
+    searchPlaceholder: "Create User Name / Contents"
+  type:
+    todo: "Document to process"
+    requested: "Application document"
+    progress: "Document in progress"
+    completed: "Completed Documents"
 
 # Code
 code:

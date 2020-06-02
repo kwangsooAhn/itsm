@@ -47,7 +47,7 @@
     function onGetDetail() {
         const opt = {
             method: 'get',
-            url: '/rest/documents/[[${documentId}]]/display',
+            url: '/rest/documents-admin/[[${documentId}]]/display',
             callbackFunc: function(response) {
                 const responseJson = JSON.parse(response.responseText);
                 // set element row
@@ -55,7 +55,7 @@
                 const displayTable = document.getElementById('documentDisplay');
                 const elementRow = document.getElementById('documentElementRow');
                 for (let i = 0; i < elements.length; i++) {
-                    var elementData = document.createElement('th');
+                    let elementData = document.createElement('th');
                     elementData.id = elements[i].elementId;
                     elementData.innerHTML = elements[i].attributeValue;
                     elementRow.appendChild(elementData);
@@ -124,7 +124,7 @@
 
         const opt = {
             method: 'put',
-            url: '/rest/documents/[[${documentId}]]/display',
+            url: '/rest/documents-admin/[[${documentId}]]/display',
             params: displayJson,
             contentType: 'application/json',
             callbackFunc: function () {

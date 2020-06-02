@@ -1448,7 +1448,7 @@
         ],
         "validate": [
             {
-                "id": "dateMin",
+                "id": "datetimeMin",
                 "name": "Min Datetime",
                 "value": "2000-01-01 00:00",
                 "type": "datetimepicker",
@@ -1456,7 +1456,7 @@
                 "unit": ""
             },
             {
-                "id": "dateMax",
+                "id": "datetimeMax",
                 "name": "Max Datetime",
                 "value": "2030-12-31 23:59",
                 "type": "datetimepicker",
