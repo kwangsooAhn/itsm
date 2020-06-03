@@ -18,6 +18,12 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     lateinit var createTokenEntity: WfTokenEntity
     lateinit var assigneeId: String
 
+    /**
+     * Create token.
+     *
+     * @param wfTokenDto
+     * @return WfTokenDto
+     */
     open fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
         this.assigneeId = wfTokenDto.assigneeId.toString()
         val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
@@ -28,6 +34,12 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         return wfTokenDto
     }
 
+    /**
+     * Create next token.
+     *
+     * @param wfTokenDto
+     * @return WfTokenDto
+     */
     open fun createNextToken(wfTokenDto: WfTokenDto): WfTokenDto {
         val element = wfTokenManagerService.getNextElement(wfTokenDto)
         wfTokenDto.elementId = element.elementId
@@ -43,6 +55,12 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         return tokenManager.createToken(wfTokenDto)
     }
 
+    /**
+     * Complete token.
+     *
+     * @param wfTokenDto
+     * @return WfTokenDto
+     */
     open fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
@@ -58,6 +76,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Set Assignee + Candidate.
      *
+     * @param token
      */
     fun setCandidate(token: WfTokenEntity) {
         val assigneeType =

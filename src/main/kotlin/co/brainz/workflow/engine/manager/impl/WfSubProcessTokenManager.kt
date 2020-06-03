@@ -15,7 +15,7 @@ class WfSubProcessTokenManager(
         super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(tokenDto))
         super.setCandidate(super.createTokenEntity)
 
-        // MappingId를 찾아 넘어갈 데이터를 선정하고 프로세스를 시작한다.
+        // Set mapping component data.
         val elementInfo = wfTokenManagerService.getElement(tokenDto.elementId)
         val documentId =
             super.getAttributeValue(
@@ -34,5 +34,4 @@ class WfSubProcessTokenManager(
 
         return tokenDto
     }
-
 }
