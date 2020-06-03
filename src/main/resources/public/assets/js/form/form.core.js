@@ -50,7 +50,12 @@
 
     /**
      * 컴포넌트 기본 속성인 '/assets/js/form/componentAttribute.json' 데이터를 조회 후
-     * callback 함수를 실행한다.
+     * callback(init) 함수를 실행한다.
+     *
+     * 2020-06-03 Jung Hee Chan
+     *   - 최초 기본 속성을 가져와서 사용하는 경우에도 사용자의 포맷으로 변경하기 위해서 변환 추가
+     *
+     * @param {Function} callback
      */
     function initSync(callback) {
         let params = Array.prototype.slice.call(arguments, 1);
@@ -61,6 +66,28 @@
             callbackFunc: function(xhr) {
                 options.componentAttribute = JSON.parse(xhr.responseText);
                 callback.apply(null, params);
+                Object.keys(options.componentAttribute).forEach(function(componentType) {
+                    if (componentType === 'datetime' || componentType === 'date' || componentType === 'time') {
+                        Object.values(options.componentAttribute[componentType].validate).forEach(function(validateItem) {
+                            if (!(validateItem.id.indexOf('date') < 0 && validateItem.id.indexOf('time') < 0)) {
+                                switch (componentType) {
+                                    case 'datetime':
+                                        validateItem.value = aliceJs.convertToUserDatetimeFormatWithTimezone(validateItem.value,
+                                            options.datetimeFormat, options.timezone);
+                                        break;
+                                    case 'date':
+                                        validateItem.value =
+                                            aliceJs.convertToUserDateFormat(validateItem.value, options.dateFormat);
+                                        break;
+                                    case 'time':
+                                        validateItem.value =
+                                            aliceJs.convertToUserTimeFormat(validateItem.value, options.hourFormat);
+                                        break;
+                                }
+                            }
+                        })
+                    }
+                })
             },
             contentType: 'application/json; charset=utf-8'
         });

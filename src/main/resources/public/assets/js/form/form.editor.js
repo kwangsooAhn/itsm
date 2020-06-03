@@ -1,16 +1,16 @@
 /**
-* @projectDescription Form Designer Editor Library
-*
-* @author woodajung
+ * @projectDescription Form Designer Editor Library
+ *
+ * @author woodajung
  * @version 1.0
-*/
+ */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (factory((global.editor = global.editor || {})));
+        typeof define === 'function' && define.amd ? define(['exports'], factory) :
+            (factory((global.editor = global.editor || {})));
 }(this, (function (exports) {
     'use strict';
-    
+
     const defaultComponent = 'editbox';
     const history = {
         redo_list: [],
@@ -394,7 +394,7 @@
     function redoForm() {
         history.redo();
     }
-    
+
     /**
      * 미리보기
      */
@@ -415,14 +415,14 @@
         document.body.appendChild(form);
         form.submit();
     }
-    
+
     /**
      * export
      */
     function exportForm() {
         //TODO: export
     }
-    
+
     /**
      * import
      */
@@ -518,7 +518,7 @@
 
         //editbox 컴포넌트 1개만 존재할 경우 삭제 로직을 타지 않는다.
         if (document.querySelectorAll('.component').length === 1 &&
-                elem.getAttribute('data-type') === defaultComponent) { return false; }
+            elem.getAttribute('data-type') === defaultComponent) { return false; }
 
 
         let histories = [];
@@ -743,44 +743,33 @@
      * 컴포넌트의 데이터를 전달받아서 우측 properties panel 출력용으로 컴포넌트 기본 속성을 정제하여 조회한다.
      *
      * 2020-06-03 Jung Hee Chan
-     *   - 최초 기본 속성을 가져와서 사용하는 경우에도 사용자의 포맷으로 변경하기 위해서 변환 추가.
+     *   - 오타, 네이밍, 주석 수정 및 추가.
+     *   - 날짜시간 속성에 대한 reformat은 reformatCalendarFormat과 함께 향후 정리가 필요.
+     *   - 최초 기본 속성을 가져와서 사용하는 경우에도 사용자의 포맷으로 변경하기 위해서 변환 추가를 했으나
+     *   - 변환을 1번만 하는게 아니라 새로 그릴때마다 해서 지금 값이 최초 기본 속성인지 알수가 없음.
+     *   - form.core에서 initSync에서 파일 읽어올때 처리하도록 했음. 결론적으로 여기는 정리만...
      *
-     * @param {Object} componentData 컴포넌트 데이터
-     * @return {String} detailAttr 정제한 컴포넌트 기본 속성 데이터
+     * @param {Object} componentData 컴포넌트 데이터. 화면처럼 속성그룹, 속성명과 값이 포함.
+     * @return {String} initializedProperties 정제한 컴포넌트 기본 속성 데이터
      */
-    function getRefineAttribute(componentData) {
-        let detailAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[componentData.type]);
-        Object.keys(compDate).forEach(function(comp) {
-            if (aliceJs.isObject(componentData[comp]) && detailAttr.hasOwnProperty(comp))  {
-                Object.keys(componentData[comp]).forEach(function(attr) {
-                    Object.keys(detailAttr[comp]).forEach(function(d) {
-                        if (attr === detailAttr[comp][d].id) {
-                            let targetAttr = componentData[comp][attr];
-                            switch(comp.type) {
-                                case 'datetime':
-                                    targetAttr = aliceJs.convertToUserDatetimeFormatWithTimezone(targetAttr,
-                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                                    break;
-                                case 'date':
-                                    targetAttr =
-                                        aliceJs.convertToUserDateFormat(targetAttr, aliceForm.options.dateFormat);
-                                    break;
-                                case 'time':
-                                    targetAttr =
-                                        aliceJs.convertToUserTimeFormat(targetAttr, aliceForm.options.hourFormat);
-                                    break;
-                            }
+    function initProperties(componentData) {
+        // set default component properties
+        let initializedProperties = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[componentData.type]);
 
-                            detailAttr[comp][d].value = targetAttr;
+        Object.keys(componentData).forEach(function(propertyGroupId) {
+            if (aliceJs.isObject(componentData[propertyGroupId]) && initializedProperties.hasOwnProperty(propertyGroupId))  {
+                Object.keys(componentData[propertyGroupId]).forEach(function(propertyId) {
+                    Object.keys(initializedProperties[propertyGroupId]).forEach(function(initProperty) {
+                        if (propertyId === initializedProperties[propertyGroupId][initProperty].id) {
+                            initializedProperties[propertyGroupId][initProperty].value = componentData[propertyGroupId][propertyId];
                         }
                     });
                 });
             }
         });
-
-        return detailAttr;
+        return initializedProperties;
     }
-    
+
     /**
      * 우측 properties panel 세부 속성 출력
      * @param {String} id 조회할 컴포넌트 ID
@@ -788,7 +777,7 @@
     function showComponentProperties(id) {
         if (selectedComponentId === id) { return false; }
         propertiesPanel.innerHTML = '';
-        
+
         if (selectedComponentId !== '') { //기존 선택된 컴포넌트 css 삭제
             if (document.getElementById(selectedComponentId).classList.contains('selected')) {
                 document.getElementById(selectedComponentId).classList.remove('selected');
@@ -809,7 +798,7 @@
 
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
-        
+
         let compAttr = editor.data.components[compIdx];
         /**
          * 컴포넌트를 다시 그린다.
@@ -866,7 +855,7 @@
             } else {
                 let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
                 if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
-                
+
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
                 if (changeValue === 'none' || changeValue === 'now') {
@@ -884,7 +873,7 @@
                 }
             }
         };
-        let detailAttr = getRefineAttribute(compAttr);
+        let detailAttr = initProperties(compAttr);
         //제목 출력
         let compTitleAttr = component.getTitle(compAttr.type);
         let compTitleElem = document.createElement('div');
@@ -900,7 +889,7 @@
             groupDiv.classList.add('property-group');
             groupDiv.textContent = group;
             propertiesPanel.appendChild(groupDiv);
-            
+
             let buttonExist = false,
                 fieldButtonDiv = null,
                 groupTb = null;
@@ -966,7 +955,7 @@
                     }
                 });
                 groupDiv.appendChild(minusButton);
-                
+
                 groupTb = document.createElement('table');
                 groupDiv.appendChild(groupTb);
             }
@@ -982,7 +971,7 @@
                             fieldGroupDiv.classList.add('property-field');
                             fieldGroupDiv.setAttribute('id', fieldArr.id);
                             groupDiv.appendChild(fieldGroupDiv);
-                            
+
                             fieldGroupDiv.removeAttribute('id');
                             fieldButtonDiv = document.createElement('div');
                             fieldButtonDiv.classList.add('property-field-button');
@@ -1025,7 +1014,7 @@
                             fieldGroupDiv.appendChild(propertyValue);
 
                             if (fieldArr.type === 'inputbox-underline') { propertyValue.classList.add('underline'); }
-                            
+
                             if (fieldArr.unit !== '') {
                                 let propertyUnit = document.createElement('span');
                                 propertyUnit.classList.add('property-field-unit');
@@ -1127,7 +1116,7 @@
                                 slider.value = this.value;
                                 changePropertiesValue(this.value, group, fieldArr.id);
                             });
-                            
+
                             let slideValue = document.createElement('input');
                             slideValue.classList.add('property-field-value', 'underline');
                             slideValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
@@ -1165,7 +1154,7 @@
                                 propertyOption.setAttribute('id', fieldArr.name + '-' + fieldArr.option[i].id);
                                 propertyOption.value = fieldArr.option[i].id;
                                 propertyOption.name = fieldArr.name;
-                                if (fieldArr.value === fieldArr.option[i].id) { 
+                                if (fieldArr.value === fieldArr.option[i].id) {
                                     propertyOption.setAttribute('checked', 'checked');
                                 }
                                 propertyOption.addEventListener('change', function() {
@@ -1198,7 +1187,7 @@
                                     
                                     ${option.id === 'date' || option.id === 'time' ? "<input type='text' id='" + option.id +"' value='" + optionDefaultArr[1] + "'/><label for='" + option.id + "'>" + labelName[1] + "</label>" : ""}
                                     
-                                    ${option.id === 'datetime'? 
+                                    ${option.id === 'datetime'?
                                     "<input type='text' id='" + option.id +"-0' value='" + optionDefaultArr[1] + "' /><label for='" + option.id + "-0'>" + labelName[1] + "</label>" +
                                     "<input type='text' id='" + option.id +"-1' value='" + optionDefaultArr[2] + "' /><label for='" + option.id + "-1'>" + labelName[2] + "</label>" : ""}
                                     
@@ -1224,7 +1213,7 @@
                                     changeOptions[i].addEventListener('change', setDateFormat, false);
                                 }
                             }
-                            
+
                             if (compAttr.type === 'date') {
                                 dateTimePicker.initDatePicker('datepicker-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
                             } else if (compAttr.type === 'time') {
@@ -1302,7 +1291,7 @@
                             break;
                         case 'button':
                             if (fieldButtonDiv === null) { break; }
-                            
+
                             if (fieldArr.option !== undefined) {
                                 for (let i = 0, len = fieldArr.option.length; i < len; i++) {
                                     propertyValue = document.createElement('button');
@@ -1441,7 +1430,7 @@
                             if (fieldArr.value === '' && customCodeList.length > 0) {
                                 changePropertiesValue(customCodeList[0].customCodeId, group, fieldArr.id);
                             }
-                            
+
                             propertyValue.addEventListener('change', function() {
                                 changePropertiesValue(this.value, group, fieldArr.id);
                             }, false);
@@ -1482,7 +1471,7 @@
             }
         });
     }
-    
+
     /**
      * 우측 properties panel 삭제한다.
      */
@@ -1534,19 +1523,19 @@
         groupDiv.classList.add('property-group');
         groupDiv.textContent = 'form';
         propertiesPanel.appendChild(groupDiv);
-        
+
         Object.keys(detailAttr).forEach(function(idx) {
             let fieldArr = detailAttr[idx];
             let fieldGroupDiv = document.createElement('div');
             fieldGroupDiv.classList.add('property-field');
             fieldGroupDiv.setAttribute('id', fieldArr.id);
             groupDiv.appendChild(fieldGroupDiv);
-            
+
             let propertyName = document.createElement('span');
             propertyName.classList.add('property-field-name');
             propertyName.textContent = fieldArr.name;
             fieldGroupDiv.appendChild(propertyName);
-            
+
             let propertyValue = null;
             if (fieldArr.type === 'textarea') {
                 propertyValue = document.createElement('textarea');
@@ -1582,17 +1571,17 @@
                 }, false);
             }
             fieldGroupDiv.appendChild(propertyValue);
-            
-            if (fieldArr.type === 'inputbox-readonly') { 
-                propertyValue.classList.add('noline'); 
+
+            if (fieldArr.type === 'inputbox-readonly') {
+                propertyValue.classList.add('noline');
                 propertyValue.setAttribute('readonly', 'true');
             }
         });
     }
 
-     /**
+    /**
      * 조회된 데이터 draw.
-     * 
+     *
      * @param {Object} data 조회한 폼 및 컴포넌트 정보
      */
     function drawForm(data) {
@@ -1600,7 +1589,7 @@
         if (editor.data.components.length > 0) {
             if (editor.data.components.length > 2) {
                 editor.data.components.sort(function (a, b) { //컴포넌트 재정렬
-                    return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;  
+                    return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;
                 });
             }
             //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
@@ -1636,7 +1625,7 @@
 
         isEdited = false;
         //폼 이름 출력
-         changeFormName();
+        changeFormName();
     }
 
     /**
@@ -1802,7 +1791,7 @@
         })
         return components;
     }
-    
+
     exports.init = init;
     exports.save = saveForm;
     exports.saveAs = saveAsForm;
