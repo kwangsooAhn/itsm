@@ -741,22 +741,43 @@
 
     /**
      * 컴포넌트의 데이터를 전달받아서 우측 properties panel 출력용으로 컴포넌트 기본 속성을 정제하여 조회한다.
-     * @param {Object} compDate 컴포넌트 데이터
+     *
+     * 2020-06-03 Jung Hee Chan
+     *   - 최초 기본 속성을 가져와서 사용하는 경우에도 사용자의 포맷으로 변경하기 위해서 변환 추가.
+     *
+     * @param {Object} componentData 컴포넌트 데이터
      * @return {String} detailAttr 정제한 컴포넌트 기본 속성 데이터
      */
-    function getRefineAttribute(compDate) {
-        let detailAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[compDate.type]);
+    function getRefineAttribute(componentData) {
+        let detailAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[componentData.type]);
         Object.keys(compDate).forEach(function(comp) {
-            if (aliceJs.isObject(compDate[comp]) && detailAttr.hasOwnProperty(comp))  {
-                Object.keys(compDate[comp]).forEach(function(attr) {
+            if (aliceJs.isObject(componentData[comp]) && detailAttr.hasOwnProperty(comp))  {
+                Object.keys(componentData[comp]).forEach(function(attr) {
                     Object.keys(detailAttr[comp]).forEach(function(d) {
                         if (attr === detailAttr[comp][d].id) {
-                            detailAttr[comp][d].value = compDate[comp][attr];
+                            let targetAttr = componentData[comp][attr];
+                            switch(comp.type) {
+                                case 'datetime':
+                                    targetAttr = aliceJs.convertToUserDatetimeFormatWithTimezone(targetAttr,
+                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                    break;
+                                case 'date':
+                                    targetAttr =
+                                        aliceJs.convertToUserDateFormat(targetAttr, aliceForm.options.dateFormat);
+                                    break;
+                                case 'time':
+                                    targetAttr =
+                                        aliceJs.convertToUserTimeFormat(targetAttr, aliceForm.options.hourFormat);
+                                    break;
+                            }
+
+                            detailAttr[comp][d].value = targetAttr;
                         }
                     });
                 });
             }
         });
+
         return detailAttr;
     }
     
@@ -1378,8 +1399,9 @@
                             let dateTimePickerValue = '';
                             if (fieldArr.value != '') {
                                 let dateTimePickerFormat = aliceForm.options.datetimeFormat;
+                                dateTimePickerValue = fieldArr.value;
 
-                                if (dateTimePickerValue[1] === undefined) {
+                                /*if (dateTimePickerValue[1] === undefined) {
                                     dateTimePickerValue = aliceJs.changeDateFormat(aliceJs.systemCalendarDatetimeFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
                                 } else {
                                     let dummyDateTime = '';
@@ -1390,7 +1412,7 @@
                                     if (fieldArr.type === 'timepicker') {
                                         dateTimePickerValue = dateTimePickerValue.split(' ')[1];
                                     }
-                                }
+                                }*/
                             }
                             propertyValue.setAttribute('value', dateTimePickerValue);
                             fieldGroupDiv.appendChild(propertyValue);
