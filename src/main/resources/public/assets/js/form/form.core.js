@@ -13,7 +13,7 @@
 
     let options = {
         lang: 'en',
-        datetimeFormat: 'YYYY-MM-DD HH:mm A',
+        datetimeFormat: 'YYYY-MM-DD HH:mm',
         dateFormat: 'YYYY-MM-DD',
         hourFormat: 'HH:mm',
         timezone: 'Asia/Seoul',

@@ -1378,9 +1378,9 @@
                             let dateTimePickerValue = '';
                             if (fieldArr.value != '') {
                                 let dateTimePickerFormat = aliceForm.options.datetimeFormat;
-                                dateTimePickerValue = fieldArr.value.split('|');
+
                                 if (dateTimePickerValue[1] === undefined) {
-                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
+                                    dateTimePickerValue = aliceJs.changeDateFormat(aliceJs.systemCalendarDatetimeFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
                                 } else {
                                     let dummyDateTime = '';
                                     if (fieldArr.type === 'timepicker') {
