@@ -124,13 +124,14 @@ class WfTokenService(
                     valueMap["value"] = tokenDataEntity.value
                     values.add(valueMap)
                 }
-            }
-            componentEntity.values = values
 
-            // displayType
-            for (documentDisplay in documentDisplayList) {
-                if (componentEntity.componentId == documentDisplay.componentId) {
-                    componentEntity.dataAttribute["displayType"] = documentDisplay.display
+                componentEntity.values = values
+
+                // displayType
+                for (documentDisplay in documentDisplayList) {
+                    if (componentEntity.componentId == documentDisplay.componentId) {
+                        componentEntity.dataAttribute["displayType"] = documentDisplay.display
+                    }
                 }
             }
         }
