@@ -1,14 +1,9 @@
 package co.brainz.workflow.engine.manager.impl
 
-import co.brainz.workflow.element.constants.WfElementConstants
-import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.token.constants.WfTokenConstants
-import co.brainz.workflow.token.entity.WfCandidateEntity
-import co.brainz.workflow.token.entity.WfTokenEntity
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -16,20 +11,12 @@ class WfUserTaskTokenManager(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
 
-    lateinit var assigneeId: String
-
     override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
-        val saveToken = wfTokenManagerService.saveToken(token)
-        wfTokenDto.tokenId = saveToken.tokenId
-        wfTokenDto.elementId = saveToken.element.elementId
-        wfTokenDto.elementType = saveToken.element.elementType
+        val tokenDto = super.createToken(wfTokenDto)
+        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(tokenDto))
+        super.setCandidate(super.createTokenEntity)
 
-        saveToken.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
-        this.assigneeId = wfTokenDto.assigneeId.toString()
-        setCandidate(saveToken)
-
-        return wfTokenDto
+        return tokenDto
     }
 
     override fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
@@ -52,7 +39,7 @@ class WfUserTaskTokenManager(
      * Set Assignee + Candidate.
      *
      */
-    private fun setCandidate(token: WfTokenEntity) {
+    /*private fun setCandidate(token: WfTokenEntity) {
         val assigneeType =
             super.getAttributeValue(
                 token.element.elementDataEntities,
@@ -94,7 +81,7 @@ class WfUserTaskTokenManager(
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Get Assignee.
@@ -103,7 +90,7 @@ class WfUserTaskTokenManager(
      * @param token
      * @return String
      */
-    private fun getAssignee(element: WfElementEntity, token: WfTokenEntity): String {
+   /* private fun getAssignee(element: WfElementEntity, token: WfTokenEntity): String {
         val assigneeMappingId =
             super.getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
         var componentMappingId = ""
@@ -117,5 +104,5 @@ class WfUserTaskTokenManager(
             assignee = wfTokenManagerService.getComponentValue(token.tokenId, componentMappingId)
         }
         return assignee
-    }
+    }*/
 }

@@ -2,21 +2,29 @@ package co.brainz.workflow.engine.manager
 
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
+import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.token.constants.WfTokenConstants
+import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
+import co.brainz.workflow.token.entity.WfTokenEntity
 import java.time.LocalDateTime
 import java.time.ZoneId
 
 abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) {
 
+    lateinit var createTokenEntity: WfTokenEntity
+    lateinit var assigneeId: String
+
     open fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
+        this.assigneeId = wfTokenDto.assigneeId.toString()
         val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
-        val saveToken = wfTokenManagerService.saveToken(token)
-        wfTokenDto.tokenId = saveToken.tokenId
-        wfTokenDto.elementId = saveToken.element.elementId
-        wfTokenDto.elementType = saveToken.element.elementType
+        this.createTokenEntity = wfTokenManagerService.saveToken(token)
+        wfTokenDto.tokenId = this.createTokenEntity.tokenId
+        wfTokenDto.elementId = this.createTokenEntity.element.elementId
+        wfTokenDto.elementType = this.createTokenEntity.element.elementType
         return wfTokenDto
     }
 
@@ -45,6 +53,86 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             wfTokenDto.parentTokenId = token.instance.pTokenId
         }
         return wfTokenDto
+    }
+
+    /**
+     * Set Assignee + Candidate.
+     *
+     */
+    fun setCandidate(token: WfTokenEntity) {
+        val assigneeType =
+            getAttributeValue(
+                token.element.elementDataEntities,
+                WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
+            )
+        when (assigneeType) {
+            WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
+                var assigneeId = getAssignee(token.element, token)
+                if (assigneeId.isEmpty()) {
+                    assigneeId = this.assigneeId
+                }
+                token.assigneeId = assigneeId
+                wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
+            }
+            WfTokenConstants.AssigneeType.USERS.code,
+            WfTokenConstants.AssigneeType.GROUPS.code -> {
+                val candidates =
+                    getAttributeValues(
+                        token.element.elementDataEntities,
+                        WfElementConstants.AttributeId.ASSIGNEE.value
+                    )
+                if (candidates.isNotEmpty()) {
+                    val wfCandidateEntities = mutableListOf<WfCandidateEntity>()
+                    candidates.forEach { candidate ->
+                        val wfCandidateEntity = WfCandidateEntity(
+                            token = token,
+                            candidateType = assigneeType,
+                            candidateValue = candidate
+                        )
+                        wfCandidateEntities.add(wfCandidateEntity)
+                    }
+                    wfTokenManagerService.saveNotification(
+                        token,
+                        wfTokenManagerService.saveAllCandidate(wfCandidateEntities)
+                    )
+                } else {
+                    token.assigneeId = this.assigneeId
+                    wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
+                }
+            }
+            else -> {
+                token.assigneeId = this.assigneeId
+                when (token.element.elementType) {
+                    WfElementConstants.ElementType.MANUAL_TASK.value -> {
+                        wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
+                    }
+                    else -> wfTokenManagerService.saveToken(token)
+                }
+            }
+        }
+    }
+
+    /**
+     * Get Assignee.
+     *
+     * @param element
+     * @param token
+     * @return String
+     */
+    private fun getAssignee(element: WfElementEntity, token: WfTokenEntity): String {
+        val assigneeMappingId =
+            getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+        var componentMappingId = ""
+        token.instance.document.form.components?.forEach { component ->
+            if (component.mappingId.isNotEmpty() && component.mappingId == assigneeMappingId) {
+                componentMappingId = component.componentId
+            }
+        }
+        var assignee = ""
+        if (componentMappingId.isNotEmpty()) {
+            assignee = wfTokenManagerService.getComponentValue(token.tokenId, componentMappingId)
+        }
+        return assignee
     }
 
     /**
@@ -95,7 +183,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      * @param attributeId
      * @return MutableList<String> (attributeValue)
      */
-    fun getAttributeValues(
+    private fun getAttributeValues(
         elementDataEntities: MutableList<WfElementDataEntity>,
         attributeId: String
     ): MutableList<String> {

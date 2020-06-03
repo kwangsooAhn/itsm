@@ -13,7 +13,7 @@ class WfCommonEndEventTokenManager(
 ) : WfTokenManager(wfTokenManagerService) {
 
     override fun createNextToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        wfTokenDto.isAutoComplete = false //반복문을 종료한다.
+        wfTokenDto.isAutoComplete = false
 
         if (!wfTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
             val pTokenId = wfTokenDto.parentTokenId!!

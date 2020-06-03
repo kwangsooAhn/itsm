@@ -11,32 +11,28 @@ class WfSubProcessTokenManager(
 ) : WfTokenManager(wfTokenManagerService) {
 
     override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
-        token.assigneeId = wfTokenDto.assigneeId
-        val saveToken = wfTokenManagerService.saveToken(token)
-        wfTokenDto.tokenId = saveToken.tokenId
-        wfTokenDto.elementId = saveToken.element.elementId
-        wfTokenDto.elementType = saveToken.element.elementType
-        saveToken.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
+        val tokenDto = super.createToken(wfTokenDto)
+        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(tokenDto))
+        super.setCandidate(super.createTokenEntity)
 
         // MappingId를 찾아 넘어갈 데이터를 선정하고 프로세스를 시작한다.
-        val elementInfo = wfTokenManagerService.getElement(wfTokenDto.elementId)
+        val elementInfo = wfTokenManagerService.getElement(tokenDto.elementId)
         val documentId =
             super.getAttributeValue(
                 elementInfo.elementDataEntities,
                 WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value
             )
-        val startTokenDto = wfTokenDto.copy()
+        val startTokenDto = tokenDto.copy()
         startTokenDto.documentId = documentId
         startTokenDto.parentTokenId = startTokenDto.tokenId
         val makeDocumentTokens =
-            wfTokenManagerService.makeRestTemplateTokenDto(saveToken, mutableListOf(documentId))
+            wfTokenManagerService.makeRestTemplateTokenDto(super.createTokenEntity, mutableListOf(documentId))
         makeDocumentTokens.forEach {
-            it.assigneeId = wfTokenDto.assigneeId
+            it.assigneeId = tokenDto.assigneeId
             WfEngine(wfTokenManagerService).startWorkflow(it)
         }
 
-        return wfTokenDto
+        return tokenDto
     }
 
 }

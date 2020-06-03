@@ -9,17 +9,10 @@ class WfExclusiveGatewayTokenManager(
 ) : WfTokenManager(wfTokenManagerService) {
 
     override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
-        token.assigneeId = wfTokenDto.assigneeId
-        val saveToken = wfTokenManagerService.saveToken(token)
+        val tokenDto = super.createToken(wfTokenDto)
+        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(tokenDto))
+        super.setCandidate(super.createTokenEntity)
 
-        wfTokenDto.tokenId = saveToken.tokenId
-        wfTokenDto.elementId = saveToken.element.elementId
-        wfTokenDto.elementType = saveToken.element.elementType
-        //GW Element도 데이터를 저장
-        saveToken.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
-        wfTokenManagerService.saveNotification(saveToken)
-
-        return wfTokenDto
+        return tokenDto
     }
 }
