@@ -1,5 +1,6 @@
 package co.brainz.workflow.token.controller
 
+import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.token.service.WfTokenService
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/wf/tokens")
 class WfTokenRestController(
-    private val wfTokenService: WfTokenService
+    private val wfTokenService: WfTokenService,
+    private val wfEngine: WfEngine
 ) {
 
     /**
@@ -60,8 +62,8 @@ class WfTokenRestController(
      */
     @Transactional
     @PostMapping("")
-    fun postTokenGate(@RequestBody restTemplateTokenDto: RestTemplateTokenDto) {
-        return wfTokenService.initToken(restTemplateTokenDto)
+    fun postTokenGate(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        return wfEngine.startWorkflow(wfEngine.toTokenDto(restTemplateTokenDto))
     }
 
     /**
@@ -69,7 +71,7 @@ class WfTokenRestController(
      */
     @Transactional
     @PutMapping("/{tokenId}")
-    fun putTokenGate(@RequestBody restTemplateTokenDto: RestTemplateTokenDto) {
-        return wfTokenService.setToken(restTemplateTokenDto)
+    fun putTokenGate(@RequestBody restTemplateTokenDto: RestTemplateTokenDto): Boolean {
+        return wfEngine.progressWorkflow(wfEngine.toTokenDto(restTemplateTokenDto))
     }
 }

@@ -5,7 +5,6 @@ import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
-import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -25,9 +24,7 @@ class WfTokenService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService,
-    private val wfTokenElementService: WfTokenElementService,
-    private val wfEngine: WfEngine
+    private val wfActionService: WfActionService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -61,8 +58,8 @@ class WfTokenService(
                     elementId = tokenEntity.element.elementId,
                     tokenStatus = tokenEntity.tokenStatus,
                     assigneeId = tokenEntity.assigneeId,
-                    documentId = tokenEntity.instance.document!!.documentId,
-                    documentName = tokenEntity.instance.document!!.documentName
+                    documentId = tokenEntity.instance.document.documentId,
+                    documentName = tokenEntity.instance.document.documentName
                 )
             )
         }
@@ -95,8 +92,8 @@ class WfTokenService(
             tokenStatus = tokenEntity.get().tokenStatus,
             isComplete = tokenEntity.get().tokenStatus == WfTokenConstants.Status.FINISH.code,
             instanceId = tokenEntity.get().instance.instanceId,
-            documentId = tokenEntity.get().instance.document!!.documentId,
-            documentName = tokenEntity.get().instance.document!!.documentName,
+            documentId = tokenEntity.get().instance.document.documentId,
+            documentName = tokenEntity.get().instance.document.documentName,
             data = componentList
         )
     }
@@ -109,7 +106,7 @@ class WfTokenService(
      */
     fun getTokenData(tokenId: String): RestTemplateTokenViewDto {
         val tokenMstEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
-        val componentEntities = tokenMstEntity.get().instance.document!!.form.components
+        val componentEntities = tokenMstEntity.get().instance.document.form.components
         val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
         var documentDisplayEntities: List<WfDocumentDisplayEntity> = mutableListOf()
         when (tokenMstEntity.get().element.elementType) {
@@ -120,7 +117,7 @@ class WfTokenService(
                     WfElementConstants.ElementType.USER_TASK.value -> {
                         documentDisplayEntities =
                             wfDocumentDisplayRepository.findByDocumentIdAndElementId(
-                                tokenMstEntity.get().instance.document!!.documentId,
+                                tokenMstEntity.get().instance.document.documentId,
                                 nextElementId
                             )
                     }
@@ -128,7 +125,7 @@ class WfTokenService(
             }
             else -> {
                 documentDisplayEntities = wfDocumentDisplayRepository.findByDocumentIdAndElementId(
-                    tokenMstEntity.get().instance.document!!.documentId,
+                    tokenMstEntity.get().instance.document.documentId,
                     tokenMstEntity.get().element.elementId
                 )
             }
@@ -171,44 +168,5 @@ class WfTokenService(
             components = componentList,
             actions = wfActionService.actions(tokenMstEntity.get().element.elementId)
         )
-    }
-
-    /**
-     * (POST) Init Token.
-     *
-     * @param restTemplateTokenDto
-     */
-    fun initToken(restTemplateTokenDto: RestTemplateTokenDto) {
-        wfEngine.startWorkflow(wfEngine.toTokenDto(restTemplateTokenDto))
-        //wfTokenElementService.initToken(restTemplateTokenDto)
-    }
-
-    /**
-     * (PUT) Set Token Action.
-     *
-     * @param restTemplateTokenDto
-     */
-    fun setToken(restTemplateTokenDto: RestTemplateTokenDto) {
-        //wfTokenElementService.setTokenAction(restTemplateTokenDto)
-        wfEngine.progressWorkflow(wfEngine.toTokenDto(restTemplateTokenDto))
-    }
-
-    /**
-     * Get Token Assignee.
-     *
-     * @param assigneeData
-     * @return String
-     */
-    private fun getAssigneeForToken(assigneeData: String?): String {
-        // 데이터가 만약 mappingExpresion('${xxxx}'와 같은) 이라면 문서에서 해당 코드로 매핑된 데이터를 찾아서 사용.
-        // 데이터가 단순히 문자열이라면 그대로 사용.
-        var assigneeForToken = ""
-
-        val mappingExpr = WfTokenConstants.mappingExpression.toRegex()
-        assigneeData?.let {
-            assigneeForToken =
-                if (mappingExpr.matches(assigneeData)) it.substring(2, assigneeData.length - 1) else assigneeData
-        }
-        return assigneeForToken
     }
 }

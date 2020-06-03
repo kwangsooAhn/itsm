@@ -8,12 +8,12 @@ import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.element.service.WfElementService
+import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
@@ -39,47 +39,112 @@ class WfTokenManagerService(
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository
 ) {
 
+    /**
+     * Get element entity.
+     *
+     * @param elementId
+     * @return WfElementEntity
+     */
     fun getElement(elementId: String): WfElementEntity {
         return wfElementRepository.findWfElementEntityByElementId(elementId)
     }
 
+    /**
+     * Get component value(split[0]).
+     *
+     * @param tokenId
+     * @param mappingId
+     * @return String
+     */
     fun getComponentValue(tokenId: String, mappingId: String): String {
         return wfTokenDataRepository.findByTokenIdAndComponentId(tokenId, mappingId).value.split("|")[0]
     }
 
+    /**
+     * Save all candidate.
+     *
+     * @param candidateEntities
+     * @return List<WfCandidateEntity>
+     */
     fun saveAllCandidate(candidateEntities: MutableList<WfCandidateEntity>): List<WfCandidateEntity> {
         return wfCandidateRepository.saveAll(candidateEntities)
     }
 
+    /**
+     * Create instance.
+     *
+     * @param wfTokenDto
+     * @return WfInstanceEntity
+     */
     fun createInstance(wfTokenDto: WfTokenDto): WfInstanceEntity {
         return wfInstanceService.createInstance(wfTokenDto)
     }
 
+    /**
+     * Complete instance.
+     *
+     * @param instanceId
+     */
     fun completeInstance(instanceId: String) {
         return wfInstanceService.completeInstance(instanceId)
     }
 
+    /**
+     * Get start element.
+     *
+     * @param processId
+     * @return WfElementEntity
+     */
     fun getStartElement(processId: String): WfElementEntity {
         return wfElementService.getStartElement(processId)
     }
 
+    /**
+     * Get next element.
+     *
+     * @param wfTokenDto
+     * @return WfElementEntity
+     */
     fun getNextElement(wfTokenDto: WfTokenDto): WfElementEntity {
         return wfElementService.getNextElement(wfTokenDto)
     }
 
+    /**
+     * Get token.
+     *
+     * @param tokenId
+     * @return WfTokenEntity
+     */
     fun getToken(tokenId: String): WfTokenEntity {
         return wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
     }
 
+    /**
+     * Save token.
+     *
+     * @param tokenEntity
+     * @return WfTokenEntity
+     */
     fun saveToken(tokenEntity: WfTokenEntity): WfTokenEntity {
         return wfTokenRepository.save(tokenEntity)
     }
 
+    /**
+     * Save all token data.
+     *
+     * @param tokenDataEntities
+     * @return MutableList<WfTokenDataEntity>
+     */
     fun saveAllTokenData(tokenDataEntities: MutableList<WfTokenDataEntity>): MutableList<WfTokenDataEntity> {
         return wfTokenDataRepository.saveAll(tokenDataEntities)
     }
-    //필요한 함수를 여기에 모두 작성한다.
 
+    /**
+     * Make token entity.
+     *
+     * @param wfTokenDto
+     * @return WfTokenEntity
+     */
     fun makeTokenEntity(wfTokenDto: WfTokenDto): WfTokenEntity {
         return WfTokenEntity(
             tokenId = "",
@@ -101,10 +166,9 @@ class WfTokenManagerService(
             val notifications = mutableListOf<NotificationDto>()
             val commonNotification = NotificationDto(
                 title = token.instance.document.documentName,
-                message = "[" + token.element.elementName + "] " + token.instance.document.documentDesc,
+                message = "[${token.element.elementName}] ${token.instance.document.documentDesc}",
                 instanceId = token.instance.instanceId
             )
-
             if (candidates != null) {
                 candidates.forEach { candidate ->
                     when (candidate.candidateType) {
@@ -142,11 +206,11 @@ class WfTokenManagerService(
         documentId.forEach {
             val document = documentRepository.findDocumentEntityByDocumentId(it)
 
-            val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
+            val tokenDataList = mutableListOf<WfTokenDataDto>()
             document.form.components!!.forEach { component ->
                 if (component.mappingId.isNotBlank() && keyPairMappingIdAndTokenData[component.mappingId] != null) {
                     val value = keyPairMappingIdAndTokenData[component.mappingId] as String
-                    val data = RestTemplateTokenDataDto(componentId = component.componentId, value = value)
+                    val data = WfTokenDataDto(componentId = component.componentId, value = value)
                     tokenDataList.add(data)
                 }
             }
@@ -169,7 +233,7 @@ class WfTokenManagerService(
     fun makeSubProcessTokenDataDto(
         subProcessToken: WfTokenEntity,
         mainProcessToken: WfTokenEntity
-    ): List<RestTemplateTokenDataDto> {
+    ): List<WfTokenDataDto> {
 
         val keyPairMappingIdAndTokenData = this.getTokenDataByMappingId(subProcessToken)
 
@@ -181,7 +245,7 @@ class WfTokenManagerService(
             }
         }
 
-        val tokenData = mutableListOf<RestTemplateTokenDataDto>()
+        val tokenData = mutableListOf<WfTokenDataDto>()
         mainProcessToken.tokenData?.forEach {
             val componentId = it.componentId
             val componentValue = if (componentIdAndTokenData[componentId] != null) {
@@ -191,7 +255,7 @@ class WfTokenManagerService(
             }
 
             tokenData.add(
-                RestTemplateTokenDataDto(
+                WfTokenDataDto(
                     componentId = componentId,
                     value = componentValue
                 )
