@@ -125,7 +125,6 @@ class WfFormService(
     fun getFormComponentList(formId: String): RestTemplateFormComponentListDto {
         val dataAttribute = LinkedHashMap<String, Any>()
         val components: MutableList<ComponentDetail> = mutableListOf()
-        val dummyValues: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
         val componentEntityList = wfComponentRepository.findByFormId(formId)
         for (componentEntity in componentEntityList) {
