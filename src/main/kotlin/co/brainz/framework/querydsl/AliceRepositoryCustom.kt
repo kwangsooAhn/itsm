@@ -21,7 +21,7 @@ interface AliceRepositoryCustom {
      * equal 쿼리
      */
     fun eq(entityValue: StringPath, input: String?): BooleanExpression? {
-        return if (input == null) {
+        return if (input == null || input.isBlank()) {
             null
         } else {
             entityValue.eq(input)
