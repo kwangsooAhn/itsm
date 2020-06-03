@@ -2,9 +2,28 @@ package co.brainz.workflow.engine.manager.impl
 
 import co.brainz.workflow.engine.manager.ConstructorManager
 import co.brainz.workflow.engine.manager.WfTokenManager
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 
 class WfExclusiveGatewayTokenManager(
     constructorManager: ConstructorManager
 ) : WfTokenManager(constructorManager) {
 
+    private val wfTokenRepository = constructorManager.getTokenRepository()
+    private val wfTokenManagerService = constructorManager.getTokenManagerService()
+    private val wfTokenDataRepository = constructorManager.getTokenDataRepository()
+
+    override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
+        val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
+        token.assigneeId = wfTokenDto.assigneeId
+        val saveToken = wfTokenRepository.save(token)
+
+        wfTokenDto.tokenId = saveToken.tokenId
+        wfTokenDto.elementId = saveToken.element.elementId
+        wfTokenDto.elementType = saveToken.element.elementType
+        //GW Element도 데이터를 저장
+        saveToken.tokenData = wfTokenDataRepository.saveAll(super.setTokenData(wfTokenDto))
+        wfTokenManagerService.saveNotification(saveToken)
+
+        return wfTokenDto
+    }
 }

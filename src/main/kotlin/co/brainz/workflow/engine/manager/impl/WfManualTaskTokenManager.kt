@@ -10,6 +10,7 @@ class WfManualTaskTokenManager(
 
     private val wfTokenRepository = constructorManager.getTokenRepository()
     private val wfTokenManagerService = constructorManager.getTokenManagerService()
+    private val wfTokenDataRepository = constructorManager.getTokenDataRepository()
 
     override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
@@ -18,6 +19,8 @@ class WfManualTaskTokenManager(
         wfTokenDto.tokenId = saveToken.tokenId
         wfTokenDto.elementId = saveToken.element.elementId
         wfTokenDto.elementType = saveToken.element.elementType
+        saveToken.tokenData = wfTokenDataRepository.saveAll(super.setTokenData(wfTokenDto))
+        wfTokenManagerService.saveNotification(saveToken)
 
         return wfTokenDto
     }

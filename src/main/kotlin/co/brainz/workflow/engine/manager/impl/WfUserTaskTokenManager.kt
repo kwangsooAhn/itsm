@@ -70,7 +70,7 @@ class WfUserTaskTokenManager(
                     assigneeId = this.assigneeId
                 }
                 token.assigneeId = assigneeId
-                wfTokenRepository.save(token)
+                wfTokenManagerService.saveNotification(wfTokenRepository.save(token))
             }
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {
@@ -89,10 +89,10 @@ class WfUserTaskTokenManager(
                         )
                         wfCandidateEntities.add(wfCandidateEntity)
                     }
-                    wfCandidateRepository.saveAll(wfCandidateEntities)
+                    wfTokenManagerService.saveNotification(token, wfCandidateRepository.saveAll(wfCandidateEntities))
                 } else {
                     token.assigneeId = this.assigneeId
-                    wfTokenRepository.save(token)
+                    wfTokenManagerService.saveNotification(wfTokenRepository.save(token))
                 }
             }
         }

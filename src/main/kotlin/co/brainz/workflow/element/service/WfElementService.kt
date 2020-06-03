@@ -162,9 +162,12 @@ class WfElementService(
             stringForRegex.matches(regexComponentMappingId) -> {
                 val mappingId = stringForRegex.trim().replace("\${", "").replace("}", "")
                 val tokenId = wfTokenDto.tokenId
-                val tokenDataList = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
-                val componentIds = tokenDataList.map { tokenData ->
-                    tokenData.componentId
+
+                //mappingId 가 설정된 componentId를 찾는다.
+                var value = ""
+                val componentIds: MutableList<String> = mutableListOf()
+                wfTokenDto.data?.forEach { tokenData ->
+                    componentIds.add(tokenData.componentId)
                 }
                 val wfComponentEntity =
                     wfComponentRepository.findByComponentIdInAndMappingId(
@@ -172,11 +175,12 @@ class WfElementService(
                         mappingId
                     )
                 val componentId = wfComponentEntity.componentId
-                val tokenData = wfTokenDataRepository.findByTokenIdAndComponentId(
-                    tokenId,
-                    componentId
-                )
-                tokenData.value
+                wfTokenDto.data?.forEach { tokenData ->
+                    if (tokenData.componentId == componentId) {
+                        value = tokenData.value
+                    }
+                }
+                return value
             }
             stringForRegex.matches(regexConstant) -> {
                 var actionValue = ""
