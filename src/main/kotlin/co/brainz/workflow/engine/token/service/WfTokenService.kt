@@ -126,12 +126,12 @@ class WfTokenService(
                 }
 
                 componentEntity.values = values
+            }
 
-                // displayType
-                for (documentDisplay in documentDisplayList) {
-                    if (componentEntity.componentId == documentDisplay.componentId) {
-                        componentEntity.dataAttribute["displayType"] = documentDisplay.display
-                    }
+            // displayType
+            for (documentDisplay in documentDisplayList) {
+                if (componentEntity.componentId == documentDisplay.componentId) {
+                    componentEntity.dataAttribute["displayType"] = documentDisplay.display
                 }
             }
         }
