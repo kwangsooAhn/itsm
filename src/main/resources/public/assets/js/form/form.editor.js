@@ -1387,21 +1387,7 @@
                             propertyValue.setAttribute('name', group + '.' + fieldArr.id);
                             let dateTimePickerValue = '';
                             if (fieldArr.value != '') {
-                                let dateTimePickerFormat = aliceForm.options.datetimeFormat;
                                 dateTimePickerValue = fieldArr.value;
-
-                                /*if (dateTimePickerValue[1] === undefined) {
-                                    dateTimePickerValue = aliceJs.changeDateFormat(aliceJs.systemCalendarDatetimeFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
-                                } else {
-                                    let dummyDateTime = '';
-                                    if (fieldArr.type === 'timepicker') {
-                                        dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
-                                    }
-                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, (dummyDateTime !== '' ? dummyDateTime + ' ' : '') + dateTimePickerValue[0], aliceForm.options.lang);
-                                    if (fieldArr.type === 'timepicker') {
-                                        dateTimePickerValue = dateTimePickerValue.split(' ')[1];
-                                    }
-                                }*/
                             }
                             propertyValue.setAttribute('value', dateTimePickerValue);
                             fieldGroupDiv.appendChild(propertyValue);
