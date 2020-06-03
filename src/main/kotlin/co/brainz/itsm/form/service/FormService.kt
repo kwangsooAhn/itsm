@@ -85,6 +85,9 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun saveFormData(formId: String, formData: String): Boolean {
         val formComponentSaveDto = makeFormComponentSaveDto(formData)
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        formComponentSaveDto.form.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        formComponentSaveDto.form.updateUserKey = aliceUserDto.userKey
         val urlDto = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId)
         )
@@ -142,7 +145,6 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return dir
     }
 
-
     fun getFormImageList(): String {
         val dir = getImageBaseDir(RestTemplateConstants.FORM_IMAGE_DIR)
         val fileList = JsonArray()
@@ -154,7 +156,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 val fileJson = JsonObject()
                 fileJson.addProperty("fileName", it.fileName.toString())
                 val relativePath = ClassPathResource(RestTemplateConstants.BASE_DIR).uri.relativize(it.toUri())
-                fileJson.addProperty("imgPath", "/$relativePath")  //상대 경로 /asset/...
+                fileJson.addProperty("imgPath", "/$relativePath") // 상대 경로 /asset/...
                 fileJson.addProperty("imgUrl", it.toUri().toURL().toString()) // file://...
                 fileJson.addProperty("fileSize", it.toFile().length())
                 fileList.add(fileJson)
@@ -168,7 +170,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val destDir = Paths.get(dir.toString(), multipartFile.originalFilename)
         try {
             multipartFile.transferTo(destDir.toFile())
-            //파일 저장 후 경로를 담아서 전달한다.
+            // 파일 저장 후 경로를 담아서 전달한다.
             val fileJson = JsonObject()
             fileJson.addProperty("fileName", destDir.fileName.toString())
             val relativePath = ClassPathResource(RestTemplateConstants.BASE_DIR).uri.relativize(destDir.toUri())

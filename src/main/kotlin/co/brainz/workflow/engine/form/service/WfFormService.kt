@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.form.service
 
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.workflow.engine.component.entity.WfComponentDataEntity
 import co.brainz.workflow.engine.component.entity.WfComponentEntity
 import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
@@ -26,7 +27,8 @@ class WfFormService(
     private val wfFormRepository: WfFormRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val aliceUserRepository: AliceUserRepository
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
@@ -69,7 +71,7 @@ class WfFormService(
             formDesc = restTemplateFormDto.desc,
             formStatus = restTemplateFormDto.status,
             createDt = restTemplateFormDto.createDt,
-            createUserKey = restTemplateFormDto.createUserKey
+            createUser = restTemplateFormDto.createUserKey?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
         )
         val dataEntity = wfFormRepository.save(formEntity)
 
@@ -79,7 +81,7 @@ class WfFormService(
             status = dataEntity.formStatus,
             desc = dataEntity.formDesc,
             editable = true,
-            createUserKey = dataEntity.createUserKey,
+            createUserKey = dataEntity.createUser?.userKey,
             createDt = dataEntity.createDt
         )
     }
@@ -182,7 +184,9 @@ class WfFormService(
         formEntity.get().formDesc = restTemplateFormDto.desc
         formEntity.get().formStatus = restTemplateFormDto.status
         formEntity.get().updateDt = restTemplateFormDto.updateDt
-        formEntity.get().updateUserKey = restTemplateFormDto.updateUserKey
+        formEntity.get().updateUser = restTemplateFormDto.updateUserKey?.let {
+            aliceUserRepository.findAliceUserEntityByUserKey(it)
+        }
         wfFormRepository.save(formEntity.get())
         return true
     }
@@ -213,7 +217,9 @@ class WfFormService(
             wfFormData.get().formDesc = restTemplateFormComponentSaveDto.form.desc
             wfFormData.get().formStatus = restTemplateFormComponentSaveDto.form.status
             wfFormData.get().updateDt = restTemplateFormComponentSaveDto.form.updateDt
-            wfFormData.get().updateUserKey = restTemplateFormComponentSaveDto.form.updateUserKey
+            wfFormData.get().updateUser = restTemplateFormComponentSaveDto.form.updateUserKey?.let {
+                aliceUserRepository.findAliceUserEntityByUserKey(it)
+            }
             val resultFormEntity = wfFormRepository.save(wfFormData.get())
 
             // Insert component, attribute
