@@ -3,6 +3,7 @@ package co.brainz.workflow.engine.document.repository.querydsl
 import co.brainz.workflow.engine.document.entity.QWfDocumentEntity
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -13,19 +14,26 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
 
     override fun findByDocuments(searchDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
+
+        val builder = BooleanBuilder()
+        builder.and(
+            super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
+                ?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments))
+        )
+        builder.and(super.likeIgnoreCase(document.process.processName, searchDto.searchProcessName))
+        builder.and(super.likeIgnoreCase(document.form.formName, searchDto.searchFormName))
+        if (searchDto.searchDocumentType?.isNotEmpty()!!) {
+            builder.and(document.documentType.eq(searchDto.searchDocumentType))
+        }
+        if (searchDto.searchDocumentStatus?.isNotEmpty()!!) {
+            builder.and(document.documentStatus.eq(searchDto.searchDocumentStatus))
+        }
+
         val query = from(document)
             .join(document.process)
             .join(document.form)
             .join(document.numberingRule)
-
-            .where(
-                super.likeIgnoreCase(document.documentType, searchDto.searchDocumentType),
-                super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
-                    ?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)),
-                super.eq(document.documentStatus, searchDto.searchDocumentStatus),
-                super.likeIgnoreCase(document.process.processName, searchDto.searchProcessName),
-                super.likeIgnoreCase(document.form.formName, searchDto.searchFormName)
-            ).orderBy(document.documentName.asc())
+            .where(builder).orderBy(document.documentName.asc())
 
         return query.select(
             Projections.constructor(

@@ -21,11 +21,10 @@ interface AliceRepositoryCustom {
      * equal 쿼리
      */
     fun eq(entityValue: StringPath, input: String?): BooleanExpression? {
-        val filteredInput = this.filtered(input)
-        return if (filteredInput == null) {
+        return if (input == null) {
             null
         } else {
-            entityValue.eq(filteredInput)
+            entityValue.eq(input)
         }
     }
 
@@ -39,7 +38,7 @@ interface AliceRepositoryCustom {
             return null
         }
 
-        val regexChar = "[{}\\[\\]/?.,;:|)*~`!^\\-_+<>@#\$%&\\\\=('\"]".toRegex()
+        val regexChar = "[_%\\\\]".toRegex()
         var convert = input
         val findSpecialChar = regexChar.findAll(convert)
         findSpecialChar.forEach {
