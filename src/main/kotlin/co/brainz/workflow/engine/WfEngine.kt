@@ -5,6 +5,7 @@ import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
+import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -145,12 +146,16 @@ class WfEngine(
      * @return WfTokenDto
      */
     fun toTokenDto(restTemplateTokenDto: RestTemplateTokenDto): WfTokenDto {
+        val tokenData: MutableList<WfTokenDataDto> = mutableListOf()
+        restTemplateTokenDto.data?.forEach { data ->
+            tokenData.add(WfTokenDataDto(componentId = data.componentId, value = data.value))
+        }
         return WfTokenDto(
             tokenId = restTemplateTokenDto.tokenId,
             documentId = restTemplateTokenDto.documentId,
             fileDataIds = restTemplateTokenDto.fileDataIds,
             assigneeId = restTemplateTokenDto.assigneeId,
-            data = restTemplateTokenDto.data,
+            data = tokenData,
             action = restTemplateTokenDto.action,
             parentTokenId = restTemplateTokenDto.parentTokenId
         )
