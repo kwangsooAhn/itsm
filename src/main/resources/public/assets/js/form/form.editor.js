@@ -1013,21 +1013,62 @@
             return elem;
         };
 
+        let buttonExist = false;
         const drawField = function(groupElem, attr) {
+            let elem = null;
             if (typeof attr.id !== 'undefined') {
-                const gElem = document.createElement('div');
-                gElem.setAttribute('id', attr.id);
-                gElem.classList.add('property-field');
+                elem = document.createElement('div');
+                elem.classList.add('property-field');
 
-                if (attr.type === 'hidden') { gElem.style.display = 'none'; }
+                if (attr.type === 'hidden') { elem.style.display = 'none'; }
+                if (attr.type === 'button') {
+                    if (!buttonExist) {
+                        const buttonElem = document.createElement('div');
+                        buttonElem.classList.add('property-field-button');
+                        elem.appendChild(buttonElem);
+                        groupElem.appendChild(elem);
+                    }
+                } else {
+                    elem.setAttribute('id', attr.id);
+                    groupElem.appendChild(elem);
+                    
+                    //속성명 추가
+                    const nameElem = document.createElement('span');
+                    nameElem.classList.add('property-field-name');
+                    const nameText = document.createTextNode(attr.name);
+                    nameElem.appendChild(nameText);
+                    elem.appendChild(nameElem);
+                    
+                    //도움말 추가
+                    if (typeof attr.help !== 'undefined' && attr.help !== '') {
+                        const helpTooltip = document.createElement('div');
+                        helpTooltip.classList.add('help-tooltip');
+                        const helpTootltipContent = document.createElement('p');
+                        helpTootltipContent.innerHTML = i18n.get(attr.help);
+                        helpTooltip.appendChild(helpTootltipContent);
+                        nameElem.appendChild(helpTooltip);
+                    }
+                }
+            }
+
+            //상세 속성 추가
+
+            //단위 추가
+            if (elem !== null && typeof attr.unit !== 'undefined' && attr.unit !== '') {
+                const unitElem = document.createElement('span');
+                unitElem.classList.add('property-field-unit');
+                const unitText = document.createTextNode(attr.unit);
+                unitElem.appendChild(unitText);
+                elem.appendChild(unitElem);
             }
         };
+
         let groupElem = null;
         const drawProperties = function(group, field) {
             Object.keys(field).forEach(function(item) {
                 if (Array.isArray(field[item])) { //group 추가
-                    drawGroup(item);
-                    groupElem = drawProperties(item, field[item]);
+                    groupElem = drawGroup(item);
+                    drawProperties(item, field[item]);
                 } else { //field 추가
                     console.log(groupElem);
                     console.log(field[item]);
