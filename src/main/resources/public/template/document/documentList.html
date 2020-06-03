@@ -23,11 +23,9 @@
     <table class="table-hover">
         <colgroup>
             <col width="1%">
-            <col width="24%">
-            <col width="50%">
+            <col width="29%">
+            <col width="55%">
             <col width="10%">
-            <col width="5%">
-            <col width="5%">
             <col width="5%">
         </colgroup>
         <tbody>
@@ -43,16 +41,6 @@
                 <button sec:authorize="hasAuthority('document.create')"
                         th:attr="onclick=|openDocument('${document.documentId}')|"
                         th:text="#{common.btn.write}"></button>
-            </td>
-            <td>
-                <button sec:authorize="hasAuthority('document.update')"
-                        th:attr="onclick=|openDocumentEdit('${document.documentId}')|"
-                        th:text="#{common.btn.modify}"></button>
-            </td>
-            <td>
-                <button sec:authorize="hasAuthority('document.delete')"
-                        th:text="#{common.btn.delete}"
-                        th:attr="onclick=|deleteDocument('${document.documentId}')|" ></button>
             </td>
         </tr>
         </tbody>

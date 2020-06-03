@@ -12,6 +12,7 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import org.slf4j.LoggerFactory
@@ -40,7 +41,8 @@ class AliceCertificationService(
     private val codeService: CodeService,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceMailService: AliceMailService,
-    private val aliceCryptoRsa: AliceCryptoRsa
+    private val aliceCryptoRsa: AliceCryptoRsa,
+    private val aliceFileService: AliceFileService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -112,6 +114,7 @@ class AliceCertificationService(
                 }
 
                 user = aliceCertificationRepository.save(user)
+                aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, user.userKey, aliceSignUpDto.avatarUUID)
 
                 when (target) {
                     AliceUserConstants.USER_ID -> {

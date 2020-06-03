@@ -15,7 +15,6 @@
                 <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchDocuments}" class="search"/>
                 <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.searchProcessName}" class="search"/>
                 <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.searchFormName}" class="search"/>
-                <button sec:authorize="hasAuthority('document.create')" type="button" onclick="createDocument()" th:text="#{common.btn.register}" style="text-align: left; float: right;"></button>
             </div>
         </form>
         <hr>
@@ -36,36 +35,15 @@
         };
 
         function documentSearches(isShowProgressBar) {
-            restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result){
+            restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result) {
                 document.getElementById('documentList').innerHTML = result;
             }, isShowProgressBar);
         }
 
         function openDocument(documentId) {
-            window.open('/documents/' + documentId + '/publish', '_blank', 'width=800, height=852');
+            window.open('/documents/' + documentId + '/publish', 'document_' + documentId, 'width=800, height=852');
         }
 
-        function openDocumentEdit(documentId) {
-            window.open('/documents/' + documentId + '/edit', '_blank', 'width=625, height=500, left=1000, top=350');
-        }
-
-        function createDocument() {
-            window.open('/documents/new', '_blank', 'width=625, height=500, left=1000, top=350');
-        }
-
-        function deleteDocument(documentId) {
-            restSubmit('DELETE', '/rest/documents/' + documentId, function(result) {
-                if (JSON.parse(result)) {
-                    aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
-                        location.reload();
-                    });
-                } else {
-                    aliceJs.alert('[[#{document.msg.launchedInstance}]]');
-                }
-            });
-        }
-
-        //REST API
         function restSubmit(method, url, result, isShowProgressbar) {
             const opt = {
                 method: method,

@@ -1,0 +1,122 @@
+/* 알림 임시 css */
+.notification-menu {
+    margin-right: 10px;
+    height: 32px;
+    position: relative;
+    display: inline-block;
+    .count {
+        position: absolute;
+        top: -7px;
+        left: 14px;
+        padding: 1px 4px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+        font-size: 12px;
+        display: none;
+        cursor: pointer;
+    }
+    img, button {
+        width: 24px;
+        height: 24px;
+        margin: 0;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+    .notification-container {
+        position: absolute;
+        border: 1px solid black;
+        background-color: white;
+        width: 420px;
+        right: -230px;
+        top: 32px;
+        color: black;
+        display: none;
+        font-weight: normal;
+        font-size: 14px;
+        .notification-header {
+            height: 46px;
+            hr {
+                margin: 0;
+            }
+            span.title {
+                padding: 15px 0 15px 10px;
+                display: inline-block;
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+        .notification-body {
+            overflow: auto;
+            max-height: 213px;
+            button {
+                float: right;
+                &.check {
+                    background-image: url('/assets/media/icons/icon_check.png');
+                }
+                &.remove {
+                    background-image: url('/assets/media/icons/icon_remove.png');
+                }
+            }
+            span.title:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+            .notification {
+                height: 71px;
+                border-bottom: 1px solid black;
+                padding: 11px;
+                &:last-child {
+                    border-bottom: none;
+                }
+                &[is-confirm=false] {
+                    background-color: #b3d7ff3b;
+                }
+            }
+        }
+    }
+    &:hover .notification-container {
+        display: block;
+    }
+}
+
+.alice-toastify {
+    width: 410px;
+    height: 71px;
+    padding: 11px !important;
+    .toast-close {
+        position: absolute;
+        top: 9px;
+        right: 11px;
+    }
+}
+
+.notification-content {
+    span {
+        &.date {
+            font-size: 14px;
+            margin-left: 5px;
+            vertical-align: top;
+            line-height: 24px;
+        }
+        &.title {
+            font-size: 17px;
+            font-weight: bold;
+            line-height: 24px;
+            max-width: 190px;
+        }
+        &.message {
+            font-size: 16px;
+            max-width: 390px;
+            line-height: 22px;
+        }
+    }
+}
+
+.text-ellipsis {
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

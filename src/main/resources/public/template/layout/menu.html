@@ -3,7 +3,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-primary alice-navbar">
@@ -28,15 +27,21 @@
                 </li>
             </ul>
             <div class="alice-navbar-profile">
+                <div class="notification-menu">
+                    <img th:src="@{/assets/media/icons/icon_notification.png}">
+                    <span id="count" class="count"></span>
+                    <div id="notification-container" class="notification-container"></div>
+                </div>
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" onclick="profile_menu();">
                     Hello, <span sec:authentication="details.userName"></span>
-                    <img th:src="@{/assets/media/image/profile_sample.jpg}" alt="profile pic" />
+                    <img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${#authentication.details.userKey})}" width="50px" height="50px" border="1"
+                         th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/avatar/profile_sample.jpg} + '\';'" alt="profile pic"/>
                     <span class="caret"></span>
                 </button>
                 <div id="profile-menu">
                     <ul>
-                        <li><a href="javascript:logout()" th:text="#{common.btn.logout}">로그아웃1</a></li>
-                        <li><a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}" th:text="#{menu.editMyInfo}">내 정보 수정1</a></li>
+                        <li><a href="javascript:logout()" th:text="#{common.btn.logout}"></a></li>
+                        <li><a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}" th:text="#{menu.editMyInfo}"></a></li>
                     </ul>
                 </div>
             </div>
@@ -47,21 +52,114 @@
     </div>
 </body>
 <script type="text/javascript" th:inline="javascript">
-window.addEventListener('load', function() {
-    hiddenProgressBar();
-});
+    let notificationDiv = null;
+    window.addEventListener('load', function() {
+        notificationDiv = document.getElementById('notification-container');
+        hiddenProgressBar();
+        setInterval(function () {
+            getNotificationList(true);
+        }, 60000); // 60초 주기
+        getNotificationList(true);
+    });
 
-function logout() {
-    document.getElementById('logoutForm').submit();
-}
-
-function profile_menu() {
-    var profileMenu = document.getElementById('profile-menu');
-    if (profileMenu.style.display != 'block') {
-        profileMenu.style.display = 'block';
-    } else {
-        profileMenu.style.display = 'none';
+    function logout() {
+        document.getElementById('logoutForm').submit();
     }
-}
+
+    function profile_menu() {
+        const profileMenu = document.getElementById('profile-menu');
+        if (profileMenu.style.display !== 'block') {
+            profileMenu.style.display = 'block';
+        } else {
+            profileMenu.style.display = 'none';
+        }
+    }
+
+    // Get notification list.
+    function getNotificationList(isShow) {
+        restSubmitNotification('get', '/notifications/list', function (result) {
+            notificationDiv.innerHTML = result;
+            const count = document.getElementById('count');
+            const noConfirmNotification = notificationDiv.querySelectorAll('div[is-confirm=false]');
+            count.innerText = noConfirmNotification.length.toString();
+            if (noConfirmNotification.length !== 0) {
+                count.style.display = 'block';
+            } else {
+                count.style.display = 'none';
+            }
+            document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
+                notificationDiv.querySelectorAll('div.notification:not(.noData)').length + ')';
+
+            if (isShow) {
+                const noDisplayNotification = notificationDiv.querySelectorAll('div[is-display=false]');
+                noDisplayNotification.forEach(function (element) {
+                    showNotification({
+                        notificationId: element.id,
+                        instanceId: element.getAttribute('instance-id'),
+                        title: element.querySelector('.title').innerHTML,
+                        date: element.querySelector('.date').innerHTML,
+                        message: element.querySelector('.message').innerHTML
+                    });
+                });
+            }
+        });
+    }
+
+    // show notification popup.
+    function showNotification(param) {
+        let text = '<span class="title text-ellipsis">' + param.title + '</span>' +
+            '<span class="date">' + param.date +'</span>' +
+            '<br><span class="message text-ellipsis">' + param.message + '</span>';
+        Toastify({
+            text: text,
+            duration: 5000,
+            close: true,
+            gravity: 'bottom',
+            position: 'right',
+            stopOnFocus: true,
+            className: 'alice-toastify notification-content',
+            onShow: function() {
+                updateNotification(param.notificationId, 'display');
+            },
+            onClick: function() {
+                openTokenPage(param.notificationId, param.instanceId);
+            }
+        }).showToast();
+    }
+
+    // TODO: 처리할 문서 화면 호출. 해당 문서가 처리되었을 때 이슈로 구현하지 않음. 일단 처리할 문서 목록 화면으로 이동하도록 함.
+    // Open token page.
+    function openTokenPage(notificationId, instanceId) {
+        console.log('[openTokenPage] instance id : ' + instanceId);
+        location.href = '/tokens/search';
+        updateNotification(notificationId, 'confirm');
+    }
+
+    // Update notification.
+    function updateNotification(notificationId, target) {
+        restSubmitNotification('put', '/rest/notifications/' + notificationId + '/' + target, function () {
+            getNotificationList(false);
+        });
+    }
+
+    // Delete notification.
+    function deleteNotification(notificationId) {
+        restSubmitNotification('delete', '/rest/notifications/' + notificationId, function () {
+            getNotificationList(false);
+        });
+    }
+
+    // REST API.
+    function restSubmitNotification(method, url, result) {
+        const opt = {
+            method: method,
+            url: url,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                result(response.responseText);
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
 </script>
 </html>

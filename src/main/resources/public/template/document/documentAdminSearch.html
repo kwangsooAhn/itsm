@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{document.label.list}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <h1 th:text="#{document.label.adminList}"></h1>
+        <form id="searchDocumentsFrm">
+            <div class="pull-right">
+                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchDocuments}" class="search"/>
+                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.searchProcessName}" class="search"/>
+                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.searchFormName}" class="search"/>
+                <button sec:authorize="hasAuthority('document.admin.create')" type="button" onclick="createDocument()" th:text="#{common.btn.register}" style="text-align: left; float: right;"></button>
+            </div>
+        </form>
+        <hr>
+        <div id="documentList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
+                search.addEventListener('keyup', function() {
+                    documentSearches(false);
+                });
+            });
+            documentSearches();
+        };
+
+        function documentSearches(isShowProgressBar) {
+            restSubmit('GET', '/documents-admin/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result){
+                document.getElementById('documentList').innerHTML = result;
+            }, isShowProgressBar);
+        }
+
+        function openDocumentEdit(documentId) {
+            window.open('/documents-admin/' + documentId + '/edit', '_blank', 'width=625, height=500, left=1000, top=350');
+        }
+
+        function createDocument() {
+            window.open('/documents-admin/new', '_blank', 'width=625, height=500, left=1000, top=350');
+        }
+
+        function deleteDocument(documentId) {
+            restSubmit('DELETE', '/rest/documents-admin/' + documentId, function(result) {
+                if (JSON.parse(result)) {
+                    aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
+                        location.reload();
+                    });
+                } else {
+                    aliceJs.alert('[[#{document.msg.launchedInstance}]]');
+                }
+            });
+        }
+
+        //REST API
+        function restSubmit(method, url, result, isShowProgressbar) {
+            const opt = {
+                method: method,
+                url: url,
+                showProgressbar: isShowProgressbar,
+                callbackFunc: function(response) {
+                    result(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>
