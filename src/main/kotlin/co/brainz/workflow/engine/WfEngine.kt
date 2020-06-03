@@ -75,7 +75,7 @@ class WfEngine(
      * Process Engine.
      */
     fun process(): WfProcessService {
-        return WfProcessService(wfProcessRepository, wfProcessSimulator)
+        return WfProcessService(wfProcessRepository, wfProcessSimulator, aliceUserRepository)
     }
 
     /**
