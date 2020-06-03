@@ -1010,20 +1010,28 @@
                 elem.appendChild(tbElem);
             }
             propertiesPanel.appendChild(elem);
+            return elem;
         };
 
-        const drawField = function() {
+        const drawField = function(groupElem, attr) {
+            if (typeof attr.id !== 'undefined') {
+                const gElem = document.createElement('div');
+                gElem.setAttribute('id', attr.id);
+                gElem.classList.add('property-field');
 
+                if (attr.type === 'hidden') { gElem.style.display = 'none'; }
+            }
         };
-
+        let groupElem = null;
         const drawProperties = function(group, field) {
             Object.keys(field).forEach(function(item) {
                 if (Array.isArray(field[item])) { //group 추가
                     drawGroup(item);
-                    drawProperties(item, field[item]);
+                    groupElem = drawProperties(item, field[item]);
                 } else { //field 추가
-                    console.log(group);
+                    console.log(groupElem);
                     console.log(field[item]);
+                    drawField(groupElem, field[item]);
                 }
             });
         };
