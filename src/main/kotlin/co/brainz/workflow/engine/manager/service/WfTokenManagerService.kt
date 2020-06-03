@@ -3,25 +3,81 @@ package co.brainz.workflow.engine.manager.service
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
+import co.brainz.workflow.document.repository.WfDocumentRepository
+import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementRepository
+import co.brainz.workflow.element.service.WfElementService
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
+import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
+import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
+import co.brainz.workflow.token.repository.WfCandidateRepository
+import co.brainz.workflow.token.repository.WfTokenDataRepository
+import co.brainz.workflow.token.repository.WfTokenRepository
 import java.time.LocalDateTime
 import java.time.ZoneId
 import org.springframework.stereotype.Service
 
 @Service
 class WfTokenManagerService(
-    private val wfInstanceRepository: WfInstanceRepository,
-    private val wfElementRepository: WfElementRepository,
+    private val wfElementService: WfElementService,
+    private val wfInstanceService: WfInstanceService,
     private val notificationService: NotificationService,
+    private val documentRepository: WfDocumentRepository,
+    private val wfElementRepository: WfElementRepository,
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfCandidateRepository: WfCandidateRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository
 ) {
 
+    fun getElement(elementId: String): WfElementEntity {
+        return wfElementRepository.findWfElementEntityByElementId(elementId)
+    }
+
+    fun getComponentValue(tokenId: String, mappingId: String): String {
+        return wfTokenDataRepository.findByTokenIdAndComponentId(tokenId, mappingId).value.split("|")[0]
+    }
+
+    fun saveAllCandidate(candidateEntities: MutableList<WfCandidateEntity>): List<WfCandidateEntity> {
+        return wfCandidateRepository.saveAll(candidateEntities)
+    }
+
+    fun createInstance(wfTokenDto: WfTokenDto): WfInstanceEntity {
+        return wfInstanceService.createInstance(wfTokenDto)
+    }
+
+    fun completeInstance(instanceId: String) {
+        return wfInstanceService.completeInstance(instanceId)
+    }
+
+    fun getStartElement(processId: String): WfElementEntity {
+        return wfElementService.getStartElement(processId)
+    }
+
+    fun getNextElement(wfTokenDto: WfTokenDto): WfElementEntity {
+        return wfElementService.getNextElement(wfTokenDto)
+    }
+
+    fun getToken(tokenId: String): WfTokenEntity {
+        return wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
+    }
+
+    fun saveToken(tokenEntity: WfTokenEntity): WfTokenEntity {
+        return wfTokenRepository.save(tokenEntity)
+    }
+
+    fun saveAllTokenData(tokenDataEntities: MutableList<WfTokenDataEntity>): MutableList<WfTokenDataEntity> {
+        return wfTokenDataRepository.saveAll(tokenDataEntities)
+    }
     //필요한 함수를 여기에 모두 작성한다.
 
     fun makeTokenEntity(wfTokenDto: WfTokenDto): WfTokenEntity {
@@ -44,7 +100,7 @@ class WfTokenManagerService(
         if (token.element.notification) {
             val notifications = mutableListOf<NotificationDto>()
             val commonNotification = NotificationDto(
-                title = token.instance.document?.documentName!!,
+                title = token.instance.document.documentName,
                 message = "[" + token.element.elementName + "] " + token.instance.document.documentDesc,
                 instanceId = token.instance.instanceId
             )
@@ -73,5 +129,101 @@ class WfTokenManagerService(
             }
             notificationService.insertNotificationList(notifications)
         }
+    }
+
+    /**
+     * 생성 할 업무의 mappingId 와 일치하는 토큰데이터를 찾아 dto 를 리턴.
+     */
+    fun makeRestTemplateTokenDto(token: WfTokenEntity, documentId: List<String>): List<WfTokenDto> {
+
+        val keyPairMappingIdAndTokenData = this.getTokenDataByMappingId(token)
+
+        val tokensDto = mutableListOf<WfTokenDto>()
+        documentId.forEach {
+            val document = documentRepository.findDocumentEntityByDocumentId(it)
+
+            val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
+            document.form.components!!.forEach { component ->
+                if (component.mappingId.isNotBlank() && keyPairMappingIdAndTokenData[component.mappingId] != null) {
+                    val value = keyPairMappingIdAndTokenData[component.mappingId] as String
+                    val data = RestTemplateTokenDataDto(componentId = component.componentId, value = value)
+                    tokenDataList.add(data)
+                }
+            }
+
+            tokensDto.add(
+                WfTokenDto(
+                    documentId = document.documentId,
+                    data = tokenDataList,
+                    action = WfElementConstants.Action.SAVE.value,
+                    parentTokenId = token.tokenId
+                )
+            )
+        }
+        return tokensDto
+    }
+
+    /**
+     * 서브프로세스에 필요한 토큰데이터를 생성하여 리턴
+     */
+    fun makeSubProcessTokenDataDto(
+        subProcessToken: WfTokenEntity,
+        mainProcessToken: WfTokenEntity
+    ): List<RestTemplateTokenDataDto> {
+
+        val keyPairMappingIdAndTokenData = this.getTokenDataByMappingId(subProcessToken)
+
+        // 카피가 필요한 토큰데이터
+        val componentIdAndTokenData = mutableMapOf<String, String>()
+        mainProcessToken.instance.document.form.components!!.forEach {
+            if (it.mappingId.isNotBlank() && keyPairMappingIdAndTokenData[it.mappingId] != null) {
+                componentIdAndTokenData[it.componentId] = keyPairMappingIdAndTokenData[it.mappingId] as String
+            }
+        }
+
+        val tokenData = mutableListOf<RestTemplateTokenDataDto>()
+        mainProcessToken.tokenData?.forEach {
+            val componentId = it.componentId
+            val componentValue = if (componentIdAndTokenData[componentId] != null) {
+                componentIdAndTokenData[componentId] as String
+            } else {
+                it.value
+            }
+
+            tokenData.add(
+                RestTemplateTokenDataDto(
+                    componentId = componentId,
+                    value = componentValue
+                )
+            )
+
+        }
+
+        return tokenData
+    }
+
+    /**
+     * 토큰 정보를 조회하여 mappingId 와 매핑된 토큰데이터를 리턴.
+     */
+    private fun getTokenDataByMappingId(token: WfTokenEntity): MutableMap<String, String> {
+
+        // 종료된 토큰의 componentId 별로 mappingId를 찾는다.
+        val component = token.instance.document.form.components?.filter {
+            it.mappingId.isNotBlank()
+        }
+
+        val keyPairComponentIdToMappingId = component?.associateBy({ it.componentId }, { it.mappingId })
+
+        // mappingId 별로 실제 토큰에 저장된 value를 찾아 복제할 데이터를 생성한다.
+        val keyPairMappingIdToTokenDataValue = mutableMapOf<String, String>()
+        token.tokenData?.forEach {
+            val componentId = it.componentId
+            if (keyPairComponentIdToMappingId?.get(componentId) != null) {
+                val mappingId = keyPairComponentIdToMappingId[componentId] as String
+                keyPairMappingIdToTokenDataValue[mappingId] = it.value
+            }
+        }
+
+        return keyPairMappingIdToTokenDataValue
     }
 }

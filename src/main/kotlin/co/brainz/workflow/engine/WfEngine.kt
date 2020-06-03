@@ -2,10 +2,10 @@ package co.brainz.workflow.engine
 
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
-import co.brainz.workflow.engine.manager.ConstructorManager
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
+import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.token.entity.WfTokenDataEntity
@@ -14,15 +14,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class WfEngine(
-    private val constructorManager: ConstructorManager
+    private val wfTokenManagerService: WfTokenManagerService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    private val wfElementService = constructorManager.getElementService()
-    private val wfInstanceService = constructorManager.getInstanceService()
-    private val wfTokenRepository = constructorManager.getTokenRepository()
-    private val wfTokenDataRepository = constructorManager.getTokenDataRepository()
 
     /**
      * Start workflow.
@@ -34,16 +29,16 @@ class WfEngine(
         logger.debug("Start Workflow")
 
         // Create Instance
-        val instance = wfInstanceService.createInstance(wfTokenDto)
+        val instance = wfTokenManagerService.createInstance(wfTokenDto)
 
-        // StartToken Create & Complete
-        val element = wfElementService.getStartElement(instance.document.process.processId)
+        // Start Token Create & Complete
+        val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
         var startTokenDto = setTokenDtoInitValue(wfTokenDto, instance, element)
         val tokenManager = getTokenManager(startTokenDto.elementType)
         startTokenDto = tokenManager.createToken(startTokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
-        // FirstToken Create
+        // First Token Create
         val firstTokenDto = tokenManager.createNextToken(startTokenDto)
 
         return progressWorkflow(firstTokenDto)
@@ -59,9 +54,7 @@ class WfEngine(
         logger.debug("Process Token")
         var token = wfTokenDto.copy()
         when (wfTokenDto.action) {
-            WfElementConstants.Action.SAVE.value -> {
-                actionSave(wfTokenDto)
-            }
+            WfElementConstants.Action.SAVE.value -> actionSave(wfTokenDto)
             else -> {
                 do {
                     val tokenDto = setTokenDtoValue(token)
@@ -82,7 +75,7 @@ class WfEngine(
      */
     private fun actionSave(wfTokenDto: WfTokenDto) {
         // Save Token & Token Data
-        val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
+        val token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
         token.assigneeId = wfTokenDto.assigneeId
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
         for (tokenDataDto in wfTokenDto.data!!) {
@@ -94,9 +87,9 @@ class WfEngine(
             tokenDataEntities.add(tokenDataEntity)
         }
         if (tokenDataEntities.isNotEmpty()) {
-            wfTokenDataRepository.saveAll(tokenDataEntities)
+            wfTokenManagerService.saveAllTokenData(tokenDataEntities)
         }
-        wfTokenRepository.save(token)
+        wfTokenManagerService.saveToken(token)
     }
 
     /**
@@ -127,7 +120,7 @@ class WfEngine(
      * @return wfTokenDto
      */
     private fun setTokenDtoValue(token: WfTokenDto): WfTokenDto {
-        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(token.tokenId).get()
+        val tokenEntity = wfTokenManagerService.getToken(token.tokenId)
         token.instanceId = tokenEntity.instance.instanceId
         token.elementType = tokenEntity.element.elementType
         token.elementId = tokenEntity.element.elementId
@@ -142,7 +135,7 @@ class WfEngine(
      * @return WfTokenManager
      */
     private fun getTokenManager(elementType: String): WfTokenManager {
-        return WfTokenManagerFactory(constructorManager).getTokenManager(elementType)
+        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(elementType)
     }
 
     /**

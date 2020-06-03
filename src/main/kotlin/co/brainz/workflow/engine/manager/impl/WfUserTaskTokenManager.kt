@@ -2,9 +2,9 @@ package co.brainz.workflow.engine.manager.impl
 
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
-import co.brainz.workflow.engine.manager.ConstructorManager
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
+import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
@@ -13,24 +13,19 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 class WfUserTaskTokenManager(
-    constructorManager: ConstructorManager
-) : WfTokenManager(constructorManager) {
-
-    private val wfTokenRepository = constructorManager.getTokenRepository()
-    private val wfTokenDataRepository = constructorManager.getTokenDataRepository()
-    private val wfCandidateRepository = constructorManager.getCandidateRepository()
-    private val wfTokenManagerService = constructorManager.getTokenManagerService()
+    wfTokenManagerService: WfTokenManagerService
+) : WfTokenManager(wfTokenManagerService) {
 
     lateinit var assigneeId: String
 
     override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
-        val saveToken = wfTokenRepository.save(token)
+        val saveToken = wfTokenManagerService.saveToken(token)
         wfTokenDto.tokenId = saveToken.tokenId
         wfTokenDto.elementId = saveToken.element.elementId
         wfTokenDto.elementType = saveToken.element.elementType
 
-        saveToken.tokenData = wfTokenDataRepository.saveAll(super.setTokenData(wfTokenDto))
+        saveToken.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
         this.assigneeId = wfTokenDto.assigneeId.toString()
         setCandidate(saveToken)
 
@@ -38,17 +33,17 @@ class WfUserTaskTokenManager(
     }
 
     override fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
+        val token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
-        wfTokenRepository.save(token)
+        wfTokenManagerService.saveToken(token)
         if (!token.instance.pTokenId.isNullOrEmpty()) {
             wfTokenDto.parentTokenId = token.instance.pTokenId
         }
 
-        token.tokenData = wfTokenDataRepository.saveAll(super.setTokenData(wfTokenDto))
+        token.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
         token.assigneeId = wfTokenDto.assigneeId
-        wfTokenRepository.save(token)
+        wfTokenManagerService.saveToken(token)
 
         return wfTokenDto
     }
@@ -70,7 +65,7 @@ class WfUserTaskTokenManager(
                     assigneeId = this.assigneeId
                 }
                 token.assigneeId = assigneeId
-                wfTokenManagerService.saveNotification(wfTokenRepository.save(token))
+                wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
             }
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {
@@ -89,10 +84,13 @@ class WfUserTaskTokenManager(
                         )
                         wfCandidateEntities.add(wfCandidateEntity)
                     }
-                    wfTokenManagerService.saveNotification(token, wfCandidateRepository.saveAll(wfCandidateEntities))
+                    wfTokenManagerService.saveNotification(
+                        token,
+                        wfTokenManagerService.saveAllCandidate(wfCandidateEntities)
+                    )
                 } else {
                     token.assigneeId = this.assigneeId
-                    wfTokenManagerService.saveNotification(wfTokenRepository.save(token))
+                    wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
                 }
             }
         }
@@ -116,8 +114,7 @@ class WfUserTaskTokenManager(
         }
         var assignee = ""
         if (componentMappingId.isNotEmpty()) {
-            assignee =
-                wfTokenDataRepository.findByTokenIdAndComponentId(token.tokenId, componentMappingId).value.split("|")[0]
+            assignee = wfTokenManagerService.getComponentValue(token.tokenId, componentMappingId)
         }
         return assignee
     }

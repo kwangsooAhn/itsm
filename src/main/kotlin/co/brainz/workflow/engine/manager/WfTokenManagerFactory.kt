@@ -10,35 +10,36 @@ import co.brainz.workflow.engine.manager.impl.WfManualTaskTokenManager
 import co.brainz.workflow.engine.manager.impl.WfSignalSendTokenManager
 import co.brainz.workflow.engine.manager.impl.WfSubProcessTokenManager
 import co.brainz.workflow.engine.manager.impl.WfUserTaskTokenManager
+import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import org.springframework.stereotype.Component
 
 @Component
 class WfTokenManagerFactory(
-    private val constructorManager: ConstructorManager
+    private val wfTokenManagerService: WfTokenManagerService
 ) {
 
     fun getTokenManager(elementType: String): WfTokenManager {
         return when (elementType) {
             WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
-                WfCommonStartEventTokenManager(constructorManager)
+                WfCommonStartEventTokenManager(wfTokenManagerService)
             }
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
-                WfCommonEndEventTokenManager(constructorManager)
+                WfCommonEndEventTokenManager(wfTokenManagerService)
             }
             WfElementConstants.ElementType.USER_TASK.value -> {
-                WfUserTaskTokenManager(constructorManager)
+                WfUserTaskTokenManager(wfTokenManagerService)
             }
             WfElementConstants.ElementType.MANUAL_TASK.value -> {
-                WfManualTaskTokenManager(constructorManager)
+                WfManualTaskTokenManager(wfTokenManagerService)
             }
             WfElementConstants.ElementType.SUB_PROCESS.value -> {
-                WfSubProcessTokenManager(constructorManager)
+                WfSubProcessTokenManager(wfTokenManagerService)
             }
             WfElementConstants.ElementType.SIGNAL_SEND.value -> {
-                WfSignalSendTokenManager(constructorManager)
+                WfSignalSendTokenManager(wfTokenManagerService)
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
-                WfExclusiveGatewayTokenManager(constructorManager)
+                WfExclusiveGatewayTokenManager(wfTokenManagerService)
             }
             else -> throw AliceException(AliceErrorConstants.ERR, "Element tokenManager not found.")
         }

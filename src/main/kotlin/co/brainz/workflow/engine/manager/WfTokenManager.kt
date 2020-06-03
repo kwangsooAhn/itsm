@@ -3,20 +3,17 @@ package co.brainz.workflow.engine.manager
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
+import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-abstract class WfTokenManager(val constructorManager: ConstructorManager) {
-
-    private val wfElementService = constructorManager.getElementService()
-    private val wfTokenRepository = constructorManager.getTokenRepository()
-    private val wfTokenManagerService = constructorManager.getTokenManagerService()
+abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) {
 
     open fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
-        val saveToken = wfTokenRepository.save(token)
+        val saveToken = wfTokenManagerService.saveToken(token)
         wfTokenDto.tokenId = saveToken.tokenId
         wfTokenDto.elementId = saveToken.element.elementId
         wfTokenDto.elementType = saveToken.element.elementType
@@ -24,7 +21,7 @@ abstract class WfTokenManager(val constructorManager: ConstructorManager) {
     }
 
     open fun createNextToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val element = wfElementService.getNextElement(wfTokenDto)
+        val element = wfTokenManagerService.getNextElement(wfTokenDto)
         wfTokenDto.elementId = element.elementId
         wfTokenDto.elementType = element.elementType
         wfTokenDto.isAutoComplete = when (element.elementType) {
@@ -34,15 +31,15 @@ abstract class WfTokenManager(val constructorManager: ConstructorManager) {
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> true
             else -> false
         }
-        val tokenManager = WfTokenManagerFactory(constructorManager).getTokenManager(wfTokenDto.elementType)
+        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(wfTokenDto.elementType)
         return tokenManager.createToken(wfTokenDto)
     }
 
     open fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = wfTokenRepository.findTokenEntityByTokenId(wfTokenDto.tokenId).get()
+        val token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
-        wfTokenRepository.save(token)
+        wfTokenManagerService.saveToken(token)
         wfTokenDto.tokenId = token.tokenId
         if (!token.instance.pTokenId.isNullOrEmpty()) {
             wfTokenDto.parentTokenId = token.instance.pTokenId
