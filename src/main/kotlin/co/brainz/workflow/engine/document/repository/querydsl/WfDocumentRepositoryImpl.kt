@@ -17,11 +17,11 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
             .join(document.process)
             .join(document.form)
             .join(document.numberingRule)
-
             .where(
+                super.eq(document.documentType, searchDto.searchDocumentType),
+                super.eq(document.documentStatus, searchDto.searchDocumentStatus),
                 super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
                     ?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)),
-                super.eq(document.documentStatus, searchDto.searchDocumentStatus),
                 super.likeIgnoreCase(document.process.processName, searchDto.searchProcessName),
                 super.likeIgnoreCase(document.form.formName, searchDto.searchFormName)
             ).orderBy(document.documentName.asc())
@@ -30,6 +30,7 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
             Projections.constructor(
                 RestTemplateDocumentDto::class.java,
                 document.documentId,
+                document.documentType,
                 document.documentName,
                 document.documentDesc,
                 document.documentStatus,

@@ -7,6 +7,7 @@ import java.io.Serializable
  */
 data class RestTemplateDocumentSearchListDto(
     var searchDocuments: String? = "",
+    var searchDocumentType: String? = "",
     var searchDocumentStatus: String? = "",
     var searchProcessName: String? = "",
     var searchFormName: String? = ""

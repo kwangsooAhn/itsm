@@ -12,11 +12,14 @@
         <form id="formSearch" method="get">
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
                 <input type="text" name="searchValue" id="searchValue" th:placeholder="#{notice.searchPlaceholder}"/>
-                <input type="text" id="fromDt" name="fromDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                 th:value="${#temporals.format(minusCurrentDate, dateformat)}"/>
-                <input type="text" id="toDt" name="toDt" th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                 th:value="${#temporals.format(currentDate, dateformat)}"/>
-                <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;" onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
+                <input type="text" id="fromDt" name="fromDt" readonly="readonly"
+                    th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
+                    th:value="${#temporals.format(minusCurrentDate, dateformat)}"/>
+                <input type="text" id="toDt" name="toDt" readonly="readonly"
+                    th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
+                    th:value="${#temporals.format(currentDate, dateformat)}"/>
+                <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;"
+                    onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
             </div>
         </form>
     </div>
@@ -27,18 +30,18 @@
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[ */
-        var format = /*[[${#authentication.details.timeFormat}]]*/;
-        var lang = /*[[${#authentication.details.lang}]]*/;
-        var formatArray = format.split(' ');
-        var dateFormat = '';
+        const format = /*[[${#authentication.details.timeFormat}]]*/'';
+        const lang = /*[[${#authentication.details.lang}]]*/'';
+        let dateFormat = '';
 
         window.onload = function() {
-            dateFormat = formatArray[0].toUpperCase();
-            restSubmit('get', '/notices/list', true, true);
+            dateFormat = format.split(' ')[0].toUpperCase();
             // initialization date picker
             dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
             dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
-        }
+            document.getElementById('searchValue').addEventListener('keyup', function () { getNoticeList(false); });
+            getNoticeList(true);
+        };
 
         function setDatePicker(element, picker) {
             if (typeof picker === 'undefined') {
@@ -46,36 +49,19 @@
             }
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
-                if (changeDateFormatYYYYMMDD(toDtValue, formatArray[0]) <
-                    changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
-                    aliceJs.alert(i18n.get("notice.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                if (moment(toDtValue, dateFormat).isBefore(moment(element.value, dateFormat))) {
+                    aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
                 } else {
-                    restSubmit('get', '/notices/list', true, false);
+                    getNoticeList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
-                if (changeDateFormatYYYYMMDD(fromDtValue, formatArray[0]) >
-                    changeDateFormatYYYYMMDD(element.value, formatArray[0])) {
-                    aliceJs.alert(i18n.get("notice.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                if (moment(fromDtValue, dateFormat).isAfter(moment(element.value, dateFormat))) {
+                    aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
-                    restSubmit('get', '/notices/list', true, false);
+                    getNoticeList(false);
                 }
             }
-        }
-
-        document.getElementById('searchValue').onkeyup = function() {
-            restSubmit('get', '/notices/list', true, false);
-        };
-
-        function validation() {
-            if (isEmpty('fromDt', 'notice.msg.fromDtNotExist')) return false;
-            if (isEmpty('toDt', 'notice.msg.toDtNotExist')) return false;
-            if (changeDateFormatYYYYMMDD(document.getElementById('fromDt').value, formatArray[0]) >
-                    changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])) {
-                aliceJs.alert('검색 시작 날짜가 종료 날짜보다 큽니다.');
-                return false;
-            }
-            return true;
         }
 
         //list 팝업 생성
@@ -83,22 +69,23 @@
             window.open(id + '/view-pop?value=true', id, 'width=500, height=500');
         }
 
-        function restSubmit(method, url, isSearch, showProgressbar) {
-            if (isSearch && !validation()) {
-                return false;
-            }
-
+        //get notice list
+        function getNoticeList(showProgressbar) {
             const data = {
-                isSearch: isSearch,
                 searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim()),
-                fromDt: changeDateFormatYYYYMMDD(document.getElementById('fromDt').value, formatArray[0]),
-                toDt: changeDateFormatYYYYMMDD(document.getElementById('toDt').value, formatArray[0])
+                fromDt: aliceJs.convertToSystemDateFormat(document.getElementById('fromDt').value, dateFormat),
+                toDt: aliceJs.convertToSystemDateFormat(document.getElementById('toDt').value, dateFormat)
             };
+            const urlParam = 'searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
 
-            const getUrl = url + '?isSearch=' + data.isSearch + '&searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
+            restSubmit('get', '/notices/list?' + urlParam, showProgressbar);
+        }
+
+        //REST API
+        function restSubmit(method, url, showProgressbar) {
             const opt = {
                 method: method,
-                url: getUrl,
+                url: url,
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     document.getElementById('noticeList').innerHTML = response.responseText;

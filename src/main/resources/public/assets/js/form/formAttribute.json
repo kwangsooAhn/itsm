@@ -8,7 +8,7 @@
             "validate": "maxLength[20]"
         },
         {
-            "id": "id", 
+            "id": "formId", 
             "name": "Id", 
             "value": "", 
             "type": "inputbox-readonly"

@@ -164,17 +164,21 @@ class AliceFileService(
     fun uploadFiles(fileDataId: String) {
         val fileDataId = fileDataId.split(',')
         for (index in fileDataId.indices) {
-            val fileLocEntity = aliceFileLocRepository.getOne(fileDataId[index].toLong())
-            val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-            val tempPath = getDir("temp", fileLocEntity.randomName)
-            Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
-            fileLocEntity.uploaded = true
-            try {
-                aliceFileLocRepository.save(fileLocEntity)
-            } catch (e: Exception) {
-                logger.error("{}", e.message)
-                Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
-                throw AliceException(AliceErrorConstants.ERR, e.message)
+            if (fileDataId[index].isNotEmpty()) {
+                val fileLocEntity = aliceFileLocRepository.getOne(fileDataId[index].toLong())
+                val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
+                val tempPath = getDir("temp", fileLocEntity.randomName)
+                if (Files.exists(tempPath)) {
+                    Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+                    fileLocEntity.uploaded = true
+                    try {
+                        aliceFileLocRepository.save(fileLocEntity)
+                    } catch (e: Exception) {
+                        logger.error("{}", e.message)
+                        Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
+                        throw AliceException(AliceErrorConstants.ERR, e.message)
+                    }
+                }
             }
         }
     }

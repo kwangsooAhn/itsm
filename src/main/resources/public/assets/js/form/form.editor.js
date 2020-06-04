@@ -1,16 +1,16 @@
 /**
-* @projectDescription Form Designer Editor Library
-*
-* @author woodajung
+ * @projectDescription Form Designer Editor Library
+ *
+ * @author woodajung
  * @version 1.0
-*/
+ */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (factory((global.editor = global.editor || {})));
+        typeof define === 'function' && define.amd ? define(['exports'], factory) :
+            (factory((global.editor = global.editor || {})));
 }(this, (function (exports) {
     'use strict';
-    
+
     const defaultComponent = 'editbox';
     const history = {
         redo_list: [],
@@ -180,15 +180,16 @@
 
         // 2020-05-22 Jung Hee Chan
         // datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
-        data.components = reformatCalendarFormat('save', data.components);
+        data.components = aliceForm.reformatCalendarFormat('save', data.components);
 
         let lastCompIndex = component.getLastIndex();
         data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === defaultComponent);
         });
+
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/forms/' + data.form.id + '/data',
+            url: '/rest/forms/' + data.formId + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
                     isEdited = false;
@@ -324,10 +325,10 @@
         const restore = function (originData, changeData) {
             if (!Object.keys(originData).length || !Object.keys(changeData).length) { // add or delete component
                 if (!Object.keys(changeData).length) { // delete component
-                    let element = document.getElementById(originData.id);
+                    let element = document.getElementById(originData.componentId);
                     element.remove();
                     for (let i = 0, len = editor.data.components.length; i < len; i++) {
-                        if (originData.id === editor.data.components[i].id) {
+                        if (originData.componentId === editor.data.components[i].componentId) {
                             editor.data.components.splice(i, 1);
                             break;
                         }
@@ -343,8 +344,8 @@
                 }
                 reorderComponent();
             } else { // modify
-                if (changeData.id === editor.data.form.id) { // form
-                    editor.data.form = changeData;
+                if (typeof changeData.type === 'undefined') {  // form
+                    editor.data = changeData;
                     if (originData.name !== changeData.name) { // modify name
                         changeFormName();
                     }
@@ -352,7 +353,7 @@
                     let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
                     let compAttr = element.attr;
                     setComponentData(compAttr);
-                    let targetElement = document.getElementById(compAttr.id);
+                    let targetElement = document.getElementById(compAttr.componentId);
                     if (originData.display.order !== changeData.display.order) {
                         targetElement.innerHTML = '';
                         targetElement.remove();
@@ -394,12 +395,12 @@
     function redoForm() {
         history.redo();
     }
-    
+
     /**
      * 미리보기
      */
     function previewForm() {
-        let url = '/forms/' + editor.data.form.id + '/preview';
+        let url = '/forms/' + editor.data.formId + '/preview';
         const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
         window.open(url, 'result', 'width=800,height=805,' + specs);
 
@@ -409,20 +410,20 @@
         form.target = 'result';
         let input = document.createElement('textarea');
         input.name = 'data';
-        input.value = JSON.stringify(editor.data);
+        input.value = JSON.stringify({'form': editor.data});
         form.appendChild(input);
         form.style.display = 'none';
         document.body.appendChild(form);
         form.submit();
     }
-    
+
     /**
      * export
      */
     function exportForm() {
         //TODO: export
     }
-    
+
     /**
      * import
      */
@@ -433,29 +434,29 @@
     /**
      * 컴포넌트 신규 추가
      * @param {String} type 컴포넌트 타입
-     * @param {String} componentId 컴포넌트 Id
+     * @param {String} id 컴포넌트 Id
      */
-    function addComponent(type, componentId) {
+    function addComponent(type, id) {
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
             let histories = [];
-            let elem = document.getElementById(componentId);
-            let replaceEditbox = editor.data.components.filter(function(comp) { return comp.id === componentId; });
+            let elem = document.getElementById(id);
+            let replaceEditbox = editor.data.components.filter(function(comp) { return comp.componentId === id; });
             let replaceComp = component.draw(type, formPanel);
             let compAttr = replaceComp.attr;
-            compAttr.id = componentId;
+            compAttr.componentId = id;
             setComponentData(compAttr);
 
-            replaceComp.domElem.id = componentId;
+            replaceComp.domElem.id = id;
             elem.parentNode.insertBefore(replaceComp.domElem, elem);
             elem.innerHTML = '';
             elem.remove();
 
             reorderComponent();
 
-            let addCompAttr = editor.data.components.filter(function(comp) { return comp.id === componentId; });
+            let addCompAttr = editor.data.components.filter(function(comp) { return comp.componentId === id; });
             histories.push({0: JSON.parse(JSON.stringify(replaceEditbox[0])), 1: JSON.parse(JSON.stringify(addCompAttr[0]))});
 
-            addEditboxDown(componentId, function(attr) {
+            addEditboxDown(id, function(attr) {
                 histories.push({0: {}, 1: JSON.parse(JSON.stringify(attr))});
                 history.saveHistory(histories);
             });
@@ -481,9 +482,9 @@
         //복사
         let elemIdx = Number(elem.getAttribute('data-index')) + 1;
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (copyElemId === editor.data.components[i].id) {
+            if (copyElemId === editor.data.components[i].componentId) {
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
-                copyData.id = workflowUtil.generateUUID();
+                copyData.componentId = workflowUtil.generateUUID();
                 let comp = component.draw(copyData.type, formPanel, copyData);
                 setComponentData(comp.attr);
                 elem.parentNode.insertBefore(comp.domElem, elem.nextSibling);
@@ -494,7 +495,7 @@
                 }
                 showComponentProperties(comp.id);
 
-                let copyCompAttr = editor.data.components.filter(function(c) { return c.id === comp.id; });
+                let copyCompAttr = editor.data.components.filter(function(c) { return c.componentId === comp.id; });
                 history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(copyCompAttr[0]))}]);
                 break;
             }
@@ -518,7 +519,7 @@
 
         //editbox 컴포넌트 1개만 존재할 경우 삭제 로직을 타지 않는다.
         if (document.querySelectorAll('.component').length === 1 &&
-                elem.getAttribute('data-type') === defaultComponent) { return false; }
+            elem.getAttribute('data-type') === defaultComponent) { return false; }
 
 
         let histories = [];
@@ -526,7 +527,7 @@
         elem.remove();
         selectedComponentId = '';
         for (let i = 0; i < editor.data.components.length; i++) {
-            if (delElemId === editor.data.components[i].id) {
+            if (delElemId === editor.data.components[i].componentId) {
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[i])), 1: {}});
                 editor.data.components.splice(i, 1);
                 break;
@@ -621,7 +622,6 @@
      */
     function selectProperties() {
         if (propertiesPanel.getElementsByTagName('input')[0] === null) { return false; }
-
         propertiesPanel.getElementsByTagName('input')[0].focus();
     }
 
@@ -644,7 +644,7 @@
         editbox.domElem.querySelector('[contenteditable=true]').focus();
         showComponentProperties(editbox.id);
 
-        let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.id === editbox.id; });
+        let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.componentId === editbox.id; });
         history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
     }
 
@@ -677,7 +677,7 @@
         if (typeof callbackFunc === 'function') {
             callbackFunc(editbox.attr);
         } else {
-            let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.id === editbox.id; });
+            let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.componentId === editbox.id; });
             history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
         }
     }
@@ -694,7 +694,7 @@
             //데이터 display 순서 변경
             for (let j = 0, len = editor.data.components.length; j < len; j++) {
                 let comp = editor.data.components[j];
-                if (comp.id === elem.id) {
+                if (comp.componentId === elem.id) {
                     comp.display.order = i + 1;
                     break;
                 }
@@ -715,7 +715,7 @@
     function getComponentIndex(id) {
         for (let i = 0, len = editor.data.components.length; i < len; i++) {
             let comp = editor.data.components[i];
-            if (comp.id === id) { return i; }
+            if (comp.componentId === id) { return i; }
         }
         return -1;
     }
@@ -728,7 +728,7 @@
         let isExist = false;
         for (let i = 0, len = editor.data.components.length; i < len; i++) {
             let comp = editor.data.components[i];
-            if (comp.id === compData.id) {//수정
+            if (comp.componentId === compData.componentId) {//수정
                 editor.data.components[i] = compData;
                 isExist = true;
                 break;
@@ -741,25 +741,35 @@
 
     /**
      * 컴포넌트의 데이터를 전달받아서 우측 properties panel 출력용으로 컴포넌트 기본 속성을 정제하여 조회한다.
-     * @param {Object} compDate 컴포넌트 데이터
-     * @return {String} detailAttr 정제한 컴포넌트 기본 속성 데이터
+     *
+     * 2020-06-03 Jung Hee Chan
+     *   - 오타, 네이밍, 주석 수정 및 추가.
+     *   - 날짜시간 속성에 대한 reformat은 reformatCalendarFormat과 함께 향후 정리가 필요.
+     *   - 최초 기본 속성을 가져와서 사용하는 경우에도 사용자의 포맷으로 변경하기 위해서 변환 추가를 했으나
+     *   - 변환을 1번만 하는게 아니라 새로 그릴때마다 해서 지금 값이 최초 기본 속성인지 알수가 없음.
+     *   - form.core에서 initSync에서 파일 읽어올때 처리하도록 했음. 결론적으로 여기는 정리만...
+     *
+     * @param {Object} componentData 컴포넌트 데이터. 화면처럼 속성그룹, 속성명과 값이 포함.
+     * @return {String} initializedProperties 정제한 컴포넌트 기본 속성 데이터
      */
-    function getRefineAttribute(compDate) {
-        let detailAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[compDate.type]);
-        Object.keys(compDate).forEach(function(comp) {
-            if (aliceJs.isObject(compDate[comp]) && detailAttr.hasOwnProperty(comp))  {
-                Object.keys(compDate[comp]).forEach(function(attr) {
-                    Object.keys(detailAttr[comp]).forEach(function(d) {
-                        if (attr === detailAttr[comp][d].id) {
-                            detailAttr[comp][d].value = compDate[comp][attr];
+    function initProperties(componentData) {
+        // set default component properties
+        let initializedProperties = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[componentData.type]);
+
+        Object.keys(componentData).forEach(function(propertyGroupId) {
+            if (aliceJs.isObject(componentData[propertyGroupId]) && initializedProperties.hasOwnProperty(propertyGroupId))  {
+                Object.keys(componentData[propertyGroupId]).forEach(function(propertyId) {
+                    Object.keys(initializedProperties[propertyGroupId]).forEach(function(initProperty) {
+                        if (propertyId === initializedProperties[propertyGroupId][initProperty].id) {
+                            initializedProperties[propertyGroupId][initProperty].value = componentData[propertyGroupId][propertyId];
                         }
                     });
                 });
             }
         });
-        return detailAttr;
+        return initializedProperties;
     }
-    
+
     /**
      * 우측 properties panel 세부 속성 출력
      * @param {String} id 조회할 컴포넌트 ID
@@ -767,7 +777,7 @@
     function showComponentProperties(id) {
         if (selectedComponentId === id) { return false; }
         propertiesPanel.innerHTML = '';
-        
+
         if (selectedComponentId !== '') { //기존 선택된 컴포넌트 css 삭제
             if (document.getElementById(selectedComponentId).classList.contains('selected')) {
                 document.getElementById(selectedComponentId).classList.remove('selected');
@@ -788,7 +798,7 @@
 
         let compIdx = getComponentIndex(id);
         if (compIdx === -1) { return false; }
-        
+
         let compAttr = editor.data.components[compIdx];
         /**
          * 컴포넌트를 다시 그린다.
@@ -797,7 +807,7 @@
             let element = component.draw(compAttr.type, formPanel, compAttr);
             if (element) {
                 let compAttr = element.attr;
-                compAttr.id = id;
+                compAttr.componentId = id;
                 setComponentData(compAttr);
 
                 let targetElement = document.getElementById(id);
@@ -845,7 +855,7 @@
             } else {
                 let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
                 if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
-                
+
                 let checkedPropertiesArr = checkedRadio.name.split('.');
                 let changeValue = checkedRadio.value;
                 if (changeValue === 'none' || changeValue === 'now') {
@@ -863,7 +873,7 @@
                 }
             }
         };
-        let detailAttr = getRefineAttribute(compAttr);
+        let detailAttr = initProperties(compAttr);
         //제목 출력
         let compTitleAttr = component.getTitle(compAttr.type);
         let compTitleElem = document.createElement('div');
@@ -879,7 +889,7 @@
             groupDiv.classList.add('property-group');
             groupDiv.textContent = group;
             propertiesPanel.appendChild(groupDiv);
-            
+
             let buttonExist = false,
                 fieldButtonDiv = null,
                 groupTb = null;
@@ -945,7 +955,7 @@
                     }
                 });
                 groupDiv.appendChild(minusButton);
-                
+
                 groupTb = document.createElement('table');
                 groupDiv.appendChild(groupTb);
             }
@@ -961,7 +971,7 @@
                             fieldGroupDiv.classList.add('property-field');
                             fieldGroupDiv.setAttribute('id', fieldArr.id);
                             groupDiv.appendChild(fieldGroupDiv);
-                            
+
                             fieldGroupDiv.removeAttribute('id');
                             fieldButtonDiv = document.createElement('div');
                             fieldButtonDiv.classList.add('property-field-button');
@@ -972,6 +982,7 @@
                         fieldGroupDiv = document.createElement('div');
                         fieldGroupDiv.classList.add('property-field');
                         fieldGroupDiv.setAttribute('id', fieldArr.id);
+                        if (fieldArr.type === 'hidden') { fieldGroupDiv.style.display = 'none'; }
                         groupDiv.appendChild(fieldGroupDiv);
                     }
                     if (fieldArr.type !== 'button' && fieldArr.type !== 'table') { //속성명 출력
@@ -1004,7 +1015,7 @@
                             fieldGroupDiv.appendChild(propertyValue);
 
                             if (fieldArr.type === 'inputbox-underline') { propertyValue.classList.add('underline'); }
-                            
+
                             if (fieldArr.unit !== '') {
                                 let propertyUnit = document.createElement('span');
                                 propertyUnit.classList.add('property-field-unit');
@@ -1060,7 +1071,7 @@
                                         subListElem.appendChild(subListOption);
                                     }
                                 }
-                                subListElem.setAttribute('id', compAttr.id + '-' + group + '-' + fieldArr.id + '-session');
+                                subListElem.setAttribute('id', compAttr.componentId + '-' + group + '-' + fieldArr.id + '-session');
                                 subListElem.classList.add('default-session');
                                 subListElem.addEventListener('change', function() {
                                     if (type === 'none') {
@@ -1083,7 +1094,7 @@
                                 propertyValue.appendChild(propertyOption);
                             }
                             propertyValue.addEventListener('change', function() {
-                                let delElem = document.getElementById( compAttr.id + '-' + group + '-' + fieldArr.id + '-session');
+                                let delElem = document.getElementById( compAttr.componentId + '-' + group + '-' + fieldArr.id + '-session');
                                 if (delElem) {
                                     delElem.remove();
                                 }
@@ -1106,7 +1117,7 @@
                                 slider.value = this.value;
                                 changePropertiesValue(this.value, group, fieldArr.id);
                             });
-                            
+
                             let slideValue = document.createElement('input');
                             slideValue.classList.add('property-field-value', 'underline');
                             slideValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
@@ -1144,7 +1155,7 @@
                                 propertyOption.setAttribute('id', fieldArr.name + '-' + fieldArr.option[i].id);
                                 propertyOption.value = fieldArr.option[i].id;
                                 propertyOption.name = fieldArr.name;
-                                if (fieldArr.value === fieldArr.option[i].id) { 
+                                if (fieldArr.value === fieldArr.option[i].id) {
                                     propertyOption.setAttribute('checked', 'checked');
                                 }
                                 propertyOption.addEventListener('change', function() {
@@ -1177,11 +1188,11 @@
                                     
                                     ${option.id === 'date' || option.id === 'time' ? "<input type='text' id='" + option.id +"' value='" + optionDefaultArr[1] + "'/><label for='" + option.id + "'>" + labelName[1] + "</label>" : ""}
                                     
-                                    ${option.id === 'datetime'? 
+                                    ${option.id === 'datetime'?
                                     "<input type='text' id='" + option.id +"-0' value='" + optionDefaultArr[1] + "' /><label for='" + option.id + "-0'>" + labelName[1] + "</label>" +
                                     "<input type='text' id='" + option.id +"-1' value='" + optionDefaultArr[2] + "' /><label for='" + option.id + "-1'>" + labelName[2] + "</label>" : ""}
                                     
-                                    ${option.id === 'datepicker' || option.id === 'timepicker' || option.id === 'datetimepicker' ? "<input type='text' id='" + option.id + "-" + compAttr.id + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
+                                    ${option.id === 'datepicker' || option.id === 'timepicker' || option.id === 'datetimepicker' ? "<input type='text' id='" + option.id + "-" + compAttr.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
 
                                     ${option.id === 'now' || option.id === 'none' ? "<label for='" + option.id + "'>" + labelName[0] + "</label>" : ""}
                                     </div>
@@ -1203,13 +1214,13 @@
                                     changeOptions[i].addEventListener('change', setDateFormat, false);
                                 }
                             }
-                            
+
                             if (compAttr.type === 'date') {
-                                dateTimePicker.initDatePicker('datepicker-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initDatePicker('datepicker-' + compAttr.componentId, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
                             } else if (compAttr.type === 'time') {
-                                dateTimePicker.initTimePicker('timepicker-' + compAttr.id, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initTimePicker('timepicker-' + compAttr.componentId, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
                             } else if (compAttr.type === 'datetime') {
-                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initDateTimePicker('datetimepicker-' + compAttr.componentId, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
                             }
                             break;
                         case 'radio-custom':
@@ -1229,7 +1240,7 @@
                             }
                             fieldGroupDiv.innerHTML += customDefaultTemplate;
 
-                            let customCodeSelect = propertiesPanel.querySelector('#custom-code > select');
+                            let customCodeSelect = propertiesPanel.querySelector('#customCode > select');
                             let changeCustomCode = function(val) {
                                 let customCodeDataSelect = fieldGroupDiv.querySelector('input[id=code]').parentNode.querySelector('select');
                                 customCodeDataSelect.innerHTML = '';
@@ -1281,7 +1292,7 @@
                             break;
                         case 'button':
                             if (fieldButtonDiv === null) { break; }
-                            
+
                             if (fieldArr.option !== undefined) {
                                 for (let i = 0, len = fieldArr.option.length; i < len; i++) {
                                     propertyValue = document.createElement('button');
@@ -1373,33 +1384,20 @@
                             propertyValue = document.createElement('input');
                             propertyValue.setAttribute('type', 'text');
                             propertyValue.classList.add('property-field-value');
-                            propertyValue.setAttribute('id', fieldArr.id + '-' + compAttr.id);
+                            propertyValue.setAttribute('id', fieldArr.id + '-' + compAttr.componentId);
                             propertyValue.setAttribute('name', group + '.' + fieldArr.id);
                             let dateTimePickerValue = '';
                             if (fieldArr.value != '') {
-                                let dateTimePickerFormat = aliceForm.options.datetimeFormat;
-                                dateTimePickerValue = fieldArr.value.split('|');
-                                if (dateTimePickerValue[1] === undefined) {
-                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
-                                } else {
-                                    let dummyDateTime = '';
-                                    if (fieldArr.type === 'timepicker') {
-                                        dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
-                                    }
-                                    dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, (dummyDateTime !== '' ? dummyDateTime + ' ' : '') + dateTimePickerValue[0], aliceForm.options.lang);
-                                    if (fieldArr.type === 'timepicker') {
-                                        dateTimePickerValue = dateTimePickerValue.split(' ')[1];
-                                    }
-                                }
+                                dateTimePickerValue = fieldArr.value;
                             }
                             propertyValue.setAttribute('value', dateTimePickerValue);
                             fieldGroupDiv.appendChild(propertyValue);
                             if (fieldArr.type === 'datepicker') {
-                                dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initDatePicker(fieldArr.id + '-' + compAttr.componentId, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
                             } else if (fieldArr.type === 'timepicker') {
-                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.id, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initTimePicker(fieldArr.id + '-' + compAttr.componentId, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
                             } else if (fieldArr.type === 'datetimepicker') {
-                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.id, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
+                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + compAttr.componentId, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
                             }
                             break;
                         case 'customcode':
@@ -1419,7 +1417,7 @@
                             if (fieldArr.value === '' && customCodeList.length > 0) {
                                 changePropertiesValue(customCodeList[0].customCodeId, group, fieldArr.id);
                             }
-                            
+
                             propertyValue.addEventListener('change', function() {
                                 changePropertiesValue(this.value, group, fieldArr.id);
                             }, false);
@@ -1460,7 +1458,7 @@
             }
         });
     }
-    
+
     /**
      * 우측 properties panel 삭제한다.
      */
@@ -1492,9 +1490,8 @@
         } else {
             selectedComponentId = '';
         }
-        let formAttr = editor.data.form;
+        let formAttr = editor.data;
         let detailAttr = formProperties.form;
-
         //data + 기본 속성 = 세부 속성 재할당 
         Object.keys(formAttr).forEach(function(form) {
             Object.keys(detailAttr).forEach(function(idx) {
@@ -1504,27 +1501,25 @@
             });
         });
 
-        let formOriginAttr = JSON.parse(JSON.stringify(formAttr));
-
         //폼 속성 출력
         let groupDiv = document.createElement('div');
         groupDiv.setAttribute('id', 'form');
         groupDiv.classList.add('property-group');
         groupDiv.textContent = 'form';
         propertiesPanel.appendChild(groupDiv);
-        
+
         Object.keys(detailAttr).forEach(function(idx) {
             let fieldArr = detailAttr[idx];
             let fieldGroupDiv = document.createElement('div');
             fieldGroupDiv.classList.add('property-field');
             fieldGroupDiv.setAttribute('id', fieldArr.id);
             groupDiv.appendChild(fieldGroupDiv);
-            
+
             let propertyName = document.createElement('span');
             propertyName.classList.add('property-field-name');
             propertyName.textContent = fieldArr.name;
             fieldGroupDiv.appendChild(propertyName);
-            
+
             let propertyValue = null;
             if (fieldArr.type === 'textarea') {
                 propertyValue = document.createElement('textarea');
@@ -1549,35 +1544,35 @@
             if (fieldArr.id === 'name') {
                 validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('keyup', function(e) {
-                    editor.data.form.name = this.value;
-                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
+                    let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
+                    editor.data.name = this.value;
+                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
                 });
             } else {
                 validateCheck(propertyValue, fieldArr.validate);
                 propertyValue.addEventListener('change', function(e) {
-                    editor.data.form[fieldArr.id] = this.value;
-                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data.form))}]);
+                    let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
+                    editor.data[fieldArr.id] = this.value;
+                    history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
                 }, false);
             }
             fieldGroupDiv.appendChild(propertyValue);
-            
-            if (fieldArr.type === 'inputbox-readonly') { 
-                propertyValue.classList.add('noline'); 
+
+            if (fieldArr.type === 'inputbox-readonly') {
+                propertyValue.classList.add('noline');
                 propertyValue.setAttribute('readonly', 'true');
             }
         });
     }
 
-     /**
+    /**
      * 조회된 데이터 draw.
-     * 
-     * @param {Object} data 조회한 폼 및 컴포넌트 정보
      */
-    function drawForm(data) {
-        editor.data = JSON.parse(data);
+    function drawForm() {
+         //컴포넌트 재정렬
         if (editor.data.components.length > 0) {
             if (editor.data.components.length > 2) {
-                editor.data.components.sort(function (a, b) { //컴포넌트 재정렬
+                editor.data.components.sort(function (a, b) {
                     return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;  
                 });
             }
@@ -1596,7 +1591,7 @@
         setComponentData(editboxComponent.attr);
         savedData = JSON.parse(JSON.stringify(editor.data));
 
-        //폼 상세 정보 출력
+        //폼 기본 속성인 '/assets/js/form/formAttribute.json' 데이터를 조회 한다.
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/form/formAttribute.json',
@@ -1604,7 +1599,7 @@
                 formProperties = JSON.parse(xhr.responseText);
                 //첫번째 컴포넌트 선택
                 const firstComponent = document.getElementById('panel-form').querySelectorAll('.component')[0];
-                if (firstComponent.getAttribute('data-type') === defaultComponent) {
+                if (firstComponent.getAttribute('data-type') === defaultComponent) { //editbox 컴포넌트일 경우 input box 안에 포커싱
                     firstComponent.querySelector('[contenteditable=true]').focus();
                 }
                 showComponentProperties(firstComponent.id);
@@ -1614,14 +1609,14 @@
 
         isEdited = false;
         //폼 이름 출력
-         changeFormName();
+        changeFormName();
     }
 
     /**
      * 폼 이름 변경.
      */
     function changeFormName() {
-        document.querySelector('.form-name').textContent = (isEdited ? '*' : '') + editor.data.form.name;
+        document.querySelector('.form-name').textContent = (isEdited ? '*' : '') + editor.data.name;
     }
 
     /**
@@ -1634,10 +1629,10 @@
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         formPanel = document.getElementById('panel-form');
         formPanel.setAttribute('data-readonly', true);
+        propertiesPanel = document.getElementById('panel-properties');
 
         if (flag === 'true') { isView = false; }
 
-        propertiesPanel = document.getElementById('panel-properties');
         //컨텍스트 메뉴 초기화
         context.init();
 
@@ -1663,124 +1658,14 @@
             url: '/rest/forms/' + formId + '/data',
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
-                responseObject.components = reformatCalendarFormat('read', responseObject.components);
-                drawForm(JSON.stringify(responseObject));
+                responseObject.components = aliceForm.reformatCalendarFormat('read', responseObject.components);
+                editor.data = responseObject;
+                drawForm();
             },
             contentType: 'application/json; charset=utf-8'
         });
     }
 
-    /**
-     * 날짜와 관련있는 컴포넌트들에 대해서 사용자의 타임존과 출력 포맷에 따라 변환.
-     * 폼 디자이너 모듈 Refactoring 시까지 임시로 사용할 가능성이 있음.
-     *
-     * @author Jung Hee Chan
-     * @since 2020-05-22
-     * @param {String} action save, read 중에서 1개. save인 경우는 시스템 공통 포맷으로, read인 경우 사용자 포맷으로 변환.
-     * @param {Object} components 변환 대상이 되는 컴포넌트 목록.
-     * @return {Object} resultComponents 변경된 결과
-     */
-    function reformatCalendarFormat(action, components) {
-        if (action !== 'save' && action !== 'read') {
-            return components;
-        }
-
-        components.forEach(function(component, idx) {
-            if (component.type === 'datetime' || component.type === 'date' || component.type === 'time') {
-                // 1. 기본값 타입 중에서 직접 Calendar로 입력한 값인 경우는 변환
-                if (!(component.display.default.indexOf('picker') < 0)) {
-                    let displayDefaultValueArray = component.display.default.split('|'); // 속성 값을 파싱한 배열
-                    if (action === 'save') {
-                        switch(component.type) {
-                            case 'datetime':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToSystemDatetimeFormatWithTimezone(displayDefaultValueArray[1],
-                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                                break;
-                            case 'date':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToSystemDateFormat(displayDefaultValueArray[1],
-                                        aliceForm.options.dateFormat);
-                                break;
-                            case 'time':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToSystemTimeFormat(displayDefaultValueArray[1],
-                                        aliceForm.options.hourFormat);
-                                break;
-                        }
-                    } else if (action === 'read') {
-                        switch(component.type) {
-                            case 'datetime':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToUserDatetimeFormatWithTimezone(displayDefaultValueArray[1],
-                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                                break;
-                            case 'date':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToUserDateFormat(displayDefaultValueArray[1],
-                                        aliceForm.options.dateFormat);
-                                break;
-                            case 'time':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToUserTimeFormat(displayDefaultValueArray[1],
-                                        aliceForm.options.hourFormat);
-                                break;
-                        }
-
-                    }
-                    components[idx].display.default = displayDefaultValueArray.join('|');
-                }
-
-                // 2. validate 용 date-min, date-max 변환
-                let validateItems = component.validate;
-                Object.keys(validateItems).forEach(function(validateItem) {
-                    if (!(validateItem.indexOf('date-') < 0)) {
-                        let validateItemValueArray = validateItems[validateItem].split('|'); // 속성 값을 파싱한 배열
-                        if (action === 'save') {
-                            switch(component.type) {
-                                case 'datetime':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToSystemDatetimeFormatWithTimezone(validateItemValueArray[0],
-                                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                                    break;
-                                case 'date':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToSystemDateFormat(validateItemValueArray[0],
-                                            aliceForm.options.dateFormat);
-                                    break;
-                                case 'time':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToSystemDateFormat(validateItemValueArray[0],
-                                            aliceForm.options.hourFormat);
-                                    break;
-                            }
-                        } else if (action === 'read') {
-                            switch(component.type) {
-                                case 'datetime':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToUserDatetimeFormatWithTimezone(validateItemValueArray[0],
-                                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                                    break;
-                                case 'date':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToUserDateFormat(validateItemValueArray[0],
-                                            aliceForm.options.dateFormat);
-                                    break;
-                                case 'time':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToUserTimeFormat(validateItemValueArray[0],
-                                            aliceForm.options.hourFormat);
-                                    break;
-                            }
-                        }
-                        components[idx].validate[validateItem] = validateItemValueArray.join('|')
-                    }
-                })
-            }
-        })
-        return components;
-    }
-    
     exports.init = init;
     exports.save = saveForm;
     exports.saveAs = saveAsForm;

@@ -14,88 +14,211 @@
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
 
     let dataForPrint = ''; // 프린트 출력용 저장 데이터
-    let fileDataIds = '';
 
     /**
-     * alert message.
+     * get component target.
      *
-     * @param element element
-     * @param msg 메시지
+     * @param componentElement component element.
      */
-    function alertMsg(element, msg) {
-        aliceJs.alert(msg, function() {
-            if (element) {
-                element.value = '';
-                element.focus();
-            }
-        });
+    function getComponentTarget(componentElement) {
+        let componentTarget;
+        switch (componentElement.getAttribute('data-type')) {
+            case 'textarea':
+                componentTarget = componentElement.querySelector('.editor-container');
+                if (!componentTarget) { componentTarget = componentElement.querySelector('textarea'); }
+                break;
+            case 'select':
+                componentTarget = componentElement.querySelector('select');
+                break;
+            case 'radio':
+                componentTarget = componentElement.querySelector('div#radio');
+                break;
+            case 'checkbox':
+                componentTarget = componentElement.querySelector('div#chkbox');
+                break;
+            case 'fileupload':
+                componentTarget = componentElement.querySelector('#fileupload');
+                break;
+            default :
+                componentTarget = componentElement.querySelector('input');
+                break;
+        }
+        return componentTarget;
     }
 
     /**
-     * Validation Check.
-     *
-     * @param elem element
+     * Check Validate for save.
      */
-    function validateCheck(e) {
-        const elem = e.srcElement || e.target;
-        const chkVal = elem.value.trim();
-        if (chkVal.length !== 0) {
-            for (let i = 0, len = elem.attributes.length; i < len; i++) {
-                let attr = elem.attributes[i];
-                if (attr.nodeValue !== '') {
-                    if (attr.nodeName === 'regexp') {
-                        switch (attr.nodeValue) {
-                            case 'char':
-                                if (numIncludeRegular.test(chkVal)) {
-                                    alertMsg(elem, elem.getAttribute('regexp-msg'));
-                                    return true;
-                                }
-                                break;
-                            case 'num':
-                                if (!numRegular.test(chkVal)) {
-                                    alertMsg(elem, elem.getAttribute('regexp-msg'));
-                                    return true;
-                                }
-                                break;
-                            case 'email':
-                                if (!emailRegular.test(chkVal)) {
-                                    alertMsg(elem, elem.getAttribute('regexp-msg'));
-                                    return true;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    if (attr.nodeName === 'min-length' && attr.nodeValue > chkVal.length) {
-                        alertMsg(elem, i18n.get('document.msg.lengthMin', attr.nodeValue));
-                        return true;
-                    }
-                    if (attr.nodeName === 'max-length' && attr.nodeValue < chkVal.length) {
-                        alertMsg(elem, i18n.get('document.msg.lengthMax', attr.nodeValue));
-                        return true;
-                    }
-                    if (attr.nodeName === 'date-min') {
-                        let dateMinValueArray = attr.nodeValue.split('|');
-                        let dateMinValuePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
-                        let dateMinValue = aliceJs.changeDateFormat(dateMinValueArray[1], dateMinValuePlaceholder, dateMinValueArray[0], aliceForm.options.lang);
-                        if (dateMinValue > chkVal) {
-                            alertMsg(elem, i18n.get('document.msg.dateMin', dateMinValue));
-                            return true;
-                        }
-                    }
-                    if (attr.nodeName === 'date-max') {
-                        let dateMaxValueArray = attr.nodeValue.split("|");
-                        let dateMaxValuePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
-                        let dateMaxValue = aliceJs.changeDateFormat(dateMaxValueArray[1], dateMaxValuePlaceholder, dateMaxValueArray[0], aliceForm.options.lang);
-                        if (dateMaxValue < chkVal) {
-                            alertMsg(elem, i18n.get('document.msg.dateMax', dateMaxValue));
-                            return true;
-                        }
-                    }
+    function checkValidateForSave() {
+        const componentElements = document.querySelectorAll('.component');
+        for (let i = 0; i < componentElements.length; i++) {
+            let componentChild = getComponentTarget(componentElements[i]);
+            if (componentChild === null) { continue; }
+            checkValidate(componentChild);
+        }
+        const validateElement = document.querySelectorAll('.validate-error');
+        if (validateElement.length !== 0) {
+            aliceJs.alert(i18n.get('common.msg.checkDocument'), function () {
+                if (validateElement[0].classList.contains('editor-container')) {
+                    validateElement[0].firstChild.focus();
+                } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
+                    validateElement[0].querySelector('input').focus();
+                } else {
+                    validateElement[0].focus();
                 }
+            });
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check Validate.
+     *
+     * @param element element
+     */
+    function checkValidate(element) {
+        if (element.classList.contains('validate-error')) {
+            element.classList.remove('validate-error');
+            element.removeAttribute('title');
+        }
+
+        for (let i = 0, len = element.attributes.length; i < len; i++) {
+            let message = null;
+            const attribute = element.attributes[i];
+            const nodeValue = attribute.nodeValue;
+            if (nodeValue !== '') {
+                switch (attribute.nodeName) {
+                    case 'min-length':
+                    case 'max-length':
+                        let length = 0;
+                        if (element.classList.contains('editor-container')) { // editor
+                            length = Quill.find(element).getLength() - 1;
+                        } else {
+                            length = element.value.length;
+                        }
+                        if (attribute.nodeName === 'min-length' && length < Number(nodeValue)) {
+                            message = i18n.get('document.msg.lengthMin', nodeValue);
+                        } else if (attribute.nodeName === 'max-length' && length > Number(nodeValue)) {
+                            message = i18n.get('document.msg.lengthMax', nodeValue);
+                        }
+                        break;
+                    case 'date-min':
+                    case 'date-max':
+                        const dateValue = moment(element.value, aliceForm.options.dateFormat);
+                        const dateNodeValue = moment(nodeValue, aliceJs.systemCalendarDateFormat);
+                        if (attribute.nodeName === 'date-min' && dateValue.isBefore(dateNodeValue)) {
+                            message = i18n.get('document.msg.dateMin', dateNodeValue.format(aliceForm.options.dateFormat));
+                        } else if (attribute.nodeName === 'date-max' && dateValue.isAfter(dateNodeValue)) {
+                            message = i18n.get('document.msg.dateMax', dateNodeValue.format(aliceForm.options.dateFormat));
+                        }
+                        break;
+                    case 'time-min':
+                    case 'time-max':
+                        const timeValue = moment(aliceJs.convertToSystemHourType(element.value), aliceForm.options.hourFormat);
+                        const timeNodeValue = moment(nodeValue, aliceJs.systemCalendarTimeFormat);
+                        if (attribute.nodeName === 'time-min' && timeValue.isBefore(timeNodeValue)) {
+                            message = i18n.get('document.msg.timeMin', timeNodeValue.format(aliceForm.options.hourFormat));
+                        } else if (attribute.nodeName === 'time-max' && timeValue.isAfter(timeNodeValue)) {
+                            message = i18n.get('document.msg.timeMax', timeNodeValue.format(aliceForm.options.hourFormat));
+                        }
+                        break;
+                    case 'datetime-min':
+                    case 'datetime-max':
+                        const datetimeValue = moment(aliceJs.convertToSystemHourType(element.value), aliceForm.options.datetimeFormat);
+                        const datetimeNodeValue = moment(nodeValue, aliceJs.systemCalendarDatetimeFormat);
+                        if (attribute.nodeName === 'datetime-min' && datetimeValue.isBefore(datetimeNodeValue)) {
+                            message = i18n.get('document.msg.dateMin', datetimeNodeValue.format(aliceForm.options.datetimeFormat));
+                        } else if (attribute.nodeName === 'datetime-max' && datetimeValue.isAfter(datetimeNodeValue)) {
+                            message = i18n.get('document.msg.dateMax', datetimeNodeValue.format(aliceForm.options.datetimeFormat));
+                        }
+                        break;
+                    case 'regexp':
+                        if (checkRegexp(nodeValue, element.value)) {
+                            message = element.getAttribute('regexp-msg');
+                        }
+                        break;
+                }
+            } else if (attribute.nodeName === 'required') {
+                message = checkRequired(element);
+            }
+
+            if (message !== null) {
+                element.classList.add('validate-error');
+                element.title = message;
+                return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * Check Regexp.
+     *
+     * @param nodeValue node value
+     * @param value element value
+     */
+    function checkRegexp(nodeValue, value) {
+        let result = false;
+        if (value.length !== 0) {
+            switch (nodeValue) {
+                case 'char':
+                    result = (value.match(numIncludeRegular) !== null);
+                    break;
+                case 'num':
+                    result = !numRegular.test(value);
+                    break;
+                case 'numchar':
+                    // TODO: number + char
+                    break;
+                case 'phone':
+                    // TODO: phone
+                    break;
+                case 'email':
+                    result = !emailRegular.test(value);
+                    break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Check Required.
+     *
+     * @param element element
+     */
+    function checkRequired(element) {
+        let message = null;
+        switch (element.id) {
+            case 'editor':
+                let textEditor = Quill.find(element);
+                if (textEditor.getLength() === 1) {
+                    message = i18n.get('document.msg.requiredEnter');
+                }
+                break;
+            case 'radio':
+            case 'chkbox':
+                if (!checkSelect(element)) {
+                    message = i18n.get('document.msg.requiredSelect');
+                }
+                break;
+            case 'fileupload':
+                if (element.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
+                    message = i18n.get('document.msg.requiredFileupload');
+                }
+                break;
+            case 'custom-code':
+                if (element.value === '') {
+                    message = i18n.get('document.msg.requiredSelect');
+                }
+                break;
+            default :
+                if (element.value === '') {
+                    message = i18n.get('document.msg.requiredEnter');
+                }
+                break;
+        }
+        return message;
     }
 
     /**
@@ -151,56 +274,10 @@
      *
      * @param element element
      */
-    function selectCheck(element) {
+    function checkSelect(element) {
         let elements = element.getElementsByTagName('input');
-        for (let j = 0; j < elements.length; j++) {
-            if (elements[j].checked) { return true; }
-        }
-        return false;
-    }
-
-    /**
-     * required Check.
-     *
-     */
-    function requiredCheck() {
-        const requiredObjs = document.querySelectorAll('[required]');
-        for (let i = 0; i < requiredObjs.length; i++) {
-            let requiredObj = requiredObjs[i];
-            switch (requiredObj.id) {
-                case 'editor':
-                    let textEditor = Quill.find(requiredObj);
-                    if (textEditor.getLength() === 1) {
-                        alertMsg(textEditor, i18n.get('document.msg.requiredEnter'));
-                        return true;
-                    }
-                    break;
-                case 'radio':
-                case 'chkbox':
-                    if (!selectCheck(requiredObj)) {
-                        alertMsg(requiredObj.querySelector('input'), i18n.get('document.msg.requiredSelect'));
-                        return true;
-                    }
-                    break;
-                case 'fileupload':
-                    if (requiredObj.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
-                        alertMsg(requiredObj, i18n.get('document.msg.requiredFileupload'));
-                        return true;
-                    }
-                    break;
-                case 'custom-code':
-                    if (requiredObj.value === '') {
-                        alertMsg(requiredObj, i18n.get('document.msg.requiredSelect'));
-                        return true;
-                    }
-                    break;
-                default :
-                    if (requiredObj.value === '') {
-                        alertMsg(requiredObj, i18n.get('document.msg.requiredEnter'));
-                        return true;
-                    }
-                    break;
-            }
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i].checked) { return true; }
         }
         return false;
     }
@@ -230,7 +307,6 @@
      */
     function getComponentData(target) {
         let componentArrayList = [];
-        fileDataIds = '';
         const componentElements = documentContainer.getElementsByClassName('component');
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
@@ -315,14 +391,6 @@
                                     componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
                                 }
                             }
-                            //신규 추가된 첨부파일만 임시폴더에서 일반폴더로 옮기기 위해서
-                            if (componentChild[fileuploadIndex].name === 'fileSeq') {
-                                if (fileDataIds === '' && fileDataIds.indexOf(",") === -1) {
-                                    fileDataIds = componentChild[fileuploadIndex].value;
-                                } else {
-                                    fileDataIds = fileDataIds + ',' + componentChild[fileuploadIndex].value;
-                                }
-                            }
                         }
                         break;
                     case 'custom-code':
@@ -345,10 +413,8 @@
      */
     function save(v_kind) {
         // validation check
-        if (v_kind !== 'save') {
-            if (requiredCheck()) {
-                return false;
-            }
+        if (v_kind !== 'save' && checkValidateForSave()) {
+            return false;
         }
         let tokenObject = {};
 
@@ -368,7 +434,7 @@
             tokenObject.tokenId = '';
         }
 
-        let actionMsg = ''
+        let actionMsg = '';
         if (v_kind === 'save') {
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
             tokenObject.assigneeId = aliceForm.options.sessionInfo.userKey;
@@ -383,13 +449,10 @@
 
         const componentArrayList = getComponentData();
         if (componentArrayList.length > 0) {
-            tokenObject.data = componentArrayList;
-        } else {
-            tokenObject.data = '';
+            tokenObject.componentData = componentArrayList;
         }
 
         tokenObject.action = v_kind;
-
         let method = '';
         let url = '';
         if (tokenObject.tokenId === '') {
@@ -400,9 +463,6 @@
             url = '/rest/tokens/' + tokenObject.tokenId + '/data'
         }
 
-        if (fileDataIds !== '') {
-            tokenObject.fileDataIds = fileDataIds;
-        }
         // 2020-04-06 kbh
         // 프로세스 넘기려고 부득이하게 하드코딩함. merge 된 후 삭제 예정
         //tokenObject.documentId = 'beom'
@@ -434,61 +494,38 @@
     function drawDocument(data) {
         if (typeof data === 'string') {
             data = JSON.parse(data);
-            data.components = data.components.filter(function(comp) { return comp.type !== 'editbox'; }); //미리보기시 editbox 제외
         }
+        data.form.components = data.form.components.filter(function(comp) { return comp.type !== 'editbox'; }); //editbox 제외
         documentContainer = document.getElementById('document-container');
-        documentContainer.setAttribute('data-isToken', (data.token !== undefined)); //신청서 = false , 처리할 문서 = true
+        documentContainer.setAttribute('data-isToken', (data.tokenId !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
-        let components = (data.token === undefined) ? data.components : data.token.components;
-        if (components.length > 0) {
-            if (components.length > 2) {
-                components.sort(function (a, b) {
-                    if (a.attributes === undefined) {
-                        return a.display.order - b.display.order;
-                    } else {
-                        return a.attributes.display.order - b.attributes.display.order;
-                    }
+
+        if (data.form.components.length > 0) {
+            if (data.form.components.length > 2) {
+                data.form.components.sort(function (a, b) {
+                    return a.display.order - b.display.order;
                 });
             }
-            for (let i = 0, len = components.length; i < len; i++) {
+            for (let i = 0, len = data.form.components.length; i < len; i++) {
                 //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
-                let componentAttr = components[i];
-                let compType = (componentAttr.attributes === undefined) ? componentAttr.type : componentAttr.attributes.type;
-                if (compType === 'editbox') { continue; }
-                let defaultComponentAttr = component.getData(compType);
-                let mergeComponentAttr = null;
-                if (componentAttr.attributes === undefined) { //신청서
-                    mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
-                    componentAttr = mergeComponentAttr;
-                } else { //처리할 문서
-                    mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr.attributes);
-                    componentAttr.attributes = mergeComponentAttr;
-                }
-                component.draw(compType, documentContainer, componentAttr);
+                let componentAttr = data.form.components[i];
+                let defaultComponentAttr = component.getData(componentAttr.type);
+                let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
+                data.form.components[i] = mergeComponentAttr;
+
+                component.draw(componentAttr.type, documentContainer, mergeComponentAttr);
             }
             //유효성 검증 추가
             if (!documentContainer.hasAttribute('data-readonly')) {
-                let validateElems = document.querySelectorAll('input[type="text"], textarea, .editor-container');
-                for (let i = 0, len = validateElems.length; i < len; i++) {
-                    let elem = validateElems[i];
-                    if (elem.classList.contains('editor-container')) { //텍스트 에디터 유효성 검증 추가
-                        let textEditor = Quill.find(elem);
-                        textEditor.on('selection-change', function (range, oldRange, source) {
-                            if (range === null && oldRange !== null) {
-                                if (elem.getAttribute('min-length') !== '' && textEditor.getLength() < Number(elem.getAttribute('min-length'))) {
-                                    alertMsg(textEditor, i18n.get('document.msg.lengthMin', elem.getAttribute('min-length')));
-                                    return true;
-                                }
-                                if (elem.getAttribute('max-length') !== '' && textEditor.getLength() > Number(elem.getAttribute('max-length'))) {
-                                    textEditor.deleteText(Number(elem.getAttribute('max-length')) - 1, textEditor.getLength());
-                                    alertMsg(textEditor, i18n.get('document.msg.lengthMax', elem.getAttribute('max-length')));
-                                    return true;
-                                }
-                            }
-                        });
-                    } else {
-                        elem.addEventListener('focusout',validateCheck, false);
-                    }
+                const checkComponents = ['text', 'textarea', 'select', 'radio', 'checkbox'];
+                const componentElements = document.querySelectorAll('.component');
+                for (let i = 0; i < componentElements.length; i++) {
+                    let componentChild = getComponentTarget(componentElements[i]);
+                    if (componentChild === null ||
+                        checkComponents.indexOf(componentElements[i].getAttribute('data-type')) === -1) { continue; }
+                    componentChild.addEventListener('focusout', function() {
+                        checkValidate(this);
+                    }, false);
                 }
             }
         }
@@ -499,10 +536,8 @@
         if (data.tokenId !== undefined) {
             addIdComponent('tokenId', data.tokenId);
         }
-        if (data.components !== undefined) {
+        if (data.actions !== undefined) {
             addButton(data.actions);
-        } else if (data.token.components !== undefined) {
-            addButton(data.token.actions);
         }
 
         //Add Comment Box
@@ -591,69 +626,6 @@
     }
 
     /**
-     * 날짜와 관련있는 컴포넌트들에 대해서 사용자의 타임존과 출력 포맷에 따라 변환.
-     * form.editor.js에 있는 같은 이름의 함수와 같은 역할을 한다.
-     * 현재는 전달받는 데이터 구조가 다르고 2개의 파일이 호출되는 시점이 달라서 각각 만들었으며
-     * 데이터 구조 통합 이후 form.core.js등으로 이동하는게 맞을 듯 하다.
-     *
-     * @author Jung Hee Chan
-     * @since 2020-05-25
-     * @param {Object} components 변환 대상이 되는 컴포넌트 목록.
-     * @return {Object} resultComponents 변경된 결과
-     */
-    function reformatCalendarFormat(action, components) {
-        components.forEach(function(componentItem, idx) {
-            let component = componentItem.attributes;
-            if (component.type === 'datetime' || component.type === 'date' || component.type === 'time') {
-                // 1. 기본값 타입 중에서 직접 Calendar로 입력한 값인 경우는 변환
-                if (component.display.default.indexOf('picker') !== -1) {
-                    let displayDefaultValueArray = component.display.default.split('|'); // 속성 값을 파싱한 배열
-                    switch(component.type) {
-                        case 'datetime':
-                            displayDefaultValueArray[1] =
-                                aliceJs.convertToUserDatetimeFormatWithTimezone(displayDefaultValueArray[1],
-                                    aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                            break;
-                        case 'date':
-                            displayDefaultValueArray[1] =
-                                aliceJs.convertToUserDateFormat(displayDefaultValueArray[1],
-                                    aliceForm.options.dateFormat);
-                            break;
-                        case 'time':
-                            displayDefaultValueArray[1] =
-                                aliceJs.convertToUserTimeFormat(displayDefaultValueArray[1],
-                                    aliceForm.options.hourFormat);
-                            break;
-                    }
-                    components[idx].attributes.display.default = displayDefaultValueArray.join('|');
-                }
-
-                // 2. 처리할 문서인 경우 저장된 값도 변경.
-                if (componentItem.values.length > 0) {
-                    let componentValue = componentItem.values[0].value;
-                    switch (component.type) {
-                        case 'datetime':
-                            componentValue =
-                                aliceJs.convertToUserDatetimeFormatWithTimezone(componentValue,
-                                    aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                            break;
-                        case 'date':
-                            componentValue =
-                                aliceJs.convertToUserDateFormat(componentValue, aliceForm.options.dateFormat);
-                            break;
-                        case 'time':
-                            componentValue =
-                                aliceJs.convertToUserTimeFormat(componentValue, aliceForm.options.hourFormat);
-                            break;
-                    }
-                    componentItem.values[0].value = componentValue;
-                }
-            }
-        });
-        return components;
-    }
-
-    /**
      * init document.
      *
      * @param documentId 문서 id
@@ -667,7 +639,7 @@
             url: '/rest/documents/' + documentId + '/data',
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
-                responseObject.components = reformatCalendarFormat('read', responseObject.components);
+                responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
 
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
@@ -692,7 +664,7 @@
             url: '/rest/tokens/' + tokenId + '/data',
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
-                responseObject.components = reformatCalendarFormat('read', responseObject.components);
+                responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
 
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
@@ -701,38 +673,6 @@
             },
             contentType: 'application/json; charset=utf-8'
         });
-    }
-
-    /**
-     * Get Document.
-     *
-     * @param documentId
-     */
-    function getDocument(documentId) {
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/documents/' + documentId,
-            contentType: 'application/json; charset=utf-8',
-            callbackFunc: function(xhr) {
-                setData(JSON.parse(xhr.responseText));
-            }
-        });
-    }
-
-    /**
-     * Set Document Data.
-     *
-     * @param documentData
-     */
-    function setData(documentData) {
-        document.getElementById('document_name').value = documentData.documentName;
-        document.getElementById('document_desc').value = documentData.documentDesc;
-        document.getElementById('document_form').value = documentData.formId;
-        document.getElementById('document_process').value = documentData.processId;
-        document.getElementById('document_status').value = documentData.documentStatus;
-        document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
-        document.getElementById('document_color').value = documentData.documentColor;
-        document.getElementById('selected_color').style.backgroundColor = documentData.documentColor;
     }
 
     /**
@@ -749,7 +689,7 @@
         let textarea = document.createElement('textarea');
         textarea.name = 'data';
         let componentArrayList = getComponentData('print');
-        dataForPrint.components = dataForPrint.components.filter(function(comp) {
+        dataForPrint.form.components = dataForPrint.form.components.filter(function(comp) {
             componentArrayList.forEach(function(array) {
                 if (comp.componentId === array.componentId) {
                     if (typeof comp.values[0] === 'undefined') {
@@ -758,8 +698,8 @@
                     comp.values[0].value = array.value;
                 }
             });
-            if (comp.displayType !== 'hidden') {
-                comp.displayType = 'readonly';
+            if (comp.dataAttribute.displayType !== 'hidden') {
+                comp.dataAttribute.displayType = 'readonly';
             }
             return comp;
         });
@@ -777,7 +717,7 @@
     exports.saveComment = saveComment;
     exports.deleteComment = deleteComment;
     exports.drawDocument = drawDocument;
-    exports.getDocument = getDocument;
+    exports.checkValidate = checkValidate;
     exports.print = print;
 
     Object.defineProperty(exports, '__esModule', {value: true});

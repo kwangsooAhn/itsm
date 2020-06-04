@@ -26,6 +26,9 @@ data class WfDocumentEntity(
     @Column(name = "document_id", length = 128)
     val documentId: String,
 
+    @Column(name = "document_type", length = 20)
+    var documentType: String,
+
     @Column(name = "document_name", length = 128)
     var documentName: String,
 
