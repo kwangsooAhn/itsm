@@ -453,7 +453,6 @@
         }
 
         tokenObject.action = v_kind;
-
         let method = '';
         let url = '';
         if (tokenObject.tokenId === '') {
@@ -497,7 +496,6 @@
             data = JSON.parse(data);
         }
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== 'editbox'; }); //editbox 제외
-
         documentContainer = document.getElementById('document-container');
         documentContainer.setAttribute('data-isToken', (data.tokenId !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
