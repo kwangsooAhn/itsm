@@ -1731,7 +1731,7 @@
                 // 2. validate 용 date-min, date-max 변환
                 let validateItems = component.validate;
                 Object.keys(validateItems).forEach(function(validateItem) {
-                    if (!(validateItem.indexOf('date-') < 0)) {
+                    if (!(validateItem.indexOf('date') < 0 && validateItem.indexOf('time') < 0)) {
                         let validateItemValueArray = validateItems[validateItem].split('|'); // 속성 값을 파싱한 배열
                         if (action === 'save') {
                             switch(component.type) {

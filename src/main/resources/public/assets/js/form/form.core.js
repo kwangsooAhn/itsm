@@ -65,7 +65,6 @@
             url: '/assets/js/form/componentAttribute.json',
             callbackFunc: function(xhr) {
                 options.componentAttribute = JSON.parse(xhr.responseText);
-                callback.apply(null, params);
                 Object.keys(options.componentAttribute).forEach(function(componentType) {
                     if (componentType === 'datetime' || componentType === 'date' || componentType === 'time') {
                         Object.values(options.componentAttribute[componentType].validate).forEach(function(validateItem) {
@@ -85,9 +84,10 @@
                                         break;
                                 }
                             }
-                        })
+                        });
                     }
-                })
+                });
+                callback.apply(null, params);
             },
             contentType: 'application/json; charset=utf-8'
         });
