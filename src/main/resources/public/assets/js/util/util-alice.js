@@ -721,6 +721,10 @@ aliceJs.convertToUserDatetimeFormat = function(beforeDatetime, userDatetimeForma
         return beforeDatetime;
     }
 
+    userDatetimeFormat = userDatetimeFormat.replace('dd','DD').replace('yyyy','YYYY')
+
+    // 콘솔에서 아래와 같이 테스트 가능.
+    // moment('2020-03-09 15:29:28','YYYY-MM-DD HH:mm:ss').format('MM-DD-YYYY hh:mm a');
     let resultDatetime = moment(beforeDatetime, aliceJs.systemCalendarDatetimeFormat).format(userDatetimeFormat);
     return resultDatetime;
 }
