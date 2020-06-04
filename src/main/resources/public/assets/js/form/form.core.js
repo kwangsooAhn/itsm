@@ -20,6 +20,139 @@
         sessionInfo: {},
         columnWidth: 8.33  //폼 양식을 12등분 하였을 때, 1개의 너비
     };
+
+    /**
+     * 날짜와 관련있는 컴포넌트들에 대해서 사용자의 타임존과 출력 포맷에 따라 변환.
+     * 폼 디자이너 모듈 Refactoring 시까지 임시로 사용할 가능성이 있음.
+     *
+     * @author Jung Hee Chan
+     * @since 2020-05-22
+     * @param {String} action save, read 중에서 1개. save인 경우는 시스템 공통 포맷으로, read인 경우 사용자 포맷으로 변환.
+     * @param {Object} components 변환 대상이 되는 컴포넌트 목록.
+     * @return {Object} resultComponents 변경된 결과
+     */
+    function reformatCalendarFormat(action, components) {
+        if (action !== 'save' && action !== 'read') {
+            return components;
+        }
+
+        components.forEach(function(component, idx) {
+            if (component.type === 'datetime' || component.type === 'date' || component.type === 'time') {
+                // 1. 기본값 타입 중에서 직접 Calendar로 입력한 값인 경우는 변환
+                if (component.display.default.indexOf('picker') !== -1) {
+                    let displayDefaultValueArray = component.display.default.split('|'); // 속성 값을 파싱한 배열
+                    if (action === 'save') {
+                        switch(component.type) {
+                            case 'datetime':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToSystemDatetimeFormatWithTimezone(displayDefaultValueArray[1],
+                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                break;
+                            case 'date':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToSystemDateFormat(displayDefaultValueArray[1],
+                                        aliceForm.options.dateFormat);
+                                break;
+                            case 'time':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToSystemTimeFormat(displayDefaultValueArray[1],
+                                        aliceForm.options.hourFormat);
+                                break;
+                        }
+                    } else if (action === 'read') {
+                        switch(component.type) {
+                            case 'datetime':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToUserDatetimeFormatWithTimezone(displayDefaultValueArray[1],
+                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                break;
+                            case 'date':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToUserDateFormat(displayDefaultValueArray[1],
+                                        aliceForm.options.dateFormat);
+                                break;
+                            case 'time':
+                                displayDefaultValueArray[1] =
+                                    aliceJs.convertToUserTimeFormat(displayDefaultValueArray[1],
+                                        aliceForm.options.hourFormat);
+                                break;
+                        }
+
+                    }
+                    components[idx].display.default = displayDefaultValueArray.join('|');
+                }
+
+                // 2. validate 용 date-min, date-max 변환
+                let validateItems = component.validate;
+                Object.keys(validateItems).forEach(function(validateItem) {
+                    if (validateItem.indexOf('date-') !== -1) {
+                        let validateItemValueArray = validateItems[validateItem].split('|'); // 속성 값을 파싱한 배열
+                        if (action === 'save') {
+                            switch(component.type) {
+                                case 'datetime':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToSystemDatetimeFormatWithTimezone(validateItemValueArray[0],
+                                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                    break;
+                                case 'date':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToSystemDateFormat(validateItemValueArray[0],
+                                            aliceForm.options.dateFormat);
+                                    break;
+                                case 'time':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToSystemDateFormat(validateItemValueArray[0],
+                                            aliceForm.options.hourFormat);
+                                    break;
+                            }
+                        } else if (action === 'read') {
+                            switch(component.type) {
+                                case 'datetime':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToUserDatetimeFormatWithTimezone(validateItemValueArray[0],
+                                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                    break;
+                                case 'date':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToUserDateFormat(validateItemValueArray[0],
+                                            aliceForm.options.dateFormat);
+                                    break;
+                                case 'time':
+                                    validateItemValueArray[0] =
+                                        aliceJs.convertToUserTimeFormat(validateItemValueArray[0],
+                                            aliceForm.options.hourFormat);
+                                    break;
+                            }
+                        }
+                        components[idx].validate[validateItem] = validateItemValueArray.join('|')
+                    }
+                });
+
+                // 3. 처리할 문서인 경우 저장된 값도 변경.
+                if (component.values !== undefined && component.values.length > 0) {
+                    let componentValue = component.values[0].value;
+                    switch (component.type) {
+                        case 'datetime':
+                            componentValue =
+                                aliceJs.convertToUserDatetimeFormatWithTimezone(componentValue,
+                                    aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                            break;
+                        case 'date':
+                            componentValue =
+                                aliceJs.convertToUserDateFormat(componentValue, aliceForm.options.dateFormat);
+                            break;
+                        case 'time':
+                            componentValue =
+                                aliceJs.convertToUserTimeFormat(componentValue, aliceForm.options.hourFormat);
+                            break;
+                    }
+                    component.values[0].value = componentValue;
+                }
+            }
+        });
+        return components;
+    }
+
     /**
      * Init.
      *
@@ -95,6 +228,7 @@
 
     exports.init = init;
     exports.initSync = initSync;
+    exports.reformatCalendarFormat = reformatCalendarFormat;
     exports.options = options;
 
     Object.defineProperty(exports, '__esModule', { value: true });
