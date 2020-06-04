@@ -28,7 +28,7 @@ class WfSignalSendTokenManager(
             }
         }
         val makeDocumentTokens =
-            wfTokenManagerService.makeRestTemplateTokenDto(token, targetDocumentIds)
+            wfTokenManagerService.makeMappingTokenDto(token, targetDocumentIds)
         makeDocumentTokens.forEach {
             it.assigneeId = wfTokenDto.assigneeId
             WfEngine(wfTokenManagerService).startWorkflow(it)

@@ -16,17 +16,17 @@ class WfSubProcessTokenManager(
         super.setCandidate(super.createTokenEntity)
 
         // Set mapping component data.
-        val elementInfo = wfTokenManagerService.getElement(tokenDto.elementId)
+        val element = wfTokenManagerService.getElement(tokenDto.elementId)
         val documentId =
             super.getAttributeValue(
-                elementInfo.elementDataEntities,
+                element.elementDataEntities,
                 WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value
             )
         val startTokenDto = tokenDto.copy()
         startTokenDto.documentId = documentId
         startTokenDto.parentTokenId = startTokenDto.tokenId
         val makeDocumentTokens =
-            wfTokenManagerService.makeRestTemplateTokenDto(super.createTokenEntity, mutableListOf(documentId))
+            wfTokenManagerService.makeMappingTokenDto(super.createTokenEntity, mutableListOf(documentId))
         makeDocumentTokens.forEach {
             it.assigneeId = tokenDto.assigneeId
             WfEngine(wfTokenManagerService).startWorkflow(it)
