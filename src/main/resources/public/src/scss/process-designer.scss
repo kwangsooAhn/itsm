@@ -405,6 +405,41 @@ body {
             div.element-properties {
                 height: calc(100vh - #{$process-toolbar-height} - 22.5rem - 1.875rem);
                 overflow: auto;
+
+                fieldset {
+                    border: 0.063rem solid #7f8286; // 1px
+                    padding: 0.5rem;  // 8px
+                    margin: {
+                        right: 1.0rem; // 16px
+                        left: 1.5rem; // 24px
+                        bottom: 0.5rem;  // 8px
+                    }
+
+                    legend {
+                        width: 6.25rem; // 100px
+                        height: 1.875rem; // 30px
+
+                        input {
+                            margin: 0 0.3125rem; //5px
+                        }
+
+                        label {
+                            font: {
+                                size: 0.813rem; // 13px
+                                weight: bold;
+                            }
+                        }
+                    }
+
+                    div.properties {
+                        padding-left: 0 !important;
+
+                        label {
+                            width: 4.375rem; // 70px
+                        }
+                    }
+                }
+
                 div.properties {
                     display: flex;
                     flex-wrap: wrap;
@@ -431,7 +466,6 @@ body {
                     }
 
                     input:not([type=checkbox]), select, textarea {
-                        width: 11.25rem; // 180px
                         height: 1.563rem; //25px
                     }
 
