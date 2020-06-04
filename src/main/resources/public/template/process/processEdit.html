@@ -15,46 +15,28 @@
 </head>
 <body>
     <div style="margin: 10px 0 0 10px;">
-        <div id="prevContainer">
-            <table>
-                <tr>
-                    <th th:text="|#{process.label.name} *|"></th>
-                </tr>
-                <tr>
-                    <td><input type="text" id="process_name" maxlength="50" required="required" tabindex="1"/></td>
-                </tr>
-                <tr>
-                    <th th:text="#{process.label.description}"></th>
-                </tr>
-                <tr>
-                    <td><textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
-                </tr>
-            </table>
-            <div><a th:text="#{common.btn.next}" href="javascript:replaceContent();"></a></div>
-        </div>
-        <div id="nextContainer" style="display:none;">
-            <h1 th:text="#{process.label.templatesList}"></h1>
-            <div>
-                <a th:text="#{common.btn.before}" href="javascript:replaceContent();"></a>
-                <a th:text="#{common.btn.save}" href="javascript:insertProcess();"></a>
-            </div>
+        <table>
+            <tr>
+                <th th:text="|#{process.label.name} *|"></th>
+            </tr>
+            <tr>
+                <td><input type="text" id="process_name" maxlength="50" required="required" tabindex="1"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{process.label.description}"></th>
+            </tr>
+            <tr>
+                <td><textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
+            </tr>
+        </table>
+        <div>
+            <button type="button" th:text="#{common.btn.save}" onclick="javascript:insertProcess();"></button>
+            <button type="button" th:text="#{common.btn.close}" onclick="javascript:window.close();"></button>
         </div>
     </div>
 </body>
 <script th:src="@{/assets/js/util/validation-alice.js}"></script>
 <script type="text/javascript">
-    function replaceContent() {
-        const prev = document.getElementById('prevContainer');
-        const next = document.getElementById('nextContainer');
-        if (next.style.display === 'none') {
-            prev.style.display = 'none';
-            next.style.display = 'block';
-        } else {
-            prev.style.display = 'block';
-            next.style.display = 'none';
-        }
-    }
-
     //프로세스 등록
     function insertProcess() {
         //빈 값 체크
@@ -70,7 +52,7 @@
 
     //빈 값 체크
     function emptyValidation() {
-        if (isEmpty('process_name', 'process.msg.alert.nameNotExist')) { replaceContent(); return false; }
+        if (isEmpty('process_name', 'process.msg.alert.nameNotExist')) { return false; }
         return true;
     }
 
@@ -91,10 +73,10 @@
                 const _left = Math.ceil((window.screen.width - _width) / 2);
                 const _top = Math.ceil((window.screen.height - _height) / 4);
 
+                let processId = response.responseText;
                 let specs = 'left=' + _left + ',top=' + _top;
                 specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                window.open('/processes/' + response.responseText + '/edit', 'process_' + response.responseText + '_edit',
-                    'width=' + _width + ',height=' + _height + ','+ specs);
+                window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
             }
         };
         aliceJs.sendXhr(opt);
