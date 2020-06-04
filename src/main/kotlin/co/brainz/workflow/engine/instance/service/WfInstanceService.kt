@@ -16,6 +16,7 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -32,8 +33,7 @@ import org.springframework.stereotype.Service
 class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfTokenRepository: WfTokenRepository,
-    private val wfCommentService: WfCommentService
-    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
+    private val wfCommentService: WfCommentService,
     private val wfTagService: WfTagService
 ) {
 
@@ -62,7 +62,6 @@ class WfInstanceService(
                 }
             }
 
-			val tags: MutableList<String> = mutableListOf()
             val topics = mutableListOf<String>()
 
 			if (topicComponentIds.size > 0) {
@@ -74,7 +73,8 @@ class WfInstanceService(
             }
 
             // 관련 tag 리스트를 구함
-            // ...
+			val tags: MutableList<String> = mutableListOf()
+
 
             tokens.add(
                 RestTemplateInstanceViewDto(
@@ -240,6 +240,13 @@ class WfInstanceService(
      */
     fun getInstanceComments(instanceId: String): MutableList<RestTemplateCommentDto> {
         return wfCommentService.getInstanceComments(instanceId)
+    }
+
+    /**
+     * Get Instance Tags.
+     */
+    fun getInstanceTags(instanceId: String): List<RestTemplateTagViewDto> {
+        return wfTagService.getInstanceTags(instanceId)
     }
 
     /**

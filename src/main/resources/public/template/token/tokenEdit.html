@@ -21,9 +21,8 @@
     </form>
     <h1 th:text="#{common.label.tag}"></h1>
     <div style="margin-bottom: 1rem;">
-        <input name="tags" value="sample tag"/>
+        <input name="tags" th:value="|${tagList}|"/>
     </div>
-
     <h1 th:text="#{token.label.history}"></h1>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
@@ -121,37 +120,40 @@
 </body>
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
-    <script th:src="@{/assets/vendors/tagify/tagify.min.js}"></script>
+    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
 
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
             aliceForm.initSync(aliceDocument.initToken, '[[${tokenId}]]');
 
-            const tagInput = document.querySelector('input[name=tags]');
-            const tagify = new Tagify(tagInput, {
-                loading	        : 'true',
+            let tagInput = document.querySelector('input[name=tags]');
+            const TagList = '[[${#strings.toString(tagList)}]]'.replace(/&quot;/g, '\"');
+            new Tagify(tagInput, {
+                pattern         : /^.{0,100}$/,
                 callbacks       : { 'add'    : onAddTag,
                                     'remove' : onRemoveTag },
+                whitelist       : TagList,
                 placeholder     : '[[#{common.msg.tag}]]'
             });
 
+
             function onAddTag(e) {
-                console.log(e.detail.data.value);
-                console.log('[[${instanceId}]]');
                 const jsonData = {
                     tagContent: e.detail.data.value,
                     instanceId: '[[${instanceId}]]'
                 };
-
                 restSubmit('POST', '/rest/tags', function () {
-                    location.reload();
+                    console.log('success!!');
                 }, jsonData, false);
             }
 
             function onRemoveTag(e) {
-                console.log(e.detail.data.value);
+                restSubmit('DELETE', '/rest/tags/' + e.detail.data.id, function () {
+                    console.log('success!!');
+                });
             }
+
         };
 
         function openPopUp(tokenId) {

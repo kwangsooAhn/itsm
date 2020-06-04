@@ -20,8 +20,8 @@ class WfTagRestController(
         return wfEngine.tag().insertTag(restTemplateTagDto)
     }
 
-    @DeleteMapping("/{commentId}")
-    fun deleteComment(@PathVariable tagId: String): Boolean {
+    @DeleteMapping("/{tagId}")
+    fun deleteTag(@PathVariable tagId: String): Boolean {
         return wfEngine.tag().deleteTag(tagId)
     }
 }
