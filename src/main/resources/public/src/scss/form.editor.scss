@@ -217,7 +217,6 @@ body {
             td input[type=text] { width:100%; height:100%; border: none; text-align: center; }
             input[readonly] { pointer-events: none; }
             .help-tooltip {
-                position: absolute;
                 display: inline-block;
                 text-align: center;
                 background-color: #C1C1C1;
@@ -232,6 +231,9 @@ body {
                     content: '?';
                     font-weight: bold;
                     color: #fff;
+                }
+                &:after {
+                    position: absolute;
                 }
                 &:hover p {
                     display: block;

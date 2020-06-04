@@ -926,6 +926,7 @@
             propertiesPanel.appendChild(componentTitleElem);
         }
         console.log(properties);
+
         const defaultOption = properties.hasOwnProperty('option') ? properties.option[0].items : {};
         const addOptionHandler = function(e) { //옵션 추가
             const tb = e.target.parentNode.querySelector('table');
@@ -1014,37 +1015,38 @@
         };
 
         let buttonExist = false;
-        const drawField = function(groupElem, attr) {
+        const drawField = function(groupElem, prop) {
             let elem = null;
-            if (typeof attr.id !== 'undefined') {
+            if (typeof prop.id !== 'undefined') {
                 elem = document.createElement('div');
                 elem.classList.add('property-field');
 
-                if (attr.type === 'hidden') { elem.style.display = 'none'; }
-                if (attr.type === 'button') {
+                if (prop.type === 'hidden') { elem.style.display = 'none'; }
+                if (prop.type === 'button') {
                     if (!buttonExist) {
                         const buttonElem = document.createElement('div');
                         buttonElem.classList.add('property-field-button');
                         elem.appendChild(buttonElem);
                         groupElem.appendChild(elem);
+                        buttonExist = true;
                     }
                 } else {
-                    elem.setAttribute('id', attr.id);
+                    elem.setAttribute('id', prop.id);
                     groupElem.appendChild(elem);
                     
                     //속성명 추가
                     const nameElem = document.createElement('span');
                     nameElem.classList.add('property-field-name');
-                    const nameText = document.createTextNode(attr.name);
+                    const nameText = document.createTextNode(prop.name);
                     nameElem.appendChild(nameText);
                     elem.appendChild(nameElem);
                     
                     //도움말 추가
-                    if (typeof attr.help !== 'undefined' && attr.help !== '') {
+                    if (typeof prop.help !== 'undefined' && prop.help !== '') {
                         const helpTooltip = document.createElement('div');
                         helpTooltip.classList.add('help-tooltip');
                         const helpTootltipContent = document.createElement('p');
-                        helpTootltipContent.innerHTML = i18n.get(attr.help);
+                        helpTootltipContent.innerHTML = i18n.get(prop.help);
                         helpTooltip.appendChild(helpTootltipContent);
                         nameElem.appendChild(helpTooltip);
                     }
@@ -1054,10 +1056,10 @@
             //상세 속성 추가
 
             //단위 추가
-            if (elem !== null && typeof attr.unit !== 'undefined' && attr.unit !== '') {
+            if (elem !== null && typeof prop.unit !== 'undefined' && prop.unit !== '') {
                 const unitElem = document.createElement('span');
                 unitElem.classList.add('property-field-unit');
-                const unitText = document.createTextNode(attr.unit);
+                const unitText = document.createTextNode(prop.unit);
                 unitElem.appendChild(unitText);
                 elem.appendChild(unitElem);
             }
@@ -1070,13 +1072,11 @@
                     groupElem = drawGroup(item);
                     drawProperties(item, field[item]);
                 } else { //field 추가
-                    console.log(groupElem);
-                    console.log(field[item]);
                     drawField(groupElem, field[item]);
                 }
             });
         };
-        drawProperties('', properties);
+        //drawProperties('', properties);
 
         //TODO: 세부 속성 출력 코드 리팩토링
         /*Object.keys(properties).forEach(function(group) {
