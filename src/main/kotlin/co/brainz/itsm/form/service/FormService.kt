@@ -87,8 +87,8 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     fun saveFormData(formId: String, formData: String): Boolean {
         val formComponentListDto = makeFormComponentListDto(formData)
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        formComponentListDto.form.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
-        formComponentListDto.form.updateUserKey = aliceUserDto.userKey
+        formComponentListDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        formComponentListDto.updateUserKey = aliceUserDto.userKey
         val urlDto = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId)
         )

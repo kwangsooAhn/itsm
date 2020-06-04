@@ -149,7 +149,7 @@ class WfFormService(
 
             for (componentDataEntity in componentDataEntityList) {
                 val jsonElement = JsonParser().parse(componentDataEntity.attributeValue)
-                var attributeValue = LinkedHashMap<String, Any>()
+                val attributeValue = LinkedHashMap<String, Any>()
 
                 when (jsonElement.isJsonArray) {
                     true -> attributeValue["value"] = mapper.readValue(
@@ -176,9 +176,9 @@ class WfFormService(
             status = formEntity.get().formStatus,
             desc = formEntity.get().formDesc,
             updateDt = formEntity.get().updateDt,
-            updateUserKey = formEntity.get().updateUserKey,
+            updateUserKey = formEntity.get().updateUser?.userKey,
             createDt = formEntity.get().createDt,
-            createUserKey = formEntity.get().createUserKey,
+            createUserKey = formEntity.get().createUser?.userKey,
             components = components
         )
     }
