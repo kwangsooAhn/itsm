@@ -42,11 +42,11 @@ class WfEngine(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
+    private val wfElementService: WfElementService,
     private val wfTokenElementService: WfTokenElementService,
     private val wfCommentRepository: WfCommentRepository,
     private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
     private val wfProcessSimulator: WfProcessSimulator,
-    private val wfElementService: WfElementService,
     private val aliceUserRepository: AliceUserRepository,
     private val wfCommentService: WfCommentService
 ) {
@@ -85,6 +85,7 @@ class WfEngine(
         return WfDocumentService(
             wfFormService,
             wfActionService,
+            wfElementService,
             wfDocumentRepository,
             wfDocumentDisplayRepository,
             wfInstanceRepository,
@@ -94,8 +95,7 @@ class WfEngine(
             wfComponentDataRepository,
             wfElementRepository,
             wfElementDataRepository,
-            aliceNumberingRuleRepository,
-            wfElementService
+            aliceNumberingRuleRepository
         )
     }
 

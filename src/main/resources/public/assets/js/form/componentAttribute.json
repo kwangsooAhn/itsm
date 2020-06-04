@@ -1,9 +1,9 @@
 {
     "editbox": {},
     "text": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -13,13 +13,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -162,7 +170,7 @@
                 "unit": ""
             },
             {
-                "id": "regexp-msg",
+                "id": "regexpMsg",
                 "name": "Error Message",
                 "value": "",
                 "type": "inputbox-underline",
@@ -171,7 +179,7 @@
                 "validate": ""
             },
             {
-                "id": "length-min",
+                "id": "lengthMin",
                 "name": "Min Length",
                 "value": "0",
                 "type": "inputbox-underline",
@@ -180,7 +188,7 @@
                 "validate": "number"
             },
             {
-                "id": "length-max",
+                "id": "lengthMax",
                 "name": "Max Length",
                 "value": "30",
                 "type": "inputbox-underline",
@@ -191,9 +199,9 @@
         ]
     },
     "textarea": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -203,13 +211,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -293,7 +309,7 @@
         ],
         "display": [
             {
-                "id": "editor-useYn",
+                "id": "editorUseYn",
                 "name": "Editor Use",
                 "value": "Y",
                 "type": "radio",
@@ -331,7 +347,7 @@
         ],
         "validate": [
             {
-                "id": "length-min",
+                "id": "lengthMin",
                 "name": "Min Length",
                 "value": "0",
                 "type": "inputbox-underline",
@@ -340,7 +356,7 @@
                 "validate": "number"
             },
             {
-                "id": "length-max",
+                "id": "lengthMax",
                 "name": "Max Length",
                 "value": "30",
                 "type": "inputbox-underline",
@@ -351,9 +367,9 @@
         ]
     },
     "select": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -363,13 +379,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -475,9 +499,9 @@
         ]
     },
     "radio": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -487,13 +511,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -617,9 +649,9 @@
         ]
     },
     "checkbox": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -629,13 +661,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -759,9 +799,9 @@
         ]
     },
     "label": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -771,13 +811,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -843,9 +891,9 @@
         ]
     },
     "image": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -855,13 +903,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -904,9 +960,9 @@
         ]
     },
     "divider": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -916,13 +972,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "display": [
@@ -955,9 +1019,9 @@
         ]
     },
     "date": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -967,13 +1031,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1078,7 +1150,7 @@
         ],
         "validate": [
             {
-                "id": "date-min",
+                "id": "dateMin",
                 "name": "Min Date",
                 "value": "2000-01-01",
                 "type": "datepicker",
@@ -1086,7 +1158,7 @@
                 "unit": ""
             },
             {
-                "id": "date-max",
+                "id": "dateMax",
                 "name": "Max Date",
                 "value": "2030-12-31",
                 "type": "datepicker",
@@ -1096,9 +1168,9 @@
         ]
     },
     "time": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -1108,13 +1180,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1219,7 +1299,7 @@
         ],
         "validate": [
             {
-                "id": "time-min",
+                "id": "timeMin",
                 "name": "Min Time",
                 "value": "00:00",
                 "type": "timepicker",
@@ -1227,7 +1307,7 @@
                 "unit": ""
             },
             {
-                "id": "time-max",
+                "id": "timeMax",
                 "name": "Max Time",
                 "value": "23:59",
                 "type": "timepicker",
@@ -1237,9 +1317,9 @@
         ]
     },
     "datetime": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -1249,13 +1329,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1360,7 +1448,7 @@
         ],
         "validate": [
             {
-                "id": "datetime-min",
+                "id": "datetimeMin",
                 "name": "Min Datetime",
                 "value": "2000-01-01 00:00",
                 "type": "datetimepicker",
@@ -1368,7 +1456,7 @@
                 "unit": ""
             },
             {
-                "id": "datetime-max",
+                "id": "datetimeMax",
                 "name": "Max Datetime",
                 "value": "2030-12-31 23:59",
                 "type": "datetimepicker",
@@ -1378,9 +1466,9 @@
         ]
     },
     "fileupload": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -1390,13 +1478,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1491,9 +1587,9 @@
         ]
     },
     "custom-code": {
-        "common": [
+        "dataAttribute": [
             {
-                "id": "mapping-id",
+                "id": "mappingId",
                 "name": "Mapping Id",
                 "value": "",
                 "type": "inputbox",
@@ -1503,13 +1599,21 @@
                 "help": "form.help.mapping-id"
             },
             {
-                "id": "is-topic",
+                "id": "isTopic",
                 "name": "Topic Use",
                 "value": false,
                 "type": "checkbox-boolean",
                 "code": "",
                 "unit": "",
                 "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
             }
         ],
         "label": [
@@ -1602,7 +1706,7 @@
                 "validate": ""
             },
             {
-                "id": "custom-code",
+                "id": "customCode",
                 "name": "Custom Code",
                 "value": "",
                 "type": "customcode",
@@ -1630,7 +1734,7 @@
                 "help": "form.help.custom-code-default"
             },
             {
-                "id": "button-text",
+                "id": "buttonText",
                 "name": "Button Content",
                 "value": "BUTTON",
                 "type": "inputbox",

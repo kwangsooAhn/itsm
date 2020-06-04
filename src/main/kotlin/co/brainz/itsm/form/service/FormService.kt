@@ -4,7 +4,8 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
+import co.brainz.workflow.provider.dto.ComponentDetail
+import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -84,23 +85,23 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     }
 
     fun saveFormData(formId: String, formData: String): Boolean {
-        val formComponentSaveDto = makeFormComponentSaveDto(formData)
+        val formComponentListDto = makeFormComponentListDto(formData)
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        formComponentSaveDto.form.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
-        formComponentSaveDto.form.updateUserKey = aliceUserDto.userKey
+        formComponentListDto.form.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        formComponentListDto.form.updateUserKey = aliceUserDto.userKey
         val urlDto = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId)
         )
-        val responseEntity = restTemplate.update(urlDto, formComponentSaveDto)
+        val responseEntity = restTemplate.update(urlDto, formComponentListDto)
         return responseEntity.body.toString().isNotEmpty()
     }
 
     fun saveAsForm(formData: String): String {
-        val formComponentSaveDto = makeFormComponentSaveDto(formData)
-        formComponentSaveDto.form.status = RestTemplateConstants.FormStatus.EDIT.value
+        val formComponentListDto = makeFormComponentListDto(formData)
+        formComponentListDto.status = RestTemplateConstants.FormStatus.EDIT.value
 
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url)
-        val responseEntity = restTemplate.createToSave(urlDto, formComponentSaveDto)
+        val responseEntity = restTemplate.createToSave(urlDto, formComponentListDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> {
                 val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
@@ -110,7 +111,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         }
     }
 
-    fun makeFormComponentSaveDto(formData: String): RestTemplateFormComponentSaveDto {
+    fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
         val forms = mapper.convertValue(map["form"], RestTemplateFormDto::class.java)
         val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
@@ -118,18 +119,77 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
         )
 
+        val componentDetailList: MutableList<ComponentDetail> = mutableListOf()
+        for (component in components) {
+            var values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            component["values"]?.let {
+                values = mapper.convertValue(
+                    it, TypeFactory.defaultInstance()
+                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
+                )
+            }
+
+            var dataAttribute: LinkedHashMap<String, Any> = linkedMapOf()
+            component["dataAttribute"]?.let {
+                dataAttribute =
+                    mapper.convertValue(
+                        component["dataAttribute"],
+                        LinkedHashMap::class.java
+                    ) as LinkedHashMap<String, Any>
+            }
+
+            var display: LinkedHashMap<String, Any> = linkedMapOf()
+            component["display"]?.let {
+                display =
+                    mapper.convertValue(component["display"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+            }
+
+            var label: LinkedHashMap<String, Any> = linkedMapOf()
+            component["label"]?.let {
+                label = mapper.convertValue(component["label"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+            }
+
+            var validate: LinkedHashMap<String, Any> = linkedMapOf()
+            component["validate"]?.let {
+                validate =
+                    mapper.convertValue(component["validate"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+            }
+
+            var option: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            component["option"]?.let {
+                option = mapper.convertValue(
+                    it, TypeFactory.defaultInstance()
+                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
+                )
+            }
+
+            componentDetailList.add(
+                ComponentDetail(
+                    componentId = component["componentId"] as String,
+                    type = component["type"] as String,
+                    values = values,
+                    dataAttribute = dataAttribute,
+                    display = display,
+                    label = label,
+                    validate = validate,
+                    option = option
+                )
+            )
+
+            val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        }
+
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val formSaveDto = RestTemplateFormDto(
-            id = forms.id,
-            name = forms.name,
-            desc = forms.desc,
-            status = forms.status,
+        return RestTemplateFormComponentListDto(
+            formId = map["formId"] as String,
+            name = map["name"] as String,
+            desc = map["desc"] as String,
+            status = map["status"] as String,
             createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now()),
-            createUserKey = aliceUserDto.userKey
-        )
-        return RestTemplateFormComponentSaveDto(
-            form = formSaveDto,
-            components = components
+            createUserKey = aliceUserDto.userKey,
+            updateDt = null,
+            updateUserKey = null,
+            components = componentDetailList
         )
     }
 

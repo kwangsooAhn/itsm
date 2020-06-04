@@ -698,7 +698,6 @@
     function suggestElement(elem, type) {
         d3.select('g.alice-tooltip').remove();
 
-        const targetElementData = getElementData(elem);
         const targetBbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem);
         let category = getElementCategory(type);
         let attributeData = getAttributeData(category, type);
@@ -706,23 +705,41 @@
         setElementData(elemData, attributeData);
         elemData.data = attributeData;
         let addDistance = 100,
-            addElemWidth = 0;
+            addElemWidth = 0,
+            addElemHeight = 0;
         switch (type) {
             case 'userTask':
             case 'manualTask':
                 addElemWidth = 120;
+                addElemHeight = 80;
                 break;
             case 'exclusiveGateway':
                 addElemWidth = Math.sqrt(Math.pow(40, 2) + Math.pow(40, 2));
+                addElemHeight = addElemWidth;
                 break;
             case 'commonEnd':
                 addElemWidth = 40;
+                addElemHeight = addElemWidth;
                 break;
         }
+
         elemData.display = {
             'position-x': targetBbox.cx + (targetBbox.width / 2) + addDistance + (addElemWidth / 2),
-            'position-y': targetElementData.display['position-y']
+            'position-y': targetBbox.cy
         };
+
+        if (elem.classed('gateway')) {
+            const distance = 10;
+            let bottom = targetBbox.cy - distance - (addElemHeight / 2);
+            aliceProcessEditor.elements.links.forEach(function(e) {
+                if (e.sourceId === elem.node().id) {
+                    const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(document.getElementById(e.targetId)));
+                    bottom = Math.max(bottom, (bbox.y + bbox.height));
+                }
+            });
+            elemData.display['position-y'] = bottom + distance + (addElemHeight / 2);
+        }
+
         elemData.required = getAttributeRequired(category, type);
 
         let node = aliceProcessEditor.addElement(elemData);
@@ -1111,7 +1128,43 @@
                 const property = items[i];
                 let propertyContainer = document.createElement('div');
                 propertyContainer.className = 'properties';
-                elementContainer.appendChild(propertyContainer);
+                if (typeof property.fieldset !== 'undefined') {
+                    let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + property.fieldset + '"]');
+                    if (fieldsetContainer === null) {
+                        fieldsetContainer = document.createElement('fieldset');
+                        fieldsetContainer.name = property.fieldset;
+                        let legend = document.createElement('legend');
+                        let selectRadio = document.createElement('input');
+                        selectRadio.type = 'radio';
+                        selectRadio.name = 'fieldset_' + id;
+                        selectRadio.value = property.fieldset;
+                        selectRadio.addEventListener('click', function() {
+                            elementContainer.querySelectorAll('fieldset').forEach(function(fieldset) {
+                                if (fieldset.querySelector('legend').querySelector('input[type=radio]').checked) {
+                                    fieldset.removeAttribute('disabled');
+                                } else {
+                                    fieldset.disabled = true;
+                                    fieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
+                                        inputObject.value = '';
+                                        const evt = document.createEvent('HTMLEvents');
+                                        evt.initEvent('change', false, true);
+                                        inputObject.dispatchEvent(evt);
+                                    });
+                                }
+                            });
+                        });
+                        legend.appendChild(selectRadio);
+                        let legendLabel = document.createElement('label');
+                        legendLabel.textContent = property.fieldset;
+                        legend.appendChild(legendLabel);
+                        fieldsetContainer.appendChild(legend);
+                        elementContainer.appendChild(fieldsetContainer);
+                    }
+                    fieldsetContainer.appendChild(propertyContainer);
+                } else {
+                    elementContainer.appendChild(propertyContainer);
+                }
+
                 let requiredLabelObject = document.createElement('label');
                 requiredLabelObject.className = 'required';
                 requiredLabelObject.htmlFor =  property.id;
@@ -1322,6 +1375,23 @@
         if (assigneeTypeObject !== null) {
             changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
         }
+
+        if (elementContainer.querySelectorAll('fieldset').length > 0) {
+            let selectedFieldset;
+            elementContainer.querySelectorAll('fieldset').forEach(function(fieldset) {
+               fieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
+                   if (inputObject.value !== '') { selectedFieldset = fieldset; }
+               })
+            });
+            if (!selectedFieldset) {
+                selectedFieldset = elementContainer.querySelectorAll('fieldset').item(0);
+            }
+            let selectedRadioObject = selectedFieldset.querySelector('input[type=radio]');
+            selectedRadioObject.checked = true;
+            const evt = document.createEvent('HTMLEvents');
+            evt.initEvent('click', false, true);
+            selectedRadioObject.dispatchEvent(evt);
+        }
     }
 
     /**
@@ -1348,6 +1418,7 @@
             aliceJs.sendXhr({
                 method: 'GET',
                 url: '/rest/processes/' + processId + '/data',
+                contentType: 'application/json; charset=utf-8',
                 callbackFunc: function(xhr) {
                     console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
@@ -1358,8 +1429,7 @@
                     });
                     setElementMenu();
                     aliceProcessEditor.drawProcess(elements);
-                },
-                contentType: 'application/json; charset=utf-8'
+                }
             });
         };
 
@@ -1370,50 +1440,50 @@
             aliceJs.sendXhr({
                 method: 'GET',
                 url: '/assets/js/process/elementAttribute.json',
+                contentType: 'application/json; charset=utf-8',
                 callbackFunc: function(xhr) {
                     elementsProperties = JSON.parse(xhr.responseText);
                     elementsKeys = Object.getOwnPropertyNames(elementsProperties);
                     loadProcessData();
-                },
-                contentType: 'application/json; charset=utf-8'
+                }
             });
         };
         // load process attribute data.
         aliceJs.sendXhr({
             method: 'GET',
             url: '/assets/js/process/processAttribute.json',
+            contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
                 processProperties = JSON.parse(xhr.responseText);
                 loadElementData();
-            },
-            contentType: 'application/json; charset=utf-8'
+            }
         });
 
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/users',
+            contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
                 assigneeTypeData.users = JSON.parse(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
+            }
         });
 
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/roles',
+            contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
                 assigneeTypeData.groups = JSON.parse(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
+            }
         });
 
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/documents?searchDocumentStatus=document.status.use',
+            contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
                 documents = JSON.parse(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
+            }
         });
 
         // add pattern image. for tooltip item image.

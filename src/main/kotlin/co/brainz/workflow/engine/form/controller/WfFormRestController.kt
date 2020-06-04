@@ -2,8 +2,7 @@ package co.brainz.workflow.engine.form.controller
 
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.form.constants.WfFormConstants
-import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
-import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
+import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -35,8 +34,8 @@ class WfFormRestController(private val wfEngine: WfEngine) {
     }
 
     @GetMapping("/{formId}/data")
-    fun getFormData(@PathVariable formId: String): RestTemplateFormComponentViewDto {
-        return wfEngine.form().formData(formId)
+    fun getFormData(@PathVariable formId: String): RestTemplateFormComponentListDto {
+        return wfEngine.form().getFormComponentList(formId)
     }
 
     @PostMapping("")
@@ -48,7 +47,7 @@ class WfFormRestController(private val wfEngine: WfEngine) {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
             WfFormConstants.FormSaveType.SAVE_AS.value -> wfEngine.form()
-                .saveAsFormData(mapper.convertValue(jsonData, RestTemplateFormComponentSaveDto::class.java))
+                .saveAsFormData(mapper.convertValue(jsonData, RestTemplateFormComponentListDto::class.java))
             else -> wfEngine.form().createForm(mapper.convertValue(jsonData, RestTemplateFormDto::class.java))
         }
     }
@@ -62,10 +61,10 @@ class WfFormRestController(private val wfEngine: WfEngine) {
     @Transactional
     @PutMapping("/{formId}/data")
     fun saveFormData(
-        @RequestBody restTemplateFormComponentSaveDto: RestTemplateFormComponentSaveDto,
+        @RequestBody restTemplateFormComponentListDto: RestTemplateFormComponentListDto,
         @PathVariable formId: String
     ) {
-        return wfEngine.form().saveFormData(restTemplateFormComponentSaveDto)
+        return wfEngine.form().saveFormData(restTemplateFormComponentListDto)
     }
 
     @Transactional
