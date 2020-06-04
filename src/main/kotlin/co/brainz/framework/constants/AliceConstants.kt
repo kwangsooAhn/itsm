@@ -42,7 +42,6 @@ object AliceConstants {
         PATTEN13("/login"),
         PATTEN14("/sessionInValid"),
         PATTEN15("/token/tokenSearch"),
-        PATTEN16("/notification/**"),
         PATTEN94("/files"),
         PATTEN95("/fileupload"),
         PATTEN96("/filedownload"),
