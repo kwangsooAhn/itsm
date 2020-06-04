@@ -948,6 +948,15 @@
                     .attr('cx', point[0])
                     .attr('cy', point[1]);
             });
+        } else if (nodeElement.classed('annotation')) {
+            textElement
+                .attr('y', mouseY + 15);
+            if (textElement.selectAll('tspan').nodes().length > 0) {
+                textElement.selectAll('tspan').nodes().forEach(function(tspan) {
+                    d3.select(tspan).attr('x', textElement.attr('x'))
+                        .attr('y', textElement.attr('y'));
+                });
+            }
         }
 
         if (dragElement.node().id === nodeElement.node().id) {
@@ -997,7 +1006,11 @@
                 elementMouseEventHandler.mousedrag();
             } else {
                 if (!dragElement) {
-                    dragElement = d3.select(d3.event.sourceEvent.target.parentNode).select('.node');
+                    if (d3.event.sourceEvent.target.tagName.toUpperCase() === 'TSPAN') {
+                        dragElement = d3.select(d3.event.sourceEvent.target.parentNode.parentNode).select('.node');
+                    } else {
+                        dragElement = d3.select(d3.event.sourceEvent.target.parentNode).select('.node');
+                    }
                 }
                 if (dragElement.classed('selected')) {
                     const dx = d3.event.dx,
@@ -1424,25 +1437,48 @@
                 if (elem.id === elementId) { text = elem.name; }
             });
         }
-
         if (text) {
             if (d3.select(elementNode).classed('connector')) {
                 d3.select(elementNode.parentNode).select('text').text(text);
             } else {
                 const textElement = d3.select(elementNode.parentNode).select('text');
                 if (textElement.node()) {
-                    textElement.text(text);
+                    const textArr = text.split('\n');
+                    if (textArr.length > 1) {
+                        textElement.selectAll('*').remove();
+                        textElement.selectAll('tspan')
+                            .data(textArr)
+                            .enter()
+                            .append('tspan')
+                            .attr('x', textElement.attr('x'))
+                            .attr('y', textElement.attr('y'))
+                            .attr('dy', function(d, i) { return (i * 1.2) + 'rem'; })
+                            .text(function(d) { return d; });
 
-                    // wrap text
-                    const element = d3.select(elementNode);
-                    if (text.length > 0 && element.classed('resizable')) {
-                        let textLength = textElement.node().getComputedTextLength(),
-                            displayText = textElement.text();
-                        const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(element);
-                        while (textLength > bbox.width && displayText.length > 0) {
-                            displayText = displayText.slice(0, -1);
-                            textElement.text(displayText + '...');
-                            textLength = textElement.node().getComputedTextLength();
+                        if (d3.select(elementNode).classed('annotation')) {
+                            const textBbox = aliceProcessEditor.utils.getBoundingBoxCenter(textElement),
+                                  textElementHeight = textBbox.height + 20;
+                            let strokeDashArray = '6,6,6,6,6,' + textElementHeight + ',6,6,6,6,6';
+                            for (let i = 0, len = Math.trunc(textElementHeight / 12); i < len; i++) {
+                                strokeDashArray += ',6,6'
+                            }
+                            d3.select(elementNode)
+                                .attr('height', textElementHeight)
+                                .style('stroke-dasharray', strokeDashArray);
+                        }
+                    } else {
+                        textElement.text(textArr[0]);
+                        // wrap text
+                        const element = d3.select(elementNode);
+                        if (textArr[0].length > 0 && element.classed('resizable')) {
+                            let textLength = textElement.node().getComputedTextLength(),
+                                displayText = textElement.text();
+                            const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(element);
+                            while (textLength > bbox.width && displayText.length > 0) {
+                                displayText = displayText.slice(0, -1);
+                                textElement.text(displayText + '...');
+                                textLength = textElement.node().getComputedTextLength();
+                            }
                         }
                     }
                 }
