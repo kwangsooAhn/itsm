@@ -1111,7 +1111,43 @@
                 const property = items[i];
                 let propertyContainer = document.createElement('div');
                 propertyContainer.className = 'properties';
-                elementContainer.appendChild(propertyContainer);
+                if (typeof property.fieldset !== 'undefined') {
+                    let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + property.fieldset + '"]');
+                    if (fieldsetContainer === null) {
+                        fieldsetContainer = document.createElement('fieldset');
+                        fieldsetContainer.name = property.fieldset;
+                        let legend = document.createElement('legend');
+                        let selectRadio = document.createElement('input');
+                        selectRadio.type = 'radio';
+                        selectRadio.name = 'fieldset_' + id;
+                        selectRadio.value = property.fieldset;
+                        selectRadio.addEventListener('click', function() {
+                            elementContainer.querySelectorAll('fieldset').forEach(function(fieldset) {
+                                if (fieldset.querySelector('legend').querySelector('input[type=radio]').checked) {
+                                    fieldset.removeAttribute('disabled');
+                                } else {
+                                    fieldset.disabled = true;
+                                    fieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
+                                        inputObject.value = '';
+                                        const evt = document.createEvent('HTMLEvents');
+                                        evt.initEvent('change', false, true);
+                                        inputObject.dispatchEvent(evt);
+                                    });
+                                }
+                            });
+                        });
+                        legend.appendChild(selectRadio);
+                        let legendLabel = document.createElement('label');
+                        legendLabel.textContent = property.fieldset;
+                        legend.appendChild(legendLabel);
+                        fieldsetContainer.appendChild(legend);
+                        elementContainer.appendChild(fieldsetContainer);
+                    }
+                    fieldsetContainer.appendChild(propertyContainer);
+                } else {
+                    elementContainer.appendChild(propertyContainer);
+                }
+
                 let requiredLabelObject = document.createElement('label');
                 requiredLabelObject.className = 'required';
                 requiredLabelObject.htmlFor =  property.id;
@@ -1321,6 +1357,23 @@
         let assigneeTypeObject = document.getElementById('assignee-type');
         if (assigneeTypeObject !== null) {
             changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
+        }
+
+        if (elementContainer.querySelectorAll('fieldset').length > 0) {
+            let selectedFieldset;
+            elementContainer.querySelectorAll('fieldset').forEach(function(fieldset) {
+               fieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
+                   if (inputObject.value !== '') { selectedFieldset = fieldset; }
+               })
+            });
+            if (!selectedFieldset) {
+                selectedFieldset = elementContainer.querySelectorAll('fieldset').item(0);
+            }
+            let selectedRadioObject = selectedFieldset.querySelector('input[type=radio]');
+            selectedRadioObject.checked = true;
+            const evt = document.createEvent('HTMLEvents');
+            evt.initEvent('click', false, true);
+            selectedRadioObject.dispatchEvent(evt);
         }
     }
 
