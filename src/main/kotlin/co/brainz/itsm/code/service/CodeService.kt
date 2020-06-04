@@ -1,16 +1,22 @@
 package co.brainz.itsm.code.service
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.mapper.CodeMapper
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeRepository
+import co.brainz.itsm.user.repository.UserRepository
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
 @Service
-class CodeService(private val codeRepository: CodeRepository, private val customCodeRepository: CustomCodeRepository) {
+class CodeService(
+    private val codeRepository: CodeRepository,
+    private val customCodeRepository: CustomCodeRepository,
+    private val userRepository: UserRepository
+) {
 
     private val codeMapper: CodeMapper = Mappers.getMapper(CodeMapper::class.java)
 
@@ -47,6 +53,8 @@ class CodeService(private val codeRepository: CodeRepository, private val custom
     fun getDetailCodes(code: String): CodeDetailDto {
         val codeDetailDto = codeRepository.findCodeDetail(code)
         codeDetailDto.enabled = !customCodeRepository.existsByPCode(codeDetailDto.code)
+        codeDetailDto.createUserName = codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
+        codeDetailDto.updateUserName  = codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
         return codeDetailDto
     }
 
