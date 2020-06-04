@@ -325,6 +325,16 @@ form:
     datetime-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Now'로 선택하는 경우 해당 신청서 작성 시점의 날짜시간이 기본 값으로 출력됩니다.<br/>'days/hours later'로 선택하고 숫자로 된 값을 넣으면 문서를 작성하는 시점을 기준으로 해당 숫자만큼 이후의 날짜시간이 기본 값으로 사용됩니다. 마이너스 값을 입력하는 경우 이전 날짜시간을 지정할 수 있습니다.<br/>마지막 항목은 특정 날짜시간을 고정으로 표시할 경우 사용하시면 됩니다."
     custom-code: "사용자가 정의한 코드셋의 커스텀 코드 목록을 선택할 수 있습니다. 자세한 화면은 설정 > 사용자 정의 코드를 참조합니다."
     custom-code-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Session'을 선택하는 경우 사용자의 세션 정보가 기본 값으로 출력됩니다.<br/>'Custom Code Data'로 선택하는 경우에는 사용자가 정의한 코드의 데이터를 기본 값으로 출력합니다."
+  properties:
+    name: "Name"
+    id: "Id"
+    desc: "Description"
+    status: "Status"
+    dataAttribute: "dataAttribute"
+    label: "Label"
+    display: "Display"
+    option: "Option"
+    validate: "Validate"
 # Process
 process:
   label:

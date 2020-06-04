@@ -326,6 +326,16 @@ form:
     datetime-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date time.<br/>'days/hours later' means +, - date/hour from current date time.<br/>The last item is used to show a specific date time as fixed."
     custom-code: "You can select a custom code list of user-defined code sets."
     custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
+  properties:
+    name: "Name"
+    id: "Id"
+    desc: "Description"
+    status: "Status"
+    dataAttribute: "dataAttribute"
+    label: "Label"
+    display: "Display"
+    option: "Option"
+    validate: "Validate"
 # Process
 process:
   label:
