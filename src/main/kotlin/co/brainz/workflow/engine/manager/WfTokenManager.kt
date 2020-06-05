@@ -85,13 +85,13 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      */
     fun setCandidate(token: WfTokenEntity) {
         val assigneeType =
-            getAttributeValue(
+            this.getAttributeValue(
                 token.element.elementDataEntities,
                 WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
             )
         when (assigneeType) {
             WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
-                var assigneeId = getAssignee(token.element, token)
+                var assigneeId = this.getAssignee(token.element, token)
                 if (assigneeId.isEmpty()) {
                     assigneeId = this.assigneeId
                 }
@@ -101,7 +101,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {
                 val candidates =
-                    getAttributeValues(
+                    this.getAttributeValues(
                         token.element.elementDataEntities,
                         WfElementConstants.AttributeId.ASSIGNEE.value
                     )
@@ -141,7 +141,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      */
     private fun getAssignee(element: WfElementEntity, token: WfTokenEntity): String {
         val assigneeMappingId =
-            getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+            this.getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
         var componentMappingId = ""
         token.instance.document.form.components?.forEach { component ->
             if (component.mappingId.isNotEmpty() && component.mappingId == assigneeMappingId) {

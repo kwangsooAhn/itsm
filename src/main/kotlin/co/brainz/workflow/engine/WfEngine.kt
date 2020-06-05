@@ -31,29 +31,29 @@ class WfEngine(
 
         // Start Token Create & Complete
         val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
-        var startTokenDto = setTokenDtoInitValue(tokenDto, instance, element)
-        val tokenManager = getTokenManager(startTokenDto.elementType)
+        var startTokenDto = this.setTokenDtoInitValue(tokenDto, instance, element)
+        val tokenManager = this.getTokenManager(startTokenDto.elementType)
         startTokenDto = tokenManager.createToken(startTokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
         // First Token Create
         val firstTokenDto = tokenManager.createNextToken(startTokenDto)
 
-        return progressWorkflow(firstTokenDto)
+        return this.progressWorkflow(firstTokenDto)
     }
 
     /**
      * Progress workflow.
      */
-    fun progressWorkflow(wfTokenDto: WfTokenDto): Boolean {
+    fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Process Token")
-        var progressTokenDto = wfTokenDto.copy()
-        when (wfTokenDto.action) {
-            WfElementConstants.Action.SAVE.value -> actionSave(wfTokenDto)
+        var progressTokenDto = tokenDto.copy()
+        when (tokenDto.action) {
+            WfElementConstants.Action.SAVE.value -> this.actionSave(tokenDto)
             else -> {
                 do {
-                    progressTokenDto = setTokenDtoValue(progressTokenDto)
-                    val tokenManager = getTokenManager(progressTokenDto.elementType)
+                    progressTokenDto = this.setTokenDtoValue(progressTokenDto)
+                    val tokenManager = this.getTokenManager(progressTokenDto.elementType)
                     tokenManager.completeToken(progressTokenDto)
                     progressTokenDto = tokenManager.createNextToken(progressTokenDto)
                 } while (progressTokenDto.isAutoComplete)
@@ -65,17 +65,15 @@ class WfEngine(
 
     /**
      * Action - Save.
-     *
-     * @param wfTokenDto
      */
-    private fun actionSave(wfTokenDto: WfTokenDto) {
+    private fun actionSave(tokenDto: WfTokenDto) {
         // Save Token & Token Data
-        val token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
-        token.assigneeId = wfTokenDto.assigneeId
+        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
+        token.assigneeId = tokenDto.assigneeId
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        for (tokenDataDto in wfTokenDto.data!!) {
+        for (tokenDataDto in tokenDto.data!!) {
             val tokenDataEntity = WfTokenDataEntity(
-                tokenId = wfTokenDto.tokenId,
+                tokenId = tokenDto.tokenId,
                 componentId = tokenDataDto.componentId,
                 value = tokenDataDto.value
             )
@@ -89,11 +87,6 @@ class WfEngine(
 
     /**
      * Start workflow tokenDto init.
-     *
-     * @param wfTokenDto
-     * @param instance
-     * @param element
-     * @return token
      */
     private fun setTokenDtoInitValue(
         wfTokenDto: WfTokenDto,
@@ -110,9 +103,6 @@ class WfEngine(
 
     /**
      * Progress workflow tokenDto init.
-     *
-     * @param token
-     * @return wfTokenDto
      */
     private fun setTokenDtoValue(token: WfTokenDto): WfTokenDto {
         val tokenEntity = wfTokenManagerService.getToken(token.tokenId)
@@ -125,9 +115,6 @@ class WfEngine(
 
     /**
      * Get TokenManager.
-     *
-     * @param elementType
-     * @return WfTokenManager
      */
     private fun getTokenManager(elementType: String): WfTokenManager {
         return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(elementType)
@@ -135,9 +122,6 @@ class WfEngine(
 
     /**
      * RestTemplateTokenDto To WfTokenDto.
-     *
-     * @param restTemplateTokenDto
-     * @return WfTokenDto
      */
     fun toTokenDto(restTemplateTokenDto: RestTemplateTokenDto): WfTokenDto {
         val tokenData: MutableList<WfTokenDataDto> = mutableListOf()
