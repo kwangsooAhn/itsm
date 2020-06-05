@@ -26,8 +26,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
         wfTokenDto.tokenId = this.createTokenEntity.tokenId
-        wfTokenDto.elementId = this.createTokenEntity.element.elementId
-        wfTokenDto.elementType = this.createTokenEntity.element.elementType
         return this.createElementToken(wfTokenDto)
     }
 
