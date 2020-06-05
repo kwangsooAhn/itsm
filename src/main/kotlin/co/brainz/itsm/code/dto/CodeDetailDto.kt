@@ -9,10 +9,10 @@ data class CodeDetailDto(
     var pCode: String? = "",
     var codeValue: String? = null,
     var editable: Boolean? = true,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     var createDt: LocalDateTime? = null,
     var createUserName: String? = null,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     var updateDt: LocalDateTime? = null,
     var updateUserName: String? = null,
     var enabled: Boolean? = true

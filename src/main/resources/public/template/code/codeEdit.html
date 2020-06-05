@@ -48,9 +48,9 @@
                 </tr>
                 <tr>
                     <th th:text="#{common.label.createDate}"></th>
-                    <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(codeDetail?.createDt,dateformat)}"></span></td>
+                    <td><span id="spanCreateDt" name="spanCreateDt"></span></td>
                     <th th:text="#{common.label.updateDate}"></th>
-                    <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(codeDetail?.updateDt,dateformat)}"></span></td>
+                    <td><span id="spanUpdateDt" name="spanUpdateDt"></span></td>
                 </tr>
             </table>
         </div>
@@ -107,9 +107,9 @@
                         document.getElementById('txtPCode').value = responseJson.pcode;
                         document.getElementById('txtCodeDesc').value = responseJson.codeValue;
                         document.getElementById('spanCreateUserName').innerHTML = responseJson.createUserName;
-                        document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
+                        document.getElementById('spanCreateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.createDt, /*[[${#authentication.details.timeFormat}]]*/);
                         document.getElementById('spanUpdateUserName').innerHTML = responseJson.updateUserName;
-                        document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
+                        document.getElementById('spanUpdateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.updateDt, /*[[${#authentication.details.timeFormat}]]*/);
                         if (!responseJson.enabled) {
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
