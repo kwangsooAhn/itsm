@@ -1,9 +1,14 @@
 package co.brainz.workflow.token.controller
 
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.token.service.WfTokenService
+import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
+import co.brainz.workflow.token.service.WfTokenService
 import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,8 +22,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/wf/tokens")
 class WfTokenRestController(
+    private val wfEngine: WfEngine,
     private val wfTokenService: WfTokenService,
-    private val wfEngine: WfEngine
+    private val aliceFileService: AliceFileService
 ) {
 
     /**
@@ -57,7 +63,7 @@ class WfTokenRestController(
     /**
      * Post Token Gate.
      *
-     * @param restTemplateTokenDto
+     * @param restTemplateTokenDataUpdateDto
      * @return Any
      */
     @Transactional

@@ -55,4 +55,9 @@ class WfComponentService(
         }
         return customCodeIds.toMutableList()
     }
+
+    fun getComponentTypeById(componentId: String): String {
+        val component = wfComponentRepository.findById(componentId)
+        return component.get().componentType
+    }
 }

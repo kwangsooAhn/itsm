@@ -59,9 +59,9 @@
                 </tr>
                 <tr>
                     <th th:text="#{common.label.createDate}"></th>
-                    <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.createDt,dateformat)}"></span></td>
+                    <td><span id="spanCreateDt" name="spanCreateDt"</span></td>
                     <th th:text="#{common.label.updateDate}"></th>
-                    <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(authDetail?.updateDt,dateformat)}"></span></td>
+                    <td><span id="spanUpdateDt" name="spanUpdateDt"</span></td>
                 </tr>
                 <tr>
                     <th colspan="2"><span>메뉴 목록</span></th>
@@ -163,9 +163,9 @@
                         });
 
                         document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserKey;
-                        document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
+                        document.getElementById('spanCreateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.createDt, /*[[${#authentication.details.timeFormat}]]*/);
                         document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
-                        document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
+                        document.getElementById('spanUpdateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.updateDt, /*[[${#authentication.details.timeFormat}]]*/);
                         document.getElementById('txtAuthId').setAttribute('readonly','true');
                         document.getElementById('roleAuthMapCount').innerHTML = responseJson.roleAuthMapCount;
                         disabledButton(responseJson.roleAuthMapCount);

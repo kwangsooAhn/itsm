@@ -9,8 +9,8 @@ import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.mapper.WfFormMapper
 import co.brainz.workflow.form.repository.WfFormRepository
-import co.brainz.workflow.provider.dto.RestTemplateFormComponentSaveDto
-import co.brainz.workflow.provider.dto.RestTemplateFormComponentViewDto
+import co.brainz.workflow.provider.dto.ComponentDetail
+import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -117,24 +117,67 @@ class WfFormService(
     }
 
     /**
-     * Form Data Info.
+     * 폼을 기준으로 컴포넌트 상세 리스트를 반환.
+     * 폼 편집 및 신청서, 처리할 문서 등에서 모두 사용.
      *
      * @param formId
      * @return FormComponentDto
      */
-    fun formData(formId: String): RestTemplateFormComponentViewDto {
+    fun getFormComponentList(formId: String): RestTemplateFormComponentListDto {
+        val components: MutableList<ComponentDetail> = mutableListOf()
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
-        val formViewDto = wfFormMapper.toFormViewDto(formEntity.get())
-        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-        for (component in formEntity.get().components!!) {
-            val attributes = LinkedHashMap<String, Any>()
-            attributes["id"] = component.componentId
-            attributes.putAll(makeAttributes(component))
-            components.add(attributes)
+        val componentEntityList = wfComponentRepository.findByFormId(formId)
+        for (componentEntity in componentEntityList) {
+            val dataAttribute = LinkedHashMap<String, Any>()
+            dataAttribute["displayType"] = ""
+            dataAttribute["mappingId"] = componentEntity.mappingId
+            dataAttribute["isTopic"] = componentEntity.isTopic
+
+            val component = ComponentDetail(
+                componentId = componentEntity.componentId,
+                type = componentEntity.componentType,
+                values = null,
+                dataAttribute = dataAttribute,
+                label = null,
+                option = null,
+                validate = null
+            )
+
+            val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+            val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
+
+            for (componentDataEntity in componentDataEntityList) {
+                val jsonElement = JsonParser().parse(componentDataEntity.attributeValue)
+                var attributeValue = LinkedHashMap<String, Any>()
+
+                when (jsonElement.isJsonArray) {
+                    true -> attributeValue["value"] = mapper.readValue(
+                        componentDataEntity.attributeValue,
+                        mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
+                    )
+                    false -> attributeValue["value"] =
+                        mapper.readValue(componentDataEntity.attributeValue, LinkedHashMap::class.java)
+                }
+
+                when (componentDataEntity.attributeId) {
+                    "display" -> component.display = attributeValue["value"] as LinkedHashMap<String, Any>
+                    "label" -> component.label = attributeValue["value"] as LinkedHashMap<String, Any>
+                    "validate" -> component.validate = attributeValue["value"] as LinkedHashMap<String, Any>
+                    "option" -> component.option = attributeValue["value"] as MutableList<LinkedHashMap<String, Any>>
+                }
+            }
+            components.add(component)
         }
 
-        return RestTemplateFormComponentViewDto(
-            form = formViewDto,
+        return RestTemplateFormComponentListDto(
+            formId = formId,
+            name = formEntity.get().formName,
+            status = formEntity.get().formStatus,
+            desc = formEntity.get().formDesc,
+            updateDt = formEntity.get().updateDt,
+            updateUserKey = formEntity.get().updateUserKey,
+            createDt = formEntity.get().createDt,
+            createUserKey = formEntity.get().createUserKey,
             components = components
         )
     }
@@ -191,12 +234,12 @@ class WfFormService(
     /**
      * Insert, Update Form Data.
      *
-     * @param restTemplateFormComponentSaveDto
+     * @param restTemplateFormComponentListDto
      */
-    fun saveFormData(restTemplateFormComponentSaveDto: RestTemplateFormComponentSaveDto) {
+    fun saveFormData(restTemplateFormComponentListDto: RestTemplateFormComponentListDto) {
 
         // Delete component, attribute
-        val componentEntities = wfComponentRepository.findByFormId(restTemplateFormComponentSaveDto.form.id)
+        val componentEntities = wfComponentRepository.findByFormId(restTemplateFormComponentListDto.formId)
         val componentIds: MutableList<String> = mutableListOf()
         for (component in componentEntities) {
             componentIds.add(component.componentId)
@@ -208,35 +251,35 @@ class WfFormService(
         // Update Form
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val wfFormData: Optional<WfFormEntity> =
-            wfFormRepository.findWfFormEntityByFormId(restTemplateFormComponentSaveDto.form.id)
+            wfFormRepository.findWfFormEntityByFormId(restTemplateFormComponentListDto.formId)
         wfFormData.ifPresent {
-            wfFormData.get().formName = restTemplateFormComponentSaveDto.form.name
-            wfFormData.get().formDesc = restTemplateFormComponentSaveDto.form.desc
-            wfFormData.get().formStatus = restTemplateFormComponentSaveDto.form.status
-            wfFormData.get().updateDt = restTemplateFormComponentSaveDto.form.updateDt
-            wfFormData.get().updateUserKey = restTemplateFormComponentSaveDto.form.updateUserKey
+            wfFormData.get().formName = restTemplateFormComponentListDto.name
+            wfFormData.get().formDesc = restTemplateFormComponentListDto.desc
+            wfFormData.get().formStatus = restTemplateFormComponentListDto.status
+            wfFormData.get().updateDt = restTemplateFormComponentListDto.updateDt
+            wfFormData.get().updateUserKey = restTemplateFormComponentListDto.updateUserKey
             val resultFormEntity = wfFormRepository.save(wfFormData.get())
 
             // Insert component, attribute
             val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
-            for (component in restTemplateFormComponentSaveDto.components) {
+            for (component in restTemplateFormComponentListDto.components) {
                 var mappingId = ""
                 var isTopic = false
-                if (component["common"] != null) {
+                if (component.dataAttribute != null) {
                     val common: java.util.LinkedHashMap<*, *>? =
-                        mapper.convertValue(component["common"], LinkedHashMap::class.java)
+                        mapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
                     if (common != null) {
-                        if (common.containsKey("mapping-id")) {
-                            mappingId = common["mapping-id"] as String
+                        if (common.containsKey("mappingId")) {
+                            mappingId = common["mappingId"] as String
                         }
-                        if (common.containsKey("is-topic")) {
-                            isTopic = common["is-topic"] as Boolean
+                        if (common.containsKey("isTopic")) {
+                            isTopic = common["isTopic"] as Boolean
                         }
                     }
                 }
                 val componentEntity = WfComponentEntity(
-                    componentId = component["id"] as String,
-                    componentType = component["type"] as String,
+                    componentId = component.componentId,
+                    componentType = component.type,
                     mappingId = mappingId,
                     isTopic = isTopic,
                     form = resultFormEntity
@@ -244,15 +287,46 @@ class WfFormService(
                 val resultComponentEntity = wfComponentRepository.save(componentEntity)
 
                 // wf_comp_data 저장
-                for ((key, value) in component) {
-                    if (key != "id" && key != "type" && key != "common") {
-                        val componentDataEntity =
-                            WfComponentDataEntity(
-                                componentId = resultComponentEntity.componentId,
-                                attributeId = key,
-                                attributeValue = mapper.writeValueAsString(value),
-                                attributes = resultComponentEntity
-                            )
+                var componentDataEntity = WfComponentDataEntity(
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "display",
+                    attributeValue = mapper.writeValueAsString(component.display),
+                    attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+
+                component.label?.let {
+                    if (it.size > 0) {
+                        componentDataEntity = WfComponentDataEntity(
+                            componentId = resultComponentEntity.componentId,
+                            attributeId = "label",
+                            attributeValue = mapper.writeValueAsString(it),
+                            attributes = resultComponentEntity
+                        )
+                        wfComponentDataEntities.add(componentDataEntity)
+                    }
+                }
+
+                component.validate?.let {
+                    if (it.size > 0) {
+                        componentDataEntity = WfComponentDataEntity(
+                            componentId = resultComponentEntity.componentId,
+                            attributeId = "validate",
+                            attributeValue = mapper.writeValueAsString(it),
+                            attributes = resultComponentEntity
+                        )
+                        wfComponentDataEntities.add(componentDataEntity)
+                    }
+                }
+
+                component.option?.let {
+                    if (it.size > 0) {
+                        componentDataEntity = WfComponentDataEntity(
+                            componentId = resultComponentEntity.componentId,
+                            attributeId = "option",
+                            attributeValue = mapper.writeValueAsString(it),
+                            attributes = resultComponentEntity
+                        )
                         wfComponentDataEntities.add(componentDataEntity)
                     }
                 }
@@ -266,27 +340,27 @@ class WfFormService(
     /**
      * Save as Form.
      *
-     * @param restTemplateFormComponentSaveDto
+     * @param restTemplateFormComponentListDto
      * @return RestTemplateFormDto
      */
-    fun saveAsFormData(restTemplateFormComponentSaveDto: RestTemplateFormComponentSaveDto): RestTemplateFormDto {
+    fun saveAsFormData(restTemplateFormComponentListDto: RestTemplateFormComponentListDto): RestTemplateFormDto {
         val formDataDto = RestTemplateFormDto(
-            name = restTemplateFormComponentSaveDto.form.name,
-            status = restTemplateFormComponentSaveDto.form.status,
-            desc = restTemplateFormComponentSaveDto.form.desc,
-            createUserKey = restTemplateFormComponentSaveDto.form.createUserKey,
-            createDt = restTemplateFormComponentSaveDto.form.createDt
+            name = restTemplateFormComponentListDto.name,
+            status = restTemplateFormComponentListDto.status,
+            desc = restTemplateFormComponentListDto.desc,
+            createUserKey = restTemplateFormComponentListDto.createUserKey,
+            createDt = restTemplateFormComponentListDto.createDt
         )
         val wfFormDto = createForm(formDataDto)
-        restTemplateFormComponentSaveDto.form.id = wfFormDto.id
-        when (restTemplateFormComponentSaveDto.form.status) {
+        restTemplateFormComponentListDto.formId = wfFormDto.id
+        when (restTemplateFormComponentListDto.status) {
             WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.editable =
                 false
         }
-        for (component in restTemplateFormComponentSaveDto.components) {
-            component["id"] = UUID.randomUUID().toString().replace("-", "")
+        for (component in restTemplateFormComponentListDto.components) {
+            component.componentId = UUID.randomUUID().toString().replace("-", "")
         }
-        saveFormData(restTemplateFormComponentSaveDto)
+        saveFormData(restTemplateFormComponentListDto)
 
         return wfFormDto
     }
