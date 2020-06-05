@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
  * Quill Editor v1.3.6
  * https://quilljs.com/
@@ -40,7 +41,7 @@
   -moz-tab-size: 4;
   text-align: left;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  word-break: break-all;
 }
 .ql-editor > * {
   cursor: text;
