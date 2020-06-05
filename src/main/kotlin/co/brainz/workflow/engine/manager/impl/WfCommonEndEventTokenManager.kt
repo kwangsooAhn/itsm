@@ -11,42 +11,42 @@ import java.time.ZoneId
 class WfCommonEndEventTokenManager(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
-    override fun createElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        return wfTokenDto
+    override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
+        return createTokenDto
     }
 
-    override fun createNextElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        if (!wfTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
-            val pTokenId = wfTokenDto.parentTokenId!!
+    override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
+        if (!createNextTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
+            val pTokenId = createNextTokenDto.parentTokenId!!
             val mainProcessToken = wfTokenManagerService.getToken(pTokenId)
             when (mainProcessToken.element.elementType) {
                 WfElementConstants.ElementType.SUB_PROCESS.value -> {
-                    var token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
-                    token.tokenData = super.setTokenData(wfTokenDto)
+                    var token = wfTokenManagerService.getToken(createNextTokenDto.tokenId)
+                    token.tokenData = super.setTokenData(createNextTokenDto)
                     mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
                     mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-                    wfTokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
+                    createNextTokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
                         token,
                         mainProcessToken
                     )
-                    wfTokenDto.tokenId = mainProcessToken.tokenId
+                    createNextTokenDto.tokenId = mainProcessToken.tokenId
 
                     token = wfTokenManagerService.saveToken(mainProcessToken)
-                    token.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
-                    wfTokenDto.isAutoComplete = true
+                    token.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(createNextTokenDto))
+                    createNextTokenDto.isAutoComplete = true
                 }
-                else -> wfTokenDto.isAutoComplete = false
+                else -> createNextTokenDto.isAutoComplete = false
             }
         } else {
-            wfTokenDto.isAutoComplete = false
+            createNextTokenDto.isAutoComplete = false
         }
 
-        return wfTokenDto
+        return createNextTokenDto
     }
 
-    override fun completeElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        wfTokenManagerService.completeInstance(wfTokenDto.instanceId)
+    override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
+        wfTokenManagerService.completeInstance(completedToken.instanceId)
 
-        return wfTokenDto
+        return completedToken
     }
 }

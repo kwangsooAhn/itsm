@@ -8,17 +8,17 @@ import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 class WfCommonStartEventTokenManager(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
-    override fun createElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        return wfTokenDto
+    override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
+        return createTokenDto
     }
 
-    override fun createNextElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(wfTokenDto.elementType)
-            .createToken(wfTokenDto)
+    override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
+        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(createNextTokenDto.elementType)
+            .createToken(createNextTokenDto)
     }
 
-    override fun completeElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        return wfTokenDto
+    override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
+        return completedToken
     }
 
 }

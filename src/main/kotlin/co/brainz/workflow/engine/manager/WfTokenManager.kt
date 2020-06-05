@@ -21,57 +21,67 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Create token.
      */
-    fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        this.assigneeId = wfTokenDto.assigneeId.toString()
-        val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
+    fun createToken(tokenDto: WfTokenDto): WfTokenDto {
+        this.assigneeId = tokenDto.assigneeId.toString()
+        val token = wfTokenManagerService.makeTokenEntity(tokenDto)
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
-        wfTokenDto.tokenId = this.createTokenEntity.tokenId
-        return this.createElementToken(wfTokenDto)
+        val createTokenDto = tokenDto.copy()
+        createTokenDto.tokenId = this.createTokenEntity.tokenId
+        return this.createElementToken(createTokenDto)
     }
 
-    abstract fun createElementToken(wfTokenDto: WfTokenDto): WfTokenDto
+    /**
+     * Abstract Create token (createToken + @).
+     */
+    abstract fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto
 
     /**
      * Create next token.
      */
-    fun createNextToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        when (wfTokenDto.elementType) {
+    fun createNextToken(tokenDto: WfTokenDto): WfTokenDto {
+        val createNextTokenDto = tokenDto.copy()
+        when (createNextTokenDto.elementType) {
             WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
-                wfTokenDto.isAutoComplete = this.setAutoComplete(wfTokenDto.elementType)
+                createNextTokenDto.isAutoComplete = this.setAutoComplete(tokenDto.elementType)
             }
             else -> {
-                val element = wfTokenManagerService.getNextElement(wfTokenDto)
-                wfTokenDto.elementId = element.elementId
-                wfTokenDto.elementType = element.elementType
-                wfTokenDto.isAutoComplete = this.setAutoComplete(wfTokenDto.elementType)
+                val element = wfTokenManagerService.getNextElement(tokenDto)
+                createNextTokenDto.elementId = element.elementId
+                createNextTokenDto.elementType = element.elementType
+                createNextTokenDto.isAutoComplete = this.setAutoComplete(createNextTokenDto.elementType)
             }
         }
-        return this.createNextElementToken(wfTokenDto)
+        return this.createNextElementToken(createNextTokenDto)
     }
 
-    abstract fun createNextElementToken(wfTokenDto: WfTokenDto): WfTokenDto
+    /**
+     * Abstract Create next token (createNextToken + @).
+     */
+    abstract fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto
 
     /**
      * Complete token.
      */
-    fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
+    fun completeToken(tokenDto: WfTokenDto): WfTokenDto {
+        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
-        wfTokenDto.tokenId = token.tokenId
+        val completedToken = tokenDto.copy()
+        completedToken.tokenId = token.tokenId
         if (!token.instance.pTokenId.isNullOrEmpty()) {
-            wfTokenDto.parentTokenId = token.instance.pTokenId
+            completedToken.parentTokenId = token.instance.pTokenId
         }
-        return this.completeElementToken(wfTokenDto)
+        return this.completeElementToken(completedToken)
     }
 
-    abstract fun completeElementToken(wfTokenDto: WfTokenDto): WfTokenDto
+    /**
+     * Abstract Complete element token (completeToken + @).
+     */
+    abstract fun completeElementToken(completedToken: WfTokenDto): WfTokenDto
 
     /**
      * Set Assignee + Candidate.
-     *
-     * @param token
      */
     fun setCandidate(token: WfTokenEntity) {
         val assigneeType =
@@ -128,10 +138,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
 
     /**
      * Get Assignee.
-     *
-     * @param element
-     * @param token
-     * @return String
      */
     private fun getAssignee(element: WfElementEntity, token: WfTokenEntity): String {
         val assigneeMappingId =
@@ -164,16 +170,13 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
 
     /**
      * Set Token Data.
-     *
-     * @param wfTokenDto
-     * @return MutableList<WfTokenDataEntity>
      */
-    fun setTokenData(wfTokenDto: WfTokenDto): MutableList<WfTokenDataEntity> {
+    fun setTokenData(tokenDto: WfTokenDto): MutableList<WfTokenDataEntity> {
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        if (wfTokenDto.data != null) {
-            for (tokenDataDto in wfTokenDto.data!!) {
+        if (tokenDto.data != null) {
+            for (tokenDataDto in tokenDto.data!!) {
                 val tokenDataEntity = WfTokenDataEntity(
-                    tokenId = wfTokenDto.tokenId,
+                    tokenId = tokenDto.tokenId,
                     componentId = tokenDataDto.componentId,
                     value = tokenDataDto.value
                 )
@@ -185,10 +188,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
 
     /**
      * Get AttributeValue.
-     *
-     * @param elementDataEntities
-     * @param attributeId
-     * @return String (attributeValue)
      */
     fun getAttributeValue(
         elementDataEntities: MutableList<WfElementDataEntity>,
@@ -205,10 +204,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
 
     /**
      * Get AttributeValues.
-     *
-     * @param elementDataEntities
-     * @param attributeId
-     * @return MutableList<String> (attributeValue)
      */
     private fun getAttributeValues(
         elementDataEntities: MutableList<WfElementDataEntity>,

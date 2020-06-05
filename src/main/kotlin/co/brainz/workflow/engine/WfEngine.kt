@@ -22,19 +22,16 @@ class WfEngine(
 
     /**
      * Start workflow.
-     *
-     * @param wfTokenDto
-     * @return Boolean
      */
-    fun startWorkflow(wfTokenDto: WfTokenDto): Boolean {
+    fun startWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Start Workflow")
 
         // Create Instance
-        val instance = wfTokenManagerService.createInstance(wfTokenDto)
+        val instance = wfTokenManagerService.createInstance(tokenDto)
 
         // Start Token Create & Complete
         val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
-        var startTokenDto = setTokenDtoInitValue(wfTokenDto, instance, element)
+        var startTokenDto = setTokenDtoInitValue(tokenDto, instance, element)
         val tokenManager = getTokenManager(startTokenDto.elementType)
         startTokenDto = tokenManager.createToken(startTokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
@@ -47,22 +44,19 @@ class WfEngine(
 
     /**
      * Progress workflow.
-     *
-     * @param wfTokenDto
-     * @return Boolean
      */
     fun progressWorkflow(wfTokenDto: WfTokenDto): Boolean {
         logger.debug("Process Token")
-        var token = wfTokenDto.copy()
+        var progressTokenDto = wfTokenDto.copy()
         when (wfTokenDto.action) {
             WfElementConstants.Action.SAVE.value -> actionSave(wfTokenDto)
             else -> {
                 do {
-                    val tokenDto = setTokenDtoValue(token)
-                    val tokenManager = getTokenManager(tokenDto.elementType)
-                    tokenManager.completeToken(tokenDto)
-                    token = tokenManager.createNextToken(tokenDto)
-                } while (tokenDto.isAutoComplete)
+                    progressTokenDto = setTokenDtoValue(progressTokenDto)
+                    val tokenManager = getTokenManager(progressTokenDto.elementType)
+                    tokenManager.completeToken(progressTokenDto)
+                    progressTokenDto = tokenManager.createNextToken(progressTokenDto)
+                } while (progressTokenDto.isAutoComplete)
             }
         }
 

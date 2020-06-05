@@ -9,19 +9,19 @@ class WfExclusiveGatewayTokenManager(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
 
-    override fun createElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
+    override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
+        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
         super.setCandidate(super.createTokenEntity)
 
-        return wfTokenDto
+        return createTokenDto
     }
 
-    override fun createNextElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(wfTokenDto.elementType)
-            .createToken(wfTokenDto)
+    override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
+        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(createNextTokenDto.elementType)
+            .createToken(createNextTokenDto)
     }
 
-    override fun completeElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        return wfTokenDto
+    override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
+        return completedToken
     }
 }

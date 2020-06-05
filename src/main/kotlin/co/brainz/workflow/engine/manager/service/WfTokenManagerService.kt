@@ -41,9 +41,6 @@ class WfTokenManagerService(
 
     /**
      * Get element entity.
-     *
-     * @param elementId
-     * @return WfElementEntity
      */
     fun getElement(elementId: String): WfElementEntity {
         return wfElementRepository.findWfElementEntityByElementId(elementId)
@@ -51,10 +48,6 @@ class WfTokenManagerService(
 
     /**
      * Get component value(split[0]).
-     *
-     * @param tokenId
-     * @param mappingId
-     * @return String
      */
     fun getComponentValue(tokenId: String, mappingId: String): String {
         return wfTokenDataRepository.findByTokenIdAndComponentId(tokenId, mappingId).value.split("|")[0]
@@ -62,9 +55,6 @@ class WfTokenManagerService(
 
     /**
      * Save all candidate.
-     *
-     * @param candidateEntities
-     * @return List<WfCandidateEntity>
      */
     fun saveAllCandidate(candidateEntities: MutableList<WfCandidateEntity>): List<WfCandidateEntity> {
         return wfCandidateRepository.saveAll(candidateEntities)
@@ -72,9 +62,6 @@ class WfTokenManagerService(
 
     /**
      * Create instance.
-     *
-     * @param wfTokenDto
-     * @return WfInstanceEntity
      */
     fun createInstance(wfTokenDto: WfTokenDto): WfInstanceEntity {
         return wfInstanceService.createInstance(wfTokenDto)
@@ -82,8 +69,6 @@ class WfTokenManagerService(
 
     /**
      * Complete instance.
-     *
-     * @param instanceId
      */
     fun completeInstance(instanceId: String) {
         return wfInstanceService.completeInstance(instanceId)
@@ -91,9 +76,6 @@ class WfTokenManagerService(
 
     /**
      * Get start element.
-     *
-     * @param processId
-     * @return WfElementEntity
      */
     fun getStartElement(processId: String): WfElementEntity {
         return wfElementService.getStartElement(processId)
@@ -101,9 +83,6 @@ class WfTokenManagerService(
 
     /**
      * Get next element.
-     *
-     * @param wfTokenDto
-     * @return WfElementEntity
      */
     fun getNextElement(wfTokenDto: WfTokenDto): WfElementEntity {
         return wfElementService.getNextElement(wfTokenDto)
@@ -111,9 +90,6 @@ class WfTokenManagerService(
 
     /**
      * Get token.
-     *
-     * @param tokenId
-     * @return WfTokenEntity
      */
     fun getToken(tokenId: String): WfTokenEntity {
         return wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
@@ -121,9 +97,6 @@ class WfTokenManagerService(
 
     /**
      * Save token.
-     *
-     * @param tokenEntity
-     * @return WfTokenEntity
      */
     fun saveToken(tokenEntity: WfTokenEntity): WfTokenEntity {
         return wfTokenRepository.save(tokenEntity)
@@ -131,9 +104,6 @@ class WfTokenManagerService(
 
     /**
      * Save all token data.
-     *
-     * @param tokenDataEntities
-     * @return MutableList<WfTokenDataEntity>
      */
     fun saveAllTokenData(tokenDataEntities: MutableList<WfTokenDataEntity>): MutableList<WfTokenDataEntity> {
         return wfTokenDataRepository.saveAll(tokenDataEntities)
@@ -141,9 +111,6 @@ class WfTokenManagerService(
 
     /**
      * Make token entity.
-     *
-     * @param wfTokenDto
-     * @return WfTokenEntity
      */
     fun makeTokenEntity(wfTokenDto: WfTokenDto): WfTokenEntity {
         return WfTokenEntity(
@@ -157,9 +124,6 @@ class WfTokenManagerService(
 
     /**
      * Save Notification.
-     *
-     * @param token
-     * @param candidates
      */
     fun saveNotification(token: WfTokenEntity, candidates: List<WfCandidateEntity>? = null) {
         if (token.element.notification) {
@@ -197,10 +161,7 @@ class WfTokenManagerService(
 
     /**
      * Make mapping tokenDto.
-     *
-     * @param token
-     * @param documentId
-     * @return List<WfTokenDto>
+     * - MappingId가 존재하는 토큰데이터를 조회하여 TokenDto를 생성
      */
     fun makeMappingTokenDto(token: WfTokenEntity, documentId: List<String>): List<WfTokenDto> {
         val keyPairMappingIdAndTokenData = this.getTokenDataByMappingId(token)
@@ -230,10 +191,7 @@ class WfTokenManagerService(
 
     /**
      * Make subProcess tokenDataDto.
-     *
-     * @param subProcessToken
-     * @param mainProcessToken
-     * @return List<WfTokenDataDto>
+     *  - SubProcess로 전달할 데이터 중에서 MappingId가 양쪽 문서에 연결된 데이터만 추출하여 Dto 생성
      */
     fun makeSubProcessTokenDataDto(
         subProcessToken: WfTokenEntity,
@@ -267,9 +225,8 @@ class WfTokenManagerService(
 
     /**
      * Get tokenData by mappingId.
-     *
-     * @param token
-     * @return MutableMap<String, String>
+     *  - 토큰에 포함된 컴포넌트 중 mappingId 값이 존재하는 목록을 조회한 후 Map으로 저장 (key: componentId, value: mappingId)
+     *  - 토큰 데이터 중 위의 컴포넌트 목록에 포함된 데이터를 Map형태로 저장 (key: mappingId, value: tokenData value)
      */
     private fun getTokenDataByMappingId(token: WfTokenEntity): MutableMap<String, String> {
         val component = token.instance.document.form.components?.filter {
