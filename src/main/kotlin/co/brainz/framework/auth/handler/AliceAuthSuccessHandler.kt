@@ -16,7 +16,7 @@ import org.springframework.web.servlet.LocaleResolver
  * 로그인 요청 인증 성공 처리 클래스
  *
  * 부가적인 정보를 추가적으로 담는다.
- * 로그인 성공시 default url ("/") 로 리다이렉트한다.
+ * 로그인 성공시 "/login"으로 리다이렉트한다.
  */
 @Component
 class AliceAuthSuccessHandler(
@@ -57,7 +57,7 @@ class AliceAuthSuccessHandler(
                     session.removeAttribute("redirectUrl")
                     redirectStrategy.sendRedirect(request, response, redirectUrl.toString())
                 } else {
-                    super.onAuthenticationSuccess(request, response, authentication)
+                    redirectStrategy.sendRedirect(request, response, "/login")
                 }
             }
         }
