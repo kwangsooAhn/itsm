@@ -2,34 +2,29 @@ package co.brainz.workflow.engine.manager.impl
 
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
+import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 class WfUserTaskTokenManager(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
 
-    override fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val tokenDto = super.createToken(wfTokenDto)
-        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(tokenDto))
+    override fun createElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
+        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
         super.setCandidate(super.createTokenEntity)
 
-        return tokenDto
+        return wfTokenDto
     }
 
-    override fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
-        token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-        token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
-        wfTokenManagerService.saveToken(token)
-        if (!token.instance.pTokenId.isNullOrEmpty()) {
-            wfTokenDto.parentTokenId = token.instance.pTokenId
-        }
-        token.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
-        token.assigneeId = wfTokenDto.assigneeId
-        wfTokenManagerService.saveToken(token)
+    override fun createNextElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
+        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(wfTokenDto.elementType)
+            .createToken(wfTokenDto)
+    }
+
+    override fun completeElementToken(wfTokenDto: WfTokenDto): WfTokenDto {
+        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(wfTokenDto))
+        super.createTokenEntity.assigneeId = wfTokenDto.assigneeId
+        wfTokenManagerService.saveToken(super.createTokenEntity)
 
         return wfTokenDto
     }

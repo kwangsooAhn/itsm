@@ -20,58 +20,55 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
 
     /**
      * Create token.
-     *
-     * @param wfTokenDto
-     * @return WfTokenDto
      */
-    open fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
+    fun createToken(wfTokenDto: WfTokenDto): WfTokenDto {
         this.assigneeId = wfTokenDto.assigneeId.toString()
         val token = wfTokenManagerService.makeTokenEntity(wfTokenDto)
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
         wfTokenDto.tokenId = this.createTokenEntity.tokenId
         wfTokenDto.elementId = this.createTokenEntity.element.elementId
         wfTokenDto.elementType = this.createTokenEntity.element.elementType
-        return wfTokenDto
+        return this.createElementToken(wfTokenDto)
     }
+
+    abstract fun createElementToken(wfTokenDto: WfTokenDto): WfTokenDto
 
     /**
      * Create next token.
-     *
-     * @param wfTokenDto
-     * @return WfTokenDto
      */
-    open fun createNextToken(wfTokenDto: WfTokenDto): WfTokenDto {
-        val element = wfTokenManagerService.getNextElement(wfTokenDto)
-        wfTokenDto.elementId = element.elementId
-        wfTokenDto.elementType = element.elementType
-        wfTokenDto.isAutoComplete = when (element.elementType) {
-            WfElementConstants.ElementType.COMMON_END_EVENT.value,
-            WfElementConstants.ElementType.MANUAL_TASK.value,
-            WfElementConstants.ElementType.SIGNAL_SEND.value,
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> true
-            else -> false
+    fun createNextToken(wfTokenDto: WfTokenDto): WfTokenDto {
+        when (wfTokenDto.elementType) {
+            WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
+                wfTokenDto.isAutoComplete = this.setAutoComplete(wfTokenDto.elementType)
+            }
+            else -> {
+                val element = wfTokenManagerService.getNextElement(wfTokenDto)
+                wfTokenDto.elementId = element.elementId
+                wfTokenDto.elementType = element.elementType
+                wfTokenDto.isAutoComplete = this.setAutoComplete(wfTokenDto.elementType)
+            }
         }
-        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(wfTokenDto.elementType)
-        return tokenManager.createToken(wfTokenDto)
+        return this.createNextElementToken(wfTokenDto)
     }
+
+    abstract fun createNextElementToken(wfTokenDto: WfTokenDto): WfTokenDto
 
     /**
      * Complete token.
-     *
-     * @param wfTokenDto
-     * @return WfTokenDto
      */
-    open fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
+    fun completeToken(wfTokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.getToken(wfTokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
-        wfTokenManagerService.saveToken(token)
+        this.createTokenEntity = wfTokenManagerService.saveToken(token)
         wfTokenDto.tokenId = token.tokenId
         if (!token.instance.pTokenId.isNullOrEmpty()) {
             wfTokenDto.parentTokenId = token.instance.pTokenId
         }
-        return wfTokenDto
+        return this.completeElementToken(wfTokenDto)
     }
+
+    abstract fun completeElementToken(wfTokenDto: WfTokenDto): WfTokenDto
 
     /**
      * Set Assignee + Candidate.
@@ -152,6 +149,19 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             assignee = wfTokenManagerService.getComponentValue(token.tokenId, componentMappingId)
         }
         return assignee
+    }
+
+    /**
+     * Set autoComplete by elementType.
+     */
+    private fun setAutoComplete(elementType: String): Boolean {
+        return when (elementType) {
+            WfElementConstants.ElementType.COMMON_END_EVENT.value,
+            WfElementConstants.ElementType.MANUAL_TASK.value,
+            WfElementConstants.ElementType.SIGNAL_SEND.value,
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> true
+            else -> false
+        }
     }
 
     /**
