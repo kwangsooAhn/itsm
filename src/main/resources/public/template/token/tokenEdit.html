@@ -131,7 +131,7 @@
         let tagInput = document.querySelector('input[name=tags]');
         new Tagify(tagInput, {
             pattern         : /^.{0,100}$/,
-            editTags        : 2,
+            editTags        : false,
             callbacks       : { 'add'    : onAddTag,
                                 'remove' : onRemoveTag },
             placeholder     : '[[#{common.msg.tag}]]'
