@@ -14,7 +14,11 @@ interface WfFormMapper {
         Mapping(source = "formId", target = "id"),
         Mapping(source = "formName", target = "name"),
         Mapping(source = "formDesc", target = "desc"),
-        Mapping(source = "formStatus", target = "status")
+        Mapping(source = "formStatus", target = "status"),
+        Mapping(source = "createUser.userKey", target = "createUserKey"),
+        Mapping(source = "createUser.userName", target = "createUserName"),
+        Mapping(source = "updateUser.userKey", target = "updateUserKey"),
+        Mapping(source = "updateUser.userName", target = "updateUserName")
     )
     fun toFormViewDto(wfFormEntity: WfFormEntity): RestTemplateFormDto
 }

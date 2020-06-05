@@ -55,7 +55,13 @@ class WfEngine(
      * Form Engine.
      */
     fun form(): WfFormService {
-        return WfFormService(wfFormRepository, wfComponentRepository, wfComponentDataRepository, wfDocumentRepository)
+        return WfFormService(
+            wfFormRepository,
+            wfComponentRepository,
+            wfComponentDataRepository,
+            wfDocumentRepository,
+            aliceUserRepository
+        )
     }
 
     /**
@@ -69,7 +75,7 @@ class WfEngine(
      * Process Engine.
      */
     fun process(): WfProcessService {
-        return WfProcessService(wfProcessRepository, wfProcessSimulator)
+        return WfProcessService(wfProcessRepository, wfProcessSimulator, aliceUserRepository)
     }
 
     /**
