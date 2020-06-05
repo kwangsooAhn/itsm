@@ -10187,6 +10187,30 @@ body {
   height: calc(100vh - 2.5rem - 22.5rem - 1.875rem);
   overflow: auto;
 }
+.alice-process-properties-panel div.properties-container div.element-properties fieldset {
+  border: 0.063rem solid #7f8286;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  margin-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties fieldset legend {
+  width: 6.25rem;
+  height: 1.875rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties fieldset legend input {
+  margin: 0 0.3125rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties fieldset legend label {
+  font-size: 0.813rem;
+  font-weight: bold;
+}
+.alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties {
+  padding-left: 0 !important;
+}
+.alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties label {
+  width: 4.375rem;
+}
 .alice-process-properties-panel div.properties-container div.element-properties div.properties {
   display: flex;
   flex-wrap: wrap;
@@ -10205,7 +10229,6 @@ body {
   color: #ff0000;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties-container div.element-properties div.properties select, .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea {
-  width: 11.25rem;
   height: 1.563rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:read-only {
@@ -10363,7 +10386,6 @@ body {
 }
 .alice-process-properties-panel div.process-info-container div.minimap .element .annotation {
   fill-opacity: 0;
-  stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
 }
 .alice-process-properties-panel div.process-info-container div.minimap .element text {
   fill: #000000;

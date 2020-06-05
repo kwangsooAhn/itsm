@@ -11,7 +11,7 @@ interface WfComponentDataRepository : JpaRepository<WfComponentDataEntity, Strin
         "SELECT cd FROM WfComponentDataEntity cd " +
                 "WHERE cd.componentId = :componentId AND cd.attributeId = :attributeId"
     )
-    fun findComponentDataByComponentId(componentId: String, attributeId: String): List<WfComponentDataEntity>
+    fun findByComponentIdAndAttributeId(componentId: String, attributeId: String): List<WfComponentDataEntity>
 
     /**
      * 커스텀 코드 타입의 display 데이터 정보를 리턴.
@@ -21,4 +21,9 @@ interface WfComponentDataRepository : JpaRepository<WfComponentDataEntity, Strin
                 "ON c.componentType = :componentType AND c.componentId = cd.componentId AND cd.attributeId = :attributeId"
     )
     fun findAllByComponentTypeAndAttributeId(componentType: Any, attributeId: Any): List<WfComponentDataEntity>
+
+    @Query(
+        "SELECT c FROM WfComponentDataEntity c WHERE c.componentId = :componentId"
+    )
+    fun findByComponentId(componentId: String): List<WfComponentDataEntity>
 }
