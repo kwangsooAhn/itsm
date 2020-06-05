@@ -14,9 +14,9 @@ import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.element.service.WfElementService
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
-import co.brainz.workflow.form.mapper.WfFormMapper
 import co.brainz.workflow.form.repository.WfFormRepository
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.instance.repository.WfInstanceRepository
@@ -28,7 +28,6 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -100,7 +99,7 @@ class WfDocumentService(
 
         val form = wfFormService.getFormComponentList(documentEntity.form.formId)
         val dummyTokenDto =
-            RestTemplateTokenDto(elementId = wfElementService.getStartElement(documentEntity.process.processId).elementId)
+            WfTokenDto(elementId = wfElementService.getStartElement(documentEntity.process.processId).elementId)
         val firstElement = wfElementService.getNextElement(dummyTokenDto)
         val documentDisplayList =
             wfDocumentDisplayRepository.findByDocumentIdAndElementId(documentId, firstElement.elementId)

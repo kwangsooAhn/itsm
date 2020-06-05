@@ -2,6 +2,7 @@ package co.brainz.workflow.component.service
 
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.workflow.component.repository.WfComponentDataRepository
+import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentDataDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class WfComponentService(
+    private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository
 ) {
 
