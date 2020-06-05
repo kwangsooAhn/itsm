@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2019-07-08 18:13:53</creation_date>
-			<updated_date>2020-06-05 11:00:18</updated_date>
+			<updated_date>2020-06-05 11:01:12</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
@@ -3867,8 +3867,8 @@
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
 			</connections>
-			<physical_name>NEW_TABLE</physical_name>
-			<logical_name>새 테이블</logical_name>
+			<physical_name>wf_tag_data</physical_name>
+			<logical_name>태그세부설정</logical_name>
 			<description></description>
 			<constraint></constraint>
 			<primary_key_name></primary_key_name>
