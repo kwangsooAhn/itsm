@@ -29,7 +29,6 @@ class WfTagRepositoryImpl : QuerydslRepositorySupport(WfTagEntity::class.java),
 			.innerJoin(tagData).on(tag.tagId.eq(tagData.tagId))
 			.fetchJoin()
             .leftJoin(instance).on(tag.instance.eq(instance))
-            .orderBy(tag.tagId.desc())
             .where(tag.instance.instanceId.eq(instanceId))
             .fetch()
 	}

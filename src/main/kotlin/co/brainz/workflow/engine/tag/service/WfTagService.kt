@@ -11,41 +11,41 @@ import org.springframework.stereotype.Service
 
 @Service
 class WfTagService(
-    private val wfTagRepository: WfTagRepository,
-    private val wfTagDataRepository: WfTagDataRepository,
-    private val wfInstanceRepository: WfInstanceRepository
+	private val wfTagRepository: WfTagRepository,
+	private val wfTagDataRepository: WfTagDataRepository,
+	private val wfInstanceRepository: WfInstanceRepository
 ) {
 
-    /**
-     * Get Instance Tags.
-     */
-    fun getInstanceTags(instanceId: String): List<RestTemplateTagViewDto> {
-        return wfTagRepository.findByInstanceId(instanceId)
-    }
+	/**
+	 * Get Instance Tags.
+	 */
+	fun getInstanceTags(instanceId: String): List<RestTemplateTagViewDto> {
+		return wfTagRepository.findByInstanceId(instanceId)
+	}
 
-    /**
-     * Insert Tag.
-     */
-    fun insertTag(restTemplateTagDto: RestTemplateTagDto): Boolean {
-        val wfTagEntity = WfTagEntity(
-            tagId = ""
-        )
-        wfTagEntity.instance =
-            restTemplateTagDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
-        val dataEntity = wfTagRepository.save(wfTagEntity)
-        val wfTagDataEntity = WfTagDataEntity(
-            tagId = dataEntity.tagId,
-            tagContent = restTemplateTagDto.tagContent
-        )
-        wfTagDataRepository.save(wfTagDataEntity)
-        return true
-    }
+	/**
+	 * Insert Tag.
+	 */
+	fun insertTag(restTemplateTagDto: RestTemplateTagDto): Boolean {
+		val wfTagEntity = WfTagEntity(
+			tagId = ""
+		)
+		wfTagEntity.instance =
+			restTemplateTagDto.instanceId.let { wfInstanceRepository.findByInstanceId(it) }
+		val dataEntity = wfTagRepository.save(wfTagEntity)
+		val wfTagDataEntity = WfTagDataEntity(
+			tagId = dataEntity.tagId,
+			tagContent = restTemplateTagDto.tagContent
+		)
+		wfTagDataRepository.save(wfTagDataEntity)
+		return true
+	}
 
-    /**
-     * Delete Tag.
-     */
-    fun deleteTag(tagId: String): Boolean {
-        wfTagRepository.deleteById(tagId)
-        return true
-    }
+	/**
+	 * Delete Tag.
+	 */
+	fun deleteTag(tagId: String): Boolean {
+		wfTagRepository.deleteById(tagId)
+		return true
+	}
 }

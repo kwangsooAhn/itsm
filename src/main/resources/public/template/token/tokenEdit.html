@@ -126,35 +126,31 @@
         /*<![CDATA[*/
         window.onload = function() {
             aliceForm.initSync(aliceDocument.initToken, '[[${tokenId}]]');
-
-            let tagInput = document.querySelector('input[name=tags]');
-            const TagList = '[[${#strings.toString(tagList)}]]'.replace(/&quot;/g, '\"');
-            new Tagify(tagInput, {
-                pattern         : /^.{0,100}$/,
-                callbacks       : { 'add'    : onAddTag,
-                                    'remove' : onRemoveTag },
-                whitelist       : TagList,
-                placeholder     : '[[#{common.msg.tag}]]'
-            });
-
-
-            function onAddTag(e) {
-                const jsonData = {
-                    tagContent: e.detail.data.value,
-                    instanceId: '[[${instanceId}]]'
-                };
-                restSubmit('POST', '/rest/tags', function () {
-                    console.log('success!!');
-                }, jsonData, false);
-            }
-
-            function onRemoveTag(e) {
-                restSubmit('DELETE', '/rest/tags/' + e.detail.data.id, function () {
-                    console.log('success!!');
-                });
-            }
-
         };
+
+        let tagInput = document.querySelector('input[name=tags]');
+        new Tagify(tagInput, {
+            pattern         : /^.{0,100}$/,
+            callbacks       : { 'add'    : onAddTag,
+                                'remove' : onRemoveTag },
+            placeholder     : '[[#{common.msg.tag}]]'
+        });
+
+        function onAddTag(tag) {
+            const jsonData = {
+                tagContent: tag.detail.data.value,
+                instanceId: '[[${instanceId}]]'
+            };
+            restSubmit('POST', '/rest/tags', function () {
+                location.reload();
+            }, jsonData, false);
+        }
+
+        function onRemoveTag(tag) {
+            restSubmit('DELETE', '/rest/tags/' + tag.detail.data.id, function () {
+                location.reload();
+            });
+        }
 
         function openPopUp(tokenId) {
             window.open('/tokens/' + tokenId + '/view-pop', tokenId, 'width=1300, height=500');
