@@ -1460,7 +1460,7 @@
                                   textElementHeight = textBbox.height + 20;
                             let strokeDashArray = '6,6,6,6,6,' + textElementHeight + ',6,6,6,6,6';
                             for (let i = 0, len = Math.trunc(textElementHeight / 12); i < len; i++) {
-                                strokeDashArray += ',6,6'
+                                strokeDashArray += ',6,6';
                             }
                             d3.select(elementNode)
                                 .attr('height', textElementHeight)
