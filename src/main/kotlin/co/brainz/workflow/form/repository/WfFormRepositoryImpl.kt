@@ -27,11 +27,9 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
                 .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.DESTROY.value)).then(4)
                 .otherwise(5)
             query.orderBy(statusNumber.asc())
-                .orderBy(form.updateDt.desc())
-                .orderBy(form.createDt.desc())
+                .orderBy(form.updateDt.coalesce(form.createDt).desc())
         }
 
         return query.fetch()
     }
 }
-

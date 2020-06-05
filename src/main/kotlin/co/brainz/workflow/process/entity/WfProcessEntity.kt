@@ -1,5 +1,6 @@
 package co.brainz.workflow.process.entity
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import java.io.Serializable
@@ -12,6 +13,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
 import javax.persistence.Table
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import org.hibernate.annotations.GenericGenerator
 
 /**
@@ -37,14 +40,16 @@ data class WfProcessEntity(
     @Column(name = "create_dt")
     var createDt: LocalDateTime? = null,
 
-    @Column(name = "create_user_key", length = 128)
-    var createUserKey: String? = null,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key")
+    var createUser: AliceUserEntity? = null,
 
     @Column(name = "update_dt")
     var updateDt: LocalDateTime? = null,
 
-    @Column(name = "update_user_key", length = 128)
-    var updateUserKey: String? = null
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
+    var updateUser: AliceUserEntity? = null
 
 ) : Serializable {
 

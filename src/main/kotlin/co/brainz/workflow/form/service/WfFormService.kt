@@ -1,5 +1,6 @@
 package co.brainz.workflow.form.service
 
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.workflow.component.entity.WfComponentDataEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentDataRepository
@@ -26,7 +27,8 @@ class WfFormService(
     private val wfFormRepository: WfFormRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val aliceUserRepository: AliceUserRepository
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(
@@ -70,7 +72,7 @@ class WfFormService(
             formDesc = restTemplateFormDto.desc,
             formStatus = restTemplateFormDto.status,
             createDt = restTemplateFormDto.createDt,
-            createUserKey = restTemplateFormDto.createUserKey
+            createUser = restTemplateFormDto.createUserKey?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
         )
         val dataEntity = wfFormRepository.save(formEntity)
 
@@ -80,7 +82,7 @@ class WfFormService(
             status = dataEntity.formStatus,
             desc = dataEntity.formDesc,
             editable = true,
-            createUserKey = dataEntity.createUserKey,
+            createUserKey = dataEntity.createUser?.userKey,
             createDt = dataEntity.createDt
         )
     }
@@ -148,7 +150,7 @@ class WfFormService(
 
             for (componentDataEntity in componentDataEntityList) {
                 val jsonElement = JsonParser().parse(componentDataEntity.attributeValue)
-                var attributeValue = LinkedHashMap<String, Any>()
+                val attributeValue = LinkedHashMap<String, Any>()
 
                 when (jsonElement.isJsonArray) {
                     true -> attributeValue["value"] = mapper.readValue(
@@ -175,9 +177,9 @@ class WfFormService(
             status = formEntity.get().formStatus,
             desc = formEntity.get().formDesc,
             updateDt = formEntity.get().updateDt,
-            updateUserKey = formEntity.get().updateUserKey,
+            updateUserKey = formEntity.get().updateUser?.userKey,
             createDt = formEntity.get().createDt,
-            createUserKey = formEntity.get().createUserKey,
+            createUserKey = formEntity.get().createUser?.userKey,
             components = components
         )
     }
@@ -226,7 +228,9 @@ class WfFormService(
         formEntity.get().formDesc = restTemplateFormDto.desc
         formEntity.get().formStatus = restTemplateFormDto.status
         formEntity.get().updateDt = restTemplateFormDto.updateDt
-        formEntity.get().updateUserKey = restTemplateFormDto.updateUserKey
+        formEntity.get().updateUser = restTemplateFormDto.updateUserKey?.let {
+            aliceUserRepository.findAliceUserEntityByUserKey(it)
+        }
         wfFormRepository.save(formEntity.get())
         return true
     }
@@ -257,7 +261,9 @@ class WfFormService(
             wfFormData.get().formDesc = restTemplateFormComponentListDto.desc
             wfFormData.get().formStatus = restTemplateFormComponentListDto.status
             wfFormData.get().updateDt = restTemplateFormComponentListDto.updateDt
-            wfFormData.get().updateUserKey = restTemplateFormComponentListDto.updateUserKey
+            wfFormData.get().updateUser = restTemplateFormComponentListDto.updateUserKey?.let {
+                aliceUserRepository.findAliceUserEntityByUserKey(it)
+            }
             val resultFormEntity = wfFormRepository.save(wfFormData.get())
 
             // Insert component, attribute
@@ -265,16 +271,14 @@ class WfFormService(
             for (component in restTemplateFormComponentListDto.components) {
                 var mappingId = ""
                 var isTopic = false
-                if (component.dataAttribute != null) {
-                    val common: java.util.LinkedHashMap<*, *>? =
-                        mapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
-                    if (common != null) {
-                        if (common.containsKey("mappingId")) {
-                            mappingId = common["mappingId"] as String
-                        }
-                        if (common.containsKey("isTopic")) {
-                            isTopic = common["isTopic"] as Boolean
-                        }
+                val common: java.util.LinkedHashMap<*, *>? =
+                    mapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
+                if (common != null) {
+                    if (common.containsKey("mappingId")) {
+                        mappingId = common["mappingId"] as String
+                    }
+                    if (common.containsKey("isTopic")) {
+                        isTopic = common["isTopic"] as Boolean
                     }
                 }
                 val componentEntity = WfComponentEntity(

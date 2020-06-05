@@ -1,6 +1,7 @@
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormService
+import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
-import javax.servlet.http.HttpServletRequest
 
 /**
  * ### 폼(문서양식) 관련 화면 호출 처리용 클래스.
@@ -93,5 +93,4 @@ class FormController(private val formService: FormService) {
         model.addAttribute("data", formService.getFormImageList())
         return imageUploadPopupPage
     }
-
 }
