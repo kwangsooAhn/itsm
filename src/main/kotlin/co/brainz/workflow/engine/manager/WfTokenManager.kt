@@ -81,6 +81,28 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     abstract fun completeElementToken(completedToken: WfTokenDto): WfTokenDto
 
     /**
+     * Action - Save.
+     */
+    fun actionSave(tokenDto: WfTokenDto) {
+        // Save Token & Token Data
+        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
+        token.assigneeId = tokenDto.assigneeId
+        val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
+        for (tokenDataDto in tokenDto.data!!) {
+            val tokenDataEntity = WfTokenDataEntity(
+                tokenId = tokenDto.tokenId,
+                componentId = tokenDataDto.componentId,
+                value = tokenDataDto.value
+            )
+            tokenDataEntities.add(tokenDataEntity)
+        }
+        if (tokenDataEntities.isNotEmpty()) {
+            wfTokenManagerService.saveAllTokenData(tokenDataEntities)
+        }
+        wfTokenManagerService.saveToken(token)
+    }
+
+    /**
      * Set Assignee + Candidate.
      */
     fun setCandidate(token: WfTokenEntity) {
@@ -137,38 +159,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     }
 
     /**
-     * Get Assignee.
-     */
-    private fun getAssignee(element: WfElementEntity, token: WfTokenEntity): String {
-        val assigneeMappingId =
-            this.getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
-        var componentMappingId = ""
-        token.instance.document.form.components?.forEach { component ->
-            if (component.mappingId.isNotEmpty() && component.mappingId == assigneeMappingId) {
-                componentMappingId = component.componentId
-            }
-        }
-        var assignee = ""
-        if (componentMappingId.isNotEmpty()) {
-            assignee = wfTokenManagerService.getComponentValue(token.tokenId, componentMappingId)
-        }
-        return assignee
-    }
-
-    /**
-     * Set autoComplete by elementType.
-     */
-    private fun setAutoComplete(elementType: String): Boolean {
-        return when (elementType) {
-            WfElementConstants.ElementType.COMMON_END_EVENT.value,
-            WfElementConstants.ElementType.MANUAL_TASK.value,
-            WfElementConstants.ElementType.SIGNAL_SEND.value,
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> true
-            else -> false
-        }
-    }
-
-    /**
      * Set Token Data.
      */
     fun setTokenData(tokenDto: WfTokenDto): MutableList<WfTokenDataEntity> {
@@ -203,6 +193,25 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     }
 
     /**
+     * Get Assignee.
+     */
+    private fun getAssignee(element: WfElementEntity, token: WfTokenEntity): String {
+        val assigneeMappingId =
+            this.getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
+        var componentMappingId = ""
+        token.instance.document.form.components?.forEach { component ->
+            if (component.mappingId.isNotEmpty() && component.mappingId == assigneeMappingId) {
+                componentMappingId = component.componentId
+            }
+        }
+        var assignee = ""
+        if (componentMappingId.isNotEmpty()) {
+            assignee = wfTokenManagerService.getComponentValue(token.tokenId, componentMappingId)
+        }
+        return assignee
+    }
+
+    /**
      * Get AttributeValues.
      */
     private fun getAttributeValues(
@@ -216,5 +225,18 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             }
         }
         return attributeValues
+    }
+
+    /**
+     * Set autoComplete by elementType.
+     */
+    private fun setAutoComplete(elementType: String): Boolean {
+        return when (elementType) {
+            WfElementConstants.ElementType.COMMON_END_EVENT.value,
+            WfElementConstants.ElementType.MANUAL_TASK.value,
+            WfElementConstants.ElementType.SIGNAL_SEND.value,
+            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> true
+            else -> false
+        }
     }
 }

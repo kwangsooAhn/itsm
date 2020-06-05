@@ -7,7 +7,6 @@ import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.token.entity.WfTokenDataEntity
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -42,7 +41,8 @@ class WfEngine(
         logger.debug("Process Token")
         var progressTokenDto = tokenDto.copy()
         when (tokenDto.action) {
-            WfElementConstants.Action.SAVE.value -> this.actionSave(tokenDto)
+            WfElementConstants.Action.SAVE.value ->
+                this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionSave(progressTokenDto)
             else -> {
                 do {
                     progressTokenDto = this.initTokenDto(progressTokenDto)
@@ -54,28 +54,6 @@ class WfEngine(
         }
 
         return true
-    }
-
-    /**
-     * Action - Save.
-     */
-    private fun actionSave(tokenDto: WfTokenDto) {
-        // Save Token & Token Data
-        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
-        token.assigneeId = tokenDto.assigneeId
-        val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        for (tokenDataDto in tokenDto.data!!) {
-            val tokenDataEntity = WfTokenDataEntity(
-                tokenId = tokenDto.tokenId,
-                componentId = tokenDataDto.componentId,
-                value = tokenDataDto.value
-            )
-            tokenDataEntities.add(tokenDataEntity)
-        }
-        if (tokenDataEntities.isNotEmpty()) {
-            wfTokenManagerService.saveAllTokenData(tokenDataEntities)
-        }
-        wfTokenManagerService.saveToken(token)
     }
 
     /**
