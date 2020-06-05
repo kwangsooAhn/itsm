@@ -11,13 +11,17 @@ import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSim
 class WfProcessSimulationArrow(private val wfElementRepository: WfElementRepository) : WfProcessSimulationElement() {
 
     override fun validate(element: WfElementEntity): Boolean {
-        // sourceElement가 gatewary일 때는 connector의 condition 값이 있어야 한다.
+
         val sourceElementId = element.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+        val sourceElement = wfElementRepository.getOne(sourceElementId!!)
+        val isGateway = WfElementConstants.ElementType.getAtomic(sourceElement.elementType) == WfElementConstants.ElementType.GATEWAY
+        val arrowConnectorSizeGreaterThanOne =
+            wfElementRepository.findAllArrowConnectorElement(sourceElement.elementId).size > 1
         val emptyCondition =
             element.getElementDataValue(WfElementConstants.AttributeId.CONDITION_VALUE.value)?.isBlank() ?: true
-        val sourceElement = wfElementRepository.getOne(sourceElementId!!)
 
-        if (WfElementConstants.ElementType.getAtomic(sourceElement.elementType) == WfElementConstants.ElementType.GATEWAY && emptyCondition) {
+        // sourceElement가 gateWay 일 때는 connector의 개수가 2개 이상이면 condition 값이 있어야 한다.
+        if (isGateway && arrowConnectorSizeGreaterThanOne && emptyCondition) {
             setFailedMessage("connector condition value is empty.")
             return false
         }
