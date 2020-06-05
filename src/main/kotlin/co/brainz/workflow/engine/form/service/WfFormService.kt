@@ -270,16 +270,14 @@ class WfFormService(
             for (component in restTemplateFormComponentListDto.components) {
                 var mappingId = ""
                 var isTopic = false
-                if (component.dataAttribute != null) {
-                    val common: java.util.LinkedHashMap<*, *>? =
-                        mapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
-                    if (common != null) {
-                        if (common.containsKey("mappingId")) {
-                            mappingId = common["mappingId"] as String
-                        }
-                        if (common.containsKey("isTopic")) {
-                            isTopic = common["isTopic"] as Boolean
-                        }
+                val common: java.util.LinkedHashMap<*, *>? =
+                    mapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
+                if (common != null) {
+                    if (common.containsKey("mappingId")) {
+                        mappingId = common["mappingId"] as String
+                    }
+                    if (common.containsKey("isTopic")) {
+                        isTopic = common["isTopic"] as Boolean
                     }
                 }
                 val componentEntity = WfComponentEntity(
