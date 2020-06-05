@@ -7,6 +7,7 @@
     <title>역할 정보</title>
 </head>
 <body>
+<p th:text="${#temporals.formatISO(timestamp)}"></p>
 <th:block layout:fragment="content">
     <table>
         <tr>
@@ -64,7 +65,7 @@
         </tr>
         <tr>
             <th th:text="#{common.label.createDate}"></th>
-            <td><span id="spanCreateDt" name="spanCreateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(roleDetail?.createDt,dateformat)}"></span></td>
+            <td><span id="spanCreateDt" name="spanCreateDt"></span></td>
         </tr>
         <tr>
             <th th:text="#{common.label.updateUserName}"></th>
@@ -72,7 +73,7 @@
         </tr>
         <tr>
             <th th:text="#{common.label.updateDate}"></th>
-            <td><span id="spanUpdateDt" name="spanUpdateDt" th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(roleDetail?.updateDt,dateformat)}"></span></td>
+            <td><span id="spanUpdateDt" name="spanUpdateDt"></span></td>
         </tr>
         <tr>
             <th th:text="#{role.label.referenceCount}"></th>
@@ -170,9 +171,9 @@
                             }
                         });
                         document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserName;
-                        document.getElementById('spanCreateDt').innerHTML = responseJson.createDt;
+                        document.getElementById('spanCreateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.createDt, /*[[${#authentication.details.timeFormat}]]*/);
                         document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserName;
-                        document.getElementById('spanUpdateDt').innerHTML = responseJson.updateDt;
+                        document.getElementById('spanUpdateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.updateDt, /*[[${#authentication.details.timeFormat}]]*/);
                         document.getElementById('txtRoleId').setAttribute('readonly','true');
                         document.getElementById('userRoleMapCount').innerHTML = responseJson.userRoleMapCount;
                         disabledButton(responseJson.userRoleMapCount);
