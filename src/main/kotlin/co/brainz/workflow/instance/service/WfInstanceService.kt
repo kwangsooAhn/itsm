@@ -166,7 +166,7 @@ class WfInstanceService(
      * Instance Create.
      */
     fun createInstance(wfTokenDto: WfTokenDto): WfInstanceEntity {
-        val document = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId)
+        val document = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId!!)
         val documentNo = aliceNumberingService.getNewNumbering(document.numberingRule.numberingId)
         val user = wfTokenDto.assigneeId?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
         val instanceEntity = WfInstanceEntity(

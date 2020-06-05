@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class WfTokenDto(
     var tokenId: String = "",
-    var documentId: String = "",
+    var documentId: String? = null,
     var documentName: String? = null,
     var instanceId: String = "",
     var isAutoComplete: Boolean = false,
