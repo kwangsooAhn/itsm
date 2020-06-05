@@ -7,7 +7,7 @@ import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 
-class WfSignalSendTokenManager(
+class WfSignalSend(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
 

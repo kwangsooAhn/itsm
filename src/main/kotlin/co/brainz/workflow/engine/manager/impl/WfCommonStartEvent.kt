@@ -5,7 +5,7 @@ import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 
-class WfCommonStartEventTokenManager(
+class WfCommonStartEvent(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {

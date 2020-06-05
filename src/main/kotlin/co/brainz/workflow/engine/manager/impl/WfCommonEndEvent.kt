@@ -8,7 +8,7 @@ import co.brainz.workflow.token.constants.WfTokenConstants
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-class WfCommonEndEventTokenManager(
+class WfCommonEndEvent(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {

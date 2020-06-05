@@ -1,11 +1,11 @@
 package co.brainz.workflow.engine.manager.impl
 
-import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 
-class WfUserTaskTokenManager(
+class WfExclusiveGateway(
     wfTokenManagerService: WfTokenManagerService
 ) : WfTokenManager(wfTokenManagerService) {
 
@@ -22,10 +22,6 @@ class WfUserTaskTokenManager(
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
-        super.createTokenEntity.assigneeId = completedToken.assigneeId
-        wfTokenManagerService.saveToken(super.createTokenEntity)
-
         return completedToken
     }
 }
