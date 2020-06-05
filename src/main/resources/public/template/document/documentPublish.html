@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="form/formCore">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="form/formCore">
 <head>
     <title th:text="#{document.label.write}"></title>
     <th:block layout:fragment="css">
         <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-        <link th:href="@{/assets/vendors/tagify/tagify.css}" rel="stylesheet"/>
     </th:block>
 </head>
 <body>
@@ -18,36 +17,15 @@
         </div>
         <div class="drawing-board" id="document-container"></div>
         <div id="button-container"></div>
-        <h1 th:text="#{common.label.tag}"></h1>
-        <div style="margin-bottom: 1rem;">
-	        <input name="tags" value="sample tag"/>
-        </div>
     </form>
 </th:block>
 </body>
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
-    <script th:src="@{/assets/vendors/tagify/tagify.min.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
             aliceForm.initSync(aliceDocument.init, '[[${documentId}]]');
-
-            const tagInput = document.querySelector('input[name=tags]');
-            const tagify = new Tagify(tagInput, {
-                loading	        : 'true',
-                callbacks       : { 'add'    : onAddTag,
-                                    'remove' : onRemoveTag },
-                placeholder     : '[[#{common.msg.tag}]]'
-            });
-
-            function onAddTag(e) {
-                console.log(e.detail.data.value);
-            }
-
-            function onRemoveTag(e) {
-                console.log(e.detail.data.value);
-            }
         };
         /*]]>*/
     </script>
