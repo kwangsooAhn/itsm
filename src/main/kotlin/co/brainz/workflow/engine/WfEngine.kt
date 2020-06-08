@@ -23,7 +23,13 @@ class WfEngine(
     fun startWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Start Workflow")
 
-        var startTokenDto = this.initTokenDto(tokenDto)
+        var startTokenDto = tokenDto.copy()
+        val instance = wfTokenManagerService.createInstance(tokenDto)
+        val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
+        startTokenDto.instanceId = instance.instanceId
+        startTokenDto.elementType = element.elementType
+        startTokenDto.elementId = element.elementId
+
         val tokenManager = this.getTokenManager(startTokenDto.elementType)
         startTokenDto = tokenManager.createToken(startTokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
@@ -45,7 +51,7 @@ class WfEngine(
                 this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionSave(progressTokenDto)
             else -> {
                 do {
-                    progressTokenDto = this.initTokenDto(progressTokenDto)
+                    progressTokenDto = this.getTokenDto(progressTokenDto)
                     val tokenManager = this.getTokenManager(progressTokenDto.elementType)
                     tokenManager.completeToken(progressTokenDto)
                     progressTokenDto = tokenManager.createNextToken(progressTokenDto)
@@ -57,27 +63,15 @@ class WfEngine(
     }
 
     /**
-     * TokenDto Init.
-     *  - 최초 신청서 작성시 tokenDto.documentId 값으로 instance 생성 후 nweToken 생성
+     * Get TokenDto Init.
      *  - 진행중 인 문서의 경우 토큰 조회 후 newToken 생성
      */
-    private fun initTokenDto(tokenDto: WfTokenDto): WfTokenDto {
+    private fun getTokenDto(tokenDto: WfTokenDto): WfTokenDto {
         val newToken = tokenDto.copy()
-        when (tokenDto.tokenId) {
-            "" -> {
-                val instance = wfTokenManagerService.createInstance(tokenDto)
-                val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
-                newToken.instanceId = instance.instanceId
-                newToken.elementType = element.elementType
-                newToken.elementId = element.elementId
-            }
-            else -> {
-                val tokenEntity = wfTokenManagerService.getToken(tokenDto.tokenId)
-                newToken.instanceId = tokenEntity.instance.instanceId
-                newToken.elementType = tokenEntity.element.elementType
-                newToken.elementId = tokenEntity.element.elementId
-            }
-        }
+        val tokenEntity = wfTokenManagerService.getToken(tokenDto.tokenId)
+        newToken.instanceId = tokenEntity.instance.instanceId
+        newToken.elementType = tokenEntity.element.elementType
+        newToken.elementId = tokenEntity.element.elementId
 
         return newToken
     }
