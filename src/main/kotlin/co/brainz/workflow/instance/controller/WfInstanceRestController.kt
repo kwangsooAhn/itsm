@@ -76,11 +76,14 @@ class WfInstanceRestController(
 
     @GetMapping("/{instanceId}/tags")
     fun getInstanceTags(@PathVariable instanceId: String): List<RestTemplateTagViewDto> {
-        return wfEngine.instance().getInstanceTags(instanceId)
+        return wfInstanceService.getInstanceTags(instanceId)
     }
 
     @GetMapping("/search")
-    fun getAllInstanceListAndSearch(@RequestParam instanceId: String, @RequestParam searchValue: String): MutableList<RestTemplateInstanceListDto> {
+    fun getAllInstanceListAndSearch(
+        @RequestParam instanceId: String,
+        @RequestParam searchValue: String
+    ): MutableList<RestTemplateInstanceListDto> {
         return wfInstanceService.getAllInstanceListAndSearch(instanceId, searchValue)
     }
 }

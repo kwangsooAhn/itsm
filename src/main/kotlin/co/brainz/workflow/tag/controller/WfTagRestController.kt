@@ -1,6 +1,6 @@
-package co.brainz.workflow.engine.tag.controller
+package co.brainz.workflow.tag.controller
 
-import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.tag.service.WfTagService
 import co.brainz.workflow.provider.dto.RestTemplateTagDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/wf/tags")
 class WfTagRestController(
-    private val wfEngine: WfEngine
+    private val wfTagService: WfTagService
 ) {
 
     @PostMapping("")
     fun insertTag(@RequestBody restTemplateTagDto: RestTemplateTagDto): Boolean {
-        return wfEngine.tag().insertTag(restTemplateTagDto)
+        return wfTagService.insertTag(restTemplateTagDto)
     }
 
     @DeleteMapping("/{tagId}")
     fun deleteTag(@PathVariable tagId: String): Boolean {
-        return wfEngine.tag().deleteTag(tagId)
+        return wfTagService.deleteTag(tagId)
     }
 }

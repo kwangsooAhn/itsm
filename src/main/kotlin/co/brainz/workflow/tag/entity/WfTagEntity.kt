@@ -1,7 +1,6 @@
-package co.brainz.workflow.engine.tag.entity
+package co.brainz.workflow.tag.entity
 
-import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
-import org.hibernate.annotations.GenericGenerator
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -11,6 +10,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "wf_tag")
@@ -24,4 +24,4 @@ data class WfTagEntity(
     @JoinColumn(name = "instance_id")
     var instance: WfInstanceEntity? = null
 
-    ) : Serializable
+) : Serializable

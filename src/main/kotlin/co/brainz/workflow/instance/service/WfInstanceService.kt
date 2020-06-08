@@ -6,13 +6,13 @@ import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.tag.service.WfTagService
 import co.brainz.workflow.token.mapper.WfTokenMapper
 import co.brainz.workflow.token.repository.WfTokenRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
+import co.brainz.workflow.tag.service.WfTagService
 import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
@@ -37,7 +37,6 @@ import org.springframework.stereotype.Service
 class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfTokenRepository: WfTokenRepository,
-    private val wfCommentService: WfCommentService,
     private val wfCommentService: WfCommentService,
     private val wfDocumentRepository: WfDocumentRepository,
     private val aliceNumberingService: AliceNumberingService,
@@ -73,7 +72,7 @@ class WfInstanceService(
 
             val topics = mutableListOf<String>()
 
-			if (topicComponentIds.size > 0) {
+            if (topicComponentIds.size > 0) {
                 instance.tokenEntity.tokenData?.forEach {
                     if (topicComponentIds.indexOf(it.componentId) > -1) {
                         topics.add(it.value)

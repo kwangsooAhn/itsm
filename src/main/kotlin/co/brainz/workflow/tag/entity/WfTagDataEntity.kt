@@ -1,4 +1,4 @@
-package co.brainz.workflow.engine.tag.entity
+package co.brainz.workflow.tag.entity
 
 import java.io.Serializable
 import javax.persistence.Column
