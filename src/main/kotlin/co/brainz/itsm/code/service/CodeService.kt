@@ -54,7 +54,7 @@ class CodeService(
         val codeDetailDto = codeRepository.findCodeDetail(code)
         codeDetailDto.enabled = !customCodeRepository.existsByPCode(codeDetailDto.code)
         codeDetailDto.createUserName = codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
-        codeDetailDto.updateUserName  = codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
+        codeDetailDto.updateUserName = codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
         return codeDetailDto
     }
 
