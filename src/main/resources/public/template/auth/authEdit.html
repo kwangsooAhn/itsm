@@ -112,50 +112,77 @@
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        let AUTH_DELETE = false;
+        let AUTH_CREATE = false;
+        let AUTH_UPDATE = false;
+
         window.addEventListener('load', function() {
+            if (document.getElementById('btnUpdate') !== null) {
+                AUTH_UPDATE = true;
+            }
+            if (document.getElementById('btnRegist') !== null) {
+                AUTH_CREATE = true;
+            }
+            if (document.getElementById('btnDelete') !== null) {
+                AUTH_DELETE = true;
+            }
             if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
                 document.getElementById('txtAuthId').setAttribute('readonly','true');
+                if (AUTH_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
+                }
+                if (AUTH_CREATE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
             } else {
-                var first = document.querySelector('a[name=alink]');
+                let first = document.querySelector('a[name=alink]');
                 onGetDetail(first.getAttribute('id'));
+                if (AUTH_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
+                }
+                if (AUTH_CREATE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
             }
 
-            var authList = document.querySelectorAll('a[name=alink]');
-            for(var i = 0; i < authList.length; i++) {
+            let authList = document.querySelectorAll('a[name=alink]');
+            for(let i = 0; i < authList.length; i++) {
                 authList[i].addEventListener('click', function(){
+                if (AUTH_UPDATE) {
+                        document.getElementById('btnUpdate').style.display = 'block';
+                    }
+                    if (AUTH_CREATE) {
+                        document.getElementById('btnRegist').style.display = 'none';
+                    }
                     onGetDetail(this.id);
                 });
             }
 
             function onGetDetail(roldId) {
-                document.getElementById('btnUpdate').style.display = 'block';
-                document.getElementById('btnRegist').style.display = 'none';
-                document.getElementById('btnDelete').style.display = 'block';
-                
                 const opt = {
                     method: 'get',
                     url: '/rest/auths/' +  roldId,
                     callbackFunc: function(response) {
-                        var responseJson = JSON.parse(response.responseText)[0];
+                        let responseJson = JSON.parse(response.responseText)[0];
                         document.getElementById('txtAuthId').value = responseJson.authId;
                         document.getElementById('txtAuthName').value = responseJson.authName;
                         document.getElementById('txtAuthNameOrg').value = responseJson.authName;
                         document.getElementById('txtAuthDesc').value = responseJson.authDesc;
 
-                        var arrMenuList = responseJson.arrMenuList;
+                        let arrMenuList = responseJson.arrMenuList;
                         Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authMenu) {
                             authMenu.checked = false;
-                            for (var i = 0; i<arrMenuList.length; i++) {
+                            for (let i = 0; i<arrMenuList.length; i++) {
                                 if (authMenu.id == arrMenuList[i].menuId) {
                                     authMenu.checked = true;
                                 }
                             }
                         });
 
-                        var arrUrlList = responseJson.arrUrlList;
+                        let arrUrlList = responseJson.arrUrlList;
                         Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function(authUrl) {
                             authUrl.checked = false;
-                            for (var i = 0; i<arrUrlList.length; i++) {
+                            for (let i = 0; i<arrUrlList.length; i++) {
                                 if (authUrl.id == arrUrlList[i].url) {
                                     authUrl.checked = true;
                                 }
@@ -168,8 +195,9 @@
                         document.getElementById('spanUpdateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.updateDt, /*[[${#authentication.details.timeFormat}]]*/);
                         document.getElementById('txtAuthId').setAttribute('readonly','true');
                         document.getElementById('roleAuthMapCount').innerHTML = responseJson.roleAuthMapCount;
-                        disabledButton(responseJson.roleAuthMapCount);
-
+                        if (AUTH_DELETE) {
+                            disabledButton(responseJson.roleAuthMapCount);
+                        }
                     },
                 };
                 aliceJs.sendXhr(opt);
@@ -178,20 +206,17 @@
 
         /* 추가 버튼 */
         function onCreate() {
-            document.getElementById('btnDelete').style.display = 'none';
-            document.getElementById('btnUpdate').style.display = 'none';
-            document.getElementById('btnRegist').style.display = 'block';
             document.getElementById('txtAuthId').value = '';
             document.getElementById('txtAuthId').removeAttribute('readonly');
             document.getElementById('txtAuthName').value = '';
             document.getElementById('txtAuthDesc').value = '';
 
-            var authMenus = document.getElementsByName('authMenu');
-            for(var i = 0; i < authMenus.length; i++) {
+            let authMenus = document.getElementsByName('authMenu');
+            for(let i = 0; i < authMenus.length; i++) {
                 authMenus[i].checked = false;
             }
-            var authUrls = document.getElementsByName('authUrl');
-            for(var i = 0; i < authUrls.length; i++) {
+            let authUrls = document.getElementsByName('authUrl');
+            for(let i = 0; i < authUrls.length; i++) {
                 authUrls[i].checked = false;
             }
 
@@ -200,6 +225,15 @@
             document.getElementById('spanUpdateUserKey').innerHTML = '';
             document.getElementById('spanUpdateDt').innerHTML = '';
             document.getElementById('roleAuthMapCount').innerHTML = '';
+            if (AUTH_UPDATE) {
+                document.getElementById('btnUpdate').style.display = 'none';
+            }
+            if (AUTH_CREATE) {
+                document.getElementById('btnRegist').style.display = 'block';
+            }
+            if (AUTH_DELETE) {
+                document.getElementById('btnDelete').style.display = 'none';
+            }
         }
 
         /* 등록, 수정 버튼 */
@@ -208,21 +242,21 @@
             if (isOrOperator(isNull('txtAuthId', null), isEmpty('txtAuthId', null), 'auth.msg.idNotExist')) return;
             if (isOrOperator(isNull('txtAuthName', null), isEmpty('txtAuthName', null), 'auth.msg.nameNotExist')) return;
 
-            var authIds = [];
-            var authNames = [];
-            var validList = document.querySelectorAll('a[name=alink]')
-            for(var i = 0; i < validList.length; i++) {
+            let authIds = [];
+            let authNames = [];
+            let validList = document.querySelectorAll('a[name=alink]')
+            for(let i = 0; i < validList.length; i++) {
                 authIds.push(validList[i].id);
                 authNames.push(validList[i].text);
             }
             if (flag === 'post') {
-                for(var i = 0; i < authIds.length; i++) {
+                for(let i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
                         aliceJs.alert([[#{auth.msg.idDuplecate}]]);
                         return;
                     }
                 }
-                for(var i = 0; i < authNames.length; i++) {
+                for(let i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
                         aliceJs.alert([[#{auth.msg.nameDuplecate}]]);
                         return;
@@ -230,7 +264,7 @@
                 }
             } else {
                 if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
-                    for(var i = 0; i < authNames.length; i++) {
+                    for(let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
                             aliceJs.alert([[#{auth.msg.nameDuplecate}]]);
                             return;
@@ -240,18 +274,18 @@
             }
 
             //저장 process
-            var obj = {};
+            let obj = {};
             obj.authId = document.getElementById('txtAuthId').value;    //권한 아이디
             obj.authName = document.getElementById('txtAuthName').value;//권한명
             obj.authDesc= document.getElementById('txtAuthDesc').value; //권한 설명
             
-            var arrMenuId = [];                                         //권한-메뉴
+            let arrMenuId = [];                                         //권한-메뉴
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function(item) {
                 arrMenuId.push(item.id);
             });
             obj.arrMenuId = arrMenuId;
             
-            var arrUrl = [];                                             //권한-Url
+            let arrUrl = [];                                             //권한-Url
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function(item) {
                 arrUrl.push(item.id);
             });
@@ -262,7 +296,7 @@
             } else {
                 strUrl = '/rest/auths/'+ document.getElementById('txtAuthId').value;
             }
-            var authJson = JSON.stringify(obj);
+            let authJson = JSON.stringify(obj);
 
             const opt = {
                 method: flag,
@@ -295,8 +329,8 @@
 
         /** 삭제 버튼 활성, 비활성화 */
         function disabledButton(count) {
-            var btn = document.getElementById('btnDelete');
-
+            console.log(count);
+            let btn = document.getElementById('btnDelete');
             if (count !== 0) {
                 btn.disabled = 'disabled';
             } else {
