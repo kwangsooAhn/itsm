@@ -1,6 +1,7 @@
 package co.brainz.workflow.component.entity
 
 import co.brainz.workflow.form.entity.WfFormEntity
+import co.brainz.workflow.token.entity.WfTokenDataEntity
 import java.io.Serializable
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -36,4 +37,7 @@ data class WfComponentEntity(
 ) : Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "attributes", cascade = [CascadeType.REMOVE])
     val attributes: MutableList<WfComponentDataEntity>? = mutableListOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "component")
+    val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
 }

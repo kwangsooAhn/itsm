@@ -195,16 +195,16 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .or(
                         token.tokenId.`in`(
                             JPAExpressions
-                                .select(tokenDataSub.tokenId)
+                                .select(tokenDataSub.token.tokenId)
                                 .from(tokenDataSub)
                                 .where(
-                                    tokenDataSub.tokenId.eq(
+                                    tokenDataSub.token.tokenId.eq(
                                         JPAExpressions
                                             .select(tokenSub.tokenId.max())
                                             .from(tokenSub)
                                             .where(tokenSub.instance.instanceId.eq(instance.instanceId))
                                     ),
-                                    tokenDataSub.componentId.`in`(
+                                    tokenDataSub.component.componentId.`in`(
                                         JPAExpressions
                                             .select(componentSub.componentId)
                                             .from(componentSub)

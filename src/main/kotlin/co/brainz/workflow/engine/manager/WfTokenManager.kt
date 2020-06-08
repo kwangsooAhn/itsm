@@ -90,8 +90,8 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
         for (tokenDataDto in tokenDto.data!!) {
             val tokenDataEntity = WfTokenDataEntity(
-                tokenId = tokenDto.tokenId,
-                componentId = tokenDataDto.componentId,
+                token = token,
+                component = wfTokenManagerService.getComponent(tokenDataDto.componentId),
                 value = tokenDataDto.value
             )
             tokenDataEntities.add(tokenDataEntity)
@@ -166,8 +166,8 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         if (tokenDto.data != null) {
             for (tokenDataDto in tokenDto.data!!) {
                 val tokenDataEntity = WfTokenDataEntity(
-                    tokenId = tokenDto.tokenId,
-                    componentId = tokenDataDto.componentId,
+                    token = this.createTokenEntity,
+                    component = wfTokenManagerService.getComponent(tokenDataDto.componentId),
                     value = tokenDataDto.value
                 )
                 tokenDataEntities.add(tokenDataEntity)

@@ -3,6 +3,8 @@ package co.brainz.workflow.engine.manager.service
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
+import co.brainz.workflow.component.entity.WfComponentEntity
+import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -36,8 +38,16 @@ class WfTokenManagerService(
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfCandidateRepository: WfCandidateRepository,
+    private val wfComponentRepository: WfComponentRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository
 ) {
+
+    /**
+     * Get component entity.
+     */
+    fun getComponent(componentId: String): WfComponentEntity {
+        return wfComponentRepository.findById(componentId).get()
+    }
 
     /**
      * Get element entity.
@@ -50,7 +60,10 @@ class WfTokenManagerService(
      * Get component value(split[0]).
      */
     fun getComponentValue(tokenId: String, mappingId: String): String {
-        return wfTokenDataRepository.findByTokenIdAndComponentId(tokenId, mappingId).value.split("|")[0]
+        return wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(
+            tokenId,
+            mappingId
+        ).value.split("|")[0]
     }
 
     /**
@@ -205,8 +218,8 @@ class WfTokenManagerService(
             }
         }
         val tokenData = mutableListOf<WfTokenDataDto>()
-        mainProcessToken.tokenData?.forEach {
-            val componentId = it.componentId
+        mainProcessToken.tokenDataEntities.forEach {
+            val componentId = it.component.componentId
             val componentValue = if (componentIdAndTokenData[componentId] != null) {
                 componentIdAndTokenData[componentId] as String
             } else {
@@ -234,8 +247,8 @@ class WfTokenManagerService(
         }
         val keyPairComponentIdToMappingId = component?.associateBy({ it.componentId }, { it.mappingId })
         val keyPairMappingIdToTokenDataValue = mutableMapOf<String, String>()
-        token.tokenData?.forEach {
-            val componentId = it.componentId
+        token.tokenDataEntities.forEach {
+            val componentId = it.component.componentId
             if (keyPairComponentIdToMappingId?.get(componentId) != null) {
                 val mappingId = keyPairComponentIdToMappingId[componentId] as String
                 keyPairMappingIdToTokenDataValue[mappingId] = it.value

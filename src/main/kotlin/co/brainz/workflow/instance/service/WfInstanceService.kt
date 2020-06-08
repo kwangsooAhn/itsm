@@ -73,8 +73,8 @@ class WfInstanceService(
             val topics = mutableListOf<String>()
 
             if (topicComponentIds.size > 0) {
-                instance.tokenEntity.tokenData?.forEach {
-                    if (topicComponentIds.indexOf(it.componentId) > -1) {
+                instance.tokenEntity.tokenDataEntities.forEach {
+                    if (topicComponentIds.indexOf(it.component.componentId) > -1) {
                         topics.add(it.value)
                     }
                 }
@@ -241,7 +241,7 @@ class WfInstanceService(
             wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance)?.let { token ->
                 tokenDto = wfTokenMapper.toTokenDto(token)
                 val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
-                token.tokenData?.forEach { tokenData ->
+                token.tokenDataEntities.forEach { tokenData ->
                     tokenDataList.add(wfTokenMapper.toTokenDataDto(tokenData))
                 }
                 tokenDto.data = tokenDataList

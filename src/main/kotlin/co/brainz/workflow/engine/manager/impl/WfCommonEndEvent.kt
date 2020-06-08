@@ -22,7 +22,7 @@ class WfCommonEndEvent(
             when (mainProcessToken.element.elementType) {
                 WfElementConstants.ElementType.SUB_PROCESS.value -> {
                     var token = wfTokenManagerService.getToken(createNextTokenDto.tokenId)
-                    token.tokenData = super.setTokenData(createNextTokenDto)
+                    token.tokenDataEntities = super.setTokenData(createNextTokenDto)
                     mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
                     mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
                     createNextTokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
@@ -32,7 +32,8 @@ class WfCommonEndEvent(
                     createNextTokenDto.tokenId = mainProcessToken.tokenId
 
                     token = wfTokenManagerService.saveToken(mainProcessToken)
-                    token.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(createNextTokenDto))
+                    token.tokenDataEntities =
+                        wfTokenManagerService.saveAllTokenData(super.setTokenData(createNextTokenDto))
                     createNextTokenDto.isAutoComplete = true
                 }
                 else -> createNextTokenDto.isAutoComplete = false

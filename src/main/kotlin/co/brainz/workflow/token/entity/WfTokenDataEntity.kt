@@ -1,5 +1,6 @@
 package co.brainz.workflow.token.entity
 
+import co.brainz.workflow.component.entity.WfComponentEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -15,12 +16,14 @@ import javax.persistence.Table
 @IdClass(WfTokenDataPk::class)
 data class WfTokenDataEntity(
     @Id
-    @Column(name = "token_id")
-    val tokenId: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "token_id")
+    val token: WfTokenEntity,
 
     @Id
-    @Column(name = "component_id")
-    val componentId: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "component_id")
+    val component: WfComponentEntity,
 
     @Column(name = "value")
     var value: String
@@ -28,6 +31,6 @@ data class WfTokenDataEntity(
 ) : Serializable
 
 data class WfTokenDataPk(
-    val tokenId: String = "",
-    val componentId: String = ""
+    val token: String = "",
+    val component: String = ""
 ) : Serializable

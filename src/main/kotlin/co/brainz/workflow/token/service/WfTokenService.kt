@@ -71,26 +71,25 @@ class WfTokenService(
      * @return LinkedHashMap<String, Any>
      */
     fun getToken(tokenId: String): RestTemplateTokenDto {
-        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
-        val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
+        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
         val componentList: MutableList<RestTemplateTokenDataDto> = mutableListOf()
-        for (tokenDataEntity in tokenDataEntities) {
+        tokenEntity.tokenDataEntities.forEach { data ->
             val tokenDataDto = RestTemplateTokenDataDto(
-                componentId = tokenDataEntity.componentId,
-                value = tokenDataEntity.value
+                componentId = data.component.componentId,
+                value = data.value
             )
             componentList.add(tokenDataDto)
         }
 
         return RestTemplateTokenDto(
-            tokenId = tokenEntity.get().tokenId,
-            elementId = tokenEntity.get().element.elementId,
-            assigneeId = tokenEntity.get().assigneeId,
-            tokenStatus = tokenEntity.get().tokenStatus,
-            isComplete = tokenEntity.get().tokenStatus == WfTokenConstants.Status.FINISH.code,
-            instanceId = tokenEntity.get().instance.instanceId,
-            documentId = tokenEntity.get().instance.document.documentId,
-            documentName = tokenEntity.get().instance.document.documentName,
+            tokenId = tokenEntity.tokenId,
+            elementId = tokenEntity.element.elementId,
+            assigneeId = tokenEntity.assigneeId,
+            tokenStatus = tokenEntity.tokenStatus,
+            isComplete = tokenEntity.tokenStatus == WfTokenConstants.Status.FINISH.code,
+            instanceId = tokenEntity.instance.instanceId,
+            documentId = tokenEntity.instance.document.documentId,
+            documentName = tokenEntity.instance.document.documentName,
             data = componentList
         )
     }
@@ -104,7 +103,7 @@ class WfTokenService(
     fun getTokenData(tokenId: String): RestTemplateTokenViewDto {
         // FormComponent
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
-        val formId = tokenEntity.get().instance.document!!.form.formId
+        val formId = tokenEntity.get().instance.document.form.formId
         val formData = wfFormService.getFormComponentList(formId)
 
         val documentDisplayList =
@@ -115,10 +114,10 @@ class WfTokenService(
 
         for (componentEntity in formData.components) {
             // values
-            val tokenDataEntities = wfTokenDataRepository.findTokenDataEntityByTokenId(tokenId)
+            val tokenDataEntities = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(tokenId)
             val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
             for (tokenDataEntity in tokenDataEntities) {
-                if (tokenDataEntity.componentId == componentEntity.componentId) {
+                if (tokenDataEntity.component.componentId == componentEntity.componentId) {
                     val valueMap = LinkedHashMap<String, Any>()
                     valueMap["value"] = tokenDataEntity.value
                     values.add(valueMap)

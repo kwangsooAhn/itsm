@@ -10,7 +10,8 @@ class WfUserTask(
 ) : WfTokenManager(wfTokenManagerService) {
 
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
+        super.createTokenEntity.tokenDataEntities =
+            wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
         super.setCandidate(super.createTokenEntity)
 
         return createTokenDto
@@ -22,7 +23,8 @@ class WfUserTask(
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.tokenData = wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
+        super.createTokenEntity.tokenDataEntities =
+            wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
         super.createTokenEntity.assigneeId = completedToken.assigneeId
         wfTokenManagerService.saveToken(super.createTokenEntity)
 
