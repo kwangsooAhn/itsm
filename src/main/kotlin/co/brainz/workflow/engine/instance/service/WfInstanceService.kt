@@ -6,10 +6,10 @@ import co.brainz.workflow.engine.instance.constants.WfInstanceConstants
 import co.brainz.workflow.engine.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
+import co.brainz.workflow.engine.tag.service.WfTagService
 import co.brainz.workflow.engine.token.mapper.WfTokenMapper
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.engine.tag.service.WfTagService
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
@@ -72,10 +72,6 @@ class WfInstanceService(
                 }
             }
 
-            // 관련 tag 리스트를 구함
-			val tags: MutableList<String> = mutableListOf()
-
-
             tokens.add(
                 RestTemplateInstanceViewDto(
                     tokenId = instance.tokenEntity.tokenId,
@@ -84,7 +80,6 @@ class WfInstanceService(
                     documentName = instance.documentEntity.documentName,
                     documentDesc = instance.documentEntity.documentDesc,
                     topics = topics,
-                    tags = tags,
                     createDt = instance.instanceEntity.instanceStartDt,
                     assigneeUserKey = instance.tokenEntity.assigneeId,
                     assigneeUserName = "",

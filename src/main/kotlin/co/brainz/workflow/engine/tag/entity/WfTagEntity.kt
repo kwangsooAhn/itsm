@@ -1,8 +1,8 @@
 package co.brainz.workflow.engine.tag.entity
 
 import co.brainz.workflow.engine.instance.entity.WfInstanceEntity
-import java.io.Serializable
 import org.hibernate.annotations.GenericGenerator
+import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -17,7 +17,7 @@ import javax.persistence.Table
 data class WfTagEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "tag_id")
+    @Column(name = "tag_id", length = 128)
     val tagId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)

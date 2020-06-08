@@ -11,7 +11,6 @@ data class RestTemplateInstanceViewDto(
     val documentDesc: String? = "",
     val elementName: String? = "",
     val topics: MutableList<String>?,
-    val tags: MutableList<String>?,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     var createDt: LocalDateTime?,
     val assigneeUserKey: String? = "",

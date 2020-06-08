@@ -10,9 +10,9 @@ import javax.persistence.Table
 @Table(name = "wf_tag_data")
 data class WfTagDataEntity(
     @Id
-    @Column(name = "tag_id")
+    @Column(name = "tag_id", length = 128)
     val tagId: String,
 
-    @Column(name = "tag_content")
+    @Column(name = "tag_content", length = 256)
     val tagContent: String
 ) : Serializable

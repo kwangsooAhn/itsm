@@ -25,8 +25,8 @@ import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.engine.token.service.WfTokenElementService
 import co.brainz.workflow.engine.token.service.WfTokenService
-import co.brainz.workflow.engine.tag.repository.WfTagRepository
 import co.brainz.workflow.engine.tag.repository.WfTagDataRepository
+import co.brainz.workflow.engine.tag.repository.WfTagRepository
 import co.brainz.workflow.engine.tag.service.WfTagService
 import org.springframework.stereotype.Service
 
