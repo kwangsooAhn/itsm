@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.form.entity
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.engine.component.entity.WfComponentEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import java.io.Serializable
@@ -12,6 +13,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
 import javax.persistence.Table
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
@@ -35,14 +38,16 @@ data class WfFormEntity(
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 
-    @Column(name = "create_user_key", length = 128)
-    var createUserKey: String? = null,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key")
+    var createUser: AliceUserEntity? = null,
 
     @Column(name = "update_dt", insertable = false)
     var updateDt: LocalDateTime? = null,
 
-    @Column(name = "update_user_key", length = 128)
-    var updateUserKey: String? = null
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
+    var updateUser: AliceUserEntity? = null
 
 ) : Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "form", cascade = [CascadeType.REMOVE])

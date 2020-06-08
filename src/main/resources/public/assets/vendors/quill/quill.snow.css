@@ -40,7 +40,7 @@
   -moz-tab-size: 4;
   text-align: left;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  word-break: break-all;
 }
 .ql-editor > * {
   cursor: text;

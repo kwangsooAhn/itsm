@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.process.service
 
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.engine.element.constants.WfElementConstants
@@ -30,7 +31,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class WfProcessService(
     private val wfProcessRepository: WfProcessRepository,
-    private val wfProcessSimulator: WfProcessSimulator
+    private val wfProcessSimulator: WfProcessSimulator,
+    private val aliceUserRepository: AliceUserRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -46,12 +48,8 @@ class WfProcessService(
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
         val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
-        val processList = if (status.isEmpty()) {
-            wfProcessRepository.findByProcessListOrProcessSearchList(search)
-        } else {
-            wfProcessRepository.findByProcessStatusInOrderByProcessName(status)
-        }
-        processList.forEach {
+        val processEntityList = wfProcessRepository.findProcessEntityList(search, status)
+        processEntityList.forEach {
             val enabled = when (it.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
@@ -153,8 +151,11 @@ class WfProcessService(
      * 프로세스 신규 등록
      */
     fun insertProcess(restTemplateProcessDto: RestTemplateProcessDto): RestTemplateProcessDto {
-        val wfProcessEntity: WfProcessEntity =
-            wfProcessRepository.save(processMapper.toProcessEntity(restTemplateProcessDto))
+        val processEntity = processMapper.toProcessEntity(restTemplateProcessDto)
+        processEntity.createUser = restTemplateProcessDto.createUserKey?.let {
+            aliceUserRepository.findAliceUserEntityByUserKey(it)
+        }
+        val wfProcessEntity: WfProcessEntity = wfProcessRepository.save(processEntity)
 
         return RestTemplateProcessDto(
             processId = wfProcessEntity.processId,
@@ -196,7 +197,9 @@ class WfProcessService(
         processEntity.processName = restTemplateProcessViewDto.name.toString()
         processEntity.processStatus = restTemplateProcessViewDto.status.toString()
         processEntity.processDesc = restTemplateProcessViewDto.description
-        processEntity.updateUserKey = restTemplateProcessViewDto.updateUserKey
+        processEntity.updateUser = restTemplateProcessViewDto.updateUserKey?.let {
+            aliceUserRepository.findAliceUserEntityByUserKey(it)
+        }
         processEntity.updateDt = restTemplateProcessViewDto.updateDt
         wfProcessRepository.save(processEntity)
         return true
@@ -270,7 +273,9 @@ class WfProcessService(
             processEntity.processName = wfJsonProcessDto.name.toString()
             processEntity.processStatus = wfJsonProcessDto.status.toString()
             processEntity.processDesc = wfJsonProcessDto.description
-            processEntity.updateUserKey = wfJsonProcessDto.updateUserKey
+            processEntity.updateUser = wfJsonProcessDto.updateUserKey?.let {
+                aliceUserRepository.findAliceUserEntityByUserKey(it)
+            }
             processEntity.updateDt = wfJsonProcessDto.updateDt
             processEntity.elementEntities.addAll(elementEntities)
             wfProcessRepository.save(processEntity)

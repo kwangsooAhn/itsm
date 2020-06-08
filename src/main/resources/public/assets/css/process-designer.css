@@ -10386,7 +10386,6 @@ body {
 }
 .alice-process-properties-panel div.process-info-container div.minimap .element .annotation {
   fill-opacity: 0;
-  stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
 }
 .alice-process-properties-panel div.process-info-container div.minimap .element text {
   fill: #000000;

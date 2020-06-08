@@ -25,6 +25,9 @@ import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
 import co.brainz.workflow.engine.token.repository.WfTokenRepository
 import co.brainz.workflow.engine.token.service.WfTokenElementService
 import co.brainz.workflow.engine.token.service.WfTokenService
+import co.brainz.workflow.engine.tag.repository.WfTagDataRepository
+import co.brainz.workflow.engine.tag.repository.WfTagRepository
+import co.brainz.workflow.engine.tag.service.WfTagService
 import org.springframework.stereotype.Service
 
 @Service
@@ -48,14 +51,23 @@ class WfEngine(
     private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
     private val wfProcessSimulator: WfProcessSimulator,
     private val aliceUserRepository: AliceUserRepository,
-    private val wfCommentService: WfCommentService
-) {
+    private val wfCommentService: WfCommentService,
+	private val wfTagRepository: WfTagRepository,
+	private val wfTagDataRepository: WfTagDataRepository,
+	private val wfTagService: WfTagService
+	) {
 
     /**
      * Form Engine.
      */
     fun form(): WfFormService {
-        return WfFormService(wfFormRepository, wfComponentRepository, wfComponentDataRepository, wfDocumentRepository)
+        return WfFormService(
+            wfFormRepository,
+            wfComponentRepository,
+            wfComponentDataRepository,
+            wfDocumentRepository,
+            aliceUserRepository
+        )
     }
 
     /**
@@ -69,7 +81,7 @@ class WfEngine(
      * Process Engine.
      */
     fun process(): WfProcessService {
-        return WfProcessService(wfProcessRepository, wfProcessSimulator)
+        return WfProcessService(wfProcessRepository, wfProcessSimulator, aliceUserRepository)
     }
 
     /**
@@ -100,8 +112,9 @@ class WfEngine(
         return WfInstanceService(
             wfInstanceRepository,
             wfTokenRepository,
-            wfCommentService
-        )
+            wfCommentService,
+			wfTagService
+		)
     }
 
     /**
@@ -123,5 +136,12 @@ class WfEngine(
      */
     fun comment(): WfCommentService {
         return WfCommentService(wfCommentRepository, wfInstanceRepository, aliceUserRepository)
+    }
+
+    /**
+     * Tag Engine.
+     */
+    fun tag(): WfTagService {
+        return WfTagService(wfTagRepository, wfTagDataRepository, wfInstanceRepository)
     }
 }
