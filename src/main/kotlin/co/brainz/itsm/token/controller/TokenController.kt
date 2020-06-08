@@ -74,6 +74,7 @@ class TokenController(
         model.addAttribute("folderId", folderId)
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
+        model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
         return tokenEditPage
     }
 

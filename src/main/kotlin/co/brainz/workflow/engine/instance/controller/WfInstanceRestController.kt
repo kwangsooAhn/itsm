@@ -6,6 +6,7 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -69,6 +70,11 @@ class WfInstanceRestController(private val wfEngine: WfEngine) {
     @GetMapping("/{instanceId}/comments")
     fun getInstanceComments(@PathVariable instanceId: String): MutableList<RestTemplateCommentDto> {
         return wfEngine.instance().getInstanceComments(instanceId)
+    }
+
+    @GetMapping("/{instanceId}/tags")
+    fun getInstanceTags(@PathVariable instanceId: String): List<RestTemplateTagViewDto> {
+        return wfEngine.instance().getInstanceTags(instanceId)
     }
 
     @GetMapping("/search")

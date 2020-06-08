@@ -82,6 +82,17 @@ object RestTemplateConstants {
     }
 
     /**
+     * Tag Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class Tag(val url: String, val method: String) {
+        POST_TAG("/rest/wf/tags", "POST"),
+        DELETE_TAG("/rest/wf/tags/{tagId}", "DELETE")
+    }
+
+    /**
      * Folder Url.
      *
      * @param url
@@ -121,6 +132,7 @@ object RestTemplateConstants {
         GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
         GET_RELATED_INSTANCE("/rest/wf/folders", "GET"),
         GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET"),
+        GET_INSTANCE_TAGS("/rest/wf/instances/{instanceId}/tags", "GET"),
         GET_INSTANCE_SEARCH("/rest/wf/instances/search", "GET")
     }
 
