@@ -111,7 +111,8 @@ class WfTokenRestController(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
-            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>
+            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
+            action = restTemplateTokenDataUpdateDto.action
         )
 
         // 2020-05-29 Jung Hee Chan
