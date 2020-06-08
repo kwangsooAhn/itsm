@@ -1,5 +1,6 @@
 package co.brainz.workflow.engine.process.service.simulation.element
 
+import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.process.constants.WfProcessConstants
@@ -37,6 +38,23 @@ abstract class WfProcessSimulationElement {
     }
 
     /**
+     * 엘리먼트데이터[elementData]의 필수값을 검증한다.
+     *
+     * @return Boolean
+     */
+    protected fun requiredValueVerification(elementData: List<WfElementDataEntity>): Boolean {
+        var validate = true
+        elementData.forEach {
+            if (it.attributeRequired && it.attributeValue.isEmpty()) {
+                validate = false
+                setFailedMessage("Required value is empty.")
+                return@forEach
+            }
+        }
+        return validate
+    }
+
+    /**
      * 공통 메서드
      */
     fun validation(element: WfElementEntity): Boolean {
@@ -44,29 +62,8 @@ abstract class WfProcessSimulationElement {
         val elementName = element.elementName
         logger.info("Simulation validate - ElementId:{}, ElementName:{}", elementId, elementName)
         elementInformation = "<br>ElementId: $element.elementId <br>ElementName: ${element.elementName}}"
-        return if (commonValidate(element)) {
-            validate(element)
-        } else {
-            false
-        }
-    }
 
-    /**
-     * Common Validate (Required value).
-     *
-     * @param element
-     * @return Boolean
-     */
-    private fun commonValidate(element: WfElementEntity): Boolean {
-        var validate = true
-        element.elementDataEntities.forEach { elementData ->
-            if (elementData.attributeRequired && elementData.attributeValue.isEmpty()) {
-                validate = false
-                setFailedMessage("Required value is empty.")
-                return@forEach
-            }
-        }
-        return validate
+        return validate(element)
     }
 
     /**
