@@ -11071,7 +11071,7 @@ body {
   color: #fff;
 }
 
-.alice-form-properties-panel .property-group .help-tooltip:after {
+.alice-form-properties-panel .property-group .help-tooltip:hover {
   position: absolute;
 }
 
@@ -11198,7 +11198,7 @@ body {
 
 .alice-form-properties-panel .property-field input[type=range] {
   -webkit-appearance: none;
-  width: 50%;
+  width: 48%;
   height: 0.0625rem;
   background: #4C5264;
   outline: none;
@@ -11248,36 +11248,37 @@ body {
   background-color: #C1C1C1;
 }
 
-.alice-form-properties-panel .property-field .property-field-button button[class*="bold"]::before {
+.alice-form-properties-panel .property-field .property-field-button button[id*="bold"]::before {
   content: 'B';
 }
 
-.alice-form-properties-panel .property-field .property-field-button button[class*="italic"]::before {
+.alice-form-properties-panel .property-field .property-field-button button[id*="italic"]::before {
   content: 'I';
 }
 
-.alice-form-properties-panel .property-field .property-field-button button[class*="underline"]::before {
+.alice-form-properties-panel .property-field .property-field-button button[id*="underline"]::before {
   content: 'U';
   text-decoration: underline;
 }
 
-.alice-form-properties-panel .property-field .property-field-button button[id*="left"] {
+.alice-form-properties-panel .property-field .property-field-button div {
+  display: inline-block;
   margin-left: 1.25rem;
 }
 
-.alice-form-properties-panel .property-field .property-field-button button[id*="left"]::before {
+.alice-form-properties-panel .property-field .property-field-button div button[id*="left"]::before {
   content: 'L';
 }
 
-.alice-form-properties-panel .property-field .property-field-button button[id*="center"]::before {
+.alice-form-properties-panel .property-field .property-field-button div button[id*="center"]::before {
   content: 'C';
 }
 
-.alice-form-properties-panel .property-field .property-field-button button[id*="right"]::before {
+.alice-form-properties-panel .property-field .property-field-button div button[id*="right"]::before {
   content: 'R';
 }
 
-.alice-form-properties-panel .property-field .default-session {
+.alice-form-properties-panel .property-field .session {
   width: auto !important;
   margin: 0.625rem 0 0 5rem;
 }

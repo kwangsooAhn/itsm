@@ -232,7 +232,7 @@ body {
                     font-weight: bold;
                     color: #fff;
                 }
-                &:after {
+                &:hover {
                     position: absolute;
                 }
                 &:hover p {
@@ -323,7 +323,7 @@ body {
             }
             input[type=range] {
                 -webkit-appearance: none;
-                width: 50%;
+                width: 48%;
                 height: 0.0625rem; // 1px
                 background: #4C5264;
                 outline: none;
@@ -369,30 +369,31 @@ body {
                 button.active {
                     background-color: #C1C1C1;
                 }
-                button[class*="bold"]::before {
+                button[id*="bold"]::before {
                     content: 'B';
                 }
-                button[class*="italic"]::before {
+                button[id*="italic"]::before {
                     content: 'I';
                 }
-                button[class*="underline"]::before {
+                button[id*="underline"]::before {
                     content: 'U';
                     text-decoration: underline; 
                 }
-                button[id*="left"] {
+                div {
+                    display: inline-block;
                     margin-left: 1.25rem; //20px
-                }
-                button[id*="left"]::before {
-                    content: 'L';
-                }
-                button[id*="center"]::before {
-                    content: 'C';
-                }
-                button[id*="right"]::before {
-                    content: 'R';
+                    button[id*="left"]::before {
+                        content: 'L';
+                    }
+                    button[id*="center"]::before {
+                        content: 'C';
+                    }
+                    button[id*="right"]::before {
+                        content: 'R';
+                    }
                 }
             }
-            .default-session {
+            .session {
                 width: auto !important;
                 margin: 0.625rem 0 0 5rem;  //10px 0 0 80px
             }

@@ -798,15 +798,18 @@
 
     /**
      * 컴포넌트를 다시 그린다.
+     *  @param {Object} data 변경된 속성
      */
-    function redrawComponent() {
-        /*let element = component.draw(compAttr.type, formPanel, compAttr);
+    function redrawComponent(data) {
+        const id = data.componentId;
+        let element = component.draw(data.type, formPanel, data);
         if (element) {
             let compAttr = element.attr;
             compAttr.componentId = id;
             setComponentData(compAttr);
 
             let targetElement = document.getElementById(id);
+            console.log(targetElement);
             element.domElem.id = id;
 
             targetElement.parentNode.insertBefore(element.domElem, targetElement);
@@ -816,7 +819,7 @@
             element.domElem.classList.add('selected');
 
             reorderComponent();
-        }*/
+        }
     }
 
     /**
@@ -827,14 +830,19 @@
      * @param {Number} [index] 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
      */
     function changePropertiesValue(value, group, field, index) {
-        /*let originCompAttr = JSON.parse(JSON.stringify(compAttr));
+        //console.log(selectedComponentIds);
+        console.log(value , group, field, index);
+        const compIdx = getComponentIndex(selectedComponentIds[0]);
+        let componentData = editor.data.components[compIdx];
+        let originComponentData = JSON.parse(JSON.stringify(componentData));
+
         if (typeof index === 'undefined') {
-            compAttr[group][field] = value;
+            componentData[group][field] = value;
         } else {
-            compAttr[group][index][field] = value;
+            componentData[group][index][field] = value;
         }
-        history.saveHistory([{0: originCompAttr, 1: JSON.parse(JSON.stringify(compAttr))}]);
-        redrawComponent();*/
+        history.saveHistory([{0: originComponentData, 1: JSON.parse(JSON.stringify(componentData))}]);
+        redrawComponent(componentData);
     }
 
     /**
@@ -843,7 +851,7 @@
      * @param {Object} e 이벤트 대상
      */
     function setDateFormat(e) {
-        /*let el = e.target || e;
+        let el = e.target || e;
         let parentEl = e.target ? el.parentNode : el.parentNode.parentNode;
         if (parentEl.classList.contains('property-field')) {
             let changePropertiesArr = el.name.split('.');
@@ -867,21 +875,18 @@
                 }
                 changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
             }
-        }*/
+        }
     }
 
     /**
      * 우측 properties panel 세부 속성 출력
      */
     function showComponentProperties() {
-        console.log(selectedComponentIds);
-        console.log(previousComponentIds);
-        console.log('===================================');
         if (selectedComponentIds.length === 0) { return false; }
         if (aliceJs.arraysMatch(previousComponentIds, selectedComponentIds)) { return false; }
         hideComponentProperties();
 
-        //하나만 선택되었고, 현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
+        // 하나만 선택되었고, 현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
         let selectedComponentElem = document.getElementById(selectedComponentIds[0]);
         if (selectedComponentElem === null) { return false; }
         if (selectedComponentIds.length === 1 && selectedComponentElem.getAttribute('data-type') === defaultComponent) {
@@ -889,7 +894,7 @@
             return false;
         }
 
-        //현재 선택된 컴포넌트 css 추가
+        //  선택된 컴포넌트 css 추가
         let selectedComponentTypes = [];
         let isSameComponent = true;
         let isHideComponent = false;
@@ -902,7 +907,7 @@
                     selectedComponentTypes.push(componentType);
                 } else {
                     if (selectedComponentTypes.indexOf(componentType) === -1) {
-                        isSameComponent = false; //동일한 컴포넌트가 아니다.
+                        isSameComponent = false; // 동일한 컴포넌트가 아니다.
                         selectedComponentTypes.push(componentType);
                         if (componentType === 'label' || componentType === 'image' || componentType === 'divider' || componentType === 'editbox') {
                             isHideComponent = true;
@@ -918,10 +923,10 @@
         let componentData = editor.data.components[compIdx];
         let properties = initProperties(componentData);
 
-        //1. 컴포넌트가 2개 이상이면 dataAttribute 속성은 보여주지 않는다.
-        //2. 동일한 컴포넌트를 선택한 경우, dataAttribute 를 제외한 모든 속성이 출력된다.
+        // 1. 컴포넌트가 2개 이상이면 dataAttribute 속성은 보여주지 않는다.
+        // 2. 동일한 컴포넌트를 선택한 경우, dataAttribute 를 제외한 모든 속성이 출력된다.
         if (selectedComponentIds.length > 1 && properties.hasOwnProperty('dataAttribute')) { delete properties.dataAttribute; }
-        //3. 서로 다른 컴포넌트이면, label과 display의 column 속성만 보여진다.
+        // 3. 서로 다른 컴포넌트이면, label과 display의 column 속성만 보여진다.
         if (selectedComponentIds.length > 1 && !isSameComponent && !isHideComponent) {
             if (properties.hasOwnProperty('display')) {
                 properties.display = properties.display.filter(function (c) {
@@ -931,33 +936,34 @@
             if (properties.hasOwnProperty('option')) { delete properties.option;}
             if (properties.hasOwnProperty('validate')) { delete properties.validate; }
         }
-        //4. 서로 다른 컴포넌트이고, Divider, Image, Label가 포함되어 있다면 아무 속성도 출력하지 않는다.
+        // 4. 서로 다른 컴포넌트이고, Divider, Image, Label가 포함되어 있다면 아무 속성도 출력하지 않는다.
         if (selectedComponentIds.length > 1 && !isSameComponent && isHideComponent) { return false; }
 
         const componentTemplate = document.getElementById('component-properties');
         const componentElem = componentTemplate.content.cloneNode(true);
-        //5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
+        // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
         if (selectedComponentIds.length === 1) {
             const componentTitleData = component.getTitle(componentData.type);
             const componentTitleElem = componentElem.querySelector('.property-title');
             componentTitleElem.textContent = componentTitleData.name;
             componentTitleElem.style.display = 'block';
         }
-        console.log(properties);
+
         const defaultOption = properties.hasOwnProperty('option') ? properties.option[0].items : {};
-        const addOptionHandler = function(e) { //옵션 추가
+        const addOptionHandler = function(e) { // 옵션 추가
             const tb = e.target.parentNode.querySelector('table');
             const row = document.createElement('tr');
             const rowCount = tb.rows.length;
+            const lastRow = tb.rows[rowCount - 1];
             let cell = document.createElement('td');
-            cell.innerHTML = tb.lastElementChild.children[0].innerHTML;
+            cell.innerHTML = lastRow.cells[0].innerHTML;
             row.appendChild(cell);
 
             let rowData = {};
             defaultOption.forEach(function(item, idx) {
                 cell = document.createElement('td');
                 cell.id = item.id;
-                cell.innerHTML = tb.lastElementChild.children[idx + 1].innerHTML;
+                cell.innerHTML = lastRow.cells[idx + 1].innerHTML;
 
                 const inputCell = cell.querySelector('input');
                 inputCell.addEventListener('change', function(e) {
@@ -980,15 +986,15 @@
             redrawComponent();
         };
 
-        const removeOptionHandler = function(e) { //옵션 삭제
+        const removeOptionHandler = function(e) { // 옵션 삭제
             const tb = e.target.parentNode.querySelector('table');
             let minusCnt = 0;
             let rowCount = tb.rows.length;
             for (let i = 1; i < rowCount; i++) {
                 let row = tb.rows[i];
-                let chkbox = row.cells[0].childNodes[0];
+                let chkBox = row.cells[0].childNodes[0];
                 let seqCell = row.cells[1].childNodes[0];
-                if (chkbox.checked && rowCount > 2) {
+                if (chkBox.checked && rowCount > 2) {
                     tb.deleteRow(i);
                     componentData[tb.parentNode.id].splice(i - 1, 1);
                     rowCount--;
@@ -1004,665 +1010,420 @@
             }
         };
 
-        Object.keys(properties).forEach(function(group) {
-            const propGroupElem = componentElem.querySelector('#' + group);
-            if (propGroupElem !== null) {
-                propGroupElem.style.display = 'block';
-                if (group === 'option') { //이벤트 핸들러 등록
-                    console.log(propGroupElem.querySelector('.plus'));
-                    console.log(propGroupElem.querySelector('.minus'));
-                    propGroupElem.querySelector('.plus').addEventListener('click', addOptionHandler, false);
-                    propGroupElem.querySelector('.minus').addEventListener('click', removeOptionHandler, false);
+        const buttonClickHandler = function(e) { //버튼 클릭
+            const parentElem = e.target.parentNode;
+            const isActive = e.target.classList.contains('active');
+            if (parentElem.id === 'align') {
+                if (!isActive) {
+                    for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
+                        let child = parentElem.childNodes[i];
+                        if (child.classList.contains('active')) {
+                            child.classList.remove('active');
+                        }
+                    }
+                    e.target.classList.add('active');
+                    changePropertiesValue(e.target.id, parentElem.parentNode.parentNode.parentNode.id, parentElem.id);
                 }
-                if (Array.isArray(properties[group])) {//세부 속성 추가
+            } else {
+                if (isActive) {
+                    e.target.classList.remove('active');
+                    e.target.setAttribute('data-value', 'N');
+                } else {
+                    e.target.classList.add('active');
+                    e.target.setAttribute('data-value', 'Y');
+                }
+                changePropertiesValue(isActive ? 'N' : 'Y', parentElem.parentNode.parentNode.id, e.target.id);
+            }
+        };
+
+        const changeCustomCodeHandler = function(e, data) {
+            let customCodeDataSelect = (typeof data !== 'undefined') ? e : propertiesPanel.querySelector('input[id=code]').parentNode.querySelector('select');
+            let customCode = (typeof data !== 'undefined') ? data.customCode : e.target.value;
+            customCodeDataSelect.innerHTML = '';
+            if (typeof data === 'undefined' && typeof e.target !== 'undefined' && e.target.id === 'customCode') {
+                const changePropertiesArr = e.target.parentNode.id.split('.');
+                changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
+            }
+
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: '/rest/custom-codes/' + customCode,
+                callbackFunc: function(xhr) {
+                    let customCodeData = JSON.parse(xhr.responseText);
+                    customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
+                    if (typeof data !== 'undefined' && data.default !== '') {
+                        const propValueArr = data.default.split('|');
+                        customCodeDataSelect.value = propValueArr[1];
+                    }
+                    let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
+                    if (targetRadio.checked) {
+                        let val = 'code|' + customCodeDataSelect.value + '|';
+                        if (customCodeDataSelect.selectedIndex !== -1) {
+                            val += customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text;
+                        }
+                        const targetName = targetRadio.name.split('.');
+                        changePropertiesValue(val, targetName[0], targetName[1]);
+                    }
+                },
+                contentType: 'application/json; charset=utf-8',
+                showProgressbar: false
+            });
+        };
+        
+        let buttonGroupExist = false;
+        let buttonGroupElem = null;
+        Object.keys(properties).forEach(function(group) {
+            const groupElem = componentElem.querySelector('#' + group);
+            if (groupElem !== null) {
+                groupElem.style.display = 'block';
+                if (group === 'option') { // 이벤트 핸들러 등록
+                    groupElem.querySelector('.plus').addEventListener('click', addOptionHandler, false);
+                    groupElem.querySelector('.minus').addEventListener('click', removeOptionHandler, false);
+                }
+                if (Array.isArray(properties[group])) {// 세부 속성 추가
                     Object.keys(properties[group]).forEach(function(field) {
-                        console.log(field, properties[group][field]);
+                        const fieldProp = properties[group][field];
+                        if (typeof fieldProp.id !== 'undefined' && fieldProp.type !== 'hidden') {
+                            const fieldGroupElem = document.createElement('div');
+                            fieldGroupElem.classList.add('property-field');
+
+                            if (fieldProp.type === 'button') { // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
+                                if (!buttonGroupExist) {
+                                    buttonGroupElem = document.createElement('div');
+                                    buttonGroupElem.classList.add('property-field-button');
+                                    fieldGroupElem.appendChild(buttonGroupElem);
+                                    groupElem.appendChild(fieldGroupElem);
+
+                                    buttonGroupExist = true;
+                                }
+                                if (typeof fieldProp.option !== 'undefined') { //align
+                                    const fieldButtonOptions = fieldProp.option.map(function (opt) {
+                                        return `<button type='button' id='${opt.id}' class='${fieldProp.value === opt.id ? "active" : ""}'></button>`;
+                                    }).join('');
+                                    buttonGroupElem.insertAdjacentHTML('beforEend', `<div id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
+
+                                    const buttonElemList = buttonGroupElem.querySelector('#' + fieldProp.id).children;
+                                    for (let i = 0, len = buttonElemList.length; i < len; i++) {
+                                        buttonElemList[i].addEventListener('click', buttonClickHandler, false);
+                                    }
+                                } else { //bold, italic, underline
+                                    buttonGroupElem.insertAdjacentHTML('beforEend', `<button type='button' id='${fieldProp.id}' class='${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'></button>`);
+                                    buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', buttonClickHandler, false);
+                                }
+                            } else {
+                                fieldGroupElem.setAttribute('id', group + '.' + fieldProp.id);
+                                groupElem.appendChild(fieldGroupElem);
+
+                                //속성명 및 도움말 추가
+                                let fieldTemplate =
+                                    `<span class='property-field-name'>${fieldProp.name}${typeof fieldProp.help === 'undefined' ? '' : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`}</span>`;
+
+                                // 상세속성 추가
+                                switch (fieldProp.type) {
+                                    case 'checkbox-boolean':
+                                        fieldTemplate +=
+                                            `<input type='checkbox' class='property-field-value' name='${fieldProp.id}' ${fieldProp.value ? 'checked' : ''}>`;
+                                        break;
+                                    case 'customcode':
+                                        const fieldCustomCodeOptions = customCodeList.map(function (code) {
+                                            return `<option value='${code.customCodeId}' ${fieldProp.value === code.customCodeId ? "selected='selected'" : ""}>${code.customCodeName}</option>`;
+                                        }).join('');
+                                        fieldTemplate +=
+                                            `<select class='property-field-value' id='${fieldProp.id}'>${fieldCustomCodeOptions}</select>`;
+                                        // 첫번째 커스텀 코드를 저장
+                                        if (fieldProp.value === '' && customCodeList.length > 0) {
+                                            changePropertiesValue(customCodeList[0].customCodeId, group, fieldProp.id);
+                                        }
+                                        break;
+                                    case 'image':
+                                        fieldTemplate +=
+                                            `<input type='text' class='property-field-value' value='${fieldProp.value}'>
+                                            <button type='button' onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'>select</button>`;
+                                        break;
+                                    case 'inputbox':
+                                    case 'inputbox-underline':
+                                        fieldTemplate +=
+                                            `<input type='text' class='property-field-value${fieldProp.type === "inputbox-underline" ? " underline" : ""}' value='${fieldProp.value}'/>`;
+                                        break;
+                                    case 'rgb':
+                                        fieldTemplate +=
+                                            `<span class='selected-color' style='background-color: ${fieldProp.value};'></span>
+                                            <input type='text' class='property-field-value underline color' id='${group}-${fieldProp.id}-value'  value='${fieldProp.value}' readonly='true'>`;
+
+                                        groupElem.insertAdjacentHTML('beforEend', `<div id='${group + "-" + fieldProp.id}-colorPalette' class='color-palette'></div>`);
+                                        break;
+                                    case 'radio-datetime':
+                                        fieldGroupElem.classList.add('vertical');
+
+                                        let optionDefaultArr;
+                                        const defaultFormatArr = fieldProp.value !== '' ? fieldProp.value.split('|') : ''; // none, now, date|-3, time|2, datetime|7|0 등
+                                        const fieldDatetimeOptions = fieldProp.option.map(function (opt) {
+                                            optionDefaultArr = ['', '', ''];
+                                            if (defaultFormatArr[0] === opt.id) {
+                                                optionDefaultArr = defaultFormatArr;
+                                            }
+                                            let labelName = opt.name.split('{0}');
+
+                                            return `<div class='vertical-group radio-datetime'>
+                                            <input type='radio' id='${opt.id}' name='${group}.${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
+                                            ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
+                                            ${opt.id === 'datetime' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-0' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-0'>" + labelName[1] + "</label>" + "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-1' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-1'>" + labelName[2] + "</label>" : ""}
+                                            ${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
+                                            ${opt.id === 'now' || opt.id === 'none' ? "<label for='" + opt.id + "'>" + labelName[0] + "</label>" : ""}
+                                            </div>`;
+                                        }).join('');
+
+                                        fieldTemplate += fieldDatetimeOptions;
+                                        break;
+                                    case 'radio-custom':
+                                        fieldGroupElem.classList.add('vertical');
+                                        const fieldValueArr = fieldProp.value.split('|');
+                                        const fieldRadioOptions = fieldProp.option.map(function (opt) {
+                                            return `<div class='vertical-group'>
+                                            <input type='radio' id='${opt.id}' name='${group}.${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""}/>
+                                            <label for='${opt.id}'>${opt.name}</label>
+                                            ${opt.id !== 'none' ? "<br/><select>" + opt.items.map(function (item) {
+                                                return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`
+                                            }).join('') + "</select>" : ""}
+                                            </div>`;
+                                        }).join('');
+
+                                        fieldTemplate += fieldRadioOptions;
+                                        break;
+                                    case 'select':
+                                        const fieldSelectOptions = fieldProp.option.map(function (opt) {
+                                            return `<option value='${opt.id}' ${fieldProp.value === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
+                                        }).join('');
+                                        fieldTemplate +=
+                                            `<select class='property-field-value'>${fieldSelectOptions}</select>`;
+                                        break;
+                                    case 'slider':
+                                        fieldTemplate +=
+                                            `<input type='range' class='property-field-value' id='${group + "-" + fieldProp.id}' min='1' max='12' value='${fieldProp.value}'/>
+                                             <input type='text' class='underline' id='${group + "-" + fieldProp.id}-value' value='${fieldProp.value}' readonly='true'/>`;
+                                        break;
+                                    case 'session':
+                                        const propValueArr = fieldProp.value.split('|');
+                                        const fieldSessionOptions = fieldProp.option.map(function (opt) {
+                                            return `<option value='${opt.id}' ${propValueArr[0] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
+                                        }).join('');
+                                        fieldTemplate +=
+                                            `<select class='property-field-value' id='toggle'>${fieldSessionOptions}</select>`;
+
+                                        fieldTemplate += `<input type='text' class='${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? propValueArr[1] : ""}'/>`;
+                                        
+                                        const fieldSubOptions = fieldProp.option[1].items.map(function (opt) {
+                                            return `<option value='${opt.id}' ${propValueArr[1] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
+                                        }).join('');
+                                        fieldTemplate +=
+                                            `<select class='${fieldProp.type}' id='select' style='${propValueArr[0] === "select" ? "" : "display: none;"}'>${fieldSubOptions}</select>`;
+                                        break;
+                                    case 'datepicker':
+                                    case 'timepicker':
+                                    case 'datetimepicker':
+                                        let dateTimePickerValue = '';
+                                        if (fieldProp.value !== '') {
+                                            const dateTimePickerFormat = aliceForm.options.datetimeFormat;
+                                            dateTimePickerValue = fieldProp.value.split('|');
+                                            if (dateTimePickerValue[1] === undefined) {
+                                                dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
+                                            } else {
+                                                let dummyDateTime = '';
+                                                if (fieldProp.type === 'timepicker') {
+                                                    dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
+                                                }
+                                                dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, (dummyDateTime !== '' ? dummyDateTime + ' ' : '') + dateTimePickerValue[0], aliceForm.options.lang);
+                                                if (fieldProp.type === 'timepicker') {
+                                                    dateTimePickerValue = dateTimePickerValue.split(' ')[1];
+                                                }
+                                            }
+                                        }
+                                        fieldTemplate +=
+                                            `<input type='text' class='${fieldProp.type} property-field-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}.${fieldProp.id}' value='${dateTimePickerValue}'>`;
+                                        break;
+                                }
+                                // 단위 추가
+                                if (typeof fieldProp.unit !== 'undefined' && fieldProp.unit !== '') {
+                                    fieldTemplate += `<span class='property-field-unit'>${fieldProp.unit}</span>`;
+                                }
+
+                                fieldGroupElem.insertAdjacentHTML('beforEend', fieldTemplate);
+
+                                // color palette 초기화
+                                if (fieldProp.type === 'rgb') {
+                                    colorPalette.initColorPalette(fieldGroupElem.querySelector('.selected-color'),
+                                        fieldGroupElem.querySelector('#' + group + '-' + fieldProp.id + '-value'),
+                                        groupElem.querySelector('#' + group + '-' + fieldProp.id + '-colorPalette'));
+                                }
+                                //custom-code 초기화
+                                if (fieldProp.type === 'radio-custom') {
+                                    const customCodeDataSelect = fieldGroupElem.querySelector('input[id=code]').parentNode.querySelector('select');
+                                    changeCustomCodeHandler(customCodeDataSelect, componentData[group]);
+                                }
+                            }
+
+                            // 유효성 검증 추가
+                            if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
+                                validateCheck(fieldGroupElem.querySelector('.property-field-value'), fieldProp.validate);
+                            }
+                            if (typeof fieldProp.option !== 'undefined') {
+                                const fieldValueElem = fieldGroupElem.querySelector('.property-field-value');
+                                if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
+                                    validateCheck(fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                }
+                            }
+                        } else { // type === table
+                            const tableElem = groupElem.querySelector('table');
+                            if (tableElem !== null) {
+                                let fieldTemplate = ``;
+                                // 테이블 Header 추가
+                                const tableHeaderOptions = fieldProp.items.map(function(opt) { return `<th>${opt.name}</th>`; }).join('');
+                                fieldTemplate += `<tr><th></th>${tableHeaderOptions}</tr>`;
+                                // 테이블 Row 추가
+                                const tableRowOptions = componentData.option.map(function(opt) {
+                                    return `<tr><td><input type='checkbox'></td>${fieldProp.items.map(function(item) { 
+                                        return `<td id='${item.id}'><input type='text' value='${opt[item.id]}' ${item.id === 'seq' ? "readonly='true'" : ""}/></td>`;
+                                    }).join('')}</tr>`; 
+                                }).join('');
+                                fieldTemplate += tableRowOptions;
+
+                                tableElem.insertAdjacentHTML('beforEend', fieldTemplate);
+                            }
+                        }
                     });
                 }
             }
         });
-
-        let buttonExist = false;
-        const drawField = function(groupElem, prop) {
-            let elem = null;
-            if (typeof prop.id !== 'undefined') {
-                elem = document.createElement('div');
-                elem.classList.add('property-field');
-
-                if (prop.type === 'hidden') { elem.style.display = 'none'; }
-                if (prop.type === 'button') {
-                    if (!buttonExist) {
-                        const buttonElem = document.createElement('div');
-                        buttonElem.classList.add('property-field-button');
-                        elem.appendChild(buttonElem);
-                        groupElem.appendChild(elem);
-                        buttonExist = true;
-                    }
-                } else {
-                    elem.setAttribute('id', prop.id);
-                    groupElem.appendChild(elem);
-
-                    //속성명 추가
-                    const nameElem = document.createElement('span');
-                    nameElem.classList.add('property-field-name');
-                    const nameText = document.createTextNode(prop.name);
-                    nameElem.appendChild(nameText);
-                    elem.appendChild(nameElem);
-
-                    //도움말 추가
-                    if (typeof prop.help !== 'undefined' && prop.help !== '') {
-                        const helpTooltip = document.createElement('div');
-                        helpTooltip.classList.add('help-tooltip');
-                        const helpTootltipContent = document.createElement('p');
-                        helpTootltipContent.innerHTML = i18n.get(prop.help);
-                        helpTooltip.appendChild(helpTootltipContent);
-                        nameElem.appendChild(helpTooltip);
-                    }
-                }
-            }
-
-            //상세 속성 추가
-
-            //단위 추가
-            if (elem !== null && typeof prop.unit !== 'undefined' && prop.unit !== '') {
-                const unitElem = document.createElement('span');
-                unitElem.classList.add('property-field-unit');
-                const unitText = document.createTextNode(prop.unit);
-                unitElem.appendChild(unitText);
-                elem.appendChild(unitElem);
-            }
-        };
-
-        let groupElem = null;
-        /*const drawProperties = function(group, field) {
-            Object.keys(field).forEach(function(item) {
-                if (Array.isArray(field[item])) { //group 추가
-                    groupElem = drawGroup(item);
-                    drawProperties(item, field[item]);
-                } else { //field 추가
-                    drawField(groupElem, field[item]);
-                }
-            });
-        };*/
-        //drawProperties('', properties);
-
-        //TODO: 세부 속성 출력 코드 리팩토링
-        /*Object.keys(properties).forEach(function(group) {
-            let groupDiv = document.createElement('div');
-            groupDiv.setAttribute('id', group);
-            groupDiv.classList.add('property-group');
-            groupDiv.textContent = group;
-            propertiesPanel.appendChild(groupDiv);
-
-            let buttonExist = false,
-                fieldButtonDiv = null,
-                groupTb = null;
-            if (group === 'option') { //세부 속성에 옵션이 존재할 경우 table 구조로 출력
-                let plusButton = document.createElement('button');
-                plusButton.classList.add('plus');
-                plusButton.addEventListener('click', function() { //옵션 추가 버튼
-                    let tb = this.parentNode.querySelector('table');
-                    let row = document.createElement('tr');
-                    let cell = document.createElement('td');
-                    const rowCount = tb.rows.length;
-                    cell.innerHTML = tb.lastElementChild.children[0].innerHTML;
-                    row.appendChild(cell);
-
-                    const rowData = {};
-                    properties.option[0].items.forEach(function(option, i) {
-                        cell = document.createElement('td');
-                        cell.id = option.id;
-                        cell.innerHTML = tb.lastElementChild.children[i + 1].innerHTML;
-                        let inputCell = cell.querySelector('input');
-                        inputCell.addEventListener('change', function() {
-                            changePropertiesValue(this.value, group, option.id, rowCount - 1);
-                        }, false);
-                        if (option.id === 'seq') {
-                            inputCell.value = rowCount;
-                            inputCell.setAttribute('readonly', 'true');
-                            rowData[option.id] = rowCount;
-                        } else {
-                            inputCell.value = option.value;
-                            rowData[option.id] = option.value;
-                        }
-                        row.appendChild(cell);
-                    });
-                    componentData[group].push(rowData);
-                    tb.appendChild(row);
-                    redrawComponent();
-                });
-                groupDiv.appendChild(plusButton);
-
-                let minusButton = document.createElement('button');
-                minusButton.classList.add('minus');
-                minusButton.addEventListener('click', function() { //옵션 삭제 버튼
-                    let minusCnt = 0;
-                    let tb = this.parentNode.querySelector('table');
-                    let rowCount = tb.rows.length;
-                    for (let i = 1; i < rowCount; i++) {
-                        let row = tb.rows[i];
-                        let chkbox = row.cells[0].childNodes[0];
-                        let seqCell = row.cells[1].childNodes[0];
-                        if (chkbox.checked && rowCount > 2) {
-                            tb.deleteRow(i);
-                            componentData[group].splice(i - 1, 1);
-                            rowCount--;
-                            i--;
-                            minusCnt++;
-                        } else if (seqCell.value !== i) {
-                            seqCell.value = i;
-                            componentData[group][i - 1].seq = i;
-                        }
-                    }
-                    if (minusCnt > 0) {
-                        redrawComponent();
-                    }
-                });
-                groupDiv.appendChild(minusButton);
-
-                groupTb = document.createElement('table');
-                groupDiv.appendChild(groupTb);
-            }
-            if (properties[group] !== null && typeof(properties[group]) === 'object')  { //세부 속성
-                Object.keys(properties[group]).forEach(function(field) {
-                    let fieldArr = properties[group][field];
-                    let fieldGroupDiv = null,
-                        propertyName = null,
-                        propertyValue = null;
-                    if (fieldArr.type === 'button') {
-                        if (!buttonExist) {
-                            fieldGroupDiv = document.createElement('div');
-                            fieldGroupDiv.classList.add('property-field');
-                            fieldGroupDiv.setAttribute('id', fieldArr.id);
-                            groupDiv.appendChild(fieldGroupDiv);
-
-                            fieldGroupDiv.removeAttribute('id');
-                            fieldButtonDiv = document.createElement('div');
-                            fieldButtonDiv.classList.add('property-field-button');
-                            fieldGroupDiv.appendChild(fieldButtonDiv);
-                            buttonExist = true;
-                        }
-                    } else if (fieldArr.id !== undefined) {
-                        fieldGroupDiv = document.createElement('div');
-                        fieldGroupDiv.classList.add('property-field');
-                        fieldGroupDiv.setAttribute('id', fieldArr.id);
-                        if (fieldArr.type === 'hidden') { fieldGroupDiv.style.display = 'none'; }
-                        groupDiv.appendChild(fieldGroupDiv);
-                    }
-                    if (fieldArr.type !== 'button' && fieldArr.type !== 'table') { //속성명 출력
-                        propertyName = document.createElement('span');
-                        propertyName.classList.add('property-field-name');
-                        propertyName.textContent = fieldArr.name;
-                        fieldGroupDiv.appendChild(propertyName);
-
-                        //도움말 추가
-                        if (typeof fieldArr.help !== 'undefined') {
-                            const helpTooltip = document.createElement('div');
-                            helpTooltip.classList.add('help-tooltip');
-                            const helpTootltipContent = document.createElement('p');
-                            helpTootltipContent.innerHTML = i18n.get(fieldArr.help);
-                            helpTooltip.appendChild(helpTootltipContent);
-                            propertyName.appendChild(helpTooltip);
-                        }
-                    }
-                    switch (fieldArr.type) {
-                        case 'inputbox':
-                        case 'inputbox-underline':
-                            propertyValue = document.createElement('input');
-                            propertyValue.classList.add('property-field-value');
-                            propertyValue.setAttribute('type', 'text');
-                            propertyValue.setAttribute('value', fieldArr.value);
-                            validateCheck(propertyValue, fieldArr.validate);
-                            propertyValue.addEventListener('focusout', function() {
-                                changePropertiesValue(this.value, group, fieldArr.id);
-                            }, false);
-                            fieldGroupDiv.appendChild(propertyValue);
-
-                            if (fieldArr.type === 'inputbox-underline') { propertyValue.classList.add('underline'); }
-
-                            if (fieldArr.unit !== '') {
-                                let propertyUnit = document.createElement('span');
-                                propertyUnit.classList.add('property-field-unit');
-                                propertyUnit.textContent = fieldArr.unit;
-                                fieldGroupDiv.appendChild(propertyUnit);
-                            }
-                            break;
-                        case 'select':
-                            propertyValue = document.createElement('select');
-                            propertyValue.classList.add('property-field-value');
-                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
-                                let propertyOption = document.createElement('option');
-                                propertyOption.value = fieldArr.option[i].id;
-                                propertyOption.text = fieldArr.option[i].name;
-                                if (fieldArr.value === fieldArr.option[i].id) {
-                                    propertyOption.setAttribute('selected', 'selected');
-                                }
-                                propertyValue.appendChild(propertyOption);
-                            }
-                            propertyValue.addEventListener('change', function() {
-                                changePropertiesValue(this.value, group, fieldArr.id);
-                            }, false);
-                            fieldGroupDiv.appendChild(propertyValue);
-                            break;
-                        case 'session':
-                            propertyValue = document.createElement('select');
-                            propertyValue.classList.add('property-field-value');
-                            let propertyValueArr = fieldArr.value.split('|');
-                            /!**
-                             * 사용자 입력을 받는 inputbox 또는  selectbox를 생성하고 이벤트를 등록한다.
-                             *  none|직접입력값, select|userid|아이디, select|username|이름 등
-                             * @param {String} type none, select 2가지 타입
-                             * @param {String} defaultValue 기본 값
-                             *!/
-                            const setSubList = function(type, defaultValue) {
-                                let subListElem = null;
-                                if (type === 'none') {
-                                    subListElem = document.createElement('input');
-                                    subListElem.setAttribute('type', 'text');
-                                    subListElem.setAttribute('value', defaultValue);
-                                } else {
-                                    subListElem = document.createElement('select');
-                                    if (defaultValue === '') { defaultValue = fieldArr.option[1].items[0].id + '|' + fieldArr.option[1].items[0].name; }
-                                    for (let i = 0, len = fieldArr.option[1].items.length; i < len; i++) {
-                                        let selectItem = fieldArr.option[1].items[i];
-                                        let subListOption = document.createElement('option');
-                                        subListOption.value = selectItem.id;
-                                        subListOption.text = selectItem.name;
-                                        if (defaultValue === selectItem.id) {
-                                            subListOption.setAttribute('selected', 'selected');
-                                            defaultValue += ('|' + selectItem.name);
-                                        }
-                                        subListElem.appendChild(subListOption);
-                                    }
-                                }
-                                subListElem.setAttribute('id', componentData.componentId + '-' + group + '-' + fieldArr.id + '-session');
-                                subListElem.classList.add('default-session');
-                                subListElem.addEventListener('change', function() {
-                                    if (type === 'none') {
-                                        changePropertiesValue(type + '|' + this.value, group, fieldArr.id);
-                                    } else {
-                                        changePropertiesValue(type + '|' + this.value + '|' + this.options[this.selectedIndex].text, group, fieldArr.id);
-                                    }
-                                }, false);
-                                fieldGroupDiv.appendChild(subListElem);
-
-                                changePropertiesValue(type + '|' + defaultValue, group, fieldArr.id);
-                            };
-                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
-                                let propertyOption = document.createElement('option');
-                                propertyOption.value = fieldArr.option[i].id;
-                                propertyOption.text = fieldArr.option[i].name;
-                                if (propertyValueArr[0] === fieldArr.option[i].id) {
-                                    propertyOption.setAttribute('selected', 'selected');
-                                }
-                                propertyValue.appendChild(propertyOption);
-                            }
-                            propertyValue.addEventListener('change', function() {
-                                let delElem = document.getElementById( componentData.componentId + '-' + group + '-' + fieldArr.id + '-session');
-                                if (delElem) {
-                                    delElem.remove();
-                                }
-                                setSubList(this.value, '');
-                            }, false);
-
-                            fieldGroupDiv.appendChild(propertyValue);
-                            setSubList(propertyValueArr[0], propertyValueArr[1]);
-                            break;
-                        case 'slider':
-                            propertyValue = document.createElement('input');
-                            propertyValue.setAttribute('id', group + '-' + fieldArr.id);
-                            propertyValue.setAttribute('type', 'range');
-                            propertyValue.setAttribute('min', 1);
-                            propertyValue.setAttribute('max', 12);
-                            propertyValue.setAttribute('value', fieldArr.value);
-                            fieldGroupDiv.appendChild(propertyValue);
-                            propertyValue.addEventListener('change', function() {
-                                let slider = document.getElementById(this.id + '-value');
-                                slider.value = this.value;
-                                changePropertiesValue(this.value, group, fieldArr.id);
-                            });
-
-                            let slideValue = document.createElement('input');
-                            slideValue.classList.add('property-field-value', 'underline');
-                            slideValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
-                            slideValue.setAttribute('type', 'text');
-                            slideValue.setAttribute('value', fieldArr.value);
-                            slideValue.setAttribute('readOnly', 'true');
-                            fieldGroupDiv.appendChild(slideValue);
-                            break;
-                        case 'rgb':
-                            let selectedColorBox = document.createElement('span');
-                            selectedColorBox.classList.add('selected-color');
-                            selectedColorBox.style.backgroundColor = fieldArr.value;
-                            fieldGroupDiv.appendChild(selectedColorBox);
-
-                            propertyValue = document.createElement('input');
-                            propertyValue.classList.add('property-field-value', 'underline', 'color');
-                            propertyValue.setAttribute('id', group + '-' + fieldArr.id + '-value');
-                            propertyValue.setAttribute('type', 'text');
-                            propertyValue.setAttribute('value', fieldArr.value);
-                            propertyValue.setAttribute('readonly', 'true');
-                            propertyValue.addEventListener('change', function() {
-                                changePropertiesValue(this.value, group, fieldArr.id);
-                            }, false);
-                            fieldGroupDiv.appendChild(propertyValue);
-                            let colorPaletteDiv = document.createElement('div');
-                            colorPaletteDiv.setAttribute('id', group + '-' + fieldArr.id + '-colorPalette');
-                            colorPaletteDiv.classList.add('color-palette');
-                            groupDiv.appendChild(colorPaletteDiv);
-                            colorPalette.initColorPalette(selectedColorBox, propertyValue, colorPaletteDiv);
-                            break;
-                        case 'radio':
-                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
-                                let propertyOption = document.createElement('input');
-                                propertyOption.setAttribute('type', 'radio');
-                                propertyOption.setAttribute('id', fieldArr.name + '-' + fieldArr.option[i].id);
-                                propertyOption.value = fieldArr.option[i].id;
-                                propertyOption.name = fieldArr.name;
-                                if (fieldArr.value === fieldArr.option[i].id) {
-                                    propertyOption.setAttribute('checked', 'checked');
-                                }
-                                propertyOption.addEventListener('change', function() {
-                                    changePropertiesValue(this.value, group, fieldArr.id);
-                                }, false);
-                                fieldGroupDiv.appendChild(propertyOption);
-                                let propertyLabel = document.createElement('label');
-                                propertyLabel.setAttribute('for', fieldArr.name + '-' + fieldArr.option[i].id);
-                                propertyLabel.textContent = fieldArr.option[i].name;
-                                fieldGroupDiv.appendChild(propertyLabel);
-                            }
-                            break;
-                        case 'radio-datetime':
-                            fieldGroupDiv.classList.add('vertical');
-                            let optionDefaultArr;
-                            let defaultFormatArr = fieldArr.value !== '' ? fieldArr.value.split('|') : ''; //none, now, date|-3, time|2, datetime|7|0 등 
-                            let propertyTemplate = ``;
-                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
-                                let option = fieldArr.option[i];
-                                optionDefaultArr = ['', '', ''];
-                                if (defaultFormatArr[0] === option.id) {
-                                    optionDefaultArr = defaultFormatArr;
-                                }
-                                let labelName = option.name.split('{0}');
-
-                                propertyTemplate += `
-                                    <div class='vertical-group'>
-                                    <input type='radio' id='${option.id}' name='${group}.${fieldArr.id}' value='${option.id}'
-                                    ${defaultFormatArr[0] === option.id ? "checked='true'" : ""} />
-                                    
-                                    ${option.id === 'date' || option.id === 'time' ? "<input type='text' id='" + option.id +"' value='" + optionDefaultArr[1] + "'/><label for='" + option.id + "'>" + labelName[1] + "</label>" : ""}
-                                    
-                                    ${option.id === 'datetime'?
-                                    "<input type='text' id='" + option.id +"-0' value='" + optionDefaultArr[1] + "' /><label for='" + option.id + "-0'>" + labelName[1] + "</label>" +
-                                    "<input type='text' id='" + option.id +"-1' value='" + optionDefaultArr[2] + "' /><label for='" + option.id + "-1'>" + labelName[2] + "</label>" : ""}
-                                    
-                                    ${option.id === 'datepicker' || option.id === 'timepicker' || option.id === 'datetimepicker' ? "<input type='text' id='" + option.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
-
-                                    ${option.id === 'now' || option.id === 'none' ? "<label for='" + option.id + "'>" + labelName[0] + "</label>" : ""}
-                                    </div>
-                                `;
-                            }
-                            fieldGroupDiv.innerHTML += propertyTemplate;
-
-                            //이벤트 등록
-                            let changeOptions = fieldGroupDiv.querySelectorAll('input[type="radio"], input[type="text"]');
-                            for (let i = 0, len = changeOptions.length; i < len; i++ ) {
-                                if (changeOptions[i].type === 'text') {
-                                    for (let j = 0; j < fieldArr.option.length; j++) {
-                                        if (changeOptions[i].id.split('-')[0] === fieldArr.option[j].id) {
-                                            validateCheck(changeOptions[i], fieldArr.option[j].validate);
-                                        }
-                                    }
-                                    changeOptions[i].addEventListener('focusout', setDateFormat, false);
-                                } else {
-                                    changeOptions[i].addEventListener('change', setDateFormat, false);
-                                }
-                            }
-
-                            if (componentData.type === 'date') {
-                                dateTimePicker.initDatePicker('datepicker-' + componentData.componentId, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
-                            } else if (componentData.type === 'time') {
-                                dateTimePicker.initTimePicker('timepicker-' + componentData.componentId, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
-                            } else if (componentData.type === 'datetime') {
-                                dateTimePicker.initDateTimePicker('datetimepicker-' + componentData.componentId, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
-                            }
-                            break;
-                        case 'radio-custom':
-                            fieldGroupDiv.classList.add('vertical');
-                            let fieldValueArr = fieldArr.value.split('|');
-                            let customDefaultTemplate = ``;
-                            for (let i = 0, len = fieldArr.option.length; i < len; i++) {
-                                let option = fieldArr.option[i];
-                                customDefaultTemplate += `
-                                    <div class='vertical-group'>
-                                    <input type='radio' id='${option.id}' name='${group}.${fieldArr.id}' value='${option.id}'
-                                    ${option.id === fieldValueArr[0] ? "checked='true'" : ""} />
-                                    <label for='${option.id}'>${option.name}</label>
-                                    ${option.id !== 'none' ? "<br/><select>" + option.items.map(item => `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`).join('') + "</select>": ""}
-                                    </div>
-                                `;
-                            }
-                            fieldGroupDiv.innerHTML += customDefaultTemplate;
-
-                            let customCodeSelect = propertiesPanel.querySelector('#customCode > select');
-                            let changeCustomCode = function(val) {
-                                let customCodeDataSelect = fieldGroupDiv.querySelector('input[id=code]').parentNode.querySelector('select');
-                                customCodeDataSelect.innerHTML = '';
-                                // load custom code data.
-                                aliceJs.sendXhr({
-                                    method: 'GET',
-                                    url: '/rest/custom-codes/' + customCodeSelect.value,
-                                    callbackFunc: function(xhr) {
-                                        let customCodeData = JSON.parse(xhr.responseText);
-                                        customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
-                                        if (val) {
-                                            customCodeDataSelect.value = val;
-                                        }
-                                        let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
-                                        if (targetRadio.checked) {
-                                            let val = 'code|' + customCodeDataSelect.value + '|';
-                                            if (customCodeDataSelect.selectedIndex !== -1) {
-                                                val += customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text;
-                                            }
-                                            changePropertiesValue(val, group, fieldArr.id);
-                                        }
-                                    },
-                                    contentType: 'application/json; charset=utf-8',
-                                    showProgressbar: false
-                                });
-                            };
-                            customCodeSelect.addEventListener('change', function() { changeCustomCode(); });
-                            changeCustomCode(fieldValueArr[0] === 'code' ? fieldValueArr[1] : null);
-
-                            fieldGroupDiv.querySelectorAll('input[type=radio], select').forEach(function(elem) {
-                                elem.addEventListener('change', function(e) {
-                                    let targetId = this.id;
-                                    let targetRadio = this.parentNode.querySelector('input[type=radio]');
-                                    if (elem.tagName.toUpperCase() === 'SELECT') {
-                                        if (!targetRadio.checked) { return; }
-                                        targetId = targetRadio.id;
-                                    }
-                                    let val = targetId !== 'none' ? targetId + '|' + this.parentNode.querySelector('select').value : targetId;
-                                    if (targetRadio.checked && targetRadio.id !== 'none') {
-                                        val += '|';
-                                        if (this.parentNode.querySelector('select').selectedIndex !== -1) {
-                                            val += this.parentNode.querySelector('select').options[this.parentNode.querySelector('select').selectedIndex].text;
-                                        }
-                                    }
-                                    changePropertiesValue(val, group, fieldArr.id);
-                                });
-                            });
-
-                            break;
-                        case 'button':
-                            if (fieldButtonDiv === null) { break; }
-
-                            if (fieldArr.option !== undefined) {
-                                for (let i = 0, len = fieldArr.option.length; i < len; i++) {
-                                    propertyValue = document.createElement('button');
-                                    propertyValue.classList.add(fieldArr.id);
-                                    propertyValue.setAttribute('id', fieldArr.option[i].id);
-                                    if (fieldArr.value === fieldArr.option[i].id) {
-                                        propertyValue.classList.add('active');
-                                    }
-                                    fieldButtonDiv.appendChild(propertyValue);
-                                    propertyValue.addEventListener('click', function() {
-                                        if (!this.classList.contains('active')) {
-                                            let className = this.classList[0];
-                                            for (let i = 0, len = this.parentNode.childNodes.length ; i< len; i++) {
-                                                let child = this.parentNode.childNodes[i];
-                                                if (child.classList.contains(className)) {
-                                                    child.classList.remove('active');
-                                                }
-                                            }
-                                            this.classList.add('active');
-                                            changePropertiesValue(this.id, group, fieldArr.id);
-                                        }
-                                    });
-                                }
-                            } else { //boolean
-                                propertyValue = document.createElement('button');
-                                propertyValue.classList.add(fieldArr.id);
-                                propertyValue.setAttribute('id', fieldArr.id);
-                                propertyValue.setAttribute('data-value', fieldArr.value);
-                                if (fieldArr.value === 'Y') {
-                                    propertyValue.classList.add('active');
-                                }
-                                fieldButtonDiv.appendChild(propertyValue);
-                                propertyValue.addEventListener('click', function() {
-                                    let isActive = this.classList.contains('active');
-                                    if (isActive) {
-                                        this.classList.remove('active');
-                                        this.setAttribute('data-value', 'N');
-                                    } else {
-                                        this.classList.add('active');
-                                        this.setAttribute('data-value', 'Y');
-                                    }
-                                    changePropertiesValue(isActive ? 'N' : 'Y', group, fieldArr.id);
-                                });
-                            }
-                            break;
-                        case 'table':
-                            let headerRow = document.createElement('tr');
-                            groupTb.appendChild(headerRow);
-
-                            let headerCell = document.createElement('th');
-                            headerRow.appendChild(headerCell);
-                            for (let i = 0, len = fieldArr.items.length; i < len; i++) {
-                                headerCell = document.createElement('th');
-                                headerCell.innerHTML = fieldArr.items[i].name;
-                                headerRow.appendChild(headerCell);
-                            }
-
-                            for (let i = 0, len = componentData.option.length; i < len; i++) {
-                                let row = document.createElement('tr');
-                                groupTb.appendChild(row);
-
-                                let cell = document.createElement('td');
-                                let chkbox = document.createElement('input');
-                                chkbox.setAttribute('type', 'checkbox');
-                                cell.appendChild(chkbox);
-                                row.appendChild(cell);
-
-                                for (let j = 0, itemLen = fieldArr.items.length; j < itemLen; j++) {
-                                    cell = document.createElement('td');
-                                    cell.setAttribute('id', fieldArr.items[j].id);
-                                    let inputCell = document.createElement('input');
-                                    inputCell.setAttribute('type', 'text');
-                                    inputCell.setAttribute('value', componentData.option[i][fieldArr.items[j].id]);
-                                    if (fieldArr.items[j].id === 'seq') {
-                                        inputCell.setAttribute('readonly', 'true');
-                                    }
-                                    inputCell.addEventListener('change', function() {
-                                        let seqCell = this.parentNode.parentNode.cells[1].childNodes[0];
-                                        changePropertiesValue(this.value, group, fieldArr.items[j].id, Number(seqCell.value) - 1);
-                                    }, false);
-                                    cell.appendChild(inputCell);
-                                    row.appendChild(cell);
-                                }
-                            }
-                            break;
-                        case 'datepicker':
-                        case 'timepicker':
-                        case 'datetimepicker':
-                            propertyValue = document.createElement('input');
-                            propertyValue.setAttribute('type', 'text');
-                            propertyValue.classList.add('property-field-value');
-                            propertyValue.setAttribute('id', fieldArr.id + '-' + componentData.componentId);
-                            propertyValue.setAttribute('name', group + '.' + fieldArr.id);
-                            let dateTimePickerValue = '';
-                            if (fieldArr.value != '') {
-                                dateTimePickerValue = fieldArr.value;
-                            }
-                            propertyValue.setAttribute('value', dateTimePickerValue);
-                            fieldGroupDiv.appendChild(propertyValue);
-                            if (fieldArr.type === 'datepicker') {
-                                dateTimePicker.initDatePicker(fieldArr.id + '-' + componentData.componentId, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
-                            } else if (fieldArr.type === 'timepicker') {
-                                dateTimePicker.initTimePicker(fieldArr.id + '-' + componentData.componentId, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
-                            } else if (fieldArr.type === 'datetimepicker') {
-                                dateTimePicker.initDateTimePicker(fieldArr.id + '-' + componentData.componentId, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
-                            }
-                            break;
-                        case 'customcode':
-                            propertyValue = document.createElement('select');
-                            propertyValue.classList.add('property-field-value');
-                            for (let i = 0, len = customCodeList.length; i < len; i++) {
-                                let customCode = customCodeList[i];
-                                let propertyOption = document.createElement('option');
-                                propertyOption.value = customCode.customCodeId;
-                                propertyOption.text = customCode.customCodeName;
-                                if (fieldArr.value === customCode.customCodeId) {
-                                    propertyOption.setAttribute('selected', 'selected');
-                                }
-                                propertyValue.appendChild(propertyOption);
-                            }
-                            //첫번째 커스텀 코드를 저장
-                            if (fieldArr.value === '' && customCodeList.length > 0) {
-                                changePropertiesValue(customCodeList[0].customCodeId, group, fieldArr.id);
-                            }
-
-                            propertyValue.addEventListener('change', function() {
-                                changePropertiesValue(this.value, group, fieldArr.id);
-                            }, false);
-                            fieldGroupDiv.appendChild(propertyValue);
-                            break;
-                        case 'checkbox-boolean':
-                            propertyValue = document.createElement('input');
-                            propertyValue.setAttribute('type', 'checkbox');
-                            propertyValue.classList.add('property-field-value');
-                            propertyValue.name = fieldArr.id;
-                            propertyValue.checked = fieldArr.value;
-                            propertyValue.addEventListener('change', function(e) {
-                                changePropertiesValue(e.target.checked, group, fieldArr.id);
-                            }, false);
-                            fieldGroupDiv.appendChild(propertyValue);
-                            break;
-                        case 'image':
-                            propertyValue = document.createElement('input');
-                            propertyValue.classList.add('property-field-value');
-                            propertyValue.setAttribute('type', 'text');
-                            propertyValue.setAttribute('value', fieldArr.value);
-                            validateCheck(propertyValue, fieldArr.validate);
-                            propertyValue.addEventListener('change', function() {
-                                changePropertiesValue(this.value, group, fieldArr.id);
-                            }, false);
-                            fieldGroupDiv.appendChild(propertyValue);
-
-                            let propertyBtn = document.createElement('button');
-                            propertyBtn.type = 'button';
-                            propertyBtn.innerText = 'select';
-                            propertyBtn.addEventListener('click', function(e) {
-                                window.open('/forms/imageUpload/' + id + '/view', 'imageUploadPop', 'width=1200, height=700');
-                            }, false);
-                            fieldGroupDiv.appendChild(propertyBtn);
-                            break;
-                    }
-                });
-            }
-        });*/
-
         propertiesPanel.appendChild(componentElem);
+
+        // date picker 초기화
+        const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');
+        let i, len;
+        for (i = 0, len = datepickerElems.length; i < len; i++) {
+            dateTimePicker.initDatePicker(datepickerElems[i].id, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
+        }
+        const timepickerElems = propertiesPanel.querySelectorAll('.timepicker');
+        for (i = 0, len = timepickerElems.length; i < len; i++) {
+            dateTimePicker.initTimePicker(timepickerElems[i].id, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
+        }
+        const datetimepickerElems = propertiesPanel.querySelectorAll('.datetimepicker');
+        for (i = 0, len = datetimepickerElems.length; i < len; i++) {
+            dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
+        }
+
+        //이벤트 추가
+        const inputElems = propertiesPanel.querySelectorAll('input[type="text"]:not([readonly])');
+        for (i = 0, len = inputElems.length; i < len; i++) {
+            if (inputElems[i].id === 'date' || inputElems[i].id === 'time' || inputElems[i].id === 'datetime') {
+                inputElems[i].addEventListener('focusout', setDateFormat, false);
+            } else {
+                inputElems[i].addEventListener('focusout', function (e) {
+                    const elem = e.target;
+                    const parentElem = elem.parentNode;
+                    if (parentElem.classList.contains('picker-wrapper')) {
+                        return false;
+                    }
+                    if (parentElem.tagName === 'TD') { // 옵션
+                        const seqCell = parentElem.parentNode.cells[1].childNodes[0];
+                        changePropertiesValue(elem.value, 'option', parentElem.id, Number(seqCell.value) - 1);
+                    } else {
+                        const changePropertiesArr = parentElem.id.split('.');
+                        if (elem.classList.contains('session')) {
+                            changePropertiesValue(elem.id + '|' + elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+                        } else {
+                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+                        }
+                    }
+                }, false);
+            }
+        }
+
+        const changeElems =  propertiesPanel.querySelectorAll('input[type="checkbox"], input[type="range"], input[type="radio"], select');
+        for (i = 0, len = changeElems.length; i < len; i++) {
+            const changeElem = changeElems[i];
+            if (changeElem.tagName === 'SELECT') {
+                if (changeElem.id === 'customCode') {
+                    changeElem.addEventListener('change', changeCustomCodeHandler, false);
+                } else {
+                    changeElem.addEventListener('change', function (e) {
+                        const elem = e.target;
+                        const parentElem = elem.parentNode;
+                        if (elem.id === 'toggle') {
+                            const changePropertiesArr = parentElem.id.split('.');
+                            let defaultValue = '';
+                            for (let j = 0; j < elem.options.length; j++) {
+                                const toggleElem = parentElem.querySelector('#' + elem.options[j].value);
+                                if (elem.value === toggleElem.id) {
+                                    toggleElem.style.display = 'block';
+                                    if (toggleElem.tagName === 'SELECT') {
+                                        defaultValue = toggleElem.options[0].value + '|' + toggleElem.options[0].text;
+                                    } else {
+                                        defaultValue = toggleElem.value;
+                                    }
+                                } else {
+                                    toggleElem.style.display = 'none';
+                                }
+                            }
+                            changePropertiesValue(elem.value + '|' + defaultValue, changePropertiesArr[0], changePropertiesArr[1]);
+                        } else {
+                            if (elem.classList.contains('session')) {
+                                const changePropertiesArr = parentElem.id.split('.');
+                                changePropertiesValue(elem.id + '|' + elem.value + '|' + elem.options[elem.selectedIndex].text, changePropertiesArr[0], changePropertiesArr[1]);
+                            } else {
+                                const targetRadio = parentElem.querySelector('input[type=radio]');
+                                if (targetRadio !== null) {
+                                    const changePropertiesArr = parentElem.parentNode.id.split('.');
+                                    if (!targetRadio.checked) { return; }
+                                    let val = (targetRadio.id !== 'none') ? targetRadio.id + '|' + elem.value : targetRadio.id;
+                                    if (targetRadio.checked && targetRadio.id !== 'none') {
+                                        val += '|' + elem.options[elem.selectedIndex].text;
+                                    }
+                                    changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
+                                } else {
+                                    const changePropertiesArr = parentElem.id.split('.');
+                                    changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+                                }
+                            }
+                        }
+                    }, false);
+                }
+            } else {
+                if (changeElem.type === 'checkbox') {
+                    if (changeElem.classList.contains('property-field-value')) {
+                        changeElem.addEventListener('change', function (e) {
+                            const changePropertiesArr = e.target.parentNode.id.split('.');
+                            changePropertiesValue(e.target.checked, changePropertiesArr[0], changePropertiesArr[1]);
+                        }, false);
+                    }
+                } else if (changeElem.type === 'range') {
+                    changeElem.addEventListener('change', function(e) {
+                        const changePropertiesArr = e.target.parentNode.id.split('.');
+                        const slider = document.getElementById(e.target.id + '-value');
+                        slider.value = this.value;
+                        changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
+                    }, false);
+                } else { // radio
+                    if (changeElem.parentNode.classList.contains('radio-datetime')) { // date picker
+                        changeElem.addEventListener('change', setDateFormat, false);
+                    } else {
+                        changeElem.addEventListener('change', function (e) {
+                            const elem = e.target;
+                            const parentElem = elem.parentNode;
+                            const changePropertiesArr = parentElem.parentNode.id.split('.');
+                            let val = (elem.id !== 'none') ? elem.id + '|' + parentElem.querySelector('select').value : elem.id;
+                            if (elem.checked && elem.id !== 'none') {
+                                val += '|';
+                                if (parentElem.querySelector('select').selectedIndex !== -1) {
+                                    val += parentElem.querySelector('select').options[parentElem.querySelector('select').selectedIndex].text;
+                                }
+                            }
+                            changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
+                        }, false);
+                    }
+                }
+            }
+        }
+
         previousComponentIds = selectedComponentIds.slice();
     }
 

@@ -331,7 +331,7 @@ form:
     id: "Id"
     desc: "Description"
     status: "Status"
-    dataAttribute: "dataAttribute"
+    dataAttribute: "Data Attribute"
     label: "Label"
     display: "Display"
     option: "Option"

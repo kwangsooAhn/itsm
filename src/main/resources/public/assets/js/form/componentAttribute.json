@@ -311,8 +311,8 @@
             {
                 "id": "editorUseYn",
                 "name": "Editor Use",
-                "value": "Y",
-                "type": "radio",
+                "value": false,
+                "type": "checkbox-boolean",
                 "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
                 "code": "",
                 "unit": ""
