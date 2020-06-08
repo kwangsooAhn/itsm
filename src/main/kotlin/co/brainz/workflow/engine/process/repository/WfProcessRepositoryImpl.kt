@@ -14,7 +14,9 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
         val process = QWfProcessEntity.wfProcessEntity
         val query = from(process)
         if (search.isNotEmpty()) {
-            query.where(process.processName.containsIgnoreCase(search).or(process.processDesc.containsIgnoreCase(search)))
+            query.where(
+                process.processName.containsIgnoreCase(search).or(process.processDesc.containsIgnoreCase(search))
+            )
         }
         if (status.isNotEmpty()) {
             query.where(process.processStatus.`in`(status)).orderBy(process.processName.asc())
@@ -28,7 +30,6 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
             query.orderBy(statusNumber.asc())
                 .orderBy(process.updateDt.coalesce(process.createDt).desc())
         }
-
         return query.fetch()
     }
 }
