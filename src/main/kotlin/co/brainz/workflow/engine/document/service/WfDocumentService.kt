@@ -10,13 +10,14 @@ import co.brainz.workflow.engine.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.engine.document.entity.WfDocumentEntity
 import co.brainz.workflow.engine.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.engine.document.repository.WfDocumentRepository
+import co.brainz.workflow.engine.element.constants.WfElementConstants
+import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementDataRepository
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.element.service.WfActionService
 import co.brainz.workflow.engine.element.service.WfElementService
 import co.brainz.workflow.engine.form.constants.WfFormConstants
 import co.brainz.workflow.engine.form.entity.WfFormEntity
-import co.brainz.workflow.engine.form.mapper.WfFormMapper
 import co.brainz.workflow.engine.form.repository.WfFormRepository
 import co.brainz.workflow.engine.form.service.WfFormService
 import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
@@ -29,10 +30,12 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.ArrayDeque
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
 
 @Service
 @Transactional
@@ -265,6 +268,129 @@ class WfDocumentService(
     }
 
     /**
+     * Order by Element data.
+     *
+     * @param processId
+     * @return List<Map<String, Any>>
+     */
+    fun makeOrderElementList(processId:String) : List<Map<String, Any>> {
+        /* 반환 ElementList*/
+        lateinit var orderElementList: List<Map<String, Any>>
+        /* userTask를 저장한 ElementList*/
+        val userTaskElementList: MutableList<Map<String, Any>> = mutableListOf()
+        /* gateway 저장*/
+        val arrowConnectorInGateway: MutableMap<String, ArrayDeque<WfElementEntity>> = mutableMapOf()
+        /* 중복 gateway 저장*/
+        val duplicateGateway: MutableMap<String, String> = mutableMapOf()
+        /* gateway에 여러개의 경우의 수가 있을 경우 저장*/
+        val gatewayQueue = ArrayDeque<WfElementEntity>()
+        val process = wfProcessRepository.getOne(processId)
+        val processElementEntities = process.elementEntities
+        var exceptionFlag = false
+        try {
+            /* 쓸모 없는 그룹, 주석을 제거*/
+            val allElementEntitiesInProcess: List<WfElementEntity> = processElementEntities.filter {
+                WfElementConstants.ElementType.getAtomic(it.elementType) != WfElementConstants.ElementType.ARTIFACT
+            }
+
+            /* 첫 commonStart 엘리먼트 찾기*/
+            val startElement = allElementEntitiesInProcess.first {
+                it.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value
+            }
+            var currentElement = startElement
+
+            /* while을 돌면서 전체 프로세스 확인*/
+            while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+                val arrowConnectors = allElementEntitiesInProcess.filter {
+                    currentElement.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+                }
+
+                /* 화살표가 가리키는 Element*/
+                lateinit var arrowElement: WfElementEntity
+
+                /* exclusiveGateway 처리*/
+                if (currentElement.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
+                    if (arrowConnectorInGateway[currentElement.elementId] == null) {
+                        arrowConnectorInGateway[currentElement.elementId] = ArrayDeque(arrowConnectors)
+                    }
+                    arrowElement = arrowConnectorInGateway[currentElement.elementId]!!.pop()
+
+                    /* 모두 꺼내서 사용을 했으면 해당 gateway 삭제, duplicateGateway 저장, gateway 삭제*/
+                    if (arrowConnectorInGateway[currentElement.elementId]!!.size == 0) {
+                        arrowConnectorInGateway.remove(currentElement.elementId)
+                        duplicateGateway[currentElement.elementId] = currentElement.elementId
+                        gatewayQueue.remove(currentElement)
+                    } else {
+                        /* 검증 해야 할 exclusiveGateway arrowConnector가 존재하므로 또 다시 꺼낼 수 있도록 큐에 넣어 둔다.*/
+                        if (duplicateGateway[currentElement.elementId] != currentElement.elementId) {
+                            gatewayQueue.push(currentElement)
+                        }
+                    }
+                } else {
+                    arrowElement = arrowConnectors.last()
+                }
+
+                val targetElementId = arrowElement.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
+                currentElement = allElementEntitiesInProcess.first {
+                    it.elementId == targetElementId
+                }
+
+                if (gatewayQueue.size > 0
+                    && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+                    currentElement = gatewayQueue.pop()
+                }
+
+                if (currentElement.elementType == "userTask") {
+                    val elementAttribute = LinkedHashMap<String, Any>()
+                    elementAttribute["elementId"] = currentElement.elementId
+                    if (currentElement.elementName != "") {
+                        elementAttribute["elementName"] = currentElement.elementName
+                    } else {
+                        elementAttribute["elementName"] = currentElement.elementType
+                    }
+                    userTaskElementList.add(elementAttribute)
+                }
+            }
+        } catch (e: Exception) {
+            exceptionFlag = true
+            logger.error("You can not found userTaskElementList", e)
+        } finally {
+            if (exceptionFlag) {
+                orderElementList = wfElementDataRepository.findElementDataByProcessId(processId)
+            } else {
+                /* 정렬 기준*/
+                val standardUserTaskElementArrayList = ArrayList(userTaskElementList)
+                /* 정렬 결과*/
+                val orderResultUserTaskElementList: MutableList<Map<String, Any>> = mutableListOf()
+                /* 전체 개수*/
+                val elementCount = standardUserTaskElementArrayList.size - 1
+                /* 추가 flag*/
+                var addCheck = true
+
+                standardUserTaskElementArrayList.forEachIndexed { sortIndex, _ ->
+                    standardUserTaskElementArrayList.forEachIndexed { index, _ ->
+                        if (elementCount >= sortIndex + index + 1) {
+                            if (standardUserTaskElementArrayList[sortIndex] == standardUserTaskElementArrayList[sortIndex + index + 1]) {
+                                addCheck = false
+                            }
+                            if (elementCount == sortIndex + index + 1) {
+                                if (addCheck) {
+                                    orderResultUserTaskElementList.add(standardUserTaskElementArrayList[sortIndex])
+                                }
+                                addCheck = true
+                            }
+                        } else if (elementCount == sortIndex && elementCount == index) {
+                            orderResultUserTaskElementList.add(standardUserTaskElementArrayList[sortIndex])
+                        }
+                    }
+                }
+                orderElementList = ArrayList(orderResultUserTaskElementList)
+            }
+        }
+        return orderElementList
+    }
+
+    /**
      * Search Document Display data.
      *
      * @param documentId
@@ -272,7 +398,7 @@ class WfDocumentService(
      */
     fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        val elementEntities = wfElementDataRepository.findElementDataByProcessId(documentEntity.process.processId)
+        val elementEntities = makeOrderElementList(documentEntity.process.processId)
         val componentEntities =
             wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
         val displayList = wfDocumentDisplayRepository.findByDocumentId(documentId)

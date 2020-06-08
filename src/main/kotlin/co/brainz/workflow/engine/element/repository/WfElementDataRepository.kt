@@ -17,17 +17,14 @@ interface WfElementDataRepository : JpaRepository<WfElementDataEntity, WfElement
     ): WfElementDataEntity
 
     @Query(
-        "SELECT e.elementId as elementId, ed.attributeValue as attributeValue " +
-                "FROM WfElementEntity e, WfElementDataEntity ed " +
-                "WHERE e.processId = :processId " +
-                "AND e.elementId = ed.element.elementId " +
-                "AND e.elementType = :elementType " +
-                "AND ed.attributeId = :attributeId " +
-                "ORDER BY e.elementId DESC"
+    "SELECT e.elementId as elementId, case e.elementName when '' then e.elementType else e.elementName end as elementName " +
+          "FROM WfElementEntity e " +
+          "WHERE e.processId = :processId " +
+          "AND e.elementType = :elementType " +
+          "ORDER BY e.elementId DESC"
     )
     fun findElementDataByProcessId(
         processId: String,
-        elementType: String = WfElementConstants.ElementType.USER_TASK.value,
-        attributeId: String = WfElementConstants.AttributeId.NAME.value
+        elementType: String = WfElementConstants.ElementType.USER_TASK.value
     ): List<Map<String, Any>>
 }
