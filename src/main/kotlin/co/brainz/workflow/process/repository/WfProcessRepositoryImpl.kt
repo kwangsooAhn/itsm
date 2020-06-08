@@ -1,14 +1,15 @@
-package co.brainz.workflow.engine.process.repository
+package co.brainz.workflow.process.repository
 
-import co.brainz.workflow.engine.process.entity.QWfProcessEntity
-import co.brainz.workflow.engine.process.entity.WfProcessEntity
+import co.brainz.workflow.process.entity.QWfProcessEntity
+import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class.java), WfProcessRepositoryCustom {
+class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class.java),
+    WfProcessRepositoryCustom {
 
     override fun findProcessEntityList(search: String, status: List<String>): List<WfProcessEntity> {
         val process = QWfProcessEntity.wfProcessEntity

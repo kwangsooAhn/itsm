@@ -1,6 +1,6 @@
-package co.brainz.workflow.engine.process.repository
+package co.brainz.workflow.process.repository
 
-import co.brainz.workflow.engine.process.entity.WfProcessEntity
+import co.brainz.workflow.process.entity.WfProcessEntity
 
 interface WfProcessRepositoryCustom {
 
