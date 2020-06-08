@@ -48,12 +48,8 @@ class WfProcessService(
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
         val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
-        val processList = if (status.isEmpty()) {
-            wfProcessRepository.findByProcessListOrProcessSearchList(search)
-        } else {
-            wfProcessRepository.findByProcessStatusInOrderByProcessName(status)
-        }
-        processList.forEach {
+        val processEntityList = wfProcessRepository.findProcessEntityList(search, status)
+        processEntityList.forEach {
             val enabled = when (it.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
