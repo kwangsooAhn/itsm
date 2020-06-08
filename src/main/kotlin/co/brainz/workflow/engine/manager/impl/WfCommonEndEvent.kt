@@ -16,6 +16,7 @@ class WfCommonEndEvent(
     }
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
+        createNextTokenDto.isAutoComplete = super.setAutoComplete(createNextTokenDto.elementType)
         if (!createNextTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
             val pTokenId = createNextTokenDto.parentTokenId!!
             val mainProcessToken = wfTokenManagerService.getToken(pTokenId)

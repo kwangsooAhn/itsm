@@ -40,17 +40,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      */
     fun createNextToken(tokenDto: WfTokenDto): WfTokenDto {
         val createNextTokenDto = tokenDto.copy()
-        when (createNextTokenDto.elementType) {
-            WfElementConstants.ElementType.COMMON_END_EVENT.value -> {
-                createNextTokenDto.isAutoComplete = this.setAutoComplete(tokenDto.elementType)
-            }
-            else -> {
-                val element = wfTokenManagerService.getNextElement(tokenDto)
-                createNextTokenDto.elementId = element.elementId
-                createNextTokenDto.elementType = element.elementType
-                createNextTokenDto.isAutoComplete = this.setAutoComplete(createNextTokenDto.elementType)
-            }
-        }
         return this.createNextElementToken(createNextTokenDto)
     }
 
@@ -230,7 +219,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Set autoComplete by elementType.
      */
-    private fun setAutoComplete(elementType: String): Boolean {
+    fun setAutoComplete(elementType: String): Boolean {
         return when (elementType) {
             WfElementConstants.ElementType.COMMON_END_EVENT.value,
             WfElementConstants.ElementType.MANUAL_TASK.value,
@@ -238,5 +227,15 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> true
             else -> false
         }
+    }
+
+    /**
+     * Set next element info.
+     */
+    fun setNextTokenDto(createNextTokenDto: WfTokenDto): WfTokenDto {
+        val element = wfTokenManagerService.getNextElement(createNextTokenDto)
+        createNextTokenDto.elementId = element.elementId
+        createNextTokenDto.elementType = element.elementType
+        return createNextTokenDto
     }
 }

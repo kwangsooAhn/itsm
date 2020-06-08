@@ -18,6 +18,8 @@ class WfExclusiveGateway(
     }
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
+        super.setNextTokenDto(createNextTokenDto)
+        createNextTokenDto.isAutoComplete = super.setAutoComplete(createNextTokenDto.elementType)
         return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(createNextTokenDto.elementType)
             .createToken(createNextTokenDto)
     }
