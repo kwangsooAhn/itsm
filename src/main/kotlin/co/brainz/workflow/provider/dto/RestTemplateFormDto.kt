@@ -10,7 +10,9 @@ data class RestTemplateFormDto(
     var desc: String? = null,
     var editable: Boolean = false,
     var createUserKey: String? = null,
+    var createUserName: String? = null,
     var createDt: LocalDateTime? = null,
-    val updateUserKey: String? = null,
+    var updateUserKey: String? = null,
+    var updateUserName: String? = null,
     var updateDt: LocalDateTime? = null
 ) : Serializable
