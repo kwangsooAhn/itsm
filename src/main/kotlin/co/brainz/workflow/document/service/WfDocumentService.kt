@@ -279,75 +279,72 @@ class WfDocumentService(
         val gatewayQueue = ArrayDeque<WfElementEntity>()
         val process = wfProcessRepository.getOne(processId)
         val processElementEntities = process.elementEntities
-        try {
-            // 쓸모 없는 그룹, 주석을 제거
-            val allElementEntitiesInProcess: List<WfElementEntity> = processElementEntities.filter {
-                WfElementConstants.ElementType.getAtomic(it.elementType) != WfElementConstants.ElementType.ARTIFACT
+
+        // 쓸모 없는 그룹, 주석을 제거
+        val allElementEntitiesInProcess: List<WfElementEntity> = processElementEntities.filter {
+            WfElementConstants.ElementType.getAtomic(it.elementType) != WfElementConstants.ElementType.ARTIFACT
+        }
+
+        // 첫 commonStart 엘리먼트 찾기
+        val startElement = allElementEntitiesInProcess.first {
+            it.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value
+        }
+        var currentElement = startElement
+
+        // while을 돌면서 전체 프로세스 확인
+        while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+            val arrowConnectors = allElementEntitiesInProcess.filter {
+                currentElement.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
             }
 
-            // 첫 commonStart 엘리먼트 찾기
-            val startElement = allElementEntitiesInProcess.first {
-                it.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value
-            }
-            var currentElement = startElement
+            // 화살표가 가리키는 Element
+            lateinit var arrowElement: WfElementEntity
 
-            // while을 돌면서 전체 프로세스 확인
-            while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
-                val arrowConnectors = allElementEntitiesInProcess.filter {
-                    currentElement.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+            // exclusiveGateway 처리
+            if (currentElement.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
+                if (arrowConnectorInGateway[currentElement.elementId] == null) {
+                    arrowConnectorInGateway[currentElement.elementId] = ArrayDeque(arrowConnectors)
                 }
+                arrowElement = arrowConnectorInGateway[currentElement.elementId]!!.pop()
 
-                // 화살표가 가리키는 Element
-                lateinit var arrowElement: WfElementEntity
-
-                // exclusiveGateway 처리
-                if (currentElement.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
-                    if (arrowConnectorInGateway[currentElement.elementId] == null) {
-                        arrowConnectorInGateway[currentElement.elementId] = ArrayDeque(arrowConnectors)
-                    }
-                    arrowElement = arrowConnectorInGateway[currentElement.elementId]!!.pop()
-
-                    // 모두 꺼내서 사용을 했으면 해당 gateway 삭제, duplicateGateway 저장, gateway 삭제
-                    if (arrowConnectorInGateway[currentElement.elementId]!!.size == 0) {
-                        arrowConnectorInGateway.remove(currentElement.elementId)
-                        duplicateGateway[currentElement.elementId] = currentElement.elementId
-                        gatewayQueue.remove(currentElement)
-                    } else {
-                        // 검증 해야 할 exclusiveGateway arrowConnector가 존재하므로 또 다시 꺼낼 수 있도록 큐에 넣어 둔다.
-                        if (duplicateGateway[currentElement.elementId] != currentElement.elementId) {
-                            gatewayQueue.push(currentElement)
-                        }
-                    }
+                // 모두 꺼내서 사용을 했으면 해당 gateway 삭제, duplicateGateway 저장, gateway 삭제
+                if (arrowConnectorInGateway[currentElement.elementId]!!.size == 0) {
+                    arrowConnectorInGateway.remove(currentElement.elementId)
+                    duplicateGateway[currentElement.elementId] = currentElement.elementId
+                    gatewayQueue.remove(currentElement)
                 } else {
-                    arrowElement = arrowConnectors.last()
-                }
-
-                val targetElementId = arrowElement.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
-                currentElement = allElementEntitiesInProcess.first {
-                    it.elementId == targetElementId
-                }
-
-                if (gatewayQueue.size > 0
-                    && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
-                    currentElement = gatewayQueue.pop()
-                }
-
-                if (currentElement.elementType == WfElementConstants.ElementType.USER_TASK.value) {
-                    val elementAttribute = LinkedHashMap<String, Any>()
-                    elementAttribute["elementId"] = currentElement.elementId
-                    if (currentElement.elementName != "") {
-                        elementAttribute["elementName"] = currentElement.elementName
-                    } else {
-                        elementAttribute["elementName"] = currentElement.elementType
+                    // 검증 해야 할 exclusiveGateway arrowConnector가 존재하므로 또 다시 꺼낼 수 있도록 큐에 넣어 둔다.
+                    if (duplicateGateway[currentElement.elementId] != currentElement.elementId) {
+                        gatewayQueue.push(currentElement)
                     }
-                    if (userTaskElementList.contains(elementAttribute)) {
-                        userTaskElementList.remove(elementAttribute)
-                    }
-                    userTaskElementList.add(elementAttribute)
                 }
+            } else {
+                arrowElement = arrowConnectors.last()
             }
-        } catch (e: Exception) {
-            throw AliceException(AliceErrorConstants.ERR, e.toString())
+
+            val targetElementId = arrowElement.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
+            currentElement = allElementEntitiesInProcess.first {
+                it.elementId == targetElementId
+            }
+
+            if (gatewayQueue.size > 0
+                && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+                currentElement = gatewayQueue.pop()
+            }
+
+            if (currentElement.elementType == WfElementConstants.ElementType.USER_TASK.value) {
+                val elementAttribute = LinkedHashMap<String, Any>()
+                elementAttribute["elementId"] = currentElement.elementId
+                if (currentElement.elementName != "") {
+                    elementAttribute["elementName"] = currentElement.elementName
+                } else {
+                    elementAttribute["elementName"] = currentElement.elementType
+                }
+                if (userTaskElementList.contains(elementAttribute)) {
+                    userTaskElementList.remove(elementAttribute)
+                }
+                userTaskElementList.add(elementAttribute)
+            }
         }
         return ArrayList(userTaskElementList)
     }
