@@ -19,8 +19,8 @@ import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
 import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
 import co.brainz.itsm.utility.ConvertParam
-import org.springframework.stereotype.Service
 import javax.transaction.Transactional
+import org.springframework.stereotype.Service
 
 @Service
 class BoardService(

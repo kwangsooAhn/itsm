@@ -25,7 +25,7 @@ class AliceLoginController(
     private val aliceIpVerificationService: AliceIpVerificationService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val tokenSearchPage: String = "/tokens/tokenSearch"
+    private val tokenSearchPage: String = "/tokens/search"
     private val invalidSessionPage: String = "/sessionInvalid"
 
     @Value("\${ip.access.control}")

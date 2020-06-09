@@ -38,7 +38,6 @@ class CodeRestController(private val codeService: CodeService) {
     @PostMapping("/", "")
     fun createCode(@RequestBody codeDetailDto: CodeDetailDto) {
         return codeService.createCode(codeDetailDto)
-
     }
 
     /**

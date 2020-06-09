@@ -1,7 +1,7 @@
 package co.brainz.workflow.provider.dto
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.workflow.engine.document.entity.WfDocumentEntity
+import co.brainz.workflow.document.entity.WfDocumentEntity
 import java.io.Serializable
 
 class RestTemplateInstanceDto(

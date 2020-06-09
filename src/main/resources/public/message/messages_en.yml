@@ -34,6 +34,7 @@ common:
     attachFile: "Attach file"
     notSelect: "Not Select"
     lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
+    tag: "Tag"
     comment: "Comment"
     print: "Print"
     count: "total {0}"
@@ -49,6 +50,7 @@ common:
     requiredEnter: "Please enter the required item."
     noData: "There is no data."
     checkDocument: "Please check the document again."
+    tag: "Insert tags."
 
 # Menu
 menu:

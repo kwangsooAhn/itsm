@@ -1,13 +1,13 @@
 package co.brainz.itsm.faq.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 /**
  * ### FAQ 엔티티 클래스.

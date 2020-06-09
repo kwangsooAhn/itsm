@@ -1,127 +1,104 @@
 package co.brainz.workflow.engine
 
-import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
-import co.brainz.workflow.engine.comment.repository.WfCommentRepository
-import co.brainz.workflow.engine.comment.service.WfCommentService
-import co.brainz.workflow.engine.component.repository.WfComponentDataRepository
-import co.brainz.workflow.engine.component.repository.WfComponentRepository
-import co.brainz.workflow.engine.component.service.WfComponentService
-import co.brainz.workflow.engine.document.repository.WfDocumentDisplayRepository
-import co.brainz.workflow.engine.document.repository.WfDocumentRepository
-import co.brainz.workflow.engine.document.service.WfDocumentService
-import co.brainz.workflow.engine.element.repository.WfElementDataRepository
-import co.brainz.workflow.engine.element.repository.WfElementRepository
-import co.brainz.workflow.engine.element.service.WfActionService
-import co.brainz.workflow.engine.element.service.WfElementService
-import co.brainz.workflow.engine.form.repository.WfFormRepository
-import co.brainz.workflow.engine.form.service.WfFormService
-import co.brainz.workflow.engine.instance.repository.WfInstanceRepository
-import co.brainz.workflow.engine.instance.service.WfInstanceService
-import co.brainz.workflow.engine.process.repository.WfProcessRepository
-import co.brainz.workflow.engine.process.service.WfProcessService
-import co.brainz.workflow.engine.process.service.simulation.WfProcessSimulator
-import co.brainz.workflow.engine.token.repository.WfTokenDataRepository
-import co.brainz.workflow.engine.token.repository.WfTokenRepository
-import co.brainz.workflow.engine.token.service.WfTokenElementService
-import co.brainz.workflow.engine.token.service.WfTokenService
+import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
+import co.brainz.workflow.engine.manager.WfTokenManager
+import co.brainz.workflow.engine.manager.WfTokenManagerFactory
+import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
+import co.brainz.workflow.engine.manager.service.WfTokenManagerService
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class WfEngine(
-    private val wfFormRepository: WfFormRepository,
-    private val wfProcessRepository: WfProcessRepository,
-    private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository,
-    private val wfElementRepository: WfElementRepository,
-    private val wfElementDataRepository: WfElementDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository,
-    private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
-    private val wfInstanceRepository: WfInstanceRepository,
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService,
-    private val wfElementService: WfElementService,
-    private val wfTokenElementService: WfTokenElementService,
-    private val wfCommentRepository: WfCommentRepository,
-    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
-    private val wfProcessSimulator: WfProcessSimulator,
-    private val aliceUserRepository: AliceUserRepository,
-    private val wfCommentService: WfCommentService
+    private val wfTokenManagerService: WfTokenManagerService
 ) {
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     /**
-     * Form Engine.
+     * Start workflow.
      */
-    fun form(): WfFormService {
-        return WfFormService(wfFormRepository, wfComponentRepository, wfComponentDataRepository, wfDocumentRepository)
+    fun startWorkflow(tokenDto: WfTokenDto): Boolean {
+        logger.debug("Start Workflow")
+
+        val instance = wfTokenManagerService.createInstance(tokenDto)
+        val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
+        tokenDto.instanceId = instance.instanceId
+        tokenDto.elementType = element.elementType
+        tokenDto.elementId = element.elementId
+
+        // Start Token Create
+        val tokenManager = this.getTokenManager(tokenDto.elementType)
+        var startTokenDto = tokenManager.createToken(tokenDto)
+        startTokenDto = tokenManager.completeToken(startTokenDto)
+
+        // First Token Create
+        val firstTokenDto = tokenManager.createNextToken(startTokenDto)
+
+        return this.progressWorkflow(firstTokenDto)
     }
 
     /**
-     * component Engine.
+     * Progress workflow.
      */
-    fun component(): WfComponentService {
-        return WfComponentService(wfComponentRepository, wfComponentDataRepository)
+    fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
+        logger.debug("Process Token")
+        when (tokenDto.action) {
+            WfElementConstants.Action.SAVE.value ->
+                this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionSave(tokenDto)
+            else -> {
+                var progressTokenDto = tokenDto.copy()
+                do {
+                    progressTokenDto = this.getTokenDto(progressTokenDto)
+                    val tokenManager = this.getTokenManager(progressTokenDto.elementType)
+                    tokenManager.completeToken(progressTokenDto)
+                    progressTokenDto = tokenManager.createNextToken(progressTokenDto)
+                } while (progressTokenDto.isAutoComplete)
+            }
+        }
+
+        return true
     }
 
     /**
-     * Process Engine.
+     * Get TokenDto Init.
+     *  - 진행중 인 문서의 경우 토큰 조회 후 newToken 생성
      */
-    fun process(): WfProcessService {
-        return WfProcessService(wfProcessRepository, wfProcessSimulator)
+    private fun getTokenDto(tokenDto: WfTokenDto): WfTokenDto {
+        val newToken = tokenDto.copy()
+        val tokenEntity = wfTokenManagerService.getToken(tokenDto.tokenId)
+        newToken.instanceId = tokenEntity.instance.instanceId
+        newToken.elementType = tokenEntity.element.elementType
+        newToken.elementId = tokenEntity.element.elementId
+
+        return newToken
     }
 
     /**
-     * Document Engine.
+     * Get TokenManager.
      */
-    fun document(): WfDocumentService {
-        return WfDocumentService(
-            wfFormService,
-            wfActionService,
-            wfElementService,
-            wfDocumentRepository,
-            wfDocumentDisplayRepository,
-            wfInstanceRepository,
-            wfProcessRepository,
-            wfFormRepository,
-            wfComponentRepository,
-            wfComponentDataRepository,
-            wfElementRepository,
-            wfElementDataRepository,
-            aliceNumberingRuleRepository
+    private fun getTokenManager(elementType: String): WfTokenManager {
+        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(elementType)
+    }
+
+    /**
+     * RestTemplateTokenDto To WfTokenDto.
+     */
+    fun toTokenDto(restTemplateTokenDto: RestTemplateTokenDto): WfTokenDto {
+        val tokenData: MutableList<WfTokenDataDto> = mutableListOf()
+        restTemplateTokenDto.data?.forEach { data ->
+            tokenData.add(WfTokenDataDto(componentId = data.componentId, value = data.value))
+        }
+        return WfTokenDto(
+            tokenId = restTemplateTokenDto.tokenId,
+            documentId = restTemplateTokenDto.documentId,
+            fileDataIds = restTemplateTokenDto.fileDataIds,
+            assigneeId = restTemplateTokenDto.assigneeId,
+            data = tokenData,
+            action = restTemplateTokenDto.action,
+            parentTokenId = restTemplateTokenDto.parentTokenId
         )
-    }
-
-    /**
-     * Instance Engine.
-     */
-    fun instance(): WfInstanceService {
-        return WfInstanceService(
-            wfInstanceRepository,
-            wfTokenRepository,
-            wfCommentService
-        )
-    }
-
-    /**
-     * Token Engine.
-     */
-    fun token(): WfTokenService {
-        return WfTokenService(
-            wfTokenRepository,
-            wfTokenDataRepository,
-            wfDocumentDisplayRepository,
-            wfFormService,
-            wfActionService,
-            wfTokenElementService
-        )
-    }
-
-    /**
-     * Comment Engine.
-     */
-    fun comment(): WfCommentService {
-        return WfCommentService(wfCommentRepository, wfInstanceRepository, aliceUserRepository)
     }
 }
