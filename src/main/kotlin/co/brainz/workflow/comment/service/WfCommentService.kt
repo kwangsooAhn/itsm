@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class WfCommentService(
-	private val wfCommentRepository: WfCommentRepository,
-	private val wfInstanceRepository: WfInstanceRepository,
-	private val aliceUserRepository: AliceUserRepository
+    private val wfCommentRepository: WfCommentRepository,
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val aliceUserRepository: AliceUserRepository
 ) {
 
     private val wfCommentMapper: WfCommentMapper = Mappers.getMapper(WfCommentMapper::class.java)
