@@ -21,7 +21,7 @@ class WfProcessSimulationSubProcess(private val wfDocumentRepository: WfDocument
         if (!super.checkProcessStatus(document.process.processStatus)) {
             return setFailedMessage("process status has not published.")
         }
-        return super.requiredValueVerification(element.elementDataEntities)
+        return true
     }
 
     override fun failInfo(): String {

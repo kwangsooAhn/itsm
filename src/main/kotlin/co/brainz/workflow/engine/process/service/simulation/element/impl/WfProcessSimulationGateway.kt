@@ -1,7 +1,6 @@
 package co.brainz.workflow.engine.process.service.simulation.element.impl
 
 import co.brainz.workflow.engine.element.constants.WfElementConstants
-import co.brainz.workflow.engine.element.entity.WfElementDataEntity
 import co.brainz.workflow.engine.element.entity.WfElementEntity
 import co.brainz.workflow.engine.element.repository.WfElementRepository
 import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSimulationElement
@@ -12,22 +11,22 @@ import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSim
 class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepository) : WfProcessSimulationElement() {
     override fun validate(element: WfElementEntity): Boolean {
 
-        lateinit var elementData: List<WfElementDataEntity>
-
         val arrowConnector = wfElementRepository.findAllArrowConnectorElement(element.elementId)
 
         // gateway 의 arrowConnector 2개 이상이면 condition-item 은 값이 반드시 있어야 한다.
-        elementData = if (arrowConnector.size > 1) {
+        if (arrowConnector.size > 1) {
             val conditionItem = element.getElementDataValue(WfElementConstants.AttributeId.CONDITION_ITEM.value)
             val emptyCondition = conditionItem?.isBlank() ?: true
             if (emptyCondition) {
                 return setFailedMessage("Condition item empty.")
             }
-            element.elementDataEntities
         } else {
-            element.elementDataEntities.filter {
+            // gateway 의 arrowConnector 1개이면 condition-item 은 필수값이 아니므로
+            // attributeRequired 값이 true 이더라도 필터링하여 제외시킨다
+            val elementDataTo = element.elementDataEntities.toMutableList()
+            element.elementDataEntities = elementDataTo.filter {
                 it.attributeId != WfElementConstants.AttributeId.CONDITION_ITEM.value
-            }
+            }.toMutableList()
         }
 
         // 게이트웨이의 분기조건들은 서로 중첩되지 않아야 한다.
@@ -40,7 +39,7 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
             conditionValues.add(conditionValue)
         }
 
-        return super.requiredValueVerification(elementData)
+        return true
     }
 
     override fun failInfo(): String {

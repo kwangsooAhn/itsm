@@ -9,7 +9,7 @@ import co.brainz.workflow.engine.process.service.simulation.element.WfProcessSim
  */
 class WfProcessSimulationTask : WfProcessSimulationElement() {
     override fun validate(element: WfElementEntity): Boolean {
-        return super.requiredValueVerification(element.elementDataEntities)
+        return true
     }
 
     override fun failInfo(): String {

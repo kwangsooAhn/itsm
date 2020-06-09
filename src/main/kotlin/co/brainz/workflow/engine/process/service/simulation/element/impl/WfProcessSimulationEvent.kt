@@ -42,7 +42,7 @@ class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepos
             }
         }
 
-        return super.requiredValueVerification(element.elementDataEntities)
+        return true
     }
 
     override fun failInfo(): String {

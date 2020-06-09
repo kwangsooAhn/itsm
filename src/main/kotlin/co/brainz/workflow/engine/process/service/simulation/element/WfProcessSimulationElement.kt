@@ -42,7 +42,7 @@ abstract class WfProcessSimulationElement {
      *
      * @return Boolean
      */
-    protected fun requiredValueVerification(elementData: List<WfElementDataEntity>): Boolean {
+    private fun requiredValueVerification(elementData: List<WfElementDataEntity>): Boolean {
         var validate = true
         elementData.forEach {
             if (it.attributeRequired && it.attributeValue.isEmpty()) {
@@ -63,7 +63,11 @@ abstract class WfProcessSimulationElement {
         logger.info("Simulation validate - ElementId:{}, ElementName:{}", elementId, elementName)
         elementInformation = "<br>ElementId: $element.elementId <br>ElementName: ${element.elementName}}"
 
-        return validate(element)
+        if (!validate(element)) {
+            return false
+        }
+
+        return this.requiredValueVerification(element.elementDataEntities)
     }
 
     /**
