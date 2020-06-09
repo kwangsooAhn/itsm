@@ -15,6 +15,12 @@ import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
+import java.net.Inet4Address
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import java.util.TimeZone
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
@@ -24,12 +30,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.net.Inet4Address
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
-import java.security.PrivateKey
-import java.time.LocalDateTime
-import java.util.TimeZone
 
 /**
  * @since 1.0
@@ -114,7 +114,12 @@ class AliceCertificationService(
                 }
 
                 user = aliceCertificationRepository.save(user)
-                aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, user.userKey, aliceSignUpDto.avatarUUID)
+                aliceFileService.uploadAvatar(
+                    AliceUserConstants.USER_AVATAR_IMAGE_DIR,
+                    AliceUserConstants.BASE_DIR,
+                    user.userKey,
+                    aliceSignUpDto.avatarUUID
+                )
 
                 when (target) {
                     AliceUserConstants.USER_ID -> {

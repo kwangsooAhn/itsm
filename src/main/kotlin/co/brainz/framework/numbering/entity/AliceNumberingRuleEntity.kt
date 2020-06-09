@@ -1,6 +1,5 @@
 package co.brainz.framework.numbering.entity
 
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.CascadeType
@@ -12,6 +11,7 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 import javax.persistence.OrderBy
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "awf_numbering_rule")

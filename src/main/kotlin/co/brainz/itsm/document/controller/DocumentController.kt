@@ -1,8 +1,8 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.constants.DocumentConstants
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -21,7 +21,6 @@ class DocumentController(
     private val documentListPage: String = "document/documentList"
     private val documentPublishPage: String = "document/documentPublish"
     private val documentPrintPage: String = "document/documentPrint"
-
 
     /**
      * 신청서 리스트 호출 화면.

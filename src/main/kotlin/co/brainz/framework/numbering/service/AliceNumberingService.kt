@@ -8,10 +8,10 @@ import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.mapstruct.factory.Mappers
-import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import org.mapstruct.factory.Mappers
+import org.springframework.stereotype.Service
 
 @Service
 class AliceNumberingService(
@@ -78,7 +78,7 @@ class AliceNumberingService(
                 }
                 newNumbering = newPatternValues.joinToString(separator = "-")
             }
-            //Update Numbering
+            // Update Numbering
             aliceNumberingRuleEntity.get().latestValue = newNumbering
             aliceNumberingRuleEntity.get().latestDate = currentDateTime
             aliceNumberingRuleRepository.save(aliceNumberingRuleEntity.get())
@@ -140,7 +140,7 @@ class AliceNumberingService(
             ?: AliceNumberingConstants.DEFAULT_DIGIT) as Int
         var latestSequenceValue = latestPatternValue.toIntOrNull() ?: 0
 
-        //check init
+        // check init
         if (latestDate != null) {
             val initialInterval = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_INITIAL_INTERVAL.value]
                 ?: AliceNumberingConstants.DEFAULT_INITIAL_INTERVAL) as String
@@ -157,7 +157,7 @@ class AliceNumberingService(
             }
         }
 
-        //check digit size and latestPatternValue size
+        // check digit size and latestPatternValue size
         if (digit != latestPatternValue.length) {
             latestSequenceValue = 0
         }
@@ -167,7 +167,7 @@ class AliceNumberingService(
             0 -> startWith.toString()
             else -> (latestSequenceValue + 1).toString()
         }
-        //check over digit
+        // check over digit
         if (digit < value.length) {
             value = "1"
         }
@@ -181,5 +181,4 @@ class AliceNumberingService(
 
         return value
     }
-
 }
