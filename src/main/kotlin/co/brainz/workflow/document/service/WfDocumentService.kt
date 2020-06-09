@@ -271,54 +271,54 @@ class WfDocumentService(
      * [processId]기준 으로  Process에 Element중 userTask를 정렬하여 [List]로 반환
      */
     fun makeOrderElements(processId:String) : List<Map<String, Any>> {
-        //반환 ElementList
+        // 반환 ElementList
         lateinit var orderElementList: List<Map<String, Any>>
-        //userTask를 저장한 ElementList
+        // userTask를 저장한 ElementList
         val userTaskElementList: MutableList<Map<String, Any>> = mutableListOf()
-        //gateway 저장
+        // gateway 저장
         val arrowConnectorInGateway: MutableMap<String, ArrayDeque<WfElementEntity>> = mutableMapOf()
-        //중복 gateway 저장
+        // 중복 gateway 저장
         val duplicateGateway: MutableMap<String, String> = mutableMapOf()
-        //gateway에 여러개의 경우의 수가 있을 경우 저장
+        // gateway에 여러개의 경우의 수가 있을 경우 저장
         val gatewayQueue = ArrayDeque<WfElementEntity>()
         val process = wfProcessRepository.getOne(processId)
         val processElementEntities = process.elementEntities
         var exceptionFlag = false
         try {
-            //쓸모 없는 그룹, 주석을 제거
+            // 쓸모 없는 그룹, 주석을 제거
             val allElementEntitiesInProcess: List<WfElementEntity> = processElementEntities.filter {
                 WfElementConstants.ElementType.getAtomic(it.elementType) != WfElementConstants.ElementType.ARTIFACT
             }
 
-            //첫 commonStart 엘리먼트 찾기
+            // 첫 commonStart 엘리먼트 찾기
             val startElement = allElementEntitiesInProcess.first {
                 it.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value
             }
             var currentElement = startElement
 
-            //while을 돌면서 전체 프로세스 확인
+            // while을 돌면서 전체 프로세스 확인
             while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
                 val arrowConnectors = allElementEntitiesInProcess.filter {
                     currentElement.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
                 }
 
-                //화살표가 가리키는 Element
+                // 화살표가 가리키는 Element
                 lateinit var arrowElement: WfElementEntity
 
-                //exclusiveGateway 처리
+                // exclusiveGateway 처리
                 if (currentElement.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
                     if (arrowConnectorInGateway[currentElement.elementId] == null) {
                         arrowConnectorInGateway[currentElement.elementId] = ArrayDeque(arrowConnectors)
                     }
                     arrowElement = arrowConnectorInGateway[currentElement.elementId]!!.pop()
 
-                    //모두 꺼내서 사용을 했으면 해당 gateway 삭제, duplicateGateway 저장, gateway 삭제
+                    // 모두 꺼내서 사용을 했으면 해당 gateway 삭제, duplicateGateway 저장, gateway 삭제
                     if (arrowConnectorInGateway[currentElement.elementId]!!.size == 0) {
                         arrowConnectorInGateway.remove(currentElement.elementId)
                         duplicateGateway[currentElement.elementId] = currentElement.elementId
                         gatewayQueue.remove(currentElement)
                     } else {
-                        //검증 해야 할 exclusiveGateway arrowConnector가 존재하므로 또 다시 꺼낼 수 있도록 큐에 넣어 둔다.
+                        // 검증 해야 할 exclusiveGateway arrowConnector가 존재하므로 또 다시 꺼낼 수 있도록 큐에 넣어 둔다.
                         if (duplicateGateway[currentElement.elementId] != currentElement.elementId) {
                             gatewayQueue.push(currentElement)
                         }
@@ -355,13 +355,13 @@ class WfDocumentService(
             if (exceptionFlag) {
                 orderElementList = wfElementDataRepository.findElementDataByProcessId(processId)
             } else {
-                //정렬 기준
+                // 정렬 기준
                 val standardUserTaskElementArrayList = ArrayList(userTaskElementList)
-                //정렬 결과
+                // 정렬 결과
                 val orderResultUserTaskElementList: MutableList<Map<String, Any>> = mutableListOf()
-                //전체 개수
+                // 전체 개수
                 val elementCount = standardUserTaskElementArrayList.size - 1
-                //추가 flag
+                // 추가 flag
                 var addCheck = true
 
                 standardUserTaskElementArrayList.forEachIndexed { sortIndex, _ ->
