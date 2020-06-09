@@ -9,30 +9,30 @@ import org.springframework.stereotype.Service
 
 @Service
 class TagService(
-	private val restTemplate: RestTemplateProvider
+    private val restTemplate: RestTemplateProvider
 ) {
 
-	/**
-	 * Set Tag.
-	 */
-	fun setTag(restTemplateTagDto: RestTemplateTagDto): Boolean {
-		val url = RestTemplateUrlDto(
-			callUrl = RestTemplateConstants.Tag.POST_TAG.url
-		)
-		val responseEntity = restTemplate.create(url, restTemplateTagDto)
-		return responseEntity.body.toString().isNotEmpty()
-	}
+    /**
+     * Set Tag.
+     */
+    fun setTag(restTemplateTagDto: RestTemplateTagDto): Boolean {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Tag.POST_TAG.url
+        )
+        val responseEntity = restTemplate.create(url, restTemplateTagDto)
+        return responseEntity.body.toString().isNotEmpty()
+    }
 
-	/**
-	 * Delete Tag.
-	 */
-	fun deleteTag(tagId: String): ResponseEntity<String> {
-		val url = RestTemplateUrlDto(
-			callUrl = RestTemplateConstants.Tag.DELETE_TAG.url.replace(
-				restTemplate.getKeyRegex(),
-				tagId
-			)
-		)
-		return restTemplate.delete(url)
-	}
+    /**
+     * Delete Tag.
+     */
+    fun deleteTag(tagId: String): ResponseEntity<String> {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Tag.DELETE_TAG.url.replace(
+                restTemplate.getKeyRegex(),
+                tagId
+            )
+        )
+        return restTemplate.delete(url)
+    }
 }

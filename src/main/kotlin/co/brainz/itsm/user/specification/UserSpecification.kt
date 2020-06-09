@@ -3,11 +3,11 @@ package co.brainz.itsm.user.specification
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.user.constants.UserConstants
-import org.springframework.data.jpa.domain.Specification
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
+import org.springframework.data.jpa.domain.Specification
 
 /**
  * 사용자 전체 검색시 조회시 사용할 필드를 정의한다

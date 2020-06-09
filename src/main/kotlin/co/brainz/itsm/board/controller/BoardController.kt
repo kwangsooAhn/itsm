@@ -4,12 +4,12 @@ import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.dto.BoardViewDto
 import co.brainz.itsm.board.service.BoardService
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
+import java.time.LocalDateTime
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import java.time.LocalDateTime
 
 @Controller
 @RequestMapping("/boards")
