@@ -12,7 +12,6 @@ import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
-import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.element.service.WfElementService
@@ -51,7 +50,6 @@ class WfDocumentService(
     private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
-    private val wfElementDataRepository: WfElementDataRepository,
     private val aliceNumberingRuleRepository: AliceNumberingRuleRepository
 ) {
 
@@ -271,8 +269,6 @@ class WfDocumentService(
      * [processId]기준 으로  Process에 Element중 userTask를 정렬하여 [List]로 반환
      */
     fun makeOrderElements(processId:String) : List<Map<String, Any>> {
-        // 반환 ElementList
-        lateinit var orderElementList: List<Map<String, Any>>
         // userTask를 저장한 ElementList
         val userTaskElementList: MutableList<Map<String, Any>> = mutableListOf()
         // gateway 저장
@@ -283,7 +279,6 @@ class WfDocumentService(
         val gatewayQueue = ArrayDeque<WfElementEntity>()
         val process = wfProcessRepository.getOne(processId)
         val processElementEntities = process.elementEntities
-        var exceptionFlag = false
         try {
             // 쓸모 없는 그룹, 주석을 제거
             val allElementEntitiesInProcess: List<WfElementEntity> = processElementEntities.filter {
@@ -345,46 +340,16 @@ class WfDocumentService(
                     } else {
                         elementAttribute["elementName"] = currentElement.elementType
                     }
+                    if (userTaskElementList.contains(elementAttribute)) {
+                        userTaskElementList.remove(elementAttribute)
+                    }
                     userTaskElementList.add(elementAttribute)
                 }
             }
         } catch (e: Exception) {
-            exceptionFlag = true
-            logger.error("You can not found userTaskElementList", e)
-        } finally {
-            if (exceptionFlag) {
-                orderElementList = wfElementDataRepository.findElementDataByProcessId(processId)
-            } else {
-                // 정렬 기준
-                val standardUserTaskElementArrayList = ArrayList(userTaskElementList)
-                // 정렬 결과
-                val orderResultUserTaskElementList: MutableList<Map<String, Any>> = mutableListOf()
-                // 전체 개수
-                val elementCount = standardUserTaskElementArrayList.size - 1
-                // 추가 flag
-                var addCheck = true
-
-                standardUserTaskElementArrayList.forEachIndexed { sortIndex, _ ->
-                    standardUserTaskElementArrayList.forEachIndexed { index, _ ->
-                        if (elementCount >= sortIndex + index + 1) {
-                            if (standardUserTaskElementArrayList[sortIndex] == standardUserTaskElementArrayList[sortIndex + index + 1]) {
-                                addCheck = false
-                            }
-                            if (elementCount == sortIndex + index + 1) {
-                                if (addCheck) {
-                                    orderResultUserTaskElementList.add(standardUserTaskElementArrayList[sortIndex])
-                                }
-                                addCheck = true
-                            }
-                        } else if (elementCount == sortIndex && elementCount == index) {
-                            orderResultUserTaskElementList.add(standardUserTaskElementArrayList[sortIndex])
-                        }
-                    }
-                }
-                orderElementList = ArrayList(orderResultUserTaskElementList)
-            }
+            throw AliceException(AliceErrorConstants.ERR, e.toString())
         }
-        return orderElementList
+        return ArrayList(userTaskElementList)
     }
 
     /**
