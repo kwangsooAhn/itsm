@@ -1063,7 +1063,7 @@
                 }
             }
         }
-        isSameComponent =  (selectedComponentTypes.length === 1);
+        isSameComponent = (selectedComponentTypes.length === 1);
         if (isSameComponent) { isHideComponent = false; }
 
         // 선택된 첫번째 컴포넌트의 속성을 풀력한다.
