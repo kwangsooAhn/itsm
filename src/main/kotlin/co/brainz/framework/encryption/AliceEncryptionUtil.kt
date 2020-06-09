@@ -1,7 +1,5 @@
 package co.brainz.framework.encryption
 
-import org.apache.commons.codec.binary.Base64
-import org.springframework.context.annotation.Configuration
 import java.math.BigInteger
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
@@ -14,6 +12,8 @@ import javax.crypto.IllegalBlockSizeException
 import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import org.apache.commons.codec.binary.Base64
+import org.springframework.context.annotation.Configuration
 
 @Configuration
 class AliceEncryptionUtil {

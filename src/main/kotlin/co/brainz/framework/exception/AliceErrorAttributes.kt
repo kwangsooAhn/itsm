@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import java.lang.reflect.UndeclaredThrowableException
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.WebRequest
-import java.lang.reflect.UndeclaredThrowableException
 
 /**
  * 에러 속성을 정의한다.

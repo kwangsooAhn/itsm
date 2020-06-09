@@ -1,11 +1,11 @@
 package co.brainz.framework.util
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl
-import org.springframework.security.core.context.SecurityContextHolder
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl
+import org.springframework.security.core.context.SecurityContextHolder
 
 class AliceTimezoneUtils {
 
