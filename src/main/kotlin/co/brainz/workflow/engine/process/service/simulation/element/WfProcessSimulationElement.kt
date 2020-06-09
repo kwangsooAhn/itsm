@@ -43,15 +43,12 @@ abstract class WfProcessSimulationElement {
      * @return Boolean
      */
     private fun requiredValueVerification(elementData: List<WfElementDataEntity>): Boolean {
-        var validate = true
         elementData.forEach {
             if (it.attributeRequired && it.attributeValue.isEmpty()) {
-                validate = false
-                setFailedMessage("Required value is empty.")
-                return@forEach
+                return setFailedMessage("Required value is empty.")
             }
         }
-        return validate
+        return true
     }
 
     /**
