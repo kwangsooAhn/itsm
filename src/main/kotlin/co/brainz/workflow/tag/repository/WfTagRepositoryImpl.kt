@@ -1,10 +1,10 @@
 package co.brainz.workflow.tag.repository
 
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
+import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.tag.entity.QWfTagDataEntity
 import co.brainz.workflow.tag.entity.QWfTagEntity
 import co.brainz.workflow.tag.entity.WfTagEntity
-import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
