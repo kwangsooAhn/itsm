@@ -17,8 +17,8 @@ import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
-import co.brainz.itsm.user.specification.UserSpecification
 import co.brainz.itsm.user.mapper.UserMapper
+import co.brainz.itsm.user.specification.UserSpecification
 import co.brainz.itsm.user.repository.UserRepository
 import java.security.PrivateKey
 import java.util.Optional
