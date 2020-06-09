@@ -1033,7 +1033,7 @@
      * 우측 properties panel 세부 속성 출력
      */
     function showComponentProperties() {
-        if (aliceJs.arraysMatch(previousComponentIds, selectedComponentIds)) { return false; }
+        if (previousComponentIds.toString() === selectedComponentIds.toString()) { return false; }
 
         hideComponentProperties();
         if (selectedComponentIds.length === 0) { return false; }
@@ -1048,26 +1048,24 @@
 
         //  선택된 컴포넌트 css 추가 및 다중 선택 여부 판단
         let selectedComponentTypes = [];
-        let isSameComponent = true;
+        let isSameComponent = false;
         let isHideComponent = false;
         for (let i = 0, len = selectedComponentIds.length; i < len; i++) {
             let selectedElem = document.getElementById(selectedComponentIds[i]);
             if (selectedElem !== null) {
                 selectedElem.classList.add('selected');
                 const componentType = selectedElem.getAttribute('data-type');
-                if (i === 0) {
+                if (selectedComponentTypes.indexOf(componentType) === -1) {
                     selectedComponentTypes.push(componentType);
-                } else {
-                    if (selectedComponentTypes.indexOf(componentType) === -1) {
-                        isSameComponent = false; // 동일한 컴포넌트가 아니다.
-                        selectedComponentTypes.push(componentType);
-                        if (componentType === 'label' || componentType === 'image' || componentType === 'divider' || componentType === 'editbox') {
-                            isHideComponent = true;
-                        }
-                    }
+                }
+                if (componentType === 'label' || componentType === 'image' || componentType === 'divider' || componentType === 'editbox') {
+                    isHideComponent = true;
                 }
             }
         }
+        isSameComponent =  (selectedComponentTypes.length === 1);
+        if (isSameComponent) { isHideComponent = false; }
+
         // 선택된 첫번째 컴포넌트의 속성을 풀력한다.
         let compIdx = getComponentIndex(selectedComponentIds[0]);
         if (compIdx === -1) { return false; }
@@ -1131,14 +1129,14 @@
                                     const fieldButtonOptions = fieldProp.option.map(function (opt) {
                                         return `<button type='button' id='${opt.id}' class='${fieldProp.value === opt.id ? "active" : ""}'></button>`;
                                     }).join('');
-                                    buttonGroupElem.insertAdjacentHTML('beforEend', `<div id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
+                                    buttonGroupElem.insertAdjacentHTML('beforeend', `<div id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
 
                                     const buttonElemList = buttonGroupElem.querySelector('#' + fieldProp.id).children;
                                     for (let i = 0, len = buttonElemList.length; i < len; i++) {
                                         buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                     }
                                 } else { //bold, italic, underline
-                                    buttonGroupElem.insertAdjacentHTML('beforEend', `<button type='button' id='${fieldProp.id}' class='${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'></button>`);
+                                    buttonGroupElem.insertAdjacentHTML('beforeend', `<button type='button' id='${fieldProp.id}' class='${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'></button>`);
                                     buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
                                 }
                             } else {
@@ -1179,9 +1177,9 @@
                                     case 'rgb':
                                         fieldTemplate +=
                                             `<span class='selected-color' style='background-color: ${fieldProp.value};'></span>
-                                            <input type='text' class='property-field-value underline color' id='${group}-${fieldProp.id}-value'  value='${fieldProp.value}' readonly='true'>`;
+                                            <input type='text' class='property-field-value underline color' id='${group}-${fieldProp.id}-value'  value='${fieldProp.value}' readonly>`;
 
-                                        groupElem.insertAdjacentHTML('beforEend', `<div id='${group + "-" + fieldProp.id}-colorPalette' class='color-palette'></div>`);
+                                        groupElem.insertAdjacentHTML('beforeend', `<div id='${group + "-" + fieldProp.id}-colorPalette' class='color-palette'></div>`);
                                         break;
                                     case 'radio-datetime':
                                         fieldGroupElem.classList.add('vertical');
@@ -1231,7 +1229,7 @@
                                     case 'slider':
                                         fieldTemplate +=
                                             `<input type='range' class='property-field-value' id='${group + "-" + fieldProp.id}' min='1' max='12' value='${fieldProp.value}'/>
-                                             <input type='text' class='underline' id='${group + "-" + fieldProp.id}-value' value='${fieldProp.value}' readonly='true'/>`;
+                                             <input type='text' class='underline' id='${group + "-" + fieldProp.id}-value' value='${fieldProp.value}' readonly/>`;
                                         break;
                                     case 'session':
                                         const propValueArr = fieldProp.value.split('|');
@@ -1278,7 +1276,7 @@
                                     fieldTemplate += `<span class='property-field-unit'>${fieldProp.unit}</span>`;
                                 }
 
-                                fieldGroupElem.insertAdjacentHTML('beforEend', fieldTemplate);
+                                fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 
                                 // color palette 초기화
                                 if (fieldProp.type === 'rgb') {
@@ -1314,12 +1312,12 @@
                                 // 테이블 Row 추가
                                 const tableRowOptions = componentData.option.map(function(opt) {
                                     return `<tr><td><input type='checkbox'></td>${fieldProp.items.map(function(item) { 
-                                        return `<td id='${item.id}'><input type='text' value='${opt[item.id]}' ${item.id === 'seq' ? "readonly='true'" : ""}/></td>`;
+                                        return `<td id='${item.id}'><input type='text' value='${opt[item.id]}' ${item.id === 'seq' ? "readonly" : ""}/></td>`;
                                     }).join('')}</tr>`; 
                                 }).join('');
                                 fieldTemplate += tableRowOptions;
 
-                                tableElem.insertAdjacentHTML('beforEend', fieldTemplate);
+                                tableElem.insertAdjacentHTML('beforeend', fieldTemplate);
                             }
                         }
                     });
