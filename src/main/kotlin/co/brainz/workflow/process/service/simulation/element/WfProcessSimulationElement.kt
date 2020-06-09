@@ -1,5 +1,6 @@
 package co.brainz.workflow.process.service.simulation.element
 
+import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.process.constants.WfProcessConstants
@@ -37,6 +38,20 @@ abstract class WfProcessSimulationElement {
     }
 
     /**
+     * 엘리먼트데이터[elementData]의 필수값을 검증한다.
+     *
+     * @return Boolean
+     */
+    private fun requiredValueVerification(elementData: List<WfElementDataEntity>): Boolean {
+        elementData.forEach {
+            if (it.attributeRequired && it.attributeValue.isEmpty()) {
+                return setFailedMessage("Required value is empty.")
+            }
+        }
+        return true
+    }
+
+    /**
      * 공통 메서드
      */
     fun validation(element: WfElementEntity): Boolean {
@@ -44,29 +59,12 @@ abstract class WfProcessSimulationElement {
         val elementName = element.elementName
         logger.info("Simulation validate - ElementId:{}, ElementName:{}", elementId, elementName)
         elementInformation = "<br>ElementId: $element.elementId <br>ElementName: ${element.elementName}}"
-        return if (commonValidate(element)) {
-            validate(element)
-        } else {
-            false
-        }
-    }
 
-    /**
-     * Common Validate (Required value).
-     *
-     * @param element
-     * @return Boolean
-     */
-    private fun commonValidate(element: WfElementEntity): Boolean {
-        var validate = true
-        element.elementDataEntities.forEach { elementData ->
-            if (elementData.attributeRequired && elementData.attributeValue.isEmpty()) {
-                validate = false
-                setFailedMessage("Required value is empty.")
-                return@forEach
-            }
+        if (!validate(element)) {
+            return false
         }
-        return validate
+
+        return this.requiredValueVerification(element.elementDataEntities)
     }
 
     /**
