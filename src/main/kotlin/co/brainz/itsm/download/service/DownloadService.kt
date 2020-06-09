@@ -8,9 +8,9 @@ import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
 import co.brainz.itsm.utility.ConvertParam
+import javax.transaction.Transactional
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
-import javax.transaction.Transactional
 
 @Service
 class DownloadService(

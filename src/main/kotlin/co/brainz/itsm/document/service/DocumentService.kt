@@ -47,7 +47,7 @@ class DocumentService(
         )
 
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url, parameters = multiVal)
-        val responseBody = restTemplate.get(url) //providerDocument.getDocuments()
+        val responseBody = restTemplate.get(url) // providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
         val restTemplateDocuments: List<RestTemplateDocumentDto> = mapper.readValue(
@@ -99,7 +99,7 @@ class DocumentService(
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
-        //TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
+        // TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
         restTemplateDocumentDto.documentStatus = RestTemplateConstants.DocumentStatus.USE.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
         val responseBody = restTemplate.create(url, restTemplateDocumentDto)
