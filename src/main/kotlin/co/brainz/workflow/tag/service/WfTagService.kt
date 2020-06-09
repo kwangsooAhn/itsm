@@ -3,10 +3,10 @@ package co.brainz.workflow.tag.service
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateTagDto
 import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
-import co.brainz.workflow.tag.entity.WfTagEntity
 import co.brainz.workflow.tag.entity.WfTagDataEntity
-import co.brainz.workflow.tag.repository.WfTagRepository
+import co.brainz.workflow.tag.entity.WfTagEntity
 import co.brainz.workflow.tag.repository.WfTagDataRepository
+import co.brainz.workflow.tag.repository.WfTagRepository
 import org.springframework.stereotype.Service
 
 @Service
