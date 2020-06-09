@@ -32,7 +32,8 @@ interface WfInstanceRepositoryCustom {
         userKey: String,
         documentId: String,
         searchValue: String,
-        fromDt: String, toDt: String,
+        fromDt: String,
+        toDt: String,
         dateFormat: String,
         offset: Long
     ): QueryResults<WfInstanceListViewDto>
