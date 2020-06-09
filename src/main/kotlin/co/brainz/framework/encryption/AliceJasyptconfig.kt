@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-public open class JasyptConfig {
+open class JasyptConfig {
     @Bean("jasyptStringEncryptor")
-    public open fun StringEncryptor(): StringEncryptor {
+    open fun StringEncryptor(): StringEncryptor {
 
         val key = AliceSecurityConstant.keyValue
         val encryptor: PooledPBEStringEncryptor = PooledPBEStringEncryptor()

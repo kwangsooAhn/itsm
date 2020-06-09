@@ -3,8 +3,8 @@ package co.brainz.itsm.document.controller
 import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.document.constants.DocumentConstants
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -93,5 +93,4 @@ class DocumentAdminController(
         model.addAttribute("documentId", documentId)
         return documentDisplayPage
     }
-
 }

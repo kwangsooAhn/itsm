@@ -46,7 +46,7 @@ class AliceAuthSuccessHandler(
 
         // TODO 로그인 실패 카운트 0 으로 초기화 및 이력 업데이트
 
-        //Check redirectUrl
+        // Check redirectUrl
         when (val session = request.session) {
             null -> {
                 super.onAuthenticationSuccess(request, response, authentication)

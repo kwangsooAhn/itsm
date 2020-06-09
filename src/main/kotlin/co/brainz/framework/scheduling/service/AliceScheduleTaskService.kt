@@ -2,6 +2,9 @@ package co.brainz.framework.scheduling.service
 
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.repository.AliceScheduleTaskRepository
+import java.util.TimeZone
+import java.util.concurrent.ScheduledFuture
+import javax.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.event.ContextRefreshedEvent
@@ -10,12 +13,9 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.support.CronTrigger
 import org.springframework.stereotype.Service
-import java.util.TimeZone
-import java.util.concurrent.ScheduledFuture
-import javax.annotation.PostConstruct
 
 @Service
-public class AliceScheduleTaskService {
+class AliceScheduleTaskService {
     companion object {
         private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
     }
@@ -43,7 +43,7 @@ public class AliceScheduleTaskService {
      * @param task TASK
      * @param taskInfo TASK 정보
      */
-    public fun addTaskToScheduler(id: Long, task: Runnable, taskInfo: AliceScheduleTaskEntity) {
+    fun addTaskToScheduler(id: Long, task: Runnable, taskInfo: AliceScheduleTaskEntity) {
         var scheduledTask: ScheduledFuture<*>? = null
         when (taskInfo.executeCycleType) {
             "fixedDelay" -> scheduledTask = scheduler.scheduleWithFixedDelay(task, taskInfo.executeCyclePeriod)
@@ -65,7 +65,7 @@ public class AliceScheduleTaskService {
      *
      * @param taskInfo TASK 정보
      */
-    public fun addTaskToScheduler(taskInfo: AliceScheduleTaskEntity) {
+    fun addTaskToScheduler(taskInfo: AliceScheduleTaskEntity) {
         if ("query" == taskInfo.taskType) {
             addTaskToScheduler(taskInfo.taskId, Runnable { executeQuery(taskInfo.executeQuery) }, taskInfo)
         } else if ("class" == taskInfo.taskType) {
@@ -85,7 +85,7 @@ public class AliceScheduleTaskService {
      *
      * @param id TASK ID
      */
-    public fun removeTaskFromScheduler(id: Long) {
+    fun removeTaskFromScheduler(id: Long) {
         val scheduledTask: ScheduledFuture<*>? = taskMap[id]
         if (scheduledTask != null) {
             scheduledTask.cancel(true)
@@ -95,7 +95,7 @@ public class AliceScheduleTaskService {
     }
 
     @EventListener(ContextRefreshedEvent::class)
-    public fun contextRefreshedEvent() {
+    fun contextRefreshedEvent() {
         val scheduleTask: MutableList<AliceScheduleTaskEntity> = aliceScheduleTaskRepository.findAll()
         scheduleTask.forEach { list -> addTaskToScheduler(list) }
     }
@@ -105,7 +105,7 @@ public class AliceScheduleTaskService {
      *
      * @param executeQuery 실행쿼리
      */
-    public fun executeQuery(executeQuery: String) {
+    fun executeQuery(executeQuery: String) {
         jdbcTemplate.execute(executeQuery)
         logger.info("The query has been executed. [{}]", executeQuery)
     }

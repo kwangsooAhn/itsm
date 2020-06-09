@@ -16,7 +16,7 @@ class AliceLogoutSuccessHandler : LogoutSuccessHandler {
         if (authentication != null && authentication.details != null) {
             request.session.invalidate()
         }
-        //Set redirectUrl
+        // Set redirectUrl
         if (request.getParameter("redirectUrl") != null) {
             request.session.setAttribute("redirectUrl", request.getParameter("redirectUrl"))
         }

@@ -1,11 +1,11 @@
 package co.brainz.itsm.board.repository
 
 import co.brainz.itsm.board.entity.PortalBoardEntity
+import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 interface BoardRepository : JpaRepository<PortalBoardEntity, String> {
