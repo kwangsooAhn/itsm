@@ -15,7 +15,7 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
         val process = QWfProcessEntity.wfProcessEntity
         val query = from(process)
             .innerJoin(process.createUser).fetchJoin()
-            .innerJoin(process.updateUser).fetchJoin()
+            .leftJoin(process.updateUser).fetchJoin()
         if (search.isNotEmpty()) {
             query.where(
                 process.processName.containsIgnoreCase(search).or(process.processDesc.containsIgnoreCase(search))

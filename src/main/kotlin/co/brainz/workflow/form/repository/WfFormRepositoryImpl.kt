@@ -15,7 +15,7 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
         val form = QWfFormEntity.wfFormEntity
         val query = from(form)
             .innerJoin(form.createUser).fetchJoin()
-            .innerJoin(form.updateUser).fetchJoin()
+            .leftJoin(form.updateUser).fetchJoin()
         if (search.isNotEmpty()) {
             query.where(form.formName.containsIgnoreCase(search).or(form.formDesc.containsIgnoreCase(search)))
         }
