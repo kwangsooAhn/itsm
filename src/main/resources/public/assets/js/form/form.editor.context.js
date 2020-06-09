@@ -423,8 +423,11 @@
                     }
 
                     if (isCtrlPressed) {  //배열에 담음
-                        if (editor.selectedComponentIds.indexOf(itemInContext.id) === -1) {
+                        const removeIdx = editor.selectedComponentIds.indexOf(itemInContext.id);
+                        if (removeIdx === -1) {
                             editor.selectedComponentIds.push(itemInContext.id);
+                        } else {
+                            editor.selectedComponentIds.splice(removeIdx, 1);
                         }
                     } else { //배열 초기화 후 현재 선택된 컴포넌트만 표시
                         editor.selectedComponentIds.length = 0;

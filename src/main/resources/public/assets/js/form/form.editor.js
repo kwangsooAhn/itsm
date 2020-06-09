@@ -77,14 +77,13 @@
         propertiesPanel = null,
         previousComponentIds = [], //이전에 선택한 컴포넌트
         selectedComponentIds = [], //선택된 컴포넌트 ID
-        formProperties = {},      //좌측 properties panel에 출력되는 폼 정보
         customCodeList = null;        //커스텀 컴포넌트 세부속성에서 사용할 코드 데이터
 
     /**
      * text, textarea validate check.
      *
      * @param element target element
-     * @param validate validate attr
+     * @param validate validate 속성
      */
     function validateCheck(element, validate) {
         if (typeof validate === 'undefined' || validate === '') { return; }
@@ -470,6 +469,7 @@
             setComponentData(editbox.attr);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
 
+            previousComponentIds.length = 0;
             selectedComponentIds.length = 0;
             selectedComponentIds.push(editbox.id);
             showComponentProperties();
@@ -501,6 +501,8 @@
                     comp.domElem.querySelector('[contenteditable=true]').focus();
                 }
                 context.itemInContext = comp.domElem;
+
+                previousComponentIds.length = 0;
                 selectedComponentIds.length = 0;
                 selectedComponentIds.push(comp.id);
                 showComponentProperties();
@@ -535,6 +537,7 @@
         let histories = [];
         //컴포넌트 삭제
         elem.remove();
+        previousComponentIds.length = 0;
         selectedComponentIds.length = 0;
         for (let i = 0; i < editor.data.components.length; i++) {
             if (delElemId === editor.data.components[i].componentId) {
@@ -573,6 +576,7 @@
             firstComponent.querySelector('[contenteditable=true]').focus();
         }
         formPanel.scrollTop = 0;
+        previousComponentIds.length = 0;
         selectedComponentIds.length = 0;
         selectedComponentIds.push(firstComponent.id);
         showComponentProperties();
@@ -587,6 +591,7 @@
             lastComponent.querySelector('[contenteditable=true]').focus();
         }
         formPanel.scrollTop = formPanel.scrollHeight;
+        previousComponentIds.length = 0;
         selectedComponentIds.length = 0;
         selectedComponentIds.push(lastComponent.id);
         showComponentProperties();
@@ -609,6 +614,7 @@
             if (previousElem.getAttribute('data-type') === defaultComponent) {
                 previousElem.querySelector('[contenteditable=true]').focus();
             }
+            previousComponentIds.length = 0;
             selectedComponentIds.length = 0;
             selectedComponentIds.push(previousElem.id);
             showComponentProperties();
@@ -632,6 +638,7 @@
             if (nextElem.getAttribute('data-type') === defaultComponent) {
                 nextElem.querySelector('[contenteditable=true]').focus();
             }
+            previousComponentIds.length = 0;
             selectedComponentIds.length = 0;
             selectedComponentIds.push(nextElem.id);
             showComponentProperties();
@@ -642,9 +649,10 @@
      * 세부 속성 편집: 제일 처음으로 이동
      */
     function selectProperties() {
-        if (propertiesPanel.getElementsByTagName('input')[0] === null) { return false; }
+        const selectElems = propertiesPanel.querySelectorAll('input[type="text"]:not([readonly]), select');
+        if (selectElems.length === 0) { return false; }
 
-        propertiesPanel.getElementsByTagName('input')[0].focus();
+        selectElems[0].focus();
     }
 
     /**
@@ -652,7 +660,8 @@
      * @param {String} elemId 선택한 element Id
      */
     function addEditboxUp(elemId) {
-        let addElemId = elemId || selectedComponentId[0];
+        if (typeof elemId === 'undefined' && selectedComponentIds.length > 1) { return false; } //다중 선택일 경우 동작 안함
+        let addElemId = elemId || selectedComponentIds[0];
         let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
@@ -664,6 +673,7 @@
         reorderComponent();
 
         editbox.domElem.querySelector('[contenteditable=true]').focus();
+        previousComponentIds.length = 0;
         selectedComponentIds.length = 0;
         selectedComponentIds.push(editbox.id);
         showComponentProperties();
@@ -678,7 +688,8 @@
      * @param {Function} callbackFunc callback function
      */
     function addEditboxDown(elemId, callbackFunc) {
-        let addElemId = elemId || selectedComponentId[0];
+        if (typeof elemId === 'undefined' && selectedComponentIds.length > 1) { return false; } //다중 선택일 경우 동작 안함
+        let addElemId = elemId || selectedComponentIds[0];
         let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
@@ -696,6 +707,7 @@
         reorderComponent();
 
         editbox.domElem.querySelector('[contenteditable=true]').focus();
+        previousComponentIds.length = 0;
         selectedComponentIds.length = 0;
         selectedComponentIds.push(editbox.id);
         showComponentProperties();
@@ -809,7 +821,6 @@
             setComponentData(compAttr);
 
             let targetElement = document.getElementById(id);
-            console.log(targetElement);
             element.domElem.id = id;
 
             targetElement.parentNode.insertBefore(element.domElem, targetElement);
@@ -826,23 +837,34 @@
      * 변경된 값을 컴포넌트 속성 정보에 반영하고, 컴포넌트를 다시 그린다.
      * @param {String} value 변경된 값
      * @param {String} group 변경된 그룹 key
-     * @param {String} field 변경된 field key
+     * @param {String} field 변경된 field key (option일 때만 field가 존재하지 않음)
      * @param {Number} [index] 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
      */
     function changePropertiesValue(value, group, field, index) {
-        //console.log(selectedComponentIds);
-        console.log(value , group, field, index);
-        const compIdx = getComponentIndex(selectedComponentIds[0]);
-        let componentData = editor.data.components[compIdx];
-        let originComponentData = JSON.parse(JSON.stringify(componentData));
+        let histories = [];
 
-        if (typeof index === 'undefined') {
-            componentData[group][field] = value;
-        } else {
-            componentData[group][index][field] = value;
+        for (let i = 0, len = selectedComponentIds.length; i < len; i++) {
+            const compIdx = getComponentIndex(selectedComponentIds[i]);
+            let componentData = editor.data.components[compIdx];
+            let originComponentData = JSON.parse(JSON.stringify(componentData));
+
+            if (typeof field === 'undefined') { //+, - 버튼 옵션 추가
+                if (!Array.isArray(value)) {
+                    componentData[group].push(value);
+                } else {
+                    componentData[group] = value;
+                }
+            } else {
+                if (typeof index === 'undefined') {
+                    componentData[group][field] = value;
+                } else {
+                    componentData[group][index][field] = value;
+                }
+            }
+            redrawComponent(componentData);
+            histories.push({0: originComponentData, 1: JSON.parse(JSON.stringify(componentData))});
         }
-        history.saveHistory([{0: originComponentData, 1: JSON.parse(JSON.stringify(componentData))}]);
-        redrawComponent(componentData);
+        history.saveHistory(histories);
     }
 
     /**
@@ -879,12 +901,142 @@
     }
 
     /**
+     * 커스텀 코드 컴포넌트 세부 속성 변경시 일치하는 세부 항목을 가져온다.
+     * @param e 이벤트
+     * @param data 컴포넌트 데이터
+     */
+    function changeCustomCodeHandler(e, data) {
+        let customCodeDataSelect = (typeof data !== 'undefined') ? e : propertiesPanel.querySelector('input[id=code]').parentNode.querySelector('select');
+        let customCode = (typeof data !== 'undefined') ? data.customCode : e.target.value;
+        customCodeDataSelect.innerHTML = '';
+        if (typeof data === 'undefined' && typeof e.target !== 'undefined' && e.target.id === 'customCode') {
+            const changePropertiesArr = e.target.parentNode.id.split('.');
+            changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
+        }
+
+        aliceJs.sendXhr({ //커스텀 코드 변경에 따른 커스텀 데이터 조회
+            method: 'GET',
+            url: '/rest/custom-codes/' + customCode,
+            callbackFunc: function(xhr) {
+                let customCodeData = JSON.parse(xhr.responseText);
+                customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
+                let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
+                if (targetRadio.checked) {
+                    if (typeof data !== 'undefined' && data.default !== '') {
+                        const propValueArr = data.default.split('|');
+                        customCodeDataSelect.value = propValueArr[1];
+                    }
+                    let val = 'code|' + customCodeDataSelect.value + '|';
+                    if (customCodeDataSelect.selectedIndex !== -1) {
+                        val += customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text;
+                    }
+                    const targetName = targetRadio.name.split('.');
+                    changePropertiesValue(val, targetName[0], targetName[1]);
+                }
+            },
+            contentType: 'application/json; charset=utf-8',
+            showProgressbar: false
+        });
+    }
+
+    /**
+     * 컴포넌트 세부 속성에  button click 이벤트 (boid, italic, underline, align 등)
+     * @param e 이벤트
+     */
+    function toggleButtonClickHandler(e) {
+        const parentElem = e.target.parentNode;
+        const isActive = e.target.classList.contains('active');
+        if (parentElem.id === 'align') {
+            if (!isActive) {
+                for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
+                    let child = parentElem.childNodes[i];
+                    if (child.classList.contains('active')) {
+                        child.classList.remove('active');
+                    }
+                }
+                e.target.classList.add('active');
+                changePropertiesValue(e.target.id, parentElem.parentNode.parentNode.parentNode.id, parentElem.id);
+            }
+        } else {
+            if (isActive) {
+                e.target.classList.remove('active');
+                e.target.setAttribute('data-value', 'N');
+            } else {
+                e.target.classList.add('active');
+                e.target.setAttribute('data-value', 'Y');
+            }
+            changePropertiesValue(isActive ? 'N' : 'Y', parentElem.parentNode.parentNode.id, e.target.id);
+        }
+    }
+
+    /**
+     * 컴포넌트 세부 속성에 옵션 추가(+) button click 이벤트
+     * @param e 이벤트
+     */
+    function addOptionHandler(e) {
+        const tb = e.target.parentNode.querySelector('table');
+        const row = document.createElement('tr');
+        const rowCount = tb.rows.length;
+        const firstRow = tb.rows[0];
+        const lastRow = tb.rows[rowCount - 1];
+
+        row.innerHTML = lastRow.innerHTML;
+        let rowData = {};
+        for (let i = 1; i < firstRow.cells.length; i++) {
+            const cell = row.cells[i];
+            const inputCell = cell.querySelector('input');
+            inputCell.addEventListener('change', function(e) {
+                changePropertiesValue(e.target.value, tb.parentNode.id, e.target.parentNode.id, rowCount - 1);
+            }, false);
+            if (cell.id === 'seq') {
+                inputCell.value = rowCount;
+            } else {
+                inputCell.value = firstRow.cells[i].getAttribute('data-default');
+            }
+            rowData[cell.id] = inputCell.value;
+        }
+        tb.appendChild(row);
+        changePropertiesValue(rowData, tb.parentNode.id);
+    }
+
+    /**
+     *  컴포넌트 세부 속성에 옵션 추가(-) button click 이벤트
+     * @param e
+     */
+    function removeOptionHandler(e) {
+        const tb = e.target.parentNode.querySelector('table');
+        const compIdx = getComponentIndex(selectedComponentIds[0]);
+        let removeOptionData = JSON.parse(JSON.stringify(editor.data.components[compIdx][tb.parentNode.id]));
+        let minusCnt = 0;
+        let rowCount = tb.rows.length;
+        for (let i = 1; i < rowCount; i++) {
+            let row = tb.rows[i];
+            let chkBox = row.cells[0].childNodes[0];
+            let seqCell = row.cells[1].childNodes[0];
+            if (chkBox.checked && rowCount > 2) {
+                tb.deleteRow(i);
+                removeOptionData.splice(i - 1, 1);
+                rowCount--;
+                i--;
+                minusCnt++;
+            } else if (seqCell.value !== i) {
+                seqCell.value = i;
+                removeOptionData[i - 1].seq = i;
+            }
+        }
+        if (minusCnt > 0) {
+            changePropertiesValue(removeOptionData, tb.parentNode.id);
+        }
+    }
+
+    /**
      * 우측 properties panel 세부 속성 출력
      */
     function showComponentProperties() {
-        if (selectedComponentIds.length === 0) { return false; }
         if (aliceJs.arraysMatch(previousComponentIds, selectedComponentIds)) { return false; }
+
         hideComponentProperties();
+        if (selectedComponentIds.length === 0) { return false; }
 
         // 하나만 선택되었고, 현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
         let selectedComponentElem = document.getElementById(selectedComponentIds[0]);
@@ -894,7 +1046,7 @@
             return false;
         }
 
-        //  선택된 컴포넌트 css 추가
+        //  선택된 컴포넌트 css 추가 및 다중 선택 여부 판단
         let selectedComponentTypes = [];
         let isSameComponent = true;
         let isHideComponent = false;
@@ -916,7 +1068,7 @@
                 }
             }
         }
-
+        // 선택된 첫번째 컴포넌트의 속성을 풀력한다.
         let compIdx = getComponentIndex(selectedComponentIds[0]);
         if (compIdx === -1) { return false; }
 
@@ -948,128 +1100,7 @@
             componentTitleElem.textContent = componentTitleData.name;
             componentTitleElem.style.display = 'block';
         }
-
-        const defaultOption = properties.hasOwnProperty('option') ? properties.option[0].items : {};
-        const addOptionHandler = function(e) { // 옵션 추가
-            const tb = e.target.parentNode.querySelector('table');
-            const row = document.createElement('tr');
-            const rowCount = tb.rows.length;
-            const lastRow = tb.rows[rowCount - 1];
-            let cell = document.createElement('td');
-            cell.innerHTML = lastRow.cells[0].innerHTML;
-            row.appendChild(cell);
-
-            let rowData = {};
-            defaultOption.forEach(function(item, idx) {
-                cell = document.createElement('td');
-                cell.id = item.id;
-                cell.innerHTML = lastRow.cells[idx + 1].innerHTML;
-
-                const inputCell = cell.querySelector('input');
-                inputCell.addEventListener('change', function(e) {
-                    changePropertiesValue(this.value, tb.parentNode.id, item.id, rowCount - 1);
-                }, false);
-
-                if (item.id === 'seq') {
-                    inputCell.value = rowCount;
-                    inputCell.setAttribute('readonly', 'true');
-                    rowData[item.id] = rowCount;
-                } else {
-                    inputCell.value = item.value;
-                    rowData[item.id] = item.value;
-                }
-                row.appendChild(cell);
-            });
-            componentData[tb.parentNode.id].push(rowData);
-            tb.appendChild(row);
-
-            redrawComponent();
-        };
-
-        const removeOptionHandler = function(e) { // 옵션 삭제
-            const tb = e.target.parentNode.querySelector('table');
-            let minusCnt = 0;
-            let rowCount = tb.rows.length;
-            for (let i = 1; i < rowCount; i++) {
-                let row = tb.rows[i];
-                let chkBox = row.cells[0].childNodes[0];
-                let seqCell = row.cells[1].childNodes[0];
-                if (chkBox.checked && rowCount > 2) {
-                    tb.deleteRow(i);
-                    componentData[tb.parentNode.id].splice(i - 1, 1);
-                    rowCount--;
-                    i--;
-                    minusCnt++;
-                } else if (seqCell.value !== i) {
-                    seqCell.value = i;
-                    componentData[tb.parentNode.id][i - 1].seq = i;
-                }
-            }
-            if (minusCnt > 0) {
-                redrawComponent();
-            }
-        };
-
-        const buttonClickHandler = function(e) { //버튼 클릭
-            const parentElem = e.target.parentNode;
-            const isActive = e.target.classList.contains('active');
-            if (parentElem.id === 'align') {
-                if (!isActive) {
-                    for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
-                        let child = parentElem.childNodes[i];
-                        if (child.classList.contains('active')) {
-                            child.classList.remove('active');
-                        }
-                    }
-                    e.target.classList.add('active');
-                    changePropertiesValue(e.target.id, parentElem.parentNode.parentNode.parentNode.id, parentElem.id);
-                }
-            } else {
-                if (isActive) {
-                    e.target.classList.remove('active');
-                    e.target.setAttribute('data-value', 'N');
-                } else {
-                    e.target.classList.add('active');
-                    e.target.setAttribute('data-value', 'Y');
-                }
-                changePropertiesValue(isActive ? 'N' : 'Y', parentElem.parentNode.parentNode.id, e.target.id);
-            }
-        };
-
-        const changeCustomCodeHandler = function(e, data) {
-            let customCodeDataSelect = (typeof data !== 'undefined') ? e : propertiesPanel.querySelector('input[id=code]').parentNode.querySelector('select');
-            let customCode = (typeof data !== 'undefined') ? data.customCode : e.target.value;
-            customCodeDataSelect.innerHTML = '';
-            if (typeof data === 'undefined' && typeof e.target !== 'undefined' && e.target.id === 'customCode') {
-                const changePropertiesArr = e.target.parentNode.id.split('.');
-                changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
-            }
-
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/custom-codes/' + customCode,
-                callbackFunc: function(xhr) {
-                    let customCodeData = JSON.parse(xhr.responseText);
-                    customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
-                    if (typeof data !== 'undefined' && data.default !== '') {
-                        const propValueArr = data.default.split('|');
-                        customCodeDataSelect.value = propValueArr[1];
-                    }
-                    let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
-                    if (targetRadio.checked) {
-                        let val = 'code|' + customCodeDataSelect.value + '|';
-                        if (customCodeDataSelect.selectedIndex !== -1) {
-                            val += customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text;
-                        }
-                        const targetName = targetRadio.name.split('.');
-                        changePropertiesValue(val, targetName[0], targetName[1]);
-                    }
-                },
-                contentType: 'application/json; charset=utf-8',
-                showProgressbar: false
-            });
-        };
-        
+        // 세부 속성을 출력한다.
         let buttonGroupExist = false;
         let buttonGroupElem = null;
         Object.keys(properties).forEach(function(group) {
@@ -1104,11 +1135,11 @@
 
                                     const buttonElemList = buttonGroupElem.querySelector('#' + fieldProp.id).children;
                                     for (let i = 0, len = buttonElemList.length; i < len; i++) {
-                                        buttonElemList[i].addEventListener('click', buttonClickHandler, false);
+                                        buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                     }
                                 } else { //bold, italic, underline
                                     buttonGroupElem.insertAdjacentHTML('beforEend', `<button type='button' id='${fieldProp.id}' class='${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'></button>`);
-                                    buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', buttonClickHandler, false);
+                                    buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
                                 }
                             } else {
                                 fieldGroupElem.setAttribute('id', group + '.' + fieldProp.id);
@@ -1255,6 +1286,7 @@
                                         fieldGroupElem.querySelector('#' + group + '-' + fieldProp.id + '-value'),
                                         groupElem.querySelector('#' + group + '-' + fieldProp.id + '-colorPalette'));
                                 }
+
                                 //custom-code 초기화
                                 if (fieldProp.type === 'radio-custom') {
                                     const customCodeDataSelect = fieldGroupElem.querySelector('input[id=code]').parentNode.querySelector('select');
@@ -1277,7 +1309,7 @@
                             if (tableElem !== null) {
                                 let fieldTemplate = ``;
                                 // 테이블 Header 추가
-                                const tableHeaderOptions = fieldProp.items.map(function(opt) { return `<th>${opt.name}</th>`; }).join('');
+                                const tableHeaderOptions = fieldProp.items.map(function(opt) { return `<th data-default='${opt.value}'>${opt.name}</th>`; }).join('');
                                 fieldTemplate += `<tr><th></th>${tableHeaderOptions}</tr>`;
                                 // 테이블 Row 추가
                                 const tableRowOptions = componentData.option.map(function(opt) {
@@ -1311,7 +1343,7 @@
             dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
         }
 
-        //이벤트 추가
+        // focustout 이벤트 추가
         const inputElems = propertiesPanel.querySelectorAll('input[type="text"]:not([readonly])');
         for (i = 0, len = inputElems.length; i < len; i++) {
             if (inputElems[i].id === 'date' || inputElems[i].id === 'time' || inputElems[i].id === 'datetime') {
@@ -1320,35 +1352,69 @@
                 inputElems[i].addEventListener('focusout', function (e) {
                     const elem = e.target;
                     const parentElem = elem.parentNode;
-                    if (parentElem.classList.contains('picker-wrapper')) {
-                        return false;
-                    }
-                    if (parentElem.tagName === 'TD') { // 옵션
+                    if (parentElem.classList.contains('picker-wrapper')) { return false; }
+                    if (parentElem.tagName === 'TD') { // option
                         const seqCell = parentElem.parentNode.cells[1].childNodes[0];
                         changePropertiesValue(elem.value, 'option', parentElem.id, Number(seqCell.value) - 1);
                     } else {
                         const changePropertiesArr = parentElem.id.split('.');
-                        if (elem.classList.contains('session')) {
-                            changePropertiesValue(elem.id + '|' + elem.value, changePropertiesArr[0], changePropertiesArr[1]);
-                        } else {
-                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
-                        }
+                        let changeValue = elem.value;
+                        if (elem.classList.contains('session')) { changeValue = elem.id + '|' + elem.value; }
+                        changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1]);
                     }
                 }, false);
             }
         }
-
-        const changeElems =  propertiesPanel.querySelectorAll('input[type="checkbox"], input[type="range"], input[type="radio"], select');
+        // change 이벤트 추가
+        const changeElems =  propertiesPanel.querySelectorAll('input[type="checkbox"], input[type="range"], input[type="radio"], select, input[class*="color"]');
         for (i = 0, len = changeElems.length; i < len; i++) {
             const changeElem = changeElems[i];
-            if (changeElem.tagName === 'SELECT') {
-                if (changeElem.id === 'customCode') {
-                    changeElem.addEventListener('change', changeCustomCodeHandler, false);
-                } else {
-                    changeElem.addEventListener('change', function (e) {
-                        const elem = e.target;
-                        const parentElem = elem.parentNode;
-                        if (elem.id === 'toggle') {
+            switch (changeElem.type) {
+                case 'checkbox':
+                    if (changeElem.classList.contains('property-field-value')) {
+                        changeElem.addEventListener('change', function (e) {
+                            const changePropertiesArr = e.target.parentNode.id.split('.');
+                            changePropertiesValue(e.target.checked, changePropertiesArr[0], changePropertiesArr[1]);
+                        }, false);
+                    }
+                    break;
+                case 'range':
+                case 'text':
+                    changeElem.addEventListener('change', function(e) {
+                        const changePropertiesArr = e.target.parentNode.id.split('.');
+                        if (changeElem.type === 'range') {
+                            const slider = document.getElementById(e.target.id + '-value');
+                            slider.value = this.value;
+                        }
+                        changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
+                    }, false);
+                    break;
+                case 'radio':
+                    if (changeElem.parentNode.classList.contains('radio-datetime')) { // date picker
+                        changeElem.addEventListener('change', setDateFormat, false);
+                    } else {
+                        changeElem.addEventListener('change', function (e) {
+                            const elem = e.target;
+                            const parentElem = elem.parentNode;
+                            const changePropertiesArr = parentElem.parentNode.id.split('.');
+                            let val = (elem.id !== 'none') ? elem.id + '|' + parentElem.querySelector('select').value : elem.id;
+                            if (elem.checked && elem.id !== 'none') {
+                                val += '|';
+                                if (parentElem.querySelector('select').selectedIndex !== -1) {
+                                    val += parentElem.querySelector('select').options[parentElem.querySelector('select').selectedIndex].text;
+                                }
+                            }
+                            changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
+                        }, false);
+                    }
+                    break;
+                default: //select
+                    if (changeElem.id === 'customCode') {
+                        changeElem.addEventListener('change', changeCustomCodeHandler, false);
+                    } else if (changeElem.id === 'toggle') {
+                        changeElem.addEventListener('change', function (e) {
+                            const elem = e.target;
+                            const parentElem = elem.parentNode;
                             const changePropertiesArr = parentElem.id.split('.');
                             let defaultValue = '';
                             for (let j = 0; j < elem.options.length; j++) {
@@ -1365,7 +1431,11 @@
                                 }
                             }
                             changePropertiesValue(elem.value + '|' + defaultValue, changePropertiesArr[0], changePropertiesArr[1]);
-                        } else {
+                        }, false);
+                    } else {
+                        changeElem.addEventListener('change', function (e) {
+                            const elem = e.target;
+                            const parentElem = elem.parentNode;
                             if (elem.classList.contains('session')) {
                                 const changePropertiesArr = parentElem.id.split('.');
                                 changePropertiesValue(elem.id + '|' + elem.value + '|' + elem.options[elem.selectedIndex].text, changePropertiesArr[0], changePropertiesArr[1]);
@@ -1384,46 +1454,11 @@
                                     changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                                 }
                             }
-                        }
-                    }, false);
-                }
-            } else {
-                if (changeElem.type === 'checkbox') {
-                    if (changeElem.classList.contains('property-field-value')) {
-                        changeElem.addEventListener('change', function (e) {
-                            const changePropertiesArr = e.target.parentNode.id.split('.');
-                            changePropertiesValue(e.target.checked, changePropertiesArr[0], changePropertiesArr[1]);
+
                         }, false);
                     }
-                } else if (changeElem.type === 'range') {
-                    changeElem.addEventListener('change', function(e) {
-                        const changePropertiesArr = e.target.parentNode.id.split('.');
-                        const slider = document.getElementById(e.target.id + '-value');
-                        slider.value = this.value;
-                        changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
-                    }, false);
-                } else { // radio
-                    if (changeElem.parentNode.classList.contains('radio-datetime')) { // date picker
-                        changeElem.addEventListener('change', setDateFormat, false);
-                    } else {
-                        changeElem.addEventListener('change', function (e) {
-                            const elem = e.target;
-                            const parentElem = elem.parentNode;
-                            const changePropertiesArr = parentElem.parentNode.id.split('.');
-                            let val = (elem.id !== 'none') ? elem.id + '|' + parentElem.querySelector('select').value : elem.id;
-                            if (elem.checked && elem.id !== 'none') {
-                                val += '|';
-                                if (parentElem.querySelector('select').selectedIndex !== -1) {
-                                    val += parentElem.querySelector('select').options[parentElem.querySelector('select').selectedIndex].text;
-                                }
-                            }
-                            changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
-                        }, false);
-                    }
-                }
             }
         }
-
         previousComponentIds = selectedComponentIds.slice();
     }
 
@@ -1504,7 +1539,7 @@
                     }
                     return true;
                 }
-            })
+            });
         });
         propertiesPanel.appendChild(formElem);
     }
