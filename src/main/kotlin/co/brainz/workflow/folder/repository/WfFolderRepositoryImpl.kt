@@ -3,8 +3,8 @@ package co.brainz.workflow.folder.repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.workflow.folder.entity.QWfFolderEntity
 import co.brainz.workflow.folder.entity.WfFolderEntity
-import co.brainz.workflow.token.entity.QWfTokenEntity
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
+import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport

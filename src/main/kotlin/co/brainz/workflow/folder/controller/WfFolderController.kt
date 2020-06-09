@@ -1,7 +1,7 @@
 package co.brainz.workflow.folder.controller
 
-import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.folder.service.WfFolderService
+import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

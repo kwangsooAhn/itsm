@@ -161,7 +161,7 @@ class WfElementService(
         return when {
             stringForRegex.matches(regexComponentMappingId) -> {
                 val mappingId = stringForRegex.trim().replace("\${", "").replace("}", "")
-                //mappingId 가 설정된 componentId를 찾는다.
+                // mappingId 가 설정된 componentId를 찾는다.
                 var value = ""
                 val componentIds: MutableList<String> = mutableListOf()
                 wfTokenDto.data?.forEach { tokenData ->

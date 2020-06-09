@@ -8,11 +8,11 @@ import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
+import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfCandidateEntity
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
 import co.brainz.workflow.token.entity.QWfTokenEntity
-import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
@@ -142,7 +142,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             )
         )
 
-
         val query = getInstancesQuery()
         return query
             .where(builder)
@@ -251,5 +250,4 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .orderBy(token.tokenStartDt.asc())
             .fetch()
     }
-
 }

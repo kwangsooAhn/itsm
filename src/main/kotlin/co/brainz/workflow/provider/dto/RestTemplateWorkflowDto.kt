@@ -15,6 +15,5 @@ data class RestTemplateWorkflowDto(
     var data: List<RestTemplateTokenDataDto>? = null,
     var fileDataIds: String? = null,
     val action: String? = null,
-    //val numberingId: String? = null,
     var parentTokenId: String? = null
 ) : Serializable

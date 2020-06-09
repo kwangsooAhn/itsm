@@ -1,10 +1,10 @@
 package co.brainz.framework.numbering.service
 
-import co.brainz.itsm.code.service.CodeService
 import co.brainz.framework.numbering.constants.AliceNumberingConstants
 import co.brainz.framework.numbering.dto.AliceNumberingRuleDto
 import co.brainz.framework.numbering.mapper.AliceNumberingRuleMapper
 import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
+import co.brainz.itsm.code.service.CodeService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
