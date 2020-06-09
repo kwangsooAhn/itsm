@@ -94,7 +94,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Set Assignee + Candidate.
      */
-    fun setCandidate(token: WfTokenEntity) {
+    protected fun setCandidate(token: WfTokenEntity) {
         val assigneeType =
             this.getAttributeValue(
                 token.element.elementDataEntities,
@@ -150,7 +150,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Set Token Data.
      */
-    fun setTokenData(tokenDto: WfTokenDto): MutableList<WfTokenDataEntity> {
+    protected fun setTokenData(tokenDto: WfTokenDto): MutableList<WfTokenDataEntity> {
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
         if (tokenDto.data != null) {
             for (tokenDataDto in tokenDto.data!!) {
@@ -168,7 +168,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Get AttributeValue.
      */
-    fun getAttributeValue(
+    protected fun getAttributeValue(
         elementDataEntities: MutableList<WfElementDataEntity>,
         attributeId: String
     ): String {
@@ -219,7 +219,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Set autoComplete by elementType.
      */
-    fun setAutoComplete(elementType: String): Boolean {
+    protected fun setAutoComplete(elementType: String): Boolean {
         return when (elementType) {
             WfElementConstants.ElementType.COMMON_END_EVENT.value,
             WfElementConstants.ElementType.MANUAL_TASK.value,
@@ -232,7 +232,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Set next element info.
      */
-    fun setNextTokenDto(createNextTokenDto: WfTokenDto): WfTokenDto {
+    protected fun setNextTokenDto(createNextTokenDto: WfTokenDto): WfTokenDto {
         val element = wfTokenManagerService.getNextElement(createNextTokenDto)
         createNextTokenDto.elementId = element.elementId
         createNextTokenDto.elementType = element.elementType

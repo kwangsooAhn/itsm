@@ -23,15 +23,15 @@ class WfEngine(
     fun startWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Start Workflow")
 
-        var startTokenDto = tokenDto.copy()
         val instance = wfTokenManagerService.createInstance(tokenDto)
         val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
-        startTokenDto.instanceId = instance.instanceId
-        startTokenDto.elementType = element.elementType
-        startTokenDto.elementId = element.elementId
+        tokenDto.instanceId = instance.instanceId
+        tokenDto.elementType = element.elementType
+        tokenDto.elementId = element.elementId
 
-        val tokenManager = this.getTokenManager(startTokenDto.elementType)
-        startTokenDto = tokenManager.createToken(startTokenDto)
+        // Start Token Create
+        val tokenManager = this.getTokenManager(tokenDto.elementType)
+        var startTokenDto = tokenManager.createToken(tokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
         // First Token Create
@@ -45,11 +45,11 @@ class WfEngine(
      */
     fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Process Token")
-        var progressTokenDto = tokenDto.copy()
         when (tokenDto.action) {
             WfElementConstants.Action.SAVE.value ->
-                this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionSave(progressTokenDto)
+                this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionSave(tokenDto)
             else -> {
+                var progressTokenDto = tokenDto.copy()
                 do {
                     progressTokenDto = this.getTokenDto(progressTokenDto)
                     val tokenManager = this.getTokenManager(progressTokenDto.elementType)
