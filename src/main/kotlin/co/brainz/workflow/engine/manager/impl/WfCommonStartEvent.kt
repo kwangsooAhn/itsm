@@ -22,5 +22,4 @@ class WfCommonStartEvent(
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
         return completedToken
     }
-
 }
