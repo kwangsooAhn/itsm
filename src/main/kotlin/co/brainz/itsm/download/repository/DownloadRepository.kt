@@ -1,10 +1,10 @@
 package co.brainz.itsm.download.repository
 
 import co.brainz.itsm.download.entity.DownloadEntity
+import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 interface DownloadRepository : JpaRepository<DownloadEntity, String> {

@@ -10,6 +10,8 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
     override fun findNotificationList(receivedUser: AliceUserEntity): List<NotificationEntity> {
         val notification = QNotificationEntity.notificationEntity
         return from(notification)
+            .innerJoin(notification.receivedUser)
+            .fetchJoin()
             .where(notification.receivedUser.eq(receivedUser))
             .orderBy(notification.confirmYn.asc())
             .orderBy(notification.createDt.desc())
