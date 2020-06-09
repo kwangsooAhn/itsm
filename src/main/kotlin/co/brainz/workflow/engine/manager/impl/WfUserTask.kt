@@ -1,8 +1,8 @@
 package co.brainz.workflow.engine.manager.impl
 
-import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 
 class WfUserTask(

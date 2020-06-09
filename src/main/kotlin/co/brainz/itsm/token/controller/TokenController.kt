@@ -103,7 +103,7 @@ class TokenController(
      * 관련문서 팝업 문서 리스트 출력
      */
     @GetMapping("/view-pop/list")
-    fun getAllInstanceListAndSearch (
+    fun getAllInstanceListAndSearch(
         @RequestParam(value = "tokenId", defaultValue = "") tokenId: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         model: Model
