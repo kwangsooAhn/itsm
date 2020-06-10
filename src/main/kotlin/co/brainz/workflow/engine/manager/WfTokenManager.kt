@@ -102,38 +102,11 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             )
         when (assigneeType) {
             WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
-                var assigneeId = this.getAssignee(token.element, token)
-                if (assigneeId.isEmpty()) {
-                    assigneeId = this.assigneeId
-                }
-                token.assigneeId = assigneeId
-                wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
+                this.setAssignee(token)
             }
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {
-                val candidates =
-                    this.getAttributeValues(
-                        token.element.elementDataEntities,
-                        WfElementConstants.AttributeId.ASSIGNEE.value
-                    )
-                if (candidates.isNotEmpty()) {
-                    val wfCandidateEntities = mutableListOf<WfCandidateEntity>()
-                    candidates.forEach { candidate ->
-                        val wfCandidateEntity = WfCandidateEntity(
-                            token = token,
-                            candidateType = assigneeType,
-                            candidateValue = candidate
-                        )
-                        wfCandidateEntities.add(wfCandidateEntity)
-                    }
-                    wfTokenManagerService.saveNotification(
-                        token,
-                        wfTokenManagerService.saveAllCandidate(wfCandidateEntities)
-                    )
-                } else {
-                    token.assigneeId = this.assigneeId
-                    wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
-                }
+                this.setAssigneeUsersAndGroups(token, assigneeType)
             }
             else -> {
                 token.assigneeId = this.assigneeId
@@ -179,6 +152,47 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             }
         }
         return attributeValue
+    }
+
+    /**
+     * Set assignee.
+     */
+    private fun setAssignee(token: WfTokenEntity) {
+        var assigneeId = this.getAssignee(token.element, token)
+        if (assigneeId.isEmpty()) {
+            assigneeId = this.assigneeId
+        }
+        token.assigneeId = assigneeId
+        wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
+    }
+
+    /**
+     * Set assignee users & groups.
+     */
+    private fun setAssigneeUsersAndGroups(token: WfTokenEntity, assigneeType: String) {
+        val candidates =
+            this.getAttributeValues(
+                token.element.elementDataEntities,
+                WfElementConstants.AttributeId.ASSIGNEE.value
+            )
+        if (candidates.isNotEmpty()) {
+            val wfCandidateEntities = mutableListOf<WfCandidateEntity>()
+            candidates.forEach { candidate ->
+                val wfCandidateEntity = WfCandidateEntity(
+                    token = token,
+                    candidateType = assigneeType,
+                    candidateValue = candidate
+                )
+                wfCandidateEntities.add(wfCandidateEntity)
+            }
+            wfTokenManagerService.saveNotification(
+                token,
+                wfTokenManagerService.saveAllCandidate(wfCandidateEntities)
+            )
+        } else {
+            token.assigneeId = this.assigneeId
+            wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
+        }
     }
 
     /**
