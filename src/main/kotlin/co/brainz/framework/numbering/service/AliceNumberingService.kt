@@ -123,12 +123,6 @@ class AliceNumberingService(
 
     /**
      * Pattern: Sequence.
-     *
-     * @param valueMap
-     * @param latestPatternValue
-     * @param latestDate
-     * @param currentDateTime
-     * @return String
      */
     private fun getPatternSequence(
         valueMap: Map<*, *>,
@@ -136,11 +130,28 @@ class AliceNumberingService(
         latestDate: LocalDateTime?,
         currentDateTime: LocalDateTime
     ): String {
+        var latestSequenceValue = this.getLatestSequenceValue(valueMap, latestPatternValue, latestDate, currentDateTime)
+
+        // check digit size and latestPatternValue size
         val digit = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_DIGIT.value]
             ?: AliceNumberingConstants.DEFAULT_DIGIT) as Int
-        var latestSequenceValue = latestPatternValue.toIntOrNull() ?: 0
+        if (digit != latestPatternValue.length) {
+            latestSequenceValue = 0
+        }
 
-        // check init
+        return this.getSequenceValue(valueMap, digit, latestSequenceValue)
+    }
+
+    /**
+     * Get latest sequence value.
+     */
+    private fun getLatestSequenceValue(
+        valueMap: Map<*, *>,
+        latestPatternValue: String,
+        latestDate: LocalDateTime?,
+        currentDateTime: LocalDateTime
+    ): Int {
+        var latestSequenceValue = latestPatternValue.toIntOrNull() ?: 0
         if (latestDate != null) {
             val initialInterval = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_INITIAL_INTERVAL.value]
                 ?: AliceNumberingConstants.DEFAULT_INITIAL_INTERVAL) as String
@@ -157,10 +168,13 @@ class AliceNumberingService(
             }
         }
 
-        // check digit size and latestPatternValue size
-        if (digit != latestPatternValue.length) {
-            latestSequenceValue = 0
-        }
+        return latestSequenceValue
+    }
+
+    /**
+     * Get sequence value.
+     */
+    private fun getSequenceValue(valueMap: Map<*, *>, digit: Int, latestSequenceValue: Int): String {
         val startWith = (valueMap[AliceNumberingConstants.PatternValueId.SEQUENCE_START_WITH.value]
             ?: AliceNumberingConstants.DEFAULT_START_WITH) as Int
         var value = when (latestSequenceValue) {

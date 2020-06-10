@@ -61,4 +61,9 @@ object AliceConstants {
             }
         }
     }
+
+    /**
+     * 세션 만료시 로그인 페이지 자동 이동 시간.
+     */
+    const val SESSION_INVALID_AUTO_REDIRECT_TIME = 3
 }

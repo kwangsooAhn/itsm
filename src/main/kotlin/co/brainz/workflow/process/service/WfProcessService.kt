@@ -230,6 +230,8 @@ class WfProcessService(
             // element master 삭제한다.
             processEntity.elementEntities.clear()
 
+            wfProcessRepository.flush()
+
             // process data entity 생성.
             val elementEntities = mutableListOf<WfElementEntity>()
             objMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
