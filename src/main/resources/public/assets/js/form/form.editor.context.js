@@ -421,7 +421,6 @@
                             menuOff();
                         }
                     }
-
                     if (isCtrlPressed) {  //배열에 담음
                         const removeIdx = editor.selectedComponentIds.indexOf(itemInContext.id);
                         if (removeIdx === -1) {

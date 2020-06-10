@@ -1034,8 +1034,9 @@
      */
     function showComponentProperties() {
         if (previousComponentIds.toString() === selectedComponentIds.toString()) { return false; }
-
         hideComponentProperties();
+
+        previousComponentIds = selectedComponentIds.slice();
         if (selectedComponentIds.length === 0) { return false; }
 
         // 하나만 선택되었고, 현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
@@ -1066,7 +1067,7 @@
         isSameComponent = (selectedComponentTypes.length === 1);
         if (isSameComponent) { isHideComponent = false; }
 
-        // 선택된 첫번째 컴포넌트의 속성을 풀력한다.
+        // 선택된 첫번째 컴포넌트의 속성을 출력한다.
         let compIdx = getComponentIndex(selectedComponentIds[0]);
         if (compIdx === -1) { return false; }
 
@@ -1457,7 +1458,6 @@
                     }
             }
         }
-        previousComponentIds = selectedComponentIds.slice();
     }
 
     /**
