@@ -42,10 +42,8 @@
                 </tr>
                 <tr th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
                     <td>
-                        <a sec:authorize="hasAnyAuthority('form.create', 'form.update')"
-                            href="javascript:void(0);"
-                            th:attr="onclick=|openFormDesignerView('${form.id}')|"
-                            th:text="${form.name}"></a>
+                        <a href="javascript:void(0);" th:text="${form.name}"
+                           th:attr="onclick=|openFormDesignerView('${form.id}')|"></a>
                     </td>
                     <td th:text="${form.desc}"></td>
                     <td th:text="${form.createUserName}"></td>

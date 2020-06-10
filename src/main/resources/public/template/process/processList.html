@@ -43,8 +43,8 @@
                 </tr>
                 <tr th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
                     <td>
-                        <a th:text="${process.name}" sec:authorize="hasAnyAuthority('process.create', 'process.update')"
-                            href="javascript:void(0);" th:attr="onclick=|openProcessDesignerView('${process.id}')|"></a>
+                        <a href="javascript:void(0);" th:text="${process.name}"
+                           th:attr="onclick=|openProcessDesignerView('${process.id}')|"></a>
                     </td>
                     <td th:text="${process.description}"></td>
                     <td th:text="${process.createUserName}"></td>
