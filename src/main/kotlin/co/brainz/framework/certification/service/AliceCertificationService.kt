@@ -80,60 +80,8 @@ class AliceCertificationService(
         var code: String = signUpValid(aliceSignUpDto)
         when (code) {
             AliceUserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
-                val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-                val privateKey =
-                    attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-                val password = aliceSignUpDto.password?.let { aliceCryptoRsa.decrypt(privateKey, it) }
-                var user = AliceUserEntity(
-                    userKey = "",
-                    userId = aliceSignUpDto.userId,
-                    password = BCryptPasswordEncoder().encode(password),
-                    userName = aliceSignUpDto.userName,
-                    email = aliceSignUpDto.email,
-                    position = aliceSignUpDto.position,
-                    department = aliceSignUpDto.department,
-                    officeNumber = aliceSignUpDto.officeNumber,
-                    mobileNumber = aliceSignUpDto.mobileNumber,
-                    expiredDt = LocalDateTime.now().plusMonths(3),
-                    status = AliceUserConstants.Status.SIGNUP.code,
-                    oauthKey = "",
-                    lang = AliceUserConstants.USER_LOCALE_LANG,
-                    timezone = TimeZone.getDefault().id,
-                    timeFormat = AliceUserConstants.USER_TIME_FORMAT,
-                    theme = AliceUserConstants.USER_THEME
-                )
-
-                when (target) {
-                    AliceUserConstants.ADMIN_ID -> {
-                        user.status = AliceUserConstants.Status.CERTIFIED.code
-                        user.timezone = aliceSignUpDto.timezone!!
-                        user.lang = aliceSignUpDto.lang!!
-                        user.theme = aliceSignUpDto.theme!!
-                        user.timeFormat = aliceSignUpDto.timeFormat!!
-                    }
-                }
-
-                user = aliceCertificationRepository.save(user)
-                aliceFileService.uploadAvatar(
-                    AliceUserConstants.USER_AVATAR_IMAGE_DIR,
-                    AliceUserConstants.BASE_DIR,
-                    user.userKey,
-                    aliceSignUpDto.avatarUUID
-                )
-
-                when (target) {
-                    AliceUserConstants.USER_ID -> {
-                        getDefaultUserRoleList(AliceUserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach { role ->
-                            userRoleMapRepository.save(AliceUserRoleMapEntity(user, role))
-                        }
-                    }
-                    AliceUserConstants.ADMIN_ID -> {
-                        aliceSignUpDto.roles!!.forEach {
-                            userRoleMapRepository.save(AliceUserRoleMapEntity(user, roleRepository.findByRoleId(it)))
-                        }
-                    }
-                }
-
+                val user = aliceCertificationRepository.save(this.setUserEntity(aliceSignUpDto, target))
+                this.setUserAvatar(aliceSignUpDto, user, target)
                 code = AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code
                 logger.info("New user created : $1", user.userName)
             }
@@ -150,11 +98,8 @@ class AliceCertificationService(
         }
         when (isContinue) {
             true -> {
-                try {
-                    if (aliceCertificationRepository.countByEmail(aliceSignUpDto.email) > 0) {
-                        code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
-                    }
-                } catch (e: EmptyResultDataAccessException) {
+                if (aliceCertificationRepository.countByEmail(aliceSignUpDto.email) > 0) {
+                    code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
             }
         }
@@ -163,7 +108,8 @@ class AliceCertificationService(
 
     @Transactional
     fun sendMail(userId: String, email: String, target: String?, password: String?) {
-        var certificationKey: String = AliceKeyGeneratorService().getKey(50, false)
+        var certificationKey: String =
+            AliceKeyGeneratorService().getKey(AliceConstants.EMAIL_CERTIFICATION_KEY_SIZE, false)
         var statusCode = AliceUserConstants.Status.SIGNUP.code
 
         when (target) {
@@ -282,5 +228,68 @@ class AliceCertificationService(
             AliceUserConstants.Status.CERTIFIED.code -> validCode = AliceUserConstants.Status.OVER.value
         }
         return validCode
+    }
+
+    /**
+     * Set userEntity.
+     */
+    private fun setUserEntity(aliceSignUpDto: AliceSignUpDto, target: String?): AliceUserEntity {
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val password = aliceSignUpDto.password?.let { aliceCryptoRsa.decrypt(privateKey, it) }
+        val user = AliceUserEntity(
+            userKey = "",
+            userId = aliceSignUpDto.userId,
+            password = BCryptPasswordEncoder().encode(password),
+            userName = aliceSignUpDto.userName,
+            email = aliceSignUpDto.email,
+            position = aliceSignUpDto.position,
+            department = aliceSignUpDto.department,
+            officeNumber = aliceSignUpDto.officeNumber,
+            mobileNumber = aliceSignUpDto.mobileNumber,
+            expiredDt = LocalDateTime.now().plusMonths(AliceConstants.EXPIRED_MONTH_PERIOD.toLong()),
+            status = AliceUserConstants.Status.SIGNUP.code,
+            oauthKey = "",
+            lang = AliceUserConstants.USER_LOCALE_LANG,
+            timezone = TimeZone.getDefault().id,
+            timeFormat = AliceUserConstants.USER_TIME_FORMAT,
+            theme = AliceUserConstants.USER_THEME
+        )
+        when (target) {
+            AliceUserConstants.ADMIN_ID -> {
+                user.status = AliceUserConstants.Status.CERTIFIED.code
+                user.timezone = aliceSignUpDto.timezone!!
+                user.lang = aliceSignUpDto.lang!!
+                user.theme = aliceSignUpDto.theme!!
+                user.timeFormat = aliceSignUpDto.timeFormat!!
+            }
+        }
+
+        return user
+    }
+
+    /**
+     * Set user avatar.
+     */
+    private fun setUserAvatar(aliceSignUpDto: AliceSignUpDto, user: AliceUserEntity, target: String?) {
+        aliceFileService.uploadAvatar(
+            AliceUserConstants.USER_AVATAR_IMAGE_DIR,
+            AliceUserConstants.BASE_DIR,
+            user.userKey,
+            aliceSignUpDto.avatarUUID
+        )
+        when (target) {
+            AliceUserConstants.USER_ID -> {
+                getDefaultUserRoleList(AliceUserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach { role ->
+                    userRoleMapRepository.save(AliceUserRoleMapEntity(user, role))
+                }
+            }
+            AliceUserConstants.ADMIN_ID -> {
+                aliceSignUpDto.roles!!.forEach {
+                    userRoleMapRepository.save(AliceUserRoleMapEntity(user, roleRepository.findByRoleId(it)))
+                }
+            }
+        }
     }
 }

@@ -66,4 +66,14 @@ object AliceConstants {
      * 세션 만료시 로그인 페이지 자동 이동 시간.
      */
     const val SESSION_INVALID_AUTO_REDIRECT_TIME = 3
+
+    /**
+     * 만료 기간 (월).
+     */
+    const val EXPIRED_MONTH_PERIOD = 3
+
+    /**
+     * Email 인증 키 자릿수.
+     */
+    const val EMAIL_CERTIFICATION_KEY_SIZE = 50
 }
