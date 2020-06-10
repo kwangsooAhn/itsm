@@ -7,6 +7,14 @@ class AliceKeyGeneratorService {
     private var lowerCheck: Boolean = false
     var size: Int = 0
 
+    private val zeroToLowerCaseZ = 75 // 0~z 까지의 갯수
+    private val charCodeZero = 48 // 0
+    private val charCodeNine = 57 // 9
+    private val charCodeUpperA = 65 // A
+    private val charCodeUpperZ = 90 // Z
+    private val charCodeLowerCaseA = 97 // a
+    private val charCodeLowerCaseZ = 122 // z
+
     fun getKey(size: Int, lowerCheck: Boolean): String {
         this.size = size
         this.lowerCheck = lowerCheck
@@ -19,8 +27,8 @@ class AliceKeyGeneratorService {
 
         var num: Int
         do {
-            num = random.nextInt(75) + 48
-            if ((num in 48..57) || (num in 65..90) || (num in 97..122)) {
+            num = random.nextInt(zeroToLowerCaseZ) + charCodeZero
+            if ((num in charCodeZero..charCodeNine) || (num in charCodeUpperA..charCodeUpperZ) || (num in charCodeLowerCaseA..charCodeLowerCaseZ)) {
                 sb.append(num.toChar())
             } else {
                 continue

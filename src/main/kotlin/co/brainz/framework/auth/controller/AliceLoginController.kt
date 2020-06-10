@@ -98,7 +98,7 @@ class AliceLoginController(
         if (HttpSessionRequestCache().getRequest(request, response) != null) {
             model.addAttribute("redirectUrl", HttpSessionRequestCache().getRequest(request, response).redirectUrl)
         }
-        model.addAttribute("counter", 3)
+        model.addAttribute("counter", AliceConstants.SESSION_INVALID_AUTO_REDIRECT_TIME)
         return invalidSessionPage
     }
 }
