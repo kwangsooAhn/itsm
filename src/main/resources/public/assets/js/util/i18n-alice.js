@@ -83,7 +83,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToSystemTime(beforeUserTime) {
-        return luxon.DateTime.fromFormat(beforeUserTime, timeFormat).toISO();
+        return luxon.DateTime.fromFormat(beforeUserTime, timeFormat).toFormat('HH:mm');
     }
 
     /**
@@ -120,7 +120,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserTime(beforeSystemTime) {
-        return luxon.DateTime.fromISO(beforeSystemTime).setZone('utc+0').toFormat(timeFormat);
+        return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
     }
 
     /**
