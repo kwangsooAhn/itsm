@@ -113,12 +113,13 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
-        val forms = mapper.convertValue(map["form"], RestTemplateFormDto::class.java)
         val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
             map["components"],
             TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
         )
 
+        val linkedMapType = TypeFactory.defaultInstance()
+            .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
         val componentDetailList: MutableList<ComponentDetail> = mutableListOf()
         for (component in components) {
             var values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
@@ -134,25 +135,25 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 dataAttribute =
                     mapper.convertValue(
                         component["dataAttribute"],
-                        LinkedHashMap::class.java
-                    ) as LinkedHashMap<String, Any>
+                        linkedMapType
+                    )
             }
 
             var display: LinkedHashMap<String, Any> = linkedMapOf()
             component["display"]?.let {
                 display =
-                    mapper.convertValue(component["display"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+                    mapper.convertValue(component["display"], linkedMapType)
             }
 
             var label: LinkedHashMap<String, Any> = linkedMapOf()
             component["label"]?.let {
-                label = mapper.convertValue(component["label"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+                label = mapper.convertValue(component["label"], linkedMapType)
             }
 
             var validate: LinkedHashMap<String, Any> = linkedMapOf()
             component["validate"]?.let {
                 validate =
-                    mapper.convertValue(component["validate"], LinkedHashMap::class.java) as LinkedHashMap<String, Any>
+                    mapper.convertValue(component["validate"], linkedMapType)
             }
 
             var option: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
@@ -175,8 +176,6 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                     option = option
                 )
             )
-
-            val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         }
 
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
@@ -211,15 +210,9 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val imageRegex = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))\$)".toRegex()
         Files.walk(dir)
             .filter { Files.isRegularFile(it) }
-            .filter { it -> it.fileName.toString().matches(imageRegex) }
+            .filter { it.fileName.toString().matches(imageRegex) }
             .forEach {
-                val fileJson = JsonObject()
-                fileJson.addProperty("fileName", it.fileName.toString())
-                val relativePath = ClassPathResource(RestTemplateConstants.BASE_DIR).uri.relativize(it.toUri())
-                fileJson.addProperty("imgPath", "/$relativePath") // 상대 경로 /asset/...
-                fileJson.addProperty("imgUrl", it.toUri().toURL().toString()) // file://...
-                fileJson.addProperty("fileSize", it.toFile().length())
-                fileList.add(fileJson)
+                fileList.add(this.setFileJson(it))
             }
         return fileList.toString()
     }
@@ -231,13 +224,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         try {
             multipartFile.transferTo(destDir.toFile())
             // 파일 저장 후 경로를 담아서 전달한다.
-            val fileJson = JsonObject()
-            fileJson.addProperty("fileName", destDir.fileName.toString())
-            val relativePath = ClassPathResource(RestTemplateConstants.BASE_DIR).uri.relativize(destDir.toUri())
-            fileJson.addProperty("imgPath", "/$relativePath")
-            fileJson.addProperty("imgUrl", destDir.toUri().toURL().toString())
-            fileJson.addProperty("fileSize", destDir.toFile().length())
-            rtn = fileJson.toString()
+            rtn = this.setFileJson(destDir).toString()
         } catch (e: Exception) {
             logger.error("File upload failed.")
             logger.error("{}", e.message)
@@ -255,5 +242,15 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             rtn = true
         }
         return rtn
+    }
+
+    private fun setFileJson(path: Path): JsonObject {
+        val fileJson = JsonObject()
+        fileJson.addProperty("fileName", path.fileName.toString())
+        val relativePath = ClassPathResource(RestTemplateConstants.BASE_DIR).uri.relativize(path.toUri())
+        fileJson.addProperty("imgPath", "/$relativePath") // 상대 경로 /asset/...
+        fileJson.addProperty("imgUrl", path.toUri().toURL().toString()) // file://...
+        fileJson.addProperty("fileSize", path.toFile().length())
+        return fileJson
     }
 }

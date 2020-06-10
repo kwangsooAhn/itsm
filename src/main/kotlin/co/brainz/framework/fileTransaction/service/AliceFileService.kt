@@ -162,10 +162,10 @@ class AliceFileService(
      * 임시 업로드 경로에 업로드된 파일을 업로드하고 파일관리테이블에 uploaded 상태를 true 변경하여 조회가 가능하도록 한다.
      */
     fun uploadFiles(fileDataId: String) {
-        val fileDataId = fileDataId.split(',')
-        for (index in fileDataId.indices) {
-            if (fileDataId[index].isNotEmpty()) {
-                val fileLocEntity = aliceFileLocRepository.getOne(fileDataId[index].toLong())
+        val fileDataIds = fileDataId.split(',')
+        for (index in fileDataIds.indices) {
+            if (fileDataIds[index].isNotEmpty()) {
+                val fileLocEntity = aliceFileLocRepository.getOne(fileDataIds[index].toLong())
                 val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
                 val tempPath = getDir("temp", fileLocEntity.randomName)
                 if (Files.exists(tempPath)) {
@@ -187,7 +187,7 @@ class AliceFileService(
      * 파일 목록을 가져온다.
      */
     fun getList(ownId: String, fileDataId: String): List<AliceFileOwnMapDto> {
-        var aliceFileOwnMapList: MutableList<AliceFileOwnMapDto> = mutableListOf()
+        val aliceFileOwnMapList: MutableList<AliceFileOwnMapDto> = mutableListOf()
         if (ownId != "") {
             val fileOwnMapEntities = aliceFileOwnMapRepository.findAllByOwnIdAndFileLocEntityUploaded(ownId, true)
             for (fileOwnMapEntity in fileOwnMapEntities) {
@@ -209,9 +209,9 @@ class AliceFileService(
                 aliceFileOwnMapList.add(fileOwnMapDto)
             }
         } else if (fileDataId != "") {
-            val fileDataId = fileDataId.split(',')
-            for (index in fileDataId.indices) {
-                val aliceFileLocEntity = aliceFileLocRepository.getOne(fileDataId[index].toLong())
+            val fileDataIds = fileDataId.split(',')
+            for (index in fileDataIds.indices) {
+                val aliceFileLocEntity = aliceFileLocRepository.getOne(fileDataIds[index].toLong())
                 val fileLocDto = AliceFileLocDto(
                     fileSeq = aliceFileLocEntity.fileSeq,
                     fileOwner = aliceFileLocEntity.fileOwner,

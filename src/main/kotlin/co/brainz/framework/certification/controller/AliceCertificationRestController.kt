@@ -54,12 +54,19 @@ class AliceCertificationRestController(
     }
 
     @PostMapping("/fileupload")
-    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile, request: HttpServletRequest): ResponseEntity<Map<String, Any>> {
-        val response: ResponseEntity<Map<String, Any>>
+    fun uploadFile(
+        @RequestPart("file") multipartFile: MultipartFile,
+        request: HttpServletRequest
+    ): ResponseEntity<Map<String, Any>> {
         val map: MutableMap<String, Any> = mutableMapOf()
         val fileName = request.getParameter("fileName") ?: null
 
-        map["file"] = aliceFileService.uploadResources(multipartFile, AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, fileName)
+        map["file"] = aliceFileService.uploadResources(
+            multipartFile,
+            AliceUserConstants.USER_AVATAR_IMAGE_DIR,
+            AliceUserConstants.BASE_DIR,
+            fileName
+        )
 
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")
