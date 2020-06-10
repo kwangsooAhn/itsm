@@ -6,4 +6,3 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface DownloadRepository : JpaRepository<DownloadEntity, String>, DownloadRepositoryCustom {
 
 }
-
