@@ -358,7 +358,7 @@
             {
                 "id": "lengthMax",
                 "name": "Max Length",
-                "value": "30",
+                "value": "500",
                 "type": "inputbox-underline",
                 "code": "",
                 "unit": "",
