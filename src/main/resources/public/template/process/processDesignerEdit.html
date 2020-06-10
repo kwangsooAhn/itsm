@@ -117,7 +117,7 @@
 </body>
 <script type="text/javascript">
     window.onload = function() {
-        i18n.add(function() {
+        i18n.initMessages(function() {
             aliceProcessEditor.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
     };
