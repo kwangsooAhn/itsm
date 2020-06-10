@@ -91,6 +91,7 @@
 <div style="margin-top: 10px; text-align: center;">
     <button th:if="${documentId}" onclick="saveDocument('put')" th:text="#{common.btn.modify}"></button>
     <button th:unless="${documentId}" onclick="saveDocument('post')" th:text="#{common.btn.register}"></button>
+    <button th:if="${documentId}" onclick="openDisplay();" th:text="#{document.label.display}"></button>
     <button th:text="#{common.btn.close}" onclick="window.close();"></button>
 </div>
 </body>
@@ -143,8 +144,10 @@
                 aliceJs.alert(i18n.get('common.msg.save'), function() {
                     opener.location.reload();
                     window.close();
-                    const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-                    window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1500,height=920,' + specs);
+                    if ('[[${documentId}]]' === '') {
+                        const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
+                        window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1500,height=920,' + specs);
+                    }
                 });
             }
         };
@@ -184,6 +187,13 @@
         document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
         document.getElementById('document_color').value = documentData.documentColor;
         document.getElementById('selected_color').style.backgroundColor = documentData.documentColor;
+    }
+
+    //신청서 양식편집 화면 open
+    function openDisplay() {
+        const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
+        window.open('/documents-admin/' + '[[${documentId}]]' + '/display', '_blank', 'width=1500,height=920,' + specs);
+        window.close();
     }
 
     /*<![CDATA[*/
