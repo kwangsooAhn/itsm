@@ -113,7 +113,6 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
     fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
-        val forms = mapper.convertValue(map["form"], RestTemplateFormDto::class.java)
         val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
             map["components"],
             TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
@@ -121,14 +120,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
 
         val componentDetailList: MutableList<ComponentDetail> = mutableListOf()
         for (component in components) {
-            var values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            component["values"]?.let {
-                values = mapper.convertValue(
-                    it, TypeFactory.defaultInstance()
-                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-                )
-            }
-
+            val value = component["value"].toString()
             var dataAttribute: LinkedHashMap<String, Any> = linkedMapOf()
             component["dataAttribute"]?.let {
                 dataAttribute =
@@ -167,7 +159,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 ComponentDetail(
                     componentId = component["componentId"] as String,
                     type = component["type"] as String,
-                    values = values,
+                    value = value,
                     dataAttribute = dataAttribute,
                     display = display,
                     label = label,
@@ -175,8 +167,6 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                     option = option
                 )
             )
-
-            val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         }
 
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto

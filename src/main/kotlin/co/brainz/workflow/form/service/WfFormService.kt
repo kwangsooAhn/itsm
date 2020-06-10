@@ -138,7 +138,7 @@ class WfFormService(
             val component = ComponentDetail(
                 componentId = componentEntity.componentId,
                 type = componentEntity.componentType,
-                values = null,
+                value = "",
                 dataAttribute = dataAttribute,
                 label = null,
                 option = null,
