@@ -134,6 +134,55 @@
         </li>
     </ul>
 </div>
+
+    <!-- 템플릿 -->
+    <template id="component-properties">
+        <div class="property-title" style="display: none;"></div>
+        <div class="property-group" id="dataAttribute" style="display: none;">
+            <label th:text="#{form.properties.dataAttribute}"></label>
+        </div>
+        <div class="property-group" id="label" style="display: none;">
+            <label th:text="#{form.properties.label}"></label>
+        </div>
+        <div class="property-group" id="display" style="display: none;">
+            <label th:text="#{form.properties.display}"></label>
+        </div>
+        <div class="property-group" id="option" style="display: none;">
+            <label th:text="#{form.properties.option}"></label>
+            <button class="plus"></button>
+            <button class="minus"></button>
+            <table></table>
+        </div>
+        <div class="property-group" id="validate" style="display: none;">
+            <label th:text="#{form.properties.validate}"></label>
+        </div>
+    </template>
+    <template id="form-properties">
+        <div class="property-group" id="form">form
+            <div class="property-field" id="name">
+                <span class="property-field-name" th:text="#{form.properties.name}"></span>
+                <input type="text" value="" class="property-field-value" maxlength="20">
+            </div>
+            <div class="property-field" id="formId">
+                <span class="property-field-name" th:text="#{form.properties.id}"></span>
+                <input type="text" value="" class="property-field-value noline" readonly="true">
+            </div>
+            <div class="property-field" id="desc">
+                <span class="property-field-name" th:text="#{form.properties.desc}"></span>
+                <textarea class="property-field-value" maxlength="200"></textarea>
+            </div>
+            <div class="property-field" id="status">
+                <span class="property-field-name" th:text="#{form.properties.status}"></span>
+                <select class="property-field-value">
+                    <option value="form.status.edit" th:text="#{form.status.edit}"></option>
+                    <option value="form.status.publish" th:text="#{form.status.publish}"></option>
+                    <option value="form.status.use" th:text="#{form.status.use}"></option>
+                    <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
+                </select>
+            </div>
+        </div>
+    </template>
+
 </th:block>
 </body>
 <th:block layout:fragment="script">

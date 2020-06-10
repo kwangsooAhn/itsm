@@ -27,7 +27,7 @@
     <hr>
     <table id="documentDisplay">
         <tbody>
-            <tr id="documentElementRow"><th></th></tr>
+        <tr id="documentElementRow"><th></th></tr>
         </tbody>
     </table>
 </div>
@@ -57,7 +57,7 @@
                 for (let i = 0; i < elements.length; i++) {
                     let elementData = document.createElement('th');
                     elementData.id = elements[i].elementId;
-                    elementData.innerHTML = elements[i].attributeValue;
+                    elementData.innerHTML = elements[i].elementName;
                     elementRow.appendChild(elementData);
                 }
                 displayTable.appendChild(elementRow);

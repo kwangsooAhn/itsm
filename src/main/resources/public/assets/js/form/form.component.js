@@ -119,7 +119,7 @@
      */
     function Textarea(attr, target) {
         const defaultRowHeight = 26;
-        const textEditorUseYn = attr.display.editorUseYn === 'Y';
+        const textEditorUseYn = attr.display.editorUseYn;
         const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
         let textAreaDefaultValue = '';
         //처리할 문서는 실 데이터를 출력한다.

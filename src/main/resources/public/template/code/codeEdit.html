@@ -79,29 +79,48 @@
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        let AUTH_DELETE = false;
+        let AUTH_CREATE = false;
+        let AUTH_UPDATE = false;
+
         window.addEventListener('load', function() {
-            var first = document.querySelector('li[name=codeList]');
+            if (document.getElementById('btnUpdate') !== null) {
+                AUTH_UPDATE = true;
+            }
+            if (document.getElementById('btnRegist') !== null) {
+                AUTH_CREATE = true;
+            }
+            if (document.getElementById('btnDelete') !== null) {
+                AUTH_DELETE = true;
+            }
+            let first = document.querySelector('li[name=codeList]');
             onGetDetail(first.getAttribute('id'));
 
-            var codeList = document.querySelectorAll('li[name=codeList]');
-            for(var i = 0; i < codeList.length; i++) {
+            let codeList = document.querySelectorAll('li[name=codeList]');
+            for(let i = 0; i < codeList.length; i++) {
                 codeList[i].addEventListener('click', function() {
                     onGetDetail(this.id);
                 });
             }
 
             function onGetDetail(codeId) {
-                document.getElementById('btnUpdate').style.display = 'block';
-                document.getElementById('btnRegist').style.display = 'none';
-                document.getElementById('btnDelete').style.display = 'block';
-                document.getElementById('btnUpdate').disabled = false;
-                document.getElementById('btnDelete').disabled = false;
+                if (AUTH_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
+                    document.getElementById('btnUpdate').disabled = false;
+                }
+                if (AUTH_CREATE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
+                if (AUTH_DELETE) {
+                    document.getElementById('btnDelete').style.display = 'block';
+                    document.getElementById('btnDelete').disabled = false;
+                }
 
                 const opt = {
                     method: 'get',
                     url: '/rest/codes/' + codeId,
                     callbackFunc: function(response) {
-                        var responseJson = JSON.parse(response.responseText);
+                        let responseJson = JSON.parse(response.responseText);
                         document.getElementById('txtCode').value = responseJson.code;
                         document.getElementById('txtCode').setAttribute('readonly','true');
                         document.getElementById('txtPCode').value = responseJson.pcode;
@@ -123,9 +142,15 @@
 
         /** create **/
         function onCreate() {
-            document.getElementById('btnDelete').style.display = 'none';
-            document.getElementById('btnUpdate').style.display = 'none';
-            document.getElementById('btnRegist').style.display = 'block';
+			if (AUTH_UPDATE) {
+                document.getElementById('btnUpdate').style.display = 'none';
+            }
+            if (AUTH_CREATE) {
+                document.getElementById('btnRegist').style.display = 'block';
+            }
+            if (AUTH_DELETE) {
+                document.getElementById('btnDelete').style.display = 'none';
+            }
             document.getElementById('txtCode').value = '';
             document.getElementById('txtCode').removeAttribute('readonly');
             document.getElementById('txtPCode').value = '';
@@ -150,8 +175,8 @@
             }
 
             if (jsonData.pCode !== null || jsonData.pCode !== '') {
-                var codeList = document.querySelectorAll('li[name=codeList]');
-                for(var i = 0; i < codeList.length; i++) {
+                let codeList = document.querySelectorAll('li[name=codeList]');
+                for(let i = 0; i < codeList.length; i++) {
                     if (codeList[i].id === jsonData.pCode) {
                         if (flag === 'post') {
                             url = '/rest/codes';
