@@ -54,11 +54,11 @@
      *
      * @author Jung Hee chan
      * @since 2020-06-08
-     * @param {String}  targetDateTime 사용자가 입력한 날짜시간.
+     * @param {String}  beforeUserDateTime 사용자가 입력한 날짜시간.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDateTime(targetDateTime) {
-        return luxon.DateTime.fromFormat(targetDateTime, dateTimeFormat).setZone('utc+0').toISO();
+    function convertToSystemDateTime(beforeUserDateTime) {
+        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat).setZone('utc+0').toISO();
     }
 
     /**
@@ -66,11 +66,24 @@
      *
      * @author Jung Hee chan
      * @since 2020-06-08
-     * @param {String}  targetDate 변환 대상 날짜.
+     * @param {String}  beforeUserDate 변환 대상 날짜.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDate(targetDate) {
-        return luxon.DateTime.fromFormat(targetDate, dateFormat).setZone('utc+0').toISO();
+    function convertToSystemDate(beforeUserDate) {
+        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat).setZone('utc+0').toISO();
+    }
+
+    /**
+     * 서버로 전송하기 위해서 ISO8601으로 변환. (HH:mm:ss)
+     *  - 시간은 타임존 개념은 없음.
+     *
+     * @author Jung Hee chan
+     * @since 2020-06-08
+     * @param {String}  beforeUserTime 변환 대상 날짜.
+     * @return {String} 변환된 데이터.
+     */
+    function convertToSystemTime(beforeUserTime) {
+        return luxon.DateTime.fromFormat(beforeUserTime, timeFormat).toISO();
     }
 
     /**
@@ -78,11 +91,36 @@
      *
      * @author Jung Hee chan
      * @since 2020-06-08
-     * @param {String}  targetDateTime 변환 대상 날짜시간 데이터.
+     * @param {String}  beforeSystemDateTime 변환 대상 날짜시간 데이터.
      * @return {String} 변환된 데이터.
      */
-    function convertToUserDateTime(targetDateTime) {
-        return luxon.DateTime.fromISO(targetDateTime).setZone(timezone).toFormat(dateTimeFormat);
+    function convertToUserDateTime(beforeSystemDateTime) {
+        return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
+    }
+
+    /**
+     * 서버에서 받은 ISO 8601 포맷의 데이터를 사용자 포맷과 타임존으로 변경
+     *
+     * @author Jung Hee chan
+     * @since 2020-06-08
+     * @param {String}  beforeSystemDate 변환 대상 날짜 데이터.
+     * @return {String} 변환된 데이터.
+     */
+    function convertToUserDate(beforeSystemDate) {
+        return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
+    }
+
+    /**
+     * 서버에서 받은 ISO 8601 포맷의 데이터를 사용자 포맷으로 변경
+     *  - 시간은 타임존 개념은 없음.
+     *
+     * @author Jung Hee chan
+     * @since 2020-06-08
+     * @param {String}  targetTime 변환 대상 시간 데이터.
+     * @return {String} 변환된 데이터.
+     */
+    function convertToUserTime(beforeSystemTime) {
+        return luxon.DateTime.fromISO(beforeSystemTime).setZone('utc+0').toFormat(timeFormat);
     }
 
     /**
@@ -128,10 +166,14 @@
 
     exports.init = init;
     exports.initMessages = addMessages;
+
     exports.getDate = getDate;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
+    exports.systemTime = convertToSystemTime;
     exports.userDateTime = convertToUserDateTime;
+    exports.userDate = convertToUserDate;
+    exports.userTime = convertToUserTime;
     exports.get = getMessage; // 앞으로 msg로 사용하고 get은 다 msg로 수정하면 지우자.
     exports.msg = getMessage;
     Object.defineProperty(exports, '__esModule', {value: true});
