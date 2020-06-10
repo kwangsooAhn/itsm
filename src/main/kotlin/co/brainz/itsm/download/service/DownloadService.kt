@@ -31,8 +31,8 @@ class DownloadService(
         val fromDt = convertParam.convertToSearchLocalDateTime(downloadSearchDto.fromDt, "fromDt")
         val toDt = convertParam.convertToSearchLocalDateTime(downloadSearchDto.toDt, "toDt")
         val downloadEntity = when (downloadSearchDto.category) {
-            "all" -> downloadRepository.findByDownloadList(downloadSearchDto.search, fromDt, toDt)
-            else -> downloadRepository.findByDownloadList(
+            "all" -> downloadRepository.findDownloadEntityList("", downloadSearchDto.search, fromDt, toDt)
+            else -> downloadRepository.findDownloadEntityList(
                 downloadSearchDto.category,
                 downloadSearchDto.search,
                 fromDt,
