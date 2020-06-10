@@ -260,7 +260,7 @@
 
             radioElem.addEventListener('click', function() {
                 let checkedRadioElem = comp.querySelectorAll('input[type=radio]:checked');
-                for (let j = 0, cheklen = checkedRadioElem.length; j < cheklen; j++) {
+                for (let j = 0, checkLen = checkedRadioElem.length; j < checkLen; j++) {
                     checkedRadioElem[j].checked = false;
                 }
                 this.checked = true;
@@ -323,7 +323,7 @@
             //처리할 문서는 실 데이터를 출력한다.
             if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && attr.value !== '') {
                 const checkboxValues = JSON.parse(attr.value);
-                for (let j = 0, cheklen = checkboxValues.length; j < cheklen; j++) {
+                for (let j = 0, checkLen = checkboxValues.length; j < checkLen; j++) {
                     if (checkElem.value === checkboxValues[j]) {
                         checkElem.checked = true;
                     }
