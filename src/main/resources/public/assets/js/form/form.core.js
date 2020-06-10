@@ -129,8 +129,8 @@
                 });
 
                 // 3. 처리할 문서인 경우 저장된 값도 변경.
-                if (component.values !== undefined && component.values.length > 0) {
-                    let componentValue = component.values[0].value;
+                if (component.value !== undefined && component.value !== '') {
+                    let componentValue = component.value;
                     switch (component.type) {
                         case 'datetime':
                             componentValue =
@@ -146,7 +146,7 @@
                                 aliceJs.convertToUserTimeFormat(componentValue, aliceForm.options.hourFormat);
                             break;
                     }
-                    component.values[0].value = componentValue;
+                    component.value = componentValue;
                 }
             }
         });

@@ -80,13 +80,12 @@
     function Text(attr, target) {
         let textDefaultArr = attr.display['default'].split('|');
         let textDefaultValue = (textDefaultArr[0] === 'none') ? textDefaultArr[1] : aliceForm.options.sessionInfo[textDefaultArr[1]];
-        //폼 양식 편집 화면에서는 세션 값이 출력되지 않는다.
-        if (target.hasAttribute('data-readonly') && textDefaultArr[0] !== 'none') {
-            textDefaultValue = textDefaultArr[2];
-        }
-        //처리할 문서는 실 데이터를 출력한다.
-        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
-            textDefaultValue = attr.values[0].value;
+        if (target.hasAttribute('data-readonly')) { //폼 양식
+            if (textDefaultArr[0] !== 'none') { textDefaultValue = textDefaultArr[2]; } //폼 양식 편집 화면에서는 세션 값이 출력되지 않는다.
+        } else { //신청서 및 처리할 문서
+            if (target.getAttribute('data-isToken') === 'true') { //처리할 문서
+                textDefaultValue = attr.value;
+            }
         }
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
@@ -123,8 +122,8 @@
         const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
         let textAreaDefaultValue = '';
         //처리할 문서는 실 데이터를 출력한다.
-        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
-            textAreaDefaultValue = textEditorUseYn ? JSON.parse(attr.values[0].value) : attr.values[0].value;
+        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+            textAreaDefaultValue = (textEditorUseYn && attr.value !== '') ? JSON.parse(attr.value) : attr.value;
         }
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
@@ -206,7 +205,7 @@
             optElem.text = attr.option[i].name;
             optElem.setAttribute('seq', attr.option[i].seq);
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0 && optElem.value === attr.values[0].value) {
+            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && optElem.value === attr.value) {
                 optElem.selected = true;
             }
             selectElem.appendChild(optElem);
@@ -253,15 +252,15 @@
             radioElem.setAttribute('seq', attr.option[i].seq);
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
-                radioElem.checked = (radioElem.value === attr.values[0].value);
+            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && attr.value !== '') {
+                radioElem.checked = (radioElem.value === attr.value);
             } else {
                 radioElem.checked = (i === 0);
             }
 
             radioElem.addEventListener('click', function() {
                 let checkedRadioElem = comp.querySelectorAll('input[type=radio]:checked');
-                for (let j = 0, cheklen = checkedRadioElem.length; j < cheklen; j++) {
+                for (let j = 0, checkLen = checkedRadioElem.length; j < checkLen; j++) {
                     checkedRadioElem[j].checked = false;
                 }
                 this.checked = true;
@@ -322,9 +321,9 @@
             checkElem.name = attr.option[i].name;
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
-                const checkboxValues = attr.values[0].value.split(',');
-                for (let j = 0, cheklen = checkboxValues.length; j < cheklen; j++) {
+            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && attr.value !== '') {
+                const checkboxValues = JSON.parse(attr.value);
+                for (let j = 0, checkLen = checkboxValues.length; j < checkLen; j++) {
                     if (checkElem.value === checkboxValues[j]) {
                         checkElem.checked = true;
                     }
@@ -425,10 +424,8 @@
         let dateDefault = '';
         let datePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
         //처리할 문서는 실 데이터를 출력한다.
-        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
-            if (attr.values[0].value !== '') {
-                dateDefault = attr.values[0].value;
-            }
+        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+            dateDefault = attr.value;
         } else {
             if (dateDefaultArr[0] === 'now') {
                 dateDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.dateFormat);
@@ -486,8 +483,8 @@
         let timeDefaultArr = attr.display['default'].split('|');
         let timeDefault = '';
         //처리할 문서는 실 데이터를 출력한다.
-        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
-            timeDefault = attr.values[0].value;
+        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+            timeDefault = attr.value;
         } else {
             if (timeDefaultArr[0] === 'now') {
                 timeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.hourFormat);
@@ -544,11 +541,8 @@
         //날짜 시간 포멧 변경
         let datetimeDefaultArr = attr.display['default'].split('|');
         let datetimeDefault = '';
-
-        if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0 ) {
-            if (attr.values[0].value !== '') {
-                datetimeDefault = attr.values[0].value;
-            }
+        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+                datetimeDefault = attr.value;
         } else {
             if (datetimeDefaultArr[0] === 'now') {
                 datetimeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.datetimeFormat);
@@ -638,8 +632,8 @@
                     editor: (attr.dataAttribute.displayType !== 'readonly')
                 }
             };
-            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) {
-                fileOptions.extra.fileDataIds = attr.values[0].value;
+            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+                fileOptions.extra.fileDataIds = attr.value;
             }
             fileUploader.init(fileOptions);
         } else {
@@ -664,10 +658,8 @@
             defaultCustomData = ''; // 신청서 작성 및 처리할 문서
         if (!target.hasAttribute('data-readonly')) { // 신청서 작성 및 처리할 문서
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && attr.values !== undefined && attr.values.length > 0) { // 처리할 문서
-                if (attr.values.length > 0) {
-                    defaultCustomData = attr.values[0].value;
-                }
+            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+                defaultCustomData = attr.value;
             } else {  // 신청서 작성
                 if (textDefaultArr[0] !== 'none') {
                     defaultCustomData = textDefaultArr[1] + '|' + textDefaultArr[2];
@@ -712,19 +704,8 @@
         if (!target.hasAttribute('data-readonly')) {
             let customCodeTextElem = comp.querySelector('input[type="text"]');
             if (defaultCustomData !== '') {
-                let customCodeValues = defaultCustomData.split(',');
-                let inputValue = '';
-                for (let i = 0, len = customCodeValues.length; i < len; i++) {
-                    let customDataValue = customCodeValues[i].split('|');
-                    if (customDataValue.length > 1) {
-                        if (inputValue === '' && inputValue.indexOf('/') === -1) {
-                            inputValue = customDataValue[1];
-                        } else {
-                            inputValue += '/' + customDataValue[1];
-                        }
-                    }
-                }
-                customCodeTextElem.value = inputValue;
+                let customDataValue = defaultCustomData.split('|');
+                customCodeTextElem.value = (customDataValue.length > 1) ? customDataValue[1] : '';
             }
 
             let searchBtn = comp.querySelector('#codeBtn');
@@ -734,7 +715,7 @@
                 window.open(url, 'customCodePop', 'width=500, height=655');
                 let customCodeData = {
                     componentId: attr.componentId,
-                    componentValues: customCodeTextElem.getAttribute('custom-data')
+                    componentValue: customCodeTextElem.getAttribute('custom-data')
                 };
 
                 let form = document.createElement('form');

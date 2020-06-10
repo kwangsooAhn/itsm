@@ -113,17 +113,12 @@ class WfTokenService(
             )
 
         for (componentEntity in formData.components) {
-            // values
+            // value
             val tokenDataEntities = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(tokenId)
-            val values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
             for (tokenDataEntity in tokenDataEntities) {
                 if (tokenDataEntity.component.componentId == componentEntity.componentId) {
-                    val valueMap = LinkedHashMap<String, Any>()
-                    valueMap["value"] = tokenDataEntity.value
-                    values.add(valueMap)
+                    componentEntity.value = tokenDataEntity.value
                 }
-
-                componentEntity.values = values
             }
 
             // displayType

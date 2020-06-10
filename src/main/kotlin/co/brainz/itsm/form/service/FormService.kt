@@ -122,14 +122,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
         val componentDetailList: MutableList<ComponentDetail> = mutableListOf()
         for (component in components) {
-            var values: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            component["values"]?.let {
-                values = mapper.convertValue(
-                    it, TypeFactory.defaultInstance()
-                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-                )
-            }
-
+            val value = component["value"].toString()
             var dataAttribute: LinkedHashMap<String, Any> = linkedMapOf()
             component["dataAttribute"]?.let {
                 dataAttribute =
@@ -168,7 +161,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 ComponentDetail(
                     componentId = component["componentId"] as String,
                     type = component["type"] as String,
-                    values = values,
+                    value = value,
                     dataAttribute = dataAttribute,
                     display = display,
                     label = label,

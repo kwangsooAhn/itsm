@@ -371,15 +371,13 @@
                         break;
                     case 'checkbox':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
+                        let componentValueArr = [];
                         for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
-                            if (componentChild[checkBoxIndex].checked) {
-                                if (componentValue === '' && componentValue.indexOf(",") === -1) {
-                                    componentValue = componentChild[checkBoxIndex].value;
-                                } else {
-                                    componentValue = componentValue + ',' + componentChild[checkBoxIndex].value;
-                                }
+                            if (componentChild[checkBoxIndex].checked && componentValueArr.indexOf(componentChild[checkBoxIndex].value) === -1) {
+                                componentValueArr.push(componentChild[checkBoxIndex].value);
                             }
                         }
+                        componentValue = JSON.stringify(componentValueArr);
                         break;
                     case 'fileupload':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
@@ -692,10 +690,7 @@
         dataForPrint.form.components = dataForPrint.form.components.filter(function(comp) {
             componentArrayList.forEach(function(array) {
                 if (comp.componentId === array.componentId) {
-                    if (typeof comp.values[0] === 'undefined') {
-                        comp.values.push({value: ''});
-                    }
-                    comp.values[0].value = array.value;
+                    comp.value = (typeof comp.value === 'undefined') ? '' : array.value;
                 }
             });
             if (comp.dataAttribute.displayType !== 'hidden') {
