@@ -5,5 +5,10 @@ import java.time.LocalDateTime
 
 interface DownloadRepositoryCustom {
 
-    fun findDownloadEntityList(category: String, search:String, fromDt: LocalDateTime, toDt: LocalDateTime): List<DownloadEntity>
+    fun findDownloadEntityList(
+        category: String,
+        search: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime
+    ): List<DownloadEntity>
 }
