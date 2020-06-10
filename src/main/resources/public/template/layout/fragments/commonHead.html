@@ -24,8 +24,9 @@
 <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
 <script th:src="@{/assets/vendors/quill/quill.js}"></script>
 <script th:src="@{/assets/vendors/toastify/toastify-custom.js}"></script>
+<script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
 <script type="text/javascript">
-    i18n.add();
+    /*<![CDATA[ */
 
     //Drag and Drop Prevent Event Listener
     window.addEventListener('dragover', (e) => {
@@ -41,5 +42,24 @@
         e.dataTransfer.effectAllowed = 'none';
         e.dataTransfer.dropEffect = 'none';
     }, false);
+
+    // 2020-06-08 Jung Hee Chan
+    // 모든 HTML에서 userFormat에 접근하기 위한 공통 객체.
+    // 더 이상 화면에서 foramt, lang 같은 것 파싱해서 쓰지말자.
+    let userFormat = {};
+
+    (function() {
+        let parsedDateTimeFormat = '[[${#authentication.details.timeFormat}]]'.split(' ');
+        userFormat.dateFormat = parsedDateTimeFormat[0];
+        userFormat.timeFormat = parsedDateTimeFormat[1];
+        if (parsedDateTimeFormat[2] !== undefined) userFormat.timeFormat = userFormat.timeFormat + ' ' + parsedDateTimeFormat[2];
+        userFormat.dateTimeFormat = userFormat.dateFormat + ' ' + userFormat.timeFormat;
+        userFormat.lang = '[[${#authentication.details.lang}]]';
+        userFormat.timezone = '[[${#authentication.details.timezone}]]';
+
+        i18n.init(JSON.stringify(userFormat));
+    })();
+
+    /* ]]> */
 </script>
 </html>

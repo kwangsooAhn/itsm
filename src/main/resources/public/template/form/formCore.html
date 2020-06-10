@@ -40,7 +40,7 @@
             timezone : '[[${#authentication.details.timezone}]]',
             lang: '[[${#authentication.details.lang}]]'
         };
-        i18n.add(function(){
+        i18n.initMessages(function(){
             aliceForm.init(JSON.stringify(userAuthInfo));
         });
         /*]]>*/
