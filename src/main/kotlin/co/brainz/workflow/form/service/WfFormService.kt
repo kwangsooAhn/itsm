@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonParser
-import java.util.Optional
 import java.util.UUID
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
@@ -32,7 +31,10 @@ class WfFormService(
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(
-        WfFormMapper::class.java)
+        WfFormMapper::class.java
+    )
+
+    private val objMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * Search Forms.
@@ -144,8 +146,6 @@ class WfFormService(
                 option = null,
                 validate = null
             )
-
-            val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
             val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
 
             for (componentDataEntity in componentDataEntityList) {
@@ -153,12 +153,12 @@ class WfFormService(
                 val attributeValue = LinkedHashMap<String, Any>()
 
                 when (jsonElement.isJsonArray) {
-                    true -> attributeValue["value"] = mapper.readValue(
+                    true -> attributeValue["value"] = objMapper.readValue(
                         componentDataEntity.attributeValue,
-                        mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
+                        objMapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
                     )
                     false -> attributeValue["value"] =
-                        mapper.readValue(componentDataEntity.attributeValue, LinkedHashMap::class.java)
+                        objMapper.readValue(componentDataEntity.attributeValue, LinkedHashMap::class.java)
                 }
 
                 when (componentDataEntity.attributeId) {
@@ -192,8 +192,6 @@ class WfFormService(
      */
     fun makeAttributes(component: WfComponentEntity): LinkedHashMap<String, Any> {
         val attributes = LinkedHashMap<String, Any>()
-
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         attributes["type"] = component.componentType
 
         val common = LinkedHashMap<String, Any>()
@@ -204,12 +202,12 @@ class WfFormService(
         for (attribute in component.attributes!!) {
             val jsonElement = JsonParser().parse(attribute.attributeValue)
             when (jsonElement.isJsonArray) {
-                true -> attributes[attribute.attributeId] = mapper.readValue(
+                true -> attributes[attribute.attributeId] = objMapper.readValue(
                     attribute.attributeValue,
-                    mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
+                    objMapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
                 )
                 false -> attributes[attribute.attributeId] =
-                    mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
+                    objMapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
             }
         }
 
@@ -223,15 +221,7 @@ class WfFormService(
      * @return Boolean
      */
     fun updateForm(restTemplateFormDto: RestTemplateFormDto): Boolean {
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(restTemplateFormDto.id)
-        formEntity.get().formName = restTemplateFormDto.name
-        formEntity.get().formDesc = restTemplateFormDto.desc
-        formEntity.get().formStatus = restTemplateFormDto.status
-        formEntity.get().updateDt = restTemplateFormDto.updateDt
-        formEntity.get().updateUser = restTemplateFormDto.updateUserKey?.let {
-            aliceUserRepository.findAliceUserEntityByUserKey(it)
-        }
-        wfFormRepository.save(formEntity.get())
+        this.updateFormEntity(restTemplateFormDto)
         return true
     }
 
@@ -253,91 +243,19 @@ class WfFormService(
         }
 
         // Update Form
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val wfFormData: Optional<WfFormEntity> =
-            wfFormRepository.findWfFormEntityByFormId(restTemplateFormComponentListDto.formId)
-        wfFormData.ifPresent {
-            wfFormData.get().formName = restTemplateFormComponentListDto.name
-            wfFormData.get().formDesc = restTemplateFormComponentListDto.desc
-            wfFormData.get().formStatus = restTemplateFormComponentListDto.status
-            wfFormData.get().updateDt = restTemplateFormComponentListDto.updateDt
-            wfFormData.get().updateUser = restTemplateFormComponentListDto.updateUserKey?.let {
-                aliceUserRepository.findAliceUserEntityByUserKey(it)
-            }
-            val resultFormEntity = wfFormRepository.save(wfFormData.get())
+        val resultFormEntity =
+            this.updateFormEntity(wfFormMapper.toRestTemplateFormDto(restTemplateFormComponentListDto))
 
-            // Insert component, attribute
-            val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
-            for (component in restTemplateFormComponentListDto.components) {
-                var mappingId = ""
-                var isTopic = false
-                val common: java.util.LinkedHashMap<*, *>? =
-                    mapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
-                if (common != null) {
-                    if (common.containsKey("mappingId")) {
-                        mappingId = common["mappingId"] as String
-                    }
-                    if (common.containsKey("isTopic")) {
-                        isTopic = common["isTopic"] as Boolean
-                    }
-                }
-                val componentEntity = WfComponentEntity(
-                    componentId = component.componentId,
-                    componentType = component.type,
-                    mappingId = mappingId,
-                    isTopic = isTopic,
-                    form = resultFormEntity
-                )
-                val resultComponentEntity = wfComponentRepository.save(componentEntity)
-
-                // wf_comp_data 저장
-                var componentDataEntity = WfComponentDataEntity(
-                    componentId = resultComponentEntity.componentId,
-                    attributeId = "display",
-                    attributeValue = mapper.writeValueAsString(component.display),
-                    attributes = resultComponentEntity
-                )
-                wfComponentDataEntities.add(componentDataEntity)
-
-                component.label?.let {
-                    if (it.size > 0) {
-                        componentDataEntity = WfComponentDataEntity(
-                            componentId = resultComponentEntity.componentId,
-                            attributeId = "label",
-                            attributeValue = mapper.writeValueAsString(it),
-                            attributes = resultComponentEntity
-                        )
-                        wfComponentDataEntities.add(componentDataEntity)
-                    }
-                }
-
-                component.validate?.let {
-                    if (it.size > 0) {
-                        componentDataEntity = WfComponentDataEntity(
-                            componentId = resultComponentEntity.componentId,
-                            attributeId = "validate",
-                            attributeValue = mapper.writeValueAsString(it),
-                            attributes = resultComponentEntity
-                        )
-                        wfComponentDataEntities.add(componentDataEntity)
-                    }
-                }
-
-                component.option?.let {
-                    if (it.size > 0) {
-                        componentDataEntity = WfComponentDataEntity(
-                            componentId = resultComponentEntity.componentId,
-                            attributeId = "option",
-                            attributeValue = mapper.writeValueAsString(it),
-                            attributes = resultComponentEntity
-                        )
-                        wfComponentDataEntities.add(componentDataEntity)
-                    }
-                }
-            }
-            if (wfComponentDataEntities.isNotEmpty()) {
-                wfComponentDataRepository.saveAll(wfComponentDataEntities)
-            }
+        // Insert component, attribute
+        val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
+        for (component in restTemplateFormComponentListDto.components) {
+            // wf_component 저장
+            val resultComponentEntity = this.saveComponent(resultFormEntity, component)
+            // component data 가져오기
+            wfComponentDataEntities.addAll(this.getComponentData(resultComponentEntity, component))
+        }
+        if (wfComponentDataEntities.isNotEmpty()) {
+            wfComponentDataRepository.saveAll(wfComponentDataEntities)
         }
     }
 
@@ -367,5 +285,104 @@ class WfFormService(
         saveFormData(restTemplateFormComponentListDto)
 
         return wfFormDto
+    }
+
+    /**
+     * Update form entity.
+     */
+    private fun updateFormEntity(restTemplateFormDto: RestTemplateFormDto): WfFormEntity {
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(restTemplateFormDto.id)
+        formEntity.get().formName = restTemplateFormDto.name
+        formEntity.get().formDesc = restTemplateFormDto.desc
+        formEntity.get().formStatus = restTemplateFormDto.status
+        formEntity.get().updateDt = restTemplateFormDto.updateDt
+        formEntity.get().updateUser = restTemplateFormDto.updateUserKey?.let {
+            aliceUserRepository.findAliceUserEntityByUserKey(it)
+        }
+        return wfFormRepository.save(formEntity.get())
+    }
+
+    /**
+     * Save component.
+     */
+    private fun saveComponent(resultFormEntity: WfFormEntity, component: ComponentDetail): WfComponentEntity {
+        var mappingId = ""
+        var isTopic = false
+        val common: java.util.LinkedHashMap<*, *>? =
+            objMapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
+        if (common != null) {
+            if (common.containsKey("mappingId")) {
+                mappingId = common["mappingId"] as String
+            }
+            if (common.containsKey("isTopic")) {
+                isTopic = common["isTopic"] as Boolean
+            }
+        }
+        val componentEntity = WfComponentEntity(
+            componentId = component.componentId,
+            componentType = component.type,
+            mappingId = mappingId,
+            isTopic = isTopic,
+            form = resultFormEntity
+        )
+
+        return wfComponentRepository.save(componentEntity)
+    }
+
+    /**
+     * Get component data.
+     */
+    private fun getComponentData(
+        resultComponentEntity: WfComponentEntity,
+        component: ComponentDetail
+    ): MutableList<WfComponentDataEntity> {
+        val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
+
+        // wf_comp_data 저장
+        var componentDataEntity = WfComponentDataEntity(
+            componentId = resultComponentEntity.componentId,
+            attributeId = "display",
+            attributeValue = objMapper.writeValueAsString(component.display),
+            attributes = resultComponentEntity
+        )
+        wfComponentDataEntities.add(componentDataEntity)
+
+        component.label?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "label",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        component.validate?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "validate",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        component.option?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "option",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        return wfComponentDataEntities
     }
 }
