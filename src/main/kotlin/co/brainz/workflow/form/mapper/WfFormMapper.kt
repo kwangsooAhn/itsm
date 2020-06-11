@@ -1,6 +1,7 @@
 package co.brainz.workflow.form.mapper
 
 import co.brainz.workflow.form.entity.WfFormEntity
+import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
@@ -21,4 +22,14 @@ interface WfFormMapper {
         Mapping(source = "updateUser.userName", target = "updateUserName")
     )
     fun toFormViewDto(wfFormEntity: WfFormEntity): RestTemplateFormDto
+
+    @Mappings(
+        Mapping(source = "formId", target = "id"),
+        Mapping(source = "name", target = "name"),
+        Mapping(source = "desc", target = "desc"),
+        Mapping(source = "status", target = "status"),
+        Mapping(source = "updateDt", target = "updateDt"),
+        Mapping(source = "updateUserKey", target = "updateUserKey")
+    )
+    fun toRestTemplateFormDto(restTemplateFormComponentListDto: RestTemplateFormComponentListDto): RestTemplateFormDto
 }
