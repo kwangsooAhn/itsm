@@ -327,9 +327,7 @@ class WfDocumentService(
                 it.elementId == targetElementId
             }
 
-            if (gatewayQueue.size > 0
-                && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value
-            ) {
+            if (gatewayQueue.size > 0 && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
                 currentElement = gatewayQueue.pop()
             }
 
