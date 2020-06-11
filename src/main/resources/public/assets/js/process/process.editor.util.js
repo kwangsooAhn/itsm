@@ -636,9 +636,9 @@
         const drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
         const minimapSvg = d3.select('.minimap').select('svg');
         const nodeTopArray = [],
-            nodeRightArray = [],
-            nodeBottomArray = [],
-            nodeLeftArray = [];
+              nodeRightArray = [],
+              nodeBottomArray = [],
+              nodeLeftArray = [];
         const nodes = minimapSvg.selectAll('g.element, g.connector').nodes();
         nodes.forEach(function(node) {
             let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
