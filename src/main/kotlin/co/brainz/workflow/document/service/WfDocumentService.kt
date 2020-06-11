@@ -29,12 +29,12 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.util.ArrayDeque
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
@@ -268,7 +268,7 @@ class WfDocumentService(
     /**
      * [processId]기준 으로  Process에 Element중 userTask를 정렬하여 [List]로 반환
      */
-    fun makeOrderElements(processId:String) : List<Map<String, Any>> {
+    fun makeOrderElements(processId: String): List<Map<String, Any>> {
         // userTask를 저장한 ElementList
         val userTaskElementList: MutableList<Map<String, Any>> = mutableListOf()
         // gateway 저장
@@ -328,7 +328,8 @@ class WfDocumentService(
             }
 
             if (gatewayQueue.size > 0
-                && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+                && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value
+            ) {
                 currentElement = gatewayQueue.pop()
             }
 
