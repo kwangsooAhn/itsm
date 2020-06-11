@@ -435,8 +435,103 @@
      * download process image.
      */
     function downloadProcessImage() {
-        //TODO: 처리로직
-        console.log('clicked image download button.');
+        const viewBox = getSvgViewBox();
+        let svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        let svg = d3.select(svgNode).html(d3.select('.alice-process-drawing-board > svg').html());
+        svg.attr('width', viewBox[2])
+            .attr('height', viewBox[3])
+            .attr('viewBox', viewBox.join(' '))
+            .classed('alice-process-drawing-board', true);
+
+        svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
+        svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
+        svg.selectAll('.selected').classed('selected', false);
+        svg.selectAll('.reject-element').classed('reject-element', false);
+
+        let embedImages = Promise.all(Array.from(svgNode.querySelectorAll('image')).map(function(image) {
+            return new Promise(resolve => {
+                let url = image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+                let promise = asyncImageLoader(url);
+                promise.then(img => {
+                    let canvas = document.createElement('canvas'),
+                        ctx = canvas.getContext('2d');
+                    canvas.height = img.naturalHeight;
+                    canvas.width = img.naturalWidth;
+                    ctx.drawImage(img, 0, 0);
+                    let dataURL = canvas.toDataURL('image/png');
+                    image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dataURL);
+                    resolve(image);
+                });
+            });
+        }));
+        embedImages.then(() => {
+            let svgString = getSVGString(svgNode);
+            let canvas = document.createElement('canvas');
+            canvas.width = viewBox[2];
+            canvas.height = viewBox[3];
+            let context = canvas.getContext('2d');
+            let image = new Image();
+            image.onload = function() {
+                context.clearRect (0, 0, canvas.width, canvas.height);
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                let canvasData = canvas.toDataURL('image/png');
+                const a = document.createElement('a');
+                a.download = aliceProcessEditor.data.process.name + '_' + aliceProcessEditor.data.process.id + '.png';
+                a.href = canvasData;
+                a.click();
+            };
+            image.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString)));
+        });
+
+        function asyncImageLoader(url) {
+            return new Promise( (resolve, reject) => {
+                let image = new Image();
+                image.src = url;
+                image.onload = () => resolve(image);
+                image.onerror = () => reject(console.error('could not load image!'));
+            });
+        }
+    }
+
+    /**
+     * svg 이미지를 string 으로 변환하여 반환한다.
+     *
+     * @param svgNode 다운로드할 SVG Node
+     * @return {string} 다운로드 svg string data
+     */
+    function getSVGString(svgNode) {
+        svgNode.setAttribute('xlink', 'http://www.w3.org/1999/xlink');
+        let cssStyleText = '';
+        for (let i = 0; i < document.styleSheets.length; i++) {
+            let s = document.styleSheets[i];
+            try {
+                if (!s.cssRules) { continue; }
+            } catch(e) {
+                if (e.name !== 'SecurityError') { throw e; } // for Firefox
+                continue;
+            }
+
+            let cssRules = s.cssRules;
+            for (let r = 0; r < cssRules.length; r++) {
+                if (cssRules[r].selectorText &&
+                    cssRules[r].selectorText.indexOf('.alice-process-drawing-board') > -1) {
+                    cssStyleText += cssRules[r].cssText;
+                }
+            }
+        }
+        let styleElement = document.createElement('style');
+        styleElement.setAttribute('type','text/css');
+        styleElement.innerHTML = cssStyleText;
+        let refNode = svgNode.hasChildNodes() ? svgNode.children[0] : null;
+        svgNode.insertBefore(styleElement, refNode);
+
+        let serializer = new XMLSerializer();
+        let svgString = serializer.serializeToString(svgNode);
+        svgString = svgString.replace(/(\w+)?:?xlink=/g, 'xmlns:xlink='); // Fix root xlink without namespace
+        svgString = svgString.replace(/NS\d+:href/g, 'xlink:href'); // Safari NS namespace fix
+
+        return svgString;
     }
 
     /**
@@ -486,6 +581,7 @@
         });
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
         minimapSvg.selectAll('.selected').classed('selected', false);
+        minimapSvg.selectAll('.reject-element').classed('reject-element', false);
         minimapSvg.append('rect')
             .attr('class', 'minimap-guide')
             .attr('x', 0)
@@ -493,32 +589,12 @@
             .attr('width', drawingBoard.node().offsetWidth)
             .attr('height', drawingBoard.node().offsetHeight);
 
-        const nodeTopArray = [],
-              nodeRightArray = [],
-              nodeBottomArray = [],
-              nodeLeftArray = [];
-        const nodes = minimapSvg.selectAll('g.element, g.connector').nodes();
-        nodes.forEach(function(node) {
-            let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
-            nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
-            nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
-            nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
-            nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
-        });
-        let viewBox = [0, 0, drawingBoard.node().offsetWidth, drawingBoard.node().offsetHeight];
         let minimapTranslate = '';
-        if (nodes.length > 0) {
-            const margin = 100;
-            viewBox = [
-                d3.min(nodeLeftArray) - margin,
-                d3.min(nodeTopArray) - margin,
-                Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 2),
-                Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 2)
-            ];
+        if (minimapSvg.selectAll('g.element, g.connector').nodes().length > 0) {
             let transform = d3.zoomTransform(drawingBoard.select('.element-container').node());
             minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
         }
-        minimapSvg.attr('viewBox', viewBox.join(' '));
+        minimapSvg.attr('viewBox', getSvgViewBox().join(' '));
         minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
 
         const elements = aliceProcessEditor.data.elements;
@@ -549,6 +625,39 @@
             infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
         });
         infoContainer.querySelector('#element_count').textContent = elements.length;
+    }
+
+    /**
+     * 프로세스 viewbox 를 조회하여 반환한다.
+     *
+     * @return {[number, number, *, *]}
+     */
+    function getSvgViewBox() {
+        const drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
+        const minimapSvg = d3.select('.minimap').select('svg');
+        const nodeTopArray = [],
+            nodeRightArray = [],
+            nodeBottomArray = [],
+            nodeLeftArray = [];
+        const nodes = minimapSvg.selectAll('g.element, g.connector').nodes();
+        nodes.forEach(function(node) {
+            let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
+            nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
+            nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
+            nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
+            nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
+        });
+        let viewBox = [0, 0, drawingBoard.node().offsetWidth, drawingBoard.node().offsetHeight];
+        if (nodes.length > 0) {
+            const margin = 100;
+            viewBox = [
+                d3.min(nodeLeftArray) - margin,
+                d3.min(nodeTopArray) - margin,
+                Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 2),
+                Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 2)
+            ];
+        }
+        return viewBox;
     }
 
     /**
