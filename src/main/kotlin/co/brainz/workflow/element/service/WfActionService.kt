@@ -31,21 +31,21 @@ class WfActionService(
      */
     fun actionInit(processId: String): MutableList<RestTemplateActionDto> {
         val startElement = wfElementService.getStartElement(processId)
-        val startArrow = getArrowElements(startElement.elementId)[0]
-        val registerElementId = getNextElementId(startArrow)
-        return actions(registerElementId)
+        val startArrow = this.getArrowElements(startElement.elementId)[0]
+        val registerElementId = this.getNextElementId(startArrow)
+        return this.actions(registerElementId)
     }
 
     fun actions(elementId: String): MutableList<RestTemplateActionDto> {
-        val currentElement = getElement(elementId)
-        val arrow = getArrowElements(elementId)[0]
-        val nextElementId = getNextElementId(arrow)
-        val nextElement = getElement(nextElementId)
+        val currentElement = this.getElement(elementId)
+        val arrow = this.getArrowElements(elementId)[0]
+        val nextElementId = this.getNextElementId(arrow)
+        val nextElement = this.getElement(nextElementId)
 
         val actions: MutableList<RestTemplateActionDto> = mutableListOf()
-        actions.addAll(preActions())
-        actions.addAll(typeActions(arrow, nextElement))
-        actions.addAll(postActions(currentElement))
+        actions.addAll(this.preActions())
+        actions.addAll(this.typeActions(arrow, nextElement))
+        actions.addAll(this.postActions(currentElement))
 
         return actions
     }
@@ -56,7 +56,7 @@ class WfActionService(
      * @param elementId
      * @return MutableList<WfElementEntity>
      */
-    fun getArrowElements(elementId: String): MutableList<WfElementEntity> {
+    private fun getArrowElements(elementId: String): MutableList<WfElementEntity> {
         return wfElementRepository.findAllArrowConnectorElement(elementId)
     }
 
@@ -66,7 +66,7 @@ class WfActionService(
      * @param arrowElement
      * @return String
      */
-    fun getNextElementId(arrowElement: WfElementEntity): String {
+    private fun getNextElementId(arrowElement: WfElementEntity): String {
         return wfElementDataRepository.findByElementAndAttributeId(arrowElement).attributeValue
     }
 
@@ -76,7 +76,7 @@ class WfActionService(
      * @param elementId
      * @return WfElementEntity
      */
-    fun getElement(elementId: String): WfElementEntity {
+    private fun getElement(elementId: String): WfElementEntity {
         return wfElementRepository.findWfElementEntityByElementId(elementId)
     }
 
@@ -140,7 +140,7 @@ class WfActionService(
                 }
                 when (isAction) {
                     true -> {
-                        val gatewayArrows = getArrowElements(nextElement.elementId)
+                        val gatewayArrows = this.getArrowElements(nextElement.elementId)
                         gatewayArrows.forEach { gatewayArrow ->
                             typeActions.addAll(makeAction(gatewayArrow.elementDataEntities))
                         }
