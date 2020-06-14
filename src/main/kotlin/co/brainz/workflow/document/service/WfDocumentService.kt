@@ -364,12 +364,16 @@ class WfDocumentService(
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (component in componentEntities) {
             val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            for (display in displayList) {
-                if (display.componentId == component.componentId) {
-                    val displayMap = LinkedHashMap<String, Any>()
-                    displayMap["elementId"] = display.elementId
-                    displayMap["display"] = display.display
-                    displayValue.add(displayMap)
+            for (elementEntity in elementEntities) {
+                for (display in displayList) {
+                    if (display.componentId == component.componentId) {
+                        if (display.elementId == elementEntity["elementId"].toString()) {
+                            val displayMap = LinkedHashMap<String, Any>()
+                            displayMap["elementId"] = display.elementId
+                            displayMap["display"] = display.display
+                            displayValue.add(displayMap)
+                        }
+                    }
                 }
             }
             val componentMap = LinkedHashMap<String, Any>()
