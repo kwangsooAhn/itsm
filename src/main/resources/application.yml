@@ -1,5 +1,5 @@
 spring:
-  profiles: default
+  profiles:
   datasource:
     hikari.maximum-pool-size: 5
     platform: postgres
