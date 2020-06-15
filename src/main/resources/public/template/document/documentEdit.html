@@ -34,6 +34,16 @@
             </td>
         </tr>
         <tr>
+            <th th:text="#{document.label.group}"></th>
+            <td>
+                <select id="document_group" style="width:75%">
+                    <option value="" th:text="#{common.label.notSelect}" selected/>
+                    <option th:each="group:${groupList}" th:value="${group.code}"
+                            th:text="#{${group.codeValue}}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <th class="required" th:text="#{document.label.form}"></th>
             <td>
                 <select id="document_form" style="width:75%" th:disabled="${documentId}">
@@ -106,7 +116,7 @@
             let documentProcess = document.getElementById('document_process');
             let documentStatus = document.getElementById('document_status');
             let documentNumberingRule = document.getElementById('document_numbering_rule');
-            const documentInfo = {
+            let documentInfo = {
                 documentType: documentType.options[documentType.selectedIndex].value,
                 documentName: document.getElementById('document_name').value,
                 documentDesc: document.getElementById('document_desc').value,
@@ -116,11 +126,18 @@
                 documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
                 documentColor: document.getElementById('document_color').value
             };
+            //그룹을 선택한 경우
+            let documentGroup = document.getElementById('document_group');
+            if (documentGroup.options[documentGroup.selectedIndex].value !== '') {
+                documentInfo.documentGroup = documentGroup.options[documentGroup.selectedIndex].value;
+            }
+
             let parameter = '';
             if (method === 'put') {
                 documentInfo.documentId = '[[${documentId}]]';
                 parameter = '/[[${documentId}]]';
             }
+
             restSubmit(method, '/rest/documents-admin' + parameter, documentInfo);
         }
     }
@@ -187,6 +204,7 @@
         document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
         document.getElementById('document_color').value = documentData.documentColor;
         document.getElementById('selected_color').style.backgroundColor = documentData.documentColor;
+        document.getElementById('document_group').value = (documentData.documentGroup !== null ? documentData.documentGroup : '');
     }
 
     //신청서 양식편집 화면 open
