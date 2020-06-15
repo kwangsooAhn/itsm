@@ -3,6 +3,7 @@ package co.brainz.itsm.token.controller
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
@@ -83,6 +84,8 @@ class TokenController(
      */
     @PostMapping("/{tokenId}/print")
     fun getDocumentPrint(@PathVariable tokenId: String, model: Model, request: HttpServletRequest): String {
+        val gmt = AliceTimezoneUtils().toGMT(LocalDateTime.now().withNano(0))
+        model.addAttribute("time", AliceTimezoneUtils().toZonedDateTime(gmt))
         model.addAttribute("data", request.getParameter("data") ?: "")
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         return tokenPrintPage

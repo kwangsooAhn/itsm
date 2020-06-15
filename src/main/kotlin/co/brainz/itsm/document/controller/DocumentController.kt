@@ -1,8 +1,10 @@
 package co.brainz.itsm.document.controller
 
+import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -62,6 +64,8 @@ class DocumentController(
      */
     @PostMapping("/{documentId}/print")
     fun getDocumentPrint(@PathVariable documentId: String, model: Model, request: HttpServletRequest): String {
+        val gmt = AliceTimezoneUtils().toGMT(LocalDateTime.now().withNano(0))
+        model.addAttribute("time", AliceTimezoneUtils().toZonedDateTime(gmt))
         model.addAttribute("data", request.getParameter("data") ?: "")
         return documentPrintPage
     }

@@ -3,6 +3,7 @@ package co.brainz.framework.util
 import co.brainz.framework.auth.dto.AliceUserDto
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl
 import org.springframework.security.core.context.SecurityContextHolder
@@ -68,5 +69,19 @@ class AliceTimezoneUtils {
             return localDateTime.atZone(ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime()
         }
         return localDateTime
+    }
+
+    /**
+     * LocalDateTime -> ZonedDateTime.
+     *
+     * @param localDateTime
+     * @return ZoneDateTime
+     */
+    fun toZonedDateTime(localDateTime: LocalDateTime): ZonedDateTime {
+        val timezone = this.timezone()
+        if (timezone.isNotEmpty()) {
+            return ZonedDateTime.of(localDateTime, ZoneId.of(timezone))
+        }
+        return ZonedDateTime.of(localDateTime, ZoneId.of("UTC"))
     }
 }
