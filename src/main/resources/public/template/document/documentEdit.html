@@ -39,7 +39,7 @@
                 <select id="document_group" style="width:75%">
                     <option value="" th:text="#{common.label.notSelect}" selected/>
                     <option th:each="group:${groupList}" th:value="${group.code}"
-                            th:text="#{${group.codeValue}}"></option>
+                            th:text="${group.codeValue}"></option>
                 </select>
             </td>
         </tr>
@@ -50,7 +50,7 @@
                     <option th:each="form:${formList}"
                             th:id="${form?.id}"
                             th:value="${form?.id}"
-                            th:text="#{${form?.name}}"></option>
+                            th:text="${form?.name}"></option>
                 </select>
             </td>
         </tr>
@@ -61,7 +61,7 @@
                     <option th:each="process:${processList}"
                             th:id="${process?.id}"
                             th:value="${process?.id}"
-                            th:text="#{${process?.name}}" ></option>
+                            th:text="${process?.name}" ></option>
                 </select>
             </td>
         </tr>
@@ -72,7 +72,7 @@
                     <option th:each="numberingRule:${numberingRuleList}"
                             th:id="${numberingRule.numberingId}"
                             th:value="${numberingRule.numberingId}"
-                            th:text="#{${numberingRule.numberingName}}" ></option>
+                            th:text="${numberingRule.numberingName}" ></option>
                 </select>
             </td>
         </tr>
@@ -81,7 +81,7 @@
             <td>
                 <select id="document_status" style="width:75%" th:disabled="!${documentId}">
                     <option th:each="status:${statusList}" th:value="${status.code}"
-                            th:text="#{${status.code}}" th:selected="${status.code == 'document.status.use'}"></option>
+                            th:text="${status.code}" th:selected="${status.code == 'document.status.use'}"></option>
                 </select>
             </td>
         </tr>

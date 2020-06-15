@@ -14,7 +14,7 @@
             <div class="pull-right">
                 <select id="searchGroupName" name="searchGroupName" style="width: 230px; height: 30px;">
                     <option value="" th:text="#{document.label.all}" selected/>
-                    <option th:each="group:${groupList}" th:value="${group.code}" th:text="#{${group.codeValue}}"></option>
+                    <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
                 </select>
                 <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchDocuments}" class="search"/>
                 <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.searchProcessName}" class="search"/>
