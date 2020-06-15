@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
   datasource:
     hikari.maximum-pool-size: 5
     platform: postgres
@@ -70,9 +72,15 @@ server:
     session:
       timeout: 60m
 # upload file directory (default: tomcat)
-file.upload.dir: D:\\
+file.upload.dir: ./fileUpload
 
 # IP 접근 제한 기능 설정
 ip.access.control: true
 
 jasypt.encryptor.bean: jasyptStringEncryptor
+
+---
+spring:
+  profiles: dev
+
+file.upload.dir: D:\\fileUpload
