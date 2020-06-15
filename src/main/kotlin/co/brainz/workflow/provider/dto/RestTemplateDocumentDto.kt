@@ -14,6 +14,7 @@ data class RestTemplateDocumentDto(
     val formId: String = "",
     val documentNumberingRuleId: String = "",
     val documentColor: String? = "",
+    var documentGroup: String? = null,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,

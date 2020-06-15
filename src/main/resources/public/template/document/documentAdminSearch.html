@@ -12,6 +12,10 @@
         <h1 th:text="#{document.label.adminList}"></h1>
         <form id="searchDocumentsFrm">
             <div class="pull-right">
+                <select id="searchGroupName" name="searchGroupName" style="width: 230px; height: 30px;">
+                    <option value="" th:text="#{document.label.all}" selected/>
+                    <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
+                </select>
                 <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchDocuments}" class="search"/>
                 <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.searchProcessName}" class="search"/>
                 <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.searchFormName}" class="search"/>
@@ -32,11 +36,12 @@
                     documentSearches(false);
                 });
             });
+            document.getElementById('searchGroupName').addEventListener('change', documentSearches.bind(null, false), false);
             documentSearches();
         };
 
         function documentSearches(isShowProgressBar) {
-            restSubmit('GET', '/documents-admin/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result){
+            restSubmit('GET', '/documents-admin/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result) {
                 document.getElementById('documentList').innerHTML = result;
             }, isShowProgressBar);
         }
