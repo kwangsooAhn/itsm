@@ -44,6 +44,7 @@ class DocumentAdminController(
      */
     @GetMapping("/list")
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
+        model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
         model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
         return documentAdminListPage
     }
