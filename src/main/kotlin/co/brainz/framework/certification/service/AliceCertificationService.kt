@@ -150,7 +150,7 @@ class AliceCertificationService(
     }
 
     fun makeMailInfo(aliceCertificationDto: AliceCertificationDto): AliceMailDto {
-        var subject = "[Alice Project] 인증메일"
+        var subject = "[Alice ITSM] 이메일 주소를 인증해주세요"
         if (aliceCertificationDto.password != null) {
             subject = "[Alice Project] 비밀번호 안내메일"
         }
@@ -173,10 +173,13 @@ class AliceCertificationService(
             params["intro"] = "사용자 계정이 생성되었습니다."
             params["message"] = "비밀번호 :" + aliceCertificationDto.password
         } else {
-            params["intro"] = "계정을 사용하기 위해 인증 작업이 필요합니다."
-            params["message"] = "아래의 링크를 클릭하여 인증을 진행해주세요."
+            params["intro"] = "안녕하세요! Alice Project에 가입해주셔서 감사합니다."
+            params["message"] = "본 메일은 Alice Project 가입을 완료하기 위한 인증메일입니다.\n" +
+                    "만약 인증 메일을 요청하신 적이 없다면 본 메일을 삭제해주시기 바랍니다.\n" +
+                    "이메일 인증을 위해 아래 버튼을 클릭해주세요."
             params["link"] = makeLinkUrl(aliceCertificationDto)
             params["text"] = "이메일 인증"
+            params["regards"] = "감사합니다."
         }
 
         return params

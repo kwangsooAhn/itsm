@@ -172,7 +172,7 @@ user:
     emailWithUpdate: "이메일 정보를 포함한 회원 정보가 수정되었습니다."
     sameUserId: "동일한 아이디가 존재합니다."
     sameEmail: "이미 사용중인 이메일입니다."
-    joinUser: "가입 되었습니다."
+    joinUser: "가입 되었습니다.<br/>등록한 메일에서 인증을 진행해주세요."
     joinUserFail: "가입 실패되었습니다."
 # FAQ
 faq:
@@ -245,7 +245,9 @@ login:
   sendLogin: "로그인"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
+  requiredLogin: "로그인이 필요합니다."
   gotoLoginPage: "로그인 페이지"
+  gotoMainPage: "메인화면으로 이동"
   userSignUp: "회원가입"
   doSignUp: "가입하기"
   loginNote: "계정이 있으신가요?"
@@ -337,6 +339,7 @@ form:
     display: "Display"
     option: "Option"
     validate: "Validate"
+
 # Process
 process:
   label:
@@ -615,3 +618,15 @@ notification:
   msg:
     description: "최대 50개까지 표시됩니다."
     noNotificationData: "알림이 없습니다."
+
+#Authentication
+authentication:
+  label:
+    recallAuthentication: "인증메일 재요청"
+  msg:
+    beforeEmailCheck: "메일 인증 후 사용가능합니다.<br/>등록한 메일에서 인증을 진행해주세요.<br/>만약 인증 메일이 수신되지 않았다면 아래 버튼을 클릭해주세요."
+    authenticationCompleted: "메일인증이 완료되었습니다."
+    alreadyAuthenticated: "이미 인증이 완료되었습니다."
+    wrongAuthenticationCode: "인증코드가 잘못되었습니다."
+    recallAuthentication: "로그인 후 인증메일을 재요청하세요."
+    resentAuthentication: "인증메일이 재발송되었습니다."
