@@ -31,6 +31,10 @@
         window.onload = function() {
             restSubmit('get', '/custom-codes/list', function(result) {
                 document.getElementById('customCodeList').innerHTML = result;
+                var customCodeList = document.querySelectorAll('td[name=createDt] td[name=updateDt]');
+                for (let i = 0; i < customCodeList.length; i++) {
+                    console.log(customCodeList[i]);
+                }
             });
         };
 

@@ -53,11 +53,9 @@
                 <td th:text="#{|custom.code.label.type.${customCode.type}|}"></td>
                 <td th:text="${customCode.createUserName}"></td>
                 <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}"
-                    th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="|${#temporals.format(customCode.createDt, dateformat)} ${customCode.createUserName}|"></td>
+                    th:name="createDt" th:text="|${customCode.createDt} ${customCode.createUserName}|"></td>
                 <td th:unless="${customCode.updateDt == null && customCode.updateUserName == null}"
-                    th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="|${#temporals.format(customCode.updateDt, dateformat)} ${customCode.updateUserName}|"></td>
+                    th:name="updateDt" th:text="|${customCode.updateDt} ${customCode.updateUserName}|"></td>
                 <td><button th:disabled="${!customCode.enabled}" th:text="#{common.btn.modify}"
                             th:onclick="'location.href=\'' + @{/custom-codes/{id}/edit(id=${customCode.customCodeId})} + '\''"
                             sec:authorize="hasAuthority('custom.code.update')"></button></td>
