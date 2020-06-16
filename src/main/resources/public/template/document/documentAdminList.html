@@ -40,12 +40,13 @@
             <td th:text="${document.documentName}"></td>
             <td th:if="${document.documentType} == 'application-form'" th:text="#{document.type.applicationForm}"></td>
             <td th:unless="${document.documentType} == 'application-form'" th:text="#{document.type.workflow}"></td>
+            <td>
             <th:block th:if="${document.documentGroup != null && document.documentGroup != ''}">
-                <th:block th:each="group : ${groupList}">
-                    <td th:if="${group.code} == ${document.documentGroup}"  th:text="${group.codeValue}"></td>
+                <th:block th:each="group, index : ${groupList}">
+                    <label th:if="${group.code} == ${document.documentGroup}"  th:text="${group.codeValue}"></label>
                 </th:block>
             </th:block>
-            <th:block th:unless="${document.documentGroup != null && document.documentGroup != ''}"><td></td></th:block>
+            </td>
             <td th:text="${document.documentDesc}"></td>
             <td th:text="#{${document.documentStatus}}"></td>
             <td>
