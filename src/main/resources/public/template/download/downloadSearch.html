@@ -20,15 +20,11 @@
                 </select>
                 <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
                     th:placeholder="#{download.label.searchPlaceholder}">
-                <input type="text" id="fromDt" readonly="readonly"
-                    th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                    th:value="${#temporals.format(fromDt, dateformat)}"/>
+                <input type="text" id="fromDt" name="fromDt" th:value="${fromDt}" readonly="readonly"/>
                 <span>~</span>
-                <input type="text" id="toDt" readonly="readonly"
-                    th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                    th:value="${#temporals.format(toDt, dateformat)}"/>
+                <input type="text" id="toDt" name="toDt" th:value="${toDt}" readonly="readonly"/>
                 <button style="float: right" onclick="location.href='/downloads/new'"
-                    sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.register}" ></button>
+                        sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.register}" ></button>
             </div>
         </div>
         <hr>
@@ -39,14 +35,14 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        const format = /*[[${#authentication.details.timeFormat}]]*/'';
-        const lang = /*[[${#authentication.details.lang}]]*/'';
-        let dateFormat = '';
+        const userDateFormat = userFormat.dateFormat.toUpperCase();
+        const userLang = userFormat.lang;
 
-        window.onload = function() {
-            dateFormat = format.split(' ')[0].toUpperCase();
-            dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
-            dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
+        window.onload = function () {
+            document.getElementById('fromDt').value = i18n.userDate(document.getElementById('fromDt').value);
+            document.getElementById('toDt').value = i18n.userDate(document.getElementById('toDt').value);
+            dateTimePicker.initDatePicker('fromDt', userDateFormat, userLang, setDatePicker);
+            dateTimePicker.initDatePicker('toDt', userDateFormat, userLang, setDatePicker);
             document.getElementById('category').addEventListener('change', getDownloadList.bind(null, false), false);
             document.getElementById('search').addEventListener('keyup', getDownloadList.bind(null, false), false);
 
@@ -59,15 +55,19 @@
             }
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
-                if (moment(toDtValue, dateFormat).isBefore(moment(element.value, dateFormat))) {
-                    aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                if (moment(toDtValue, userDateFormat).isBefore(moment(element.value, userDateFormat))) {
+                    aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function () {
+                        picker.open();
+                    });
                 } else {
                     getDownloadList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
-                if (moment(fromDtValue, dateFormat).isAfter(moment(element.value, dateFormat))) {
-                    aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                if (moment(fromDtValue, userDateFormat).isAfter(moment(element.value, userDateFormat))) {
+                    aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function () {
+                        picker.open();
+                    });
                 } else {
                     getDownloadList(false);
                 }
@@ -78,8 +78,8 @@
             const searchOpt = {
                 category: document.getElementById('category').value,
                 search: document.getElementById('search').value.trim(),
-                fromDt: aliceJs.convertToSystemDateFormat(document.getElementById('fromDt').value, dateFormat),
-                toDt: aliceJs.convertToSystemDateFormat(document.getElementById('toDt').value, dateFormat)
+                fromDt: i18n.systemDate(document.getElementById('fromDt').value),
+                toDt: i18n.systemDate(document.getElementById('toDt').value)
             };
             const urlParam = 'category=' + searchOpt.category + '&search=' + searchOpt.search +
                              '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
@@ -92,8 +92,12 @@
                 method: method,
                 url: url,
                 showProgressbar: showProgressbar,
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     document.getElementById('downloadList').innerHTML = response.responseText;
+                    var downloadList = document.querySelectorAll('td[name=createDt]');
+                    for (let i = 0; i < downloadList.length; i++) {
+                        downloadList[i].textContent = i18n.userDateTime(downloadList[i].textContent);
+                    }
                 }
             };
             aliceJs.sendXhr(opt);
