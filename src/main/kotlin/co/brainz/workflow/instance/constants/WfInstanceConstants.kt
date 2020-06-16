@@ -19,12 +19,12 @@ class WfInstanceConstants {
     }
 
     companion object {
-        fun getTargetStatusGroup(searchType: Status): Array<String>? {
+        fun getTargetStatusGroup(searchType: SearchType): List<String>? {
             return when (searchType) {
-                SearchType.TODO -> arrayOf(Status.RUNNING.code)
+                SearchType.TODO -> listOf(Status.RUNNING.code)
                 SearchType.REQUESTED -> null
-                SearchType.PROGRESS -> arrayOf(Status.RUNNING.code, Status.WAITING.code)
-                SearchType.COMPLETED -> arrayOf(Status.FINISH.code)
+                SearchType.PROGRESS -> listOf(Status.RUNNING.code, Status.WAITING.code)
+                SearchType.COMPLETED -> listOf(Status.FINISH.code)
                 else -> null
             }
         }

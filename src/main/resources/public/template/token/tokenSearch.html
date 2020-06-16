@@ -76,10 +76,10 @@
         <div>
             <form id="frmSearch">
                 <select name="searchTokenType" id="searchTokenType">
-                    <option value="${WfInstanceConstraints.SearchType.TODO.code}" th:text="#{token.type.todo}" selected />
-                    <option value="${WfInstanceConstraints.SearchType.REQUESTED.code}" th:text="#{token.type.requested}" />
-                    <option value="${WfInstanceConstraints.SearchType.PROGRESS.code}" th:text="#{token.type.progress}" />
-                    <option value="${WfInstanceConstraints.SearchType.COMPLETED.code}" th:text="#{token.type.completed}" />
+                    <option value="token.type.todo" th:text="#{token.type.todo}" selected />
+                    <option value="token.type.requested" th:text="#{token.type.requested}" />
+                    <option value="token.type.progress" th:text="#{token.type.progress}" />
+                    <option value="token.type.completed" th:text="#{token.type.completed}" />
                 </select>
                 <select name="searchDocumentId" id="searchDocumentId">
                     <option value="" th:text="#{token.label.all}" selected="selected" />

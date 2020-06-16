@@ -33,7 +33,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val searchDataCount: Long = WfTokenConstants.searchDataCount
 
     override fun findTodoInstances(
-        status: String,
+        status: List<String>?,
         userKey: String,
         documentId: String,
         searchValue: String,
@@ -47,8 +47,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val roleSub = QAliceUserRoleMapEntity("roleSub")
 
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt, dateFormat)
-        builder.and(instance.instanceStatus.eq(status))
-        builder.and(token.tokenStatus.eq(status))
+        builder.and(instance.instanceStatus.`in`(status))
+        builder.and(token.tokenStatus.`in`(status))
         builder.and(
             token.assigneeId.eq(userKey).or(
                 token.tokenId.`in`(
@@ -112,7 +112,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     }
 
     override fun findRelationInstances(
-        status: String,
+        status: List<String>?,
         userKey: String,
         documentId: String,
         searchValue: String,
@@ -124,7 +124,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
         val tokenSub = QWfTokenEntity("tokenSub")
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt, dateFormat)
-        builder.and(instance.instanceStatus.eq(status))
+        builder.and(instance.instanceStatus.`in`(status))
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
