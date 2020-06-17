@@ -202,15 +202,17 @@
         function setDisplay(name, condition) {
             if (condition) {
                 if (name === 'popTab') {
+                    const noticeStrtDtVal = /*[[${notice?.popStrtDt}]]*/;
                     document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
-                    document.getElementById('popStrtDt').value = '[[${notice?.popStrtDt}]]' ? i18n.userDateTime(/*[[${notice.popStrtDt}]]*/) : i18n.getDate();
+                    document.getElementById('popStrtDt').value = noticeStrtDtVal ? i18n.systemDateTime(noticeStrtDtVal) : i18n.getDateTime();
                     document.getElementById('popEndDt').value = '';
-                    dateTimePicker.initDateTimePicker('popStrtDt', userFormat.dateTimeFormat, userFormat.timeFormat, userFormat.lang);
-                    dateTimePicker.initDateTimePicker('popEndDt', userFormat.dateTimeFormat, userFormat.timeFormat, userFormat.lang);
+                    dateTimePicker.initDateTimePicker('popStrtDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
+                    dateTimePicker.initDateTimePicker('popEndDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
                     document.getElementsByName('popYn')[0].value = true;
                 } else if (name === 'topNoticeTab') {
-                    document.getElementById('topNoticeStrtDt').value = '[[${notice?.topNoticeStrtDt}]]' ? i18n.userDateTime(/*[[${notice.topNoticeStrtDt}]]*/) : i18n.getDate();
+                    const topNoticeStrtDtVal = /*[[${notice?.topNoticeStrtDt}]]*/;
+                    document.getElementById('topNoticeStrtDt').value = topNoticeStrtDtVal ? i18n.systemDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
                     document.getElementById('topNoticeEndDt').value = '';
                     document.getElementsByName('topNoticeYn')[0].value = true;
                     dateTimePicker.initDateTimePicker('topNoticeStrtDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
