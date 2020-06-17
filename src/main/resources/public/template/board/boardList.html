@@ -59,8 +59,7 @@
                 <td style="text-align:center" th:text="${board.replyCount}"></td>
                 <td style="text-align:center" th:text="${board.readCount}"></td>
                 <td th:text="${board.createUser.userName}"></td>
-                <td th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="${board.createDt} ? ${#temporals.format(board.createDt, dateformat)} : ${board.createDt}"></td>
+                <td th:name="createDt" th:text="${board.createDt}"></td>
             </tr>
         </tbody>
     </table>

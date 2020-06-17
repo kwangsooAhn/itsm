@@ -73,15 +73,13 @@
                         <td><label th:text="#{common.label.createUserName}"></label></td>
                         <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.createDate}"></label></td>
-                        <td><span id="spanCreateDt" name="spanCreateDt"
-                                  th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardInfo?.createDt,dateformat)}"></span></td>
+                        <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"></span></td>
                     </tr>
                     <tr>
                         <td><label th:text="#{common.label.updateUserName}"></label></td>
                         <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.updateDate}"></label></td>
-                        <td><span id="spanUpdateDt" name="spanUpdateDt"
-                                  th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardInfo?.updateDt,dateformat)}"></span></td>
+                        <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"></span></td>
                     </tr>
                 </tbody>
             </table>
@@ -119,8 +117,14 @@
         const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         const replyYn = /*[[${replyYn}]]*/;
+        const boardCreateDt = document.getElementById('spanCreateDt');
+        const boardUpdateDt = document.getElementById('spanUpdateDt');
 
         window.onload = function() {
+            if (boardCreateDt.textContent !== '') {
+                boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
+                boardUpdateDt.textContent = i18n.userDateTime(boardUpdateDt.textContent);
+            }
             if (attachYn) {
                 if (!replyYn) {
                     fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
@@ -213,6 +217,10 @@
                         });
                     } else if (method === 'get') {
                         document.getElementById('boardCommentList').innerHTML = response.responseText;
+                        var boardCommentList = document.querySelectorAll('td[name=createDt]');
+                        for (let i = 0; i < boardCommentList.length; i++) {
+                            boardCommentList[i].textContent = i18n.userDateTime(boardCommentList[i].textContent);
+                        }
                     }
                 },
                 showProgressbar: false
