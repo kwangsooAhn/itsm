@@ -33,7 +33,7 @@ common:
     updateDate: "Update Date"
     attachFile: "Attach file"
     notSelect: "Not Select"
-    lastUpdateDateAndUpdateUserName: "Last Update Date AND Update User Name"
+    lastUpdateDate: "Last Update Date"
     tag: "Tag"
     comment: "Comment"
     print: "Print"
