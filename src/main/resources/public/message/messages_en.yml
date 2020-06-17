@@ -626,6 +626,7 @@ authentication:
     authenticationCompleted: "Authentication completed successfully."
     alreadyAuthenticated: "Authentication is already complete."
     wrongAuthenticationCode: "The authentication code is invalid."
+    expiredAuthentication: "Authentication mail has expired."
     recallAuthentication: "Please re-request authentication mail after login."
     resentAuthentication: "Authentication mail has been resent."
     EmailCheck: "Please check your email sent to finish authentication."

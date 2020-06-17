@@ -41,7 +41,7 @@
         </div>
     </div>
     <div th:if="${validCode == 3}">
-        <p th:text="#{authentication.msg.wrongAuthenticationCode}"></p>
+        <p th:text="#{authentication.msg.expiredAuthentication}"></p>
     </div>
     <div th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
         <div sec:authorize="isAuthenticated()">
