@@ -150,7 +150,7 @@ class AliceCertificationService(
     }
 
     fun makeMailInfo(aliceCertificationDto: AliceCertificationDto): AliceMailDto {
-        var subject = "[Alice ITSM] 이메일 주소를 인증해주세요"
+        var subject = "[Alice Project] 이메일 주소를 인증해주세요"
         if (aliceCertificationDto.password != null) {
             subject = "[Alice Project] 비밀번호 안내메일"
         }
