@@ -20,9 +20,9 @@
                 </select>
                 <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
                     th:placeholder="#{download.label.searchPlaceholder}">
-                <input type="text" id="fromDt" name="fromDt" th:value="${fromDt}" readonly="readonly"/>
+                <input type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                 <span>~</span>
-                <input type="text" id="toDt" name="toDt" th:value="${toDt}" readonly="readonly"/>
+                <input type="text" id="toDt" name="toDt" readonly="readonly"/>
                 <button style="float: right" onclick="location.href='/downloads/new'"
                     sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.register}" ></button>
             </div>
@@ -35,14 +35,11 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        const userDateFormat = userFormat.dateFormat.toUpperCase();
-        const userLang = userFormat.lang;
-
         window.onload = function () {
-            document.getElementById('fromDt').value = i18n.userDate(document.getElementById('fromDt').value);
-            document.getElementById('toDt').value = i18n.userDate(document.getElementById('toDt').value);
-            dateTimePicker.initDatePicker('fromDt', userDateFormat, userLang, setDatePicker);
-            dateTimePicker.initDatePicker('toDt', userDateFormat, userLang, setDatePicker);
+            document.getElementById('fromDt').value = i18n.getDate({'months':-1});
+            document.getElementById('toDt').value = i18n.getDate();
+            dateTimePicker.initDatePicker('fromDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
+            dateTimePicker.initDatePicker('toDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
             document.getElementById('category').addEventListener('change', getDownloadList.bind(null, false), false);
             document.getElementById('search').addEventListener('keyup', getDownloadList.bind(null, false), false);
 
@@ -55,7 +52,7 @@
             }
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
-                if (moment(toDtValue, userDateFormat).isBefore(moment(element.value, userDateFormat))) {
+                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function () {
                         picker.open();
                     });
@@ -64,7 +61,7 @@
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
-                if (moment(fromDtValue, userDateFormat).isAfter(moment(element.value, userDateFormat))) {
+                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function () {
                         picker.open();
                     });
