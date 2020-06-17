@@ -8,7 +8,6 @@ import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
-import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -51,8 +50,6 @@ class TokenController(
         if (userDto.status == AliceUserConstants.Status.SIGNUP.code || userDto.status == AliceUserConstants.Status.EDIT.code) {
             return statusPage
         }
-        model.addAttribute("fromDt", LocalDateTime.now().minusMonths(1))
-        model.addAttribute("toDt", LocalDateTime.now())
         val restTemplateDocumentSearchListDto = RestTemplateDocumentSearchListDto()
         model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
         return tokenSearchPage

@@ -38,6 +38,10 @@
         function getAllInstanceList(search, showProgressbar) {
             restSubmit('get', '/tokens/view-pop/list?searchValue=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
                 document.getElementById('instanceList').innerHTML = result;
+                var instanceList = document.querySelectorAll('td[name=instanceDt]');
+                for (let i = 0; i < instanceList.length; i++) {
+                    instanceList[i].textContent = i18n.userDateTime(instanceList[i].textContent);
+                }
             },null ,showProgressbar);
         }
 

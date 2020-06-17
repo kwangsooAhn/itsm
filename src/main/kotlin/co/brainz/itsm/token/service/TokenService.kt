@@ -75,16 +75,8 @@ class TokenService(
         params.add("documentId", restTemplateTokenSearchListDto.searchDocumentId)
         params.add("searchValue", restTemplateTokenSearchListDto.searchValue)
         params.add("offset", restTemplateTokenSearchListDto.offset)
-        val dateTimeFormatter = DateTimeFormatter.ofPattern(aliceUserDto.timeFormat.split(" ")[0] + " HH:mm:ss")
-        val fromGMT = AliceTimezoneUtils().toGMT(
-            LocalDateTime.parse(restTemplateTokenSearchListDto.searchFromDt + " 00:00:00", dateTimeFormatter)
-        )
-        val toGMT = AliceTimezoneUtils().toGMT(
-            LocalDateTime.parse(restTemplateTokenSearchListDto.searchToDt + " 23:59:59", dateTimeFormatter)
-        )
-        params.add("fromDt", dateTimeFormatter.format(fromGMT))
-        params.add("toDt", dateTimeFormatter.format(toGMT))
-        params.add("dateFormat", aliceUserDto.timeFormat.split(" ")[0] + " HH24:MI:SS")
+        params.add("fromDt", restTemplateTokenSearchListDto.searchFromDt)
+        params.add("toDt", restTemplateTokenSearchListDto.searchToDt)
 
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES.url, parameters = params)
         val responseBody = restTemplate.get(url)

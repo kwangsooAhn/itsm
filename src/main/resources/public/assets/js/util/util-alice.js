@@ -82,7 +82,13 @@ aliceJs.serialize = function (form) {
 
         // Convert field data to a query string
         else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
-            serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value));
+            if (field.classList.contains('alice-datetime')) {
+                serialized.push(encodeURIComponent(field.name) + "=" + i18n.systemDateTime(encodeURIComponent(field.value)));
+            } else if (field.classList.contains('alice-date')) {
+                serialized.push(encodeURIComponent(field.name) + "=" + i18n.systemDate(encodeURIComponent(field.value)));
+            } else {
+                serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value));
+            }
         }
     }
 
