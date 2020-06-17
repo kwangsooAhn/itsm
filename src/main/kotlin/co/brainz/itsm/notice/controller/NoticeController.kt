@@ -1,7 +1,6 @@
 package co.brainz.itsm.notice.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.user.service.UserService
@@ -78,7 +77,6 @@ class NoticeController(
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: AliceUserEntity = userService.selectUser(userId)
 
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeId))
         model.addAttribute("userName", userDto.userName)
         return noticeEditPage

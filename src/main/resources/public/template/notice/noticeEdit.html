@@ -202,18 +202,20 @@
         function setDisplay(name, condition) {
             if (condition) {
                 if (name === 'popTab') {
-                    const noticeStrtDtVal = /*[[${notice?.popStrtDt}]]*/;
+                    const popStrtDtVal = /*[[${notice?.popStrtDt}]]*/;
+                    const popEndDtVal = /*[[${notice?.popEndDt}]]*/;;
                     document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
-                    document.getElementById('popStrtDt').value = noticeStrtDtVal ? i18n.systemDateTime(noticeStrtDtVal) : i18n.getDateTime();
-                    document.getElementById('popEndDt').value = '';
+                    document.getElementById('popStrtDt').value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
+                    document.getElementById('popEndDt').value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
                     dateTimePicker.initDateTimePicker('popStrtDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
                     dateTimePicker.initDateTimePicker('popEndDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
                     document.getElementsByName('popYn')[0].value = true;
                 } else if (name === 'topNoticeTab') {
                     const topNoticeStrtDtVal = /*[[${notice?.topNoticeStrtDt}]]*/;
-                    document.getElementById('topNoticeStrtDt').value = topNoticeStrtDtVal ? i18n.systemDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
-                    document.getElementById('topNoticeEndDt').value = '';
+                    const topNoticeEndDtVal = /*[[${notice?.topNoticeEndDt}]]*/;
+                    document.getElementById('topNoticeStrtDt').value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
+                    document.getElementById('topNoticeEndDt').value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
                     document.getElementsByName('topNoticeYn')[0].value = true;
                     dateTimePicker.initDateTimePicker('topNoticeStrtDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
                     dateTimePicker.initDateTimePicker('topNoticeEndDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
