@@ -437,6 +437,8 @@ document:
     searchDocumentStatus: "Document stauts"
     searchProcessName: "Process"
     searchFormName: "Form"
+    group: "Group"
+    all: "All"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"

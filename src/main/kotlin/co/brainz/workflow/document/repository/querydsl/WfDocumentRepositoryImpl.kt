@@ -18,6 +18,7 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
             .join(document.form)
             .join(document.numberingRule)
             .where(
+                super.eq(document.documentGroup, searchDto.searchGroupName),
                 super.eq(document.documentType, searchDto.searchDocumentType),
                 super.eq(document.documentStatus, searchDto.searchDocumentStatus),
                 super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
@@ -38,6 +39,7 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
                 document.form.formId,
                 document.numberingRule.numberingId,
                 document.documentColor,
+                document.documentGroup,
                 document.createUserKey,
                 document.createDt,
                 document.updateUserKey,

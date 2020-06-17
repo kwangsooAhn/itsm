@@ -436,6 +436,8 @@ document:
     searchDocumentStatus: "문서상태"
     searchProcessName: "프로세스"
     searchFormName: "문서양식"
+    group: "그룹"
+    all: "전체"
   display:
     editable: "수정가능"
     editableRequired: "수정가능(필수값)"

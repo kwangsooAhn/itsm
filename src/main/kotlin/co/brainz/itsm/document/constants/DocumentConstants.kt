@@ -8,6 +8,11 @@ object DocumentConstants {
     const val DOCUMENT_STATUS_P_CODE = "document.status"
 
     /**
+     * document group p_code.
+     */
+    const val DOCUMENT_GROUP_P_CODE = "document.group"
+
+    /**
      * document type.
      *
      * @param value

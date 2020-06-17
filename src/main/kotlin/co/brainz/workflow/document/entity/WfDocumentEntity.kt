@@ -41,6 +41,9 @@ data class WfDocumentEntity(
     @Column(name = "document_color", length = 128)
     var documentColor: String?,
 
+    @Column(name = "document_group", length = 100)
+    var documentGroup: String? = null,
+
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 
