@@ -55,7 +55,7 @@ const dateTimePicker = (function() {
     function initDatePicker(targetId, dateType, lang, callback) {
         let options = JSON.parse(JSON.stringify(defaultOptions));
         if (typeof dateType !== 'undefined') {
-            options.dateType = dateType;
+            options.dateType = dateType.toUpperCase();
         }
         if (typeof lang !== 'undefined') {
             options.lang = lang;
@@ -84,7 +84,7 @@ const dateTimePicker = (function() {
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'DATEHOUR';
         if (typeof dateType !== 'undefined') {
-            options.dateType = dateType;
+            options.dateType = dateType.toUpperCase();
         }
         if (typeof hourType !== 'undefined') {
             options.hourType = '' + getHourTypeForCalendar(hourType);
