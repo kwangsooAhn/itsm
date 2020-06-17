@@ -8,6 +8,8 @@ import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
 import co.brainz.itsm.utility.ConvertParam
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.transaction.Transactional
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
@@ -28,8 +30,8 @@ class DownloadService(
      * @return List<DownloadDto>
      */
     fun getDownloadList(downloadSearchDto: DownloadSearchDto): List<DownloadDto> {
-        val fromDt = convertParam.convertToSearchLocalDateTime(downloadSearchDto.fromDt, "fromDt")
-        val toDt = convertParam.convertToSearchLocalDateTime(downloadSearchDto.toDt, "toDt")
+        val fromDt = LocalDateTime.parse(downloadSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
+        val toDt = LocalDateTime.parse(downloadSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         val downloadEntity = when (downloadSearchDto.category) {
             "all" -> downloadRepository.findDownloadEntityList("", downloadSearchDto.search, fromDt, toDt)
             else -> downloadRepository.findDownloadEntityList(
