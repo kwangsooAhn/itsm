@@ -4,7 +4,6 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.download.constants.DownloadConstants
 import co.brainz.itsm.download.dto.DownloadSearchDto
 import co.brainz.itsm.download.service.DownloadService
-import java.time.LocalDateTime
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -32,8 +31,6 @@ class DownloadController(
     @GetMapping("/search")
     fun getDownloadSearch(model: Model): String {
         model.addAttribute("categoryList", codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE))
-        model.addAttribute("fromDt", LocalDateTime.now().minusMonths(1))
-        model.addAttribute("toDt", LocalDateTime.now())
         return downloadSearchPage
     }
 
