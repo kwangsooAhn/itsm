@@ -27,7 +27,8 @@
         window.onload = function() {
             const printInfo = document.getElementById('printInfo');
             printInfo.innerHTML = aliceForm.options.sessionInfo.userName + ' ['
-                + aliceForm.options.sessionInfo.email + ']<br>' + /*[[${time}]]*/'';
+                + aliceForm.options.sessionInfo.email + ']<br>'
+                + i18n.printFormat(/*[[${time}]]*/'');
 
             aliceForm.initSync(aliceDocument.drawDocument, /*[[${data}]]*/);
 

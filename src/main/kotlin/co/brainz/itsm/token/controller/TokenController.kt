@@ -3,13 +3,14 @@ package co.brainz.itsm.token.controller
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -84,8 +85,7 @@ class TokenController(
      */
     @PostMapping("/{tokenId}/print")
     fun getDocumentPrint(@PathVariable tokenId: String, model: Model, request: HttpServletRequest): String {
-        val gmt = AliceTimezoneUtils().toGMT(LocalDateTime.now().withNano(0))
-        model.addAttribute("time", AliceTimezoneUtils().toZonedDateTime(gmt))
+        model.addAttribute("time", ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")))
         model.addAttribute("data", request.getParameter("data") ?: "")
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         return tokenPrintPage
