@@ -10,7 +10,7 @@
 <body>
 <div class="container">
     <div th:if="${validCode == 0 || validCode == 4}">
-        <p th:utext="#{authentication.msg.beforeEmailCheck}"></p>
+        <p th:utext="#{authentication.msg.beforeEmailCheck, authentication.msg.EmailCheck}"></p>
     </div>
     <div th:if="${validCode == 1}">
         <p th:text="#{authentication.msg.authenticationCompleted}"></p>
@@ -60,7 +60,7 @@
 <script type="text/javascript">
     /*<![CDATA[*/
     window.addEventListener('load', function() {
-        document.getElementById("btnSend").addEventListener("click", function() { restSubmit("get","[[@{/certification/sendCertifiedMail}]]"); });
+        document.getElementById("btnSend").addEventListener("click", function() { restSubmit("get","[[@{/certification/certifiedMail}]]"); });
     });
 
     function restSubmit(method, url) {
@@ -69,8 +69,7 @@
             url: url,
             params: new FormData(document.getElementById("sendForm")),
             callbackFunc: function() {
-                aliceJs.alert('[[#{authentication.msg.resentAuthentication}]]');
-
+                aliceJs.alert('[[#{authentication.msg.resentAuthentication}]]<br/>[[#{authentication.msg.EmailCheck}]]');
             }
         };
         aliceJs.sendXhr(opt)
