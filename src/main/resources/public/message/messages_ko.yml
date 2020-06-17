@@ -340,6 +340,7 @@ form:
 # Process
 process:
   label:
+    process: "프로세스"
     list: "프로세스 목록"
     name: "프로세스 이름"
     edit: "프로세스 편집"

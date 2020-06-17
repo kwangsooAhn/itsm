@@ -37,12 +37,11 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
 
         when (request.getParameter("target") ?: null) {
             AliceUserConstants.AVATAR_ID -> {
-                var fileName = request.getParameter("fileName") ?: null
+                val fileName = request.getParameter("fileName") ?: null
                 map["file"] = aliceFileService.uploadResources(multipartFile, AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, fileName)
             }
-            null -> {
-                map["file"] = aliceFileService.uploadTemp(multipartFile)
-            }
+            "process" -> map["file"] = aliceFileService.uploadProcessFile(multipartFile)
+            null -> map["file"] = aliceFileService.uploadTemp(multipartFile)
         }
 
         val headers = HttpHeaders()

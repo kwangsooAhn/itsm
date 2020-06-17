@@ -258,7 +258,6 @@
      */
     function saveProcess() {
         if (aliceProcessEditor.isView) { return false; }
-        console.debug(aliceProcessEditor.data);
         aliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
             method: 'PUT',
@@ -268,6 +267,9 @@
                     aliceJs.alert(i18n.get('common.msg.save'));
                     isEdited = false;
                     savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                    if (savedData.process.status === 'process.status.publish') {
+                        uploadProcessFile();
+                    }
                     changeProcessName();
                 } else {
                     aliceJs.alert(i18n.get('common.label.fail'));
@@ -401,7 +403,6 @@
      * simulation process.
      */
     function simulationProcess() {
-        aliceProcessEditor.resetElementPosition();
         aliceJs.sendXhr({
             method: 'put',
             url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/simulation',
@@ -435,35 +436,9 @@
      * download process image.
      */
     function downloadProcessImage() {
-        const viewBox = getSvgViewBox();
+        let viewBox = getSvgViewBox();
         let svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        let svg = d3.select(svgNode).html(d3.select('.alice-process-drawing-board > svg').html());
-        svg.attr('width', viewBox[2])
-            .attr('height', viewBox[3])
-            .attr('viewBox', viewBox.join(' '))
-            .classed('alice-process-drawing-board', true);
-
-        svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
-        svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
-        svg.selectAll('.selected').classed('selected', false);
-        svg.selectAll('.reject-element').classed('reject-element', false);
-
-        let embedImages = Promise.all(Array.from(svgNode.querySelectorAll('image')).map(function(image) {
-            return new Promise(resolve => {
-                let url = image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
-                let promise = asyncImageLoader(url);
-                promise.then(img => {
-                    let canvas = document.createElement('canvas'),
-                        ctx = canvas.getContext('2d');
-                    canvas.height = img.naturalHeight;
-                    canvas.width = img.naturalWidth;
-                    ctx.drawImage(img, 0, 0);
-                    let dataURL = canvas.toDataURL('image/png');
-                    image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dataURL);
-                    resolve(image);
-                });
-            });
-        }));
+        let embedImages = loadProcessImage(viewBox, svgNode);
         embedImages.then(() => {
             let svgString = getSVGString(svgNode);
             let canvas = document.createElement('canvas');
@@ -480,9 +455,103 @@
                 a.download = aliceProcessEditor.data.process.name + '_' + aliceProcessEditor.data.process.id + '.png';
                 a.href = canvasData;
                 a.click();
+                svgNode = null;
             };
             image.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString)));
         });
+    }
+
+    /**
+     * 발행 시 프로세스 이미지 데이터를 서버로 업로드한다.
+     */
+    function uploadProcessFile() {
+        let viewBox = getSvgViewBox();
+        let svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        let embedImages = loadProcessImage(viewBox, svgNode);
+        embedImages.then(() => {
+            let svgString = getSVGString(svgNode);
+            let xmlString = createProcessXMLString(viewBox, svgString);
+            let formData = new FormData();
+            let blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], {type: 'text/plain'});
+            formData.append('file', blob,aliceProcessEditor.data.process.id + '.xml');
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '/fileupload?target=process');
+            xhr.onerror = function () {
+                console.error('Process file upload failed!');
+            };
+            xhr.send(formData);
+            svgNode = null;
+        });
+    }
+
+    /**
+     * XML 형식의 문자열을 만들어 반환 한다.(프로세스 상태 표시용)
+     *
+     * @param viewBox 프로세스이미지 정보
+     * @param svgString 프로세스이미지 String
+     * @return XML String
+     */
+    function createProcessXMLString(viewBox, svgString) {
+        const xmlDoc = document.implementation.createDocument('', '', null);
+        let processNode = xmlDoc.createElement('process');
+        processNode.setAttribute('id', aliceProcessEditor.data.process.id);
+        processNode.setAttribute('name', aliceProcessEditor.data.process.name);
+        processNode.setAttribute('description', aliceProcessEditor.data.process.description);
+
+        let imageNode = xmlDoc.createElement('image');
+        imageNode.setAttribute('width', viewBox[2]);
+        imageNode.setAttribute('height', viewBox[3]);
+        let cdata = xmlDoc.createCDATASection('data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString))));
+        imageNode.appendChild(cdata);
+        processNode.appendChild(imageNode);
+
+        let displayNode = xmlDoc.createElement('display');
+        const excludeElementTypes = ['annotation', 'group', 'arrowConnector'];
+        const elements = aliceProcessEditor.data.elements.filter(elem => excludeElementTypes.indexOf(elem.type) === -1);
+        elements.forEach(function(element) {
+            let elementNode = xmlDoc.createElement('element');
+            elementNode.setAttribute('id', element.id);
+            elementNode.setAttribute('type', element.type);
+            let keys = Object.keys(element.display);
+            keys.forEach(function(key) {
+                let val = element.display[key];
+                if (key === 'position-x') {
+                    val = Number(val) - viewBox[0];
+                }
+                if (key === 'position-y') {
+                    val = Number(val) - viewBox[1];
+                }
+                elementNode.setAttribute(key, val);
+            });
+            displayNode.appendChild(elementNode);
+        });
+        processNode.appendChild(displayNode);
+        xmlDoc.appendChild(processNode);
+
+        let serializer = new XMLSerializer();
+        return serializer.serializeToString(xmlDoc);
+    }
+
+    /**
+     * 프포세스 이미지를 추가하여 리턴한다.
+     * (image 태그의 url 호출은 data 데이터로 변환한다.)
+     *
+     * @param viewBox
+     * @param svgNode
+     * @return {Promise<unknown[]>}
+     */
+    function loadProcessImage(viewBox, svgNode) {
+        let svg = d3.select(svgNode).html(d3.select('.alice-process-drawing-board > svg').html());
+        svg.attr('width', viewBox[2])
+            .attr('height', viewBox[3])
+            .attr('viewBox', viewBox.join(' '))
+            .classed('alice-process-drawing-board', true);
+
+        svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
+        svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
+        svg.selectAll('.selected').classed('selected', false);
+        svg.selectAll('.reject-element').classed('reject-element', false);
 
         function asyncImageLoader(url) {
             return new Promise( (resolve, reject) => {
@@ -492,6 +561,23 @@
                 image.onerror = () => reject(console.error('could not load image!'));
             });
         }
+
+        return Promise.all(Array.from(svgNode.querySelectorAll('image')).map(function(image) {
+            return new Promise(resolve => {
+                let url = image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+                let promise = asyncImageLoader(url);
+                promise.then(img => {
+                    let canvas = document.createElement('canvas'),
+                        ctx = canvas.getContext('2d');
+                    canvas.height = img.naturalHeight;
+                    canvas.width = img.naturalWidth;
+                    ctx.drawImage(img, 0, 0);
+                    let dataURL = canvas.toDataURL('image/png');
+                    image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dataURL);
+                    resolve(image);
+                });
+            });
+        }));
     }
 
     /**
