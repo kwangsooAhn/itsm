@@ -7,7 +7,7 @@ import com.querydsl.core.QueryResults
 interface WfInstanceRepositoryCustom {
 
     fun findTodoInstances(
-        status: String,
+        status: List<String>?,
         userKey: String,
         documentId: String,
         searchValue: String,
@@ -28,7 +28,7 @@ interface WfInstanceRepositoryCustom {
     ): QueryResults<WfInstanceListViewDto>
 
     fun findRelationInstances(
-        status: String,
+        status: List<String>?,
         userKey: String,
         documentId: String,
         searchValue: String,
