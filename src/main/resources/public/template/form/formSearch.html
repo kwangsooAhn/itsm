@@ -35,6 +35,10 @@
         function getFormList(search, showProgressbar) {
             restSubmit('GET', '/forms/list?search=' + search.trim(), function(result) {
                 document.getElementById('formList').innerHTML = result;
+                var formList = document.querySelectorAll('td[name=formDt]');
+                for (let i = 0; i < formList.length; i++) {
+                    formList[i].textContent = i18n.userDateTime(formList[i].textContent);
+                }
             }, showProgressbar);
         }
     
