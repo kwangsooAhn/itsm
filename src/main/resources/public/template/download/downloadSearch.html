@@ -76,7 +76,7 @@
                 category: document.getElementById('category').value,
                 search: document.getElementById('search').value.trim(),
                 fromDt: i18n.systemDate(document.getElementById('fromDt').value),
-                toDt: i18n.systemDate(document.getElementById('toDt').value)
+                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
             };
             const urlParam = 'category=' + searchOpt.category + '&search=' + searchOpt.search +
                              '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
