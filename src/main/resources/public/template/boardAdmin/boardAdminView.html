@@ -71,15 +71,13 @@
                 <td><label th:text="#{common.label.createUserName}"></label></td>
                 <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardAdmin?.createUser} ? ${boardAdmin.createUser.userName} : ''"></span></td>
                 <td><label th:text="#{common.label.createDate}"></label></td>
-                <td><span id="spanCreateDt" name="spanCreateDt"
-                          th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.createDt,dateformat)}"></span></td>
+                <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardAdmin?.createDt}"></span></td>
             </tr>
             <tr>
                 <td><label th:text="#{common.label.updateUserName}"></label></td>
                 <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></span></td>
                 <td><label th:text="#{common.label.updateDate}"></label></td>
-                <td><span id="spanUpdateDt" name="spanUpdateDt"
-                          th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.updateDt,dateformat)}"></span></td>
+                <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardAdmin?.updateDt}"></span></td>
             </tr>
             </tbody>
         </table>

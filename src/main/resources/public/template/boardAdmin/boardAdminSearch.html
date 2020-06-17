@@ -72,6 +72,10 @@
                 callbackFunc: function(response) {
                     if (method === 'get') {
                         document.getElementById('boardAdminList').innerHTML = response.responseText;
+                        var boardAdminList = document.querySelectorAll('td[name=boardAdminDt')
+                        for (let i = 0; i < boardAdminList.length; i++) {
+                            boardAdminList[i].textContent = i18n.userDateTime(boardAdminList[i].textContent);
+                        }
                     } else {
                         aliceJs.alert(i18n.get('common.msg.delete.success'), function() {
                             getBoardAdminList();
