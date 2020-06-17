@@ -66,15 +66,13 @@
                         <td><label th:text="#{common.label.createUserName}"></label></td>
                         <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.createDate}"></label></td>
-                        <td><span id="spanCreateDt" name="spanCreateDt"
-                                  th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardInfo?.createDt,dateformat)}"></span></td>
+                        <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardInfo?.createDt}"></span></td>
                     </tr>
                     <tr>
                         <td><label th:text="#{common.label.updateUserName}"></label></td>
                         <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.updateDate}"></label></td>
-                        <td><span id="spanUpdateDt" name="spanUpdateDt"
-                                  th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(boardInfo?.updateDt,dateformat)}"></span></td>
+                        <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardInfo?.updateDt}"></span></td>
                     </tr>
                 </tbody>
             </table>
@@ -119,8 +117,14 @@
         const attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
         const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
+        const boardCreateDt = document.getElementById('spanCreateDt');
+        const boardUpdateDt = document.getElementById('spanUpdateDt');
 
         window.onload = function() {
+            if (boardCreateDt.textContent !== '') {
+                boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
+                boardUpdateDt.textContent = i18n.userDateTime(boardUpdateDt.textContent);
+            }
             if (attachYn) {
                 fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, editor: false}});
             }
