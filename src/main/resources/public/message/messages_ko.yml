@@ -305,6 +305,7 @@ form:
   lang:
     ko: "한국어"
   msg:
+    information: "공통 편집 가능한 컴포넌트 세부 속성이 존재하지 않습니다."
     alert:
       nameNotExist: "문서양식 이름을 입력해주세요."
       number: "숫자만 입력해주세요."

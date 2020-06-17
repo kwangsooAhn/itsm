@@ -11129,6 +11129,10 @@ body {
   left: 0;
 }
 
+.alice-form-properties-panel .info-msg {
+  border: none;
+}
+
 .alice-form-properties-panel .property-field {
   display: -webkit-box;
   display: -ms-flexbox;
