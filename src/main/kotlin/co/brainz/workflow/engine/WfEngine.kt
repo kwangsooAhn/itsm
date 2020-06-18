@@ -5,6 +5,7 @@ import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
+import co.brainz.workflow.engine.manager.service.WfTokenAction
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.slf4j.LoggerFactory
@@ -46,8 +47,10 @@ class WfEngine(
     fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Process Token")
         when (tokenDto.action) {
-            WfElementConstants.Action.SAVE.value ->
-                this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionSave(tokenDto)
+            WfElementConstants.Action.SAVE.value,
+            WfElementConstants.Action.CANCEL.value,
+            WfElementConstants.Action.TERMINATE.value ->
+                WfTokenAction(wfTokenManagerService).action(tokenDto)
             else -> {
                 var progressTokenDto = tokenDto.copy()
                 do {

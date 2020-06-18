@@ -81,7 +81,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Action - Save.
      */
-    fun actionSave(tokenDto: WfTokenDto) {
+    /*fun actionSave(tokenDto: WfTokenDto) {
         // Save Token & Token Data
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.assigneeId = tokenDto.assigneeId
@@ -98,7 +98,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             wfTokenManagerService.saveAllTokenData(tokenDataEntities)
         }
         wfTokenManagerService.saveToken(token)
-    }
+    }*/
 
     /**
      * Set Assignee + Candidate.
