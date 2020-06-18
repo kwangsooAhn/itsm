@@ -52,8 +52,7 @@
                 <td><a th:text="${download.downloadTitle}"
                        th:href="@{/downloads/{id}/view(id=${download.downloadId})}"></a></td>
                 <td th:text="${download.createUserName}"></td>
-                <td th:text="${#temporals.format(download.createDt, dateformat)}"
-                    th:with="dateformat=${#authentication.details.timeFormat}"></td>
+                <td th:name="createDt" th:text="${download.createDt}"></td>
                 <td th:text="${download.views}"></td>
             </tr>
         </tbody>

@@ -70,6 +70,15 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     abstract fun completeElementToken(completedToken: WfTokenDto): WfTokenDto
 
     /**
+     * 토큰을 대기(Waiting) 상태로 변환. (예:서브프로세스)
+     */
+    fun waitingToken(tokenDto: WfTokenDto) {
+        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
+        token.tokenStatus = RestTemplateConstants.TokenStatus.WAITING.value
+        this.createTokenEntity = wfTokenManagerService.saveToken(token)
+    }
+
+    /**
      * Action - Save.
      */
     fun actionSave(tokenDto: WfTokenDto) {

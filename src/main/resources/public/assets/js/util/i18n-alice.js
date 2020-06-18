@@ -57,8 +57,11 @@
      * @param {String}  beforeUserDateTime 사용자가 입력한 날짜시간.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDateTime(beforeUserDateTime) {
-        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat).setZone('utc+0').toISO();
+    function convertToSystemDateTime(beforeUserDateTime,offset) {
+        if (offset === undefined) {
+            offset = { 'days' : 0 };
+        }
+        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -69,8 +72,11 @@
      * @param {String}  beforeUserDate 변환 대상 날짜.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDate(beforeUserDate) {
-        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat).setZone('utc+0').toISO();
+    function convertToSystemDate(beforeUserDate,offset) {
+        if (offset === undefined) {
+            offset = { 'days' : 0 };
+        }
+        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
