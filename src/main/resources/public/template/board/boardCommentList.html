@@ -41,7 +41,7 @@
                         th:text="${boardComment.boardCommentContents}"></label>
             </td>
             <td style="text-align:center" th:text="${boardComment.createUser.userName}"></td>
-            <td style="text-align:center" th:name="createDt" th:text="${boardComment.createDt}"></td>
+            <td style="text-align:center" th:name="commentDt" th:text="${boardComment.createDt}"></td>
             <td align="center">
                 <button sec:authorize="hasAuthority('board.update')"
                         th:if="${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '')"

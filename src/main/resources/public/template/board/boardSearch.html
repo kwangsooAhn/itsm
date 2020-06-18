@@ -97,9 +97,9 @@
                 url: url,
                 callbackFunc: function(response) {
                     document.getElementById('boardList').innerHTML = response.responseText;
-                    var boardList = document.querySelectorAll('td[name=createDt]');
-                    for (let i = 0; i < boardList.length; i++) {
-                        boardList[i].textContent = i18n.userDateTime(boardList[i].textContent);
+                    var boardDtEle = document.querySelectorAll('td[name=boardDt]');
+                    for (let i = 0; i < boardDtEle.length; i++) {
+                        boardDtEle[i].textContent = i18n.userDateTime(boardDtEle[i].textContent);
                     }
                 },
                 showProgressbar: false

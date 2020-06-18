@@ -217,9 +217,9 @@
                         });
                     } else if (method === 'get') {
                         document.getElementById('boardCommentList').innerHTML = response.responseText;
-                        var boardCommentList = document.querySelectorAll('td[name=createDt]');
-                        for (let i = 0; i < boardCommentList.length; i++) {
-                            boardCommentList[i].textContent = i18n.userDateTime(boardCommentList[i].textContent);
+                        var commentDtEle = document.querySelectorAll('td[name=commentDt]');
+                        for (let i = 0; i < commentDtEle.length; i++) {
+                            commentDtEle[i].textContent = i18n.userDateTime(commentDtEle[i].textContent);
                         }
                     }
                 },
