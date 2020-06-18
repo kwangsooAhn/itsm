@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service
 @Service
 class DownloadService(
     private val downloadRepository: DownloadRepository,
-    private val aliceFileService: AliceFileService,
-    private val convertParam: ConvertParam
+    private val aliceFileService: AliceFileService
 ) {
 
     private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
