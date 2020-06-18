@@ -25,6 +25,7 @@
     <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
     <script th:src="@{/assets/js/form/form.core.js}"></script>
     <script th:src="@{/assets/js/form/form.component.js}"></script>
+    <script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         const userAuthInfo = {
@@ -43,7 +44,15 @@
         i18n.initMessages(function(){
             aliceForm.init(JSON.stringify(userAuthInfo));
         });
-        /*]]>*/
+        // 프린터 시간 출력하기 위해 임시로 생성
+        const timeFormat = userAuthInfo.timeFormat.split(' ');
+        i18n.init(JSON.stringify({
+            dateTimeFormat: userAuthInfo.timeFormat,
+            dateFormat: timeFormat[0],
+            timeFormat: timeFormat[1],
+            lang: userAuthInfo.lang,
+            timezone: userAuthInfo.timezone
+        }));
     </script>
 </head>
 <body>

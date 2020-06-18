@@ -1,7 +1,6 @@
 package co.brainz.itsm.token.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -12,16 +11,13 @@ import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class TokenService(
-    private val restTemplate: RestTemplateProvider,
-    private val aliceFileService: AliceFileService
+    private val restTemplate: RestTemplateProvider
 ) {
 
     /**

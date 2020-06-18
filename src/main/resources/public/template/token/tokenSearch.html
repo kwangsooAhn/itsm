@@ -86,8 +86,8 @@
                     <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
                 </select>
                 <input type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
-                <input type="text" name="searchFromDt" id="searchFromDt" class="alice-date" readonly="readonly" />
-                <input type="text" name="searchToDt" id="searchToDt" class="alice-date" readonly="readonly" />
+                <input type="text" id="searchFromDt" name="searchFromDt" class="alice-date" readonly="readonly" />
+                <input type="text" id="searchToDt" name="searchToDt" class="alice-date" readonly="readonly" />
                 <span id="totalCount"></span>
             </form>
         </div>
@@ -126,7 +126,6 @@
         });
 
         function searchTokenList(isScroll) {
-            console.log("test");
             const tokenListElement = document.getElementById('tokenList');
             if (!isScroll) {
                 tokenListElement.innerHTML = '';
@@ -166,7 +165,7 @@
                         </span>
                         <span class="document-topic">${token.topics.map(topic => `<p>${topic}</p>`).join('')}</span>
                         <span class="document-user">${token.createUserName}</span>
-                        <span class="document-create-dt">${token.createDt}</span>
+                        <span class="document-create-dt">${i18n.userDateTime(token.createDt)}</span>
                         <span class="document-status">${token.elementName}</span>
                         <span class="document-tag">
                             ${
