@@ -10,7 +10,7 @@
 <body>
 <div class="container">
     <div th:if="${validCode == 0 || validCode == 4}">
-        <p th:utext="#{authentication.msg.beforeEmailCheck, authentication.msg.EmailCheck}"></p>
+        <p th:utext="#{authentication.msg.beforeEmailCheck, authentication.msg.emailCheck}"></p>
     </div>
     <div th:if="${validCode == 1}">
         <p th:text="#{authentication.msg.authenticationCompleted}"></p>
@@ -69,7 +69,7 @@
             url: url,
             params: new FormData(document.getElementById("sendForm")),
             callbackFunc: function() {
-                aliceJs.alert('[[#{authentication.msg.resentAuthentication}]]<br/>[[#{authentication.msg.EmailCheck}]]');
+                aliceJs.alert('[[#{authentication.msg.resentAuthentication}]]<br/>[[#{authentication.msg.emailCheck}]]');
             }
         };
         aliceJs.sendXhr(opt)

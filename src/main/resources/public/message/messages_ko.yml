@@ -632,4 +632,4 @@ authentication:
     expiredAuthentication: "인증메일이 만료되었습니다."
     recallAuthentication: "로그인 후 인증메일을 재요청하세요."
     resentAuthentication: "인증메일이 재발송되었습니다."
-    EmailCheck: "가입 시 등록한 메일에서 인증을 진행해주세요."
+    emailCheck: "가입 시 등록한 메일에서 인증을 진행해주세요."

@@ -629,4 +629,4 @@ authentication:
     expiredAuthentication: "Authentication mail has expired."
     recallAuthentication: "Please re-request authentication mail after login."
     resentAuthentication: "Authentication mail has been resent."
-    EmailCheck: "Please check your email sent to finish authentication."
+    emailCheck: "Please check your email sent to finish authentication."
