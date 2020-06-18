@@ -28,8 +28,8 @@ class DownloadService(
      * @return List<DownloadDto>
      */
     fun getDownloadList(downloadSearchDto: DownloadSearchDto): List<DownloadDto> {
-        val fromDt = LocalDateTime.parse(downloadSearchDto.fromDt, DateTimeFormatter.ISO_DATE)
-        val toDt = LocalDateTime.parse(downloadSearchDto.toDt, DateTimeFormatter.ISO_DATE)
+        val fromDt = LocalDateTime.parse(downloadSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
+        val toDt = LocalDateTime.parse(downloadSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         val downloadEntity = when (downloadSearchDto.category) {
             "all" -> downloadRepository.findDownloadEntityList("", downloadSearchDto.search, fromDt, toDt)
             else -> downloadRepository.findDownloadEntityList(
